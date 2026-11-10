@@ -1,8 +1,8 @@
-# T-180 · ¿Cuántas cadenas hacen falta en la competición? (entrega parcial: 20 representativos)
+# T-180 · ¿Cuántas cadenas hacen falta en la competición? (71 territorios)
 
-Fecha: 2026-11-10. Motor 2 (`ddd_motor2/competir.py`, orquestador 1.1.0): canónico M05 7.4.4 + N cadenas GerryChain de
-producción (`m05_gerrychain_strategy`, ReCom), juzgadas por el núcleo de reglas. Entradas de la batería T-132
-(`bateria_motor.py entradas`, adquisición oficial; ENTRADAS.json con sha256) en local; no se lanzó nada en Actions.
+Fecha: 2026-11-10. Motor 2 (`ddd_motor2/competir.py`, orquestador 1.1.0, función A): canónico M05 7.4.4 + N cadenas
+GerryChain de producción (`m05_gerrychain_strategy`, ReCom), juzgadas por el núcleo de reglas. Entradas de la batería
+T-132 (`bateria_motor.py entradas`, adquisición oficial; ENTRADAS.json con sha256) en local; no se lanzó nada en Actions.
 
 **Semilla.** La semilla pública definitiva de la tabla maestra (D-61/6) **no está aplicada** en `ddd_motor2/semilla.py`
 (no aparece en el repo). Se usó la vigente: `ddd-semilla-publica/1` (semilla.py 1.0.1, ancla D-50: sha256 del padrón y
@@ -15,72 +15,67 @@ tanda de 20 cadenas** basta: el ganador con N cadenas se calcula a posteriori en
   fuera de tolerancia, partidos judiciales + comarcas agrarias partidos, frontera cortada (km), desvío máximo.
 - N de saturación: el menor N de la rejilla a partir del cual el ganador ya no cambia (0 = gana el canónico).
 
-Territorios (20): Congreso Soria, Teruel, Segovia, León, Badajoz, Cádiz, Zaragoza, Alicante, Valencia, Madrid y
-Barcelona; La Rioja, Asturias, Navarra, Cantabria, Madrid, Cataluña, Andalucía, Islas Baleares y Canarias.
+## Resultado (71 territorios)
 
-## Resultado (20 representativos)
+Todos los candidatos válidos (21/21 en los 71). Agregado (`todos_71/AGREGADO.csv`):
 
-Todos los candidatos válidos (21/21 en los 20). Agregado (`representativos_20/AGREGADO.csv`):
-
-| N | A: mejoran al canónico | A: fuera de tolerancia (canónico 172) | A: saturados | B: mejoran | B: saturados |
+| N | A: mejoran al canónico | A: fuera de tolerancia (canónico 270) | A: saturados | B: mejoran | B: saturados |
 |---|---|---|---|---|---|
-| 1 | 6 | 133 | 11 | 12 | 5 |
-| 2 | 7 | 130 | 13 | 13 | 5 |
-| 3 | 7 | 128 | 13 | 14 | 5 |
-| 5 | 8 | 126 | 15 | 14 | 7 |
-| 10 | 10 | 125 | 17 | 15 | 12 |
-| 15 | 10 | 124 | 19 | 15 | 16 |
-| 20 | 10 | 124 | 20 | 15 | 20 |
+| 1 | 18 | 217 | 42 | 44 | 22 |
+| 2 | 22 | 210 | 44 | 49 | 25 |
+| 3 | 23 | 206 | 45 | 51 | 28 |
+| 5 | 26 | 204 | 48 | 51 | 34 |
+| 10 | 28 | 203 | 53 | 52 | 45 |
+| 15 | 29 | 202 | 61 | 53 | 60 |
+| 20 | 30 | 201 | 71 | 53 | 71 |
 
-- Con A, 10 de 20 nunca mejoran al canónico (los K = 1 y Congreso Madrid, Zaragoza, León, Cádiz, La Rioja, Asturias,
-  Canarias). La mejora está en las comunidades con muchos distritos fuera de tolerancia (Cataluña 53 → 27,
-  Navarra 24 → 12, Andalucía 20 → 15, Madrid 24 → 21) y en Badajoz, Valencia, Alicante, Barcelona, Cantabria y Baleares.
-- Saturación A por territorio (`TERRITORIOS.csv`): 0 en 10; 1 Alicante; 2 Madrid y Baleares; 5 Cantabria y
-  Barcelona; 10 Badajoz y Valencia; 15 Andalucía y Cataluña; 20 Navarra. De N = 10 a 20 solo se gana **1 distrito**
-  fuera de tolerancia en total (125 → 124) y el desvío máximo medio no cambia (0,3417).
-- Con B el ganador tarda más en estabilizarse (mediana 10; 8 territorios siguen cambiando entre 10 y 20): la
-  naturalidad sigue mejorando con más cadenas porque, a igualdad de tolerancia, casi siempre hay un plan algo «más
-  natural».
-- El desvío máximo de las comunidades lo marca un distrito ya fuera de tolerancia (p. ej. un municipio exento), por
-  eso apenas se mueve: la métrica útil es el número de distritos fuera de tolerancia.
+- Con A, 41 de 71 nunca mejoran al canónico. La mejora en distritos fuera de tolerancia está casi toda en las comunidades
+  (Cataluña 53 → 27, Navarra 24 → 12, Andalucía 20 → 15, Madrid 24 → 21).
+- De 270 a 201 distritos fuera de tolerancia hay 69 de mejora: N = 5 da 66 (96 %); N = 10, 67 (97 %). De 10 a 20 solo
+  se ganan 2 (Cataluña 28 → 27; Castilla y León 1 → 0, que además baja 4,1 puntos de desvío máximo).
+- N de saturación con A (`todos_71/TERRITORIOS.csv`): 0 en 40; 1 en Congreso Alicante y Guadalajara; 2 en Baleares y
+  Madrid; 3 en C. Valenciana; 5 en Cantabria, Congreso Barcelona y La Coruña; 10 en 5 territorios; 15 en 8; 20 en 10.
+  Percentiles: p50 0, p75 10, p90 20. Los que saturan en 15–20 ganan casi siempre solo ECM o centésimas de desvío.
+  El único caso sustancial es Castilla y León (arriba).
+- Con B el ganador se estabiliza más tarde (p50 10, p75 15): a igualdad de tolerancia casi siempre aparece un plan algo
+  «más natural»; partidos + comarcas partidos bajan de 1.075 (N = 1) a 1.010 (5), 998 (10) y 994 (20).
+- El desvío máximo de las comunidades lo marca un distrito ya fuera de tolerancia (p. ej. un municipio exento), por eso
+  apenas se mueve. La métrica útil es el número de distritos fuera de tolerancia.
 
 ## Anidamiento y reproducibilidad
 
-- Anidamiento: que el ganador con 10 no sea peor que con 5 es **cierto por construcción** (el ganador es el mínimo
-  sobre un conjunto que crece, porque las semillas de 1..5 son las mismas en una tanda de 5 y en una de 20); la columna
-  `*_monotono` solo comprueba la coherencia de las tablas. La prueba real es la de reproducibilidad.
-- Reproducibilidad: Congreso Badajoz repetido con `--cadenas 5` en otra carpeta: las 5 semillas son las 5 primeras
-  de la tanda de 20 y los 6 candidatos (canónico + 5) dan la misma huella de plan y el mismo sha256 de composición
-  M06 (6/6). Artefactos: `datos/reproducibilidad/congreso_badajoz/COMPETICION.json` y `representativos_20/REPRODUCIBILIDAD.csv`.
+- Anidamiento: que el ganador con 10 no sea peor que con 5 es **cierto por construcción**. El ganador es el mínimo sobre
+  un conjunto que crece, porque las semillas 1..5 son las mismas en una tanda de 5 y en una de 20. La columna
+  `*_monotono` solo comprueba la coherencia de las tablas; la prueba real es la de reproducibilidad.
+- Reproducibilidad: Congreso Badajoz repetido con `--cadenas 5` en otra carpeta. Las 5 semillas son las 5 primeras de la
+  tanda de 20, y los 6 candidatos (canónico + 5) dan la misma huella de plan y el mismo sha256 de composición M06 (6/6).
+  Artefactos: `datos/reproducibilidad/congreso_badajoz/COMPETICION.json` y `todos_71/REPRODUCIBILIDAD.csv`.
 
 ## Datos versionados y cómo regenerar
 
-`datos/competicion/<t>/COMPETICION.json` (todos los candidatos con semilla, estado, métricas, huellas y tiempos; ~40 KB
-por territorio) y `datos/NATURALIDAD_B.csv` (partidos + comarcas partidos y frontera cortada de cada candidato, con el
-sha256 del seccionado INE usado). Con ellos, `analizar_cadenas.py --out datos --naturalidad-b datos/NATURALIDAD_B.csv`
-regenera AGREGADO, CURVA, TERRITORIOS y TIEMPOS idénticos byte a byte sin la tanda ni la geometría (comprobado).
-Las composiciones M06 de cada candidato no se versionan (su sha256 está en COMPETICION.json). Un territorio sin B sale
-con `B_estado` ≠ OK en TERRITORIOS.csv y fuera de la curva B.
+`datos/competicion/<t>/COMPETICION.json` lleva todos los candidatos con semilla, estado, métricas, huellas y tiempos
+(~40 KB por territorio; 2,7 MB en total). `datos/NATURALIDAD_B.csv` lleva, por candidato, los partidos y comarcas
+partidos y la frontera cortada, con el sha256 del seccionado INE usado. Con ellos,
+`analizar_cadenas.py --out datos --naturalidad-b datos/NATURALIDAD_B.csv` regenera AGREGADO, CURVA, TERRITORIOS y
+TIEMPOS idénticos byte a byte, sin la tanda ni la geometría (comprobado). Las composiciones M06 de cada candidato no se
+versionan; su sha256 está en COMPETICION.json. Un territorio sin B sale con `B_estado` ≠ OK en TERRITORIOS.csv y queda
+fuera de la curva B (en esta tanda, 71/71 OK).
 
-## Tiempos y coste
+## Tiempos y coste (medidos en los 71)
 
-Medidos con 4 territorios a la vez en 4 CPU (contención incluida). `TIEMPOS.csv` por candidato.
-- Por cadena (media por territorio): de 7 s (Soria) a 329 s (Madrid autonómica); Cataluña 283 s, Congreso Madrid 229 s.
-- 20 representativos, CPU acumulada: N = 5: 2,9 h; N = 10: 5,4 h; N = 20: 10,3 h (canónico incluido, 0,4 h).
-- Proyección a los 71 (tiempo por cadena de T-132, `T132_BATERIA_MOTOR/BANCO.csv`, por territorio, multiplicado por
-  0,96 = media medida aquí / media de T-132 en los mismos 20; el canónico, como fracción medida de una cadena): **N = 5: 5,8 h; N = 10: 10,9 h;
-  N = 20: 21,0 h** de CPU. Pendiente de sustituir por lo medido cuando acaben los 51 restantes.
-- El 44 % del tiempo de cada cadena es rehacer unidades + M04 + comprobación de semilla, idénticos en todas las cadenas
-  del territorio; el M05 GerryChain es el 38 %. Hacerlos una vez por territorio reduciría el coste a cerca de la mitad
-  (cambio de `generadores.py`; no se ha hecho aquí).
+Medidos en local con 3–4 territorios a la vez en 4 CPU (contención incluida). `todos_71/TIEMPOS.csv` por candidato.
+- Por cadena (media por territorio): de 4 s a 329 s (Madrid autonómica). Cataluña 283 s, Congreso Madrid 229 s,
+  Murcia 228 s, C. Valenciana 187 s.
+- CPU acumulada en los 71, con el canónico (0,6 h) incluido: **N = 5: 5,9 h; N = 10: 10,9 h; N = 20: 20,8 h**. La
+  proyección de la entrega parcial (5,8 / 10,9 / 21,0 h, tiempos de T-132 × 0,96) queda sustituida por lo medido.
+- El 44 % del tiempo de cada cadena se va en rehacer unidades, M04 y la comprobación de la semilla, que son idénticos en
+  todas las cadenas del territorio; el M05 GerryChain es el 38 %. Hacerlos una vez por territorio reduciría el coste a
+  cerca de la mitad (cambio de `generadores.py`; no se ha hecho aquí).
 
-## Recomendación provisional (se confirmará con los 71)
+## Recomendación
 
-**N oficial = 10 por edición.** Con 10 se alcanza el 98 % de la mejora (47 de 48 distritos) en distritos fuera de tolerancia (125 frente a
-124 con 20) y 17/20 territorios ya están saturados con A; con 5 quedan sin mejorar 2 territorios (Badajoz y
-Valencia: mejoran el desvío desde la cadena 6-7) y 1 distrito fuera de tolerancia más. Pasar a 20 duplica el coste por 1 distrito. Si la función oficial acabara siendo B, 10 sigue dejando
-cambios (mediana de saturación 10, p75 15): entonces, 15–20.
-
-## Pendiente
-
-Los 51 territorios restantes (misma tanda, en curso) y la tabla con los 71.
+**N oficial = 10 por edición** con la función A. Da el 97 % de la mejora en distritos fuera de tolerancia (67 de 69) y
+28 de los 30 territorios que llegan a mejorar con 20. Pasar a 20 casi duplica el coste (10,9 → 20,8 h) por 2
+distritos. N = 5 cuesta la mitad, pero deja sin mejorar 4 territorios más (26 frente a 30). Si la función oficial
+acabara siendo de naturalidad (B, D8), la curva satura más tarde (p75 15) y convendría 15–20; hay que medirlo con esa
+función, no con este estudio, que solo selecciona a posteriori.

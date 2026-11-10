@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_baleares",
+  "ganador": "gerrychain-s438273096",
+  "valido": true,
+  "huella_resultado": "be3a0f0d0c16436a0e14f12d2c576cc376ba5b6e7c425ff630ca083949476653",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_baleares",
+    "ancla": {
+      "population": "fb105c27f3145280b4982de04638bf9b3205c3629c3a4edc1f91c17daf55f92b",
+      "target_sectioning": "b4045e119891a61d3b5d5a4500f4b7281d56fdbb47bc055ea10abfd21abc63ce"
+    },
+    "n": 20,
+    "semillas": [
+      447104894,
+      1028065771,
+      1067813385,
+      309587687,
+      868126188,
+      1379300907,
+      1916211247,
+      1438464545,
+      1964652186,
+      1227934250,
+      258156439,
+      1432888459,
+      1007681644,
+      481448784,
+      858687707,
+      1650395590,
+      2035793079,
+      975446526,
+      438273096,
+      1219487791
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "c4bd72c70ad212800f48d4cf2f254f45ed0a8aaa669130e8c30b79bd78ada654",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 1124.85,
+  "candidatos": [
+    {
+      "id": "gerrychain-s438273096",
+      "generador": "gerrychain",
+      "semilla": 438273096,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.056031526234883784,
+      "huella_plan": "2e53e3e9c92fa404ae914af3d532f99d6bad7cd87c291238f0e7fa47ed2160b0",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s438273096/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "34a15f68854f7edfbc848e53335e5f3642a343ae1ee973dd1f1c8586ed62997d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 55.689,
+        "juzgar_s": 0.138
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.2,
+          "baseline": 1.7,
+          "M05": 41.3,
+          "M06": 3.0,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1028065771",
+      "generador": "gerrychain",
+      "semilla": 1028065771,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s1028065771/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 74.324,
+        "juzgar_s": 0.15
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 11.0,
+          "baseline": 2.4,
+          "M05": 54.8,
+          "M06": 4.0,
+          "validacion": 2.0
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1067813385",
+      "generador": "gerrychain",
+      "semilla": 1067813385,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s1067813385/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 63.282,
+        "juzgar_s": 0.169
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.2,
+          "M04": 10.8,
+          "baseline": 2.6,
+          "M05": 45.4,
+          "M06": 3.0,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s309587687",
+      "generador": "gerrychain",
+      "semilla": 309587687,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s309587687/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c585d3d30b708323f93ae6f586f332266eef96289f7cf5c04e71600f503fe06",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 52.413,
+        "juzgar_s": 0.17
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.1,
+          "baseline": 1.8,
+          "M05": 38.0,
+          "M06": 3.0,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s868126188",
+      "generador": "gerrychain",
+      "semilla": 868126188,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s868126188/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 50.182,
+        "juzgar_s": 0.155
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.7,
+          "baseline": 1.7,
+          "M05": 36.4,
+          "M06": 3.0,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1379300907",
+      "generador": "gerrychain",
+      "semilla": 1379300907,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s1379300907/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 50.32,
+        "juzgar_s": 0.174
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.3,
+          "baseline": 1.6,
+          "M05": 36.8,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1916211247",
+      "generador": "gerrychain",
+      "semilla": 1916211247,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s1916211247/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 49.93,
+        "juzgar_s": 0.161
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.0,
+          "baseline": 1.8,
+          "M05": 35.9,
+          "M06": 2.8,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1438464545",
+      "generador": "gerrychain",
+      "semilla": 1438464545,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s1438464545/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 53.729,
+        "juzgar_s": 0.155
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.0,
+          "baseline": 1.8,
+          "M05": 39.7,
+          "M06": 2.8,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1964652186",
+      "generador": "gerrychain",
+      "semilla": 1964652186,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s1964652186/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 50.45,
+        "juzgar_s": 0.164
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.5,
+          "baseline": 1.9,
+          "M05": 36.0,
+          "M06": 3.4,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1227934250",
+      "generador": "gerrychain",
+      "semilla": 1227934250,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s1227934250/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 52.393,
+        "juzgar_s": 0.185
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.3,
+          "baseline": 1.8,
+          "M05": 37.9,
+          "M06": 3.0,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s258156439",
+      "generador": "gerrychain",
+      "semilla": 258156439,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s258156439/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 50.797,
+        "juzgar_s": 0.155
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.9,
+          "baseline": 1.9,
+          "M05": 36.8,
+          "M06": 2.9,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1432888459",
+      "generador": "gerrychain",
+      "semilla": 1432888459,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s1432888459/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2c9994b2599f010c5f6cd7474f7279e3ea7066a9e7bc79f88d7c460450993ddb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 59.164,
+        "juzgar_s": 0.164
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.5,
+          "baseline": 1.8,
+          "M05": 45.7,
+          "M06": 2.8,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1007681644",
+      "generador": "gerrychain",
+      "semilla": 1007681644,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s1007681644/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b7162457152fe89ffd7125a1960b6b83ca3ea20e16216cbed08a3dc5932cf0ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 52.036,
+        "juzgar_s": 0.153
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.0,
+          "baseline": 1.8,
+          "M05": 38.1,
+          "M06": 2.9,
+          "validacion": 1.1
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s481448784",
+      "generador": "gerrychain",
+      "semilla": 481448784,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s481448784/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 50.072,
+        "juzgar_s": 0.162
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.8,
+          "baseline": 1.7,
+          "M05": 35.9,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s858687707",
+      "generador": "gerrychain",
+      "semilla": 858687707,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s858687707/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 53.375,
+        "juzgar_s": 0.144
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.3,
+          "baseline": 1.8,
+          "M05": 39.1,
+          "M06": 2.8,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1650395590",
+      "generador": "gerrychain",
+      "semilla": 1650395590,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s1650395590/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 52.542,
+        "juzgar_s": 0.189
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.9,
+          "baseline": 1.6,
+          "M05": 38.6,
+          "M06": 2.9,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s975446526",
+      "generador": "gerrychain",
+      "semilla": 975446526,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s975446526/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "835dee8cbcdda22ef93a79a82461717d9e0919bd515ff0ba80f6a99fc1a706fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 50.445,
+        "juzgar_s": 0.177
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.1,
+          "baseline": 1.8,
+          "M05": 36.3,
+          "M06": 2.7,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1219487791",
+      "generador": "gerrychain",
+      "semilla": 1219487791,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.05603350956331082,
+      "huella_plan": "c810bee51f4eed33fd83c532bf8402229b95a316147b3117412ca75c46af700c",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s1219487791/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "961cb2e711c9f05a0fe5d62d155a73a4384e710d4b36491cc1dfab1c967758d0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 51.746,
+        "juzgar_s": 0.161
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.8,
+          "baseline": 1.9,
+          "M05": 37.7,
+          "M06": 2.8,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s447104894",
+      "generador": "gerrychain",
+      "semilla": 447104894,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.056033915964816605,
+      "huella_plan": "5e6210be0a935996ee0c68d9d646947da0e8d41c2ace248e5d2b4ca161c407f2",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s447104894/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "37a48dd32c872d7644228c87eb44f3c5850f78f68f8fab63ba551047eb4830f9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 73.135,
+        "juzgar_s": 0.159
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 11.0,
+          "baseline": 2.5,
+          "M05": 54.0,
+          "M06": 3.8,
+          "validacion": 1.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2035793079",
+      "generador": "gerrychain",
+      "semilla": 2035793079,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.056033915964816605,
+      "huella_plan": "5e6210be0a935996ee0c68d9d646947da0e8d41c2ace248e5d2b4ca161c407f2",
+      "composicion": "bateria/competicion/congreso_baleares/gerrychain-s2035793079/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bb789ae51aad11e15b96f9fb2c5738431ba37afe466470418e5a696691b16093",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 51.521,
+        "juzgar_s": 0.162
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.0,
+          "baseline": 1.7,
+          "M05": 36.9,
+          "M06": 3.1,
+          "validacion": 1.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.36385140663820165,
+      "ecm": 0.056034553479341685,
+      "huella_plan": "166388dff9b35b991d525da714fd106c14dd86930cc54dfc66dd1a668a90818f",
+      "composicion": "bateria/competicion/congreso_baleares/canonico/congreso_baleares_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a136d60bb8c354221299b8ba27728ebd5855a821542cd0bde8158d3df9bca4b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.875,
+        "juzgar_s": 0.184
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.3,
+          "M04": 10.9,
+          "M05": 6.5,
+          "M06": 3.8,
+          "validacion": 1.8
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.3639,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.28,
+          "municipios_partidos": null
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1028065771: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor error cuadrático medio (ecm)",
+  "mejora_al_canonico": true
+}

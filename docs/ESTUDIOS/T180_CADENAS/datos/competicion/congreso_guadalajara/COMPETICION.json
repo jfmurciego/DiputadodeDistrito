@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_guadalajara",
+  "ganador": "gerrychain-s1858108416",
+  "valido": true,
+  "huella_resultado": "d3a2dffd56e8006db885b0bebf7486bbfd113777d246b3baf7f132cfb2312db3",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_guadalajara",
+    "ancla": {
+      "population": "623771f7fcc1631fa66444a3306bb29beb78ea46a907cda10d299068b7e5a76d",
+      "target_sectioning": "56c58b2556d20988665eb77de6e2976d1812c23f9950769bcdbd7587be226ac6"
+    },
+    "n": 20,
+    "semillas": [
+      1858108416,
+      1750441182,
+      376976479,
+      308387975,
+      24963996,
+      19129059,
+      1155267093,
+      205871805,
+      1771629606,
+      1290923955,
+      713459716,
+      1589697681,
+      373259057,
+      897912412,
+      885454784,
+      175693728,
+      1511204584,
+      1132232318,
+      403194091,
+      1529513835
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "71933c04bf11169ef02d81f5b8ffbd0240f1c243f861bc7a7c9e5aefb7ef98c3",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 2185.787,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1858108416",
+      "generador": "gerrychain",
+      "semilla": 1858108416,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "03b947ef4d85e6e619f4843a32b39132880a737cf9288aaae3eccde766f041bc",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s1858108416/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cb4c2083f0d5e074d638198fa26c01c39b2e794cbf10b9ebb8e0c175febe4539",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 110.794,
+        "juzgar_s": 0.04
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 104.6,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1511204584",
+      "generador": "gerrychain",
+      "semilla": 1511204584,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "2ba4de2c6fb62e8af9a7299ca861684d4cb438f471c11ba89adc9b5083a26f12",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s1511204584/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "921173165d4065e07ec635f58f1a5f81b70cd53c08a06b701018f6ab132c2ad4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 105.445,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 99.4,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s713459716",
+      "generador": "gerrychain",
+      "semilla": 713459716,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 2.1811677972386417e-05,
+      "ecm": 4.757492959710868e-10,
+      "huella_plan": "96780e335aef678e0c67ba11e96e4c79f8190bc5b92313a4fcdcef546c0681c0",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s713459716/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "770192d724abc5f09918749210d51b93f9b0dfae9e354767c761bad52edad396",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 109.158,
+        "juzgar_s": 0.04
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 102.9,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 4.3623355944772835e-05,
+      "ecm": 1.902997183884347e-09,
+      "huella_plan": "2d4115d40f1c18a955d9d455ad33f54ae7c54a2fca54d523c634302500da6719",
+      "composicion": "bateria/competicion/congreso_guadalajara/canonico/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6e5991847ef673252e92abbaf80a36a270410c74fc65a65b336d9c93e731e969",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 5.736,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "M05": 1.7,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1589697681",
+      "generador": "gerrychain",
+      "semilla": 1589697681,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00047985691539250113,
+      "ecm": 2.30262659250006e-07,
+      "huella_plan": "ede5dcc5e109cee7dcfe8e70abde12da73eb991cde5565e80cbfce1848f144a6",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s1589697681/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4ac7c029ab97bd53c31ab48b7c4d6b514669c07e7b9b957f8ff5a1c7d2f9229b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 106.779,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 100.5,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0005,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s373259057",
+      "generador": "gerrychain",
+      "semilla": 373259057,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0006470797798474637,
+      "ecm": 4.1871224148744205e-07,
+      "huella_plan": "e8326f88de38c6237928a91c1318d135fe5a35f4c5349aef8a9840f99993c860",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s373259057/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7e41ab7f947c572ee1a8c76953f51d136baf7a09566dfd4381fdbaa69e609b7a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 107.288,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 101.2,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0006,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s205871805",
+      "generador": "gerrychain",
+      "semilla": 205871805,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0008143026443024262,
+      "ecm": 6.630887965179237e-07,
+      "huella_plan": "c4e2c61ecbc9edcd821ef00590ab9ad5d16405eb62f87a36ae00ee931a682563",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s205871805/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "afcb5b2d3289fc1f9d6747aeed412ccef5fd42f81696f0aede5a30579677c8a7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 108.99,
+        "juzgar_s": 0.053
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 102.3,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0008,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s885454784",
+      "generador": "gerrychain",
+      "semilla": 885454784,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009815255087573887,
+      "ecm": 9.633923243414507e-07,
+      "huella_plan": "1af37fc85003d51fc06067f5366ad9f7321d037b97ae7a0acc9adaa0480941cb",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s885454784/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "63bcf148ba7c02ee1fc357002d0133fc931781f8671755a16a2912b97e521382",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 107.351,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 101.2,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.001,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1750441182",
+      "generador": "gerrychain",
+      "semilla": 1750441182,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0013523240342879577,
+      "ecm": 1.8287802937128576e-06,
+      "huella_plan": "6ffbb8f1ec0684a3f307ad053b35764e284332d45016aaa0fbcedd0373241bb5",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s1750441182/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f7b456fc07d46f2390869daf82d52182df238c02ac112d40bee37f46f42bb603",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 110.421,
+        "juzgar_s": 0.039
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 104.5,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0014,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s175693728",
+      "generador": "gerrychain",
+      "semilla": 175693728,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0018758043056252317,
+      "ecm": 3.5186417930021578e-06,
+      "huella_plan": "ddf96af49dfccdaafaff089b79287a86068a2ec586939e5351713b0266f7737f",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s175693728/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f158a4faea23c5260f3670b034ba518b6ab1d3317d55eabff980a4f4cb3e202f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 105.535,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 99.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0019,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s403194091",
+      "generador": "gerrychain",
+      "semilla": 403194091,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0021811677972386418,
+      "ecm": 4.7574929597108675e-06,
+      "huella_plan": "4b456bf74349d654315033300214e440c93a7d2edf584ad8f334e3f78b45d207",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s403194091/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "48cf1c29a5e56eba22492a5986b110649977af2feea962a1cbadfd666caa3183",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 115.821,
+        "juzgar_s": 0.061
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 109.4,
+          "M06": 1.1,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0022,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s376976479",
+      "generador": "gerrychain",
+      "semilla": 376976479,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0023702023396659907,
+      "ecm": 5.6178591309581355e-06,
+      "huella_plan": "310aca0d2c57e8e6484a6637f795ff295382716ccb478dc102f4eaac5f525e5e",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s376976479/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "970767f110dbe403fbc64c321901805564c6901c3b0ce0f4202146e63b4e0a13",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 107.077,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 101.0,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0024,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s308387975",
+      "generador": "gerrychain",
+      "semilla": 308387975,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.002392014017638377,
+      "ecm": 5.721731060578489e-06,
+      "huella_plan": "8df2b255ceb79ab74f58b0fa18c44bc008d4d7f5548647862578e034960c04f2",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s308387975/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b73e1e6f23026206fbb4a1bd008af618672bb97d6a27e80d7f32bb441261b5e5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 106.829,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 100.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0024,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s24963996",
+      "generador": "gerrychain",
+      "semilla": 24963996,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0025156135261485664,
+      "ecm": 6.328311412941625e-06,
+      "huella_plan": "5ff8ca67b76282ed13b1a2f03d358164fb5ad58fb1949c482c8949dd58220598",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s24963996/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "578ed82de154046867c5cc96a3defd85d9d7bf3b14656acba47f663e96bbf05d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 108.119,
+        "juzgar_s": 0.044
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.8,
+          "semilla_canonica": 1.8,
+          "M05": 101.5,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0025,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1132232318",
+      "generador": "gerrychain",
+      "semilla": 1132232318,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0026682952719552715,
+      "ecm": 7.119799658338857e-06,
+      "huella_plan": "ddc8e7bb4471cfac0d8fd259778d941b1e780c2ba58da0f5ad9c2ebd154fca7b",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s1132232318/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f830194cbb2f78cbeb87a3a568758510b01797237b58be634530bf0ba1fff0a2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 103.306,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 97.2,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0027,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1771629606",
+      "generador": "gerrychain",
+      "semilla": 1771629606,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003664361899360918,
+      "ecm": 1.3427548129487954e-05,
+      "huella_plan": "77e02f8e2b29c615900a0ff34568d5fea83338f13a2238368d02034a67756191",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s1771629606/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2a8982c0a71c5090ee4a08048a6c9c6ba467ce3d0b81f3e2964a7866273812ec",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 111.502,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 105.3,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0037,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1155267093",
+      "generador": "gerrychain",
+      "semilla": 1155267093,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0037806908485469785,
+      "ecm": 1.4293623292286873e-05,
+      "huella_plan": "2a0feddb580734b8f5c1eb4f3a32337c3436f05da1b025afd0ba84d10d9b5d22",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s1155267093/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "caea5b81be454202b9c2c738b6f04936860207fe54088a083712bf8f840cc6a0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 111.008,
+        "juzgar_s": 0.04
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 104.5,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0038,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1290923955",
+      "generador": "gerrychain",
+      "semilla": 1290923955,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003875208119760653,
+      "ecm": 1.5017237971458898e-05,
+      "huella_plan": "6505accb5c2fad6a4f0a9984b9f58050f6b9c6ace69192b3a2530b901b6178e3",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s1290923955/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "73f8d7368970e887eadda840062ae5083965aa3ef92b6c242e1153035f77a094",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 106.035,
+        "juzgar_s": 0.046
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.5,
+          "semilla_canonica": 1.8,
+          "M05": 99.9,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0039,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s19129059",
+      "generador": "gerrychain",
+      "semilla": 19129059,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003984266509622586,
+      "ecm": 1.5874379619700137e-05,
+      "huella_plan": "529eeb827feaa85683049aacd179fc04c4fa4b039482cb2d794d28982a86ba08",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s19129059/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ef7c21f5fa968bfdee18deb27177a4e3a2130acb0b207e08679c1324aac4ea81",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 110.243,
+        "juzgar_s": 0.042
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 104.2,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.004,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s897912412",
+      "generador": "gerrychain",
+      "semilla": 897912412,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004507746780959859,
+      "ecm": 2.0319781041253973e-05,
+      "huella_plan": "040248f7a7e35472d0e6603ad5b24ed7a8f1dc5524e50cade61e21731a697a3d",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s897912412/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9df49d6f73ba2ae931d3eac2f94771b2d02b7207705ef798c3d49bfbbb0905f1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 110.123,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 104.1,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0045,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1529513835",
+      "generador": "gerrychain",
+      "semilla": 1529513835,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004820380831897398,
+      "ecm": 2.323607136452385e-05,
+      "huella_plan": "5403f47670bcd82d491f449a6b85defb507f994a0865434a109f31383bf7916e",
+      "composicion": "bateria/competicion/congreso_guadalajara/gerrychain-s1529513835/congreso_guadalajara_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "95204f3ae5f23d62a5961b1c4db13283c9cec34e5fb6d4f7adadd87a3bfc6839",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 117.331,
+        "juzgar_s": 0.062
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.7,
+          "semilla_canonica": 2.0,
+          "M05": 109.9,
+          "M06": 1.3,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0048,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1511204584: desempate determinista por huella del plan (huella_plan)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "mejora_al_canonico": true
+}

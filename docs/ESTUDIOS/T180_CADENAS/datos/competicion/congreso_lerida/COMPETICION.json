@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_lerida",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "8a58c8c300057801738bf01b5cf007ec82c119a434c41ccbb7c85dc2e5ceb548",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_lerida",
+    "ancla": {
+      "population": "d83943a59b0c7da316540c328ab8706a7b27daa4c79b27969c99929ff52b56bd",
+      "target_sectioning": "da6626080069beff0e691da1aa6f4d1c3aa924185d49940d402a6275dee1f97f"
+    },
+    "n": 20,
+    "semillas": [
+      1792342197,
+      637185909,
+      1947576721,
+      1023591252,
+      801483868,
+      883254046,
+      1215573687,
+      1311991368,
+      116213868,
+      1147338734,
+      3090171,
+      1486164862,
+      58233633,
+      1777320056,
+      1764345406,
+      1973449121,
+      64333655,
+      2106293156,
+      1123753208,
+      496957465
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "d1723b7d2c545cc00a13379553a11a30de2fd3b8df64dafef1653c08e1dddebc",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 356.837,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.001969406026248315,
+      "ecm": 1.5487186043897802e-06,
+      "huella_plan": "2cd59eaa2a2f3f88d180ed4b33f32522c1296d4517c0123aa1c85d5be5f658eb",
+      "composicion": "bateria/competicion/congreso_lerida/canonico/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d6563cd3952583718e96f672d598c018b03d8110004bf4c07053c58e3eb92f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 5.393,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "M05": 1.4,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.002,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s3090171",
+      "generador": "gerrychain",
+      "semilla": 3090171,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.001969406026248315,
+      "ecm": 1.5487186043897802e-06,
+      "huella_plan": "2cd59eaa2a2f3f88d180ed4b33f32522c1296d4517c0123aa1c85d5be5f658eb",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s3090171/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d6563cd3952583718e96f672d598c018b03d8110004bf4c07053c58e3eb92f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.074,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.9,
+          "M05": 12.3,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.002,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1777320056",
+      "generador": "gerrychain",
+      "semilla": 1777320056,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.001969406026248315,
+      "ecm": 1.5487186043897802e-06,
+      "huella_plan": "2cd59eaa2a2f3f88d180ed4b33f32522c1296d4517c0123aa1c85d5be5f658eb",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s1777320056/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d6563cd3952583718e96f672d598c018b03d8110004bf4c07053c58e3eb92f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.278,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.9,
+          "M05": 13.3,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.002,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s116213868",
+      "generador": "gerrychain",
+      "semilla": 116213868,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00222871487873958,
+      "ecm": 2.9889250154466228e-06,
+      "huella_plan": "6477a28722921b4775704adcf6dd7d6ef00b2622f9f128d673b67f0b841c973b",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s116213868/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "39e7bf031400e03dc7b0aec9321ddc5e52d346a4fd1bb063de6db0047a638f18",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.084,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 1.0,
+          "M05": 12.1,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0022,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1973449121",
+      "generador": "gerrychain",
+      "semilla": 1973449121,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0024075485701128664,
+      "ecm": 2.6905776983501587e-06,
+      "huella_plan": "160bed0586863a527c3fc5d0f78ed86ee8c264a7d3cd269f278de00b8db4ac6a",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s1973449121/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "edbaa52c3472af615833f7ee07e8197e080a6fd983170726e6ed2fb280458ae5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.351,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 1.0,
+          "M05": 12.5,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0024,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1123753208",
+      "generador": "gerrychain",
+      "semilla": 1123753208,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.002416490254681531,
+      "ecm": 2.7885609857953463e-06,
+      "huella_plan": "95bac45c3f2d7b09a7e86812bcd6119a78def1ac3fbb74965ea54a5c958758c8",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s1123753208/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8dd289a03e44e3a8893c046bc0ca4d970622e9712126fa758a577549d97f754c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.865,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 1.0,
+          "M05": 12.9,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0024,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s64333655",
+      "generador": "gerrychain",
+      "semilla": 64333655,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0024343736238188595,
+      "ecm": 2.1700389852437594e-06,
+      "huella_plan": "6b7a0cf1d4d5b673f8f7ed252d20914f2188abef43054995fa421577f3b43bb9",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s64333655/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cc69ff91aecaa7100da4ae5fda48bdda393132eb9bfcc1a3df0b70e4b1261fb1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.83,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 1.0,
+          "M05": 12.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0024,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1947576721",
+      "generador": "gerrychain",
+      "semilla": 1947576721,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0024924945735151772,
+      "ecm": 4.185032710411946e-06,
+      "huella_plan": "e069f9d14c6cfea61390d272952178f3bf7f82eb5492a2333ab8f0b9cfc5da5d",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s1947576721/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0b4706bbbb1d44c0d36e6e44264fc6d25f8f9ad32936ea2e7d0a0f48442fd78e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.728,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 1.0,
+          "M05": 12.9,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0025,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s637185909",
+      "generador": "gerrychain",
+      "semilla": 637185909,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0028367494294087533,
+      "ecm": 3.529731997314634e-06,
+      "huella_plan": "1ba6032e20b830a605efe39a32085f8354db6bf62b3cbcee3f89a787ab4d1a75",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s637185909/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54438bbfc83b2e6aba682a8210df693c2f46f3a6d1f61b8543003d9c7eb8de0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.596,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 1.0,
+          "M05": 12.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0028,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1486164862",
+      "generador": "gerrychain",
+      "semilla": 1486164862,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003221241865861319,
+      "ecm": 5.128406687209797e-06,
+      "huella_plan": "2730fd0cf61a35b31cc8666ff0fd4b1ff92d9ca9555817f4706218a37b4e8244",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s1486164862/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "599838f2ea599e4f36ad9f9639afbc840d7222a96f2e6b2b18496fb95328ffc4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.309,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 1.0,
+          "M05": 12.6,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0032,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2106293156",
+      "generador": "gerrychain",
+      "semilla": 2106293156,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003713034517137856,
+      "ecm": 5.184054478365937e-06,
+      "huella_plan": "45fbcfef8fc37ef74546c32b230b5eaf014533f5ad276e5d31b2d37329ca8af3",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s2106293156/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "799d85f2764fee3a6d9d99840d1c7da4a4da8aa867814eec2aad2d89b49b4a36",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.919,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 1.0,
+          "M05": 12.9,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0037,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s801483868",
+      "generador": "gerrychain",
+      "semilla": 801483868,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003842688943383489,
+      "ecm": 8.050395445244737e-06,
+      "huella_plan": "bc19e35dee1538c4119c80d4c2ad955e229a8ce5d87db161a794777544b5dd92",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s801483868/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "aa9bc256cda4d0a82cf07fb0e18eb52cbd387068ec57a1af83dd4aee24f6dcbc",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.377,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 1.0,
+          "M05": 12.6,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0038,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1792342197",
+      "generador": "gerrychain",
+      "semilla": 1792342197,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003918693262217135,
+      "ecm": 8.480786335752646e-06,
+      "huella_plan": "85c20e4019b3e5ccc9005ae1fa65b8183845cc986a36532f96701bf70adbfe84",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s1792342197/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2f75102c5b786e510f7a4625c2216f1b542766b610565bfa7152f9009351590a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.49,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 1.0,
+          "M05": 12.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0039,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1147338734",
+      "generador": "gerrychain",
+      "semilla": 1147338734,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00409305611130609,
+      "ecm": 9.093311807084822e-06,
+      "huella_plan": "f5fddb9fff70cea36f058e27f69c05dfdc9224008f4518987bfcd61371f78e07",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s1147338734/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "47e44c2733132273c06b1301a5c2f4c7071ce656667aabd1ae4338ded10b39fd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.481,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 1.0,
+          "M05": 12.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1764345406",
+      "generador": "gerrychain",
+      "semilla": 1764345406,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004124352007296415,
+      "ecm": 5.864740498492092e-06,
+      "huella_plan": "dde4cf7c57ffa5e8ed1acb9c44222f5072de859b8f50e49ec133c1f2b2c48fab",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s1764345406/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9aa88f9cc28f58824448eba736bd4c09af724e74529d070be7a60182eeb40302",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.195,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 1.0,
+          "M05": 12.3,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s58233633",
+      "generador": "gerrychain",
+      "semilla": 58233633,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004499902759180316,
+      "ecm": 1.0395877884125433e-05,
+      "huella_plan": "9686627f2f330fbde9f8494acb8130e833ddc4affceaee924f48906d641e1fa2",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s58233633/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "76780a9a0f79f031d058f8ae4484888c088544c351950e7b28b91135f3ef17d5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.4,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 1.0,
+          "M05": 12.5,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0045,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1215573687",
+      "generador": "gerrychain",
+      "semilla": 1215573687,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004535669497454973,
+      "ecm": 7.818209833869115e-06,
+      "huella_plan": "e8218a24e57ddd1e45e1e16321fd9149492dd880cd7da530f6f39968d30782f7",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s1215573687/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c9ccb0b22011129cb1233964ad3f864029c7693c7c6733c52b3219a2622bd20f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.841,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 1.0,
+          "M05": 13.0,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0045,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1311991368",
+      "generador": "gerrychain",
+      "semilla": 1311991368,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004558023708876634,
+      "ecm": 1.1245346213347297e-05,
+      "huella_plan": "83ef11af4ff8cce1c690623d078fa70d3800a382d23322ee536cc4952f5d72e5",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s1311991368/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9bfad993a0e642dbe1e02112a885e125a12364af53fb05d91c37ed75e009cc9b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.958,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 1.1,
+          "M05": 13.2,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0046,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s496957465",
+      "generador": "gerrychain",
+      "semilla": 496957465,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004727915715681256,
+      "ecm": 1.1311188104176438e-05,
+      "huella_plan": "4cdc38521c4c3c77e9240fd17e1614c65fa8f276739da76e3b4643450b6b5699",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s496957465/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4f626334176255c5f0efa91bedbe956d4d703a930bfdc5c8b2fc808f13649f12",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.379,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.9,
+          "M05": 12.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0047,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1023591252",
+      "generador": "gerrychain",
+      "semilla": 1023591252,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004759211611671581,
+      "ecm": 7.926387220987301e-06,
+      "huella_plan": "82feda7c108a0b130dc9acf41ad40e9765cdb437ca4da5ebb4652b4ecf7481e1",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s1023591252/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "15fee614de4e0514594ceff5b44839a610acb94f1dcadebc0c20df2c4ddf3953",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.216,
+        "juzgar_s": 0.034
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.9,
+          "M05": 12.5,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0048,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s883254046",
+      "generador": "gerrychain",
+      "semilla": 883254046,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004911220249338874,
+      "ecm": 8.068385032902972e-06,
+      "huella_plan": "c2f61ddc5242500483b76e7bfa1ad46d855028ada1a49c4201029b33e075d73f",
+      "composicion": "bateria/competicion/congreso_lerida/gerrychain-s883254046/congreso_lerida_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "47af53006cbafb2b7220dd39965eb4c984c201858945b6791cf8b56a3e3754b8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.361,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.9,
+          "M05": 12.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0049,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s3090171: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

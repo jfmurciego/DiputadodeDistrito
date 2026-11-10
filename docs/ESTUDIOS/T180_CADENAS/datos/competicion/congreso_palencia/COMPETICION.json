@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_palencia",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "896465f9e38c91870535224f85e1b8bf2778528debfb32c1ff37065eeeb9b5ef",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_palencia",
+    "ancla": {
+      "population": "6de0b158ada09571ed44f1e4b41058f0597824b2a391f8e12299758ad47c9aa2",
+      "target_sectioning": "6f90c65cb87e9efa4b2aa920f30a079b1db27e440cd4f3a8a42c24a001ebe41b"
+    },
+    "n": 20,
+    "semillas": [
+      326505251,
+      1140049802,
+      748346606,
+      2023883434,
+      515716470,
+      542806705,
+      604147499,
+      1594004229,
+      694930752,
+      488684118,
+      1568386620,
+      1235178276,
+      1404259538,
+      950720307,
+      2099343669,
+      1635380223,
+      315449436,
+      878378372,
+      1075395760,
+      1119226046
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "1995c3a7bbf06b0a97f3a444e9b8aae4c11e85ea6f7c894688b765ae3f14917b",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 161.52,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/canonico/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.68,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "M05": 1.1,
+          "M06": 0.9,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s326505251",
+      "generador": "gerrychain",
+      "semilla": 326505251,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s326505251/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.578,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 3.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1140049802",
+      "generador": "gerrychain",
+      "semilla": 1140049802,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s1140049802/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.76,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 3.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s748346606",
+      "generador": "gerrychain",
+      "semilla": 748346606,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s748346606/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.517,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 0.8,
+          "M05": 3.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2023883434",
+      "generador": "gerrychain",
+      "semilla": 2023883434,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s2023883434/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.786,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 1.0,
+          "M05": 3.6,
+          "M06": 1.0,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s515716470",
+      "generador": "gerrychain",
+      "semilla": 515716470,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s515716470/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.571,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 0.8,
+          "M05": 3.8,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s542806705",
+      "generador": "gerrychain",
+      "semilla": 542806705,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s542806705/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.798,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 3.9,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s604147499",
+      "generador": "gerrychain",
+      "semilla": 604147499,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s604147499/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.572,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 3.7,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1594004229",
+      "generador": "gerrychain",
+      "semilla": 1594004229,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s1594004229/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.74,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 0.8,
+          "M05": 3.9,
+          "M06": 0.9,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s694930752",
+      "generador": "gerrychain",
+      "semilla": 694930752,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s694930752/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.922,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 3.9,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s488684118",
+      "generador": "gerrychain",
+      "semilla": 488684118,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s488684118/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.735,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 3.6,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1568386620",
+      "generador": "gerrychain",
+      "semilla": 1568386620,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s1568386620/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.029,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.9,
+          "M05": 3.9,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1235178276",
+      "generador": "gerrychain",
+      "semilla": 1235178276,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s1235178276/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.513,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 0.8,
+          "M05": 3.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1404259538",
+      "generador": "gerrychain",
+      "semilla": 1404259538,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s1404259538/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.689,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 0.8,
+          "M05": 3.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s950720307",
+      "generador": "gerrychain",
+      "semilla": 950720307,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s950720307/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.591,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 0.8,
+          "M05": 3.7,
+          "M06": 0.9,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2099343669",
+      "generador": "gerrychain",
+      "semilla": 2099343669,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s2099343669/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.62,
+        "juzgar_s": 0.021
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 3.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1635380223",
+      "generador": "gerrychain",
+      "semilla": 1635380223,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s1635380223/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.894,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 3.9,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s315449436",
+      "generador": "gerrychain",
+      "semilla": 315449436,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s315449436/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.098,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 4.2,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s878378372",
+      "generador": "gerrychain",
+      "semilla": 878378372,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s878378372/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.141,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 1.0,
+          "M05": 3.8,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1075395760",
+      "generador": "gerrychain",
+      "semilla": 1075395760,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s1075395760/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.164,
+        "juzgar_s": 0.021
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 3.8,
+          "M06": 0.9,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1119226046",
+      "generador": "gerrychain",
+      "semilla": 1119226046,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "76615ea46986d48dc27680a0b5177003b66c2b7318be0c6a7d375652f75dce01",
+      "composicion": "bateria/competicion/congreso_palencia/gerrychain-s1119226046/congreso_palencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b1e57717c10f3082923400ffc50d41108016e218a1bccbc2c7e304d0b938c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.538,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 1.0,
+          "M05": 4.0,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s326505251: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

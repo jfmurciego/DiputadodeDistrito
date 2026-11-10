@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_zamora",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "e785c5a23b81818571d50b1a616b8ddf950295ab35987f84ea32351335e7e3e6",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_zamora",
+    "ancla": {
+      "population": "fc172e7f6a2247d040363c77620942aa9fe6e9f557e79c6f799cea7ad91d65f2",
+      "target_sectioning": "ba25628ee7afd369f2ae93afe313af28c99218e693381de672c8693cf5b2edee"
+    },
+    "n": 20,
+    "semillas": [
+      2062061425,
+      1108124851,
+      4146751,
+      1535263105,
+      1571301826,
+      1174660423,
+      160923630,
+      2110005423,
+      634112124,
+      1508792441,
+      1089452737,
+      1128820014,
+      1708204098,
+      1280333421,
+      270723483,
+      2034044317,
+      1741044975,
+      1832285760,
+      526525588,
+      1305165339
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "be269bbc1ba5dcec178ccdede369dee77135167e6072a1f202a098c8073c996c",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 179.721,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/canonico/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.61,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "M05": 1.2,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2062061425",
+      "generador": "gerrychain",
+      "semilla": 2062061425,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s2062061425/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.876,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 4.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1108124851",
+      "generador": "gerrychain",
+      "semilla": 1108124851,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s1108124851/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.339,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 4.6,
+          "M06": 0.9,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s4146751",
+      "generador": "gerrychain",
+      "semilla": 4146751,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s4146751/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.697,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 0.8,
+          "M05": 4.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1535263105",
+      "generador": "gerrychain",
+      "semilla": 1535263105,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s1535263105/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.527,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 4.5,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1571301826",
+      "generador": "gerrychain",
+      "semilla": 1571301826,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s1571301826/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.348,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 4.5,
+          "M06": 0.9,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1174660423",
+      "generador": "gerrychain",
+      "semilla": 1174660423,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s1174660423/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.413,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 4.5,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s160923630",
+      "generador": "gerrychain",
+      "semilla": 160923630,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s160923630/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.707,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 4.6,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2110005423",
+      "generador": "gerrychain",
+      "semilla": 2110005423,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s2110005423/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.63,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 4.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s634112124",
+      "generador": "gerrychain",
+      "semilla": 634112124,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s634112124/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.58,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 0.8,
+          "M05": 4.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1508792441",
+      "generador": "gerrychain",
+      "semilla": 1508792441,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s1508792441/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.597,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 0.8,
+          "M05": 4.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1089452737",
+      "generador": "gerrychain",
+      "semilla": 1089452737,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s1089452737/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.666,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 4.6,
+          "M06": 0.9,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1128820014",
+      "generador": "gerrychain",
+      "semilla": 1128820014,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s1128820014/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.797,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 4.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1708204098",
+      "generador": "gerrychain",
+      "semilla": 1708204098,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s1708204098/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.701,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 4.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1280333421",
+      "generador": "gerrychain",
+      "semilla": 1280333421,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s1280333421/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.494,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 4.4,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s270723483",
+      "generador": "gerrychain",
+      "semilla": 270723483,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s270723483/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.984,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.9,
+          "M05": 4.9,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2034044317",
+      "generador": "gerrychain",
+      "semilla": 2034044317,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s2034044317/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.133,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 5.0,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1741044975",
+      "generador": "gerrychain",
+      "semilla": 1741044975,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s1741044975/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.511,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 5.4,
+          "M06": 0.9,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1832285760",
+      "generador": "gerrychain",
+      "semilla": 1832285760,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s1832285760/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.725,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 4.6,
+          "M06": 0.9,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s526525588",
+      "generador": "gerrychain",
+      "semilla": 526525588,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s526525588/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.025,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.9,
+          "M05": 4.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1305165339",
+      "generador": "gerrychain",
+      "semilla": 1305165339,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "df1ba50699bb326fe1510905acdd29ab31d7d8805b37c389c2e1740f1877752c",
+      "composicion": "bateria/competicion/congreso_zamora/gerrychain-s1305165339/congreso_zamora_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f910d78f3e9e4baede00f45686dc67b9c52c1b779368bec724ca2f340571da0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.865,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 4.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s2062061425: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

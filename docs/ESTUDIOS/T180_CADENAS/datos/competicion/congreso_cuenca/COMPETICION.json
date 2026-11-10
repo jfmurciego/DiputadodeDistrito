@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_cuenca",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "7b1cfaf51e25231ebcd0ba33b6111b1a43b03e9e70c5b227fa465aa556e2a909",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_cuenca",
+    "ancla": {
+      "population": "1a0af31709a3b71ce03879135782208480aca95e9fc896b919da7cb53b56d584",
+      "target_sectioning": "e3aab88a16720b67113b6f88704b6416a0c30134db61c45339bd1c007c0ceef5"
+    },
+    "n": 20,
+    "semillas": [
+      20114844,
+      232521694,
+      255205715,
+      667996196,
+      1095803768,
+      1408708369,
+      1542061219,
+      1341834837,
+      127982986,
+      1785610174,
+      488718243,
+      873437706,
+      999124692,
+      1646303781,
+      208475035,
+      1778604374,
+      681065628,
+      825153668,
+      341504266,
+      19177648
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "4c6f16f843dbbb63f1e0b426bdfd98aaa52e1f83d4f410cce5ecdcc536f6f1ff",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 500.156,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/canonico/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 5.743,
+        "juzgar_s": 0.046
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "M05": 1.6,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s20114844",
+      "generador": "gerrychain",
+      "semilla": 20114844,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s20114844/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.266,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 18.0,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s232521694",
+      "generador": "gerrychain",
+      "semilla": 232521694,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s232521694/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.566,
+        "juzgar_s": 0.044
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.6,
+          "semilla_canonica": 1.9,
+          "M05": 18.9,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s255205715",
+      "generador": "gerrychain",
+      "semilla": 255205715,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s255205715/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.244,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 18.1,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s667996196",
+      "generador": "gerrychain",
+      "semilla": 667996196,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s667996196/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.398,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 18.2,
+          "M06": 1.0,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1095803768",
+      "generador": "gerrychain",
+      "semilla": 1095803768,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s1095803768/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.455,
+        "juzgar_s": 0.044
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.7,
+          "semilla_canonica": 1.7,
+          "M05": 18.9,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1408708369",
+      "generador": "gerrychain",
+      "semilla": 1408708369,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s1408708369/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.218,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.5,
+          "semilla_canonica": 1.9,
+          "M05": 18.0,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1542061219",
+      "generador": "gerrychain",
+      "semilla": 1542061219,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s1542061219/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.535,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.5,
+          "semilla_canonica": 1.8,
+          "M05": 18.2,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1341834837",
+      "generador": "gerrychain",
+      "semilla": 1341834837,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s1341834837/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.616,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.5,
+          "semilla_canonica": 1.7,
+          "M05": 18.5,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s127982986",
+      "generador": "gerrychain",
+      "semilla": 127982986,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s127982986/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.768,
+        "juzgar_s": 0.059
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 18.5,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1785610174",
+      "generador": "gerrychain",
+      "semilla": 1785610174,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s1785610174/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.156,
+        "juzgar_s": 0.042
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 18.8,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s488718243",
+      "generador": "gerrychain",
+      "semilla": 488718243,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s488718243/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.709,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 18.4,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s873437706",
+      "generador": "gerrychain",
+      "semilla": 873437706,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s873437706/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.988,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.7,
+          "semilla_canonica": 1.8,
+          "M05": 18.5,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s999124692",
+      "generador": "gerrychain",
+      "semilla": 999124692,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s999124692/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.527,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.7,
+          "semilla_canonica": 1.7,
+          "M05": 18.3,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s208475035",
+      "generador": "gerrychain",
+      "semilla": 208475035,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s208475035/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.258,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 18.1,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1778604374",
+      "generador": "gerrychain",
+      "semilla": 1778604374,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s1778604374/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.984,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 17.9,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s681065628",
+      "generador": "gerrychain",
+      "semilla": 681065628,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s681065628/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.556,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 18.3,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s825153668",
+      "generador": "gerrychain",
+      "semilla": 825153668,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s825153668/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.101,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 19.0,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s341504266",
+      "generador": "gerrychain",
+      "semilla": 341504266,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s341504266/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.513,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 18.4,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s19177648",
+      "generador": "gerrychain",
+      "semilla": 19177648,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "0adb50b9c63e07f026eb790df7226824f87121f11149e23dbbb2993b16cc4a25",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s19177648/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e10d4616e432fe3af5184e7581370018dbcd6afd23a60603ebb8db2938c63b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.035,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 19.8,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1646303781",
+      "generador": "gerrychain",
+      "semilla": 1646303781,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "40aa5830c71dbf2da25a97842723c203208f60ed7948e7afeae4e77e824e8058",
+      "composicion": "bateria/competicion/congreso_cuenca/gerrychain-s1646303781/congreso_cuenca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b11758b8c81fa47a9191577ce90d4d652c0643cb04a1a1b65efe0dfd4e8f5bad",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.612,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 17.5,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s20114844: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

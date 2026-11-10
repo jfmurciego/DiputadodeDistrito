@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_lugo",
+  "ganador": "gerrychain-s2111499280",
+  "valido": true,
+  "huella_resultado": "35371706fdf5a7a5c4080b135f2f24366b60a047bdbb1570111a0c272413a0bc",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_lugo",
+    "ancla": {
+      "population": "2e6d5e2669b7b9c8cf67c5526c7a21b37c1040cce38b2b75fc3a99b680340d3d",
+      "target_sectioning": "633c644277c8e1538923e6ed37fed0e867519acaf026cf577265b611c7ab6a16"
+    },
+    "n": 20,
+    "semillas": [
+      47096818,
+      1010785948,
+      1076781665,
+      565490100,
+      635581370,
+      498693341,
+      1890184176,
+      1759790938,
+      786842582,
+      684787184,
+      956032368,
+      1090813925,
+      522947377,
+      830263134,
+      2111499280,
+      132273809,
+      560326954,
+      932191500,
+      370082218,
+      950484396
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "dfeb02eaf0ee6fae4432cfdf3e7d3cd5e48fde73bc7712e2a2189614b5522c39",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 196.951,
+  "candidatos": [
+    {
+      "id": "gerrychain-s2111499280",
+      "generador": "gerrychain",
+      "semilla": 2111499280,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003358343587229043,
+      "ecm": 5.89157753026742e-06,
+      "huella_plan": "5f445ff4f9d6ffb8fc27d78d6ad615e80e7ada87416bd1ec83e28b89c3ca3a0f",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s2111499280/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7ccc0792c5f8378d3a3a50f6c2d7fed20ea15c37fc30a38752fce0321a53cdf0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.357,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.9,
+          "M05": 5.6,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0034,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s786842582",
+      "generador": "gerrychain",
+      "semilla": 786842582,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0035711311974391475,
+      "ecm": 8.20480730972786e-06,
+      "huella_plan": "58261a50493a1e9d0c825454b6225e562290bd87ce0eb31b44edcc817c7767fc",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s786842582/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d8467ef9077e87163686a79e502cbe97cf717d7c2ca236ce2ab5c5a92a7def7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.42,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 5.3,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0036,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s950484396",
+      "generador": "gerrychain",
+      "semilla": 950484396,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0035896344678921998,
+      "ecm": 7.348651518735866e-06,
+      "huella_plan": "00938a95cafba7854597bf4b6082795cf83ed6d417adce8ee63d967da948bf0f",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s950484396/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7042fdd82f555e1adad4c2303e28b4b41a69d1d9b18c7bc83bd6fb3bb062e556",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.048,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 4.8,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0036,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s47096818",
+      "generador": "gerrychain",
+      "semilla": 47096818,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0035896344678921998,
+      "ecm": 8.07248091148003e-06,
+      "huella_plan": "2c755b63608fcaa8139dd579d9f6508a1091e2c9a4529cca1a95729e52bc4091",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s47096818/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "815e67b2c87be8e9ea2ed0d36cdfb0b034831d49707d594495f911b0a1571cf0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.493,
+        "juzgar_s": 0.026
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.9,
+          "M05": 5.0,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0036,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s498693341",
+      "generador": "gerrychain",
+      "semilla": 498693341,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003848680254234936,
+      "ecm": 8.047316641696808e-06,
+      "huella_plan": "5784fb1219371c93d4a51e3b92d4d6bef3cf4bfa2dbbc335cd0f8238d13ed2fb",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s498693341/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f9b1bb69a1eced7511f5aafcc6bfac03a5f55c8bead23769c01fe14cdc2b26fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.443,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 5.2,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0038,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s956032368",
+      "generador": "gerrychain",
+      "semilla": 956032368,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003848680254234936,
+      "ecm": 8.047316641696808e-06,
+      "huella_plan": "5784fb1219371c93d4a51e3b92d4d6bef3cf4bfa2dbbc335cd0f8238d13ed2fb",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s956032368/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f9b1bb69a1eced7511f5aafcc6bfac03a5f55c8bead23769c01fe14cdc2b26fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.364,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 1.0,
+          "M05": 5.0,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0038,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1010785948",
+      "generador": "gerrychain",
+      "semilla": 1010785948,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.0026221122608722e-05,
+      "huella_plan": "11fe1a4a66d7b882a2a5308542e196443c1e00f6852f0fdb7106d3c96fb39f94",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s1010785948/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "171df945e01f2d8cb1ac3e365168d74b93f7943ecd8c09fbc23cacd8efb7c97b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.845,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 4.9,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1076781665",
+      "generador": "gerrychain",
+      "semilla": 1076781665,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.0026221122608722e-05,
+      "huella_plan": "11fe1a4a66d7b882a2a5308542e196443c1e00f6852f0fdb7106d3c96fb39f94",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s1076781665/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "171df945e01f2d8cb1ac3e365168d74b93f7943ecd8c09fbc23cacd8efb7c97b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.554,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 5.1,
+          "M06": 0.9,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s565490100",
+      "generador": "gerrychain",
+      "semilla": 565490100,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.0026221122608722e-05,
+      "huella_plan": "11fe1a4a66d7b882a2a5308542e196443c1e00f6852f0fdb7106d3c96fb39f94",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s565490100/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12d9470338068b2b9d5ce7e1ba2b8f44740eada4afb9263746125294c5d61e3f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.453,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.9,
+          "M05": 4.9,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1759790938",
+      "generador": "gerrychain",
+      "semilla": 1759790938,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.0026221122608722e-05,
+      "huella_plan": "11fe1a4a66d7b882a2a5308542e196443c1e00f6852f0fdb7106d3c96fb39f94",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s1759790938/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "81dea2cda8fb03502136bd37346d1684f73a64d119f04cf7cabbe59e4044578c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.595,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 5.4,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s684787184",
+      "generador": "gerrychain",
+      "semilla": 684787184,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.0026221122608722e-05,
+      "huella_plan": "11fe1a4a66d7b882a2a5308542e196443c1e00f6852f0fdb7106d3c96fb39f94",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s684787184/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3596279b26d4d448494a1aa0196548c8496073bc7844ff52da677fc2af530c05",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.196,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.9,
+          "M05": 4.9,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1090813925",
+      "generador": "gerrychain",
+      "semilla": 1090813925,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.0026221122608722e-05,
+      "huella_plan": "11fe1a4a66d7b882a2a5308542e196443c1e00f6852f0fdb7106d3c96fb39f94",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s1090813925/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3596279b26d4d448494a1aa0196548c8496073bc7844ff52da677fc2af530c05",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.427,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 5.4,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s830263134",
+      "generador": "gerrychain",
+      "semilla": 830263134,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.0026221122608722e-05,
+      "huella_plan": "11fe1a4a66d7b882a2a5308542e196443c1e00f6852f0fdb7106d3c96fb39f94",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s830263134/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3596279b26d4d448494a1aa0196548c8496073bc7844ff52da677fc2af530c05",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.041,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.9,
+          "M05": 5.5,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s132273809",
+      "generador": "gerrychain",
+      "semilla": 132273809,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.0026221122608722e-05,
+      "huella_plan": "11fe1a4a66d7b882a2a5308542e196443c1e00f6852f0fdb7106d3c96fb39f94",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s132273809/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3596279b26d4d448494a1aa0196548c8496073bc7844ff52da677fc2af530c05",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.266,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.8,
+          "M05": 5.9,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s932191500",
+      "generador": "gerrychain",
+      "semilla": 932191500,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.0026221122608722e-05,
+      "huella_plan": "11fe1a4a66d7b882a2a5308542e196443c1e00f6852f0fdb7106d3c96fb39f94",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s932191500/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3596279b26d4d448494a1aa0196548c8496073bc7844ff52da677fc2af530c05",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.669,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 1.0,
+          "M05": 5.3,
+          "M06": 0.9,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s370082218",
+      "generador": "gerrychain",
+      "semilla": 370082218,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.0026221122608722e-05,
+      "huella_plan": "11fe1a4a66d7b882a2a5308542e196443c1e00f6852f0fdb7106d3c96fb39f94",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s370082218/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12d9470338068b2b9d5ce7e1ba2b8f44740eada4afb9263746125294c5d61e3f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.048,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.8,
+          "M05": 5.6,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.0477751432800647e-05,
+      "huella_plan": "ba5d34ea27b7c0c062cc25c8ed3c3ba089c1466d1fd772061387005ae674b0b8",
+      "composicion": "bateria/competicion/congreso_lugo/canonico/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "09c72fd7f15a30b38682cb6c5a79bd28d1c12463482a6751bbb8bc8eb086272e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 5.017,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "M05": 1.3,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s560326954",
+      "generador": "gerrychain",
+      "semilla": 560326954,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.0477751432800647e-05,
+      "huella_plan": "ba5d34ea27b7c0c062cc25c8ed3c3ba089c1466d1fd772061387005ae674b0b8",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s560326954/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "09c72fd7f15a30b38682cb6c5a79bd28d1c12463482a6751bbb8bc8eb086272e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.877,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.9,
+          "M05": 5.5,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s522947377",
+      "generador": "gerrychain",
+      "semilla": 522947377,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004403778367826514,
+      "ecm": 1.1424236110565523e-05,
+      "huella_plan": "e799d194fe9b5cc9f35832c63ae737dbf13ed62819d1e4eb50a4f61bfd4ec106",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s522947377/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4762505c38f9d9d97173f5ae1e57011c2ba5d4c9f5e720f2dfef258025139359",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.606,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 5.5,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s635581370",
+      "generador": "gerrychain",
+      "semilla": 635581370,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0045147979905448285,
+      "ecm": 1.1342295313720381e-05,
+      "huella_plan": "e991040f01c7f4f841dfb741bcccbce4d50133c69a7651edec947969ce66fcff",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s635581370/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "90245cdd254787765af082b6ee8077baf8774f46f7188281c8d9a9cc4cee1dc0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.337,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.8,
+          "M05": 4.9,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0045,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1890184176",
+      "generador": "gerrychain",
+      "semilla": 1890184176,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0047738437768875645,
+      "ecm": 1.4106598908682801e-05,
+      "huella_plan": "b683cf7bf56e433d938a7fc0655ba1091f0eea57e754b007de6094943e575936",
+      "composicion": "bateria/competicion/congreso_lugo/gerrychain-s1890184176/congreso_lugo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b4cab1e3320e117d85b18f2ba0f3b6378c401e29819c857ad9b9a10581a400e7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.392,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 5.3,
+          "M06": 0.9,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0048,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s786842582: tiene menor desvío máximo (desvio_max)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "mejora_al_canonico": true
+}

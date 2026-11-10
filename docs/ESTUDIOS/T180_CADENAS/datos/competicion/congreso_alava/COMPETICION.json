@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_alava",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "49106c6172da7e400bb26db69c03e2f976e0377fe39331aa73527e4b151fd27f",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_alava",
+    "ancla": {
+      "population": "8ac281d48b2ceba47cb68055f5ca25a1e6fdda6692733f2e40503060f105e03b",
+      "target_sectioning": "1321acf19edf36bcdebcef361b0fa22b5698c5b4a82d7ce275dd6b77fbae55ce"
+    },
+    "n": 20,
+    "semillas": [
+      95724009,
+      368754941,
+      246407286,
+      158185668,
+      629648007,
+      255675974,
+      1247029794,
+      607001306,
+      919444222,
+      702561951,
+      224506308,
+      145279507,
+      152609339,
+      930825262,
+      208997168,
+      872295316,
+      413125710,
+      511665256,
+      590074942,
+      985248279
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "e7fb0ec17842e690299f02daef2a75509c7d65ef3b5649fbd931dfbad1f67bc5",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 520.492,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/canonico/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.214,
+        "juzgar_s": 0.114
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.0,
+          "M05": 3.9,
+          "M06": 2.0,
+          "validacion": 0.9
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s95724009",
+      "generador": "gerrychain",
+      "semilla": 95724009,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s95724009/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.86,
+        "juzgar_s": 0.11
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.9,
+          "baseline": 0.8,
+          "semilla_canonica": 4.0,
+          "M05": 13.1,
+          "M06": 2.0,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s368754941",
+      "generador": "gerrychain",
+      "semilla": 368754941,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s368754941/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.236,
+        "juzgar_s": 0.119
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.1,
+          "baseline": 1.0,
+          "semilla_canonica": 3.7,
+          "M05": 12.4,
+          "M06": 1.9,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s246407286",
+      "generador": "gerrychain",
+      "semilla": 246407286,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s246407286/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.109,
+        "juzgar_s": 0.109
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.1,
+          "baseline": 0.7,
+          "semilla_canonica": 3.5,
+          "M05": 13.0,
+          "M06": 1.9,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s158185668",
+      "generador": "gerrychain",
+      "semilla": 158185668,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s158185668/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.118,
+        "juzgar_s": 0.108
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.9,
+          "baseline": 0.8,
+          "semilla_canonica": 3.5,
+          "M05": 13.0,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s629648007",
+      "generador": "gerrychain",
+      "semilla": 629648007,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s629648007/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.795,
+        "juzgar_s": 0.119
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.9,
+          "baseline": 0.8,
+          "semilla_canonica": 3.6,
+          "M05": 13.4,
+          "M06": 2.1,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s255675974",
+      "generador": "gerrychain",
+      "semilla": 255675974,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s255675974/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.357,
+        "juzgar_s": 0.11
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.0,
+          "baseline": 0.8,
+          "semilla_canonica": 3.5,
+          "M05": 12.9,
+          "M06": 2.1,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1247029794",
+      "generador": "gerrychain",
+      "semilla": 1247029794,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s1247029794/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.087,
+        "juzgar_s": 0.119
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.1,
+          "baseline": 0.8,
+          "semilla_canonica": 3.5,
+          "M05": 12.7,
+          "M06": 1.9,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s607001306",
+      "generador": "gerrychain",
+      "semilla": 607001306,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s607001306/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.618,
+        "juzgar_s": 0.115
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.0,
+          "baseline": 0.8,
+          "semilla_canonica": 3.5,
+          "M05": 12.3,
+          "M06": 2.1,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s919444222",
+      "generador": "gerrychain",
+      "semilla": 919444222,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s919444222/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.84,
+        "juzgar_s": 0.112
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.9,
+          "baseline": 0.7,
+          "semilla_canonica": 3.5,
+          "M05": 12.7,
+          "M06": 2.0,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s702561951",
+      "generador": "gerrychain",
+      "semilla": 702561951,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s702561951/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.369,
+        "juzgar_s": 0.129
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.8,
+          "baseline": 0.8,
+          "semilla_canonica": 3.5,
+          "M05": 12.5,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s224506308",
+      "generador": "gerrychain",
+      "semilla": 224506308,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s224506308/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.727,
+        "juzgar_s": 0.128
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.8,
+          "baseline": 0.8,
+          "semilla_canonica": 3.5,
+          "M05": 12.8,
+          "M06": 1.9,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s145279507",
+      "generador": "gerrychain",
+      "semilla": 145279507,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s145279507/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.071,
+        "juzgar_s": 0.123
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.7,
+          "baseline": 0.7,
+          "semilla_canonica": 3.4,
+          "M05": 12.3,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s152609339",
+      "generador": "gerrychain",
+      "semilla": 152609339,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s152609339/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.587,
+        "juzgar_s": 0.108
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.9,
+          "baseline": 0.9,
+          "semilla_canonica": 3.5,
+          "M05": 13.3,
+          "M06": 2.0,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s930825262",
+      "generador": "gerrychain",
+      "semilla": 930825262,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s930825262/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.946,
+        "juzgar_s": 0.101
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.0,
+          "baseline": 0.9,
+          "semilla_canonica": 3.9,
+          "M05": 13.2,
+          "M06": 2.0,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s208997168",
+      "generador": "gerrychain",
+      "semilla": 208997168,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s208997168/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.353,
+        "juzgar_s": 0.099
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.8,
+          "baseline": 0.8,
+          "semilla_canonica": 3.6,
+          "M05": 13.2,
+          "M06": 1.9,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s872295316",
+      "generador": "gerrychain",
+      "semilla": 872295316,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s872295316/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.43,
+        "juzgar_s": 0.102
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.3,
+          "baseline": 0.9,
+          "semilla_canonica": 3.7,
+          "M05": 13.6,
+          "M06": 1.9,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s413125710",
+      "generador": "gerrychain",
+      "semilla": 413125710,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s413125710/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.87,
+        "juzgar_s": 0.102
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.0,
+          "baseline": 0.8,
+          "semilla_canonica": 3.5,
+          "M05": 13.5,
+          "M06": 2.0,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s511665256",
+      "generador": "gerrychain",
+      "semilla": 511665256,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s511665256/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.509,
+        "juzgar_s": 0.103
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.8,
+          "baseline": 0.9,
+          "semilla_canonica": 3.9,
+          "M05": 13.1,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s590074942",
+      "generador": "gerrychain",
+      "semilla": 590074942,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s590074942/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.575,
+        "juzgar_s": 0.125
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.4,
+          "baseline": 0.8,
+          "semilla_canonica": 3.6,
+          "M05": 12.9,
+          "M06": 1.9,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s985248279",
+      "generador": "gerrychain",
+      "semilla": 985248279,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14939579195261488,
+      "ecm": 0.01377345278160652,
+      "huella_plan": "6c5b153600235535e7e1b8bd5ac833d63be706d048b3d3c0e116a31f06622cdd",
+      "composicion": "bateria/competicion/congreso_alava/gerrychain-s985248279/congreso_alava_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f1b255de16b46ffca352723e10ce3e606d6e2fbdf0bf8bdb5de4482445b1f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.446,
+        "juzgar_s": 0.116
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.1,
+          "baseline": 0.8,
+          "semilla_canonica": 3.5,
+          "M05": 12.9,
+          "M06": 1.9,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1494,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s95724009: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

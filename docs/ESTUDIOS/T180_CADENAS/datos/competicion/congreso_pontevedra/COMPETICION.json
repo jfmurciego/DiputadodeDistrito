@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_pontevedra",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "b4b0379117b3bf9b75a3dce6cbba5117185e399db8b42848a34d33b2e2444628",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_pontevedra",
+    "ancla": {
+      "population": "c44f1f9233fa77f7ecbe9f2fa4aa39831f89ba4c13118019c7db880805a90bcf",
+      "target_sectioning": "f69bdd26690345b0e1ed7476015ccb67749d0dd4c5abbe978ecf4d6dfe57bb1f"
+    },
+    "n": 20,
+    "semillas": [
+      550600129,
+      775616349,
+      2138565994,
+      1610634060,
+      1758356284,
+      230509468,
+      1467926414,
+      1847743818,
+      531837258,
+      921018006,
+      100061711,
+      701591887,
+      1628587313,
+      596400822,
+      801037204,
+      780643201,
+      1909042597,
+      1849222604,
+      568464126,
+      1465517038
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "9044c7b689a778f543c918363b9583ff23db4be2634130c61071a55bbee27bb7",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 559.704,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.009945104913020725,
+      "huella_plan": "6662ce155954924543f40cca72ea87a18bfb1c5da025ab48e452e6f40f9a1d55",
+      "composicion": "bateria/competicion/congreso_pontevedra/canonico/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8bed33dc83d9133217c8fbbc4dcc7ab576e41efd41b884174bf9f41188ebbf41",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.543,
+        "juzgar_s": 0.054
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "M05": 2.4,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s921018006",
+      "generador": "gerrychain",
+      "semilla": 921018006,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.011419364671709377,
+      "huella_plan": "9d2eb1c59488e7b4fff57e0e861710e095525c1a4502291388fe504bdd095cc5",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s921018006/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "08b918d0cb346f85c2a9399bb684eb795786bf263653793b5fe43669a1d9fe0d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 28.148,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.2,
+          "M05": 21.4,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s568464126",
+      "generador": "gerrychain",
+      "semilla": 568464126,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.011830585424988257,
+      "huella_plan": "4658ca421a8dfed0042247a42caff1edef4d00053089084a1e40d66c5508e3be",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s568464126/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f8817db10c1389869bd7052ce2db6deec7e1c5ca496e05c20f3bdb469a819663",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 28.97,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 1.1,
+          "M05": 21.7,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s775616349",
+      "generador": "gerrychain",
+      "semilla": 775616349,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.012039943161388438,
+      "huella_plan": "093017e87afd1a890b3d1467c94badbaf92797aa5a3e5d8070160f653a5f259e",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s775616349/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "731082b5e00f9841d0b86c5f2b12ae95336bcbe784de805c7aec3f34455ec925",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.356,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.1,
+          "M05": 20.4,
+          "M06": 1.2,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2138565994",
+      "generador": "gerrychain",
+      "semilla": 2138565994,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.012898670110097597,
+      "huella_plan": "ec0a826cdc25bc4b9953b7b51a7daffa41181663b289f88e92afc92756b5c49a",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s2138565994/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "110bd6c188e530ef2435a79a875e90a2e83d3226e3b262b0f1c2400a1bc1d544",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.627,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.1,
+          "M05": 20.8,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1467926414",
+      "generador": "gerrychain",
+      "semilla": 1467926414,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.012898670110097597,
+      "huella_plan": "ec0a826cdc25bc4b9953b7b51a7daffa41181663b289f88e92afc92756b5c49a",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s1467926414/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "58ae1c2cd2ac4733ac487b01fe5aa22aa75d6ecd0961aad17bcbf5a83ddc1735",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.914,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 1.1,
+          "M05": 19.6,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1610634060",
+      "generador": "gerrychain",
+      "semilla": 1610634060,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.013064750485450216,
+      "huella_plan": "5e44c114324d006e83bbd22246af6b6215a0a097e73689ff3388ba0616f9038e",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s1610634060/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "36c24a6bf532d1c2e54b7bcf2e338e086188aa04a0bcf686bdeec432d39293ab",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.78,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 1.1,
+          "M05": 18.7,
+          "M06": 1.3,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1847743818",
+      "generador": "gerrychain",
+      "semilla": 1847743818,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.013064750485450216,
+      "huella_plan": "5e44c114324d006e83bbd22246af6b6215a0a097e73689ff3388ba0616f9038e",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s1847743818/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ded7a4aab28d2646df525ee0bcee288f754e4d3458c3af43be7472d497f5a496",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.95,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 1.1,
+          "M05": 21.0,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s100061711",
+      "generador": "gerrychain",
+      "semilla": 100061711,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.013064750485450216,
+      "huella_plan": "5e44c114324d006e83bbd22246af6b6215a0a097e73689ff3388ba0616f9038e",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s100061711/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7021dbd2eb7111ffee82abefc4bb31b95cb27b8ee205cc88e842a516b8b692f6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.308,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.1,
+          "M05": 20.5,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1628587313",
+      "generador": "gerrychain",
+      "semilla": 1628587313,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.013064750485450216,
+      "huella_plan": "5e44c114324d006e83bbd22246af6b6215a0a097e73689ff3388ba0616f9038e",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s1628587313/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "689f6949d40e57505ea65bfefd99b470d3b437e46299e83618aa9f7cd3ffa3e7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.936,
+        "juzgar_s": 0.047
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.1,
+          "M05": 19.9,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s780643201",
+      "generador": "gerrychain",
+      "semilla": 780643201,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.01330001733366774,
+      "huella_plan": "eda53d7bc191c07a9b9d47d20a967ba438211ac4b6b642ab9bb26bb39b651417",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s780643201/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ccaacb1c78a27dcb2eefdb4347513f22d352669d5bdf98b8b5e7313409341d9f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 28.285,
+        "juzgar_s": 0.047
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.1,
+          "M05": 21.1,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s550600129",
+      "generador": "gerrychain",
+      "semilla": 550600129,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.013945150470791921,
+      "huella_plan": "a4a6c1b6af0335dd4572d34361509ebe82cdb6eecb24a6a21977b2f88ea2f9a0",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s550600129/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6be7890fe06fe9528c0318014b49f656608b0c85249eef2f2e65b71170839a39",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.577,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.2,
+          "M05": 20.4,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s801037204",
+      "generador": "gerrychain",
+      "semilla": 801037204,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.014277089928525336,
+      "huella_plan": "62ff81325d3f0d807b191197b43b6b4ff3335936e6fc2c37e085a129b338d5db",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s801037204/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "568b022066f5b241f35487714d3f1b7063bfd03dac3894d0c660144c006987ac",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.98,
+        "juzgar_s": 0.047
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.2,
+          "M05": 20.0,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1909042597",
+      "generador": "gerrychain",
+      "semilla": 1909042597,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.014277089928525336,
+      "huella_plan": "62ff81325d3f0d807b191197b43b6b4ff3335936e6fc2c37e085a129b338d5db",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s1909042597/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3d57850e5f8d1151d870fd94cbf249811b49bf66954b2cdea2a1f1bd238d3057",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.884,
+        "juzgar_s": 0.047
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 1.1,
+          "M05": 19.9,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s230509468",
+      "generador": "gerrychain",
+      "semilla": 230509468,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.014987966411960025,
+      "huella_plan": "429f192743d55c6110a9953e281a710aeb90d4da5bdd362e1188dcd9c2944ae4",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s230509468/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "76bec201861a0f4e855132fe80edac3cc638e808915b838b1a924f6eb0dd9595",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 29.778,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.1,
+          "M05": 22.5,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1849222604",
+      "generador": "gerrychain",
+      "semilla": 1849222604,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.015019074194826447,
+      "huella_plan": "53cf3ec66215056f3416e58b21741b63193692a250e447cbd0446ef46039eea3",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s1849222604/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c957705d6f14c05b8301aff08c687d829cb38cf8ce174ecb5442cfa93f887291",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.864,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.1,
+          "M05": 19.9,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1758356284",
+      "generador": "gerrychain",
+      "semilla": 1758356284,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.015960071268802063,
+      "huella_plan": "db61ce4ef9aab8d67c9e39a659df752d807e49c0ff7153496d1ee7bab7c79e8d",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s1758356284/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "500425612af33dd3d96398f1a1b2ad7a14421af28caf889b8c00c36630a26c26",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.483,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 1.1,
+          "M05": 19.4,
+          "M06": 1.3,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s701591887",
+      "generador": "gerrychain",
+      "semilla": 701591887,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.016206678935526325,
+      "huella_plan": "cead2238cca3a33a08991231d5025ef09dee981c4cd05563dd2b405dadf3cd37",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s701591887/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a9d8aff3590ffaa3dad7dff2d2d7200ca2be4028713107c0311c917d4c777308",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.974,
+        "juzgar_s": 0.047
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.1,
+          "M05": 21.0,
+          "M06": 1.3,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s596400822",
+      "generador": "gerrychain",
+      "semilla": 596400822,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.016206678935526325,
+      "huella_plan": "cead2238cca3a33a08991231d5025ef09dee981c4cd05563dd2b405dadf3cd37",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s596400822/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a2043fde82c1dd95fa637c6bd07c15360add8693aab1a8b6056f27ec0c007518",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.803,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 1.1,
+          "M05": 20.9,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s531837258",
+      "generador": "gerrychain",
+      "semilla": 531837258,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.016874043215299356,
+      "huella_plan": "8f2b7ca077b7ac5bcfd05743add28a9929b131c1dde583c3d724041af048bf98",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s531837258/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fdf4ed25c896715cb8496e584157d6598121db170d0ac0480619f2f868278664",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.193,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.1,
+          "M05": 20.4,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1465517038",
+      "generador": "gerrychain",
+      "semilla": 1465517038,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.2547073549450201,
+      "ecm": 0.016874043215299356,
+      "huella_plan": "8f2b7ca077b7ac5bcfd05743add28a9929b131c1dde583c3d724041af048bf98",
+      "composicion": "bateria/competicion/congreso_pontevedra/gerrychain-s1465517038/congreso_pontevedra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "40dca343f66b7bce42699040d15bb6085a600dd5e04795b046f19daff5900a4b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.315,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.1,
+          "M05": 20.4,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2547,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s921018006: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

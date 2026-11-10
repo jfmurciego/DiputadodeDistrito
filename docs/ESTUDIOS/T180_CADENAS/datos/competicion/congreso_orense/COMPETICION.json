@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_orense",
+  "ganador": "gerrychain-s971775503",
+  "valido": true,
+  "huella_resultado": "7d43f905281e854db3255bfff570f6ba0504271a82bfd13ad3883ac7b9957e98",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_orense",
+    "ancla": {
+      "population": "77f5f62eb83a56922488abb163f6da2324f0eacc059f371d439e9c872614b74d",
+      "target_sectioning": "f5f595478fe411b39b9c9be68f9cb2aefd178942e316a5e9fd97aa24d77536f0"
+    },
+    "n": 20,
+    "semillas": [
+      265768697,
+      1425151267,
+      1298261017,
+      1698343430,
+      1795715288,
+      1928201772,
+      934877106,
+      1593936014,
+      1868362633,
+      1804892871,
+      563478196,
+      537796942,
+      170075020,
+      1819646164,
+      2082897428,
+      564264964,
+      1514576144,
+      971775503,
+      1410533562,
+      297757463
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "cc59c5b7765f55a036c6921cffdc0d343e56dcefe29fecd4a0402a89e7224f58",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 224.024,
+  "candidatos": [
+    {
+      "id": "gerrychain-s971775503",
+      "generador": "gerrychain",
+      "semilla": 971775503,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.0003449458138310758,
+      "huella_plan": "0aae0f9974eed8fbf88223287816c8924038aa82070dcfc1cf88042a1f70196e",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s971775503/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "23ea916a5f4a420bbbbb1f358666531ece65ad43385cbfa65c439bf933f14fc5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.806,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.7,
+          "M05": 6.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1298261017",
+      "generador": "gerrychain",
+      "semilla": 1298261017,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.00034517279003857073,
+      "huella_plan": "606cef5e6368e0bad0b29883488f080157e8e547c9e1faa04721e2905ea29d47",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s1298261017/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "73dc79c289d85e6a07e4804cafc7938b8f3ff10f80011bc9cb650c5587a8cc93",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.977,
+        "juzgar_s": 0.021
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 6.9,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1698343430",
+      "generador": "gerrychain",
+      "semilla": 1698343430,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.00034626433278621286,
+      "huella_plan": "2a07c67eef096d2c7509a07eff1c686ce03ec8394f9ce1897665ef80c9da71bf",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s1698343430/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a6e14aa22f49d4f9b6a86e29aa234e299a0832bd9b0d1374ab08889cbc24db00",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.86,
+        "juzgar_s": 0.021
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.9,
+          "M05": 7.3,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1868362633",
+      "generador": "gerrychain",
+      "semilla": 1868362633,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.00034626433278621286,
+      "huella_plan": "2a07c67eef096d2c7509a07eff1c686ce03ec8394f9ce1897665ef80c9da71bf",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s1868362633/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2e8a28e0726fbc9457b4a14e7271a020e0e39535921cf872fcfa1e528c3b3479",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.634,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 6.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1804892871",
+      "generador": "gerrychain",
+      "semilla": 1804892871,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.00034626433278621286,
+      "huella_plan": "2a07c67eef096d2c7509a07eff1c686ce03ec8394f9ce1897665ef80c9da71bf",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s1804892871/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2e8a28e0726fbc9457b4a14e7271a020e0e39535921cf872fcfa1e528c3b3479",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.832,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 6.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.00035185303165414074,
+      "huella_plan": "4a73d596afcfbb5ea94b68104d482878c61b4613e214a2e5789448995b7db87e",
+      "composicion": "bateria/competicion/congreso_orense/canonico/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "da6a441476a4c477b802b49af58dff40921967ebcd042dd7e0a69b7bf9d66ffb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.824,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "M05": 1.2,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s537796942",
+      "generador": "gerrychain",
+      "semilla": 537796942,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.00036694542937820636,
+      "huella_plan": "1235b64d5891468f06cc6bfd37bdf5b8f3ea282f8e87460de4d57e64f100372a",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s537796942/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3cfd2c3fc97e4f15ccf9ca285a5d855731c639d4903d0bfba46f2711cf9ecfb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.106,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 6.9,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s170075020",
+      "generador": "gerrychain",
+      "semilla": 170075020,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.00037298529924849295,
+      "huella_plan": "00fbb0e9f2efd408d6d3eb7abd86a9cb67b28afe2ff6b47193aaa5fc1910b571",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s170075020/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9decb3b2c2d5731b5b33bcd5d98ab3b3f08082bd3924b37bba129ce48c6e7298",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.498,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 6.6,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s564264964",
+      "generador": "gerrychain",
+      "semilla": 564264964,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.00037298529924849295,
+      "huella_plan": "00fbb0e9f2efd408d6d3eb7abd86a9cb67b28afe2ff6b47193aaa5fc1910b571",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s564264964/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2f5b45e7f958b9bca991987caf70041a753bab2e621fec47a0d3a67c7628e8e1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.321,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 7.2,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s297757463",
+      "generador": "gerrychain",
+      "semilla": 297757463,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.00037298529924849295,
+      "huella_plan": "00fbb0e9f2efd408d6d3eb7abd86a9cb67b28afe2ff6b47193aaa5fc1910b571",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s297757463/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2f5b45e7f958b9bca991987caf70041a753bab2e621fec47a0d3a67c7628e8e1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.763,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 1.0,
+          "M05": 6.5,
+          "M06": 0.9,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s265768697",
+      "generador": "gerrychain",
+      "semilla": 265768697,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.00038456736018015604,
+      "huella_plan": "9a1c72fd0106457e0c4dcfc390b05e7c3d0697da1c48a6abf2ad2932890283ca",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s265768697/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2d4b094c486711925834758a31686bb5dbf9c219c2f22d15a1cab33122dea354",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.076,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 6.9,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1593936014",
+      "generador": "gerrychain",
+      "semilla": 1593936014,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.0004020854084545376,
+      "huella_plan": "059d7695e7af981225cd64f78ff094336993c04fce0cc8cf489aaee574c563ba",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s1593936014/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "290e87381707b9ea47af5784f92fea235c8e97314fc4825d9419dfdd1e8f8346",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.843,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 6.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1819646164",
+      "generador": "gerrychain",
+      "semilla": 1819646164,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026260576629465824,
+      "ecm": 0.00043396136746634903,
+      "huella_plan": "6e02272487893fe9582171861d56c00cad6e88467d255661bcda072c0cd993b6",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s1819646164/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2bf452510422da22813ede2ba1023109a99a15d4edc2f720be619785707482a8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.751,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 6.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0263,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1425151267",
+      "generador": "gerrychain",
+      "semilla": 1425151267,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.02644773002629998,
+      "ecm": 0.0004630451116166809,
+      "huella_plan": "96eeb43fcc64550dea116afc18e52f9af509311ab53cb3261551630da961820b",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s1425151267/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "75d8c8956dc5e5801152a8332ebfc7871dbe2d60f2250f4ae8281f7c7ff5dc9d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.827,
+        "juzgar_s": 0.021
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 6.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0264,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1928201772",
+      "generador": "gerrychain",
+      "semilla": 1928201772,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.02644773002629998,
+      "ecm": 0.0004630451116166809,
+      "huella_plan": "96eeb43fcc64550dea116afc18e52f9af509311ab53cb3261551630da961820b",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s1928201772/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "75d8c8956dc5e5801152a8332ebfc7871dbe2d60f2250f4ae8281f7c7ff5dc9d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.922,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.9,
+          "M05": 7.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0264,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s563478196",
+      "generador": "gerrychain",
+      "semilla": 563478196,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.026585632529230404,
+      "ecm": 0.0004655064677430974,
+      "huella_plan": "48552fc76791ba3acd549f47f1390e904890a9d23954640ecb068756d398768a",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s563478196/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "58097bdd25e463bb4bf28f24b87c5bc43b9ab4ad171f082149ef893fa9894f3d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.975,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.9,
+          "M05": 6.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0266,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1410533562",
+      "generador": "gerrychain",
+      "semilla": 1410533562,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.02692053860777573,
+      "ecm": 0.0004715896112192017,
+      "huella_plan": "e9d25d063bef2cc91c66e200388e79832dc70250115526ce3113516c0c103d7e",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s1410533562/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d7b281f3f672700d9a19fe934989b4720ac06716385231bddbccb378d5ba65fd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.164,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 6.2,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0269,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2082897428",
+      "generador": "gerrychain",
+      "semilla": 2082897428,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027600200943647128,
+      "ecm": 0.00048439452344829737,
+      "huella_plan": "e5e7676bf4747a2de720571deff7ddb8e5295a559cb0fcbe68ad287c6c8cb7a6",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s2082897428/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "686173ad32a51dcf78376585631a5ae40d1c97075bf002eaa228a7e6c4f76f91",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.245,
+        "juzgar_s": 0.021
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 6.3,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0276,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1795715288",
+      "generador": "gerrychain",
+      "semilla": 1795715288,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.029580086878576845,
+      "ecm": 0.0005252061909833847,
+      "huella_plan": "8632a86753f7cef5436d8196436e2b018d25c90d707f998d10a51a447e146ec1",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s1795715288/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c3c857998ac452635abc1af3080c06ae4773446ff0ff152a8936ffebab8f1924",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.392,
+        "juzgar_s": 0.021
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 7.3,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0296,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1514576144",
+      "generador": "gerrychain",
+      "semilla": 1514576144,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.029580086878576845,
+      "ecm": 0.0005252061909833847,
+      "huella_plan": "8632a86753f7cef5436d8196436e2b018d25c90d707f998d10a51a447e146ec1",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s1514576144/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c3c857998ac452635abc1af3080c06ae4773446ff0ff152a8936ffebab8f1924",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.617,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 6.6,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0296,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s934877106",
+      "generador": "gerrychain",
+      "semilla": 934877106,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.029658888308822805,
+      "ecm": 0.0005269386876324422,
+      "huella_plan": "c8b0d536d551639b8ad0a20cedd812fa84e0891acfd9979873ced5a38475536c",
+      "composicion": "bateria/competicion/congreso_orense/gerrychain-s934877106/congreso_orense_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3a530e50739cb31856e9ba0ca892702e336f4be2f5e0670e5485d6f54b83540f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.131,
+        "juzgar_s": 0.021
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 7.1,
+          "M06": 0.9,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0297,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1298261017: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor error cuadrático medio (ecm)",
+  "mejora_al_canonico": true
+}

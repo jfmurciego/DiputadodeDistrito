@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_jaen",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "f544e7059ed313a3d31ce09131e3dffc9e271c05734192849c0299d01d3406c4",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_jaen",
+    "ancla": {
+      "population": "2a397654f1bf1d588114ac12148af02b322ebe7d2f034d3777bd93ad37d60b46",
+      "target_sectioning": "1d387b9cef3058d04329e46badb15a35df8804887191533fb5c0464da59311df"
+    },
+    "n": 20,
+    "semillas": [
+      1083027908,
+      42717343,
+      49199480,
+      462208616,
+      1382405005,
+      1454666719,
+      606960677,
+      1083726651,
+      598157684,
+      1845114811,
+      1552337243,
+      277395346,
+      1031470833,
+      966007839,
+      64919245,
+      1848467338,
+      1326208583,
+      570464808,
+      152062641,
+      521372342
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "da940dbabe8e22110d13c0c6bdb5368f59c8b554771846ce9a28dba46f875e22",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 295.147,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/canonico/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.296,
+        "juzgar_s": 0.066
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "M05": 2.0,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1083027908",
+      "generador": "gerrychain",
+      "semilla": 1083027908,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s1083027908/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.408,
+        "juzgar_s": 0.056
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 6.8,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s42717343",
+      "generador": "gerrychain",
+      "semilla": 42717343,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s42717343/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.5,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 6.6,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s49199480",
+      "generador": "gerrychain",
+      "semilla": 49199480,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s49199480/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.336,
+        "juzgar_s": 0.056
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 6.8,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s462208616",
+      "generador": "gerrychain",
+      "semilla": 462208616,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s462208616/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.32,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 6.7,
+          "M06": 1.3,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1382405005",
+      "generador": "gerrychain",
+      "semilla": 1382405005,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s1382405005/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.327,
+        "juzgar_s": 0.056
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 6.8,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1454666719",
+      "generador": "gerrychain",
+      "semilla": 1454666719,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s1454666719/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.336,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.0,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 6.5,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s606960677",
+      "generador": "gerrychain",
+      "semilla": 606960677,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s606960677/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.017,
+        "juzgar_s": 0.063
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.2,
+          "M05": 6.5,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1083726651",
+      "generador": "gerrychain",
+      "semilla": 1083726651,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s1083726651/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.507,
+        "juzgar_s": 0.063
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 6.7,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s598157684",
+      "generador": "gerrychain",
+      "semilla": 598157684,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s598157684/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.559,
+        "juzgar_s": 0.069
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 7.0,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1845114811",
+      "generador": "gerrychain",
+      "semilla": 1845114811,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s1845114811/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.884,
+        "juzgar_s": 0.1
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.2,
+          "M05": 6.4,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1552337243",
+      "generador": "gerrychain",
+      "semilla": 1552337243,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s1552337243/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.91,
+        "juzgar_s": 0.065
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 6.6,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s277395346",
+      "generador": "gerrychain",
+      "semilla": 277395346,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s277395346/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.459,
+        "juzgar_s": 0.053
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 6.7,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1031470833",
+      "generador": "gerrychain",
+      "semilla": 1031470833,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s1031470833/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.49,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 6.9,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s966007839",
+      "generador": "gerrychain",
+      "semilla": 966007839,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s966007839/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.352,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 6.7,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s64919245",
+      "generador": "gerrychain",
+      "semilla": 64919245,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s64919245/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.506,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.0,
+          "M05": 7.0,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1848467338",
+      "generador": "gerrychain",
+      "semilla": 1848467338,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s1848467338/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.508,
+        "juzgar_s": 0.066
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 6.7,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1326208583",
+      "generador": "gerrychain",
+      "semilla": 1326208583,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s1326208583/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.168,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 6.5,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s570464808",
+      "generador": "gerrychain",
+      "semilla": 570464808,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s570464808/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.416,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 6.6,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s152062641",
+      "generador": "gerrychain",
+      "semilla": 152062641,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s152062641/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.109,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 6.5,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s521372342",
+      "generador": "gerrychain",
+      "semilla": 521372342,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009216337408179016,
+      "ecm": 5.845578362664963e-07,
+      "huella_plan": "020e9f211711a6598257ef936bab8dce0af03115abb77259cd7d530106bc4af3",
+      "composicion": "bateria/competicion/congreso_jaen/gerrychain-s521372342/congreso_jaen_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "144b36c1028d4162e3b4b2e52d7573cdcd3486a8f3c29bf7ab68d76f9eac9fb6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.476,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.2,
+          "M05": 6.7,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1083027908: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

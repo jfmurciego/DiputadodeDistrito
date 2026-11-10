@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_vizcaya",
+  "ganador": "gerrychain-s1842647574",
+  "valido": true,
+  "huella_resultado": "75c5fd0551d0fc0007997283336f80ee4fe5921f922f155728f4520f3071b685",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_vizcaya",
+    "ancla": {
+      "population": "5de06e6788ecdb858acc0b5ec86558a31ff8face5c75fdcf23cbec506991dae0",
+      "target_sectioning": "7d7fc8ac25f687652e6f93308232f49e2323772094814077cc3043d553c9e16f"
+    },
+    "n": 20,
+    "semillas": [
+      1368248023,
+      1040020687,
+      1495274892,
+      1604696816,
+      1911949494,
+      390225589,
+      2038164773,
+      1749142411,
+      1975266803,
+      1842647574,
+      1925208323,
+      1509587907,
+      1034325359,
+      1547066997,
+      837420723,
+      1728536225,
+      2013273081,
+      1510614430,
+      1378039568,
+      2141679355
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "2e5173a38b14166245d5cde121d1b908272b6847a9d2edcc659036a43343bb27",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 281.054,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1842647574",
+      "generador": "gerrychain",
+      "semilla": 1842647574,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03175112418298387,
+      "ecm": 0.00024899579905258697,
+      "huella_plan": "f61e95d9547c9123d419190c4b6afabf3f6b5f0f9f7ca9b1b0c4d54b15d6d12f",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1842647574/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d50ea707753c54881deb29367b207650ba005732899890ff8d6bfab8d030107d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.385,
+        "juzgar_s": 0.062
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.3,
+          "M05": 6.3,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0318,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1547066997",
+      "generador": "gerrychain",
+      "semilla": 1547066997,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.04868540391682173,
+      "ecm": 0.0010534717066009685,
+      "huella_plan": "7fa85963efdc684dadc43f0ddbd9e54584708c520e0a2b88af0e9d5ef2fdd809",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1547066997/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "aae719192e241aff06c9624d8e16f1c3912a3d425553f4c193eae00a685ccf87",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.462,
+        "juzgar_s": 0.06
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 6.3,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0487,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1728536225",
+      "generador": "gerrychain",
+      "semilla": 1728536225,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0495698363453171,
+      "ecm": 0.000622848238008187,
+      "huella_plan": "44dbfc5474d0a7a456017796b7120d155050b4cb98d3ffbc1fe3e80ddd9e5fbb",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1728536225/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d74762b299b1bd718f0ace2a3c7bb093430da28c7199eba326e4cd8b0c36fc11",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.623,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.2,
+          "M05": 6.3,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0496,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2141679355",
+      "generador": "gerrychain",
+      "semilla": 2141679355,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.05182427194736413,
+      "ecm": 0.0007932176401953668,
+      "huella_plan": "5c59c95b364f79a8c4cb8db38b5820859d412a6686878ac5f543a2f167eac2b4",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s2141679355/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b57842600678b574f7847acc9390cc6c0de346697e7a39cd34340e1be8ccb5ad",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.109,
+        "juzgar_s": 0.065
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.3,
+          "M05": 6.9,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0518,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1509587907",
+      "generador": "gerrychain",
+      "semilla": 1509587907,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.05352723791752581,
+      "ecm": 0.0011322218152370852,
+      "huella_plan": "0188478c2c9c2c20ad5399ce565c7f070b6269736a318811ec23405fadb8278e",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1509587907/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d26306b734305187131c119468e770ac887978d6dc72341350a692b90f36210d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.01,
+        "juzgar_s": 0.061
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.3,
+          "M05": 6.7,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0535,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1495274892",
+      "generador": "gerrychain",
+      "semilla": 1495274892,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0549024436347745,
+      "ecm": 0.0008272823751763966,
+      "huella_plan": "10349418c4d488fa4b6eb62a6973067068a1b549b54e02080840060729a8bb53",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1495274892/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e84fc87fa509d3f54e2f1aa6cf8d4f05beaf19d9ce437b939b0d923b80912d9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.6,
+        "juzgar_s": 0.066
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.3,
+          "M05": 6.4,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0549,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1604696816",
+      "generador": "gerrychain",
+      "semilla": 1604696816,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.056874207695949475,
+      "ecm": 0.0006938494745107306,
+      "huella_plan": "67e01759b2d5dfc5be0bbf10cce42bfab39f7a41d92bd193aef93bccdfc70bd6",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1604696816/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9edebc6fcaa8902a288050c0558acfeb8499a1c610bab25e9daef4344b3c95d9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.67,
+        "juzgar_s": 0.065
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.3,
+          "M05": 6.3,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0569,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1378039568",
+      "generador": "gerrychain",
+      "semilla": 1378039568,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.056874207695949475,
+      "ecm": 0.0010022007321918616,
+      "huella_plan": "1cc1b1a8bce044c9600c11d1eaf54c58f13cbc956a99292e3abcc950e94b5fbc",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1378039568/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bf69ea0d7ca240cdc43bad21cbab878422c9f38886a565be45e73a405d02fda2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.78,
+        "juzgar_s": 0.077
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.3,
+          "M05": 6.3,
+          "M06": 1.5,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0569,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s837420723",
+      "generador": "gerrychain",
+      "semilla": 837420723,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.05760776635723093,
+      "ecm": 0.0013052700301722385,
+      "huella_plan": "619d97a6373bcbcf0884e46aace4d752bc09fa4c8eabc8b12730e5f3b4bf2b40",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s837420723/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b06b28721a0485bbbf09ab9200c7ef7ca0bf7cbe60ad4c42bdf5ea3c279f6d12",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.091,
+        "juzgar_s": 0.065
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.2,
+          "M05": 6.1,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0576,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1040020687",
+      "generador": "gerrychain",
+      "semilla": 1040020687,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.05884250339465976,
+      "ecm": 0.0010915098281188299,
+      "huella_plan": "af8c39587b6106b132a3b366b9ced5cb17f51067c4d185cba571062093fc9fa4",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1040020687/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "299c6926d2a00e7e59419f9a7c1b740b20613a8f22988eec4336473138629d49",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.63,
+        "juzgar_s": 0.076
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.2,
+          "M05": 6.3,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0588,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s390225589",
+      "generador": "gerrychain",
+      "semilla": 390225589,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.059099162217046655,
+      "ecm": 0.0014247354941973028,
+      "huella_plan": "98386cb423eb50f40e44da7d17a0d178b6c6ca14506f195a633f5cf4ed9faf76",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s390225589/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1371b381e96bac2ad1b263c98e14a2a8a6b9cd3a86a47064789dd534ab49acbf",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.457,
+        "juzgar_s": 0.063
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.3,
+          "M05": 6.4,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0591,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1925208323",
+      "generador": "gerrychain",
+      "semilla": 1925208323,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.06039112723514284,
+      "ecm": 0.0009084292790746279,
+      "huella_plan": "3bbb3b33c20b96de141177a7d367374771577d4a1a26389af77414b08a9a023c",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1925208323/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0b49efa8413288821e6d07775f63a4e6483849d59b152cad7d99fbfc6e2ec1e2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.534,
+        "juzgar_s": 0.061
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.3,
+          "M05": 6.5,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0604,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1034325359",
+      "generador": "gerrychain",
+      "semilla": 1034325359,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.06039112723514284,
+      "ecm": 0.001462658132148574,
+      "huella_plan": "4be3e5798cd6acef7330727341a2c7a5eb932947ca720003d22dceeb3cb580bc",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1034325359/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d84174a4c6c6731139e49ccb257360abea1230d02d06e9b2d267dd6265f8ae72",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.403,
+        "juzgar_s": 0.06
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 6.5,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0604,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2013273081",
+      "generador": "gerrychain",
+      "semilla": 2013273081,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.06186864964509981,
+      "ecm": 0.0013225037119843036,
+      "huella_plan": "2a151430c06ce965f91c28fc2b53477964eff9262106e5a57ed1ca83bbbeb785",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s2013273081/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "377e405e6f4554f41c45c6423563bfb6d9547d5a6979bf02450676cb02dc1354",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.534,
+        "juzgar_s": 0.069
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.2,
+          "M04": 3.6,
+          "baseline": 1.2,
+          "M05": 6.2,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0619,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1911949494",
+      "generador": "gerrychain",
+      "semilla": 1911949494,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.06247561307642016,
+      "ecm": 0.0013963295592376405,
+      "huella_plan": "b21fda8708da88b199b5b4c641b09ab26534c108d264696f53b2858671db854f",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1911949494/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f5dea26b64f65cf2c5512ada19ff3b08aacb1617cca28c5609ae55ea59674fa3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.44,
+        "juzgar_s": 0.063
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.3,
+          "M05": 6.2,
+          "M06": 1.6,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0625,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1749142411",
+      "generador": "gerrychain",
+      "semilla": 1749142411,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.06489132753307517,
+      "ecm": 0.0011452914874428319,
+      "huella_plan": "9c57239eca81fe84bdc104a5b604f75d54c04daa82f5440a0ba80da0eaa19c0c",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1749142411/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "31d4ccde1973da0777bba9f97213cd91476f552fa6bcb5876add9c17e74f2788",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.585,
+        "juzgar_s": 0.063
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 6.4,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0649,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2038164773",
+      "generador": "gerrychain",
+      "semilla": 2038164773,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0680943602692143,
+      "ecm": 0.0022211535358868696,
+      "huella_plan": "2fd9b996d01adcd28471662f1d56e9e33283d68dbd8d19a767832e624e996589",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s2038164773/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59b29feaa96c24ead23b06ab257b134e9a8c5443d5468051455e7ddd20c4a46a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.076,
+        "juzgar_s": 0.064
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.1,
+          "M05": 6.2,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0681,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1975266803",
+      "generador": "gerrychain",
+      "semilla": 1975266803,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07194944514871471,
+      "ecm": 0.0012513423623284983,
+      "huella_plan": "3088e428ed38099bfcd2a09ec1d5d86e4bccb9f12aabaada1aab5184b9456fef",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1975266803/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "391593a38035e66252b0ba54b9dd0de45105eeb71ba5a1299e75e63d8b230823",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.574,
+        "juzgar_s": 0.063
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.3,
+          "M05": 6.3,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0719,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1368248023",
+      "generador": "gerrychain",
+      "semilla": 1368248023,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07194944514871471,
+      "ecm": 0.0017949389381501917,
+      "huella_plan": "5ccd18e75fee52f7ed6e296264a71a1790a01ab4863053bf1c91cddecf9d9c30",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1368248023/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "10ae72217cc43f524ad2db27610342674287e8caa0d50162a268ecde16edef5f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.611,
+        "juzgar_s": 0.091
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.3,
+          "M05": 6.4,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0719,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07668722827547815,
+      "ecm": 0.0015747679997172258,
+      "huella_plan": "d3a81107411907b3ca8483bf018815db37aa9596f7888e82c095ba4f53e21faf",
+      "composicion": "bateria/competicion/congreso_vizcaya/canonico/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "85f88ece537c5d675cd6ef24f3af4dd211639f0490b15b41e5fc16dd09a1c1d9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.516,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "M05": 2.2,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0767,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1510614430",
+      "generador": "gerrychain",
+      "semilla": 1510614430,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07668722827547815,
+      "ecm": 0.001876581684575546,
+      "huella_plan": "9ee38eef143cd87eeb2c7ac3dd0a7c09768c3cf5113e2a53688f8abb1f3d4507",
+      "composicion": "bateria/competicion/congreso_vizcaya/gerrychain-s1510614430/congreso_vizcaya_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1cd68e961a9904e103710aa9bd817033b0dd6bbbd536abc1ba847cf937bbe734",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.554,
+        "juzgar_s": 0.07
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 6.4,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0767,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1547066997: tiene menor desvío máximo (desvio_max)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "mejora_al_canonico": true
+}

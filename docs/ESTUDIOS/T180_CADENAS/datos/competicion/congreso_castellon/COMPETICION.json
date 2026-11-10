@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_castellon",
+  "ganador": "gerrychain-s1657874492",
+  "valido": true,
+  "huella_resultado": "d161f3114cf41c69df11f3a1daf7a7c4faa10d2654098832fe5353223e0dbcf6",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_castellon",
+    "ancla": {
+      "population": "2fda97be951a97d433da299230f5a25337c03f042c4f2a7ebde397ece21b382d",
+      "target_sectioning": "76726532afc89f96bfd8bdb15c9ea5cfe7a48f8583f192b5249c1dfa97d4f732"
+    },
+    "n": 20,
+    "semillas": [
+      631585320,
+      1175311948,
+      1888324316,
+      962089801,
+      1401316951,
+      526658422,
+      88627402,
+      450096769,
+      566550111,
+      517282634,
+      2079997324,
+      970462230,
+      1419457712,
+      801791625,
+      1207402772,
+      655210122,
+      1770275859,
+      1657874492,
+      1976022167,
+      1276108641
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "f28b2c8807106fc5ac785fe13e2fe16feaeff6d8baffebb88a6f2c08369e2d91",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 281.911,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1657874492",
+      "generador": "gerrychain",
+      "semilla": 1657874492,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006515628569442099,
+      "ecm": 1.2278020619122188e-05,
+      "huella_plan": "fbcac61958f5ed062d2bca0dd022fc49820ddf69caf95cf4ea842e3295a34d2a",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s1657874492/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "afe0800e52d7ecf863a8fa916f2bc46afcb03f116baded72ee42364a81538722",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.974,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.5,
+          "semilla_canonica": 1.5,
+          "M05": 8.2,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0065,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s517282634",
+      "generador": "gerrychain",
+      "semilla": 517282634,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006515628569442099,
+      "ecm": 1.2352502718736146e-05,
+      "huella_plan": "495218428d67b236765e805345fd3aef77e97dacd25a17b9e36fdc8320f0aa35",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s517282634/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a673e928301b51c79e016417c7140e84127ad14af211cb76835e800431c26040",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.821,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.5,
+          "semilla_canonica": 1.5,
+          "M05": 7.9,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0065,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s526658422",
+      "generador": "gerrychain",
+      "semilla": 526658422,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006515628569442099,
+      "ecm": 2.2445402685188267e-05,
+      "huella_plan": "0e202420186c1aa598d8088578c97e721fe810c4bbaf14a1eee3c457a44b033b",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s526658422/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "aa890f8f093fcbbddca1f12fbc8bb2a069975f86b7614f2724790595b730663c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.017,
+        "juzgar_s": 0.034
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.5,
+          "M05": 8.0,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0065,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s88627402",
+      "generador": "gerrychain",
+      "semilla": 88627402,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0069096122075333645,
+      "ecm": 2.2216585344578792e-05,
+      "huella_plan": "ff2551508d06ac10bb7df0577bb6df749d9a41da6bc4762f4775fdde1d8e5bdb",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s88627402/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c2b697b503c099866db3d1a2ae8601dd3ebd8220216942627b2b9512ec192575",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.627,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.5,
+          "semilla_canonica": 1.5,
+          "M05": 7.9,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0069,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1976022167",
+      "generador": "gerrychain",
+      "semilla": 1976022167,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0074260949599891405,
+      "ecm": 3.8849550761313184e-05,
+      "huella_plan": "2a6f84430560cf679ac9d736935ee16109880c770f2690cd761769c1df931e78",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s1976022167/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1076f29f1f35a89641079cc4f8b4a4a87a7314c4927295935ae1bbdc98e3f953",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.973,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.5,
+          "M05": 8.0,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0074,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s631585320",
+      "generador": "gerrychain",
+      "semilla": 631585320,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00806342143337207,
+      "ecm": 1.777010264941307e-05,
+      "huella_plan": "089c92a707b07df974c4e3a0c3188f40e168e6d2a2201f8a7a1e0dbad43dfe2c",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s631585320/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "82f7fb95a10fb42bcd219bbe735956362a9ed8d8cad799d3757c6a8260aa4158",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.933,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.4,
+          "M05": 8.3,
+          "M06": 1.0,
+          "validacion": 0.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0081,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1770275859",
+      "generador": "gerrychain",
+      "semilla": 1770275859,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.008854699496429317,
+      "ecm": 2.997527440407104e-05,
+      "huella_plan": "b2aba24ce042ec298591cce9c6afdb6048ba745c510d22b22ad1380708aa0d09",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s1770275859/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "46c07c2e7ac0576d45b5c3a64ebb61c886304ce29542add4b7cd881291eead97",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.006,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.5,
+          "M05": 8.0,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0089,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s450096769",
+      "generador": "gerrychain",
+      "semilla": 450096769,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.008982164791105902,
+      "ecm": 4.87958432101293e-05,
+      "huella_plan": "b9a1b20ce11847f6ed82126d56cfce91a7f0aefc1437b23c7cf13f8d072faa66",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s450096769/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ba77b40a99f5e39b12a6098aaed33524b117ca3989176ee3271e70d6c00ac7e3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.619,
+        "juzgar_s": 0.034
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.5,
+          "M05": 7.6,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s962089801",
+      "generador": "gerrychain",
+      "semilla": 962089801,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.008995407938604769,
+      "ecm": 2.7887912192226152e-05,
+      "huella_plan": "7cec2eef2ec11067d184420c06e4c9949389ce45ff2e65f28d55fed21bf6c22f",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s962089801/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9e5f7511d7f132aec92df1726b299001798ab857515508d32bdcb1e1cb0dfbb9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.341,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.5,
+          "M05": 7.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1888324316",
+      "generador": "gerrychain",
+      "semilla": 1888324316,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.009036792774538725,
+      "ecm": 4.346322083313261e-05,
+      "huella_plan": "6a145f365de2ac3fa077105675fd178b766a1e272274206f9c23618cd84669d2",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s1888324316/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "37a2ede8ebd04b421718c2bd49d942286513e15cfcba4d36e89d23ca44e07861",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.507,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.5,
+          "semilla_canonica": 1.6,
+          "M05": 7.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1419457712",
+      "generador": "gerrychain",
+      "semilla": 1419457712,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00978171982134994,
+      "ecm": 6.421596710853618e-05,
+      "huella_plan": "8132ae5261f16df0d899314ec61663cdaf0b866c000c981d16b746cab176d48d",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s1419457712/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "15a7cb652638e5a6f948446ea4d6d1e172544ac4dbc35613b0a1c5881bcae748",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.839,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.5,
+          "semilla_canonica": 1.5,
+          "M05": 7.9,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0098,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1207402772",
+      "generador": "gerrychain",
+      "semilla": 1207402772,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01075012498220452,
+      "ecm": 4.564786466882943e-05,
+      "huella_plan": "ecf81b7e51fe11f5a5bbaa43524efd7669833f171221391f782c03484c9b3bd3",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s1207402772/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2047a86e57031a7af6e7f3a0ffd56f3ac7a95f08df00dc6c468642c7bdcf9524",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.388,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 7.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0108,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s566550111",
+      "generador": "gerrychain",
+      "semilla": 566550111,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.011677145307125145,
+      "ecm": 4.9095141772301354e-05,
+      "huella_plan": "2dc06ed17877aad401e196d3dd0695fdf76cdc054f780ce9887ed47d81118f9a",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s566550111/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "467860e37889a5e80548d23972736d1057266acc2b3110cd1a7621d84944d3c5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.617,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.5,
+          "semilla_canonica": 1.6,
+          "M05": 7.8,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0117,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01216548637114583,
+      "ecm": 3.982028435098384e-05,
+      "huella_plan": "c688c0ee248fa822f464a4e377308439d9df2739e618fad345e2706c5005d7fd",
+      "composicion": "bateria/competicion/congreso_castellon/canonico/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "320bf54adb7b3ccf246fc658fe9bb4c58de6ee5883015b3259f7e67e5beebfd0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 5.692,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "M05": 1.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0122,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2079997324",
+      "generador": "gerrychain",
+      "semilla": 2079997324,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01216548637114583,
+      "ecm": 3.982028435098384e-05,
+      "huella_plan": "c688c0ee248fa822f464a4e377308439d9df2739e618fad345e2706c5005d7fd",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s2079997324/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "320bf54adb7b3ccf246fc658fe9bb4c58de6ee5883015b3259f7e67e5beebfd0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.073,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 7.9,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0122,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s801791625",
+      "generador": "gerrychain",
+      "semilla": 801791625,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01216548637114583,
+      "ecm": 3.982028435098384e-05,
+      "huella_plan": "c688c0ee248fa822f464a4e377308439d9df2739e618fad345e2706c5005d7fd",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s801791625/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "320bf54adb7b3ccf246fc658fe9bb4c58de6ee5883015b3259f7e67e5beebfd0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.01,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 7.8,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0122,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s970462230",
+      "generador": "gerrychain",
+      "semilla": 970462230,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.013104094450127961,
+      "ecm": 8.118700672061179e-05,
+      "huella_plan": "3847f69e09d0d719f608d451e0ff5d1dca23795d4ce7a3a0d07f3c1997b7664a",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s970462230/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "15b6da92d377bcd916adeeb87048c07461b9176705a861b45310b1232cedfcea",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.594,
+        "juzgar_s": 0.034
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 7.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0131,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1401316951",
+      "generador": "gerrychain",
+      "semilla": 1401316951,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.013658651251642978,
+      "ecm": 0.00010061348932525879,
+      "huella_plan": "932cb04e991d7bc46bc008af312cc441b96eb1edc72001f90d13f6929fe2b098",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s1401316951/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0e32dc96ecd0915eaed16c43a057c98b12a89e66338af06828ef9a5131e9ca1e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.633,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.5,
+          "M05": 7.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0137,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s655210122",
+      "generador": "gerrychain",
+      "semilla": 655210122,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.014193343331909695,
+      "ecm": 7.187405874798323e-05,
+      "huella_plan": "81e873697de594e3a00d75d8c4082bb595be2bbe5d06df6eeb6543eade6eb5b0",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s655210122/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "93ae5dbf71892289a54ef492fb25ede0d98d860140e88f9df6bae6b11ad90bfd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.841,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.5,
+          "M05": 8.0,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0142,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1175311948",
+      "generador": "gerrychain",
+      "semilla": 1175311948,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.014362193462520238,
+      "ecm": 9.931871201670106e-05,
+      "huella_plan": "b2ae1dbd32c8abf6e264d8b9ccbde845da78682636e9bf55c438dae28e958b84",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s1175311948/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4ae59c0f1a020ea3f9ffb38c2c4d5a988c1715cdbc29c808e2a452a078dd3f4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.014,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.5,
+          "M05": 7.9,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0144,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1276108641",
+      "generador": "gerrychain",
+      "semilla": 1276108641,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.014684995182805097,
+      "ecm": 9.925875365247908e-05,
+      "huella_plan": "e7207d86c4433d983bc621824053403085a6322a340c32a5ff7c3d46172a52dc",
+      "composicion": "bateria/competicion/congreso_castellon/gerrychain-s1276108641/congreso_castellon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0433ca4e4388f19f0bdd667a89b1725742adbf1663ab32cbdd52d0d9460da924",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.648,
+        "juzgar_s": 0.034
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.7,
+          "semilla_canonica": 1.5,
+          "M05": 7.6,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0147,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s517282634: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "mejora_al_canonico": true
+}

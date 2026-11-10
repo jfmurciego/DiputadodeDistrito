@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_asturias",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "7e02706d538aa7d53e736441f11b484226776d5ec0f053d7fcc7f3fe6d9c1221",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_asturias",
+    "ancla": {
+      "population": "042104ba010c3b4b25560e4a647ec506cdf6a22001c296a3b107a80a166df439",
+      "target_sectioning": "e1234bb2a6b4ef424ae222c262467a4e013887aa399b4e21b6bba9caac5369e4"
+    },
+    "n": 20,
+    "semillas": [
+      114158686,
+      1074604194,
+      249315265,
+      998028065,
+      1720604252,
+      1390030284,
+      537163516,
+      849323232,
+      1038619451,
+      311745963,
+      1444771562,
+      837360897,
+      811219773,
+      807208157,
+      1807093911,
+      2016110489,
+      1947241668,
+      1109788232,
+      1800983019,
+      1338591759
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "159565abc059cb500a7eed326b5e1cef6deb0244d9e0b326386441879e885273",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 274.058,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.003477031568275994,
+      "huella_plan": "ff920e0039d076981cbe48f49c6379877a8b62cc8aac6b44b2187a6e0ab86c06",
+      "composicion": "bateria/competicion/congreso_asturias/canonico/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "02e471405956fa9cba6e8bc27a14989b247d334eb00f8920a944fb4800cf8dda",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.548,
+        "juzgar_s": 0.096
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "M05": 2.3,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1807093911",
+      "generador": "gerrychain",
+      "semilla": 1807093911,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.005486898760349252,
+      "huella_plan": "6263e948dad7def71a47084b532d06787144159d2696df61c3ee8aed8fb1e5e1",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s1807093911/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b3e619fa49fa85b738caf92f383c165ac1b023a7ac100d73148637a7778dc4fc",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.818,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.3,
+          "M05": 5.7,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1947241668",
+      "generador": "gerrychain",
+      "semilla": 1947241668,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.005537068508586845,
+      "huella_plan": "46f0c93a5f6ce76daf1fa9b2e118920ab819b376151a949c6f221f7046009c30",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s1947241668/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "da88c090a331e9b62731a6eafbb12a98c9e4e0c98f733562750e1bca100f6deb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.318,
+        "juzgar_s": 0.075
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 1.3,
+          "M05": 5.9,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2016110489",
+      "generador": "gerrychain",
+      "semilla": 2016110489,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.00573239843268873,
+      "huella_plan": "a7a18f70e7cfb031768e05df60e89efc34f6e3e9c4a944719d4425d63554355b",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s2016110489/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54b87da8957204e8b74409b1a440f9e7f46e21ccbabf0a25e1b52f971a6f4777",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.161,
+        "juzgar_s": 0.075
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.3,
+          "M05": 5.7,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1338591759",
+      "generador": "gerrychain",
+      "semilla": 1338591759,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.005736653331065221,
+      "huella_plan": "d1cf90534f659a37b8c4b7d50d3aa9d8ae6b9ebaeec18ca9ce53c5230614053a",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s1338591759/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6cb931086aab054706501592b8e9c429de705e60b4a33da089d1d589186adae9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.387,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.4,
+          "M05": 5.8,
+          "M06": 1.8,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1038619451",
+      "generador": "gerrychain",
+      "semilla": 1038619451,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.005829436685471028,
+      "huella_plan": "33ce42a97cda707bca08894f9ce99950242b28f3da4091b54e5304bd543c8166",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s1038619451/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "75e5c0d1ac25771ea0b7a7ff662f758d299e7e41f3787b3ccf7fbe57f3516f39",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.763,
+        "juzgar_s": 0.078
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.3,
+          "M05": 5.5,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1074604194",
+      "generador": "gerrychain",
+      "semilla": 1074604194,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.006307617525171968,
+      "huella_plan": "dbdb729284238700368f9b777439f76af7f2b4e2272ef1a3df6483ca05b59e4f",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s1074604194/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "93720526ebd46b9b547b19ec13101784e35fa263ec1a7606772758caa9fcca47",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.532,
+        "juzgar_s": 0.08
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.3,
+          "M05": 6.3,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1720604252",
+      "generador": "gerrychain",
+      "semilla": 1720604252,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.00712606585899678,
+      "huella_plan": "e9fc5db8b12c4675dd3fb93149fbbc54e0a9f1956e46f5528871ed27a162c374",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s1720604252/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5c00867a9f56ae15c80e661ed011fa94b9e62fc84d7bf56d3efd72c646d54bfe",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.126,
+        "juzgar_s": 0.081
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.4,
+          "M05": 5.8,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s249315265",
+      "generador": "gerrychain",
+      "semilla": 249315265,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.0075524836952236595,
+      "huella_plan": "637032b251675811f93ef557429a0e503aea00f75831e7f1e3c5580e7c8ee39a",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s249315265/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "19e31fc47f84c6ba918718f42e43602d62bae98d1a20feaedc9f7b5ba0e6f98f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.971,
+        "juzgar_s": 0.082
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.3,
+          "M05": 5.6,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s311745963",
+      "generador": "gerrychain",
+      "semilla": 311745963,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.007878651127897323,
+      "huella_plan": "21d3be287f5a46edf0e4184ed2d63dc8c98374cefe417170bcb125a7fff9acb3",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s311745963/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3f6e82893828b857914eeb95d9d75f503aa3e7b1ac50747fdac30ffe000ac86b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.059,
+        "juzgar_s": 0.077
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.4,
+          "M05": 5.5,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s837360897",
+      "generador": "gerrychain",
+      "semilla": 837360897,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.00796095806521005,
+      "huella_plan": "d6692f5465618a27c35a721d698616b942980e857323487966a4164bc8972fb1",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s837360897/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c83d312e93d72f5e39c12b0b47d3505e05d33bc9fc2adbb7c1afbe0625c6d07e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.142,
+        "juzgar_s": 0.076
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.4,
+          "M05": 5.8,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1800983019",
+      "generador": "gerrychain",
+      "semilla": 1800983019,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.00815332438503005,
+      "huella_plan": "8a7a7949942cdb8f6305058c2f42e1b1504ef7bdae6f74267d46cf5515059eaa",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s1800983019/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e86c8dde968b3df2ae41e78a479d6c59cd4d63e24fe83053c5c842952620b50d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.031,
+        "juzgar_s": 0.08
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.4,
+          "M05": 5.9,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s849323232",
+      "generador": "gerrychain",
+      "semilla": 849323232,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.008217273042872073,
+      "huella_plan": "517fd4c77093e3bf8aa1d419e67b5a016ca206f8891a3a654c128c288daa6343",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s849323232/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d58f5d9c04b0d88e36d4524b81410767fc3eded17e2b23a65e5fab95a1d2cc74",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.31,
+        "juzgar_s": 0.082
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.4,
+          "M05": 5.8,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s537163516",
+      "generador": "gerrychain",
+      "semilla": 537163516,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.00828200273390942,
+      "huella_plan": "741a9d69e7e733a0fd524f43de11e214f7a4145cf8434cf72d6fc9203163b797",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s537163516/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1ae619ddea3125978be63e774fd30858125f501b09ab87591709f7fd09273eaa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.637,
+        "juzgar_s": 0.08
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.3,
+          "M05": 6.1,
+          "M06": 1.6,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1109788232",
+      "generador": "gerrychain",
+      "semilla": 1109788232,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.00828200273390942,
+      "huella_plan": "741a9d69e7e733a0fd524f43de11e214f7a4145cf8434cf72d6fc9203163b797",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s1109788232/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6ec429c29ad5700bbed101fde7afecc565afc6480310ffa4846ae61c56b85ae8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.337,
+        "juzgar_s": 0.088
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.4,
+          "M05": 6.0,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1390030284",
+      "generador": "gerrychain",
+      "semilla": 1390030284,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.008491694971337935,
+      "huella_plan": "30fb0a8d0e36c474b5402fa1179703946550bd4f66425201b546fbb3da721653",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s1390030284/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3356eb740cb1bde52e1dcdbfd25a09d3967caa84fb0d81f0a9ead3051778703d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.161,
+        "juzgar_s": 0.077
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.3,
+          "M05": 5.7,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s998028065",
+      "generador": "gerrychain",
+      "semilla": 998028065,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.00865756975741143,
+      "huella_plan": "0bf55dcc1cdac72009f7b8ceabfaf07c9203201c8a8b586e4041df770be92f49",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s998028065/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9125f8ceb49b33073aee15becee800cb9e05ad595eaf41b530b43412e90f0b25",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.374,
+        "juzgar_s": 0.081
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.4,
+          "M05": 5.8,
+          "M06": 1.5,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1444771562",
+      "generador": "gerrychain",
+      "semilla": 1444771562,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.00865756975741143,
+      "huella_plan": "0bf55dcc1cdac72009f7b8ceabfaf07c9203201c8a8b586e4041df770be92f49",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s1444771562/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bdedfa1a97c1a74eca80cfd3e696e1c31bc8cda77412642132a212d1a01ed102",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.841,
+        "juzgar_s": 0.076
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.3,
+          "M05": 5.7,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s811219773",
+      "generador": "gerrychain",
+      "semilla": 811219773,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.008808456066259737,
+      "huella_plan": "9a840633be4471b5bf7b44c6d5fb42e12f4ffc06c63e30aee852edf0ad910096",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s811219773/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bb668b89ec7c6a7df86568277b86d2baa965c6e3a7ccbb1f6ee0ce03be91dd26",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.452,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.4,
+          "M05": 6.0,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s114158686",
+      "generador": "gerrychain",
+      "semilla": 114158686,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.009589894700769638,
+      "huella_plan": "1bdda143f732b90e7bf33eaa25fe9ac3e3e103049dbcdf5e2143a159de3966de",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s114158686/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ee4e77d25b6235d6054fba3161c6a14cb4e281c672b99326db6c812aec62f211",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.39,
+        "juzgar_s": 0.078
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.3,
+          "M05": 5.8,
+          "M06": 1.7,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s807208157",
+      "generador": "gerrychain",
+      "semilla": 807208157,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1348587559390096,
+      "ecm": 0.010175528133003058,
+      "huella_plan": "2636ba790606d6d75e0ab753c434c4385e76456525457fa9820d390fac8023c3",
+      "composicion": "bateria/competicion/congreso_asturias/gerrychain-s807208157/congreso_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "abe85e900ee0aade99a848116daa1b12d86d72cb1b37172c7219a391e526add8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.039,
+        "juzgar_s": 0.076
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.3,
+          "M05": 5.9,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1349,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1807093911: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

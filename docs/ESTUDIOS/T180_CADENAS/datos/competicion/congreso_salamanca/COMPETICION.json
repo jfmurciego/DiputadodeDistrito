@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_salamanca",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "ffd62868ecd0b0f210a92af97635cdbebc4e6d619ac462745356e157f7dcb47c",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_salamanca",
+    "ancla": {
+      "population": "b6bdb2808f4f52a91402e9f8d825ffc1408eda490a3ab72b2286ba0e991f372d",
+      "target_sectioning": "61efad985ce67a5022bafec0cee66ac77a4b44b5b3cc358f15d0f6ef4d92551a"
+    },
+    "n": 20,
+    "semillas": [
+      135472742,
+      643297995,
+      1794974680,
+      1385657595,
+      2044515552,
+      1054512766,
+      1610749294,
+      928369250,
+      875054600,
+      222484542,
+      232521232,
+      1588474361,
+      1410300525,
+      1847163770,
+      1916992400,
+      1207007355,
+      1236750120,
+      1019542153,
+      359101968,
+      1920053752
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "e0ced7d7afea65a1a7fe1fc4240620161f6bff7edadb981d81ce464b4572e4e8",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 619.955,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 6.114543748031882e-05,
+      "ecm": 2.0937081338093627e-09,
+      "huella_plan": "3894c730b273e3cede50ba0623ebc3889a70caee49587b5906f87bca76ff0079",
+      "composicion": "bateria/competicion/congreso_salamanca/canonico/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f20123777bbb9fd21672af0f15d289a547a4ff7031ee4189eb8900f545aae738",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.811,
+        "juzgar_s": 0.067
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "M05": 1.8,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0001,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1207007355",
+      "generador": "gerrychain",
+      "semilla": 1207007355,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 6.114543748031882e-05,
+      "ecm": 2.0937081338093627e-09,
+      "huella_plan": "980768f0d0d8413d2613cb9487596c36b61e5e473ad512548ebb80c27cf94d94",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s1207007355/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "68ac0fbc456b6d1be819c0b9593a2f9193431a74798f726f9fc8d620942b6636",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 31.565,
+        "juzgar_s": 0.047
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 1.1,
+          "M05": 25.3,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0001,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1610749294",
+      "generador": "gerrychain",
+      "semilla": 1610749294,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00039744534362207227,
+      "ecm": 9.159973085415963e-08,
+      "huella_plan": "d675da4dd67df97fcbd68f210de03ae2f81c7a8cace330fa01711618a4699262",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s1610749294/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a8a1562b6a61d5365cfbc1c9153d0953e83bccd5d2256db82b3c38904324c1d4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 30.497,
+        "juzgar_s": 0.042
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 1.1,
+          "M05": 24.8,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0004,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1236750120",
+      "generador": "gerrychain",
+      "semilla": 1236750120,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0005441943935748374,
+      "ecm": 1.7774086550231628e-07,
+      "huella_plan": "0ed5cbeec24fd0111cbe398bb22547a49b66d28e5286b03c4f1ff15a0e25fb51",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s1236750120/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9a28a77a6e3c823f020774f405c0bc8c9176fe092bdaa8f4e7df40dcc0955264",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 30.616,
+        "juzgar_s": 0.044
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 1.1,
+          "M05": 24.8,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0005,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s359101968",
+      "generador": "gerrychain",
+      "semilla": 359101968,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0006359125497953157,
+      "ecm": 2.461602563035865e-07,
+      "huella_plan": "119b0c4d2acbf47b906bc8bdf853f25224257833a037cd4f593ddeb17acc9461",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s359101968/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "454b159dd6142287e4807574f064e6541103b79e8a1077564dba352d3d5c4fa1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 30.028,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 1.0,
+          "M05": 24.2,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0006,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s875054600",
+      "generador": "gerrychain",
+      "semilla": 875054600,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.000773489784126033,
+      "ecm": 3.69819892956702e-07,
+      "huella_plan": "abd2abe4910ae8e176e11061924c7450ef1d696111867e5c06d21ceabb2b4374",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s875054600/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a139c0cd44e1478260d3198b8a291219650a710c1bea911644311db2605d4ebe",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 30.725,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 1.2,
+          "M05": 24.7,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0008,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1920053752",
+      "generador": "gerrychain",
+      "semilla": 1920053752,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0008652079403465112,
+      "ecm": 4.662800176929191e-07,
+      "huella_plan": "69c1bb0b0a0bf7e7b9bb5be760fd2fe4c7c0c5c075b9fbdaa330fc2579707ea1",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s1920053752/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9b843fbeabcdbd938f58371c6cc9b7fa4a8397aa1dafba94efaadc5134924559",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 30.147,
+        "juzgar_s": 0.044
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 1.1,
+          "M05": 24.5,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s232521232",
+      "generador": "gerrychain",
+      "semilla": 232521232,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009018952028347025,
+      "ecm": 5.0800462978812e-07,
+      "huella_plan": "0e229e846cedef58968e1f01cec28c83f8f554e66fca34607589cb389c75d016",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s232521232/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "46b7fcb74c9744993770d859f18d7e5813c7fc00fd40d38eb8eb010c246b08c7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 30.538,
+        "juzgar_s": 0.067
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 1.2,
+          "M05": 24.4,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1019542153",
+      "generador": "gerrychain",
+      "semilla": 1019542153,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0009110670184567503,
+      "ecm": 5.187161901512697e-07,
+      "huella_plan": "cf444cb9202c2a8fb83346cbb8186ab00c4d4b34b587e66d6049d905f713dcfa",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s1019542153/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "161d81f3bd673424238b0cf8df917944638b9307eb8543a86d8b76bd97c41ed5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 29.439,
+        "juzgar_s": 0.044
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 1.2,
+          "M05": 23.7,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1410300525",
+      "generador": "gerrychain",
+      "semilla": 1410300525,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.000975269727811085,
+      "ecm": 5.968376748940315e-07,
+      "huella_plan": "f20b56ee676c7f1e92c2dfd4980a256035baba1d46b3e373e40e38a2f71bdf2e",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s1410300525/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fa80a9a87448bea62bc5c42b34ca82664a550cd9aebe7bc367d806de0e722561",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 30.235,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 1.3,
+          "M05": 24.4,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.001,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s928369250",
+      "generador": "gerrychain",
+      "semilla": 928369250,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0014063450620473326,
+      "ecm": 1.263702409334937e-06,
+      "huella_plan": "526502d96a5075da2dbe5a7aca105edb37c41a4c9201b1a7f0d5e603def2a407",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s928369250/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "73963abbb12e0f5afc29e494aaf29e1b666e406de466c2a8ff0d8bab14c6a21b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 31.002,
+        "juzgar_s": 0.042
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 1.2,
+          "M05": 25.2,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0014,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1385657595",
+      "generador": "gerrychain",
+      "semilla": 1385657595,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0017548740556851499,
+      "ecm": 1.984012782655851e-06,
+      "huella_plan": "22aabc2f919b88925b6c9795f3037e3221f9b501270994c29ff384eb8ff0cb88",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s1385657595/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8a3621d3c385634ca5cd8564794f3a2e1e84a26db2ec72a8808af807db227afe",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 31.121,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 1.1,
+          "M05": 25.5,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0018,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1054512766",
+      "generador": "gerrychain",
+      "semilla": 1054512766,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0017548740556851499,
+      "ecm": 1.984012782655851e-06,
+      "huella_plan": "b276837c639ed54ffb8d10df8d395e5997cb54bcd798a2ddb3354878b3eb6dd6",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s1054512766/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3fa87653a8dbf6889f5dcf814418db546554909752d7a802408d27f83bb8363e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 30.316,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 1.1,
+          "M05": 24.6,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0018,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s643297995",
+      "generador": "gerrychain",
+      "semilla": 643297995,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0020392003399686324,
+      "ecm": 2.691592662770299e-06,
+      "huella_plan": "8deeb234bd2d4e491e788be181dbb96c6e029af5b1d285b5c5038e5c09945101",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s643297995/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "89a51d57e665244ed8934986f281b48d58e921af2b5492c3b33f2eac117f6cde",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 31.913,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 1.3,
+          "M05": 25.6,
+          "M06": 1.2,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.002,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1916992400",
+      "generador": "gerrychain",
+      "semilla": 1916992400,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0021492621274332062,
+      "ecm": 2.9944325892677247e-06,
+      "huella_plan": "baaa84cd77daf88cb1715419b337d7ff52503eaaa1c25890c96f50f166dac6a0",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s1916992400/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "454b63a7356ad8a2757096c9df0d6a74bbcaae76a48343ae450ada8b12a57641",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 29.43,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 1.1,
+          "M05": 23.7,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0021,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1847163770",
+      "generador": "gerrychain",
+      "semilla": 1847163770,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0024152447804725932,
+      "ecm": 3.7929766102671406e-06,
+      "huella_plan": "2d80798410d4e69bdd8d0d844b01ec8cb898a6834bac5818df41cd617ee3170b",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s1847163770/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "70882d4e681e5102a531b97e995ccb0a06aa14c34cd277b61f5a465c442f2265",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 29.243,
+        "juzgar_s": 0.046
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 1.1,
+          "M05": 23.6,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0024,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s222484542",
+      "generador": "gerrychain",
+      "semilla": 222484542,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.002846320114708841,
+      "ecm": 5.287491647531936e-06,
+      "huella_plan": "6ad4b4c8ad45f3a3e609854dffcbff66f1044722bd1ece6357b88c44093c5a70",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s222484542/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "70e410af81a3c626e749e8766fcdc6581a50d82b7e668839cf1060de044a92b5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 30.401,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 1.1,
+          "M05": 24.6,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0028,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2044515552",
+      "generador": "gerrychain",
+      "semilla": 2044515552,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0030572718740159406,
+      "ecm": 6.109141233293748e-06,
+      "huella_plan": "171bce4ff8d20e15e493712973b22363c85fdfc1abffcf05ab49baf865d6d3b3",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s2044515552/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "48560f8840ad2043e8e41ddd57ee21b307062b06fc15a4e0c24e173b0f775c96",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 31.025,
+        "juzgar_s": 0.046
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 1.2,
+          "M05": 25.1,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0031,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1588474361",
+      "generador": "gerrychain",
+      "semilla": 1588474361,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003882735280000245,
+      "ecm": 9.89464031451157e-06,
+      "huella_plan": "f549951f36a94cdf822a6454c6dcedfb4369d4e437efefa8cf3b6c66db18853b",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s1588474361/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d21a5ced6fe7baf405cd7495c9afda5cf577d8579081ed67d5d69ca9d7a0a401",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 30.867,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 1.2,
+          "M05": 24.8,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0039,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1794974680",
+      "generador": "gerrychain",
+      "semilla": 1794974680,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003956109804976627,
+      "ecm": 1.0275096992540927e-05,
+      "huella_plan": "493b6955db054770d83dcac9a75bb75370a820da273a865b4f98273bed8253bb",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s1794974680/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "161b91431b7b7e697d25af8aa9b8bee066af7c293034c2e90c04c92f7b7796b7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 31.086,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 1.2,
+          "M05": 25.3,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.004,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s135472742",
+      "generador": "gerrychain",
+      "semilla": 135472742,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004781573210960931,
+      "ecm": 1.5049873166983673e-05,
+      "huella_plan": "96a8ea24a36d3f5e5d1f8399362d280de91a33d8ca72143c6496f386f5a6f616",
+      "composicion": "bateria/competicion/congreso_salamanca/gerrychain-s135472742/congreso_salamanca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9bc5fb6fae65b643866e9c1dff9b19b028e34ce2d0968fd99eecded9214eefd7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 31.904,
+        "juzgar_s": 0.061
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 1.3,
+          "M05": 25.9,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0048,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1207007355: desempate determinista por huella del plan (huella_plan)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

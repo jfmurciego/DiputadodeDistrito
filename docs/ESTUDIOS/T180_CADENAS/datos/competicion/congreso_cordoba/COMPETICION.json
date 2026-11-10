@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_cordoba",
+  "ganador": "gerrychain-s1758975188",
+  "valido": true,
+  "huella_resultado": "feedf4bb5a84985a769d59daa2261679cad42c4a83a13c766fa91efef1e04845",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_cordoba",
+    "ancla": {
+      "population": "f7b869de36e2409f10300aa9238d95c5b7e51d3c4f91d3e9eb341f61741a44f7",
+      "target_sectioning": "b3c9faa0318fe967dd99539af08added89f6fa2e315d083af2ff2f141cf79a81"
+    },
+    "n": 20,
+    "semillas": [
+      19376409,
+      909106856,
+      2114357072,
+      1639668536,
+      1979962984,
+      1643714188,
+      601189697,
+      412184636,
+      189036351,
+      2007501428,
+      1995734903,
+      35559715,
+      602159507,
+      1722238816,
+      1149740646,
+      1758975188,
+      1062159155,
+      2015278911,
+      701816523,
+      711260525
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "2ba23f7e6a11ce11d0d267851310af10f6c76dc60180edf6e2c59dc260940259",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 294.837,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1758975188",
+      "generador": "gerrychain",
+      "semilla": 1758975188,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 8.942974196452393e-05,
+      "huella_plan": "64f3f15e402631a68d9232530e69a9266c1f176ff3fdb667b4a75e1406423c13",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s1758975188/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a67bbe82c0094a6b81fb7c626dcbaa27d83526663832c70163fcbc2668b63c23",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.379,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 5.7,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2015278911",
+      "generador": "gerrychain",
+      "semilla": 2015278911,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 9.281557755893995e-05,
+      "huella_plan": "6bc9351e390392a661c49b5d37688d5320a41626c0f570c9de39ca7a8030edd5",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s2015278911/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14612c47e72243a139ce24e06ac1ba7cd1144dfd33a2fd3c794ea57fb5953b3b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.444,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 5.9,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 9.352147859819732e-05,
+      "huella_plan": "feb21c49364232d3545967729f0e8707bafdc8460f926eb7b3d91145fecac382",
+      "composicion": "bateria/competicion/congreso_cordoba/canonico/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cbd692acd7b5c6744f67b8d59ef713e763944a8c2b1927625ddc8cab5c2f61d1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.33,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "M05": 2.1,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2007501428",
+      "generador": "gerrychain",
+      "semilla": 2007501428,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 9.352147859819732e-05,
+      "huella_plan": "feb21c49364232d3545967729f0e8707bafdc8460f926eb7b3d91145fecac382",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s2007501428/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cbd692acd7b5c6744f67b8d59ef713e763944a8c2b1927625ddc8cab5c2f61d1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.844,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.8,
+          "semilla_canonica": 2.2,
+          "M05": 6.0,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1995734903",
+      "generador": "gerrychain",
+      "semilla": 1995734903,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 9.352147859819732e-05,
+      "huella_plan": "feb21c49364232d3545967729f0e8707bafdc8460f926eb7b3d91145fecac382",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s1995734903/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cbd692acd7b5c6744f67b8d59ef713e763944a8c2b1927625ddc8cab5c2f61d1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.967,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 5.7,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1722238816",
+      "generador": "gerrychain",
+      "semilla": 1722238816,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 9.352147859819732e-05,
+      "huella_plan": "feb21c49364232d3545967729f0e8707bafdc8460f926eb7b3d91145fecac382",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s1722238816/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cbd692acd7b5c6744f67b8d59ef713e763944a8c2b1927625ddc8cab5c2f61d1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.209,
+        "juzgar_s": 0.062
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 5.9,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1979962984",
+      "generador": "gerrychain",
+      "semilla": 1979962984,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 0.00011210070924012979,
+      "huella_plan": "aa8c94de2cb3aaad331288d8b60c11866e59208b656c328b6f5ba4acd080b273",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s1979962984/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9a619e3038ba70c49a685e3b0bbe6b83fe46251880f3116c2c0de305b1690e29",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.965,
+        "juzgar_s": 0.053
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.6,
+          "semilla_canonica": 1.9,
+          "M05": 5.8,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s189036351",
+      "generador": "gerrychain",
+      "semilla": 189036351,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 0.00011612301855263766,
+      "huella_plan": "a94eca5ce0887fefde6be639d84c693046be2d80dc94bd5bcb552feafaa862be",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s189036351/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "530c9b011273abc9faa8bf124179f1db21938615ee16c874354c298bd7b23f7b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.331,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 5.9,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s35559715",
+      "generador": "gerrychain",
+      "semilla": 35559715,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 0.00011691704733683345,
+      "huella_plan": "0437c1d75f7cdcc0a5cddf982ab0bc927978f2a8041146961f29d16309c759b9",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s35559715/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a71255b295316414a4f78ecb959ccfb1e145a77d5bff6c67428c4ca0c87ec38e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.313,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 5.8,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s602159507",
+      "generador": "gerrychain",
+      "semilla": 602159507,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 0.00011691704733683345,
+      "huella_plan": "0437c1d75f7cdcc0a5cddf982ab0bc927978f2a8041146961f29d16309c759b9",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s602159507/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "04df35f3ec1592a17c430ae2694053d663a9fbf2fd9c5eb81f059a1ba63a9280",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.469,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 6.1,
+          "M06": 1.2,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2114357072",
+      "generador": "gerrychain",
+      "semilla": 2114357072,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 0.00013231398930464749,
+      "huella_plan": "ede9a0fd203be35673bad332b794e49a2799fa90be0ea344723f6185de121769",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s2114357072/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bfbea03536b9dd339eff42471228a6ae070cf828f0faee272b033e7944463841",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.614,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 6.2,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1643714188",
+      "generador": "gerrychain",
+      "semilla": 1643714188,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 0.00015744588040314834,
+      "huella_plan": "0182317aee4fa3138b9e3885cff2c1befdecd05be9afa0d4f74d974ab3a28c0b",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s1643714188/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "576494ebb52929219add2c055c9feef633d83e9fbee9f6d71ab1a5282ad06a50",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.009,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 5.4,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1149740646",
+      "generador": "gerrychain",
+      "semilla": 1149740646,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01718705242050988,
+      "ecm": 0.00015744588040314834,
+      "huella_plan": "0182317aee4fa3138b9e3885cff2c1befdecd05be9afa0d4f74d974ab3a28c0b",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s1149740646/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d6cc57b13954f5d1bafe57f35f9d1262ed6be4068a7c4b2b523c73207de30a16",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.313,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 5.8,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0172,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s19376409",
+      "generador": "gerrychain",
+      "semilla": 19376409,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.018952209155589275,
+      "ecm": 0.00014950918879653145,
+      "huella_plan": "59ceffd50d77bd2e12afe7d5c9fea3937d6287a1b4ffac450c271bf5919cc760",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s19376409/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f82448c9131aade9b58f2eee983ed5c056a1e00e93754a6ce16a6327fc100b41",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.503,
+        "juzgar_s": 0.053
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 5.9,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.019,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s701816523",
+      "generador": "gerrychain",
+      "semilla": 701816523,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.018952209155589275,
+      "ecm": 0.00016549025927914136,
+      "huella_plan": "ce032882335797399f6fbb7503781c8784d821751a64a68e1eae0b8c734b1fa2",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s701816523/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4ddc37ffff670da3c3ff9cb63c94cd4a3d831a9234be9a29c5545b8c6a7a638f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.803,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.6,
+          "semilla_canonica": 1.9,
+          "M05": 5.8,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.019,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s412184636",
+      "generador": "gerrychain",
+      "semilla": 412184636,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01931607918431178,
+      "ecm": 0.00019327846965406194,
+      "huella_plan": "cf9e3244274f7d38bd9a78e5ec467e9f6d627e3ff2b52ce69355f8903b314a02",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s412184636/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c1e64889b99095a849fbecc8c251f2f0e5c38e0d8130e2714f035ff298bf119",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.986,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.2,
+          "M05": 5.4,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0193,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s601189697",
+      "generador": "gerrychain",
+      "semilla": 601189697,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01940124025486386,
+      "ecm": 0.00018687491311054628,
+      "huella_plan": "2e6ea7c101939a5257919ae670d9ef3b4b8f6ef32c57b830b8f2c3a22ccfc09c",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s601189697/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6b13e7810127d491b319d1cf29e44d60ef187b8a1f5df1ffa07364032f91bc44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.15,
+        "juzgar_s": 0.053
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 5.8,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0194,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s909106856",
+      "generador": "gerrychain",
+      "semilla": 909106856,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01940124025486386,
+      "ecm": 0.00020154271836298339,
+      "huella_plan": "beeac75a25711701590f84c8fbd3d2f2ae350959ec60073557aa9b3755a7aaa1",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s909106856/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ab736afd50114a694e951da67ecbae63e2684fd8742b40cc61bb3119ac7649ab",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.373,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 6.0,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0194,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1062159155",
+      "generador": "gerrychain",
+      "semilla": 1062159155,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01943994983238753,
+      "ecm": 0.00015548667136848585,
+      "huella_plan": "93a92044edde69a2767892160833e858a07e895719e974b25a6fcf78aaaf18ec",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s1062159155/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cf80d6a3126eb96c67520704777cbd89f9598bd45c9fad357ca37dcc809e7b83",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.452,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 1.9,
+          "M05": 5.8,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0194,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1639668536",
+      "generador": "gerrychain",
+      "semilla": 1639668536,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.019989625833223657,
+      "ecm": 0.000156069421326401,
+      "huella_plan": "3dc11eb3f0e03163167f25ad97f2b08c190424582b521f15395db1ff2c8f94a8",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s1639668536/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a3641eb2195936af572f4abe9c93e7d1b465f9175b1a695af562eb7a606e8294",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.047,
+        "juzgar_s": 0.067
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 5.6,
+          "M06": 1.3,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.02,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s711260525",
+      "generador": "gerrychain",
+      "semilla": 711260525,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.019989625833223657,
+      "ecm": 0.00016467183603188282,
+      "huella_plan": "d476828f5a23e7ec1d320da456f8ad1eb82dd56060f784563411899a15dc1d9f",
+      "composicion": "bateria/competicion/congreso_cordoba/gerrychain-s711260525/congreso_cordoba_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b3bcd8fe8f16dddf731042dbaf8e063850a9dc384871557aa5b590321c195de",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.195,
+        "juzgar_s": 0.088
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.7,
+          "semilla_canonica": 2.0,
+          "M05": 5.9,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.02,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s2015278911: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor error cuadrático medio (ecm)",
+  "mejora_al_canonico": true
+}

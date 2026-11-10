@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_gerona",
+  "ganador": "gerrychain-s2115121224",
+  "valido": true,
+  "huella_resultado": "d9a90501061ebdc341c1efda60cf8a492fecad4cdb5db7f575eb782f2edd6475",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_gerona",
+    "ancla": {
+      "population": "0a9d2e9225e9fafa41e7e6393e9b90df4bec2161460a6b055d8f9ae1ff152458",
+      "target_sectioning": "f701f0dbfdb6acf92f077866d25eb54218de88344eaf08f51e850ef845968ffb"
+    },
+    "n": 20,
+    "semillas": [
+      1054940608,
+      1555174180,
+      2121967709,
+      1649616649,
+      647864269,
+      11898715,
+      786016194,
+      1239350219,
+      1291810072,
+      1876773527,
+      779443479,
+      2074553545,
+      622750701,
+      2115121224,
+      959460547,
+      656252654,
+      577118413,
+      1516082409,
+      660295084,
+      356401306
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "215ef7172479b7af10263e628ef78ac43e5574fedba26180a3b090a4052f473b",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 387.75,
+  "candidatos": [
+    {
+      "id": "gerrychain-s2115121224",
+      "generador": "gerrychain",
+      "semilla": 2115121224,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.02017381583633414,
+      "ecm": 0.00023760458766968436,
+      "huella_plan": "feb7ce4f190433cb4c881a30371aa992ffb72833b71bed79b650b90ce307aef4",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s2115121224/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "133c6abb18624f8e6e9740a4170e03329ab56fab75c28e4b21c717e7137645cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.411,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 9.3,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0202,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/canonico/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.833,
+        "juzgar_s": 0.062
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "M05": 2.3,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1054940608",
+      "generador": "gerrychain",
+      "semilla": 1054940608,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s1054940608/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.004,
+        "juzgar_s": 0.062
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.6,
+          "semilla_canonica": 2.4,
+          "M05": 9.8,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1555174180",
+      "generador": "gerrychain",
+      "semilla": 1555174180,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s1555174180/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.758,
+        "juzgar_s": 0.063
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.8,
+          "semilla_canonica": 2.3,
+          "M05": 9.8,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1649616649",
+      "generador": "gerrychain",
+      "semilla": 1649616649,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s1649616649/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.838,
+        "juzgar_s": 0.064
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 9.8,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s11898715",
+      "generador": "gerrychain",
+      "semilla": 11898715,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s11898715/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.576,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 9.6,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1291810072",
+      "generador": "gerrychain",
+      "semilla": 1291810072,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s1291810072/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.893,
+        "juzgar_s": 0.053
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 9.9,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1876773527",
+      "generador": "gerrychain",
+      "semilla": 1876773527,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s1876773527/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.573,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.6,
+          "semilla_canonica": 2.2,
+          "M05": 9.5,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s779443479",
+      "generador": "gerrychain",
+      "semilla": 779443479,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s779443479/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.873,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.4,
+          "M05": 9.9,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s622750701",
+      "generador": "gerrychain",
+      "semilla": 622750701,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s622750701/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.761,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.8,
+          "semilla_canonica": 2.5,
+          "M05": 10.3,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s959460547",
+      "generador": "gerrychain",
+      "semilla": 959460547,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s959460547/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.269,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.4,
+          "M05": 10.2,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s577118413",
+      "generador": "gerrychain",
+      "semilla": 577118413,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s577118413/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.473,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.8,
+          "semilla_canonica": 2.3,
+          "M05": 10.0,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s660295084",
+      "generador": "gerrychain",
+      "semilla": 660295084,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s660295084/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.475,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 9.7,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s356401306",
+      "generador": "gerrychain",
+      "semilla": 356401306,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001271746168275242,
+      "huella_plan": "8b293660ec0dac08f83bf4ff432efb3c8459279c8a767173e6404c58c28346f3",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s356401306/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c18a91badc6d5c8f71ee5c886c7594e0a08b63d7914acdb5694e55cf4ee95bb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.957,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.4,
+          "M05": 9.8,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1239350219",
+      "generador": "gerrychain",
+      "semilla": 1239350219,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.0001337664836975112,
+      "huella_plan": "786b09a58ff7760c6d992b6b73990d7123c584c9655fa05b39da2881e1033401",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s1239350219/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "36a22c76dfa4368105284890959796433c34c563efe74b47eaeb5503b85ab2d1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.279,
+        "juzgar_s": 0.053
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 9.2,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s647864269",
+      "generador": "gerrychain",
+      "semilla": 647864269,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.00019843060160040383,
+      "huella_plan": "5c384152c269c3629b22bb8e04a4af4f82c6d4ea4f775c75e6ea2f665d68dff8",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s647864269/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "13687782efd6b7ec5ee4608fd2e7777b2beffa57cfa4ca6dcae8e5bee6caf7be",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.776,
+        "juzgar_s": 0.053
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.4,
+          "M05": 9.8,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s656252654",
+      "generador": "gerrychain",
+      "semilla": 656252654,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027547633651220767,
+      "ecm": 0.000198999614170716,
+      "huella_plan": "720653c3d3398e5921eac38fff4dd66770b227389b30a32a51896e5ace64ef23",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s656252654/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b0b7c04ed7cbff1f79407b3a04cf4807787717881c50337eeff64b7462feeb9f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.96,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 9.8,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0275,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2121967709",
+      "generador": "gerrychain",
+      "semilla": 2121967709,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.027817211428119187,
+      "ecm": 0.0002157112943533496,
+      "huella_plan": "a3f91ff9e55c5d6deb31e00d45faef443feda216a0fdaea9a460f6c64a3b6878",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s2121967709/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9a36d7d14dac842ed1ccc37a640fde5d83ad09d796d1fe78f103621ef2c5e090",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.608,
+        "juzgar_s": 0.063
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.4,
+          "M05": 9.5,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0278,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2074553545",
+      "generador": "gerrychain",
+      "semilla": 2074553545,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.028387281864587867,
+      "ecm": 0.0001347500903999075,
+      "huella_plan": "ee3a3aeb2db12e18cce2b275444378cb027cc235c725c280d52a0d7a90ede716",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s2074553545/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a86246b88e4d9c3775c33b416a5a28f0eba4e1490c76d03451d1fecc436cde3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.395,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 9.9,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0284,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1516082409",
+      "generador": "gerrychain",
+      "semilla": 1516082409,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.02863954730719006,
+      "ecm": 0.00028576894665987526,
+      "huella_plan": "47378becd3e9b198ea98845d35ab95ffefcd070850f7d71687252d2634a6aadf",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s1516082409/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9e54b2d70f27d23a7a55c4ff41f5f3425fcba2c7bb79d029a3fe7f61db344261",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.763,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 9.6,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0286,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s786016194",
+      "generador": "gerrychain",
+      "semilla": 786016194,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.029703019271101264,
+      "ecm": 0.00025658274860051685,
+      "huella_plan": "e576f1b3f1ce8b0ca7f71ae01385ff8cae8b5610648dccd53e8e5c8575c123fc",
+      "composicion": "bateria/competicion/congreso_gerona/gerrychain-s786016194/congreso_gerona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "33cee90c539629063b57224d21447053bbd5e3428accda851ba95dd261553436",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.14,
+        "juzgar_s": 0.053
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.6,
+          "semilla_canonica": 2.4,
+          "M05": 10.0,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0297,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "mejora_al_canonico": true
+}

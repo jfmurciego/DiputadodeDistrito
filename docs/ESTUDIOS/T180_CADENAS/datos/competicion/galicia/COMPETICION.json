@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "galicia",
+  "ganador": "gerrychain-s1142423765",
+  "valido": true,
+  "huella_resultado": "49424805c569f3736f4c253770cfa8336e622bbed2940a652b00611f9511d934",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "galicia",
+    "ancla": {
+      "population": "c75dec6fe668f058545daac835a4edb676c1b17d29a6084ff7a66c5f4729abb4",
+      "target_sectioning": "81c43488e677c0231bcfd59164b7ad65bb697e9d5958c8deef1a3a5768dad688"
+    },
+    "n": 20,
+    "semillas": [
+      1325857207,
+      1888704519,
+      1706253490,
+      528592927,
+      122614812,
+      316718052,
+      469640649,
+      996466855,
+      1167476498,
+      1121251351,
+      1858013400,
+      2053549629,
+      1044465731,
+      1714976133,
+      581455331,
+      960743421,
+      1971778110,
+      1142423765,
+      826200377,
+      1641210175
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "5652c016291935f9beb03bfeb36781b2353f5cf1e596e7b793e365b4497296f9",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 1162.106,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1142423765",
+      "generador": "gerrychain",
+      "semilla": 1142423765,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.01075440623331384,
+      "huella_plan": "10a3a5f2ed23c87ef064c72017eeeaa8ee504f5d9de01c80f3e416f17a6919d6",
+      "composicion": "bateria/competicion/galicia/gerrychain-s1142423765/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1882e5b38ebca0d4bd079480c61c1e86a4411375322ffd7da60dd18e63e19105",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 55.885,
+        "juzgar_s": 0.225
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.6,
+          "baseline": 2.4,
+          "semilla_canonica": 15.8,
+          "M05": 23.8,
+          "M06": 2.9,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s996466855",
+      "generador": "gerrychain",
+      "semilla": 996466855,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.010830826466523277,
+      "huella_plan": "a992a630e28b52fc8ed3d0f3e9c10ff35f1fb3794390af79064a349d485cfa0f",
+      "composicion": "bateria/competicion/galicia/gerrychain-s996466855/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ad420aa6d4d60dadceb9f7529514d769416cdd8a9edf8e297aa1c25c49fa9302",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 53.512,
+        "juzgar_s": 0.204
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.6,
+          "baseline": 2.6,
+          "semilla_canonica": 16.2,
+          "M05": 20.8,
+          "M06": 2.9,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1121251351",
+      "generador": "gerrychain",
+      "semilla": 1121251351,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.010944070118896303,
+      "huella_plan": "fae55391407b110c4fc3c7ccd0076163619987a93e76ea2ad0d3f286a13d8c7f",
+      "composicion": "bateria/competicion/galicia/gerrychain-s1121251351/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4295bd374cbb20865ab1d6dd55d39133f2e056ff2daaf91926af4a8a23c0805b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 53.319,
+        "juzgar_s": 0.2
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.6,
+          "baseline": 2.5,
+          "semilla_canonica": 16.4,
+          "M05": 20.3,
+          "M06": 3.0,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1971778110",
+      "generador": "gerrychain",
+      "semilla": 1971778110,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.010975574077759913,
+      "huella_plan": "a6e643408c04b28104a2c232f074a97aae799249cf000f1b110cba2eaf842304",
+      "composicion": "bateria/competicion/galicia/gerrychain-s1971778110/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f821147663192098fa28de6523b0178d6f904f05398235c338342e53844effd5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 56.972,
+        "juzgar_s": 0.267
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.3,
+          "baseline": 2.8,
+          "semilla_canonica": 17.5,
+          "M05": 22.8,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1325857207",
+      "generador": "gerrychain",
+      "semilla": 1325857207,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011088147194260137,
+      "huella_plan": "62edfb0e121f4300a10e9523334a340f9fe097a02a56cf689f05441cacc51fb3",
+      "composicion": "bateria/competicion/galicia/gerrychain-s1325857207/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c65dd5e6b51bd1d01e15db5d428fbb16defd2ac58ed67075a9c27118b6200406",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 54.952,
+        "juzgar_s": 0.191
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.4,
+          "baseline": 2.5,
+          "semilla_canonica": 16.7,
+          "M05": 22.0,
+          "M06": 3.0,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1167476498",
+      "generador": "gerrychain",
+      "semilla": 1167476498,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011097346641580772,
+      "huella_plan": "2ca3ff9b023109d4302a5c6e6d05dcefdeef27bfc864173bcd4df969f795d666",
+      "composicion": "bateria/competicion/galicia/gerrychain-s1167476498/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "60e1636b41afcde0349cbaab9150a88bc80a9400156e5c6867bbe45c2b5a20f3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 59.333,
+        "juzgar_s": 0.216
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.8,
+          "baseline": 2.6,
+          "semilla_canonica": 16.8,
+          "M05": 24.8,
+          "M06": 3.6,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1858013400",
+      "generador": "gerrychain",
+      "semilla": 1858013400,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011101323329671417,
+      "huella_plan": "fb47ef566c83853edf4a14559ac04dc6ddb6231e824076ce0c3eae34621fc498",
+      "composicion": "bateria/competicion/galicia/gerrychain-s1858013400/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "902544f2c4d30a19aa3f18268e4935e6215ab34946d12b6b3af3b90d418a5cba",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 54.633,
+        "juzgar_s": 0.195
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.1,
+          "baseline": 2.5,
+          "semilla_canonica": 16.3,
+          "M05": 22.2,
+          "M06": 3.2,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s122614812",
+      "generador": "gerrychain",
+      "semilla": 122614812,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011111150678346497,
+      "huella_plan": "75199d034dc9a15315e95230d8390a0519e01d0844a85a16366017fc5b201e14",
+      "composicion": "bateria/competicion/galicia/gerrychain-s122614812/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b330fe57ab06211353cbf72121700d199b8e90fc5f6105232fcc0f5f01427b64",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 55.899,
+        "juzgar_s": 0.253
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.7,
+          "baseline": 2.5,
+          "semilla_canonica": 16.7,
+          "M05": 22.5,
+          "M06": 3.0,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1706253490",
+      "generador": "gerrychain",
+      "semilla": 1706253490,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011205869827124843,
+      "huella_plan": "6a6995278edb691921fbc0de1d57798e6c81d984b77891656bdfaa890d738583",
+      "composicion": "bateria/competicion/galicia/gerrychain-s1706253490/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f42653aed9ae533905fbba91bf5b3db98bd08ad44f61a4805a9f21e25f603481",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 54.443,
+        "juzgar_s": 0.211
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.7,
+          "baseline": 2.5,
+          "semilla_canonica": 15.7,
+          "M05": 22.3,
+          "M06": 2.8,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s528592927",
+      "generador": "gerrychain",
+      "semilla": 528592927,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011335357804642263,
+      "huella_plan": "e098c58d7e9d55e3df62124f1f3d83e6ad032ce82113099c530bed91c960c2f8",
+      "composicion": "bateria/competicion/galicia/gerrychain-s528592927/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bae8dc9a59e1a2f5a92bf048c118fee667c6aae8ac24d735c74702537bbe8e2c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 54.616,
+        "juzgar_s": 0.197
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.4,
+          "baseline": 2.6,
+          "semilla_canonica": 15.7,
+          "M05": 22.4,
+          "M06": 3.1,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1641210175",
+      "generador": "gerrychain",
+      "semilla": 1641210175,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.01136531331713518,
+      "huella_plan": "a750b53bd478bb9dc225558491acde23eb42fdfeb0c65361bac4b3b598a72ec5",
+      "composicion": "bateria/competicion/galicia/gerrychain-s1641210175/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9d3b24b462166d1845be1093bfea0f12cd343a758836e9ffacb12c4e260c31ec",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 57.077,
+        "juzgar_s": 0.21
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.5,
+          "baseline": 2.6,
+          "semilla_canonica": 16.1,
+          "M05": 24.5,
+          "M06": 3.1,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s469640649",
+      "generador": "gerrychain",
+      "semilla": 469640649,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011384952546411647,
+      "huella_plan": "3fcf27a19b22d7a1b6de952546de2f655334f12aae0f6523c5befbaee651fcc3",
+      "composicion": "bateria/competicion/galicia/gerrychain-s469640649/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d6e0fa5dcd6ee7efc136a0d4ff4c8fbe9c1e885db03b80b8d66a3563b5c32ff4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 56.7,
+        "juzgar_s": 0.195
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.7,
+          "baseline": 3.0,
+          "semilla_canonica": 17.4,
+          "M05": 22.0,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s316718052",
+      "generador": "gerrychain",
+      "semilla": 316718052,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011416195596773924,
+      "huella_plan": "ad2700b45f2d6742a15dbb3b49cf620f88a60fee998625465790d9de3252f224",
+      "composicion": "bateria/competicion/galicia/gerrychain-s316718052/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e705bfff966e0dee06c84c0100fa4a5fcec33eb629c285cd5bdec0e345b3bf7e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 58.342,
+        "juzgar_s": 0.174
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.4,
+          "baseline": 2.8,
+          "semilla_canonica": 16.2,
+          "M05": 25.3,
+          "M06": 3.0,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s826200377",
+      "generador": "gerrychain",
+      "semilla": 826200377,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011456898081020003,
+      "huella_plan": "5a2a685a47a0eba8926e293857256143c8fb9403cf217e78cd59816985f93134",
+      "composicion": "bateria/competicion/galicia/gerrychain-s826200377/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "16ebc8146d573670e777cf8ddd9fa83b8516170be788f129a67bf971916a53d9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 54.721,
+        "juzgar_s": 0.228
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.5,
+          "baseline": 2.6,
+          "semilla_canonica": 16.2,
+          "M05": 22.1,
+          "M06": 3.0,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s581455331",
+      "generador": "gerrychain",
+      "semilla": 581455331,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011532351897667492,
+      "huella_plan": "df111d46245099a46bef827aebaa53302f99eaaeaa1da0f9118eebc3c5a23cc2",
+      "composicion": "bateria/competicion/galicia/gerrychain-s581455331/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ee572c25bf3d57bcee96a3fa73d56836ec1e7f5a993ef7c6c36127cd6ff75a56",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 55.755,
+        "juzgar_s": 0.223
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.7,
+          "baseline": 2.5,
+          "semilla_canonica": 16.7,
+          "M05": 22.6,
+          "M06": 2.9,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1714976133",
+      "generador": "gerrychain",
+      "semilla": 1714976133,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011553848463575713,
+      "huella_plan": "ee5f3422b4a233f7f0bb0ee49af3d0d41cfa14116971c3f455847bbafd0dc181",
+      "composicion": "bateria/competicion/galicia/gerrychain-s1714976133/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2f468120e71073d8dd2a155c12219811a88731b99766f2087ff139c61e2ddede",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 56.869,
+        "juzgar_s": 0.206
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.3,
+          "baseline": 2.7,
+          "semilla_canonica": 16.4,
+          "M05": 23.7,
+          "M06": 3.1,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s960743421",
+      "generador": "gerrychain",
+      "semilla": 960743421,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011600217712473136,
+      "huella_plan": "cf31432c02d34a501452bb07792ce92a557a5ac5e012e330d1d348028720b7e6",
+      "composicion": "bateria/competicion/galicia/gerrychain-s960743421/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6cb2676118dfa9223b013fcc2bcdf79d72cf9321d6de09105f43983868b64ffa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 57.055,
+        "juzgar_s": 0.197
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.6,
+          "baseline": 2.5,
+          "semilla_canonica": 16.5,
+          "M05": 24.1,
+          "M06": 3.0,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1888704519",
+      "generador": "gerrychain",
+      "semilla": 1888704519,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011797997972904855,
+      "huella_plan": "8eb389208299b2ac1de3913621ce06691ccbbae26b17c6689e0b2b8eb1eb1244",
+      "composicion": "bateria/competicion/galicia/gerrychain-s1888704519/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a54d7c92837505f03c9093773def77ef16a327e4ca95e5bcc4b8f5e82be93749",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 55.838,
+        "juzgar_s": 0.189
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.4,
+          "baseline": 2.6,
+          "semilla_canonica": 16.7,
+          "M05": 22.6,
+          "M06": 3.1,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2053549629",
+      "generador": "gerrychain",
+      "semilla": 2053549629,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 5,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011301100508173413,
+      "huella_plan": "2e12c9d86ca657dc2e8e10c82ea64af3c2417daae758927e97dc5fc8a97e1328",
+      "composicion": "bateria/competicion/galicia/gerrychain-s2053549629/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ea3b405754a54310dbb14df4e345c044d026a9cdbf8d87e9befcf9e03ff4b7ac",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 63.067,
+        "juzgar_s": 0.217
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.8,
+          "baseline": 3.0,
+          "semilla_canonica": 17.5,
+          "M05": 27.3,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 5,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1044465731",
+      "generador": "gerrychain",
+      "semilla": 1044465731,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 5,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.011795516525108898,
+      "huella_plan": "9aee1f87a5e8d1e7c51a9883b3e0bd08c72b07603f7be41b33d7e187ac5b44ae",
+      "composicion": "bateria/competicion/galicia/gerrychain-s1044465731/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2605e73e0a415611fe7dee8b194caa9bdd06732621e62a8128747a9c5a40b8d2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 58.91,
+        "juzgar_s": 0.19
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.8,
+          "baseline": 2.7,
+          "semilla_canonica": 17.0,
+          "M05": 24.9,
+          "M06": 3.1,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 5,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.5618480519677305,
+      "ecm": 0.012080789045413477,
+      "huella_plan": "e7bf847e01a5cae64021b529c201d4054716ff0f2c95053a5073715f5f2b72d4",
+      "composicion": "bateria/competicion/galicia/canonico/galicia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "90cdfea9b6952b42df6778cde4ef481c9bd1ea0757120298a79fe103a525662b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 29.821,
+        "juzgar_s": 0.198
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.1,
+          "M05": 16.2,
+          "M06": 2.9,
+          "validacion": 1.1
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.5618,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s996466855: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "mejora_al_canonico": true
+}

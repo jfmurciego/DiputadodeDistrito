@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_la_rioja",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "954891079c090d5c754f2b51c977f9fd6016b099cc6168a575657059e4c1a61d",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_la_rioja",
+    "ancla": {
+      "population": "738be8a3867af70f4e73f6de326654f54b85abbf16d1eb6292b2ee5e0c950891",
+      "target_sectioning": "de45e84902372474b2ec6d462a972204703a60b549004f77d7dc491d9543087f"
+    },
+    "n": 20,
+    "semillas": [
+      1629856150,
+      1767199422,
+      485847332,
+      733651188,
+      1161058359,
+      1382759812,
+      1858944975,
+      641818066,
+      1951178076,
+      1371559338,
+      105190170,
+      1770657187,
+      1506476784,
+      397470801,
+      1564618798,
+      371155569,
+      1241926034,
+      931217194,
+      878787908,
+      1832643061
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "1715d7ba5a045b16c341e05cdacf0a609950da1c2efcf14cc02ee1c27cc22863",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 345.406,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015390248291868613,
+      "ecm": 1.1956210271202903e-06,
+      "huella_plan": "95f4a12812c615e6be32635f2856e2ce1b832e6cb27d18268310e4ea065fa929",
+      "composicion": "bateria/competicion/congreso_la_rioja/canonico/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8270eee168c76b55474200b56ef1182818c069cbd6f5214e449eecaf45ac0abc",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.979,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "M05": 1.3,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0015,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s485847332",
+      "generador": "gerrychain",
+      "semilla": 485847332,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015390248291868613,
+      "ecm": 1.236288932958048e-06,
+      "huella_plan": "f5bc1cae2da69c93c144bd020d7f6a5681c0c4acf88513910413a44cc8a3e9e4",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s485847332/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "314db4224afd584667fd7a8ef2516163e4bcf44ae72d5743d416d8e7d4896590",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.041,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 12.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0015,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1858944975",
+      "generador": "gerrychain",
+      "semilla": 1858944975,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015390248291868613,
+      "ecm": 1.236288932958048e-06,
+      "huella_plan": "f5bc1cae2da69c93c144bd020d7f6a5681c0c4acf88513910413a44cc8a3e9e4",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s1858944975/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "314db4224afd584667fd7a8ef2516163e4bcf44ae72d5743d416d8e7d4896590",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.507,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.8,
+          "M05": 12.3,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0015,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1506476784",
+      "generador": "gerrychain",
+      "semilla": 1506476784,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015390248291868613,
+      "ecm": 1.236288932958048e-06,
+      "huella_plan": "f5bc1cae2da69c93c144bd020d7f6a5681c0c4acf88513910413a44cc8a3e9e4",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s1506476784/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "67610ff1b52ff519e30c71d75b73fa61fb1d29863cdb84ad79b26d8b425e6971",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.801,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.9,
+          "M05": 12.5,
+          "M06": 0.9,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0015,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1241926034",
+      "generador": "gerrychain",
+      "semilla": 1241926034,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015390248291868613,
+      "ecm": 1.247206879269605e-06,
+      "huella_plan": "bcb5dbb541b96702f83cccbf05e3d4af025ed3344f65b62061444f562efa07bd",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s1241926034/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fdb57da92a8024c632b21a5027a4fd0704664bfb4ce726fb75c92fef219e630d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.89,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 12.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0015,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s641818066",
+      "generador": "gerrychain",
+      "semilla": 641818066,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015390248291868613,
+      "ecm": 1.2721621851245928e-06,
+      "huella_plan": "6da74648b888c21aa34cd1be646cd9fbd499b63efb0369fddbc798159e6d3596",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s641818066/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "dca34e086e7d2eeff74d811eb5fca733f8f5bdcd0b8493f67ecee93e6ef870fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.345,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.9,
+          "M05": 13.0,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0015,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1770657187",
+      "generador": "gerrychain",
+      "semilla": 1770657187,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015390248291868613,
+      "ecm": 1.311905820375129e-06,
+      "huella_plan": "fdf0ba71ccdff119f923adce861b0fda147e18cb85ca6696911f26a586b7b635",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s1770657187/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e4d647ffc1a1b94952fb9d1f5d7144f638fa184336d05ceb13874c05ca6bc91f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.705,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.9,
+          "M05": 13.1,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0015,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s371155569",
+      "generador": "gerrychain",
+      "semilla": 371155569,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015390248291868613,
+      "ecm": 1.3654557475222898e-06,
+      "huella_plan": "e107401c23537c2e18001ea185cd5940052347f9c467128008fbab3dc020a452",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s371155569/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "38a8b8fd3cddc0d55ee986fe741318b82af951f95fea7c7946b3aa17a339c5d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.72,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.8,
+          "M05": 12.4,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0015,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1629856150",
+      "generador": "gerrychain",
+      "semilla": 1629856150,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015390248291868613,
+      "ecm": 1.4673565797634897e-06,
+      "huella_plan": "c6ddebfece3f0c62095ce9314ca785027489e422a8fa69235a6a83440da4f033",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s1629856150/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "46694e042139fda91ad4bad3930029d3f3f9d9ed3bb01cf729287ca04b12cede",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.083,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 12.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0015,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1951178076",
+      "generador": "gerrychain",
+      "semilla": 1951178076,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015390248291868613,
+      "ecm": 1.4673565797634897e-06,
+      "huella_plan": "c6ddebfece3f0c62095ce9314ca785027489e422a8fa69235a6a83440da4f033",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s1951178076/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "46694e042139fda91ad4bad3930029d3f3f9d9ed3bb01cf729287ca04b12cede",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.87,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.8,
+          "M05": 12.6,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0015,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1564618798",
+      "generador": "gerrychain",
+      "semilla": 1564618798,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015390248291868613,
+      "ecm": 1.4673565797634897e-06,
+      "huella_plan": "c6ddebfece3f0c62095ce9314ca785027489e422a8fa69235a6a83440da4f033",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s1564618798/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bb3838f5d22d282bbcfcdb52afb5c97f18611bb4104dad0a2c2d0fcc6a367add",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.91,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.9,
+          "M05": 12.4,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0015,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s105190170",
+      "generador": "gerrychain",
+      "semilla": 105190170,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0016631397347664468,
+      "ecm": 1.7166785706665611e-06,
+      "huella_plan": "3335297a674120853e5e833b85f8253067f654fa2adb2a8c929e32609c2fb47d",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s105190170/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4c809fcadce35b42fb27c426a4a21d3ecb0c5aeb6177c822a858e1565bb15063",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.658,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.8,
+          "M05": 13.1,
+          "M06": 1.0,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0017,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1161058359",
+      "generador": "gerrychain",
+      "semilla": 1161058359,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0019423982723205144,
+      "ecm": 2.1014062025976217e-06,
+      "huella_plan": "1ebd2dd1e68ca8250786bafe3e618b9d08f318fffa54b08bcb342404e0af6f60",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s1161058359/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2f4ace7fdcbaadabf9a82f52fc273f2b538fb1ed578038490c77781ffae65ada",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.064,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.9,
+          "M05": 12.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0019,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1371559338",
+      "generador": "gerrychain",
+      "semilla": 1371559338,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0019423982723205144,
+      "ecm": 2.1014062025976217e-06,
+      "huella_plan": "d4b2e280924dbaa4809fdf3051c2f56c48b19eb6d558fe5426e6ebe069171d7a",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s1371559338/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "498ac3cec238c47efca72ce3089071317f38ec73522b707a91989bf78caf6383",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.82,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.8,
+          "M05": 12.6,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0019,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s733651188",
+      "generador": "gerrychain",
+      "semilla": 733651188,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0023705946965700848,
+      "ecm": 2.89327502819987e-06,
+      "huella_plan": "752d84959f87d989fdecc7909d55baf30646e60c4b6b308a8af7a61e204f9eb1",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s733651188/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "09f7ce213189408da3d6b31a52cb30de789c6a7444159d018f800cf69eb13ea8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.635,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.8,
+          "M05": 12.3,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0024,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s931217194",
+      "generador": "gerrychain",
+      "semilla": 931217194,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0029849634791890333,
+      "ecm": 4.456447658838683e-06,
+      "huella_plan": "2fb649808db03acf0dc8d0b7a3eb6ed47f6e3e314be605b8473bb07dd221552f",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s931217194/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c47e725985a046e4103c0d15f811d63697a6f2ec590ca0ac8ce6b2bad774fcd7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.103,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.9,
+          "M05": 12.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.003,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1767199422",
+      "generador": "gerrychain",
+      "semilla": 1767199422,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00309666689421066,
+      "ecm": 4.79473069376185e-06,
+      "huella_plan": "d8154cbc273ef0276758405376889fe271cd0f9778ee1b105a9017a8a6ce26f5",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s1767199422/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ab6c567f5fe17a325e814ee91c8936dbf2d6966dacff637bc525ec302e808a09",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.834,
+        "juzgar_s": 0.039
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.8,
+          "M05": 12.6,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0031,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s397470801",
+      "generador": "gerrychain",
+      "semilla": 397470801,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003143209983803005,
+      "ecm": 4.940592145807784e-06,
+      "huella_plan": "620a5da41c901853a5b0c2f155645042f181acaa827857d553f5721d9bda01db",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s397470801/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "40184f1dfaa35468b46f3dc52e98dcae82d8b43fad8a2c04864b835293849825",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.102,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.9,
+          "M05": 12.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0031,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1382759812",
+      "generador": "gerrychain",
+      "semilla": 1382759812,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003375925431764728,
+      "ecm": 5.71322458981348e-06,
+      "huella_plan": "1bcabf6947f3f50f4834d69bcd40068b24dd147f65f260ac3c04f81cd0ad58d5",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s1382759812/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4f2392c48116771c88ad3fac3be3343894ecc1efd0c3af66a2bda32a3b67044f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.986,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.9,
+          "M05": 12.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0034,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s878787908",
+      "generador": "gerrychain",
+      "semilla": 878787908,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003375925431764728,
+      "ecm": 5.71322458981348e-06,
+      "huella_plan": "1bcabf6947f3f50f4834d69bcd40068b24dd147f65f260ac3c04f81cd0ad58d5",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s878787908/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4f2392c48116771c88ad3fac3be3343894ecc1efd0c3af66a2bda32a3b67044f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.632,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.8,
+          "M05": 12.3,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0034,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1832643061",
+      "generador": "gerrychain",
+      "semilla": 1832643061,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0037948132380958293,
+      "ecm": 7.2859287608830176e-06,
+      "huella_plan": "8d2fc9b09c0f79a0e8f1791029d37c8fa4481c905c4677213807af77a2c33264",
+      "composicion": "bateria/competicion/congreso_la_rioja/gerrychain-s1832643061/congreso_la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c927afc7f5879af3867da0897ce81be79a7682a2537ba529d6d1a915212f99c8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.15,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.9,
+          "M05": 12.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0038,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s485847332: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_huesca",
+  "ganador": "gerrychain-s184422921",
+  "valido": true,
+  "huella_resultado": "dfd2747dd9d3392224d60e17d32e125a4126e6cbb8af92ad28775c2b5158404b",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_huesca",
+    "ancla": {
+      "population": "9467ff08186169c8b4aec49bc9bde0fd30f976c49d0fa93ba85636beb0680ed4",
+      "target_sectioning": "12da75b0ae905341f5865a229bbda5d916a1edf1b5f11f80b376304566a81eb2"
+    },
+    "n": 20,
+    "semillas": [
+      1379505751,
+      1387057101,
+      2104594254,
+      1805883527,
+      1417755764,
+      2113482729,
+      1664087847,
+      1184371343,
+      2022712355,
+      1184565056,
+      1120212067,
+      128523664,
+      2021637373,
+      484019489,
+      853469149,
+      938656193,
+      860568527,
+      512852683,
+      392502559,
+      184422921
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "1e57bd093ac842088a44855dc69093679f22769a303f200187421eb3fb7674f5",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 410.373,
+  "candidatos": [
+    {
+      "id": "gerrychain-s184422921",
+      "generador": "gerrychain",
+      "semilla": 184422921,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "adb793567921054fda1b2999de5b597e14c085b3c5b470193fba6da1639137cd",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s184422921/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d61f4632af191b18cbc8fcf425d77873727dc2ffbb318c1db330d2e4aef1fe32",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.916,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 13.8,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s128523664",
+      "generador": "gerrychain",
+      "semilla": 128523664,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00011459903560503883,
+      "ecm": 1.3132938961604957e-08,
+      "huella_plan": "d2c9c6a8c280edfea8b76f62dcde06e1c18b7244f2dc79274b89326ad0860d19",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s128523664/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f9a7cc30c302a5e7fd3666ac31e262b1473d50fbd7bac87692ed1c2f4dd88684",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.439,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 14.1,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0001,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1417755764",
+      "generador": "gerrychain",
+      "semilla": 1417755764,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00017630620862313666,
+      "ecm": 3.108387919906499e-08,
+      "huella_plan": "875490388ba11bc3083e2bce37e24e0007505fb0fe920c50c6a266d8a93b2603",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s1417755764/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "936d2009a526af5a29d9cfbdb1856e53724505b16827a6f599f95d06aec8ebf6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.774,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.7,
+          "semilla_canonica": 1.7,
+          "M05": 14.4,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0002,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s938656193",
+      "generador": "gerrychain",
+      "semilla": 938656193,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00020275213991660716,
+      "ecm": 4.110843024076345e-08,
+      "huella_plan": "2dee6fae613d6565eae89f8cc801029bebc274f899be6d6c7aeaf1eb4b582e39",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s938656193/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "348535f87358b3e0665f62d1b7ece2be48283461d576c0c38c825a06385e387d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.607,
+        "juzgar_s": 0.04
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 13.8,
+          "M06": 1.0,
+          "validacion": 0.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0002,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2113482729",
+      "generador": "gerrychain",
+      "semilla": 2113482729,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0002909052442281755,
+      "ecm": 8.462586111945443e-08,
+      "huella_plan": "521b38886dbaa67e3b2c9d0d3af4d3953357f08e6d67dff9578fc23dd282b820",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s2113482729/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ca4794106dc84c115fe9f61f5a5e1a3b506325119436c74f7e3d7a94194201bc",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.177,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.7,
+          "semilla_canonica": 1.8,
+          "M05": 13.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0003,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0006258870406121352,
+      "ecm": 3.9173458760621655e-07,
+      "huella_plan": "ef522ef58d992b099d4a34125907d37b6ea9205656a9790b45ca81516744eed8",
+      "composicion": "bateria/competicion/congreso_huesca/canonico/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "524b8c681bf79e6f82f3547b14eda4c082355a2fc8ad09d8b1aebea798e865e3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.197,
+        "juzgar_s": 0.04
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "M05": 1.8,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0006,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s853469149",
+      "generador": "gerrychain",
+      "semilla": 853469149,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.000846269801391056,
+      "ecm": 7.161725767464574e-07,
+      "huella_plan": "f2a3656669240257e82b191bef2622eee36e667599f49d70ecef4f01280aa59f",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s853469149/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "38587acb13b0787e2197a6c9da4fcaa49919a0c24ca4f2bd24fd1338c407f4f3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.817,
+        "juzgar_s": 0.034
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 13.6,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0008,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s860568527",
+      "generador": "gerrychain",
+      "semilla": 860568527,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.001216512839499643,
+      "ecm": 1.4799034886674842e-06,
+      "huella_plan": "b91f2deedbfe84b781318d734dd03cf881659e72f76854df70bf2cfdd883cdb7",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s860568527/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f6ff6b7cd1614e2225f2cf35018b01f7ac2ac968bae79f64c1585ba6aec932af",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.756,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 13.8,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0012,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1805883527",
+      "generador": "gerrychain",
+      "semilla": 1805883527,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0012958506333800544,
+      "ecm": 1.6792288640314883e-06,
+      "huella_plan": "e6d5e86d80982e15729f0ebf2931ccb93f0295275fb5291131b215da1eb2765c",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s1805883527/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d1ccc2d7759e3f04ef3f39f23c210343f4d77bfa7a273a1261d884846ce5723",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 22.068,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.9,
+          "M05": 15.7,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0013,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2021637373",
+      "generador": "gerrychain",
+      "semilla": 2021637373,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015603099463147594,
+      "ecm": 2.4345671285687675e-06,
+      "huella_plan": "4edd94c75315f32155df28036ed3852237c47bc841a4c4ec7a27ad976fec387e",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s2021637373/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9061cd75052d29b44d725cca62ed15ac19a8a48cbfdf4eb8dc442f70ce7d565a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.2,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 13.3,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0016,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1379505751",
+      "generador": "gerrychain",
+      "semilla": 1379505751,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.001692539602782112,
+      "ecm": 2.8646903069858295e-06,
+      "huella_plan": "25c3715e8a7c2b65443d147b5504f87609d144fe84462f52ae0058f8bad8c488",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s1379505751/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1a18612807aa29f878958499a7cc0c976d06d7f413afdb016b5ef07962ed1578",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.867,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 0.8,
+          "semilla_canonica": 1.9,
+          "M05": 14.0,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0017,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1184371343",
+      "generador": "gerrychain",
+      "semilla": 1184371343,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0021861969869268944,
+      "ecm": 4.779457265648233e-06,
+      "huella_plan": "9a5129497f65ac8de2f9307fb47301148548ac6494e8f05f4ee356e2f7b434d4",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s1184371343/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fd09f3fe406f4dcaa48589772c605bbb4c8ceabc2e806f3839a5370456bf1e95",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.822,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 14.3,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0022,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1664087847",
+      "generador": "gerrychain",
+      "semilla": 1664087847,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0024947328520173837,
+      "ecm": 6.22369200293479e-06,
+      "huella_plan": "a877e6d79a447ac22d4af526611cb022f03c9d7d84ea857a6593196a2576ca33",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s1664087847/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "189139f32054b332beee5c04967c80442efd9f8f072165cd4f07dc2c202f2a13",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.03,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 13.7,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0025,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1387057101",
+      "generador": "gerrychain",
+      "semilla": 1387057101,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0025123634728796973,
+      "ecm": 6.311970219860134e-06,
+      "huella_plan": "7b9b5297c5b929a9ddc0a47530a72f12e4f00a7930760c15243f5726328e61fd",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s1387057101/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "718e8115fdc848da95d622536f90bdf8f285e1f43ed3622a88069b63f9e08c51",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.69,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 14.3,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0025,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2022712355",
+      "generador": "gerrychain",
+      "semilla": 2022712355,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.002864975890125971,
+      "ecm": 8.2080868510031e-06,
+      "huella_plan": "767c4e57174de0b415bae0217e1414072c3c240e19fbaee5a7ab95ad66999a5c",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s2022712355/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "27b26119bbefae32eddc1e3bec636f76de1060a9b1fcc33e95ec0aa71d0aa972",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.228,
+        "juzgar_s": 0.047
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.7,
+          "semilla_canonica": 1.7,
+          "M05": 13.8,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0029,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s484019489",
+      "generador": "gerrychain",
+      "semilla": 484019489,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003279295480390342,
+      "ecm": 1.0753778847708524e-05,
+      "huella_plan": "16d25f072604aab1e67e0212034df7ff1c35bae44c10723f10e6bd61ac0e0374",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s484019489/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e9ac345d710378b5348d8f0687b9320f170df016f33e23119a0e7aaf0a551a75",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.23,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 13.1,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0033,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s392502559",
+      "generador": "gerrychain",
+      "semilla": 392502559,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0033321873429772828,
+      "ecm": 1.1103472488698005e-05,
+      "huella_plan": "36eb75ccf1e9cf5024eecd905b26602a43667acff5a5aae6e6e97c8d55eabd5a",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s392502559/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e8a96491e811d42aad74184d62e2bea8ab89cdaac17b3a3fcf62ff5a2ea56df2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.666,
+        "juzgar_s": 0.047
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.5,
+          "semilla_canonica": 1.7,
+          "M05": 13.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0033,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1120212067",
+      "generador": "gerrychain",
+      "semilla": 1120212067,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003587831345480831,
+      "ecm": 1.287253376361479e-05,
+      "huella_plan": "981e9fa91023f44c17a051f9fb1efe0eeab0776c5a62b42adb623cb4b19f6946",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s1120212067/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b71be223838c4209291eba0613f731d893dcaf2a2748058f4b8b81ab7a7ea5ec",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.957,
+        "juzgar_s": 0.034
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.7,
+          "semilla_canonica": 1.7,
+          "M05": 13.9,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0036,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2104594254",
+      "generador": "gerrychain",
+      "semilla": 2104594254,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0036142772767743018,
+      "ecm": 1.306300023340706e-05,
+      "huella_plan": "ce648596fe29c1f07e0b780ae4a4c60b429d959b6bd59d09509577ff09049e00",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s2104594254/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3cc4737d32cd4d002b4199d9862e10c4c5828a91c3bfa6528bf94f0b2306b3a1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.319,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 14.0,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0036,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1184565056",
+      "generador": "gerrychain",
+      "semilla": 1184565056,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004610407355495024,
+      "ecm": 2.125585598360262e-05,
+      "huella_plan": "9e0c53cd1d72f4ab28afdccf0fc0de99b9cd3217050e4d3a13d73d160ddfe7a2",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s1184565056/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f95c0700c13faacfe26b1042a03d657d64bb4fcc54954f7f2eadfbed4a37eeef",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.05,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 13.8,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0046,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s512852683",
+      "generador": "gerrychain",
+      "semilla": 512852683,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004786713564118161,
+      "ecm": 2.291262674491278e-05,
+      "huella_plan": "83b30bff137dadf485a6ebb104811c4633eaca89780fae36c171b333e346bf92",
+      "composicion": "bateria/competicion/congreso_huesca/gerrychain-s512852683/congreso_huesca_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3ac15ce35eade34b23f97c8e5c2ec417c19ec44e285414aa76c04a739ba916b1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.757,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 13.6,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0048,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s128523664: tiene menor desvío máximo (desvio_max)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "mejora_al_canonico": true
+}

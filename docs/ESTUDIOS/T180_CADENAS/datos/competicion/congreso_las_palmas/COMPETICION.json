@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_las_palmas",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "874b43676d3b1ae485214bc008ddbaa1f5ed533cb1f6cd7a27fa4afb2573423d",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_las_palmas",
+    "ancla": {
+      "population": "f4c1e225aa971fc200427e812a2e1588aa322ffdb604487e80100be416a5fd60",
+      "target_sectioning": "433a1d8cf960911cbf92a9a9972ce7f25cc2a5dca8355fa1900b5e2e5c04eb59"
+    },
+    "n": 20,
+    "semillas": [
+      1912437536,
+      1298829999,
+      426667098,
+      1654313305,
+      1294943513,
+      1788879990,
+      326162553,
+      779635355,
+      1046843314,
+      449123853,
+      590933287,
+      1390417792,
+      1977552794,
+      1892192206,
+      1543459484,
+      2097472087,
+      1849498793,
+      1126730446,
+      1823586149,
+      1754448547
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "7e22e0ed8586514f65bb8f77f23610bf3bbfc51a4c36f72c3a5426aa9f64563e",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 885.37,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06789914178014186,
+      "huella_plan": "bb8871e8e7be6009883a19dbface24e8efa68ee35700972bf0875bb28f7ad114",
+      "composicion": "bateria/competicion/congreso_las_palmas/canonico/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5e2d61f40b0bd28521602d74b10af378d083ca78ae1549dec7eb8c1ad24f6333",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 30.288,
+        "juzgar_s": 0.213
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 13.0,
+          "M05": 9.8,
+          "M06": 4.8,
+          "validacion": 2.1
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1912437536",
+      "generador": "gerrychain",
+      "semilla": 1912437536,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1912437536/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "390e34d14ef9bd34222e99cbeaea5a58f3cd558632c615b84e552555900a39f7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 55.076,
+        "juzgar_s": 0.224
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 13.3,
+          "baseline": 2.6,
+          "semilla_canonica": 9.8,
+          "M05": 23.4,
+          "M06": 3.9,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1298829999",
+      "generador": "gerrychain",
+      "semilla": 1298829999,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1298829999/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 59.767,
+        "juzgar_s": 0.183
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.2,
+          "M04": 13.2,
+          "baseline": 2.6,
+          "semilla_canonica": 10.7,
+          "M05": 26.4,
+          "M06": 4.7,
+          "validacion": 1.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s426667098",
+      "generador": "gerrychain",
+      "semilla": 426667098,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s426667098/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "390e34d14ef9bd34222e99cbeaea5a58f3cd558632c615b84e552555900a39f7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 55.699,
+        "juzgar_s": 0.191
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.2,
+          "M04": 13.4,
+          "baseline": 2.9,
+          "semilla_canonica": 9.9,
+          "M05": 22.7,
+          "M06": 4.5,
+          "validacion": 2.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1654313305",
+      "generador": "gerrychain",
+      "semilla": 1654313305,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1654313305/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "81e7ff7ca664e708b1034fb98b80b0ea62808ab0b394915939aadccddb4bfe18",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 42.907,
+        "juzgar_s": 0.272
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.2,
+          "M04": 13.5,
+          "baseline": 2.0,
+          "semilla_canonica": 7.2,
+          "M05": 15.3,
+          "M06": 3.3,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1294943513",
+      "generador": "gerrychain",
+      "semilla": 1294943513,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1294943513/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.131,
+        "juzgar_s": 0.189
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.7,
+          "baseline": 1.9,
+          "semilla_canonica": 7.1,
+          "M05": 17.7,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1788879990",
+      "generador": "gerrychain",
+      "semilla": 1788879990,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1788879990/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.483,
+        "juzgar_s": 0.185
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.6,
+          "baseline": 1.9,
+          "semilla_canonica": 6.7,
+          "M05": 14.6,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s326162553",
+      "generador": "gerrychain",
+      "semilla": 326162553,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s326162553/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 40.506,
+        "juzgar_s": 0.2
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.4,
+          "baseline": 2.1,
+          "semilla_canonica": 7.4,
+          "M05": 17.2,
+          "M06": 3.1,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s779635355",
+      "generador": "gerrychain",
+      "semilla": 779635355,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s779635355/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 40.047,
+        "juzgar_s": 0.188
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.6,
+          "baseline": 2.0,
+          "semilla_canonica": 6.9,
+          "M05": 16.8,
+          "M06": 3.2,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1046843314",
+      "generador": "gerrychain",
+      "semilla": 1046843314,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1046843314/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 40.674,
+        "juzgar_s": 0.188
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.2,
+          "baseline": 2.1,
+          "semilla_canonica": 7.0,
+          "M05": 16.6,
+          "M06": 3.1,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s449123853",
+      "generador": "gerrychain",
+      "semilla": 449123853,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s449123853/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 39.357,
+        "juzgar_s": 0.207
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.0,
+          "baseline": 2.0,
+          "semilla_canonica": 7.3,
+          "M05": 15.0,
+          "M06": 3.4,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s590933287",
+      "generador": "gerrychain",
+      "semilla": 590933287,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s590933287/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 40.016,
+        "juzgar_s": 0.266
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.8,
+          "baseline": 1.9,
+          "semilla_canonica": 7.6,
+          "M05": 15.8,
+          "M06": 3.4,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1390417792",
+      "generador": "gerrychain",
+      "semilla": 1390417792,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1390417792/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 42.988,
+        "juzgar_s": 0.198
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.2,
+          "baseline": 2.0,
+          "semilla_canonica": 8.0,
+          "M05": 18.0,
+          "M06": 3.4,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1977552794",
+      "generador": "gerrychain",
+      "semilla": 1977552794,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1977552794/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 40.516,
+        "juzgar_s": 0.184
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.1,
+          "baseline": 2.0,
+          "semilla_canonica": 7.4,
+          "M05": 16.3,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1892192206",
+      "generador": "gerrychain",
+      "semilla": 1892192206,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1892192206/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 40.656,
+        "juzgar_s": 0.198
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.5,
+          "baseline": 2.1,
+          "semilla_canonica": 7.1,
+          "M05": 17.2,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1543459484",
+      "generador": "gerrychain",
+      "semilla": 1543459484,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1543459484/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 39.853,
+        "juzgar_s": 0.171
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.1,
+          "baseline": 2.1,
+          "semilla_canonica": 7.7,
+          "M05": 14.9,
+          "M06": 3.5,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2097472087",
+      "generador": "gerrychain",
+      "semilla": 2097472087,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s2097472087/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.891,
+        "juzgar_s": 0.172
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.4,
+          "baseline": 2.0,
+          "semilla_canonica": 7.2,
+          "M05": 14.6,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1849498793",
+      "generador": "gerrychain",
+      "semilla": 1849498793,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1849498793/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1e42159d4242811a16c2997b38acb0cf9407eb8739cb6308bd2758179227e633",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.055,
+        "juzgar_s": 0.189
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.1,
+          "baseline": 2.0,
+          "semilla_canonica": 6.9,
+          "M05": 14.6,
+          "M06": 3.0,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1126730446",
+      "generador": "gerrychain",
+      "semilla": 1126730446,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1126730446/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 38.43,
+        "juzgar_s": 0.173
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.7,
+          "baseline": 1.9,
+          "semilla_canonica": 6.8,
+          "M05": 15.1,
+          "M06": 3.2,
+          "validacion": 1.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1823586149",
+      "generador": "gerrychain",
+      "semilla": 1823586149,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1823586149/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 39.386,
+        "juzgar_s": 0.185
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.7,
+          "baseline": 2.0,
+          "semilla_canonica": 7.0,
+          "M05": 15.6,
+          "M06": 3.5,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1754448547",
+      "generador": "gerrychain",
+      "semilla": 1754448547,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.658522153558559,
+      "ecm": 0.06971488408375902,
+      "huella_plan": "daa2b6125cfb368bda09a784964de5ae600886647ab9816491fab3cecb9c5690",
+      "composicion": "bateria/competicion/congreso_las_palmas/gerrychain-s1754448547/congreso_las_palmas_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "54941569c3466a2d167130c8c8e71b55e99fd5220bb2ec5e2ef35b8137fbb6fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.475,
+        "juzgar_s": 0.192
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.0,
+          "baseline": 2.1,
+          "semilla_canonica": 7.1,
+          "M05": 17.6,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6585,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.4,
+          "municipios_partidos": null
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1912437536: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

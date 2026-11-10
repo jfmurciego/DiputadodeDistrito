@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_murcia",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "d83371c9f5bbac5fe0b4d39274cb139e859afd400a56e2ce37a087bf3f6ee6ad",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_murcia",
+    "ancla": {
+      "population": "975e8557b92ff1875f4f3ff6a5d50afc5c52dc5314df8f7dd03a9dd35c1f8a04",
+      "target_sectioning": "9430d09d5c21d9d64006660dac09136f5e93a14c3a2681c68201d8721204244b"
+    },
+    "n": 20,
+    "semillas": [
+      1002246578,
+      349903326,
+      139280543,
+      1976565836,
+      334724815,
+      1629344663,
+      73461773,
+      1712416920,
+      248268233,
+      366797348,
+      604214635,
+      241557462,
+      2054187010,
+      611764679,
+      1201635458,
+      1913314161,
+      1704726310,
+      1610053820,
+      93796291,
+      1737309480
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "74dbc3b28bf4598b1d9307276099d8213e4c1d256dfa18d3d97eb2e4d9e5b11f",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 762.168,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.04393172509011576,
+      "huella_plan": "b99583b8a4937b715566e7c60c7670964ad529399b756417fe228f82c8fc16b6",
+      "composicion": "bateria/competicion/congreso_murcia/canonico/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8cbb0a4accfca16a6aa767cacb93e4e75195a766bb68aed9704d48fb25262068",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 29.561,
+        "juzgar_s": 0.13
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.7,
+          "M05": 2.9,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1002246578",
+      "generador": "gerrychain",
+      "semilla": 1002246578,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.04467607786673815,
+      "huella_plan": "1fab35cdbbf794e633159a84eb4ab061ece2dfe4e9a43331c35f7bd0b25f1389",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s1002246578/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a88d2eeb5f5c5027294e6dd21d9ca8d53f9308024e841c0757b2f6b7d237bc22",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.69,
+        "juzgar_s": 0.099
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.8,
+          "baseline": 1.5,
+          "M05": 7.4,
+          "M06": 1.9,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s366797348",
+      "generador": "gerrychain",
+      "semilla": 366797348,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.044677073896196955,
+      "huella_plan": "777ee99b906dfcf05459348b6a9892f687d6230088347712c0f6928b0b1da884",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s366797348/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b17f045a4be1db6060717c90bb0732b2fc82d172fac414e4c4f71d37a30587a1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.354,
+        "juzgar_s": 0.084
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.1,
+          "baseline": 1.5,
+          "M05": 7.3,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s248268233",
+      "generador": "gerrychain",
+      "semilla": 248268233,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.04472523243561743,
+      "huella_plan": "7840e6d619b15eda95ffda022c83b2a85b3225a281e48c06b176fe15d9b80b98",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s248268233/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2e6e2a1769965e7d4aa5179c0d5ef02fa61fbfaedb3891f5383b763a6cb60264",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.935,
+        "juzgar_s": 0.091
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.7,
+          "baseline": 1.8,
+          "M05": 6.8,
+          "M06": 1.7,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s334724815",
+      "generador": "gerrychain",
+      "semilla": 334724815,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.0447257075683847,
+      "huella_plan": "b0a2c70f2e0c4666d3e5e7877e5b57fbde57c9d884cb10d92909a037b35892db",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s334724815/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5caf9de295280760125badb69e8baee8c61cd5966130c0992b887ae725dc1c85",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.343,
+        "juzgar_s": 0.086
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 25.2,
+          "baseline": 1.6,
+          "M05": 7.9,
+          "M06": 1.6,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1913314161",
+      "generador": "gerrychain",
+      "semilla": 1913314161,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.044914358223744254,
+      "huella_plan": "f1b7e67817643de120c4274483f3fff2aae904edd6534fd11085cab02dfea046",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s1913314161/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d2279dd1f359536dc58e08b2a97dc5ef1116b8b166b694aa2141549c02cb2948",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.332,
+        "juzgar_s": 0.135
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.5,
+          "baseline": 1.7,
+          "M05": 7.5,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1712416920",
+      "generador": "gerrychain",
+      "semilla": 1712416920,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.04494505162773441,
+      "huella_plan": "e79a356fc2fc591295937844bdf6f247bd84e4ff12e091e4b269b314eb2a0c57",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s1712416920/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e4faef7fb990aba8737430827ac47d0f8f94722d840cfa54e97dcc77a27ea86f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.916,
+        "juzgar_s": 0.085
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 25.2,
+          "baseline": 1.8,
+          "M05": 8.0,
+          "M06": 1.8,
+          "validacion": 1.0
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1201635458",
+      "generador": "gerrychain",
+      "semilla": 1201635458,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.04494796021776009,
+      "huella_plan": "c0c704a0a5cc593011ee2e922115ea1b6fe54ed3cfa1864e7309dde00def611c",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s1201635458/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b570bbfe758e9eb660eb1172ee72c66f45ba777249801102cf77e9c156f390fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.378,
+        "juzgar_s": 0.108
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.5,
+          "baseline": 1.6,
+          "M05": 7.5,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s241557462",
+      "generador": "gerrychain",
+      "semilla": 241557462,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.04494907520318627,
+      "huella_plan": "f0e6c5a37fbc0e8a91ec9b8acb655290acc4a9e8af84a8e051ca3c452caa9775",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s241557462/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "061371c54be5d4bc4984695c5d062bc31979d8f809e90fd1b894bef5ab58d884",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.11,
+        "juzgar_s": 0.109
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.5,
+          "baseline": 1.5,
+          "M05": 7.6,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s139280543",
+      "generador": "gerrychain",
+      "semilla": 139280543,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.04496447313313244,
+      "huella_plan": "86e39187bb914a2d4b83db2f880595ef5426976b95f85dfb0951567aed9eff0e",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s139280543/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "de1ab422ffb116bca13483ba053ce210e3542f79d11aa8935b96d75bb17b0688",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.925,
+        "juzgar_s": 0.111
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 25.5,
+          "baseline": 1.6,
+          "M05": 7.1,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1629344663",
+      "generador": "gerrychain",
+      "semilla": 1629344663,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.04497450864987635,
+      "huella_plan": "bd53566a299a83fd0e1fe2069b476bbe7bfc3da56679945ce99eeff5a6c024fa",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s1629344663/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a60592c625b6af75b9fe6e26f6d091eea10c0d4efd0c52ddffc162779c2baf27",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.438,
+        "juzgar_s": 0.088
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 25.0,
+          "baseline": 1.6,
+          "M05": 7.9,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1737309480",
+      "generador": "gerrychain",
+      "semilla": 1737309480,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.04498157864705029,
+      "huella_plan": "61e12c5f59e16cde1cb65ddda41e6ed1ab4eb7360bd87611dc83d5134037ad82",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s1737309480/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "baf98944a9a1bc4766c856df332746c076c3ffb097738ce3b87378c8217c44af",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.461,
+        "juzgar_s": 0.091
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.5,
+          "baseline": 1.6,
+          "M05": 7.3,
+          "M06": 2.0,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1976565836",
+      "generador": "gerrychain",
+      "semilla": 1976565836,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.04501223589775624,
+      "huella_plan": "1d1624d9803b35c2eb2d604b4ba60f16a48014d642b5d039ea1014969e83aa3d",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s1976565836/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ee9046aa8f224df48a546e53c291ce2982bd97af674abf211f3d4bf74948dfd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.371,
+        "juzgar_s": 0.096
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.3,
+          "baseline": 1.7,
+          "M05": 6.8,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s349903326",
+      "generador": "gerrychain",
+      "semilla": 349903326,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.0450448063137435,
+      "huella_plan": "f533d772768b94cb2af9b124c2b687f99127292739038c90c52afe2a7c4d044f",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s349903326/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14e82469680a0cc672c510b468b41881b55d558b375965f65e33eb095667ea61",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.75,
+        "juzgar_s": 0.098
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.5,
+          "baseline": 1.5,
+          "M05": 7.9,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s73461773",
+      "generador": "gerrychain",
+      "semilla": 73461773,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.0450448063137435,
+      "huella_plan": "f533d772768b94cb2af9b124c2b687f99127292739038c90c52afe2a7c4d044f",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s73461773/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14e82469680a0cc672c510b468b41881b55d558b375965f65e33eb095667ea61",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.62,
+        "juzgar_s": 0.085
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 25.6,
+          "baseline": 1.6,
+          "M05": 7.6,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s604214635",
+      "generador": "gerrychain",
+      "semilla": 604214635,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.0450448063137435,
+      "huella_plan": "f533d772768b94cb2af9b124c2b687f99127292739038c90c52afe2a7c4d044f",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s604214635/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14e82469680a0cc672c510b468b41881b55d558b375965f65e33eb095667ea61",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.248,
+        "juzgar_s": 0.098
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.5,
+          "baseline": 1.5,
+          "M05": 8.6,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2054187010",
+      "generador": "gerrychain",
+      "semilla": 2054187010,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.0450448063137435,
+      "huella_plan": "f533d772768b94cb2af9b124c2b687f99127292739038c90c52afe2a7c4d044f",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s2054187010/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14e82469680a0cc672c510b468b41881b55d558b375965f65e33eb095667ea61",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.282,
+        "juzgar_s": 0.096
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.9,
+          "baseline": 1.6,
+          "M05": 6.9,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1704726310",
+      "generador": "gerrychain",
+      "semilla": 1704726310,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.0450448063137435,
+      "huella_plan": "f533d772768b94cb2af9b124c2b687f99127292739038c90c52afe2a7c4d044f",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s1704726310/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14e82469680a0cc672c510b468b41881b55d558b375965f65e33eb095667ea61",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.042,
+        "juzgar_s": 0.093
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.1,
+          "baseline": 1.6,
+          "M05": 7.7,
+          "M06": 1.7,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1610053820",
+      "generador": "gerrychain",
+      "semilla": 1610053820,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.0450448063137435,
+      "huella_plan": "f533d772768b94cb2af9b124c2b687f99127292739038c90c52afe2a7c4d044f",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s1610053820/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14e82469680a0cc672c510b468b41881b55d558b375965f65e33eb095667ea61",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.82,
+        "juzgar_s": 0.095
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.4,
+          "baseline": 1.6,
+          "M05": 8.1,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s93796291",
+      "generador": "gerrychain",
+      "semilla": 93796291,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.0450448063137435,
+      "huella_plan": "f533d772768b94cb2af9b124c2b687f99127292739038c90c52afe2a7c4d044f",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s93796291/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14e82469680a0cc672c510b468b41881b55d558b375965f65e33eb095667ea61",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.67,
+        "juzgar_s": 0.096
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 25.3,
+          "baseline": 1.5,
+          "M05": 7.1,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s611764679",
+      "generador": "gerrychain",
+      "semilla": 611764679,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.6926632347141056,
+      "ecm": 0.04792186171287032,
+      "huella_plan": "567017f950306a54ebcd990e9897f22165d1272d9c7f036f256e8e7a55bc4704",
+      "composicion": "bateria/competicion/congreso_murcia/gerrychain-s611764679/congreso_murcia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3e2be6b0b0db036ac0df66652947876405eae06cf1a3ba3f297311ea430be475",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.839,
+        "juzgar_s": 0.11
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 25.1,
+          "baseline": 1.5,
+          "M05": 7.5,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6927,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1002246578: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

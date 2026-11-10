@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_caceres",
+  "ganador": "gerrychain-s926656973",
+  "valido": true,
+  "huella_resultado": "880843f4b47f7edfc70f1803d600964056cd23670dbd26b5476b8d29ec82da72",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_caceres",
+    "ancla": {
+      "population": "cf9983cb95c2fffedc2624a521ba0b850a43eeaead03c230da85589dfaee125f",
+      "target_sectioning": "3ef1b8d39bc5523977bc10b8b0acde5380660f360e0a5d6fff5c03497a3402d0"
+    },
+    "n": 20,
+    "semillas": [
+      337618436,
+      1523311011,
+      325569649,
+      78150217,
+      982778649,
+      1304563623,
+      469583271,
+      528542050,
+      678971898,
+      926731589,
+      1990078503,
+      926656973,
+      1357348325,
+      1735628966,
+      731437064,
+      440432107,
+      581222657,
+      832909131,
+      640126318,
+      1928186611
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "765b71dbbf824bf3ef8e7890cad70eee600437dfd86510869e1f7c353e693d08",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 436.069,
+  "candidatos": [
+    {
+      "id": "gerrychain-s926656973",
+      "generador": "gerrychain",
+      "semilla": 926656973,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.000301346788338652,
+      "ecm": 4.708660799215868e-08,
+      "huella_plan": "468b4287ca836962076c7a1573028d99e1b7d1e3b615afa6c27330157c882260",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s926656973/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "945daa56c3d21eb30c68482c9cfc7652357e6729cdc0d5bfe1ad74b0b7215dc7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.955,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 13.0,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0003,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.000301346788338652,
+      "ecm": 4.708660799215868e-08,
+      "huella_plan": "a68735d24cd35526099e9d9e2dcbea651d377ecded059c5c73faad1fc0e90cc1",
+      "composicion": "bateria/competicion/congreso_caceres/canonico/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1fcbf616669979cdd274a8b65730ddd2e146180f6c04f241b38a9cd9b80e7ac7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.988,
+        "juzgar_s": 0.06
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.1,
+          "M05": 2.2,
+          "M06": 1.3,
+          "validacion": 0.9
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0003,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s337618436",
+      "generador": "gerrychain",
+      "semilla": 337618436,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.000301346788338652,
+      "ecm": 4.708660799215868e-08,
+      "huella_plan": "a68735d24cd35526099e9d9e2dcbea651d377ecded059c5c73faad1fc0e90cc1",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s337618436/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1fcbf616669979cdd274a8b65730ddd2e146180f6c04f241b38a9cd9b80e7ac7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.686,
+        "juzgar_s": 0.058
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.1,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 13.3,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0003,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1735628966",
+      "generador": "gerrychain",
+      "semilla": 1735628966,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.000610420417403936,
+      "ecm": 1.9467506313579723e-07,
+      "huella_plan": "dd097b0af6aa951ba39233a8da02e221b1e243604c96a7804cdd275a884a3b09",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s1735628966/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "07aed99c0998bc7739ce122555c93b98a62dac0ae6d3f81b3407b649292f4190",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.723,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 12.8,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0006,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s982778649",
+      "generador": "gerrychain",
+      "semilla": 982778649,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015530949860530524,
+      "ecm": 1.4451170552589224e-06,
+      "huella_plan": "736b97b7abd39715eea668423023d61a7079213f24227a8dbe9927bd26a7ee5e",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s982778649/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "32117e868a0c83352adca51c87482b6e5f69f34efabf9c834c1cf0182f0c09d0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.616,
+        "juzgar_s": 0.058
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.4,
+          "M05": 13.2,
+          "M06": 1.4,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0016,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s926731589",
+      "generador": "gerrychain",
+      "semilla": 926731589,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.001900802818751497,
+      "ecm": 1.969557585186803e-06,
+      "huella_plan": "a201d10168a471e47d36c510f9e342c6a57b4fdb07868c3754810eeb60d9bd3b",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s926731589/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8dfe5b7d83dd5d2b6d39ac013637e2177988c7ac28ee8c1528f97c646cf10869",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.708,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 0.8,
+          "semilla_canonica": 2.3,
+          "M05": 13.5,
+          "M06": 1.3,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0019,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1928186611",
+      "generador": "gerrychain",
+      "semilla": 1928186611,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0025112232361554332,
+      "ecm": 3.1614895910474827e-06,
+      "huella_plan": "d2b7cdf7e7780b0a050e6c356721815255bd88d105663502951975dc9022ba1d",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s1928186611/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "dad55688dedb4f7a466ea4610635c4135d1b617f35fe322e537f0bebd1f9ae4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.505,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 12.6,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0025,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s78150217",
+      "generador": "gerrychain",
+      "semilla": 78150217,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0027893895023141887,
+      "ecm": 4.1053710973247865e-06,
+      "huella_plan": "8e58367576e67539eb8986bb9c8dd7a8366f6636fe93c194f8db50b9a7ea1976",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s78150217/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "85e01955414fbd70aef0a9882ecf360c93981142530c421be68ca55476dbf1f1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 22.052,
+        "juzgar_s": 0.065
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.1,
+          "baseline": 0.8,
+          "semilla_canonica": 2.5,
+          "M05": 13.3,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0028,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1304563623",
+      "generador": "gerrychain",
+      "semilla": 1304563623,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003028921564839784,
+      "ecm": 4.590406942626939e-06,
+      "huella_plan": "fd38f3a45584e82050f726aede452cc4465cbc86f5235d8239b640e7856ad83f",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s1304563623/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e917080d1461e6ef0d735b35924b4ad6e7b470148262fe5d749350b453e52d4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 22.295,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 14.1,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.003,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s325569649",
+      "generador": "gerrychain",
+      "semilla": 325569649,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0031448241757392656,
+      "ecm": 5.542248991252875e-06,
+      "huella_plan": "a414c4a8755aaf81324d62d476d392cba0dd14bfce28ff4ea3e93b729433155c",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s325569649/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f9c96df357c749480ba2c9e4f7dbe7e0bf78009a5cec746506cc9d5ce492d08a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 22.438,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.2,
+          "baseline": 0.7,
+          "semilla_canonica": 2.5,
+          "M05": 13.6,
+          "M06": 1.4,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0031,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1990078503",
+      "generador": "gerrychain",
+      "semilla": 1990078503,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003461624645531182,
+      "ecm": 7.210380640408725e-06,
+      "huella_plan": "8279b6a7d113777ba220e5227da4c9d84cc8197fe40b3ef3035aecdd6cd9f53c",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s1990078503/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e0b2e3b4580c74bdbfd0ffe2fd27007878cc3d4dd0d1e02cc2ed7c8d4d1cd829",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.483,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.2,
+          "baseline": 0.7,
+          "semilla_canonica": 2.4,
+          "M05": 13.0,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0035,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s832909131",
+      "generador": "gerrychain",
+      "semilla": 832909131,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0036161614600638235,
+      "ecm": 6.994013099372905e-06,
+      "huella_plan": "2c7427d4dc59f6a7f738923f252b3c96fc5f8580f0b5fb9e166cf54cd926cf15",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s832909131/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "706dfaddf4ba533a97945bb8f08c8cb669994c9008ba0d6aa13f8d26e4ae45a6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.623,
+        "juzgar_s": 0.054
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 12.7,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0036,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s528542050",
+      "generador": "gerrychain",
+      "semilla": 528542050,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003724337230236673,
+      "ecm": 7.229724758315901e-06,
+      "huella_plan": "96d7b3d57423cef37b800354aa4500dd37c41da96dfba6263a752cefeb29c52c",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s528542050/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "94497283518ed3d040f0cf8a692f05e27179600615edc92052b2f44343647c96",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.829,
+        "juzgar_s": 0.058
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 0.7,
+          "semilla_canonica": 2.4,
+          "M05": 13.3,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0037,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s678971898",
+      "generador": "gerrychain",
+      "semilla": 678971898,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003863420363316051,
+      "ecm": 8.167078619867327e-06,
+      "huella_plan": "a5f40e821bb2b50ea6ac8c577236d741f7aab2a5c3dd13ff0ac69462592d90af",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s678971898/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "90737c34f8c59d5e254cddccd169d5f3eda77b79d5de20751de071cfd4823d4f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.322,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 13.2,
+          "M06": 1.4,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0039,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1357348325",
+      "generador": "gerrychain",
+      "semilla": 1357348325,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004056591381481854,
+      "ecm": 1.0379552154822637e-05,
+      "huella_plan": "0baf1869d97573801613d7494cb869f113a75da2a13dc9f9928cbc3113f2abed",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s1357348325/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "37c98269bff4ce7c96406a9d51fdf534d202ee0e4588ba74f3ccabfe9f8c7686",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.925,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 12.8,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s640126318",
+      "generador": "gerrychain",
+      "semilla": 640126318,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004303850284734081,
+      "ecm": 9.960349994743673e-06,
+      "huella_plan": "c30073b60917f97afbace4dea7f6dff1fee5446e015781b13479e355a0c5e838",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s640126318/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "92dc090618313d9c223cda3d6f72844ee1a97e503f273082ac497af9a63dc781",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.897,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 13.0,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0043,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s731437064",
+      "generador": "gerrychain",
+      "semilla": 731437064,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004466113939993355,
+      "ecm": 1.0411911759469827e-05,
+      "huella_plan": "056dc6186b2512f856e8f5343202026b98319dad5082925e3a1bfcabbe608879",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s731437064/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b348c8f8144da98ea720b58e79c7de1f29f56298a44a0158333bd2052bf5d554",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.718,
+        "juzgar_s": 0.054
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 12.9,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0045,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s440432107",
+      "generador": "gerrychain",
+      "semilla": 440432107,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004551109187986308,
+      "ecm": 1.0400966013740458e-05,
+      "huella_plan": "fd58082ed0d91f19cbc988db4e3a0246c08834c893de0376f693656ecb1f5e78",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s440432107/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "05046ed52e536182de7653d8e80156f4514de9bf86a11ece5101953c3925378b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.089,
+        "juzgar_s": 0.054
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.4,
+          "M05": 13.2,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0046,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s581222657",
+      "generador": "gerrychain",
+      "semilla": 581222657,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004589743391619469,
+      "ecm": 1.265678470178407e-05,
+      "huella_plan": "0e55cac46f2e11e1afc43565eb0d7289cef2a0ca76c64bb1bdb0f4cc5df52e04",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s581222657/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f3ffed761f956bf20656af4fe50a10cfdfa4820e6f18d134b9c4f6d76d3ae0fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.575,
+        "juzgar_s": 0.054
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.2,
+          "M05": 12.8,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0046,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s469583271",
+      "generador": "gerrychain",
+      "semilla": 469583271,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004651558117432526,
+      "ecm": 1.0828685954132458e-05,
+      "huella_plan": "021066c3de9f17db1362c443d168ba81b8f996e5aed20dc39c180341b796b59e",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s469583271/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2bd6dbaed47f88943dfa55741725cdeb05e4cc92cdc3d682b76adffab27b2d59",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.547,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.1,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 13.3,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0047,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1523311011",
+      "generador": "gerrychain",
+      "semilla": 1523311011,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00474428020615211,
+      "ecm": 1.3741766821190878e-05,
+      "huella_plan": "51d12dd5323e84ac4e0c79cf338f11cb7dc30c7244e4fb806c740ffc945d0b3f",
+      "composicion": "bateria/competicion/congreso_caceres/gerrychain-s1523311011/congreso_caceres_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5f69e8309a30289475142e71a0cc04401c9e8652d49f9ed9ad853fa33398eeaa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.881,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.1,
+          "baseline": 0.7,
+          "semilla_canonica": 2.5,
+          "M05": 13.3,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0047,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a canonico: desempate determinista por huella del plan (huella_plan)",
+  "motivo_frente_al_canonico": "frente a canonico: desempate determinista por huella del plan (huella_plan)",
+  "mejora_al_canonico": false
+}

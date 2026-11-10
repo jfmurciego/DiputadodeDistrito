@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "melilla",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "642fbe82e3724009d3bde9ea034945613321876a426b4c561a043aa23e63962e",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "melilla",
+    "ancla": {
+      "population": "892d722de3ccd76619bf0180e5f0349a5736afd9b0f5a143b7a0e6af79c2e92f",
+      "target_sectioning": "c93288cce451efb7c6cf96f8f8075017a986b40a9cd8670c92ad02adefcd1cf1"
+    },
+    "n": 20,
+    "semillas": [
+      927694582,
+      853787893,
+      1171717528,
+      873270023,
+      919352784,
+      1315161356,
+      34795778,
+      90531193,
+      1639448961,
+      1616156794,
+      1631945737,
+      345853150,
+      1789513075,
+      1220637039,
+      1220068236,
+      377847676,
+      610712780,
+      455652015,
+      995901584,
+      392806757
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "79b08802126f40f1a95417faebb230026b4c1181107655bd66723f3b4259789c",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 96.653,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/canonico/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 3.632,
+        "juzgar_s": 0.011
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "M05": 0.9,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s927694582",
+      "generador": "gerrychain",
+      "semilla": 927694582,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s927694582/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.379,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s853787893",
+      "generador": "gerrychain",
+      "semilla": 853787893,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s853787893/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.753,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.7,
+          "M05": 1.4,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1171717528",
+      "generador": "gerrychain",
+      "semilla": 1171717528,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s1171717528/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.735,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.7,
+          "M05": 1.4,
+          "M06": 0.8,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s873270023",
+      "generador": "gerrychain",
+      "semilla": 873270023,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s873270023/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.482,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s919352784",
+      "generador": "gerrychain",
+      "semilla": 919352784,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s919352784/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.616,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.6,
+          "M05": 1.5,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1315161356",
+      "generador": "gerrychain",
+      "semilla": 1315161356,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s1315161356/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.451,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s34795778",
+      "generador": "gerrychain",
+      "semilla": 34795778,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s34795778/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.793,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.6,
+          "M05": 1.6,
+          "M06": 0.8,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s90531193",
+      "generador": "gerrychain",
+      "semilla": 90531193,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s90531193/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.958,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.7,
+          "M05": 1.6,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1639448961",
+      "generador": "gerrychain",
+      "semilla": 1639448961,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s1639448961/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.386,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1616156794",
+      "generador": "gerrychain",
+      "semilla": 1616156794,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s1616156794/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.61,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.6,
+          "M05": 1.5,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1631945737",
+      "generador": "gerrychain",
+      "semilla": 1631945737,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s1631945737/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.319,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s345853150",
+      "generador": "gerrychain",
+      "semilla": 345853150,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s345853150/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.651,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.7,
+          "M05": 1.5,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1789513075",
+      "generador": "gerrychain",
+      "semilla": 1789513075,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s1789513075/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.582,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.7,
+          "M05": 1.4,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1220637039",
+      "generador": "gerrychain",
+      "semilla": 1220637039,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s1220637039/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.706,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.7,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1220068236",
+      "generador": "gerrychain",
+      "semilla": 1220068236,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s1220068236/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.843,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.7,
+          "M05": 1.6,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s377847676",
+      "generador": "gerrychain",
+      "semilla": 377847676,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s377847676/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.68,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.8,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s610712780",
+      "generador": "gerrychain",
+      "semilla": 610712780,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s610712780/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.695,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.6,
+          "M05": 1.5,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s455652015",
+      "generador": "gerrychain",
+      "semilla": 455652015,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s455652015/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.633,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.6,
+          "M05": 1.6,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s995901584",
+      "generador": "gerrychain",
+      "semilla": 995901584,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s995901584/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.914,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.6,
+          "M05": 1.6,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s392806757",
+      "generador": "gerrychain",
+      "semilla": 392806757,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.749850864983098,
+      "ecm": 0.17861860041891728,
+      "huella_plan": "f03dcfe4fbbadcf2a16af2b5694002a29442a25c57a9a7061b3a2bfd091f735c",
+      "composicion": "bateria/competicion/melilla/gerrychain-s392806757/melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d643eee2abe6295b7497fc4ffc026d54fb067c4f8b83a4f7b750a4b37cac336",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.667,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.7,
+          "M05": 1.5,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7499,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.5,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s927694582: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

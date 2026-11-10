@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_granada",
+  "ganador": "gerrychain-s1518486081",
+  "valido": true,
+  "huella_resultado": "cf738c6fc46a5c9de16e82b33b867167a4f726dad2debf1f8be7a4e5f6e52f8c",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_granada",
+    "ancla": {
+      "population": "690af754b3ce71130ee0cb781d58a74768c14d5f13ff440a0089996ff8093ce8",
+      "target_sectioning": "4c5b7caaf3cfb69211ea7c2d01c7670743fff925204d7cfbb9f1444bfd163d35"
+    },
+    "n": 20,
+    "semillas": [
+      896922893,
+      72478774,
+      2128233438,
+      1617400645,
+      1418922535,
+      2026556048,
+      1213876789,
+      1372500495,
+      1518486081,
+      1116100602,
+      1409069772,
+      208510170,
+      1627981049,
+      1292308740,
+      1428187670,
+      1530359019,
+      1295767552,
+      1593364812,
+      1306160980,
+      1834776990
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "e3fd65a278c18ec4041994ae5fb562c82bfbf887f5817c67062558a796ea4831",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 377.798,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1518486081",
+      "generador": "gerrychain",
+      "semilla": 1518486081,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.024751839258643875,
+      "ecm": 0.0001969248441866599,
+      "huella_plan": "95e4d8a5acd33807bb0d1d84b74d810a1fa3220c21d327125a266a96783a01bc",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1518486081/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "820b5367674349bd9ea217978d85468cff264adf563f8f1f0b37eff22445bba9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.393,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.8,
+          "M05": 8.5,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0248,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s72478774",
+      "generador": "gerrychain",
+      "semilla": 72478774,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.02552265778226946,
+      "ecm": 0.00019781944189166734,
+      "huella_plan": "dd4f9ceb6080cb599065f8e25e708453af1ed4d7e14b9d08300c406392c264dc",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s72478774/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d6cefb1c40ff892ae2dc7919c55e12140d8d52af622563d2c2c22d51302c3904",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.137,
+        "juzgar_s": 0.075
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.7,
+          "M05": 8.4,
+          "M06": 1.5,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0255,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1116100602",
+      "generador": "gerrychain",
+      "semilla": 1116100602,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.028049229609708886,
+      "ecm": 0.00025781831629655925,
+      "huella_plan": "88efb79bca80a9a82684bd0eaa2572ba95d15b8566a09f8f4b2fd31b757aaa90",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1116100602/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ac1d938d1e65d97a002803e303523868085cd76033871afe6aed46a9eb39f007",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.423,
+        "juzgar_s": 0.071
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.8,
+          "semilla_canonica": 2.8,
+          "M05": 8.5,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.028,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1617400645",
+      "generador": "gerrychain",
+      "semilla": 1617400645,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.028134876112333954,
+      "ecm": 0.0003207137632103443,
+      "huella_plan": "f833185225d436823c982c98320f8f5f469092ad1dfe7304c4d050172246afc4",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1617400645/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14edd9021f4d5f5de229f6a157ba8f44eac149a1ff026bef60c9199bf1a8ea2c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.346,
+        "juzgar_s": 0.075
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.8,
+          "M05": 8.5,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0281,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1306160980",
+      "generador": "gerrychain",
+      "semilla": 1306160980,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.030036228470610403,
+      "ecm": 0.00048827910380901286,
+      "huella_plan": "1af911e0b345714b6263f2dfd3324691eff3e3a335017287bff4540c0e7d502f",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1306160980/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0d135d42cb5438d0264a97b239d72fc405003cefd3619f5a16fb1183cf199100",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.382,
+        "juzgar_s": 0.063
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.9,
+          "M05": 8.4,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.03,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1409069772",
+      "generador": "gerrychain",
+      "semilla": 1409069772,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03248571844568727,
+      "ecm": 0.0004910801887453916,
+      "huella_plan": "619458f93ee5321997df109b49144319dbf8468f0894da5148d08b01e30ea1c0",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1409069772/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a70b6646bd8de0fbeaefc2c61050f2e8f0486760b1ba11f2033381f0ba7b8c1d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.159,
+        "juzgar_s": 0.089
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.6,
+          "M05": 8.5,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0325,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1627981049",
+      "generador": "gerrychain",
+      "semilla": 1627981049,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.033530605777713066,
+      "ecm": 0.00027501468001586563,
+      "huella_plan": "f52ab08b8a0b59a30eaf6ce7fd940a30ef3d277d19ea681b675f25c9cc853f3c",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1627981049/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "26291e071bf212aaf976268f1e2308a3dfd668fdd36a6c1cf8ae712e1e3f4406",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.393,
+        "juzgar_s": 0.079
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.7,
+          "semilla_canonica": 2.7,
+          "M05": 8.6,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0335,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1372500495",
+      "generador": "gerrychain",
+      "semilla": 1372500495,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.033659075531650665,
+      "ecm": 0.00026428930021253123,
+      "huella_plan": "ffa2213e2bbcdcc85f0f4ce63beec83b38147e4c54290954809f6c3d2fbe2ed6",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1372500495/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3f48ca4172da0f94e4d5457c15286a690cffac2173fa2aa817ab1c742245afce",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.311,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.6,
+          "M05": 8.7,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0337,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2026556048",
+      "generador": "gerrychain",
+      "semilla": 2026556048,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03451554055790132,
+      "ecm": 0.0003318090450350326,
+      "huella_plan": "89b55307c6f9f9d672a1f50af8559a94c2fecdca833cb0652a06dcda4599048b",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s2026556048/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5ad18dd6add9b35388615b24a3b0bc2fe66346bfd5c13ee00f3fcc19127a82b0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.407,
+        "juzgar_s": 0.075
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.6,
+          "M05": 8.7,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0345,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s896922893",
+      "generador": "gerrychain",
+      "semilla": 896922893,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03733331049426597,
+      "ecm": 0.0003948237826458038,
+      "huella_plan": "2619681432a03399b47ef9597e7daec0fcaae1063450f2c86878f2209eba9540",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s896922893/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ce33cb8f15596c80713ada91dd81b85a8bbc61c205b0197ddb5c6c4497f482a6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.282,
+        "juzgar_s": 0.08
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.7,
+          "M05": 8.5,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0373,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1213876789",
+      "generador": "gerrychain",
+      "semilla": 1213876789,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03863513733416696,
+      "ecm": 0.0005402842361725468,
+      "huella_plan": "364807821fedd5e4899939e8332e21b35b507515932d274b6cab2759fb2a7c70",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1213876789/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "18b804ed882a4e08503bee907d343fdd19a82f773f35e931366791c64599af7e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.605,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.7,
+          "M05": 8.0,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0386,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1593364812",
+      "generador": "gerrychain",
+      "semilla": 1593364812,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03863513733416696,
+      "ecm": 0.0006595125829096559,
+      "huella_plan": "124b1c119c4da95d2a16db381d35771db8ffa12ddccd317d8e1dc8b612ca9097",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1593364812/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64b8a24f4c51604eb1f979ae0050c8aec892a16c05d78d48be374ee89bb03f65",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.626,
+        "juzgar_s": 0.064
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.7,
+          "semilla_canonica": 2.7,
+          "M05": 8.7,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0386,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1834776990",
+      "generador": "gerrychain",
+      "semilla": 1834776990,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03863513733416696,
+      "ecm": 0.000712633986451705,
+      "huella_plan": "f0ff21862b40380a4438ecd4c18e38a6e9ec239bec34387c271d9e76e8e305f5",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1834776990/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7e957f5d6a8a18f23fd1c71b065b6f2acb6f87d1b134fb34ef71274917046dd8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.19,
+        "juzgar_s": 0.062
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.6,
+          "M05": 8.5,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0386,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1295767552",
+      "generador": "gerrychain",
+      "semilla": 1295767552,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03914045169965485,
+      "ecm": 0.00048237154608430933,
+      "huella_plan": "6d22fa9fea0fb66347a14519b7601b42810302e2da398e73fb4fbb38c4e7088f",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1295767552/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "443f4abb226eacf9696f738926f6b1771a06c9b135903632d1558edf6cd0c717",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.42,
+        "juzgar_s": 0.064
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.1,
+          "baseline": 0.7,
+          "semilla_canonica": 2.8,
+          "M05": 8.1,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0391,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1418922535",
+      "generador": "gerrychain",
+      "semilla": 1418922535,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03948303771015511,
+      "ecm": 0.0004423239444742246,
+      "huella_plan": "62d27b8fbec8fbfb3e8883bd321c8d91e3010d225c62e3e7c63851f3875c1dc5",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1418922535/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6bf01fa70cd2f0d2c2a023a088712da6770e3627f1219f643d89a6537425f69f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.153,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.9,
+          "M05": 8.2,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0395,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2128233438",
+      "generador": "gerrychain",
+      "semilla": 2128233438,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03965433071540524,
+      "ecm": 0.0006083728720022585,
+      "huella_plan": "8ff56e3fabb9386d4e0a6386e8ad4fe963680f89e34eec7603990d5035c0df38",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s2128233438/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9632b27fe47f35ecd4beb9cbfb46062b8af80b9743de7422d3d0ec0d834ccf10",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.352,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.7,
+          "semilla_canonica": 2.6,
+          "M05": 8.5,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0397,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1428187670",
+      "generador": "gerrychain",
+      "semilla": 1428187670,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03966289536566774,
+      "ecm": 0.0005155175069409091,
+      "huella_plan": "8371aca607ba590b8aae9a8b8c430607e183b7acdeb815206833e99d7dc4cf28",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1428187670/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e9e419c3610b44adaa5fe3c2b3baee6dc937a1a6739690d4fc0f549bed1333e7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.773,
+        "juzgar_s": 0.092
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.1,
+          "baseline": 0.7,
+          "semilla_canonica": 2.8,
+          "M05": 8.7,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0397,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1292308740",
+      "generador": "gerrychain",
+      "semilla": 1292308740,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03992839952380545,
+      "ecm": 0.0005880282058128709,
+      "huella_plan": "99d1ea733d3db6e6515b8711f2b5e169bb62f82c3898e95f917e10878b063bf0",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1292308740/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f43997baf6a06ad5baf5a6964928c8c2c52b814a24bcf8cfa9181dece7f414ef",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.796,
+        "juzgar_s": 0.08
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.5,
+          "M05": 9.1,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0399,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1530359019",
+      "generador": "gerrychain",
+      "semilla": 1530359019,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.042900333164895214,
+      "ecm": 0.0007494070813524067,
+      "huella_plan": "a01788286e8cb0e7b507736a27ca89bba9a8ee36346402e13b8bc636a660d3b2",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s1530359019/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "56cb87e715785a293a00912c9c148656461e3d24cebd3b4fbdf27a8591f1e93e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.335,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.2,
+          "baseline": 0.7,
+          "semilla_canonica": 2.8,
+          "M05": 8.3,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0429,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s208510170",
+      "generador": "gerrychain",
+      "semilla": 208510170,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.043345694978545554,
+      "ecm": 0.0010394549932283335,
+      "huella_plan": "d40ac5e0bcd9467c896644032a58fc77ef2dccd7dabb7189ea2dbd52096c14ed",
+      "composicion": "bateria/competicion/congreso_granada/gerrychain-s208510170/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7aa0b0cc05e55d3330f490a82e19c1fc396bf2b2811cde457c7c6edfa8b6e2d7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.311,
+        "juzgar_s": 0.086
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.8,
+          "semilla_canonica": 2.7,
+          "M05": 8.4,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0433,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.04474173297133412,
+      "ecm": 0.0007433159388210117,
+      "huella_plan": "18f57f28f7497ec16fdfdc11aa0a318946df96e5f2a9651defac5a8960eb9580",
+      "composicion": "bateria/competicion/congreso_granada/canonico/congreso_granada_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f8f4b999379d992ff6186365afb66c4d5444e8578df53cbd96e5ec5b05b1b659",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.43,
+        "juzgar_s": 0.084
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "M05": 2.8,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0447,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s72478774: tiene menor desvío máximo (desvio_max)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "mejora_al_canonico": true
+}

@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_tarragona",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "9a76156983ca864123294d21590e67beccb6277c1d59020947f29d6c6522c51a",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_tarragona",
+    "ancla": {
+      "population": "f74547dacba94285d07d3c60336e2da72e3d0fe0a68f77560ffc55075e4b4b75",
+      "target_sectioning": "37e683bba4aefbc4e4c3c3b082d26216ecaeabcd236d4bf2ed4f960153d4720c"
+    },
+    "n": 20,
+    "semillas": [
+      1058768449,
+      1306582972,
+      976402687,
+      1903762936,
+      342830202,
+      1154020006,
+      1067775631,
+      1641594949,
+      956530826,
+      1267578627,
+      1396459798,
+      626959326,
+      1115062555,
+      1769322161,
+      1867482320,
+      523957369,
+      1358070526,
+      1083088351,
+      1110044324,
+      549051854
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "49925926db45e0a058ac9e9c87efd2a727dece8921244478f07891c78f832eed",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 329.717,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.0033911588053511955,
+      "huella_plan": "286cbbb787e2ac462b84f7a0078df09e7d9669b99e9891190a0360b04e63da7e",
+      "composicion": "bateria/competicion/congreso_tarragona/canonico/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c151cd1715030725e1eefe6f3fdad08dd30ccd03993089cafa8f65a9462f036e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.956,
+        "juzgar_s": 0.059
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "M05": 2.0,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s342830202",
+      "generador": "gerrychain",
+      "semilla": 342830202,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.006859136708142581,
+      "huella_plan": "a0d4a5fdd37c78d9424622ced827ae62eb5d27c27217ce7983fcd2cd08044935",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s342830202/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "dc9b42ee91d58bd192abf8a6f7437f5a37e85b5013af5b53153a270feb1de151",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.485,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 9.4,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1067775631",
+      "generador": "gerrychain",
+      "semilla": 1067775631,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.0068929940143394285,
+      "huella_plan": "380780c8bde72e941def3bd81497a1dbf95fcf647a34f86dbe02326b77c08536",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1067775631/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "72b2d1fb1de07330c97630f02af572369969da5766bd16791535f391142d1160",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.79,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.1,
+          "M05": 9.1,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1903762936",
+      "generador": "gerrychain",
+      "semilla": 1903762936,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.007414793058969749,
+      "huella_plan": "9f0eb64c435c31e8a54d4e5dfa9a17f7c21fdb27f0177939f76de27008cbafbd",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1903762936/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9a3b4902eb4c0ced3d10763792bf84d50a8da11adaf8c2d624640d23433a353d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.951,
+        "juzgar_s": 0.069
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.1,
+          "M05": 8.9,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1154020006",
+      "generador": "gerrychain",
+      "semilla": 1154020006,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.007721015610143875,
+      "huella_plan": "08053c56152dc97d5a82ded7e0030af4946fad2916a4cf05b9628208e22b3b22",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1154020006/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8d13632e40c231a75055e5e38a4ec703ccc070cb944c5bb4df6844baf6e10b35",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.896,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 9.1,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1267578627",
+      "generador": "gerrychain",
+      "semilla": 1267578627,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.007910628714677936,
+      "huella_plan": "d5b6e45c87fb19be80464c9e4d12a08456248310b317169e11a301ef274bb827",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1267578627/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c8f8dc70e8f60fb258523739b94713b2cf5ac44af33f070484d39cba39ce52c8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.688,
+        "juzgar_s": 0.047
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.1,
+          "M05": 9.0,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1396459798",
+      "generador": "gerrychain",
+      "semilla": 1396459798,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.007916075217031623,
+      "huella_plan": "3862b27bdbf906452b1ddcf7d63d06f70f36f573cb115203d5018f1abb965f13",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1396459798/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "19c215b75341dd885be6513ff567834d719dd19d8c3c87d3111ce51fb3883c7d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.499,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.1,
+          "M05": 8.8,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1306582972",
+      "generador": "gerrychain",
+      "semilla": 1306582972,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.008435587589210824,
+      "huella_plan": "5d489d84a8def0127340e5a3e86c2585ec88541c3a08ad05930d10e6e78254ca",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1306582972/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0e393390eb4650a2a597558ce97b1362ef8222cd541a0477f8241d812babb822",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.431,
+        "juzgar_s": 0.054
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.2,
+          "M05": 9.5,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1769322161",
+      "generador": "gerrychain",
+      "semilla": 1769322161,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.008606153255423077,
+      "huella_plan": "14ef26480ff2dd71d7baa66c61ce93e872729225d0027f3bc6dc54a48c20fb0d",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1769322161/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "71cd7ec7537de20e915b9cbb91c26fa7410a943e8e80c28c943e423d090f7753",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.913,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.1,
+          "M05": 9.1,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s523957369",
+      "generador": "gerrychain",
+      "semilla": 523957369,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.008696936239751507,
+      "huella_plan": "993ee8bb88c619a73eae79e364e5366e56c139f81539989585bc5d7d62faec09",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s523957369/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "dfb797f6fceae13a6a7bd62c1cc33a66e2b32587b9e22dfcb128c0d89dd70a6c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.837,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.2,
+          "M05": 8.9,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s549051854",
+      "generador": "gerrychain",
+      "semilla": 549051854,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.009383428406817364,
+      "huella_plan": "dfc1bb96e2e5d5e0d27d993c4fa03567ff132728f4e5b8b111dd3344fd16769b",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s549051854/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e6b686366a5d32d2e431cbcfdd6dcdaa14af1c2678cc9e97de0f34794442eada",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.093,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.3,
+          "M05": 9.0,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1358070526",
+      "generador": "gerrychain",
+      "semilla": 1358070526,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.009847591049746618,
+      "huella_plan": "fcc2abaef52d7ca144deb0d2d24938df32127875753ae3aac634ee866be26543",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1358070526/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7b969b6299645a606f80995b4a1c6de2bd1f3cf49072cdc193baa9c685ee99ab",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.058,
+        "juzgar_s": 0.053
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.1,
+          "M05": 9.1,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1115062555",
+      "generador": "gerrychain",
+      "semilla": 1115062555,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.010034181834234141,
+      "huella_plan": "e44ac7fe4550250272baeaf8e8cdb95faa01ecec0367d62784bd571d3de1fcc0",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1115062555/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2f93f9f7f1f6979a68d345b288969cc6023e8fe63b8558193d54605cbe8d7038",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.756,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 8.9,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1867482320",
+      "generador": "gerrychain",
+      "semilla": 1867482320,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.010098392793481393,
+      "huella_plan": "d7879e561a7c68f72aeb7ad24a7470b3832b08687859b1c2e3922d7afa6e9057",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1867482320/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "274ee92a9575d407cd9bf50cf08876b9075be8a3f132408095b01e73ccda0932",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.14,
+        "juzgar_s": 0.062
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.1,
+          "M05": 9.3,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s626959326",
+      "generador": "gerrychain",
+      "semilla": 626959326,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.010419764855848087,
+      "huella_plan": "e0807420d973eef706cb0dd32d75a4c50120687ea3e0dd6542fd9d4f721463e4",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s626959326/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b8e0b5c6d50592be75f9c3817454b0b89b6d2471eabb532a1b29820f97a4373a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.229,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.2,
+          "M05": 9.3,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1110044324",
+      "generador": "gerrychain",
+      "semilla": 1110044324,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.010679157184209628,
+      "huella_plan": "8504c77f20162e36028c37d4a231d2b209bfedf41c6b606d5edb5b7fe1f1096c",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1110044324/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "89a8b75b7bc529385ed0a9e59198741e9c2c872f3f862f7c53d32ef4fce85ceb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.833,
+        "juzgar_s": 0.054
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.2,
+          "M05": 9.6,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s976402687",
+      "generador": "gerrychain",
+      "semilla": 976402687,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.01098907018263408,
+      "huella_plan": "b149ad9b2394349eb4eb09f01370f4f2736b3954217de20c6770f52e5c7d6145",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s976402687/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "76d1825c0f3a8e90327bfa28811a92aabc459546de5b50788f9883926922856f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.948,
+        "juzgar_s": 0.07
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.1,
+          "M05": 9.2,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1058768449",
+      "generador": "gerrychain",
+      "semilla": 1058768449,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.011867255541116022,
+      "huella_plan": "bebc4c981d87d2c84ab68329f75f872c6dafa0f3a456bb62e62e621aa1af2f04",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1058768449/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "717baea4f3c323804e8ae9aa00663df1c89a02d42b5905c10970b35440d8af32",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.331,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.2,
+          "M05": 9.4,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1641594949",
+      "generador": "gerrychain",
+      "semilla": 1641594949,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.012080295130344343,
+      "huella_plan": "b682cf112b7d315369ccefda8241a2fa58f1ecb4121e781c7beef7b472cb1494",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1641594949/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "38533592cac72db9d7b14e496c8064e8981320f1cbc20968834ea58e8dc83286",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.722,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 9.0,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s956530826",
+      "generador": "gerrychain",
+      "semilla": 956530826,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14104540226634235,
+      "ecm": 0.013678784838325967,
+      "huella_plan": "52abde196a2ea3cb853d7142a5446194b93781762e2e10aa9ddd4a77111ad7ff",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s956530826/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e9473d980a224ad8545b8b80c591db1e95b46753d1965d007cdb56bc72116830",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.595,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.2,
+          "baseline": 1.1,
+          "M05": 8.9,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1083088351",
+      "generador": "gerrychain",
+      "semilla": 1083088351,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1436673925749948,
+      "ecm": 0.010591877017042372,
+      "huella_plan": "cf3ff1ca1dfe7c8dc97ec497c12c1937b32f0af0e4a5f0bc0c99a11e5489b73d",
+      "composicion": "bateria/competicion/congreso_tarragona/gerrychain-s1083088351/congreso_tarragona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9a1080d35dae2f860aae274d78555a2866b11111dc9eaf9bb1dfa02349340f68",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.436,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.1,
+          "M05": 9.4,
+          "M06": 1.4,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1437,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s342830202: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

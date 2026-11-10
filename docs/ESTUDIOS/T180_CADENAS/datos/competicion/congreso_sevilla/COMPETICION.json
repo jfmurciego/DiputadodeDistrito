@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_sevilla",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "c5020768a3bfb3d1162bdf1d0ee5c15c74737a5c528983a20d4dc81177111384",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_sevilla",
+    "ancla": {
+      "population": "53f1b065ad45b0b16380ea1b792eba7212b388952644df41e0022dad8bae410a",
+      "target_sectioning": "fcd69c77c239a001b6715bd86ecfbb7bdef0d7a1d11c4f2e881f5a17e02aaba7"
+    },
+    "n": 20,
+    "semillas": [
+      1251280074,
+      1291401298,
+      1007453635,
+      500100998,
+      857312240,
+      1452077464,
+      1209623211,
+      2035715628,
+      1653117977,
+      2125803628,
+      197822073,
+      888738455,
+      1368936757,
+      580275764,
+      1352238001,
+      1059682421,
+      707686245,
+      583291175,
+      2128294118,
+      483656983
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "b440fb63ac5745aa87b31f8f442c4b6c48a31dcd6915516d0d6854d2eec1ade6",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 357.876,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.003620002692472072,
+      "huella_plan": "ec0450b516c77a151459cd8d03142949127814f39a5c005aa4739e7958938b6b",
+      "composicion": "bateria/competicion/congreso_sevilla/canonico/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ac2441f603ddcbb40407120d56e0cb7e59699eb58195fe4ad11e61ecf3309b74",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.973,
+        "juzgar_s": 0.078
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.1,
+          "M05": 2.2,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s197822073",
+      "generador": "gerrychain",
+      "semilla": 197822073,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.00420588590210471,
+      "huella_plan": "8bd780d4577c9e3f6f1701becff47c15512a9ebe890da8703100069da44154c9",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s197822073/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "34e7f4b48a8012163c09eec0bf2a8c2a75b0e53cd7cd62f78e94c422c0262852",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.11,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.2,
+          "baseline": 1.3,
+          "M05": 6.1,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1059682421",
+      "generador": "gerrychain",
+      "semilla": 1059682421,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.004710166264166294,
+      "huella_plan": "e01cfd9fb3d22da6e75939806a7fab4c07e8eae29d22ecdb6222f90346721944",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s1059682421/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7649a458a7818e7dcfcc0b5256ef672984f2691c94fa5d9bcb12efe10d075378",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.107,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.2,
+          "baseline": 1.4,
+          "M05": 6.1,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s580275764",
+      "generador": "gerrychain",
+      "semilla": 580275764,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.004782028553815369,
+      "huella_plan": "8dfbd23ed88cea89c81e91049f458a700ad4a0b1d20e038a24aae123633438b6",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s580275764/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0eed819f7c2ba54c65aa4eff2a936cd2e5850eba325d30ec269761286dd37116",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.014,
+        "juzgar_s": 0.071
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.2,
+          "baseline": 1.4,
+          "M05": 6.1,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1653117977",
+      "generador": "gerrychain",
+      "semilla": 1653117977,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.004790626614443093,
+      "huella_plan": "e815058cb7d305108902271b25dd5d2a120f32685c3fc4a8a19af38bafc33c0e",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s1653117977/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7f67025d08cbc9eac6212d21563bfc481a1b2520b2aacd90c84fe1aa1aab11b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.798,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.5,
+          "baseline": 1.5,
+          "M05": 6.4,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1452077464",
+      "generador": "gerrychain",
+      "semilla": 1452077464,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.0053691320014352065,
+      "huella_plan": "f6475f7e76cd8531004bd8b45830a4e3be6673946008e14e61cd3e5a263abb93",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s1452077464/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4d092677e4ffbded92a9c9f230246def7e0d1a7ca114a24d5da1332c10443a58",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.233,
+        "juzgar_s": 0.077
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.5,
+          "baseline": 1.3,
+          "M05": 6.0,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s500100998",
+      "generador": "gerrychain",
+      "semilla": 500100998,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.005519425073333668,
+      "huella_plan": "9fadb5996dd1dae7c6c63f4df148b402c767b1ee2733503e843cf90d4ab2ef3c",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s500100998/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d9b52f624b31c88974124048d46aa13becf044bb0288eeb06c5dff2a8d69602",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.607,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.9,
+          "baseline": 1.3,
+          "M05": 6.1,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1368936757",
+      "generador": "gerrychain",
+      "semilla": 1368936757,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.005593122508430156,
+      "huella_plan": "a44591ef3474bef6e3fcc4a5a50ec3e197ed28d626572150e1a626db4f67b18d",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s1368936757/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2e9ec6652b86b791824ba78ab8d05692761783a0d50d1f4544c1980cb6775bc9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.911,
+        "juzgar_s": 0.08
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.3,
+          "baseline": 1.3,
+          "M05": 6.0,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s583291175",
+      "generador": "gerrychain",
+      "semilla": 583291175,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.005771439945735989,
+      "huella_plan": "05e26c324c286ac2405d965ea5ee65454ffbbc670989f78620cc16064c7f4dde",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s583291175/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "89476f8bef0cae7375cae0143479a576ea8543d2524f812ef4df7bfb54eb2c0c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.105,
+        "juzgar_s": 0.082
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.3,
+          "baseline": 1.3,
+          "M05": 6.2,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1291401298",
+      "generador": "gerrychain",
+      "semilla": 1291401298,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.006004491540159836,
+      "huella_plan": "4eaff454043fae3fdce7393886fe7c037528684a3d3c5722fe63b53c91063987",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s1291401298/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1792bf9edd98802168768a9e9c1c0ec14bc9a5a3189d13a71ceb597ad912dff6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.716,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.0,
+          "baseline": 1.3,
+          "M05": 5.9,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1352238001",
+      "generador": "gerrychain",
+      "semilla": 1352238001,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.006043744297160639,
+      "huella_plan": "cea87b4d7a26b771e7fb5774721c7191c46f4ce3421e47655b0ebec112322e8b",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s1352238001/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6cd95f515a0aa3fade110905b963be2d0c07e6dfd91e3c0bc1da86ff85133efa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.171,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.2,
+          "baseline": 1.3,
+          "M05": 6.4,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s857312240",
+      "generador": "gerrychain",
+      "semilla": 857312240,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.006088791632203938,
+      "huella_plan": "8ee779600e10e495673f6086e304c681894cb0030a4dc1f3c49b540bc06a36eb",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s857312240/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "85dd5aafa645fb9e1f27a55f2d76a89c00ce3bead339bc4985c3fd4727ebc4fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.752,
+        "juzgar_s": 0.077
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.2,
+          "baseline": 1.4,
+          "M05": 5.8,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s483656983",
+      "generador": "gerrychain",
+      "semilla": 483656983,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.006436488352535657,
+      "huella_plan": "5b4ab48dbbe2b4d9e30af2abf7f0e984c4011ab50828485ad2f5ee3323579b34",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s483656983/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "58d3c834d12e93da2be56cb870bac18a6f6059421e5d3be1557284192e5d5388",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.752,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.4,
+          "baseline": 1.3,
+          "M05": 6.5,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s707686245",
+      "generador": "gerrychain",
+      "semilla": 707686245,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.006554391519453813,
+      "huella_plan": "4d9e973c84bc1545110eaa964a0c7327b89fdf481749afdd6b04155b1b834b90",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s707686245/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "294ced42d713c780f786f3f2d27c5b1331f58a180d90e1072f2bed3da06b61d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.371,
+        "juzgar_s": 0.094
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.5,
+          "baseline": 1.3,
+          "M05": 6.2,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s888738455",
+      "generador": "gerrychain",
+      "semilla": 888738455,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.0065983705638490795,
+      "huella_plan": "feca04d14ec2cc17422dff90acba83066c03a77d02b9375d9e0364c33f3ce5c7",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s888738455/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3569a75256a61e1ab1fd2c6941aa528b7f0d6debd1da763097cb8ccb657f06cf",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.795,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.1,
+          "baseline": 1.2,
+          "M05": 6.0,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2125803628",
+      "generador": "gerrychain",
+      "semilla": 2125803628,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.006912438229062301,
+      "huella_plan": "0ca92f81a6af99ab582a78dda6a12cb6dd51be1c2bf145ef44fbf2df91075a8c",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s2125803628/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8b3fc496c11c0d308aa70d5ebe9ba37a9576bceb89cf20c4f39f28cc87103bd8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.575,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.8,
+          "baseline": 1.3,
+          "M05": 6.3,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1209623211",
+      "generador": "gerrychain",
+      "semilla": 1209623211,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.007068582598786201,
+      "huella_plan": "9f400c2eccbdf59836f269f31f5db60d30fe52099ced36abacab2e264bee69c1",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s1209623211/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9ce3e07a017ca7de0077996b784d6cc5ca5b72f26c8b9763dea8372b8a86126a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.827,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.2,
+          "baseline": 1.3,
+          "M05": 6.1,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1251280074",
+      "generador": "gerrychain",
+      "semilla": 1251280074,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.007107246895332122,
+      "huella_plan": "718cf8bbd5af3b2092af50b4c4adfcc81a7b3db274f647d40445422eff7939cd",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s1251280074/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3452e03de013419b9aa4303f38ed850bed01a7cd35e5a73b2a0a13a1cbd0a967",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.389,
+        "juzgar_s": 0.107
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.5,
+          "baseline": 1.4,
+          "M05": 6.2,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2035715628",
+      "generador": "gerrychain",
+      "semilla": 2035715628,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.007294100430757759,
+      "huella_plan": "e6a26146ab4fd67c86511f92ccff74b21c6dd6c92b8d09f56f887c097c558608",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s2035715628/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1718804fa14a9a6235b049c247670dc723a057c3ca01f8574769c1afb88b2c1e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.659,
+        "juzgar_s": 0.075
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.6,
+          "baseline": 1.3,
+          "M05": 6.3,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2128294118",
+      "generador": "gerrychain",
+      "semilla": 2128294118,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.007501643125886347,
+      "huella_plan": "97f389a1c78e86aa8595c1ae8c313ac566080a5ebaa81de5b7e664feff475116",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s2128294118/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f129d7965b80999b199293481a49b2ad568a1eccfe0eca99b7eb1faae8bd629e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.609,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.6,
+          "baseline": 1.4,
+          "M05": 6.2,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1007453635",
+      "generador": "gerrychain",
+      "semilla": 1007453635,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.13497132276612053,
+      "ecm": 0.007974938149830618,
+      "huella_plan": "5d8a5f32062dc36bc0de942ebd4d0c63a01863d9421071ce0774c326e7fa5515",
+      "composicion": "bateria/competicion/congreso_sevilla/gerrychain-s1007453635/congreso_sevilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "efccd5660b3acb0cbf4f88cfdb276fa2c493eae7dd85ab851abb325c62cf6612",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.782,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.3,
+          "baseline": 1.3,
+          "M05": 5.9,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.135,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s197822073: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

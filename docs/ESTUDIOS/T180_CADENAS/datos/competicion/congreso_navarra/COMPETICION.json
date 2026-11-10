@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_navarra",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "ea210ad66061662350db16d5e50237f52b861a27c3b79fd9c7545c6f1afcf910",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_navarra",
+    "ancla": {
+      "population": "83e2718b1290124065192c714a4595520bc34460465041ff7910f7321bee67d1",
+      "target_sectioning": "e9fe4e4451c08426973852ba20d14c5581c8077bf5e16b12eea81ab77279e2cf"
+    },
+    "n": 20,
+    "semillas": [
+      569941356,
+      1142093275,
+      1539610584,
+      1372949728,
+      1758361765,
+      107652606,
+      1092495802,
+      813377310,
+      938681079,
+      1108468725,
+      978091233,
+      1031848883,
+      1046142025,
+      899892782,
+      1359370769,
+      1326243638,
+      104471256,
+      908785245,
+      493335792,
+      1314841518
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "c2354a2e44935322d37ad6154efc750cd530c36aa0388ccdf3fb2236e3507b0f",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 731.86,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.0012587646349503676,
+      "huella_plan": "7c82497f62b337a1a030b27c5f814f25031dafed1d56823e0bb45defc842cdb1",
+      "composicion": "bateria/competicion/congreso_navarra/canonico/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f3fe2ea0202035b5d4999524075955cfd75e3b0708876fb2bbfe4761b718772a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 22.736,
+        "juzgar_s": 0.357
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.5,
+          "M05": 6.5,
+          "M06": 3.9,
+          "validacion": 1.4
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s899892782",
+      "generador": "gerrychain",
+      "semilla": 899892782,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.001697535788604602,
+      "huella_plan": "7924c4346ae0ac9d0230c28ab0e2732772c4aafb757939cc17a40e9b052cfc8f",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s899892782/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4eb29971038d288d5847dc921875db0a4ab09534afd92573b8712c342e4f4067",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 33.556,
+        "juzgar_s": 0.232
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.1,
+          "baseline": 2.5,
+          "M05": 16.1,
+          "M06": 3.5,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1359370769",
+      "generador": "gerrychain",
+      "semilla": 1359370769,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.0018877560637743035,
+      "huella_plan": "da9821cfc66e60df1f732c15634e97f681cfb6cb57d5296c6f86746eb0a044e0",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s1359370769/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "362d655230d4376a01cccd9cfa56f7f3dcfa12fe5fbb897321068ace93960a33",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 33.533,
+        "juzgar_s": 0.233
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.0,
+          "baseline": 2.5,
+          "M05": 16.3,
+          "M06": 3.4,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s569941356",
+      "generador": "gerrychain",
+      "semilla": 569941356,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.0019265981296748911,
+      "huella_plan": "5a6dbac9f47e0806145770e8b5f1ded7912a422db12c80709c77afe9375adf9e",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s569941356/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0d19251befa2ba6891caed0e25cae980b74afdace336e2194895c91b1100ae0a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.882,
+        "juzgar_s": 0.312
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.4,
+          "baseline": 2.7,
+          "M05": 17.6,
+          "M06": 3.6,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1539610584",
+      "generador": "gerrychain",
+      "semilla": 1539610584,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.0019734638640770403,
+      "huella_plan": "155f46922677366bd4d5c7b877ce26b394b05726779c1e610f30e7f6ed4648d8",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s1539610584/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "05392208ead1d13ad71b311f7d46583e8549f3cbc189ed32a0ef050a880ffee0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.687,
+        "juzgar_s": 0.28
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.8,
+          "baseline": 2.6,
+          "M05": 17.0,
+          "M06": 3.9,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1372949728",
+      "generador": "gerrychain",
+      "semilla": 1372949728,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.0021427425360409195,
+      "huella_plan": "863910e810738aed746905d602c9519cf00c3e2d4879e6d12e92e0c7170d9a7c",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s1372949728/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "04698cd32ef627851115e8dd4df4125e3e3dc6021e173c7dfdb823c8d467f422",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.48,
+        "juzgar_s": 0.288
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 11.6,
+          "baseline": 2.8,
+          "M05": 18.0,
+          "M06": 3.7,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1758361765",
+      "generador": "gerrychain",
+      "semilla": 1758361765,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.002489327532601497,
+      "huella_plan": "97ad4688ca67be9b78fba084b65fe92957881422cca37e5d05147c3d74a94322",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s1758361765/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "df07809d728c5f3eb6ed5f3596420e1186285ce48b532b34a19747a02e034e1b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.381,
+        "juzgar_s": 0.258
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.9,
+          "baseline": 2.8,
+          "M05": 17.8,
+          "M06": 3.5,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s813377310",
+      "generador": "gerrychain",
+      "semilla": 813377310,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.002546696844726374,
+      "huella_plan": "b563916c9eab877400e379ae8337803bc2d786e3320ec85eb80b129b712fa48c",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s813377310/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a2af7a0d22e637394d696bdedfa1e7fc869a2ee0df012048eb8a0381610fbb02",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 34.972,
+        "juzgar_s": 0.235
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.2,
+          "baseline": 2.7,
+          "M05": 17.1,
+          "M06": 3.5,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1031848883",
+      "generador": "gerrychain",
+      "semilla": 1031848883,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.00263788904075376,
+      "huella_plan": "f9d9fc991dc87a3f59e260257add48b37a6b8feea944f7a91813ed30712115be",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s1031848883/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ee98b274d84dcd4c1cbedd2f3cfa299eee31b938c3a3ceb4302f709806564fb4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.288,
+        "juzgar_s": 0.234
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 11.0,
+          "baseline": 2.6,
+          "M05": 17.2,
+          "M06": 4.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s493335792",
+      "generador": "gerrychain",
+      "semilla": 493335792,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.00269344961040921,
+      "huella_plan": "b9d66361ceff8d03e52fadb1aace80c88de82f58574b6f60ec29ed6178f46d8d",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s493335792/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6eba1e95a059103e45151357ef5c1b80fcaf99d0ab2b682396b7599c49c010e4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 33.365,
+        "juzgar_s": 0.23
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.0,
+          "baseline": 2.6,
+          "M05": 15.9,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1046142025",
+      "generador": "gerrychain",
+      "semilla": 1046142025,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.0027831269866105163,
+      "huella_plan": "2314b5468ad954c2c629ce4dfd12f1bf4a149b468ca4b78a5f332cb019bbfe39",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s1046142025/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "93ba9b3a1b0829f8b868bd2c86d97be3f617c608c3336ad2d5bd7ad02d7da999",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 34.696,
+        "juzgar_s": 0.233
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.4,
+          "baseline": 2.6,
+          "M05": 16.8,
+          "M06": 3.5,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s938681079",
+      "generador": "gerrychain",
+      "semilla": 938681079,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.002845052763729156,
+      "huella_plan": "63ba68dc948b0aef97dd7022f5f26288d9f159b4a389bf9cdc1c21e9989486d2",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s938681079/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1e3eac633cd42f699cbe5b5fcae9d007ad3e5c520387a3e2b9ac9c56ffed3f77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.685,
+        "juzgar_s": 0.234
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.4,
+          "baseline": 2.8,
+          "M05": 17.3,
+          "M06": 3.6,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1326243638",
+      "generador": "gerrychain",
+      "semilla": 1326243638,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.002891110224142537,
+      "huella_plan": "eb0ef35fc94a1f8b7ed0fbb18cff82acb4461438fde9beff655805915d447161",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s1326243638/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f449cfec95569240c9f3b7e69e8e641f411effc6edb5f4c39b55b46d85ad420a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.128,
+        "juzgar_s": 0.307
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.2,
+          "baseline": 2.6,
+          "M05": 17.0,
+          "M06": 3.9,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s908785245",
+      "generador": "gerrychain",
+      "semilla": 908785245,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.003122407583165995,
+      "huella_plan": "b1f6bdf82b6c6a4714a091c6f539c034495b74193044ee5ea784dd9e06b9d913",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s908785245/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c99cb284d5e5e287e185e3fb26f2ec3045475ecef7a1ea03f6231fad9fd82ffa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 34.067,
+        "juzgar_s": 0.231
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.2,
+          "baseline": 2.7,
+          "M05": 16.5,
+          "M06": 3.4,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s978091233",
+      "generador": "gerrychain",
+      "semilla": 978091233,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.003205238946943884,
+      "huella_plan": "7e393aa93f4a20d67d3d5103c16a21db690439657e543f382e24b098d8071c5e",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s978091233/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1cd5b615f978cfb62c0894ff9bec11b0c263d23bf94c1f46f92765f532413da3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.859,
+        "juzgar_s": 0.261
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.5,
+          "baseline": 2.7,
+          "M05": 17.6,
+          "M06": 3.5,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1142093275",
+      "generador": "gerrychain",
+      "semilla": 1142093275,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.0034079109072171487,
+      "huella_plan": "d04fc5a994567535acd94f260147dd53c695175cbfafc9aa84bb99cb9eca9c43",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s1142093275/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d3282b25422f186c62f594c8564bbab35981dd7fd296a1e8940c1068a1f7b092",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.594,
+        "juzgar_s": 0.254
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.4,
+          "baseline": 2.7,
+          "M05": 18.1,
+          "M06": 3.8,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1314841518",
+      "generador": "gerrychain",
+      "semilla": 1314841518,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.0035215830060899844,
+      "huella_plan": "f337904b74b84105693c50ac69060a3b2433d0f1580ecfae890a6168efbfc42f",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s1314841518/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3d3e0713ec395475bd1a97b64ae70a6b2d3638b3fb55bc000495131740eb6ad1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 34.593,
+        "juzgar_s": 0.231
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.1,
+          "baseline": 2.6,
+          "M05": 17.0,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s104471256",
+      "generador": "gerrychain",
+      "semilla": 104471256,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07928379614820986,
+      "ecm": 0.003721528067564956,
+      "huella_plan": "e54995c9d844195b3218b289271f4952707cc62e2f09c07c47f0cdcfed2d02c5",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s104471256/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d21ae698c5cfecac6ada38c8d19659a4461cdbc644b5ca7e133d2b29ae01412f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 34.677,
+        "juzgar_s": 0.23
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.4,
+          "baseline": 2.6,
+          "M05": 16.9,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0793,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s107652606",
+      "generador": "gerrychain",
+      "semilla": 107652606,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07977475433493762,
+      "ecm": 0.003569813996030784,
+      "huella_plan": "ba143efe64ff660998688f07b44e2affeaaa56609451d3790162be6c5767ca1d",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s107652606/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "20981a85768e413b2475443d67aa94d2b1a958c7d2103172c6c01ecbe688a330",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.663,
+        "juzgar_s": 0.244
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.7,
+          "baseline": 2.7,
+          "M05": 17.2,
+          "M06": 3.6,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0798,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1092495802",
+      "generador": "gerrychain",
+      "semilla": 1092495802,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07977475433493762,
+      "ecm": 0.0035723990066345392,
+      "huella_plan": "8dddb7d6bef1e7dc0aa9b851e51f9d18fe5a23c7b17aaefc3a17eb32bc73c2bd",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s1092495802/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c881a161f0ff243313686a1d9ef80487dc114014cd5a6360339df4021664713a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 34.788,
+        "juzgar_s": 0.249
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.5,
+          "baseline": 2.7,
+          "M05": 16.8,
+          "M06": 3.4,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0798,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1108468725",
+      "generador": "gerrychain",
+      "semilla": 1108468725,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07977475433493762,
+      "ecm": 0.004067476134341739,
+      "huella_plan": "bc993793dc2cd8e4517abcab2bbb71be9e0a10246a911c93772c2b220728c084",
+      "composicion": "bateria/competicion/congreso_navarra/gerrychain-s1108468725/congreso_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f16926dcf2f0ffe91fe1eb2f5a4fdb5acc952b2c577aa856d0cf315d40530f0f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 34.856,
+        "juzgar_s": 0.239
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.7,
+          "baseline": 2.6,
+          "M05": 16.6,
+          "M06": 3.6,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0798,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s899892782: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

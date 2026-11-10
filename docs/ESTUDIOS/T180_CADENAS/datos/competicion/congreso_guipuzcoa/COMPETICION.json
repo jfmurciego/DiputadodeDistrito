@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_guipuzcoa",
+  "ganador": "gerrychain-s993995735",
+  "valido": true,
+  "huella_resultado": "b9effa02dc69f53b0584b9638d3eb6b3e9f17aec9e1e42d4887726d13cf77355",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_guipuzcoa",
+    "ancla": {
+      "population": "9c0ffa760a06fcc34e6ae47171ce24f41915a6c0834e9efc8e330f636cd80f3b",
+      "target_sectioning": "11693781dd841650aa53caa7f4418fe5e4daf46a4897fbfb7064f7383bf0ce25"
+    },
+    "n": 20,
+    "semillas": [
+      554311170,
+      1832580622,
+      2124606281,
+      490653008,
+      1808975668,
+      719360391,
+      745772171,
+      1693133550,
+      1753853787,
+      1435763748,
+      977042709,
+      894029019,
+      180610055,
+      993995735,
+      1913822228,
+      750966435,
+      1110320166,
+      206129439,
+      1014093041,
+      1189769057
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "2d1465723a53edb613a40c9b80fbfef22affc761df8dfdc000cd4ac9372dd40e",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 318.826,
+  "candidatos": [
+    {
+      "id": "gerrychain-s993995735",
+      "generador": "gerrychain",
+      "semilla": 993995735,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.002606619699219576,
+      "huella_plan": "6168d2e11b473eab482701458dceca27f72b92610db795a1c8161d0610bf8797",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s993995735/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "68b4610bae5be90e7c205fbfd8b1ce1ab23257af12fb75c2ce14e8fd53b4acfa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.284,
+        "juzgar_s": 0.083
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.2,
+          "M05": 6.7,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1753853787",
+      "generador": "gerrychain",
+      "semilla": 1753853787,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.0026646821119453204,
+      "huella_plan": "524a2f8109df11769eb37c48e8646030a33e089da3dbebdb7bd6726cd3c3c29a",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s1753853787/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "76bc427bf3efb8dc3504131dc64bad2ac5e5586e79d022392f84671350c543a1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.296,
+        "juzgar_s": 0.069
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 6.5,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2124606281",
+      "generador": "gerrychain",
+      "semilla": 2124606281,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.0026732901086718264,
+      "huella_plan": "bc402f0f368ac2b8528e104f8e2bf0d1386adebc5303104a9212af12d5afd4e7",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s2124606281/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c936f10f34d697bd99d52a51e83235e181cf6dc69280b5e745cbd9099b67960",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.442,
+        "juzgar_s": 0.066
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 6.6,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1832580622",
+      "generador": "gerrychain",
+      "semilla": 1832580622,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.002713467713154724,
+      "huella_plan": "48348106b774d783274db5df5702a12d7c83b1140495f0d3b94bc98e82538e78",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s1832580622/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "680203d21a8eeb0cd58ba30c074041ad57d0db0b418725189ea4ff414d98f00a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.62,
+        "juzgar_s": 0.066
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 6.7,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1913822228",
+      "generador": "gerrychain",
+      "semilla": 1913822228,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.002734363528580781,
+      "huella_plan": "034aa42317715e704d250736502de43643754591efbebc6119a5e7fe3a3cce13",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s1913822228/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9d3b3f5d032bab571d60e51e86fdde2a2b1315f7f7fed53cf45824390884817e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.549,
+        "juzgar_s": 0.082
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 6.6,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s206129439",
+      "generador": "gerrychain",
+      "semilla": 206129439,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.0027361482238324633,
+      "huella_plan": "7e2dcf3712a6ca4127a66e1beb492540c70ace77189da94a71ac101bcee00d4e",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s206129439/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6629f74f03253c15d06efb51d0a2a50fb59c01baef0327e101bd9c1ca776befd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.854,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.4,
+          "M05": 6.7,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1693133550",
+      "generador": "gerrychain",
+      "semilla": 1693133550,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.0027531901400243176,
+      "huella_plan": "4df42f3b4183743830ffee733673094b3ea43442fadb91b78e36880fa6059518",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s1693133550/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "da7e59668efd18ed665ed8261d59f88359bde53bb06a36c07f1cf531979aa9d5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.956,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 0.6,
+          "semilla_canonica": 2.2,
+          "M05": 6.5,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1014093041",
+      "generador": "gerrychain",
+      "semilla": 1014093041,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.002758450495365282,
+      "huella_plan": "af50f81b1b29e749680b1220abcc9eab43c2d8dc3a4bb1e860bba94577116c17",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s1014093041/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c043d69229c3ddea99562c3dcc9c41323c14e5eba6c991cd42c021161cb88421",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.0,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 7.0,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1110320166",
+      "generador": "gerrychain",
+      "semilla": 1110320166,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.0027709524284143827,
+      "huella_plan": "b3b230cdd928f9b5281d6ac85efc0bdb986214f1c766219b934ea31b415c7521",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s1110320166/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e47088287c98f3f911421e36e4e05da5210d4393187e80a7e1a9a44a88e15ea6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.35,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 6.5,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s745772171",
+      "generador": "gerrychain",
+      "semilla": 745772171,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.002904775737406787,
+      "huella_plan": "d14f1694686130d5321f7229d6ec115795c4d57864d4b0be2a698e44254c2610",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s745772171/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1f7c975c057af03bbf8cf8f2c197bca259b5894260c2177e17d93cc1894541cb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.039,
+        "juzgar_s": 0.064
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.6,
+          "semilla_canonica": 2.2,
+          "M05": 6.4,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s719360391",
+      "generador": "gerrychain",
+      "semilla": 719360391,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.0029133465600830054,
+      "huella_plan": "ceb2581a22fdfa1b67860935e12c254d1361dc7cf4d70b4e6dcb74b4061d8b4c",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s719360391/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "53e632e5ef22d965b52c61c79934ad9204e189949622058a8a99ee5e912d23bd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.523,
+        "juzgar_s": 0.062
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 6.8,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s894029019",
+      "generador": "gerrychain",
+      "semilla": 894029019,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.0029155494179553755,
+      "huella_plan": "6d0c139727413c384561accccfb440a396bda8187121aeb87e0b4ae4b180343a",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s894029019/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fc11ebe9e055fae11756127c8ce75291256bf5019ac1416a7d99760e6fcdcdf2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.318,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 6.5,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s750966435",
+      "generador": "gerrychain",
+      "semilla": 750966435,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.0029155494179553755,
+      "huella_plan": "6d0c139727413c384561accccfb440a396bda8187121aeb87e0b4ae4b180343a",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s750966435/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "76eca00843d32ed5aa08f92ff4eb8eb0be477d5f7a54685306b731bce1af9a3a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.085,
+        "juzgar_s": 0.06
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 6.6,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s490653008",
+      "generador": "gerrychain",
+      "semilla": 490653008,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.002928802898506473,
+      "huella_plan": "93d26d3e8b94814ed83424b829f9a19a96708744f2d46b895d36edfca8d233c0",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s490653008/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0b506fff0418e537e527098b6f85be37977e72c02ecbd7d42449dea4a51528e5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.469,
+        "juzgar_s": 0.065
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 6.6,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1435763748",
+      "generador": "gerrychain",
+      "semilla": 1435763748,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.0029590807534604136,
+      "huella_plan": "07962dfe3085446886d5330b0b508e845005be9b9489b597911891517db847c7",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s1435763748/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "621a158ec6d797d910bb8cf5086fb22d776fbcfdc28b67f97768c4ab1108263f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.174,
+        "juzgar_s": 0.064
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 6.8,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s180610055",
+      "generador": "gerrychain",
+      "semilla": 180610055,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.0029613074472611164,
+      "huella_plan": "812e6bfb605f364f2ead3f065f7099ae621b0d547a369b21d514f431ff347777",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s180610055/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8857302dbe996e048adfba4491e1afec7c1b525807938b5d28099a47b9e0edca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.568,
+        "juzgar_s": 0.075
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 6.6,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s977042709",
+      "generador": "gerrychain",
+      "semilla": 977042709,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.002999284148008761,
+      "huella_plan": "effc37519dd8d8beadad4f153e8f510846d424345afa36c2b1d916ef1027bb4d",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s977042709/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "413899761d3a0a338211e39f2310d91f6bc39785e7dafedb727f6ee249ec1ccf",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.118,
+        "juzgar_s": 0.066
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 6.4,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1189769057",
+      "generador": "gerrychain",
+      "semilla": 1189769057,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.0030389849430349112,
+      "huella_plan": "7e4efc2cfed5e3ccaf560a5dc4d346cfba41190c3ff970d2a67e81245a608d02",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s1189769057/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ca9e0bb665c927b676e372d1b18dc92db6d8108e323696731411bdaf416b48b8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.196,
+        "juzgar_s": 0.055
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.4,
+          "M05": 6.9,
+          "M06": 1.5,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s554311170",
+      "generador": "gerrychain",
+      "semilla": 554311170,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07415592421757175,
+      "ecm": 0.0032092721098079015,
+      "huella_plan": "8b958e1ac2025924f717443af9c5a96c39ea1f0931ba3d77a08a730b23e8733a",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s554311170/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7a60d27a2329ad07616cf879e35c98cda4b2b110a4b123a2c296e8c28c80986f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.641,
+        "juzgar_s": 0.092
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.4,
+          "M05": 6.7,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1808975668",
+      "generador": "gerrychain",
+      "semilla": 1808975668,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.074235735752265,
+      "ecm": 0.002869611153584303,
+      "huella_plan": "1a310610534f2df43bbbbd2e5a5b80e6af4d02a6d1c7694f9b3c1aa311145016",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/gerrychain-s1808975668/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1e818dc118be7f880182ec74c8e19da94bfee3ae07f28dba8a6026b2815ce830",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.295,
+        "juzgar_s": 0.066
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 6.6,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0742,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.10541177247657944,
+      "ecm": 0.002889982896702392,
+      "huella_plan": "b642341ce1a7bc279fe96cfa5b8be4c41d53d04213420465673cd9b11fd63038",
+      "composicion": "bateria/competicion/congreso_guipuzcoa/canonico/congreso_guipuzcoa_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8a01fe410ee8285f30220d9e373b5088b48752cd1aaba55a958b5e71c0d492e1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.607,
+        "juzgar_s": 0.096
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "M05": 2.4,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.1054,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1753853787: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "mejora_al_canonico": true
+}

@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "ceuta",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "362acc5613e719bbb65c79ebdf44192582c2bbb9eff9afaf31c4521c2217f255",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "ceuta",
+    "ancla": {
+      "population": "0fd528d8a08753bf6c35a22311e46e0f904c9515fe1cdf805c81f3e1ddd44330",
+      "target_sectioning": "2f4cb157036e2f2cda8f7841651f2b7acb3f13a8002dc9343f48b98c2163baef"
+    },
+    "n": 20,
+    "semillas": [
+      2108478845,
+      2034827752,
+      925390617,
+      1382808239,
+      1995509475,
+      1584866348,
+      1044458077,
+      1133421195,
+      133859180,
+      1105409945,
+      1253140110,
+      1595337418,
+      785010340,
+      1372450150,
+      1926630948,
+      1837141721,
+      781998076,
+      1591287832,
+      1472703070,
+      960436518
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "ea886f442f3cd74e932b6998e441d4884c6d89adde49895f08b0103533c4e486",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 83.859,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/canonico/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 3.05,
+        "juzgar_s": 0.005
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.9,
+          "M05": 0.7,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2108478845",
+      "generador": "gerrychain",
+      "semilla": 2108478845,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s2108478845/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.261,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.9,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2034827752",
+      "generador": "gerrychain",
+      "semilla": 2034827752,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s2034827752/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.403,
+        "juzgar_s": 0.005
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s925390617",
+      "generador": "gerrychain",
+      "semilla": 925390617,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s925390617/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.226,
+        "juzgar_s": 0.005
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.9,
+          "baseline": 0.6,
+          "M05": 1.3,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1382808239",
+      "generador": "gerrychain",
+      "semilla": 1382808239,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1382808239/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.316,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.0,
+          "baseline": 0.5,
+          "M05": 1.2,
+          "M06": 0.7,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1995509475",
+      "generador": "gerrychain",
+      "semilla": 1995509475,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1995509475/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.043,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.9,
+          "baseline": 0.6,
+          "M05": 1.3,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1584866348",
+      "generador": "gerrychain",
+      "semilla": 1584866348,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1584866348/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.319,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.9,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1044458077",
+      "generador": "gerrychain",
+      "semilla": 1044458077,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1044458077/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.396,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "baseline": 0.6,
+          "M05": 1.3,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1133421195",
+      "generador": "gerrychain",
+      "semilla": 1133421195,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1133421195/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 3.81,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.8,
+          "baseline": 0.5,
+          "M05": 1.3,
+          "M06": 0.6,
+          "validacion": 0.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s133859180",
+      "generador": "gerrychain",
+      "semilla": 133859180,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s133859180/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 3.751,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.7,
+          "baseline": 0.6,
+          "M05": 1.3,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1105409945",
+      "generador": "gerrychain",
+      "semilla": 1105409945,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1105409945/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.017,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.8,
+          "baseline": 0.4,
+          "M05": 1.4,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1253140110",
+      "generador": "gerrychain",
+      "semilla": 1253140110,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1253140110/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.213,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.9,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1595337418",
+      "generador": "gerrychain",
+      "semilla": 1595337418,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1595337418/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 3.943,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.9,
+          "baseline": 0.5,
+          "M05": 1.3,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s785010340",
+      "generador": "gerrychain",
+      "semilla": 785010340,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s785010340/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 3.735,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.8,
+          "baseline": 0.5,
+          "M05": 1.2,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1372450150",
+      "generador": "gerrychain",
+      "semilla": 1372450150,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1372450150/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 3.919,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.9,
+          "baseline": 0.5,
+          "M05": 1.3,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1926630948",
+      "generador": "gerrychain",
+      "semilla": 1926630948,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1926630948/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 3.738,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.8,
+          "baseline": 0.5,
+          "M05": 1.3,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1837141721",
+      "generador": "gerrychain",
+      "semilla": 1837141721,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1837141721/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.177,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.9,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.6,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s781998076",
+      "generador": "gerrychain",
+      "semilla": 781998076,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s781998076/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 4.165,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.9,
+          "baseline": 0.6,
+          "M05": 1.4,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1591287832",
+      "generador": "gerrychain",
+      "semilla": 1591287832,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1591287832/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 3.814,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.8,
+          "baseline": 0.6,
+          "M05": 1.3,
+          "M06": 0.6,
+          "validacion": 0.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1472703070",
+      "generador": "gerrychain",
+      "semilla": 1472703070,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s1472703070/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 3.58,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.7,
+          "baseline": 0.5,
+          "M05": 1.2,
+          "M06": 0.5,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s960436518",
+      "generador": "gerrychain",
+      "semilla": 960436518,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.29527284111159274,
+      "ecm": 0.01872620855452017,
+      "huella_plan": "a4b3b99e89118f93ebe081785875ae1c13b70b46d3b5467e190258fcbc075409",
+      "composicion": "bateria/competicion/ceuta/gerrychain-s960436518/ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14b86d4cc27f4253d80a235dd9f9fc4d00456435d97da279bac02a2cd9494281",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 3.899,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 0.8,
+          "baseline": 0.5,
+          "M05": 1.3,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2953,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s2108478845: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

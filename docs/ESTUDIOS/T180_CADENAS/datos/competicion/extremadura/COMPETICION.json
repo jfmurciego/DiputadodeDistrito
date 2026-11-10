@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "extremadura",
+  "ganador": "gerrychain-s1677632748",
+  "valido": true,
+  "huella_resultado": "58728a71d8dba0ee280cd52c2945e46d463e8b3f743e6800ad2ec8cd586c69a3",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "extremadura",
+    "ancla": {
+      "population": "de69c1f9ff54e8c03693970711ccc82a93e239817f8dc7fdd24ae9d0c47a9405",
+      "target_sectioning": "abc7e5c8d49fb9b00f92a0c55fde29d0de855f165d86d0fc18fa173defc28b15"
+    },
+    "n": 20,
+    "semillas": [
+      1282667371,
+      679554530,
+      986349886,
+      1715659553,
+      1302089861,
+      764758532,
+      1779769317,
+      1144273725,
+      391671322,
+      283640999,
+      363149773,
+      770534146,
+      88819066,
+      1677632748,
+      317730276,
+      305309316,
+      371900700,
+      1703490688,
+      253560066,
+      716781516
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "5b825e69b0a9637936e828042caaa478617bee2c0227d153b2d1ba8f506f5b64",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 750.312,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1677632748",
+      "generador": "gerrychain",
+      "semilla": 1677632748,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.10251626959827977,
+      "ecm": 0.004060178428292535,
+      "huella_plan": "5213e2be6c67d12c023cc54bfe116256dd990977f2a1ad4e04afabea77ca1266",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s1677632748/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "30644eba1bf38fb4ad42ccecad89f7c30ac896288e63c38f61e1935d84fe583f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.006,
+        "juzgar_s": 0.127
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.0,
+          "M04": 8.8,
+          "baseline": 1.0,
+          "semilla_canonica": 6.5,
+          "M05": 15.4,
+          "M06": 2.2,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1025,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1715659553",
+      "generador": "gerrychain",
+      "semilla": 1715659553,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.10726779924905895,
+      "ecm": 0.0042200627400408915,
+      "huella_plan": "6c925804355ade11e07adc836682f958ee67ff8f595ea5a5268811bd96dc5d91",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s1715659553/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7b9e7cd1027bc6fcd83a649adc5df57d9353327dbd7f12eaa165ff84b958f1ec",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.183,
+        "juzgar_s": 0.13
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.8,
+          "M04": 7.5,
+          "baseline": 0.9,
+          "semilla_canonica": 6.2,
+          "M05": 15.4,
+          "M06": 2.3,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1073,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s253560066",
+      "generador": "gerrychain",
+      "semilla": 253560066,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.10840228035448975,
+      "ecm": 0.00403782055351178,
+      "huella_plan": "1c5e3a460607f329e6c94ee8c54239e18e9b5c609ad9eeb4b6a23c93d20d3eb2",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s253560066/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "57d01cceb5e9088487b921e63b277ae7ca9c2059b1371981ea5c624a6d39b1ee",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.57,
+        "juzgar_s": 0.182
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.9,
+          "M04": 7.9,
+          "baseline": 0.9,
+          "semilla_canonica": 5.9,
+          "M05": 15.3,
+          "M06": 2.6,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1084,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s317730276",
+      "generador": "gerrychain",
+      "semilla": 317730276,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11047662446776697,
+      "ecm": 0.00402402576515896,
+      "huella_plan": "a9184ba6ec70d6266539e4123b3191cec77af05e026543ed180dcf2fcffa1e4b",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s317730276/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4a53ad42daf1c06f9220fa7e4ff2c9902470cbb8f9f50904222950421e2a55f2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.327,
+        "juzgar_s": 0.126
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.0,
+          "M04": 7.8,
+          "baseline": 0.9,
+          "semilla_canonica": 6.3,
+          "M05": 16.7,
+          "M06": 2.3,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1105,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1144273725",
+      "generador": "gerrychain",
+      "semilla": 1144273725,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.112721852764289,
+      "ecm": 0.00463729846718258,
+      "huella_plan": "43b11cea7762bb0fd49684a01cbc311a922d216e83f8a98803e172a8bca45202",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s1144273725/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "689aca395691155391866345a092c50bdab7e848e2a4edaeca4db84d9a1894e9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.324,
+        "juzgar_s": 0.128
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.9,
+          "M04": 7.5,
+          "baseline": 0.8,
+          "semilla_canonica": 6.1,
+          "M05": 15.4,
+          "M06": 2.5,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1127,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s305309316",
+      "generador": "gerrychain",
+      "semilla": 305309316,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1128452691188547,
+      "ecm": 0.0037998946962263984,
+      "huella_plan": "a070e71dbe38a592adc2a853ea58cf00023ea6a1bf17abbc4ac287f3553cc805",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s305309316/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "85722afc72c40e4683d76f9592a43b6b21538015365ee2539ff35ea6f23d259a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.077,
+        "juzgar_s": 0.131
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.8,
+          "M04": 8.1,
+          "baseline": 0.9,
+          "semilla_canonica": 6.0,
+          "M05": 16.0,
+          "M06": 2.2,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1128,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1779769317",
+      "generador": "gerrychain",
+      "semilla": 1779769317,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11313007609092937,
+      "ecm": 0.004073253816622539,
+      "huella_plan": "c3c3444e80f320109b6f3f94b4f30ea7a8d508a607adb407af8ea3d5bb01e229",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s1779769317/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "93ea486cf0e2365fd319219ce89e32ea8df4acabdc514d3b2e5604336ba49ba7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.697,
+        "juzgar_s": 0.13
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.9,
+          "M04": 7.9,
+          "baseline": 0.8,
+          "semilla_canonica": 6.1,
+          "M05": 15.4,
+          "M06": 2.3,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1131,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s371900700",
+      "generador": "gerrychain",
+      "semilla": 371900700,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11362374150919215,
+      "ecm": 0.003895948542041536,
+      "huella_plan": "381ee5a82ba28a979df5c4079ba163fa7471802bec94c7af74fce217f420e834",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s371900700/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7e84648b056d87786c335cf923976f32f026b93ee0cf2a572a53973927063727",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.679,
+        "juzgar_s": 0.184
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.8,
+          "M04": 7.9,
+          "baseline": 0.8,
+          "semilla_canonica": 6.5,
+          "M05": 15.3,
+          "M06": 2.1,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1136,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s391671322",
+      "generador": "gerrychain",
+      "semilla": 391671322,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11395601630994594,
+      "ecm": 0.004550979369070322,
+      "huella_plan": "8d5614123b26caa1a3e296b99d01a68fdfcb8335d37cfa67abb78f615773372c",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s391671322/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9e20e0da8021f6cfe3f97d5282202ec4ccb2fa46e5936a785e8a4515feb3f6cc",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.809,
+        "juzgar_s": 0.128
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.7,
+          "M04": 7.4,
+          "baseline": 0.9,
+          "semilla_canonica": 6.0,
+          "M05": 16.4,
+          "M06": 2.2,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.114,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s88819066",
+      "generador": "gerrychain",
+      "semilla": 88819066,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11438797355092586,
+      "ecm": 0.004319857465974674,
+      "huella_plan": "321240835b92816cc39532d36d9547be1b08c0f4e090ed4cf108aa041bd83c4c",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s88819066/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b00d9e8cf9ac4f9df79efc920bee581887f376a3aebcab6a09e37cd552a45d68",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.02,
+        "juzgar_s": 0.133
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.8,
+          "M04": 8.0,
+          "baseline": 0.9,
+          "semilla_canonica": 6.1,
+          "M05": 16.6,
+          "M06": 2.4,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1144,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1703490688",
+      "generador": "gerrychain",
+      "semilla": 1703490688,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11451138990549155,
+      "ecm": 0.004549502958697764,
+      "huella_plan": "069192ed727fab424a04d88d3b0426ded3b058075808ab132923f42730763e57",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s1703490688/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2b7c037268575b858de0952b72601132e55f7d3f7c102b81513bf50a3a0eaaeb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.39,
+        "juzgar_s": 0.184
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.8,
+          "M04": 7.8,
+          "baseline": 0.9,
+          "semilla_canonica": 6.3,
+          "M05": 17.0,
+          "M06": 2.5,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1145,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1302089861",
+      "generador": "gerrychain",
+      "semilla": 1302089861,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11463480626005725,
+      "ecm": 0.0039008684649011575,
+      "huella_plan": "c3f26026e0a559b98500a69109ebd2cba32496eb720ef8a729eb8106e1fff0ff",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s1302089861/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a3d29d0b3415c03944375cffa8021f43624aac61552c50747dc4d47d7447bf96",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.142,
+        "juzgar_s": 0.127
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.0,
+          "M04": 7.9,
+          "baseline": 0.8,
+          "semilla_canonica": 6.0,
+          "M05": 16.0,
+          "M06": 2.3,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1146,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s986349886",
+      "generador": "gerrychain",
+      "semilla": 986349886,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11475822261462294,
+      "ecm": 0.004600958572577268,
+      "huella_plan": "090db8e8489fa9a35b5c206a5e272139d4b82a83c98cb467dd4b41fcaa874c8e",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s986349886/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "29c8de4b723f33ac54ef17a04fa33c6561821e76b26cd4d2a9e2c5ee21dd7f48",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 34.929,
+        "juzgar_s": 0.128
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.0,
+          "M04": 7.6,
+          "baseline": 0.8,
+          "semilla_canonica": 5.9,
+          "M05": 15.1,
+          "M06": 2.3,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s764758532",
+      "generador": "gerrychain",
+      "semilla": 764758532,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11481993079190579,
+      "ecm": 0.004211194318684705,
+      "huella_plan": "ec60aa42ab22e11267bc864d8f2686901edfec5c31973fa1ec09bff2598caa82",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s764758532/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "11b611221b5b904d6277962d5cada33c0aca44c80fcb8a4165baf6d00b1c5c26",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.436,
+        "juzgar_s": 0.131
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.9,
+          "M04": 7.4,
+          "baseline": 1.0,
+          "semilla_canonica": 6.1,
+          "M05": 15.4,
+          "M06": 2.4,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s679554530",
+      "generador": "gerrychain",
+      "semilla": 679554530,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11481993079190579,
+      "ecm": 0.005295512697895391,
+      "huella_plan": "1dc06992a3d127df00704ff719c42b42e9e203d7d8fcd9135c5001dd037c5273",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s679554530/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4ccc529a2f1c8d722eb9dcee972bdf3899eac491fb1b9681c2b22b82ee48cd10",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 35.871,
+        "juzgar_s": 0.13
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.7,
+          "M04": 7.4,
+          "baseline": 0.9,
+          "semilla_canonica": 6.3,
+          "M05": 16.2,
+          "M06": 2.2,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s770534146",
+      "generador": "gerrychain",
+      "semilla": 770534146,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11556042891929995,
+      "ecm": 0.003420214462262777,
+      "huella_plan": "dbe80bf19e0dc64f6fe177892af6271165a2a0bfcef0f4ecab2e1f12c1d1e09d",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s770534146/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0c7fcee4616792f8744423f76a25b2516d40a257ee1651fb4601898854d82cec",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.876,
+        "juzgar_s": 0.125
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.9,
+          "M04": 7.5,
+          "baseline": 0.8,
+          "semilla_canonica": 6.4,
+          "M05": 16.7,
+          "M06": 2.4,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1156,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s283640999",
+      "generador": "gerrychain",
+      "semilla": 283640999,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11936260199649687,
+      "ecm": 0.0045755979642810845,
+      "huella_plan": "fa3c6bc77095bb0249899a8cee10a4d47ec179e7e584d47064771888ac7c9b6c",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s283640999/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a7a4065f336432ace239d8051000566014bd6e05f3844d334aa028675623dd70",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.21,
+        "juzgar_s": 0.136
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.0,
+          "M04": 8.3,
+          "baseline": 0.8,
+          "semilla_canonica": 6.2,
+          "M05": 15.6,
+          "M06": 2.3,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1194,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.12300338445618482,
+      "ecm": 0.0016199646462742136,
+      "huella_plan": "239b97b96786a1e7f871717dba04c1946bf6f4861585bb90f43c4da9a9d9b2a0",
+      "composicion": "bateria/competicion/extremadura/canonico/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0d3a6043b876d093d4f3fe99baefff849cc638cf1527037bc63a122d49287b77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.409,
+        "juzgar_s": 0.132
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.1,
+          "M04": 8.3,
+          "M05": 6.4,
+          "M06": 2.2,
+          "validacion": 1.0
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.123,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s716781516",
+      "generador": "gerrychain",
+      "semilla": 716781516,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.12300338445618482,
+      "ecm": 0.004275785427117618,
+      "huella_plan": "f39100e01bb20d3dc7be989691256c1827289dce23bb453112e1c0d956e0b06a",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s716781516/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d238ce882385e78264ab9b7041cdffb261b9f01ee8a3f8cec31037982b425508",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 38.316,
+        "juzgar_s": 0.177
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.8,
+          "M04": 7.2,
+          "baseline": 0.8,
+          "semilla_canonica": 7.0,
+          "M05": 17.9,
+          "M06": 2.4,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.123,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s363149773",
+      "generador": "gerrychain",
+      "semilla": 363149773,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.12300338445618482,
+      "ecm": 0.004852476989479415,
+      "huella_plan": "1b02e44fdf97a9afc9748486e0fbe46985be47cd0eed1cc0c8ddac07df957a9b",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s363149773/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "772e13dcf93448810e53a9f05034ec03327d676bcc65d8462134b83536dbc94b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.176,
+        "juzgar_s": 0.138
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.9,
+          "M04": 7.4,
+          "baseline": 0.9,
+          "semilla_canonica": 6.1,
+          "M05": 17.0,
+          "M06": 2.8,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.123,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1282667371",
+      "generador": "gerrychain",
+      "semilla": 1282667371,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.12300338445618482,
+      "ecm": 0.005168059384406875,
+      "huella_plan": "d78c58978d1b704c67c4e7a53f6310d1f79bf7a0713d3ec0707d51dd8bffd207",
+      "composicion": "bateria/competicion/extremadura/gerrychain-s1282667371/extremadura_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "71599dc972049de9450bb02b5945fe20983c9bd0a8a84d5a819cc4fdd0bab681",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 37.923,
+        "juzgar_s": 0.132
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 1.9,
+          "M04": 7.5,
+          "baseline": 1.0,
+          "semilla_canonica": 6.6,
+          "M05": 17.3,
+          "M06": 2.4,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.123,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1715659553: tiene menor desvío máximo (desvio_max)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "mejora_al_canonico": true
+}
