@@ -2,7 +2,7 @@
 
 T-150 (10-11). Inventario de los workflows que ya no tienen fichero en `main` pero siguen en la lista de Actions (estado `disabled_manually`), obtenido con `gh api repos/jfmurciego/DiputadodeDistrito/actions/workflows` y cruzado con `git log --all --full-history`. Los 12 se crearon y se borraron en ramas de PR (`fix/electoral-input-19-territories`, `chatgpt/fuentes-wfs-20261017`), por eso sus runs son de evento `pull_request` o `push` en esas ramas, nunca en `main`.
 
-El borrado de runs está en `docs/HISTORIAL_WORKFLOWS_BORRADO_RUNS.csv` (222 runs). **No ejecutado**: es irreversible y lo hace el Operador con frase del propietario, tras revisión del Planificador. Sin runs y sin fichero, el workflow desaparece de la lista.
+El borrado de runs está en `docs/HISTORIAL_WORKFLOWS_BORRADO_RUNS.csv` (solo los 14 runs verificados; los 208 restantes, sin evidencia verificada, no entran y están en `docs/HISTORIAL_WORKFLOWS_RUNS_NO_VERIFICADOS.csv` con motivo y «nada que conservar»: checks de PR sin salida o runs fallidos). **No ejecutado**: es irreversible y lo hace el Operador con frase del propietario, tras revisión del Planificador. Sin runs y sin fichero, el workflow desaparece de la lista.
 
 | workflow_id | Nombre | Fichero | Alta → baja (git) | Runs | Primera / última ejecución | Resultado | Para qué servía | Lo sustituye | Evidencia |
 |---|---|---|---|---|---|---|---|---|---|
@@ -21,7 +21,7 @@ El borrado de runs está en `docs/HISTORIAL_WORKFLOWS_BORRADO_RUNS.csv` (222 run
 
 ## Notas
 
-- CSV: columna `verificada` (sí/no + ruta) por run; ninguno de los 222 está en `orchestracion/archivo_r2.json`. El Operador solo borra los «sí».
+- Columna `verificada` (sí/no + ruta) por run; ninguno de los 222 está en `orchestracion/archivo_r2.json`. El Operador solo borra el CSV de borrado (todos «sí»); solo esa lista se presenta al propietario.
 - Evidencia «git»: ruta@sha corto del blob en `origin/main`; todas existen. La asignación workflow→evidencia se hizo por nombre, fecha y herramienta que invocaba el workflow; los artefactos de Actions de estos runs ya han caducado. R2 contrastado solo con `orchestracion/archivo_r2.json` (sin coincidencias), sin acceso directo al almacén.
 - Los cuatro de septiembre (`verificar-*`, `diagnostico-descubrimiento-fuentes`) eran checks de PR sin salida conservable; borrar sus runs no pierde evidencia.
 - Workflows retirados con fichero aún en `legacy/` o ya sustituidos pero con runs en `main` (p. ej. `legacy/workflows/retirados_20261031`) no se tocan aquí: los gestiona T-149. Si se retiran más, se añaden filas y el CSV se regenera con `gh api repos/<r>/actions/workflows/<id>/runs`.
