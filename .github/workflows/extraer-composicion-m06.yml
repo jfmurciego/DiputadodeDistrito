@@ -12,7 +12,7 @@
 # CAMBIOS: versión inicial (T-67).
 # MOTIVO: el M06 publicado solo trae polígonos; sin la composición no se pueden agregar votos por partido; los artefactos caducan a los 14 días.
 # ANTERIOR: ninguna (fichero nuevo)
-name: '- Extraer composición M06'
+name: 'Auxiliar — Extraer composición M06'
 run-name: "Extraer composición M06 · ${{ inputs.territorios || 'todos' }}"
 on:
   workflow_dispatch:

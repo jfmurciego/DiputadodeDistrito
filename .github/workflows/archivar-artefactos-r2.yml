@@ -10,7 +10,7 @@
 # CAMBIOS: 1.0.0: fichero nuevo (T-47).
 # MOTIVO: el M05 de Cantabria (run 41037133327) caduca el 13-11 y otros productos registrados se perderían.
 # ANTERIOR: ninguna (fichero nuevo)
-name: '- Archivar artefactos en R2'
+name: 'Auxiliar — Archivar artefactos en R2'
 run-name: "Archivar artefactos en R2 · ${{ inputs.caduca_antes || 'todo lo vivo' }}"
 
 on:

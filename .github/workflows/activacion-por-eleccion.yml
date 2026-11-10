@@ -12,7 +12,7 @@
 # MOTIVO: T-03; una sola activación, una 03 y un 00 por elección en lugar de 52 lanzamientos manuales.
 # CAMBIOS 1.1.0: T-41, el job de entrada declara environment produccion (revisor humano) solo en disparo manual de una persona; bots y app ddd-registro no esperan.
 # ANTERIOR: legacy/workflows/activacion-por-eleccion_v1.0.0_20261107.yml
-name: '- Activación por Elección'
+name: 'Auxiliar — Activación por Elección'
 run-name: "Activación por Elección · ${{ inputs.eleccion }} · ${{ inputs.fase }}"
 
 on:

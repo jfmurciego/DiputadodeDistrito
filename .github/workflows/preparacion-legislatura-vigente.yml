@@ -18,7 +18,7 @@
 # CAMBIOS 1.0.8: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
 # ANTERIOR: legacy/workflows/preparacion-legislatura-vigente_v1.0.8_20261108.yml
-name: '- Activación de Legislatura Vigente'
+name: 'Auxiliar — Activación de Legislatura Vigente'
 run-name: "Activación de Legislatura Vigente · ${{ inputs.territory || 'todos' }} · ${{ inputs.operation || 'plan' }}"
 
 on:
