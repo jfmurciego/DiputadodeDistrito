@@ -11,7 +11,7 @@
 | Campo | Contenido |
 |---|---|
 | Qué se lanza | por territorio, la cadena de producción con el motor nuevo (P30): distritos (territorial) → legislatura → resultados por distrito (electoral), encadenada en GitHub (`publication_mode=territorial_only`, `cadena_electoral=true` o su equivalente tras el corte), sin publicar |
-| Territorios | los 71 (52 circunscripciones del Congreso + 19 autonómicas); primero 1 territorio de prueba (La Rioja autonómica, `la_rioja`: pequeña, con cambio de plan —ganador con 81 secciones cambiadas— y ruta autonómica; recorre la ruta real del motor nuevo), y el resto solo si la prueba completa la cadena con distritos certificados y resultados por distrito |
+| Territorios | RESTRINGIDO (10-11, decisión del propietario vía Planificador; solo reduce lo autorizado): solo las 19 autonómicas; el Congreso (52) no se regenera hasta la nueva legislatura. Original: los 71 (52 circunscripciones del Congreso + 19 autonómicas); primero 1 territorio de prueba (La Rioja autonómica, `la_rioja`: pequeña, con cambio de plan —ganador con 81 secciones cambiadas— y ruta autonómica; recorre la ruta real del motor nuevo), y el resto solo si la prueba completa la cadena con distritos certificados y resultados por distrito |
 | Mapa / motor | motor nuevo (D8, 10 cadenas) tras el relevo; contratos vigentes |
 | Publica | no (`publish_result=false`); el visor no cambia |
 | Tope de coste | 1 + 70 cadenas más reintentos; 6.500 min de Actions (suma de la duración de los jobs). Estimado: 60-90 min por territorio (generación 26-61 min + legislatura + electoral) ≈ 4.300-6.400 min |
