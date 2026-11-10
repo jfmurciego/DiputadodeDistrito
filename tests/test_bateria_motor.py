@@ -132,13 +132,15 @@ class BateriaMotor2EnActions(unittest.TestCase):
         ok = lambda t, f="empata": {"territorio": t, "estado": "VALIDO", "frente_al_canonico": f}  # noqa: E731
         esp = ["congreso_soria", "madrid"]
         hu = {"congreso_soria": {"igual": True, "huella_1": "x"}}
-        parcial = b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "mejora")], hu, esp)
+        cs = lambda *ts: {t: {"evaluables": 3, "fallos_generador": 0} for t in ts}  # noqa: E731
+        parcial = b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "mejora")], hu, esp, cs(*esp))
         self.assertTrue(parcial["parcial"])
         self.assertFalse(parcial["aceptacion"])  # sin Álava ni Melilla no hay verde por omisión
         todas = ["congreso_soria", "congreso_alava", "melilla", "madrid"]
         h3 = {t: {"igual": True, "huella_1": t} for t in todas[:3]}
-        c = b.criterio_aceptacion([ok(t) for t in todas], h3, todas)
+        c = b.criterio_aceptacion([ok(t) for t in todas], h3, todas, cs(*todas))
         self.assertTrue(c["aceptacion"])
+        self.assertFalse(b.criterio_aceptacion([ok(t) for t in todas], h3, todas)["aceptacion"])  # sin datos de cadenas, NO
         self.assertFalse(c["parcial"])
         self.assertEqual(b.criterio_aceptacion([ok("congreso_soria")], hu, esp)["faltan"], ["madrid"])
         self.assertEqual(b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "empeora")], hu, esp)["empeoran"], ["madrid"])
@@ -165,13 +167,7 @@ class BateriaMotor2EnActions(unittest.TestCase):
         import io
         with tempfile.TemporaryDirectory() as d:
             out = Path(d)
-            fila = {"territorio": "madrid", "estado": "VALIDO", "ganador": "g", "valido": True, "frente_al_canonico": "mejora",
-                    "canonico": "VALIDO", "candidatos_validos": 1, "candidatos": 1, "desvio_max": 0.0,
-                    "desvio_max_canonico": 0.1, "fuera_tolerancia": 0, "huella_resultado": "h", "tiempo_s": 1.0}
-            from ddd_motor2.competir import escribir_resumen
-            escribir_resumen([fila], out / "x" / "competicion")
-            (out / "x" / "competicion" / "madrid").mkdir()
-            shutil.copy(out / "x" / "competicion" / "RESUMEN.json", out / "x" / "competicion" / "madrid" / "RESUMEN.json")
+            self._competir_real(out, "madrid", cadena_ok=True)
             buf = io.StringIO()
             with contextlib.redirect_stdout(buf):
                 self.assertEqual(b.main(["aceptacion", "--out", d, "madrid"]), 0)
@@ -179,26 +175,85 @@ class BateriaMotor2EnActions(unittest.TestCase):
             self.assertFalse(json.loads((out / "ACEPTACION.json").read_text())["aceptacion"])
 
     def test_aceptacion_une_la_matriz(self):
+        import contextlib
+        import io
         with tempfile.TemporaryDirectory() as d:
             out = Path(d)
-            for t, h in (("congreso_soria", "ab"), ("madrid", "cd")):
-                fila = {"territorio": t, "estado": "VALIDO", "ganador": "g", "valido": True, "frente_al_canonico": "empata",
-                        "canonico": "VALIDO", "candidatos_validos": 3, "candidatos": 3, "desvio_max": 0.01,
-                        "desvio_max_canonico": 0.01, "fuera_tolerancia": 0, "huella_resultado": h, "tiempo_s": 1.0}
-                # disposición real: competir.main escribe el agregado en competicion/RESUMEN.json y el workflow lo copia
-                # junto a COMPETICION.json del territorio (artefacto por territorio)
-                from ddd_motor2.competir import escribir_resumen
-                escribir_resumen([fila], out / "x" / "competicion")
-                (out / "x" / "competicion" / t).mkdir(parents=True)
-                shutil.copy(out / "x" / "competicion" / "RESUMEN.json", out / "x" / "competicion" / t / "RESUMEN.json")
-            hr = out / "x" / "competicion" / "congreso_soria" / "HUELLA_REAL.json"
+            for t in ("congreso_soria", "madrid"):
+                self._competir_real(out, t, cadena_ok=True)
+            hr = out / "competicion" / "congreso_soria" / "HUELLA_REAL.json"
             hr.write_text(json.dumps({"territorio": "congreso_soria", "huella_1": "ab", "huella_2": "ab", "igual": True}))
-            import contextlib
-            import io
             with contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(b.main(["aceptacion", "--out", str(out), "congreso_soria", "madrid"]), 0)
                 self.assertEqual(b.main(["aceptacion", "--out", str(out), "congreso_soria", "madrid", "melilla"]), 1)
             self.assertFalse(json.loads((out / "ACEPTACION.json").read_text())["aceptacion"])
+
+    def _competir_real(self, out: Path, t: str, cadena_ok: bool):
+        """Salida real de competir_territorio + escribir_resumen (generadores sintéticos); la cadena falla o no."""
+        from ddd_motor2.competicion import EntradaTerritorio
+        from ddd_motor2.competir import competir_territorio, escribir_resumen
+        from ddd_motor2.semilla import semillas
+        from tests.test_motor2_competicion import POB, Fijo
+        from tests.test_motor2_semilla import cfg as cfg_con_ancla
+        secc = {u: f"220010100{i}" for i, u in enumerate(sorted(POB))}
+        grafo = out / "grafo.json"
+        grafo.write_text(json.dumps({"nodes": list(secc.values()), "edges": [
+            {"u": secc[a], "v": secc[c]} for a, c in (("A", "B"), ("B", "C"), ("C", "D"))]}))
+        e = EntradaTerritorio(t, cfg_con_ancla(), grafo)
+        bueno = {"A": "1", "B": "1", "C": "2", "D": "2"}
+        planes = {x: (bueno if cadena_ok else None) for x in semillas(e.cfg, t, 2)}
+        fila = competir_territorio(t, out, 2, generadores=(Fijo("canonico", {None: bueno}), Fijo("ponderado", planes)), entrada=e)
+        escribir_resumen([fila], out / "competicion")
+        shutil.copy(out / "competicion" / "RESUMEN.json", out / "competicion" / t / "RESUMEN.json")
+        return fila
+
+    def _aceptar(self, out: Path, t: str) -> dict:
+        import contextlib
+        import io
+        with contextlib.redirect_stdout(io.StringIO()):
+            rc = b.main(["aceptacion", "--out", str(out), t])
+        return {"rc": rc, **json.loads((out / "ACEPTACION.json").read_text())}
+
+    def test_t181_generador_fallido_da_no_aunque_gane_el_canonico(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            fila = self._competir_real(out, "madrid", cadena_ok=False)
+            self.assertEqual((fila["estado"], fila["ganador"]), ("VALIDO", "canonico"))  # el caso de T-208: todo «válido»
+            r = self._aceptar(out, "madrid")
+            self.assertEqual(r["rc"], 1)
+            self.assertEqual((r["sin_cadenas"], r["fallo_generador"]), (["madrid"], ["madrid"]))
+            self.assertFalse(r["aceptacion"])
+
+    def test_t181_cadenas_evaluables_no_bloquean(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            self._competir_real(out, "madrid", cadena_ok=True)
+            r = self._aceptar(out, "madrid")
+            self.assertEqual((r["rc"], r["sin_cadenas"], r["fallo_generador"]), (0, [], []))  # PARCIAL: sin huellas, pero sin fallos
+
+    def test_t181_sin_competicion_json_es_no(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            self._competir_real(out, "madrid", cadena_ok=True)
+            (out / "competicion" / "madrid" / "COMPETICION.json").unlink()
+            self.assertEqual(self._aceptar(out, "madrid")["sin_cadenas"], ["madrid"])
+
+    def test_t181_el_job_de_competicion_instala_y_comprueba_lo_que_importa_ponderado(self):
+        pasos = self.wf["jobs"]["competicion"]["steps"]
+        textos = [p.get("run", "") for p in pasos]
+        i_inst = next(i for i, x in enumerate(textos) if "networkx==" in x or "'^networkx=='" in x)
+        i_comp = next(i for i, p in enumerate(pasos) if p.get("name") == "Competición del motor 2")
+        i_ent = next(i for i, p in enumerate(pasos) if p.get("name", "").startswith("Entradas"))
+        self.assertLess(i_inst, i_ent)  # falla en 1 min, antes de gastar minutos
+        self.assertIn("import networkx", textos[i_inst])
+        self.assertIn("requirements-ensemble.lock", textos[i_inst])
+        self.assertLess(i_inst, i_comp)
+        pin = [x for x in (ROOT / "requirements-ensemble.lock").read_text().splitlines() if x.lower().startswith("networkx==")]
+        self.assertEqual(len(pin), 1)
+        # lo que Ponderado importa de terceros (networkx, shapely) lo cubre el job
+        src = (ROOT / "ddd_motor2/naturalidad_competicion.py").read_text(encoding="utf-8")
+        self.assertIn("import networkx", src)
+        self.assertIn("shapely", (ROOT / "requirements.lock").read_text().lower())
 
 
 if __name__ == "__main__":

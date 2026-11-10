@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: bateria-motor.yml
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.1.1
 # NOMBRE DE VERSIÓN: Batería del motor
 # FECHA: 2026-11-10
 # ESTADO: candidato
@@ -9,6 +9,9 @@
 #   INE; ejecuta M04-M06 con el motor indicado y la validación de producción y deja la matriz territorio × regla como
 #   artefacto. Con archivar=true sube a R2 solo la entrada mínima (M01 + grafo M03 + ENTRADAS.json) de cada
 #   territorio. No publica ni escribe en main.
+# CAMBIOS: 1.1.1 (T-181): el job de competición instala networkx (pin de requirements-ensemble.lock; Ponderado lo importa en el
+#   mismo proceso; antes las 10 cadenas fallaban con ModuleNotFoundError y el ganador era siempre el canónico) y comprueba
+#   en ~1 min, antes de competir, que networkx y shapely se importan. El job m05 no cambia.
 # CAMBIOS: 1.1.0 (T-208, D-72): entrada `motor: m05|motor2` (m05 por defecto, job idéntico); con motor2, matriz de un job por
 #   territorio (hasta 71; timeout 360 min) que ejecuta la competición (`funcion` D8 por defecto, `cadenas` 10) con
 #   PYTHONHASHSEED=0, entradas desde R2 o fuente INE y artefacto por territorio, y un job final que une la matriz y aplica el
@@ -17,7 +20,7 @@
 #   Coste: ~450-650 min de Actions en los 71 (ver la PR). El nombre del flujo no cambia (corte 5.0.0).
 #   1.0.0: fichero nuevo (T-132).
 # MOTIVO: repetir la batería ante cualquier cambio del motor con un solo botón; sin programación ni vigilantes.
-# ANTERIOR: legacy/workflows/bateria-motor_v1.0.0_20261110.yml
+# ANTERIOR: legacy/workflows/bateria-motor_v1.1.0_20261110.yml
 name: 'Auxiliar — Batería del Motor'
 run-name: "Batería del motor ${{ inputs.motor == 'motor2' && format('motor2 {0} N={1}', inputs.funcion, inputs.cadenas) || inputs.versiones_m05 }} ${{ inputs.territorios || 'todos' }}"
 
@@ -169,6 +172,12 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.lock
       - run: python -m pip install --requirement requirements.lock
+      - name: Dependencias de las cadenas (networkx) y comprobación rápida
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install "$(grep -i '^networkx==' requirements-ensemble.lock)"
+          python -c "import networkx, shapely; from ddd_motor2.naturalidad_competicion import cadena"
       - name: Entradas (R2 o fuente INE)
         shell: bash
         env:
