@@ -714,7 +714,8 @@ def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str]) 
     h_mal = sorted(t for t in h_pedidas if not (huellas.get(t) or {}).get("igual"))
     return {"esperados": len(esperados), "faltan": faltan, "no_validos": no_validos, "empeoran": peores,
             "huella_real": {t: (huellas.get(t) or {}).get("huella_1") for t in h_pedidas}, "huella_real_mal": h_mal,
-            "aceptacion": bool(esperados) and not (faltan or no_validos or peores or h_mal)}
+            "parcial": len(h_pedidas) < len(HUELLA_REAL),
+            "aceptacion": bool(esperados) and not (faltan or no_validos or peores or h_mal) and len(h_pedidas) == len(HUELLA_REAL)}
 
 
 def aceptacion(args) -> int:
@@ -733,14 +734,16 @@ def aceptacion(args) -> int:
     res = criterio_aceptacion(filas, huellas, esperados)
     res["totales"] = tot
     (out / "ACEPTACION.json").write_text(json.dumps(res, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    md = [f"# Aceptación del motor 2 · {'SÍ' if res['aceptacion'] else 'NO'}", "",
+    fallos = bool(res["faltan"] or res["no_validos"] or res["empeoran"] or res["huella_real_mal"] or not esperados)
+    veredicto = "NO" if fallos else ("PARCIAL (sin las tres huellas reales: no es aceptación)" if res["parcial"] else "SÍ")
+    md = [f"# Aceptación del motor 2 · {veredicto}", "",
           f"- Territorios esperados: {res['esperados']}; faltan: {res['faltan'] or 'ninguno'}.",
           f"- No válidos: {res['no_validos'] or 'ninguno'}; peores que el canónico: {res['empeoran'] or 'ninguno'}.",
           f"- Huella real (Soria, Álava, Melilla; dos ejecuciones iguales): "
           f"{'fallan ' + ', '.join(res['huella_real_mal']) if res['huella_real_mal'] else 'correcta'} {res['huella_real']}."]
     (out / "ACEPTACION.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md))
-    return 0 if res["aceptacion"] else 1
+    return 1 if fallos else 0  # PARCIAL sale 0 (sin fallos) pero nunca cuenta como aceptación: `aceptacion` es false
 
 
 def main(argv=None) -> int:

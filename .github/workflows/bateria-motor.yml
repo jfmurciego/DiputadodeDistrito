@@ -13,6 +13,7 @@
 #   territorio (hasta 71; timeout 360 min) que ejecuta la competición (`funcion` D8 por defecto, `cadenas` 10) con
 #   PYTHONHASHSEED=0, entradas desde R2 o fuente INE y artefacto por territorio, y un job final que une la matriz y aplica el
 #   criterio de aceptación de T-194 (válidos, ninguno peor que el canónico, huella real en Soria, Álava y Melilla).
+#   Cambios de revisión: aceptación «PARCIAL» sin las tres huellas reales; R2 solo en el paso de entradas.
 #   Coste: ~450-650 min de Actions en los 71 (ver la PR). El nombre del flujo no cambia (corte 5.0.0).
 #   1.0.0: fichero nuevo (T-132).
 # MOTIVO: repetir la batería ante cualquier cambio del motor con un solo botón; sin programación ni vigilantes.
@@ -46,12 +47,12 @@ on:
         type: string
         default: ''
       versiones_m05:
-        description: 'Versiones del motor base M05 separadas por espacios (7.4.4 vigente; 7.4.3 y 7.4.2 legacy)'
+        description: 'Solo m05: versiones del motor base M05 separadas por espacios (7.4.4 vigente; 7.4.3 y 7.4.2 legacy); motor2 la ignora'
         required: false
         type: string
         default: '7.4.4'
       archivar:
-        description: 'Subir a R2 la entrada mínima de cada territorio'
+        description: 'Solo m05: subir a R2 la entrada mínima de cada territorio; motor2 la ignora'
         required: false
         type: boolean
         default: false
@@ -160,11 +161,6 @@ jobs:
       FUNCION: ${{ inputs.funcion }}
       CADENAS: ${{ inputs.cadenas }}
       PYTHONHASHSEED: '0'
-      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: auto
-      R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
-      R2_BUCKET: ${{ vars.R2_BUCKET }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -175,6 +171,12 @@ jobs:
       - run: python -m pip install --requirement requirements.lock
       - name: Entradas (R2 o fuente INE)
         shell: bash
+        env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: auto
+        R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+        R2_BUCKET: ${{ vars.R2_BUCKET }}
         run: |
           set -euo pipefail
           r2=(); [[ -n "${R2_ACCOUNT_ID:-}" && -n "${AWS_ACCESS_KEY_ID:-}" ]] && r2=(--desde-r2)

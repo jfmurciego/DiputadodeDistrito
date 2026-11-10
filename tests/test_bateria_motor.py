@@ -80,10 +80,6 @@ class BateriaMotor(unittest.TestCase):
         self.assertEqual(b.ENTRADA_MINIMA, ("_m01_secciones_poblacion.geojson.zip", "_m03_grafo.json"))
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class BateriaMotor2EnActions(unittest.TestCase):
     """T-208 (D-72): la batería del motor 2 en Actions."""
 
@@ -130,7 +126,14 @@ class BateriaMotor2EnActions(unittest.TestCase):
         ok = lambda t, f="empata": {"territorio": t, "estado": "VALIDO", "frente_al_canonico": f}  # noqa: E731
         esp = ["congreso_soria", "madrid"]
         hu = {"congreso_soria": {"igual": True, "huella_1": "x"}}
-        self.assertTrue(b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "mejora")], hu, esp)["aceptacion"])
+        parcial = b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "mejora")], hu, esp)
+        self.assertTrue(parcial["parcial"])
+        self.assertFalse(parcial["aceptacion"])  # sin Álava ni Melilla no hay verde por omisión
+        todas = ["congreso_soria", "congreso_alava", "melilla", "madrid"]
+        h3 = {t: {"igual": True, "huella_1": t} for t in todas[:3]}
+        c = b.criterio_aceptacion([ok(t) for t in todas], h3, todas)
+        self.assertTrue(c["aceptacion"])
+        self.assertFalse(c["parcial"])
         self.assertEqual(b.criterio_aceptacion([ok("congreso_soria")], hu, esp)["faltan"], ["madrid"])
         self.assertEqual(b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "empeora")], hu, esp)["empeoran"], ["madrid"])
         malo = [ok("congreso_soria"), {**ok("madrid"), "estado": "INVALIDO"}]
@@ -138,6 +141,36 @@ class BateriaMotor2EnActions(unittest.TestCase):
         sin = b.criterio_aceptacion([ok("congreso_soria"), ok("madrid")], {"congreso_soria": {"igual": False}}, esp)
         self.assertEqual(sin["huella_real_mal"], ["congreso_soria"])
         self.assertFalse(sin["aceptacion"])
+
+    def test_paso_fallido_sin_resumen_deja_el_territorio_en_faltan(self):
+        import contextlib
+        import io
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            (out / "competicion" / "madrid").mkdir(parents=True)  # el job de congreso_soria no dejó RESUMEN.json
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(b.main(["aceptacion", "--out", d, "congreso_soria"]), 1)
+            res = json.loads((out / "ACEPTACION.json").read_text())
+            self.assertEqual(res["faltan"], ["congreso_soria"])
+            self.assertFalse(res["aceptacion"])
+
+    def test_aceptacion_parcial_no_es_aceptacion(self):
+        import contextlib
+        import io
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            fila = {"territorio": "madrid", "estado": "VALIDO", "ganador": "g", "valido": True, "frente_al_canonico": "mejora",
+                    "canonico": "VALIDO", "candidatos_validos": 1, "candidatos": 1, "desvio_max": 0.0,
+                    "desvio_max_canonico": 0.1, "fuera_tolerancia": 0, "huella_resultado": "h", "tiempo_s": 1.0}
+            from ddd_motor2.competir import escribir_resumen
+            escribir_resumen([fila], out / "x" / "competicion")
+            (out / "x" / "competicion" / "madrid").mkdir()
+            shutil.copy(out / "x" / "competicion" / "RESUMEN.json", out / "x" / "competicion" / "madrid" / "RESUMEN.json")
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                self.assertEqual(b.main(["aceptacion", "--out", d, "madrid"]), 0)
+            self.assertIn("PARCIAL", buf.getvalue())
+            self.assertFalse(json.loads((out / "ACEPTACION.json").read_text())["aceptacion"])
 
     def test_aceptacion_une_la_matriz(self):
         with tempfile.TemporaryDirectory() as d:
@@ -160,3 +193,7 @@ class BateriaMotor2EnActions(unittest.TestCase):
                 self.assertEqual(b.main(["aceptacion", "--out", str(out), "congreso_soria", "madrid"]), 0)
                 self.assertEqual(b.main(["aceptacion", "--out", str(out), "congreso_soria", "madrid", "melilla"]), 1)
             self.assertFalse(json.loads((out / "ACEPTACION.json").read_text())["aceptacion"])
+
+
+if __name__ == "__main__":
+    unittest.main()
