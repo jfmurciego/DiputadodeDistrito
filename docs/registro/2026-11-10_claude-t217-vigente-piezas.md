@@ -21,6 +21,11 @@
 Ninguno queda peor que el vigente publicado.
 Detalle en `docs/ESTUDIOS/T217_vigente_piezas_finas/`.
 **Pruebas:** `tests.test_motor2_competicion_d8` (`VigenteCompite`, `VigenteReparado`, `PiezasFinas`, `PonderadoDesdeVigente`), `tests.test_motor2_competir.Resumen.test_peor_que_el_vigente`, suite `test_motor2_*` y `GovernanceHeaders`.
+**Revisión independiente (f9a9cd6, PASS_WITH_EXCEPTIONS), menores corregidos:**
+- `--reanudar` exige el mismo vigente publicado (sha256);
+- en el Congreso, o con unidades internas, el vigente no parte unidades M04: si las parte, no es representable y se informa;
+- tests con ids «~» y núcleos cerrados con la referencia del canónico.
+
 **Notas de #693 (Coordinador):**
 - El «después» de T-211 (Aragón 0, Castilla-La Mancha 5, Castilla y León 2, Galicia 6) se generó en sesión. Su extracto (candidatos, fuera de tolerancia, clave y huella) está en `docs/ESTUDIOS/T211_ponderado_autonomicas/datos/despues_clave_contrato.json`; se reproduce con la batería nueva.
 - La orden pedía contar «con las exenciones del contrato», pero el recuento las ignora a propósito, como `reglas.evaluar` y el M04 (`outside_target_tolerance`). En el contrato las exenciones solo relajan el suelo (R-SUELO; R-TOL asimétrica para el exento) y no sacan a ningún distrito del recuento de fuera de tolerancia. Descontarlas haría que la clave contara distinto que el núcleo y que el M04.

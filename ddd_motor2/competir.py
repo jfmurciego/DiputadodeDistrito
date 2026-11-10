@@ -11,7 +11,8 @@ CAMBIOS: 1.2.0 (T-217) — con C/D5/D8 compite también el mapa vigente publicad
   núcleo, y la mitad de las cadenas parte de él; la fila del resumen añade «vigente» (estado; «compite»: sí/no) y
   «frente_al_vigente» (mejora / empata / empeora; vacío si no compite), «vigente_reparado» y
   «fuera_vigente_publicado», también al reanudar; la aceptación exige no tener más fuera de tolerancia que el vigente
-  publicado («peor_que_el_vigente»). Con A, como 1.1.0.
+  publicado («peor_que_el_vigente»). --reanudar solo reutiliza un COMPETICION.json juzgado con el mismo vigente
+  publicado (sha256). Con A, como 1.1.0.
   1.1.0 (T-205) — --funcion D8 (por defecto) | C | D5 | A y --cadenas 10 por defecto. Con A compiten canónico +
   GerryChain de producción, como 1.0.1; con C/D5/D8, canónico + generador «ponderado» (generadores.Ponderado) y elige
   la clave de naturalidad compartida con el laboratorio. --reanudar exige además la misma función; «frente al
@@ -90,6 +91,18 @@ def _fila_vigente(r) -> dict:
             "frente_al_vigente": comparar(r.ganador, cv) if cv is not None else ""}
 
 
+def _mismo_vigente(t: str, d: dict, funcion: str, carpeta: Path | None = None) -> bool:
+    """Reanudar solo si el vigente con el que se juzgó es el publicado ahora (sha256 de datos/composicion/<t>.csv)."""
+    if funcion == "A":
+        return True
+    import hashlib
+    from .generadores import ROOT
+    ruta = (carpeta or ROOT / "datos" / "composicion") / f"{t}.csv"
+    ahora = hashlib.sha256(ruta.read_bytes()).hexdigest() if ruta.is_file() else None
+    antes = (d.get("vigente") or {}).get("sha256_origen")
+    return antes == ahora
+
+
 def fila_guardada(t: str, out: Path, n_cadenas: int, cfg=None, funcion: str = "D8") -> dict | None:
     """Fila del resumen desde un COMPETICION.json ya escrito (reanudación). None —y el territorio se recalcula— si no
     hay, no se puede leer o no es de esta misma competición: versión del orquestador, huella de reglas, ancla de la
@@ -106,7 +119,8 @@ def fila_guardada(t: str, out: Path, n_cadenas: int, cfg=None, funcion: str = "D
         if (d.get("version_orquestador") != VERSION or d.get("funcion", "A") != funcion or sp.get("n") != n_cadenas
                 or sp.get("ancla") != ancla(cfg)
                 or d.get("huella_reglas") != Reglas.desde_contrato(cfg, Criterio(**d["criterio"])).huella()
-                or d.get("criterio") != asdict(Criterio())):
+                or d.get("criterio") != asdict(Criterio())
+                or not _mismo_vigente(t, d, funcion)):
             return None
     except (OSError, ValueError, KeyError, TypeError):  # ErrorContrato es ValueError
         return None

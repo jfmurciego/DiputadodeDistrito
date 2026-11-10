@@ -300,7 +300,9 @@ class Vigente:
                           f"{len(set(vig) - secs)} del vigente que no están en la entrada")
         problema, _, _ = problema_y_plan(base, entrada.grafo_m03, entrada.cfg, atributos_secciones=atributos,
                                          respaldo_municipio_cusec=criterio.respaldo_municipio_cusec)
-        grandes, _ = municipios_divisibles(problema, Reglas.desde_contrato(entrada.cfg, criterio), entrada.cfg)
+        # solo con piezas finas (autonómicas): en el Congreso o con unidades internas las unidades M04 no se parten
+        grandes = (municipios_divisibles(problema, Reglas.desde_contrato(entrada.cfg, criterio), entrada.cfg)[0]
+                   if info.get("aplicadas") else set())
         mun = {u.id: u.municipio for u in problema.unidades}
         uid = lambda f: str(f.get(col["unidad"]) or f[col["seccion"]]).strip()  # noqa: E731
         ds: dict[str, set] = defaultdict(set)
@@ -310,7 +312,8 @@ class Vigente:
         atomicas = [u for u in partidas if mun.get(u) not in grandes]
         if atomicas:
             return Salida(None, "VIGENTE_NO_REPRESENTABLE",
-                          f"el vigente parte {len(atomicas)} unidades atómicas según el contrato (p. ej. {atomicas[0]})")
+                          f"el vigente parte {len(atomicas)} unidades que aquí no se pueden partir (municipio atómico "
+                          f"según el contrato o unidad M04 sin piezas finas; p. ej. {atomicas[0]})")
         for f in filas:
             d = vig[str(f[col["seccion"]]).strip()]
             if uid(f) in partidas:  # pieza M04 de un municipio divisible repartida en el vigente: una por distrito

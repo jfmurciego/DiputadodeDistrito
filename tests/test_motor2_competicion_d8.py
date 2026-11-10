@@ -186,6 +186,16 @@ class VigenteReparado(unittest.TestCase):
     mínima pasa C al distrito de su vecina D, se juzga de nuevo y compite; lo publicado queda en «publicado»."""
 
     def test_repara_y_compite(self):
+        self.repara(None)
+
+    def test_repara_con_piezas_finas(self):  # ids «~» en A, B, D y E (divisibles con 0,45), núcleo cerrado {A, B}
+        r = self.repara(0.45)
+        cv = next(c for c in r.candidatos if c.id == "vigente")
+        ids = {f["ddd_unit_id"] for f in csv.DictReader(open(cv.composicion, encoding="utf-8"))}
+        self.assertIn("A~2200101000", ids)
+        self.assertEqual(r.vigente["piezas_finas"]["secciones_sueltas"], 4)
+
+    def repara(self, ratio):
         from ddd_motor2.generadores import Vigente
 
         class Cerrado:
@@ -199,7 +209,11 @@ class VigenteReparado(unittest.TestCase):
         carpeta.mkdir()
         (carpeta / "sintetico.csv").write_text("seccion,distrito,poblacion\n" + "".join(
             f"220010100{i},{'1' if i < 3 else '2'},0\n" for i in range(5)), encoding="utf-8")
-        r = competir(entrada(tmp), Cerrado(), Fijo("cadena", {7: plan_corte(2)}), [7], tmp / "out",
+        e = entrada(tmp)
+        if ratio is not None:
+            e = EntradaTerritorio("sintetico", {"validation": {**CFG["validation"],
+                                                               "municipality_atomicity_limit_ratio": ratio}}, e.grafo_m03)
+        r = competir(e, Cerrado(), Fijo("cadena", {7: plan_corte(2)}), [7], tmp / "out",
                      exhaustivo=False, funcion="D8", vigente=Vigente(carpeta))
         v = r.vigente
         self.assertEqual(v["publicado"]["violaciones"], [["R-NUCLEO", v["publicado"]["violaciones"][0][1]]])
@@ -207,6 +221,7 @@ class VigenteReparado(unittest.TestCase):
         self.assertTrue(v["reparado"] and v["compite"], v)
         self.assertIn("1 unidades (6 hab.)", v["reparacion"][0])
         self.assertIn("vigente", [c.id for c in r.candidatos])
+        return r
 
 
 class PiezasFinas(unittest.TestCase):
@@ -233,6 +248,33 @@ class PiezasFinas(unittest.TestCase):
         self.assertEqual(piezas_finas(comp, e, tmp / "f.csv")[0], comp)
         tmp, e, comp = self.preparar(None)
         self.assertEqual(piezas_finas(comp, e, tmp / "f.csv")[0], comp)
+
+    def test_congreso_no_parte_unidades_m04(self):
+        from ddd_motor2.generadores import Vigente
+        for territorio, ratio, esperado in (("congreso_x", 0.45, "VIGENTE_NO_REPRESENTABLE"), ("sintetico", 0.45, "OK"),
+                                            ("sintetico", 1.15, "VIGENTE_NO_REPRESENTABLE")):
+            tmp = Path(tempfile.mkdtemp())
+            e = entrada(tmp)
+            comp = tmp / "canonico" / "x_m06_composicion_distritos.csv"
+            comp.parent.mkdir(parents=True)
+            with open(comp, "w", newline="", encoding="utf-8") as fh:  # la unidad A tiene dos secciones (A0, A1)
+                w = csv.writer(fh)
+                w.writerow(["CUSEC_KEY", "district_id", "section_pop", "CPRO", "CUMUN", "ddd_unit_id", "ddd_closed_urban"])
+                for i, u in enumerate(UNIDADES):
+                    w.writerow([f"220010100{i}", "1" if i < 2 else "2", POB[u], "22", f"2200{i}", u, "0"])
+            g = json.loads(Path(e.grafo_m03).read_text())
+            g["nodes"].append("2200101009")
+            g["edges"].append({"u": "2200101000", "v": "2200101009", "edge_type": "geometric", "shared_border_m": 1.0})
+            Path(e.grafo_m03).write_text(json.dumps(g))
+            with open(comp, "a", newline="", encoding="utf-8") as fh:
+                csv.writer(fh).writerow(["2200101009", "1", 1, "22", "22000", "A", "0"])
+            carpeta = tmp / "vig"
+            carpeta.mkdir()
+            (carpeta / f"{territorio}.csv").write_text("seccion,distrito,poblacion\n" + "".join(
+                f"220010100{i},{'1' if i < 2 else '2'},0\n" for i in range(5)) + "2200101009,2,0\n", encoding="utf-8")
+            cfg = {"validation": {**CFG["validation"], "municipality_atomicity_limit_ratio": ratio}}
+            en = EntradaTerritorio(territorio, cfg, e.grafo_m03, contexto={"composicion_canonica": str(comp)})
+            self.assertEqual(Vigente(carpeta).generar(en, None, tmp / "v").estado, esperado, (territorio, ratio))
 
     def test_vigente_representable_o_no(self):
         from ddd_motor2.generadores import Vigente
