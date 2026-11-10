@@ -3,7 +3,7 @@
 - Decisión: D-52 (autorización por campaña). Chat del Operador: session_01KQDtFsAtHP9atzNnDthr9A.
 - Frase literal del propietario: «Autorizo la campaña de la ficha del histórico autonómico de Andalucía, Baleares y Aragón 2019-2026, con su tope de coste y caducidad»
 - Fecha y hora de la frase (Europe/Madrid): 2026-11-10 16:00 (aprox.). El propietario añadió: «esperate a que te lo pida el planificador, pero date por autorizado, es una tarea para cuando terminen otras pendientes».
-- Estado de la ficha: BORRADOR. La frase llegó antes que la ficha; el Operador la presenta al propietario antes del primer lanzamiento.
+- Estado de la ficha: CERRADA sin ejecutar. La frase del propietario queda sin uso.
 - Caducidad: 7 días desde el aviso del Planificador que abre el lanzamiento (y como máximo 2026-11-24 23:59).
 - Gasto semanal al autorizar: se mide en el momento del lanzamiento (`herramientas/metricas_proceso.py`) y se anota aquí; tope 15.000 min/semana, aviso al 70 %.
 
@@ -25,4 +25,4 @@
 |---|---|---|---|---|---|---|
 
 ## Cierre
-Estado: `EN_ESPERA` (aviso del Planificador). Último uso: —.
+Estado: `NO_EJECUTADA`: sustituida por reagregación local (las tres composiciones se reconstruyeron exactas desde el M06 publicado, aviso del Planificador 2026-11-10). Ninguna ejecución, 0 min. Último uso: —.
