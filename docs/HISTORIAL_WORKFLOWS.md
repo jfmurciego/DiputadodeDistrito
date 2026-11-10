@@ -62,3 +62,23 @@ Por run (REST `actions/runs/<id>/artifacts`) y contra `orchestracion/archivo_r2.
 - **197 runs sin artefactos**: nada que verificar ni conservar (`nada_que_conservar` = sí).
 - **647 runs de `orquestacion-control`** con 3 artefactos cada uno (`g10-validar-config-*`, `g10-g10-selftest`, `g10-resumen-lote-*`; muestra de 12 runs idéntica, 0,5-7 KB, no caducados), sin archivar en git ni R2: marcados «no · sin decidir». El propietario debe decidir si se pierden.
 - Simulación y ejecución: mismo bloque de «Borrado» cambiando fichero y sha256.
+
+### Decisión propuesta para los 844 (T-167, 10-11; sin ejecutar)
+
+Listas separadas: **222 aprobadas** (`HISTORIAL_WORKFLOWS_BORRADO_RUNS.csv`, sha256 `765d4ac2…90ab8`, intacto) y **844** de T-149 con decisión (`HISTORIAL_WORKFLOWS_BORRADO_RUNS_T149_DECISION.csv`, sha256 `d1adffffdcc7400ffcfa8c68268500cc3cf20478d534bfdbf88aa2dd06f1eff5`; el original de 844, sha256 `68cf4fdc…cb3`, queda intacto). Columnas nuevas: `verificada`, `decision_propuesta`, `motivo_decision`.
+
+- **197 sin artefactos**: borrar (solo log de CI).
+- **647 de `orquestacion-control`**: 1941 artefactos (3 por run; 4,4 MB en total), todos vivos (caducan 2026-12-15 → 2027-02-08). Son `g10-g10-selftest` (log de las pruebas g10, ~0,7 KB), `g10-validar-config-aragon` (log de validación de la configuración de Aragón, 3-7 KB) y `g10-resumen-lote-<run>` (JSON de resumen, 488 B); un run de 16-09 usa el prefijo `orquestacion-`. No contienen producto territorial ni electoral. No están en `archivo_r2.json` (0 de 624 entradas) ni en git. Se reproducen con el workflow y el código de su SHA (git: historial y `legacy/workflows/`). El contenido no se pudo leer desde la sesión cloud (el host de descarga de artefactos está bloqueado): la descripción sale del workflow y de los tamaños.
+- **Propuesta: borrar los 647**, sin archivar el contenido. Mínimo que se conserva: la ficha de los 1941 artefactos (run, id, nombre, bytes, huella, fechas, SHA) en `HISTORIAL_WORKFLOWS_ARTEFACTOS_G10_T167.csv`, sha256 `7dfa5cc90a9534a6d34f8141c0fe1bc05a1a46cdd36c0dcffb89a3e144891b04`. Si el propietario prefiere conservar el contenido, bastaría un ZIP de ~4,4 MB al archivo ARC; no se propone.
+- Los artefactos desaparecen con el run al borrarlo.
+
+Simulación para el Operador (no borra; solo comprobación local; el borrado real exige la frase del propietario):
+
+```bash
+R=jfmurciego/DiputadodeDistrito; F=docs/HISTORIAL_WORKFLOWS_BORRADO_RUNS_T149_DECISION.csv
+echo "d1adffffdcc7400ffcfa8c68268500cc3cf20478d534bfdbf88aa2dd06f1eff5  $F" | sha256sum -c - || exit 1
+python3 -I -c "import csv,sys;[print(r['run_id']) for r in csv.DictReader(open(sys.argv[1])) if r['decision_propuesta']=='borrar']" $F > /tmp/runs149.txt; wc -l /tmp/runs149.txt   # 844
+while read id; do echo "SIMULACIÓN DELETE repos/$R/actions/runs/$id"; done < /tmp/runs149.txt | head -3
+```
+
+Ejecución (solo con la frase del propietario, irreversible): mismo bloque y `while read id; do gh api -X DELETE repos/$R/actions/runs/$id || echo "FALLO $id"; done < /tmp/runs149.txt`. `orquestacion-control` tenía 666 runs (647 con artefactos + 19 sin ellos); los runs posteriores a la lista quedan fuera: repetir el inventario antes de ejecutar.
