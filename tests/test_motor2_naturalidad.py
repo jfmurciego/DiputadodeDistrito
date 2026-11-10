@@ -89,6 +89,16 @@ class Laboratorio(unittest.TestCase):
         self.assertEqual(lab.clave(lejos, "D8")[1], 0.0)
         self.assertEqual(lab.clave(cerca, "D5")[2:], lab.clave(cerca, "B")[1:])  # tras el tope, la clave de B
 
+    def test_islas_y_enclaves_del_contrato(self):
+        from ddd_motor2.naturalidad_competicion import particiones, puentes_contrato
+        cfg = {"m": {"x": {"hard_partition_lookup": "configuracion/particiones_insulares_2025.json",
+                           "hard_partition_territory_id": "congreso_baleares"}}}
+        part = particiones(cfg)
+        self.assertIn(("0702401001", "0702602001"), part.pop("_puentes"))  # Formentera con Ibiza
+        self.assertEqual(len(set(part.values())), 3)
+        cfg = {"modulos": {"m02": {"topology_bridges": [{"u": 910901001, "v": "0921904001"}]}}}
+        self.assertEqual(puentes_contrato(cfg), {("0921904001", "910901001")})  # el cero lo repone el laboratorio
+
     def test_colores_emparejados(self):
         from ddd_motor2.naturalidad_informe import colores
         pob = {"a": 1, "b": 1, "c": 5}
