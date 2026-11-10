@@ -39,10 +39,16 @@ Nada cambia en suelo, techo, K ni tolerancia: todos los mapas cumplen el núcleo
 
 ## Dónde C o D8 empeoran algo frente a A
 
-| Territorio | Función | Qué empeora frente a A |
+`mapas/EMPEORA.md` lo lista todo, también la suma de desvíos, que sube en casi todas las provincias (es el precio
+en población de la naturalidad; menor en D8 que en C). Aparte de la suma de desvíos, solo empeoran:
+
+| Provincia | Función | Qué empeora |
 |---|---|---|
 | Alicante | D8 | partidos judiciales partidos 10 → 11 |
-| León | D8 | Polsby-Popper medio 0.264 → 0.25 |
+| León | D8 | Polsby-Popper medio 0,264 → 0,250 |
+| Baleares | C y D8 | Polsby-Popper mínimo 0,047 → 0,045 |
+| Pontevedra | C | Polsby-Popper mínimo 0,090 → 0,073 |
+| Pontevedra | D8 | Polsby-Popper mínimo 0,090 → 0,076 |
 
 Ninguna provincia se queda sin candidato válido (salvo las de un solo distrito, que no lo necesitan).
 

@@ -29,10 +29,23 @@ por la mitad de su población. Con una sola circunscripción es el objetivo regi
 
 ## Dónde C o D8 empeoran algo frente a A
 
+Incluye la suma de desvíos (personas de más frente a A) y el Polsby-Popper mínimo (el distrito menos compacto):
+
 | Territorio | Función | Qué empeora frente a A |
 |---|---|---|
+| Cantabria (autonómicas) | C | Polsby-Popper mínimo 0.108 → 0.107; suma de desvíos +4941 personas |
+| Cantabria (autonómicas) | D8 | Polsby-Popper mínimo 0.108 → 0.099; suma de desvíos +2481 personas |
 | Cataluña (autonómicas) | D8 | Polsby-Popper medio 0.233 → 0.232 |
-| Melilla (autonómicas) | D8 | Polsby-Popper medio 0.404 → 0.366 |
+| Navarra (autonómicas) | C | suma de desvíos +963 personas |
+| Galicia (autonómicas) | C | suma de desvíos +7237 personas |
+| Galicia (autonómicas) | D8 | suma de desvíos +7237 personas |
+| La Rioja (autonómicas) | C | suma de desvíos +758 personas |
+| Comunidad de Madrid (autonómicas) | C | suma de desvíos +43549 personas |
+| Comunidad de Madrid (autonómicas) | D8 | suma de desvíos +43549 personas |
+| Melilla (autonómicas) | C | Polsby-Popper mínimo 0.109 → 0.092 |
+| Melilla (autonómicas) | D8 | Polsby-Popper medio 0.404 → 0.366; Polsby-Popper mínimo 0.109 → 0.106 |
+| Región de Murcia (autonómicas) | C | Polsby-Popper mínimo 0.072 → 0.038 |
+| Región de Murcia (autonómicas) | D8 | Polsby-Popper mínimo 0.072 → 0.045 |
 
 Ninguna autonómica se queda sin candidato válido.
 

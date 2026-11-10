@@ -45,4 +45,5 @@ Por eso el laboratorio usa una aproximación, igual que el motor en lo esencial:
 - **Extremadura**: casi empate; D8 reduce la suma de desvíos (53.726 → 49.757) y C mejora algo la forma.
 - **Castilla y León**: C y D8 coinciden (37 partidos judiciales partidos frente a 38; 52 comarcas frente a 53) y,
   a diferencia de A, cumplen el núcleo.
-- Ninguna empeora nada frente a A (`mapas/EMPEORA.md` vacío).
+- Aparte de la suma de desvíos, ninguna empeora nada frente a A. La suma sube algo: Castilla y León +3.836 personas
+  (C y D8), Extremadura +3.208 (C), Principado de Asturias +13.499 (C) y +2.228 (D8); `mapas/EMPEORA.md`.
