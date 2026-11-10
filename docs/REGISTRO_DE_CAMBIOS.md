@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.329
+Versión: 1.0.330
 Fecha: 2026-11-10
-Alcance: T-203 — Avisos de procedencia por elección, nota 2026 en el visor y metadatos de Zenodo (T-203/T-206/T-210)
+Alcance: Operador — Batería del motor nuevo con D8 y 10 cadenas: campañas r2 (parada) y r3 (completada) (D-52)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t203-206-210.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.328_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_operador-ficha-bateria-motor2-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.329_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.328_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.330 · [2026-11-10 — Operador — Batería del motor nuevo con D8 y 10 cadenas: campañas r2 (parada) y r3 (completada) (D-52)](registro/2026-11-10_operador-ficha-bateria-motor2-r2.md)
 - 1.0.329 · [2026-11-10 — T-203 — Avisos de procedencia por elección, nota 2026 en el visor y metadatos de Zenodo (T-203/T-206/T-210)](registro/2026-11-10_t203-206-210.md)
 - 1.0.328 · [2026-11-10 — T-181b — Batería motor 2: cadenas sin tocar el entorno base](registro/2026-11-10_claude-t181b-bateria-entorno.md)
 - 1.0.327 · [2026-11-10 — T-180 — Cuántas cadenas hacen falta en la competición del motor 2 (71 territorios)](registro/2026-11-10_claude-t180-cadenas.md)
