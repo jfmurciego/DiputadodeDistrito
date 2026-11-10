@@ -426,25 +426,24 @@ territories:
         run_id: 41042675119
         stage: M08
       preparation_evidence:
-        run_id: 40691774876
-        artifact_name: ddd-source-package-extremadura-2025-40691774876
-        artifact_sha256: 62efb06eafc4302639b1264999ed8afb7bb7ba94f0639f872bae72dfb2b7c619
-        package_sha256: 02e52e3ecde5f9d8d59b07cf7152742786f4766941f7003ee9541ac5f0ef6c52
-        receipt_path: territorios/extremadura/evidencia/fuentes_territoriales/2025/3e53d9481b871f105f2f6fd0d3564aaa10a4ce331e4fde4268cddda327fb8a37/40691774876/receipt.json
-        territorial_identity_sha256: 3e53d9481b871f105f2f6fd0d3564aaa10a4ce331e4fde4268cddda327fb8a37
-        compatibility_report_sha256: 9fdd2d68d733ed66b3789f2c996e11321f75bbcce7851ef6586b6f59cc4cbdd9
-        compatibility_identity_sha256: d32cb2818b33f5cd627161d3a2fe3e0664a8e8af53b24d1f8e731b5077946e89
+        run_id: 42720735134
+        artifact_name: ddd-source-package-extremadura-2025-42720735134
+        artifact_sha256: 9d50ad9459baa8c275927668e553c3fd09285dc28b8027d2c7746fd7c0c68158
+        package_sha256: 14abaecb2364af56af8ca827e2f65b8a8212842f88b1fd2e9394ab15bb33381d
+        receipt_path: territorios/extremadura/evidencia/fuentes_territoriales/2025/c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6/42720735134/receipt.json
+        territorial_identity_sha256: c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6
+        compatibility_report_sha256: 411ea5a3d2f0d180b74ffe17f6d563cbd7200151aac4c88bc986f5bfaa7a2bcf
+        compatibility_identity_sha256: c74900602d2fdf4d6af7f58f9d6f88ed1059e8461d88c0e43bef961f23bca92c
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2025
         section_year: 2025
-        source_commit: 8940b848734cc05516ead27b48378493aa9aeddb
+        source_commit: 0ec9728c39bb6ded9db45608f5516d901805758a
       evidence:
         territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
-        generation_preflight: territorios/extremadura/evidencia/catalogo/generation_preflight_2025.json
         electoral_source: territorios/extremadura/evidencia/fuentes_electorales/2025/c27f6d942fb89c1f5f7439f8d4aaf519e1b40a9b75b5dade999367925a3cd35d/40964574039/receipt.json
         prepared_source_pair: territorios/extremadura/evidencia/pares_fuentes/2025/9fa244d93cf37eace370e0eb60819d6ecf11e23803e47f02f0c5c9557ac80a5e.json
         electoral_product: territorios/extremadura/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: galicia
   name: Galicia
   editions:
