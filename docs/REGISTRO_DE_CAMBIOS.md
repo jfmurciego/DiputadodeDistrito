@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.276
+Versión: 1.0.277
 Fecha: 2026-11-10
-Alcance: T-163 — Motor 2: interfaz de la competición para la batería T-132 y sustituto de M05 para el banco
+Alcance: T-163 — Motor 2: menores de la revisión final de la competición
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t163-interfaz-bateria.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.275_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t163-menores.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.276_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.275_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.277 · [2026-11-10 — T-163 — Motor 2: menores de la revisión final de la competición](registro/2026-11-10_t163-menores.md)
 - 1.0.276 · [2026-11-10 — T-163 — Motor 2: interfaz de la competición para la batería T-132 y sustituto de M05 para el banco](registro/2026-11-10_t163-interfaz-bateria.md)
 - 1.0.275 · [2026-11-10 — T-164 — Certificador exacto con modelo ligero (D-48)](registro/2026-11-10_t164-certificador-ligero.md)
 - 1.0.274 · [2026-11-10 — T-163 — Motor 2: semilla pública, informe y revisión de la competición (competicion.py 1.1.0)](registro/2026-11-10_t163-competicion-v11.md)
