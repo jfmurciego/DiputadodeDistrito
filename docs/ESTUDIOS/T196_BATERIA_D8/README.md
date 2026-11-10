@@ -40,8 +40,11 @@ Clave del laboratorio aproximada con las mismas componentes que hay en la tabla 
 **Congreso: reproduce el laboratorio.**
 - Fuera de tolerancia: ganador r3 = 7 en los 52; A = 7 y D8 = 6 en el laboratorio. La única diferencia es Las Palmas (1 frente a 0).
 - El canónico de r3 coincide con el mapa vigente (A) en el desvío máximo de los 51 territorios del Congreso salvo Las Palmas (65,85 % frente a 41,93 %).
-- Mejora en 40 de 44 provincias con más de un distrito (laboratorio: 40 mejora, 3 empata, 1 empeora). Distinto frente: Álava,
-  Baleares, Valencia y Zaragoza empatan en r3 y mejoran en el laboratorio; Alicante mejora en r3 y empeora en el laboratorio.
+- Mejora en 40 de las 44 provincias con más de un distrito en r3. El laboratorio (README de T-179, que solo cuenta partidos judiciales
+  y comarcas partidos) da 40 mejora, 3 empata (Álava, Baleares, Valencia) y 1 empeora (Alicante); con la clave aproximada de `analizar.py`
+  (fuera de tolerancia, demarcaciones, frontera, desvío) da 43 mejora, 0 empata y 1 empeora (Alicante). Con esta última, el frente distinto
+  de r3 es: Álava, Baleares, Valencia y Zaragoza empatan en r3 y mejoran en el laboratorio; Alicante mejora en r3 y empeora en el laboratorio.
+  Las definiciones no son idénticas, así que la coincidencia de 40 no es una comparación exacta.
 - La cadena ganadora es la misma que en el laboratorio solo en 2 de 54 casos (el laboratorio elegía entre 20 cadenas; aquí entre 10).
 
 **Autonómicas: NO reproduce el laboratorio en población.** En las 15 autonómicas con dato:
@@ -53,7 +56,7 @@ Clave del laboratorio aproximada con las mismas componentes que hay en la tabla 
 El laboratorio reduce 56 distritos fuera de tolerancia frente a A; r3 queda 16 por encima de A. Por territorio (r3 / D8 laboratorio):
 Madrid 21 / 6, Melilla 6 / 0, Castilla-La Mancha 8 / 1, Navarra 14 / 8, Cataluña 41 / 32, Murcia 10 / 5, Canarias 21 / 15,
 País Vasco 9 / 6, Cantabria 9 / 6, Castilla y León 4 / 1, Extremadura 1 / 0, Galicia 8 / 6, Asturias 3 / 1, Comunidad Valenciana 31 / 27.
-En estos territorios la «mejora» que cuenta r3 (15 de 19) no viene de la población. Causa probable, **no verificada**: el laboratorio de
+De la «mejora» que cuenta r3 en las autonómicas (15 de 19) no se sabe qué componente de la clave la decide (falta `COMPETICION.json`). Causa probable, **no verificada**: el laboratorio de
 autonómicas (T-179, 2.ª parte) mide el desvío de cada distrito contra el objetivo de su circunscripción (`province_districts`) y corta cada par
 de distritos por la mitad de su población, y el generador `Ponderado` que usa la batería no lo hace en esas autonómicas. Otras diferencias
 (shapely 2.1.1 frente a 2.1.2, grafo M03 reconstruido desde fuente, 10 frente a 20 cadenas) no se han descartado.
