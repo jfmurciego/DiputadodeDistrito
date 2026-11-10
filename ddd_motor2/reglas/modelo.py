@@ -142,7 +142,8 @@ MAX_MIXTOS_POLITICA = 1
 
 @dataclass(frozen=True)
 class Criterio:
-    """Decisiones de criterio pendientes del propietario. Valores por defecto PROVISIONALES (T-160)."""
+    """Decisiones de criterio. Los valores por defecto son los aprobados por el propietario (D-44, 10-11); siguen
+    siendo parámetros para que la batería mida cuántos territorios cambian de veredicto con cada opción."""
 
     tolerancia: str = "metrica"
     max_mixtos: str = "contrato"

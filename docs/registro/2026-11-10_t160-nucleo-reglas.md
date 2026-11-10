@@ -8,7 +8,7 @@
   `R-MUN-MIN/MAX/MIXTOS`, `R-NUCLEO`), límites con fracciones exactas, códigos normalizados una vez, municipio como
   campo (nunca del `ddd_unit_id`) y `ErrorDatos` si falta un campo que una regla activa exige.
   Las cuatro decisiones de criterio y el umbral cadena/enumeración son parámetros (`Criterio`), con valores por
-  defecto PROVISIONALES: tolerancia métrica; `max_mixed` del contrato (1 por política); provincia única obligatoria en
+  defecto aprobados por el propietario (D-44): tolerancia métrica; `max_mixed` del contrato (1 por política); provincia única obligatoria en
   el contrato; exención por partición solo si todas las particiones del distrito están exentas; método
   «presupuesto de nodos» con diagnóstico 0,10/0,90 como comprobación posterior.
   `comparar_criterios` y `resumen_por_opcion` dan a la batería T-132 cuántos territorios cambian de veredicto con
