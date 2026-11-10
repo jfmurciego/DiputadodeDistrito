@@ -34,7 +34,7 @@
 #   de M06, auditoría y manifiesto de generación, con sha256 del estado original), no el ZIP de estado (R2 ≤ 8 GB).
 # CAMBIOS 1.3.2: T-96, pre_m04_evidence y pre_m04_diagnostic usan la «Credencial de registro» tras el checkout (github.token no está exento del ruleset proteger-main, GH013).
 # ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.3.1_20261108.yml
-name: _Interno — Generación Territorial
+name: Interno · Generación territorial
 
 on:
   workflow_call:

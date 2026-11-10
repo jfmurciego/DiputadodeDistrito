@@ -387,7 +387,7 @@ class MultiterritoryPublicationTests(unittest.TestCase):
         self.assertIn("name: 05 Publicación del Visor", wrapper)
         self.assertIn("name: Preparar promoción web", wrapper)
         self.assertIn("name: Desplegar página seleccionada", wrapper)
-        self.assertIn("name: _Interno — Publicador del Sitio", publisher)
+        self.assertIn("name: Interno · Publicador del sitio", publisher)
 
 
 if __name__ == "__main__":

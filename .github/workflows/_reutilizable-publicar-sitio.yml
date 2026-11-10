@@ -39,7 +39,7 @@
 # CAMBIOS: añade exclusión por defecto del visor analítico Congreso y carga de procedencia al habilitarlo explícitamente.
 # MOTIVO: mantener candidatos no certificados fuera de Pages salvo selección explícita del caller.
 # FECHA: 2026-11-08
-name: _Interno — Publicador del Sitio
+name: Interno · Publicador del sitio
 
 on:
   workflow_call:
