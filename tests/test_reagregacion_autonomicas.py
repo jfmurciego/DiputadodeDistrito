@@ -45,6 +45,17 @@ class Sinteticos(unittest.TestCase):
         self.assertEqual(ra.ganador_h({"A1": 3, "A2": 3, "B": 5}, hom, "c", "e", set()), "A")
 
 
+class Cera(unittest.TestCase):
+    def test_pseudoseccion_cera_se_identifica_por_su_total(self):
+        votos = {"a": {"votos_candidaturas": 500}, "cera": {"votos_candidaturas": 998}}
+        self.assertEqual(ra.cera_en_secciones(votos, {"a": 1}, 998), ["cera"])
+
+    def test_seccion_real_sin_geometria_no_es_cera(self):
+        votos = {"a": {"votos_candidaturas": 500}, "x": {"votos_candidaturas": 998}}
+        self.assertEqual(ra.cera_en_secciones(votos, {"a": 1, "x": 1}, 998), [])
+        self.assertEqual(ra.cera_en_secciones(votos, {"a": 1}, 0), [])
+
+
 class Resultado(unittest.TestCase):
     def test_galicia_2024_suma_literal_de_la_fuente(self):
         # total de votos a candidaturas de Galicia 2024-02 en data/autonomikoak/hauteskundea/12-202402.json (Observatorio)
@@ -53,8 +64,9 @@ class Resultado(unittest.TestCase):
         self.assertEqual(sum(int(r["votos_candidaturas"]) for r in filas), 1466201)
         self.assertEqual(sum(int(r["votantes"]) for r in filas), 1492984)
 
-    def test_las_tres_comunidades_de_prueba_cuadran(self):
-        esperadas = {"galicia": 4, "madrid": 5, "castilla_y_leon": 5}
+    def test_las_comunidades_entregadas_cuadran(self):
+        esperadas = {"galicia": 4, "madrid": 5, "castilla_y_leon": 5, "cataluna": 5, "comunidad_valenciana": 4,
+                     "comunidad_foral_de_navarra": 4, "pais_vasco": 4, "la_rioja": 4, "canarias": 4}
         for com, n in esperadas.items():
             m = json.loads((SAL / com / "MANIFEST.json").read_text(encoding="utf-8"))
             self.assertEqual(len(m["elecciones"]), n, com)
@@ -64,7 +76,7 @@ class Resultado(unittest.TestCase):
 
     def test_elecciones_coinciden_con_el_calendario(self):
         cal = ra.leer_calendario()
-        for com in ("galicia", "madrid", "castilla_y_leon"):
+        for com in ("galicia", "madrid", "castilla_y_leon", "cataluna", "pais_vasco", "la_rioja", "canarias"):
             self.assertEqual(sorted(p.name for p in (SAL / com).iterdir() if p.is_dir()),
                              sorted(f["mes"].replace("-", "") for f in cal[com]), com)
 

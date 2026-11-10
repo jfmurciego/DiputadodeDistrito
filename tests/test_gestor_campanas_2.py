@@ -9,11 +9,14 @@ import json
 import subprocess
 import sys
 import unittest
+
+import yaml
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import gestor_campanas_2 as g  # noqa: E402
+import legislatura_vigente as lv  # noqa: E402
 
 BASE = {"eleccion": "legislatura vigente", "tipo": "nacional", "territorios": "todos",
         "inicio": "reutilizar progreso", "publicar": "no", "ensemble": "ninguno", "mapa": "407"}
@@ -102,6 +105,76 @@ class Plan(unittest.TestCase):
         self.assertIn("SOLO PLAN (no se lanza nada)", md)
         self.assertIn("5) Publicar: sí", md)
         json.dumps(plan)  # el plan viaja como JSON al paso de lanzamiento
+
+
+class CampanaCompleta(unittest.TestCase):
+    """T-130: una orden = vigente (nacional y/o autonómica) + histórico de las cinco generales, en seco."""
+    C = {**BASE, "eleccion": "campaña completa", "tipo": "nacional y autonómico", "territorios": "todos"}
+
+    def test_una_orden_planifica_todo(self):
+        plan = g.build(self.C, {}, ROOT)
+        # 52 provincias + 19 comunidades (INE/Constitución) y 5 elecciones × 52 provincias.
+        self.assertEqual(len(plan["territorios"]), 52 + 19)
+        h = plan["historico"]
+        gen = [r for r in h["include"] if r["tipo"] == "general"]
+        om_gen = [k for k in h["omitidos"] if not k.startswith("autonomicas:")]
+        self.assertEqual(len(gen) + len(om_gen), 5 * 52)
+        self.assertEqual({r["clave"] for r in gen}, {"201111", "201512", "201606", "201904", "201911"})
+        self.assertEqual(plan["pendiente"], [])
+
+    def test_historico_autonomico_con_el_calendario_de_cada_comunidad(self):
+        h = g.build(self.C, {}, ROOT)["historico"]
+        aut = {r["territorio"]: r["elecciones"] for r in h["include"] if r["tipo"] == "autonomico"}
+        # Fechas del calendario con fuente y sha256 (sin la vigente de cada comunidad).
+        self.assertEqual(aut["galicia"], ["201210", "201609", "202007"])
+        self.assertEqual(aut["madrid"], ["201105", "201505", "201905", "202105"])
+        self.assertEqual(aut["castilla_y_leon"], ["201105", "201505", "201905", "202202"])
+
+    def test_solo_nacional_no_trae_autonomico_y_solo_autonomico_no_trae_generales(self):
+        nac = g.build({**self.C, "tipo": "nacional"}, {}, ROOT)["historico"]["include"]
+        self.assertEqual({r["tipo"] for r in nac}, {"general"})
+        aut = g.build({**self.C, "tipo": "autonómico"}, {}, ROOT)["historico"]["include"]
+        self.assertEqual({r["tipo"] for r in aut}, {"autonomico"})
+
+    def test_rechazos(self):
+        casos = [({"ensemble": "25"}, "no está validado"), ({"mapa": "350"}, "407"),
+                 ({"territorios": "Aragón"}, "todos"),
+                 ({"eleccion": "legislatura vigente"}, "campaña completa")]
+        for kw, msg in casos:
+            with self.subTest(kw=kw), self.assertRaisesRegex(g.NoDisponible if msg != "todos" else lv.GestorError, msg):
+                g.resolve({**self.C, **kw}, ROOT)
+
+    def test_workflow_matriz_con_clave_y_tope_de_256(self):
+        wf = yaml.safe_load((ROOT / ".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8"))
+        for job in ("historico_prueba", "historico", "historico_2"):
+            self.assertIn("matrix.clave", json.dumps(wf["jobs"][job]["steps"]), job)
+        plan_step = json.dumps(wf["jobs"]["legislatura"]["steps"], ensure_ascii=False)
+        self.assertIn("0:250", plan_step)  # tope de 256 por matriz
+        self.assertIn("historico_autonomico.py ejecutar", json.dumps(wf["jobs"]["historico_prueba"]["steps"]))
+
+
+class PlanSoloConPyYAML(unittest.TestCase):
+    """T-134 (run 42705439861): el job «Legislatura vigente» solo instala PyYAML; planificar no puede importar shapely."""
+    BLOQUEO = ("import sys\nfor m in ('shapely', 'geopandas', 'pandas', 'numpy', 'pyproj', 'networkx', 'gerrychain'):\n"
+               "    sys.modules[m] = None\nsys.argv = ['gestor_campanas_2.py'] + sys.argv[1:]\n"
+               "sys.path.insert(0, 'herramientas')\nimport gestor_campanas_2 as g\nraise SystemExit(g.main())\n")
+
+    def plan(self, *args):
+        return subprocess.run([sys.executable, "-c", self.BLOQUEO, "plan", "--sin-api", *args], cwd=ROOT,
+                              capture_output=True, text=True)
+
+    def test_plan_vigente_sin_shapely(self):
+        r = self.plan("--eleccion=legislatura vigente", "--tipo=nacional", "--territorios=todos",
+                      "--inicio=reutilizar progreso", "--publicar=no", "--ensemble=ninguno", "--mapa=407",
+                      "--salida=/dev/null")
+        self.assertEqual(r.returncode, 0, r.stderr[-800:])
+
+    def test_plan_campana_completa_con_historico_autonomico_sin_shapely(self):
+        r = self.plan("--eleccion=campaña completa", "--tipo=nacional y autonómico", "--territorios=todos",
+                      "--inicio=reutilizar progreso", "--publicar=no", "--ensemble=ninguno", "--mapa=407",
+                      "--salida=/dev/null")
+        self.assertEqual(r.returncode, 0, r.stderr[-800:])
+        self.assertIn("autonómicas desde 2011", r.stdout)
 
 
 if __name__ == "__main__":

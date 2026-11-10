@@ -1,0 +1,60 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# FECHA: 2026-11-09
+# ANTERIOR: ninguna (fichero nuevo)
+# FUENTE: Real Decreto 1037/2022, de 20 de diciembre (BOE-A-2022-21724), anexo: cifras oficiales de población a 1-1-2022. https://www.boe.es/diario_boe/xml.php?id=BOE-A-2022-21724
+# SHA256_XML: 681d56a76ad304fff94724d956abfd3d405bd983204ca3589d5e5e013f31d340
+# Total 47475420. Dato oficial transcrito del XML del BOE; NO es el padrón por secciones (tabla INE 65034).
+codigo,provincia_boe,poblacion
+01,Araba/Álava,334412
+02,Albacete,385727
+03,Alicante/Alacant,1901594
+04,Almería,740534
+05,Ávila,158140
+06,Badajoz,666971
+07,"Balears, Illes",1176659
+08,Barcelona,5727615
+09,Burgos,355045
+10,Cáceres,387805
+11,Cádiz,1246781
+12,Castellón/Castelló,590616
+13,Ciudad Real,490806
+14,Córdoba,772464
+15,"Coruña, A",1119180
+16,Cuenca,195215
+17,Girona,793478
+18,Granada,921987
+19,Guadalajara,268127
+20,Gipuzkoa,724418
+21,Huelva,528763
+22,Huesca,225456
+23,Jaén,623761
+24,León,448179
+25,Lleida,441443
+26,"Rioja, La",319892
+27,Lugo,323989
+28,Madrid,6750336
+29,Málaga,1717504
+30,Murcia,1531878
+31,Navarra,664117
+32,Ourense,304280
+33,Asturias,1004686
+34,Palencia,158008
+35,"Palmas, Las",1129395
+36,Pontevedra,943015
+37,Salamanca,325898
+38,Santa Cruz de Tenerife,1048306
+39,Cantabria,585402
+40,Segovia,153803
+41,Sevilla,1948393
+42,Soria,88377
+43,Tarragona,830075
+44,Teruel,134421
+45,Toledo,713453
+46,Valencia/València,2605757
+47,Valladolid,517975
+48,Bizkaia,1149344
+49,Zamora,167215
+50,Zaragoza,966438
+51,Ceuta,83117
+52,Melilla,85170

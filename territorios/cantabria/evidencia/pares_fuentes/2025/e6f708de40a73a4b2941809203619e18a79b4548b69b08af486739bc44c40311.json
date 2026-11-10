@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "cantabria",
+  "territory_name": "Cantabria",
+  "edition": "2025",
+  "election": {
+    "election_id": "cantabria_parlamento_2023",
+    "election_date": "2023-05-28"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 42707820760,
+    "artifact_name": "ddd-source-package-cantabria-2025-42707820760",
+    "artifact_sha256": "9078db6b7e0fe91151126dc111e355d5fbc769ba697f33f6f45f87eafe73de19",
+    "package_sha256": "c9b81def38f3eaed2db7d2cc16ba1f4dd06f114cc412113f4ca1d807c746c570",
+    "source_commit": "08eea1424162697f59603c2b269765d9f6b5addf",
+    "source_declaration": "territorios/cantabria/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/cantabria/evidencia/fuentes_territoriales/2025/838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028/42707820760/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "ec2c077f051eeb7bf373ab8aa1ad88533d91cafc4796e796c2f8534d8b6a4e3f",
+    "compatibility_identity_sha256": "83ef8f00689a4a4305ea3b24090b7fe94a0d8648316eedb5de16244549b03102",
+    "remote_verification": {
+      "run_id": 42707820760,
+      "artifact_id": 13717575585,
+      "artifact_name": "ddd-source-package-cantabria-2025-42707820760",
+      "artifact_sha256": "9078db6b7e0fe91151126dc111e355d5fbc769ba697f33f6f45f87eafe73de19",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 42707820760,
+    "artifact_name": "ddd-electoral-package-cantabria-2025-42707820760",
+    "artifact_sha256": "e4d187d7a9b7ed1921c40c80762840e7a88fde2bf31fda3de65eb83c7babf657",
+    "source_commit": "08eea1424162697f59603c2b269765d9f6b5addf",
+    "receipt_path": "territorios/cantabria/evidencia/fuentes_electorales/2025/2ad5283d539ec817bb68b8e9862ced3fafa0168ad8e658f48e1b623a6aed45b2/42707820760/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "cantabria_parlamento_2023",
+    "election_date": "2023-05-28",
+    "electoral_identity_sha256": "2ad5283d539ec817bb68b8e9862ced3fafa0168ad8e658f48e1b623a6aed45b2",
+    "remote_verification": {
+      "run_id": 42707820760,
+      "artifact_id": 13719113657,
+      "artifact_name": "ddd-electoral-package-cantabria-2025-42707820760",
+      "artifact_sha256": "e4d187d7a9b7ed1921c40c80762840e7a88fde2bf31fda3de65eb83c7babf657",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028",
+  "electoral_compatibility_key": "2ad5283d539ec817bb68b8e9862ced3fafa0168ad8e658f48e1b623a6aed45b2",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/cantabria/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "e6f708de40a73a4b2941809203619e18a79b4548b69b08af486739bc44c40311"
+}

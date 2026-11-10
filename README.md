@@ -3,6 +3,8 @@
 **README v4.9.0** · 20-09-2026 · Estado: **plataforma ejecutable; industrialización territorial en curso**  
 **Anterior:** `legacy/docs/README_v4.6.0.md`
 
+[![DOI de la versión (provisional)](https://zenodo.org/badge/DOI/10.5281/zenodo.24093968.svg)](https://doi.org/10.5281/zenodo.24093968) Depósito Zenodo de la versión de mapa Congreso Huesca 1.0.0 (contiene el código fuente del repositorio, no el paquete firmado `.tar.gz`).
+
 DDD es un motor modular y reproducible para construir, optimizar, validar y auditar distritos uninominales desde unidades censales oficiales.
 
 <!-- DDD:ESTADO:INICIO -->
@@ -10,7 +12,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-09T20:35:38.853652+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-09T23:21:47.918962+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 

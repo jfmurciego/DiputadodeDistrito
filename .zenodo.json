@@ -2,7 +2,7 @@
   "title": "Diputado de Distrito: motor reproducible de distritos uninominales",
   "upload_type": "software",
   "creators": [
-    {"name": "Murciego, Jesús", "orcid": "0009-0002-4434-959X"}
+    {"name": "Murciego, Jesus", "affiliation": "Independent researcher", "orcid": "0009-0002-4434-959X"}
   ],
   "license": "apache-2.0",
   "access_right": "open",

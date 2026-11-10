@@ -27,14 +27,18 @@ copia permanente y le da un DOI: un enlace que no caduca y que tu compañero pue
 Usa el DOI de la versión concreta; el botón «Cite this repository» de GitHub ya ofrece la cita (sale de `CITATION.cff`).
 Cuando exista el primer DOI real se añadirá la insignia al README y a `CITATION.cff`.
 
-## Qué verá tu compañero (importante)
+## Qué verá tu compañero (limitación conocida)
 La integración automática de Zenodo guarda el **código del repositorio en esa versión** (unos 850 MB, muy por debajo del
 límite de 50 GB), pero **no los ficheros adjuntos a la Release** (el paquete del mapa y su manifiesto SHA-256). Lo
-adjunto sigue en la Release de GitHub, con su firma verificable. Si quieres que el paquete del mapa esté también en el
-depósito, hay que cambiar el proceso (lo decide el propietario; ver «Pendientes»).
+adjunto sigue en la Release de GitHub, con su firma verificable. Decisión del propietario (09-11): no se cambia el flujo.
 
-## Pendientes tuyos
-- Afiliación del autor (o «Independent researcher»): no consta en el repositorio, no se ha puesto.
-- Versión: decidida por el propietario, 4.9.0 (ya aplicada en `CITATION.cff`).
-- Si quieres el paquete del mapa dentro del depósito de Zenodo (ver arriba).
-- Nombre: el nombre se ha escrito «Jesús» (como en el artículo JOSS); confirma.
+## Datos de autor que constan
+Nombre «Jesus Murciego», ORCID 0009-0002-4434-959X, afiliación «Independent researcher» (decisión del propietario, 09-11).
+Versión del proyecto: 4.9.0.
+
+## Primer depósito
+Mapa Congreso Huesca 1.0.0: https://zenodo.org/records/24093968 — DOI de versión 10.5281/zenodo.24093968 (provisional: derivado del número de registro, sin verificar desde el entorno del proyecto). El fichero del depósito es el ZIP de código fuente de GitHub, **no** el paquete firmado `.tar.gz` (su sha256 está en la Release).
+
+## Pendiente
+- DOI de concepto («Cite all versions» en la página del registro): pendiente del propietario.
+- Verificar que el DOI de versión resuelve.

@@ -2,12 +2,19 @@
 """Gestor de Campañas 2.0 (T-105, D-22): seis entradas en español → plan en seco o campaña sin chats.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-08 · ESTADO: candidato
+VERSIÓN: 1.3.0 · FECHA: 2026-11-09 · ESTADO: candidato
+CAMBIOS: 1.3.0 (T-133): la campaña completa con tipo autonómico planifica también el histórico autonómico desde 2011
+  (herramientas/historico_autonomico.py: paso A por comunidad, cada una con su calendario); filas con `tipo`
+  («general» o «autonomico») y una prueba de cada tipo. Las comunidades sin paso B se omiten con su motivo.
+CAMBIOS: 1.2.0 (T-130): elección «campaña completa» y tipo «nacional y autonómico»: UNA orden planifica la legislatura
+  vigente (nacional y/o autonómica, con o sin ensemble 10) más el histórico de las cinco generales (matriz con `clave`
+  por fila); el histórico autonómico queda como «pendiente» (T-131) sin impedir el resto. `lanzar` ejecuta la parte
+  vigente del plan; el histórico lo ejecutan los jobs del workflow.
 CAMBIOS: 1.1.0 (T-113): «histórico: generales 2019-11» planifica el paso A de T-83 por provincia
   (herramientas/historico_campana.py; matriz `historico` del plan, la ejecutan los jobs del workflow); el resto de
   elecciones históricas, el tipo autonómico, el mapa 350, el ensemble y publicar siguen fallando con mensaje claro.
   1.0.0: fichero nuevo.
-ANTERIOR: legacy/herramientas/gestor_campanas_2_v1.0.0_20261108.py
+ANTERIOR: legacy/herramientas/gestor_campanas_2_v1.2.0_20261109.py
 QUÉ HACE: traduce las entradas del formulario «0 Gestor de Campañas», en el orden de D-22, a un plan de
   `legislatura_vigente.py` y, si «solo plan» está desactivado, lo lanza: 00 (con su cadena par → 00 electoral)
   → 05 si «publicar» = sí → 06 `ensemble_10` si «ensemble» = 10.
@@ -29,13 +36,16 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import clave_eleccion as ce  # noqa: E402
+import historico_autonomico as ha  # noqa: E402
 import historico_campana as hc  # noqa: E402
 import legislatura_vigente as lv  # noqa: E402
 
 VIGENTE = "legislatura vigente"
-ELECCIONES = [VIGENTE, "histórico: generales 2019-11", "histórico: generales 2019-04", "histórico: generales 2016",
+COMPLETA = "campaña completa"
+AMBOS = "nacional y autonómico"
+ELECCIONES = [VIGENTE, COMPLETA, "histórico: generales 2019-11", "histórico: generales 2019-04", "histórico: generales 2016",
               "histórico: generales 2015", "histórico: generales 2011"]
-TIPOS = ["nacional", "autonómico"]
+TIPOS = ["nacional", "autonómico", AMBOS]
 INICIOS = {"reutilizar progreso": "auto", "aprovechar fuentes": "aprovechar_fuentes",
            "desde el principio": "desde_el_principio"}
 SI_NO = ["no", "sí"]
@@ -125,6 +135,10 @@ def resolve(entradas: dict, root: Path = Path(".")) -> dict:
     publicar = _choice("publicar", entradas.get("publicar"), SI_NO) == "sí"
     ensemble = _choice("ensemble", entradas.get("ensemble"), ENSEMBLES)
     mapa = _choice("mapa", entradas.get("mapa"), MAPAS)
+    if eleccion == COMPLETA:
+        return _resolve_completa(entradas, tipo, publicar, ensemble, mapa, root)
+    if tipo == AMBOS:
+        raise NoDisponible("El tipo «nacional y autonómico» solo existe con la elección «campaña completa».")
     if eleccion != VIGENTE:
         return _resolve_historico(entradas, eleccion, tipo, publicar, ensemble, mapa, root)
     if ensemble == "25":
@@ -190,8 +204,52 @@ def _resolve_historico(entradas: dict, eleccion: str, tipo: str, publicar: bool,
                                          "mapa": mapa}}
 
 
+def _resolve_completa(entradas: dict, tipo: str, publicar: bool, ensemble: str, mapa: str, root: Path) -> dict:
+    """Campaña completa (T-130): vigente (nacional y/o autonómica) + histórico de las 5 generales, en una orden."""
+    if mapa != "407":
+        raise NoDisponible("La campaña completa va sobre el mapa de 407. Elija mapa «407».")
+    tipos = ["nacional", "autonómico"] if tipo == AMBOS else [tipo]
+    raw = str(entradas.get("territorios") or "").strip()
+    if tipo == AMBOS and [ce.normalize(t) for t in raw.split(",") if t.strip()] not in ([], ["TODOS"]):
+        raise lv.GestorError("Con «nacional y autonómico» los territorios son «todos»: elija un tipo para acotar.")
+    parts = [resolve({**entradas, "eleccion": VIGENTE, "tipo": t}, root) for t in tipos]
+    out = {"completa": True, "ids": [i for p in parts for i in p["ids"]], "publicar": publicar,
+           "inicio": {k: v for p in parts for k, v in p["inicio"].items()},
+           "ensemble": {k: v for p in parts for k, v in p["ensemble"].items()},
+           "entradas": {**parts[0]["entradas"], "eleccion": COMPLETA, "tipo": tipo}, "pendiente": []}
+    rows, omitidos, partes = [], {}, []
+    if "nacional" in tipos:
+        lotes = [_resolve_historico({**entradas, "eleccion": e}, e, "nacional", False, "ninguno", "407", root)["historico"]
+                 for e in ELECCIONES if e.startswith("histórico: generales")]
+        rows += [{**r, "clave": h["clave"], "tipo": "general"} for h in lotes for r in h["include"]]
+        omitidos.update({f"{h['clave']}:{t}": m for h in lotes for t, m in h["omitidos"].items()})
+        partes.append("las cinco generales 2011-2023")
+    if "autonómico" in tipos:
+        try:
+            h = ha.plan(parts[-1]["ids"], False, root)
+        except ha.NoDisponible as exc:
+            out["pendiente"].append(f"Histórico autonómico desde 2011: {exc}")
+        else:
+            rows += [{"territorio": r["comunidad"], "provincia": "", "clave": "autonomicas", "tipo": "autonomico",
+                      "elecciones": r["elecciones"]} for r in h["include"]]
+            omitidos.update({f"autonomicas:{t}": m for t, m in h["omitidos"].items()})
+            partes.append("autonómicas desde 2011 (" + ", ".join(r["comunidad"] for r in h["include"]) + ")")
+    if rows:
+        out["historico"] = {"completa": True, "eleccion": " + ".join(partes), "clave": "completa", "prueba": rows[0],
+                            "include": rows, "omitidos": omitidos}
+    return out
+
+
 def build(entradas: dict, running: dict[str, str], root: Path = Path("."), today=None) -> dict:
     r = resolve(entradas, root)
+    if r.get("completa"):
+        plan = lv.build_plan(lv.load_config(root), "legislatura completa", r["ids"], False, running, root=root,
+                             today=today, inicio=r["inicio"], publicar=r["publicar"], ensemble=r["ensemble"])
+        plan.update({"ambito": f"{r['entradas']['tipo']} · campaña completa · mapa 407", "entradas": r["entradas"],
+                     "pendiente": r["pendiente"]})
+        if "historico" in r:
+            plan["historico"] = r["historico"]
+        return plan
     if "historico" in r:
         return {"historico": r["historico"], "ambito": "histórico · nacional · mapa 407", "entradas": r["entradas"]}
     plan = lv.build_plan(lv.load_config(root), "legislatura completa", r["ids"], False, running, root=root,
@@ -207,10 +265,18 @@ def markdown(plan: dict, solo_plan: bool) -> str:
             f"1) Elección: {e['eleccion']} · 2) Tipo: {e['tipo']} · 3) Territorios: {e['territorios']} · "
             f"4) Inicio: {e['inicio']} · 5) Publicar: {e['publicar']} · 6) Ensemble: {e['ensemble']} · Mapa: {e['mapa']}",
             ""]
-    if "historico" in plan:
+    if "territorios" not in plan:
         return "\n".join(head) + hc.plan_markdown(plan["historico"])
     head += ["Cadena por territorio: 00 (par → 00 electoral) → 05 si publica → 06 si ensemble.", ""]
-    return "\n".join(head) + lv.plan_markdown(plan)
+    md = "\n".join(head) + lv.plan_markdown(plan)
+    if "historico" in plan:
+        h = plan["historico"]
+        md += (f"\n#### Histórico: {h['eleccion']}\n\n{len(h['include'])} ejecuciones del paso A (territorio × elección), "
+               f"prueba: {h['prueba']['territorio']} {h['prueba']['clave']}; omitidos: {len(h['omitidos'])}. "
+               "No publica.\n")
+    for t in plan.get("pendiente", []):
+        md += f"\n- Pendiente: {t}\n"
+    return md
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -239,7 +305,7 @@ def main(argv: list[str] | None = None) -> int:
             print(md)
             return 0
         plan = json.loads(a.plan.read_text(encoding="utf-8"))
-        if "historico" in plan:
+        if "territorios" not in plan:
             raise lv.GestorError("El histórico lo ejecutan los jobs «histórico» del workflow, no «lanzar».")
         cont = {**plan["entradas"], "solo_plan": "false", "max_paralelo": str(a.max_paralelo)}
         report = lv.run_campaign(plan, "Canónico", max(1, a.max_paralelo), not a.sin_prueba,

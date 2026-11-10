@@ -49,7 +49,7 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - «Reutilizar» no ejecuta 02/04 ni archivo R2 y re-registra receipts de runs fallidos: para 04+R2 usa «Generar desde fuente»; verifica 04 y R2 antes de publicar. Restaura el último checkpoint REGISTRADO: si el run bueno no llegó a registrar (fallo de push), toma uno
   anterior (Murcia volvió al M03 en 3035, `CHECKPOINT_RUN_ID` en el log del paso M04). Mira ese valor antes de concluir.
 - La 00 encadena sola par (`prepare_one`) y otra 00 como github-actions[bot] si la 04 se salta por falta de par;
-  desde #389 solo si la puerta 02 pasó.
+  desde #389 solo si la puerta 02 pasó. El Gestor sigue la 00 que lanzó, no la hija «Reutilizar» del bot (#579).
 - Desde la 1.6.0 el run-name de la 00 lleva el territorio; en runs antiguos, `territorios/*/evidencia/ejecuciones_completas/<run>.json`
   o `TERRITORY:` de «Planificar». `/timing` da 0 min facturables (repo público): usa la duración de los jobs. La API
   resetea conexiones en lotes largos: reintentos y caché.
@@ -92,9 +92,8 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 
 ## Historial de lecciones
 - 2026-10-29/31 · Murcia/Valencia (M04 7.4.15–18, exención Beniel) y Congreso (piloto Huesca, 50 provincias, espejo Infoelectoral) · #324–#371.
-- 2026-11-01 · T-02: CRS 25830, M04 7.6.0 multisección, dedupe de manifiesto, encadenado con puerta 02 · #374 #383 #387 #389.
-- 2026-11-01 · Bloqueos de población: exención municipal en contrato, techo en política, reparación inútil si estructural · #380 #384 #391.
-- 2026-11-02 · Activación por elección, Gestor con provincias, robots con app propia, exención en islas · #376–#398.
+- 2026-11-01/02 · T-02 (CRS 25830, M04 7.6.0), bloqueos de población (exención en contrato, techo en política), activación por elección, Gestor con provincias · #374–#398.
 - 2026-11-07 · Agentes, CLAUDE.md < 100 líneas, `.claude/rules/` por rutas, hooks de git, registro por ficheros, archivista R2, cadenas sin Mac · #427 #428 #441–#448.
 - 2026-11-08 · Ola 2 y 3: ensembles, archivista D-17, siglas D-20, Gestor 2.0, huella M05 calculada, M05 7.4.3, congreso_350 · #500–#547. Detalle en `.claude/rules/`.
 - 2026-11-08 (noche) · Relevo de chats, ids solo del Planificador, tests sobre estado vivo, T-90b/T-109/T-113 · #549–#555. Detalle en `.claude/rules/`.
+- 2026-11-09 · Visor v2 y /v2/, registro sin 350, Gestor campaña completa y paso A autonómico, ensembles, censo 2026, sin distrito 0, banco de pruebas del motor. Detalle en `.claude/rules/`.

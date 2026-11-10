@@ -51,8 +51,8 @@ class GeneradorSecciones(unittest.TestCase):
             raw = (out / "01.geojson").read_bytes()
             self.assertEqual(idx["provincias"]["01"]["sha256"], g.sha(raw))
             props = {f["properties"]["s"]: f["properties"] for f in json.loads(raw)["features"]}
-            self.assertEqual(props["0100101001"], {"s": "0100101001", "m": "Alegría-Dulantzi", "p": 1390, "d": 2, "t": "congreso_alava"})
-            self.assertEqual(props["0100101002"]["d"], 0)
+            self.assertEqual(props["0100101001"], {"s": "0100101001", "m": "Alegría-Dulantzi", "p": 1390, "d": 3, "t": "congreso_alava"})
+            self.assertEqual(props["0100101002"]["d"], 1)
             x = json.loads(raw)["features"][0]["geometry"]["coordinates"][0][0]
             self.assertTrue(-3.0 < x[0] < -2.0 and 42.0 < x[1] < 43.5, x)  # WGS84 en Álava
 
@@ -70,7 +70,7 @@ class GeneradorSecciones(unittest.TestCase):
             (c / "MANIFEST.json").write_text(json.dumps(man), "utf-8")
             idx = c / "INDEX.json"; idx.write_text(json.dumps({"territorios": {"congreso_y": {"run_id": 111}}}), "utf-8")
             sec, h = g.leer_composicion(c, indice=idx)
-            self.assertEqual(sec["0100101001"], {"d": 0, "p": 5, "t": "congreso_y"})  # el run publicado (111), no el más reciente
+            self.assertEqual(sec["0100101001"], {"d": 1, "p": 5, "t": "congreso_y"})  # el run publicado (111), no el más reciente
             self.assertEqual(list(h), ["congreso_y"])
 
     def test_sin_seccionado_no_falla(self):
@@ -115,7 +115,7 @@ class NavegadorSecciones(unittest.TestCase):
         d = cls.v2 / "datos" / "secciones"; d.mkdir()
         (d / "INDEX.json").write_text(json.dumps({"provincias": {"01": {"secciones": 2}}}), "utf-8")
         (d / "01.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": [
-            _feat("0100101001", 0, 1390, -2.72), _feat("0100101002", 1, 1579, -2.66)]}), "utf-8")
+            _feat("0100101001", 1, 1390, -2.72), _feat("0100101002", 2, 1579, -2.66)]}), "utf-8")
         h = functools.partial(http.server.SimpleHTTPRequestHandler, directory=cls.tmp)
         h.log_message = lambda *a, **k: None
         cls.srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), h)

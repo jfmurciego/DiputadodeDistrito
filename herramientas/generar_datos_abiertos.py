@@ -3,8 +3,10 @@
 """Datos abiertos y fichas por distrito de las provincias nacionales completas (T-60).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/generar_datos_abiertos_v1.0.0.py
+CAMBIOS 1.1.0 (T-135): distritos numerados de 1 a K en CSV, fichas, INDEX.json, README y GeoJSON público (derivado del blob M06
+  con propiedad `distrito`; su sha256 va en geojson.sha256 y el del GeoJSON M06 de origen en geojson.sha256_origen). El blob M06 no cambia.
 QUÉ HACE: por cada territorio congreso_* con M06 y M08 vigentes (mismo run) en orchestracion/publicaciones_visor.json:
   - lee el M06 (blob inmutable, verificado con su sha256) y toma población, secciones y municipios de cada distrito;
   - copia el CSV de resultados de datos/resultados/ (T-53) comprobando que su manifiesto acredita el mismo run;
@@ -33,12 +35,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import resultados_ligeros as rl  # noqa: E402
+from numeracion_publica import csv_publico, geojson_publico, numero_publico  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 SALIDA = ROOT / "datos_abiertos"
 RESULTADOS = ROOT / "datos/resultados"
 REGISTRO = rl.REGISTRO_VISOR
-ESQUEMA = "ddd.datos-abiertos/1.0"
+ESQUEMA = "ddd.datos-abiertos/1.1"
+NUMERACION = "1..K"
 LICENCIA = {"id": "CC-BY-4.0", "nombre": "Creative Commons Atribución 4.0 Internacional",
             "url": "https://creativecommons.org/licenses/by/4.0/deed.es"}
 ATRIBUCION = "Diputado de Distrito (https://github.com/jfmurciego/DiputadodeDistrito)"
@@ -141,10 +145,12 @@ def readme(idx: dict) -> str:
 
 Paquete por provincia ({len(idx['territorios'])} provincias nacionales completas) con:
 
-- `<territorio>/distritos.geojson`: distritos del producto territorial M06 publicado (EPSG:4326 / CRS84).
+- `<territorio>/distritos.geojson`: distritos del producto territorial M06 publicado (EPSG:4326 / CRS84), con la propiedad `distrito` (1..K) en lugar
+  del `district_id` interno del motor; `INDEX.json` lleva su sha256 (`geojson.sha256`) y el del GeoJSON M06 de origen (`sha256_origen`).
 - `<territorio>/resultados.csv`: ganador por distrito en las {ELECCION.lower()} (columnas: distrito, poblacion,
   votos_totales, ganador, votos_ganador, porcentaje_ganador). Solo consta el ganador, no los votos de cada partido.
-- `<territorio>/distrito-<n>.html`: ficha estática del distrito.
+- `<territorio>/distrito-<n>.html`: ficha estática del distrito. Los distritos se numeran de 1 a K en cada provincia
+  (no existe el distrito 0); hasta la versión 1.0 del paquete se numeraban desde 0 (`distrito-0.html` pasa a ser `distrito-1.html`, etc.).
 - `INDEX.json`: por territorio, run de origen, `blob_sha` del producto en git, sha256 del ZIP de origen, del GeoJSON y del CSV.
 
 ## Licencia
@@ -183,11 +189,15 @@ def generar(salida: Path = SALIDA, registro: Path = REGISTRO, resultados: Path =
         ant = previo.get(t)
         nom_t = nombres.get(t, {})
         d_t = salida / t
-        if (ant and ant["blob_sha"] == p6["blob_sha"] and ant["resultados"]["sha256"] == sha(csv_bytes)
-                and ant.get("nombres") == nom_t and (d_t / "index.html").exists()
+        fuente = sha(csv_bytes)
+        mismo = bool(ant and ant["blob_sha"] == p6["blob_sha"] and ant.get("nombres") == nom_t)
+        if (mismo and ant.get("numeracion") == NUMERACION and ant["resultados"].get("fuente_sha256") == fuente
+                and ant["geojson"].get("sha256_origen")
+                and (d_t / "index.html").exists()
                 and all((d_t / f"distrito-{d['distrito']}.html").exists() for d in ant["distritos"])):
             terr[t] = ant
             continue
+        filas = {int(r.split(",")[0]): r.split(",") for r in csv_bytes.decode("utf-8").splitlines()[1:]}
         f = (m06_dir or cache or Path("/nonexistent")) / f"{t}_{p6['run_id']}.zip"
         datos = f.read_bytes() if f.exists() else (None if m06_dir else rl.bajar_blob(p6))
         if datos is None:
@@ -196,27 +206,31 @@ def generar(salida: Path = SALIDA, registro: Path = REGISTRO, resultados: Path =
             raise ValueError(f"SHA-256 del M06 de {t} no coincide con el registro")
         gj_bytes = extraer_geojson(datos)
         gj = json.loads(gj_bytes)
-        filas = {int(r.split(",")[0]): r.split(",") for r in csv_bytes.decode("utf-8").splitlines()[1:]}
         props = sorted((f_["properties"] for f_ in gj["features"]), key=lambda x: int(x["district_id"]))
         ents = []
         for pr in props:
-            i = int(pr["district_id"])
+            i = int(pr["district_id"])  # id interno del motor (0..K-1)
             r = filas.get(i)
-            ents.append({"distrito": i, "nombre": nom_t.get(str(i)), "poblacion": pr["district_pop"],
+            ents.append({"distrito": numero_publico(i), "nombre": nom_t.get(str(i)), "poblacion": pr["district_pop"],
                          "municipios": pr.get("municipality_count"), "secciones": pr.get("section_count"),
                          "ganador": r[3] if r else "", "votos_ganador": r[4] if r else "",
                          "porcentaje_ganador": r[5] if r else "", "votos_totales": r[2] if r else ""})
-        prov = etiqueta(p6)
-        ent = {"provincia": prov, "run_id": p6["run_id"], "blob_sha": p6["blob_sha"], "sha256_origen": p6["sha256"],
-               "n_distritos": len(ents), "nombres": nom_t,
-               "geojson": {"ruta": f"{t}/distritos.geojson", "sha256": sha(gj_bytes)},
-               "resultados": {"ruta": f"{t}/resultados.csv", "sha256": sha(csv_bytes),
+        prov, run_id, blob, sha_origen = etiqueta(p6), p6["run_id"], p6["blob_sha"], p6["sha256"]
+        geo = {"ruta": f"{t}/distritos.geojson", "sha256": sha(geojson_publico(gj_bytes)), "sha256_origen": sha(gj_bytes)}
+        pub = csv_publico(csv_bytes)
+        ent = {"provincia": prov, "run_id": run_id, "blob_sha": blob, "sha256_origen": sha_origen,
+               "n_distritos": len(ents), "nombres": nom_t, "numeracion": NUMERACION,
+               "geojson": geo,
+               "resultados": {"ruta": f"{t}/resultados.csv", "sha256": sha(pub), "fuente_sha256": fuente,
                               "blob_sha_m08": p8["blob_sha"], "run_id": p8["run_id"]},
                "distritos": [{k: v for k, v in e.items() if k in ("distrito", "nombre", "poblacion", "municipios", "secciones", "ganador")}
                              for e in ents]}
-        escribir(d_t / "resultados.csv", csv_bytes)
+        escribir(d_t / "resultados.csv", pub)
+        for viejo in d_t.glob("distrito-*.html"):  # fichas de numeraciones anteriores (p. ej. distrito-0.html)
+            if viejo.name not in {f"distrito-{e['distrito']}.html" for e in ents}:
+                viejo.unlink()
         for e in ents:
-            e.update(total_distritos=len(ents), run_id=p6["run_id"], blob_sha=p6["blob_sha"])
+            e.update(total_distritos=len(ents), run_id=run_id, blob_sha=blob)
             escribir(d_t / f"distrito-{e['distrito']}.html", ficha_html(prov, t, e, LICENCIA).encode("utf-8"))
         escribir(d_t / "index.html", indice_provincia(prov, ent).encode("utf-8"))
         terr[t] = ent
@@ -249,9 +263,12 @@ def materializar(destino: Path, salida: Path = SALIDA, registro: Path = REGISTRO
         if sha(datos) != p["sha256"]:
             raise ValueError(f"SHA-256 del M06 de {t} no coincide con el registro")
         gj = extraer_geojson(datos)
-        if sha(gj) != e["geojson"]["sha256"]:
-            raise ValueError(f"SHA-256 del GeoJSON de {t} no coincide con INDEX.json")
-        (destino / t / "distritos.geojson").write_bytes(gj)
+        if sha(gj) != e["geojson"].get("sha256_origen"):
+            raise ValueError(f"SHA-256 del GeoJSON M06 de {t} no coincide con INDEX.json")
+        pub = geojson_publico(gj)
+        if sha(pub) != e["geojson"]["sha256"]:
+            raise ValueError(f"SHA-256 del GeoJSON público de {t} no coincide con INDEX.json")
+        (destino / t / "distritos.geojson").write_bytes(pub)
     return len(idx["territorios"])
 
 

@@ -29,3 +29,7 @@ paths:
 - Los ids T-xx los da solo el Planificador: el Coordinador reutilizó ids dos veces; pídelo antes de crear tarea.
 - Una PR de plan con base vieja cae en `pruebas`: fusiona `origin/main` antes de pedir la fusión.
 - Reproducir en local una PR de otro chat: un cambio solo local (rama sin empujar) se pierde al archivar el chat (T-91b); empuja o deja PR.
+
+## Lecciones 09-11 (Coordinador)
+- El control de seguridad bloquea fusionar con el permiso de una tarea programada o de otra sesión: hace falta la frase del propietario en el chat que ejecuta. Una PR fusionada no recibe commits posteriores: rama nueva desde `main` o fusionar `main` sin force. Una PR apilada solo corre `pruebas` si su base es `main`.
+- No pases a «lista» ni abras PR de ramas ajenas sin avisar a su autor. Un chat que dice «lanzado» sin run verificado: comprueba el id con `gh api actions/runs/<id>`.
