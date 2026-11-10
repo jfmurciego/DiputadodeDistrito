@@ -7,7 +7,6 @@
   `<out>/competicion/RESUMEN.{json,md}` (ganador, mejora/empata/empeora frente al canónico, huella, tiempos, veredicto de
   aceptación, reescrito tras cada territorio; salida 1 si no se cumple). Un territorio sin entradas o sin ancla queda como ERROR en el resumen.
 - Pruebas: `python -m unittest tests.test_motor2_competir`.
-  validación de producción, núcleo y calidad, como con cualquier generador.
 - Cambio: `ddd_motor2/competidor.py`: `python -m ddd_motor2.competidor --params <contrato> --run-id <id> [--semilla n]`
   (lee in_graph_json/in_geojson de modulo_05; deja el M05 y el informe del ganador en out_geojson/out_report). Por
   candidato: M05 (canónico `modulos/05`; GerryChain `m05_gerrychain_strategy --seed-count 1 --seed-base <semilla
