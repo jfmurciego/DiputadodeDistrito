@@ -79,3 +79,40 @@ valor está en `COMPETICION.json` (artefacto no accesible).
 - Sin `COMPETICION.json`: no se recalculan partidos judiciales ni comarcas, ni el desglose de la clave, ni los fuera de tolerancia del canónico.
   Para ello hace falta bajar los artefactos del run (el host de descarga está bloqueado en el entorno cloud por defecto).
 - La comparación de población frente al laboratorio usa el ganador de r3, no la mejora frente al canónico; en Congreso ambos coinciden con A.
+
+## Adenda T-196b · naturalidad real del canónico en autonómicas
+
+Datos de los 71 artefactos `bateria-motor2-42886114842-<territorio>` (`COMPETICION.json`): `datos/CANDIDATOS.csv` (792 candidatos, un CSV ligero ~130 kB)
+y `datos/MANIFEST_ARTEFACTOS.tsv` (id y sha256 de cada zip; 72 artefactos, el de «aceptacion» no trae candidatos). Regenerable con `bajar_competicion.py`.
+Las cifras publicadas arriba no se han editado; esta adenda las completa y matiza dos puntos.
+
+- **Dos cuentas de «fuera de tolerancia».** «Bruto» es `fuera_tolerancia` del candidato (la que recoge la fila del log y la tabla de arriba); «clave» es la primera
+  componente de `clave_naturalidad`, con la que se decide la mejora, y es menor o igual que la bruta (criterio `tolerancia: metrica`, con exenciones). Con la clave el ganador nunca
+  es peor que el canónico; con la bruta sí puede serlo (Aragón 0 → 2, Castilla-La Mancha 5 → 8, Castilla y León 2 → 4, Galicia 6 → 8).
+- **Corrección de lo dicho arriba:** «el canónico tiene ≥ fuera de tolerancia que el ganador» vale para la clave, no para la cuenta bruta que usa la tabla.
+- Partidos judiciales y comarcas vienen sumados en `demarcaciones_partidas`; el desglose no está en el JSON.
+- Mejoras por la clave de población (menos distritos fuera de tolerancia): Canarias, Cataluña, Navarra, Valencia, Baleares, Madrid y Asturias; por exceso sobre el tope, Cantabria y Extremadura;
+  por demarcaciones partidas con la misma población: Andalucía, Aragón, Castilla-La Mancha, Castilla y León, Galicia y La Rioja.
+- La frontera cortada es 0 km en los 19 territorios.
+
+| Territorio | Frente | Fuera tol. canónico (bruto / clave) | Fuera tol. ganador (bruto / clave) | Demarc. partidas canónico → ganador | Frontera cortada km (canónico → ganador) | Desvío máx. % canónico → ganador |
+|---|---|---|---|---|---|---|
+| andalucia | mejora | 20 / 23 | 21 / 23 | 106 → 104 | 0.0 → 0.0 | 74.55 → 74.55 |
+| aragon | mejora | 0 / 1 | 2 / 1 | 35 → 34 | 0.0 → 0.0 | 10.98 → 13.47 |
+| canarias | mejora | 20 / 21 | 21 / 20 | 15 → 15 | 0.0 → 0.0 | 97.68 → 97.68 |
+| cantabria | mejora | 9 / 9 | 9 / 9 | 13 → 13 | 0.0 → 0.0 | 72.3 → 72.3 |
+| castilla_la_mancha | mejora | 5 / 5 | 8 / 5 | 53 → 49 | 0.0 → 0.0 | 40.74 → 40.74 |
+| castilla_y_leon | mejora | 2 / 1 | 4 / 1 | 90 → 85 | 0.0 → 0.0 | 13.64 → 15.39 |
+| cataluna | mejora | 53 / 51 | 41 / 38 | 81 → 76 | 0.0 → 0.0 | 62.12 → 60.28 |
+| ceuta | empata | 12 / 12 | 12 / 12 | 1 → 1 | 0.0 → 0.0 | 29.53 → 29.53 |
+| comunidad_foral_de_navarra | mejora | 24 / 24 | 14 / 14 | 12 → 12 | 0.0 → 0.0 | 64.78 → 64.78 |
+| comunidad_valenciana | mejora | 42 / 47 | 31 / 37 | 58 → 56 | 0.0 → 0.0 | 74.68 → 74.68 |
+| extremadura | mejora | 1 / 2 | 1 / 2 | 42 → 42 | 0.0 → 0.0 | 12.3 → 12.3 |
+| galicia | mejora | 6 / 6 | 8 / 6 | 53 → 51 | 0.0 → 0.0 | 56.18 → 56.18 |
+| illes_balears | mejora | 15 / 16 | 14 / 15 | 9 → 9 | 0.0 → 0.0 | 68.04 → 68.04 |
+| la_rioja | mejora | 1 / 1 | 1 / 1 | 9 → 7 | 0.0 → 0.0 | 41.78 → 41.78 |
+| madrid | mejora | 24 / 24 | 21 / 21 | 25 → 25 | 0.0 → 0.0 | 73.87 → 73.87 |
+| melilla | empata | 6 / 6 | 6 / 6 | 1 → 1 | 0.0 → 0.0 | 74.99 → 74.99 |
+| pais_vasco | empata | 9 / 8 | 9 / 8 | 18 → 18 | 0.0 → 0.0 | 23.62 → 23.62 |
+| principado_de_asturias | mejora | 4 / 4 | 3 / 3 | 28 → 26 | 0.0 → 0.0 | 37.08 → 37.08 |
+| region_de_murcia | empata | 10 / 10 | 10 / 10 | 15 → 15 | 0.0 → 0.0 | 66.76 → 66.76 |
