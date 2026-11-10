@@ -1,0 +1,872 @@
+{
+ "territorio": "congreso_jaen",
+ "version": "1.2.0",
+ "topes": {
+  "D5": 0.05,
+  "D8": 0.08
+ },
+ "unidades": 97,
+ "aristas": 264,
+ "puentes_contacto": 2,
+ "objetivo": 124127.4,
+ "tolerancia": 18619.11,
+ "parametros": {
+  "cadenas": 20,
+  "pasos": 300,
+  "rpj": 0.5,
+  "rca": 0.3,
+  "rmov": 0.2,
+  "rlong": 0.3,
+  "funciones": [
+   "A",
+   "C",
+   "D8"
+  ]
+ },
+ "semilla_publica": {
+  "esquema": "ddd-semilla-publica/1",
+  "territorio": "congreso_jaen",
+  "ancla": {
+   "population": "2a397654f1bf1d588114ac12148af02b322ebe7d2f034d3777bd93ad37d60b46",
+   "target_sectioning": "1d387b9cef3058d04329e46badb15a35df8804887191533fb5c0464da59311df"
+  },
+  "n": 20,
+  "semillas": [
+   1083027908,
+   42717343,
+   49199480,
+   462208616,
+   1382405005,
+   1454666719,
+   606960677,
+   1083726651,
+   598157684,
+   1845114811,
+   1552337243,
+   277395346,
+   1031470833,
+   966007839,
+   64919245,
+   1848467338,
+   1326208583,
+   570464808,
+   152062641,
+   521372342
+  ],
+  "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+ },
+ "huella_reglas": "da940dbabe8e22110d13c0c6bdb5368f59c8b554771846ce9a28dba46f875e22",
+ "ganadores": {
+  "A": {
+   "candidato": "vigente",
+   "semilla": null,
+   "clave": [
+    0,
+    0.0009216337408179016,
+    5.845578362664963e-07,
+    "db85ac0189de12b5a576a96ac6d2a43d7d4077bf4c25417d40ba7fb705cad21d"
+   ],
+   "valido": true,
+   "fuera_tolerancia": [],
+   "desvio_max": 0.0009216337408179016,
+   "suma_desvio_personas": 451.6,
+   "max_desvio_personas": 114.4,
+   "indicadores": {
+    "distritos": 5,
+    "pp_medio": 0.148007569270091,
+    "pp_min": 0.06499133736940883,
+    "convexidad_media": 0.5253217492103562,
+    "convexidad_min": 0.37862331372600605,
+    "corte": {
+     "aristas": 1294,
+     "cortes": 110,
+     "fraccion_cortes": 0.08500772797527048,
+     "peso_corte": 988750.0938037994,
+     "fraccion_peso_corte": 0.25046560004315715
+    },
+    "pj": {
+     "n": 10,
+     "partidas": 8,
+     "lista_partidas": [
+      "23-01",
+      "23-03",
+      "23-05",
+      "23-06",
+      "23-07",
+      "23-08",
+      "23-09",
+      "23-10"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.7344064060956225,
+     "poblacion_fuera_de_mayoritario": 164246,
+     "poblacion_sin_dato": 2226
+    },
+    "ca": {
+     "n": 9,
+     "partidas": 8,
+     "lista_partidas": [
+      "23-CAMPIÑA DEL NORTE",
+      "23-CAMPIÑA DEL SUR",
+      "23-LA LOMA",
+      "23-MÁGINA",
+      "23-SIERRA DE CAZORLA",
+      "23-SIERRA DE SEGURA",
+      "23-SIERRA MORENA",
+      "23-SIERRA SUR"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.7236387775785201,
+     "poblacion_fuera_de_mayoritario": 171520,
+     "poblacion_sin_dato": 0
+    },
+    "comarca": {
+     "n": 0,
+     "partidas": 0,
+     "lista_partidas": [],
+     "fraccion_poblacion_en_mayoritario": null,
+     "poblacion_fuera_de_mayoritario": 0,
+     "poblacion_sin_dato": 620637
+    },
+    "movilidad": {
+     "cohesion": 0.7317768070045323,
+     "flujo": 83004.0,
+     "areas": 58
+    }
+   },
+   "sha256_csv": "9329c0c28a8c608908fe8c0096a71db852dccd4bee41bd450cf80814866fde0d"
+  },
+  "C": {
+   "candidato": "ponderado-1845114811",
+   "semilla": 1845114811,
+   "clave": [
+    0,
+    5,
+    540.995,
+    0.14927888604772194,
+    "b0ec24b142814405c323a281e90a90a4878fd32baa523d4800de21df84c50b1d"
+   ],
+   "valido": true,
+   "fuera_tolerancia": [],
+   "desvio_max": 0.14927888604772194,
+   "suma_desvio_personas": 59952.4,
+   "max_desvio_personas": 18529.6,
+   "indicadores": {
+    "distritos": 5,
+    "pp_medio": 0.25760027881285325,
+    "pp_min": 0.18401781728711997,
+    "convexidad_media": 0.6378282750275558,
+    "convexidad_min": 0.621511358622055,
+    "corte": {
+     "aristas": 1294,
+     "cortes": 81,
+     "fraccion_cortes": 0.062596599690881,
+     "peso_corte": 540995.0015988484,
+     "fraccion_peso_corte": 0.13704235129275458
+    },
+    "pj": {
+     "n": 10,
+     "partidas": 2,
+     "lista_partidas": [
+      "23-01",
+      "23-07"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.900035736751125,
+     "poblacion_fuera_de_mayoritario": 61819,
+     "poblacion_sin_dato": 2226
+    },
+    "ca": {
+     "n": 9,
+     "partidas": 3,
+     "lista_partidas": [
+      "23-CAMPIÑA DEL NORTE",
+      "23-CAMPIÑA DEL SUR",
+      "23-LA LOMA"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.8208421347744334,
+     "poblacion_fuera_de_mayoritario": 111192,
+     "poblacion_sin_dato": 0
+    },
+    "comarca": {
+     "n": 0,
+     "partidas": 0,
+     "lista_partidas": [],
+     "fraccion_poblacion_en_mayoritario": null,
+     "poblacion_fuera_de_mayoritario": 0,
+     "poblacion_sin_dato": 620637
+    },
+    "movilidad": {
+     "cohesion": 0.777570874840649,
+     "flujo": 83004.0,
+     "areas": 58
+    }
+   },
+   "sha256_csv": "f1df1a34a1ecc27e8f41f69d2f2dd71d5b2b5f5ab897cb91209dcf91ca1039b0"
+  },
+  "D8": {
+   "candidato": "ponderado-1845114811",
+   "semilla": 1845114811,
+   "clave": [
+    0,
+    0.0,
+    6,
+    564.341,
+    0.06525070210122826,
+    "10ae6c4f61e289b8cf4bab4981577eed4616b138b2396316934b7eb86a4d3af6"
+   ],
+   "valido": true,
+   "fuera_tolerancia": [],
+   "desvio_max": 0.06525070210122826,
+   "suma_desvio_personas": 30246.4,
+   "max_desvio_personas": 8099.4,
+   "indicadores": {
+    "distritos": 5,
+    "pp_medio": 0.259573055159824,
+    "pp_min": 0.18741975873862465,
+    "convexidad_media": 0.6476908033853922,
+    "convexidad_min": 0.587314257334988,
+    "corte": {
+     "aristas": 1294,
+     "cortes": 83,
+     "fraccion_cortes": 0.06414219474497682,
+     "peso_corte": 564341.2734310016,
+     "fraccion_peso_corte": 0.1429563208790586
+    },
+    "pj": {
+     "n": 10,
+     "partidas": 2,
+     "lista_partidas": [
+      "23-01",
+      "23-07"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.8651527867389164,
+     "poblacion_fuera_de_mayoritario": 83391,
+     "poblacion_sin_dato": 2226
+    },
+    "ca": {
+     "n": 9,
+     "partidas": 4,
+     "lista_partidas": [
+      "23-CAMPIÑA DEL NORTE",
+      "23-CAMPIÑA DEL SUR",
+      "23-LA LOMA",
+      "23-SIERRA SUR"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.7780151682867763,
+     "poblacion_fuera_de_mayoritario": 137772,
+     "poblacion_sin_dato": 0
+    },
+    "comarca": {
+     "n": 0,
+     "partidas": 0,
+     "lista_partidas": [],
+     "fraccion_poblacion_en_mayoritario": null,
+     "poblacion_fuera_de_mayoritario": 0,
+     "poblacion_sin_dato": 620637
+    },
+    "movilidad": {
+     "cohesion": 0.8086040507566221,
+     "flujo": 83004.0,
+     "areas": 58
+    }
+   },
+   "sha256_csv": "8c4912fe29adc0e00637d51499c685f7b570b8b90f17e3454b7b080fd3c1c184"
+  }
+ },
+ "candidatos": {
+  "A": [
+   [
+    "vigente",
+    [
+     0,
+     0.0009216337408179016,
+     5.845578362664963e-07,
+     "db85ac0189de12b5a576a96ac6d2a43d7d4077bf4c25417d40ba7fb705cad21d"
+    ]
+   ]
+  ],
+  "C": [
+   [
+    "vigente",
+    [
+     0,
+     16,
+     988.75,
+     0.0009216337408179016,
+     "db85ac0189de12b5a576a96ac6d2a43d7d4077bf4c25417d40ba7fb705cad21d"
+    ]
+   ],
+   [
+    "ponderado-1083027908",
+    [
+     0,
+     6,
+     633.84,
+     0.1447432234945709,
+     "76359ee5ecf54bfdc497b5907eca8cc167249cb827392800cb308ebb4e3cbaec"
+    ]
+   ],
+   [
+    "ponderado-42717343",
+    [
+     0,
+     7,
+     566.265,
+     0.12011368964467152,
+     "01b583474693c5c56952ab95e976b0d18b131e936e6a56d311593f59cb6db7a7"
+    ]
+   ],
+   [
+    "ponderado-49199480",
+    [
+     0,
+     6,
+     628.641,
+     0.1447432234945709,
+     "cf6ee98e79e254a167c84643dc032e26ef3a8715789b5ff33ef75ca626024f53"
+    ]
+   ],
+   [
+    "ponderado-462208616",
+    [
+     0,
+     6,
+     535.325,
+     0.1325766913670954,
+     "ac821a09578849148c211dfc9742ce2b1d236b8a9605342febd533cc2c5ec484"
+    ]
+   ],
+   [
+    "ponderado-1382405005",
+    [
+     0,
+     7,
+     549.339,
+     0.12150741899048881,
+     "56102ab7aeffab3ff6a8930dfa6884a3a19ed02967b3cdef794bd7cad0b9d555"
+    ]
+   ],
+   [
+    "ponderado-1454666719",
+    [
+     0,
+     7,
+     562.982,
+     0.1325766913670954,
+     "88fcb7d63d2355c4e507c625ee03c6a53e05b208bbb6ac387d609d8d70d4c3ee"
+    ]
+   ],
+   [
+    "ponderado-606960677",
+    [
+     0,
+     6,
+     487.73,
+     0.1325766913670954,
+     "5549c75caf4ccf559ae3907799f383bede12824209a44eed175b13d35bd55c40"
+    ]
+   ],
+   [
+    "ponderado-1083726651",
+    [
+     0,
+     7,
+     562.575,
+     0.09117729042902695,
+     "f68e3ca2afba4b721eb2df78f1625620ef20ff0293cdf8bdef284a2b94b542a4"
+    ]
+   ],
+   [
+    "ponderado-598157684",
+    [
+     0,
+     6,
+     638.472,
+     0.1325766913670954,
+     "bb924291632aa48233f1d0b95b6bb4f53d3cbab8e629219f8ae3a142f5ee33a1"
+    ]
+   ],
+   [
+    "ponderado-1845114811",
+    [
+     0,
+     5,
+     540.995,
+     0.14927888604772194,
+     "b0ec24b142814405c323a281e90a90a4878fd32baa523d4800de21df84c50b1d"
+    ]
+   ],
+   [
+    "ponderado-1552337243",
+    [
+     0,
+     6,
+     633.84,
+     0.1447432234945709,
+     "76359ee5ecf54bfdc497b5907eca8cc167249cb827392800cb308ebb4e3cbaec"
+    ]
+   ],
+   [
+    "ponderado-277395346",
+    [
+     0,
+     7,
+     536.831,
+     0.10293134312005246,
+     "a8f4d8cce9e34ef826891fc77374173842fb8a06c98f9c5ac62f493d129b36fa"
+    ]
+   ],
+   [
+    "ponderado-1031470833",
+    [
+     0,
+     7,
+     507.951,
+     0.12316861547087911,
+     "f4a09e42e2d355cb283e939bd96aedd38dbde997b77ead10fc514021ea801895"
+    ]
+   ],
+   [
+    "ponderado-966007839",
+    [
+     0,
+     7,
+     522.335,
+     0.12457845729468273,
+     "c89734a738aab3393e24558b7f97eb5e0b6b1ee24f1fa2a345b63e99168456d5"
+    ]
+   ],
+   [
+    "ponderado-64919245",
+    [
+     0,
+     7,
+     538.689,
+     0.09117729042902695,
+     "947caf38e05b0ec667e370256f920d0b76294e6440277b992dedd2bc50abd1e5"
+    ]
+   ],
+   [
+    "ponderado-1848467338",
+    [
+     0,
+     6,
+     611.459,
+     0.14960113560744848,
+     "585b8cdc03d7d70249af689064242f97d2e3d9e16663ab148db50c6a72eda071"
+    ]
+   ],
+   [
+    "ponderado-1326208583",
+    [
+     0,
+     7,
+     529.92,
+     0.10293134312005246,
+     "991b58b089584a617b10977007a52a3592a0a622f37d130f20784cb7757fc412"
+    ]
+   ],
+   [
+    "ponderado-570464808",
+    [
+     0,
+     7,
+     552.991,
+     0.09245662118114131,
+     "54627f792aaab7d97373070e346b1453ad0f92dbb4edccde7b315b5bb48881a3"
+    ]
+   ],
+   [
+    "ponderado-152062641",
+    [
+     0,
+     7,
+     578.224,
+     0.12011368964467152,
+     "a17617014f8c00fa17b66a9cada4e358715febbf7f22bd71739393094e919585"
+    ]
+   ],
+   [
+    "ponderado-521372342",
+    [
+     0,
+     5,
+     584.565,
+     0.14557301611086673,
+     "78f0f2d85653c2edc2e2e0b50356c432e44c899ba93959dfe3fe83fc147454c3"
+    ]
+   ]
+  ],
+  "D8": [
+   [
+    "vigente",
+    [
+     0,
+     0.0,
+     16,
+     988.75,
+     0.0009216337408179016,
+     "db85ac0189de12b5a576a96ac6d2a43d7d4077bf4c25417d40ba7fb705cad21d"
+    ]
+   ],
+   [
+    "ponderado-1083027908",
+    [
+     0,
+     0.0,
+     7,
+     579.195,
+     0.040994977740611664,
+     "6afcbf3b0aa4df8337e9e5ec3a23817081a69120aa03304abf9c60b19b69fdf5"
+    ]
+   ],
+   [
+    "ponderado-42717343",
+    [
+     0,
+     0.0,
+     8,
+     555.541,
+     0.05777451231557255,
+     "a1a8657b1695954ce7995615ef8beb1589490fbd3075374a28fc9aa4b0088267"
+    ]
+   ],
+   [
+    "ponderado-49199480",
+    [
+     0,
+     0.0,
+     8,
+     526.776,
+     0.0783420904651189,
+     "ee06c8b2a40060f1239129a0a6dfa5b3caea1af0cce3dd0d6ab57f6cf455f435"
+    ]
+   ],
+   [
+    "ponderado-462208616",
+    [
+     0,
+     0.0,
+     7,
+     590.363,
+     0.07081917449330284,
+     "338715a349d1f2a1c2224a9ab57bf470f6b9f835b550c4ba860ec4dfe8f775c9"
+    ]
+   ],
+   [
+    "ponderado-1382405005",
+    [
+     0,
+     0.0,
+     8,
+     574.306,
+     0.06502512740941968,
+     "f03b5b705fc433c3fc4f73fd14c7061d43b79bc8ed01e04da6eb2e2a17258ac7"
+    ]
+   ],
+   [
+    "ponderado-1454666719",
+    [
+     0,
+     0.0,
+     8,
+     534.312,
+     0.0783420904651189,
+     "4a64f2644939c15074d9653055f2558963db4fc78580132d23fc71b3fa5dc2c4"
+    ]
+   ],
+   [
+    "ponderado-606960677",
+    [
+     0,
+     0.0,
+     7,
+     536.43,
+     0.05464224659503059,
+     "f0047fec23580b1316d98268628af8a3c568a029615e5c581000f59f18ba6d43"
+    ]
+   ],
+   [
+    "ponderado-1083726651",
+    [
+     0,
+     0.0,
+     7,
+     595.921,
+     0.05763111126149424,
+     "e7f01a7ee6873fa4f043fa2c8d3c1bfa75e878f5b70bb25ddfbdf3c4fb37396c"
+    ]
+   ],
+   [
+    "ponderado-598157684",
+    [
+     0,
+     0.0,
+     8,
+     666.434,
+     0.039560967199828566,
+     "a43d05d415897ac63d8471d671f4b17999cebb643ea0b0f1b54e2f4d17c4dcd3"
+    ]
+   ],
+   [
+    "ponderado-1845114811",
+    [
+     0,
+     0.0,
+     6,
+     564.341,
+     0.06525070210122826,
+     "10ae6c4f61e289b8cf4bab4981577eed4616b138b2396316934b7eb86a4d3af6"
+    ]
+   ],
+   [
+    "ponderado-1552337243",
+    [
+     0,
+     0.0,
+     9,
+     543.45,
+     0.0589104420136086,
+     "b715bb587b34f2343e543afb1e242a57382890b3f52a2feef43cc234e0210239"
+    ]
+   ],
+   [
+    "ponderado-277395346",
+    [
+     0,
+     0.0,
+     7,
+     573.024,
+     0.049027048016795645,
+     "ef0d1a0a78edc328636f64bb0ee38071c36e1a3ac8f8957697fb96f8a16b2a6c"
+    ]
+   ],
+   [
+    "ponderado-1031470833",
+    [
+     0,
+     0.0,
+     8,
+     651.099,
+     0.07819707816324196,
+     "26fe05f9597607d1f970ac38eb82de3e312eec20ad96e7fc415a9cebb07523de"
+    ]
+   ],
+   [
+    "ponderado-966007839",
+    [
+     0,
+     0.0,
+     8,
+     544.8,
+     0.06753222898409215,
+     "e18095f7f5ed332ded43961b54a4d7c30191a5960d067319c6df5c880f27e771"
+    ]
+   ],
+   [
+    "ponderado-64919245",
+    [
+     0,
+     0.0,
+     7,
+     562.501,
+     0.07730444688279944,
+     "27496c020cf0e9b11c1ec0e66d983475efe20e1aa936581f5141ab79f42f0593"
+    ]
+   ],
+   [
+    "ponderado-1848467338",
+    [
+     0,
+     0.0,
+     7,
+     588.775,
+     0.03728749655595783,
+     "0ab5adc901bd84526e636b233a30d8f814a8ad0c7a1570a487cebd822457de9e"
+    ]
+   ],
+   [
+    "ponderado-1326208583",
+    [
+     0,
+     0.0,
+     8,
+     547.839,
+     0.0652184771452556,
+     "0e64f317f4a63b1eab2612393c38196a398f8bc19c38442888b582e0e2a61289"
+    ]
+   ],
+   [
+    "ponderado-570464808",
+    [
+     0,
+     0.0,
+     8,
+     527.395,
+     0.07555624302128297,
+     "7f95e50c0a2aa3b82faa75edb20a31837d88c11c4f5a2876663e1ca66d14006f"
+    ]
+   ],
+   [
+    "ponderado-152062641",
+    [
+     0,
+     0.0,
+     7,
+     601.074,
+     0.03499146844290624,
+     "fa1af08b57696d6fb77932c89f95a9ab2c31d5ebe76a1dee35e7eb00bc067f76"
+    ]
+   ],
+   [
+    "ponderado-521372342",
+    [
+     0,
+     0.0,
+     8,
+     574.749,
+     0.04117221499846126,
+     "e08b476996bbc499d410830cdbe0d862ab30e146f7e8c646bf97439ebde7dab2"
+    ]
+   ]
+  ]
+ },
+ "cadenas": {
+  "libre": [],
+  "ponderado": [
+   {
+    "semilla": 1083027908,
+    "unicos": 180,
+    "tiempo_s": 0.7939618410000548,
+    "fallo": ""
+   },
+   {
+    "semilla": 42717343,
+    "unicos": 171,
+    "tiempo_s": 0.7839162850000321,
+    "fallo": ""
+   },
+   {
+    "semilla": 49199480,
+    "unicos": 179,
+    "tiempo_s": 0.6696292520000497,
+    "fallo": ""
+   },
+   {
+    "semilla": 462208616,
+    "unicos": 161,
+    "tiempo_s": 0.657262886000126,
+    "fallo": ""
+   },
+   {
+    "semilla": 1382405005,
+    "unicos": 154,
+    "tiempo_s": 0.7029316929999823,
+    "fallo": ""
+   },
+   {
+    "semilla": 1454666719,
+    "unicos": 159,
+    "tiempo_s": 0.6406816999999592,
+    "fallo": ""
+   },
+   {
+    "semilla": 606960677,
+    "unicos": 176,
+    "tiempo_s": 0.6754532639999979,
+    "fallo": ""
+   },
+   {
+    "semilla": 1083726651,
+    "unicos": 176,
+    "tiempo_s": 0.6794353039999805,
+    "fallo": ""
+   },
+   {
+    "semilla": 598157684,
+    "unicos": 164,
+    "tiempo_s": 0.7163625440000487,
+    "fallo": ""
+   },
+   {
+    "semilla": 1845114811,
+    "unicos": 174,
+    "tiempo_s": 0.7840499870001167,
+    "fallo": ""
+   },
+   {
+    "semilla": 1552337243,
+    "unicos": 191,
+    "tiempo_s": 0.5998883580000438,
+    "fallo": ""
+   },
+   {
+    "semilla": 277395346,
+    "unicos": 183,
+    "tiempo_s": 0.6074378700000125,
+    "fallo": ""
+   },
+   {
+    "semilla": 1031470833,
+    "unicos": 173,
+    "tiempo_s": 0.7115335789999335,
+    "fallo": ""
+   },
+   {
+    "semilla": 966007839,
+    "unicos": 173,
+    "tiempo_s": 0.7090705559999151,
+    "fallo": ""
+   },
+   {
+    "semilla": 64919245,
+    "unicos": 179,
+    "tiempo_s": 0.6681989999999587,
+    "fallo": ""
+   },
+   {
+    "semilla": 1848467338,
+    "unicos": 167,
+    "tiempo_s": 0.7151154420000694,
+    "fallo": ""
+   },
+   {
+    "semilla": 1326208583,
+    "unicos": 161,
+    "tiempo_s": 0.6306655589999082,
+    "fallo": ""
+   },
+   {
+    "semilla": 570464808,
+    "unicos": 173,
+    "tiempo_s": 0.6747793890001503,
+    "fallo": ""
+   },
+   {
+    "semilla": 152062641,
+    "unicos": 175,
+    "tiempo_s": 0.8336096600000928,
+    "fallo": ""
+   },
+   {
+    "semilla": 521372342,
+    "unicos": 168,
+    "tiempo_s": 0.6372601230000328,
+    "fallo": ""
+   }
+  ]
+ },
+ "entorno": {
+  "python": "3.13.18",
+  "geos": "3.14.1",
+  "shapely": "2.2.0",
+  "geopandas": "1.2.0",
+  "pyogrio": "0.13.0",
+  "gerrychain": "1.0.0",
+  "networkx": "3.7"
+ },
+ "tiempos_s": {
+  "entrada": 0.4132923249999294,
+  "total": 16.05549529799987
+ },
+ "huella": "27999fb0d22398f2eabb61cb80f02e95f0e93fd911a9038959ca1cd755ba3ba6",
+ "huella_d": "84ec55a9428a56b6827955b0afb551718b6d313d74a071dc51f2589f35957d88"
+}

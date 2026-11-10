@@ -1,0 +1,601 @@
+territorio,funcion,distrito,superficie_km2,poblacion,municipio_principal,codigo_ine,fraccion_pob_municipio_principal,municipios,nucleo_cerrado
+congreso_asturias,A,0,29.1,134525,Gijón,33024,1.0,1,True
+congreso_asturias,A,1,57.4,108798,Oviedo,33044,1.0,1,True
+congreso_asturias,A,2,748.5,125727,Oviedo,33044,0.864,6,False
+congreso_asturias,A,3,5366.9,125874,Castrillón,33016,0.176,34,False
+congreso_asturias,A,4,152.7,134423,Gijón,33024,1.0,1,True
+congreso_asturias,A,5,2950.6,125658,Siero,33066,0.415,21,False
+congreso_asturias,A,6,971.5,125213,Langreo,33031,0.303,11,False
+congreso_asturias,A,7,324.8,125842,Avilés,33004,0.601,5,False
+congreso_asturias,D8,0,25.9,134419,Gijón,33024,1.0,1,True
+congreso_asturias,D8,1,1265.7,118646,Langreo,33031,0.32,9,False
+congreso_asturias,D8,2,103.6,131896,Gijón,33024,1.0,1,True
+congreso_asturias,D8,3,463.3,120003,Oviedo,33044,0.743,7,False
+congreso_asturias,D8,4,60.0,128151,Oviedo,33044,1.0,1,True
+congreso_asturias,D8,5,233.1,124890,Avilés,33004,0.606,5,False
+congreso_asturias,D8,6,2611.6,130081,Siero,33066,0.401,21,False
+congreso_asturias,D8,7,5838.2,117974,Cangas del Narcea,33011,0.098,36,False
+congreso_asturias,C,0,363.3,118788,Oviedo,33044,0.851,4,False
+congreso_asturias,C,1,17.8,116275,Oviedo,33044,1.0,1,True
+congreso_asturias,C,2,2611.6,130081,Siero,33066,0.401,21,False
+congreso_asturias,C,3,5545.4,107921,Cangas del Narcea,33011,0.108,36,False
+congreso_asturias,C,4,243.5,143814,Gijón,33024,0.929,2,False
+congreso_asturias,C,5,233.1,124890,Avilés,33004,0.606,5,False
+congreso_asturias,C,6,5.6,135305,Gijón,33024,1.0,1,True
+congreso_asturias,C,7,1581.3,128986,Langreo,33031,0.295,10,False
+congreso_badajoz,A,0,194.5,111238,Badajoz,06015,1.0,1,True
+congreso_badajoz,A,1,1494.5,111845,Mérida,06083,0.533,18,False
+congreso_badajoz,A,2,4338.6,110215,Almendralejo,06011,0.307,31,False
+congreso_badajoz,A,3,4981.0,110096,Zafra,06158,0.151,52,False
+congreso_badajoz,A,4,5390.7,112572,Badajoz,06015,0.351,24,False
+congreso_badajoz,A,5,5368.6,110083,Don Benito,06044,0.341,40,False
+congreso_badajoz,D8,0,192.6,105757,Badajoz,06015,1.0,1,True
+congreso_badajoz,D8,1,2050.2,116700,Mérida,06083,0.51,24,False
+congreso_badajoz,D8,2,8502.9,117509,Jerez de los Caballeros,06070,0.078,65,False
+congreso_badajoz,D8,3,1826.5,102463,Almendralejo,06011,0.331,18,False
+congreso_badajoz,D8,4,4902.8,115904,Don Benito,06044,0.324,36,False
+congreso_badajoz,D8,5,4292.9,107716,Badajoz,06015,0.417,22,False
+congreso_badajoz,C,0,2050.2,116700,Mérida,06083,0.51,24,False
+congreso_badajoz,C,1,192.7,94686,Badajoz,06015,1.0,1,True
+congreso_badajoz,C,2,4292.8,118787,Badajoz,06015,0.472,22,False
+congreso_badajoz,C,3,7314.5,110561,Villafranca de los Barros,06149,0.112,53,False
+congreso_badajoz,C,4,3014.8,109411,Almendralejo,06011,0.31,30,False
+congreso_badajoz,C,5,4902.8,115904,Don Benito,06044,0.324,36,False
+congreso_baleares,A,0,63.4,107615,Palma,07040,1.0,1,True
+congreso_baleares,A,1,19.5,107427,Palma,07040,1.0,1,True
+congreso_baleares,A,2,7.6,107413,Palma,07040,1.0,1,True
+congreso_baleares,A,3,498.6,153810,Palma,07040,0.703,10,False
+congreso_baleares,A,4,1024.9,154859,Manacor,07033,0.301,12,False
+congreso_baleares,A,5,1165.7,154786,Llucmajor,07031,0.253,13,False
+congreso_baleares,A,6,857.9,154422,Calvià,07011,0.346,18,False
+congreso_baleares,A,7,694.6,99005,Ciutadella de Menorca,07015,0.32,8,False
+congreso_baleares,A,8,248.7,93601,Eivissa,07026,0.554,3,False
+congreso_baleares,A,9,401.7,76968,Santa Eulària des Riu,07054,0.541,3,False
+congreso_baleares,D8,0,19.1,139919,Palma,07040,1.0,1,True
+congreso_baleares,D8,1,1149.5,142825,Manacor,07033,0.326,10,False
+congreso_baleares,D8,2,642.0,143270,Palma,07040,0.312,7,False
+congreso_baleares,D8,3,67.6,105094,Palma,07040,1.0,1,True
+congreso_baleares,D8,4,902.2,142083,Inca,07027,0.243,19,False
+congreso_baleares,D8,5,21.0,140938,Palma,07040,1.0,1,True
+congreso_baleares,D8,6,836.2,126203,Calvià,07011,0.424,17,False
+congreso_baleares,D8,7,694.6,99005,Ciutadella de Menorca,07015,0.32,8,False
+congreso_baleares,D8,8,248.7,93601,Eivissa,07026,0.554,3,False
+congreso_baleares,D8,9,401.7,76968,Santa Eulària des Riu,07054,0.541,3,False
+congreso_baleares,C,0,26.7,113094,Palma,07040,1.0,1,True
+congreso_baleares,C,1,725.7,104593,Calvià,07011,0.511,13,False
+congreso_baleares,C,2,815.9,150529,Inca,07027,0.229,18,False
+congreso_baleares,C,3,8.9,137783,Palma,07040,1.0,1,True
+congreso_baleares,C,4,72.0,134705,Palma,07040,1.0,1,True
+congreso_baleares,C,5,1305.2,152847,Manacor,07033,0.305,14,False
+congreso_baleares,C,6,683.3,146781,Palma,07040,0.307,8,False
+congreso_baleares,C,7,694.6,99005,Ciutadella de Menorca,07015,0.32,8,False
+congreso_baleares,C,8,248.7,93601,Eivissa,07026,0.554,3,False
+congreso_baleares,C,9,401.7,76968,Santa Eulària des Riu,07054,0.541,3,False
+congreso_barcelona,A,0,18.5,129493,Badalona,08015,1.0,1,True
+congreso_barcelona,A,1,3.4,118913,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,2,5.2,118081,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,3,3.4,118618,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,4,3.5,118306,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,5,11.1,117949,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,6,21.8,119017,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,7,5.0,118563,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,8,4.9,117453,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,9,5.8,117828,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,10,3.2,118524,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,11,4.9,118097,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,12,2.7,118685,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,13,6.3,117775,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,14,8.9,115941,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+congreso_barcelona,A,15,2.6,115995,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+congreso_barcelona,A,16,20.8,109029,Sabadell,08187,1.0,1,True
+congreso_barcelona,A,17,21.6,112709,Terrassa,08279,1.0,1,True
+congreso_barcelona,A,18,631.4,113732,Vilafranca del Penedès,08305,0.357,27,False
+congreso_barcelona,A,19,717.6,113435,Manresa,08113,0.693,17,False
+congreso_barcelona,A,20,477.2,109544,Vic,08298,0.44,19,False
+congreso_barcelona,A,21,43.6,115825,Castelldefels,08056,0.59,2,False
+congreso_barcelona,A,22,39.5,114577,Premià de Mar,08172,0.251,8,False
+congreso_barcelona,A,23,168.9,108274,Martorell,08114,0.265,9,False
+congreso_barcelona,A,24,757.4,110796,Igualada,08102,0.373,27,False
+congreso_barcelona,A,25,144.7,116952,Sant Vicenç dels Horts,08263,0.243,9,False
+congreso_barcelona,A,26,277.1,114356,Sant Celoni,08202,0.161,13,False
+congreso_barcelona,A,27,136.2,117251,Vilanova i la Geltrú,08307,0.587,5,False
+congreso_barcelona,A,28,204.1,114065,Pineda de Mar,08163,0.253,10,False
+congreso_barcelona,A,29,21.1,118147,Barcelona,08019,1.0,1,True
+congreso_barcelona,A,30,48.5,112565,Terrassa,08279,1.0,1,True
+congreso_barcelona,A,31,6.4,132714,Badalona,08015,0.714,2,False
+congreso_barcelona,A,32,443.2,113432,Cardedeu,08046,0.168,20,False
+congreso_barcelona,A,33,77.2,112803,Granollers,08096,0.558,5,False
+congreso_barcelona,A,34,27.7,118219,Sant Boi de Llobregat,08200,0.708,2,False
+congreso_barcelona,A,35,25.9,117419,Sabadell,08187,0.928,2,False
+congreso_barcelona,A,36,13.2,112127,Esplugues de Llobregat,08077,0.419,3,False
+congreso_barcelona,A,37,1940.3,112450,Berga,08022,0.151,62,False
+congreso_barcelona,A,38,73.7,110185,Rubí,08184,0.726,4,False
+congreso_barcelona,A,39,37.8,124022,Mollet del Vallès,08124,0.417,4,False
+congreso_barcelona,A,40,6.8,90076,Cornellà de Llobregat,08073,1.0,1,True
+congreso_barcelona,A,41,51.6,132024,Viladecans,08301,0.505,2,False
+congreso_barcelona,A,42,216.0,111789,Sant Feliu de Llobregat,08211,0.411,10,False
+congreso_barcelona,A,43,79.4,110390,Sant Cugat del Vallès,08205,0.884,2,False
+congreso_barcelona,A,44,36.2,109996,Cerdanyola del Vallès,08266,0.525,3,False
+congreso_barcelona,A,45,7.1,119195,Santa Coloma de Gramenet,08245,1.0,1,True
+congreso_barcelona,A,46,22.3,129613,Mataró,08121,1.0,1,True
+congreso_barcelona,A,47,542.4,113389,Olesa de Montserrat,08147,0.216,20,False
+congreso_barcelona,A,48,124.9,115223,Montcada i Reixac,08125,0.32,11,False
+congreso_barcelona,A,49,177.7,111795,Castellar del Vallès,08051,0.225,8,False
+congreso_barcelona,D8,0,7.1,119195,Santa Coloma de Gramenet,08245,1.0,1,True
+congreso_barcelona,D8,1,6.9,108983,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,2,3.4,125329,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,3,5.0,101510,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,4,9.1,117780,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+congreso_barcelona,D8,5,6.4,121930,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,6,3.1,120897,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,7,4.9,115104,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,8,4.9,117787,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,9,11.5,113274,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,10,3.2,108808,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,11,2.4,112994,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+congreso_barcelona,D8,12,3.4,124149,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,13,5.3,129774,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,14,3.3,123846,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,15,19.6,119936,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,16,14.5,102546,Sabadell,08187,1.0,1,True
+congreso_barcelona,D8,17,543.5,115211,Olesa de Montserrat,08147,0.212,23,False
+congreso_barcelona,D8,18,43.6,115825,Castelldefels,08056,0.59,2,False
+congreso_barcelona,D8,19,216.4,110549,Martorell,08114,0.259,10,False
+congreso_barcelona,D8,20,1849.0,119205,Manlleu,08112,0.178,63,False
+congreso_barcelona,D8,21,51.6,132024,Viladecans,08301,0.505,2,False
+congreso_barcelona,D8,22,39.5,114577,Premià de Mar,08172,0.251,8,False
+congreso_barcelona,D8,23,79.4,110390,Sant Cugat del Vallès,08205,0.884,2,False
+congreso_barcelona,D8,24,446.6,105063,Igualada,08102,0.393,18,False
+congreso_barcelona,D8,25,508.4,113150,Vilafranca del Penedès,08305,0.359,24,False
+congreso_barcelona,D8,26,7.5,104659,Mataró,08121,1.0,1,True
+congreso_barcelona,D8,27,136.2,117251,Vilanova i la Geltrú,08307,0.587,5,False
+congreso_barcelona,D8,28,131.2,109411,Parets del Vallès,08159,0.173,12,False
+congreso_barcelona,D8,29,103.9,109876,Sant Boi de Llobregat,08200,0.761,5,False
+congreso_barcelona,D8,30,48.5,112565,Terrassa,08279,1.0,1,True
+congreso_barcelona,D8,31,18.0,131428,Badalona,08015,1.0,1,True
+congreso_barcelona,D8,32,213.9,112488,Pineda de Mar,08163,0.256,10,False
+congreso_barcelona,D8,33,77.3,127367,Granollers,08096,0.494,5,False
+congreso_barcelona,D8,34,33.8,107076,Sant Feliu de Llobregat,08211,0.429,3,False
+congreso_barcelona,D8,35,32.1,123902,Sabadell,08187,0.932,2,False
+congreso_barcelona,D8,36,211.6,126887,Sitges,08270,0.253,10,False
+congreso_barcelona,D8,37,853.5,109539,Vic,08298,0.44,26,False
+congreso_barcelona,D8,38,69.4,126751,Mollet del Vallès,08124,0.408,6,False
+congreso_barcelona,D8,39,112.3,108924,Barberà del Vallès,08252,0.306,5,False
+congreso_barcelona,D8,40,6.8,90076,Cornellà de Llobregat,08073,1.0,1,True
+congreso_barcelona,D8,41,13.2,113289,Esplugues de Llobregat,08077,0.415,3,False
+congreso_barcelona,D8,42,969.6,126410,Manresa,08113,0.622,26,False
+congreso_barcelona,D8,43,21.4,124629,Barcelona,08019,1.0,1,True
+congreso_barcelona,D8,44,46.3,100222,Rubí,08184,0.799,2,False
+congreso_barcelona,D8,45,6.9,130779,Badalona,08015,0.71,2,False
+congreso_barcelona,D8,46,219.3,128507,Mataró,08121,0.194,13,False
+congreso_barcelona,D8,47,88.2,125133,Terrassa,08279,0.901,3,False
+congreso_barcelona,D8,48,381.5,100355,Sant Celoni,08202,0.184,15,False
+congreso_barcelona,D8,49,36.2,109996,Cerdanyola del Vallès,08266,0.525,3,False
+congreso_barcelona,C,0,5.2,118671,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,1,21.8,104161,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,2,5.1,128184,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,3,3.0,129986,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,4,3.2,107745,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,5,8.8,114760,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,6,23.9,128893,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,7,9.2,130610,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,8,7.1,119195,Santa Coloma de Gramenet,08245,1.0,1,True
+congreso_barcelona,C,9,7.1,130042,Badalona,08015,0.709,2,False
+congreso_barcelona,C,10,2.9,99990,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,11,3.0,109968,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,12,3.0,123596,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+congreso_barcelona,C,13,3.4,115894,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,14,3.4,132504,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,15,9.0,131138,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+congreso_barcelona,C,16,20.8,109029,Sabadell,08187,1.0,1,True
+congreso_barcelona,C,17,107.3,112577,Martorell,08114,0.254,7,False
+congreso_barcelona,C,18,868.7,121756,Igualada,08102,0.339,33,False
+congreso_barcelona,C,19,627.1,124366,Manresa,08113,0.632,14,False
+congreso_barcelona,C,20,687.8,98670,Vic,08298,0.489,29,False
+congreso_barcelona,C,21,43.6,115825,Castelldefels,08056,0.59,2,False
+congreso_barcelona,C,22,283.0,129699,"Franqueses del Vallès, Les",08086,0.158,13,False
+congreso_barcelona,C,23,90.7,102808,Rubí,08184,0.778,4,False
+congreso_barcelona,C,24,576.9,99557,Esparreguera,08076,0.225,20,False
+congreso_barcelona,C,25,227.6,119426,Sitges,08270,0.269,10,False
+congreso_barcelona,C,26,74.9,102600,Premià de Mar,08172,0.28,9,False
+congreso_barcelona,C,27,51.6,132024,Viladecans,08301,0.505,2,False
+congreso_barcelona,C,28,22.3,129613,Mataró,08121,1.0,1,True
+congreso_barcelona,C,29,64.9,102844,Montcada i Reixac,08125,0.358,7,False
+congreso_barcelona,C,30,20.9,99693,Terrassa,08279,1.0,1,True
+congreso_barcelona,C,31,5.9,124469,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,32,41.3,104143,Mollet del Vallès,08124,0.496,6,False
+congreso_barcelona,C,33,114.0,124530,Granollers,08096,0.506,7,False
+congreso_barcelona,C,34,27.7,118219,Sant Boi de Llobregat,08200,0.708,2,False
+congreso_barcelona,C,35,25.9,117419,Sabadell,08187,0.928,2,False
+congreso_barcelona,C,36,606.0,129410,Vilafranca del Penedès,08305,0.314,28,False
+congreso_barcelona,C,37,49.2,125581,Terrassa,08279,1.0,1,True
+congreso_barcelona,C,38,62.4,117767,Sant Cugat del Vallès,08205,0.829,2,False
+congreso_barcelona,C,39,36.2,109996,Cerdanyola del Vallès,08266,0.525,3,False
+congreso_barcelona,C,40,6.8,90076,Cornellà de Llobregat,08073,1.0,1,True
+congreso_barcelona,C,41,13.8,99261,Esplugues de Llobregat,08077,0.473,4,False
+congreso_barcelona,C,42,88.8,105671,Vilanova i la Geltrú,08307,0.651,3,False
+congreso_barcelona,C,43,1923.2,122334,Manlleu,08112,0.173,58,False
+congreso_barcelona,C,44,2.6,100189,Barcelona,08019,1.0,1,True
+congreso_barcelona,C,45,17.8,132165,Badalona,08015,1.0,1,True
+congreso_barcelona,C,46,154.2,127973,Pineda de Mar,08163,0.225,12,False
+congreso_barcelona,C,47,63.2,104086,Sant Feliu de Llobregat,08211,0.442,5,False
+congreso_barcelona,C,48,169.7,111644,Barberà del Vallès,08252,0.299,7,False
+congreso_barcelona,C,49,435.0,106599,Malgrat de Mar,08110,0.18,16,False
+congreso_burgos,A,0,80.8,119115,Burgos,09059,1.0,1,True
+congreso_burgos,A,1,2833.9,119121,Burgos,09059,0.466,101,False
+congreso_burgos,A,2,11127.4,119134,Miranda de Ebro,09219,0.299,270,False
+congreso_burgos,D8,0,79.7,127256,Burgos,09059,1.0,1,True
+congreso_burgos,D8,1,10258.4,109957,Miranda de Ebro,09219,0.324,242,False
+congreso_burgos,D8,2,3704.0,120157,Burgos,09059,0.394,129,False
+congreso_burgos,C,0,67.8,131979,Burgos,09059,1.0,1,True
+congreso_burgos,C,1,8609.5,103682,Miranda de Ebro,09219,0.343,199,False
+congreso_burgos,C,2,5364.8,121709,Burgos,09059,0.35,172,False
+congreso_las_palmas,A,0,19.4,126452,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+congreso_las_palmas,A,1,11.1,127330,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+congreso_las_palmas,A,2,71.3,127081,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+congreso_las_palmas,A,3,140.3,109215,Santa Lucía de Tirajana,35022,0.7,2,False
+congreso_las_palmas,A,4,100.7,103240,Telde,35026,1.0,1,True
+congreso_las_palmas,A,5,538.2,66538,Mogán,35012,0.315,7,False
+congreso_las_palmas,A,6,230.0,98535,Arucas,35006,0.392,6,False
+congreso_las_palmas,A,7,448.4,104502,San Bartolomé de Tirajana,35019,0.523,4,False
+congreso_las_palmas,A,8,1657.4,124152,Puerto del Rosario,35017,0.35,6,False
+congreso_las_palmas,A,9,833.5,158798,Arrecife,35004,0.408,7,False
+congreso_las_palmas,D8,0,571.2,125537,Arucas,35006,0.308,11,False
+congreso_las_palmas,D8,1,98.9,108324,"Palmas de Gran Canaria, Las",35016,0.756,3,False
+congreso_las_palmas,D8,2,13.9,102209,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+congreso_las_palmas,D8,3,505.6,75606,San Bartolomé de Tirajana,35019,0.723,2,False
+congreso_las_palmas,D8,4,140.3,109215,Santa Lucía de Tirajana,35022,0.7,2,False
+congreso_las_palmas,D8,5,178.3,145289,Telde,35026,0.711,3,False
+congreso_las_palmas,D8,6,5.8,98687,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+congreso_las_palmas,D8,7,45.3,98026,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+congreso_las_palmas,D8,8,1657.4,124152,Puerto del Rosario,35017,0.35,6,False
+congreso_las_palmas,D8,9,833.5,158798,Arrecife,35004,0.408,7,False
+congreso_las_palmas,C,0,571.2,125537,Arucas,35006,0.308,11,False
+congreso_las_palmas,C,1,98.9,108324,"Palmas de Gran Canaria, Las",35016,0.756,3,False
+congreso_las_palmas,C,2,13.9,102209,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+congreso_las_palmas,C,3,505.6,75606,San Bartolomé de Tirajana,35019,0.723,2,False
+congreso_las_palmas,C,4,140.3,109215,Santa Lucía de Tirajana,35022,0.7,2,False
+congreso_las_palmas,C,5,178.3,145289,Telde,35026,0.711,3,False
+congreso_las_palmas,C,6,5.8,98687,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+congreso_las_palmas,C,7,45.3,98026,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+congreso_las_palmas,C,8,1657.4,124152,Puerto del Rosario,35017,0.35,6,False
+congreso_las_palmas,C,9,833.5,158798,Arrecife,35004,0.408,7,False
+congreso_leon,A,0,39.0,121763,León,24089,1.0,1,True
+congreso_leon,A,1,8667.6,106896,Villaquilambre,24222,0.176,120,False
+congreso_leon,A,2,3022.5,115207,Ponferrada,24115,0.546,36,False
+congreso_leon,A,3,3843.9,104707,San Andrés del Rabanedo,24142,0.287,54,False
+congreso_leon,D8,0,2997.4,118316,Ponferrada,24115,0.532,37,False
+congreso_leon,D8,1,6387.7,117243,León,24089,0.154,83,False
+congreso_leon,D8,2,23.6,103708,León,24089,1.0,1,True
+congreso_leon,D8,3,6164.2,109306,San Andrés del Rabanedo,24142,0.275,91,False
+congreso_leon,C,0,4431.1,127469,San Andrés del Rabanedo,24142,0.235,71,False
+congreso_leon,C,1,19.6,103170,León,24089,1.0,1,True
+congreso_leon,C,2,2997.4,118316,Ponferrada,24115,0.532,37,False
+congreso_leon,C,3,8124.9,99618,Villaquilambre,24222,0.189,103,False
+congreso_lugo,A,0,641.2,108565,Lugo,27028,0.904,3,False
+congreso_lugo,A,1,3251.0,107734,Viveiro,27066,0.141,26,False
+congreso_lugo,A,2,5965.8,107968,Monforte de Lemos,27031,0.169,38,False
+congreso_lugo,D8,0,469.4,105050,Lugo,27028,0.935,3,False
+congreso_lugo,D8,1,6102.9,109253,Monforte de Lemos,27031,0.167,39,False
+congreso_lugo,D8,2,3285.7,109964,Viveiro,27066,0.138,25,False
+congreso_lugo,C,0,330.0,98189,Lugo,27028,1.0,1,True
+congreso_lugo,C,1,5810.6,105640,Monforte de Lemos,27031,0.173,38,False
+congreso_lugo,C,2,3717.4,120438,Viveiro,27066,0.126,28,False
+congreso_madrid,A,0,45.6,99237,Alcalá de Henares,28005,1.0,1,True
+congreso_madrid,A,1,31.5,116468,Alcorcón,28007,1.0,1,True
+congreso_madrid,A,2,21.9,116509,Fuenlabrada,28058,1.0,1,True
+congreso_madrid,A,3,9.8,116609,Getafe,28065,1.0,1,True
+congreso_madrid,A,4,20.5,116500,Leganés,28074,1.0,1,True
+congreso_madrid,A,5,4.2,114872,Madrid,28079,1.0,1,True
+congreso_madrid,A,6,5.5,115935,Madrid,28079,1.0,1,True
+congreso_madrid,A,7,21.8,126630,Madrid,28079,1.0,1,True
+congreso_madrid,A,8,5.0,114973,Madrid,28079,1.0,1,True
+congreso_madrid,A,9,54.2,114928,Madrid,28079,1.0,1,True
+congreso_madrid,A,10,22.6,119272,Madrid,28079,1.0,1,True
+congreso_madrid,A,11,3.2,115146,Madrid,28079,1.0,1,True
+congreso_madrid,A,12,52.6,116056,Madrid,28079,1.0,1,True
+congreso_madrid,A,13,4.7,115058,Madrid,28079,1.0,1,True
+congreso_madrid,A,14,11.1,115484,Madrid,28079,1.0,1,True
+congreso_madrid,A,15,4.0,115592,Madrid,28079,1.0,1,True
+congreso_madrid,A,16,4.2,115329,Madrid,28079,1.0,1,True
+congreso_madrid,A,17,4.2,114693,Madrid,28079,1.0,1,True
+congreso_madrid,A,18,7.1,117710,Madrid,28079,1.0,1,True
+congreso_madrid,A,19,250.3,126606,Madrid,28079,1.0,1,True
+congreso_madrid,A,20,6.2,115200,Madrid,28079,1.0,1,True
+congreso_madrid,A,21,4.7,114527,Madrid,28079,1.0,1,True
+congreso_madrid,A,22,6.1,133450,Madrid,28079,1.0,1,True
+congreso_madrid,A,23,4.6,116717,Madrid,28079,1.0,1,True
+congreso_madrid,A,24,11.3,115915,Madrid,28079,1.0,1,True
+congreso_madrid,A,25,45.1,116202,Madrid,28079,1.0,1,True
+congreso_madrid,A,26,10.0,132263,Madrid,28079,1.0,1,True
+congreso_madrid,A,27,4.4,116089,Madrid,28079,1.0,1,True
+congreso_madrid,A,28,5.6,115880,Madrid,28079,1.0,1,True
+congreso_madrid,A,29,5.0,115278,Madrid,28079,1.0,1,True
+congreso_madrid,A,30,17.9,115174,Madrid,28079,1.0,1,True
+congreso_madrid,A,31,5.4,115059,Madrid,28079,1.0,1,True
+congreso_madrid,A,32,7.7,115538,Madrid,28079,1.0,1,True
+congreso_madrid,A,33,5.8,105329,Móstoles,28092,1.0,1,True
+congreso_madrid,A,34,29.8,116422,Torrejón de Ardoz,28148,1.0,1,True
+congreso_madrid,A,35,50.9,119132,Coslada,28049,0.673,2,False
+congreso_madrid,A,36,475.2,110490,Getafe,28065,0.642,9,False
+congreso_madrid,A,37,45.3,119471,Alcobendas,28006,1.0,1,True
+congreso_madrid,A,38,1135.9,107857,Navalcarnero,28096,0.296,22,False
+congreso_madrid,A,39,1683.7,116399,Algete,28009,0.18,48,False
+congreso_madrid,A,40,103.1,119451,San Sebastián de los Reyes,28134,0.774,2,False
+congreso_madrid,A,41,45.5,120886,Alcalá de Henares,28005,0.82,2,False
+congreso_madrid,A,42,684.8,112837,Villalbilla,28172,0.149,24,False
+congreso_madrid,A,43,59.4,133104,Pozuelo de Alarcón,28115,0.665,2,False
+congreso_madrid,A,44,80.0,123714,"Rozas de Madrid, Las",28127,0.797,2,False
+congreso_madrid,A,45,266.1,115425,Colmenar Viejo,28045,0.477,3,False
+congreso_madrid,A,46,172.0,114223,Collado Villalba,28047,0.58,6,False
+congreso_madrid,A,47,392.4,115977,Galapagar,28061,0.304,7,False
+congreso_madrid,A,48,98.8,113980,Majadahonda,28080,0.639,3,False
+congreso_madrid,A,49,24.8,130851,Leganés,28074,0.569,2,False
+congreso_madrid,A,50,113.6,107291,Valdemoro,28161,0.761,2,False
+congreso_madrid,A,51,25.0,132842,Parla,28106,1.0,1,True
+congreso_madrid,A,52,190.6,108197,Boadilla del Monte,28022,0.597,4,False
+congreso_madrid,A,53,39.1,105263,Móstoles,28092,1.0,1,True
+congreso_madrid,A,54,995.1,108384,Aranjuez,28013,0.563,17,False
+congreso_madrid,A,55,81.8,113433,Rivas-Vaciamadrid,28123,0.882,2,False
+congreso_madrid,A,56,79.5,127956,Fuenlabrada,28058,0.569,2,False
+congreso_madrid,A,57,231.7,107706,Arganda del Rey,28014,0.544,5,False
+congreso_madrid,A,58,202.5,104384,Arroyomolinos,28015,0.346,10,False
+congreso_madrid,D8,0,69.9,109808,Alcalá de Henares,28005,1.0,1,True
+congreso_madrid,D8,1,9.2,117984,Madrid,28079,1.0,1,True
+congreso_madrid,D8,2,19.8,110621,Parla,28106,1.0,1,True
+congreso_madrid,D8,3,23.4,119011,Leganés,28074,0.526,2,False
+congreso_madrid,D8,4,27.1,108519,Getafe,28065,1.0,1,True
+congreso_madrid,D8,5,4.7,117313,Madrid,28079,1.0,1,True
+congreso_madrid,D8,6,11.2,117132,Madrid,28079,1.0,1,True
+congreso_madrid,D8,7,249.9,121714,Madrid,28079,1.0,1,True
+congreso_madrid,D8,8,4.7,104145,Madrid,28079,1.0,1,True
+congreso_madrid,D8,9,53.2,112110,Madrid,28079,1.0,1,True
+congreso_madrid,D8,10,22.4,117180,Madrid,28079,1.0,1,True
+congreso_madrid,D8,11,3.5,122587,Madrid,28079,1.0,1,True
+congreso_madrid,D8,12,45.0,122127,Madrid,28079,1.0,1,True
+congreso_madrid,D8,13,3.7,102608,Madrid,28079,1.0,1,True
+congreso_madrid,D8,14,4.7,110801,Madrid,28079,1.0,1,True
+congreso_madrid,D8,15,3.3,103513,Madrid,28079,1.0,1,True
+congreso_madrid,D8,16,5.8,124206,Madrid,28079,1.0,1,True
+congreso_madrid,D8,17,4.0,131024,Madrid,28079,1.0,1,True
+congreso_madrid,D8,18,7.9,129401,Madrid,28079,1.0,1,True
+congreso_madrid,D8,19,4.5,114760,Madrid,28079,1.0,1,True
+congreso_madrid,D8,20,8.1,123253,Madrid,28079,1.0,1,True
+congreso_madrid,D8,21,45.3,119471,Alcobendas,28006,1.0,1,True
+congreso_madrid,D8,22,18.1,121770,Madrid,28079,1.0,1,True
+congreso_madrid,D8,23,4.5,114942,Madrid,28079,1.0,1,True
+congreso_madrid,D8,24,10.7,124141,Madrid,28079,1.0,1,True
+congreso_madrid,D8,25,5.7,112463,Madrid,28079,1.0,1,True
+congreso_madrid,D8,26,6.1,130298,Madrid,28079,1.0,1,True
+congreso_madrid,D8,27,59.0,130919,Pozuelo de Alarcón,28115,0.676,2,False
+congreso_madrid,D8,28,6.4,102702,Madrid,28079,1.0,1,True
+congreso_madrid,D8,29,13.1,132257,Madrid,28079,1.0,1,True
+congreso_madrid,D8,30,4.4,113451,Madrid,28079,1.0,1,True
+congreso_madrid,D8,31,5.4,115059,Madrid,28079,1.0,1,True
+congreso_madrid,D8,32,7.4,117004,Madrid,28079,1.0,1,True
+congreso_madrid,D8,33,34.4,107372,Móstoles,28092,1.0,1,True
+congreso_madrid,D8,34,29.8,116422,Torrejón de Ardoz,28148,1.0,1,True
+congreso_madrid,D8,35,103.1,119451,San Sebastián de los Reyes,28134,0.774,2,False
+congreso_madrid,D8,36,1083.2,114434,Aranjuez,28013,0.533,19,False
+congreso_madrid,D8,37,61.6,121816,Madrid,28079,1.0,1,True
+congreso_madrid,D8,38,190.6,108197,Boadilla del Monte,28022,0.597,4,False
+congreso_madrid,D8,39,258.9,127390,Colmenar Viejo,28045,0.433,3,False
+congreso_madrid,D8,40,50.9,119132,Coslada,28049,0.673,2,False
+congreso_madrid,D8,41,21.2,110315,Alcalá de Henares,28005,0.803,2,False
+congreso_madrid,D8,42,1725.7,109705,San Agustín del Guadalix,28129,0.125,51,False
+congreso_madrid,D8,43,10.4,103220,Móstoles,28092,1.0,1,True
+congreso_madrid,D8,44,80.0,123714,"Rozas de Madrid, Las",28127,0.797,2,False
+congreso_madrid,D8,45,637.8,107412,Villalbilla,28172,0.156,21,False
+congreso_madrid,D8,46,172.0,114223,Collado Villalba,28047,0.58,6,False
+congreso_madrid,D8,47,31.5,116468,Alcorcón,28007,1.0,1,True
+congreso_madrid,D8,48,392.4,115977,Galapagar,28061,0.304,7,False
+congreso_madrid,D8,49,22.0,128340,Leganés,28074,1.0,1,True
+congreso_madrid,D8,50,113.6,107291,Valdemoro,28161,0.761,2,False
+congreso_madrid,D8,51,79.5,127956,Fuenlabrada,28058,0.569,2,False
+congreso_madrid,D8,52,98.8,113980,Majadahonda,28080,0.639,3,False
+congreso_madrid,D8,53,1135.9,107857,Navalcarnero,28096,0.296,22,False
+congreso_madrid,D8,54,382.0,112684,Getafe,28065,0.701,7,False
+congreso_madrid,D8,55,81.8,113433,Rivas-Vaciamadrid,28123,0.882,2,False
+congreso_madrid,D8,56,207.6,126605,Arroyomolinos,28015,0.285,11,False
+congreso_madrid,D8,57,231.7,107706,Arganda del Rey,28014,0.544,5,False
+congreso_madrid,D8,58,21.9,116509,Fuenlabrada,28058,1.0,1,True
+congreso_madrid,C,0,1757.7,109250,San Agustín del Guadalix,28129,0.125,52,False
+congreso_madrid,C,1,31.5,120877,Alcorcón,28007,1.0,1,True
+congreso_madrid,C,2,9.8,106877,Móstoles,28092,1.0,1,True
+congreso_madrid,C,3,162.2,100370,Getafe,28065,0.798,2,False
+congreso_madrid,C,4,17.6,120779,Leganés,28074,0.57,2,False
+congreso_madrid,C,5,38.5,127275,Madrid,28079,1.0,1,True
+congreso_madrid,C,6,5.1,101104,Madrid,28079,1.0,1,True
+congreso_madrid,C,7,7.2,124646,Madrid,28079,1.0,1,True
+congreso_madrid,C,8,4.0,117912,Madrid,28079,1.0,1,True
+congreso_madrid,C,9,3.4,114245,Madrid,28079,1.0,1,True
+congreso_madrid,C,10,6.0,118844,Madrid,28079,1.0,1,True
+congreso_madrid,C,11,22.6,122355,Madrid,28079,1.0,1,True
+congreso_madrid,C,12,53.8,133734,Madrid,28079,1.0,1,True
+congreso_madrid,C,13,237.2,111833,Madrid,28079,1.0,1,True
+congreso_madrid,C,14,20.1,99673,Madrid,28079,1.0,1,True
+congreso_madrid,C,15,5.7,128504,Madrid,28079,1.0,1,True
+congreso_madrid,C,16,8.2,131532,Madrid,28079,1.0,1,True
+congreso_madrid,C,17,4.8,126854,Madrid,28079,1.0,1,True
+congreso_madrid,C,18,17.1,104688,Madrid,28079,1.0,1,True
+congreso_madrid,C,19,5.5,110054,Madrid,28079,1.0,1,True
+congreso_madrid,C,20,10.8,103456,Madrid,28079,1.0,1,True
+congreso_madrid,C,21,11.8,123832,Madrid,28079,1.0,1,True
+congreso_madrid,C,22,4.4,117047,Madrid,28079,1.0,1,True
+congreso_madrid,C,23,54.5,129080,Madrid,28079,1.0,1,True
+congreso_madrid,C,24,4.8,130428,Madrid,28079,1.0,1,True
+congreso_madrid,C,25,7.0,118476,Madrid,28079,1.0,1,True
+congreso_madrid,C,26,4.9,123884,Madrid,28079,1.0,1,True
+congreso_madrid,C,27,3.5,113456,Madrid,28079,1.0,1,True
+congreso_madrid,C,28,11.3,113159,Madrid,28079,1.0,1,True
+congreso_madrid,C,29,18.2,128312,Madrid,28079,1.0,1,True
+congreso_madrid,C,30,5.3,104176,Madrid,28079,1.0,1,True
+congreso_madrid,C,31,35.0,103715,Móstoles,28092,1.0,1,True
+congreso_madrid,C,32,7.4,127456,Madrid,28079,1.0,1,True
+congreso_madrid,C,33,25.0,132842,Parla,28106,1.0,1,True
+congreso_madrid,C,34,429.5,111950,Arganda del Rey,28014,0.524,12,False
+congreso_madrid,C,35,220.9,106454,Colmenar Viejo,28045,0.518,2,False
+congreso_madrid,C,36,7.3,110566,Madrid,28079,1.0,1,True
+congreso_madrid,C,37,27.7,111001,Alcobendas,28006,1.0,1,True
+congreso_madrid,C,38,15.3,125122,Fuenlabrada,28058,1.0,1,True
+congreso_madrid,C,39,50.6,104727,Alcalá de Henares,28005,0.768,2,False
+congreso_madrid,C,40,85.4,124186,Rivas-Vaciamadrid,28123,0.806,2,False
+congreso_madrid,C,41,29.3,113855,Torrejón de Ardoz,28148,1.0,1,True
+congreso_madrid,C,42,41.0,117963,Alcalá de Henares,28005,1.0,1,True
+congreso_madrid,C,43,1045.1,126126,Navalcarnero,28096,0.253,21,False
+congreso_madrid,C,44,80.0,123714,"Rozas de Madrid, Las",28127,0.797,2,False
+congreso_madrid,C,45,98.8,113980,Majadahonda,28080,0.639,3,False
+congreso_madrid,C,46,120.7,127921,San Sebastián de los Reyes,28134,0.722,3,False
+congreso_madrid,C,47,90.4,101558,Collado Villalba,28047,0.652,2,False
+congreso_madrid,C,48,665.4,129467,San Lorenzo de El Escorial,28131,0.143,15,False
+congreso_madrid,C,49,21.7,107424,Getafe,28065,1.0,1,True
+congreso_madrid,C,50,150.4,99642,Arroyomolinos,28015,0.362,9,False
+congreso_madrid,C,51,27.8,122163,Leganés,28074,1.0,1,True
+congreso_madrid,C,52,57.7,112099,Pozuelo de Alarcón,28115,0.79,2,False
+congreso_madrid,C,53,164.8,104341,Boadilla del Monte,28022,0.619,3,False
+congreso_madrid,C,54,569.0,113565,Algete,28009,0.184,19,False
+congreso_madrid,C,55,50.9,119132,Coslada,28049,0.673,2,False
+congreso_madrid,C,56,1107.1,112846,Aranjuez,28013,0.541,17,False
+congreso_madrid,C,57,86.1,119343,Fuenlabrada,28058,0.538,2,False
+congreso_madrid,C,58,165.7,112033,Valdemoro,28161,0.729,3,False
+congreso_sevilla,A,0,22.5,114225,Sevilla,41091,1.0,1,True
+congreso_sevilla,A,1,63.6,113593,Sevilla,41091,1.0,1,True
+congreso_sevilla,A,2,14.2,114029,Sevilla,41091,1.0,1,True
+congreso_sevilla,A,3,6.7,113932,Sevilla,41091,1.0,1,True
+congreso_sevilla,A,4,5.4,114005,Sevilla,41091,1.0,1,True
+congreso_sevilla,A,5,2375.4,121146,Écija,41039,0.327,18,False
+congreso_sevilla,A,6,712.4,125847,Camas,41021,0.224,13,False
+congreso_sevilla,A,7,3477.1,121507,"Rinconada, La",41081,0.331,16,False
+congreso_sevilla,A,8,160.3,138991,Dos Hermanas,41038,1.0,1,True
+congreso_sevilla,A,9,101.4,129663,Mairena del Aljarafe,41059,0.366,5,False
+congreso_sevilla,A,10,1353.0,127515,"Algaba, La",41007,0.131,14,False
+congreso_sevilla,A,11,1222.3,127434,Coria del Río,41034,0.243,9,False
+congreso_sevilla,A,12,2624.2,121301,Arahal,41011,0.161,18,False
+congreso_sevilla,A,13,1485.5,132989,Utrera,41095,0.39,7,False
+congreso_sevilla,A,14,37.3,122965,Sevilla,41091,0.93,2,False
+congreso_sevilla,A,15,374.2,120252,Alcalá de Guadaíra,41004,0.639,3,False
+congreso_sevilla,D8,0,1450.2,118868,"Rinconada, La",41081,0.338,8,False
+congreso_sevilla,D8,1,158.9,130018,Sevilla,41091,0.722,4,False
+congreso_sevilla,D8,2,9.0,113456,Sevilla,41091,1.0,1,True
+congreso_sevilla,D8,3,26.1,130573,Sevilla,41091,1.0,1,True
+congreso_sevilla,D8,4,38.4,123544,Dos Hermanas,41038,1.0,1,True
+congreso_sevilla,D8,5,1221.3,126725,Coria del Río,41034,0.244,8,False
+congreso_sevilla,D8,6,47.3,128906,Mairena del Aljarafe,41059,0.369,5,False
+congreso_sevilla,D8,7,195.2,126267,Camas,41021,0.223,11,False
+congreso_sevilla,D8,8,36.3,110792,Sevilla,41091,1.0,1,True
+congreso_sevilla,D8,9,1238.6,127475,Utrera,41095,0.407,7,False
+congreso_sevilla,D8,10,40.5,121607,Sevilla,41091,1.0,1,True
+congreso_sevilla,D8,11,4579.2,130317,Sanlúcar la Mayor,41087,0.109,28,False
+congreso_sevilla,D8,12,374.2,120252,Alcalá de Guadaíra,41004,0.639,3,False
+congreso_sevilla,D8,13,2357.1,128628,Morón de la Frontera,41065,0.212,22,False
+congreso_sevilla,D8,14,13.4,113811,Sevilla,41091,1.0,1,True
+congreso_sevilla,D8,15,2249.8,108155,Écija,41039,0.366,10,False
+congreso_sevilla,C,0,11.1,121805,Sevilla,41091,1.0,1,True
+congreso_sevilla,C,1,71.3,136579,Sevilla,41091,0.731,3,False
+congreso_sevilla,C,2,4067.1,115823,Sanlúcar la Mayor,41087,0.122,26,False
+congreso_sevilla,C,3,3051.9,134355,Écija,41039,0.295,10,False
+congreso_sevilla,C,4,1238.6,127475,Utrera,41095,0.407,7,False
+congreso_sevilla,C,5,8.3,105342,Sevilla,41091,1.0,1,True
+congreso_sevilla,C,6,2374.8,132483,Morón de la Frontera,41065,0.205,23,False
+congreso_sevilla,C,7,1721.6,126520,Coria del Río,41034,0.244,10,False
+congreso_sevilla,C,8,32.8,135886,Sevilla,41091,1.0,1,True
+congreso_sevilla,C,9,231.7,114515,Bormujos,41017,0.199,10,False
+congreso_sevilla,C,10,160.3,138991,Dos Hermanas,41038,1.0,1,True
+congreso_sevilla,C,11,618.9,121953,"Rinconada, La",41081,0.329,9,False
+congreso_sevilla,C,12,6.4,105146,Sevilla,41091,1.0,1,True
+congreso_sevilla,C,13,374.2,120252,Alcalá de Guadaíra,41004,0.639,3,False
+congreso_sevilla,C,14,31.4,116172,Sevilla,41091,1.0,1,True
+congreso_sevilla,C,15,35.1,106097,Mairena del Aljarafe,41059,0.448,4,False
+congreso_valencia,A,0,5.6,115268,València,46250,1.0,1,True
+congreso_valencia,A,1,18.2,114837,València,46250,1.0,1,True
+congreso_valencia,A,2,4.9,115139,València,46250,1.0,1,True
+congreso_valencia,A,3,71.8,114849,València,46250,1.0,1,True
+congreso_valencia,A,4,5.9,114983,València,46250,1.0,1,True
+congreso_valencia,A,5,5.5,114699,València,46250,1.0,1,True
+congreso_valencia,A,6,131.8,115774,Gandia,46131,0.673,7,False
+congreso_valencia,A,7,226.0,119529,Sagunt/Sagunto,46220,0.59,11,False
+congreso_valencia,A,8,4422.7,111842,Requena,46213,0.184,45,False
+congreso_valencia,A,9,35.3,115333,Catarroja,46094,0.255,7,False
+congreso_valencia,A,10,1939.8,113544,Quart de Poblet,46102,0.225,20,False
+congreso_valencia,A,11,808.3,115388,Ontinyent,46184,0.313,44,False
+congreso_valencia,A,12,53.1,118501,Alboraia/Alboraya,46013,0.218,14,False
+congreso_valencia,A,13,364.5,115044,Algemesí,46029,0.238,17,False
+congreso_valencia,A,14,718.2,111624,"Pobla de Vallbona, la",46202,0.239,19,False
+congreso_valencia,A,15,316.2,113118,Alzira,46017,0.411,19,False
+congreso_valencia,A,16,85.3,120679,Torrent,46244,0.724,2,False
+congreso_valencia,A,17,496.3,116006,Sueca,46235,0.244,25,False
+congreso_valencia,A,18,810.8,111969,Picassent,46194,0.198,19,False
+congreso_valencia,A,19,18.5,118287,Mislata,46169,0.386,4,False
+congreso_valencia,A,20,36.8,121914,València,46250,0.938,3,False
+congreso_valencia,A,21,56.2,105009,Paterna,46190,0.699,2,False
+congreso_valencia,A,22,176.4,123505,Burjassot,46078,0.325,8,False
+congreso_valencia,D8,0,4.1,117868,València,46250,1.0,1,True
+congreso_valencia,D8,1,18.2,114837,València,46250,1.0,1,True
+congreso_valencia,D8,2,4.9,115139,València,46250,1.0,1,True
+congreso_valencia,D8,3,73.3,112249,València,46250,1.0,1,True
+congreso_valencia,D8,4,5.9,114983,València,46250,1.0,1,True
+congreso_valencia,D8,5,5.5,114699,València,46250,1.0,1,True
+congreso_valencia,D8,6,131.8,115774,Gandia,46131,0.673,7,False
+congreso_valencia,D8,7,226.0,119529,Sagunt/Sagunto,46220,0.59,11,False
+congreso_valencia,D8,8,718.2,111624,"Pobla de Vallbona, la",46202,0.239,19,False
+congreso_valencia,D8,9,35.3,115333,Catarroja,46094,0.255,7,False
+congreso_valencia,D8,10,3510.0,117263,Quart de Poblet,46102,0.218,35,False
+congreso_valencia,D8,11,808.3,115388,Ontinyent,46184,0.313,44,False
+congreso_valencia,D8,12,53.1,118501,Alboraia/Alboraya,46013,0.218,14,False
+congreso_valencia,D8,13,364.5,115044,Algemesí,46029,0.238,17,False
+congreso_valencia,D8,14,312.6,110272,Picassent,46194,0.201,11,False
+congreso_valencia,D8,15,316.2,113118,Alzira,46017,0.411,19,False
+congreso_valencia,D8,16,85.3,120679,Torrent,46244,0.724,2,False
+congreso_valencia,D8,17,3350.7,109820,Chiva,46111,0.154,38,False
+congreso_valencia,D8,18,496.3,116006,Sueca,46235,0.244,25,False
+congreso_valencia,D8,19,18.5,118287,Mislata,46169,0.386,4,False
+congreso_valencia,D8,20,36.8,121914,València,46250,0.938,3,False
+congreso_valencia,D8,21,56.2,105009,Paterna,46190,0.699,2,False
+congreso_valencia,D8,22,176.4,123505,Burjassot,46078,0.325,8,False
+congreso_valencia,C,0,5.2,126505,València,46250,1.0,1,True
+congreso_valencia,C,1,11.3,117706,València,46250,1.0,1,True
+congreso_valencia,C,2,384.9,105212,Sueca,46235,0.27,15,False
+congreso_valencia,C,3,1381.6,114997,Xàtiva,46145,0.261,42,False
+congreso_valencia,C,4,49.3,130816,València,46250,0.76,6,False
+congreso_valencia,C,5,322.4,102925,Picassent,46194,0.216,11,False
+congreso_valencia,C,6,73.2,117326,Torrent,46244,0.744,2,False
+congreso_valencia,C,7,219.9,126992,Burjassot,46078,0.316,9,False
+congreso_valencia,C,8,5.2,107796,València,46250,1.0,1,True
+congreso_valencia,C,9,449.2,131929,Alzira,46017,0.353,10,False
+congreso_valencia,C,10,214.7,123598,Gandia,46131,0.63,25,False
+congreso_valencia,C,11,6.4,122412,València,46250,1.0,1,True
+congreso_valencia,C,12,53.3,102685,Paterna,46190,0.714,3,False
+congreso_valencia,C,13,3654.4,112906,Requena,46213,0.182,29,False
+congreso_valencia,C,14,289.5,118986,Sagunt/Sagunto,46220,0.592,17,False
+congreso_valencia,C,15,829.4,121816,Ontinyent,46184,0.296,37,False
+congreso_valencia,C,16,42.5,127092,Catarroja,46094,0.231,8,False
+congreso_valencia,C,17,68.9,107275,València,46250,1.0,1,True
+congreso_valencia,C,18,519.8,104127,Manises,46159,0.304,7,False
+congreso_valencia,C,19,23.5,109881,Mislata,46169,0.416,3,False
+congreso_valencia,C,20,15.6,122971,València,46250,1.0,1,True
+congreso_valencia,C,21,48.0,98556,Alboraia/Alboraya,46013,0.262,10,False
+congreso_valencia,C,22,2140.1,102332,"Pobla de Vallbona, la",46202,0.261,32,False
+congreso_zaragoza,A,0,286.4,114305,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,A,1,4.5,114172,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,A,2,6.9,113741,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,A,3,5.7,113865,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,A,4,30.1,114051,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,A,5,3264.2,136422,Zaragoza,50297,0.834,41,False
+congreso_zaragoza,A,6,8355.5,136391,Calatayud,50067,0.145,143,False
+congreso_zaragoza,A,7,5321.0,136418,Utebo,50272,0.139,109,False
+congreso_zaragoza,D8,0,51.4,119811,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,D8,1,8.6,129723,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,D8,2,1408.9,116230,Zaragoza,50297,0.631,9,False
+congreso_zaragoza,D8,3,6697.1,121556,Ejea de los Caballeros,50095,0.141,124,False
+congreso_zaragoza,D8,4,293.5,121290,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,D8,5,10.8,125264,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,D8,6,8790.6,130946,Calatayud,50067,0.151,160,False
+congreso_zaragoza,D8,7,13.3,114545,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,C,0,10.5,106249,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,C,1,10.1,126333,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,C,2,268.2,137411,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,C,3,1109.1,126313,Zaragoza,50297,0.585,17,False
+congreso_zaragoza,C,4,4.1,104979,Zaragoza,50297,1.0,1,True
+congreso_zaragoza,C,5,6978.7,112431,Calatayud,50067,0.175,165,False
+congreso_zaragoza,C,6,8775.5,130567,Ejea de los Caballeros,50095,0.131,111,False
+congreso_zaragoza,C,7,118.0,135082,Zaragoza,50297,1.0,1,True

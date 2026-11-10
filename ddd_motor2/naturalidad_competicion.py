@@ -3,18 +3,23 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — laboratorio de naturalidad: competición con cinco funciones de calidad y grafo ponderado
-VERSIÓN: 1.1.0
+VERSIÓN: 1.2.0
 NOMBRE DE VERSIÓN: Naturalidad · competición A/B/C + D5/D8
 FECHA: 2026-11-10
 ESTADO: experimento (motor 2; producción no lo importa; no lanza nada; el criterio NO se fija aquí)
-CAMBIOS: 1.1.0 (T-179): variantes D5 y D8 = C con tope de desvío máximo del 5 % / 8 % solo para elegir entre
+CAMBIOS: 1.2.0 (T-179, nacional): --funciones (p. ej. C,D8: sin las cadenas libres; A queda como el mapa vigente,
+  candidato «vigente») y --reanudar (salta los territorios que ya tienen RESULTADO.json en --out), para
+  recorrer los 67 territorios en sesión. Con las cinco funciones el resultado es idéntico a 1.1.0. Islas: partición
+  de cada unidad según configuracion/particiones_insulares_2025.json (hard_partition_lookup del contrato) y sus
+  puentes marítimos; enclaves: topology_bridges del contrato (p. ej. Treviño en Burgos) como puentes.
+  1.1.0 (T-179): variantes D5 y D8 = C con tope de desvío máximo del 5 % / 8 % solo para elegir entre
   candidatos (no es regla: el núcleo, suelo, techo y K no cambian). Las cadenas ponderadas son las mismas (mismas
   semillas) y registran además el mejor estado bajo cada tope; A/B/C y su huella no cambian con el mismo entorno.
   RESULTADO.json guarda las versiones de shapely/GEOS/geopandas/gerrychain («entorno»): con otra GEOS cambia alguna
   arista y, con ella, las cadenas (Badajoz, Madrid y Barcelona no reprodujeron #651). 1.0.0: fichero nuevo.
 MOTIVO: T-172, pasos 3 y 4: ¿cuánta población «cuesta» un mapa más natural? Misma entrada, mismas reglas (núcleo
   ddd_motor2.reglas.evaluar), mismas semillas públicas (semilla.py); cambia solo cómo se elige y cómo se corta.
-ANTERIOR: 1.0.0 (T-172, #651) — legacy/ddd_motor2/naturalidad_competicion_v1.0.0_20261110.py
+ANTERIOR: 1.1.0 (T-179, #656) — legacy/ddd_motor2/naturalidad_competicion_v1.1.0_20261110.py
 QUÉ HACE: por territorio,
   entrada   el mapa vigente (datos/composicion/<t>.csv: población por sección) y la geometría INE del contrato
             (naturalidad_mapas.Geometria). Unidades: cada municipio con población <= objetivo es una unidad (la regla
@@ -35,7 +40,8 @@ QUÉ HACE: por territorio,
   salida    <out>/<t>/RESULTADO.json (candidatos, ganadores, tiempos, huella), <t>_{A,B,C}.csv (sección, distrito,
             población) e indicadores de naturalidad de cada ganador (naturalidad_mapas.indicadores).
 USO: PYTHONHASHSEED=0 python -m ddd_motor2.naturalidad_competicion --seccionado-dir <dir> --out <dir> \
-       [--cadenas 20] [--pasos 150] [--rpj 0.5] [--rca 0.3] [--rmov 0.2] [--rlong 0.3] territorio ...
+       [--cadenas 20] [--pasos 150] [--rpj 0.5] [--rca 0.3] [--rmov 0.2] [--rlong 0.3] [--funciones A,B,C,D5,D8]
+       [--reanudar] territorio ...
 LÍMITES: laboratorio sobre secciones y mapa vigente (no rehace unidades M04 ni el canónico M05); las cadenas parten del
   mapa vigente. Sin ríos ni relieve (no hay fuente en el repo todavía).
 """
@@ -85,8 +91,15 @@ class Laboratorio:
         pob_m: dict[str, int] = defaultdict(int)
         for s, p in self.pob_s.items():
             pob_m[s[:5]] += p
-        # unidad de cada sección: municipio entero si no puede partirse (<= objetivo), si no la propia sección
-        self.unidad = {s: (s[:5] if pob_m[s[:5]] <= self.objetivo else s) for s in self.asig0}
+        part = particiones(self.cfg)
+        psec = {s: (part.get(s) or part.get(s[:5])) for s in self.asig0} if part else {}
+        islas_m: dict[str, set] = defaultdict(set)
+        for s, pi in psec.items():
+            islas_m[s[:5]].add(pi)
+        # unidad de cada sección: municipio entero si no puede partirse (<= objetivo), si no la propia sección; un
+        # municipio en dos islas (Teguise y La Graciosa) es una unidad por isla, «municipio:partición», como el contrato
+        self.unidad = {s: (s if pob_m[s[:5]] > self.objetivo else
+                           f"{s[:5]}:{psec[s]}" if len(islas_m.get(s[:5], ())) > 1 else s[:5]) for s in self.asig0}
         self.secciones_de: dict[str, list[str]] = defaultdict(list)
         for s in sorted(self.asig0):
             self.secciones_de[self.unidad[s]].append(s)
@@ -97,10 +110,17 @@ class Laboratorio:
             if ua != ub:
                 largo[tuple(sorted((ua, ub)))] += w
         contacto = {tuple(sorted((self.unidad[a], self.unidad[b]))) for a, b in self.geo.contactos()}
+        # los CUSEC del YAML pueden llegar como enteros sin el cero inicial (0910901001 → 910901001)
+        puentes_sec = {tuple(x.zfill(10) for x in p) for p in set(part.pop("_puentes", ())) | puentes_contrato(self.cfg)}
+        contacto |= {tuple(sorted((self.unidad[a], self.unidad[b]))) for a, b in puentes_sec
+                     if a in self.unidad and b in self.unidad}
         contacto = sorted(p for p in contacto if p[0] != p[1] and p not in largo)
         self.largo = dict(sorted(largo.items()))
         self.problema = Problema(
-            tuple(Unidad(u, pob_u[u], municipio=u[:5], provincia=u[:2]) for u in sorted(pob_u)),
+            tuple(Unidad(u, pob_u[u], municipio=u if ":" in u else u[:5], provincia=pi, particion=pi if part else None)
+                  for u in sorted(pob_u)
+                  # en las islas el contrato usa la partición como campo de provincia (DDD_PARTITION)
+                  for pi in [(part.get(self.secciones_de[u][0]) or part.get(u[:5])) if part else u[:2]]),
             tuple(self.largo), tuple(contacto))
         self.pob_u = pob_u
         self.u0 = {u: self.asig0[ss[0]] for u, ss in self.secciones_de.items()}
@@ -156,6 +176,47 @@ class Laboratorio:
 
     def a_secciones(self, asig_u: dict[str, str]) -> dict[str, str]:
         return {s: asig_u[self.unidad[s]] for s in self.asig0}
+
+
+def _buscar(x, clave: str):
+    if isinstance(x, dict):
+        for k, v in x.items():
+            if k == clave:
+                return v
+            r = _buscar(v, clave)
+            if r is not None:
+                return r
+    return None
+
+
+def puentes_contrato(cfg) -> set[tuple[str, str]]:
+    """Todas las topology_bridges del contrato, en cualquier módulo (enclaves y exclaves)."""
+    out: set[tuple[str, str]] = set()
+
+    def ver(x):
+        if isinstance(x, dict):
+            for k, v in x.items():
+                if k == "topology_bridges" and isinstance(v, list):
+                    out.update(tuple(sorted((str(b["u"]), str(b["v"])))) for b in v
+                               if isinstance(b, dict) and b.get("u") is not None and b.get("v") is not None)
+                else:
+                    ver(v)
+        elif isinstance(x, list):
+            for v in x:
+                ver(v)
+    ver(cfg)
+    return out
+
+
+def particiones(cfg: dict) -> dict:
+    """Partición insular por sección (overrides) y municipio, y puentes marítimos («_puentes»), de la tabla del contrato."""
+    ruta, tid = _buscar(cfg, "hard_partition_lookup"), _buscar(cfg, "hard_partition_territory_id")
+    if not ruta or not tid:
+        return {}
+    t = json.loads((ROOT / str(ruta)).read_text(encoding="utf-8"))["territories"][str(tid)]
+    out = {**t.get("municipality_to_partition", {}), **t.get("section_overrides", {})}
+    out["_puentes"] = [tuple(sorted((str(b["u"]), str(b["v"])))) for b in t.get("bridges", [])]
+    return out
 
 
 def huella_plan(asig: dict[str, str]) -> str:
@@ -245,6 +306,9 @@ def _j(x):
 
 
 def correr(t: str, a, tablas: dict, mov) -> dict:
+    funciones = tuple(f for f in FUNCIONES if f == "A" or f in a.funciones.split(","))
+    libres = "B" in funciones  # sin B no se recorren las cadenas libres: A queda como el mapa vigente
+    ponderadas = tuple((f, k) for f, k in (("C", "B"), ("D5", "D5"), ("D8", "D8")) if f in funciones)
     t0 = time.perf_counter()
     lab = Laboratorio(t, Path(a.seccionado_dir), tablas, mov)
     t_ent = time.perf_counter() - t0
@@ -252,24 +316,27 @@ def correr(t: str, a, tablas: dict, mov) -> dict:
         raise ValueError(f"{t}: el mapa vigente no es válido para el núcleo con esta entrada")
     desc = descripcion(lab.cfg, t, a.cadenas)
     rec = lab.recargos(a.rpj, a.rca, a.rmov, a.rlong)
-    cand = {f: [("vigente", None, lab.clave(lab.u0, f), lab.u0)] for f in FUNCIONES}
+    cand = {f: [("vigente", None, lab.clave(lab.u0, f), lab.u0)] for f in funciones}
     cadenas = {"libre": [], "ponderado": []}
     for s in desc["semillas"]:
-        r = cadena(lab, s, a.pasos, ("A", "B"), None)
-        cadenas["libre"].append({k: v for k, v in r.items() if k != "mejor"})
-        for f in "AB":
-            if f in r["mejor"]:
-                cand[f].append((f"libre-{s}", s, *r["mejor"][f]))
-        r = cadena(lab, s, a.pasos, ("B", *TOPES), rec)
+        if libres:
+            r = cadena(lab, s, a.pasos, ("A", "B"), None)
+            cadenas["libre"].append({k: v for k, v in r.items() if k != "mejor"})
+            for f in "AB":
+                if f in r["mejor"]:
+                    cand[f].append((f"libre-{s}", s, *r["mejor"][f]))
+        if not ponderadas:
+            continue
+        r = cadena(lab, s, a.pasos, tuple(dict.fromkeys(k for _, k in ponderadas)), rec)
         cadenas["ponderado"].append({k: v for k, v in r.items() if k != "mejor"})
-        for f, k in (("C", "B"), *((d, d) for d in TOPES)):
+        for f, k in ponderadas:
             if k in r["mejor"]:
                 cand[f].append((f"ponderado-{s}", s, *r["mejor"][k]))
         print(f"  {t} semilla {s}: ok", flush=True)
     out = Path(a.out) / t
     out.mkdir(parents=True, exist_ok=True)
     ganadores = {}
-    for f in FUNCIONES:
+    for f in funciones:
         idx = min(range(len(cand[f])), key=lambda i: (cand[f][i][2], i))
         cid, sem, k, asig = cand[f][idx]
         sec = lab.a_secciones(asig)
@@ -291,12 +358,12 @@ def correr(t: str, a, tablas: dict, mov) -> dict:
                         "max_desvio_personas": float(max(abs(p - lab.objetivo) for p in pob.values())),
                         "indicadores": ind,
                         "sha256_csv": hashlib.sha256((out / f"{t}_{f}.csv").read_bytes()).hexdigest()}
-    res = {"territorio": t, "version": "1.1.0", "topes": TOPES, "unidades": len(lab.pob_u), "aristas": len(lab.largo),
+    res = {"territorio": t, "version": "1.2.0", "topes": TOPES, "unidades": len(lab.pob_u), "aristas": len(lab.largo),
            "puentes_contacto": len(lab.problema.puentes), "objetivo": float(lab.objetivo), "tolerancia": float(lab.tol),
            "parametros": {"cadenas": a.cadenas, "pasos": a.pasos, "rpj": a.rpj, "rca": a.rca, "rmov": a.rmov,
-                          "rlong": a.rlong},
+                          "rlong": a.rlong, **({} if funciones == FUNCIONES else {"funciones": list(funciones)})},
            "semilla_publica": desc, "huella_reglas": lab.reglas.huella(), "ganadores": ganadores,
-           "candidatos": {f: [[c[0], _j(c[2])] for c in cand[f]] for f in FUNCIONES},
+           "candidatos": {f: [[c[0], _j(c[2])] for c in cand[f]] for f in funciones},
            "cadenas": cadenas, "entorno": entorno(), "tiempos_s": {"entrada": t_ent, "total": time.perf_counter() - t0}}
 
     def _huella(fs) -> str:
@@ -304,8 +371,8 @@ def correr(t: str, a, tablas: dict, mov) -> dict:
             {"g": {f: [ganadores[f]["candidato"], ganadores[f]["sha256_csv"]] for f in fs},
              "c": {f: res["candidatos"][f] for f in fs}, "p": res["parametros"], "r": res["huella_reglas"]},
             sort_keys=True).encode()).hexdigest()
-    res["huella"] = _huella("ABC")  # la de 1.0.0: A/B/C no cambian
-    res["huella_d"] = _huella(FUNCIONES)
+    res["huella"] = _huella([f for f in "ABC" if f in funciones])  # con las cinco, la de 1.0.0
+    res["huella_d"] = _huella(funciones)
     (out / "RESULTADO.json").write_text(json.dumps(res, ensure_ascii=False, indent=1, default=_j) + "\n", encoding="utf-8")
     return res
 
@@ -320,6 +387,8 @@ def main(argv=None) -> int:
     p.add_argument("--rca", type=float, default=0.3)
     p.add_argument("--rmov", type=float, default=0.2)
     p.add_argument("--rlong", type=float, default=0.3)
+    p.add_argument("--funciones", default=",".join(FUNCIONES))
+    p.add_argument("--reanudar", action="store_true")
     p.add_argument("territorios", nargs="+")
     a = p.parse_args(argv)
     if os.environ.get("PYTHONHASHSEED") != "0":
@@ -327,6 +396,10 @@ def main(argv=None) -> int:
     tablas, mov = nm.tablas_municipio(), nm.movilidad()
     rc = 0
     for t in a.territorios:
+        hecho = Path(a.out) / t / "RESULTADO.json"
+        if a.reanudar and hecho.exists():
+            print(f"{t}: ya hecho (reanudar)", flush=True)
+            continue
         try:
             r = correr(t, a, tablas, mov)
             print(f"{t}: huella {r['huella'][:12]} en {r['tiempos_s']['total']:.0f} s", flush=True)
