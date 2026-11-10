@@ -214,6 +214,23 @@ class PaginacionCompleta(unittest.TestCase):
         self.assertEqual(len(llamadas), 3)
 
 
+class TopeSemanal(unittest.TestCase):
+    def test_umbrales_70_y_100_sin_corte(self):
+        # W44 (2026-11-02): 10.499 min → sin aviso; W45: 10.500 → 70; W46: 15.000 → 100
+        runs = [run(1, "2026-11-02T10:00:00Z", "x", "success"), run(2, "2026-11-09T10:00:00Z", "x", "success"),
+                run(3, "2026-11-16T10:00:00Z", "x", "success")]
+        g = mp.gasto_semanal(runs, {"1": 10499.0, "2": 10500.0, "3": 15000.0})
+        self.assertEqual([f["aviso"] for f in g["por_semana"]], [None, 70, 100])
+        self.assertEqual(g["por_semana"][1]["pct_tope"], 70.0)
+        self.assertEqual(g["aviso_semana_actual"], 100)
+        self.assertFalse(g["corte_automatico"])
+
+    def test_generar_incluye_gasto_semanal(self):
+        r = ApiTopada([run(1, "2026-11-05T10:00:00Z", "2026-11-05T11:00:00Z", "success", path="a.yml", name="A")])
+        d = mp.generar(r, ROOT / "tests", 10, 0, 10, ahora=datetime(2026, 11, 10, tzinfo=timezone.utc))
+        self.assertEqual(d["minutos_actions"]["gasto_semanal"]["por_semana"][0]["minutos"], 10.0)
+
+
 class Entrega(unittest.TestCase):
     def test_workflow_semanal_con_cola_y_registro(self):
         w = yaml.safe_load((ROOT / ".github/workflows/metricas-proceso.yml").read_text(encoding="utf-8"))

@@ -50,6 +50,8 @@ TERMINALES = {"success", "failure", "timed_out", "startup_failure"}
 EVENTOS_NO_00 = {"pull_request", "pull_request_target", "push"}
 RUN_NAME = re.compile(r"^00 Ejecución Completa del Proyecto · (.+?) · (.+)$")
 REINTENTOS = 5
+TOPE_SEMANAL_MIN = 15000  # D-46 (propietario): aviso al 70 % y al 100 %, sin corte automático
+AVISOS_PCT = (70, 100)
 TOPE_CONSULTA = 1000  # la API de runs no devuelve más de 1.000 resultados por consulta filtrada
 LINEA_TERRITORIO = re.compile(r"TERRITORY:\s*(.+?)\s*$")
 
@@ -329,6 +331,21 @@ def minutos_por_workflow(runs, por_run=None):
     return sorted(filas, key=lambda f: -f["minutos"])
 
 
+def gasto_semanal(runs, por_run, tope=TOPE_SEMANAL_MIN):
+    """Minutos de jobs por semana ISO (fecha de creación del run) frente al tope; `aviso` = mayor umbral cruzado (70/100) o None."""
+    acc = defaultdict(float)
+    for r in runs:
+        if str(r["id"]) in por_run:
+            acc[semana(r["created_at"])] += por_run[str(r["id"])]
+    filas = []
+    for sem, m in sorted(acc.items()):
+        pct = 100 * m / tope
+        cruzados = [u for u in AVISOS_PCT if pct >= u]
+        filas.append({"semana": sem, "minutos": round(m, 1), "pct_tope": round(pct, 1), "aviso": max(cruzados) if cruzados else None})
+    return {"tope_minutos": tope, "avisos_pct": list(AVISOS_PCT), "corte_automatico": False, "por_semana": filas,
+            "aviso_semana_actual": filas[-1]["aviso"] if filas else None}
+
+
 def minutos_por_territorio(runs_00, territorios, por_run):
     acc = defaultdict(float)
     for r in runs_00:
@@ -436,7 +453,8 @@ def generar(api, raiz, dias, max_logs, max_detalle, ahora=None, previo=None, ven
         "repo": api.repo, "ventana": {"desde": desde.strftime("%Y-%m-%d"), "dias": dias},
         "ejecuciones_00": p00,
         "minutos_actions": {"total": min_total, "runs": len(min_run), "runs_con_reloj_en_vez_de_jobs": runs_reloj,
-                            "por_workflow": por_wf, "por_territorio_00": por_terr},
+                            "por_workflow": por_wf, "por_territorio_00": por_terr,
+                            "gasto_semanal": gasto_semanal(runs, min_run)},
         "pr": {**calcular_prs(prs, desde), "pruebas": calcular_pruebas(runs)},
         "fallos_ci_pr": fallos_ci(api, runs, c_causas, max_detalle),
         "coste_agentes": costes,
@@ -479,6 +497,11 @@ def main(argv=None):
     print(f"00: {p0['territorios']} territorios, {p0['pct_a_la_primera']} % a la primera (objetivo {OBJETIVO_PRIMERA}); "
           f"minutos Actions {datos['minutos_actions']['total']}; PR fusionadas {datos['pr']['fusionadas']}; "
           f"fallos CI en PR {datos['fallos_ci_pr']['total']}; tokens agentes {datos['coste_agentes']['tokens_total']}")
+    g = datos["minutos_actions"]["gasto_semanal"]
+    if g["por_semana"]:
+        u = g["por_semana"][-1]
+        marca = f" · AVISO {u['aviso']} % del tope" if u["aviso"] else ""
+        print(f"Gasto {u['semana']}: {u['minutos']} de {g['tope_minutos']} min ({u['pct_tope']} %){marca}")
     return 0
 
 
