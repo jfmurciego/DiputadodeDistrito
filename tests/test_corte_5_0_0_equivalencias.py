@@ -1,7 +1,9 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
+# CAMBIOS 1.1.0: T-215 (paso 4 del corte), nombres v5: la 05 es «P50 Publicación» y la 06 «P30 Distritos — P33 Alternativas»
+#   (siguen exigiendo `produccion`); el forense dispara con «P00 Campaña» (D-61/D-78), sin tolerancia al nombre viejo.
 # FECHA: 2026-11-10
-# ANTERIOR: ninguna (fichero nuevo)
+# ANTERIOR: legacy/tests/test_corte_5_0_0_equivalencias_v1.0.0_20261110.py
 """T-198: guardas previas al corte 5.0.0 (D-61): referencias entre flujos y entornos de producción."""
 import re
 import sys
@@ -15,6 +17,8 @@ sys.path.insert(0, str(ROOT / "tests"))
 import generar_equivalencias_5_0_0 as gen  # noqa: E402
 
 WF = ROOT / ".github" / "workflows"
+NOMBRE_05 = "P50 Publicación"
+NOMBRE_06 = "P30 Distritos — P33 Alternativas"
 
 
 def _nombres():
@@ -40,17 +44,17 @@ class ReferenciasPorNombre(unittest.TestCase):
                 self.assertIn(r, existentes, f"{f.name} nombra un flujo inexistente: {r!r}")
         esperadas = sorted([
             ("auto-merge.yml", "Pruebas de la Plataforma"),
-            ("desplegar-visor-publico.yml", "05 Publicación del Visor"),
-            ("forense-00.yml", "00 Ejecución Completa del Proyecto"),
-            ("generar-alternativas-territoriales.yml", "06 Escenarios y Ensembles"),
-            ("generar-alternativas-territoriales.yml", "06 Escenarios y Ensembles"),
+            ("desplegar-visor-publico.yml", NOMBRE_05),
+            ("forense-00.yml", "P00 Campaña"),  # D-61/D-78
+            ("generar-alternativas-territoriales.yml", NOMBRE_06),
+            ("generar-alternativas-territoriales.yml", NOMBRE_06),
         ])
         self.assertEqual(sorted(encontradas), esperadas, "referencia por nombre nueva o perdida: revisa y actualiza la lista")
 
     def test_05_y_06_siguen_exigiendo_produccion(self):
         casos = {
-            "desplegar-visor-publico.yml": ("05 Publicación del Visor", 1),
-            "generar-alternativas-territoriales.yml": ("06 Escenarios y Ensembles", 2),
+            "desplegar-visor-publico.yml": (NOMBRE_05, 1),
+            "generar-alternativas-territoriales.yml": (NOMBRE_06, 2),
         }
         for fich, (nombre, n) in casos.items():
             txt = (WF / fich).read_text(encoding="utf-8")
@@ -77,8 +81,18 @@ class Equivalencias(unittest.TestCase):
 
     def test_flujos_de_la_tabla_existen_en_disco(self):
         nombres = _nombres()
-        for fich, nombre, _ in gen.FLUJOS:
-            self.assertEqual(nombres.get(fich), nombre, fich)
+        for fich, _, _, nombre_v5 in gen.FLUJOS:
+            self.assertEqual(nombres.get(fich), nombre_v5, fich)
+
+    def test_nombres_visibles_unicos_y_con_codigo_v5(self):
+        """Lista de Actions: cada flujo del corte con código de fase o ARC/Interno, sin nombres repetidos."""
+        nombres = _nombres()
+        self.assertEqual(len(set(nombres.values())), len(nombres), "dos flujos con el mismo nombre visible")
+        for fich, _, flujo, nombre_v5 in gen.FLUJOS:
+            self.assertTrue(nombre_v5.startswith(flujo.split(" ")[0]), fich)
+        self.assertEqual(nombres["mantenimiento-programado.yml"], "Automático — Mantenimiento")  # §b del corte
+        internos = [n for f, n in nombres.items() if f.startswith("_reutilizable-")]
+        self.assertTrue(internos and all(re.match(r"^Interno · P\d0 ", n) for n in internos), internos)
 
 
 if __name__ == "__main__":

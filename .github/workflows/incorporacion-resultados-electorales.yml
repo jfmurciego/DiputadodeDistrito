@@ -1,6 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 2.0.7
+# VERSIÓN: 2.0.8
+# CAMBIOS 2.0.8: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P40 Resultados electorales» (antes 04 Incorporación de Resultados Electorales).
 # CAMBIOS 2.0.7: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Consumo de M06 certificado sin huella del motor M05
 # ESTADO: candidato
@@ -10,12 +11,12 @@
 # CAMBIOS 2.0.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 2.0.5: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
 # CAMBIOS 2.0.6: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
-# ANTERIOR: legacy/workflows/incorporacion-resultados-electorales_v2.0.6_20261108.yml
+# ANTERIOR: legacy/workflows/incorporacion-resultados-electorales_v2.0.7_20261110.yml
 # CAMBIOS: 2.0.2: el M06 certificado se localiza con --consume-certified-product; un cambio del motor
 #   M05 (#343) ya no invalida productos cerrados. 2.0.1: exclusión mutua con queue: max.
 # MOTIVO: Castilla y León y Extremadura fallaban con «No existe un producto territorial certificado».
-# FECHA: 2026-11-08
-name: 04 Incorporación de Resultados Electorales
+# FECHA: 2026-11-10
+name: P40 Resultados electorales
 
 on:
   workflow_call:

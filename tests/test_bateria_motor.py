@@ -93,7 +93,7 @@ class BateriaMotor2EnActions(unittest.TestCase):
         self.assertEqual(ent["motor"]["default"], "m05")
         self.assertEqual(ent["funcion"]["default"], "D8")
         self.assertEqual(ent["cadenas"]["default"], "10")
-        self.assertEqual(self.wf["name"], "Auxiliar — Batería del Motor")  # sin renombrar (corte 5.0.0)
+        self.assertEqual(self.wf["name"], "VER Verificación del motor")  # T-215, corte 5.0.0 paso 4
 
     def test_modo_m05_intacto_y_motor2_en_matriz(self):
         j = self.wf["jobs"]

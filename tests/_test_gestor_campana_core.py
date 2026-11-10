@@ -944,7 +944,7 @@ class CampaignManagerTests(unittest.TestCase):
     def test_campaign_manager_keeps_reuse_without_manual_portfolio_inputs(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
         form = manager[manager.index("  workflow_dispatch:"):manager.index("  pull_request:")]
-        self.assertIn("name: 0 Gestor de Campañas", manager)
+        self.assertIn("name: P00 Campaña — Gestor", manager)
         self.assertIn("campana:", form)
         self.assertIn("territorios:", form)
         self.assertIn("estrategia:", form)

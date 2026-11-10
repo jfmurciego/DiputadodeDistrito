@@ -2,14 +2,16 @@
 """Métricas del proceso (T-65): 00 a la primera, minutos de Actions, PR y CI, coste de agentes.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: Métricas del proceso con paginación completa
 FECHA: 2026-11-10
 ESTADO: candidato
+CAMBIOS 1.1.1: T-215 (corte 5.0.0, paso 4), el run-name de la 00 empieza por «P00 Campaña»; se acepta también el viejo
+  («00 Ejecución Completa del Proyecto») para el histórico.
 CAMBIOS: runs por ventanas de fechas (bisecta si una ventana llega al tope de 1.000), reintentos con espera en la API,
   minutos de Actions = suma de la duración real de los jobs (caché por run), no el reloj del run (T-161).
 MOTIVO: T-155 (#615): con una sola consulta topada a 1.000 daba 5.920 min frente a 46.284 reales (27-10 → 10-11).
-ANTERIOR: legacy/herramientas/metricas_proceso_v1.0.0_20261110.py
+ANTERIOR: legacy/herramientas/metricas_proceso_v1.1.0_20261110.py
 QUÉ HACE: con la API REST de GitHub (stdlib; token de GH_TOKEN/GITHUB_TOKEN, o `gh api` si no hay) y los ficheros del
   repo escribe orchestracion/metricas_proceso.json (y un espejo opcional para el dashboard):
   - 00 por territorio: intentos hasta el primer éxito y % que pasan a la primera, por semana. El territorio sale de
@@ -48,7 +50,7 @@ NOMBRE_PRUEBAS = "Pruebas de la Plataforma"
 OBJETIVO_PRIMERA = 60.0
 TERMINALES = {"success", "failure", "timed_out", "startup_failure"}
 EVENTOS_NO_00 = {"pull_request", "pull_request_target", "push"}
-RUN_NAME = re.compile(r"^00 Ejecución Completa del Proyecto · (.+?) · (.+)$")
+RUN_NAME = re.compile(r"^(?:P00 Campaña|00 Ejecución Completa del Proyecto) · (.+?) · (.+)$")
 REINTENTOS = 5
 TOPE_SEMANAL_MIN = 15000  # D-46 (propietario): aviso al 70 % y al 100 %, sin corte automático
 AVISOS_PCT = (70, 100)

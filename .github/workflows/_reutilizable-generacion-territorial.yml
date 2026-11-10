@@ -1,7 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.4.1
-# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.4.0_20261110.yml
+# VERSIÓN: 1.4.2
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.4.1_20261110.yml
+# CAMBIOS 1.4.2: T-215 (corte 5.0.0, paso 4), nombre visible v5 «Interno · P30 Generación territorial» (antes Interno · Generación territorial).
 # CAMBIOS 1.4.1: T-221: la certificación (estado_produccion) recibe `--motor` y `--runs-dir`; con motor2 lee la
 #   evidencia de población del plan ganador (p30_motor2/P30.json), no la del informe M05 canónico. Con m05, idéntica.
 # CAMBIOS 1.4.0: T-216 (corte 5.0.0, paso 3): entrada `motor` (m05 por defecto | motor2). Con motor2, en el job M06,
@@ -44,7 +45,7 @@
 #   de M06, auditoría y manifiesto de generación, con sha256 del estado original), no el ZIP de estado (R2 ≤ 8 GB).
 # CAMBIOS 1.3.2: T-96, pre_m04_evidence y pre_m04_diagnostic usan la «Credencial de registro» tras el checkout (github.token no está exento del ruleset proteger-main, GH013).
 # ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.3.1_20261108.yml
-name: Interno · Generación territorial
+name: Interno · P30 Generación territorial
 
 on:
   workflow_call:

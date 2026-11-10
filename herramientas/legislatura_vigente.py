@@ -2,7 +2,9 @@
 """Legislatura vigente: configuración, plan y lanzamiento por ámbito del Gestor de Campañas.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.2 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.2.3 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS 1.2.3: T-215 (corte 5.0.0, paso 4), la 00 se llama «P00 Campaña»: TITLE_00 nuevo; los runs en curso con el
+  título viejo («00 Ejecución Completa del Proyecto · …») siguen contando como en curso y `Campaign.poll` los sigue.
 CAMBIOS 1.2.2: T-201, `territory_state(..., eleccion)`: el M08 publicado cuenta por (territorio, elección), por defecto 2023-07-23; un M08
   de otra elección no marca PUBLICADO ni pisa el run; tampoco su M06 marca TERRITORIAL_CERTIFICADO.
 CAMBIOS 1.2.1: T-130, el Gestor da por resultado de la 00 el de la que lanzó él (la primera, p. ej. la de prueba), no el de la
@@ -14,7 +16,7 @@ CAMBIOS 1.2.0: T-105 (Gestor 2.0, D-22): `build_plan` admite inicio (reutilizar/
 CAMBIOS 1.1.0: T-102, ámbito «congreso 350» (49 gemelos `congreso350_*`, K = escaños reales de 2023);
   «legislatura completa» y «nacional» no los incluyen salvo que se pidan por territory_id (relevo `continuar`).
   Los gemelos nunca publican (D-18): 00 con publish_result=false y sin 05; «COMPLETO_SIN_PUBLICAR» → `nada`.
-ANTERIOR: legacy/herramientas/legislatura_vigente_v1.2.1_20261110.py
+ANTERIOR: legacy/herramientas/legislatura_vigente_v1.2.2_20261110.py
 QUÉ HACE: T-86.
   - `generar` escribe `configuracion/legislatura_vigente.yaml` desde los ficheros con fuente del repo
     (registro electoral, preparación de la legislatura y escaños oficiales del BOE), con su sha256; nada de memoria.
@@ -54,7 +56,8 @@ WF_05 = "desplegar-visor-publico.yml"
 WF_GESTOR = "gestor-campanas.yml"
 WF_06 = "generar-alternativas-territoriales.yml"
 ARTIFACT_DAYS = 12  # margen bajo los 14 días de los artefactos M06/M08 de la 00
-TITLE_00 = "00 Ejecución Completa del Proyecto"
+TITLE_00 = "P00 Campaña"
+TITLES_00 = (TITLE_00, "00 Ejecución Completa del Proyecto")  # T-215: el viejo, para runs anteriores al corte
 AMBITOS = ["legislatura completa", "nacional", "autonómicas", "comunidad", "provincias", "congreso 350"]
 VARIANT = "congreso_350"
 MODES = {
@@ -276,7 +279,7 @@ def running_00() -> dict[str, str]:
     for status in ("queued", "in_progress", "waiting", "pending", "requested"):
         for run in list_runs(WF_00, status=status):
             parts = str(run.get("display_title") or "").split(" · ")
-            if len(parts) >= 3 and parts[0] == TITLE_00:
+            if len(parts) >= 3 and parts[0] in TITLES_00:
                 out.setdefault(parts[1], str(run["id"]))
     return out
 
@@ -356,7 +359,7 @@ class Territorio:
 
     def poll(self) -> None:
         if self.fase == "00":
-            mark = f"{TITLE_00} · {self.row['selector_00']} · "
+            mark = tuple(f"{t} · {self.row['selector_00']} · " for t in TITLES_00)  # T-215: también el título viejo
             waiting = self.row["accion"] == "esperar"
             runs = [r for r in list_runs(WF_00, since="" if waiting else self.since[:10])
                     if str(r.get("display_title") or "").startswith(mark)

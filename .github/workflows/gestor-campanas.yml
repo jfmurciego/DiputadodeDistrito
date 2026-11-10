@@ -1,6 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de campaña
-# VERSIÓN: 1.9.0 · FECHA: 2026-11-09 · ESTADO: candidato
+# VERSIÓN: 1.10.0 · FECHA: 2026-11-10 · ESTADO: candidato
+# CAMBIOS 1.10.0: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P00 Campaña — Gestor» (antes 0 Gestor de Campañas); nombres de jobs con el prefijo P00.
 # CAMBIOS 1.9.0: T-133, el histórico autonómico (herramientas/historico_autonomico.py, paso A por comunidad con su calendario)
 #   corre en los mismos jobs: cada fila lleva `tipo` (general | autonomico) y la prueba incluye una de cada tipo.
 # CAMBIOS 1.8.0: T-130, «campaña completa» (una orden): la parte vigente (nacional y/o autonómica) se lanza con el Gestor y,
@@ -24,10 +25,10 @@
 # CAMBIOS 1.2.0: campaña «Nacional 2023» con las 52 provincias (INE, matrícula o nombre); T-06.
 # CAMBIOS 1.1.0: actions: write (el 00 llamado tiene un job con actions: write; con read, GitHub no arranca:
 #   startup_failure); selección por «todos», números o nombres en lugar de CODAUTO con ceros.
-# ANTERIOR: legacy/workflows/gestor-campanas_v1.8.0_20261109.yml
+# ANTERIOR: legacy/workflows/gestor-campanas_v1.9.0_20261110.yml
 # QUÉ HACE: selecciona 1–19 territorios por CODAUTO, fija un manifiesto inmutable y orquesta desde el mismo commit.
 # NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
-name: 0 Gestor de Campañas
+name: P00 Campaña — Gestor
 
 on:
   workflow_dispatch:
@@ -173,7 +174,7 @@ permissions:
 
 jobs:
   legislatura:
-    name: 0 Gestor de Campañas Legislatura vigente
+    name: P00 Gestor — Legislatura vigente
     if: ${{ github.event_name == 'pull_request' || inputs.modo != 'matriz' }}
     # Lanzarlo el propietario equivale a su permiso (D-22): un clic de produccion; el relevo «continuar» va como bot.
     environment: ${{ (github.event_name == 'workflow_dispatch' && inputs.modo == 'gestor' && !inputs.solo_plan) && 'produccion' || '' }}
@@ -371,7 +372,7 @@ jobs:
           retention-days: 90
 
   preparar:
-    name: 0 Gestor de Campañas Preparar
+    name: P00 Gestor — Preparar
     if: ${{ github.event_name == 'pull_request' || inputs.modo == 'matriz' }}
     runs-on: ubuntu-24.04
     outputs:

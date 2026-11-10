@@ -67,6 +67,13 @@ Objetivo: el propietario ve solo **P00 … P60 y ARC**, más lo automático.
 | VER Verificación del motor (**ABIERTO**) | `bateria-motor.yml` · Auxiliar — Batería del Motor | Ver DECISIÓN 10 |
 | *Automático, sin tocar* · Fusión automática y Forense | `auto-merge.yml`, `forense-00.yml` | D-53/D-58: no se tocan sin autorización expresa. Pero dependen por nombre: ver riesgo (f)4 y DECISIÓN 3 |
 
+**Nota del paso 4 (T-215, PR #688; aceptado por el Planificador).** En los nombres de flujo con botón manual el separador es
+« — » («P00 Campaña — Gestor», «ARC Archivo — Poda de R2», «Automático — Mantenimiento»), porque el test vigente
+`test_all_manually_dispatchable_workflow_names_are_free_of_middle_dot` prohíbe «·»; la notación «·» de esta especificación
+queda para territorios («NAC01 · Álava»), «Interno ·» y run-name. Desviación declarada: el job `archivar_r2` sigue en
+`mantenimiento-programado.yml` (moverlo a `podar-r2.yml`, solo manual y siempre con `produccion`, no es un traslado limpio);
+su traslado a ARC queda para después del corte. Nombres exactos: `docs/ARQUITECTURA/EQUIVALENCIAS_5_0_0.md`.
+
 Resultado: 8 entradas manuales (P00, P10, P20, P30, P40, P50, P60, ARC) y 5 automáticas, más la batería según la DECISIÓN 10. Las
 cuatro «Interno ·» aceptadas como excepción (D-56) desaparecen: tres se integran en su único dueño v5 y la puerta pasa a
 acción compuesta.
