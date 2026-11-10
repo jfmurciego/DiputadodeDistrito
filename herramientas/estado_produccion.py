@@ -29,6 +29,9 @@ CAUSAL_TYPES = {"ATOMIC_MULTIPART", "GOVERNED_BRIDGE"}
 POPULATION_REPAIR = "POPULATION_REPAIR"
 SWAP_POLISH = "SWAP_POLISH"
 BASE_M05 = "BASE_M05"
+MOTOR2_P30 = "MOTOR2_P30"
+MOTORES = ("m05", "motor2")
+P30_ESTADOS_VALIDOS = {"P30_GANA_CANONICO", "P30_GANA_OTRO_PLAN"}
 
 
 def _m05_report_path(params: Path, run_id: str | None = None) -> Path:
@@ -208,11 +211,11 @@ def _repair_result(repair) -> str:
     return str(repair.get("result") or "UNKNOWN")
 
 
-def _population_failure(*, status: str, path: str | None, error: str | None) -> dict:
+def _population_failure(*, status: str, path: str | None, error: str | None, source: str | None = None) -> dict:
     return {
         "population_outcome": "failure",
         "population_decision": HARD_BLOCK,
-        "population_evidence_source": None,
+        "population_evidence_source": source,
         "population_evidence_status": status,
         "population_evidence_path": path,
         "population_evidence_error": error,
@@ -338,6 +341,119 @@ def _load_population_evidence(params: Path, run_id: str) -> dict:
     return result
 
 
+def _p30_invalid(path: str, error: str) -> dict:
+    return _population_failure(status="INVALID_CONTENT", path=path, error=error, source=MOTOR2_P30)
+
+
+def _sha256_file(path: Path) -> str:
+    import hashlib  # noqa: PLC0415
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _m06_composition_path(params: Path, run_id: str) -> Path | None:
+    raw = yaml.safe_load(params.expanduser().resolve().read_text(encoding="utf-8")) or {}
+    s6 = (raw.get("modulos", {}) or {}).get("modulo_06_consolidar_distritos") or raw.get("step6_export_final") or {}
+    value = s6.get("out_composition_csv")
+    return _render_output_path(params.expanduser().resolve(), raw, value, run_id) if value else None
+
+
+def motor2_population_dimension(p30: dict) -> dict:
+    """Evidencia poblacional del plan GANADOR del motor 2 (P30.json); antes = canónico del run, después = ganador."""
+    metricas = p30.get("metricas") if isinstance(p30.get("metricas"), dict) else {}
+    pares = {}
+    for clave in ("canonico", "ganador"):
+        m = metricas.get(clave)
+        if not isinstance(m, dict):
+            return {"error": f"P30 sin metricas.{clave}"}
+        try:
+            fuera = m["fuera_tolerancia"]
+            desvio = float(m["desvio_max"])
+            if isinstance(fuera, bool) or not isinstance(fuera, int) or fuera < 0:
+                raise ValueError("fuera_tolerancia no es un entero >= 0")
+            if not math.isfinite(desvio) or desvio < 0:
+                raise ValueError("desvio_max no es finito >= 0")
+        except (KeyError, TypeError, ValueError) as exc:
+            return {"error": f"P30 metricas.{clave} inválidas: {type(exc).__name__}: {exc}"}
+        pares[clave] = (int(fuera), desvio)
+    (outliers_before, max_before), (outliers_after, max_after) = pares["canonico"], pares["ganador"]
+    # El ganador VALIDO del motor 2 no tiene violaciones duras (evaluar del certificador); el diagnóstico M06 del plan
+    # rehecho, si el contrato lo declara, se fusiona después y manda.
+    hard_after = 0
+    if outliers_after == 0:
+        decision = TARGET_MET
+    elif outliers_after < outliers_before or max_after < max_before:
+        decision = TARGET_IMPROVED_NOT_MET
+    else:
+        decision = TARGET_NOT_MET
+    return {
+        "population_outcome": "success",
+        "population_decision": decision,
+        "population_evidence_source": MOTOR2_P30,
+        "population_evidence_status": "VALID",
+        "population_evidence_path": None,
+        "population_evidence_error": None,
+        "population_repair_result": "NOT_APPLICABLE",
+        "population_outliers_before": outliers_before,
+        "population_outliers_after": outliers_after,
+        "population_max_deviation_before": max_before,
+        "population_max_deviation_after": max_after,
+        "population_termination_reason": None,
+        "population_baseline_restored": False,
+        "population_hard_constraints_before": None,
+        "population_hard_constraints_after": hard_after,
+        "motor": "motor2",
+        "motor2_ganador": p30.get("ganador"),
+        "motor2_estado": p30.get("estado"),
+        "motor2_huella_resultado": p30.get("huella_resultado"),
+        "motor2_secciones_cambiadas": p30.get("secciones_cambiadas"),
+    }
+
+
+def _load_motor2_population_evidence(params: Path, run_id: str, runs_dir: Path) -> dict:
+    """Con motor=motor2 la certificación lee el ganador del P30; cualquier hueco falla cerrado (nunca el M05)."""
+    path = Path(runs_dir) / "p30_motor2" / "P30.json"
+    path_text = path.as_posix()
+    try:
+        p30 = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError as exc:
+        return _population_failure(status="MISSING", path=path_text, error=f"{type(exc).__name__}: {exc}", source=MOTOR2_P30)
+    except (OSError, json.JSONDecodeError) as exc:
+        return _p30_invalid(path_text, f"{type(exc).__name__}: {exc}")
+    if not isinstance(p30, dict):
+        return _p30_invalid(path_text, "P30 debe ser un objeto JSON")
+    if p30.get("valido") is not True or p30.get("estado") not in P30_ESTADOS_VALIDOS or p30.get("estado_ganador") != "VALIDO":
+        return _p30_invalid(path_text, f"P30 sin ganador válido: estado={p30.get('estado')} valido={p30.get('valido')}")
+    if p30.get("rehacer_m06"):
+        verif = p30.get("verificacion_m06") if isinstance(p30.get("verificacion_m06"), dict) else {}
+        if verif.get("igual_al_ganador") is not True:
+            return _p30_invalid(path_text, "P30_M06_NO_ES_EL_GANADOR: el M06 rehecho no está verificado como el plan ganador")
+        if p30.get("m05_restaurada") is not True:
+            return _p30_invalid(path_text, "P30_M05_NO_RESTAURADA")
+        try:
+            composicion = _m06_composition_path(params, run_id)
+        except Exception as exc:  # noqa: BLE001
+            return _p30_invalid(path_text, f"composición M06 no resoluble: {type(exc).__name__}: {exc}")
+        if composicion is None or not composicion.is_file():
+            return _p30_invalid(path_text, f"composición M06 ausente: {composicion}")
+        if _sha256_file(composicion) != verif.get("composicion_sha256"):
+            return _p30_invalid(path_text, "la composición M06 certificada no es la verificada como ganadora en el P30")
+    result = motor2_population_dimension(p30)
+    if "error" in result:
+        return _p30_invalid(path_text, result["error"])
+    result["population_evidence_path"] = path_text
+    return result
+
+
+def load_population_evidence(params: Path, run_id: str, *, motor: str = "m05", runs_dir: Path | None = None) -> dict:
+    if motor not in MOTORES:
+        raise ValueError(f"motor desconocido: {motor} ({' | '.join(MOTORES)})")
+    if motor == "motor2":
+        if runs_dir is None:
+            raise ValueError("motor2 exige --runs-dir (donde está p30_motor2/P30.json)")
+        return _load_motor2_population_evidence(params, run_id, runs_dir)
+    return _load_population_evidence(params, run_id)
+
+
 def geometric_exceptions_causally_governed(audit: dict) -> bool:
     if audit.get("decision") == "PASS":
         return not audit.get("blocked_districts") and not audit.get("policy_mismatches") and not audit.get("contract_blockers")
@@ -374,6 +490,10 @@ def certification_gate(*, execution_outcome: str, population: dict, geometric_ou
     if population.get("population_outcome") != "success":
         evidence_status = population.get("population_evidence_status")
         evidence_source = population.get("population_evidence_source")
+        if evidence_source == MOTOR2_P30:
+            if evidence_status == "MISSING":
+                return "BLOCK", "P30_POPULATION_EVIDENCE_MISSING"
+            return "BLOCK", "P30_POPULATION_EVIDENCE_INVALID"
         if evidence_source == "M06_DIAGNOSTIC":
             if evidence_status == "MISSING":
                 return "BLOCK", "M06_POPULATION_EVIDENCE_MISSING"
@@ -458,15 +578,21 @@ def main() -> None:
     parser.add_argument("--geometric-decision", required=True)
     parser.add_argument("--geometric-audit", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--motor", choices=MOTORES, default="m05")
+    parser.add_argument("--runs-dir", type=Path, default=None)
     args = parser.parse_args()
+    if args.motor == "motor2" and args.runs_dir is None:
+        parser.error("--motor motor2 exige --runs-dir")
 
     geometric_audit = json.loads(args.geometric_audit.read_text(encoding="utf-8"))
     if not isinstance(geometric_audit, dict):
         raise ValueError("La auditoría geométrica no es un objeto JSON")
 
-    population = _load_population_evidence(args.params, args.run_id)
-    m06_population = _load_m06_population_evidence(args.params, args.run_id)
-    population = _merge_m06_population_evidence(population, m06_population)
+    population = load_population_evidence(args.params, args.run_id, motor=args.motor, runs_dir=args.runs_dir)
+    if not (args.motor == "motor2" and population.get("population_outcome") != "success"):
+        # Un P30 fallido conserva su causa (P30_*): el diagnóstico M06 no puede rehabilitarlo.
+        m06_population = _load_m06_population_evidence(args.params, args.run_id)
+        population = _merge_m06_population_evidence(population, m06_population)
     params_cfg = load_params_yaml(str(args.params))
     population_target_required = bool(
         ((params_cfg.get("validation") or {}).get("require_zero_outside_tolerance_after_m05", False))
