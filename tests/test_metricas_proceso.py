@@ -233,13 +233,15 @@ class TopeSemanal(unittest.TestCase):
 
 class Entrega(unittest.TestCase):
     def test_workflow_semanal_con_cola_y_registro(self):
-        w = yaml.safe_load((ROOT / ".github/workflows/metricas-proceso.yml").read_text(encoding="utf-8"))
+        w = yaml.safe_load((ROOT / ".github/workflows/mantenimiento-programado.yml").read_text(encoding="utf-8"))
         on = w.get("on", w.get(True))
         self.assertIn("schedule", on)
         self.assertIn("workflow_dispatch", on)
-        self.assertEqual(w["concurrency"]["queue"], "max")
-        self.assertFalse(w["concurrency"]["cancel-in-progress"])
-        texto = (ROOT / ".github/workflows/metricas-proceso.yml").read_text(encoding="utf-8")
+        self.assertIn("17 5 * * 1", [c["cron"] for c in on["schedule"]])
+        job = w["jobs"]["metricas"]
+        self.assertEqual(job["concurrency"]["queue"], "max")
+        self.assertFalse(job["concurrency"]["cancel-in-progress"])
+        texto = (ROOT / ".github/workflows/mantenimiento-programado.yml").read_text(encoding="utf-8")
         self.assertIn("DDD_REGISTRO_APP_ID", texto)
         self.assertIn("herramientas/metricas_proceso.py", texto)
 
