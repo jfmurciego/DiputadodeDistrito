@@ -10,8 +10,9 @@ ESTADO: candidato
 CAMBIOS 1.2.0 (T-212): criterio «nunca peor que el mapa vigente publicado»: `indicadores` (por territorio, en el job: fuera de
   tolerancia, desvío máximo, partidos judiciales y comarcas partidos, frontera cortada y Polsby-Popper del vigente
   (datos/composicion), el canónico y el ganador, a INDICADORES.json/md y al resumen del paso) y `aceptacion` compara el ganador
-  también con el vigente: peor = más distritos fuera de tolerancia o, con los mismos, mayor desvío máximo (la misma regla que
-  T-194 aplica al canónico). Sin composición vigente o no comparable, el territorio consta explícitamente y no hay aceptación.
+  también con el vigente, con DOS comprobaciones por separado (Planificador): 1) la clave de elección del ganador nunca peor que la
+  del canónico; 2) el recuento BRUTO de distritos fuera de tolerancia nunca peor que el del vigente. El desvío máximo mayor que el
+  del vigente sale como aviso aparte y no bloquea. Sin composición vigente o no comparable, el territorio consta explícitamente y no hay aceptación.
 CAMBIOS 1.1.1 (T-181): `aceptacion` exige al menos una cadena evaluable por territorio y ningún FALLO_GENERADOR (se leen del
   COMPETICION.json del territorio; sin él, NO), `--cadenas N`: candidatos = 1 + N (+1 exhaustivo), todos evaluados y cada cadena inválida con motivo. Antes un territorio donde fallaban todas las cadenas daba «SÍ» (ganador = canónico).
 CAMBIOS 1.1.0 (T-208): subcomandos `lista` (matriz de territorios para Actions), `huella` (huella real: dos ejecuciones de la
@@ -714,11 +715,16 @@ def huella(args) -> int:
 
 # --------------------------------------------------------------------------- indicadores frente al vigente (T-212)
 def peor_que(g: dict, ref: dict) -> list[str]:
-    """Causas por las que el plan `g` es peor que `ref` (vacío = no es peor). Criterio c de T-194 (ACEPTACION_MOTOR2.md):
-    primero distritos fuera de tolerancia (la del contrato), después, con los mismos, desvío máximo; sin margen."""
+    """Causas por las que el plan `g` es peor que `ref` en el recuento BRUTO de distritos fuera de tolerancia (la del contrato).
+    Es la vara que bloquea frente al vigente (Planificador, T-212); el desvío máximo va aparte (`aviso_desvio`) y no bloquea."""
     if g["fuera_tolerancia"] > ref["fuera_tolerancia"]:
         return [f"más distritos fuera de tolerancia ({g['fuera_tolerancia']} > {ref['fuera_tolerancia']})"]
-    if g["fuera_tolerancia"] == ref["fuera_tolerancia"] and g["desvio_max"] > ref["desvio_max"]:
+    return []
+
+
+def aviso_desvio(g: dict, ref: dict) -> list[str]:
+    """Desvío máximo mayor que el de `ref` (informa; D8 puede cambiarlo por naturalidad dentro de la tolerancia)."""
+    if g["desvio_max"] > ref["desvio_max"]:
         return [f"mayor desvío máximo ({g['desvio_max'] * 100:.2f} % > {ref['desvio_max'] * 100:.2f} %)"]
     return []
 
@@ -823,6 +829,10 @@ def indicadores_territorio(t: str, out: Path, *, cfg: dict | None = None, grafo:
             return p, next(iter(sorted((carpeta / cid).glob("*_m06_secciones.geojson*"))), None)
         can, attrs = donde(d["canonico"])
         res["ganador"], res["canonico_id"] = d["ganador"], d["canonico"]
+        try:  # comprobación 1: clave de elección del ganador frente a la del canónico (la calcula la competición)
+            res["clave_frente_canonico"] = json.loads((carpeta / "RESUMEN.json").read_text(encoding="utf-8"))["territorios"][0].get("frente_al_canonico")
+        except (OSError, ValueError, KeyError, IndexError):
+            res["clave_frente_canonico"] = None
         res["canonico"] = _indicadores_plan(can, cfg, grafo, can, attrs)
         if d["ganador"] == d["canonico"]:
             gan = res["canonico"]
@@ -839,6 +849,7 @@ def indicadores_territorio(t: str, out: Path, *, cfg: dict | None = None, grafo:
         res["vigente"] = _indicadores_plan(vig, cfg, grafo, can, attrs)
         causas = peor_que(gan, res["vigente"])
         res["estado"], res["motivo"] = ("PEOR", "; ".join(causas)) if causas else ("OK", "")
+        res["aviso_desvio"] = aviso_desvio(gan, res["vigente"])
     except Exception as exc:
         res["estado"], res["motivo"] = "NO_EVALUABLE", f"{type(exc).__name__}: {exc}"
     return res
@@ -849,7 +860,13 @@ def _celda(v) -> str:
 
 
 def tabla_indicadores(r: dict) -> list[str]:
-    lin = [f"### {r['territorio']} · frente al vigente: {r['estado']}" + (f" ({r['motivo']})" if r.get("motivo") else ""),
+    clave = r.get("clave_frente_canonico")
+    lin = [f"### {r['territorio']}",
+           f"- Comprobación 1 · clave de elección frente al canónico: **{clave or 'sin dato'}** ("
+           f"{'peor: NO' if clave == 'empeora' else ('sin dato: no cuenta como verde' if clave is None else 'no es peor')}).",
+           f"- Comprobación 2 · distritos fuera de tolerancia (recuento bruto) frente al vigente: **{r['estado']}**"
+           + (f" ({r['motivo']})" if r.get("motivo") else "") + ".",
+           f"- Aviso (no bloquea) · desvío máximo frente al vigente: {'; '.join(r['aviso_desvio']) if r.get('aviso_desvio') else 'no es mayor'}.", "",
            f"Vigente: run {r.get('run_vigente') or '—'} · `{r.get('fichero_vigente') or 'sin composición'}`.", "",
            "| Plan | Fuera de tol. | Desvío máx. % | Part. judiciales | Comarcas | Frontera km | PP medio | PP mín. | Válido (reglas actuales) |",
            "|---|---|---|---|---|---|---|---|---|"]
@@ -913,6 +930,7 @@ def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str], 
     vig_peor = sorted(t for t in esperados if est[t] == "PEOR")
     vig_sin = sorted(t for t in esperados if est[t] not in ("OK", "PEOR", "UN_DISTRITO"))
     vig_un = sorted(t for t in esperados if est[t] == "UN_DISTRITO")
+    vig_aviso = sorted(t for t in esperados if (vigentes.get(t) or {}).get("aviso_desvio"))
     por_t = {f["territorio"]: f for f in filas}
     faltan = [t for t in esperados if t not in por_t]
     no_validos = sorted(t for t in esperados if t in por_t and por_t[t].get("estado") != "VALIDO")
@@ -928,7 +946,7 @@ def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str], 
     h_mal = sorted(t for t in h_pedidas if not (huellas.get(t) or {}).get("igual"))
     return {"esperados": len(esperados), "faltan": faltan, "no_validos": no_validos, "empeoran": peores,
             "sin_cadenas": sin_cadenas, "fallo_generador": fallo_gen, "candidatos_incompletos": incompletos,
-            "vigente_peor": vig_peor, "vigente_sin": vig_sin, "vigente_un_distrito": vig_un,
+            "vigente_peor": vig_peor, "vigente_sin": vig_sin, "vigente_un_distrito": vig_un, "vigente_aviso_desvio": vig_aviso,
             "vigente_motivos": {t: (vigentes.get(t) or {}).get("motivo") or "sin INDICADORES.json" for t in vig_peor + vig_sin},
             "huella_real": {t: (huellas.get(t) or {}).get("huella_1") for t in h_pedidas}, "huella_real_mal": h_mal,
             "parcial": len(h_pedidas) < len(HUELLA_REAL),
@@ -966,8 +984,10 @@ def aceptacion(args) -> int:
           f"- No válidos: {res['no_validos'] or 'ninguno'}; peores que el canónico: {res['empeoran'] or 'ninguno'}.",
           f"- Sin ninguna cadena evaluable: {res['sin_cadenas'] or 'ninguno'}; con FALLO_GENERADOR: {res['fallo_generador'] or 'ninguno'}; "
           f"candidatos sin evaluar o fuera de 1 + N (+1 exhaustivo): {res['candidatos_incompletos'] or 'ninguno'}.",
-          f"- Peores que el mapa vigente publicado: {res['vigente_peor'] or 'ninguno'}; sin vigente comparable (no cuentan como verde): "
+          f"- Comprobación 1 · clave de elección peor que la del canónico: {res['empeoran'] or 'ninguno'}.",
+          f"- Comprobación 2 · más distritos fuera de tolerancia (recuento bruto) que el mapa vigente publicado: {res['vigente_peor'] or 'ninguno'}; sin vigente comparable (no cuentan como verde): "
           f"{res['vigente_sin'] or 'ninguno'}; un distrito sin composición vigente (único plan posible): {res['vigente_un_distrito'] or 'ninguno'}.",
+          f"- Aviso (no bloquea) · desvío máximo mayor que el del vigente: {res['vigente_aviso_desvio'] or 'ninguno'}.",
           *[f"  - {t}: {m}" for t, m in res["vigente_motivos"].items()],
           f"- Huella real (Soria, Álava, Melilla; dos ejecuciones iguales): "
           f"{'fallan ' + ', '.join(res['huella_real_mal']) if res['huella_real_mal'] else 'correcta'} {res['huella_real']}."]

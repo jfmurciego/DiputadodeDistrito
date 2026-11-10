@@ -250,25 +250,40 @@ class BateriaMotor2EnActions(unittest.TestCase):
                                  {x: i["vigente"][x] for x in ("partidos_judiciales_partidos", "comarcas_partidas", "frontera_cortada_km")}, k)
                 self.assertTrue(i[k]["valido_reglas_actuales"])
             md = (out / "competicion" / "madrid" / "INDICADORES.md").read_text()
-            for texto in ("frente al vigente: OK", "| Vigente |", "| Canónico (canonico) |", "| Ganador (", "Part. judiciales", "PP medio"):
+            for texto in ("(recuento bruto) frente al vigente: **OK**", "Comprobación 1", "| Vigente |", "| Canónico (canonico) |", "| Ganador (", "Part. judiciales", "PP medio"):
                 self.assertIn(texto, md)
             r = self._aceptar(out, "madrid")
             self.assertEqual((r["vigente_peor"], r["vigente_sin"]), ([], []))
             self.assertIn("Frente al vigente", (out / "ACEPTACION.md").read_text())
 
-    def test_t212_ganador_peor_que_el_vigente_es_no(self):
+    def test_t212_ganador_con_mas_fuera_de_tolerancia_que_el_vigente_es_no(self):
         with tempfile.TemporaryDirectory() as d:
             out = Path(d)
-            pob = {"A": 100, "B": 120, "C": 100, "D": 80}  # total 400, objetivo 200, tolerancia 10 %
-            # el vigente (B+D / A+C, discontinuo: no valdría hoy) tiene desvío 0; el mejor plan contiguo, A+B / C+D, 10 %
+            pob = {"A": 100, "B": 130, "C": 100, "D": 70}  # total 400, objetivo 200, tolerancia 10 %
+            # el vigente (B+D / A+C, discontinuo: no valdría hoy) tiene 0 distritos fuera; el mejor contiguo, A+B / C+D (230 / 170), 2
             self._competir_real(out, "madrid", cadena_ok=True, pob=pob, vigente={"A": "1", "B": "2", "C": "1", "D": "2"})
             i = json.loads((out / "competicion" / "madrid" / "INDICADORES.json").read_text())
-            self.assertEqual((i["estado"], i["vigente"]["desvio_max"], i["vigente"]["valido_reglas_actuales"]), ("PEOR", 0.0, False))
-            self.assertEqual((i["ganador_indicadores"]["fuera_tolerancia"], round(i["ganador_indicadores"]["desvio_max"], 6)), (0, 0.1))
-            self.assertIn("mayor desvío máximo (10.00 % > 0.00 %)", i["motivo"])
+            self.assertEqual((i["estado"], i["vigente"]["fuera_tolerancia"], i["vigente"]["valido_reglas_actuales"]), ("PEOR", 0, False))
+            self.assertEqual(i["ganador_indicadores"]["fuera_tolerancia"], 2)
+            self.assertIn("más distritos fuera de tolerancia (2 > 0)", i["motivo"])
+            self.assertIn("Comprobación 2", (out / "competicion" / "madrid" / "INDICADORES.md").read_text())
             r = self._aceptar(out, "madrid")
             self.assertEqual((r["rc"], r["vigente_peor"], r["aceptacion"]), (1, ["madrid"], False))
-            self.assertIn("Peores que el mapa vigente publicado: ['madrid']", (out / "ACEPTACION.md").read_text())
+            md = (out / "ACEPTACION.md").read_text()
+            self.assertIn("Comprobación 2 · más distritos fuera de tolerancia (recuento bruto) que el mapa vigente publicado: ['madrid']", md)
+            self.assertIn("Comprobación 1 · clave de elección peor que la del canónico: ninguno", md)  # son comprobaciones separadas
+
+    def test_t212_mayor_desvio_maximo_solo_avisa(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            pob = {"A": 100, "B": 120, "C": 100, "D": 80}  # vigente discontinuo con desvío 0; mejor contiguo 10 % (dentro de tolerancia)
+            self._competir_real(out, "madrid", cadena_ok=True, pob=pob, vigente={"A": "1", "B": "2", "C": "1", "D": "2"})
+            i = json.loads((out / "competicion" / "madrid" / "INDICADORES.json").read_text())
+            self.assertEqual((i["estado"], i["vigente"]["desvio_max"], round(i["ganador_indicadores"]["desvio_max"], 6)), ("OK", 0.0, 0.1))
+            self.assertEqual(i["aviso_desvio"], ["mayor desvío máximo (10.00 % > 0.00 %)"])
+            self.assertEqual(i["clave_frente_canonico"], "empata")
+            r = self._aceptar(out, "madrid")
+            self.assertEqual((r["vigente_peor"], r["vigente_aviso_desvio"]), ([], ["madrid"]))
 
     def test_t212_forma_con_la_m01_de_las_entradas(self):
         import zipfile
@@ -287,12 +302,14 @@ class BateriaMotor2EnActions(unittest.TestCase):
                 self.assertAlmostEqual(i[k]["pp_medio"], 4 * 3.14159265 * 2 / 36, delta=0.03)  # rectángulo 2:1 ≈ 0,70
             self.assertIn("0.7", (out / "competicion" / "madrid" / "INDICADORES.md").read_text())
 
-    def test_t212_peor_es_fuera_de_tolerancia_y_despues_desvio_maximo(self):
+    def test_t212_peor_es_el_recuento_bruto_de_fuera_de_tolerancia(self):
         g = {"fuera_tolerancia": 1, "desvio_max": 0.3}
         self.assertEqual(b.peor_que(g, {"fuera_tolerancia": 1, "desvio_max": 0.3}), [])
-        self.assertEqual(b.peor_que(g, {"fuera_tolerancia": 2, "desvio_max": 0.1}), [])  # menos fuera compensa un desvío mayor
+        self.assertEqual(b.peor_que(g, {"fuera_tolerancia": 2, "desvio_max": 0.1}), [])
+        self.assertEqual(b.peor_que(g, {"fuera_tolerancia": 1, "desvio_max": 0.2}), [])  # el desvío no bloquea
         self.assertEqual(len(b.peor_que(g, {"fuera_tolerancia": 0, "desvio_max": 0.9})), 1)
-        self.assertIn("mayor desvío máximo", b.peor_que(g, {"fuera_tolerancia": 1, "desvio_max": 0.2})[0])
+        self.assertIn("mayor desvío máximo", b.aviso_desvio(g, {"fuera_tolerancia": 1, "desvio_max": 0.2})[0])
+        self.assertEqual(b.aviso_desvio(g, {"fuera_tolerancia": 1, "desvio_max": 0.3}), [])
 
     def test_t212_sin_vigente_consta_y_no_es_verde(self):
         with tempfile.TemporaryDirectory() as d:
