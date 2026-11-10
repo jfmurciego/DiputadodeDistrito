@@ -176,9 +176,12 @@ def cadena(lab: Laboratorio, semilla: int, pasos: int, funciones: tuple[str, ...
     g.add_edges_from(sorted(lab.largo) + sorted(lab.problema.puentes))
     graph = Graph.from_networkx(g)
     ini = Partition(graph, assignment="district", updaters={"population": updaters.Tally("population", alias="population")})
-    bip = bipartition_tree
+    # Reelección de par como producción (m05_gerrychain_engine): si una pareja no admite corte equilibrado (p. ej.
+    # un distrito vigente fuera de tolerancia), se prueba otra en lugar de abortar la cadena.
+    bip = partial(bipartition_tree, allow_pair_reselection=True, max_attempts=1000)
     if recargo is not None:
-        bip = partial(bipartition_tree, spanning_tree_fn=partial(arbol_ponderado, recargo=recargo))
+        bip = partial(bipartition_tree, allow_pair_reselection=True, max_attempts=1000,
+                      spanning_tree_fn=partial(arbol_ponderado, recargo=recargo))
     prop = partial(recom, pop_col="population", pop_target=float(lab.objetivo), epsilon=float(lab.tol / lab.objetivo),
                    node_repeats=0, bipartition_tree_fn=bip)
 
