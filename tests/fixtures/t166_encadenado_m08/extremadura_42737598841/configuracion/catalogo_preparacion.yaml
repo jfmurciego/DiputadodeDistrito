@@ -1,0 +1,42 @@
+schema: ddd-preparation-catalog/1.1
+default_edition: '2025'
+territories:
+- territory_id: extremadura
+  name: Extremadura
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY
+      contract_path: territorios/extremadura/config/extremadura_2025.yaml
+      territorial_source_declaration: territorios/extremadura/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
+      territorial_product_available: true
+      electoral_source_prepared: true
+      electoral_product_available: true
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint:
+        run_id: 42720735134
+        stage: M06
+      preparation_evidence:
+        run_id: 42720735134
+        artifact_name: ddd-source-package-extremadura-2025-42720735134
+        artifact_sha256: 9d50ad9459baa8c275927668e553c3fd09285dc28b8027d2c7746fd7c0c68158
+        package_sha256: 14abaecb2364af56af8ca827e2f65b8a8212842f88b1fd2e9394ab15bb33381d
+        receipt_path: territorios/extremadura/evidencia/fuentes_territoriales/2025/c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6/42720735134/receipt.json
+        territorial_identity_sha256: c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6
+        compatibility_report_sha256: 411ea5a3d2f0d180b74ffe17f6d563cbd7200151aac4c88bc986f5bfaa7a2bcf
+        compatibility_identity_sha256: c74900602d2fdf4d6af7f58f9d6f88ed1059e8461d88c0e43bef961f23bca92c
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2025
+        section_year: 2025
+        source_commit: 0ec9728c39bb6ded9db45608f5516d901805758a
+      evidence:
+        territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
+        electoral_source: territorios/extremadura/evidencia/fuentes_electorales/2025/e3963afbdaaefc34551d19d08eb4819e66266697dc33b6469b5b5aca318e3350/42720735134/receipt.json
+        prepared_source_pair: territorios/extremadura/evidencia/pares_fuentes/2025/67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3.json
+        electoral_product: territorios/extremadura/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/extremadura/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: true

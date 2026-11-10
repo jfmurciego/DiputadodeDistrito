@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "extremadura",
+  "territory_name": "Extremadura",
+  "edition": "2025",
+  "election": {
+    "election_id": "extremadura_asamblea_2025-12-21",
+    "election_date": "2025-12-21"
+  },
+  "references": {
+    "population": {
+      "required_year": 2025,
+      "year": 2025,
+      "reference_date": "2025-01-01"
+    },
+    "sectioning": {
+      "required_year": 2025,
+      "year": 2025,
+      "reference_label": "Secciones_2025"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 42720735134,
+    "artifact_name": "ddd-source-package-extremadura-2025-42720735134",
+    "artifact_sha256": "9d50ad9459baa8c275927668e553c3fd09285dc28b8027d2c7746fd7c0c68158",
+    "package_sha256": "14abaecb2364af56af8ca827e2f65b8a8212842f88b1fd2e9394ab15bb33381d",
+    "source_commit": "0ec9728c39bb6ded9db45608f5516d901805758a",
+    "source_declaration": "territorios/extremadura/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6/42720735134/receipt.json",
+    "population_year": 2025,
+    "section_year": 2025,
+    "territorial_identity_sha256": "c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "411ea5a3d2f0d180b74ffe17f6d563cbd7200151aac4c88bc986f5bfaa7a2bcf",
+    "compatibility_identity_sha256": "c74900602d2fdf4d6af7f58f9d6f88ed1059e8461d88c0e43bef961f23bca92c",
+    "remote_verification": {
+      "run_id": 42720735134,
+      "artifact_id": 13722066591,
+      "artifact_name": "ddd-source-package-extremadura-2025-42720735134",
+      "artifact_sha256": "9d50ad9459baa8c275927668e553c3fd09285dc28b8027d2c7746fd7c0c68158",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 42720735134,
+    "artifact_name": "ddd-electoral-package-extremadura-2025-42720735134",
+    "artifact_sha256": "128c44ff4747309c0fa15796fb3aa23da18d2c9400362fcf089d86a982538db1",
+    "source_commit": "0ec9728c39bb6ded9db45608f5516d901805758a",
+    "receipt_path": "territorios/extremadura/evidencia/fuentes_electorales/2025/e3963afbdaaefc34551d19d08eb4819e66266697dc33b6469b5b5aca318e3350/42720735134/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "extremadura_asamblea_2025-12-21",
+    "election_date": "2025-12-21",
+    "electoral_identity_sha256": "e3963afbdaaefc34551d19d08eb4819e66266697dc33b6469b5b5aca318e3350",
+    "remote_verification": {
+      "run_id": 42720735134,
+      "artifact_id": 13726612038,
+      "artifact_name": "ddd-electoral-package-extremadura-2025-42720735134",
+      "artifact_sha256": "128c44ff4747309c0fa15796fb3aa23da18d2c9400362fcf089d86a982538db1",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6",
+  "electoral_compatibility_key": "e3963afbdaaefc34551d19d08eb4819e66266697dc33b6469b5b5aca318e3350",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/extremadura/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3"
+}
