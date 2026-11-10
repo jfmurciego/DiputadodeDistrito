@@ -3,16 +3,17 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — adaptadores de generador para la competición (canónico y GerryChain)
-VERSIÓN: 1.0.1
+VERSIÓN: 1.0.2
 NOMBRE DE VERSIÓN: Competición · atributos de secciones
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.0.1 — los atributos se toman del GeoJSON M06 de SECCIONES (*_m06_secciones.geojson*), no del de
+CAMBIOS: 1.0.2 — GeoJSON de secciones con extensión fija (.geojson.zip, si no .geojson) y orden estable;
+  1.0.1 — los atributos se toman del GeoJSON M06 de SECCIONES (*_m06_secciones.geojson*), no del de
   distritos (Congreso Huesca daba ERROR_DATOS «propiedades sin CUSEC_KEY» en los 6 candidatos).
 MOTIVO: T-163: que el orquestador (competicion.py) llame a los generadores reales sin tocarlos, con las mismas
   entradas y pasos que la batería T-132 (herramientas/bateria_motor.py y banco_generadores.py), que se importan en
   diferido y no se modifican.
-ANTERIOR: legacy/ddd_motor2/generadores_v1.0.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/generadores_v1.0.1_20261110.py
 GENERADORES:
   Canonico    M04 + M05 canónico vigente (7.4.4, semilla fija) + M06 = bateria_motor.motor_uno(t, out, "7.4.4").
   GerryChain  M04 + M05 GerryChain de producción ddd_core/m05_gerrychain_strategy.py (ReCom, --seed-count 1
@@ -62,7 +63,9 @@ def _salida(res: dict, dir_bateria: Path, destino: Path) -> Salida:
     copia = destino / comp.name
     shutil.copy2(comp, copia)
     atributos = None
-    geo = next(_bateria()._cache(res["territorio"]).glob("*_m06_secciones.geojson*"), None)
+    cache = _bateria()._cache(res["territorio"])
+    geos = sorted(cache.glob("*_m06_secciones.geojson.zip")) or sorted(cache.glob("*_m06_secciones.geojson"))
+    geo = geos[0] if geos else None
     if geo is not None:
         atributos = destino / geo.name
         shutil.copy2(geo, atributos)

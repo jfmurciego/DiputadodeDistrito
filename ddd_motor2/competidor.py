@@ -3,15 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — la competición como sustituto de M05 (interfaz acordada con la batería T-132)
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Competición · sustituto de M05
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa; no lanza nada en Actions)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.0.1 — si el ganador no trae informe M05, se borra out_report (no queda el del último candidato);
+  1.0.0 — fichero nuevo.
 MOTIVO: T-163 / D-48: que el banco de la batería (herramientas/banco_generadores.py, generador «competidor») juzgue la
   competición igual que cualquier otro generador: la batería hace unidades + M04, llama a esta orden en lugar de M05 y
   después M06, validación de producción, núcleo y calidad.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/ddd_motor2/competidor_v1.0.0_20261110.py
 USO: DDD_RUN_ID=<id> PYTHONHASHSEED=0 python -m ddd_motor2.competidor --params territorios/<t>/config/<t>_2025.yaml \
        --run-id <id> [--semilla <n>] [--cadenas 5] [--territorio <t>]
   Lee lo mismo que M05 (modulo_05: in_graph_json, in_geojson = M04) y deja en modulo_05.out_geojson y out_report el
@@ -170,6 +171,8 @@ def main(argv=None) -> int:
         f = d / Path(s5[clave]).name
         if f.is_file():
             shutil.copy2(f, s5[clave])
+        else:  # sin informe del ganador: no dejar el del último candidato
+            Path(s5[clave]).unlink(missing_ok=True)
     # rc 0 aunque el ganador no sea válido: hay salida y la batería la valida (M06 + validar_ejecucion + núcleo).
     print(f"ganador={g.id} estado={g.estado} valido={r.valido} huella_resultado={r.huella()}")
     return 0

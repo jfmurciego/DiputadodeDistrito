@@ -3,14 +3,17 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — interfaz de la competición para la batería T-132
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Competición · interfaz
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa; no lanza nada en Actions)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.0.1 — --reanudar solo reutiliza un COMPETICION.json de la misma competición (versión del
+  orquestador, huella de reglas, ancla y número de cadenas); un fallo al escribir el informe deja el territorio en ERROR
+  sin abortar la tanda;
+  1.0.0 — fichero nuevo.
 MOTIVO: T-163 / D-48: que la batería T-132 corra la competición en los 71 con una orden y lea el criterio de
   aceptación (71/71 válidos, ninguno peor que el canónico, tiempos) de un solo fichero.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/ddd_motor2/competir_v1.0.0_20261110.py
 USO (en local, con las entradas de la batería en <out>/entradas/<t> y el entorno GerryChain de producción):
     PYTHONHASHSEED=0 python -m ddd_motor2.competir --out bateria --cadenas 5 --todos
     python -m ddd_motor2.competir --out bateria aragon murcia
@@ -29,9 +32,13 @@ import json
 import sys
 from pathlib import Path
 
-from .competicion import Candidato, competir_publico
+from dataclasses import asdict
+
+from .competicion import VERSION, Candidato, competir_publico
 from .generadores import Canonico, GerryChain, entrada_bateria
 from .informe import escribir
+from .reglas import Criterio, Reglas
+from .semilla import ancla
 
 
 def comparar(ganador: Candidato, canonico: Candidato) -> str:
@@ -47,9 +54,9 @@ def competir_territorio(t: str, out: Path, n_cadenas: int = 5, *, generadores=No
         entrada = entrada or entrada_bateria(t, out)
         can, cad = generadores or (Canonico(), GerryChain())
         r = competir_publico(entrada, can, cad, destino, n_cadenas=n_cadenas)
-    except Exception as exc:  # sin entradas, sin ancla en el contrato…: el territorio queda en el resumen
+        escribir(r, destino)
+    except Exception as exc:  # sin entradas, sin ancla, fallo al escribir…: el territorio queda en el resumen
         return {"territorio": t, "estado": "ERROR", "detalle": f"{type(exc).__name__}: {exc}"}
-    escribir(r, destino)
     validos = [c for c in r.candidatos if c.estado == "VALIDO"]
     return {"territorio": t, "estado": r.ganador.estado, "ganador": r.ganador.id, "valido": r.valido,
             "frente_al_canonico": comparar(r.ganador, r.canonico), "canonico": r.canonico.estado,
@@ -60,14 +67,24 @@ def competir_territorio(t: str, out: Path, n_cadenas: int = 5, *, generadores=No
             "tiempo_s": round(r.tiempo_total_s, 1)}
 
 
-def fila_guardada(t: str, out: Path) -> dict | None:
-    """Fila del resumen desde un COMPETICION.json ya escrito (reanudación); None si no hay o no se puede leer."""
+def fila_guardada(t: str, out: Path, n_cadenas: int, cfg=None) -> dict | None:
+    """Fila del resumen desde un COMPETICION.json ya escrito (reanudación). None —y el territorio se recalcula— si no
+    hay, no se puede leer o no es de esta misma competición: versión del orquestador, huella de reglas, ancla de la
+    semilla y número de cadenas."""
     f = Path(out) / "competicion" / t / "COMPETICION.json"
     try:
         d = json.loads(f.read_text(encoding="utf-8"))
         cands = {c["id"]: c for c in d["candidatos"]}
         g, c = cands[d["ganador"]], cands[d["canonico"]]
-    except (OSError, ValueError, KeyError):
+        if cfg is None:
+            from .generadores import _bateria
+            cfg = _bateria()._cfg(t)
+        sp = d.get("semilla_publica") or {}
+        if (d.get("version_orquestador") != VERSION or sp.get("n") != n_cadenas or sp.get("ancla") != ancla(cfg)
+                or d.get("huella_reglas") != Reglas.desde_contrato(cfg, Criterio(**d["criterio"])).huella()
+                or d.get("criterio") != asdict(Criterio())):
+            return None
+    except (OSError, ValueError, KeyError, TypeError):  # ErrorContrato es ValueError
         return None
     clave = lambda x: (x["estado"] not in ("VALIDO", "INVALIDO"), x["violaciones_duras"] or 0,  # noqa: E731
                        x["fuera_tolerancia"] or 0, x["desvio_max"] or 0, x["ecm"] or 0)
@@ -138,7 +155,7 @@ def main(argv=None) -> int:
     out = Path(a.out)
     filas = []
     for t in ts:
-        f = fila_guardada(t, out) if a.reanudar else None
+        f = fila_guardada(t, out, a.cadenas) if a.reanudar else None
         f = f or competir_territorio(t, out, a.cadenas)
         filas.append(f)
         print(json.dumps(f, ensure_ascii=False), flush=True)
