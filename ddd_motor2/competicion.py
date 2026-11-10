@@ -3,14 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — orquestador de la competición «canónico + GerryChain»
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Competición
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Competición · semilla pública y revisión
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.1.0 — competir_publico (semillas públicas de semilla.py); Resultado.valido y Resultado.huella()
+  (reproducibilidad bit a bit); sin referencia de núcleos y con unidades cerradas, ERROR_DATOS (indicador explícito:
+  unidades con nucleo_cerrado, no el texto del aviso); pruebas de desempate por huella y de canónico fallido.
 MOTIVO: T-163 / D-48: la primera versión del motor nuevo es una competición entre el canónico y N cadenas de
   GerryChain bajo el núcleo único de reglas; gana el mejor plan válido, así que nunca es peor que el canónico.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/ddd_motor2/competicion_v1.0.0_20261110.py
 QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador canónico (una vez) y la cadena con cada
   semilla, a través de adaptadores (protocolo Generador: devuelven una composición M06). Cada candidato se juzga con el
   núcleo (adaptadores.problema_y_plan + reglas.evaluar, Criterio D-44 por defecto) y se ordena con la función de
@@ -41,7 +43,7 @@ from typing import Any, Iterable, Mapping, Protocol
 from .adaptadores import problema_y_plan
 from .reglas import Criterio, ErrorContrato, ErrorDatos, Reglas, evaluar
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 
 @dataclass(frozen=True)
@@ -189,7 +191,7 @@ def juzgar(cand: Candidato, salida: Salida, entrada: EntradaTerritorio, criterio
         cand.estado, cand.detalle = "ERROR_DATOS", str(exc)
         return
     cand.avisos = list(avisos)
-    if referencia is None and any("propia composición" in a for a in avisos):
+    if referencia is None and any(u.nucleo_cerrado is not None for u in problema.unidades):
         cand.estado = "ERROR_DATOS"
         cand.detalle = "sin referencia de núcleos cerrados (el canónico no dio composición): R-NUCLEO no juzgable"
         return
