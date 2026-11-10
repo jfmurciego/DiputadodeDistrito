@@ -92,8 +92,10 @@ def semilla_arbol(params: str, run_id: str, salida: Path, informe: Path, semilla
         info["componentes"] = nx.number_connected_components(nxg)
         g = Graph.from_networkx(nxg)
         objetivo = sum(problem.units[u]["population"] for u in libres) / k_libre
-        partes = None
-        for eps in (tol, band):
+        partes = {u: 0 for u in libres} if k_libre == 1 else None
+        if partes is not None:
+            info["epsilon"] = None
+        for eps in (() if partes is not None else (tol, band)):
             try:
                 crudo = recursive_tree_part(
                     g, range(k_libre), objetivo, "population", eps, node_repeats=1,
