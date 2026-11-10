@@ -23,7 +23,7 @@ class MetadatosZenodo(unittest.TestCase):
         self.assertIn('given-names: "Jesus"', t)
         self.assertIn('affiliation: "Independent researcher"', t)
         self.assertIn(ORCID, t)
-        self.assertIn('version: "4.10.0"', t)
+        self.assertIn('version: "4.9.0"', t)
         self.assertIn("license: Apache-2.0", t)
         self.assertNotIn("rellenar", t)
 
@@ -42,7 +42,7 @@ class MetadatosZenodo(unittest.TestCase):
 
     def test_version_readme_y_paper(self):
         readme = (R / "README.md").read_text(encoding="utf-8")
-        self.assertRegex(readme, r"\*\*README v4\.10\.0\*\*")
+        self.assertRegex(readme, r"\*\*README rev\. 4\.9\.0-r1\*\*")
         paper = (R / "docs/ARTICULO_JOSS/paper.md").read_text(encoding="utf-8")
         self.assertIn("name: Jesus Murciego", paper)
         self.assertIn('name: "Independent researcher"', paper)
