@@ -286,6 +286,39 @@ class MismaCompeticionQueLaBateria(unittest.TestCase):
             pc, pv = p30.generadores_por_defecto(funcion=f)
             self.assertEqual((type(pc), type(pv)), (type(cad), type(vig)))  # el P30 elige lo mismo que la batería
 
+    def test_vigente_de_otro_seccionado_no_compite(self):
+        """Planificador (T-223): el vigente solo compite con el seccionado exacto de la entrada; las 52 del Congreso al
+        pasar al par 2025/2025 (D-65) quedan excluidas con motivo, sin reproyectar, y ninguna cadena parte de él."""
+        from dataclasses import replace
+        from ddd_motor2.competicion import competir as competir_d8
+        from ddd_motor2.generadores import Vigente
+        from tests.test_motor2_competicion_d8 import Fijo, entrada, plan_corte
+        tmp = Path(tempfile.mkdtemp())
+        e = entrada(tmp)
+        vistos = []
+
+        class Cadena(Fijo):
+            def generar(self, ent, semilla, destino):
+                vistos.append(ent.contexto.get("semillas_desde_vigente"))
+                return super().generar(ent, semilla, destino)
+        carpeta = tmp / "vig"
+        carpeta.mkdir()
+        for nombre, filas in (("falta", range(4)), ("sobra", range(6))):  # otra edición: una sección menos o una más
+            (carpeta / "sintetico.csv").write_text("seccion,distrito,poblacion\n" + "".join(
+                f"220010100{i},{'1' if i < 3 else '2'},0\n" for i in filas), encoding="utf-8")
+            vistos.clear()
+            r = competir_d8(e, Fijo("canonico", {None: plan_corte(2)}), Cadena("cadena", {7: plan_corte(3), 8: plan_corte(2)}),
+                            [7, 8], tmp / nombre, exhaustivo=False, funcion="D8", vigente=Vigente(carpeta))
+            self.assertEqual(Vigente(carpeta).generar(replace(e, contexto={"composicion_canonica": str(
+                next((tmp / nombre / "canonico").rglob("*.csv")))}), None, tmp / "solo").estado,
+                "VIGENTE_OTRO_SECCIONADO", nombre)
+            self.assertEqual(r.vigente["estado"], "FALLO_GENERADOR", (nombre, r.vigente))  # el generador no da composición
+            self.assertFalse(r.vigente["compite"])
+            self.assertTrue(r.vigente["detalle"].startswith("vigente excluido: otro seccionado"), r.vigente)
+            self.assertNotIn("vigente", [c.id for c in r.candidatos])
+            self.assertEqual(vistos, [None, None])  # todas las cadenas parten del canónico
+            self.assertFalse((tmp / nombre / "vigente" / "x_m06_composicion_distritos.csv").exists())  # sin reproyectar
+
     def test_el_vigente_entra_en_la_huella_motor2(self):
         files = p30.huella_motor()["engine_files"]
         self.assertIn("datos/composicion/la_rioja.csv", files)

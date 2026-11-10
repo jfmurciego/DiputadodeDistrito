@@ -10,7 +10,8 @@ ESTADO: candidato (solo se ejecuta con la entrada `motor: motor2`; con `m05`, po
 CAMBIOS: 1.1.0 — (T-223) el P30 compite como la batería desde T-217 (competir.competir_territorio): con D8 entra
   también el mapa vigente publicado (generadores.Vigente; si cumple el núcleo, la mitad de las cadenas parte de él).
   La huella motor2 incluye datos/composicion/*.csv (el vigente cambia el resultado). P30.json guarda el entorno
-  (python, PYTHONHASHSEED, versiones de la comprobación de la batería, GEOS) y el vigente (estado, compite, sha256).
+  (python, PYTHONHASHSEED, versiones de la comprobación de la batería, GEOS) y el vigente (estado, compite, detalle, sha256). Con otro
+  seccionado el vigente no compite (generadores 1.2.1).
   `competir` desde la línea de órdenes falla cerrado sin PYTHONHASHSEED=0 (P30_ENTORNO_NO_REPRODUCIBLE, sale con 6).
   1.0.0 — fichero nuevo.
 MOTIVO: T-216 (corte 5.0.0, paso 3; D-75): el motor nuevo como P30 en la cadena de producción detrás de un interruptor
@@ -266,7 +267,8 @@ def competir(params: Path, n_cadenas: int = CADENAS, funcion: str = FUNCION, *, 
               "motor2": huella_motor(funcion, n_cadenas), "candidatos": len(res.candidatos),
               "candidatos_validos": sum(c.estado == "VALIDO" for c in res.candidatos), "rehacer_m06": False,
               "secciones_cambiadas": 0, "run_id": os.environ.get("DDD_RUN_ID"), "entorno": entorno(),
-              "vigente": {k: (res.vigente or {}).get(k) for k in ("estado", "compite", "sha256_origen", "reparado")},
+              "vigente": {k: (res.vigente or {}).get(k) for k in ("estado", "compite", "detalle", "sha256_origen",
+                                                                 "reparado")},
               "metricas": {k: {"fuera_tolerancia": c.fuera_tolerancia,
                                "desvio_max": None if c.desvio_max is None else float(c.desvio_max)}
                            for k, c in (("ganador", g), ("canonico", res.canonico))}}
