@@ -215,7 +215,7 @@ motor nuevo (Python puro, presupuesto en nodos). «CP-SAT» es el certificador (
 | **congreso_alava** | 3 | 53 (1 núcleo) | **ENUMERADO: 1 plan**, 1.276 nodos, 0,22 s | **ENUMERADO: 1 plan**, 0,05 s | desvío 50.243/336.308 (0,1494) | **sí** (misma huella en ambos) |
 | congreso_soria | 1 | 183 | ENUMERADO: 1 plan, 184 nodos, 0,13 s | ENUMERADO: 1 plan, 0,08 s | desvío 0 | sí |
 | congreso_huesca | 2 | 202 | incompleto: 200.000 nodos en 125 s, 0 planes vistos; 2.000.000 no terminó en 1.500 s | parcial: 159 planes en 600 s (1.1.0) | — | — |
-| congreso_lugo | 3 | 67 | incompleto: 2.000.000 nodos en 601 s, 0 planes | parcial: 297 planes en 120 s | (parcial) | no entre los vistos |
+| congreso_lugo | 3 | 67 | incompleto: 2.000.000 nodos en 601 s, 0 planes | parcial: 297 planes en 120 s; **1.559 en 1.500 s** (2 hilos), sin terminar | entre los vistos: desvío 147/108.089 (0,0014) | no: el publicado, 0,0044, es peor que el mejor visto |
 | congreso_albacete | 3 | 88 (1 núcleo) | incompleto: 2.000.000 nodos en 732 s, 0 planes | parcial: 172 planes en 120 s | — | — |
 | congreso_orense | 3 | 92 | — | parcial: 131 planes en 120 s | — | — |
 | congreso_la_rioja | 3 | 175 (1 núcleo) | — | parcial: 7 planes en 120 s | — | — |
@@ -233,6 +233,8 @@ Conclusiones:
    hasta unos 2 min por territorio que no cabe (Huesca: 125 s). El criterio «tamano» (K ≤ 3) lo intentaría en 16
    circunscripciones y solo completaría Álava y las de K=1. Para enumerar de verdad K=2-3 con cientos o miles de planes
    haría falta un contador por frontera o una poda con la población restante; no se ha hecho.
+4. Lugo: aunque la enumeración no termina, ya hay un plan válido con desvío máximo 147 hab. (0,14 %). El publicado
+   tiene 476 hab. (0,44 %). El motor actual no deja ahí el mejor plan; el certificador ligero (minimax) lo cuantificaría.
 
 Reproducir (tras `bateria_motor.py entradas <t>` y `motor <t>`):
 ```
