@@ -85,3 +85,32 @@ python herramientas/certificador_exacto.py --params territorios/congreso_cadiz/c
 python herramientas/certificador_exacto.py ... --objetivo techo --pista datos/composicion/congreso_cadiz.csv \
   --referencia publicado=datos/composicion/congreso_cadiz.csv       # ÓPTIMO 132239
 ```
+
+## 1.1.0 (2026-11-10): núcleo de reglas y fallos F1/F2
+
+T-132 detectó dos fallos de la 1.0.0 al usarla como semilla:
+- **F1 (Canarias):** daba INFACTIBLE en 2 s, aunque el canónico 7.4.4 pasa la validación. Tomaba la provincia y el
+  municipio del M01, que no trae `DDD_PARTITION` ni `DDD_MUNICIPALITY_PARTITION`, y no aplicaba la exención por partición.
+- **F2 (Cádiz):** partía unidades M04. Agrupaba las unidades dentro de cada municipio, y una unidad puede abarcar varios.
+
+En la 1.1.0, las reglas, los límites exactos y el veredicto salen del núcleo `ddd_motor2.reglas`. Las secciones se leen del
+M04, con los campos del contrato. Las unidades M04 se unen con unión-búsqueda. Perfiles: `nucleo` (Criterio D-44) y
+`produccion` (compatibilidad con `validar_ejecucion` 1.3.5).
+
+| Caso (secciones del M04 de la batería, motor 7.4.4) | Átomos | Resultado | Tiempo |
+|---|---|---|---|
+| canarias, K=70, ambos perfiles | 117 | FACTIBLE; el canónico da PASS | 1,5 s |
+| congreso_cadiz, factibilidad | 46 | FACTIBLE, sin unidades partidas | 0,3 s |
+| congreso_cadiz, techo mínimo | 46 | ÓPTIMO 132.239 (1,15919×), igual que en la 1.0.0 | 0,4 s |
+| congreso_cadiz, techo 115 % | 46 | INFACTIBLE | 0,4 s |
+| congreso_cadiz, techo mínimo sin unidades | 296 | ÓPTIMO 132.239 | 63 s |
+| congreso_cadiz, enumerar | 46 | parcial: 264 planes en 120 s | 120 s |
+| congreso_alava, enumerar | 53 | ENUMERADO: 1 plan | 0,06 s |
+
+Las conclusiones de Cádiz y Álava no cambian. Con las unidades M04, que son la atomicidad de producción, el problema
+queda en decenas de átomos y se resuelve en menos de un segundo. Los resultados de Huesca y Madrid de la 1.0.0 se
+hicieron sin unidades M04 y con secciones del M01.
+
+Límite conocido de la 1.1.0: R-NUCLEO (núcleos urbanos cerrados) no se aplica, porque el M04 no rellena
+`Unidad.nucleo_cerrado`. Ese dato sale de un adaptador que T-160 deja para F2/F3: distritos de la semilla formados solo
+por unidades `ddd_closed_urban`.
