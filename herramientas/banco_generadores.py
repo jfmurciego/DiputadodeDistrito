@@ -205,6 +205,9 @@ def ejecutar(args) -> int:
     for t in (bm.territorios() if args.todos else args.territorios):
         for g in args.generadores:
             for s in args.semillas:
+                hecho = out / "banco" / f"{g}-s{s}" / t / "RESULTADO.json"
+                if args.saltar_hechos and hecho.is_file():
+                    continue
                 r = ejecutar_uno(t, out, g, s)
                 malas = [k for k, v in (r.get("reglas") or {}).items() if not v]
                 print(f"{t} {g} s{s}: {r['estado']} validación={r.get('validacion')} FAIL={malas} "
@@ -259,6 +262,7 @@ def main(argv=None) -> int:
     e.add_argument("--generadores", nargs="+", default=list(GENERADORES), choices=GENERADORES)
     e.add_argument("--semillas", nargs="+", type=int, default=[1, 2, 3, 4, 5])
     e.add_argument("--out", default=str(bm.OUT))
+    e.add_argument("--saltar-hechos", action="store_true", help="no repite las combinaciones con RESULTADO.json")
     sub.add_parser("matriz").add_argument("--out", default=str(bm.OUT))
     a = ap.parse_args(argv)
     return {"ejecutar": ejecutar, "matriz": matriz}[a.cmd](a)
