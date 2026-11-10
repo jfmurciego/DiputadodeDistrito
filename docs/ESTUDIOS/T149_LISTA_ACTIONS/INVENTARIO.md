@@ -97,3 +97,10 @@ Orden de menor a mayor riesgo; una PR por paso; cada paso verificable con `prueb
 2. Todos los pasos tocan `.github/workflows` (un solo escritor) y varios la fusión automática (control de seguridad).
 3. Mantener el nombre de check `pruebas` y los `name:` «Pruebas de la Plataforma» y «00 Ejecución Completa del Proyecto» (los usan auto-merge y forense).
 4. Orden: 1 → 2 → 3 → 5(b) → 4 (fusión/forense al final, con autorización expresa).
+
+## 4. Decisiones del Planificador (10-11) y estado
+- Retirados en la PR #603: `notificar-finalizacion-orquestacion`, `_reutilizable-operacion-territorial`, `producir-territorio-por-contrato`, `_reutilizable-auditoria-topologica`, `orquestacion-durable`, `orquestacion-control` (paso 1 del plan, hecho).
+- **Excepción temporal** (`workflow_call`, no se duplican jobs): «Interno · Generación territorial» (se rediseña con el motor nuevo) e «Interno · Publicador del sitio». Se estudiará sacarlas a un repo de infraestructura; no ahora.
+- Ningún nombre visible con «_» ni «- » al terminar; «Pruebas de la Plataforma» y «00 Ejecución Completa del Proyecto» no se renombran.
+- Paso 6 (fusión automática y forense): no se toca; queda documentado arriba. Pasos 2–5: T-151–T-154, en serie.
+- Los flujos nuevos (batería del motor, podar R2) nacen como «Auxiliar — …».
