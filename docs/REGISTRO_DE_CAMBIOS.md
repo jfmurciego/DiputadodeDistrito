@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.273
+Versión: 1.0.276
 Fecha: 2026-11-10
-Alcance: T-157 — Diseño de la autorización por campaña (D-41), sin aplicar
+Alcance: T-163 — Motor 2: interfaz de la competición para la batería T-132 y sustituto de M05 para el banco
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t157-autorizacion-campana.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.272_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t163-interfaz-bateria.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.275_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,9 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.272_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.276 · [2026-11-10 — T-163 — Motor 2: interfaz de la competición para la batería T-132 y sustituto de M05 para el banco](registro/2026-11-10_t163-interfaz-bateria.md)
+- 1.0.275 · [2026-11-10 — T-164 — Certificador exacto con modelo ligero (D-48)](registro/2026-11-10_t164-certificador-ligero.md)
+- 1.0.274 · [2026-11-10 — T-163 — Motor 2: semilla pública, informe y revisión de la competición (competicion.py 1.1.0)](registro/2026-11-10_t163-competicion-v11.md)
 - 1.0.273 · [2026-11-10 — T-157 — Diseño de la autorización por campaña (D-41), sin aplicar](registro/2026-11-10_t157-autorizacion-campana.md)
 - 1.0.272 · [2026-11-10 — T-162 — Propuesta para reducir los minutos de la CI `pruebas`](registro/2026-11-10_claude-t162-ci-pruebas.md)
 - 1.0.271 · [2026-11-10 — T-163 — Motor 2: orquestador de la competición canónico + GerryChain (paso 1)](registro/2026-11-10_t163-orquestador.md)
