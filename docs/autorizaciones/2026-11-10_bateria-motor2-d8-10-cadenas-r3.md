@@ -24,7 +24,7 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
-| 20:22 | Soria + Barcelona (fase 1) | batería motor2 D8 N=10 | 42884601639 | EN_VUELO | 1 / — | 0/1 |
+| 20:22 | Soria + Barcelona (fase 1) | batería motor2 D8 N=10 | 42884601639 | SUCCESS, criterio cumplido: Soria 12/12 válidos (empata), Barcelona 11/11 válidos (mejora, gana una ponderada); canónico válido en ambos; 0 FALLO_GENERADOR; paso de dependencias sin tocar el lock base en verde (pandas 2.3.2, geopandas 1.1.1) | 1 / 9 min | 0/1 |
 
 ## Cierre
 Estado: `EN_CURSO` (T-181b en `main`, #683). Último uso: —.
