@@ -3,15 +3,16 @@
 """Catálogo de procedencia único, derivado de los registros existentes (T-74).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-10 · ESTADO: candidato
-CAMBIOS: 1.3.0 (T-203): los avisos ORIGEN_M06/M08_NO_PUBLICADO y RESULTADOS_M08_NO_PUBLICADO comparan por (territorio, elección), no solo por territorio;
+VERSIÓN: 1.3.1 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS: 1.3.1 (T-203): la constante viene de eleccion_por_defecto (ligero), no del registro (pyproj).
+  1.3.0 (T-203): los avisos ORIGEN_M06/M08_NO_PUBLICADO y RESULTADOS_M08_NO_PUBLICADO comparan por (territorio, elección), no solo por territorio;
   el literal 2023-07-23 pasa a ELECCION_POR_DEFECTO (registro_publicaciones_visor). Entradas sin election_date = 2023: salida idéntica.
   1.2.0 (T-201): «vigente» se calcula por (territorio, tipo, elección), no por el run_id mayor entre elecciones; sin election_date, 2023-07-23.
   1.1.0 (T-89): sección «fuentes_secundarias» (manifiesto sha256 y contraste de nazioenbehatokia).
   1.0.0: fichero nuevo.
 MOTIVO: la procedencia estaba repartida en cinco registros; este índice la junta por territorio y producto sin migrar
   a sus escritores.
-ANTERIOR: legacy/herramientas/catalogo_procedencia_v1.2.0_20261110.py
+ANTERIOR: legacy/herramientas/catalogo_procedencia_v1.3.0_20261110.py
 QUÉ HACE: lee (solo lectura) orchestracion/publicaciones_visor.json, orchestracion/archivo_r2.json,
   datos_abiertos/INDEX.json, orchestracion/productos_publicos.json, fuentes/catalogo_oficial.yaml,
   configuracion/catalogo_preparacion.yaml, configuracion/publicaciones.yaml (DOI) y los MANIFEST de datos/composicion y
@@ -36,7 +37,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-from herramientas.registro_publicaciones_visor import ELECCION_POR_DEFECTO  # noqa: E402
+from herramientas.eleccion_por_defecto import ELECCION_POR_DEFECTO  # noqa: E402
 
 SALIDA = "orchestracion/catalogo_procedencia.json"
 SCHEMA = "ddd.catalogo-procedencia/1.0"

@@ -3,7 +3,9 @@
 """Resultados electorales ligeros por territorio, versionados en git (T-53).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.0 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.4.1 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS: 1.4.1: T-203, la constante viene de eleccion_por_defecto (ligero), no del registro (pyproj).
+ANTERIOR: legacy/herramientas/resultados_ligeros_v1.4.0_20261110.py
 CAMBIOS: 1.4.0: T-203, ELECCION_POR_DEFECTO se importa de registro_publicaciones_visor en vez de repetir el literal.
 ANTERIOR: legacy/herramientas/resultados_ligeros_v1.3.0_20261110.py
 CAMBIOS: 1.3.0: T-201, `vigentes(registro, eleccion)` y `vigente_por_eleccion`: la vigente es la de (territorio, elección), nunca solo el run_id
@@ -46,7 +48,7 @@ def sha256(b: bytes) -> str:
 
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-from herramientas.registro_publicaciones_visor import ELECCION_POR_DEFECTO  # noqa: E402,F401
+from herramientas.eleccion_por_defecto import ELECCION_POR_DEFECTO  # noqa: E402,F401
 
 
 def eleccion_de(p: dict) -> str:
