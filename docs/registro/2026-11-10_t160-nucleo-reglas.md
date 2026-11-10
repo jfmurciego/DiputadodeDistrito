@@ -11,6 +11,8 @@
   defecto aprobados por el propietario (D-44): tolerancia métrica; `max_mixed` del contrato (1 por política); provincia única obligatoria en
   el contrato; exención por partición solo si todas las particiones del distrito están exentas; método
   «presupuesto de nodos» con diagnóstico 0,10/0,90 como comprobación posterior.
+  Unidades atómicas con varios municipios (`desglose` con población; R012 y exención por municipio) y municipio con
+  partición de islas («35016:35-C01»: la exención compara el código antes de «:»).
   `comparar_criterios` y `resumen_por_opcion` dan a la batería T-132 cuántos territorios cambian de veredicto con
   cada opción.
 - Pruebas: `python -m unittest tests.test_motor2_reglas` (20 tests, uno o más por divergencia 1-8 del inventario).
