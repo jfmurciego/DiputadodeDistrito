@@ -117,7 +117,11 @@ class Natural:
 @lru_cache(maxsize=1)
 def _tablas() -> tuple[dict, dict]:
     from . import naturalidad_mapas as nm  # noqa: PLC0415  (solo csv)
-    return nm.tablas_municipio(), nm.movilidad()[0]
+    # solo lo que usa la clave (partidos judiciales y comarcas agrarias, ficheros versionados), no tablas_municipio():
+    # sus comarcas de Aragón salen de inputs/, que no se versiona (la CI no lo tiene)
+    tablas = {"pj": {r["codigo_ine"]: r["id_partido"] for r in nm._csv_comentado(nm.PARTIDOS)},
+              "ca": {r["codigo_ine"]: r["id_comarca"] for r in nm._csv_comentado(nm.AGRARIAS)}}
+    return tablas, nm.movilidad()[0]
 
 
 def natural_desde_m06(problema, reglas, composicion: str | Path, grafo_m03: str | Path,
