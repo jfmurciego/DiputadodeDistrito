@@ -318,6 +318,16 @@ class MismaCompeticionQueLaBateria(unittest.TestCase):
             self.assertNotIn("vigente", [c.id for c in r.candidatos])
             self.assertEqual(vistos, [None, None])  # todas las cadenas parten del canónico
             self.assertFalse((tmp / nombre / "vigente" / "x_m06_composicion_distritos.csv").exists())  # sin reproyectar
+            # la aceptación de la batería (bateria_motor 1.2.1) no lo cuenta como fallo del generador ni como candidato
+            from ddd_motor2.informe import escribir
+            from herramientas import bateria_motor as bm
+            escribir(r, tmp / nombre / "informe")
+            c = bm.cadenas_de(tmp / nombre / "informe")
+            self.assertEqual((c["fallos_generador"], c["candidatos"], c["vigente_compite"]), (0, 3, False), c)
+            self.assertIn("vigente excluido: otro seccionado", c["vigente_excluido"])
+            ok = {"territorio": "sintetico", "estado": "VALIDO", "frente_al_canonico": "empata"}
+            res = bm.criterio_aceptacion([ok], {}, ["sintetico"], {"sintetico": c}, 2, {"sintetico": {"estado": "OK"}})
+            self.assertEqual((res["fallo_generador"], res["candidatos_incompletos"]), ([], []))
 
     def test_el_vigente_entra_en_la_huella_motor2(self):
         files = p30.huella_motor()["engine_files"]
