@@ -9,8 +9,8 @@ FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa; no lanza nada en Actions)
 CAMBIOS: 1.2.0 — R-NUCLEO se juzga contra el distrito inicial del M04 (modulo_05.in_geojson: district_id +
   ddd_closed_urban), como el certificador y frozen_districts de GerryChain, no contra la composición del canónico:
-  un plan que rompe un núcleo se descarta aunque el canónico lo rompiera. Sin district_id en el M04, la referencia
-  vuelve a ser la del canónico.
+  un plan que rompe un núcleo se descarta aunque el canónico lo rompiera. Sin M04 o sin ningún district_id, la
+  referencia es la del canónico (motivo en log.txt); un M04 incompleto o ilegible es ERROR_DATOS (rc 2).
   1.1.0 — la competición incluye el candidato «exhaustivo» (enumeración exacta en territorios pequeños,
   competicion 1.2.0); si gana, su M05 es el GeoJSON M05 del canónico con district_id reescrito por sección según la
   composición del exhaustivo (sin informe M05: se borra out_report); --sin-exhaustivo lo quita.
@@ -47,7 +47,7 @@ GC_PY = os.environ.get("DDD_GERRYCHAIN_PYTHON", "/opt/ddd-gerrychain/bin/python"
 
 from .competicion import EntradaTerritorio, Salida, competir_publico  # noqa: E402
 from .informe import escribir  # noqa: E402
-from .reglas import ErrorContrato  # noqa: E402
+from .reglas import ErrorContrato, ErrorDatos  # noqa: E402
 
 
 def rutas(params: str, run_id: str) -> tuple[dict, dict, dict]:
@@ -152,17 +152,22 @@ def m05_desde_composicion(base_m05: Path, composicion: Path, destino: Path, s6: 
     return destino
 
 
-def referencia_m04(s5: dict, cfg: dict, carpeta: Path) -> Path | None:
-    """Referencia de núcleos = distrito inicial del M04 (T-195); None si el M04 no lo trae (se usa el canónico)."""
-    from .adaptadores import referencia_desde_m04
+def referencia_m04(s5: dict, cfg: dict, carpeta: Path) -> tuple[Path | None, str]:
+    """(referencia, motivo). Referencia de núcleos = distrito inicial del M04 (T-195). Solo vuelve al canónico (None)
+    si el M04 no existe o ninguna sección trae district_id; el motivo queda en log.txt. Un M04 incompleto o ilegible
+    lanza ErrorDatos: no se degrada en silencio."""
+    from .adaptadores import COLUMNAS, leer_atributos, referencia_desde_m04
     from .reglas import ErrorDatos
     m04 = s5.get("in_geojson")
     if not m04 or not Path(m04).is_file():
-        return None
+        return None, f"M04 ausente ({m04}): referencia de núcleos = composición del canónico"
     try:
-        return referencia_desde_m04(m04, carpeta / "referencia_nucleos_m04.csv", cfg)
-    except (ErrorDatos, OSError, ValueError):
-        return None
+        atributos = leer_atributos(m04, "CUSEC_KEY")
+    except (OSError, ValueError) as exc:
+        raise ErrorDatos(f"{m04}: M04 ilegible ({type(exc).__name__}: {exc})") from exc
+    if not any(str(p.get(COLUMNAS["distrito"]) or "").strip() for p in atributos.values()):
+        return None, f"el M04 no trae {COLUMNAS['distrito']}: referencia de núcleos = composición del canónico"
+    return referencia_desde_m04(m04, carpeta / "referencia_nucleos_m04.csv", cfg), "referencia de núcleos = M04"
 
 
 def parser() -> argparse.ArgumentParser:
@@ -195,8 +200,13 @@ def main(argv=None) -> int:
     carpeta.mkdir(parents=True)
     paso = _Paso(str(params), a.run_id, s5, s6, carpeta / "log.txt")
     can = CanonicoM05(paso)
-    entrada = EntradaTerritorio(t, cfg, Path(s5["in_graph_json"]),
-                                referencia_nucleos=referencia_m04(s5, cfg, carpeta))
+    try:
+        referencia, motivo = referencia_m04(s5, cfg, carpeta)
+    except ErrorDatos as exc:
+        print(f"ERROR_DATOS: {exc}", file=sys.stderr)
+        return 2
+    paso.run(["echo", motivo])
+    entrada = EntradaTerritorio(t, cfg, Path(s5["in_graph_json"]), referencia_nucleos=referencia)
     try:
         r = competir_publico(entrada, can, GerryChainM05(paso, can), carpeta, n_cadenas=a.cadenas,
                              exhaustivo=not a.sin_exhaustivo)
