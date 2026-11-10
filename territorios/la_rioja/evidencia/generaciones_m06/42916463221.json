@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13811540661,
+      "artifact_name": "ddd-audit-42916463221",
+      "artifact_sha256": "b16ee3a7997b1c7a306749f6b307f5478eaff18e9764b5244d121dc3c3905fb5",
+      "run_id": 42916463221,
+      "size_in_bytes": 6220
+    },
+    "m04": {
+      "artifact_id": 13810213104,
+      "artifact_name": "ddd-state-42916463221-M04",
+      "artifact_sha256": "6969d432197cd4ec9c4f992f1c1fe79acd5af4863c1c4c2f6ec5a472b3eb1566",
+      "run_id": 42916463221,
+      "size_in_bytes": 76525992
+    },
+    "m05": {
+      "artifact_id": 13810393863,
+      "artifact_name": "ddd-state-42916463221-M05",
+      "artifact_sha256": "7d95b1658e2d102fe863b5a17151ab1541c4230726c6c3f9a079396cc286bf79",
+      "run_id": 42916463221,
+      "size_in_bytes": 77009537
+    },
+    "m06": {
+      "artifact_id": 13810273808,
+      "artifact_name": "ddd-state-42916463221-M06",
+      "artifact_sha256": "d2f34d36598c9c2c8f99982af805dddc610eed2c5168b6bae6de81bac4a6e726",
+      "run_id": 42916463221,
+      "size_in_bytes": 77729172
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "0e32a174c98052381ecabe788929f5b903c1fe5c3cf95cb24d03294e0adcbaa0",
+        "size_in_bytes": 458
+      },
+      "la_rioja_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "11e04b42302355bf88ccd042d825f70b4f09e255aa9157a0fefadaf071bd7c0f",
+        "size_in_bytes": 28346
+      },
+      "optimization_execution.json": {
+        "sha256": "54d1c5fec5359c6f58453fc68197203656248fe6e862a89f654bddb62ddef8db",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "cbb17ee732da74e6ef39961d1d811037d5c1c27b5403a724fc11c6b24616a6ae",
+        "size_in_bytes": 1268
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "cbb17ee732da74e6ef39961d1d811037d5c1c27b5403a724fc11c6b24616a6ae",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/la_rioja/config/la_rioja_2025.yaml",
+    "sha256": "8f8e7d23362e04efd2de8cb74ff5088c8d62901760c3bad900d985cebd59694c"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "14670fdbc9b3f0089bcde7ff47abf3d844346cb976629e9077d0faae4f08cf3f",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "507be943235f94c84f17f83250e4517860a14d61",
+    "edition": "2025",
+    "territory_id": "la_rioja",
+    "territory_name": "La Rioja",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42916463221,
+    "workflow_sha": "507be943235f94c84f17f83250e4517860a14d61"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13810213104,
+      "artifact_name": "ddd-state-42916463221-M04",
+      "artifact_sha256": "6969d432197cd4ec9c4f992f1c1fe79acd5af4863c1c4c2f6ec5a472b3eb1566",
+      "run_id": 42916463221,
+      "size_in_bytes": 76525992
+    },
+    "source_manifest_sha256": "7546cd994bbc302983768317053c850c4c897f3ecde665345ba831727e16561c",
+    "source_package_artifact": {
+      "artifact_id": 12888613622,
+      "artifact_name": "ddd-source-package-la_rioja-2025-40850322464",
+      "artifact_sha256": "c8ace5e7af65516e115f9c0b34eab695168ba13363786b21b55643fffbfef9ca",
+      "run_id": 40850322464,
+      "size_in_bytes": 75549655
+    }
+  },
+  "manifest_sha256": "44e47b2a8499aab4200314aab7193229043be03d398af1917601928ddb7d63ea",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
