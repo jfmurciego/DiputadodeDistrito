@@ -1,7 +1,7 @@
 # Corte 5.0.0 · paso 0 · MANIFEST (T-213, 2026-11-10)
 
 Congelación reversible, solo copias. Origen: `main` en verde `4f5870e72e5051217f331517b1c58958e1304552` (`pruebas-plataforma` completada en success;
-las punta posteriores `606ec07` y `3c02ac5` solo añaden docs/registro y no tocan estos ficheros). Etiqueta: `pre-5.0.0`.
+los commits posteriores `606ec07` y `3c02ac5` solo añaden docs/registro y no tocan estos ficheros). Etiqueta `pre-5.0.0`: NO creada desde la nube (el proxy deniega escritura en git/tags y git/refs, HTTP 403); la crea el Operador (abajo).
 
 | Fichero | Origen en `main` | sha256 |
 |---|---|---|
@@ -26,3 +26,10 @@ aws s3api list-objects-v2 --bucket "$R2_BUCKET" --endpoint-url "https://$R2_ACCO
 
 ## Vuelta atrás
 `git checkout pre-5.0.0` y estos ficheros: los 3 originales deben coincidir byte a byte con las copias.
+
+## Orden de etiqueta (Operador; reversible)
+```
+S=4f5870e72e5051217f331517b1c58958e1304552
+T=$(gh api -X POST repos/jfmurciego/DiputadodeDistrito/git/tags -f tag=pre-5.0.0 -f message="Congelación previa al corte 5.0.0" -f object=$S -f type=commit --jq .sha)
+gh api -X POST repos/jfmurciego/DiputadodeDistrito/git/refs -f ref=refs/tags/pre-5.0.0 -f sha=$T
+```
