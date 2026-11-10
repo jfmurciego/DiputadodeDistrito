@@ -41,7 +41,7 @@ Ejecución (solo con la frase del propietario): mismo bloque y luego `while read
 
 ## Retirados por T-149 (PR #603, sin fusionar al redactar esto)
 
-Aún con fichero en `main` hasta que se fusione #603; después quedarán sin fichero y con runs. **No entran en el CSV de borrado** (la decisión del propietario cubre solo los 222 de arriba): su borrado requiere nueva orden y verificación de evidencia. Recuentos de runs a 10-11 (REST):
+Aún con fichero en `main` hasta que se fusione #603; después quedarán sin fichero y con runs. **No entran en el CSV de los 222** (sha256 intacto): sus 844 runs están en `docs/HISTORIAL_WORKFLOWS_BORRADO_RUNS_T149.csv`, sha256 `68cf4fdc01696eedb42c2f48557e11865cfb4cd6eff38441b95b3372e50b4cb3`, que necesita visto bueno aparte del propietario. Recuentos de runs a 10-11 (REST):
 
 | workflow_id | Fichero | Runs | Fechas | Motivo de retirada (T-149) |
 |---|---|---|---|---|
@@ -55,3 +55,10 @@ Aún con fichero en `main` hasta que se fusione #603; después quedarán sin fic
 Renombrados (solo `name:`, siguen activos y sin retirar): «- Activación por Elección», «- Archivar artefactos en R2», «- Extraer composición M06», «- Activación de Legislatura Vigente» → «Auxiliar — <nombre>»; «_Interno — Generación Territorial» → «Interno · Generación territorial»; «_Interno — Publicador del Sitio» → «Interno · Publicador del sitio». Detalle: `docs/ESTUDIOS/T149_LISTA_ACTIONS/INVENTARIO.md` (en #603).
 
 Versiones anteriores de los ficheros retirados: en git (historial de `main`) y, si T-149 las copia, en `legacy/workflows/`.
+
+### Verificación de los 844 runs de T-149
+
+Por run (REST `actions/runs/<id>/artifacts`) y contra `orchestracion/archivo_r2.json` (ninguno está en R2):
+- **197 runs sin artefactos**: nada que verificar ni conservar (`nada_que_conservar` = sí).
+- **647 runs de `orquestacion-control`** con 3 artefactos cada uno (`g10-validar-config-*`, `g10-g10-selftest`, `g10-resumen-lote-*`; muestra de 12 runs idéntica, 0,5-7 KB, no caducados), sin archivar en git ni R2: marcados «no · sin decidir». El propietario debe decidir si se pierden.
+- Simulación y ejecución: mismo bloque de «Borrado» cambiando fichero y sha256.
