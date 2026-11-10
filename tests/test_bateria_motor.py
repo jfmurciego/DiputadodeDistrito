@@ -291,7 +291,7 @@ class BateriaMotor2EnActions(unittest.TestCase):
     # cambia de run (una 00 publica otro), la fila se salta con aviso: hay que actualizar el extracto, no es un fallo del criterio.
     # El vigente se calcula aquí desde la composición publicada con el contrato; donde el laboratorio de T-179 (COMPARACION.csv,
     # lab_fuera_tol_A) tiene dato, coincide (Cantabria 9, CLM 5, CyL 1, Galicia 6, Cataluña 33, Navarra 11, C. Valenciana 29,
-    # Extremadura 0, Madrid 26, País Vasco 8, Asturias 4, Murcia 10). Andalucía y Aragón no tienen dato del laboratorio: solo el cálculo.
+    # Extremadura 0, Madrid 26, País Vasco 8, Asturias 4, Murcia 10, La Rioja 1, Melilla 6). Andalucía y Aragón no tienen dato del laboratorio: solo el cálculo.
     REALES_R3 = {
         "andalucia": ("42495072594", 21, 43, "OK"),                   # el canónico recalculado (20) es mejor que el ganador (21), pero el vigente tiene 43
         "aragon": ("42497101869", 2, 1, "PEOR"),                      # canónico recalculado 0
