@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-10T01:33:04.630981+00:00",
+  "generated_at": "2026-11-10T23:16:05.279115+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 71,
-      "activable": 3,
+      "activated": 72,
+      "activable": 2,
       "territorial_pending": 46,
       "electoral_pending": 46,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 74,
-      "durable_pair": 71
+      "durable_pair": 72
     },
     "territories": [
       {
@@ -588,12 +588,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/extremadura/evidencia/pares_fuentes/2025/9fa244d93cf37eace370e0eb60819d6ecf11e23803e47f02f0c5c9557ac80a5e.json",
-            "pair_sha256": "9fa244d93cf37eace370e0eb60819d6ecf11e23803e47f02f0c5c9557ac80a5e",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/extremadura/evidencia/pares_fuentes/2025/67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3.json",
+            "pair_sha256": "67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -7303,12 +7303,12 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42720735134,
       "last_run": {
-        "run_id": 41195457038,
+        "run_id": 42720735134,
         "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
-        "publication": "executed"
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
+        "publication": "not_requested"
       },
       "stage": "M06",
       "edition": "2025",
@@ -7351,7 +7351,7 @@
       },
       "autonomous_community_code_ine": "11",
       "display_name": "11 Extremadura",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "galicia",
@@ -7663,20 +7663,20 @@
       "name": "La Rioja",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40979652189,
+      "run_id": 42916463221,
       "last_run": {
-        "run_id": 40979652189,
+        "run_id": 42916463221,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7693,13 +7693,13 @@
           "territory_id": "la_rioja",
           "territory_name": "La Rioja",
           "edition": "2025",
-          "run_id": 40979652189,
-          "artifact_name": "ddd-state-40979652189-M06",
-          "artifact_sha256": "749cba0731dbb10bfd1fc94d6a25e1f04f7afd471389fa9fe565f7518a59b5ed",
-          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+          "run_id": 42916463221,
+          "artifact_name": "ddd-state-42916463221-M06",
+          "artifact_sha256": "d2f34d36598c9c2c8f99982af805dddc610eed2c5168b6bae6de81bac4a6e726",
+          "source_commit": "507be943235f94c84f17f83250e4517860a14d61",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/la_rioja/evidencia/generaciones_m06/40979652189.json"
+          "producer_manifest_path": "territorios/la_rioja/evidencia/generaciones_m06/42916463221.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7708,16 +7708,16 @@
           "territory_id": "la_rioja",
           "territory_name": "La Rioja",
           "edition": "2025",
-          "run_id": 40979652189,
-          "artifact_name": "ddd-state-40979652189-M08",
-          "artifact_sha256": "a0b3dbebc81537f0c96a98cc57c277dac2ceee9c8b63350f6c3eecea7b9f18c3",
-          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+          "run_id": 42920452778,
+          "artifact_name": "ddd-state-42920452778-M08",
+          "artifact_sha256": "7cb66a00358b6b918788297c0646dffc454d3c40d41a407962cf3ecc56f7fdb4",
+          "source_commit": "8241b2e29c26026043a98b78bdb6a84f12b1de79",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "17",
       "display_name": "17 La Rioja",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "ceuta",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 72,
+    "complete": 71,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12272,7 +12272,6 @@
       "14 Región de Murcia",
       "15 Comunidad Foral de Navarra",
       "16 País Vasco",
-      "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
       "Nacional Álava",
@@ -12563,6 +12562,12 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "17 La Rioja",
+      "territory_id": "la_rioja",
+      "autonomous_community_code_ine": "17",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Nacional 350 Álava",
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
@@ -12591,12 +12596,6 @@
       "territory_id": "congreso350_avila",
       "autonomous_community_code_ine": "R05",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Badajoz",
-      "territory_id": "congreso350_badajoz",
-      "autonomous_community_code_ine": "R06",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12610,6 +12609,12 @@
       "territory": "11 Extremadura",
       "territory_id": "extremadura",
       "autonomous_community_code_ine": "11",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "17 La Rioja",
+      "territory_id": "la_rioja",
+      "autonomous_community_code_ine": "17",
       "action": "preparar fuentes electorales"
     }
   ]

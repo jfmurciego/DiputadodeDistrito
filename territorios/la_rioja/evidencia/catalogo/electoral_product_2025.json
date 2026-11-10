@@ -4,9 +4,9 @@
   "territory_id": "la_rioja",
   "territory_name": "La Rioja",
   "edition": "2025",
-  "run_id": 40979652189,
-  "artifact_name": "ddd-state-40979652189-M08",
-  "artifact_sha256": "a0b3dbebc81537f0c96a98cc57c277dac2ceee9c8b63350f6c3eecea7b9f18c3",
-  "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+  "run_id": 42920452778,
+  "artifact_name": "ddd-state-42920452778-M08",
+  "artifact_sha256": "7cb66a00358b6b918788297c0646dffc454d3c40d41a407962cf3ecc56f7fdb4",
+  "source_commit": "8241b2e29c26026043a98b78bdb6a84f12b1de79",
   "stage": "M08"
 }

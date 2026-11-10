@@ -13,10 +13,13 @@ CAMBIOS: 1.1.0 — (T-223) el P30 compite como la batería desde T-217 (competir
   (python, PYTHONHASHSEED, versiones de la comprobación de la batería, GEOS) y el vigente (estado, compite, detalle, sha256). Con otro
   seccionado el vigente no compite (generadores 1.2.1).
   `competir` desde la línea de órdenes falla cerrado sin PYTHONHASHSEED=0 (P30_ENTORNO_NO_REPRODUCIBLE, sale con 6).
+  1.0.1 — (T-221) P30.json publica también `metricas.<ganador|canonico>.violaciones_duras` y
+    `composicion_m06_sha256` (la composición M06 canónica con la que compitió): la certificación (estado_produccion
+    --motor motor2) los exige. Nada cambia en la competición ni en huella_resultado.
   1.0.0 — fichero nuevo.
 MOTIVO: T-216 (corte 5.0.0, paso 3; D-75): el motor nuevo como P30 en la cadena de producción detrás de un interruptor
   `motor: m05|motor2` con `m05` por defecto hasta el relevo.
-ANTERIOR: legacy/ddd_motor2/produccion_v1.0.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/produccion_v1.0.1_20261110.py
 QUÉ HACE (en el job M06 de la generación territorial, tras M04 + M05 canónico + M06 del propio run):
   competir   competición pública del motor 2 (competicion.competir_publico, la de la batería T-208): el canónico es el
              M06 que acaba de producir el run (mismas entradas M01-M03, M04, M05 canónico; no se recalcula), compite con
@@ -269,7 +272,8 @@ def competir(params: Path, n_cadenas: int = CADENAS, funcion: str = FUNCION, *, 
               "secciones_cambiadas": 0, "run_id": os.environ.get("DDD_RUN_ID"), "entorno": entorno(),
               "vigente": {k: (res.vigente or {}).get(k) for k in ("estado", "compite", "detalle", "sha256_origen",
                                                                  "reparado")},
-              "metricas": {k: {"fuera_tolerancia": c.fuera_tolerancia,
+              "composicion_m06_sha256": _sha(r["composicion"].read_bytes()) if r["composicion"].is_file() else None,
+              "metricas": {k: {"fuera_tolerancia": c.fuera_tolerancia, "violaciones_duras": c.duras,
                                "desvio_max": None if c.desvio_max is None else float(c.desvio_max)}
                            for k, c in (("ganador", g), ("canonico", res.canonico))}}
     if not res.valido:
