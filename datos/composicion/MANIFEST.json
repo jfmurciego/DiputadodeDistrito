@@ -1,6 +1,20 @@
 {
  "schema": "ddd.composicion-m06/1.0",
  "territorios": {
+  "andalucia": {
+   "run_id": "42495072594",
+   "blob_sha": "d90d9e047cdaca7e0f15e88b3528b9ab2c4bac3e",
+   "sha256_m06": "c46a253a0db0896b5e58fd97c5a7681fa246bcf3853d6df20be573152b194541",
+   "secciones": 6029,
+   "sha256_csv": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7"
+  },
+  "aragon": {
+   "run_id": "42497101869",
+   "blob_sha": "c7b411cd678e4fb96011664b842c7a46c0e02ce3",
+   "sha256_m06": "80e0786ebc6f44015e41b71c152d2dfe4d8b79e1b12b37e0d244a7c23a5a1b0c",
+   "secciones": 1463,
+   "sha256_csv": "aafc159d0c84bbab14ab368c0df89428654cce827be665c1dcce9753d35957c5"
+  },
   "canarias": {
    "run_id": "40951280657",
    "blob_sha": "6eed168481c04e8ca07e1b607e1cabeae0b5e1ba",

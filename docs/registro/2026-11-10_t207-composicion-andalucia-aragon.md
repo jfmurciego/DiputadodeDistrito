@@ -1,0 +1,7 @@
+## 2026-11-10 — T-207 — Composición canónica de Andalucía y Aragón desde el M06 publicado
+
+- Causa: el histórico autonómico solo lee `datos/composicion/<c>.csv` y el M06 vigente de Andalucía (run 42495072594), Aragón (42497101869) e Illes Balears (41033500476) solo trae polígonos; una 00 nueva no sería vigente y quizá no reproduzca el mapa.
+- Cambio: cada sección del seccionado INE 2025 (sha256 `55c9da7e…`, reconstruido de `inputs/partes/`) con población 2025 de la 65034 (`91d3ff9a…`) se asignó al distrito del M06 publicado (blob de git, sha256 verificado) por punto interior (`representative_point`, no centroide). Escrito con `herramientas/composicion_m06.py` (que valida distritos, nº de secciones y población exactos): `datos/composicion/andalucia.csv` (6029 secciones, 109 distritos) y `aragon.csv` (1463, 67), con su MANIFEST. Sin herramientas ni módulos tocados. `COBERTURA.csv` re-medida con `medir_historico_autonomico.py`.
+- Resultado: 8 elecciones pasan de HUECO a PENDIENTE_DE_REAGREGAR (Andalucía 2012, 2015, 2018, 2022, 2026; Aragón 2019, 2023, 2026); falta el paso B (reagregación con seccionados históricos en el runner).
+- Illes Balears (4 elecciones) NO cuadra y no se fuerza: su contrato usa seccionado y padrón 2023 (sha256 `eabbf448…`), ausente del repositorio; con el seccionado 2025 faltan 5 secciones de población 2023. Irá a 00 (decisión del propietario).
+- Pruebas: validación exacta de la herramienta; `GovernanceHeaders`. Sin efecto en M04/M05 ni huellas; no requiere 00 para Andalucía y Aragón.

@@ -18,3 +18,5 @@ Tabla completa: `COBERTURA.csv` (generada con `herramientas/medir_historico_auto
 
 Hecho hoy: reagregadas Cantabria 2023, Castilla-La Mancha 2019 y Murcia 2019 (las únicas con dato por sección y composición): 3/3 cuadran, pérdida 0 %.
 Los datos municipales (Asturias, Murcia, Castilla-La Mancha, Aragón antiguo) solo permitirían un reparto aproximado por población dentro del municipio; no se hace sin decisión del propietario (peso D-13 ya aplicado a las demás).
+
+**T-207 (10-11):** composición canónica de Andalucía (6029 secciones) y Aragón (1463) por punto interior del seccionado INE 2025 en el M06 publicado, exacta en distritos, secciones y población. Medido: 8 elecciones pasan de HUECO a PENDIENTE_DE_REAGREGAR (Andalucía 5, Aragón 2019, 2023, 2026); aún falta el paso B (reagregación con seccionados históricos, solo en el runner). Illes Balears (4) sigue en hueco: su contrato usa seccionado y padrón 2023 y ese seccionado no está en el repositorio (con el 2025 faltan 5 secciones de población 2023).
