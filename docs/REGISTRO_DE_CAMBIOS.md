@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.270
+Versión: 1.0.271
 Fecha: 2026-11-10
-Alcance: T-132 — Banco: generador competidor (D-48) y prueba de reproducibilidad
+Alcance: T-163 — Motor 2: orquestador de la competición canónico + GerryChain (paso 1)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t132c-competidor.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.269_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t163-orquestador.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.270_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.269_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.271 · [2026-11-10 — T-163 — Motor 2: orquestador de la competición canónico + GerryChain (paso 1)](registro/2026-11-10_t163-orquestador.md)
 - 1.0.270 · [2026-11-10 — T-132 — Banco: generador competidor (D-48) y prueba de reproducibilidad](registro/2026-11-10_t132c-competidor.md)
 - 1.0.269 · [2026-11-10 — T-165 — Diseño del constructor de semillas sobre el núcleo único de reglas](registro/2026-11-10_claude-t165-constructor-semillas.md)
 - 1.0.268 · [2026-11-10 — T-132 — Banco de generadores: validez y calidad en los 71 territorios](registro/2026-11-10_t132b-banco-calidad.md)
