@@ -1,6 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: bateria-motor.yml
-# VERSIÓN: 1.1.3
+# VERSIÓN: 1.1.4
+# CAMBIOS 1.1.4: T-215 (corte 5.0.0, paso 4), nombre visible v5 «VER Verificación del motor» (antes Auxiliar — Batería del Motor).
 # NOMBRE DE VERSIÓN: Batería del motor
 # FECHA: 2026-11-10
 # ESTADO: candidato
@@ -29,8 +30,8 @@
 #   Coste: ~450-650 min de Actions en los 71 (ver la PR). El nombre del flujo no cambia (corte 5.0.0).
 #   1.0.0: fichero nuevo (T-132).
 # MOTIVO: repetir la batería ante cualquier cambio del motor con un solo botón; sin programación ni vigilantes.
-# ANTERIOR: legacy/workflows/bateria-motor_v1.1.2_20261110.yml
-name: 'Auxiliar — Batería del Motor'
+# ANTERIOR: legacy/workflows/bateria-motor_v1.1.3_20261110.yml
+name: VER Verificación del motor
 run-name: "Batería del motor ${{ inputs.motor == 'motor2' && format('motor2 {0} N={1}', inputs.funcion, inputs.cadenas) || inputs.versiones_m05 }} ${{ inputs.territorios || 'todos' }}"
 
 on:
