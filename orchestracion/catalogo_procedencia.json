@@ -5818,11 +5818,11 @@
   },
   "extremadura": {
    "fuente_territorial": {
-    "run_id": "40691774876",
-    "package_sha256": "02e52e3ecde5f9d8d59b07cf7152742786f4766941f7003ee9541ac5f0ef6c52",
-    "artifact_sha256": "62efb06eafc4302639b1264999ed8afb7bb7ba94f0639f872bae72dfb2b7c619",
-    "territorial_identity_sha256": "3e53d9481b871f105f2f6fd0d3564aaa10a4ce331e4fde4268cddda327fb8a37",
-    "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/3e53d9481b871f105f2f6fd0d3564aaa10a4ce331e4fde4268cddda327fb8a37/40691774876/receipt.json",
+    "run_id": "42720735134",
+    "package_sha256": "14abaecb2364af56af8ca827e2f65b8a8212842f88b1fd2e9394ab15bb33381d",
+    "artifact_sha256": "9d50ad9459baa8c275927668e553c3fd09285dc28b8027d2c7746fd7c0c68158",
+    "territorial_identity_sha256": "c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6",
+    "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6/42720735134/receipt.json",
     "population_year": 2025,
     "section_year": 2025
    },

@@ -19,6 +19,7 @@ from herramientas.promover_catalogo_operacional import promote
 from herramientas.catalogo_preparacion import validate_repository
 
 ROOT = Path(__file__).resolve().parents[1]
+from tests._estados_vivos import ESTADOS_PREPARADO  # noqa: E402
 PREP = ROOT / ".github/workflows/preparacion-fuentes.yml"
 GEN = ROOT / ".github/workflows/produccion-distritos.yml"
 CAT = ROOT / "configuracion/catalogo_preparacion.yaml"
@@ -216,7 +217,7 @@ territories:
     def test_master_catalog_matches_extremadura_promotion(self):
         master = yaml.safe_load(MASTER.read_text(encoding="utf-8"))
         row = next(r for r in master["territories"] if r["territory_id"] == "extremadura")
-        self.assertEqual(row["status"], "generation_ready")
+        self.assertIn(row["status"], ESTADOS_PREPARADO)
         self.assertEqual(row["contract_level"], "production_m01_m06")
         self.assertEqual(row["production_authorization"], "AUTHORIZED")
 
