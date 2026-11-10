@@ -1,4 +1,5 @@
 """T-132: batería del motor (herramientas/bateria_motor.py)."""
+import csv
 import json
 import shutil
 import tempfile
@@ -284,6 +285,62 @@ class BateriaMotor2EnActions(unittest.TestCase):
             self.assertEqual(i["clave_frente_canonico"], "empata")
             r = self._aceptar(out, "madrid")
             self.assertEqual((r["vigente_peor"], r["vigente_aviso_desvio"]), ([], ["madrid"]))
+
+    # Extracto mínimo de la batería r3 (run 42886114842; PR #685, datos/CANDIDATOS.csv, fuera_tolerancia BRUTO del ganador) y el
+    # vigente publicado que da `composicion_publicada`: (run del vigente publicado, fuera del ganador, fuera esperado del vigente, veredicto de la comprobación 2). Si el vigente
+    # cambia de run (una 00 publica otro), la fila se salta con aviso: hay que actualizar el extracto, no es un fallo del criterio.
+    # El vigente se calcula aquí desde la composición publicada con el contrato; donde el laboratorio de T-179 (COMPARACION.csv,
+    # lab_fuera_tol_A) tiene dato, coincide (Cantabria 9, CLM 5, CyL 1, Galicia 6, Cataluña 33, Navarra 11, C. Valenciana 29,
+    # Extremadura 0, Madrid 26, País Vasco 8, Asturias 4, Murcia 10). Andalucía y Aragón no tienen dato del laboratorio: solo el cálculo.
+    REALES_R3 = {
+        "andalucia": ("42495072594", 21, 43, "OK"),                   # el canónico recalculado (20) es mejor que el ganador (21), pero el vigente tiene 43
+        "aragon": ("42497101869", 2, 1, "PEOR"),                      # canónico recalculado 0
+        "cantabria": ("41037133327", 9, 9, "OK"),
+        "castilla_la_mancha": ("40241650464", 8, 5, "PEOR"),
+        "castilla_y_leon": ("42521090842", 4, 1, "PEOR"),
+        "cataluna": ("41062562553", 41, 33, "PEOR"),
+        "comunidad_foral_de_navarra": ("41049986588", 14, 11, "PEOR"),
+        "comunidad_valenciana": ("41062567297", 31, 29, "PEOR"),
+        "extremadura": ("41042675119", 1, 0, "PEOR"),
+        "galicia": ("40241719200", 8, 6, "PEOR"),
+        "madrid": ("40787900559", 21, 26, "OK"),
+        "pais_vasco": ("40951146225", 9, 8, "PEOR"),
+        "principado_de_asturias": ("40132061626", 3, 4, "OK"),
+        "region_de_murcia": ("42504383790", 10, 10, "OK"),
+    }
+
+    def _fuera_vigente(self, t: str) -> int:
+        """Distritos fuera de tolerancia del vigente publicado, desde su composición (circunscripciones por provincia INE)."""
+        from collections import defaultdict
+        from fractions import Fraction
+        from ddd_motor2.reglas import Criterio, Reglas
+        pub, run = b.composicion_publicada(t)
+        reglas = Reglas.desde_contrato(b._cfg(t), Criterio())
+        pop, prov, pp = defaultdict(int), {}, defaultdict(int)
+        with open(pub, encoding="utf-8") as fh:
+            for f in csv.DictReader(fh):
+                pop[f["distrito"]] += int(f["poblacion"])
+                prov[f["distrito"]] = f["seccion"][:2]
+                pp[f["seccion"][:2]] += int(f["poblacion"])
+        objetivo, _, _, tol = reglas.limites(sum(pop.values()))
+        cuotas = dict(reglas.cuotas)
+        obj = {c: Fraction(pp[c], k) for c, k in cuotas.items() if k > 0} if len(cuotas) > 1 else None
+        rel = [abs(Fraction(p) - (obj[prov[d]] if obj else objetivo)) / (obj[prov[d]] if obj else objetivo) for d, p in pop.items()]
+        return sum(1 for x in rel if x > tol / objetivo)
+
+    def test_t212_filas_reales_de_la_bateria_r3_frente_al_vigente_publicado(self):
+        for t, (run, gan, vig, veredicto) in self.REALES_R3.items():
+            with self.subTest(t=t):
+                if b.composicion_publicada(t)[1] != run:
+                    self.skipTest(f"{t}: el vigente publicado ya no es el run {run}; actualizar el extracto REALES_R3")
+                self.assertEqual(self._fuera_vigente(t), vig)
+                causas = b.peor_que({"fuera_tolerancia": gan, "desvio_max": 0.0}, {"fuera_tolerancia": vig, "desvio_max": 0.0})
+                self.assertEqual("PEOR" if causas else "OK", veredicto)
+        # Canarias (campo de partición DDD_PARTITION: el vigente solo se evalúa en el job, con los atributos del canónico): el
+        # laboratorio da 22 y el ganador r3 21 → OK aunque el canónico recalculado (20) sea mejor que el ganador.
+        self.assertEqual(b.peor_que({"fuera_tolerancia": 21, "desvio_max": 0}, {"fuera_tolerancia": 22, "desvio_max": 0}), [])
+        for t in b.territorios():  # ningún territorio queda sin vigente publicado: ninguno sale SIN_VIGENTE por omisión
+            self.assertIsNotNone(b.composicion_publicada(t)[0], t)
 
     def test_t212_forma_con_la_m01_de_las_entradas(self):
         import zipfile
