@@ -13,7 +13,10 @@ motor, las huellas ni `ddd_core`. Se descarta la guarda previa en el encadenado 
 
 **Pruebas.** `tests/test_t166_cadena_m08_linaje.py` con fixtures congeladas de los tres runs
 (`tests/fixtures/t166_encadenado_m08/`): antes `build_plan` lanzaba el error; ahora planifica con `run_incorporate=true`,
-`run_generate=false` y el M08 rechazado.
+`run_generate=false` y el M08 rechazado. Además: la captura está acotada (04 en success con digest ajeno o no
+validada sigue bloqueando) y al registrarse un M08 nuevo sustituye al rechazado y no se reincorpora. Sin regresión en
+`test_reanudacion_m08_huerfano` (T-91b), `test_huerfano_recibo_declarado`, `test_m06_durable_manifest`,
+`test_continuar_ultimo_resultado_valido` y `test_ejecucion_completa`.
 
 **Riesgos.** La 04 se vuelve a ejecutar para esos territorios (es el objetivo). El catálogo sigue apuntando al M08 viejo
 hasta que la 04 registre el nuevo. No se ha lanzado ninguna ejecución.
