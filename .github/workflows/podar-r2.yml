@@ -1,0 +1,114 @@
+# PROYECTO: Diputado de Distrito
+# FICHERO: podar-r2.yml
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Poda de R2 con lista aprobada
+# FECHA: 2026-11-10
+# ESTADO: candidato
+# QUÉ HACE: borra de R2 las claves de docs/ESTUDIOS/T145_PODA_R2/ola1_borrar.csv (lista aprobada por el propietario, con su sha256
+#   fijado en la entrada) tras verificar cada clave y la copia que conserva su contenido. Por defecto simula (ejecutar=false) e imprime el
+#   informe completo; con ejecutar=true, en el entorno protegido «produccion», borra solo si todo se verifica y registra en main el informe
+#   (docs/ESTUDIOS/T145_PODA_R2/informes/) y orchestracion/archivo_r2.json. Comparte concurrencia con el archivista (un solo escritor).
+# CAMBIOS: 1.0.0: fichero nuevo (T-145).
+# MOTIVO: R2 supera los 10 GB gratuitos (28 GB); la lista (234 claves, 26,085 GB) fue aprobada por el propietario el 10-11.
+# ANTERIOR: ninguna (fichero nuevo)
+name: '- Podar R2'
+run-name: "Podar R2 · ${{ inputs.ejecutar && 'BORRADO' || 'simulación' }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      sha256_lista:
+        description: 'sha256 aprobado de ola1_borrar.csv (la poda se niega si no coincide)'
+        required: true
+        type: string
+      ejecutar:
+        description: 'false = simulación (no borra); true = borra de verdad (irreversible)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: archivar-artefactos-r2
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  podar:
+    name: Verificar y podar
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    environment: ${{ (inputs.ejecutar && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]') && 'produccion' || '' }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+      R2_BUCKET: ${{ vars.R2_BUCKET }}
+      SHA_LISTA: ${{ inputs.sha256_lista }}
+      EJECUTAR: ${{ inputs.ejecutar }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Validar configuración de R2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY R2_ACCOUNT_ID R2_BUCKET; do
+            [[ -n "${!name:-}" ]] || { echo "::error::${name} está vacío."; exit 1; }
+          done
+      - name: Verificar y podar
+        shell: bash
+        run: |
+          set -euo pipefail
+          informe="docs/ESTUDIOS/T145_PODA_R2/informes/podado_$(date -u +%Y%m%dT%H%M%SZ).json"
+          args=(--sha256-lista "$SHA_LISTA" --informe "$informe")
+          [[ "$EJECUTAR" != "true" ]] || args+=(--ejecutar)
+          echo "INFORME=$informe" >> "$GITHUB_ENV"
+          set +e
+          python3 herramientas/podar_r2.py "${args[@]}" | tee poda.log
+          rc=${PIPESTATUS[0]}
+          set -e
+          [[ ! -f "$informe" ]] || { echo '```json'; cat "$informe"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          exit "$rc"
+      - name: Registrar informe y manifiesto en main
+        if: ${{ always() && inputs.ejecutar }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ -f "${INFORME:-}" ]] || { echo "Sin informe que registrar."; exit 0; }
+          git config user.name "ddd-registro"
+          git config user.email "ddd-registro@users.noreply.github.com"
+          git add "$INFORME" orchestracion/archivo_r2.json
+          git commit -m "chore(archivo): poda de R2 con lista aprobada (T-145)"
+          for i in 1 2 3 4; do
+            git fetch origin main
+            git rebase origin/main && git push origin HEAD:main && exit 0
+            git rebase --abort || true
+            sleep $((i*3))
+          done
+          echo "::error::No se pudo registrar la poda en main."; exit 1
