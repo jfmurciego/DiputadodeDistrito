@@ -2,7 +2,8 @@
 
 Versión 1.0.0 · 2026-11-10 · automatizado en `tests/test_motor2_aceptacion.py` (suite de CI, solo stdlib).
 El motor nuevo puede relevar al canónico si se cumplen **todos** los puntos. Parámetros: N de semillas (`N_CADENAS`, 5) y
-función de calidad / criterio (`CRITERIO`) están al principio del test; los fijan T-179 y T-180.
+función de calidad (`FUNCION`: D8, T-205) y criterio del núcleo (`CRITERIO`) están al principio del test; los
+fijan T-179, T-180 y T-205.
 
 | # | Criterio | Cómo se comprueba | Estado |
 |---|---|---|---|

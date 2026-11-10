@@ -33,15 +33,16 @@ from herramientas.certificador_exacto import juzgar  # noqa: E402
 from tests.test_motor2_competicion import escribir_comp  # noqa: E402
 from tests.test_motor2_semilla import cfg as cfg_con_ancla  # noqa: E402
 
-# ---- Parámetros del criterio (los fijan T-179 / T-180; cambiarlos exige regenerar HUELLAS_FIJAS) --------------------
+# ---- Parámetros del criterio (los fijan T-179 / T-180 / T-205; cambiarlos exige regenerar HUELLAS_FIJAS) --------------------
 N_CADENAS = 5          # N de semillas públicas por territorio
-CRITERIO = Criterio()  # función de calidad / criterio del núcleo: el vigente
+CRITERIO = Criterio()  # criterio del núcleo: el vigente
+FUNCION = "D8"         # función de calidad de la competición (T-205: D8 por defecto en competir.py)
 TERRITORIOS = {"soria": (4, 2), "alava": (6, 3), "melilla": (8, 2)}  # nombre: (unidades, K); 100 habitantes cada una
 CERRADAS = {"soria": ("U0", "U1")}  # núcleo cerrado de referencia (R-NUCLEO) en el plan canónico
 HUELLAS_FIJAS = {  # huella_resultado de la competición: reglas, semillas, planes y composiciones de todos los candidatos
-    "soria": "a968322628dfdc308e613aa2461b412cc8dd15b394b56d4fe6913c1f3ce1b4c2",
-    "alava": "38d7b91d1969838fc32c310a06a3f7af2d3d927dcacdbc60c854e1a93f72d46d",
-    "melilla": "2e865182d50efa3ea769c6d35342ccf9f806987954a0118744b715c8d0c98e1b",
+    "soria": "1c6c26778469db003897ad5ea3b5062275a105e400aa72f74ebd5a81c428dac7",
+    "alava": "82440ac2f1e0c5057690b7c7a0a8e3e51f03da2b58b68d6599009da6f13abc46",
+    "melilla": "68c31e6263da52a9635b19b53f285f72acc8578412e2b59b4393884350c9bc74",
 }
 ESTUDIO = ROOT / "docs" / "ESTUDIOS" / "T132_BATERIA_MOTOR"
 
@@ -92,7 +93,7 @@ def entrada(t, tmp):
 def competir_t(t, tmp):
     e = entrada(t, tmp)
     return e, competir_publico(e, Generador("canonico", t), Generador("gerrychain", t), tmp / f"out_{t}",
-                               n_cadenas=N_CADENAS, criterio=CRITERIO)
+                               n_cadenas=N_CADENAS, criterio=CRITERIO, funcion=FUNCION)
 
 
 class HuellaFija(unittest.TestCase):
