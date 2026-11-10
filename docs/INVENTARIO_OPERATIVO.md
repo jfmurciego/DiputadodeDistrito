@@ -16,10 +16,6 @@
 - `.github/workflows/desplegar-visor-publico.yml`: interfaz humana **Publicar Sitio Web**; sólo `workflow_dispatch`, sin ejecución territorial.
 - `.github/workflows/_reutilizable-publicar-sitio.yml`: despliegue técnico común de GitHub Pages; sólo `workflow_call`. La producción territorial actualiza el visor mediante este componente y conserva el snapshot promovido de `publicado/dashboard/`.
 - `.github/workflows/pruebas-ddd.yml`: integración continua automática.
-- `.github/workflows/validar-contratos-territoriales.yml`: puerta automática de
-  validación estructural de contratos.
-- `.github/workflows/validar-productos-publicos.yml`: puerta automática de
-  validación de productos públicos.
 
 `_reutilizable-bootstrap-territorio.yml` ya no forma parte del árbol operativo:
 su predecesor se conserva en

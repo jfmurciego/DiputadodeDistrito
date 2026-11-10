@@ -23,8 +23,6 @@ class WorkflowSafety(unittest.TestCase):
     }
     AUTOMATIC_ONLY={
         "pruebas-plataforma.yml":{"push","pull_request"},
-        "validar-contratos-territoriales.yml":{"push","pull_request"},
-        "validar-productos-publicos.yml":{"push"},
     }
 
     def test_pesados_archivados_y_ci_sin_boton_manual(self):

@@ -53,7 +53,7 @@ Comunes a todos los chats, salvo que se diga otra cosa:
 
 | Ficha | Revisor | Forense |
 |---|---|---|
-| Identidad | `.claude/agents/revisor.md`; en CI `revisor-pr.yml` 1.0.0 | `.claude/agents/forense.md` + `.claude/agent-memory/forense/MEMORY.md`; en CI `forense-00.yml` 1.0.0 |
+| Identidad | `.claude/agents/revisor.md`; en CI `pruebas-plataforma.yml` (jobs `comprobar`/`revisar`/`veredicto`) 1.0.0 | `.claude/agents/forense.md` + `.claude/agent-memory/forense/MEMORY.md`; en CI `forense-00.yml` 1.0.0 |
 | Misión | Veredicto JSON ligado al SHA del HEAD | Causa en cinco líneas con `causa_id` |
 | Herramientas | Local: Read, Grep, Glob, Bash. CI: `Bash(git diff/show/log)`, `gh pr diff/view` | Local: Read, Grep, Glob, Bash. CI: `Bash(gh api:*)`, `gh run view`, `git fetch/show/log`; token `contents: read, actions: read` |
 | Autoridad | Ninguna; el job `veredicto` falla con FAIL pero **no es check obligatorio** | Ninguna; el job siguiente abre issue (`issues: write`) |

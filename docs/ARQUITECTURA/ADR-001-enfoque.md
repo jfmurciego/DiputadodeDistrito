@@ -29,7 +29,7 @@ para reconsiderarlo, y que cada agente adicional tenga un beneficio comprobable.
 | Enfoque | Encaje en DDD | Evidencia |
 |---|---|---|
 | A. Proceso determinista sin LLM | Toda la producción (M01–M08, puertas, publicación) y los robots de CI | `.github/workflows/ejecucion-completa-proyecto.yml`, `pruebas-plataforma.yml`, `numerar-registro.yml` |
-| B. Una llamada estructurada a un LLM | Revisor y forense en CI: entrada fija, salida JSON, sin ciclo largo | `revisor-pr.yml` 1.0.0, `forense-00.yml` 1.0.0 |
+| B. Una llamada estructurada a un LLM | Revisor y forense en CI: entrada fija, salida JSON, sin ciclo largo | `pruebas-plataforma.yml` (jobs `comprobar`/`revisar`/`veredicto`) 1.0.0, `forense-00.yml` 1.0.0 |
 | C. Un agente con herramientas | Implementador e ingeniero de motor: una tarea, una PR | skill `implementador` |
 | D. Workflow determinista con pasos LLM | **Elegido como marco**: Actions es el control; los LLM solo juzgan (revisar, diagnosticar, implementar) | FRAMEWORK §1 principio 3 |
 | E. Supervisor con especialistas | Planificador → Coordinador → Operador → implementadores, coordinados por `send_message` | skills `planificador`, `coordinador`, `operador`; `CLAUDE.md` «Coordinación» |
@@ -44,7 +44,7 @@ Razones:
 1. Las invariantes (población, contigüidad, huellas, gobernanza) ya son código determinista y tests; un LLM no
    debe evaluarlas (metaagente §4, plano de control).
 2. Los efectos irreversibles ya pasan por controles fuera del modelo: entorno `produccion` con revisor requerido
-   (skill `operador` paso 3), ruleset `proteger-main` que exige `pruebas` (cabecera de `revisor-pr.yml`) y hook
+   (skill `operador` paso 3), ruleset `proteger-main` que exige `pruebas` (cabecera de `pruebas-plataforma.yml` (jobs `comprobar`/`revisar`/`veredicto`)) y hook
    `guardia_git.py`.
 3. Revisor y forense justifican su separación con beneficio medido: 23/24 y 20/20 en el conjunto de oro
    (`evals/oro/LIBRO_DE_COSTES.md`).
@@ -92,5 +92,5 @@ Se comprueba con `docs/ARQUITECTURA/MADUREZ.md` y las métricas de `orchestracio
 |---|---|---|---|---|---|
 | Humano en lo irreversible | ADR-001 | entorno `produccion`, `no-automerge` | aprobación en GitHub | skill `operador` §3; caso #462 | PASS_WITH_EXCEPTIONS (#462) |
 | Fusión solo con CI verde | ADR-001 | `auto-merge.yml` 1.2.0 | check-run `pruebas` del SHA | #457, #460; prueba #465 | PASS desde 1.2.0 |
-| Quien construye no certifica | ADR-001 | `revisor`, `revisor-pr.yml` | oro 23/24 | `evals/oro/LIBRO_DE_COSTES.md` | PASS (oro); en CI pendiente de secreto (`docs/ESTADO.md`) |
+| Quien construye no certifica | ADR-001 | `revisor`, `pruebas-plataforma.yml` (jobs `comprobar`/`revisar`/`veredicto`) | oro 23/24 | `evals/oro/LIBRO_DE_COSTES.md` | PASS (oro); en CI pendiente de secreto (`docs/ESTADO.md`) |
 | Coste medido | ADR-001 | skill `presupuesto`, `metricas-proceso.yml` | libro de costes | `evals/oro/LIBRO_DE_COSTES.md` | parcial: chats sin medir |
