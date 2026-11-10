@@ -24,8 +24,9 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
+| 23:21 | Comunidad de Madrid + Navarra (fase 1) | batería motor2 D8 N=10 | 42913861593 | EN_VUELO | 1 / — | 0/1 |
 
 ## Cierre
-Estado: `ACEPTADA, EN_ESPERA` (espera T-217/T-218 en `main`; no estaba al recibir la frase). Último uso: —.
+Estado: `EN_CURSO` (T-217/T-218 en `main`, #694; punta 507be94 en verde). Último uso: 2026-11-10.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_bateria-motor2-autonomicas-r4 tal como figura en la ficha.»
