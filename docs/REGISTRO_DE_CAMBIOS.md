@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.284
+Versión: 1.0.285
 Fecha: 2026-11-10
-Alcance: T-132 — Batería de los 71 con el competidor «canónico + GerryChain» (D-48)
+Alcance: T-173 — Nota de fuentes para la naturalidad de distritos
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t132d-competidor-71.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.283_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_claude-t173-fuentes-naturalidad.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.284_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.283_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.285 · [2026-11-10 — T-173 — Nota de fuentes para la naturalidad de distritos](registro/2026-11-10_claude-t173-fuentes-naturalidad.md)
 - 1.0.284 · [2026-11-10 — T-132 — Batería de los 71 con el competidor «canónico + GerryChain» (D-48)](registro/2026-11-10_t132d-competidor-71.md)
 - 1.0.283 · [2026-11-10 — T-167 — Verificación de los 844 runs retirados por T-149 y decisión propuesta](registro/2026-11-10_docs-t167-verificacion-runs-g10.md)
 - 1.0.282 · [2026-11-10 — T-168 — Comprobación de la fusión automática y del forense (solo lectura)](registro/2026-11-10_t168-fusion-forense.md)
