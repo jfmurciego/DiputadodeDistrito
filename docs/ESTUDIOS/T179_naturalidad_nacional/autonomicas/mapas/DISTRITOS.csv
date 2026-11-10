@@ -1,0 +1,841 @@
+territorio,funcion,distrito,superficie_km2,poblacion,municipio_principal,codigo_ine,fraccion_pob_municipio_principal,municipios,nucleo_cerrado
+canarias,A,0,2.3,31719,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,A,1,1.9,31755,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,A,2,16.6,31675,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,A,3,1.6,31856,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,A,4,10.6,32551,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,A,5,0.9,31171,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,A,6,2.3,31618,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,A,7,3.3,31842,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,A,8,3.1,31539,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,A,9,19.0,32271,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,A,10,5.3,31375,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,A,11,15.9,35385,Santa Lucía de Tirajana,35022,1.0,1,True
+canarias,A,12,10.5,33683,Telde,35026,1.0,1,True
+canarias,A,13,60.7,34585,Telde,35026,1.0,1,True
+canarias,A,14,79.4,28317,Teror,35027,0.453,3,False
+canarias,A,15,29.5,34972,Telde,35026,1.0,1,True
+canarias,A,16,78.2,32797,Agüimes,35002,1.0,1,True
+canarias,A,17,38.3,32356,Ingenio,35011,1.0,1,True
+canarias,A,18,35.0,31491,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,A,19,32.6,38655,Arucas,35006,1.0,1,True
+canarias,A,20,107.1,30321,Gáldar,35009,0.816,2,False
+canarias,A,21,266.2,28506,Santa María de Guía de Gran Canaria,35023,0.49,5,False
+canarias,A,22,332.9,54668,San Bartolomé de Tirajana,35019,1.0,1,True
+canarias,A,23,63.6,28291,Santa Brígida,35021,0.657,2,False
+canarias,A,24,46.2,41033,Santa Lucía de Tirajana,35022,1.0,1,True
+canarias,A,25,296.4,28461,Mogán,35012,0.736,2,False
+canarias,A,26,290.8,43493,Puerto del Rosario,35017,1.0,1,True
+canarias,A,27,485.5,21941,Pájara,35015,0.963,2,False
+canarias,A,28,355.5,29174,"Oliva, La",35014,1.0,1,True
+canarias,A,29,525.6,29544,Tuineje,35030,0.543,2,False
+canarias,A,30,4.9,32037,Arrecife,35004,1.0,1,True
+canarias,A,31,18.9,32698,Arrecife,35004,1.0,1,True
+canarias,A,32,277.1,38564,Tías,35028,0.552,2,False
+canarias,A,33,329.8,28598,Teguise,35024,0.806,2,False
+canarias,A,34,175.5,26168,35018,35018,0.743,2,False
+canarias,A,35,27.3,733,Teguise,35024,1.0,1,True
+canarias,A,36,19.7,28798,Arona,38006,1.0,1,True
+canarias,A,37,27.9,29071,Arona,38006,1.0,1,True
+canarias,A,38,85.3,27667,Granadilla de Abona,38017,1.0,1,True
+canarias,A,39,16.8,31626,San Cristóbal de La Laguna,38023,1.0,1,True
+canarias,A,40,58.7,30913,San Cristóbal de La Laguna,38023,1.0,1,True
+canarias,A,41,7.3,42940,San Cristóbal de La Laguna,38023,1.0,1,True
+canarias,A,42,2.4,30414,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,A,43,3.1,29893,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,A,44,10.2,29532,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,A,45,120.8,30037,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,A,46,1.8,29869,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,A,47,2.2,30140,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,A,48,90.3,30478,Arona,38006,0.939,2,False
+canarias,A,49,26.8,11375,Tegueste,38046,1.0,1,True
+canarias,A,50,88.5,46781,Candelaria,38011,0.617,2,False
+canarias,A,51,114.8,12207,Buenavista del Norte,38010,0.387,3,False
+canarias,A,52,56.7,37543,"Realejos, Los",38031,1.0,1,True
+canarias,A,53,9.6,29021,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,A,54,48.3,33862,Tacoronte,38043,0.729,2,False
+canarias,A,55,44.5,10501,"Guancha, La",38018,0.53,2,False
+canarias,A,56,198.7,34550,Guía de Isora,38019,0.651,2,False
+canarias,A,57,182.5,30309,Güímar,38020,0.711,3,False
+canarias,A,58,54.7,33619,Santa Úrsula,38039,0.455,3,False
+canarias,A,59,119.4,50845,Granadilla de Abona,38017,0.548,2,False
+canarias,A,60,124.5,29092,Icod de los Vinos,38022,0.829,2,False
+canarias,A,61,19.7,54097,San Cristóbal de La Laguna,38023,1.0,1,True
+canarias,A,62,105.9,50523,Adeje,38001,1.0,1,True
+canarias,A,63,383.7,51716,"Orotava, La",38026,0.825,2,False
+canarias,A,64,8.8,31396,Puerto de la Cruz,38028,1.0,1,True
+canarias,A,65,367.7,22361,San Sebastián de la Gomera,38036,0.429,6,False
+canarias,A,66,101.2,27542,"Llanos de Aridane, Los",38024,0.74,3,False
+canarias,A,67,297.8,28756,Santa Cruz de la Palma,38037,0.54,6,False
+canarias,A,68,307.1,28040,"Paso, El",38027,0.284,5,False
+canarias,A,69,267.4,11659,Valverde,38048,0.442,3,False
+canarias,D8,0,1.7,34580,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,D8,1,264.6,30417,Santa María de Guía de Gran Canaria,35023,0.459,4,False
+canarias,D8,2,2.4,33284,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,D8,3,5.0,35479,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,D8,4,1.0,31975,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,D8,5,1.9,29397,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,D8,6,23.8,27215,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,D8,7,173.1,30413,Teror,35027,0.422,5,False
+canarias,D8,8,9.1,32703,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,D8,9,10.4,30883,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,D8,10,26.6,30511,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,D8,11,57.4,41015,Santa Lucía de Tirajana,35022,1.0,1,True
+canarias,D8,12,10.1,30452,Telde,35026,1.0,1,True
+canarias,D8,13,29.8,31478,Telde,35026,1.0,1,True
+canarias,D8,14,380.2,38918,Mogán,35012,0.538,2,False
+canarias,D8,15,3.3,35015,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,D8,16,4.5,33867,Santa Lucía de Tirajana,35022,1.0,1,True
+canarias,D8,17,71.0,37840,Ingenio,35011,0.855,2,False
+canarias,D8,18,1.4,29442,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,D8,19,78.4,34333,Agüimes,35002,0.955,2,False
+canarias,D8,20,101.4,36076,Santa Brígida,35021,0.516,3,False
+canarias,D8,21,28.0,35826,Telde,35026,1.0,1,True
+canarias,D8,22,15.3,30379,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,D8,23,26.4,34386,Arucas,35006,1.0,1,True
+canarias,D8,24,125.5,36688,San Bartolomé de Tirajana,35019,1.0,1,True
+canarias,D8,25,107.1,30321,Gáldar,35009,0.816,2,False
+canarias,D8,26,20.2,33961,Puerto del Rosario,35017,1.0,1,True
+canarias,D8,27,525.6,29544,Tuineje,35030,0.543,2,False
+canarias,D8,28,355.5,29174,"Oliva, La",35014,1.0,1,True
+canarias,D8,29,756.1,31473,Pájara,35015,0.671,3,False
+canarias,D8,30,329.8,28598,Teguise,35024,0.806,2,False
+canarias,D8,31,177.3,31986,35018,35018,0.608,3,False
+canarias,D8,32,277.1,38564,Tías,35028,0.552,2,False
+canarias,D8,33,18.8,30685,Arrecife,35004,1.0,1,True
+canarias,D8,34,3.3,28232,Arrecife,35004,1.0,1,True
+canarias,D8,35,27.3,733,Teguise,35024,1.0,1,True
+canarias,D8,36,23.9,29358,Arona,38006,1.0,1,True
+canarias,D8,37,19.7,28798,Arona,38006,1.0,1,True
+canarias,D8,38,64.7,40492,San Miguel de Abona,38035,0.568,2,False
+canarias,D8,39,4.7,30436,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,D8,40,2.4,33862,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,D8,41,31.4,34752,San Cristóbal de La Laguna,38023,1.0,1,True
+canarias,D8,42,11.5,33772,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,D8,43,118.3,32661,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,D8,44,5.9,29593,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,D8,45,4.7,32792,Santa Cruz de Tenerife,38038,0.528,2,False
+canarias,D8,46,4.2,31267,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,D8,47,38.8,40825,San Cristóbal de La Laguna,38023,1.0,1,True
+canarias,D8,48,187.9,31374,Guía de Isora,38019,0.716,2,False
+canarias,D8,49,26.8,11375,Tegueste,38046,1.0,1,True
+canarias,D8,50,69.2,42606,Tacoronte,38043,0.58,2,False
+canarias,D8,51,119.3,29679,Icod de los Vinos,38022,0.813,2,False
+canarias,D8,52,20.1,24966,"Realejos, Los",38031,1.0,1,True
+canarias,D8,53,11.2,36397,San Cristóbal de La Laguna,38023,1.0,1,True
+canarias,D8,54,67.6,38037,Candelaria,38011,0.759,2,False
+canarias,D8,55,195.4,29254,Santiago del Teide,38040,0.413,5,False
+canarias,D8,56,402.8,27521,"Realejos, Los",38031,0.457,4,False
+canarias,D8,57,54.7,33619,Santa Úrsula,38039,0.455,3,False
+canarias,D8,58,182.5,30309,Güímar,38020,0.711,3,False
+canarias,D8,59,65.4,41627,Adeje,38001,1.0,1,True
+canarias,D8,60,94.3,30191,Arona,38006,0.939,2,False
+canarias,D8,61,19.5,32125,San Cristóbal de La Laguna,38023,1.0,1,True
+canarias,D8,62,139.9,38020,Granadilla de Abona,38017,1.0,1,True
+canarias,D8,63,37.9,41711,"Orotava, La",38026,1.0,1,True
+canarias,D8,64,8.8,31396,Puerto de la Cruz,38028,1.0,1,True
+canarias,D8,65,367.7,22361,San Sebastián de la Gomera,38036,0.429,6,False
+canarias,D8,66,460.4,26144,"Paso, El",38027,0.305,7,False
+canarias,D8,67,157.3,29391,"Llanos de Aridane, Los",38024,0.693,4,False
+canarias,D8,68,88.4,28803,Santa Cruz de la Palma,38037,0.539,3,False
+canarias,D8,69,267.4,11659,Valverde,38048,0.442,3,False
+canarias,C,0,1.7,34580,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,C,1,264.6,30417,Santa María de Guía de Gran Canaria,35023,0.459,4,False
+canarias,C,2,2.4,33284,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,C,3,5.0,35479,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,C,4,1.0,31975,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,C,5,1.9,29397,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,C,6,23.8,27215,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,C,7,173.1,30413,Teror,35027,0.422,5,False
+canarias,C,8,9.1,32703,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,C,9,10.4,30883,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,C,10,26.6,30511,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,C,11,57.4,41015,Santa Lucía de Tirajana,35022,1.0,1,True
+canarias,C,12,10.1,30452,Telde,35026,1.0,1,True
+canarias,C,13,29.8,31478,Telde,35026,1.0,1,True
+canarias,C,14,380.2,38918,Mogán,35012,0.538,2,False
+canarias,C,15,3.3,35015,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,C,16,4.5,33867,Santa Lucía de Tirajana,35022,1.0,1,True
+canarias,C,17,71.0,37840,Ingenio,35011,0.855,2,False
+canarias,C,18,1.4,29442,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,C,19,78.4,34333,Agüimes,35002,0.955,2,False
+canarias,C,20,101.4,36076,Santa Brígida,35021,0.516,3,False
+canarias,C,21,28.0,35826,Telde,35026,1.0,1,True
+canarias,C,22,15.3,30379,"Palmas de Gran Canaria, Las",35016,1.0,1,True
+canarias,C,23,26.4,34386,Arucas,35006,1.0,1,True
+canarias,C,24,125.5,36688,San Bartolomé de Tirajana,35019,1.0,1,True
+canarias,C,25,107.1,30321,Gáldar,35009,0.816,2,False
+canarias,C,26,20.2,33961,Puerto del Rosario,35017,1.0,1,True
+canarias,C,27,525.6,29544,Tuineje,35030,0.543,2,False
+canarias,C,28,355.5,29174,"Oliva, La",35014,1.0,1,True
+canarias,C,29,756.1,31473,Pájara,35015,0.671,3,False
+canarias,C,30,329.8,28598,Teguise,35024,0.806,2,False
+canarias,C,31,177.3,31986,35018,35018,0.608,3,False
+canarias,C,32,277.1,38564,Tías,35028,0.552,2,False
+canarias,C,33,18.8,30685,Arrecife,35004,1.0,1,True
+canarias,C,34,3.3,28232,Arrecife,35004,1.0,1,True
+canarias,C,35,27.3,733,Teguise,35024,1.0,1,True
+canarias,C,36,23.9,29358,Arona,38006,1.0,1,True
+canarias,C,37,19.7,28798,Arona,38006,1.0,1,True
+canarias,C,38,64.7,40492,San Miguel de Abona,38035,0.568,2,False
+canarias,C,39,4.7,30436,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,C,40,2.4,33862,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,C,41,31.4,34752,San Cristóbal de La Laguna,38023,1.0,1,True
+canarias,C,42,11.5,33772,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,C,43,118.3,32661,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,C,44,5.9,29593,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,C,45,4.7,32792,Santa Cruz de Tenerife,38038,0.528,2,False
+canarias,C,46,4.2,31267,Santa Cruz de Tenerife,38038,1.0,1,True
+canarias,C,47,38.8,40825,San Cristóbal de La Laguna,38023,1.0,1,True
+canarias,C,48,187.9,31374,Guía de Isora,38019,0.716,2,False
+canarias,C,49,26.8,11375,Tegueste,38046,1.0,1,True
+canarias,C,50,69.2,42606,Tacoronte,38043,0.58,2,False
+canarias,C,51,119.3,29679,Icod de los Vinos,38022,0.813,2,False
+canarias,C,52,20.1,24966,"Realejos, Los",38031,1.0,1,True
+canarias,C,53,11.2,36397,San Cristóbal de La Laguna,38023,1.0,1,True
+canarias,C,54,67.6,38037,Candelaria,38011,0.759,2,False
+canarias,C,55,195.4,29254,Santiago del Teide,38040,0.413,5,False
+canarias,C,56,402.8,27521,"Realejos, Los",38031,0.457,4,False
+canarias,C,57,54.7,33619,Santa Úrsula,38039,0.455,3,False
+canarias,C,58,182.5,30309,Güímar,38020,0.711,3,False
+canarias,C,59,65.4,41627,Adeje,38001,1.0,1,True
+canarias,C,60,94.3,30191,Arona,38006,0.939,2,False
+canarias,C,61,19.5,32125,San Cristóbal de La Laguna,38023,1.0,1,True
+canarias,C,62,139.9,38020,Granadilla de Abona,38017,1.0,1,True
+canarias,C,63,37.9,41711,"Orotava, La",38026,1.0,1,True
+canarias,C,64,8.8,31396,Puerto de la Cruz,38028,1.0,1,True
+canarias,C,65,367.7,22361,San Sebastián de la Gomera,38036,0.429,6,False
+canarias,C,66,460.4,26144,"Paso, El",38027,0.305,7,False
+canarias,C,67,157.3,29391,"Llanos de Aridane, Los",38024,0.693,4,False
+canarias,C,68,88.4,28803,Santa Cruz de la Palma,38037,0.539,3,False
+canarias,C,69,267.4,11659,Valverde,38048,0.442,3,False
+cataluna,A,0,4.0,56331,Badalona,08015,1.0,1,True
+cataluna,A,1,3.1,56866,Badalona,08015,1.0,1,True
+cataluna,A,2,12.8,56566,Badalona,08015,1.0,1,True
+cataluna,A,3,1.7,60202,Barcelona,08019,1.0,1,True
+cataluna,A,4,8.1,59857,Barcelona,08019,1.0,1,True
+cataluna,A,5,1.6,60549,Barcelona,08019,1.0,1,True
+cataluna,A,6,2.3,60122,Barcelona,08019,1.0,1,True
+cataluna,A,7,1.3,60178,Barcelona,08019,1.0,1,True
+cataluna,A,8,1.5,59755,Barcelona,08019,1.0,1,True
+cataluna,A,9,1.3,60099,Barcelona,08019,1.0,1,True
+cataluna,A,10,1.5,61294,Barcelona,08019,1.0,1,True
+cataluna,A,11,1.2,60253,Barcelona,08019,1.0,1,True
+cataluna,A,12,2.3,61247,Barcelona,08019,1.0,1,True
+cataluna,A,13,2.0,60338,Barcelona,08019,1.0,1,True
+cataluna,A,14,1.9,59585,Barcelona,08019,1.0,1,True
+cataluna,A,15,2.0,59832,Barcelona,08019,1.0,1,True
+cataluna,A,16,3.7,59865,Barcelona,08019,1.0,1,True
+cataluna,A,17,2.2,60384,Barcelona,08019,1.0,1,True
+cataluna,A,18,1.0,59766,Barcelona,08019,1.0,1,True
+cataluna,A,19,2.7,59625,Barcelona,08019,1.0,1,True
+cataluna,A,20,2.1,60641,Barcelona,08019,1.0,1,True
+cataluna,A,21,2.2,60892,Barcelona,08019,1.0,1,True
+cataluna,A,22,1.9,60780,Barcelona,08019,1.0,1,True
+cataluna,A,23,16.9,60455,Barcelona,08019,1.0,1,True
+cataluna,A,24,2.0,60212,Barcelona,08019,1.0,1,True
+cataluna,A,25,4.8,59875,Barcelona,08019,1.0,1,True
+cataluna,A,26,3.1,59158,Barcelona,08019,1.0,1,True
+cataluna,A,27,20.6,59445,Barcelona,08019,1.0,1,True
+cataluna,A,28,5.0,61005,Barcelona,08019,1.0,1,True
+cataluna,A,29,1.1,59784,Barcelona,08019,1.0,1,True
+cataluna,A,30,6.0,59497,Cornellà de Llobregat,08073,1.0,1,True
+cataluna,A,31,2.8,56431,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,A,32,6.0,55662,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,A,33,1.0,56510,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,A,34,1.1,57362,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,A,35,10.7,59446,Manresa,08113,1.0,1,True
+cataluna,A,36,4.5,65862,Mataró,08121,1.0,1,True
+cataluna,A,37,30.4,59350,Rubí,08184,1.0,1,True
+cataluna,A,38,11.0,55315,Sabadell,08187,1.0,1,True
+cataluna,A,39,7.7,55514,Sabadell,08187,1.0,1,True
+cataluna,A,40,12.6,55157,Sabadell,08187,1.0,1,True
+cataluna,A,41,18.5,59496,Sant Boi de Llobregat,08200,1.0,1,True
+cataluna,A,42,19.4,49381,Sant Cugat del Vallès,08205,1.0,1,True
+cataluna,A,43,5.7,60421,Santa Coloma de Gramenet,08245,1.0,1,True
+cataluna,A,44,4.3,56852,Terrassa,08279,1.0,1,True
+cataluna,A,45,14.2,57115,Terrassa,08279,1.0,1,True
+cataluna,A,46,30.5,57509,Terrassa,08279,1.0,1,True
+cataluna,A,47,627.3,52284,Sant Joan de Vilatorrada,08218,0.21,16,False
+cataluna,A,48,83.2,52929,Vilassar de Mar,08219,0.4,5,False
+cataluna,A,49,45.6,47968,Sant Andreu de la Barca,08196,0.564,4,False
+cataluna,A,50,93.6,53255,Vic,08298,0.926,5,False
+cataluna,A,51,303.3,53842,Vallirana,08295,0.296,13,False
+cataluna,A,52,27.4,47565,Santa Perpètua de Mogoda,08260,0.545,3,False
+cataluna,A,53,232.8,53550,Sitges,08270,0.607,8,False
+cataluna,A,54,60.6,57035,"Franqueses del Vallès, Les",08086,0.362,3,False
+cataluna,A,55,19.6,67196,Sant Feliu de Llobregat,08211,0.69,2,False
+cataluna,A,56,1.2,56456,Badalona,08015,1.0,1,True
+cataluna,A,57,35.1,76928,Terrassa,08279,0.739,2,False
+cataluna,A,58,650.2,52330,Vilanova del Camí,08302,0.246,26,False
+cataluna,A,59,115.5,57331,Sant Pere de Ribes,08231,0.558,4,False
+cataluna,A,60,86.9,52348,Arenys de Mar,08006,0.315,7,False
+cataluna,A,61,102.5,53688,Argentona,08009,0.239,7,False
+cataluna,A,62,813.5,52693,Tona,08283,0.161,22,False
+cataluna,A,63,177.6,52496,Olesa de Montserrat,08147,0.471,7,False
+cataluna,A,64,5.4,53372,Premià de Mar,08172,0.542,2,False
+cataluna,A,65,38.7,50068,Parets del Vallès,08159,0.377,4,False
+cataluna,A,66,10.9,52045,Mollet del Vallès,08124,1.0,1,True
+cataluna,A,67,1.4,60482,Santa Coloma de Gramenet,08245,1.0,1,True
+cataluna,A,68,1.5,56334,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,A,69,222.6,84852,Esparreguera,08076,0.265,10,False
+cataluna,A,70,7.4,68687,Sabadell,08187,0.809,2,False
+cataluna,A,71,95.8,82705,Martorell,08114,0.344,6,False
+cataluna,A,72,31.8,52684,Pineda de Mar,08163,0.558,3,False
+cataluna,A,73,40.5,86580,Granollers,08096,0.738,3,False
+cataluna,A,74,31.5,65910,"Prat de Llobregat, El",08169,1.0,1,True
+cataluna,A,75,7.0,66711,Sant Joan Despí,08217,0.525,2,False
+cataluna,A,76,436.6,53061,Bigues i Riells del Fai,08023,0.189,16,False
+cataluna,A,77,57.7,50853,Canovelles,08041,0.339,4,False
+cataluna,A,78,4.5,47700,Esplugues de Llobregat,08077,1.0,1,True
+cataluna,A,79,17.8,65025,Mataró,08121,1.0,1,True
+cataluna,A,80,12.6,69196,Castelldefels,08056,1.0,1,True
+cataluna,A,81,73.4,52927,Vilafranca del Penedès,08305,0.785,5,False
+cataluna,A,82,30.8,57831,Cerdanyola del Vallès,08266,1.0,1,True
+cataluna,A,83,449.3,52498,Manlleu,08112,0.406,16,False
+cataluna,A,84,33.9,70293,Vilanova i la Geltrú,08307,1.0,1,True
+cataluna,A,85,137.9,52556,Piera,08161,0.334,6,False
+cataluna,A,86,12.6,73074,Ripollet,08180,0.54,2,False
+cataluna,A,87,23.1,92271,Viladecans,08301,0.728,2,False
+cataluna,A,88,1071.9,52809,Berga,08022,0.326,35,False
+cataluna,A,89,48.6,53176,Montgat,08126,0.238,7,False
+cataluna,A,90,111.1,53158,Castellar del Vallès,08051,0.476,3,False
+cataluna,A,91,8.1,99682,Barcelona,08019,0.612,2,False
+cataluna,A,92,30.6,71441,Sant Cugat del Vallès,08205,0.69,2,False
+cataluna,A,93,125.1,52747,Calella,08035,0.383,4,False
+cataluna,A,94,291.2,53805,Igualada,08102,0.776,9,False
+cataluna,A,95,55.4,58278,Gavà,08089,0.823,3,False
+cataluna,A,96,40.3,51276,Montcada i Reixac,08125,0.723,3,False
+cataluna,A,97,357.6,53110,Sant Celoni,08202,0.352,13,False
+cataluna,A,98,25.2,48740,Sant Vicenç dels Horts,08263,0.587,3,False
+cataluna,A,99,22.5,53534,Girona,17079,1.0,1,True
+cataluna,A,100,148.2,53252,Salt,17155,0.637,7,False
+cataluna,A,101,20.7,58320,Girona,17079,0.908,2,False
+cataluna,A,102,363.1,63090,Figueres,17066,0.771,19,False
+cataluna,A,103,350.4,56827,Cassà de la Selva,17044,0.193,11,False
+cataluna,A,104,489.4,57033,Olot,17114,0.681,14,False
+cataluna,A,105,139.2,53743,Sant Feliu de Guíxols,17160,0.427,4,False
+cataluna,A,106,578.5,60404,Roses,17152,0.335,32,False
+cataluna,A,107,653.8,62619,Banyoles,17015,0.331,28,False
+cataluna,A,108,522.9,54958,Torroella de Montgrí,17199,0.226,32,False
+cataluna,A,109,66.3,84069,Lloret de Mar,17095,0.501,2,False
+cataluna,A,110,202.9,55230,Palafrugell,17117,0.439,12,False
+cataluna,A,111,628.4,53338,Santa Coloma de Farners,17180,0.26,14,False
+cataluna,A,112,1723.7,54691,Ripoll,17147,0.197,44,False
+cataluna,A,113,119.5,72480,Lleida,25120,1.0,1,True
+cataluna,A,114,1286.2,50560,Tàrrega,25217,0.367,23,False
+cataluna,A,115,1188.7,49527,Mollerussa,25137,0.317,32,False
+cataluna,A,116,4224.8,50289,Solsona,25207,0.187,65,False
+cataluna,A,117,2411.4,48784,"Seu d'Urgell, La",25203,0.262,42,False
+cataluna,A,118,131.2,83768,Lleida,25120,0.864,3,False
+cataluna,A,119,1961.2,48334,Balaguer,25040,0.364,30,False
+cataluna,A,120,850.4,47965,"Borges Blanques, Les",25058,0.132,36,False
+cataluna,A,121,26.3,54884,Reus,43123,1.0,1,True
+cataluna,A,122,11.1,70226,Tarragona,43148,1.0,1,True
+cataluna,A,123,501.4,52842,Amposta,43014,0.428,7,False
+cataluna,A,124,223.3,64534,Torredembarra,43153,0.278,17,False
+cataluna,A,125,234.6,57440,Cambrils,43038,0.639,12,False
+cataluna,A,126,196.4,66116,"Vendrell, El",43163,0.613,11,False
+cataluna,A,127,38.1,59406,Reus,43123,0.927,3,False
+cataluna,A,128,166.3,65955,Calafell,43037,0.479,8,False
+cataluna,A,129,43.8,60439,43905,43905,0.504,3,False
+cataluna,A,130,1066.5,56404,Tortosa,43155,0.63,17,False
+cataluna,A,131,84.1,76459,Tarragona,43148,0.926,4,False
+cataluna,A,132,1076.5,62782,Valls,43161,0.4,38,False
+cataluna,A,133,1066.8,53309,"Ràpita, La",43136,0.296,18,False
+cataluna,A,134,1568.6,60948,Mont-roig del Camp,43092,0.233,46,False
+cataluna,D8,0,4.0,56331,Badalona,08015,1.0,1,True
+cataluna,D8,1,3.1,56866,Badalona,08015,1.0,1,True
+cataluna,D8,2,12.8,56566,Badalona,08015,1.0,1,True
+cataluna,D8,3,1.7,60202,Barcelona,08019,1.0,1,True
+cataluna,D8,4,8.1,59857,Barcelona,08019,1.0,1,True
+cataluna,D8,5,3.8,65144,Barcelona,08019,1.0,1,True
+cataluna,D8,6,2.3,60122,Barcelona,08019,1.0,1,True
+cataluna,D8,7,1.3,60178,Barcelona,08019,1.0,1,True
+cataluna,D8,8,1.5,59755,Barcelona,08019,1.0,1,True
+cataluna,D8,9,1.3,60099,Barcelona,08019,1.0,1,True
+cataluna,D8,10,1.5,61294,Barcelona,08019,1.0,1,True
+cataluna,D8,11,1.2,60253,Barcelona,08019,1.0,1,True
+cataluna,D8,12,2.3,61247,Barcelona,08019,1.0,1,True
+cataluna,D8,13,2.0,60338,Barcelona,08019,1.0,1,True
+cataluna,D8,14,1.9,59585,Barcelona,08019,1.0,1,True
+cataluna,D8,15,2.0,59832,Barcelona,08019,1.0,1,True
+cataluna,D8,16,1.5,55270,Barcelona,08019,1.0,1,True
+cataluna,D8,17,2.2,60384,Barcelona,08019,1.0,1,True
+cataluna,D8,18,1.0,57849,Barcelona,08019,1.0,1,True
+cataluna,D8,19,4.1,58208,Barcelona,08019,1.0,1,True
+cataluna,D8,20,2.1,60641,Barcelona,08019,1.0,1,True
+cataluna,D8,21,2.2,60892,Barcelona,08019,1.0,1,True
+cataluna,D8,22,1.9,60780,Barcelona,08019,1.0,1,True
+cataluna,D8,23,19.4,49381,Sant Cugat del Vallès,08205,1.0,1,True
+cataluna,D8,24,2.0,60212,Barcelona,08019,1.0,1,True
+cataluna,D8,25,3.4,61292,Barcelona,08019,1.0,1,True
+cataluna,D8,26,3.1,59158,Barcelona,08019,1.0,1,True
+cataluna,D8,27,20.6,61362,Barcelona,08019,1.0,1,True
+cataluna,D8,28,5.0,61005,Barcelona,08019,1.0,1,True
+cataluna,D8,29,1.1,59784,Barcelona,08019,1.0,1,True
+cataluna,D8,30,6.0,59497,Cornellà de Llobregat,08073,1.0,1,True
+cataluna,D8,31,1.0,56510,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,D8,32,6.0,55662,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,D8,33,2.8,56431,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,D8,34,1.1,57362,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,D8,35,10.7,59446,Manresa,08113,1.0,1,True
+cataluna,D8,36,4.5,65862,Mataró,08121,1.0,1,True
+cataluna,D8,37,30.4,59350,Rubí,08184,1.0,1,True
+cataluna,D8,38,11.0,55315,Sabadell,08187,1.0,1,True
+cataluna,D8,39,7.7,55514,Sabadell,08187,1.0,1,True
+cataluna,D8,40,12.6,55157,Sabadell,08187,1.0,1,True
+cataluna,D8,41,18.5,59496,Sant Boi de Llobregat,08200,1.0,1,True
+cataluna,D8,42,16.9,60455,Barcelona,08019,1.0,1,True
+cataluna,D8,43,5.7,60421,Santa Coloma de Gramenet,08245,1.0,1,True
+cataluna,D8,44,4.3,56852,Terrassa,08279,1.0,1,True
+cataluna,D8,45,14.2,57115,Terrassa,08279,1.0,1,True
+cataluna,D8,46,30.5,57509,Terrassa,08279,1.0,1,True
+cataluna,D8,47,575.2,50700,Sant Joan de Vilatorrada,08218,0.216,15,False
+cataluna,D8,48,83.2,52929,Vilassar de Mar,08219,0.4,5,False
+cataluna,D8,49,45.6,47968,Sant Andreu de la Barca,08196,0.564,4,False
+cataluna,D8,50,93.6,53255,Vic,08298,0.926,5,False
+cataluna,D8,51,303.3,53842,Vallirana,08295,0.296,13,False
+cataluna,D8,52,27.4,47565,Santa Perpètua de Mogoda,08260,0.545,3,False
+cataluna,D8,53,232.8,53550,Sitges,08270,0.607,8,False
+cataluna,D8,54,60.6,57035,"Franqueses del Vallès, Les",08086,0.362,3,False
+cataluna,D8,55,19.6,67196,Sant Feliu de Llobregat,08211,0.69,2,False
+cataluna,D8,56,1.2,56456,Badalona,08015,1.0,1,True
+cataluna,D8,57,35.1,76928,Terrassa,08279,0.739,2,False
+cataluna,D8,58,702.4,53914,Vilanova del Camí,08302,0.238,27,False
+cataluna,D8,59,115.5,57331,Sant Pere de Ribes,08231,0.558,4,False
+cataluna,D8,60,102.5,53688,Argentona,08009,0.239,7,False
+cataluna,D8,61,86.9,52348,Arenys de Mar,08006,0.315,7,False
+cataluna,D8,62,813.5,52693,Tona,08283,0.161,22,False
+cataluna,D8,63,177.6,52496,Olesa de Montserrat,08147,0.471,7,False
+cataluna,D8,64,5.4,53372,Premià de Mar,08172,0.542,2,False
+cataluna,D8,65,53.7,65893,Parets del Vallès,08159,0.287,5,False
+cataluna,D8,66,10.9,52045,Mollet del Vallès,08124,1.0,1,True
+cataluna,D8,67,1.4,60482,Santa Coloma de Gramenet,08245,1.0,1,True
+cataluna,D8,68,1.5,56334,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,D8,69,222.6,84852,Esparreguera,08076,0.265,10,False
+cataluna,D8,70,7.4,68687,Sabadell,08187,0.809,2,False
+cataluna,D8,71,32.4,63859,Sant Vicenç dels Horts,08263,0.448,3,False
+cataluna,D8,72,31.8,52684,Pineda de Mar,08163,0.558,3,False
+cataluna,D8,73,25.6,70755,Granollers,08096,0.903,2,False
+cataluna,D8,74,31.5,65910,"Prat de Llobregat, El",08169,1.0,1,True
+cataluna,D8,75,7.0,66711,Sant Joan Despí,08217,0.525,2,False
+cataluna,D8,76,436.6,53061,Bigues i Riells del Fai,08023,0.189,16,False
+cataluna,D8,77,111.1,53158,Castellar del Vallès,08051,0.476,3,False
+cataluna,D8,78,4.5,47700,Esplugues de Llobregat,08077,1.0,1,True
+cataluna,D8,79,17.8,65025,Mataró,08121,1.0,1,True
+cataluna,D8,80,12.6,69196,Castelldefels,08056,1.0,1,True
+cataluna,D8,81,73.4,52927,Vilafranca del Penedès,08305,0.785,5,False
+cataluna,D8,82,30.8,57831,Cerdanyola del Vallès,08266,1.0,1,True
+cataluna,D8,83,449.3,52498,Manlleu,08112,0.406,16,False
+cataluna,D8,84,33.9,70293,Vilanova i la Geltrú,08307,1.0,1,True
+cataluna,D8,85,137.9,52556,Piera,08161,0.334,6,False
+cataluna,D8,86,12.6,73074,Ripollet,08180,0.54,2,False
+cataluna,D8,87,23.1,92271,Viladecans,08301,0.728,2,False
+cataluna,D8,88,1071.9,52809,Berga,08022,0.326,35,False
+cataluna,D8,89,48.6,53176,Montgat,08126,0.238,7,False
+cataluna,D8,90,57.7,50853,Canovelles,08041,0.339,4,False
+cataluna,D8,91,8.1,99682,Barcelona,08019,0.612,2,False
+cataluna,D8,92,30.6,71441,Sant Cugat del Vallès,08205,0.69,2,False
+cataluna,D8,93,125.1,52747,Calella,08035,0.383,4,False
+cataluna,D8,94,291.2,53805,Igualada,08102,0.776,9,False
+cataluna,D8,95,55.4,58278,Gavà,08089,0.823,3,False
+cataluna,D8,96,40.3,51276,Montcada i Reixac,08125,0.723,3,False
+cataluna,D8,97,357.6,53110,Sant Celoni,08202,0.352,13,False
+cataluna,D8,98,88.6,67586,Martorell,08114,0.421,6,False
+cataluna,D8,99,22.5,53534,Girona,17079,1.0,1,True
+cataluna,D8,100,148.2,53252,Salt,17155,0.637,7,False
+cataluna,D8,101,20.7,58320,Girona,17079,0.908,2,False
+cataluna,D8,102,363.1,63090,Figueres,17066,0.771,19,False
+cataluna,D8,103,350.4,56827,Cassà de la Selva,17044,0.193,11,False
+cataluna,D8,104,489.4,57033,Olot,17114,0.681,14,False
+cataluna,D8,105,139.2,53743,Sant Feliu de Guíxols,17160,0.427,4,False
+cataluna,D8,106,578.5,60404,Roses,17152,0.335,32,False
+cataluna,D8,107,653.8,62619,Banyoles,17015,0.331,28,False
+cataluna,D8,108,522.9,54958,Torroella de Montgrí,17199,0.226,32,False
+cataluna,D8,109,66.3,84069,Lloret de Mar,17095,0.501,2,False
+cataluna,D8,110,202.9,55230,Palafrugell,17117,0.439,12,False
+cataluna,D8,111,628.4,53338,Santa Coloma de Farners,17180,0.26,14,False
+cataluna,D8,112,1723.7,54691,Ripoll,17147,0.197,44,False
+cataluna,D8,113,119.5,72480,Lleida,25120,1.0,1,True
+cataluna,D8,114,1286.2,50560,Tàrrega,25217,0.367,23,False
+cataluna,D8,115,1188.7,49527,Mollerussa,25137,0.317,32,False
+cataluna,D8,116,4224.8,50289,Solsona,25207,0.187,65,False
+cataluna,D8,117,2411.4,48784,"Seu d'Urgell, La",25203,0.262,42,False
+cataluna,D8,118,131.2,83768,Lleida,25120,0.864,3,False
+cataluna,D8,119,1961.2,48334,Balaguer,25040,0.364,30,False
+cataluna,D8,120,850.4,47965,"Borges Blanques, Les",25058,0.132,36,False
+cataluna,D8,121,26.3,54884,Reus,43123,1.0,1,True
+cataluna,D8,122,11.1,70226,Tarragona,43148,1.0,1,True
+cataluna,D8,123,501.4,52842,Amposta,43014,0.428,7,False
+cataluna,D8,124,223.3,64534,Torredembarra,43153,0.278,17,False
+cataluna,D8,125,234.6,57440,Cambrils,43038,0.639,12,False
+cataluna,D8,126,196.4,66116,"Vendrell, El",43163,0.613,11,False
+cataluna,D8,127,38.1,59406,Reus,43123,0.927,3,False
+cataluna,D8,128,166.3,65955,Calafell,43037,0.479,8,False
+cataluna,D8,129,43.8,60439,43905,43905,0.504,3,False
+cataluna,D8,130,1066.5,56404,Tortosa,43155,0.63,17,False
+cataluna,D8,131,84.1,76459,Tarragona,43148,0.926,4,False
+cataluna,D8,132,1076.5,62782,Valls,43161,0.4,38,False
+cataluna,D8,133,1066.8,53309,"Ràpita, La",43136,0.296,18,False
+cataluna,D8,134,1568.6,60948,Mont-roig del Camp,43092,0.233,46,False
+cataluna,C,0,4.0,56331,Badalona,08015,1.0,1,True
+cataluna,C,1,3.1,56866,Badalona,08015,1.0,1,True
+cataluna,C,2,12.8,56566,Badalona,08015,1.0,1,True
+cataluna,C,3,1.7,60202,Barcelona,08019,1.0,1,True
+cataluna,C,4,8.1,59857,Barcelona,08019,1.0,1,True
+cataluna,C,5,1.6,60549,Barcelona,08019,1.0,1,True
+cataluna,C,6,2.3,60122,Barcelona,08019,1.0,1,True
+cataluna,C,7,1.3,60178,Barcelona,08019,1.0,1,True
+cataluna,C,8,1.5,59755,Barcelona,08019,1.0,1,True
+cataluna,C,9,1.3,60099,Barcelona,08019,1.0,1,True
+cataluna,C,10,1.5,61294,Barcelona,08019,1.0,1,True
+cataluna,C,11,1.2,60253,Barcelona,08019,1.0,1,True
+cataluna,C,12,2.3,61247,Barcelona,08019,1.0,1,True
+cataluna,C,13,2.0,60338,Barcelona,08019,1.0,1,True
+cataluna,C,14,1.9,59585,Barcelona,08019,1.0,1,True
+cataluna,C,15,2.0,59832,Barcelona,08019,1.0,1,True
+cataluna,C,16,3.7,59865,Barcelona,08019,1.0,1,True
+cataluna,C,17,2.2,60384,Barcelona,08019,1.0,1,True
+cataluna,C,18,1.0,59766,Barcelona,08019,1.0,1,True
+cataluna,C,19,2.7,59625,Barcelona,08019,1.0,1,True
+cataluna,C,20,2.1,60641,Barcelona,08019,1.0,1,True
+cataluna,C,21,2.2,60892,Barcelona,08019,1.0,1,True
+cataluna,C,22,1.9,60780,Barcelona,08019,1.0,1,True
+cataluna,C,23,16.9,60455,Barcelona,08019,1.0,1,True
+cataluna,C,24,2.0,60212,Barcelona,08019,1.0,1,True
+cataluna,C,25,4.8,59875,Barcelona,08019,1.0,1,True
+cataluna,C,26,3.1,59158,Barcelona,08019,1.0,1,True
+cataluna,C,27,20.6,59445,Barcelona,08019,1.0,1,True
+cataluna,C,28,5.0,61005,Barcelona,08019,1.0,1,True
+cataluna,C,29,1.1,59784,Barcelona,08019,1.0,1,True
+cataluna,C,30,6.0,59497,Cornellà de Llobregat,08073,1.0,1,True
+cataluna,C,31,2.8,56431,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,C,32,6.0,55662,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,C,33,1.0,56510,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,C,34,1.1,57362,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,C,35,10.7,59446,Manresa,08113,1.0,1,True
+cataluna,C,36,4.5,65862,Mataró,08121,1.0,1,True
+cataluna,C,37,30.4,59350,Rubí,08184,1.0,1,True
+cataluna,C,38,11.0,55315,Sabadell,08187,1.0,1,True
+cataluna,C,39,7.7,55514,Sabadell,08187,1.0,1,True
+cataluna,C,40,12.6,55157,Sabadell,08187,1.0,1,True
+cataluna,C,41,18.5,59496,Sant Boi de Llobregat,08200,1.0,1,True
+cataluna,C,42,19.4,49381,Sant Cugat del Vallès,08205,1.0,1,True
+cataluna,C,43,5.7,60421,Santa Coloma de Gramenet,08245,1.0,1,True
+cataluna,C,44,4.3,56852,Terrassa,08279,1.0,1,True
+cataluna,C,45,14.2,57115,Terrassa,08279,1.0,1,True
+cataluna,C,46,30.5,57509,Terrassa,08279,1.0,1,True
+cataluna,C,47,627.3,52284,Sant Joan de Vilatorrada,08218,0.21,16,False
+cataluna,C,48,83.2,52929,Vilassar de Mar,08219,0.4,5,False
+cataluna,C,49,45.6,47968,Sant Andreu de la Barca,08196,0.564,4,False
+cataluna,C,50,93.6,53255,Vic,08298,0.926,5,False
+cataluna,C,51,303.3,53842,Vallirana,08295,0.296,13,False
+cataluna,C,52,27.4,47565,Santa Perpètua de Mogoda,08260,0.545,3,False
+cataluna,C,53,232.8,53550,Sitges,08270,0.607,8,False
+cataluna,C,54,60.6,57035,"Franqueses del Vallès, Les",08086,0.362,3,False
+cataluna,C,55,19.6,67196,Sant Feliu de Llobregat,08211,0.69,2,False
+cataluna,C,56,1.2,56456,Badalona,08015,1.0,1,True
+cataluna,C,57,35.1,76928,Terrassa,08279,0.739,2,False
+cataluna,C,58,650.2,52330,Vilanova del Camí,08302,0.246,26,False
+cataluna,C,59,115.5,57331,Sant Pere de Ribes,08231,0.558,4,False
+cataluna,C,60,86.9,52348,Arenys de Mar,08006,0.315,7,False
+cataluna,C,61,102.5,53688,Argentona,08009,0.239,7,False
+cataluna,C,62,813.5,52693,Tona,08283,0.161,22,False
+cataluna,C,63,177.6,52496,Olesa de Montserrat,08147,0.471,7,False
+cataluna,C,64,5.4,53372,Premià de Mar,08172,0.542,2,False
+cataluna,C,65,38.7,50068,Parets del Vallès,08159,0.377,4,False
+cataluna,C,66,10.9,52045,Mollet del Vallès,08124,1.0,1,True
+cataluna,C,67,1.4,60482,Santa Coloma de Gramenet,08245,1.0,1,True
+cataluna,C,68,1.5,56334,"Hospitalet de Llobregat, L'",08101,1.0,1,True
+cataluna,C,69,222.6,84852,Esparreguera,08076,0.265,10,False
+cataluna,C,70,7.4,68687,Sabadell,08187,0.809,2,False
+cataluna,C,71,32.4,63859,Sant Vicenç dels Horts,08263,0.448,3,False
+cataluna,C,72,31.8,52684,Pineda de Mar,08163,0.558,3,False
+cataluna,C,73,40.5,86580,Granollers,08096,0.738,3,False
+cataluna,C,74,31.5,65910,"Prat de Llobregat, El",08169,1.0,1,True
+cataluna,C,75,7.0,66711,Sant Joan Despí,08217,0.525,2,False
+cataluna,C,76,436.6,53061,Bigues i Riells del Fai,08023,0.189,16,False
+cataluna,C,77,57.7,50853,Canovelles,08041,0.339,4,False
+cataluna,C,78,4.5,47700,Esplugues de Llobregat,08077,1.0,1,True
+cataluna,C,79,17.8,65025,Mataró,08121,1.0,1,True
+cataluna,C,80,12.6,69196,Castelldefels,08056,1.0,1,True
+cataluna,C,81,73.4,52927,Vilafranca del Penedès,08305,0.785,5,False
+cataluna,C,82,30.8,57831,Cerdanyola del Vallès,08266,1.0,1,True
+cataluna,C,83,449.3,52498,Manlleu,08112,0.406,16,False
+cataluna,C,84,33.9,70293,Vilanova i la Geltrú,08307,1.0,1,True
+cataluna,C,85,137.9,52556,Piera,08161,0.334,6,False
+cataluna,C,86,12.6,73074,Ripollet,08180,0.54,2,False
+cataluna,C,87,23.1,92271,Viladecans,08301,0.728,2,False
+cataluna,C,88,1071.9,52809,Berga,08022,0.326,35,False
+cataluna,C,89,48.6,53176,Montgat,08126,0.238,7,False
+cataluna,C,90,111.1,53158,Castellar del Vallès,08051,0.476,3,False
+cataluna,C,91,8.1,99682,Barcelona,08019,0.612,2,False
+cataluna,C,92,30.6,71441,Sant Cugat del Vallès,08205,0.69,2,False
+cataluna,C,93,125.1,52747,Calella,08035,0.383,4,False
+cataluna,C,94,291.2,53805,Igualada,08102,0.776,9,False
+cataluna,C,95,55.4,58278,Gavà,08089,0.823,3,False
+cataluna,C,96,40.3,51276,Montcada i Reixac,08125,0.723,3,False
+cataluna,C,97,357.6,53110,Sant Celoni,08202,0.352,13,False
+cataluna,C,98,88.6,67586,Martorell,08114,0.421,6,False
+cataluna,C,99,22.5,53534,Girona,17079,1.0,1,True
+cataluna,C,100,148.2,53252,Salt,17155,0.637,7,False
+cataluna,C,101,20.7,58320,Girona,17079,0.908,2,False
+cataluna,C,102,363.1,63090,Figueres,17066,0.771,19,False
+cataluna,C,103,350.4,56827,Cassà de la Selva,17044,0.193,11,False
+cataluna,C,104,489.4,57033,Olot,17114,0.681,14,False
+cataluna,C,105,139.2,53743,Sant Feliu de Guíxols,17160,0.427,4,False
+cataluna,C,106,578.5,60404,Roses,17152,0.335,32,False
+cataluna,C,107,653.8,62619,Banyoles,17015,0.331,28,False
+cataluna,C,108,522.9,54958,Torroella de Montgrí,17199,0.226,32,False
+cataluna,C,109,66.3,84069,Lloret de Mar,17095,0.501,2,False
+cataluna,C,110,202.9,55230,Palafrugell,17117,0.439,12,False
+cataluna,C,111,628.4,53338,Santa Coloma de Farners,17180,0.26,14,False
+cataluna,C,112,1723.7,54691,Ripoll,17147,0.197,44,False
+cataluna,C,113,119.5,72480,Lleida,25120,1.0,1,True
+cataluna,C,114,1286.2,50560,Tàrrega,25217,0.367,23,False
+cataluna,C,115,1188.7,49527,Mollerussa,25137,0.317,32,False
+cataluna,C,116,4224.8,50289,Solsona,25207,0.187,65,False
+cataluna,C,117,2411.4,48784,"Seu d'Urgell, La",25203,0.262,42,False
+cataluna,C,118,131.2,83768,Lleida,25120,0.864,3,False
+cataluna,C,119,1961.2,48334,Balaguer,25040,0.364,30,False
+cataluna,C,120,850.4,47965,"Borges Blanques, Les",25058,0.132,36,False
+cataluna,C,121,26.3,54884,Reus,43123,1.0,1,True
+cataluna,C,122,11.1,70226,Tarragona,43148,1.0,1,True
+cataluna,C,123,501.4,52842,Amposta,43014,0.428,7,False
+cataluna,C,124,223.3,64534,Torredembarra,43153,0.278,17,False
+cataluna,C,125,234.6,57440,Cambrils,43038,0.639,12,False
+cataluna,C,126,196.4,66116,"Vendrell, El",43163,0.613,11,False
+cataluna,C,127,38.1,59406,Reus,43123,0.927,3,False
+cataluna,C,128,166.3,65955,Calafell,43037,0.479,8,False
+cataluna,C,129,43.8,60439,43905,43905,0.504,3,False
+cataluna,C,130,1066.5,56404,Tortosa,43155,0.63,17,False
+cataluna,C,131,84.1,76459,Tarragona,43148,0.926,4,False
+cataluna,C,132,1076.5,62782,Valls,43161,0.4,38,False
+cataluna,C,133,1066.8,53309,"Ràpita, La",43136,0.296,18,False
+cataluna,C,134,1568.6,60948,Mont-roig del Camp,43092,0.233,46,False
+galicia,A,0,1.9,35088,"Coruña, A",15030,1.0,1,True
+galicia,A,1,1.1,35583,"Coruña, A",15030,1.0,1,True
+galicia,A,2,2.4,35329,"Coruña, A",15030,1.0,1,True
+galicia,A,3,1.7,36132,"Coruña, A",15030,1.0,1,True
+galicia,A,4,6.4,35711,"Coruña, A",15030,1.0,1,True
+galicia,A,5,1.8,35837,"Coruña, A",15030,1.0,1,True
+galicia,A,6,4.4,32184,Ferrol,15036,1.0,1,True
+galicia,A,7,17.3,32749,Santiago de Compostela,15078,1.0,1,True
+galicia,A,8,75.6,33527,Santiago de Compostela,15078,1.0,1,True
+galicia,A,9,67.1,39320,Narón,15054,1.0,1,True
+galicia,A,10,101.0,36211,Ribeira,15073,0.746,2,False
+galicia,A,11,22.5,35575,"Coruña, A",15030,1.0,1,True
+galicia,A,12,549.0,32663,Muros,15053,0.25,7,False
+galicia,A,13,452.5,36259,Teo,15082,0.528,5,False
+galicia,A,14,260.7,43543,Sada,15075,0.395,7,False
+galicia,A,15,93.4,34008,Arteixo,15005,1.0,1,True
+galicia,A,16,538.2,40337,Fene,15035,0.311,9,False
+galicia,A,17,537.8,34854,Padrón,15065,0.238,6,False
+galicia,A,18,1086.3,40186,Melide,15046,0.193,11,False
+galicia,A,19,80.1,32799,Ames,15002,1.0,1,True
+galicia,A,20,78.0,32174,Ferrol,15036,1.0,1,True
+galicia,A,21,43.6,38304,Oleiros,15058,1.0,1,True
+galicia,A,22,216.8,40199,Culleredo,15031,0.772,3,False
+galicia,A,23,706.0,34907,"Laracha, A",15041,0.332,5,False
+galicia,A,24,722.2,32858,Vimianzo,15092,0.207,7,False
+galicia,A,25,248.2,36856,Carballo,15019,0.857,2,False
+galicia,A,26,181.4,32383,Boiro,15011,0.587,3,False
+galicia,A,27,325.2,32318,Noia,15057,0.435,4,False
+galicia,A,28,306.2,56348,Cambre,15017,0.44,4,False
+galicia,A,29,992.6,37999,"Pontes de García Rodríguez, As",15070,0.257,10,False
+galicia,A,30,229.2,36208,Santiago de Compostela,15078,0.917,2,False
+galicia,A,31,6.0,32901,Lugo,27028,1.0,1,True
+galicia,A,32,66.0,33059,Lugo,27028,1.0,1,True
+galicia,A,33,1910.2,36266,Vilalba,27065,0.381,9,False
+galicia,A,34,989.2,36653,Monforte de Lemos,27031,0.507,6,False
+galicia,A,35,2608.4,39854,Sarria,27057,0.34,18,False
+galicia,A,36,432.0,35900,Lugo,27028,0.931,2,False
+galicia,A,37,548.1,37305,Viveiro,27066,0.408,7,False
+galicia,A,38,1007.1,35993,Foz,27019,0.285,9,False
+galicia,A,39,2290.9,37117,Outeiro de Rei,27039,0.145,16,False
+galicia,A,40,49.6,34878,Ourense,32054,1.0,1,True
+galicia,A,41,15.7,34601,Ourense,32054,1.0,1,True
+galicia,A,42,506.1,32826,"Carballiño, O",32019,0.429,13,False
+galicia,A,43,714.5,33557,"Pereiro de Aguiar, O",32058,0.2,13,False
+galicia,A,44,1977.5,33121,"Barco de Valdeorras, O",32009,0.402,16,False
+galicia,A,45,19.3,35246,Ourense,32054,1.0,1,True
+galicia,A,46,1976.9,32742,Coles,32026,0.097,23,False
+galicia,A,47,879.3,32251,Verín,32085,0.427,8,False
+galicia,A,48,1136.3,35245,Barbadás,32008,0.317,18,False
+galicia,A,49,67.7,40389,Pontevedra,36038,1.0,1,True
+galicia,A,50,2.5,37602,Vigo,36057,1.0,1,True
+galicia,A,51,2.3,36543,Vigo,36057,1.0,1,True
+galicia,A,52,16.2,36300,Vigo,36057,1.0,1,True
+galicia,A,53,15.1,37452,Vigo,36057,1.0,1,True
+galicia,A,54,7.0,36815,Vigo,36057,1.0,1,True
+galicia,A,55,1.3,36821,Vigo,36057,1.0,1,True
+galicia,A,56,4.6,36897,Vigo,36057,1.0,1,True
+galicia,A,57,643.8,33115,Soutomaior,36053,0.229,10,False
+galicia,A,58,67.5,35919,Marín,36026,0.671,2,False
+galicia,A,59,135.7,35884,"Porriño, O",36039,0.577,2,False
+galicia,A,60,55.5,37093,Vigo,36057,1.0,1,True
+galicia,A,61,44.0,37831,Vilagarcía de Arousa,36060,1.0,1,True
+galicia,A,62,94.4,34048,Sanxenxo,36051,0.526,3,False
+galicia,A,63,166.7,33781,Poio,36041,0.515,5,False
+galicia,A,64,1027.2,33960,Lalín,36024,0.596,6,False
+galicia,A,65,68.9,30696,Nigrán,36035,0.593,2,False
+galicia,A,66,131.9,38542,Cambados,36006,0.359,4,False
+galicia,A,67,254.5,33560,Tomiño,36054,0.413,4,False
+galicia,A,68,455.4,32104,"Estrada, A",36017,0.627,3,False
+galicia,A,69,668.3,33108,36902,36902,0.172,8,False
+galicia,A,70,73.1,46035,Cangas,36008,0.581,2,False
+galicia,A,71,87.1,48596,Pontevedra,36038,0.879,2,False
+galicia,A,72,167.1,37404,Tui,36055,0.469,3,False
+galicia,A,73,179.1,38343,Ponteareas,36042,0.605,2,False
+galicia,A,74,52.3,29031,Redondela,36045,1.0,1,True
+galicia,D8,0,1.9,35088,"Coruña, A",15030,1.0,1,True
+galicia,D8,1,1.1,35583,"Coruña, A",15030,1.0,1,True
+galicia,D8,2,2.4,35329,"Coruña, A",15030,1.0,1,True
+galicia,D8,3,1.7,36132,"Coruña, A",15030,1.0,1,True
+galicia,D8,4,6.4,35711,"Coruña, A",15030,1.0,1,True
+galicia,D8,5,1.8,35837,"Coruña, A",15030,1.0,1,True
+galicia,D8,6,4.4,32184,Ferrol,15036,1.0,1,True
+galicia,D8,7,17.3,32749,Santiago de Compostela,15078,1.0,1,True
+galicia,D8,8,75.6,33527,Santiago de Compostela,15078,1.0,1,True
+galicia,D8,9,67.1,39320,Narón,15054,1.0,1,True
+galicia,D8,10,101.0,36211,Ribeira,15073,0.746,2,False
+galicia,D8,11,22.5,35575,"Coruña, A",15030,1.0,1,True
+galicia,D8,12,549.0,32663,Muros,15053,0.25,7,False
+galicia,D8,13,452.5,36259,Teo,15082,0.528,5,False
+galicia,D8,14,260.7,43543,Sada,15075,0.395,7,False
+galicia,D8,15,93.4,34008,Arteixo,15005,1.0,1,True
+galicia,D8,16,538.2,40337,Fene,15035,0.311,9,False
+galicia,D8,17,537.8,34854,Padrón,15065,0.238,6,False
+galicia,D8,18,1086.3,40186,Melide,15046,0.193,11,False
+galicia,D8,19,80.1,32799,Ames,15002,1.0,1,True
+galicia,D8,20,78.0,32174,Ferrol,15036,1.0,1,True
+galicia,D8,21,43.6,38304,Oleiros,15058,1.0,1,True
+galicia,D8,22,216.8,40199,Culleredo,15031,0.772,3,False
+galicia,D8,23,706.0,34907,"Laracha, A",15041,0.332,5,False
+galicia,D8,24,722.2,32858,Vimianzo,15092,0.207,7,False
+galicia,D8,25,248.2,36856,Carballo,15019,0.857,2,False
+galicia,D8,26,181.4,32383,Boiro,15011,0.587,3,False
+galicia,D8,27,325.2,32318,Noia,15057,0.435,4,False
+galicia,D8,28,306.2,56348,Cambre,15017,0.44,4,False
+galicia,D8,29,992.6,37999,"Pontes de García Rodríguez, As",15070,0.257,10,False
+galicia,D8,30,229.2,36208,Santiago de Compostela,15078,0.917,2,False
+galicia,D8,31,6.0,32901,Lugo,27028,1.0,1,True
+galicia,D8,32,66.0,33059,Lugo,27028,1.0,1,True
+galicia,D8,33,1910.2,36266,Vilalba,27065,0.381,9,False
+galicia,D8,34,1257.0,39692,Monforte de Lemos,27031,0.468,8,False
+galicia,D8,35,1577.5,36908,Sarria,27057,0.367,12,False
+galicia,D8,36,432.0,35900,Lugo,27028,0.931,2,False
+galicia,D8,37,1195.1,39434,Foz,27019,0.261,11,False
+galicia,D8,38,360.1,33864,Viveiro,27066,0.45,5,False
+galicia,D8,39,3054.0,37024,Outeiro de Rei,27039,0.145,20,False
+galicia,D8,40,49.6,34878,Ourense,32054,1.0,1,True
+galicia,D8,41,15.7,34601,Ourense,32054,1.0,1,True
+galicia,D8,42,506.1,32826,"Carballiño, O",32019,0.429,13,False
+galicia,D8,43,1378.5,31060,Allariz,32001,0.207,17,False
+galicia,D8,44,1977.5,33121,"Barco de Valdeorras, O",32009,0.402,16,False
+galicia,D8,45,1136.3,35245,Barbadás,32008,0.317,18,False
+galicia,D8,46,1312.9,35239,"Pereiro de Aguiar, O",32058,0.191,19,False
+galicia,D8,47,879.3,32251,Verín,32085,0.427,8,False
+galicia,D8,48,19.3,35246,Ourense,32054,1.0,1,True
+galicia,D8,49,67.7,40389,Pontevedra,36038,1.0,1,True
+galicia,D8,50,2.5,37602,Vigo,36057,1.0,1,True
+galicia,D8,51,2.3,36543,Vigo,36057,1.0,1,True
+galicia,D8,52,16.2,36300,Vigo,36057,1.0,1,True
+galicia,D8,53,15.1,37452,Vigo,36057,1.0,1,True
+galicia,D8,54,7.0,36815,Vigo,36057,1.0,1,True
+galicia,D8,55,4.4,37342,Vigo,36057,1.0,1,True
+galicia,D8,56,1.5,36376,Vigo,36057,1.0,1,True
+galicia,D8,57,643.8,33115,Soutomaior,36053,0.229,10,False
+galicia,D8,58,67.5,35919,Marín,36026,0.671,2,False
+galicia,D8,59,135.7,35884,"Porriño, O",36039,0.577,2,False
+galicia,D8,60,55.5,37093,Vigo,36057,1.0,1,True
+galicia,D8,61,44.0,37831,Vilagarcía de Arousa,36060,1.0,1,True
+galicia,D8,62,94.4,34048,Sanxenxo,36051,0.526,3,False
+galicia,D8,63,166.7,33781,Poio,36041,0.515,5,False
+galicia,D8,64,1027.2,33960,Lalín,36024,0.596,6,False
+galicia,D8,65,68.9,30696,Nigrán,36035,0.593,2,False
+galicia,D8,66,131.9,38542,Cambados,36006,0.359,4,False
+galicia,D8,67,254.5,33560,Tomiño,36054,0.413,4,False
+galicia,D8,68,455.4,32104,"Estrada, A",36017,0.627,3,False
+galicia,D8,69,668.3,33108,36902,36902,0.172,8,False
+galicia,D8,70,73.1,46035,Cangas,36008,0.581,2,False
+galicia,D8,71,87.1,48596,Pontevedra,36038,0.879,2,False
+galicia,D8,72,167.1,37404,Tui,36055,0.469,3,False
+galicia,D8,73,179.1,38343,Ponteareas,36042,0.605,2,False
+galicia,D8,74,52.3,29031,Redondela,36045,1.0,1,True
+galicia,C,0,1.9,35088,"Coruña, A",15030,1.0,1,True
+galicia,C,1,1.1,35583,"Coruña, A",15030,1.0,1,True
+galicia,C,2,2.4,35329,"Coruña, A",15030,1.0,1,True
+galicia,C,3,1.7,36132,"Coruña, A",15030,1.0,1,True
+galicia,C,4,6.4,35711,"Coruña, A",15030,1.0,1,True
+galicia,C,5,1.8,35837,"Coruña, A",15030,1.0,1,True
+galicia,C,6,4.4,32184,Ferrol,15036,1.0,1,True
+galicia,C,7,17.3,32749,Santiago de Compostela,15078,1.0,1,True
+galicia,C,8,75.6,33527,Santiago de Compostela,15078,1.0,1,True
+galicia,C,9,67.1,39320,Narón,15054,1.0,1,True
+galicia,C,10,101.0,36211,Ribeira,15073,0.746,2,False
+galicia,C,11,22.5,35575,"Coruña, A",15030,1.0,1,True
+galicia,C,12,549.0,32663,Muros,15053,0.25,7,False
+galicia,C,13,452.5,36259,Teo,15082,0.528,5,False
+galicia,C,14,260.7,43543,Sada,15075,0.395,7,False
+galicia,C,15,93.4,34008,Arteixo,15005,1.0,1,True
+galicia,C,16,538.2,40337,Fene,15035,0.311,9,False
+galicia,C,17,537.8,34854,Padrón,15065,0.238,6,False
+galicia,C,18,1086.3,40186,Melide,15046,0.193,11,False
+galicia,C,19,80.1,32799,Ames,15002,1.0,1,True
+galicia,C,20,78.0,32174,Ferrol,15036,1.0,1,True
+galicia,C,21,43.6,38304,Oleiros,15058,1.0,1,True
+galicia,C,22,216.8,40199,Culleredo,15031,0.772,3,False
+galicia,C,23,706.0,34907,"Laracha, A",15041,0.332,5,False
+galicia,C,24,722.2,32858,Vimianzo,15092,0.207,7,False
+galicia,C,25,248.2,36856,Carballo,15019,0.857,2,False
+galicia,C,26,181.4,32383,Boiro,15011,0.587,3,False
+galicia,C,27,325.2,32318,Noia,15057,0.435,4,False
+galicia,C,28,306.2,56348,Cambre,15017,0.44,4,False
+galicia,C,29,992.6,37999,"Pontes de García Rodríguez, As",15070,0.257,10,False
+galicia,C,30,229.2,36208,Santiago de Compostela,15078,0.917,2,False
+galicia,C,31,6.0,32901,Lugo,27028,1.0,1,True
+galicia,C,32,66.0,33059,Lugo,27028,1.0,1,True
+galicia,C,33,1910.2,36266,Vilalba,27065,0.381,9,False
+galicia,C,34,1257.0,39692,Monforte de Lemos,27031,0.468,8,False
+galicia,C,35,1577.5,36908,Sarria,27057,0.367,12,False
+galicia,C,36,432.0,35900,Lugo,27028,0.931,2,False
+galicia,C,37,1195.1,39434,Foz,27019,0.261,11,False
+galicia,C,38,360.1,33864,Viveiro,27066,0.45,5,False
+galicia,C,39,3054.0,37024,Outeiro de Rei,27039,0.145,20,False
+galicia,C,40,49.6,34878,Ourense,32054,1.0,1,True
+galicia,C,41,15.7,34601,Ourense,32054,1.0,1,True
+galicia,C,42,506.1,32826,"Carballiño, O",32019,0.429,13,False
+galicia,C,43,1378.5,31060,Allariz,32001,0.207,17,False
+galicia,C,44,1977.5,33121,"Barco de Valdeorras, O",32009,0.402,16,False
+galicia,C,45,1136.3,35245,Barbadás,32008,0.317,18,False
+galicia,C,46,1312.9,35239,"Pereiro de Aguiar, O",32058,0.191,19,False
+galicia,C,47,879.3,32251,Verín,32085,0.427,8,False
+galicia,C,48,19.3,35246,Ourense,32054,1.0,1,True
+galicia,C,49,67.7,40389,Pontevedra,36038,1.0,1,True
+galicia,C,50,2.5,37602,Vigo,36057,1.0,1,True
+galicia,C,51,2.3,36543,Vigo,36057,1.0,1,True
+galicia,C,52,16.2,36300,Vigo,36057,1.0,1,True
+galicia,C,53,15.1,37452,Vigo,36057,1.0,1,True
+galicia,C,54,7.0,36815,Vigo,36057,1.0,1,True
+galicia,C,55,4.4,37342,Vigo,36057,1.0,1,True
+galicia,C,56,1.5,36376,Vigo,36057,1.0,1,True
+galicia,C,57,643.8,33115,Soutomaior,36053,0.229,10,False
+galicia,C,58,67.5,35919,Marín,36026,0.671,2,False
+galicia,C,59,135.7,35884,"Porriño, O",36039,0.577,2,False
+galicia,C,60,55.5,37093,Vigo,36057,1.0,1,True
+galicia,C,61,44.0,37831,Vilagarcía de Arousa,36060,1.0,1,True
+galicia,C,62,94.4,34048,Sanxenxo,36051,0.526,3,False
+galicia,C,63,166.7,33781,Poio,36041,0.515,5,False
+galicia,C,64,1027.2,33960,Lalín,36024,0.596,6,False
+galicia,C,65,68.9,30696,Nigrán,36035,0.593,2,False
+galicia,C,66,131.9,38542,Cambados,36006,0.359,4,False
+galicia,C,67,254.5,33560,Tomiño,36054,0.413,4,False
+galicia,C,68,455.4,32104,"Estrada, A",36017,0.627,3,False
+galicia,C,69,668.3,33108,36902,36902,0.172,8,False
+galicia,C,70,73.1,46035,Cangas,36008,0.581,2,False
+galicia,C,71,87.1,48596,Pontevedra,36038,0.879,2,False
+galicia,C,72,167.1,37404,Tui,36055,0.469,3,False
+galicia,C,73,179.1,38343,Ponteareas,36042,0.605,2,False
+galicia,C,74,52.3,29031,Redondela,36045,1.0,1,True

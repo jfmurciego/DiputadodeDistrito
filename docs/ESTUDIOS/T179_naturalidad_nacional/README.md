@@ -29,8 +29,13 @@ Nada cambia en suelo, techo, K ni tolerancia: todos los mapas cumplen el núcleo
 - D8 consigue el 86 % de la mejora de C en partidos judiciales (131 de 152 partidos judiciales menos) con un desvío medio
   de 11,4 % frente a 16,4 %. El desvío medio de D8 pasa del 8 % porque cuenta los distritos fuera de tolerancia y las
   provincias donde ningún candidato bajaba del 8 % (gana el de menor exceso).
-- Los distritos fuera de tolerancia son excepciones ya aceptadas (municipios o islas exentos); C no añade ninguno y
-  quita uno.
+- «Mejora/empata/empeora» solo cuenta partidos judiciales y comarcas agrarias partidos. Donde empatan, la forma sí
+  mejora: Polsby-Popper medio en Álava 0,189 → 0,303 (D8) y 0,326 (C); Baleares 0,118 → 0,151 y 0,161; Valencia
+  (D8) 0,169 → 0,194.
+- Fuera de tolerancia: A tiene 7 distritos; C y D8, 6 (Las Palmas deja de tener uno). Siguen fuera, en C y en D8, los
+  de Baleares, Barcelona, Cádiz, Málaga, Murcia y Pontevedra. Cada uno contiene el municipio o la isla que su contrato
+  declara exento del suelo (`population_floor_exempt_municipalities` / `_partitions`): Ibiza y Formentera, Cornellá de
+  Llobregat, San Fernando, Fuengirola, Águilas y Cangas.
 
 ## Dónde C o D8 empeoran algo frente a A
 
@@ -54,4 +59,4 @@ Ninguna provincia se queda sin candidato válido (salvo las de un solo distrito,
 `ddd_motor2/naturalidad_competicion.py` 1.2.0 con `--funciones C,D8 --reanudar`, en sesión (sin workflow), con el
 seccionado INE de cada contrato (sha256 en `datos/naturalidad/MANIFEST.json`). Islas: partición y puentes marítimos de
 `configuracion/particiones_insulares_2025.json`; enclaves y exclaves: `topology_bridges` del contrato. De 1 s a 4 min
-por provincia. Las autonómicas van en una segunda parte.
+por provincia. Las autonómicas, en `autonomicas/README.md`.
