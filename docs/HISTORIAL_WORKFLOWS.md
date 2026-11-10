@@ -2,7 +2,7 @@
 
 T-150 (10-11). Inventario de los workflows que ya no tienen fichero en `main` pero siguen en la lista de Actions (estado `disabled_manually`), obtenido con `gh api repos/jfmurciego/DiputadodeDistrito/actions/workflows` y cruzado con `git log --all --full-history`. Los 12 se crearon y se borraron en ramas de PR (`fix/electoral-input-19-territories`, `chatgpt/fuentes-wfs-20261017`), por eso sus runs son de evento `pull_request` o `push` en esas ramas, nunca en `main`.
 
-El borrado de runs está en `docs/HISTORIAL_WORKFLOWS_BORRADO_RUNS.csv` (solo los 14 runs verificados; los 208 restantes, sin evidencia verificada, no entran y están en `docs/HISTORIAL_WORKFLOWS_RUNS_NO_VERIFICADOS.csv` con motivo y «nada que conservar»: checks de PR sin salida o runs fallidos). **No ejecutado**: es irreversible y lo hace el Operador con frase del propietario, tras revisión del Planificador. Sin runs y sin fichero, el workflow desaparece de la lista.
+El borrado de runs está en `docs/HISTORIAL_WORKFLOWS_BORRADO_RUNS.csv` (222 runs; decisión del propietario vía Planificador: 14 con evidencia verificada y 208 sin nada que conservar, con su motivo en `verificada` y `nada_que_conservar`). **No ejecutado**: es irreversible y lo hace el Operador con frase del propietario, tras revisión del Planificador. Sin runs y sin fichero, el workflow desaparece de la lista.
 
 | workflow_id | Nombre | Fichero | Alta → baja (git) | Runs | Primera / última ejecución | Resultado | Para qué servía | Lo sustituye | Evidencia |
 |---|---|---|---|---|---|---|---|---|---|
@@ -21,7 +21,20 @@ El borrado de runs está en `docs/HISTORIAL_WORKFLOWS_BORRADO_RUNS.csv` (solo lo
 
 ## Notas
 
-- Columna `verificada` (sí/no + ruta) por run; ninguno de los 222 está en `orchestracion/archivo_r2.json`. El Operador solo borra el CSV de borrado (todos «sí»); solo esa lista se presenta al propietario.
+- Columna `verificada` (sí/no + ruta) por run; ninguno de los 222 está en `orchestracion/archivo_r2.json`. 
 - Evidencia «git»: ruta@sha corto del blob en `origin/main`; todas existen. La asignación workflow→evidencia se hizo por nombre, fecha y herramienta que invocaba el workflow; los artefactos de Actions de estos runs ya han caducado. R2 contrastado solo con `orchestracion/archivo_r2.json` (sin coincidencias), sin acceso directo al almacén.
 - Los cuatro de septiembre (`verificar-*`, `diagnostico-descubrimiento-fuentes`) eran checks de PR sin salida conservable; borrar sus runs no pierde evidencia.
 - Workflows retirados con fichero aún en `legacy/` o ya sustituidos pero con runs en `main` (p. ej. `legacy/workflows/retirados_20261031`) no se tocan aquí: los gestiona T-149. Si se retiran más, se añaden filas y el CSV se regenera con `gh api repos/<r>/actions/workflows/<id>/runs`.
+
+## Borrado (para el Operador; sin workflow)
+
+CSV fijado por sha256 `765d4ac2261d6358a7443a17b14ce9fd48d2aee03fdff0bdd7a8fc5f9ec90ab8`. Simulación primero (no borra, no usa la red):
+
+```bash
+R=jfmurciego/DiputadodeDistrito; F=docs/HISTORIAL_WORKFLOWS_BORRADO_RUNS.csv
+echo "765d4ac2261d6358a7443a17b14ce9fd48d2aee03fdff0bdd7a8fc5f9ec90ab8  $F" | sha256sum -c - || exit 1
+python3 -I -c "import csv,sys;[print(r['run_id']) for r in csv.DictReader(open(sys.argv[1]))]" $F > /tmp/runs.txt; wc -l /tmp/runs.txt   # 222
+while read id; do echo "SIMULACIÓN DELETE repos/$R/actions/runs/$id"; done < /tmp/runs.txt | head -3
+```
+
+Ejecución (solo con la frase del propietario): mismo bloque y luego `while read id; do gh api -X DELETE repos/$R/actions/runs/$id || echo "FALLO $id"; done < /tmp/runs.txt`. Irreversible. Después, `gh api repos/$R/actions/workflows` no debe listar los 12.
