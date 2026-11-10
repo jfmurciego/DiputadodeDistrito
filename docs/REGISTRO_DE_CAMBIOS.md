@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.325
+Versión: 1.0.326
 Fecha: 2026-11-10
-Alcance: Operador — Campaña «batería del motor nuevo con D8 y 10 cadenas» (D-52)
+Alcance: T-181 — Batería motor 2: la aceptación exige cadenas que compitan
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_operador-ficha-bateria-motor2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.324_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_claude-t181-bateria-cadenas.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.325_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.324_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.326 · [2026-11-10 — T-181 — Batería motor 2: la aceptación exige cadenas que compitan](registro/2026-11-10_claude-t181-bateria-cadenas.md)
 - 1.0.325 · [2026-11-10 — Operador — Campaña «batería del motor nuevo con D8 y 10 cadenas» (D-52)](registro/2026-11-10_operador-ficha-bateria-motor2.md)
 - 1.0.324 · [2026-11-10 — T-208 — Batería del motor 2 en Actions (D-72)](registro/2026-11-10_claude-t208-bateria-actions.md)
 - 1.0.323 · [2026-11-10 — T-209 — Plan 1.0.40: decisiones D-69 a D-73 y cola T-205 a T-209](registro/2026-11-10_claude-t209-plan-d69-d73.md)
