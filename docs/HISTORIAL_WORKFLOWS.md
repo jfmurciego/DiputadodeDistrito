@@ -38,3 +38,20 @@ while read id; do echo "SIMULACIÓN DELETE repos/$R/actions/runs/$id"; done < /t
 ```
 
 Ejecución (solo con la frase del propietario): mismo bloque y luego `while read id; do gh api -X DELETE repos/$R/actions/runs/$id || echo "FALLO $id"; done < /tmp/runs.txt`. Irreversible. Después, `gh api repos/$R/actions/workflows` no debe listar los 12.
+
+## Retirados por T-149 (PR #603, sin fusionar al redactar esto)
+
+Aún con fichero en `main` hasta que se fusione #603; después quedarán sin fichero y con runs. **No entran en el CSV de borrado** (la decisión del propietario cubre solo los 222 de arriba): su borrado requiere nueva orden y verificación de evidencia. Recuentos de runs a 10-11 (REST):
+
+| workflow_id | Fichero | Runs | Fechas | Motivo de retirada (T-149) |
+|---|---|---|---|---|
+| 356619278 | `notificar-finalizacion-orquestacion.yml` | 89 (20 push, 69 workflow_run) | 2026-09-12 → 2026-09-21 | disparador inexistente |
+| 359048691 | `_reutilizable-operacion-territorial.yml` | 27 | 2026-09-21 | cadena sin llamador en main |
+| 356992156 | `producir-territorio-por-contrato.yml` | 14 | 2026-09-21 | cadena sin llamador en main |
+| 356442862 | `_reutilizable-auditoria-topologica.yml` | 30 | 2026-09-21 | cadena sin llamador en main |
+| 359605904 | `orquestacion-durable.yml` | 18 | 2026-09-21 | cadena sin llamador en main |
+| 359527963 | `orquestacion-control.yml` | 666 (352 pull_request, 314 push) | 2026-09-21 → 2026-11-10 | cadena sin llamador en main |
+
+Renombrados (solo `name:`, siguen activos y sin retirar): «- Activación por Elección», «- Archivar artefactos en R2», «- Extraer composición M06», «- Activación de Legislatura Vigente» → «Auxiliar — <nombre>»; «_Interno — Generación Territorial» → «Interno · Generación territorial»; «_Interno — Publicador del Sitio» → «Interno · Publicador del sitio». Detalle: `docs/ESTUDIOS/T149_LISTA_ACTIONS/INVENTARIO.md` (en #603).
+
+Versiones anteriores de los ficheros retirados: en git (historial de `main`) y, si T-149 las copia, en `legacy/workflows/`.
