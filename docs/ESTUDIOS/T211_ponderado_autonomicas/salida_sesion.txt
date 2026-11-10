@@ -109,3 +109,7 @@ galicia canonico: fuera 6, con exentos de suelo 0; exentos en el contrato: 0 mun
 galicia ponderado-s1167476498: fuera 6, con exentos de suelo 0; exentos en el contrato: 0 municipios, 0 particiones
 canarias canonico: fuera 20, con exentos de suelo 14; exentos en el contrato: 0 municipios, 5 particiones
 canarias ponderado-s801799464: fuera 21, con exentos de suelo 14; exentos en el contrato: 0 municipios, 5 particiones
+
+# Aristas del grafo M03 de la batería con shared_border_m
+madrid: aristas 12244 con shared_border_m 0
+comunidad_foral_de_navarra: aristas 1517 con shared_border_m 0

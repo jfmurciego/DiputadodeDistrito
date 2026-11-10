@@ -40,7 +40,7 @@ D8, 10 cadenas, entradas desde fuente INE). Salida completa en `salida_sesion.tx
      por circunscripción y 20 por el objetivo regional; el ganador de r3, 20 y 21. La cifra publicada puede subir o
      bajar según el candidato.
    - **(e) Sin frontera en la batería (no corregido).** El grafo M03 que rehace la batería no trae `shared_border_m`
-     (0 de 11 290 aristas en Madrid). La frontera cortada vale 0 km en todos los candidatos de r3 y el recargo por
+     (0 de 12 244 aristas en Madrid y 0 de 1517 en Navarra: `salida_sesion.txt`). La frontera cortada vale 0 km en todos los candidatos de r3 y el recargo por
      frontera corta es el mismo en todas las aristas: el término de forma de D8 no actúa.
 
 ## Cambio
@@ -48,7 +48,7 @@ D8, 10 cadenas, entradas desde fuente INE). Salida completa en `salida_sesion.tx
 - `ddd_motor2/naturalidad_clave.py` 1.1.0: en la competición (`natural_desde_m06`), el primer término de la clave es
   el recuento del contrato (objetivo regional). El resto de la clave (tope del 8 %, demarcaciones, frontera y
   desvío) sigue midiéndose por circunscripción. El laboratorio no cambia.
-- `ddd_motor2/competicion.py` 1.3.1: el `fuera_tolerancia` publicado es ese mismo recuento; los valores por
+- `ddd_motor2/competicion.py` 1.3.2: el `fuera_tolerancia` publicado es ese mismo recuento; los valores por
   circunscripción quedan en `extra.metricas_circunscripcion`.
 - El Congreso (una sola circunscripción) no cambia: las HUELLAS_FIJAS siguen iguales.
 
