@@ -132,13 +132,23 @@ class BateriaMotor2EnActions(unittest.TestCase):
         ok = lambda t, f="empata": {"territorio": t, "estado": "VALIDO", "frente_al_canonico": f}  # noqa: E731
         esp = ["congreso_soria", "madrid"]
         hu = {"congreso_soria": {"igual": True, "huella_1": "x"}}
-        parcial = b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "mejora")], hu, esp)
+        cs = lambda *ts: {t: {"candidatos": 5, "exhaustivo": True, "cadenas": 3, "evaluables": 3, "fallos_generador": 0,  # noqa: E731
+                              "no_evaluados": [], "invalidas_sin_motivo": []} for t in ts}
+        parcial = b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "mejora")], hu, esp, cs(*esp), 3)
         self.assertTrue(parcial["parcial"])
         self.assertFalse(parcial["aceptacion"])  # sin Álava ni Melilla no hay verde por omisión
         todas = ["congreso_soria", "congreso_alava", "melilla", "madrid"]
         h3 = {t: {"igual": True, "huella_1": t} for t in todas[:3]}
-        c = b.criterio_aceptacion([ok(t) for t in todas], h3, todas)
+        c = b.criterio_aceptacion([ok(t) for t in todas], h3, todas, cs(*todas), 3)
         self.assertTrue(c["aceptacion"])
+        self.assertFalse(b.criterio_aceptacion([ok(t) for t in todas], h3, todas)["aceptacion"])  # sin datos de cadenas, NO
+        c5 = cs(*todas)
+        c5["madrid"]["candidatos"] = 4  # 1 + 3 + exhaustivo = 5 esperados
+        self.assertEqual(b.criterio_aceptacion([ok(t) for t in todas], h3, todas, c5, 3)["candidatos_incompletos"], ["madrid"])
+        c5["madrid"].update(candidatos=5, no_evaluados=["ponderado-s1"])
+        self.assertFalse(b.criterio_aceptacion([ok(t) for t in todas], h3, todas, c5, 3)["aceptacion"])
+        c5["madrid"].update(no_evaluados=[], invalidas_sin_motivo=["ponderado-s2"])
+        self.assertFalse(b.criterio_aceptacion([ok(t) for t in todas], h3, todas, c5, 3)["aceptacion"])
         self.assertFalse(c["parcial"])
         self.assertEqual(b.criterio_aceptacion([ok("congreso_soria")], hu, esp)["faltan"], ["madrid"])
         self.assertEqual(b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "empeora")], hu, esp)["empeoran"], ["madrid"])
@@ -165,40 +175,105 @@ class BateriaMotor2EnActions(unittest.TestCase):
         import io
         with tempfile.TemporaryDirectory() as d:
             out = Path(d)
-            fila = {"territorio": "madrid", "estado": "VALIDO", "ganador": "g", "valido": True, "frente_al_canonico": "mejora",
-                    "canonico": "VALIDO", "candidatos_validos": 1, "candidatos": 1, "desvio_max": 0.0,
-                    "desvio_max_canonico": 0.1, "fuera_tolerancia": 0, "huella_resultado": "h", "tiempo_s": 1.0}
-            from ddd_motor2.competir import escribir_resumen
-            escribir_resumen([fila], out / "x" / "competicion")
-            (out / "x" / "competicion" / "madrid").mkdir()
-            shutil.copy(out / "x" / "competicion" / "RESUMEN.json", out / "x" / "competicion" / "madrid" / "RESUMEN.json")
+            self._competir_real(out, "madrid", cadena_ok=True)
             buf = io.StringIO()
             with contextlib.redirect_stdout(buf):
-                self.assertEqual(b.main(["aceptacion", "--out", d, "madrid"]), 0)
+                self.assertEqual(b.main(["aceptacion", "--out", d, "--cadenas", "2", "madrid"]), 0)
             self.assertIn("PARCIAL", buf.getvalue())
             self.assertFalse(json.loads((out / "ACEPTACION.json").read_text())["aceptacion"])
 
     def test_aceptacion_une_la_matriz(self):
+        import contextlib
+        import io
         with tempfile.TemporaryDirectory() as d:
             out = Path(d)
-            for t, h in (("congreso_soria", "ab"), ("madrid", "cd")):
-                fila = {"territorio": t, "estado": "VALIDO", "ganador": "g", "valido": True, "frente_al_canonico": "empata",
-                        "canonico": "VALIDO", "candidatos_validos": 3, "candidatos": 3, "desvio_max": 0.01,
-                        "desvio_max_canonico": 0.01, "fuera_tolerancia": 0, "huella_resultado": h, "tiempo_s": 1.0}
-                # disposición real: competir.main escribe el agregado en competicion/RESUMEN.json y el workflow lo copia
-                # junto a COMPETICION.json del territorio (artefacto por territorio)
-                from ddd_motor2.competir import escribir_resumen
-                escribir_resumen([fila], out / "x" / "competicion")
-                (out / "x" / "competicion" / t).mkdir(parents=True)
-                shutil.copy(out / "x" / "competicion" / "RESUMEN.json", out / "x" / "competicion" / t / "RESUMEN.json")
-            hr = out / "x" / "competicion" / "congreso_soria" / "HUELLA_REAL.json"
+            for t in ("congreso_soria", "madrid"):
+                self._competir_real(out, t, cadena_ok=True)
+            hr = out / "competicion" / "congreso_soria" / "HUELLA_REAL.json"
             hr.write_text(json.dumps({"territorio": "congreso_soria", "huella_1": "ab", "huella_2": "ab", "igual": True}))
-            import contextlib
-            import io
             with contextlib.redirect_stdout(io.StringIO()):
-                self.assertEqual(b.main(["aceptacion", "--out", str(out), "congreso_soria", "madrid"]), 0)
-                self.assertEqual(b.main(["aceptacion", "--out", str(out), "congreso_soria", "madrid", "melilla"]), 1)
+                self.assertEqual(b.main(["aceptacion", "--out", str(out), "--cadenas", "2", "congreso_soria", "madrid"]), 0)
+                self.assertEqual(b.main(["aceptacion", "--out", str(out), "--cadenas", "2", "congreso_soria", "madrid", "melilla"]), 1)
             self.assertFalse(json.loads((out / "ACEPTACION.json").read_text())["aceptacion"])
+
+    def _competir_real(self, out: Path, t: str, cadena_ok: bool):
+        """Salida real de competir_territorio + escribir_resumen (generadores sintéticos); la cadena falla o no."""
+        from ddd_motor2.competicion import EntradaTerritorio
+        from ddd_motor2.competir import competir_territorio, escribir_resumen
+        from ddd_motor2.semilla import semillas
+        from tests.test_motor2_competicion import POB, Fijo
+        from tests.test_motor2_semilla import cfg as cfg_con_ancla
+        secc = {u: f"220010100{i}" for i, u in enumerate(sorted(POB))}
+        grafo = out / "grafo.json"
+        grafo.write_text(json.dumps({"nodes": list(secc.values()), "edges": [
+            {"u": secc[a], "v": secc[c]} for a, c in (("A", "B"), ("B", "C"), ("C", "D"))]}))
+        e = EntradaTerritorio(t, cfg_con_ancla(), grafo)
+        bueno = {"A": "1", "B": "1", "C": "2", "D": "2"}
+        planes = {x: (bueno if cadena_ok else None) for x in semillas(e.cfg, t, 2)}
+        fila = competir_territorio(t, out, 2, generadores=(Fijo("canonico", {None: bueno}), Fijo("ponderado", planes)), entrada=e)
+        escribir_resumen([fila], out / "competicion")
+        shutil.copy(out / "competicion" / "RESUMEN.json", out / "competicion" / t / "RESUMEN.json")
+        return fila
+
+    def _aceptar(self, out: Path, t: str, n: int = 2) -> dict:
+        import contextlib
+        import io
+        with contextlib.redirect_stdout(io.StringIO()):
+            rc = b.main(["aceptacion", "--out", str(out), "--cadenas", str(n), t])
+        return {"rc": rc, **json.loads((out / "ACEPTACION.json").read_text())}
+
+    def test_t181_generador_fallido_da_no_aunque_gane_el_canonico(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            fila = self._competir_real(out, "madrid", cadena_ok=False)
+            self.assertEqual((fila["estado"], fila["ganador"]), ("VALIDO", "canonico"))  # el caso de T-208: todo «válido»
+            r = self._aceptar(out, "madrid")
+            self.assertEqual(r["rc"], 1)
+            self.assertEqual((r["sin_cadenas"], r["fallo_generador"]), (["madrid"], ["madrid"]))
+            self.assertFalse(r["aceptacion"])
+
+    def test_t181_cadenas_evaluables_no_bloquean(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            self._competir_real(out, "madrid", cadena_ok=True)
+            r = self._aceptar(out, "madrid")
+            self.assertEqual((r["rc"], r["sin_cadenas"], r["fallo_generador"]), (0, [], []))  # PARCIAL: sin huellas, pero sin fallos
+
+    def test_t181_numero_de_candidatos_distinto_de_1_mas_n_es_no(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            self._competir_real(out, "madrid", cadena_ok=True)  # 2 cadenas + canónico + exhaustivo
+            self.assertEqual(self._aceptar(out, "madrid", 2)["candidatos_incompletos"], [])
+            self.assertEqual(self._aceptar(out, "madrid", 10)["candidatos_incompletos"], ["madrid"])
+
+    def test_t181_sin_competicion_json_es_no(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            self._competir_real(out, "madrid", cadena_ok=True)
+            (out / "competicion" / "madrid" / "COMPETICION.json").unlink()
+            self.assertEqual(self._aceptar(out, "madrid")["sin_cadenas"], ["madrid"])
+
+    def test_t181_el_job_de_competicion_instala_y_comprueba_lo_que_importa_ponderado(self):
+        pasos = self.wf["jobs"]["competicion"]["steps"]
+        ix = lambda pre: next(i for i, p in enumerate(pasos) if p.get("name", "").startswith(pre))  # noqa: E731
+        i_dep, i_ent, i_comp = ix("Dependencias de las cadenas"), ix("Entradas"), ix("Competición del motor 2")
+        self.assertLess(i_ent, i_dep)  # las entradas usan el lock base; las cadenas, el del laboratorio
+        self.assertLess(i_dep, i_comp)  # falla en ~1 min, antes de gastar minutos de competición
+        txt = pasos[i_dep]["run"]
+        self.assertIn("requirements-ensemble.lock", txt)
+        for imp in ("import networkx", "from gerrychain import Graph, MarkovChain, Partition, updaters",
+                    "from gerrychain.proposals import recom", "from gerrychain.tree import bipartition_tree",
+                    "_ordered_edge_ids", "naturalidad_competicion import cadena", 'm.version("gerrychain") == pin'):
+            self.assertIn(imp, txt)
+        # lo que Ponderado importa de gerrychain (fuente) está en la comprobación
+        src = (ROOT / "ddd_motor2/naturalidad_competicion.py").read_text(encoding="utf-8")
+        for linea in ("from gerrychain.tree.spanning_tree import _ordered_edge_ids", "from gerrychain import Graph, MarkovChain, Partition, updaters",
+                      "from gerrychain.proposals import recom", "from gerrychain.tree import bipartition_tree"):
+            self.assertIn(linea, src)
+        lock = (ROOT / "requirements-ensemble.lock").read_text().lower()
+        self.assertIn("gerrychain==", lock)
+        self.assertIn("networkx==", lock)
+        self.assertIn("--cadenas", self.wf["jobs"]["aceptacion"]["steps"][-2]["run"])
 
 
 if __name__ == "__main__":

@@ -3,10 +3,12 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-10
 ESTADO: candidato
+CAMBIOS 1.1.1 (T-181): `aceptacion` exige al menos una cadena evaluable por territorio y ningún FALLO_GENERADOR (se leen del
+  COMPETICION.json del territorio; sin él, NO), `--cadenas N`: candidatos = 1 + N (+1 exhaustivo), todos evaluados y cada cadena inválida con motivo. Antes un territorio donde fallaban todas las cadenas daba «SÍ» (ganador = canónico).
 CAMBIOS 1.1.0 (T-208): subcomandos `lista` (matriz de territorios para Actions), `huella` (huella real: dos ejecuciones de la
   competición del motor 2 con igual huella) y `aceptacion` (une los resultados por territorio y aplica el criterio de
   T-194); `entradas` descarga las copias nacionales solo si hace falta (antes fallaba si faltaban). Nada cambia en `motor`.
@@ -14,7 +16,7 @@ CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de 
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
-ANTERIOR: legacy/herramientas/bateria_motor_v1.0.1_20261110.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.1.0_20261110.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -704,18 +706,46 @@ def huella(args) -> int:
     return 0 if res["igual"] else 1
 
 
-def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str]) -> dict:
-    """Criterio T-194 sobre los resultados reales: sin red ni motor. `huellas` = {territorio: HUELLA_REAL.json}."""
+def cadenas_de(carpeta: Path) -> dict | None:
+    """Candidatos de un COMPETICION.json: el canónico y el exhaustivo no son cadenas; el resto sí."""
+    try:
+        d = json.loads((carpeta / "COMPETICION.json").read_text(encoding="utf-8"))
+        todos = d["candidatos"]
+        cs = [c for c in todos if c["id"] != d["canonico"] and c["generador"] != "exhaustivo"]
+        return {"candidatos": len(todos), "exhaustivo": any(c["generador"] == "exhaustivo" for c in todos), "cadenas": len(cs),
+                "evaluables": sum(1 for c in cs if c["estado"] in ("VALIDO", "INVALIDO")),
+                "fallos_generador": sum(1 for c in todos if c["estado"] == "FALLO_GENERADOR"),
+                "no_evaluados": sorted(c["id"] for c in todos if c["estado"] not in ("VALIDO", "INVALIDO")),
+                "invalidas_sin_motivo": sorted(c["id"] for c in cs if c["estado"] == "INVALIDO"
+                                               and not (c.get("violaciones") or c.get("detalle")))}
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
+def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str], cadenas: dict | None = None,
+                       n_cadenas: int | None = None) -> dict:
+    """Criterio T-194 sobre los resultados reales: sin red ni motor. `huellas` = {territorio: HUELLA_REAL.json};
+    `cadenas` = {territorio: cadenas_de(...)}. T-181: sin cadena evaluable, con FALLO_GENERADOR, con candidatos sin evaluar,
+    con un número de candidatos distinto de 1 + N (+1 si hay exhaustivo) o con una cadena inválida sin motivo, no hay aceptación."""
+    cadenas = cadenas or {}
     por_t = {f["territorio"]: f for f in filas}
     faltan = [t for t in esperados if t not in por_t]
     no_validos = sorted(t for t in esperados if t in por_t and por_t[t].get("estado") != "VALIDO")
     peores = sorted(t for t in esperados if t in por_t and por_t[t].get("frente_al_canonico") == "empeora")
+    def mal(c: dict) -> bool:
+        esperado = None if n_cadenas is None else 1 + n_cadenas + (1 if c["exhaustivo"] else 0)
+        return bool(not c["evaluables"] or c["fallos_generador"] or c["no_evaluados"] or c["invalidas_sin_motivo"]
+                    or (esperado is not None and c["candidatos"] != esperado))
+    sin_cadenas = sorted(t for t in esperados if not (cadenas.get(t) or {}).get("evaluables"))
+    fallo_gen = sorted(t for t in esperados if (cadenas.get(t) or {}).get("fallos_generador"))
+    incompletos = sorted(t for t in esperados if t in cadenas and cadenas[t] and mal(cadenas[t]) and t not in sin_cadenas + fallo_gen)
     h_pedidas = [t for t in HUELLA_REAL if t in esperados]
     h_mal = sorted(t for t in h_pedidas if not (huellas.get(t) or {}).get("igual"))
     return {"esperados": len(esperados), "faltan": faltan, "no_validos": no_validos, "empeoran": peores,
+            "sin_cadenas": sin_cadenas, "fallo_generador": fallo_gen, "candidatos_incompletos": incompletos,
             "huella_real": {t: (huellas.get(t) or {}).get("huella_1") for t in h_pedidas}, "huella_real_mal": h_mal,
             "parcial": len(h_pedidas) < len(HUELLA_REAL),
-            "aceptacion": bool(esperados) and not (faltan or no_validos or peores or h_mal) and len(h_pedidas) == len(HUELLA_REAL)}
+            "aceptacion": bool(esperados) and not (faltan or no_validos or peores or h_mal or sin_cadenas or fallo_gen or incompletos) and len(h_pedidas) == len(HUELLA_REAL)}
 
 
 def aceptacion(args) -> int:
@@ -731,14 +761,18 @@ def aceptacion(args) -> int:
     esperados = args.territorios or territorios()
     filas = sorted({x["territorio"]: x for x in filas}.values(), key=lambda x: x["territorio"])
     tot = escribir_resumen(filas, out / "competicion") if filas else {}
-    res = criterio_aceptacion(filas, huellas, esperados)
+    cadenas = {t: c for t in esperados if (c := cadenas_de(out / "competicion" / t)) is not None}
+    res = criterio_aceptacion(filas, huellas, esperados, cadenas, args.cadenas)
     res["totales"] = tot
     (out / "ACEPTACION.json").write_text(json.dumps(res, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    fallos = bool(res["faltan"] or res["no_validos"] or res["empeoran"] or res["huella_real_mal"] or not esperados)
+    fallos = bool(res["faltan"] or res["no_validos"] or res["empeoran"] or res["huella_real_mal"] or res["sin_cadenas"]
+              or res["fallo_generador"] or res["candidatos_incompletos"] or not esperados)
     veredicto = "NO" if fallos else ("PARCIAL (sin las tres huellas reales: no es aceptación)" if res["parcial"] else "SÍ")
     md = [f"# Aceptación del motor 2 · {veredicto}", "",
           f"- Territorios esperados: {res['esperados']}; faltan: {res['faltan'] or 'ninguno'}.",
           f"- No válidos: {res['no_validos'] or 'ninguno'}; peores que el canónico: {res['empeoran'] or 'ninguno'}.",
+          f"- Sin ninguna cadena evaluable: {res['sin_cadenas'] or 'ninguno'}; con FALLO_GENERADOR: {res['fallo_generador'] or 'ninguno'}; "
+          f"candidatos sin evaluar o fuera de 1 + N (+1 exhaustivo): {res['candidatos_incompletos'] or 'ninguno'}.",
           f"- Huella real (Soria, Álava, Melilla; dos ejecuciones iguales): "
           f"{'fallan ' + ', '.join(res['huella_real_mal']) if res['huella_real_mal'] else 'correcta'} {res['huella_real']}."]
     (out / "ACEPTACION.md").write_text("\n".join(md) + "\n", encoding="utf-8")
@@ -771,6 +805,7 @@ def main(argv=None) -> int:
     p.add_argument("--funcion", default="D8")
     p.add_argument("--cadenas", type=int, default=10)
     p = sub.add_parser("aceptacion")
+    p.add_argument("--cadenas", type=int, default=10)
     p.add_argument("territorios", nargs="*")
     p.add_argument("--out", default=str(OUT))
     a = ap.parse_args(argv)
