@@ -1,0 +1,25 @@
+{
+  "run_id": "bateria-cataluna-7.4.4",
+  "estado": "PASS",
+  "expected_districts": 135,
+  "districts_found": 135,
+  "sections": 5117,
+  "total_population": 8012231.0,
+  "target_population": 59349.85925925926,
+  "population_floor": 47479.88740740741,
+  "population_cap": 103862.25370370371,
+  "below_floor": [],
+  "above_cap": [],
+  "graph_disconnected": [],
+  "province_crossings": [],
+  "province_district_counts": {
+    "08": 99,
+    "17": 14,
+    "25": 8,
+    "43": 14
+  },
+  "municipality_discipline_field": "CUMUN",
+  "municipality_discipline_strategy": "municipality",
+  "municipality_violations": [],
+  "failures": []
+}

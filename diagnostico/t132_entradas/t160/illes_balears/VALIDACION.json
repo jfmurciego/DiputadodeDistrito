@@ -1,0 +1,25 @@
+{
+  "run_id": "bateria-illes_balears-7.4.4",
+  "estado": "PASS",
+  "expected_districts": 59,
+  "districts_found": 59,
+  "sections": 670,
+  "total_population": 1209906.0,
+  "target_population": 20506.881355932204,
+  "population_floor": 16405.505084745764,
+  "population_cap": 35887.042372881355,
+  "below_floor": [],
+  "above_cap": [],
+  "graph_disconnected": [],
+  "province_crossings": [],
+  "province_district_counts": {
+    "07-C01": 45,
+    "07-C02": 5,
+    "07-C03": 1,
+    "07-C04": 8
+  },
+  "municipality_discipline_field": "DDD_MUNICIPALITY_PARTITION",
+  "municipality_discipline_strategy": "municipality",
+  "municipality_violations": [],
+  "failures": []
+}

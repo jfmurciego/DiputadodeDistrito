@@ -1,0 +1,24 @@
+{
+  "run_id": "bateria-congreso_las_palmas-7.4.4",
+  "estado": "PASS",
+  "expected_districts": 10,
+  "districts_found": 10,
+  "sections": 715,
+  "total_population": 1145843.0,
+  "target_population": 114584.3,
+  "population_floor": 97396.655,
+  "population_cap": 160418.02,
+  "below_floor": [],
+  "above_cap": [],
+  "graph_disconnected": [],
+  "province_crossings": [],
+  "province_district_counts": {
+    "35-C01": 8,
+    "35-C02": 1,
+    "35-G01": 1
+  },
+  "municipality_discipline_field": "DDD_MUNICIPALITY_PARTITION",
+  "municipality_discipline_strategy": "municipality",
+  "municipality_violations": [],
+  "failures": []
+}

@@ -1,0 +1,23 @@
+{
+  "run_id": "bateria-extremadura-7.4.4",
+  "estado": "PASS",
+  "expected_districts": 65,
+  "districts_found": 65,
+  "sections": 964,
+  "total_population": 1053345.0,
+  "target_population": 16205.307692307691,
+  "population_floor": 12964.246153846154,
+  "population_cap": 28359.28846153846,
+  "below_floor": [],
+  "above_cap": [],
+  "graph_disconnected": [],
+  "province_crossings": [],
+  "province_district_counts": {
+    "06": 41,
+    "10": 24
+  },
+  "municipality_discipline_field": "M04_PARTITION_UNIT",
+  "municipality_discipline_strategy": "connected_internal_units",
+  "municipality_violations": [],
+  "failures": []
+}

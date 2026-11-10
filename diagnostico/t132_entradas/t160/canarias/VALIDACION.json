@@ -1,0 +1,29 @@
+{
+  "run_id": "bateria-canarias-7.4.4",
+  "estado": "PASS",
+  "expected_districts": 70,
+  "districts_found": 70,
+  "sections": 1396,
+  "total_population": 2213016.0,
+  "target_population": 31614.514285714286,
+  "population_floor": 25291.61142857143,
+  "population_cap": 55325.4,
+  "below_floor": [],
+  "above_cap": [],
+  "graph_disconnected": [],
+  "province_crossings": [],
+  "province_district_counts": {
+    "35-C01": 26,
+    "35-C02": 4,
+    "35-C03": 5,
+    "35-C04": 1,
+    "38-C01": 29,
+    "38-C02": 1,
+    "38-C03": 3,
+    "38-C04": 1
+  },
+  "municipality_discipline_field": "DDD_MUNICIPALITY_PARTITION",
+  "municipality_discipline_strategy": "municipality",
+  "municipality_violations": [],
+  "failures": []
+}

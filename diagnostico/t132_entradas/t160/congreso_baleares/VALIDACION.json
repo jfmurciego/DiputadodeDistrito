@@ -1,0 +1,24 @@
+{
+  "run_id": "bateria-congreso_baleares-7.4.4",
+  "estado": "PASS",
+  "expected_districts": 10,
+  "districts_found": 10,
+  "sections": 670,
+  "total_population": 1209906.0,
+  "target_population": 120990.6,
+  "population_floor": 102842.01000000001,
+  "population_cap": 154867.96800000002,
+  "below_floor": [],
+  "above_cap": [],
+  "graph_disconnected": [],
+  "province_crossings": [],
+  "province_district_counts": {
+    "07-C01": 7,
+    "07-C02": 1,
+    "07-G01": 2
+  },
+  "municipality_discipline_field": "DDD_MUNICIPALITY_PARTITION",
+  "municipality_discipline_strategy": "municipality",
+  "municipality_violations": [],
+  "failures": []
+}

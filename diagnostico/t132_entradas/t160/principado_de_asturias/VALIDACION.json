@@ -1,0 +1,22 @@
+{
+  "run_id": "bateria-principado_de_asturias-7.4.4",
+  "estado": "PASS",
+  "expected_districts": 45,
+  "districts_found": 45,
+  "sections": 832,
+  "total_population": 1006060.0,
+  "target_population": 22356.88888888889,
+  "population_floor": 17885.511111111115,
+  "population_cap": 39124.55555555556,
+  "below_floor": [],
+  "above_cap": [],
+  "graph_disconnected": [],
+  "province_crossings": [],
+  "province_district_counts": {
+    "33": 45
+  },
+  "municipality_discipline_field": "M04_PARTITION_UNIT",
+  "municipality_discipline_strategy": "connected_internal_units",
+  "municipality_violations": [],
+  "failures": []
+}

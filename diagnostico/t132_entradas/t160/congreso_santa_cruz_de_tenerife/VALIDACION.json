@@ -1,0 +1,23 @@
+{
+  "run_id": "bateria-congreso_santa_cruz_de_tenerife-7.4.4",
+  "estado": "PASS",
+  "expected_districts": 9,
+  "districts_found": 9,
+  "sections": 681,
+  "total_population": 1067173.0,
+  "target_population": 118574.77777777778,
+  "population_floor": 100788.5611111111,
+  "population_cap": 136360.99444444443,
+  "below_floor": [],
+  "above_cap": [],
+  "graph_disconnected": [],
+  "province_crossings": [],
+  "province_district_counts": {
+    "38-C01": 8,
+    "38-G01": 1
+  },
+  "municipality_discipline_field": "DDD_MUNICIPALITY_PARTITION",
+  "municipality_discipline_strategy": "municipality",
+  "municipality_violations": [],
+  "failures": []
+}
