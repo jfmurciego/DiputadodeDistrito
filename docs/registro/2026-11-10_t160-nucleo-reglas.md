@@ -13,5 +13,11 @@
   «presupuesto de nodos» con diagnóstico 0,10/0,90 como comprobación posterior.
   `comparar_criterios` y `resumen_por_opcion` dan a la batería T-132 cuántos territorios cambian de veredicto con
   cada opción.
-- Pruebas: `python -m unittest tests.test_motor2_reglas` (20 tests, uno o más por divergencia 1-8 del inventario).
-- Siguiente: estado incremental, poda y enumerador; el certificador T-136 pasa a usar el núcleo.
+- Pruebas: `python -m unittest tests.test_motor2_reglas` (25 tests con el paso 2; uno o más por divergencia 1-8 del inventario).
+- Paso 2 (rama `t160-estado-enumerador`): `evaluar` por ámbitos (distrito, municipio, cuotas, núcleo, plan) compartidos
+  con `Estado` incremental (`aplicar`, `movimiento_valido`: no añade violaciones nuevas); `podar` (predicados monótonos
+  de un plan parcial) y `enumerar` (particiones canónicas con presupuesto de nodos; veredicto de cada hoja con
+  `evaluar`; `completo=False` si se agota). Tests: invariante `Estado.violaciones() == evaluar(...)` tras 40 movimientos
+  aleatorios en 60 casos; enumerador = fuerza bruta en 25 rejillas; poda monótona contra fuerza bruta; recuento
+  literal en una cadena de 4.
+- Siguiente: el certificador T-136 pasa a usar el núcleo.

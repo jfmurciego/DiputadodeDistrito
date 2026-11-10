@@ -249,3 +249,137 @@ class Aislamiento(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# --------------------------------------------------------------------------- paso 2: estado, poda, enumeración
+import random  # noqa: E402
+
+from ddd_motor2.reglas import Estado, enumerar, podar  # noqa: E402
+
+
+def _rejilla(rng, filas=2, cols=4, nucleos=False):
+    us, ids = [], {}
+    for f in range(filas):
+        for c in range(cols):
+            i = f * cols + c
+            ids[(f, c)] = f"s{i}"
+            us.append(Unidad(f"s{i}", rng.randint(20, 120), municipio=f"3000{rng.randint(1, 3)}",
+                             provincia=rng.choice(["30", "30", "03"]), particion=rng.choice(["01", "02"]),
+                             nucleo_cerrado=("N" if nucleos and i in (0, 1) else None)))
+    aristas = [(ids[(f, c)], ids[(f, c + 1)]) for f in range(filas) for c in range(cols - 1)]
+    aristas += [(ids[(f, c)], ids[(f + 1, c)]) for f in range(filas - 1) for c in range(cols)]
+    return Problema(tuple(us), tuple(aristas))
+
+
+def _contrato_aleatorio(rng, k, permisivo=False):
+    return contrato(expected_districts=k, population_floor_ratio=0.3 if permisivo else rng.choice([0.5, 0.7]),
+                    population_cap_ratio=1.9 if permisivo else rng.choice([1.3, 1.6]), target_tolerance_ratio=0.2,
+                    require_single_province_per_district=rng.choice([True, False]),
+                    require_municipality_discipline=rng.choice([True, False]),
+                    population_floor_exempt_municipalities=rng.choice([[], ["30002"]]),
+                    population_floor_exempt_partitions=rng.choice([[], ["02"]]),
+                    preserve_closed_urban=True)
+
+
+def _todas_las_particiones(ids, k):
+    """Cadenas de crecimiento restringido: cada partición en ≤k bloques una sola vez (fuerza bruta independiente)."""
+    def rec(i, usadas, actual):
+        if i == len(ids):
+            yield dict(zip(ids, actual))
+            return
+        for d in range(min(usadas + 1, k)):
+            yield from rec(i + 1, max(usadas, d + 1), actual + [f"B{d}"])
+    yield from rec(0, 0, [])
+
+
+def _canon(asig):
+    bloques = {}
+    for u, d in asig.items():
+        bloques.setdefault(d, set()).add(u)
+    return frozenset(frozenset(b) for b in bloques.values())
+
+
+class EstadoIncremental(unittest.TestCase):
+    def test_invariante_estado_igual_a_evaluar(self):
+        rng = random.Random(160)
+        for caso in range(30):
+            p = _rejilla(rng, nucleos=caso % 3 == 0)
+            k = rng.choice([2, 3])
+            for crit in (Criterio(), Criterio(tolerancia="dura", exencion_particion="alguna")):
+                r = Reglas.desde_contrato(_contrato_aleatorio(rng, k), crit)
+                asig = {u.id: f"D{rng.randrange(k)}" for u in p.unidades}
+                e = Estado(p, r, asig)
+                for _ in range(40):
+                    u = rng.choice(p.unidades).id
+                    d = f"D{rng.randrange(k + 1)}"
+                    antes = e.violaciones()
+                    valido = e.movimiento_valido(u, d)
+                    self.assertEqual(e.violaciones(), antes)  # prueba y deshace sin efecto
+                    e.aplicar(u, d)
+                    asig[u] = d
+                    esperado = evaluar(p, r, asig).violaciones
+                    self.assertEqual(e.violaciones(), esperado)
+                    nuevas = {(v.regla, v.ambito) for v in esperado} - {(v.regla, v.ambito) for v in antes}
+                    self.assertEqual(valido, not nuevas)
+
+
+class Enumeracion(unittest.TestCase):
+    def test_enumerador_igual_a_fuerza_bruta(self):
+        rng = random.Random(7)
+        total_validos = 0
+        for caso in range(25):
+            p = _rejilla(rng, nucleos=caso % 4 == 0)
+            k = rng.choice([2, 3])
+            r = Reglas.desde_contrato(_contrato_aleatorio(rng, k))
+            bruta = {_canon(a) for a in _todas_las_particiones([u.id for u in p.unidades], k)
+                     if evaluar(p, r, a).valido}
+            res = enumerar(p, r, presupuesto=10**6, max_planes=10**6)
+            self.assertTrue(res["completo"])
+            self.assertEqual({_canon(a) for a in res["planes"]}, bruta, f"caso {caso}")
+            self.assertEqual(res["validos"], len(bruta))
+            total_validos += len(bruta)
+        self.assertGreater(total_validos, 0)  # el test no es vacuo
+
+    def test_poda_monotona(self):
+        """Si podar() marca un parcial, ninguna extensión completa es válida."""
+        rng = random.Random(11)
+        n_validos = n_podados = 0
+        for caso in range(15):
+            p = _rejilla(rng, cols=4, nucleos=caso % 4 == 0)
+            k = rng.choice([2, 3])
+            r = Reglas.desde_contrato(_contrato_aleatorio(rng, k, permisivo=caso % 3 != 0),
+                                      Criterio(tolerancia=rng.choice(["metrica", "dura"])))
+            ids = [u.id for u in p.unidades]
+            validos = [a for a in _todas_las_particiones(ids, k) if evaluar(p, r, a).valido]
+            n_validos += len(validos)
+            for _ in range(60):
+                fijas = rng.sample(ids, rng.randint(1, len(ids) - 1))
+                parcial = {u: f"B{rng.randrange(k)}" for u in fijas}
+                if podar(p, r, parcial):
+                    n_podados += 1
+                    for a in validos:  # ninguna partición válida extiende el parcial (salvo renombrar bloques)
+                        mapa = {}
+                        coincide = all(mapa.setdefault(parcial[u], a[u]) == a[u] for u in fijas)
+                        coincide = coincide and len(set(mapa.values())) == len(mapa)
+                        self.assertFalse(coincide, f"caso {caso}: poda {podar(p, r, parcial)} con extensión válida")
+        self.assertGreater(n_validos, 30)  # no vacuo (39 con la semilla 11)
+        self.assertGreater(n_podados, 100)
+
+    def test_presupuesto_agotado_no_es_completo(self):
+        p = _rejilla(random.Random(1), cols=4)
+        r = Reglas.desde_contrato(contrato(expected_districts=2, population_floor_ratio=0.1,
+                                           population_cap_ratio=1.9, require_single_province_per_district=False))
+        res = enumerar(p, r, presupuesto=5)
+        self.assertEqual((res["completo"], res["huella"]), (False, ""))
+        d = elegir_metodo(p, r, recuento=res)
+        self.assertEqual(d.metodo, "cadena")
+        self.assertEqual(elegir_metodo(p, r, recuento=enumerar(p, r)).metodo, "enumeracion")
+
+    def test_recuento_literal_cadena_de_cuatro(self):
+        # u0-u1-u2-u3, todas 100, K=2, objetivo 200. Particiones contiguas de una cadena de 4 en 2 bloques: 3
+        # ({u0}{u1u2u3}, {u0u1}{u2u3}, {u0u1u2}{u3}); con suelo 100 y techo 320 valen las 3.
+        p = cadena([100, 100, 100, 100], provincia="30")
+        r = Reglas.desde_contrato(contrato(population_floor_ratio=0.5, population_cap_ratio=1.6))
+        self.assertEqual(enumerar(p, r)["validos"], 3)
+        r = Reglas.desde_contrato(contrato(population_floor_ratio=0.9, population_cap_ratio=1.1))
+        self.assertEqual(enumerar(p, r)["validos"], 1)  # solo {u0,u1}{u2,u3}
