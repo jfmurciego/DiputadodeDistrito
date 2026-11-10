@@ -13,3 +13,5 @@
 3. 52 contratos Infoelectoral 2026 y decisión del registro 2023/2026 (T-199).
 
 **Riesgos.** Sin cambios en M04/M05/política: no invalida checkpoints ni huellas; no requiere 00. Los cargadores aún no están conectados al flujo (ver T-199).
+
+**Decisión D-65 del propietario (vía Planificador, 10-11).** Las generales 2026 se publican con los mapas vigentes (padrón/seccionado 2023); los resultados se llevan a ellos por equivalencia de secciones (de ahí `equivalencia_congreso.cargar`). Las 52 circunscripciones se regeneran con el par 2025/2025 en el corte 5.0.0, porque el RD 806/2026 reparte con padrón posterior (Cádiz 9→8, Madrid 37→38). Hasta ese corte, los distritos de 2026 están trazados sobre el padrón 2023. Esta PR no toca el visor.
