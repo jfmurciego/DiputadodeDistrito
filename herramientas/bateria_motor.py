@@ -29,7 +29,7 @@ QUÉ HACE: subcomandos
               Con --desde-r2 reutiliza antes el estado ddd-state-<run>-M03 archivado en R2 (orchestracion/archivo_r2.json)
               si su sha256 cuadra y lleva la identidad del contrato vigente. Solo se conserva la entrada mínima
               (M01 secciones + grafo M03, ENTRADA_MINIMA) y ENTRADAS.json con el sha256 de todo lo demás.
-  archivar    sube a R2 la entrada mínima de las reconstruidas desde fuente: bateria/entradas/<t>/<huella>.zip
+  archivar    sube a R2 la entrada mínima de cada territorio (reconstruida o extraída de R2): bateria/entradas/<t>/<huella>.zip
               (cliente de herramientas/archivar_artefactos_r2.py; R2_BUCKET y R2_ACCOUNT_ID).
 USO: python herramientas/bateria_motor.py nacionales
      python herramientas/bateria_motor.py entradas --todos
@@ -604,7 +604,8 @@ def matriz(args) -> int:
 
 # --------------------------------------------------------------------------- archivar
 def archivar(args) -> int:
-    """Sube a R2 la entrada mínima de cada territorio reconstruido desde fuente (las reutilizadas de R2 ya están):
+    """Sube a R2 la entrada mínima de cada territorio, reconstruida desde fuente o extraída de un estado M03 de R2
+    (así los estados completos M01-M03U pueden podarse, T-145):
     clave bateria/entradas/<territorio>/<sha256[:16] de la entrada>.zip con ENTRADAS.json + M01 + grafo M03."""
     from herramientas.archivar_artefactos_r2 import r2_cliente
     bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
@@ -616,7 +617,7 @@ def archivar(args) -> int:
     indice = {}
     for ent in sorted((out / "entradas").glob("*/ENTRADAS.json")):
         r = json.loads(ent.read_text(encoding="utf-8"))
-        if r.get("origen") != "fuente" or r.get("estado") != "OK":
+        if r.get("origen") not in ("fuente", "r2") or r.get("estado") != "OK":
             continue
         huella = hashlib.sha256(json.dumps(r["entrada_minima"], sort_keys=True).encode()).hexdigest()[:16]
         paquete = out / "_trabajo" / f"{r['territorio']}-{huella}.zip"

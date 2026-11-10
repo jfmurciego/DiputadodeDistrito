@@ -7,8 +7,8 @@
 # QUÉ HACE: entradas de los 71 territorios (herramientas/bateria_motor.py entradas): reutiliza el estado M03 archivado
 #   en R2 si es del contrato vigente (sha256 de orchestracion/archivo_r2.json) y, si no, las reconstruye desde fuente
 #   INE; ejecuta M04-M06 con el motor indicado y la validación de producción y deja la matriz territorio × regla como
-#   artefacto. Con archivar=true sube a R2 solo la entrada mínima (M01 + grafo M03 + ENTRADAS.json) de las
-#   reconstruidas. No publica ni escribe en main.
+#   artefacto. Con archivar=true sube a R2 solo la entrada mínima (M01 + grafo M03 + ENTRADAS.json) de cada
+#   territorio. No publica ni escribe en main.
 # CAMBIOS: 1.0.0: fichero nuevo (T-132).
 # MOTIVO: repetir la batería ante cualquier cambio del motor con un solo botón; sin programación ni vigilantes.
 # ANTERIOR: ninguna (fichero nuevo)
