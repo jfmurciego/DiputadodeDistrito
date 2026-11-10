@@ -33,6 +33,36 @@ class Resumen(unittest.TestCase):
         self.assertFalse(resumen([fila("a"), {"territorio": "b", "estado": "ERROR", "detalle": "x"}])["aceptacion"])
         self.assertFalse(resumen([])["aceptacion"])
 
+    def test_sin_comparacion_con_el_vigente(self):  # nunca en verde por omisión
+        filas = [{**fila("a"), "funcion": "D8", "vigente": "VIGENTE_NO_REPRESENTABLE",
+                  "vigente_detalle": "secciones distintas", "fuera_vigente_publicado": None},
+                 {**fila("b"), "funcion": "D8"},  # reanudada sin datos del vigente
+                 {**fila("c"), "funcion": "D8", "fuera_vigente_publicado": 3},
+                 {**fila("d"), "funcion": "A"}]
+        r = resumen(filas)
+        self.assertEqual(r["sin_comparacion_vigente"], {"a": "secciones distintas", "b": "sin datos del vigente en la fila"})
+        tmp = Path(tempfile.mkdtemp())
+        escribir_resumen(filas, tmp)
+        md = (tmp / "RESUMEN.md").read_text(encoding="utf-8")
+        self.assertIn("sin comparación en 2**: a (secciones distintas); b (sin datos del vigente en la fila)", md)
+
+    def test_reanudar_exige_el_mismo_vigente(self):
+        import hashlib
+        from ddd_motor2.competir import _mismo_vigente
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / "t.csv").write_text("seccion,distrito,poblacion\n1,1,1\n", encoding="utf-8")
+        h = hashlib.sha256((tmp / "t.csv").read_bytes()).hexdigest()
+        self.assertTrue(_mismo_vigente("t", {"vigente": {"sha256_origen": h}}, "D8", tmp))
+        self.assertFalse(_mismo_vigente("t", {"vigente": {"sha256_origen": "x"}}, "D8", tmp))  # cambió el publicado
+        self.assertFalse(_mismo_vigente("t", {}, "D8", tmp))  # juzgado sin vigente y ahora lo hay
+        self.assertTrue(_mismo_vigente("t", {}, "A", tmp))
+
+    def test_peor_que_el_vigente(self):  # T-217: no debería pasar nunca (el vigente válido compite)
+        r = resumen([fila("a"), {**fila("b"), "vigente_compite": True, "frente_al_vigente": "empeora"}])
+        self.assertEqual((r["peor_que_el_vigente"], r["vigente_compite"], r["aceptacion"]), (["b"], 1, False))
+        r = resumen([{**fila("c"), "fuera_tolerancia": 38, "fuera_vigente_publicado": 33}])  # Cataluña sin reparar
+        self.assertEqual(r["peor_que_el_vigente"], ["c"])
+
     def test_ficheros(self):
         tmp = Path(tempfile.mkdtemp())
         tot = escribir_resumen([fila("a", s=3), fila("b", frente="mejora", s=5),
