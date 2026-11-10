@@ -24,7 +24,7 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
-| 00:22 | Comunidad de Madrid + Navarra (fase 1) | batería motor2 D8 N=10 | 42922787428 | EN_VUELO | 1 / — | 0/1 |
+| 00:22 | Comunidad de Madrid + Navarra (fase 1) | batería motor2 D8 N=10 | 42922787428 | SUCCESS; aceptación «PARCIAL» solo porque faltan las huellas reales (Soria, Álava, Melilla no están en la fase 1); todas las comprobaciones en verde: Madrid y Navarra VALIDO 12/12, mejoran al canónico, ninguna peor que el vigente, 0 FALLO_GENERADOR, recuento correcto. Criterio literal «SÍ» no alcanzable en esta fase: consulta al propietario | 1 / 33 min | 0/1 |
 
 ## Cierre
 Estado: `EN_CURSO` (T-222 en `main`, #695; main 0d34f64 en verde). Último uso: 2026-11-11.
