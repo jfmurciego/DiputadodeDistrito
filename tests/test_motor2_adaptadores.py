@@ -73,6 +73,29 @@ class Adaptador(unittest.TestCase):
         with self.assertRaisesRegex(ErrorDatos, "provincia"):
             evaluar(p, Reglas.desde_contrato(cfg()), plan)
 
+    def test_mezcla_de_vacio_y_valor_avisa_y_deja_el_campo_vacio(self):
+        filas = [["s1", "1", "60", "22", "22001", "A", "0"], ["s2", "1", "40", "22", "", "A", "0"],
+                 ["s3", "2", "100", "22", "22002", "B", "0"]]
+        comp, grafo = self.escribir(filas, [("s1", "s2"), ("s2", "s3")])
+        p, plan, avisos = problema_y_plan(comp, grafo, cfg())
+        self.assertIsNone(p.por_id["A"].municipio)
+        self.assertEqual(p.por_id["A"].desglose, ())
+        self.assertIn("1 unidades mezclan secciones con y sin municipio: el campo queda vacío", avisos)
+        with self.assertRaisesRegex(ErrorDatos, "municipio"):
+            evaluar(p, Reglas.desde_contrato(cfg()), plan)
+
+    def test_respaldo_cusec_solo_si_se_pide(self):
+        cab = ["CUSEC_KEY", "district_id", "section_pop", "CPRO", "ddd_unit_id"]
+        comp, grafo = self.escribir([["2200101001", "1", "100", "22", "A"], ["2200201001", "2", "100", "22", "B"]],
+                                    [("2200101001", "2200201001")], cab=cab)
+        p, plan, _ = problema_y_plan(comp, grafo, cfg())
+        with self.assertRaisesRegex(ErrorDatos, "municipio"):
+            evaluar(p, Reglas.desde_contrato(cfg()), plan)
+        p, plan, avisos = problema_y_plan(comp, grafo, cfg(), respaldo_municipio_cusec=True)
+        self.assertEqual(p.por_id["A"].municipio, "22001")
+        self.assertIn("2 secciones sin municipio: CUSEC[:5] (respaldo de compatibilidad)", avisos)
+        self.assertTrue(evaluar(p, Reglas.desde_contrato(cfg()), plan).valido)
+
     def test_columnas_del_contrato_islas_y_atributos_geojson(self):
         cab = ["CUSEC_KEY", "district_id", "section_pop", "DDD_PARTITION", "DDD_MUNICIPALITY_PARTITION", "ddd_unit_id"]
         filas = [["s1", "1", "100", "35-C01", "35016:35-C01", "U1"], ["s2", "2", "100", "35-C01", "35001:35-C01", "U2"]]
