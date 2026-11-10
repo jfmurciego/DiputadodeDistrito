@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.39
+Versión: 1.0.40
 Fecha: 2026-11-10
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-65 a D-68 (padrón de las generales 2026, regla del núcleo sin herencias, 10 cadenas, función D8) y cola T-175 a T-203
-Anterior: legacy/docs/PLAN_v1.0.38_20261110.md
+Cambios/motivo: D-69 a D-73 (textos y pérdidas 2011, analítica aplazada, batería en Actions, línea de investigación) y T-205 a T-209
+Anterior: legacy/docs/PLAN_v1.0.39_20261110.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -103,6 +103,11 @@ con frase del propietario en su chat.
 - D-66. Regla del núcleo (máximo 1 distrito mixto por municipio) sin admitir las infracciones que trae el mapa vigente; si un territorio es infactible por población, excepción explícita en su contrato con su motivo (máximo 2), que aprueba el propietario. Caso Ávila: el vigente incumple; los mapas nuevos la cumplen sin excepción.
 - D-67. Número de cadenas provisional: 10 por edición (medición en 20 territorios: distritos fuera de tolerancia 172 sin cadenas, 126 con 5, 125 con 10, 124 con 20; `docs/ESTUDIOS/T180_CADENAS/`). Se fija como oficial cuando lo confirme la batería de los 71 con la función elegida.
 - D-68. Función de calidad del motor nuevo: D8 = criterio C (población dentro de tolerancia y, a igualdad, menos partidos judiciales y comarcas agrarias partidos y mejor forma, cortando por donde hay menos vínculo) con el desvío máximo limitado al 8 % solo para elegir entre candidatos válidos; no es una regla del núcleo. En el Congreso logra el 86 % de la mejora de C con desvío medio 11,4 % frente a 16,4 % (`docs/ESTUDIOS/T179_naturalidad_nacional/`).
+- D-69. Texto público aprobado para la elección 2026: «Los distritos de las generales de 2026 están trazados con el padrón y el seccionado de 2023; se actualizarán con el padrón de 2025.» Se añade a los textos de la web y al visor, sin publicar.
+- D-70. Se acepta, documentada, la pérdida de votos 2011 en secciones sin geometría INE 2012 (Lugo, Alicante, León, Orense y Asturias; 0,2-0,54 %).
+- D-71. La analítica sin cookies del visor se aplaza hasta publicar el visor v2. El visor v2 sigue sin publicarse.
+- D-72. La batería de los 71 del motor nuevo (D8, 10 cadenas) corre en GitHub Actions, no en sesión: primero Soria y, si sale bien, los 71, por campaña autorizada en el chat del Operador (coste estimado 600-650 min).
+- D-73. Línea de investigación tras el corte 5.0.0 («solo la excelencia es aceptable»): (1) del certificador exacto a resolver el óptimo demostrado con programación entera en los territorios pequeños y medianos; (2) comparación con `redist` (SMC) y GerryChain puro en los mismos territorios y reglas; (3) aportación propia: optimización con varios objetivos (población y naturalidad) bajo disciplina municipal con certificado del hueco al óptimo; después, publicación académica (P60). Forma de incorporarlo: no se sustituye el canónico; el resolutor exacto (abierto y determinista, HiGHS o CBC) entra como competidor y certificador, de los territorios pequeños hacia arriba hasta donde dé; el SMC de `redist` solo como comparación para el artículo; el canónico sigue como suelo de «nunca peor» y como mapa de los territorios grandes. Nada antes del corte.
 
 ### Cola vigente del motor y de las generales 2026 (10-11)
 | Id | Tarea | Estado |
@@ -121,12 +126,17 @@ con frase del propietario en su chat.
 | T-201 | Elección como dimensión en la lectura de publicaciones | HECHA |
 | T-202 | Naturalidad en Castilla y León, Extremadura y Principado de Asturias | HECHA (PR en revisión) |
 | T-203 | Catálogo de procedencia por elección | PENDIENTE (P3, límite 25-11) |
-| T-204 | Actualización del plan (D-65 a D-68 y esta cola) | ESTA PR |
+| T-204 | Actualización del plan (D-65 a D-68 y esta cola) | HECHA |
+| T-205 | D8 y generador ponderado en la competición del motor nuevo | REVISIÓN |
+| T-206 | Texto del padrón 2026 en la web y el visor (D-69) | PENDIENTE (P2, límite 25-11) |
+| T-207 | Composición canónica de Andalucía, Aragón y Baleares desde el M06 publicado y reagregación de sus 12 elecciones | HECHA |
+| T-208 | Modo motor nuevo en la batería de Actions | REVISIÓN |
+| T-209 | Actualización del plan (D-69 a D-73) | ESTA PR |
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193 y T-204. El planificador ha dado T-194 a T-204 (10-11). Siguiente libre para el planificador: T-205.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204 y T-209. El planificador ha dado T-194 a T-209 (10-11). Siguiente libre para el planificador: T-210.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
