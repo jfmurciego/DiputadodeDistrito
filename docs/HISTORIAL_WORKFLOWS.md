@@ -21,6 +21,7 @@ El borrado de runs está en `docs/HISTORIAL_WORKFLOWS_BORRADO_RUNS.csv` (222 run
 
 ## Notas
 
-- Evidencia «git»: ruta@sha corto del blob en `origin/main`; todas existen. La asignación workflow→evidencia se hizo por nombre, fecha y herramienta que invocaba el workflow; los artefactos de Actions de estos runs ya han caducado. **No se ha comprobado R2** (sin credenciales en la sesión cloud).
+- CSV: columna `verificada` (sí/no + ruta) por run; ninguno de los 222 está en `orchestracion/archivo_r2.json`. El Operador solo borra los «sí».
+- Evidencia «git»: ruta@sha corto del blob en `origin/main`; todas existen. La asignación workflow→evidencia se hizo por nombre, fecha y herramienta que invocaba el workflow; los artefactos de Actions de estos runs ya han caducado. R2 contrastado solo con `orchestracion/archivo_r2.json` (sin coincidencias), sin acceso directo al almacén.
 - Los cuatro de septiembre (`verificar-*`, `diagnostico-descubrimiento-fuentes`) eran checks de PR sin salida conservable; borrar sus runs no pierde evidencia.
 - Workflows retirados con fichero aún en `legacy/` o ya sustituidos pero con runs en `main` (p. ej. `legacy/workflows/retirados_20261031`) no se tocan aquí: los gestiona T-149. Si se retiran más, se añaden filas y el CSV se regenera con `gh api repos/<r>/actions/workflows/<id>/runs`.
