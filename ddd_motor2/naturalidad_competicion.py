@@ -9,7 +9,9 @@ FECHA: 2026-11-10
 ESTADO: experimento (motor 2; producción no lo importa; no lanza nada; el criterio NO se fija aquí)
 CAMBIOS: 1.2.0 (T-179, nacional): --funciones (p. ej. C,D8: sin las cadenas libres; A queda como el mapa vigente,
   candidato «vigente») y --reanudar (salta los territorios que ya tienen RESULTADO.json en --out), para
-  recorrer los 67 territorios en sesión. Con las cinco funciones el resultado es idéntico a 1.1.0.
+  recorrer los 67 territorios en sesión. Con las cinco funciones el resultado es idéntico a 1.1.0. Islas: partición
+  de cada unidad según configuracion/particiones_insulares_2025.json (hard_partition_lookup del contrato) y sus
+  puentes marítimos; enclaves: topology_bridges del contrato (p. ej. Treviño en Burgos) como puentes.
   1.1.0 (T-179): variantes D5 y D8 = C con tope de desvío máximo del 5 % / 8 % solo para elegir entre
   candidatos (no es regla: el núcleo, suelo, techo y K no cambian). Las cadenas ponderadas son las mismas (mismas
   semillas) y registran además el mejor estado bajo cada tope; A/B/C y su huella no cambian con el mismo entorno.
@@ -89,8 +91,15 @@ class Laboratorio:
         pob_m: dict[str, int] = defaultdict(int)
         for s, p in self.pob_s.items():
             pob_m[s[:5]] += p
-        # unidad de cada sección: municipio entero si no puede partirse (<= objetivo), si no la propia sección
-        self.unidad = {s: (s[:5] if pob_m[s[:5]] <= self.objetivo else s) for s in self.asig0}
+        part = particiones(self.cfg)
+        psec = {s: (part.get(s) or part.get(s[:5])) for s in self.asig0} if part else {}
+        islas_m: dict[str, set] = defaultdict(set)
+        for s, pi in psec.items():
+            islas_m[s[:5]].add(pi)
+        # unidad de cada sección: municipio entero si no puede partirse (<= objetivo), si no la propia sección; un
+        # municipio en dos islas (Teguise y La Graciosa) es una unidad por isla, «municipio:partición», como el contrato
+        self.unidad = {s: (s if pob_m[s[:5]] > self.objetivo else
+                           f"{s[:5]}:{psec[s]}" if len(islas_m.get(s[:5], ())) > 1 else s[:5]) for s in self.asig0}
         self.secciones_de: dict[str, list[str]] = defaultdict(list)
         for s in sorted(self.asig0):
             self.secciones_de[self.unidad[s]].append(s)
@@ -101,10 +110,17 @@ class Laboratorio:
             if ua != ub:
                 largo[tuple(sorted((ua, ub)))] += w
         contacto = {tuple(sorted((self.unidad[a], self.unidad[b]))) for a, b in self.geo.contactos()}
+        # los CUSEC del YAML pueden llegar como enteros sin el cero inicial (0910901001 → 910901001)
+        puentes_sec = {tuple(x.zfill(10) for x in p) for p in set(part.pop("_puentes", ())) | puentes_contrato(self.cfg)}
+        contacto |= {tuple(sorted((self.unidad[a], self.unidad[b]))) for a, b in puentes_sec
+                     if a in self.unidad and b in self.unidad}
         contacto = sorted(p for p in contacto if p[0] != p[1] and p not in largo)
         self.largo = dict(sorted(largo.items()))
         self.problema = Problema(
-            tuple(Unidad(u, pob_u[u], municipio=u[:5], provincia=u[:2]) for u in sorted(pob_u)),
+            tuple(Unidad(u, pob_u[u], municipio=u if ":" in u else u[:5], provincia=pi, particion=pi if part else None)
+                  for u in sorted(pob_u)
+                  # en las islas el contrato usa la partición como campo de provincia (DDD_PARTITION)
+                  for pi in [(part.get(self.secciones_de[u][0]) or part.get(u[:5])) if part else u[:2]]),
             tuple(self.largo), tuple(contacto))
         self.pob_u = pob_u
         self.u0 = {u: self.asig0[ss[0]] for u, ss in self.secciones_de.items()}
@@ -160,6 +176,47 @@ class Laboratorio:
 
     def a_secciones(self, asig_u: dict[str, str]) -> dict[str, str]:
         return {s: asig_u[self.unidad[s]] for s in self.asig0}
+
+
+def _buscar(x, clave: str):
+    if isinstance(x, dict):
+        for k, v in x.items():
+            if k == clave:
+                return v
+            r = _buscar(v, clave)
+            if r is not None:
+                return r
+    return None
+
+
+def puentes_contrato(cfg) -> set[tuple[str, str]]:
+    """Todas las topology_bridges del contrato, en cualquier módulo (enclaves y exclaves)."""
+    out: set[tuple[str, str]] = set()
+
+    def ver(x):
+        if isinstance(x, dict):
+            for k, v in x.items():
+                if k == "topology_bridges" and isinstance(v, list):
+                    out.update(tuple(sorted((str(b["u"]), str(b["v"])))) for b in v
+                               if isinstance(b, dict) and b.get("u") is not None and b.get("v") is not None)
+                else:
+                    ver(v)
+        elif isinstance(x, list):
+            for v in x:
+                ver(v)
+    ver(cfg)
+    return out
+
+
+def particiones(cfg: dict) -> dict:
+    """Partición insular por sección (overrides) y municipio, y puentes marítimos («_puentes»), de la tabla del contrato."""
+    ruta, tid = _buscar(cfg, "hard_partition_lookup"), _buscar(cfg, "hard_partition_territory_id")
+    if not ruta or not tid:
+        return {}
+    t = json.loads((ROOT / str(ruta)).read_text(encoding="utf-8"))["territories"][str(tid)]
+    out = {**t.get("municipality_to_partition", {}), **t.get("section_overrides", {})}
+    out["_puentes"] = [tuple(sorted((str(b["u"]), str(b["v"])))) for b in t.get("bridges", [])]
+    return out
 
 
 def huella_plan(asig: dict[str, str]) -> str:
