@@ -1,11 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.0
-# FECHA: 2026-11-08
+# VERSIÓN: 1.1.1
+# CAMBIOS 1.1.1: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P60 Publicación académica» (antes Publicar versión de mapa).
+# FECHA: 2026-11-10
 # ESTADO: candidato
 # CAMBIOS 1.1.0: T-87, también workflow_call desde «05 Cadena de Publicación»: recibe el mismo production_run_id
 #   y el mismo source_sha que la 05; hace checkout de ese sha, lo firma en LINAJE.json y crea la Release sobre él.
 # MOTIVO: un solo lanzamiento del Operador publica visor y versión del mapa del mismo run y commit (D-14).
-# ANTERIOR: legacy/workflows/publicar-version-mapa_v1.0.0_20261108.yml
+# ANTERIOR: legacy/workflows/publicar-version-mapa_v1.1.0_20261110.yml
 # Publica un mapa como versión inmutable: manifiesto SHA-256, atestación SLSA
 # firmada con Sigstore y GitHub Release. La integración Zenodo–GitHub archiva
 # automáticamente cada Release publicada y le asigna DOI.
@@ -13,7 +14,7 @@
 # Requisitos previos (una vez):
 #   1. zenodo.org → iniciar sesión con GitHub → Account → GitHub → activar el repo.
 #   2. Settings → Environments → crear "publicacion" con revisor obligatorio.
-name: Publicar versión de mapa
+name: P60 Publicación académica
 
 on:
   workflow_call:

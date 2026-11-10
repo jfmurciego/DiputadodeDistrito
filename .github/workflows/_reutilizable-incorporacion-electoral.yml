@@ -1,7 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — incorporación electoral
-# VERSIÓN: 1.2.4
-# ANTERIOR: legacy/workflows/_reutilizable-incorporacion-electoral_v1.2.3_20261110.yml
+# VERSIÓN: 1.2.5
+# CAMBIOS 1.2.5: T-215 (corte 5.0.0, paso 4), nombre visible v5 «Interno · P40 Incorporación electoral» (antes Interno · Incorporación electoral).
+# ANTERIOR: legacy/workflows/_reutilizable-incorporacion-electoral_v1.2.4_20261110.yml
 # CAMBIOS 1.2.4: T-149, solo el nombre visible («Interno · Incorporación electoral») para quitar el «_» de la lista de Actions (excepción temporal workflow_call).
 # CAMBIOS 1.2.3: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # ESTADO: candidato
@@ -29,7 +30,7 @@
 #   publican como anotación DIAG_M07/DIAG_M08 (los logs de Actions no son legibles desde fuera).
 # MOTIVO: Castilla y León y Extremadura fallan en M07/M08 sin más detalle que el código de salida.
 # FECHA: 2026-11-10
-name: Interno · Incorporación electoral
+name: Interno · P40 Incorporación electoral
 
 on:
   workflow_call:

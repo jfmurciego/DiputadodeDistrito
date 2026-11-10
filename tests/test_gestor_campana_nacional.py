@@ -502,7 +502,7 @@ class NationalCampaignTests(unittest.TestCase):
    publication_matrix([{"territory_id":"a","release_tag":"r","namespace":"n"}],2)
  def test_workflow_is_single_manager_and_safe(self):
   text=Path(".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
-  self.assertIn("name: 0 Gestor de Campañas",text)
+  self.assertIn("name: P00 Campaña · Gestor",text)
   self.assertIn("fail-fast: false",text); self.assertIn("max-parallel: 5",text)
   self.assertIn("publish_result: false",text); self.assertIn("persist_state: ${{ matrix.persist_state }}",text)
   self.assertNotIn("retry_failed: true",text)

@@ -1,18 +1,19 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: recuperación operativa manual
-# VERSIÓN: 1.0.4
+# VERSIÓN: 1.0.5
+# CAMBIOS 1.0.5: T-215 (corte 5.0.0, paso 4), nombre visible v5 «ARC Archivo · Recuperar producto electoral» (antes Recuperar producto electoral durable).
 # QUÉ HACE: acredita y registra un M08 durable ya producido sin ejecutar fases territoriales/electorales ni publicar.
 # CAMBIOS 1.0.3: T-10, paso «Credencial de registro» antes de registrar en main: con los secretos
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
 # CAMBIOS 1.0.4: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# ANTERIOR: legacy/workflows/recuperar-producto-electoral-durable_v1.0.3_20261101b.yml
+# ANTERIOR: legacy/workflows/recuperar-producto-electoral-durable_v1.0.4_20261110.yml
 # CAMBIOS 1.0.2: la verificación lee la fuente electoral del receipt declarado en el catálogo (mismo criterio
 #   que el detector desde #360); el legacy de evidencia/catalogo/ estaba obsoleto (Cantabria) o ausente (Extremadura).
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
-# FECHA: 2026-10-25
-name: Recuperar producto electoral durable
+# FECHA: 2026-11-10
+name: ARC Archivo · Recuperar producto electoral
 
 on:
   workflow_call:

@@ -1,16 +1,17 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# CAMBIOS 1.0.1: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P50 Publicación · Cadena» (antes 05 Cadena de Publicación).
 # NOMBRE: Cadena de publicación con un solo lanzamiento (T-87, D-14)
 # ESTADO: candidato
-# FECHA: 2026-11-08
+# FECHA: 2026-11-10
 # QUÉ HACE: dada una 00 con la puerta 04 cerrada, resuelve desde su registro durable el run que generó el M08
 #   (el origen si fue «Reutilizar»), el M06 y el territorio, y dispara juntos la 05 del visor y la versión del
 #   mapa (Release, Zenodo) con el mismo run y el mismo sha. Por defecto solo simula: no publica nada.
 # CAMBIOS: fichero nuevo.
 # MOTIVO: D-14, la puerta humana es el permiso del propietario en el chat del Operador; una sola orden por lanzamiento.
-# ANTERIOR: ninguna (fichero nuevo)
-name: 05 Cadena de Publicación
+# ANTERIOR: legacy/workflows/cadena-publicacion_v1.0.0_20261110.yml
+name: P50 Publicación · Cadena
 
 on:
   workflow_dispatch:

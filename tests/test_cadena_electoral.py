@@ -51,7 +51,7 @@ class CadenaElectoral(unittest.TestCase):
     def test_sin_duplicados_y_parada_con_causa(self):
         self.assertIn("CHAIN_DUPLICATE_SKIPPED", self.script)
         self.assertIn('en_curso preparacion-legislatura-vigente.yml "$titulo_activacion"', self.script)
-        self.assertIn('en_curso ejecucion-completa-proyecto.yml "00 Ejecución Completa del Proyecto · $TERRITORY ·"', self.script)
+        self.assertIn('en_curso ejecucion-completa-proyecto.yml "P00 Campaña · $TERRITORY ·"', self.script)
         self.assertLess(self.script.index("duplicada="), self.script.index("ejecucion-completa-proyecto.yml/dispatches"))
         self.assertLess(self.script.index("exit 71"), self.script.index("ejecucion-completa-proyecto.yml/dispatches"))
         self.assertIn("paquete electoral caducado o par incompatible", self.script)

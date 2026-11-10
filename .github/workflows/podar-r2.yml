@@ -1,6 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: podar-r2.yml
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# CAMBIOS 1.0.1: T-215 (corte 5.0.0, paso 4), nombre visible v5 «ARC Archivo · Poda de R2» (antes Auxiliar — Poda de R2).
 # NOMBRE DE VERSIÓN: Poda de R2 con lista aprobada
 # FECHA: 2026-11-10
 # ESTADO: candidato
@@ -10,8 +11,8 @@
 #   (docs/ESTUDIOS/T145_PODA_R2/informes/) y orchestracion/archivo_r2.json. Comparte concurrencia con el archivista (un solo escritor).
 # CAMBIOS: 1.0.0: fichero nuevo (T-145). Entorno «produccion» siempre con ejecutar=true; informe y manifiesto también como artefacto.
 # MOTIVO: R2 supera los 10 GB gratuitos (28 GB); la lista (234 claves, 26,085 GB) fue aprobada por el propietario el 10-11.
-# ANTERIOR: ninguna (fichero nuevo)
-name: 'Auxiliar — Poda de R2'
+# ANTERIOR: legacy/workflows/podar-r2_v1.0.0_20261110.yml
+name: ARC Archivo · Poda de R2
 run-name: "Poda de R2 · ${{ inputs.ejecutar && 'BORRADO' || 'simulación' }}"
 
 on:

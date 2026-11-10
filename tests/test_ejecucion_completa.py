@@ -58,7 +58,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
 
     def test_orchestrator_exposes_only_functional_controls(self):
         data = load(ORCH)
-        self.assertEqual(data["name"], "00 Ejecución Completa del Proyecto")
+        self.assertEqual(data["name"], "P00 Campaña")
         inputs = triggers(ORCH)["workflow_dispatch"]["inputs"]
         self.assertEqual(list(inputs), ["territory_id", "data_edition", "execution_mode", "optimization_algorithm", "publication_mode", "publish_result", "lanzado_por_eleccion", "cadena_electoral", "cadena_origen_run_id"])
         self.assertEqual(

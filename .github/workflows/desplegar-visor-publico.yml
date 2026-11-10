@@ -1,6 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 3.4.0
+# VERSIÓN: 3.5.0
+# CAMBIOS 3.5.0: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P50 Publicación» (antes 05 Publicación del Visor); la puerta `produccion` sigue atada a github.workflow == el nombre nuevo.
 # NOMBRE: Publicación manual desacoplada del cálculo territorial
 # ESTADO: candidato
 # QUÉ HACE: promueve explícitamente páginas web y después despliega Pages. Nunca calcula distritos.
@@ -14,11 +15,11 @@
 #   ese commit sea ancestro del main vigente, el mismo sha que firma la versión del mapa.
 # CAMBIOS 3.4.0: T-125, sin production_run_id la 05 es «solo sitio»: despliega v1+v2 con el registro tal cual y NO resuelve latest_validated
 #   (promovía el último run de cualquier territorio, también de los gemelos congreso350_*); añadir entradas exige un run explícito.
-# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.3.0_20261109.yml
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.4.0_20261110.yml
 # CAMBIOS (histórico, sustituido por 3.4.0): antes, sin run explícito, promovía latest_validated si conservaba artefactos ddd-*; desde 3.4.0 el campo vacío es «solo sitio».
 # MOTIVO: latest_validated (Aragón M08 35710908574) ya no tiene artefactos y bloqueaba toda publicación con EXECUCION_SOLICITADA_SIN_EVIDENCIA_GENERADA.
-# FECHA: 2026-10-29
-name: 05 Publicación del Visor
+# FECHA: 2026-11-10
+name: P50 Publicación
 
 on:
   workflow_call:
@@ -64,7 +65,7 @@ permissions:
 jobs:
   preparar_publicacion:
     name: Preparar promoción web
-    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == '05 Publicación del Visor') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P50 Publicación') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-shared-operational-state

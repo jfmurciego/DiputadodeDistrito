@@ -1,9 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 8.1.7
+# VERSIÓN: 8.1.8
+# CAMBIOS 8.1.8: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P20 Base territorial · P30 Distritos» (antes 02 Generación de Distritos Autonómicos).
 # CAMBIOS 8.1.7: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Generación de distritos autonómicos
-# FECHA: 2026-11-08
+# FECHA: 2026-11-10
 # ESTADO: candidato
 # QUÉ HACE: genera y certifica distritos autonómicos para un territorio y una edición; no incorpora resultados electorales ni publica el visor.
 # CAMBIOS: "Resolver paquete territorial preparado" usa la declaración que acredita el catálogo (territorial_source_declaration) y solo recurre a config/fuentes_oficiales.yaml si el catálogo no fija ninguna.
@@ -12,9 +13,9 @@
 # CAMBIOS 8.1.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 8.1.5: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
 # CAMBIOS 8.1.6: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
-# ANTERIOR: legacy/workflows/produccion-distritos_v8.1.6_20261108.yml
+# ANTERIOR: legacy/workflows/produccion-distritos_v8.1.7_20261110.yml
 # MOTIVO: la Comunidad Valenciana acredita su declaración en evidencia versionada; la ruta fija leía config/fuentes_oficiales.yaml sin años y bloqueaba el run 40784680666.
-name: 02 Generación de Distritos Autonómicos
+name: P20 Base territorial · P30 Distritos
 
 on:
   workflow_call:

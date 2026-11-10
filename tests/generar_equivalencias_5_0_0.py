@@ -1,7 +1,8 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
+# CAMBIOS 1.1.0: T-215, columna «Nombre visible v5» (el nombre que lleva hoy cada fichero tras el paso 4).
 # FECHA: 2026-11-10
-# ANTERIOR: ninguna (fichero nuevo)
+# ANTERIOR: legacy/tests/generar_equivalencias_5_0_0_v1.0.0_20261110.py
 """T-198: genera docs/ARQUITECTURA/EQUIVALENCIAS_5_0_0.md (viejo -> nuevo) de la tabla maestra.
 
 Reproducible: `python tests/generar_equivalencias_5_0_0.py` reescribe el documento;
@@ -30,22 +31,22 @@ FASES = [  # (viejo, nuevo)
     ("M07 `07_agregar_resultados_electorales.py`", "P41 votos a secciones + P42 agregación"),
     ("M08 `08_integrar_resultados.py`", "P42 agregación + P43 validación"),
 ]
-# (fichero, nombre de hoy, flujo v5)
+# (fichero, nombre anterior al corte, flujo v5, nombre visible v5 — T-215)
 FLUJOS = [
-    ("gestor-campanas.yml", "0 Gestor de Campañas", "P00 Campaña"),
-    ("ejecucion-completa-proyecto.yml", "00 Ejecución Completa del Proyecto", "P00 Campaña"),
-    ("activacion-por-eleccion.yml", "Auxiliar — Activación por Elección", "P00 Campaña"),
-    ("preparacion-legislatura-vigente.yml", "Auxiliar — Activación de Legislatura Vigente", "P00 Campaña"),
-    ("preparacion-fuentes.yml", "01 Preparación de Datos Territoriales", "P10 Fuentes"),
-    ("preparacion-resultados-electorales.yml", "03 Preparación de Resultados Electorales", "P10 Fuentes"),
-    ("produccion-distritos.yml", "02 Generación de Distritos Autonómicos", "P20 Base territorial + P30 Distritos"),
-    ("generar-alternativas-territoriales.yml", "06 Escenarios y Ensembles", "P30 Distritos (P33)"),
-    ("incorporacion-resultados-electorales.yml", "04 Incorporación de Resultados Electorales", "P40 Resultados electorales"),
-    ("desplegar-visor-publico.yml", "05 Publicación del Visor", "P50 Publicación"),
-    ("cadena-publicacion.yml", "05 Cadena de Publicación", "P50 Publicación"),
-    ("publicar-version-mapa.yml", "Publicar versión de mapa", "P60 Publicación académica"),
-    ("podar-r2.yml", "Auxiliar — Poda de R2", "ARC Archivo"),
-    ("recuperar-producto-electoral-durable.yml", "Recuperar producto electoral durable", "ARC Archivo"),
+    ("gestor-campanas.yml", "0 Gestor de Campañas", "P00 Campaña", "P00 Campaña · Gestor"),
+    ("ejecucion-completa-proyecto.yml", "00 Ejecución Completa del Proyecto", "P00 Campaña", "P00 Campaña"),
+    ("activacion-por-eleccion.yml", "Auxiliar — Activación por Elección", "P00 Campaña", "P00 Campaña · Elección"),
+    ("preparacion-legislatura-vigente.yml", "Auxiliar — Activación de Legislatura Vigente", "P00 Campaña", "P00 Campaña · Legislatura"),
+    ("preparacion-fuentes.yml", "01 Preparación de Datos Territoriales", "P10 Fuentes", "P10 Fuentes · P11 Territoriales"),
+    ("preparacion-resultados-electorales.yml", "03 Preparación de Resultados Electorales", "P10 Fuentes", "P10 Fuentes · P12 Electorales"),
+    ("produccion-distritos.yml", "02 Generación de Distritos Autonómicos", "P20 Base territorial + P30 Distritos", "P20 Base territorial · P30 Distritos"),
+    ("generar-alternativas-territoriales.yml", "06 Escenarios y Ensembles", "P30 Distritos (P33)", "P30 Distritos · P33 Alternativas"),
+    ("incorporacion-resultados-electorales.yml", "04 Incorporación de Resultados Electorales", "P40 Resultados electorales", "P40 Resultados electorales"),
+    ("desplegar-visor-publico.yml", "05 Publicación del Visor", "P50 Publicación", "P50 Publicación"),
+    ("cadena-publicacion.yml", "05 Cadena de Publicación", "P50 Publicación", "P50 Publicación · Cadena"),
+    ("publicar-version-mapa.yml", "Publicar versión de mapa", "P60 Publicación académica", "P60 Publicación académica"),
+    ("podar-r2.yml", "Auxiliar — Poda de R2", "ARC Archivo", "ARC Archivo · Poda de R2"),
+    ("recuperar-producto-electoral-durable.yml", "Recuperar producto electoral durable", "ARC Archivo", "ARC Archivo · Recuperar producto electoral"),
 ]
 PRODUCTOS = [
     ("M06, `kind=canonical_m06`", "Mapa certificado, `kind=mapa_certificado`"),
@@ -101,7 +102,7 @@ def generar():
     ]
     L += _tab(["Viejo", "Nuevo"], FASES)
     L += ["", "## Flujos de trabajo → flujo v5", ""]
-    L += _tab(["Fichero", "Nombre de hoy", "Flujo v5"], [(f"`{a}`", b, c) for a, b, c in FLUJOS])
+    L += _tab(["Fichero", "Nombre anterior", "Flujo v5", "Nombre visible v5"], [(f"`{a}`", b, c, d) for a, b, c, d in FLUJOS])
     L += ["", "## Productos", ""] + _tab(["Hoy", "v5"], PRODUCTOS)
     L += ["", f"## Territorios ({len(t)} ids AUT/NAC)", ""]
     L += _tab(["Código", "Nombre", "id viejo", "id nuevo"], [(a, b, f"`{c}`", f"`{d}`") for a, b, c, d in t])

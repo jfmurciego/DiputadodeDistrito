@@ -1,6 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.6.1
+# VERSIÓN: 1.7.0
+# CAMBIOS 1.7.0: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P00 Campaña» (antes 00 Ejecución Completa del Proyecto); run-name y comprobación de duplicados con el prefijo nuevo.
 # CAMBIOS 1.6.1: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Cadena electoral en GitHub (sin el Mac)
 # ESTADO: candidato
@@ -27,16 +28,16 @@
 #   Sin duplicados: si el territorio ya tiene una activación o una 00 en cola o en curso, no se relanza
 #   (CHAIN_DUPLICATE_SKIPPED). Estado de cada eslabón en el artefacto ddd-cadena-<run> y en el resumen.
 #   run-name con el territorio y el modo para identificar los runs.
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.6.0_20261108.yml
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.6.1_20261110.yml
 # CAMBIOS: 1.4.0: si 01–03 quedan válidas y la 04 se salta por falta de prepared_source_pair, el job
 #   encadenar_par_y_04 activa el par (preparacion-legislatura-vigente prepare_one) y relanza el 00 en
 #   modo reutilizar; una ejecución en modo reutilizar no vuelve a encadenar.
 #   1.4.1: el encadenado también se dispara en modo reutilizar (el modo por defecto); el bucle se
 #   evita porque el relanzamiento lo dispara github-actions[bot], que no vuelve a encadenar.
 # MOTIVO: un único "Ejecutar desde el principio" debe llegar a la 04 sin pasos manuales.
-# FECHA: 2026-11-08
-name: 00 Ejecución Completa del Proyecto
-run-name: "${{ inputs.territory_id && format('00 Ejecución Completa del Proyecto · {0} · {1}', inputs.territory_id, inputs.execution_mode) || '00 Ejecución Completa del Proyecto' }}"
+# FECHA: 2026-11-10
+name: P00 Campaña
+run-name: "${{ inputs.territory_id && format('P00 Campaña · {0} · {1}', inputs.territory_id, inputs.execution_mode) || 'P00 Campaña' }}"
 
 on:
   workflow_call:
@@ -1647,7 +1648,7 @@ jobs:
             estado NO_LANZADA "Activación en $conclusion: paquete electoral caducado o par incompatible; ver CLAUDE.md (TERRITORIAL_READY_PAIR_INCOMPATIBLE)."
             echo "::error::La activación del par terminó en $conclusion; no se relanza la 04 (paquete electoral caducado o par incompatible)."; exit 71
           fi
-          duplicada="$(en_curso ejecucion-completa-proyecto.yml "00 Ejecución Completa del Proyecto · $TERRITORY ·")"
+          duplicada="$(en_curso ejecucion-completa-proyecto.yml "P00 Campaña · $TERRITORY ·")"
           if [[ -n "$duplicada" ]]; then
             estado CHAIN_DUPLICATE_SKIPPED "Ya hay una 00 de $TERRITORY en cola o en curso ($duplicada)."
             echo "::notice::CHAIN_DUPLICATE_SKIPPED: ya hay una 00 de $TERRITORY en cola o en curso ($duplicada); no se relanza."; exit 0

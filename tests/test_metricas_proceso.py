@@ -250,5 +250,12 @@ class Entrega(unittest.TestCase):
         self.assertIn("metricas_proceso.json", (ROOT / "dashboard/metricas.html").read_text(encoding="utf-8"))
 
 
+class NombreV5(unittest.TestCase):
+    def test_run_name_de_la_00_viejo_y_p00(self):  # T-215: corte 5.0.0, paso 4
+        self.assertEqual(mp.RUN_NAME.match("P00 Campaña · cantabria · Reutilizar").group(1), "cantabria")
+        self.assertEqual(mp.RUN_NAME.match("00 Ejecución Completa del Proyecto · ceuta · Reutilizar").group(1), "ceuta")
+        self.assertIsNone(mp.RUN_NAME.match("P00 Campaña · Gestor"))
+
+
 if __name__ == "__main__":
     unittest.main()
