@@ -2,16 +2,19 @@
 """Serializa y verifica linaje durable de un M06 emitido por el workflow 02.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1
-NOMBRE DE VERSIÓN: Manifiesto durable M06 independiente
-FECHA: 2026-11-01
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Manifiesto durable M06 independiente · P30 del motor 2
+FECHA: 2026-11-10
 ESTADO: candidato
 QUÉ HACE: enlaza contrato, ejecución, inputs, M05, certificación M06 y referencias de artefactos.
-CAMBIOS: 1.0.1: artifact_ref deduplica por id; al reanudar desde M05 el índice trae el mismo artefacto M04 como
+CAMBIOS: 1.1.0 (T-216): si el estado M06 trae p30_motor2/P30.json (modo `motor: motor2`), el manifiesto añade
+  `execution.p30` (motor, función, N, ganador, validez, huella del resultado y del motor 2, sha256 de P30.json); sin él
+  (modo m05) el manifiesto es idéntico al de 1.0.1.
+  1.0.1: artifact_ref deduplica por id; al reanudar desde M05 el índice trae el mismo artefacto M04 como
   «checkpoint» y como «m04» (Congreso Álava, run 41335088773). Ids distintos con el mismo nombre siguen fallando.
   1.0.0: añade un manifiesto M06 posterior al empaquetado, sin incluirlo en el artefacto que acredita.
-MOTIVO: conservar linaje durable cuando la generación se ejecuta por 02 y no por 00.
-ANTERIOR: legacy/herramientas/manifest_generacion_territorial_v1.0.0_20261101.py
+MOTIVO: conservar linaje durable cuando la generación se ejecuta por 02 y no por 00. 1.1.0: T-216, huella del P30.
+ANTERIOR: legacy/herramientas/manifest_generacion_territorial_v1.0.1_20261101.py
 """
 from __future__ import annotations
 
@@ -434,8 +437,42 @@ def build_manifest(
             "audit_files": audit_files,
         },
     }
+    p30 = _p30(state_dir)
+    if p30 is not None:
+        payload["execution"]["p30"] = p30
     payload["manifest_sha256"] = manifest_sha256(payload)
     return payload
+
+
+def _p30(state_dir: Path) -> dict[str, Any] | None:
+    """T-216: huella del P30 del motor 2 (solo en el modo motor2; en m05 no hay P30.json)."""
+    matches = sorted(path for path in state_dir.rglob("P30.json") if path.is_file() and path.parent.name == "p30_motor2")
+    if not matches:
+        return None
+    if len(matches) > 1:
+        raise GenerationManifestError("Más de un P30.json en el estado M06")
+    try:
+        data = json.loads(matches[0].read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise GenerationManifestError("P30.json ilegible") from exc
+    if not data.get("valido"):
+        raise GenerationManifestError("P30 sin ganador válido: el M06 no se acredita")
+    verificacion = data.get("verificacion_m06")
+    if data.get("rehacer_m06") and not ((verificacion or {}).get("igual_al_ganador") and data.get("m05_restaurada")):
+        raise GenerationManifestError("P30: M06 rehecho sin verificar como el ganador o salida M05 sin restaurar")
+    return {
+        "motor": "motor2",
+        "estado": data.get("estado"),
+        "funcion": data.get("funcion"),
+        "cadenas": data.get("cadenas"),
+        "ganador": data.get("ganador"),
+        "generador": data.get("generador"),
+        "huella_resultado": data.get("huella_resultado"),
+        "motor2_fingerprint": (data.get("motor2") or {}).get("fingerprint"),
+        "rehacer_m06": bool(data.get("rehacer_m06")),
+        "metricas": data.get("metricas"),
+        "p30_sha256": _sha(matches[0]),
+    }
 
 
 def write_idempotent(path: Path, payload: dict[str, Any]) -> bool:

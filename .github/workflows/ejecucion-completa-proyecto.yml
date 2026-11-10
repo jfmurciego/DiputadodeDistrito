@@ -1,6 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.6.1
+# VERSIÓN: 1.7.0
+# CAMBIOS 1.7.0: T-216 (corte 5.0.0, paso 3): entrada `motor` (m05 por defecto | motor2) en el botón y en workflow_call;
+#   pasa a la 02 (P30 del motor 2 en lugar de M04+M05 como decisor, con huella `motor2` en el checkpoint M06 y
+#   `execution.p30` en el manifiesto) y a la 00 electoral que encadena la cadena. Con m05, sin cambios.
 # CAMBIOS 1.6.1: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Cadena electoral en GitHub (sin el Mac)
 # ESTADO: candidato
@@ -27,7 +30,7 @@
 #   Sin duplicados: si el territorio ya tiene una activación o una 00 en cola o en curso, no se relanza
 #   (CHAIN_DUPLICATE_SKIPPED). Estado de cada eslabón en el artefacto ddd-cadena-<run> y en el resumen.
 #   run-name con el territorio y el modo para identificar los runs.
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.6.0_20261108.yml
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.6.1_20261108.yml
 # CAMBIOS: 1.4.0: si 01–03 quedan válidas y la 04 se salta por falta de prepared_source_pair, el job
 #   encadenar_par_y_04 activa el par (preparacion-legislatura-vigente prepare_one) y relanza el 00 en
 #   modo reutilizar; una ejecución en modo reutilizar no vuelve a encadenar.
@@ -45,6 +48,7 @@ on:
       data_edition: {required: true, type: string}
       execution_mode: {required: false, type: string, default: Reutilizar progreso existente}
       optimization_algorithm: {required: false, type: string, default: Canónico}
+      motor: {required: false, type: string, default: m05}
       publish_result: {required: false, type: boolean, default: false}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
@@ -256,6 +260,14 @@ on:
           - GerryChain
           - GerryChain 25
           - GerryChain 50
+      motor:
+        description: Motor de distritos (P30); m05 hasta el relevo
+        required: false
+        default: m05
+        type: choice
+        options:
+          - m05
+          - motor2
       publication_mode:
         description: Alcance de la ejecución
         required: true
@@ -1072,6 +1084,7 @@ jobs:
       data_edition: ${{ needs.planificar.outputs.edition }}
       execution_mode: ${{ needs.planificar.outputs.generation_execution_mode }}
       optimization_algorithm: ${{ needs.planificar.outputs.optimization_algorithm }}
+      motor: ${{ inputs.motor || 'm05' }}
       source_package_run_id: ${{ needs.puerta_01.outputs.run_id }}
       source_package_artifact_name: ${{ needs.puerta_01.outputs.artifact_name }}
       source_ref: ${{ needs.acreditar_generacion.result == 'success' && needs.acreditar_generacion.outputs.enabled_source_ref || (needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.prepared_source_ref || needs.planificar.outputs.source_sha) }}
@@ -1600,6 +1613,7 @@ jobs:
       TERRITORY: ${{ inputs.territory_id }}
       EDITION: ${{ inputs.data_edition }}
       ALGORITHM: ${{ inputs.optimization_algorithm }}
+      MOTOR: ${{ inputs.motor || 'm05' }}
       ORIGEN: ${{ github.run_id }}
     steps:
       - name: Activar par de fuentes y relanzar en modo reutilizar
@@ -1656,7 +1670,7 @@ jobs:
           gh api -X POST "$api/ejecucion-completa-proyecto.yml/dispatches" -f ref=main \
             -f "inputs[territory_id]=$TERRITORY" -f "inputs[data_edition]=$EDITION" \
             -f "inputs[execution_mode]=Reutilizar progreso existente" \
-            -f "inputs[optimization_algorithm]=$ALGORITHM" -f "inputs[publication_mode]=electoral" \
+            -f "inputs[optimization_algorithm]=$ALGORITHM" -f "inputs[motor]=$MOTOR" -f "inputs[publication_mode]=electoral" \
             -F "inputs[publish_result]=false" -f "inputs[cadena_origen_run_id]=$ORIGEN"
           estado LANZADA "Par activado; 00 electoral «Reutilizar» lanzada sin publicar."
           echo "::notice::Par activado; relanzado el 00 en modo reutilizar para completar la 04 de $TERRITORY (sin publicar)."
