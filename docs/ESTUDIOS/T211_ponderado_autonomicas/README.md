@@ -14,8 +14,9 @@ D8, 10 cadenas, entradas desde fuente INE). Salida completa en `salida_sesion.tx
 3. **Causas medidas:**
    - **(a) El laboratorio parte municipios que el contrato declara atómicos.** `naturalidad_competicion.unidades_de`
      solo deja entero el municipio de hasta 1 × objetivo; el contrato lo deja entero hasta
-     `municipality_atomicity_limit_ratio` × objetivo (1,75 en las autonómicas). El D8 del laboratorio parte 6 en
-     Madrid (códigos INE 28013, 28014, 28022, 28045, 28047 y 28080; de 55 000 a 73 000 hab.), 2 en Navarra (31097 y 31907), 7 en Canarias, 4 en
+     `municipality_atomicity_limit_ratio` × objetivo, que da cada contrato (1,75 en casi todas las autonómicas, 1,5 en la
+     Comunidad Valenciana, 1,15 en la mayoría de provincias del Congreso). El D8 del laboratorio parte 6 en
+     Madrid (códigos INE 28013, 28014, 28022, 28045, 28047 y 28080; de 55 000 a 73 000 hab.), 2 en Navarra (31097 y 31907), 7 en Canarias (el fichero lista los 6 primeros), 4 en
      Castilla-La Mancha, 2 en Murcia; en total, 16 territorios (`atomicos_laboratorio.txt`). La competición los
      respeta (unidad «M» del M04). Parte de la mejora del laboratorio no es alcanzable con el contrato.
    - **(b) Granularidad.** El laboratorio trabaja por secciones dentro de los municipios grandes (Madrid: 4150
