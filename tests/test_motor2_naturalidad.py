@@ -83,11 +83,24 @@ class Laboratorio(unittest.TestCase):
         lab.pob_u, lab.objetivo, lab.tol = {"a": 93, "b": 107, "c": 100, "d": 100}, 100, 15
         lab.pj = lab.ca = {u: None for u in lab.pob_u}
         lab.largo = {("a", "b"): 1.0, ("c", "d"): 1.0}
+        lab.obj_circ = {}
         cerca, lejos = {"a": "1", "b": "1", "c": "2", "d": "3"}, {"a": "1", "b": "2", "c": "2", "d": "3"}
         self.assertEqual(lab.clave(cerca, "D5")[1], 0.0)          # 200 fuera (no cuenta); 100 y 100: 0 %
         self.assertAlmostEqual(lab.clave(lejos, "D5")[1], 0.02)   # 93/207: fuera (no cuenta) y 7 % - 5 %
         self.assertEqual(lab.clave(lejos, "D8")[1], 0.0)
         self.assertEqual(lab.clave(cerca, "D5")[2:], lab.clave(cerca, "B")[1:])  # tras el tope, la clave de B
+
+    def test_objetivo_por_circunscripcion(self):
+        from fractions import Fraction
+        from ddd_motor2.naturalidad_competicion import Laboratorio as Lab
+        lab = Lab.__new__(Lab)
+        lab.pob_u, lab.objetivo, lab.tol = {"a": 50, "b": 50, "c": 150}, Fraction(250, 3), Fraction(250, 3) * Fraction(15, 100)
+        lab.circ_u = {"a": "01", "b": "01", "c": "02"}
+        lab.obj_circ = {"01": Fraction(50), "02": Fraction(150)}  # 01: 100 hab. / 2 escaños; 02: 150 / 1
+        lab.pj = lab.ca = {u: None for u in lab.pob_u}
+        lab.largo = {("a", "b"): 1.0}
+        k = lab.clave({"a": "1", "b": "2", "c": "3"}, "A")
+        self.assertEqual(k[:2], (0, 0.0))  # contra el objetivo regional (83) los tres estarían fuera
 
     def test_islas_y_enclaves_del_contrato(self):
         from ddd_motor2.naturalidad_competicion import particiones, puentes_contrato
