@@ -59,6 +59,11 @@ class Territorio(unittest.TestCase):
                          ("VALIDO", True, "canonico", "empata"))
         self.assertEqual(f["candidatos"], 4)
         self.assertTrue((tmp / "competicion" / "prueba" / "COMPETICION.json").is_file())
+        from ddd_motor2.competir import fila_guardada
+        g = fila_guardada("prueba", tmp)
+        self.assertTrue(g.pop("reanudado"))
+        self.assertEqual({k: g[k] for k in f if k != "tiempo_s"}, {k: f[k] for k in f if k != "tiempo_s"})
+        self.assertIsNone(fila_guardada("otro", tmp))
 
     def test_sin_ancla_es_error_explicito(self):
         tmp = Path(tempfile.mkdtemp())

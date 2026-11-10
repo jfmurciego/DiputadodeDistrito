@@ -14,6 +14,7 @@ ANTERIOR: ninguna (fichero nuevo)
 USO (en local, con las entradas de la batería en <out>/entradas/<t> y el entorno GerryChain de producción):
     PYTHONHASHSEED=0 python -m ddd_motor2.competir --out bateria --cadenas 5 --todos
     python -m ddd_motor2.competir --out bateria aragon murcia
+    python -m ddd_motor2.competir --out bateria --todos --reanudar   # salta los COMPETICION.json ya escritos
   Por territorio: <out>/competicion/<t>/COMPETICION.{json,md} (+ composición de cada candidato).
   Agregado: <out>/competicion/RESUMEN.json y RESUMEN.md: por territorio, ganador, estado, si mejora / empata / empeora
   al canónico, huella del resultado y tiempo; totales y veredicto de aceptación.
@@ -59,6 +60,28 @@ def competir_territorio(t: str, out: Path, n_cadenas: int = 5, *, generadores=No
             "tiempo_s": round(r.tiempo_total_s, 1)}
 
 
+def fila_guardada(t: str, out: Path) -> dict | None:
+    """Fila del resumen desde un COMPETICION.json ya escrito (reanudación); None si no hay o no se puede leer."""
+    f = Path(out) / "competicion" / t / "COMPETICION.json"
+    try:
+        d = json.loads(f.read_text(encoding="utf-8"))
+        cands = {c["id"]: c for c in d["candidatos"]}
+        g, c = cands[d["ganador"]], cands[d["canonico"]]
+    except (OSError, ValueError, KeyError):
+        return None
+    clave = lambda x: (x["estado"] not in ("VALIDO", "INVALIDO"), x["violaciones_duras"] or 0,  # noqa: E731
+                       x["fuera_tolerancia"] or 0, x["desvio_max"] or 0, x["ecm"] or 0)
+    frente = "empata" if clave(g) == clave(c) else ("mejora" if clave(g) < clave(c) else "empeora")
+    if c["estado"] not in ("VALIDO", "INVALIDO") and g["estado"] in ("VALIDO", "INVALIDO"):
+        frente = "mejora"
+    return {"territorio": t, "estado": g["estado"], "ganador": g["id"], "valido": d.get("valido"),
+            "frente_al_canonico": frente, "canonico": c["estado"],
+            "candidatos_validos": sum(1 for x in d["candidatos"] if x["estado"] == "VALIDO"),
+            "candidatos": len(d["candidatos"]), "desvio_max": g["desvio_max"], "desvio_max_canonico": c["desvio_max"],
+            "fuera_tolerancia": g["fuera_tolerancia"], "huella_resultado": d.get("huella_resultado"),
+            "tiempo_s": d.get("tiempo_total_s"), "reanudado": True}
+
+
 def resumen(filas: list[dict]) -> dict:
     n = len(filas)
     validos = sum(1 for f in filas if f.get("estado") == "VALIDO")
@@ -101,6 +124,8 @@ def main(argv=None) -> int:
     ap.add_argument("--out", default="bateria", help="carpeta de la batería (con entradas/<t>)")
     ap.add_argument("--cadenas", type=int, default=5)
     ap.add_argument("--todos", action="store_true")
+    ap.add_argument("--reanudar", action="store_true",
+                    help="salta los territorios con COMPETICION.json ya escrito (los lee para el resumen)")
     ap.add_argument("territorios", nargs="*")
     a = ap.parse_args(argv)
     if a.todos:
@@ -113,7 +138,8 @@ def main(argv=None) -> int:
     out = Path(a.out)
     filas = []
     for t in ts:
-        f = competir_territorio(t, out, a.cadenas)
+        f = fila_guardada(t, out) if a.reanudar else None
+        f = f or competir_territorio(t, out, a.cadenas)
         filas.append(f)
         print(json.dumps(f, ensure_ascii=False), flush=True)
         tot = escribir_resumen(filas, out / "competicion")  # incremental: un corte deja lo hecho
