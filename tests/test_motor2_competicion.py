@@ -25,21 +25,21 @@ CFG = {"validation": {"expected_districts": 2, "population_floor_ratio": 0.8, "p
                       "require_municipality_discipline": True}}
 
 
-def escribir_comp(ruta: Path, plan: dict, pob=POB):
+def escribir_comp(ruta: Path, plan: dict, pob=POB, cerradas=()):
     ruta.parent.mkdir(parents=True, exist_ok=True)
     with open(ruta, "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
         w.writerow(["CUSEC_KEY", "district_id", "section_pop", "CPRO", "CUMUN", "ddd_unit_id", "ddd_closed_urban"])
         for i, (u, d) in enumerate(sorted(plan.items())):
-            w.writerow([f"220010100{i}", d, pob[u], "22", f"2200{i}", u, "0"])
+            w.writerow([f"220010100{i}", d, pob[u], "22", f"2200{i}", u, "1" if u in cerradas else "0"])
     return ruta
 
 
 class Fijo:
     """Generador sintético: plan por semilla (None = falla)."""
 
-    def __init__(self, nombre, planes, pob=POB):
-        self.nombre, self.planes, self.pob, self.llamadas = nombre, planes, pob, []
+    def __init__(self, nombre, planes, pob=POB, cerradas=()):
+        self.nombre, self.planes, self.pob, self.llamadas, self.cerradas = nombre, planes, pob, [], cerradas
 
     def generar(self, entrada, semilla, destino):
         self.llamadas.append(semilla)
@@ -48,7 +48,7 @@ class Fijo:
             raise RuntimeError("roto")
         if plan is None:
             return Salida(None, "FALLO_M05", "sin plan")
-        return Salida(escribir_comp(Path(destino) / "comp.csv", plan, self.pob))
+        return Salida(escribir_comp(Path(destino) / "comp.csv", plan, self.pob, self.cerradas))
 
 
 class Competicion(unittest.TestCase):
@@ -97,6 +97,43 @@ class Competicion(unittest.TestCase):
         c = Candidato("c", "g", 3, 3, "INVALIDO", duras=1, fuera_tolerancia=0, desvio_max=Fraction(0), ecm=Fraction(0))
         e = Candidato("e", "g", 4, 0, "FALLO_GENERADOR")
         self.assertEqual([x.id for x in sorted([e, c, b, a], key=Candidato.clave)], ["a", "b", "c", "e"])
+
+    def test_desempate_por_huella_con_metricas_iguales(self):
+        # Cuatro unidades de 100 en ciclo A-B-C-D-A: {A,B}{C,D} y {B,C}{D,A} empatan en todo salvo la huella.
+        grafo = self.tmp / "ciclo.json"
+        secc = {u: f"220010100{i}" for i, u in enumerate(sorted(POB))}
+        grafo.write_text(json.dumps({"nodes": list(secc.values()), "edges": [
+            {"u": secc[a], "v": secc[b]} for a, b in (("A", "B"), ("B", "C"), ("C", "D"), ("D", "A"))]}))
+        e = EntradaTerritorio("ciclo", CFG, grafo)
+        p1 = {"A": "1", "B": "1", "C": "2", "D": "2"}
+        p2 = {"A": "1", "B": "2", "C": "2", "D": "1"}
+        canon = Fijo("canonico", {None: None})
+        gc = Fijo("gerrychain", {1: p1, 2: p2})
+        r = competir(e, canon, gc, [1, 2], self.tmp / "o1")
+        c1, c2 = r.candidatos[1], r.candidatos[2]
+        self.assertEqual(c1.clave()[:5], c2.clave()[:5])
+        self.assertNotEqual(c1.huella_plan, c2.huella_plan)
+        esperado = min((c1, c2), key=lambda c: c.huella_plan)
+        self.assertEqual(r.ganador.id, esperado.id)
+        r2 = competir(e, canon, Fijo("gerrychain", {1: p2, 2: p1}), [1, 2], self.tmp / "o2")  # orden inverso
+        self.assertEqual(r2.ganador.huella_plan, esperado.huella_plan)
+
+    def test_canonico_falla_y_nadie_valido(self):
+        pob = {"A": 95, "B": 105, "C": 110, "D": 90}
+        r = competir(self.entrada, Fijo("canonico", {}, pob),
+                     Fijo("gerrychain", {1: {"A": "1", "B": "2", "C": "2", "D": "2"}}, pob), [1], self.tmp / "o")
+        self.assertEqual(r.canonico.estado, "FALLO_GENERADOR")
+        self.assertEqual((r.ganador.id, r.ganador.estado), ("gerrychain-s1", "INVALIDO"))
+        self.assertFalse(r.valido)
+        self.assertFalse(r.a_dict()["valido"])
+
+    def test_sin_referencia_de_nucleos_no_gana_un_plan_con_cerradas(self):
+        plan = {"A": "1", "B": "1", "C": "2", "D": "2"}
+        r = competir(self.entrada, Fijo("canonico", {}), Fijo("gerrychain", {1: plan}, cerradas=("A", "B")), [1],
+                     self.tmp / "o")
+        self.assertEqual(r.candidatos[1].estado, "ERROR_DATOS")
+        self.assertIn("núcleos", r.candidatos[1].detalle)
+        self.assertFalse(r.valido)
 
     def test_huella_plan_no_depende_de_etiquetas(self):
         self.assertEqual(huella_plan({"A": "1", "B": "2"}), huella_plan({"A": "q", "B": "p"}))

@@ -3,14 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — orquestador de la competición «canónico + GerryChain»
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Competición · paso 1
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Competición · semilla pública y revisión
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.1.0 — competir_publico (semillas públicas de semilla.py); Resultado.valido y Resultado.huella()
+  (reproducibilidad bit a bit); sin referencia de núcleos y con unidades cerradas, ERROR_DATOS (indicador explícito:
+  unidades con nucleo_cerrado, no el texto del aviso); pruebas de desempate por huella y de canónico fallido.
 MOTIVO: T-163 / D-48: la primera versión del motor nuevo es una competición entre el canónico y N cadenas de
   GerryChain bajo el núcleo único de reglas; gana el mejor plan válido, así que nunca es peor que el canónico.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/ddd_motor2/competicion_v1.0.0_20261110.py
 QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador canónico (una vez) y la cadena con cada
   semilla, a través de adaptadores (protocolo Generador: devuelven una composición M06). Cada candidato se juzga con el
   núcleo (adaptadores.problema_y_plan + reglas.evaluar, Criterio D-44 por defecto) y se ordena con la función de
@@ -21,7 +23,11 @@ QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador ca
     7. orden de los candidatos (el canónico primero).
   Las métricas 4 y 5 son fracciones exactas: el orden no depende del redondeo.
   Núcleos cerrados: la referencia es entrada.referencia_nucleos o, si falta, la composición del canónico, la misma
-  para todos los candidatos (con su propia composición R-NUCLEO sería trivial).
+  para todos los candidatos (con su propia composición R-NUCLEO sería trivial). Si no hay referencia (el canónico
+  falló) y el territorio tiene unidades cerradas, los candidatos quedan ERROR_DATOS: un plan con núcleos rotos no gana.
+  El ganador es siempre el primero por calidad aunque nadie sea válido: Resultado.valido lo dice.
+  competir_publico deriva antes las semillas públicas: si el contrato no trae el ancla, ErrorContrato y no se ejecuta
+  nada (el territorio sale como ERROR explícito; nunca con semillas fijas).
 Solo stdlib; los generadores reales están en ddd_motor2/generadores.py.
 """
 from __future__ import annotations
@@ -37,7 +43,7 @@ from typing import Any, Iterable, Mapping, Protocol
 from .adaptadores import problema_y_plan
 from .reglas import Criterio, ErrorContrato, ErrorDatos, Reglas, evaluar
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 
 @dataclass(frozen=True)
@@ -119,10 +125,24 @@ class Resultado:
     huella_reglas: str
     criterio: dict
     tiempo_total_s: float
+    semilla_publica: dict = field(default_factory=dict)
+
+    @property
+    def valido(self) -> bool:
+        return self.ganador.estado == "VALIDO"
+
+    def huella(self) -> str:
+        """sha256 de lo que debe repetirse bit a bit con la misma entrada: reglas, semillas, plan y composición de
+        cada candidato y ganador (sin tiempos ni rutas)."""
+        forma = {"reglas": self.huella_reglas, "ganador": self.ganador.id,
+                 "candidatos": [[c.id, c.semilla, c.estado, c.huella_plan, c.composicion_sha256]
+                                for c in sorted(self.candidatos, key=lambda c: c.orden)]}
+        return hashlib.sha256(json.dumps(forma, separators=(",", ":")).encode("utf-8")).hexdigest()
 
     def a_dict(self) -> dict:
         return {
             "version_orquestador": VERSION, "territorio": self.territorio, "ganador": self.ganador.id,
+            "valido": self.valido, "huella_resultado": self.huella(), "semilla_publica": self.semilla_publica,
             "canonico": self.canonico.id, "huella_reglas": self.huella_reglas, "criterio": self.criterio,
             "orden_calidad": ["evaluable", "violaciones_duras", "fuera_tolerancia", "desvio_max", "ecm",
                               "huella_plan", "orden"],
@@ -171,6 +191,10 @@ def juzgar(cand: Candidato, salida: Salida, entrada: EntradaTerritorio, criterio
         cand.estado, cand.detalle = "ERROR_DATOS", str(exc)
         return
     cand.avisos = list(avisos)
+    if referencia is None and any(u.nucleo_cerrado is not None for u in problema.unidades):
+        cand.estado = "ERROR_DATOS"
+        cand.detalle = "sin referencia de núcleos cerrados (el canónico no dio composición): R-NUCLEO no juzgable"
+        return
     cand.violaciones = [{"regla": v.regla, "ambito": v.ambito, "detalle": v.detalle} for v in inf.violaciones]
     cand.duras = len(inf.violaciones)
     cand.fuera_tolerancia = len(inf.metricas["fuera_tolerancia"])
@@ -221,8 +245,6 @@ def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador,
         t0 = time.monotonic()
         juzgar(c, sal, entrada, criterio, referencia)
         c.tiempos["juzgar_s"] = round(time.monotonic() - t0, 3)
-        if referencia is None:
-            c.avisos.append("sin referencia de núcleos cerrados (falló el canónico): R-NUCLEO con la propia composición")
 
     candidatos = [c for c, _ in pendientes]
     ganador = min(candidatos, key=Candidato.clave)
@@ -234,3 +256,13 @@ def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador,
     return Resultado(entrada.territorio, candidatos, ganador, can, huella,
                      {k: getattr(criterio, k) for k in criterio.__dataclass_fields__},
                      time.monotonic() - t_ini)
+
+
+def competir_publico(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador, destino: Path, *,
+                     n_cadenas: int = 5, criterio: Criterio | None = None) -> Resultado:
+    """La competición con las N semillas públicas del territorio (semilla.py): misma entrada ⇒ mismo resultado."""
+    from .semilla import descripcion
+    desc = descripcion(entrada.cfg, entrada.territorio, n_cadenas)
+    r = competir(entrada, canonico, cadena, desc["semillas"], destino, criterio=criterio)
+    r.semilla_publica = desc
+    return r
