@@ -38,3 +38,6 @@ Workflow manual `workflow_dispatch` de solo lectura, con `R2_ACCESS_KEY_ID`/`R2_
 ## Bloqueos
 - Borrar y la comprobación de contenidos exigen credenciales R2 (Operador, con la frase del propietario y lista aprobada, PLAN §R2).
 - Generar el paquete mínimo de Asturias 40132061626 también.
+
+## Condición añadida por T-132 (PR #601)
+La «entrada mínima» de la batería (`bateria/entradas/<territorio>/<huella>.zip`, solo `ENTRADAS.json` + M01 secciones + grafo M03; índice `bateria/ARCHIVO_ENTRADAS.json`) se extrae con `--desde-r2` de `ddd-state-<run>-M03` (luego M03U) del run más reciente de `archivo_r2.json`. Por tanto, **las claves M01/M02/M03/M03U de la ola 1 no se borran de un territorio hasta que su entrada mínima conste en `ARCHIVO_ENTRADAS.json`** (un territorio puede salir en la ola 1 en cuanto la tenga). Si falta, se conserva el M03 (o M03U) del run más reciente de ese territorio. Esto solo retrasa las filas M01-M03U (≈ 4/9 del tamaño de cada run), no el resto de la ola.
