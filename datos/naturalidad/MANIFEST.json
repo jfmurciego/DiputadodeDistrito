@@ -25,13 +25,13 @@
   "docs/ESTUDIOS/T64_comarcas_partidos/comarcas_agrarias.csv": "2f4123267a6390670efe9b60b4b6d5c3509a7ef15a122e983693cf294a6317e3",
   "docs/ESTUDIOS/T64_comarcas_partidos/comarcas_cataluna_idescat.csv": "6aefd1dab889fb20958e71d30d8e9e5cd7ab94944104c2cc84116e5fa4391892",
   "inputs/COMARCAS.csv": "ac750499cc180c1241465a42b089044cd3095850b078113bc900b1a33538899a",
-  "datos/composicion/MANIFEST.json": "a15ccd5097e0bf20888b8104de12fd623f4c010202651f6605ca5bf1ed8d804d",
+  "datos/composicion/MANIFEST.json": "c6ef9168397530861d542b1058e20654588a8c8b3da9e1f0f9aeee7692431cc7",
   "datos/movilidad/areas_movilidad_2019.csv": "f10499bb8b9469a11cd4a1b14c01fb8a8bbe7cde61ddf0f11468c41c19f2a2ae",
   "datos/movilidad/flujos_em1_origen_destino.csv": "043b3acede9d28a18b1fef4dccecdad73e4e93986c633898bcb8b8c43dd76f51",
   "datos/movilidad/codigos_flujo.csv": "e326b2d281e0bac8a94699f9d31883a983bad8539bbf20678a029dfc45d7c7a6"
  },
  "errores": {},
  "salida": {
-  "vigentes.csv": "b7c687b820a50ca7b594afc36fad152c8e18f4e38fc9c194e2cdfce65a911ffc"
+  "vigentes.csv": "79de8942fbac949a7bc54cf97131d6c61e7ac8459e3237ecc48d400d2309c4f9"
  }
 }
