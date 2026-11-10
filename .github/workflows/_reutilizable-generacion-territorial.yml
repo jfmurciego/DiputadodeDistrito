@@ -1,8 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.4.1
-# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.4.0_20261110b.yml
-# CAMBIOS 1.4.1: T-215 (corte 5.0.0, paso 4), nombre visible v5 «Interno · P30 Generación territorial» (antes Interno · Generación territorial).
+# VERSIÓN: 1.4.2
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.4.1_20261110.yml
+# CAMBIOS 1.4.2: T-215 (corte 5.0.0, paso 4), nombre visible v5 «Interno · P30 Generación territorial» (antes Interno · Generación territorial).
+# CAMBIOS 1.4.1: T-221: la certificación (estado_produccion) recibe `--motor` y `--runs-dir`; con motor2 lee la
+#   evidencia de población del plan ganador (p30_motor2/P30.json), no la del informe M05 canónico. Con m05, idéntica.
 # CAMBIOS 1.4.0: T-216 (corte 5.0.0, paso 3): entrada `motor` (m05 por defecto | motor2). Con motor2, en el job M06,
 #   tras el M06 canónico: P30 del motor 2 (ddd_motor2/produccion.py: competición D8 con 10 cadenas «ponderado», el
 #   canónico es el M06 del run), con el entorno de la batería (Python 3.13, requirements.lock y cadenas sin dependencias);
@@ -1328,6 +1330,7 @@ jobs:
             --geometric-outcome "$GEOMETRIC_OUTCOME" \
             --geometric-decision "$GEOMETRIC_DECISION" \
             --geometric-audit "$audit" \
+            --motor "${{ inputs.motor }}" --runs-dir "$RUNS_DIR" \
             --output .ddd-audit/production_status.json
           cp "$audit" .ddd-audit/
           python - "$RUNS_DIR/OPTIMIZATION_EXECUTION.json" .ddd-audit/production_status.json "$audit" .ddd-audit/optimization_execution.json "${{ inputs.optimization_algorithm }}" <<'PY'

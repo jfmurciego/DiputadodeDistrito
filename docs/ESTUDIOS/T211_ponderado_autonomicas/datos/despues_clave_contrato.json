@@ -1,0 +1,602 @@
+{
+ "aragon": {
+  "version_orquestador": "1.3.1",
+  "huella_resultado": "2883efaea19e359fab383c876d44a94671499c6113aefa7531b0beb3f27e9290",
+  "ganador": "ponderado-s1768655224",
+  "candidatos": [
+   {
+    "id": "ponderado-s1768655224",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 0,
+    "clave_naturalidad": [
+     0,
+     0.03320935124539848,
+     35,
+     0.0,
+     0.12296218386957977,
+     "307c359f334c18fc30731fa4c748942b13597a3297070fbb19454a38b39119a7"
+    ]
+   },
+   {
+    "id": "ponderado-s87430208",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 0,
+    "clave_naturalidad": [
+     0,
+     0.03320935124539848,
+     35,
+     0.0,
+     0.12296218386957977,
+     "31503336a3e22d3a8889b88d961b6dc03fb3cd074d46dfbd709da2e42c7d60a8"
+    ]
+   },
+   {
+    "id": "ponderado-s976064620",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 0,
+    "clave_naturalidad": [
+     0,
+     0.03320935124539848,
+     35,
+     0.0,
+     0.12296218386957977,
+     "5d9e27fd144005bea46a2ebcc31b0edafa399d0be4c3ba85119a4e5d647434fa"
+    ]
+   },
+   {
+    "id": "ponderado-s1392978435",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 0,
+    "clave_naturalidad": [
+     0,
+     0.03320935124539848,
+     35,
+     0.0,
+     0.12296218386957977,
+     "6ceaa8dfb4272f58b5bb1bc1923557c454ede8e401eddfd3ce5ebc434dba7d09"
+    ]
+   },
+   {
+    "id": "canonico",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 0,
+    "clave_naturalidad": [
+     0,
+     0.03320935124539848,
+     35,
+     0.0,
+     0.12296218386957977,
+     "7569b414aded129a5e302e024adb9f5e17ee73136e5b87d386f7d67c6b6130ba"
+    ]
+   },
+   {
+    "id": "ponderado-s1005253414",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 0,
+    "clave_naturalidad": [
+     0,
+     0.03320935124539848,
+     35,
+     0.0,
+     0.12296218386957977,
+     "7569b414aded129a5e302e024adb9f5e17ee73136e5b87d386f7d67c6b6130ba"
+    ]
+   },
+   {
+    "id": "ponderado-s378130367",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 0,
+    "clave_naturalidad": [
+     0,
+     0.03320935124539848,
+     35,
+     0.0,
+     0.12296218386957977,
+     "7569b414aded129a5e302e024adb9f5e17ee73136e5b87d386f7d67c6b6130ba"
+    ]
+   },
+   {
+    "id": "ponderado-s1821975373",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 0,
+    "clave_naturalidad": [
+     0,
+     0.03320935124539848,
+     35,
+     0.0,
+     0.12296218386957977,
+     "7569b414aded129a5e302e024adb9f5e17ee73136e5b87d386f7d67c6b6130ba"
+    ]
+   },
+   {
+    "id": "ponderado-s1247487676",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 0,
+    "clave_naturalidad": [
+     0,
+     0.03320935124539848,
+     35,
+     0.0,
+     0.12296218386957977,
+     "7569b414aded129a5e302e024adb9f5e17ee73136e5b87d386f7d67c6b6130ba"
+    ]
+   },
+   {
+    "id": "ponderado-s677079344",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 0,
+    "clave_naturalidad": [
+     0,
+     0.03320935124539848,
+     35,
+     0.0,
+     0.12296218386957977,
+     "7569b414aded129a5e302e024adb9f5e17ee73136e5b87d386f7d67c6b6130ba"
+    ]
+   },
+   {
+    "id": "ponderado-s590945511",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 0,
+    "clave_naturalidad": [
+     0,
+     0.03320935124539848,
+     35,
+     0.0,
+     0.12296218386957977,
+     "7569b414aded129a5e302e024adb9f5e17ee73136e5b87d386f7d67c6b6130ba"
+    ]
+   }
+  ]
+ },
+ "castilla_la_mancha": {
+  "version_orquestador": "1.3.1",
+  "huella_resultado": "f3be7eb028c65690308aa95b614ef2f90c195ff2675ea097e73282403a839c68",
+  "ganador": "ponderado-s547221014",
+  "candidatos": [
+   {
+    "id": "ponderado-s547221014",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 5,
+    "clave_naturalidad": [
+     5,
+     0.022714893595059987,
+     53,
+     0.0,
+     0.40856120539671076,
+     "e755b04c7827dda910a1ea862b68866ad452e633a18d3ee4cd690b7e3c70d90e"
+    ]
+   },
+   {
+    "id": "ponderado-s419531242",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 5,
+    "clave_naturalidad": [
+     5,
+     0.025570692315267707,
+     51,
+     0.0,
+     0.40856120539671076,
+     "dc351353a59ecab1e201a8eddcaecf7fa0fff659d85d3a4e40f040872ad81035"
+    ]
+   },
+   {
+    "id": "canonico",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 5,
+    "clave_naturalidad": [
+     5,
+     0.025570692315267707,
+     53,
+     0.0,
+     0.40856120539671076,
+     "2e3e2fb8155c5f9140d33350211d77070f42025be4f47550c3eb816770d1f0fb"
+    ]
+   },
+   {
+    "id": "ponderado-s214103641",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 5,
+    "clave_naturalidad": [
+     5,
+     0.025570692315267707,
+     53,
+     0.0,
+     0.40856120539671076,
+     "2e3e2fb8155c5f9140d33350211d77070f42025be4f47550c3eb816770d1f0fb"
+    ]
+   },
+   {
+    "id": "ponderado-s1934877100",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 5,
+    "clave_naturalidad": [
+     5,
+     0.025570692315267707,
+     53,
+     0.0,
+     0.40856120539671076,
+     "2e3e2fb8155c5f9140d33350211d77070f42025be4f47550c3eb816770d1f0fb"
+    ]
+   },
+   {
+    "id": "ponderado-s1257618626",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 5,
+    "clave_naturalidad": [
+     5,
+     0.025570692315267707,
+     53,
+     0.0,
+     0.40856120539671076,
+     "2e3e2fb8155c5f9140d33350211d77070f42025be4f47550c3eb816770d1f0fb"
+    ]
+   },
+   {
+    "id": "ponderado-s755139571",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 5,
+    "clave_naturalidad": [
+     5,
+     0.025570692315267707,
+     53,
+     0.0,
+     0.40856120539671076,
+     "2e3e2fb8155c5f9140d33350211d77070f42025be4f47550c3eb816770d1f0fb"
+    ]
+   },
+   {
+    "id": "ponderado-s1466177085",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 5,
+    "clave_naturalidad": [
+     5,
+     0.025570692315267707,
+     53,
+     0.0,
+     0.40856120539671076,
+     "2e3e2fb8155c5f9140d33350211d77070f42025be4f47550c3eb816770d1f0fb"
+    ]
+   },
+   {
+    "id": "ponderado-s185456421",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 5,
+    "clave_naturalidad": [
+     5,
+     0.025570692315267707,
+     53,
+     0.0,
+     0.40856120539671076,
+     "2e3e2fb8155c5f9140d33350211d77070f42025be4f47550c3eb816770d1f0fb"
+    ]
+   },
+   {
+    "id": "ponderado-s47137178",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 5,
+    "clave_naturalidad": [
+     5,
+     0.025570692315267707,
+     53,
+     0.0,
+     0.40856120539671076,
+     "2e3e2fb8155c5f9140d33350211d77070f42025be4f47550c3eb816770d1f0fb"
+    ]
+   },
+   {
+    "id": "ponderado-s1547157952",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 5,
+    "clave_naturalidad": [
+     5,
+     0.025570692315267707,
+     53,
+     0.0,
+     0.40856120539671076,
+     "2e3e2fb8155c5f9140d33350211d77070f42025be4f47550c3eb816770d1f0fb"
+    ]
+   }
+  ]
+ },
+ "castilla_y_leon": {
+  "version_orquestador": "1.3.1",
+  "huella_resultado": "9dfde6efc67a98f24b96f0ed0462542a512376fd5077ca3a19c1280a2e3da38c",
+  "ganador": "ponderado-s999727098",
+  "candidatos": [
+   {
+    "id": "ponderado-s999727098",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 2,
+    "clave_naturalidad": [
+     2,
+     0.03826699349251576,
+     88,
+     0.0,
+     0.1431333767243177,
+     "2a8aa0d93c7869f7593c6c62b04ceae53ad68fd357bc6607c600c3964c3273ed"
+    ]
+   },
+   {
+    "id": "ponderado-s1600771755",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 2,
+    "clave_naturalidad": [
+     2,
+     0.03826699349251576,
+     89,
+     0.0,
+     0.1431333767243177,
+     "483605e3060e4bc32f18ed848c6246936e4645b69ded92057ca0aadbca52fa42"
+    ]
+   },
+   {
+    "id": "ponderado-s213239383",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 2,
+    "clave_naturalidad": [
+     2,
+     0.03826699349251576,
+     89,
+     0.0,
+     0.1431333767243177,
+     "7fedd0e896da63042d81088cc3ca4b2b0273ac3e7d757a267114a692e0fddcd7"
+    ]
+   },
+   {
+    "id": "ponderado-s750501199",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 2,
+    "clave_naturalidad": [
+     2,
+     0.03826699349251576,
+     89,
+     0.0,
+     0.1431333767243177,
+     "c1cc91a96c4351f3a603ac8ece495ecc83363f06c2197de213409596483f42ae"
+    ]
+   },
+   {
+    "id": "ponderado-s2109655839",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 2,
+    "clave_naturalidad": [
+     2,
+     0.03826699349251576,
+     89,
+     0.0,
+     0.1431333767243177,
+     "e3d009dd323854b8d7edb1f2e384452bdab48026e745db96fda13b8fee36b532"
+    ]
+   },
+   {
+    "id": "canonico",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 2,
+    "clave_naturalidad": [
+     2,
+     0.03826699349251576,
+     90,
+     0.0,
+     0.1431333767243177,
+     "03483af88192613b7ed18968bed9d2e760b95759473c62611c8c998c95098c1b"
+    ]
+   },
+   {
+    "id": "ponderado-s844560265",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 2,
+    "clave_naturalidad": [
+     2,
+     0.03826699349251576,
+     90,
+     0.0,
+     0.1431333767243177,
+     "03483af88192613b7ed18968bed9d2e760b95759473c62611c8c998c95098c1b"
+    ]
+   },
+   {
+    "id": "ponderado-s726074469",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 2,
+    "clave_naturalidad": [
+     2,
+     0.03826699349251576,
+     90,
+     0.0,
+     0.1431333767243177,
+     "03483af88192613b7ed18968bed9d2e760b95759473c62611c8c998c95098c1b"
+    ]
+   },
+   {
+    "id": "ponderado-s1785098077",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 2,
+    "clave_naturalidad": [
+     2,
+     0.03826699349251576,
+     90,
+     0.0,
+     0.1431333767243177,
+     "03483af88192613b7ed18968bed9d2e760b95759473c62611c8c998c95098c1b"
+    ]
+   },
+   {
+    "id": "ponderado-s1439468606",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 2,
+    "clave_naturalidad": [
+     2,
+     0.03826699349251576,
+     90,
+     0.0,
+     0.1431333767243177,
+     "2f4a21aba832bebca2bf676add7fb91cb7458b1463916126cfd4a81e0ffb9b2e"
+    ]
+   },
+   {
+    "id": "ponderado-s2109567164",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 2,
+    "clave_naturalidad": [
+     2,
+     0.03826699349251576,
+     90,
+     0.0,
+     0.1431333767243177,
+     "b6aae8d68ebbe207fbd341baf9b49b98bbc9f35e8d02083d8ffd1b03cfdb4a3a"
+    ]
+   }
+  ]
+ },
+ "galicia": {
+  "version_orquestador": "1.3.1",
+  "huella_resultado": "ee2f54d42ec4e1b658207e0dbe6baeaca97f45baa335c05b60406c66a94695d7",
+  "ganador": "ponderado-s1167476498",
+  "candidatos": [
+   {
+    "id": "ponderado-s1167476498",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 6,
+    "clave_naturalidad": [
+     6,
+     0.03938886069699504,
+     51,
+     0.0,
+     0.547954759142859,
+     "96b9493a2f6c7f27bb6646bddc3d524c0344448d11ada4092f04263de5e5091d"
+    ]
+   },
+   {
+    "id": "ponderado-s469640649",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 6,
+    "clave_naturalidad": [
+     6,
+     0.03938886069699504,
+     53,
+     0.0,
+     0.3993073679005431,
+     "b759fca4ac14776b3d1d9148f8374f7131f7336cd078c4862be76411da0ad716"
+    ]
+   },
+   {
+    "id": "ponderado-s1121251351",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 6,
+    "clave_naturalidad": [
+     6,
+     0.03938886069699504,
+     53,
+     0.0,
+     0.547954759142859,
+     "5b75f9c53ca779c23ed30c77f4d9d51e0c11c75f7c65ff9d6d8cfac465a4e288"
+    ]
+   },
+   {
+    "id": "ponderado-s996466855",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 6,
+    "clave_naturalidad": [
+     6,
+     0.03938886069699504,
+     53,
+     0.0,
+     0.547954759142859,
+     "cddb9c3b644104856e9379c3d0d04e7f817b54d61b35cb47cb084015357cb6f4"
+    ]
+   },
+   {
+    "id": "canonico",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 6,
+    "clave_naturalidad": [
+     6,
+     0.03938886069699504,
+     53,
+     0.0,
+     0.547954759142859,
+     "e7bf847e01a5cae64021b529c201d4054716ff0f2c95053a5073715f5f2b72d4"
+    ]
+   },
+   {
+    "id": "ponderado-s1325857207",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 6,
+    "clave_naturalidad": [
+     6,
+     0.03938886069699504,
+     53,
+     0.0,
+     0.547954759142859,
+     "e7bf847e01a5cae64021b529c201d4054716ff0f2c95053a5073715f5f2b72d4"
+    ]
+   },
+   {
+    "id": "ponderado-s1888704519",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 6,
+    "clave_naturalidad": [
+     6,
+     0.03938886069699504,
+     53,
+     0.0,
+     0.547954759142859,
+     "e7bf847e01a5cae64021b529c201d4054716ff0f2c95053a5073715f5f2b72d4"
+    ]
+   },
+   {
+    "id": "ponderado-s1706253490",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 6,
+    "clave_naturalidad": [
+     6,
+     0.03938886069699504,
+     53,
+     0.0,
+     0.547954759142859,
+     "e7bf847e01a5cae64021b529c201d4054716ff0f2c95053a5073715f5f2b72d4"
+    ]
+   },
+   {
+    "id": "ponderado-s528592927",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 6,
+    "clave_naturalidad": [
+     6,
+     0.03938886069699504,
+     53,
+     0.0,
+     0.547954759142859,
+     "e7bf847e01a5cae64021b529c201d4054716ff0f2c95053a5073715f5f2b72d4"
+    ]
+   },
+   {
+    "id": "ponderado-s122614812",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 6,
+    "clave_naturalidad": [
+     6,
+     0.03938886069699504,
+     53,
+     0.0,
+     0.547954759142859,
+     "e7bf847e01a5cae64021b529c201d4054716ff0f2c95053a5073715f5f2b72d4"
+    ]
+   },
+   {
+    "id": "ponderado-s316718052",
+    "estado": "VALIDO",
+    "fuera_tolerancia": 6,
+    "clave_naturalidad": [
+     6,
+     0.03938886069699504,
+     53,
+     0.0,
+     0.547954759142859,
+     "e7bf847e01a5cae64021b529c201d4054716ff0f2c95053a5073715f5f2b72d4"
+    ]
+   }
+  ]
+ }
+}
