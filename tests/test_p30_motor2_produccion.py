@@ -268,11 +268,23 @@ class MismaCompeticionQueLaBateria(unittest.TestCase):
         self.assertEqual(p30.generadores_por_defecto(inyectada), (inyectada, None))  # pruebas: lo inyectado
 
     def test_la_bateria_tambien_usa_el_vigente_con_d8(self):
-        import inspect
         from ddd_motor2 import competir
-        fuente = inspect.getsource(competir.competir_territorio)
-        self.assertIn('funcion != "A"', fuente)
-        self.assertIn("Vigente()", fuente)
+        from ddd_motor2.generadores import Ponderado, Vigente
+        vistos = {}
+
+        def captura(entrada, can, cad, destino, **kw):
+            vistos[kw["funcion"]] = (cad, kw.get("vigente"))
+            raise RuntimeError("fin de la prueba")
+
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(competir, "competir_publico", side_effect=captura):
+            for f in ("D8", "C"):
+                competir.competir_territorio("x", Path(d), entrada=object(), funcion=f)
+        for f in ("D8", "C"):
+            cad, vig = vistos[f]
+            self.assertIsInstance(cad, Ponderado)
+            self.assertIsInstance(vig, Vigente)
+            pc, pv = p30.generadores_por_defecto(funcion=f)
+            self.assertEqual((type(pc), type(pv)), (type(cad), type(vig)))  # el P30 elige lo mismo que la batería
 
     def test_el_vigente_entra_en_la_huella_motor2(self):
         files = p30.huella_motor()["engine_files"]
