@@ -51,7 +51,10 @@ def columnas_de_contrato(cfg: Mapping) -> dict[str, str]:
     col = dict(COLUMNAS)
     col["provincia"] = str(val.get("province_field") or "CPRO")
     col["municipio"] = str(val.get("municipality_field") or "CUMUN")
-    col["particion"] = col["provincia"]  # la exención por partición mira el campo provincial (VAL 1.3.5)
+    # validar_ejecucion 1.3.5, floor_exempt_districts: la partición exenta se busca en
+    # step6_export_final.province_field o, si falta, validation.province_field (CPRO); no hay columna propia.
+    s6 = (((cfg or {}).get("modulo_06_consolidar_distritos") or {}).get("step6_export_final") or {})
+    col["particion"] = str(s6.get("province_field") or col["provincia"])
     return col
 
 

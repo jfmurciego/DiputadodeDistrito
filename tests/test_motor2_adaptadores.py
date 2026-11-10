@@ -96,6 +96,14 @@ class Adaptador(unittest.TestCase):
         self.assertIn("2 secciones sin municipio: CUSEC[:5] (respaldo de compatibilidad)", avisos)
         self.assertTrue(evaluar(p, Reglas.desde_contrato(cfg()), plan).valido)
 
+    def test_particion_es_el_campo_provincial_como_validar_ejecucion(self):
+        from ddd_motor2.adaptadores import columnas_de_contrato
+        self.assertEqual(columnas_de_contrato(cfg())["particion"], "CPRO")
+        self.assertEqual(columnas_de_contrato(cfg(province_field="DDD_PARTITION"))["particion"], "DDD_PARTITION")
+        c = cfg(province_field="DDD_PARTITION")
+        c["modulo_06_consolidar_distritos"] = {"step6_export_final": {"province_field": "ISLA"}}
+        self.assertEqual(columnas_de_contrato(c)["particion"], "ISLA")  # step6 manda, como VAL 1.3.5
+
     def test_zip_sin_geojson_falla_claro(self):
         import zipfile
         with zipfile.ZipFile(self.tmp / "vacio.zip", "w") as z:
