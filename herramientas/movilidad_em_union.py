@@ -3,11 +3,12 @@
 """Movilidad INE (EM-1, telefonía móvil): conversión a CSV, unión flujos↔áreas y estadísticas por provincia (T-139, paso 1).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-10 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-10 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/movilidad_em_union_v1.0.0.py (1.0.0: convertir, verificar, candidatas)
 QUÉ HACE: (1) `convertir`: xlsx del INE -> CSV en `datos/movilidad/` + MANIFEST con sha256 de origen y de salida;
   (2) `verificar`: unión código de flujo (`001A`) -> `ID_GRUPO` (`01VI`) por nombre normalizado, exige biyección;
-  (3) `candidatas`: por provincia, población en áreas que el plan vigente parte entre distritos.
+  (3) `candidatas`: por provincia, población en áreas que el plan vigente parte entre distritos;
+  (4) `indicador`: cohesión funcional por distrito y plan (1.1.0, T-139 paso 2), con y sin la capital.
   Solo indicador de investigación: no toca el motor ni la función de calidad; nada se publica.
 FUENTE: https://www.ine.es/experimental/movilidad/experimental_em1.htm (CC BY 4.0, estadística experimental).
 LÍMITES: flujos de menos de 16 personas ausentes; datos 2019 a mar-2020; áreas SCD (secciones dispersas de 16 municipios)
@@ -26,6 +27,8 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "herramientas"))
+from numeracion_publica import numero_publico  # noqa: E402  (distritos 1..K en lo que sale del módulo)
 DIR = ROOT / "datos" / "movilidad"
 AREAS_CSV = DIR / "areas_movilidad_2019.csv"
 FLUJOS_CSV = DIR / "flujos_em1_origen_destino.csv"
@@ -79,9 +82,9 @@ def convertir(areas_xlsx: Path, flujos_xlsx: Path, origen: dict) -> None:
     filas = list(wb["NACIONAL_MOVILES"].iter_rows(values_only=True))[1:]
     with open(AREAS_CSV, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f, lineterminator="\n")
-        w.writerow(["cumun", "cpro", "tipo", "id_area_geo", "pob_area_geo", "id_grupo", "pob_grupo", "literal_grupo"])
+        w.writerow(["cumun", "nmun", "cpro", "tipo", "id_area_geo", "pob_area_geo", "id_grupo", "pob_grupo", "literal_grupo"])
         for r in filas:
-            w.writerow([r[0], r[1], r[4], r[5], r[6], r[8], r[9], r[11]])
+            w.writerow([r[0], r[3], r[1], r[4], r[5], r[6], r[8], r[9], r[11]])
     ws = openpyxl.load_workbook(flujos_xlsx, read_only=True).worksheets[0]
     cods: dict[str, tuple] = {}
     with open(FLUJOS_CSV, "w", newline="", encoding="utf-8") as f:
@@ -147,6 +150,74 @@ def estadisticas_provincia(csv_composicion: Path, ind: dict) -> dict:
             "pob_en_areas_partidas_por_el_plan": partida, "n_areas": len(grupos)}
 
 
+CAPITALES = {"congreso_cadiz": "Cádiz", "congreso_granada": "Granada", "congreso_leon": "León",
+             "congreso_gerona": "Girona", "congreso_tarragona": "Tarragona"}  # nombre oficial en el xlsx del INE
+
+
+def codigo_capital(areas: list[dict], nombre: str, cpro: str) -> str:
+    c = {a["cumun"] for a in areas if a["cpro"] == cpro and normalizar(a["nmun"]) == normalizar(nombre)}
+    if len(c) != 1:
+        raise ValueError(f"capital no única: {nombre} {sorted(c)}")
+    return next(iter(c))
+
+
+def indicador_plan(csv_composicion: Path, areas: list[dict], flujos: list[dict], mapa: dict[str, str],
+                   capital: str | None = None) -> dict:
+    """Cohesión funcional del plan: de los flujos entre áreas DISTINTAS con origen y destino en el territorio,
+    fracción que queda dentro del mismo distrito. Un área partida por el plan reparte su peso entre distritos
+    en proporción a su población (hipótesis, declarada). Con `capital` (código INE de municipio) se
+    excluyen los flujos de los grupos que lo contienen, en origen o destino."""
+    ind = indice_secciones(areas)
+    peso: dict[str, dict] = defaultdict(lambda: defaultdict(float))
+    for r in leer_csv(csv_composicion):
+        g = grupo_de_seccion(r["seccion"], ind)
+        if g:
+            peso[g[0]][r["distrito"]] += int(r["poblacion"])
+    for g, d in peso.items():
+        t = sum(d.values())
+        for k in d:
+            d[k] /= t
+    excluir = set()
+    if capital:
+        excluir = {a["id_grupo"] for a in areas if a["cumun"] == capital}
+    por_dist = defaultdict(lambda: [0.0, 0.0])  # distrito -> [flujo interno, flujo con destino en el territorio]
+    fuera = dentro = 0.0
+    for f in flujos:
+        o, d = mapa.get(f["cod_origen"]), mapa.get(f["cod_destino"])
+        if o is None or o == d or o not in peso or o in excluir:
+            continue
+        n = float(f["flujo"])
+        if d not in peso or d in excluir:
+            if d not in excluir:
+                fuera += n * 1.0
+            continue
+        dentro += n
+        for k, wo in peso[o].items():
+            por_dist[k][1] += n * wo
+            por_dist[k][0] += n * wo * peso[d].get(k, 0.0)
+    tot_i = sum(v[0] for v in por_dist.values())
+    tot_t = sum(v[1] for v in por_dist.values())
+    return {"distritos": {k: (v[0] / v[1] if v[1] else None, round(v[1])) for k, v in sorted(por_dist.items(), key=lambda kv: int(kv[0]))},
+            "plan": tot_i / tot_t if tot_t else None, "flujo_en_territorio": round(dentro),
+            "flujo_hacia_fuera": round(fuera)}
+
+
+def cmd_indicador(areas: list[dict]) -> None:
+    flujos = leer_csv(FLUJOS_CSV)
+    mapa = unir(areas, leer_csv(CODIGOS_CSV))
+    w = csv.writer(sys.stdout, lineterminator="\n")
+    w.writerow(["territorio", "capital", "ambito", "distrito", "cohesion", "flujo_salida"])
+    for t, nombre in CAPITALES.items():
+        cpro = leer_csv(COMPOSICION / f"{t}.csv")[0]["seccion"][:2]
+        cap = codigo_capital(areas, nombre, cpro)
+        for etiqueta, c in (("con", None), ("sin", cap)):
+            r = indicador_plan(COMPOSICION / f"{t}.csv", areas, flujos, mapa, c)
+            for d, (v, n) in r["distritos"].items():
+                w.writerow([t, etiqueta, "distrito", numero_publico(int(d)), f"{v:.4f}" if v is not None else "", n])
+            w.writerow([t, etiqueta, "plan", "", f"{r['plan']:.4f}", r["flujo_en_territorio"]])
+            w.writerow([t, etiqueta, "hacia_fuera", "", "", r["flujo_hacia_fuera"]])
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sp = ap.add_subparsers(dest="cmd", required=True)
@@ -156,6 +227,7 @@ def main(argv=None) -> int:
     c.add_argument("--origen-json", type=Path, required=True)
     sp.add_parser("verificar")
     sp.add_parser("candidatas")
+    sp.add_parser("indicador")
     a = ap.parse_args(argv)
     if a.cmd == "convertir":
         convertir(a.areas_xlsx, a.flujos_xlsx, json.loads(a.origen_json.read_text(encoding="utf-8")))
@@ -164,6 +236,9 @@ def main(argv=None) -> int:
     if a.cmd == "verificar":
         m = unir(areas, leer_csv(CODIGOS_CSV))
         print(f"unión OK: {len(m)} códigos de flujo <-> {len({x['id_grupo'] for x in areas})} grupos (biyección)")
+        return 0
+    if a.cmd == "indicador":
+        cmd_indicador(areas)
         return 0
     ind = indice_secciones(areas)
     w = csv.writer(sys.stdout, lineterminator="\n")
