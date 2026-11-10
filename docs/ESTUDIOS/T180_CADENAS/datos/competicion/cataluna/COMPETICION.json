@@ -1,0 +1,1116 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "cataluna",
+  "ganador": "gerrychain-s336616298",
+  "valido": true,
+  "huella_resultado": "8b75db5d778fcc78ced5e70bfb18646d043d18d8fec4cf30d083f36d34edceb7",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "cataluna",
+    "ancla": {
+      "population": "2cedf1e2a7bee0e4d2dfd9af7ee960f76df0ad20a54a9aecc89c7f7f30698ef1",
+      "target_sectioning": "c8c0dceff75dadab67fdf6d419eb8cb506a73c6555a87847b74d601d869e89f9"
+    },
+    "n": 20,
+    "semillas": [
+      1875366823,
+      1904841058,
+      2001764373,
+      668019616,
+      668724984,
+      755549489,
+      1769344304,
+      1873138711,
+      849881058,
+      668951879,
+      419290055,
+      952665242,
+      412039982,
+      336616298,
+      562364045,
+      1057026293,
+      578944412,
+      892767755,
+      1277547330,
+      1515019136
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "396b8b868ee46c4b588a218ecadf8736a9244f7a0c52cf47078218362acd92b5",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 5828.931,
+  "candidatos": [
+    {
+      "id": "gerrychain-s336616298",
+      "generador": "gerrychain",
+      "semilla": 336616298,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 27,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.029313424776218823,
+      "huella_plan": "3bcb9e615c3157580df1c55605729ecf0e99c606a9cea57ea24eff2f19d1ad7a",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s336616298/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a36d67adba0cffeee80ac5696c7118d44a2c8d3619c86ba712e3cba370c806cc",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 263.128,
+        "juzgar_s": 0.375
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 81.5,
+          "baseline": 4.4,
+          "semilla_canonica": 49.7,
+          "M05": 121.0,
+          "M06": 4.7,
+          "validacion": 1.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 27,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1769344304",
+      "generador": "gerrychain",
+      "semilla": 1769344304,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 28,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.02936616850049713,
+      "huella_plan": "6fb9a27e7b3a8da6e9643a466fb398d18c321d3fa1b0dd99f4457d2b8f9f16b5",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s1769344304/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9f7b17fa42bbf53381396da7d7392ae3ad291344b73e181de25a57941e43b4b2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 266.839,
+        "juzgar_s": 0.403
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 81.9,
+          "baseline": 4.2,
+          "semilla_canonica": 50.0,
+          "M05": 124.0,
+          "M06": 4.7,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 28,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s668019616",
+      "generador": "gerrychain",
+      "semilla": 668019616,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 28,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.029370048731494666,
+      "huella_plan": "ec652bf54173c4355b1fdcead9375884dbe3615ed3fb68371feb0bd75c4869b8",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s668019616/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ec68a2a2150b54b09c9e20ce9b537a7848afeadd9c6cda05d3ea0218b19f3f33",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 305.124,
+        "juzgar_s": 0.358
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 96.8,
+          "baseline": 4.2,
+          "semilla_canonica": 57.7,
+          "M05": 139.5,
+          "M06": 4.7,
+          "validacion": 1.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 28,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1873138711",
+      "generador": "gerrychain",
+      "semilla": 1873138711,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 28,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.029372721938123587,
+      "huella_plan": "e82d4d372d80dc148c81ad365312e5aab4aeec74f82bbfad12a07003abc3460e",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s1873138711/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b90acb3c924fc9c0b86f37ab9a5dfd9a3c120a5dc2bd3fb469939c06ce585e09",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 266.2,
+        "juzgar_s": 0.445
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 83.3,
+          "baseline": 4.4,
+          "semilla_canonica": 49.8,
+          "M05": 122.1,
+          "M06": 4.7,
+          "validacion": 1.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 28,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2001764373",
+      "generador": "gerrychain",
+      "semilla": 2001764373,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 28,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.029436584346848812,
+      "huella_plan": "92730dcfa958752d7e9c5477530f93dfaf584e4442e640f25f82d70e99c48322",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s2001764373/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "57fe7dced817ad5353f50903c524a3cd2c99b02825ae781c38e33e231ff052e7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 327.961,
+        "juzgar_s": 0.358
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 101.7,
+          "baseline": 4.8,
+          "semilla_canonica": 64.4,
+          "M05": 150.3,
+          "M06": 4.6,
+          "validacion": 1.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 28,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s668724984",
+      "generador": "gerrychain",
+      "semilla": 668724984,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 28,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.02954098346516614,
+      "huella_plan": "e3d53869e1a52596d1114a39332c22daba57d720c8b3829750754ed3be5fe7e9",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s668724984/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8aeb2ae781780cb98c969725a26371c8f80e6cf2e8d24f18d61c5e4e53bbbc87",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 261.46,
+        "juzgar_s": 0.379
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 82.4,
+          "baseline": 4.4,
+          "semilla_canonica": 50.2,
+          "M05": 117.9,
+          "M06": 4.6,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 28,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1904841058",
+      "generador": "gerrychain",
+      "semilla": 1904841058,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 29,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.029339853400909603,
+      "huella_plan": "f95e28ed2a119030374a6afec84f6064392ef7d07ccc484d929093551b7bd388",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s1904841058/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cbc668bd93d325e16cdeaf3167560d223bad80aa32940f2b18d4059a197b1dff",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 336.343,
+        "juzgar_s": 0.378
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 99.6,
+          "baseline": 4.3,
+          "semilla_canonica": 59.6,
+          "M05": 164.6,
+          "M06": 6.2,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 29,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s578944412",
+      "generador": "gerrychain",
+      "semilla": 578944412,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 29,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.02935067914163368,
+      "huella_plan": "b65ee3ec15d5190aaace31c07a5d584e694fea88196ed25cb680d727fc622be2",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s578944412/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9631be789ed781fb4f54f54ad106b2b207a3f5742a7c68a9bf06198806056bf6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 283.657,
+        "juzgar_s": 0.358
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 86.2,
+          "baseline": 4.4,
+          "semilla_canonica": 52.5,
+          "M05": 133.4,
+          "M06": 5.2,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 29,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s755549489",
+      "generador": "gerrychain",
+      "semilla": 755549489,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 29,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.029415093239797224,
+      "huella_plan": "90ee947492368565c7bb3b05e94038acb18b8691671408ee9b099a7f9674088b",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s755549489/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "98b6fd2ae74cdacf2d6dee2c071b52c5ce2f28b6c29b96a2be2780f31e195518",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 264.034,
+        "juzgar_s": 0.41
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 81.6,
+          "baseline": 4.3,
+          "semilla_canonica": 49.8,
+          "M05": 121.6,
+          "M06": 4.9,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 29,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s668951879",
+      "generador": "gerrychain",
+      "semilla": 668951879,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 29,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.02942550924793261,
+      "huella_plan": "d4ac71c0a503201b3260404e53be4beb43ea77e57aae85681fa9d884f8c0c4d3",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s668951879/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bf72501dc6458be8d337c2bf163aad877d39af14e31ccaeaafbd3b386dee044c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 266.007,
+        "juzgar_s": 0.384
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 81.5,
+          "baseline": 4.4,
+          "semilla_canonica": 49.5,
+          "M05": 124.1,
+          "M06": 4.6,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 29,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s419290055",
+      "generador": "gerrychain",
+      "semilla": 419290055,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 29,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.029455256202306844,
+      "huella_plan": "b979572246d06e3c44ff81b38e4122be4e0fd867466ffb3ae6a9449b3f555d4f",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s419290055/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0d725ed01718e2fbfa76832f7706e33c23e69e1332fbb38228e7fee7153dcf77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 272.612,
+        "juzgar_s": 0.375
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 80.8,
+          "baseline": 4.4,
+          "semilla_canonica": 49.9,
+          "M05": 130.8,
+          "M06": 4.6,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 29,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s952665242",
+      "generador": "gerrychain",
+      "semilla": 952665242,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 29,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.02950627154978806,
+      "huella_plan": "6579b79c92766a9260ab029221b39f58a16468f7efcd3c634917778bcb5d9812",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s952665242/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b45f76b179dbfad6b30e068fedc71a320718aff7f0edbde66113966aa45973d7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 266.355,
+        "juzgar_s": 0.394
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 81.0,
+          "baseline": 4.4,
+          "semilla_canonica": 50.1,
+          "M05": 124.1,
+          "M06": 4.8,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 29,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1057026293",
+      "generador": "gerrychain",
+      "semilla": 1057026293,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 29,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.029544506898776142,
+      "huella_plan": "5168eb01b8cbd952fea6d7c208002980ae749f1862e647f11e06091e1f2a5124",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s1057026293/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7c1a739fed8439c3a98d19556e0fea33ea19f7e3f7f8458bc6a9c40175be58ba",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 284.252,
+        "juzgar_s": 0.342
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 83.1,
+          "baseline": 4.5,
+          "semilla_canonica": 51.7,
+          "M05": 138.1,
+          "M06": 4.9,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 29,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s849881058",
+      "generador": "gerrychain",
+      "semilla": 849881058,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 29,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.029664292020670634,
+      "huella_plan": "9b5795021d8d5187266f4d0dd3be921c4d66d2960b880ecca4dffbdde19fc76e",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s849881058/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ed8b8dee9b5347b196e5284824516791301e98f0d620b363493c41895ff3033a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 264.308,
+        "juzgar_s": 0.374
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 81.2,
+          "baseline": 4.1,
+          "semilla_canonica": 49.3,
+          "M05": 123.0,
+          "M06": 4.7,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 29,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s562364045",
+      "generador": "gerrychain",
+      "semilla": 562364045,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 30,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.02952150540566923,
+      "huella_plan": "77c4fbf67c39b537bf5bfacb657d2d038a1a945582d0fa89701feaedf442d0ed",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s562364045/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bcea9c40555c9b8b9f86ca054202ebe87937051445a16356ee7d309f6a6cd70d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 276.988,
+        "juzgar_s": 0.399
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 81.3,
+          "baseline": 4.3,
+          "semilla_canonica": 49.8,
+          "M05": 134.7,
+          "M06": 4.7,
+          "validacion": 1.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 30,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s412039982",
+      "generador": "gerrychain",
+      "semilla": 412039982,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 30,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.02956079717488776,
+      "huella_plan": "de170def7fce4d243c17673763a5ce4ce95d495ced9271f5594d845015701dd6",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s412039982/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6a55e897eea0608d093866e2af27c6971554c3e65b9ab4f3f9b577afc71846d9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 266.217,
+        "juzgar_s": 0.414
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 81.6,
+          "baseline": 4.3,
+          "semilla_canonica": 49.9,
+          "M05": 123.9,
+          "M06": 4.6,
+          "validacion": 1.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 30,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1515019136",
+      "generador": "gerrychain",
+      "semilla": 1515019136,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 30,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.029597896583079028,
+      "huella_plan": "cb94d93c508411b03cadc3f9e38ad6073b51570473883c373175756ea291148b",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s1515019136/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "770f5f1296091327fd3f86e003e11caa379ad1ee9a40f62e93910217112b47b1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 295.935,
+        "juzgar_s": 0.352
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 89.5,
+          "baseline": 4.2,
+          "semilla_canonica": 54.4,
+          "M05": 140.9,
+          "M06": 4.8,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 30,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s892767755",
+      "generador": "gerrychain",
+      "semilla": 892767755,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 30,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.029626087790986015,
+      "huella_plan": "21206881687b852b10f961eea8c82ea252b6a0e0606cfae0fe5f3a76c1cd4f9e",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s892767755/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a46a19401868e53042afacae4b1e7a558f132abc2cb1ebdd780477e0da96f9a8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 283.936,
+        "juzgar_s": 0.394
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 85.0,
+          "baseline": 4.7,
+          "semilla_canonica": 52.5,
+          "M05": 134.5,
+          "M06": 5.3,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 30,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1277547330",
+      "generador": "gerrychain",
+      "semilla": 1277547330,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 31,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.02951754530501732,
+      "huella_plan": "5e2326f620bdd139a385e768b1ca20d294a8d50e3efbd5c26c453bd0b345b9d3",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s1277547330/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "da61cae88c78f7050200c4837ab6f399972bd73469a8726ba7eb15b9c32cf447",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 294.708,
+        "juzgar_s": 0.386
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 86.5,
+          "baseline": 4.3,
+          "semilla_canonica": 54.1,
+          "M05": 143.1,
+          "M06": 4.8,
+          "validacion": 1.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 31,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1875366823",
+      "generador": "gerrychain",
+      "semilla": 1875366823,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 32,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.02956378423266721,
+      "huella_plan": "eba8a5c05e05a477424da057ac940af3386ed893458479537f396adeec7162f2",
+      "composicion": "bateria/competicion/cataluna/gerrychain-s1875366823/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "086b6d310dd80326cb6b1ae109b5c9190c8c5acc1599d39b94ac6ca538192878",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 311.846,
+        "juzgar_s": 0.417
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 96.4,
+          "baseline": 4.7,
+          "semilla_canonica": 58.6,
+          "M05": 145.6,
+          "M06": 4.6,
+          "validacion": 1.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 32,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 53,
+      "desvio_max": 0.6211832883999475,
+      "ecm": 0.033171966430979465,
+      "huella_plan": "ae99db50ad32cae2660656e4d92ce37e27c7883e7f98c6df4c91ca108e8ea4e8",
+      "composicion": "bateria/competicion/cataluna/canonico/cataluna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a0e722780c3d69f48815a1692dc009500e787c00a4c33a0b2a11013860026557",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 162.939,
+        "juzgar_s": 0.381
+      },
+      "avisos": [
+        "1 unidades con varios municipios: desglose por municipio"
+      ],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 90.9,
+          "M05": 64.8,
+          "M06": 4.8,
+          "validacion": 1.9
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.6212,
+          "fuera_tolerancia": 53,
+          "tolerancia": 0.12,
+          "municipios_partidos": 16
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1769344304: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "mejora_al_canonico": true
+}

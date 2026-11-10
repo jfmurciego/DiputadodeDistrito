@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_toledo",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "e5c3642b5c511a354abe7c9aa294f5ce737ef2c4e4e3e7fef1a79f36e41caadd",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_toledo",
+    "ancla": {
+      "population": "d408c151fbf0cb65e5bb579f5ecc3a1bc625341e7a65093895a536a33d913533",
+      "target_sectioning": "15fefe423ba75e25c8c7d89bc1a97815be8d13a9592358b29732723676d82239"
+    },
+    "n": 20,
+    "semillas": [
+      387360308,
+      1178440691,
+      778946014,
+      1148661351,
+      1550407773,
+      571656643,
+      1231123822,
+      385264965,
+      533262018,
+      404215280,
+      690895912,
+      673574780,
+      404462350,
+      371212465,
+      35786033,
+      1827911503,
+      361228162,
+      1421466946,
+      2016783583,
+      1286980639
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "5cc8b13d8130f03b3a04f8b4dcd550b3990b2bdb81e92800ed41a22e45fdb662",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 340.383,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/canonico/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.076,
+        "juzgar_s": 0.067
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "M05": 2.1,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s387360308",
+      "generador": "gerrychain",
+      "semilla": 387360308,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s387360308/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.42,
+        "juzgar_s": 0.063
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.1,
+          "M05": 9.6,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1178440691",
+      "generador": "gerrychain",
+      "semilla": 1178440691,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s1178440691/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.454,
+        "juzgar_s": 0.063
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.2,
+          "M05": 9.6,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s778946014",
+      "generador": "gerrychain",
+      "semilla": 778946014,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s778946014/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.229,
+        "juzgar_s": 0.082
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 9.5,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1148661351",
+      "generador": "gerrychain",
+      "semilla": 1148661351,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s1148661351/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.071,
+        "juzgar_s": 0.068
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 9.4,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1550407773",
+      "generador": "gerrychain",
+      "semilla": 1550407773,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s1550407773/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.802,
+        "juzgar_s": 0.068
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 10.0,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s571656643",
+      "generador": "gerrychain",
+      "semilla": 571656643,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s571656643/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.171,
+        "juzgar_s": 0.059
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.1,
+          "M05": 9.5,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1231123822",
+      "generador": "gerrychain",
+      "semilla": 1231123822,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s1231123822/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.543,
+        "juzgar_s": 0.06
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.3,
+          "M05": 9.7,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s385264965",
+      "generador": "gerrychain",
+      "semilla": 385264965,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s385264965/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.39,
+        "juzgar_s": 0.061
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.2,
+          "M05": 9.8,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s533262018",
+      "generador": "gerrychain",
+      "semilla": 533262018,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s533262018/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.179,
+        "juzgar_s": 0.06
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.2,
+          "M05": 9.4,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s404215280",
+      "generador": "gerrychain",
+      "semilla": 404215280,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s404215280/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.773,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 10.1,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s690895912",
+      "generador": "gerrychain",
+      "semilla": 690895912,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s690895912/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.566,
+        "juzgar_s": 0.058
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.1,
+          "M05": 9.9,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s673574780",
+      "generador": "gerrychain",
+      "semilla": 673574780,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s673574780/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.343,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.2,
+          "M05": 10.3,
+          "M06": 1.3,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s404462350",
+      "generador": "gerrychain",
+      "semilla": 404462350,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s404462350/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.702,
+        "juzgar_s": 0.058
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.2,
+          "M05": 9.8,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s371212465",
+      "generador": "gerrychain",
+      "semilla": 371212465,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s371212465/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.733,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.3,
+          "M05": 9.6,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s35786033",
+      "generador": "gerrychain",
+      "semilla": 35786033,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s35786033/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.881,
+        "juzgar_s": 0.058
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.2,
+          "M05": 9.8,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1827911503",
+      "generador": "gerrychain",
+      "semilla": 1827911503,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s1827911503/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.433,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.2,
+          "M05": 9.5,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s361228162",
+      "generador": "gerrychain",
+      "semilla": 361228162,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s361228162/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.234,
+        "juzgar_s": 0.056
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 9.5,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1421466946",
+      "generador": "gerrychain",
+      "semilla": 1421466946,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s1421466946/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.675,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.2,
+          "M05": 9.9,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2016783583",
+      "generador": "gerrychain",
+      "semilla": 2016783583,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s2016783583/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.759,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 1.3,
+          "M05": 9.9,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1286980639",
+      "generador": "gerrychain",
+      "semilla": 1286980639,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006425828053704494,
+      "ecm": 8.615129502651827e-06,
+      "huella_plan": "9cfd66cb9784e1a7e46b7daffefb87f262e4491617f5b2d8e0939c1f08590cb4",
+      "composicion": "bateria/competicion/congreso_toledo/gerrychain-s1286980639/congreso_toledo_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5414e45bf221d82450cb46cca83d3c53adb7dbad2819b51c73b6963bca69a1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.67,
+        "juzgar_s": 0.056
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.2,
+          "M05": 9.8,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0064,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s387360308: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

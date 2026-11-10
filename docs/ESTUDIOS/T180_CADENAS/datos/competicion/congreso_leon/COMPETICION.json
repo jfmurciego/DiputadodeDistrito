@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_leon",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "e87c2e673f2998b746ce2fff7d99b4d1de02782576bd900df6a4a217fcd506a6",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_leon",
+    "ancla": {
+      "population": "27b19a0bbfdf445a1decaff2ebe9c4673ab8affa69a7a743b2dfa1b1fc4ab35d",
+      "target_sectioning": "1054805641143b55f1da15f08434a1bd697074a154874b47a2f569adda23bfc5"
+    },
+    "n": 20,
+    "semillas": [
+      1815231448,
+      1035446095,
+      1190801664,
+      1583624713,
+      1779110237,
+      940641503,
+      1889182062,
+      1774837177,
+      43584265,
+      134990558,
+      1652910754,
+      1137899385,
+      1835819384,
+      1325624638,
+      1452138308,
+      879877945,
+      1805932073,
+      1465841492,
+      654743910,
+      597419665
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "bf57883dd6fa03403295a23ed0b76e070827b885caf814fb26716c45c5a408d7",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 379.141,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.002453887157306407,
+      "huella_plan": "c106bbaee45039d01ae3f20dc73bb29354dea7a98b28b426f7d67d0cd85a6da9",
+      "composicion": "bateria/competicion/congreso_leon/canonico/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "45c87ef2a8792a9ad4ca1837b81ae05d567e4424882252e6389a834eea297310",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.311,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "M05": 1.9,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1452138308",
+      "generador": "gerrychain",
+      "semilla": 1452138308,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.002456860016513122,
+      "huella_plan": "e3a71b0289ed84ad1355407d19af33dd1ea5bab2150f5c4aa6c930d0ca3262f9",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1452138308/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "32111757cc8838b6cf3c637405058c2d1ca32ced46c723beea38b2b9ad2180f9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.353,
+        "juzgar_s": 0.04
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 1.0,
+          "M05": 14.3,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1583624713",
+      "generador": "gerrychain",
+      "semilla": 1583624713,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.0026804917142995697,
+      "huella_plan": "a129b2f188c3890a0d1fd2189d997d463bf36d8d0d113dcc79d20f121c17febc",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1583624713/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b686d2342f48576c76311516828d708c3f879876ea81f38272a9c99597d7bddb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.562,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 1.0,
+          "M05": 13.1,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s134990558",
+      "generador": "gerrychain",
+      "semilla": 134990558,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.0029909705475265396,
+      "huella_plan": "753a9563ba0ea46b0afdd52fd4390683302216f08cf965e148bd97a9910fd043",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s134990558/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b34e99cea46161c2d84c48ccb574b6c906c83e77120baa33d0168b0d724b7171",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.778,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 1.1,
+          "M05": 12.4,
+          "M06": 1.2,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1889182062",
+      "generador": "gerrychain",
+      "semilla": 1889182062,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.0030806479304909128,
+      "huella_plan": "461ac67ef29054a879eb12829819276403badbffff82e4a8e81c0a612a04a6ad",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1889182062/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "96bbd39ce7b7a98f89ef3124bf485c83a6b03208dfc04e417e686a799faa69a9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.051,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 1.1,
+          "M05": 12.1,
+          "M06": 1.4,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1137899385",
+      "generador": "gerrychain",
+      "semilla": 1137899385,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.0031213598485824957,
+      "huella_plan": "83276701c64769285ca86bf2367adee4b1de13651c53368eafa8157af57076f8",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1137899385/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1e8e4b41faf0a102ff2d8a336877fe16bce8ba451723751475ef5f9a06659b2b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.897,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 1.2,
+          "M05": 13.3,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s597419665",
+      "generador": "gerrychain",
+      "semilla": 597419665,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.0031592636643153677,
+      "huella_plan": "7f6d4ec1bf8abc97ee63126f9ff59e42b6f6886938e53c037ea3342fdb7906c9",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s597419665/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a3bfa3810577bc822cf8501e66240181099d477980592e230e4fbbaac72e4f48",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.89,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 1.1,
+          "M05": 13.0,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s879877945",
+      "generador": "gerrychain",
+      "semilla": 879877945,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.003406059681932841,
+      "huella_plan": "251b1bade0db58bdd99c9791606d51675c18e6690088446bbe34c47d3e9f1ac5",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s879877945/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "91d2bc14791a315a3cd8a04a5ed95bf6528cc4dc50850a2425ed0e0aad2834f9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.428,
+        "juzgar_s": 0.04
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 1.1,
+          "M05": 12.4,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1805932073",
+      "generador": "gerrychain",
+      "semilla": 1805932073,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.0038704645883035735,
+      "huella_plan": "0fe386810b681b22467eff228cd3e5fbd257febd7da00d7259dbc48cf397fa72",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1805932073/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1ecf92425d0173c12067590c766d783c37e60e1653048f2f13b3cccefc27ffc7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.543,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 1.1,
+          "M05": 12.8,
+          "M06": 1.3,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1835819384",
+      "generador": "gerrychain",
+      "semilla": 1835819384,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.004086718089579687,
+      "huella_plan": "87f28cdc6aab9964cc4c58489fd64a58b31bb9670bfbf8d03a94e70b02e55e36",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1835819384/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "634b2c47fee0de459bc10b035feed143dd2f4712cb2b30834e12248cc9370162",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.473,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 1.2,
+          "M05": 12.7,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s940641503",
+      "generador": "gerrychain",
+      "semilla": 940641503,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.004134154226046273,
+      "huella_plan": "5c2d212b1948dbe7f72baed91edc50e5593c869b46d57bf1ff9dcca2dc4d2f45",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s940641503/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f29315350937401943c3cad229c63ffc017371d387bd9ef94250620bd205e3f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.268,
+        "juzgar_s": 0.042
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 1.1,
+          "M05": 12.6,
+          "M06": 1.2,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s654743910",
+      "generador": "gerrychain",
+      "semilla": 654743910,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.004349745479538313,
+      "huella_plan": "bb7124ba5c77a413134624df03b65f7354d76fa92a30a864343e4b9bab928726",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s654743910/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2225542c693c6de71b854e50335874d447ab55bf8dcf2d8ad3cfb1f0ccca58f8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.913,
+        "juzgar_s": 0.039
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 1.2,
+          "M05": 13.1,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1774837177",
+      "generador": "gerrychain",
+      "semilla": 1774837177,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.004423236973229611,
+      "huella_plan": "7de24ee02492e2083bb81c5155be6afe780e24ccb0652a9ad47aa8712ae380ac",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1774837177/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a386697cda60a87d2def912a259ee4f4ed990f756940bee60ee303ccbf7d1fd8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.106,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 1.1,
+          "M05": 14.4,
+          "M06": 1.2,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1815231448",
+      "generador": "gerrychain",
+      "semilla": 1815231448,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.0050891525850667,
+      "huella_plan": "d32d0ccbd7b3d72ce8290d3ad7d3f75c6e24e8b7e267ed38d9438cd265a8ff1d",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1815231448/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "009cd10034d76eba865548e993040d85d584716d73e9bdf92216e6d40ccc1dd7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.317,
+        "juzgar_s": 0.04
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 1.1,
+          "M05": 11.8,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s43584265",
+      "generador": "gerrychain",
+      "semilla": 43584265,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.0053781303315657775,
+      "huella_plan": "9083e1b692a8e381d092796d964fc944e541fe6c5edf51daf972dde9ad20e586",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s43584265/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "39592e1ce2733078e2bda9b9227d907c4e9186bfbc09db58054a9ef05dd15948",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.003,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.2,
+          "M04": 2.4,
+          "baseline": 1.1,
+          "M05": 12.3,
+          "M06": 1.4,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1779110237",
+      "generador": "gerrychain",
+      "semilla": 1779110237,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.005386927130656619,
+      "huella_plan": "7fc6af26d02a86dcd5f8da60b2351a038df38f9a0524609ee5672663c082ac5f",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1779110237/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0594490704369ce8b2d68fe9fb6f296f336c8c6ce8694c1afabd5ff704ec1c8c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.896,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 1.3,
+          "M05": 12.2,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1190801664",
+      "generador": "gerrychain",
+      "semilla": 1190801664,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.005480758421796528,
+      "huella_plan": "d4f4bc71672a5cbd4388c045d93476081d634469ababf4c656401cce1e90147a",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1190801664/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e80eb6ce10098537b90e747dccdbb195ff07ddc434bd21e10a8ceacc685ccea6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.314,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 1.0,
+          "M05": 14.0,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1325624638",
+      "generador": "gerrychain",
+      "semilla": 1325624638,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.006373312384864425,
+      "huella_plan": "d3faff30cbd038a309f2a14f97f1e6faa889883dd9cd52f2a86e972b0b3f0300",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1325624638/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "45b7c9648c2c13add6a6568c1b56397523e793caa314ebb89c2e7e07dc538293",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.283,
+        "juzgar_s": 0.04
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 1.0,
+          "M05": 14.1,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1652910754",
+      "generador": "gerrychain",
+      "semilla": 1652910754,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08578090968471129,
+      "ecm": 0.006411241764944127,
+      "huella_plan": "0e537e8a0311c2f826953b385c219197d507694f523e5b4315cc8086bde085ec",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1652910754/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b77e14f29304c2692ab2a0ea347ff96d1c40ca30dea9823f7a75f2fcc2d521ac",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.212,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 1.1,
+          "M05": 12.5,
+          "M06": 1.2,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1465841492",
+      "generador": "gerrychain",
+      "semilla": 1465841492,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08584778843131441,
+      "ecm": 0.004633914743357624,
+      "huella_plan": "3b9fd61cd1add5a9ec3a27cf18a0a8ca1110df69b704b479ca77a001574131dc",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1465841492/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "321c9b621e7a769410b3e861a7df0906466637fe01e5814acc5ceb20de9b7e9f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.813,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 1.2,
+          "M05": 13.8,
+          "M06": 1.3,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0858,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1035446095",
+      "generador": "gerrychain",
+      "semilla": 1035446095,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.08596371159209315,
+      "ecm": 0.004144072079394633,
+      "huella_plan": "e11205c0d0ac736801dc03df3508f3f96c6f88de6df5012d44e83f0aced5eea8",
+      "composicion": "bateria/competicion/congreso_leon/gerrychain-s1035446095/congreso_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a00561ca22bf258dd7703d1c81a3348a7ee8fda72109b6d710aea9b90eae6499",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.876,
+        "juzgar_s": 0.042
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 1.2,
+          "M05": 12.6,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.086,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1452138308: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

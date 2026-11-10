@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_huelva",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "2dd8161cdab58500c82a61bbe54128a28107de94d8a7259dab44e693b1d212bb",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_huelva",
+    "ancla": {
+      "population": "896f8c0969f7efee8370470a696ea40d60bc373b1ef2f63507db1193089ea9fd",
+      "target_sectioning": "998fea7ef126203e69e55b759f1d5e0a13a221a45fccabd2e3ad4da9e6ee93ec"
+    },
+    "n": 20,
+    "semillas": [
+      38442051,
+      1771491970,
+      1954389602,
+      787578333,
+      2133908515,
+      2052840222,
+      941107836,
+      682361863,
+      1674161372,
+      2104096205,
+      251524298,
+      1849981697,
+      1021845847,
+      820882974,
+      1055369342,
+      203462856,
+      1024536808,
+      457447653,
+      1507404445,
+      1424894658
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "fb41e0c5c6b17fe090f279beaee97f2fd9d7836c77060cc6b4d02f074c21ad20",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 264.605,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.0016689345648217761,
+      "huella_plan": "efcbcf801b64ffe7c95c674f5f5afcc3978741d0e644902780b483bc07da2d44",
+      "composicion": "bateria/competicion/congreso_huelva/canonico/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "dd00305a37b4ca616b9e9544e121db1f234d17ecd8555ac5c686e36cdc902a0d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.442,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "M05": 1.9,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2133908515",
+      "generador": "gerrychain",
+      "semilla": 2133908515,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.001730188223799809,
+      "huella_plan": "23a7d9a71404d527e0d62b6b4f9af0e7e370fa41fcc771416adfe56eebc52698",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s2133908515/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f5c4890910c210a481a6d4edb8d18d804e4c6f23a0601a97f1b72e437e030b99",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.653,
+        "juzgar_s": 0.042
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.6,
+          "semilla_canonica": 1.9,
+          "M05": 5.8,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1849981697",
+      "generador": "gerrychain",
+      "semilla": 1849981697,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.0018508624274790667,
+      "huella_plan": "39583363874b9440310ec3b3b0d34ef8e33bfc2e81115effd7ff1ad012e18e5c",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s1849981697/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d96dc274ecc66c8c07e088650a80ff8050a972dbff188922ae15dcb2b63ac944",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.68,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 0.5,
+          "semilla_canonica": 1.7,
+          "M05": 6.1,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s820882974",
+      "generador": "gerrychain",
+      "semilla": 820882974,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.001868200994439397,
+      "huella_plan": "3511af25a98cf785f78ebcc1a5499491fcfb8139fc4c08017df90b75248ecb84",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s820882974/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d9ed4eb88e7d635d25997a110b95a17546c4e6b1865f382ece3b1312146a8559",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.333,
+        "juzgar_s": 0.044
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.8,
+          "semilla_canonica": 2.1,
+          "M05": 6.1,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1055369342",
+      "generador": "gerrychain",
+      "semilla": 1055369342,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.001868200994439397,
+      "huella_plan": "3511af25a98cf785f78ebcc1a5499491fcfb8139fc4c08017df90b75248ecb84",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s1055369342/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "db45a7c8cf0da6c40211fc0cef46f10c7ae8702b092f0f6b749ac62d554faba5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.853,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 0.7,
+          "semilla_canonica": 1.8,
+          "M05": 6.0,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1024536808",
+      "generador": "gerrychain",
+      "semilla": 1024536808,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.001868200994439397,
+      "huella_plan": "3511af25a98cf785f78ebcc1a5499491fcfb8139fc4c08017df90b75248ecb84",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s1024536808/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d9ed4eb88e7d635d25997a110b95a17546c4e6b1865f382ece3b1312146a8559",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.068,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 6.2,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1771491970",
+      "generador": "gerrychain",
+      "semilla": 1771491970,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.0018705424143289234,
+      "huella_plan": "4fd7142a3ada6ef94e24899750bc545b6d15f8fdecc6929360a473a6b19599a2",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s1771491970/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1585d737d9a6238e0d17e5f0fa4e1616d132fd65452c49a518d01d44336cce57",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.594,
+        "juzgar_s": 0.047
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 0.5,
+          "semilla_canonica": 1.8,
+          "M05": 6.0,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2104096205",
+      "generador": "gerrychain",
+      "semilla": 2104096205,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.002054299492869722,
+      "huella_plan": "28a8d643245784c16d1f457ef2077d9c826c141e04dcfc21c76c03dbb3f91e2b",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s2104096205/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cd4480d0dfe4ecc46ce35a96e213504d2519c9363d2e67e94e8a9b99abcd1108",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.704,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 6.0,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1954389602",
+      "generador": "gerrychain",
+      "semilla": 1954389602,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.002104420770928914,
+      "huella_plan": "1b8af549b761872ad5814559174fcc9aa351e4e988c907e8efb694f72e35d2e7",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s1954389602/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1f2d6f1ecad8ef7aa1807053518e843ea1c9d656e8ef90d4af906be45b2f40ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.926,
+        "juzgar_s": 0.046
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.7,
+          "semilla_canonica": 1.9,
+          "M05": 6.0,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1424894658",
+      "generador": "gerrychain",
+      "semilla": 1424894658,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.002138566377153027,
+      "huella_plan": "7861edce9d1442c701f862929f5396822c66866a3464fc3c62fafb202d32fcdc",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s1424894658/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d2ee915f93e1236fc1a88b9bd65a1f9bf9c800190bf83bc750c7930267c971f3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.461,
+        "juzgar_s": 0.044
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.7,
+          "semilla_canonica": 1.9,
+          "M05": 6.3,
+          "M06": 1.2,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s203462856",
+      "generador": "gerrychain",
+      "semilla": 203462856,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.0023684854806440224,
+      "huella_plan": "7c034557f9991b349db3f8810868f6aec46446ab75426c697651b34ec54faa96",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s203462856/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2a55aeb1cbb8cf3127493756627bb0bea3a8c3efb6bf5332f864e75e95d0d122",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.755,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 6.3,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1507404445",
+      "generador": "gerrychain",
+      "semilla": 1507404445,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.002382648259364663,
+      "huella_plan": "a9d9ab40ab7569333dd3bea6c96e9fe82be725ff148e897f1c39e4293df3400b",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s1507404445/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "095612b76911ddfc6772d805306929738bcfd088438ba3919222241120ebc5c2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.026,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 6.1,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s787578333",
+      "generador": "gerrychain",
+      "semilla": 787578333,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.0024262799185572645,
+      "huella_plan": "29e7aaa36a3e45104c97858562c24e6d0c4995f752f0b5e3bc6f26a50b1de18c",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s787578333/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1adb51a23f8d2adaa9d254b8a8517454d9bd29c1705c14272ebfed7ac95966f6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.752,
+        "juzgar_s": 0.044
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.6,
+          "semilla_canonica": 1.9,
+          "M05": 6.0,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1674161372",
+      "generador": "gerrychain",
+      "semilla": 1674161372,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.002447801770034358,
+      "huella_plan": "fc0657e90f84f4c7de55a297f4ca5278f4156dbcc1568c08b901f5c5ea90ef79",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s1674161372/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d2a58bac24739be83fc32b7467674dc124cd80f4d9ffaed0c8bda5961fa440e0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.108,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 0.7,
+          "semilla_canonica": 1.8,
+          "M05": 6.3,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s682361863",
+      "generador": "gerrychain",
+      "semilla": 682361863,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.002455682778757082,
+      "huella_plan": "a7129fd0dd6aba028fb8d7b5ede9ad1ca9f2bb06ea296d9f31e520a87d8e283f",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s682361863/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "19399f79b2b70da0e3612e447f781403396915a6bccb4c69e2deeecbb94857d8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.05,
+        "juzgar_s": 0.044
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 0.7,
+          "semilla_canonica": 1.7,
+          "M05": 6.2,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2052840222",
+      "generador": "gerrychain",
+      "semilla": 2052840222,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.0025522470465440157,
+      "huella_plan": "c0a338901298b47da591f839263b56b886a65806ee543f5f3ab6a5179c5d0dbb",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s2052840222/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "92705a2637fc7d1a7b7d2f8d2e54ad4986b895eb5f7b7524875971ee71223c91",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.774,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.7,
+          "semilla_canonica": 2.0,
+          "M05": 6.0,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s457447653",
+      "generador": "gerrychain",
+      "semilla": 457447653,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.0027194460501183226,
+      "huella_plan": "c41328e1d62929c23810b1f9750363ba1a4ba2c2b226a8857a770b905461e8cf",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s457447653/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7be60255961f651a4a6c5e889b66817fa3c6a036e0e41613d975c576e161fe1a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.36,
+        "juzgar_s": 0.044
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 5.7,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s251524298",
+      "generador": "gerrychain",
+      "semilla": 251524298,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.0031187724988270505,
+      "huella_plan": "93afd80426fe65dd9d39c4d8cfd0d9c8ae406f70e700d6d97ff7d181859d2ae0",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s251524298/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7f6efcea71c2f1aa9cfde20c3101596f40b439edf1100541dc20279ad761ab49",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.768,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 6.1,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s941107836",
+      "generador": "gerrychain",
+      "semilla": 941107836,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07075291527175501,
+      "ecm": 0.0032506053344764346,
+      "huella_plan": "e81b249402d78e829d7e114de2af4f22a949f2de8715d5fb88cedae55cda2037",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s941107836/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d67bbde2460583f9e7bdf900912705a859119c622ffa6c910bf3cbf8d6a933e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.68,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.6,
+          "semilla_canonica": 1.9,
+          "M05": 5.8,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0708,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s38442051",
+      "generador": "gerrychain",
+      "semilla": 38442051,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07204859160731271,
+      "ecm": 0.0028220270812967627,
+      "huella_plan": "3cdfe8d2f33417be65a1bb69e5bab1379e83e1c4d400ec881e681192459705fb",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s38442051/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8b3d8a9924851169279b39c8faf0fbed29155c016ab860638086785e0791f687",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.807,
+        "juzgar_s": 0.046
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 6.0,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.072,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1021845847",
+      "generador": "gerrychain",
+      "semilla": 1021845847,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.07368129357928715,
+      "ecm": 0.0027465924978393483,
+      "huella_plan": "9a869b6594165d994c5bd60ab44f985c8788c736aa4f410830799cbab2e486b0",
+      "composicion": "bateria/competicion/congreso_huelva/gerrychain-s1021845847/congreso_huelva_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8edec0fad7c80727f96b10a7edcb6c2d0ccb9681f798efd270e5f647ab45c74f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.877,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 6.1,
+          "M06": 1.4,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0737,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s2133908515: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

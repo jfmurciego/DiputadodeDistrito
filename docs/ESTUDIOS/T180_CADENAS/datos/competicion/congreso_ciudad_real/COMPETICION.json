@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_ciudad_real",
+  "ganador": "gerrychain-s756201409",
+  "valido": true,
+  "huella_resultado": "1af6574ba0e04f83cc54885fec7f45cdcb0ace9a14ad441fedd5c583d390b1df",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_ciudad_real",
+    "ancla": {
+      "population": "203f30839265bc8645b7a5c72c9f06811d9a0b36eebacd457c46d7766ac821a0",
+      "target_sectioning": "c5e87170f6bc2c3f419960ad4992cff5eff51af5371088bf1f59a40d41423a72"
+    },
+    "n": 20,
+    "semillas": [
+      197818853,
+      2018848443,
+      1738890283,
+      1359841809,
+      16974286,
+      1960720162,
+      569831088,
+      306192323,
+      1696905621,
+      1081826413,
+      154285246,
+      44698872,
+      1100800125,
+      756201409,
+      572116223,
+      1115072166,
+      1353604972,
+      1512460499,
+      239563937,
+      1931699028
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "cdf52f3bb2107d57739c2e61a4bf4597db47509d0dd28e7c8f24d30312f9093e",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 301.497,
+  "candidatos": [
+    {
+      "id": "gerrychain-s756201409",
+      "generador": "gerrychain",
+      "semilla": 756201409,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004246565039121658,
+      "ecm": 1.0278824169318347e-05,
+      "huella_plan": "41dc2eb6cb0dd459f0880ff46ffc6a2c99246ce88829688f948ed78690936245",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s756201409/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "57bf3c4757fe70a55c72a15c69ebb6d11b5db164d3d209a5b673f04f95279d12",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.42,
+        "juzgar_s": 0.059
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.2,
+          "M05": 7.0,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0042,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s44698872",
+      "generador": "gerrychain",
+      "semilla": 44698872,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004510831891723772,
+      "ecm": 8.645217616834754e-06,
+      "huella_plan": "d2f0a86e30bacc89557da323ad150035015c1a0cd4d4d6aee4385fffc556a63b",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s44698872/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "971a8ebc6656ccd4220c2121455561e422ba0064d28c70fceb7529e98779a835",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.729,
+        "juzgar_s": 0.053
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 7.5,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0045,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1353604972",
+      "generador": "gerrychain",
+      "semilla": 1353604972,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006970546442866523,
+      "ecm": 1.926698262948018e-05,
+      "huella_plan": "ba8d98ad40ef91f36b4383c201ad74ed434360ee8b9143a6a1b370792a0089ba",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s1353604972/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5505d4d2f56e399dac6958fbd9e25b0080a92adb44d74b4946b91b45d3883cb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.255,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.3,
+          "M05": 7.3,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.007,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1512460499",
+      "generador": "gerrychain",
+      "semilla": 1512460499,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0077552157129004914,
+      "ecm": 3.298097988131731e-05,
+      "huella_plan": "6157033bcab0a456d631d84ec6145a6a37b26d2b40db6587c7e29570258d3eef",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s1512460499/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e149eaa4f2284bcdf8a30416b41b8392972757264f8460bfe4957c12d503b76c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.831,
+        "juzgar_s": 0.062
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 7.2,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0078,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s239563937",
+      "generador": "gerrychain",
+      "semilla": 239563937,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.007909710180575574,
+      "ecm": 2.2695754678532915e-05,
+      "huella_plan": "85532d75c64b49fae3b93e03ce951c79d833b2723220a7d51f07d7002de07494",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s239563937/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "20f3f6e0627e0389bab3b8832c104632794c7b98cf23d84a316ed2c2c53bd602",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.525,
+        "juzgar_s": 0.07
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.5,
+          "semilla_canonica": 2.1,
+          "M05": 7.1,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0079,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2018848443",
+      "generador": "gerrychain",
+      "semilla": 2018848443,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.008300011993649464,
+      "ecm": 3.137659741448373e-05,
+      "huella_plan": "dc164118163080920f3c0bbe834256065e4ac4b342aed159edc229ca443a2caf",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s2018848443/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "22838e03e3fd122c771077fd14e8c20b0a22f523328744fa4b4d7593022ad5b4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.215,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 7.7,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0083,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1115072166",
+      "generador": "gerrychain",
+      "semilla": 1115072166,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.010084829659685279,
+      "ecm": 3.617017393409667e-05,
+      "huella_plan": "cd1d4d8966ce9798dfb1a3c5093d845446acae8b319a7636408bf7029261ca9c",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s1115072166/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2f62d88cc55d4677e3bc022075b0aab51da15a40adff6b3eefa71d9400383f13",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.874,
+        "juzgar_s": 0.054
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 7.3,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0101,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s572116223",
+      "generador": "gerrychain",
+      "semilla": 572116223,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.010438540677783492,
+      "ecm": 4.63128490720362e-05,
+      "huella_plan": "2577448beb49888c1e4528b4d7493dbe949d3db8aff5c4bcc2a9ebaf76e88645",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s572116223/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5406b735277f21c3fe0cf9477b4f1158c0606d65c1a75cf30a958c9ae5f2da72",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.697,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 7.2,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0104,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1960720162",
+      "generador": "gerrychain",
+      "semilla": 1960720162,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.010678413667068488,
+      "ecm": 4.916196601046974e-05,
+      "huella_plan": "36b90dedd8d1f7d7a190223222f765ccc52e964e6d2318639de3ac4ba83de43e",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s1960720162/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "75299f1a135365ddcc4ce4145b410690d8f63c871a2c78276898532fb2957580",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.187,
+        "juzgar_s": 0.046
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 6.9,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0107,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1100800125",
+      "generador": "gerrychain",
+      "semilla": 1100800125,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01159318354146042,
+      "ecm": 5.3157004307372146e-05,
+      "huella_plan": "7d9468bd587619a32af476a682dd10a6f2183634472c7ca9fbcb077a90a043ba",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s1100800125/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "deeaef0c63b0028eb228784b796807e804de344170d2279d98bb0bd64edf3eec",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.809,
+        "juzgar_s": 0.125
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 7.2,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0116,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1931699028",
+      "generador": "gerrychain",
+      "semilla": 1931699028,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.013085274847690816,
+      "ecm": 0.00010327822861453234,
+      "huella_plan": "5e34e1026eb2306927424c83b22e193487af2c1db014d3e55787879faa65a0aa",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s1931699028/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "95ee69f881601650ceb325fefcd5ac6daae4640cf09a277cd9ab662a732d39de",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.808,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 7.4,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0131,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1696905621",
+      "generador": "gerrychain",
+      "semilla": 1696905621,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.013414592002471911,
+      "ecm": 0.00011230152870709912,
+      "huella_plan": "4f4df1036108e874d9db14cb44b0870305463fbef13a18134426c68f680864dc",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s1696905621/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f20f102579a6a62f75fec536baf76f8d9f5bf34e52f30d9150263542ab6241fd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.492,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.7,
+          "semilla_canonica": 2.0,
+          "M05": 7.0,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0134,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s197818853",
+      "generador": "gerrychain",
+      "semilla": 197818853,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.014386280891270453,
+      "ecm": 9.134372693098596e-05,
+      "huella_plan": "dd5c198dbf586aaf0b1bad5b7bbedeb2e3ca42e4171028d43b0dc18a20a6257c",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s197818853/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "930651f42a0e46939cf954a8d7d4b272e5c299d582856d3c2c79617c6f521771",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.048,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 7.6,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0144,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s569831088",
+      "generador": "gerrychain",
+      "semilla": 569831088,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01446759376899418,
+      "ecm": 0.0001270935773537858,
+      "huella_plan": "ed77cae729d8b5bc7162f1ede233a0b5df9e796396d36656a959f412a70753ee",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s569831088/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c78fd23794b17274028fa8e5639ccad2d989cfa469148138008a8d3c80be1a1e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.876,
+        "juzgar_s": 0.046
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.6,
+          "semilla_canonica": 2.2,
+          "M05": 7.5,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0145,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s16974286",
+      "generador": "gerrychain",
+      "semilla": 16974286,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.014894486377043749,
+      "ecm": 9.762538463539996e-05,
+      "huella_plan": "4636ff9a9bf2ae47f34ae5ffd6ee3d884076465e2c30e9c1b961412675c5a58f",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s16974286/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ec8b00f0ce8ad1c6e1898b732c4e450870b1a6ff3fde51abb031cac2ee7ea90a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.295,
+        "juzgar_s": 0.046
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 7.2,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0149,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s306192323",
+      "generador": "gerrychain",
+      "semilla": 306192323,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01549620167219933,
+      "ecm": 0.00021243756065659217,
+      "huella_plan": "3232f70b7aace3f50ed711f1b2e9fc670d9d02a08e5b5954d0cc89bcde1aee82",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s306192323/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ab7bc19c06375fc7249798075c993384c6eef030b07676393c8cfeda2bd56fe7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.693,
+        "juzgar_s": 0.047
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.7,
+          "semilla_canonica": 1.9,
+          "M05": 7.4,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0155,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1081826413",
+      "generador": "gerrychain",
+      "semilla": 1081826413,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01576859981257382,
+      "ecm": 0.00011121686552816586,
+      "huella_plan": "c050e0228575d84e76ab41eccef9041db1eb243cd7315098f68042c161c78e92",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s1081826413/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "65da2148545d3aa230ceef4d29c51b7dc3654441224ac011f8acf7f8f2820f6f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.758,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 7.2,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0158,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1359841809",
+      "generador": "gerrychain",
+      "semilla": 1359841809,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.017281019338235143,
+      "ecm": 0.00010908274692054513,
+      "huella_plan": "59e6e77417a1b9f7fb35dc144ec565a6affcb336260528a1ee6238135f291ef2",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s1359841809/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "85242fd9a73dcadb4216aadf311d3264bb6ec433fa898610de0c42d9ca5d22fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.03,
+        "juzgar_s": 0.046
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 7.0,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0173,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s154285246",
+      "generador": "gerrychain",
+      "semilla": 154285246,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.01953338605118239,
+      "ecm": 0.00029282693743842673,
+      "huella_plan": "4c2eeba497e3d8ecae582e36c751c0af6b747e21a02a7a2fcffd8fb44510718a",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s154285246/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ba51c7d2b8f657ad348274d31de6a546292d4050b9df6c96d1be86c8b923af2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.524,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 7.2,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0195,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1738890283",
+      "generador": "gerrychain",
+      "semilla": 1738890283,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.023501454484100282,
+      "ecm": 0.00020625646818809144,
+      "huella_plan": "1a66062a742b721128afd44d289c79f11c25335f0028bf01f39f46d6a2c65f9a",
+      "composicion": "bateria/competicion/congreso_ciudad_real/gerrychain-s1738890283/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fb4a07464ea5e26b1350159472a6ec9abf5346bfdd2575ac81b391cb6131bbea",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.571,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 7.1,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0235,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.04856614904243922,
+      "ecm": 0.0007920054287847988,
+      "huella_plan": "155102c8bd92d5c5368d5c26136ca09a0801072ec2161dde43a6e3aa48c4dc09",
+      "composicion": "bateria/competicion/congreso_ciudad_real/canonico/congreso_ciudad_real_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "dcfed1c8bc4abc1a7ad43e2111ccf25023a0cc13e3cacb26091fb7483de61cee",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.714,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "M05": 2.0,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0486,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s44698872: tiene menor desvío máximo (desvio_max)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "mejora_al_canonico": true
+}

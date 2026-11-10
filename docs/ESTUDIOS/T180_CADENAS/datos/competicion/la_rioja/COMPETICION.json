@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "la_rioja",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "2aa1dfd5dec59812f7aee91148bfd9c0630272b90d2ae1cd9eac2912f7308694",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "la_rioja",
+    "ancla": {
+      "population": "738be8a3867af70f4e73f6de326654f54b85abbf16d1eb6292b2ee5e0c950891",
+      "target_sectioning": "eb527bef9a14114c498f23562c70dbe147bd6358b8ae69cbb3a99f54934b5f8d"
+    },
+    "n": 20,
+    "semillas": [
+      916144214,
+      793290004,
+      864893462,
+      1026968934,
+      662638790,
+      1030395302,
+      117919649,
+      1651375911,
+      887350603,
+      2009387672,
+      963501871,
+      1183880734,
+      680589196,
+      2095218234,
+      483740850,
+      1718034642,
+      1411574835,
+      1835168587,
+      1471653459,
+      1348138715
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "14fc3cf9229ecb0cd8584166d6cad8b64d38c7c302318e46cd7be515442820aa",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 431.622,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.00943057584607685,
+      "huella_plan": "f627454f22dba9d3f290a22119fb19dfdf5facf5d4dbf61f064a03e20e8184b4",
+      "composicion": "bateria/competicion/la_rioja/canonico/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "faa44f88c7b869b69bbe7589dceb994dd7ed24325867739dff55b700d59d92db",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.685,
+        "juzgar_s": 0.09
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "M05": 4.7,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1471653459",
+      "generador": "gerrychain",
+      "semilla": 1471653459,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.00943084781269714,
+      "huella_plan": "d6e9a1db31c44e3e6e2542b3b2003020c9be9574ef2de8992d087c2d0ddbf22d",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s1471653459/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d00e4bea2ead65254a970aaa418b092ac2743d372a3707bcbc884de17a12de6c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.931,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.0,
+          "baseline": 0.9,
+          "M05": 16.1,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s916144214",
+      "generador": "gerrychain",
+      "semilla": 916144214,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.009690729710593043,
+      "huella_plan": "9c968d0a2a2cc2c79b4bb02e85d52810e1c87bb93421fcb484b82c1f079b41f4",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s916144214/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ea7355e179411ec4d8630c6e3d578f441c8efc7995a513925ba88078335c3edc",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.556,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.1,
+          "baseline": 0.9,
+          "M05": 14.9,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1411574835",
+      "generador": "gerrychain",
+      "semilla": 1411574835,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.009694739947370263,
+      "huella_plan": "8b8bb31083a573ab6f7a35c19eb3754cb06358fb11a53f18c5c0c4280fa5027a",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s1411574835/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7979b73e487596efb1b8bb12cceac092b1f2c103cbb554ae3d7a8a05fffd8664",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.799,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.8,
+          "M05": 16.5,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s887350603",
+      "generador": "gerrychain",
+      "semilla": 887350603,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.009828017570904998,
+      "huella_plan": "dd83304496c6fb1b63f13e203b3a0149e5cb2f81456b030c8f9465663de8967e",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s887350603/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "22cccf290af3c2551d0a88fe6b162a5f7eaecc252318e5db311237d0b87fac34",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.938,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.8,
+          "M05": 16.4,
+          "M06": 1.0,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2095218234",
+      "generador": "gerrychain",
+      "semilla": 2095218234,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.009831376485752785,
+      "huella_plan": "05ec633137615457e5ba80a0fd66fe1d06fe70228416098703ea9ccbf9410849",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s2095218234/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "42bb11b0d200dc84570f8c7d7bed8b65a0c5b0e36b8d3ffc97525e886bad5f08",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.091,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.9,
+          "M05": 13.7,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1026968934",
+      "generador": "gerrychain",
+      "semilla": 1026968934,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.00986454434014362,
+      "huella_plan": "22537438a93c45c2e1828914874bc403348ae9928723ca57f263e9045def79d3",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s1026968934/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "559da58d6afe1749404f1ce882b26d075626942013cf564a596c126f8db499ed",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.859,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.9,
+          "M05": 14.7,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s483740850",
+      "generador": "gerrychain",
+      "semilla": 483740850,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.009865813305892963,
+      "huella_plan": "cb0ffcf87846c0a72f0275d1f6da75e74906f9d865eb950a6f6cf1af0f7aaf2f",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s483740850/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "246522aeea81213f00651c747703cdb30eb5d4133f98bbaab7ae432d19b32a46",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.245,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.9,
+          "M05": 15.8,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1348138715",
+      "generador": "gerrychain",
+      "semilla": 1348138715,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.009890763701560458,
+      "huella_plan": "60f9aac964e82db3a538642e70c35d22e0dd498a955f52d2d316debeb891426d",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s1348138715/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3a5327661e071c1eb23177a1a3a7c1f51333a2d35660d2a3aa82b135209f5a67",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.522,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.9,
+          "M05": 15.0,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s864893462",
+      "generador": "gerrychain",
+      "semilla": 864893462,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.009920864941676714,
+      "huella_plan": "a270566a2e000fed0a7d17c3aa4b3437dcd68354efad5dbe2661aadb0124dae2",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s864893462/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bb6dfaa239d3108cf28576999823956ea188e839289db962957329f1e78ca314",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.936,
+        "juzgar_s": 0.026
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.0,
+          "baseline": 0.9,
+          "M05": 14.2,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1651375911",
+      "generador": "gerrychain",
+      "semilla": 1651375911,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.009973869202575944,
+      "huella_plan": "b3785308eab490e113c830cc38665899fcacd1aa84a90dd40d8b70d5c00bfe1f",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s1651375911/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5faa81cf5e66cfc68734350d263385d9aa68035bfd0e7c32b56bee5aa8c8e87a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.868,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.9,
+          "M05": 14.4,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1183880734",
+      "generador": "gerrychain",
+      "semilla": 1183880734,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.009974119564371256,
+      "huella_plan": "bd255267522eaaf9fcef73ecc7752d5a556a4f61f3d1cf55c8119c56575f96cc",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s1183880734/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e8ed0203c7431b8a0ae71278cf44ff32f1ce0ae7132e2bcb54b1ab50f2e7052c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.785,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 0.9,
+          "M05": 15.1,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1835168587",
+      "generador": "gerrychain",
+      "semilla": 1835168587,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.009982502236462064,
+      "huella_plan": "2a9730882568a6c61c89340a388411db296101875a8ea4ab3a141cbada82f2c3",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s1835168587/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d3ec44bf42d1f44a6888ae01c72223c29b95a1c40d194194a764922150c39f3a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.556,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.0,
+          "baseline": 0.8,
+          "M05": 15.9,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s117919649",
+      "generador": "gerrychain",
+      "semilla": 117919649,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.010061541582329804,
+      "huella_plan": "e6330f8b046d863f195b235b970d2b2a60625c825da808dda3738e7af00a5152",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s117919649/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4e0d31dfb3a539e76c0425718e79c698fe6e9134586f05481afd02b55928e854",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.497,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.9,
+          "M05": 15.1,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s680589196",
+      "generador": "gerrychain",
+      "semilla": 680589196,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.010091641551574004,
+      "huella_plan": "15666b0fba31482eed4dc78bacae65adf5491eeadfc5afc02a599d164070b8c5",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s680589196/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "222204cb06dff2e6f2d18b146016d024aed52ced439ddc3e88beb3d4ffdd586d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.209,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.0,
+          "baseline": 1.0,
+          "M05": 15.3,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1030395302",
+      "generador": "gerrychain",
+      "semilla": 1030395302,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.010102736900071395,
+      "huella_plan": "e9f5102eb6fa906b85b2651ec622f58be74384789303975403f4aee4ee949209",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s1030395302/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "22e5ef6e35ed0a4f038cfea6d37fa281de05ebf5726d3af1b85352c1d476f107",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.182,
+        "juzgar_s": 0.026
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.1,
+          "baseline": 0.9,
+          "M05": 15.1,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s963501871",
+      "generador": "gerrychain",
+      "semilla": 963501871,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.010140971721355203,
+      "huella_plan": "d7853c2622afb325dda07f0b6093142633b6beb6a291de488b1bf42a1a197515",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s963501871/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4dfd77312d7375038830c996c87a929ffc44efe1fef7768d964cf30992d52dc1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.994,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.0,
+          "baseline": 1.1,
+          "M05": 15.2,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1718034642",
+      "generador": "gerrychain",
+      "semilla": 1718034642,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.010278524558491133,
+      "huella_plan": "7d203dcfc302065a1889fc59b00ef5bde88becd16d97b59a7b5ae3a6294a24ae",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s1718034642/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1fec815ea7c0b863658e9fdb7d48caea5fc613f13894e99f713346918fa73dfa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 22.101,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.0,
+          "baseline": 1.3,
+          "M05": 16.1,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s793290004",
+      "generador": "gerrychain",
+      "semilla": 793290004,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.01040980818376776,
+      "huella_plan": "1f3b92e4038ca5dbbeb4451142d0c2aa7d0189b1ee6cd0c45666e82bd2c2e117",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s793290004/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "590946ad737a0d09dcf92790baf29e17d8adf10dff0882f720952ef92114b98d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.921,
+        "juzgar_s": 0.027
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 1.0,
+          "M05": 16.5,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s662638790",
+      "generador": "gerrychain",
+      "semilla": 662638790,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.010451981437557543,
+      "huella_plan": "dd891ae17d8116836e1655fe5382f176e7336df5bea190edfb608867a6dc6133",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s662638790/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "71059dcc0b6a7df8e00dcfd4c8a41b4fbc6de608bee5045a2c7d85913d82bef5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 22.675,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 1.0,
+          "M05": 16.9,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2009387672",
+      "generador": "gerrychain",
+      "semilla": 2009387672,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.4177583606903271,
+      "ecm": 0.01058854108818059,
+      "huella_plan": "4cb53b1531f57de2885ab287cb70b941b70c54b6d093c504c38b83d8def2c470",
+      "composicion": "bateria/competicion/la_rioja/gerrychain-s2009387672/la_rioja_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ddfa2c46d694320106a68b0c4bc9f5c726546ad2af6fe0f84327386b7c0b5310",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 20.67,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 1.1,
+          "M05": 14.9,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4178,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 5
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1471653459: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_burgos",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "43c8c06d8c113b39500f0b0e81c5d86e9cdcf3f51bc9339808beee6075b77cde",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_burgos",
+    "ancla": {
+      "population": "975e413b4b9c8dbbb42379456e32a0b85b38061662d9de0cc0be5e924ed7bbc1",
+      "target_sectioning": "a61bde8f5ac65e4e06d53719535d26954dd1ded188930ed4129d75f5ac105c4e"
+    },
+    "n": 20,
+    "semillas": [
+      1879951738,
+      2056235834,
+      301218105,
+      541977307,
+      984850172,
+      1269348851,
+      177838405,
+      41078786,
+      551416361,
+      1872161643,
+      1876247981,
+      1464390806,
+      395402540,
+      116636168,
+      829909135,
+      1338304631,
+      240005354,
+      407494839,
+      2128005930,
+      2101482169
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "107763f190b42b801ef0d3373c30adca57cadd0ea805210c4d10ec3fb8e32b62",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 883.824,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 8.95430506198058e-05,
+      "ecm": 4.431800956537524e-09,
+      "huella_plan": "61576e1fc12220347eded68dd9d0637f1d45e4a33b1fe52c2ac416d755ebc159",
+      "composicion": "bateria/competicion/congreso_burgos/canonico/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a5a4edaf62c6a3fe19d95934e6c440462bbf2f758ce0b69a7b8998dbcbff3191",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.971,
+        "juzgar_s": 0.056
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "M05": 3.1,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0001,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s41078786",
+      "generador": "gerrychain",
+      "semilla": 41078786,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00045890813442650476,
+      "ecm": 1.222581981190405e-07,
+      "huella_plan": "24fb0f07b02e080767046fdffdb61226934ed57cc3c4823e87e1f8d51945da53",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s41078786/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "910d7b2068c565baee14e3b12d386c4d2b96aeac6935873c9b6de70468c25229",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 39.307,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 31.9,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0005,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1879951738",
+      "generador": "gerrychain",
+      "semilla": 1879951738,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0005260654223913591,
+      "ecm": 1.6322495183742269e-07,
+      "huella_plan": "184d0af7d1affc9498a049970cddeea5086ddf19bc5a8fe95a084ab289f79d8f",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s1879951738/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ba7b19173890f2289a8d55b0023ba7600fbd93945aa3a7abffab08de2941222c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 56.108,
+        "juzgar_s": 0.061
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.9,
+          "semilla_canonica": 3.0,
+          "M05": 45.7,
+          "M06": 1.7,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0005,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s116636168",
+      "generador": "gerrychain",
+      "semilla": 116636168,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0005932227103562134,
+      "ecm": 2.1020517399153072e-07,
+      "huella_plan": "1d0e0ca1785ee06432a4ac720a1a0835ee4e2d869b5b1140eec00cff674457e4",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s116636168/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0c60907c5f5f9ba98e73c4859187ac72eab5a20b2a3c3c8d3644c4e296aabed4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 40.864,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.0,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 33.0,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0006,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s240005354",
+      "generador": "gerrychain",
+      "semilla": 240005354,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0011052970310882278,
+      "ecm": 7.661691229632452e-07,
+      "huella_plan": "35831295d11844354a2ae6e0701ad8ae7e5674a87c7a2bc9dfe7d601baa758ed",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s240005354/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b71afb416115f095dfd83b3c185844ada0fc8ad5ead65dd7464f61ac43b64118",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 40.097,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 32.4,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0011,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1872161643",
+      "generador": "gerrychain",
+      "semilla": 1872161643,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0012396116070179366,
+      "ecm": 9.698753662234577e-07,
+      "huella_plan": "ca83438c508b86c5270e9c570a912b64ad6dd9120d748cc94b90d99b646247a5",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s1872161643/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "80980f32bfa5014f5aec5e50763bb8d852335e47bcbe5f08d080fa2497f39e1c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 40.931,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 33.4,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0012,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s407494839",
+      "generador": "gerrychain",
+      "semilla": 407494839,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0015250300808685676,
+      "ecm": 1.4826175108133928e-06,
+      "huella_plan": "ac0f76a709412d5259184f6ac76dd9be8560e1532ab64c4fa00a1b84d3499f7f",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s407494839/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "838efc1aa688d6f7b41386fd05a18ad3281e77fed6c577441bd46d160d66a4e3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 39.948,
+        "juzgar_s": 0.045
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.9,
+          "M05": 32.3,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0015,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s551416361",
+      "generador": "gerrychain",
+      "semilla": 551416361,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0018440271987016257,
+      "ecm": 2.184220148462842e-06,
+      "huella_plan": "40ce9c3e56e2b04c7fe7449449281335961a8334ec31bc16f4ff9556ac55976d",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s551416361/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f24cfeb306052881726b1b57bc8cf97fd01fdb9a1804e45351318786ca4169a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.129,
+        "juzgar_s": 0.054
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 33.5,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0018,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s829909135",
+      "generador": "gerrychain",
+      "semilla": 829909135,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0019027898256708733,
+      "ecm": 2.328261509587337e-06,
+      "huella_plan": "9b47e38900681f20c5f7f47ccd3a7ac700abfe3a332f783d38053fd9a5be7a9b",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s829909135/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a7fbf00caa63f21c196bb42cb80978405a69a3eec2e4d59a6f6a4041f1322b78",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 42.526,
+        "juzgar_s": 0.049
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 34.6,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0019,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2101482169",
+      "generador": "gerrychain",
+      "semilla": 2101482169,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0021126563505610434,
+      "ecm": 2.880279119898107e-06,
+      "huella_plan": "9d1fde3cf150ab485c415805c43adb44d8b4797f016e5baec3db1e6e5479ae08",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s2101482169/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "67ac6860f1954c87e320d90383b3c6e20e782cc69f2011dcc7f87e59e34d847b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 39.957,
+        "juzgar_s": 0.059
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.1,
+          "baseline": 0.6,
+          "semilla_canonica": 2.2,
+          "M05": 31.8,
+          "M06": 1.3,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0021,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1269348851",
+      "generador": "gerrychain",
+      "semilla": 1269348851,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.002246970926490752,
+      "ecm": 3.264389416230094e-06,
+      "huella_plan": "99a2fc5a6f66f219224e1896f48595c1341e73f4ea6235e81f39a84217641267",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s1269348851/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "953cce3a792dcd0116b48f6657c57f4d5fb71e27657b45de8209723b9a816592",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.027,
+        "juzgar_s": 0.052
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.8,
+          "semilla_canonica": 2.2,
+          "M05": 33.1,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0022,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2128005930",
+      "generador": "gerrychain",
+      "semilla": 2128005930,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0022721549094775724,
+      "ecm": 3.339087969455126e-06,
+      "huella_plan": "299ac1efd66a9d76d3b1502084b39bed4640ea9b9236e9e9348cf3bdd1fb789a",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s2128005930/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7c9cc43a3608c76cf7d5d880cc69111c3057e69b35804af83ae4e4cdf20c2198",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.182,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.0,
+          "M05": 33.4,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0023,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s177838405",
+      "generador": "gerrychain",
+      "semilla": 177838405,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0023057335534599995,
+      "ecm": 3.44000148664215e-06,
+      "huella_plan": "30bf9a06e319fee264fad6d195840a6c41a67ad14a552d7178b69e3653f88d36",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s177838405/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3fe4cc0af549d430ffde92dffdb9f9e3109f62b27b4eb12ac958d1efe03985df",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.37,
+        "juzgar_s": 0.054
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 33.8,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0023,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s541977307",
+      "generador": "gerrychain",
+      "semilla": 541977307,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0023812855024204606,
+      "ecm": 3.6725535863049846e-06,
+      "huella_plan": "e0610ed7c1f9326b53bb5246d404ac31d3be37cebc77252813da21eb2c5be667",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s541977307/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "74a76d3033ccb2a4b8d6012a056fae0a22de79f830d886c4f0a57d6a644b94c9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 51.369,
+        "juzgar_s": 0.048
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.1,
+          "baseline": 0.8,
+          "semilla_canonica": 2.9,
+          "M05": 41.3,
+          "M06": 1.2,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0024,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s395402540",
+      "generador": "gerrychain",
+      "semilla": 395402540,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0024232588073984946,
+      "ecm": 3.8050378127795692e-06,
+      "huella_plan": "5530e81e3d51e2881b818ba5f4fffffc2286fd8953b8c1fe1acfda5e1e25aca6",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s395402540/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "27f416240a3ce694b271195d49b97b6df968e4ccd1fcd936f60925b13f8cb233",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 40.798,
+        "juzgar_s": 0.051
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.1,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 32.8,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0024,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1464390806",
+      "generador": "gerrychain",
+      "semilla": 1464390806,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0029605171111173295,
+      "ecm": 5.708300572686794e-06,
+      "huella_plan": "99bb944328142cda011b3d788e1302e33a3c6ad24df92a1c87896ed652b03e33",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s1464390806/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "791877d3b15219f950f325573fa678dc0c09da404ebc783d948216b73aeebef8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 42.55,
+        "juzgar_s": 0.05
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.2,
+          "M05": 34.8,
+          "M06": 1.3,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.003,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s301218105",
+      "generador": "gerrychain",
+      "semilla": 301218105,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003094831687047038,
+      "ecm": 6.244250947020859e-06,
+      "huella_plan": "1244283af787365c90beb5b8d3f4d7e5536ba37bddd42d4b7fff2b29982f8a11",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s301218105/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cb58029d30ecce471835f97c917bc7881ca71f95d3b9d73fd8262f43cdbf37a6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 56.578,
+        "juzgar_s": 0.047
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.2,
+          "M04": 3.9,
+          "baseline": 0.9,
+          "semilla_canonica": 2.8,
+          "M05": 45.8,
+          "M06": 1.8,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0031,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1338304631",
+      "generador": "gerrychain",
+      "semilla": 1338304631,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.003380250160897669,
+      "ecm": 7.463011870142729e-06,
+      "huella_plan": "a2e7717407a8db890fb1c542ced238d366aa455160049cce982a07760a80ae0c",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s1338304631/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1344ffa558dc9b671b6f077a23baaeb35cd8bee4f42815cfe96e22dfc42881e2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.067,
+        "juzgar_s": 0.046
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 0.7,
+          "semilla_canonica": 2.1,
+          "M05": 33.3,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0034,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1876247981",
+      "generador": "gerrychain",
+      "semilla": 1876247981,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004093796345524247,
+      "ecm": 1.0985119125036208e-05,
+      "huella_plan": "3d1e762f80ea3b2ff2301af1c583475937b17676adcdc6ee725daed50bcf5316",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s1876247981/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "059c867c760a5495071d12961d14366f6018435e469fd1e24785989247600b05",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.038,
+        "juzgar_s": 0.046
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.0,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 33.1,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2056235834",
+      "generador": "gerrychain",
+      "semilla": 2056235834,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004228110921453955,
+      "ecm": 1.1724024059076019e-05,
+      "huella_plan": "06c28a0e830bdb083d17bd987132f7245aa255e1b0f980686d361041584b3bdd",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s2056235834/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "65fd2a2a18e3af96bc1b4b1be2888129d0464a5befffcfa9bea36eb5aaa6083f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 53.571,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.2,
+          "M04": 4.0,
+          "baseline": 0.9,
+          "semilla_canonica": 2.7,
+          "M05": 42.9,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0042,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s984850172",
+      "generador": "gerrychain",
+      "semilla": 984850172,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004312057531410023,
+      "ecm": 1.219805450061097e-05,
+      "huella_plan": "89acceff2c6b15fb6ebc7cebaa4193bfb77cb011358fbfcce08269d6d847becd",
+      "composicion": "bateria/competicion/congreso_burgos/gerrychain-s984850172/congreso_burgos_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "973615a2c4eaecc5582a33368ddd28508a0c812a13ed6692ac289b13f22cd697",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.356,
+        "juzgar_s": 0.057
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.9,
+          "baseline": 0.6,
+          "semilla_canonica": 2.1,
+          "M05": 33.7,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0043,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s41078786: tiene menor desvío máximo (desvio_max)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

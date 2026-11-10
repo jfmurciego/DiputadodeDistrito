@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "andalucia",
+  "ganador": "gerrychain-s1524500260",
+  "valido": true,
+  "huella_resultado": "37c0e97fca687c3369941b7f2577278434ab78ba0b32ac1eac479b544bea9374",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "andalucia",
+    "ancla": {
+      "population": "0333c1f5d99a3737eaa6c775fc12c2ab32ce3659a2806b9a5e9b2689dad1a996",
+      "target_sectioning": "11e034f6e8d816813c7e7ec40b98f7a208309a142b2c62d8d9ebaaf10d8be249"
+    },
+    "n": 20,
+    "semillas": [
+      1545196287,
+      1910981796,
+      1894907410,
+      507766189,
+      888442937,
+      166603674,
+      337384426,
+      1247310921,
+      900141495,
+      2016438966,
+      109235891,
+      1524500260,
+      2036338940,
+      446905427,
+      840379283,
+      333799843,
+      2102376649,
+      1000855384,
+      1250036410,
+      960717006
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "60a6cb76994251dab4f60541d83ae74270484f2c86743792c831683c1a92897f",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 2387.598,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1524500260",
+      "generador": "gerrychain",
+      "semilla": 1524500260,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03384660445660361,
+      "huella_plan": "26ff1108f3d46cfb58b8d2d2e448b65f90ea1c20a1ddf86e53c4b0316849c73e",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s1524500260/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "47a3129fd2cff2eb7859c2b9fb30b3cbddc5f3d11c1f332539d3fde452f4898d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 105.951,
+        "juzgar_s": 0.626
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 34.5,
+          "baseline": 6.7,
+          "M05": 54.7,
+          "M06": 7.5,
+          "validacion": 2.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1247310921",
+      "generador": "gerrychain",
+      "semilla": 1247310921,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03430984017951776,
+      "huella_plan": "bf6e8e2942cf2020f469d575dbdc74c4bc4f97c9005359745941fc62cf90eb92",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s1247310921/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "356bc75facddf8704f777d1a8aa30636a7e425e58d8b7042a19a7034ea866dd4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 100.325,
+        "juzgar_s": 0.67
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 32.7,
+          "baseline": 6.5,
+          "M05": 51.6,
+          "M06": 7.0,
+          "validacion": 2.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s337384426",
+      "generador": "gerrychain",
+      "semilla": 337384426,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 16,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.034465058249557326,
+      "huella_plan": "6cfd9f7eef00f10620a4b172447ea80467f6956cea4a373f850509757d3e53ed",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s337384426/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "984ad4a605b575bea66c5928b3de02701d6200be8b6e66a9e827980065846e1a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 99.352,
+        "juzgar_s": 0.612
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 32.5,
+          "baseline": 6.4,
+          "M05": 51.1,
+          "M06": 6.9,
+          "validacion": 2.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 16,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s840379283",
+      "generador": "gerrychain",
+      "semilla": 840379283,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 16,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.034533117913849956,
+      "huella_plan": "ed9bb72d41c06359b660ba7ad0bd16e7eaf9bef7c28ea2d90e053710d202cc5d",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s840379283/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0efc063b75b302713443d56232cd73a5a0a1bcda6216922b089f5c50157203c8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 108.834,
+        "juzgar_s": 0.642
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 34.7,
+          "baseline": 6.7,
+          "M05": 57.4,
+          "M06": 7.4,
+          "validacion": 2.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 16,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1000855384",
+      "generador": "gerrychain",
+      "semilla": 1000855384,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 16,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03454808498299003,
+      "huella_plan": "b4d37bb710504057e3e1688b28ec211f3f14946eeb5bf481f572341c3e2d9c67",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s1000855384/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b0d4edfaac16f2748d2898e20ff7879459446d968aaa42ddea60da137458e698",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 109.846,
+        "juzgar_s": 0.605
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 34.6,
+          "baseline": 6.6,
+          "M05": 58.6,
+          "M06": 7.5,
+          "validacion": 2.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 16,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s900141495",
+      "generador": "gerrychain",
+      "semilla": 900141495,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 16,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03458857444795722,
+      "huella_plan": "7977cdd909ff32f71360093ef0b2141eb1223dc1640513b0e95d0486b2fc9d0c",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s900141495/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "474b1008ba576264eb77099278eede5c2192c8096de433584af1b173805b23a3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 101.273,
+        "juzgar_s": 0.576
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 32.4,
+          "baseline": 6.3,
+          "M05": 52.7,
+          "M06": 7.2,
+          "validacion": 2.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 16,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2102376649",
+      "generador": "gerrychain",
+      "semilla": 2102376649,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 16,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03461453557236385,
+      "huella_plan": "3c4d55c5e4dee98537e021b335c708c2eefc192f0ca97c0e316c2f8688403417",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s2102376649/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8ece771100a48b18a8719db8cd4b04df198e8f9a27a4591040442e70bb6c053d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 114.261,
+        "juzgar_s": 0.613
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 37.2,
+          "baseline": 7.2,
+          "M05": 59.6,
+          "M06": 7.5,
+          "validacion": 2.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 16,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s333799843",
+      "generador": "gerrychain",
+      "semilla": 333799843,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 16,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03473755728934406,
+      "huella_plan": "ab3f2dd44dfc6072658daa8e9e4141239ef2f00b9034ce03c8fa0c1f8d79dc84",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s333799843/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "dfae100f8d7d8f613e0f7b215dbf30d21a010a60eda18130ce0f38c4765cf6f9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 110.729,
+        "juzgar_s": 0.608
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 34.3,
+          "baseline": 6.3,
+          "M05": 59.5,
+          "M06": 7.8,
+          "validacion": 2.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 16,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s166603674",
+      "generador": "gerrychain",
+      "semilla": 166603674,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 16,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03474568917147418,
+      "huella_plan": "dc6d570625a5fd722d4938153c9f8f45ffc34cb24f59ad3ba2eb010583b2ad02",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s166603674/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6523c79933bafbe0457596a2afb5909eeafc175b031e9c9f44850342ea72b351",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 103.957,
+        "juzgar_s": 0.581
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 32.9,
+          "baseline": 6.1,
+          "M05": 55.3,
+          "M06": 7.0,
+          "validacion": 2.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 16,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2016438966",
+      "generador": "gerrychain",
+      "semilla": 2016438966,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 16,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03482198907600597,
+      "huella_plan": "5586ef83140038889d5e9223cc0abeede8a686b4810a29a6e270e112726f2d42",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s2016438966/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "75f0c64c9efbebf9b0769565562b3e20aa4d86662e6332259d9c7ef63247f2e6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 101.191,
+        "juzgar_s": 0.624
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 31.7,
+          "baseline": 6.3,
+          "M05": 53.5,
+          "M06": 7.1,
+          "validacion": 2.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 16,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1545196287",
+      "generador": "gerrychain",
+      "semilla": 1545196287,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 16,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03484144986054766,
+      "huella_plan": "a1990930a22c64d851e7b3baf5f32a928e386a21502d9e8d58036d2b473af52a",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s1545196287/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "122dbecd6860a7634a22b2f227968910946588082242b4ef899a6c0f70a40057",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 101.875,
+        "juzgar_s": 0.604
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 32.5,
+          "baseline": 6.3,
+          "M05": 53.4,
+          "M06": 7.1,
+          "validacion": 2.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 16,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1910981796",
+      "generador": "gerrychain",
+      "semilla": 1910981796,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 16,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03486349904612517,
+      "huella_plan": "837458a0be5539123aaa926894b40766112df80114adb50a4e77bf2db6461aa0",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s1910981796/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "eee192c70150983e5d530a389e2c2fef0df5a1a26018e990104fb94a934406d0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 105.615,
+        "juzgar_s": 0.604
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 33.5,
+          "baseline": 6.6,
+          "M05": 55.6,
+          "M06": 7.4,
+          "validacion": 2.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 16,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s507766189",
+      "generador": "gerrychain",
+      "semilla": 507766189,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 16,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03495275468990287,
+      "huella_plan": "8e82170e453e7dfe6cfbb1ad925a7852273589be8a90126aace83fe6f3b3113f",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s507766189/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0c17d1a7e7038ef1421888ac8c9c7e2bb1437055d053e32ccf9ebc546142e029",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 102.752,
+        "juzgar_s": 0.596
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 33.3,
+          "baseline": 6.4,
+          "M05": 53.1,
+          "M06": 7.3,
+          "validacion": 2.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 16,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s109235891",
+      "generador": "gerrychain",
+      "semilla": 109235891,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 16,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03518183544241583,
+      "huella_plan": "e0f57415fb6a0cb0c1b830227c2d2287dd64e824eebc703ea23b79bc292afd2c",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s109235891/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2f76cb70eec1a81def4aa44ae99f0115187bef827ba5a32e9bd5896dadb0424d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 105.927,
+        "juzgar_s": 0.636
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 32.6,
+          "baseline": 6.9,
+          "M05": 56.6,
+          "M06": 7.2,
+          "validacion": 2.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 16,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s888442937",
+      "generador": "gerrychain",
+      "semilla": 888442937,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 17,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03479928205961546,
+      "huella_plan": "4c4e5951c7ef67a2ce118b107ee2c6c7e8e5aad418d0ffacd404866303a504b5",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s888442937/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8dcef4bc0ae1aab6cbd96672fed904708ce349f0a7df8f9d24b244802b67fc91",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 106.747,
+        "juzgar_s": 0.623
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 33.3,
+          "baseline": 6.5,
+          "M05": 57.4,
+          "M06": 7.2,
+          "validacion": 2.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 17,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2036338940",
+      "generador": "gerrychain",
+      "semilla": 2036338940,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 17,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.034811553417835865,
+      "huella_plan": "81de01adf69172bc9617f8d1ca6e0442f424c4be8cdee15941ee0ced77bc7ad1",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s2036338940/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9bd3318d909cdc93df88490c3f9352e8d58e86726e6dd950db5c552daf1d350e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 111.896,
+        "juzgar_s": 0.695
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 33.9,
+          "baseline": 7.0,
+          "M05": 61.2,
+          "M06": 7.3,
+          "validacion": 2.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 17,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1894907410",
+      "generador": "gerrychain",
+      "semilla": 1894907410,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 17,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03521724212126721,
+      "huella_plan": "5173cce18c7be4c60b29b57e74f5cb72067ecf35c6d344136b2a32e672a9ab08",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s1894907410/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "340f7728698db699a978f96ad57081f1a49286378f3157e8f49b8c55e1096719",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 103.8,
+        "juzgar_s": 0.593
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 32.7,
+          "baseline": 6.6,
+          "M05": 54.8,
+          "M06": 7.1,
+          "validacion": 2.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 17,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s446905427",
+      "generador": "gerrychain",
+      "semilla": 446905427,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 17,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03528283331075376,
+      "huella_plan": "324e3b3f280597129a30fd18b5c4e83070ca6d50c41db9df8d7c4adbc6e07925",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s446905427/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "797561ce6673768da69898e08b76691252f205606d4c6bc61a3c535397bbb93e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 113.291,
+        "juzgar_s": 0.71
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 33.7,
+          "baseline": 6.5,
+          "M05": 63.0,
+          "M06": 7.6,
+          "validacion": 2.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 17,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1250036410",
+      "generador": "gerrychain",
+      "semilla": 1250036410,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 17,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03537203520258527,
+      "huella_plan": "c3d7430a72f3e1a4b55a306eccdb767f3d5443e2a87c01203689f6bda0caf329",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s1250036410/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "80fda38544476e8ff0032e9dd67d701138ee96c91747282c80c95a6c58c5fe31",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 111.656,
+        "juzgar_s": 0.592
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 34.2,
+          "baseline": 6.4,
+          "M05": 60.7,
+          "M06": 7.6,
+          "validacion": 2.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 17,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s960717006",
+      "generador": "gerrychain",
+      "semilla": 960717006,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 17,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03559083016128059,
+      "huella_plan": "c9e40c4088dbead061325e1280e1fc0f990850c5c4386a68184bfa0406fb7ea8",
+      "composicion": "bateria/competicion/andalucia/gerrychain-s960717006/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6bd7d9b840fc5499051fd892e624277c212964676a36cb7d9981238434ee8205",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 113.636,
+        "juzgar_s": 0.596
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 37.5,
+          "baseline": 6.7,
+          "M05": 58.9,
+          "M06": 7.7,
+          "validacion": 2.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 17,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.7454740061126834,
+      "ecm": 0.03502124791404024,
+      "huella_plan": "8d5c15a6e31e017c070cf917ef567c2af44a38cfdd42be727550f7cb88647d37",
+      "composicion": "bateria/competicion/andalucia/canonico/andalucia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3807676cf2bb2bb8127e44e4c37636ccb97fed55d443bec7a356c6e8c0bbfd66",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 241.623,
+        "juzgar_s": 0.654
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 32.4,
+          "M05": 199.0,
+          "M06": 7.5,
+          "validacion": 2.3
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.7455,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1247310921: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "mejora_al_canonico": true
+}

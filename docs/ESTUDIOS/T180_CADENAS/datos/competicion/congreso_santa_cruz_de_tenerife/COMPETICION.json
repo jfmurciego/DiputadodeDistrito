@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_santa_cruz_de_tenerife",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "634f36634af70ef086d85f18888a1dcc4499582a666f90164550de3e64af335e",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_santa_cruz_de_tenerife",
+    "ancla": {
+      "population": "cee6d8983616859891a36e0a8daeb0fb031faf174ebb36c6e841df3a59772388",
+      "target_sectioning": "1b73521f6ad2f366a253bed60ad74dc554ca6e21e0d4d653efbb6fca20a8348f"
+    },
+    "n": 20,
+    "semillas": [
+      733570162,
+      1480179741,
+      1180148985,
+      1596607467,
+      1097669353,
+      41505592,
+      1351899679,
+      689781225,
+      1676984181,
+      1273341689,
+      61979172,
+      1885056977,
+      1929538045,
+      878625387,
+      1800615157,
+      1148328262,
+      866913675,
+      296214945,
+      1053350285,
+      821177276
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "4eed3540967e73a106b2803daec5d859fe2e7bd00cb98510a3cc7d132335fc33",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 514.134,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.0028623158702772954,
+      "huella_plan": "e08c1557ff7b69b4d502f8aa5aad1eb6664a010a3d65fee3328d17045bd5a7ae",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/canonico/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9b32f48ace44aee266bf3e3d2fbbcf3a67488073c73eaba14627be4dba3c6577",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.708,
+        "juzgar_s": 0.185
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.9,
+          "M05": 4.8,
+          "M06": 3.3,
+          "validacion": 1.2
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s733570162",
+      "generador": "gerrychain",
+      "semilla": 733570162,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.0031766723935477436,
+      "huella_plan": "d04857547016e1e4e3e461e7f82a7d6006e08928985b048ed3b514ae6c1f2679",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s733570162/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c2145062da05055db06e70c5484d600066d8e96e52534093948eacc839aec3a8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.997,
+        "juzgar_s": 0.185
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.9,
+          "baseline": 2.1,
+          "M05": 8.2,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1480179741",
+      "generador": "gerrychain",
+      "semilla": 1480179741,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.0031766723935477436,
+      "huella_plan": "d04857547016e1e4e3e461e7f82a7d6006e08928985b048ed3b514ae6c1f2679",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s1480179741/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8179ec1394bed6cd5c8dc74eeef7f8d5f98bdfe4cfe8b6f123c7ce7077d1d874",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.302,
+        "juzgar_s": 0.196
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.7,
+          "baseline": 2.1,
+          "M05": 7.9,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1097669353",
+      "generador": "gerrychain",
+      "semilla": 1097669353,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.0031766723935477436,
+      "huella_plan": "d04857547016e1e4e3e461e7f82a7d6006e08928985b048ed3b514ae6c1f2679",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s1097669353/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5be07d182b01d5615d0aaf4e9386292a8ac52b87f4a9f90d9fb32bfa098d240",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.128,
+        "juzgar_s": 0.17
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.2,
+          "baseline": 2.1,
+          "M05": 8.0,
+          "M06": 3.3,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1351899679",
+      "generador": "gerrychain",
+      "semilla": 1351899679,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.0031766723935477436,
+      "huella_plan": "d04857547016e1e4e3e461e7f82a7d6006e08928985b048ed3b514ae6c1f2679",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s1351899679/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "60e08d8bc26ca767ac0512a5ab017ec7f3f144f2f525bdbc0d35bbd9da03a025",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.606,
+        "juzgar_s": 0.169
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.8,
+          "baseline": 2.0,
+          "M05": 8.6,
+          "M06": 3.7,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1676984181",
+      "generador": "gerrychain",
+      "semilla": 1676984181,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.0031766723935477436,
+      "huella_plan": "d04857547016e1e4e3e461e7f82a7d6006e08928985b048ed3b514ae6c1f2679",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s1676984181/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e9c533bb5a5aec50bc5ab011b684de8cd552eff1c8136d16d09bb6605e38cac6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.361,
+        "juzgar_s": 0.169
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.9,
+          "baseline": 2.1,
+          "M05": 7.8,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s61979172",
+      "generador": "gerrychain",
+      "semilla": 61979172,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.0031766723935477436,
+      "huella_plan": "d04857547016e1e4e3e461e7f82a7d6006e08928985b048ed3b514ae6c1f2679",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s61979172/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6a35e3bee4d37cc4fca5e9ff781838b267201265c025ce3bd41593889bdf6f71",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.234,
+        "juzgar_s": 0.169
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.0,
+          "baseline": 2.4,
+          "M05": 8.3,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s878625387",
+      "generador": "gerrychain",
+      "semilla": 878625387,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.0031766723935477436,
+      "huella_plan": "d04857547016e1e4e3e461e7f82a7d6006e08928985b048ed3b514ae6c1f2679",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s878625387/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "626623d2db34b53182c443bac0ebb8ed7ff291c8c86041b156055c28bc12b5dc",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.301,
+        "juzgar_s": 0.169
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.7,
+          "baseline": 2.1,
+          "M05": 7.9,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1800615157",
+      "generador": "gerrychain",
+      "semilla": 1800615157,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.0031766723935477436,
+      "huella_plan": "d04857547016e1e4e3e461e7f82a7d6006e08928985b048ed3b514ae6c1f2679",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s1800615157/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f0bbe2c30ac88584eea2f3c29b1180d4015f3b8228f5b211a390442b73cb0ada",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.817,
+        "juzgar_s": 0.17
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.4,
+          "baseline": 2.0,
+          "M05": 8.0,
+          "M06": 3.0,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1148328262",
+      "generador": "gerrychain",
+      "semilla": 1148328262,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.0031766723935477436,
+      "huella_plan": "d04857547016e1e4e3e461e7f82a7d6006e08928985b048ed3b514ae6c1f2679",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s1148328262/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4ab86069924a0acaa1f1fd343aa20b65f7c58567aea639486f2b9b9554b6c47d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.725,
+        "juzgar_s": 0.168
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.2,
+          "baseline": 2.0,
+          "M05": 8.0,
+          "M06": 3.1,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s866913675",
+      "generador": "gerrychain",
+      "semilla": 866913675,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.0031766723935477436,
+      "huella_plan": "d04857547016e1e4e3e461e7f82a7d6006e08928985b048ed3b514ae6c1f2679",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s866913675/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4d65c7f1064d9795898498763018d423edf2022a800cf969d11c9646ecded59d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.563,
+        "juzgar_s": 0.171
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.3,
+          "baseline": 2.0,
+          "M05": 7.8,
+          "M06": 3.1,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s296214945",
+      "generador": "gerrychain",
+      "semilla": 296214945,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.0031766723935477436,
+      "huella_plan": "d04857547016e1e4e3e461e7f82a7d6006e08928985b048ed3b514ae6c1f2679",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s296214945/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7cdc9376bb8568761db01b3db44a0e618467d51d6860a6cbbb12d3de80274e3a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.351,
+        "juzgar_s": 0.179
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.5,
+          "baseline": 2.0,
+          "M05": 8.3,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1596607467",
+      "generador": "gerrychain",
+      "semilla": 1596607467,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.003600197145749355,
+      "huella_plan": "f74b662cf6955c11844c1c55648ee0fc021a991606a3aa234ec9b66f54f60dcd",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s1596607467/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4a6837b933e4d2da10e82b7c629f4e9568c03d5219878f5e185fe86bc883a86b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.839,
+        "juzgar_s": 0.195
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.4,
+          "baseline": 2.4,
+          "M05": 8.3,
+          "M06": 3.4,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s41505592",
+      "generador": "gerrychain",
+      "semilla": 41505592,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.003600197145749355,
+      "huella_plan": "f74b662cf6955c11844c1c55648ee0fc021a991606a3aa234ec9b66f54f60dcd",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s41505592/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d4e9b5181fbbdb2dfc67d5af1ac46aa0a4a068b7913c038d6ad95cd0d5678e87",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.198,
+        "juzgar_s": 0.174
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.7,
+          "baseline": 2.2,
+          "M05": 7.5,
+          "M06": 3.4,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s689781225",
+      "generador": "gerrychain",
+      "semilla": 689781225,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.003600197145749355,
+      "huella_plan": "f74b662cf6955c11844c1c55648ee0fc021a991606a3aa234ec9b66f54f60dcd",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s689781225/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "aafe68aa6d10081811fa64c1070efb043c38e59a9ba6abc2291e89799d75271f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.111,
+        "juzgar_s": 0.168
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.4,
+          "baseline": 2.1,
+          "M05": 7.9,
+          "M06": 3.3,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1273341689",
+      "generador": "gerrychain",
+      "semilla": 1273341689,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.003600197145749355,
+      "huella_plan": "f74b662cf6955c11844c1c55648ee0fc021a991606a3aa234ec9b66f54f60dcd",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s1273341689/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1e4bec948191b40f5f42bb264685c5ca6148159e0d212cb87fa241577609fff7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.06,
+        "juzgar_s": 0.243
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.8,
+          "baseline": 2.0,
+          "M05": 8.5,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1929538045",
+      "generador": "gerrychain",
+      "semilla": 1929538045,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.003600197145749355,
+      "huella_plan": "f74b662cf6955c11844c1c55648ee0fc021a991606a3aa234ec9b66f54f60dcd",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s1929538045/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ddc6466448d00594e21c71a7231cea8b2cb504a5db6b1458a4c7387cd2ca7192",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.125,
+        "juzgar_s": 0.169
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.0,
+          "baseline": 2.0,
+          "M05": 7.6,
+          "M06": 3.1,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1885056977",
+      "generador": "gerrychain",
+      "semilla": 1885056977,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11735866630808688,
+      "ecm": 0.003607762686314239,
+      "huella_plan": "40473d175cfeeda9ccebff14d4a930ceb51d4b618df9cbfaeda33de06b263454",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s1885056977/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "76fff6f33bb08c600c2e489392c5467f15a2ad41869c359084777704ba9f5aa2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.502,
+        "juzgar_s": 0.168
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.5,
+          "baseline": 2.0,
+          "M05": 8.5,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1174,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1180148985",
+      "generador": "gerrychain",
+      "semilla": 1180148985,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11984654784182133,
+      "ecm": 0.006649150929134355,
+      "huella_plan": "2ae8b5a6e2d7272ff32c9ce7b124cae22be21f9fbdf64055cf27cb05acaf6a06",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s1180148985/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b2d90810d8d57959c01a4ecd35a40a10ed9333e26f0ba25771981593c2eac88",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.563,
+        "juzgar_s": 0.185
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.0,
+          "baseline": 2.3,
+          "M05": 8.6,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1198,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1053350285",
+      "generador": "gerrychain",
+      "semilla": 1053350285,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11984654784182133,
+      "ecm": 0.006649150929134355,
+      "huella_plan": "2ae8b5a6e2d7272ff32c9ce7b124cae22be21f9fbdf64055cf27cb05acaf6a06",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s1053350285/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3391b284f1e404621d8cbf49e3839ff0bad87eb9ef018190d682bc9a724310a9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.545,
+        "juzgar_s": 0.18
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.5,
+          "baseline": 2.1,
+          "M05": 7.5,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1198,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s821177276",
+      "generador": "gerrychain",
+      "semilla": 821177276,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11984654784182133,
+      "ecm": 0.006649150929134355,
+      "huella_plan": "2ae8b5a6e2d7272ff32c9ce7b124cae22be21f9fbdf64055cf27cb05acaf6a06",
+      "composicion": "bateria/competicion/congreso_santa_cruz_de_tenerife/gerrychain-s821177276/congreso_santa_cruz_de_tenerife_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5525d1130a9cecf509208891f694e43b1be182ce7e41ba3df3addab763897f9d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.333,
+        "juzgar_s": 0.182
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.3,
+          "baseline": 2.0,
+          "M05": 7.7,
+          "M06": 3.0,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1198,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": null
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s733570162: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

@@ -1,0 +1,339 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_badajoz",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "180ea97aa42503787e22605c5d081af1a9fe1ebd1d9782856bcbd1343bb5b3db",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_badajoz",
+    "ancla": {
+      "population": "de117d7f9526851bb1f4715af1cc59321b4c1f6b9ded8939e86307576ae9b876",
+      "target_sectioning": "101c66a60010c18f21985922369443bafafe4e0714278ea6cb2268b5f33e049d"
+    },
+    "n": 5,
+    "semillas": [
+      506679032,
+      805971221,
+      367606366,
+      982694844,
+      493238628
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "47157ffcec01729ad9987e06af2535cfa6bbcfb74ebac22b559e8a5a55a53a75",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 102.743,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.014087552117036434,
+      "ecm": 7.460124031042268e-05,
+      "huella_plan": "93d432607e0c23cc1369e6ea839de174ca4aafb607929ef5bdbe549edb543f17",
+      "composicion": "bateria_rep/competicion/congreso_badajoz/canonico/congreso_badajoz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "04f913c1705a5247fa6e1828534a596e7bf48ea07982f142a7545dd4152d9a57",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.364,
+        "juzgar_s": 0.09
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "M05": 2.3,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s506679032",
+      "generador": "gerrychain",
+      "semilla": 506679032,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.014087552117036434,
+      "ecm": 7.460124031042268e-05,
+      "huella_plan": "93d432607e0c23cc1369e6ea839de174ca4aafb607929ef5bdbe549edb543f17",
+      "composicion": "bateria_rep/competicion/congreso_badajoz/gerrychain-s506679032/congreso_badajoz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "04f913c1705a5247fa6e1828534a596e7bf48ea07982f142a7545dd4152d9a57",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 17.709,
+        "juzgar_s": 0.086
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.2,
+          "baseline": 0.7,
+          "semilla_canonica": 2.5,
+          "M05": 9.0,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s805971221",
+      "generador": "gerrychain",
+      "semilla": 805971221,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.014087552117036434,
+      "ecm": 7.460124031042268e-05,
+      "huella_plan": "93d432607e0c23cc1369e6ea839de174ca4aafb607929ef5bdbe549edb543f17",
+      "composicion": "bateria_rep/competicion/congreso_badajoz/gerrychain-s805971221/congreso_badajoz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "04f913c1705a5247fa6e1828534a596e7bf48ea07982f142a7545dd4152d9a57",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.822,
+        "juzgar_s": 0.086
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 0.8,
+          "semilla_canonica": 2.6,
+          "M05": 9.5,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s367606366",
+      "generador": "gerrychain",
+      "semilla": 367606366,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.014087552117036434,
+      "ecm": 7.460124031042268e-05,
+      "huella_plan": "93d432607e0c23cc1369e6ea839de174ca4aafb607929ef5bdbe549edb543f17",
+      "composicion": "bateria_rep/competicion/congreso_badajoz/gerrychain-s367606366/congreso_badajoz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "04f913c1705a5247fa6e1828534a596e7bf48ea07982f142a7545dd4152d9a57",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.483,
+        "juzgar_s": 0.086
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.7,
+          "baseline": 0.8,
+          "semilla_canonica": 2.3,
+          "M05": 9.3,
+          "M06": 1.4,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s982694844",
+      "generador": "gerrychain",
+      "semilla": 982694844,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.014087552117036434,
+      "ecm": 7.460124031042268e-05,
+      "huella_plan": "93d432607e0c23cc1369e6ea839de174ca4aafb607929ef5bdbe549edb543f17",
+      "composicion": "bateria_rep/competicion/congreso_badajoz/gerrychain-s982694844/congreso_badajoz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "04f913c1705a5247fa6e1828534a596e7bf48ea07982f142a7545dd4152d9a57",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 19.256,
+        "juzgar_s": 0.085
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.4,
+          "M05": 9.7,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s493238628",
+      "generador": "gerrychain",
+      "semilla": 493238628,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.014087552117036434,
+      "ecm": 7.460124031042268e-05,
+      "huella_plan": "93d432607e0c23cc1369e6ea839de174ca4aafb607929ef5bdbe549edb543f17",
+      "composicion": "bateria_rep/competicion/congreso_badajoz/gerrychain-s493238628/congreso_badajoz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "04f913c1705a5247fa6e1828534a596e7bf48ea07982f142a7545dd4152d9a57",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 18.588,
+        "juzgar_s": 0.086
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.2,
+          "baseline": 0.6,
+          "semilla_canonica": 2.3,
+          "M05": 9.4,
+          "M06": 1.7,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0141,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s506679032: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

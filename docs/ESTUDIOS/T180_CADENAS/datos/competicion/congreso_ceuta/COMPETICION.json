@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_ceuta",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "e64bb1336d81d99a49fce9dc07582a3f09951d80392bbf73e5896191df86cd79",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_ceuta",
+    "ancla": {
+      "population": "0fd528d8a08753bf6c35a22311e46e0f904c9515fe1cdf805c81f3e1ddd44330",
+      "target_sectioning": "186734a66f9b43c2c6ec3b5535b1be37eccd516d997f2a71aff46c4618e4f6f1"
+    },
+    "n": 20,
+    "semillas": [
+      1106468552,
+      766635911,
+      40745899,
+      58218556,
+      1348037580,
+      1557763596,
+      606534908,
+      395805687,
+      596230513,
+      1030796274,
+      1782610739,
+      855657805,
+      1465728196,
+      1072490965,
+      882461065,
+      678074106,
+      1338534927,
+      2017131153,
+      1147669678,
+      1662830267
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "c3ec47f2d8881cc4395dd97957f234fd92daaa411a60e7862ec9be2a17ebf4c2",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 142.517,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/canonico/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.112,
+        "juzgar_s": 0.005
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "M05": 0.7,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1106468552",
+      "generador": "gerrychain",
+      "semilla": 1106468552,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s1106468552/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.531,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "M05": 1.0,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s766635911",
+      "generador": "gerrychain",
+      "semilla": 766635911,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s766635911/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.339,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.5,
+          "M05": 0.9,
+          "M06": 0.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s40745899",
+      "generador": "gerrychain",
+      "semilla": 40745899,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s40745899/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.437,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.5,
+          "baseline": 0.6,
+          "M05": 1.0,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s58218556",
+      "generador": "gerrychain",
+      "semilla": 58218556,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s58218556/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.574,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.5,
+          "M05": 1.0,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1348037580",
+      "generador": "gerrychain",
+      "semilla": 1348037580,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s1348037580/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.143,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.5,
+          "M05": 1.2,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1557763596",
+      "generador": "gerrychain",
+      "semilla": 1557763596,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s1557763596/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.46,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "M05": 1.0,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s606534908",
+      "generador": "gerrychain",
+      "semilla": 606534908,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s606534908/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.726,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.7,
+          "M05": 1.1,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s395805687",
+      "generador": "gerrychain",
+      "semilla": 395805687,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s395805687/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.928,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.6,
+          "M05": 1.1,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s596230513",
+      "generador": "gerrychain",
+      "semilla": 596230513,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s596230513/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.558,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "M05": 1.0,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1030796274",
+      "generador": "gerrychain",
+      "semilla": 1030796274,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s1030796274/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.58,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.6,
+          "M05": 1.0,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1782610739",
+      "generador": "gerrychain",
+      "semilla": 1782610739,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s1782610739/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.904,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.7,
+          "M05": 1.2,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s855657805",
+      "generador": "gerrychain",
+      "semilla": 855657805,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s855657805/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.442,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.2,
+          "baseline": 0.6,
+          "M05": 1.2,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1465728196",
+      "generador": "gerrychain",
+      "semilla": 1465728196,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s1465728196/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.13,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.7,
+          "M05": 1.2,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1072490965",
+      "generador": "gerrychain",
+      "semilla": 1072490965,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s1072490965/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.847,
+        "juzgar_s": 0.004
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.6,
+          "M05": 1.0,
+          "M06": 0.6,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s882461065",
+      "generador": "gerrychain",
+      "semilla": 882461065,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s882461065/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.008,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.7,
+          "M05": 1.1,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s678074106",
+      "generador": "gerrychain",
+      "semilla": 678074106,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s678074106/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.727,
+        "juzgar_s": 0.005
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.6,
+          "M05": 1.0,
+          "M06": 0.6,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1338534927",
+      "generador": "gerrychain",
+      "semilla": 1338534927,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s1338534927/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.711,
+        "juzgar_s": 0.005
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "M05": 1.0,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2017131153",
+      "generador": "gerrychain",
+      "semilla": 2017131153,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s2017131153/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.894,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.6,
+          "M05": 1.1,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1147669678",
+      "generador": "gerrychain",
+      "semilla": 1147669678,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s1147669678/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.78,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.6,
+          "M05": 1.0,
+          "M06": 0.6,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1662830267",
+      "generador": "gerrychain",
+      "semilla": 1662830267,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "8f8539087ee9ff0e85b177a1cb69eaaa50bafb61f3faa9c35967e1f134034dfb",
+      "composicion": "bateria/competicion/congreso_ceuta/gerrychain-s1662830267/congreso_ceuta_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cef97e50b5fadb419c69dfeec09ebc23b674c6cceb2dad759c460a2096471eb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.61,
+        "juzgar_s": 0.003
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.5,
+          "M05": 1.1,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1106468552: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

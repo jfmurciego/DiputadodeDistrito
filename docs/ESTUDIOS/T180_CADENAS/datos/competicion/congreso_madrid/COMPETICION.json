@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_madrid",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "af77753ebcea403a55499b418a0cfdfa6f7eb98d36da4fce06f397577e40c2fa",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_madrid",
+    "ancla": {
+      "population": "14e841862590a20f2b3ed161a0df3c5782eda4ce1bc7d26ae4b5ebc1236f04c7",
+      "target_sectioning": "366eea9b880bc4595638229769fe22258c240e69a9496abe8fcf5e89945dd8cc"
+    },
+    "n": 20,
+    "semillas": [
+      1926114343,
+      798202974,
+      195035485,
+      658049676,
+      115713370,
+      937114058,
+      1203265257,
+      1495916609,
+      1310847578,
+      2085440247,
+      647713273,
+      1671845204,
+      672052054,
+      17191881,
+      881262220,
+      1789196180,
+      76883706,
+      1476106289,
+      1388531093,
+      2063200918
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "6b3dc41a767a6c7321bbf4514e5a68bb708f0224cd8d766ca16e58c4d30c7a49",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 4790.914,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.003618252740633432,
+      "huella_plan": "c4a8783fc867b6367008e46889ac529548b7684fce481a4dcd3788b574bd98e7",
+      "composicion": "bateria/competicion/congreso_madrid/canonico/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7d0b8004d6fda2c411fb3305e827a29d56a2ccb33a2bf3f4b83118ead1c16453",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 210.565,
+        "juzgar_s": 0.271
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 197.3,
+          "M05": 7.3,
+          "M06": 4.1,
+          "validacion": 1.4
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s881262220",
+      "generador": "gerrychain",
+      "semilla": 881262220,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.004010201271577769,
+      "huella_plan": "9175fa6a20eac88e196e75deedb7c387d2006bdf686c0b7aa2e0b302a4edf69c",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s881262220/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b22a036629106f865700dca091a69c439de56f6bdb219c68960aa3151b9c669c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 216.65,
+        "juzgar_s": 0.247
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 193.3,
+          "baseline": 2.9,
+          "semilla_canonica": 5.4,
+          "M05": 10.6,
+          "M06": 3.0,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2063200918",
+      "generador": "gerrychain",
+      "semilla": 2063200918,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.004206547545373986,
+      "huella_plan": "af31b4c3073f6aaf0d2e71edf84fc38535269261e9a3e76b68c2a77bfccd637e",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s2063200918/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0875511c2a871448cd55e32568df988fefb5fd48077ce95efb3d50e855bda3da",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 225.514,
+        "juzgar_s": 0.234
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 200.0,
+          "baseline": 3.0,
+          "semilla_canonica": 5.9,
+          "M05": 11.5,
+          "M06": 3.5,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s195035485",
+      "generador": "gerrychain",
+      "semilla": 195035485,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.0043149204897902,
+      "huella_plan": "f358e4db7a263329cba49bc393457c2714836fd766ce84cf9a32081470da8b7b",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s195035485/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f8cf76652b0dce202b24940bea8afae32f107eaf55e31499a1a3cce01bcbd448",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 254.18,
+        "juzgar_s": 0.233
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 224.9,
+          "baseline": 3.7,
+          "semilla_canonica": 7.1,
+          "M05": 12.0,
+          "M06": 4.6,
+          "validacion": 1.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s76883706",
+      "generador": "gerrychain",
+      "semilla": 76883706,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.0043246480791732465,
+      "huella_plan": "ed7295b3ef036f0a5ec22cb61d51c46072ac6b499465ad36ee5c8afb7fe68c84",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s76883706/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2b2f4f69f92c7fc5ba92f68877f5c2a0fc9a3239441ca82a3fb592f54f2f1883",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 219.794,
+        "juzgar_s": 0.24
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 195.9,
+          "baseline": 2.8,
+          "semilla_canonica": 5.6,
+          "M05": 10.9,
+          "M06": 3.1,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1310847578",
+      "generador": "gerrychain",
+      "semilla": 1310847578,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.004328103988926898,
+      "huella_plan": "9c5c3a8cf0e24f459ca3e7aca9f01906ff61a3a39e4524d36049b0e3c176494b",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s1310847578/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "772d608fe12f85129a943443b44f242da0f07c07aa3526e08685c017c145cb21",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 221.828,
+        "juzgar_s": 0.266
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 197.8,
+          "baseline": 2.9,
+          "semilla_canonica": 5.7,
+          "M05": 10.9,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1476106289",
+      "generador": "gerrychain",
+      "semilla": 1476106289,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.004466900707927792,
+      "huella_plan": "a2a9121c93324ea55223a6d464f4576d4947de7f03bed678fe867fbed610c9db",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s1476106289/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5431a6ea65eed88552f90019d04927aaa2e00f2a853c8038706c599d4e6e95b4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 216.79,
+        "juzgar_s": 0.263
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 193.0,
+          "baseline": 2.9,
+          "semilla_canonica": 5.5,
+          "M05": 10.9,
+          "M06": 3.2,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1926114343",
+      "generador": "gerrychain",
+      "semilla": 1926114343,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.004480845215414433,
+      "huella_plan": "1ea0e4f218b4f5137e9a4626ca7ca8747817b4ff7005d18a2a06190e89f22e40",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s1926114343/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cfc70e28fc390961d978c90c3278089cbdd2ef2140e5058b3d699faec6c0fea8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 250.265,
+        "juzgar_s": 0.287
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 226.9,
+          "baseline": 2.8,
+          "semilla_canonica": 5.7,
+          "M05": 10.5,
+          "M06": 3.0,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s17191881",
+      "generador": "gerrychain",
+      "semilla": 17191881,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.004544479453661593,
+      "huella_plan": "f3b0ec08f0fabfbc60df5bccd5f9b60b8f0cfd5995c05837cbf4975ce1bc7333",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s17191881/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1f9e9f6a0e7a24aad963ef3ea52cda43e4a76beae94df8d6450f60585b97188b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 221.259,
+        "juzgar_s": 0.244
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 197.7,
+          "baseline": 2.7,
+          "semilla_canonica": 5.5,
+          "M05": 10.9,
+          "M06": 3.2,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s647713273",
+      "generador": "gerrychain",
+      "semilla": 647713273,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.0045513898813486124,
+      "huella_plan": "db507c1e7b9dabd36fee9deb4ea29b195900c85411ebdac1c11fa93971c215d2",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s647713273/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "195042fbf9bd7b42ef0a9322b77ab56c83131729c826b123a5b8d5093b7c6a52",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 220.102,
+        "juzgar_s": 0.249
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 196.2,
+          "baseline": 3.0,
+          "semilla_canonica": 5.7,
+          "M05": 10.5,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1203265257",
+      "generador": "gerrychain",
+      "semilla": 1203265257,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.004597706999176206,
+      "huella_plan": "d96180c4716ddeaaa19b5d951a158db1a3d935c314b00becb0b5d395c0f00536",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s1203265257/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1443ca94e89c7897229581f6b4324b519a9f132505db7b1d36c275d0d0d4af2a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 219.128,
+        "juzgar_s": 0.269
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 195.4,
+          "baseline": 2.8,
+          "semilla_canonica": 5.6,
+          "M05": 10.7,
+          "M06": 3.2,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1495916609",
+      "generador": "gerrychain",
+      "semilla": 1495916609,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.004672285192775502,
+      "huella_plan": "38f4f1dc59e1280bd4e6991c6aa5e47f051d0ecabc1c39aaf94a39c362c0338c",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s1495916609/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "302bef10c2c9b60dda661dcdef62dd217da3f18461aa4c143560a8944b8ed2b1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 218.565,
+        "juzgar_s": 0.243
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 194.1,
+          "baseline": 2.9,
+          "semilla_canonica": 5.8,
+          "M05": 11.2,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s937114058",
+      "generador": "gerrychain",
+      "semilla": 937114058,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.004723494396478188,
+      "huella_plan": "2b38f7593ca517d8decf8f6d7ba3e9fffbfaf4dbb114c65b397120a1ad5a01fa",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s937114058/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "09445c087f9f0ad74eaeb9362ec40f3dbe44b2f5d92af9c81115111d84d3feb5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 225.981,
+        "juzgar_s": 0.25
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 201.9,
+          "baseline": 3.0,
+          "semilla_canonica": 5.7,
+          "M05": 10.8,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1388531093",
+      "generador": "gerrychain",
+      "semilla": 1388531093,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.004731608748710255,
+      "huella_plan": "a8ea006312ec221103ae3005c2e99d2abf95c2e54093376c9f79873b10fe83e3",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s1388531093/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "01136e495a8c73d9d50d91e5522fddf1504633f9dbc74025abd4fdbca80e9196",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 224.587,
+        "juzgar_s": 0.241
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 200.2,
+          "baseline": 2.9,
+          "semilla_canonica": 5.6,
+          "M05": 11.2,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2085440247",
+      "generador": "gerrychain",
+      "semilla": 2085440247,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.0047407841102821945,
+      "huella_plan": "787a3022fcf4e41b183cc5049482ff50fa864dbea861851a198f23c2940baa6a",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s2085440247/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "97c51b813af67c2ed032822fcd836baccb14abdcd12f6ad6aa252b549a3627cc",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 219.154,
+        "juzgar_s": 0.255
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 195.2,
+          "baseline": 3.0,
+          "semilla_canonica": 5.6,
+          "M05": 10.8,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s672052054",
+      "generador": "gerrychain",
+      "semilla": 672052054,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.00479957960910171,
+      "huella_plan": "6eed249981ab43a96ac06fc2e1a38146f1c839a9f1a8816f578a5580b9727f92",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s672052054/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "985934bad7b3423bf2b9cf4c025e31f1145d2767939b059933f75c1070cb1a27",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 218.202,
+        "juzgar_s": 0.244
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 193.7,
+          "baseline": 2.8,
+          "semilla_canonica": 5.8,
+          "M05": 11.2,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s115713370",
+      "generador": "gerrychain",
+      "semilla": 115713370,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.005039515862565124,
+      "huella_plan": "54e37c8ed140c964ddc31199ce703775bbe42541b350335152697be165f9675e",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s115713370/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e8450abdfc726ffe3b59db54cbb90a670bb49b3ea0a0341e460e135f1e8be3da",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 250.059,
+        "juzgar_s": 0.264
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 224.0,
+          "baseline": 2.9,
+          "semilla_canonica": 5.6,
+          "M05": 11.7,
+          "M06": 4.1,
+          "validacion": 1.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s658049676",
+      "generador": "gerrychain",
+      "semilla": 658049676,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.005051978168907347,
+      "huella_plan": "2596d7708bd6e599f4963cbba2952367d28292c57bb88506a4d92261f6fccece",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s658049676/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5ec744756be6ab3cf5158f21f1b008cf5b43f7e31883ee7d30a27729eb5a42ba",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 256.51,
+        "juzgar_s": 0.284
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 231.1,
+          "baseline": 2.8,
+          "semilla_canonica": 5.7,
+          "M05": 12.1,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1789196180",
+      "generador": "gerrychain",
+      "semilla": 1789196180,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.005192158697103871,
+      "huella_plan": "ebbef0e6b77ce21ed098ffafb6e6150e1586e9d8c7d15641f45f7fa822144105",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s1789196180/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "136583f1582f1a689a4e053ba7d0ba1cfb1d3494631886b2fee066fb806a434c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 220.272,
+        "juzgar_s": 0.236
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 197.1,
+          "baseline": 2.8,
+          "semilla_canonica": 5.7,
+          "M05": 10.3,
+          "M06": 3.0,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s798202974",
+      "generador": "gerrychain",
+      "semilla": 798202974,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.0054755381744049335,
+      "huella_plan": "eca9504d77812ae280e8de0010a433a66dafe50b7a9d5d4ab18987263e37def4",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s798202974/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "dfc71ce6e8c0867abe617ec187619b440307f017b3fcaf0e143b3924554705ef",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 254.158,
+        "juzgar_s": 0.252
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 226.0,
+          "baseline": 3.5,
+          "semilla_canonica": 5.9,
+          "M05": 14.1,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1671845204",
+      "generador": "gerrychain",
+      "semilla": 1671845204,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1479822983531636,
+      "ecm": 0.00621968350965688,
+      "huella_plan": "b6562f7a2fd553e64800206aa28db261588ba9be1ce4745a512f5832d09d7ea8",
+      "composicion": "bateria/competicion/congreso_madrid/gerrychain-s1671845204/congreso_madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cf4052fd587498fa145639ea81a8c3d7f8909006275c21234cc2644f89fb86c1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 222.033,
+        "juzgar_s": 0.243
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 197.7,
+          "baseline": 2.9,
+          "semilla_canonica": 5.7,
+          "M05": 11.0,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 8
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s881262220: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

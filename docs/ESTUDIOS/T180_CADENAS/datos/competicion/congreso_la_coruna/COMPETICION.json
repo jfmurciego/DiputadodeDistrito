@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_la_coruna",
+  "ganador": "gerrychain-s250484495",
+  "valido": true,
+  "huella_resultado": "bfc4a911c12fbf2e3d10fbb0f4c910b8f8869a056fa8593b5247c398f4603ca0",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_la_coruna",
+    "ancla": {
+      "population": "87c5c5b494d33e607f58bfda6da29c693a0bd89817daa461aaa2852d2411d97d",
+      "target_sectioning": "746d7257c56069a9dcfa9710c1b68b82b4202eccc3fee8c3dd6bffefd31ad76d"
+    },
+    "n": 20,
+    "semillas": [
+      1482465932,
+      1273088470,
+      967991092,
+      250484495,
+      2050002267,
+      1880676960,
+      1816179371,
+      1001937658,
+      408432734,
+      895389291,
+      925458631,
+      1170575215,
+      1678332615,
+      350424633,
+      1613688687,
+      132712553,
+      704962888,
+      935508890,
+      1903918954,
+      985166512
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "e855057247d53ab2079b9c90c8c824882ee6bd8967204923b4bac86d8261e787",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 320.872,
+  "candidatos": [
+    {
+      "id": "gerrychain-s250484495",
+      "generador": "gerrychain",
+      "semilla": 250484495,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.03131106057208751,
+      "ecm": 0.0003833339956443956,
+      "huella_plan": "c31048dbb5a6baab1b99a0defc044cfcea63d26989d7183ad55d93bc76f7ba63",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s250484495/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "98d69c8b3ff9a6bd56eb91bf471f582de580e3cbbdf1fc162dee15e9bdc49515",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.739,
+        "juzgar_s": 0.077
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.7,
+          "semilla_canonica": 2.7,
+          "M05": 6.0,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0313,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s408432734",
+      "generador": "gerrychain",
+      "semilla": 408432734,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.04261827733111247,
+      "ecm": 0.0003757281433402919,
+      "huella_plan": "469e284d05bfbe0f34d24b5c9d504915137e3fca4bfd03d2f9ccb674b608aa23",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s408432734/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9b6f9a878ea62bced2d73e0a9ff20d20b9c5aed607cad382c4a9fd11afd4604d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.738,
+        "juzgar_s": 0.102
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.7,
+          "semilla_canonica": 2.7,
+          "M05": 6.2,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0426,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1001937658",
+      "generador": "gerrychain",
+      "semilla": 1001937658,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.04292257919856498,
+      "ecm": 0.0005811345359346072,
+      "huella_plan": "c48c681c4f0fc0dc9883a57edd35759685772bc20bee9073b67e21bea6b38d05",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s1001937658/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3982c27b941481ab130f3e12451fe59e611dc177fb16a87044f948cdce9ca581",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.162,
+        "juzgar_s": 0.088
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 0.6,
+          "semilla_canonica": 2.6,
+          "M05": 6.0,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0429,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1678332615",
+      "generador": "gerrychain",
+      "semilla": 1678332615,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.04424388993881931,
+      "ecm": 0.0007266289986616836,
+      "huella_plan": "6af58eae81fab25f4c380b8f46b7cca244cf10e21c2674a639e2ef9769dcf02a",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s1678332615/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "80fb1868e6392c8d003e5eaca20a1dd0818dd31e5c15785e6ad99ba8d291c92e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.236,
+        "juzgar_s": 0.082
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 0.7,
+          "semilla_canonica": 2.5,
+          "M05": 6.1,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0442,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s704962888",
+      "generador": "gerrychain",
+      "semilla": 704962888,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.044708350683878406,
+      "ecm": 0.0004749566519430456,
+      "huella_plan": "b114744ccad9f6f49c0643a6feb3c4283216eb42d5809d73686e784bb72a0168",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s704962888/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e54c0676abaca2abf4cb8da9622f2a797a3a74029fb7551db932687129d9ef33",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.843,
+        "juzgar_s": 0.101
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.6,
+          "semilla_canonica": 2.4,
+          "M05": 6.0,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0447,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2050002267",
+      "generador": "gerrychain",
+      "semilla": 2050002267,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.04602966142413274,
+      "ecm": 0.0007725608360048828,
+      "huella_plan": "701e219224f4096918a0159ffed0371d582bc1adbbd7e4415827fdd2f0e463af",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s2050002267/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "203cd0f34a8f3156ba4e8848afd73d75b78769744a55f207785403707cfd8380",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.705,
+        "juzgar_s": 0.076
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.8,
+          "semilla_canonica": 2.7,
+          "M05": 6.1,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.046,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s895389291",
+      "generador": "gerrychain",
+      "semilla": 895389291,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.05004964925205804,
+      "ecm": 0.0011776504427060347,
+      "huella_plan": "c8149eae37c26e0d1f8379dc1b997ddd54244f17688b9729abbee5de9183a33f",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s895389291/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e1ed019b9faf45629225032b9e8ab74893e3a852f4114d186fba2559770e5d8f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.284,
+        "juzgar_s": 0.078
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.6,
+          "semilla_canonica": 2.7,
+          "M05": 5.9,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.05,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.050594189435920436,
+      "ecm": 0.0004261066723216498,
+      "huella_plan": "df6f1a51c1da6db3f5d88b499c2c870c6524f4390af052d8725e0d0a5d52ce6b",
+      "composicion": "bateria/competicion/congreso_la_coruna/canonico/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2d33c92fe15c40c965303d2082d590029c63c6aefdb1e9a35681680d67ef01d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.315,
+        "juzgar_s": 0.08
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "M05": 2.8,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0506,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1273088470",
+      "generador": "gerrychain",
+      "semilla": 1273088470,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.050594189435920436,
+      "ecm": 0.0004261066723216498,
+      "huella_plan": "df6f1a51c1da6db3f5d88b499c2c870c6524f4390af052d8725e0d0a5d52ce6b",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s1273088470/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2d33c92fe15c40c965303d2082d590029c63c6aefdb1e9a35681680d67ef01d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.393,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.7,
+          "semilla_canonica": 2.5,
+          "M05": 5.9,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0506,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1880676960",
+      "generador": "gerrychain",
+      "semilla": 1880676960,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.050594189435920436,
+      "ecm": 0.0004261066723216498,
+      "huella_plan": "df6f1a51c1da6db3f5d88b499c2c870c6524f4390af052d8725e0d0a5d52ce6b",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s1880676960/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2d33c92fe15c40c965303d2082d590029c63c6aefdb1e9a35681680d67ef01d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.058,
+        "juzgar_s": 0.077
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 0.7,
+          "semilla_canonica": 2.5,
+          "M05": 6.0,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0506,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s925458631",
+      "generador": "gerrychain",
+      "semilla": 925458631,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.050594189435920436,
+      "ecm": 0.0004261066723216498,
+      "huella_plan": "df6f1a51c1da6db3f5d88b499c2c870c6524f4390af052d8725e0d0a5d52ce6b",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s925458631/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2d33c92fe15c40c965303d2082d590029c63c6aefdb1e9a35681680d67ef01d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 16.086,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.7,
+          "M05": 6.4,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0506,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1170575215",
+      "generador": "gerrychain",
+      "semilla": 1170575215,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.050594189435920436,
+      "ecm": 0.0004261066723216498,
+      "huella_plan": "df6f1a51c1da6db3f5d88b499c2c870c6524f4390af052d8725e0d0a5d52ce6b",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s1170575215/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2d33c92fe15c40c965303d2082d590029c63c6aefdb1e9a35681680d67ef01d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.567,
+        "juzgar_s": 0.071
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.7,
+          "semilla_canonica": 2.5,
+          "M05": 5.9,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0506,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s350424633",
+      "generador": "gerrychain",
+      "semilla": 350424633,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.050594189435920436,
+      "ecm": 0.0004261066723216498,
+      "huella_plan": "df6f1a51c1da6db3f5d88b499c2c870c6524f4390af052d8725e0d0a5d52ce6b",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s350424633/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2d33c92fe15c40c965303d2082d590029c63c6aefdb1e9a35681680d67ef01d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.225,
+        "juzgar_s": 0.092
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 0.6,
+          "semilla_canonica": 2.6,
+          "M05": 6.1,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0506,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s132712553",
+      "generador": "gerrychain",
+      "semilla": 132712553,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.050594189435920436,
+      "ecm": 0.0004261066723216498,
+      "huella_plan": "df6f1a51c1da6db3f5d88b499c2c870c6524f4390af052d8725e0d0a5d52ce6b",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s132712553/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2d33c92fe15c40c965303d2082d590029c63c6aefdb1e9a35681680d67ef01d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.601,
+        "juzgar_s": 0.082
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 0.7,
+          "semilla_canonica": 2.6,
+          "M05": 6.3,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0506,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s935508890",
+      "generador": "gerrychain",
+      "semilla": 935508890,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.050594189435920436,
+      "ecm": 0.0004261066723216498,
+      "huella_plan": "df6f1a51c1da6db3f5d88b499c2c870c6524f4390af052d8725e0d0a5d52ce6b",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s935508890/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2d33c92fe15c40c965303d2082d590029c63c6aefdb1e9a35681680d67ef01d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.496,
+        "juzgar_s": 0.111
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.5,
+          "M05": 5.9,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0506,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1903918954",
+      "generador": "gerrychain",
+      "semilla": 1903918954,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.050594189435920436,
+      "ecm": 0.0004261066723216498,
+      "huella_plan": "df6f1a51c1da6db3f5d88b499c2c870c6524f4390af052d8725e0d0a5d52ce6b",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s1903918954/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2d33c92fe15c40c965303d2082d590029c63c6aefdb1e9a35681680d67ef01d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.572,
+        "juzgar_s": 0.11
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.7,
+          "semilla_canonica": 2.5,
+          "M05": 6.2,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0506,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s985166512",
+      "generador": "gerrychain",
+      "semilla": 985166512,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.050594189435920436,
+      "ecm": 0.0004261066723216498,
+      "huella_plan": "df6f1a51c1da6db3f5d88b499c2c870c6524f4390af052d8725e0d0a5d52ce6b",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s985166512/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2d33c92fe15c40c965303d2082d590029c63c6aefdb1e9a35681680d67ef01d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.355,
+        "juzgar_s": 0.112
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 0.7,
+          "semilla_canonica": 2.7,
+          "M05": 6.1,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0506,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1482465932",
+      "generador": "gerrychain",
+      "semilla": 1482465932,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.050594189435920436,
+      "ecm": 0.0011568275113902902,
+      "huella_plan": "e0c50d8f08bd8cd7dd6a0a6b87e8f21da1b6177657a664a1d1547eea3c33c911",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s1482465932/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "afaae0eb28d2ed85a37a61fd799fa96ca23fd91dc07a96f62cbff9f989d6877d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.226,
+        "juzgar_s": 0.076
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.8,
+          "semilla_canonica": 2.8,
+          "M05": 5.8,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0506,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1816179371",
+      "generador": "gerrychain",
+      "semilla": 1816179371,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.05235593708959287,
+      "ecm": 0.0010277089320787707,
+      "huella_plan": "83d5ed3ffa2b90beac3d24c28f51ed3e78545b2e64bcfef3668f8950bee441b7",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s1816179371/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ddcbeec4036b308ec0e1a0d100b93bf4c3c0de3be00a76804dc5dd3782125b88",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.712,
+        "juzgar_s": 0.082
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.8,
+          "semilla_canonica": 2.5,
+          "M05": 6.4,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0524,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s967991092",
+      "generador": "gerrychain",
+      "semilla": 967991092,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.052556135686601106,
+      "ecm": 0.0010675333409606697,
+      "huella_plan": "68f92379bf3cb8940c31af2508029336c2cba8385ec08ac9ec719b05634ec146",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s967991092/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "56e222163bde633dea9db8b9bfe9437179c4d905a228ff58ee1a23bfa8085636",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.787,
+        "juzgar_s": 0.082
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.7,
+          "semilla_canonica": 2.6,
+          "M05": 6.1,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0526,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1613688687",
+      "generador": "gerrychain",
+      "semilla": 1613688687,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0533729459623947,
+      "ecm": 0.0009708997737235526,
+      "huella_plan": "633404005a6a10e32a6f90771d32ca0b820f2f2c0895e9881aacef843cd9b894",
+      "composicion": "bateria/competicion/congreso_la_coruna/gerrychain-s1613688687/congreso_la_coruna_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "56cd18b4de2b0cde7b8f8bfc2cf4734c1789373e20d4bc4e33715d88dda32201",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.949,
+        "juzgar_s": 0.096
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "semilla_canonica": 2.6,
+          "M05": 6.3,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0534,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s408432734: tiene menor desvío máximo (desvio_max)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "mejora_al_canonico": true
+}

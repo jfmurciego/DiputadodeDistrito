@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_albacete",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "5db0d60bfe25326bcc3865f4595ec27b6ed85f044f4b78e57dd7e71075e69403",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_albacete",
+    "ancla": {
+      "population": "58a70ae18daf0072785e7bdd3c407a1fd8b7159337d0e8a210f54f90cdf6071e",
+      "target_sectioning": "2bc1c1e31b8bb629300dfcad8099487a26240780902cbaca159331bf26a4ca7c"
+    },
+    "n": 20,
+    "semillas": [
+      1882792241,
+      1684527243,
+      1512472996,
+      1375454951,
+      615060102,
+      637151772,
+      1179669775,
+      1836167802,
+      27435907,
+      895575041,
+      989482447,
+      2060375134,
+      916006161,
+      788801528,
+      1703877781,
+      1301886993,
+      221415119,
+      1457570861,
+      1343183374,
+      1689051554
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "8e5785c9368d02c5dc189eed1769ddd8299dc49b45331e9f9561a567e631f1ae",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 283.774,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 8.40064391900423e-06,
+      "huella_plan": "840de82936b569dc3d06f0b6171c01f1e9533051d57e4fc200f429222b7842b1",
+      "composicion": "bateria/competicion/congreso_albacete/canonico/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "185b55a6b48bc337f04e06331ac1a8e09f8cf9a8e025288039939c699cf330fe",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 5.392,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "M05": 1.4,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s27435907",
+      "generador": "gerrychain",
+      "semilla": 27435907,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 8.645152585557153e-06,
+      "huella_plan": "0d56282138c6994f1e06a7abf45fa76a95a4776284884963cbacbeec9f990eb2",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s27435907/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fa73ca05d22172aaed617e975bb8fecf62ddb96b286cfe04cbef00297adae720",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.518,
+        "juzgar_s": 0.027
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.6,
+          "semilla_canonica": 1.3,
+          "M05": 8.2,
+          "M06": 0.9,
+          "validacion": 0.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s895575041",
+      "generador": "gerrychain",
+      "semilla": 895575041,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 8.645152585557153e-06,
+      "huella_plan": "0d56282138c6994f1e06a7abf45fa76a95a4776284884963cbacbeec9f990eb2",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s895575041/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fa73ca05d22172aaed617e975bb8fecf62ddb96b286cfe04cbef00297adae720",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.734,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.5,
+          "semilla_canonica": 1.3,
+          "M05": 8.2,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s989482447",
+      "generador": "gerrychain",
+      "semilla": 989482447,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 8.645152585557153e-06,
+      "huella_plan": "0d56282138c6994f1e06a7abf45fa76a95a4776284884963cbacbeec9f990eb2",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s989482447/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bd8c5b78896977547ae5c91ee092ab7f3d467fa14d2bd311072bff7bfa630279",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.583,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.6,
+          "semilla_canonica": 1.4,
+          "M05": 8.1,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2060375134",
+      "generador": "gerrychain",
+      "semilla": 2060375134,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 8.645152585557153e-06,
+      "huella_plan": "0d56282138c6994f1e06a7abf45fa76a95a4776284884963cbacbeec9f990eb2",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s2060375134/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fa73ca05d22172aaed617e975bb8fecf62ddb96b286cfe04cbef00297adae720",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.197,
+        "juzgar_s": 0.039
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.3,
+          "M05": 8.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s788801528",
+      "generador": "gerrychain",
+      "semilla": 788801528,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 8.645152585557153e-06,
+      "huella_plan": "0d56282138c6994f1e06a7abf45fa76a95a4776284884963cbacbeec9f990eb2",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s788801528/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bd8c5b78896977547ae5c91ee092ab7f3d467fa14d2bd311072bff7bfa630279",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.922,
+        "juzgar_s": 0.027
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.5,
+          "semilla_canonica": 1.4,
+          "M05": 8.4,
+          "M06": 1.0,
+          "validacion": 0.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1703877781",
+      "generador": "gerrychain",
+      "semilla": 1703877781,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 8.645152585557153e-06,
+      "huella_plan": "0d56282138c6994f1e06a7abf45fa76a95a4776284884963cbacbeec9f990eb2",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s1703877781/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fa73ca05d22172aaed617e975bb8fecf62ddb96b286cfe04cbef00297adae720",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.316,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.3,
+          "M05": 8.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1457570861",
+      "generador": "gerrychain",
+      "semilla": 1457570861,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 8.645152585557153e-06,
+      "huella_plan": "0d56282138c6994f1e06a7abf45fa76a95a4776284884963cbacbeec9f990eb2",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s1457570861/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fa73ca05d22172aaed617e975bb8fecf62ddb96b286cfe04cbef00297adae720",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.625,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.5,
+          "semilla_canonica": 1.4,
+          "M05": 8.2,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1343183374",
+      "generador": "gerrychain",
+      "semilla": 1343183374,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 8.645152585557153e-06,
+      "huella_plan": "0d56282138c6994f1e06a7abf45fa76a95a4776284884963cbacbeec9f990eb2",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s1343183374/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bd8c5b78896977547ae5c91ee092ab7f3d467fa14d2bd311072bff7bfa630279",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.09,
+        "juzgar_s": 0.021
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.4,
+          "M05": 8.6,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1882792241",
+      "generador": "gerrychain",
+      "semilla": 1882792241,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 1.0527709508428683e-05,
+      "huella_plan": "360f9e49c98154a2eb7c277c1f849f3c45960627fbf171b91ad2d5dff2ee7378",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s1882792241/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d3ed1b4658c76cfa0b6617556c36be6dd8048dc65b9445a08750177c79e40fe7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.627,
+        "juzgar_s": 0.027
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.4,
+          "M05": 8.2,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1684527243",
+      "generador": "gerrychain",
+      "semilla": 1684527243,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 1.0527709508428683e-05,
+      "huella_plan": "360f9e49c98154a2eb7c277c1f849f3c45960627fbf171b91ad2d5dff2ee7378",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s1684527243/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fed2fb5a2c70099ef1b79b9ba010db56f15aa1bcba2cec1f17c7f88680fbc544",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.658,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.5,
+          "semilla_canonica": 1.6,
+          "M05": 8.2,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1512472996",
+      "generador": "gerrychain",
+      "semilla": 1512472996,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 1.0527709508428683e-05,
+      "huella_plan": "360f9e49c98154a2eb7c277c1f849f3c45960627fbf171b91ad2d5dff2ee7378",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s1512472996/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fed2fb5a2c70099ef1b79b9ba010db56f15aa1bcba2cec1f17c7f88680fbc544",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.088,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.5,
+          "semilla_canonica": 1.4,
+          "M05": 8.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s637151772",
+      "generador": "gerrychain",
+      "semilla": 637151772,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 1.0527709508428683e-05,
+      "huella_plan": "360f9e49c98154a2eb7c277c1f849f3c45960627fbf171b91ad2d5dff2ee7378",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s637151772/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fed2fb5a2c70099ef1b79b9ba010db56f15aa1bcba2cec1f17c7f88680fbc544",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.773,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.3,
+          "M05": 8.3,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1179669775",
+      "generador": "gerrychain",
+      "semilla": 1179669775,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 1.0527709508428683e-05,
+      "huella_plan": "360f9e49c98154a2eb7c277c1f849f3c45960627fbf171b91ad2d5dff2ee7378",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s1179669775/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fed2fb5a2c70099ef1b79b9ba010db56f15aa1bcba2cec1f17c7f88680fbc544",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.011,
+        "juzgar_s": 0.026
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.5,
+          "semilla_canonica": 1.4,
+          "M05": 8.4,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1836167802",
+      "generador": "gerrychain",
+      "semilla": 1836167802,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 1.0527709508428683e-05,
+      "huella_plan": "360f9e49c98154a2eb7c277c1f849f3c45960627fbf171b91ad2d5dff2ee7378",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s1836167802/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d3ed1b4658c76cfa0b6617556c36be6dd8048dc65b9445a08750177c79e40fe7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.617,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.4,
+          "M05": 8.1,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s916006161",
+      "generador": "gerrychain",
+      "semilla": 916006161,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 1.0527709508428683e-05,
+      "huella_plan": "360f9e49c98154a2eb7c277c1f849f3c45960627fbf171b91ad2d5dff2ee7378",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s916006161/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fed2fb5a2c70099ef1b79b9ba010db56f15aa1bcba2cec1f17c7f88680fbc544",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.959,
+        "juzgar_s": 0.027
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.5,
+          "semilla_canonica": 1.4,
+          "M05": 8.4,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1301886993",
+      "generador": "gerrychain",
+      "semilla": 1301886993,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 1.0527709508428683e-05,
+      "huella_plan": "360f9e49c98154a2eb7c277c1f849f3c45960627fbf171b91ad2d5dff2ee7378",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s1301886993/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d3ed1b4658c76cfa0b6617556c36be6dd8048dc65b9445a08750177c79e40fe7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.764,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.5,
+          "semilla_canonica": 1.3,
+          "M05": 8.4,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s221415119",
+      "generador": "gerrychain",
+      "semilla": 221415119,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004097757845219326,
+      "ecm": 1.0527709508428683e-05,
+      "huella_plan": "360f9e49c98154a2eb7c277c1f849f3c45960627fbf171b91ad2d5dff2ee7378",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s221415119/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d3ed1b4658c76cfa0b6617556c36be6dd8048dc65b9445a08750177c79e40fe7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.974,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.6,
+          "semilla_canonica": 1.4,
+          "M05": 8.5,
+          "M06": 0.9,
+          "validacion": 0.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0041,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1375454951",
+      "generador": "gerrychain",
+      "semilla": 1375454951,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00495962882777805,
+      "ecm": 1.4044119685986782e-05,
+      "huella_plan": "4bc1379dccf7e8e53ecb1f264e3ae17c3e151acc1a22f77bf22ca36c5a24267e",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s1375454951/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "20205b773143c25a5413bc36435a54e765024d46d17f6036727212404b5c7674",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.164,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.5,
+          "semilla_canonica": 1.5,
+          "M05": 8.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.005,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s615060102",
+      "generador": "gerrychain",
+      "semilla": 615060102,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00495962882777805,
+      "ecm": 1.4044119685986782e-05,
+      "huella_plan": "4bc1379dccf7e8e53ecb1f264e3ae17c3e151acc1a22f77bf22ca36c5a24267e",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s615060102/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "20205b773143c25a5413bc36435a54e765024d46d17f6036727212404b5c7674",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.883,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.6,
+          "semilla_canonica": 1.4,
+          "M05": 8.3,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.005,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1689051554",
+      "generador": "gerrychain",
+      "semilla": 1689051554,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00495962882777805,
+      "ecm": 1.4044119685986782e-05,
+      "huella_plan": "4bc1379dccf7e8e53ecb1f264e3ae17c3e151acc1a22f77bf22ca36c5a24267e",
+      "composicion": "bateria/competicion/congreso_albacete/gerrychain-s1689051554/congreso_albacete_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ec53f5131f484025b7efa9550301f79fb7cfd3e00b82c8a4645435afaad63906",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.321,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.6,
+          "semilla_canonica": 1.4,
+          "M05": 8.8,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.005,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s27435907: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

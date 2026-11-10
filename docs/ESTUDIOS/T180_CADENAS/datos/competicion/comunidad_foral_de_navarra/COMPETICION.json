@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "comunidad_foral_de_navarra",
+  "ganador": "gerrychain-s1161534731",
+  "valido": true,
+  "huella_resultado": "b9e1d18a81a41346b130c6b87654672824601281972626cbb9840ef440dbb539",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "comunidad_foral_de_navarra",
+    "ancla": {
+      "population": "83e2718b1290124065192c714a4595520bc34460465041ff7910f7321bee67d1",
+      "target_sectioning": "2eb8ee52afa14f6808152212526e2340142beee64014f484c763aa5400dfebfc"
+    },
+    "n": 20,
+    "semillas": [
+      2107829136,
+      15633595,
+      1614479722,
+      946325741,
+      959200213,
+      1628596715,
+      1024523409,
+      700514306,
+      868801851,
+      21176674,
+      10765017,
+      1959364793,
+      332323851,
+      1332992553,
+      2126184280,
+      1161534731,
+      532208067,
+      1382271678,
+      1180041582,
+      1953110071
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "1cc803b4f6fded1ae9cac593469ed608deb4bbeaf059fcd410a376c758e2ed57",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 3183.981,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1161534731",
+      "generador": "gerrychain",
+      "semilla": 1161534731,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03293575714991887,
+      "huella_plan": "a8b94a8d221f77a87c59c679cb65fcd030e256b4ee31ca4ed34924718531089b",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s1161534731/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0839c4dc3daaad5a07f2c3fdd1cae0904054d3b60597bddb758900f4ed1c2298",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 143.305,
+        "juzgar_s": 0.222
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.2,
+          "baseline": 2.4,
+          "semilla_canonica": 53.9,
+          "M05": 57.9,
+          "M06": 3.4,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1953110071",
+      "generador": "gerrychain",
+      "semilla": 1953110071,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03303923300695423,
+      "huella_plan": "10961c79d489d3974959add0a4cf137ddb00d5a06d327a725d1ddb6f8f393a00",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s1953110071/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2b1e3ae6fb24acad66e2562b08c236ed591d928b53093a06030b962d93d57910",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 142.564,
+        "juzgar_s": 0.246
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.2,
+          "baseline": 2.6,
+          "semilla_canonica": 52.7,
+          "M05": 57.9,
+          "M06": 3.7,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1628596715",
+      "generador": "gerrychain",
+      "semilla": 1628596715,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03306965140642857,
+      "huella_plan": "c7e3d11dc9415a79ed416e81b4e16001bca08f2c59cb9bec527a3031d05e36bb",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s1628596715/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "11390d969b529507c384681a85a03d52bf1f367741d85cdc84d5a66d303919b8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 168.825,
+        "juzgar_s": 0.225
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 27.2,
+          "baseline": 2.6,
+          "semilla_canonica": 64.9,
+          "M05": 68.0,
+          "M06": 4.3,
+          "validacion": 1.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1614479722",
+      "generador": "gerrychain",
+      "semilla": 1614479722,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03309420759943786,
+      "huella_plan": "175102bccdb259bcc513e877302d36edff5c2fcbda7679802e76a1d18ab7316c",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s1614479722/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3433d2419fb3b60325749583578cb1138d8fef5195c5fed3a810c656e8831bc3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 166.55,
+        "juzgar_s": 0.224
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 27.0,
+          "baseline": 3.8,
+          "semilla_canonica": 63.3,
+          "M05": 66.6,
+          "M06": 4.1,
+          "validacion": 1.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1332992553",
+      "generador": "gerrychain",
+      "semilla": 1332992553,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.033117428665794445,
+      "huella_plan": "b168f0606568f3e6b04ad3010587df4903a700f8dd7e38919e3f19def97f1150",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s1332992553/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "db98319b3422b0dcee22fa0acc19be427b7a4d190203bae7fcb268c6fcb604ae",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 146.896,
+        "juzgar_s": 0.222
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.3,
+          "baseline": 2.5,
+          "semilla_canonica": 53.4,
+          "M05": 61.6,
+          "M06": 3.6,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1382271678",
+      "generador": "gerrychain",
+      "semilla": 1382271678,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.033124312137905315,
+      "huella_plan": "f61e5fe4236b69062a5147124f47ad30f1c6d5c85d8c8cb7801e98ea26e78e94",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s1382271678/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9b80ca17439234e79d380ec10cab9f492bf500c373160a92405b89fadea4e573",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 141.643,
+        "juzgar_s": 0.264
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.2,
+          "baseline": 2.7,
+          "semilla_canonica": 53.8,
+          "M05": 56.1,
+          "M06": 3.4,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s946325741",
+      "generador": "gerrychain",
+      "semilla": 946325741,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.033150847337446755,
+      "huella_plan": "b0d591fd903755371e2c2b36a797eb1edee3d87acccedb755cca71b0ca6ca1cf",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s946325741/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "10c09f095181fd21ebf8854302e2d6b86d289c25cc5ddf9e6f68e30c622e5be6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 168.972,
+        "juzgar_s": 0.226
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 29.0,
+          "baseline": 2.5,
+          "semilla_canonica": 63.8,
+          "M05": 67.1,
+          "M06": 4.6,
+          "validacion": 1.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1180041582",
+      "generador": "gerrychain",
+      "semilla": 1180041582,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 12,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03321519946820883,
+      "huella_plan": "32b72ba27bbdd15b006e2676938e54f4bb22f1e9643a2b9b263543669cf4840e",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s1180041582/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5c4e3428dc040fea386e631777a6e88f40e53da0ff1f63cc01686c7ff29e4432",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 139.125,
+        "juzgar_s": 0.225
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.5,
+          "baseline": 2.6,
+          "semilla_canonica": 53.7,
+          "M05": 53.1,
+          "M06": 3.5,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 12,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s959200213",
+      "generador": "gerrychain",
+      "semilla": 959200213,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 13,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03316914335354645,
+      "huella_plan": "5a0afb0a75be064908d3fef75e365cdb2443f3e057da87e17eac2d57e3fd5c14",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s959200213/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5e406fda284ed0e0ce123bffc76cc88b4dd498241c7f524dac1ea5f29961fc71",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 167.418,
+        "juzgar_s": 0.223
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 27.3,
+          "baseline": 3.1,
+          "semilla_canonica": 61.6,
+          "M05": 69.1,
+          "M06": 4.2,
+          "validacion": 1.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 13,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s21176674",
+      "generador": "gerrychain",
+      "semilla": 21176674,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 13,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03319223161552776,
+      "huella_plan": "497bfefbcc2163bbdb0769954e1bce9c688669cff88e122614169e554f3067a9",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s21176674/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f41f9b68c34b2b8431e486895ddeb3ddc5c6b5325ad42f2e10eb437fbbf0cf4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 146.027,
+        "juzgar_s": 0.224
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 26.9,
+          "baseline": 2.6,
+          "semilla_canonica": 54.1,
+          "M05": 57.3,
+          "M06": 3.5,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 13,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s15633595",
+      "generador": "gerrychain",
+      "semilla": 15633595,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 13,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.0331957186157411,
+      "huella_plan": "0d5aa50888158f05dc48f91e6f3a7664b33be6a00e0e4e489c88ee197be43259",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s15633595/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "61c2ce69cf21a2e1867c40ffdbbae1932ba75100f9ebf675dfd7e127f18d6637",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 167.119,
+        "juzgar_s": 0.227
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.6,
+          "baseline": 2.4,
+          "semilla_canonica": 67.9,
+          "M05": 67.3,
+          "M06": 3.4,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 13,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s332323851",
+      "generador": "gerrychain",
+      "semilla": 332323851,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 13,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03320216427609483,
+      "huella_plan": "e3b588276ac7c99e171cd744b894333b9a4d7abcf62013b214c66143c02241d4",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s332323851/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c469f2b4b4209797960d6e3c626ce37499027d67f4e803415bd35763a1c85a0d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 143.15,
+        "juzgar_s": 0.225
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.1,
+          "baseline": 2.7,
+          "semilla_canonica": 53.4,
+          "M05": 57.9,
+          "M06": 3.4,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 13,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s700514306",
+      "generador": "gerrychain",
+      "semilla": 700514306,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 13,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.033210984035997135,
+      "huella_plan": "9d39e82ff27f59a0cce920fea4b7512f5a94972cbd8010878d89b9cfb6bc369d",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s700514306/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6e1492c3812f7e45c295a523c98398596cb5fdcd2ab67e01009d899f2cc2f86f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 171.885,
+        "juzgar_s": 0.226
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 27.5,
+          "baseline": 3.2,
+          "semilla_canonica": 61.8,
+          "M05": 73.2,
+          "M06": 4.5,
+          "validacion": 1.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 13,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1024523409",
+      "generador": "gerrychain",
+      "semilla": 1024523409,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 13,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.0332224056549516,
+      "huella_plan": "c4e2e8746a219244f56c25051e230cb5c2d23320ee6eb333a93906919e1252b7",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s1024523409/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "feb0e1c640f4c85e818aade5a5831d55ec684fb7b9a9fb4027eda73396ec505f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 185.508,
+        "juzgar_s": 0.224
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 28.1,
+          "baseline": 2.6,
+          "semilla_canonica": 69.3,
+          "M05": 79.4,
+          "M06": 4.5,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 13,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s10765017",
+      "generador": "gerrychain",
+      "semilla": 10765017,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 13,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03323311322904837,
+      "huella_plan": "d783bad6ef990d9aea2abc20cef59cfd50fe9492bc6c8de762f2c16752057579",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s10765017/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "43ae13b526774f150b3cd5acaf960e54a3a556658d9bbb51579ded27ea0639b9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 144.437,
+        "juzgar_s": 0.224
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.2,
+          "baseline": 2.5,
+          "semilla_canonica": 53.4,
+          "M05": 59.2,
+          "M06": 3.6,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 13,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1959364793",
+      "generador": "gerrychain",
+      "semilla": 1959364793,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 13,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03323372435051524,
+      "huella_plan": "a62e49368eb6c21631e8affa7475af0499cab76e127be69f9726c044962c9efa",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s1959364793/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "14c69a855c080c1880080481c846707e211c12ffa5ee129b1d8cb781a3c33cf0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 148.611,
+        "juzgar_s": 0.225
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.3,
+          "baseline": 2.6,
+          "semilla_canonica": 54.3,
+          "M05": 62.6,
+          "M06": 3.4,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 13,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2107829136",
+      "generador": "gerrychain",
+      "semilla": 2107829136,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 13,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03326050523815093,
+      "huella_plan": "b770c167c465fd5440ef9169ad2f624eb25ce53ebad9ce866dad4810c0e2ab99",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s2107829136/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f99f3518e08d194315a58370b7c5eb52e527a2db5f73e1aa8d9dfc5e7b240d15",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 148.291,
+        "juzgar_s": 0.219
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.3,
+          "baseline": 2.5,
+          "semilla_canonica": 53.4,
+          "M05": 62.7,
+          "M06": 3.8,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 13,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s868801851",
+      "generador": "gerrychain",
+      "semilla": 868801851,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 13,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03326500730647258,
+      "huella_plan": "fab6e3d15f3f75e3cb58e885bb3f093de6908dace402e519387ca5de3307b759",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s868801851/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "38b718696d523efca917f94221b787c2ecc52695bb9ef9709cdb7b7e35b4eb7e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 163.21,
+        "juzgar_s": 0.23
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 26.5,
+          "baseline": 3.5,
+          "semilla_canonica": 61.8,
+          "M05": 66.2,
+          "M06": 3.7,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 13,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2126184280",
+      "generador": "gerrychain",
+      "semilla": 2126184280,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 13,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03327818083647749,
+      "huella_plan": "24b34bb9ddc9a92d0e22a03e3faeab51c6efb1e8395b00a0835093cfa8d50e7f",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s2126184280/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c83adb26520f88c85e17566249fe65d66e72405701361355421400a3a03ed8c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 147.492,
+        "juzgar_s": 0.223
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.0,
+          "baseline": 2.5,
+          "semilla_canonica": 53.4,
+          "M05": 62.4,
+          "M06": 3.5,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 13,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s532208067",
+      "generador": "gerrychain",
+      "semilla": 532208067,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 13,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03335053930034334,
+      "huella_plan": "5660f257b27fb89e4703f9d7675a7f6f4835a882e30e048b56ec96587f64567b",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/gerrychain-s532208067/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7a0be75520a782796b602bfcb938b4b829b78fb6750bc5750e706b7d2bacb782",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 144.101,
+        "juzgar_s": 0.259
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.3,
+          "baseline": 2.5,
+          "semilla_canonica": 53.7,
+          "M05": 58.5,
+          "M06": 3.5,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 13,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 24,
+      "desvio_max": 0.6478342049080941,
+      "ecm": 0.03673306718115098,
+      "huella_plan": "cd8b3320ae16f4608d8d2c25673b7b9f8027c7d5c16a3af1d891ba8cbde91aa5",
+      "composicion": "bateria/competicion/comunidad_foral_de_navarra/canonico/comunidad_foral_de_navarra_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d09efb2da81589914353d00110a76882c5570de0a16f424ef3998a89bd586167",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 83.998,
+        "juzgar_s": 0.268
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.6,
+          "M05": 53.8,
+          "M06": 3.8,
+          "validacion": 1.4
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.6478,
+          "fuera_tolerancia": 24,
+          "tolerancia": 0.12,
+          "municipios_partidos": 2
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1953110071: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "mejora_al_canonico": true
+}

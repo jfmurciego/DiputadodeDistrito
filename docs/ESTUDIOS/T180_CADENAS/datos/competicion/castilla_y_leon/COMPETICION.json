@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "castilla_y_leon",
+  "ganador": "gerrychain-s458651984",
+  "valido": true,
+  "huella_resultado": "bd0051e983a2fbce356c8c3f545a8cfb69f7a1dae2330e9ec0ac0707894e951c",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "castilla_y_leon",
+    "ancla": {
+      "population": "18f8bc18d421e2dc6a95917f216789ee642a798f9e573fa0fed0088827d7816f",
+      "target_sectioning": "996fc87f066f212867bde349b5853a9eb2c4089f0a947b61ad6c04890ab33c81"
+    },
+    "n": 20,
+    "semillas": [
+      999727098,
+      844560265,
+      1439468606,
+      213239383,
+      2109567164,
+      2109655839,
+      726074469,
+      750501199,
+      1785098077,
+      1600771755,
+      690859775,
+      123708026,
+      38408214,
+      1222723875,
+      2026465468,
+      1252383190,
+      174552743,
+      1896213576,
+      1187665013,
+      458651984
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "5c54d89b121614a725d90e01325f2b1bf08b3dcf497589092138657e4c8c0765",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 3122.106,
+  "candidatos": [
+    {
+      "id": "gerrychain-s458651984",
+      "generador": "gerrychain",
+      "semilla": 458651984,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11982362306509896,
+      "ecm": 0.004819571476263395,
+      "huella_plan": "1139d4f09c899030a8d7430d37afd82171aab4a5c2ab608414deff134af87224",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s458651984/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0bc603b823abdf85f97fd3e079c5150e32d99bae8ee7a02cda79ee2627634fb9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 119.388,
+        "juzgar_s": 0.332
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 20.7,
+          "baseline": 4.4,
+          "M05": 88.1,
+          "M06": 4.4,
+          "validacion": 1.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1198,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1896213576",
+      "generador": "gerrychain",
+      "semilla": 1896213576,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11985777235831271,
+      "ecm": 0.004902829034592972,
+      "huella_plan": "d0ff7524844fd73a1d58fe4c6b1db98b9326fa90288d0c57b24cf3991fd6a729",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s1896213576/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2c49cbccc09a7ca1455e900dd201a68543f9545b2732e23225fb6599a109839d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 117.01,
+        "juzgar_s": 0.345
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 20.4,
+          "baseline": 4.5,
+          "M05": 85.9,
+          "M06": 4.4,
+          "validacion": 1.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1199,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s726074469",
+      "generador": "gerrychain",
+      "semilla": 726074469,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.16114426785372943,
+      "ecm": 0.005068185542935965,
+      "huella_plan": "220407710a7973b61f5d1b3045e1c8fdf009a2cc4416d51d24df76bdaa94abc0",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s726074469/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1b9d774cfaa44650dab950282a39b35421dd98884091c817a8485a1c3a372a5b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 154.171,
+        "juzgar_s": 0.334
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.1,
+          "baseline": 4.9,
+          "M05": 121.9,
+          "M06": 4.5,
+          "validacion": 1.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1611,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1439468606",
+      "generador": "gerrychain",
+      "semilla": 1439468606,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.16114426785372943,
+      "ecm": 0.0052039584581586446,
+      "huella_plan": "66c4fca07414a98f964369d0a689f97f3febce3014a711ed5913a7008d70a05a",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s1439468606/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "66e4ff32c5be55963b83183ae3fdd8f4956d36f8d54dcd549cfd851520003f92",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 150.48,
+        "juzgar_s": 0.338
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 19.8,
+          "baseline": 4.5,
+          "M05": 119.8,
+          "M06": 4.6,
+          "validacion": 1.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1611,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s38408214",
+      "generador": "gerrychain",
+      "semilla": 38408214,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.16114426785372943,
+      "ecm": 0.00527100073362437,
+      "huella_plan": "6eb05eb7abc1c19677a2876a51ff08f851ae335e8a31dae9e93a74ec31f7c93e",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s38408214/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a2cfddb86ee8460513a6a10a3459f8ab472a6d6e8cc60945db03b41a93460046",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 148.278,
+        "juzgar_s": 0.325
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 22.6,
+          "baseline": 5.3,
+          "M05": 114.1,
+          "M06": 4.5,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1611,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s844560265",
+      "generador": "gerrychain",
+      "semilla": 844560265,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.16114426785372943,
+      "ecm": 0.0052763000284147665,
+      "huella_plan": "b78aa8d5a4409f539e9865bd1fa947045c45cc6d8f84ae0d2e7b86645eab0565",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s844560265/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3f22430b8ba96031ba566b459dcc96123e99f5b83adc4b68be73bf790a18e7b2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 152.876,
+        "juzgar_s": 0.362
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 22.0,
+          "baseline": 4.5,
+          "M05": 119.9,
+          "M06": 4.3,
+          "validacion": 1.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1611,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s750501199",
+      "generador": "gerrychain",
+      "semilla": 750501199,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.0048896296773830545,
+      "huella_plan": "6bdb6004a7885871fb15cc19a0554a95f52420a27d51902e019e4cbec7d65eb2",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s750501199/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "71425660c40196d00ba1286fa8d09e0f3233dab4691ed2d43b99759b4ec366f4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 149.932,
+        "juzgar_s": 0.33
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 20.7,
+          "baseline": 4.4,
+          "M05": 118.4,
+          "M06": 4.4,
+          "validacion": 1.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s213239383",
+      "generador": "gerrychain",
+      "semilla": 213239383,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.005207668741013298,
+      "huella_plan": "30cd00ad28a47863729db12fbd56be99254bbee94d28fb31a162f01f5caf3f0b",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s213239383/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1cd31fc0d729932ce0d3ba597c94e0d865633e1d0c1d2b06a4e1f4a5f01918c9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 142.519,
+        "juzgar_s": 0.344
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 20.2,
+          "baseline": 5.0,
+          "M05": 110.5,
+          "M06": 4.4,
+          "validacion": 2.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.1363860302737649,
+      "ecm": 0.0037639964165419705,
+      "huella_plan": "03483af88192613b7ed18968bed9d2e760b95759473c62611c8c998c95098c1b",
+      "composicion": "bateria/competicion/castilla_y_leon/canonico/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6e230a2bd4dafcf66d7398ad6ae7b463da50743cfc8352392fd6a0cc122e0154",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 50.019,
+        "juzgar_s": 0.346
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.3,
+          "M04": 25.4,
+          "M05": 14.0,
+          "M06": 6.8,
+          "validacion": 3.0
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.1364,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2109655839",
+      "generador": "gerrychain",
+      "semilla": 2109655839,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.004736442794407539,
+      "huella_plan": "1f3e72e1c16a690b0ee88bf2a7c47a10a77b44af888ae6536f1aeede8a3db941",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s2109655839/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7829ecc8993ef5fb7d3cc69fae2307c2d07f5e687ee99494b6e78880d8e9bea5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 175.154,
+        "juzgar_s": 0.331
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.3,
+          "baseline": 4.9,
+          "M05": 142.6,
+          "M06": 4.4,
+          "validacion": 1.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s690859775",
+      "generador": "gerrychain",
+      "semilla": 690859775,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.004805169736538896,
+      "huella_plan": "172e6ece5483dfc65eb07d15a5ed6bb5451d9d39cb30b636827619ee1032e22f",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s690859775/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "97035126746fa6a7945f0f8f1ed052296f6b008ec4ff799ede679e6ab5cb6292",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 167.613,
+        "juzgar_s": 0.328
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.3,
+          "baseline": 4.9,
+          "M05": 134.6,
+          "M06": 4.6,
+          "validacion": 2.0
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s123708026",
+      "generador": "gerrychain",
+      "semilla": 123708026,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.004821518475243553,
+      "huella_plan": "f9d3a9f996f54877120325aeefd369570567819d3632196277c4eea98de7c42d",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s123708026/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "32ed79fcf81f4865d68ae4dad7017b213abcdd13b11d4fcac6f3879128275c48",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 152.717,
+        "juzgar_s": 0.351
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 20.5,
+          "baseline": 4.4,
+          "M05": 120.5,
+          "M06": 5.2,
+          "validacion": 1.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1252383190",
+      "generador": "gerrychain",
+      "semilla": 1252383190,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.0048981385396356155,
+      "huella_plan": "65fcbec7b577b816d8ff3a165c17b7cb7a2e471d87e8ddeb2ad86b3138c101ea",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s1252383190/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "896b223005e93a4b648f98ba8ab8cad3d05a865dfc23e5b3b5e000492e7b5f1a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 144.586,
+        "juzgar_s": 0.33
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 19.9,
+          "baseline": 4.2,
+          "M05": 114.1,
+          "M06": 4.6,
+          "validacion": 1.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2109567164",
+      "generador": "gerrychain",
+      "semilla": 2109567164,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.004912845219698838,
+      "huella_plan": "f97caf12c8752a7d6e0c3b9faa036b482968d4c61ff7409af0dcab644f5427f0",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s2109567164/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b768944d423fbe77d612d3902f0c76f6d9a66c5823bb0bd986816790e4f91ad3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 156.704,
+        "juzgar_s": 0.351
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.3,
+          "baseline": 4.7,
+          "M05": 124.4,
+          "M06": 4.5,
+          "validacion": 1.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1600771755",
+      "generador": "gerrychain",
+      "semilla": 1600771755,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.004956512215422955,
+      "huella_plan": "4e37398872133e4cda55e4c86d55989eaee094464dd82948ff7e79d794451ee2",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s1600771755/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "989f9b929b8c24c9e700632f4200dc46e5bf583e4934eb4e8af2070aa6ca56e7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 163.058,
+        "juzgar_s": 0.345
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.1,
+          "baseline": 4.4,
+          "M05": 131.3,
+          "M06": 4.3,
+          "validacion": 1.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s999727098",
+      "generador": "gerrychain",
+      "semilla": 999727098,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.005092221161722792,
+      "huella_plan": "2fcb5d99124d46c1feafba053e01844c65b981eb5787b828ab8b82b1d328d9b1",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s999727098/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "283495c0291cd11320ac3eede4961d36b6eb9b8ed91e0ad7a2d08963bb5608d1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 194.69,
+        "juzgar_s": 0.455
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.2,
+          "M04": 30.2,
+          "baseline": 5.5,
+          "M05": 152.1,
+          "M06": 4.9,
+          "validacion": 1.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2026465468",
+      "generador": "gerrychain",
+      "semilla": 2026465468,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.00511373952233246,
+      "huella_plan": "bf67f9f3eaaca103860a14d384af312ca30b1b20e0a672e3ceb09cd8aae9853c",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s2026465468/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e3b2004b77633ee44286368b30cf02b86fb0f4009e999e88c2250fa658c1d028",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 167.891,
+        "juzgar_s": 0.329
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 19.9,
+          "baseline": 4.2,
+          "M05": 137.7,
+          "M06": 4.3,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1785098077",
+      "generador": "gerrychain",
+      "semilla": 1785098077,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.005150493551012027,
+      "huella_plan": "29daa47eabe5e0f1c1c597a2a7c5674dc30400dcbe54ea03b0fac20effbe9fff",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s1785098077/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cfc340f4a1fd72a1856afcdeb084372c212c7ce1629af81fa9d0b09d09ae5aec",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 155.503,
+        "juzgar_s": 0.329
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.3,
+          "baseline": 4.3,
+          "M05": 123.6,
+          "M06": 4.5,
+          "validacion": 1.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s174552743",
+      "generador": "gerrychain",
+      "semilla": 174552743,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.005161807346713256,
+      "huella_plan": "0e2a036407ef10b5199c25aa1a03da301095c0798fcab425a8938ef9bef9cb9f",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s174552743/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "337dd6cb0dcff4af9d2f83eed13bc7fcd6db20f75cb05a9fc0e5da830b37cb11",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 143.975,
+        "juzgar_s": 0.338
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 20.0,
+          "baseline": 4.5,
+          "M05": 113.5,
+          "M06": 4.2,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1187665013",
+      "generador": "gerrychain",
+      "semilla": 1187665013,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.0052458782689012535,
+      "huella_plan": "c1ae70f4e6b9abed57593f6d3e028a4cfc6387dd483ccfa5ddaa0874a3cc684e",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s1187665013/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "28c12e85e845baada2a74c3973c243211fc0f3016b7a7da3dccd25e3af3ca20d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 158.169,
+        "juzgar_s": 0.336
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 19.9,
+          "baseline": 4.3,
+          "M05": 127.5,
+          "M06": 4.6,
+          "validacion": 1.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1222723875",
+      "generador": "gerrychain",
+      "semilla": 1222723875,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 2,
+      "desvio_max": 0.18608574554362134,
+      "ecm": 0.005794019151318862,
+      "huella_plan": "beb8a670bec086bf14112993d3dd0f6004527f75b745f4337e6261c64ff31f81",
+      "composicion": "bateria/competicion/castilla_y_leon/gerrychain-s1222723875/castilla_y_leon_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "57491b5287c2c2477d1a22325c99f657b2a044d7099802aab331ae8f4a5ec72b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 150.163,
+        "juzgar_s": 0.331
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 20.1,
+          "baseline": 4.5,
+          "M05": 119.4,
+          "M06": 4.4,
+          "validacion": 1.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1861,
+          "fuera_tolerancia": 2,
+          "tolerancia": 0.12,
+          "municipios_partidos": 12
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1896213576: tiene menor desvío máximo (desvio_max)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "mejora_al_canonico": true
+}

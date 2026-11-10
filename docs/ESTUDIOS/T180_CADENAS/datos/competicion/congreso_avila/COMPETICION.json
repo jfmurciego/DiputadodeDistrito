@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_avila",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "ffb113736c6930552ae49bccfffc95d1881b13fa431d530d1ec6be3a2f15ddb7",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_avila",
+    "ancla": {
+      "population": "050408ce80083874d873ac8f2fea649e2ed8f483a3341bb53c97708469a4fffb",
+      "target_sectioning": "cf47514a76c1e53866b0580fea3da56976bb08244b2eb2bdc31fa0bd47871574"
+    },
+    "n": 20,
+    "semillas": [
+      198389856,
+      271484723,
+      1461582882,
+      1773886652,
+      834058909,
+      1049922683,
+      1153422542,
+      1898475228,
+      287350609,
+      1857882336,
+      607589840,
+      462364926,
+      1617968668,
+      991941059,
+      73991708,
+      950738883,
+      743910231,
+      650071067,
+      1927432895,
+      642319900
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "65600eb3ca6bc3a4bbd0ead81d906393f0b7e7e4f50176620ae9d1fcaabff5a5",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 228.479,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/canonico/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 5.871,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "M05": 1.7,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s198389856",
+      "generador": "gerrychain",
+      "semilla": 198389856,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s198389856/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.84,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.5,
+          "semilla_canonica": 1.6,
+          "M05": 4.9,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s271484723",
+      "generador": "gerrychain",
+      "semilla": 271484723,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s271484723/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.177,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 5.2,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1461582882",
+      "generador": "gerrychain",
+      "semilla": 1461582882,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s1461582882/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.171,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 5.2,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1773886652",
+      "generador": "gerrychain",
+      "semilla": 1773886652,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s1773886652/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.934,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 4.9,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s834058909",
+      "generador": "gerrychain",
+      "semilla": 834058909,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s834058909/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.915,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.7,
+          "semilla_canonica": 1.6,
+          "M05": 4.9,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1049922683",
+      "generador": "gerrychain",
+      "semilla": 1049922683,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s1049922683/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.413,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 5.3,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1153422542",
+      "generador": "gerrychain",
+      "semilla": 1153422542,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s1153422542/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.277,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 5.1,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1898475228",
+      "generador": "gerrychain",
+      "semilla": 1898475228,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s1898475228/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.579,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.9,
+          "M05": 5.5,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s287350609",
+      "generador": "gerrychain",
+      "semilla": 287350609,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s287350609/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.262,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.7,
+          "semilla_canonica": 1.6,
+          "M05": 5.2,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1857882336",
+      "generador": "gerrychain",
+      "semilla": 1857882336,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s1857882336/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.651,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.7,
+          "semilla_canonica": 1.7,
+          "M05": 5.3,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s607589840",
+      "generador": "gerrychain",
+      "semilla": 607589840,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s607589840/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.415,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 5.2,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s462364926",
+      "generador": "gerrychain",
+      "semilla": 462364926,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s462364926/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.691,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.5,
+          "semilla_canonica": 1.7,
+          "M05": 4.9,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1617968668",
+      "generador": "gerrychain",
+      "semilla": 1617968668,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s1617968668/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.018,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 5.1,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s991941059",
+      "generador": "gerrychain",
+      "semilla": 991941059,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s991941059/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.694,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 4.7,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s73991708",
+      "generador": "gerrychain",
+      "semilla": 73991708,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s73991708/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.748,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.5,
+          "semilla_canonica": 1.6,
+          "M05": 5.0,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s950738883",
+      "generador": "gerrychain",
+      "semilla": 950738883,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s950738883/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.108,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.7,
+          "semilla_canonica": 1.5,
+          "M05": 5.0,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s743910231",
+      "generador": "gerrychain",
+      "semilla": 743910231,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s743910231/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.368,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.7,
+          "semilla_canonica": 1.6,
+          "M05": 5.2,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s650071067",
+      "generador": "gerrychain",
+      "semilla": 650071067,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s650071067/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.279,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 5.4,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1927432895",
+      "generador": "gerrychain",
+      "semilla": 1927432895,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s1927432895/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.623,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 4.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s642319900",
+      "generador": "gerrychain",
+      "semilla": 642319900,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96f44c383f634b9c9531f09f220bc02cf9eb5b46f32da14a1a5b71db0e319620",
+      "composicion": "bateria/competicion/congreso_avila/gerrychain-s642319900/congreso_avila_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0f36b5046b2ae9c43babff171ec2e1b75e895ff83c66e31d509b43936e262cd3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.767,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.9,
+          "baseline": 0.6,
+          "semilla_canonica": 1.6,
+          "M05": 4.9,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s198389856: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

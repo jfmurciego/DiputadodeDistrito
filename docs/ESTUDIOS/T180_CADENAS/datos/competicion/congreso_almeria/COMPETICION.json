@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_almeria",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "18040715217ca0dd5d02fcf9b35dbd9ab82f81e10d9664eca4f6c6f03079dc1b",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_almeria",
+    "ancla": {
+      "population": "5aafd846efac1321649f018f2e5af622762000d08c92896c6bf7aa0449cfe9e8",
+      "target_sectioning": "e381a1e7d53d505e25d76fa67594b2f94a1c27d81ea610278790ba4159886b8d"
+    },
+    "n": 20,
+    "semillas": [
+      1305456605,
+      1605360650,
+      1371098661,
+      699827368,
+      1913390513,
+      1878040418,
+      1836279926,
+      960813305,
+      2023809067,
+      281547284,
+      272808065,
+      1828572932,
+      857199164,
+      230111465,
+      1396863670,
+      9173964,
+      810775376,
+      1921870033,
+      830075193,
+      1986191712
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "84a1f4f282b05ac05955bfd7ab11e6f2162c82f82c7a3c655b55ffab85ed4af1",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 291.283,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/canonico/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.726,
+        "juzgar_s": 0.044
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "M05": 2.0,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1305456605",
+      "generador": "gerrychain",
+      "semilla": 1305456605,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s1305456605/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.443,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.7,
+          "semilla_canonica": 1.9,
+          "M05": 7.3,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1605360650",
+      "generador": "gerrychain",
+      "semilla": 1605360650,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s1605360650/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.222,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.7,
+          "semilla_canonica": 1.9,
+          "M05": 7.0,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1371098661",
+      "generador": "gerrychain",
+      "semilla": 1371098661,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s1371098661/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.034,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 7.1,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s699827368",
+      "generador": "gerrychain",
+      "semilla": 699827368,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s699827368/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.162,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 7.3,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1913390513",
+      "generador": "gerrychain",
+      "semilla": 1913390513,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s1913390513/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.654,
+        "juzgar_s": 0.039
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.8,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 7.6,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1878040418",
+      "generador": "gerrychain",
+      "semilla": 1878040418,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s1878040418/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.062,
+        "juzgar_s": 0.039
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 7.3,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1836279926",
+      "generador": "gerrychain",
+      "semilla": 1836279926,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s1836279926/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.593,
+        "juzgar_s": 0.04
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 6.8,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s960813305",
+      "generador": "gerrychain",
+      "semilla": 960813305,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s960813305/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.826,
+        "juzgar_s": 0.039
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 7.1,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2023809067",
+      "generador": "gerrychain",
+      "semilla": 2023809067,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s2023809067/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.94,
+        "juzgar_s": 0.04
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 7.3,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s281547284",
+      "generador": "gerrychain",
+      "semilla": 281547284,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s281547284/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.336,
+        "juzgar_s": 0.04
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 7.4,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s272808065",
+      "generador": "gerrychain",
+      "semilla": 272808065,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s272808065/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.449,
+        "juzgar_s": 0.041
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.6,
+          "semilla_canonica": 1.9,
+          "M05": 7.1,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1828572932",
+      "generador": "gerrychain",
+      "semilla": 1828572932,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s1828572932/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.11,
+        "juzgar_s": 0.043
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 7.2,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s857199164",
+      "generador": "gerrychain",
+      "semilla": 857199164,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s857199164/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.247,
+        "juzgar_s": 0.039
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.7,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 7.2,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s230111465",
+      "generador": "gerrychain",
+      "semilla": 230111465,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s230111465/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.491,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 7.5,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1396863670",
+      "generador": "gerrychain",
+      "semilla": 1396863670,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s1396863670/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.304,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.6,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 7.2,
+          "M06": 1.3,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s9173964",
+      "generador": "gerrychain",
+      "semilla": 9173964,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s9173964/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.283,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.7,
+          "semilla_canonica": 1.9,
+          "M05": 7.2,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s810775376",
+      "generador": "gerrychain",
+      "semilla": 810775376,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s810775376/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.622,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.6,
+          "semilla_canonica": 2.0,
+          "M05": 7.6,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1921870033",
+      "generador": "gerrychain",
+      "semilla": 1921870033,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s1921870033/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.031,
+        "juzgar_s": 0.037
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.6,
+          "semilla_canonica": 1.9,
+          "M05": 7.1,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s830075193",
+      "generador": "gerrychain",
+      "semilla": 830075193,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s830075193/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 14.016,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.4,
+          "baseline": 0.6,
+          "semilla_canonica": 1.7,
+          "M05": 7.3,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1986191712",
+      "generador": "gerrychain",
+      "semilla": 1986191712,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0043511503071556375,
+      "ecm": 4.552111169935396e-06,
+      "huella_plan": "4125ddb1ff87a83cd54af8a2f3be69524621ed5f8d6e346150cfda949f0f4bbb",
+      "composicion": "bateria/competicion/congreso_almeria/gerrychain-s1986191712/congreso_almeria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "24abf13a140eaf715d81eb518e228bb4865dbe41f023b36842a34bfbdf62c0cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 13.898,
+        "juzgar_s": 0.039
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.5,
+          "baseline": 0.6,
+          "semilla_canonica": 1.8,
+          "M05": 7.0,
+          "M06": 1.2,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0044,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1305456605: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

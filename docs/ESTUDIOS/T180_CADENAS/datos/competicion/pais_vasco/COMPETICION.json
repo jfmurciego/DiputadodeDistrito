@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "pais_vasco",
+  "ganador": "gerrychain-s1367307212",
+  "valido": true,
+  "huella_resultado": "b5f87c6f1163f3517dc8be2560273790d7cc2539895108da3b961f19d2686405",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "pais_vasco",
+    "ancla": {
+      "population": "a3d879ea855f837653948b90483b5930e69b94a4caaba0ad45cfbcbe26a6442c",
+      "target_sectioning": "fe621a80c7bb53e1f4bd46a6969ec84afaa2d78700a6a18b3e7f3d965c997620"
+    },
+    "n": 20,
+    "semillas": [
+      218943587,
+      1897822469,
+      1946423693,
+      2139675155,
+      243086616,
+      1048245436,
+      1796311596,
+      308446956,
+      1367307212,
+      207051749,
+      400246158,
+      596873080,
+      156780627,
+      260312324,
+      153107371,
+      9222812,
+      330676728,
+      1658438161,
+      224826741,
+      1574632113
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "d7be6e974487bcc7cdf994da32da6ed788b2f3cd8a5b4ae13e94e90aeab75253",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 1114.7,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1367307212",
+      "generador": "gerrychain",
+      "semilla": 1367307212,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007044650352324242,
+      "huella_plan": "cb93924da21f022f82e8b8247054876d8b0e1211ea2cdeea5d594c8adf52c07a",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s1367307212/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "900c3e9ca4970ccc88f6d36fe7dfc1d02fc75a5715aeba6a0922e3086d107a66",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 53.93,
+        "juzgar_s": 0.24
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.3,
+          "baseline": 3.0,
+          "M05": 33.2,
+          "M06": 3.7,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s330676728",
+      "generador": "gerrychain",
+      "semilla": 330676728,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007131278355535873,
+      "huella_plan": "4bee971d002b89c4876db9e4930f49a4ab0065ed250c53d68972e18e0812e991",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s330676728/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ac7f8c093d31cbc015d3db35f6830f6f0a40bb7f7713b16b041a659351f8ed15",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 52.407,
+        "juzgar_s": 0.249
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.5,
+          "baseline": 2.9,
+          "M05": 31.9,
+          "M06": 3.7,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1946423693",
+      "generador": "gerrychain",
+      "semilla": 1946423693,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007140392896041622,
+      "huella_plan": "bdaa92c30c1d7a8dadd25abfb190c3d2f35e1ab5452d869d27c5fd00004a31bc",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s1946423693/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a96c9d8aa9a4f7c42400c86c3123110e19b67d8cf1c7a44ba4a4bfd7c813dcd5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 51.741,
+        "juzgar_s": 0.234
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.6,
+          "baseline": 2.9,
+          "M05": 30.5,
+          "M06": 4.1,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s9222812",
+      "generador": "gerrychain",
+      "semilla": 9222812,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007144788486151083,
+      "huella_plan": "f242d9de6ffdd4f658ecabbe5695e86f3f8901d1f73cfda3dbecb298c725d5e2",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s9222812/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3a26d7def3ae6547d4b033dc639270c01ce2b07c4ac8cf3f229b819f10508ae0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 51.692,
+        "juzgar_s": 0.274
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.4,
+          "baseline": 2.9,
+          "M05": 31.1,
+          "M06": 3.7,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1048245436",
+      "generador": "gerrychain",
+      "semilla": 1048245436,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007183750106053682,
+      "huella_plan": "2ef153f4fa2cc939a739e11c4f3575d7a03bdf14cd0f321cfac36288caa0a0b1",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s1048245436/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ee43bbcb7358994ebb62e12b329f70da576d4668e74cbd95214c403794bf6de1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 52.499,
+        "juzgar_s": 0.319
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.8,
+          "baseline": 2.9,
+          "M05": 31.3,
+          "M06": 3.9,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1796311596",
+      "generador": "gerrychain",
+      "semilla": 1796311596,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007203880689428602,
+      "huella_plan": "0ac8c201639cf85589f3a45d8f127e51626dea4f593d47c492c92a2fa9ee0dbe",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s1796311596/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "48f4a14990eb35152aadc723e4430a89ea9b521fd929086103f0e3410b80a4cb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 49.143,
+        "juzgar_s": 0.257
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.5,
+          "baseline": 2.9,
+          "M05": 28.4,
+          "M06": 3.7,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s308446956",
+      "generador": "gerrychain",
+      "semilla": 308446956,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007509086433143787,
+      "huella_plan": "fb39e47ef431d6a4983021f5885c2abf05eac0d7314a2f20b9f5814827c80e88",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s308446956/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a7817e792d28d91fd2bed68156fa9223d3adcb2d415f35a1d821d83861dfc401",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 52.407,
+        "juzgar_s": 0.246
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.6,
+          "baseline": 2.8,
+          "M05": 31.6,
+          "M06": 3.9,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s243086616",
+      "generador": "gerrychain",
+      "semilla": 243086616,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007717056729054231,
+      "huella_plan": "9fc49d4cc3d2a26a940a12a9338d3966ea4c186169c492b0918a8aff3db7c60f",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s243086616/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "137aa644ed59e7a1f717180e27a460c0807b3fe5041c6576b8cc19f3fb762c0b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 51.376,
+        "juzgar_s": 0.257
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.6,
+          "baseline": 2.7,
+          "M05": 30.3,
+          "M06": 4.0,
+          "validacion": 1.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s218943587",
+      "generador": "gerrychain",
+      "semilla": 218943587,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 7,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.006957767632610735,
+      "huella_plan": "249428ea1b1c73744e1ca21d7689b3297a82d66ac2a2e930a6ff5255a1d0174a",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s218943587/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "aaf9a660aaec05b41881fcc21f877482609380e8244e2703cbb1f6bd5ab9f694",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 57.17,
+        "juzgar_s": 0.258
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 13.2,
+          "baseline": 3.0,
+          "M05": 35.6,
+          "M06": 3.8,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 7,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s153107371",
+      "generador": "gerrychain",
+      "semilla": 153107371,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 7,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.0070507930189506705,
+      "huella_plan": "d379031e6fea1f644856ed4e7b37e98cd29a54fb1a8f326eed03fa71104b2e28",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s153107371/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "47bc218644a77e3824ce75774631fc010a5c34eaacd61f5af01160b95f78d081",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 54.927,
+        "juzgar_s": 0.25
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.5,
+          "baseline": 2.8,
+          "M05": 34.0,
+          "M06": 4.0,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 7,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2139675155",
+      "generador": "gerrychain",
+      "semilla": 2139675155,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 7,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007090025345034688,
+      "huella_plan": "218a16e9859645c47059e1876a7c395dc7eda754ef916a368a0391882064bdaa",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s2139675155/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c28b09d8eee55e35c0131ca78937b9de18e791e7ee0c95038116d5470e06f713",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 56.252,
+        "juzgar_s": 0.253
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 13.1,
+          "baseline": 3.1,
+          "M05": 34.3,
+          "M06": 3.9,
+          "validacion": 1.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 7,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s260312324",
+      "generador": "gerrychain",
+      "semilla": 260312324,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 7,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007177369105546004,
+      "huella_plan": "8d2a1412069d1c356ca72f191da64c53e4f7166f11a997e231dba6e94d75cc6d",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s260312324/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b2ca51b7b24d1deeb4431efa1cf6ddb944e1555dbb8c3b5e603f4951237ab1d9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 54.488,
+        "juzgar_s": 0.243
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.9,
+          "baseline": 2.8,
+          "M05": 33.3,
+          "M06": 3.8,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 7,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1658438161",
+      "generador": "gerrychain",
+      "semilla": 1658438161,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 7,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007180214301264725,
+      "huella_plan": "5d70c2c9684ac51ca9b6485a8e35defebab1d6e52dfc83743edca7b078ea0291",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s1658438161/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12104d83bed2823ddabd6f614e01ece484e840c8d2c19b6f3e7cb8d1c997416f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 53.961,
+        "juzgar_s": 0.242
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 13.2,
+          "baseline": 2.6,
+          "M05": 32.9,
+          "M06": 3.6,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 7,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s596873080",
+      "generador": "gerrychain",
+      "semilla": 596873080,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 7,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.00741860144114546,
+      "huella_plan": "a75f830f8330ec6c5620dca3163ae0b951e7f6e1011bf3c7512efa4109e22f9d",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s596873080/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cf18f67033734b1784b363a755c3c5ed92eb12770d67e5662609e72483ddf210",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 55.034,
+        "juzgar_s": 0.241
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.8,
+          "baseline": 2.8,
+          "M05": 34.0,
+          "M06": 3.7,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 7,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s207051749",
+      "generador": "gerrychain",
+      "semilla": 207051749,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 7,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.0075160295812131015,
+      "huella_plan": "c8231a63d68cfb4ac9bf9b6bf643d4fe2322a05dffbcc66dcf39e25f7f7af5d2",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s207051749/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f5dd8fc23e40c29c0e5a47f51eaeafc35ebdc3460951cbe4f87790e10cb7a2ea",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 54.131,
+        "juzgar_s": 0.244
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 13.2,
+          "baseline": 2.8,
+          "M05": 32.5,
+          "M06": 3.9,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 7,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s156780627",
+      "generador": "gerrychain",
+      "semilla": 156780627,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 7,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.00759692076548677,
+      "huella_plan": "b89b3fa3898a544347a866a25c18b2c089061b3a47b60e503c8d02ccbf0346fc",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s156780627/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "88df4dc25f6c5cfcaeb1c6b2167a99d99a3b149ca1c1472538069689dc01744c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 55.836,
+        "juzgar_s": 0.237
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.6,
+          "baseline": 2.9,
+          "M05": 34.9,
+          "M06": 4.0,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 7,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1897822469",
+      "generador": "gerrychain",
+      "semilla": 1897822469,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 7,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.0077220781534073565,
+      "huella_plan": "b0c6db6f3ff549a1d9c543ff443be140050a5a4b2cce1806df254983bacabca5",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s1897822469/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "69a14b8fba25f53ce0b97e42ff0791e4b662d357906f6dc6e14389c0c295bb26",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 51.275,
+        "juzgar_s": 0.243
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.4,
+          "baseline": 2.8,
+          "M05": 30.7,
+          "M06": 3.9,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 7,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s400246158",
+      "generador": "gerrychain",
+      "semilla": 400246158,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 7,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007755634687326557,
+      "huella_plan": "3bf8dc280f68ceebd70a0f0be4440f5415298e0f50ff181ab78e1bdcd52b4f2f",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s400246158/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d1131a6b05ba8bb8ae8a33fc52cbd088dfa4d05c0d276ccea68021c7035acb33",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 55.571,
+        "juzgar_s": 0.238
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.7,
+          "baseline": 2.8,
+          "M05": 34.6,
+          "M06": 3.9,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 7,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s224826741",
+      "generador": "gerrychain",
+      "semilla": 224826741,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 8,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.007462667214612724,
+      "huella_plan": "bd67b40ec93fcc79e33eb9567a93b79422ab5efec674dac370838779983b32a3",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s224826741/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "997f5033b1696d507229b901804764f6c4899b8509f5251817192343d59778a1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 58.394,
+        "juzgar_s": 0.24
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 13.3,
+          "baseline": 2.8,
+          "M05": 36.9,
+          "M06": 3.7,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 8,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1574632113",
+      "generador": "gerrychain",
+      "semilla": 1574632113,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 8,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.008144330134711381,
+      "huella_plan": "5a05a0a164828f51098c318ebbe46fadeba59561851ed177332fddf0dd5c2f87",
+      "composicion": "bateria/competicion/pais_vasco/gerrychain-s1574632113/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "99c308d7f162ff934a29d713cbe5b09f237ecd3a6367e14463812b9e7a415052",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 51.029,
+        "juzgar_s": 0.254
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.0,
+          "baseline": 2.7,
+          "M05": 30.9,
+          "M06": 3.8,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 8,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.23619418193962877,
+      "ecm": 0.0077087449671854056,
+      "huella_plan": "f9460854a388bfc6b0228699ca795dd22b97e2ecbed461d19fa37521509639c0",
+      "composicion": "bateria/competicion/pais_vasco/canonico/pais_vasco_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f949a39005dbf94044f9a620f216f0ae97217bd7785af4616630fc33171dc503",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 36.121,
+        "juzgar_s": 0.295
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 13.7,
+          "M05": 16.5,
+          "M06": 3.9,
+          "validacion": 1.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.2362,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 10
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s330676728: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "mejora_al_canonico": true
+}

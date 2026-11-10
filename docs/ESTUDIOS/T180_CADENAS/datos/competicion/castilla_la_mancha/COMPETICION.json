@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "castilla_la_mancha",
+  "ganador": "gerrychain-s393693094",
+  "valido": true,
+  "huella_resultado": "03332355c73ebc8ea58484d0e0b0c2821e2f6591fd652d8a2ff56f121d28ca6d",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "castilla_la_mancha",
+    "ancla": {
+      "population": "5ffb96a3263b6fec454e3ebfa0651323f9d1492a8823756d891260b3aba8fd2e",
+      "target_sectioning": "52c1891bd312ab3965972c3da3d62068345279c6bb3c6198d875d7f0656ec8a1"
+    },
+    "n": 20,
+    "semillas": [
+      214103641,
+      547221014,
+      1934877100,
+      1257618626,
+      755139571,
+      1466177085,
+      419531242,
+      185456421,
+      47137178,
+      1547157952,
+      607147370,
+      97396972,
+      1070524932,
+      860281773,
+      1388728866,
+      393693094,
+      93993687,
+      1302285692,
+      674015008,
+      1481227620
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "b795856ad7f903581218b5bfac51588969b5b8427345a6e24613ebba91e230e7",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 3186.81,
+  "candidatos": [
+    {
+      "id": "gerrychain-s393693094",
+      "generador": "gerrychain",
+      "semilla": 393693094,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.020449286008074972,
+      "huella_plan": "c3ea0d7699cb57117f92aab067555e2a2a927b94f43e8aeda6d2008f06da3008",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s393693094/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "dd34c4c3481614c8f6f595b3153cc375d376e69049c23cee4bd34bd8770248c0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 139.593,
+        "juzgar_s": 0.259
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.1,
+          "baseline": 3.3,
+          "M05": 121.5,
+          "M06": 3.2,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s755139571",
+      "generador": "gerrychain",
+      "semilla": 755139571,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.020480678071024574,
+      "huella_plan": "76d6369ace4a66d26cb0bd29d1905472c43e33e44618624e71a716a5929605bd",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s755139571/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8a3bff419d17b15aab455742b7b77dbab7050440d0cfb988d8727f06de655e9b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 153.844,
+        "juzgar_s": 0.257
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.8,
+          "baseline": 3.7,
+          "M05": 134.1,
+          "M06": 3.6,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s547221014",
+      "generador": "gerrychain",
+      "semilla": 547221014,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.02048938209786526,
+      "huella_plan": "1493165931b23301333fac040b1db5a10766f01ff944a55649980002ab433f3c",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s547221014/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2229d08cfac5fda322ff0d43fc978bf90df1327010a8310b314f2188c0bfda13",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 147.943,
+        "juzgar_s": 0.267
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.7,
+          "baseline": 3.6,
+          "M05": 128.7,
+          "M06": 3.7,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1257618626",
+      "generador": "gerrychain",
+      "semilla": 1257618626,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.021223017248441625,
+      "huella_plan": "e975c4884992ec6e8e920085426e0b3091f5932b5ea791b89f68f6cd1251a318",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s1257618626/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0fa39bb6c3dc94d26f8f50a04b0449928fd72b5f9cc134de76125b93270e01fd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 146.737,
+        "juzgar_s": 0.246
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.0,
+          "baseline": 3.1,
+          "M05": 128.4,
+          "M06": 3.6,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 5,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.019334562254281467,
+      "huella_plan": "2e3e2fb8155c5f9140d33350211d77070f42025be4f47550c3eb816770d1f0fb",
+      "composicion": "bateria/competicion/castilla_la_mancha/canonico/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6d2a00fdaf88d9ae0a39137f9f09a246bd48696c10aa3f8fbcb4297dbc2e6cdc",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.131,
+        "juzgar_s": 0.242
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 13.9,
+          "M05": 7.6,
+          "M06": 3.8,
+          "validacion": 1.4
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 5,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1547157952",
+      "generador": "gerrychain",
+      "semilla": 1547157952,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 5,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.020685446226385632,
+      "huella_plan": "7c94a1d6bdb4dbc6ee821003e104f215a8bfdee92d9286e73a73bbf5aba4dc4a",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s1547157952/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a2046b5187b03599a9b895a993701816e333505ac7ab76f11dc9988d016a0773",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 163.769,
+        "juzgar_s": 0.239
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.6,
+          "baseline": 3.4,
+          "M05": 144.6,
+          "M06": 3.6,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 5,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s607147370",
+      "generador": "gerrychain",
+      "semilla": 607147370,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.020159282693646818,
+      "huella_plan": "fa6958ba7af925aaa34daa9e5695b41b4d98c8d0eb5cf0f0df02319d47d18437",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s607147370/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "00b21b034dd797f108f465c9c565568a43a06f138bed825034ed9130861059a8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 173.364,
+        "juzgar_s": 0.225
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 11.0,
+          "baseline": 3.6,
+          "M05": 153.7,
+          "M06": 3.6,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1481227620",
+      "generador": "gerrychain",
+      "semilla": 1481227620,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.02036857007281246,
+      "huella_plan": "6e2689dbde430d0bfd726fb3aa30bba8ecf16a23d839b5ce6c6dca76ba40755c",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s1481227620/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c9b86679c38a348dc8b6b2347dd7e794501da77950bc7d93d42b6cebae32af16",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 152.573,
+        "juzgar_s": 0.238
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.8,
+          "baseline": 3.3,
+          "M05": 133.7,
+          "M06": 3.3,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s860281773",
+      "generador": "gerrychain",
+      "semilla": 860281773,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.020437866468790995,
+      "huella_plan": "ae79270f61669074c366d8becf3d53aeb7b0a93c75935680aa21918fdcd88cbe",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s860281773/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "40f1b6109291c873978397b399412fbfb0ba2002f79cdfc9992ce02c786652d4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 161.188,
+        "juzgar_s": 0.225
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.4,
+          "baseline": 3.3,
+          "M05": 142.9,
+          "M06": 3.2,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1302285692",
+      "generador": "gerrychain",
+      "semilla": 1302285692,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.020603465576448432,
+      "huella_plan": "48463504a31e02dcf73c115ca6ef57eaf4bb8eb4e522fa6fbb1f77d89b07ab6e",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s1302285692/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c5c8399f98e12d4bd8cb65e2e9fd2885f376782103e651e0db7f17139e66794b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 149.447,
+        "juzgar_s": 0.226
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.3,
+          "baseline": 3.2,
+          "M05": 131.2,
+          "M06": 3.4,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1466177085",
+      "generador": "gerrychain",
+      "semilla": 1466177085,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.02076300586050747,
+      "huella_plan": "64535bcb7b48c99287da338625809461592b2d34f96107c42cad1d40a4575777",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s1466177085/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "194888431e75f1e7a7bf28edcb7e28883e8062647dd4bcfd00c3cffc4f3f7e95",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 169.544,
+        "juzgar_s": 0.261
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.2,
+          "baseline": 3.1,
+          "M05": 149.3,
+          "M06": 3.6,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s214103641",
+      "generador": "gerrychain",
+      "semilla": 214103641,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.020805900900783568,
+      "huella_plan": "e55c0d885353414952bab132d367176fbb47eb213fcac3c0e97abe256b8363c6",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s214103641/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4e972548f84e2c6815ad77bd5bdf9e841eb3114c3e31152e50406f3a78c98447",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 198.518,
+        "juzgar_s": 0.251
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 14.2,
+          "baseline": 4.5,
+          "M05": 175.0,
+          "M06": 3.5,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s674015008",
+      "generador": "gerrychain",
+      "semilla": 674015008,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.02081776873530163,
+      "huella_plan": "9b1a35374522cd405ffa2ffa4a37a111bcda60531fe05c3df739d8ca0dcbd191",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s674015008/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2d2b9a70cd612abe16e4bdd8289875b1f4d3348dfb8b0ef588d5ac58fc16cc5f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 142.432,
+        "juzgar_s": 0.227
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.1,
+          "baseline": 2.9,
+          "M05": 124.7,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s47137178",
+      "generador": "gerrychain",
+      "semilla": 47137178,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.020876693088164627,
+      "huella_plan": "b9396b4c7651f11f2a61b719400cc603a56f2150200908fc692dbd6ea012b8ff",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s47137178/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "682346d3c5d8252e29d40c17793ebe0976ea017fc705152365d9491e4932ea34",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 160.035,
+        "juzgar_s": 0.247
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 11.0,
+          "baseline": 3.4,
+          "M05": 140.7,
+          "M06": 3.4,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s97396972",
+      "generador": "gerrychain",
+      "semilla": 97396972,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.020927200562008728,
+      "huella_plan": "54b2725b75b7b0e8b19a51d199aa77298d4b1d748eed8f506ee0cd1391ac9b91",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s97396972/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "dff2b922dc60a36e95e70cfa2aa6ef162ead4f2d2205b93c0a8a9c9aa81da3c5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 151.502,
+        "juzgar_s": 0.236
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.5,
+          "baseline": 2.9,
+          "M05": 133.2,
+          "M06": 3.4,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1070524932",
+      "generador": "gerrychain",
+      "semilla": 1070524932,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.020938883756997626,
+      "huella_plan": "7893e1a1d5c742cf8008cf77be293466ef1cd082e08206fd5ee9d62e1136f824",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s1070524932/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3df6b2f0ab7b0f955f1cc623faad0afeb5e5290767111c8bd86d970e4fede664",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 151.64,
+        "juzgar_s": 0.229
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 12.2,
+          "baseline": 3.4,
+          "M05": 131.4,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s185456421",
+      "generador": "gerrychain",
+      "semilla": 185456421,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.021025702886480313,
+      "huella_plan": "e47e390593ead7cc78281e37a1451aff79beaef177620a8b18e7c5c9a8545b70",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s185456421/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "17fa29dd9a288d31deb8b42467ae30104bed32fc65498b6e8ab410f0d5491766",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 159.185,
+        "juzgar_s": 0.26
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.3,
+          "baseline": 3.1,
+          "M05": 140.8,
+          "M06": 3.6,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1388728866",
+      "generador": "gerrychain",
+      "semilla": 1388728866,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.02120329760692927,
+      "huella_plan": "449ba2c63ccefea11152275ac539f5fc1ec66f7e67b42633dfa20c6d01fbf852",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s1388728866/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "31027c45d4b0d2b37470a6be1286676d0082b7a075554d75a54c7002f8317084",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 150.254,
+        "juzgar_s": 0.231
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.0,
+          "baseline": 3.4,
+          "M05": 132.3,
+          "M06": 3.3,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1934877100",
+      "generador": "gerrychain",
+      "semilla": 1934877100,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.021250093143962926,
+      "huella_plan": "5d1109738283691cace955797340ae7d16d9ad1431e261bbef2a0caaa2fa7e2a",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s1934877100/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "52ce9ea52f084b877b392b1b0df70267f3d5fafb44ec6263a3807e0a26f597fa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 172.349,
+        "juzgar_s": 0.288
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.6,
+          "baseline": 3.1,
+          "M05": 153.9,
+          "M06": 3.4,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s419531242",
+      "generador": "gerrychain",
+      "semilla": 419531242,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.021328290271473527,
+      "huella_plan": "924896e39ca816db4523810461a3cca0796a5ee2c101cd576aafca279bf317d7",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s419531242/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9f61e8b4b6e8f900e0d07976d2d5a77225fef3b6f75fc955c19366d13113a49f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 160.518,
+        "juzgar_s": 0.247
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 11.1,
+          "baseline": 3.3,
+          "M05": 140.8,
+          "M06": 3.7,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s93993687",
+      "generador": "gerrychain",
+      "semilla": 93993687,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 6,
+      "desvio_max": 0.40744575799655103,
+      "ecm": 0.021615948218655565,
+      "huella_plan": "53e9ad09cb555baa7aaacc9d93ecbf3cf9be6c8451ff332f94f9fddac12ea795",
+      "composicion": "bateria/competicion/castilla_la_mancha/gerrychain-s93993687/castilla_la_mancha_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ea63b8cfb86d9bd04a8c98ceeebe8091026f467bef74ac9b58b6b5db4cb1872a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 150.061,
+        "juzgar_s": 0.281
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.0,
+          "baseline": 3.4,
+          "M05": 131.9,
+          "M06": 3.4,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4074,
+          "fuera_tolerancia": 6,
+          "tolerancia": 0.12,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s755139571: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "mejora_al_canonico": true
+}

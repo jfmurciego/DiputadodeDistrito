@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "madrid",
+  "ganador": "gerrychain-s291855033",
+  "valido": true,
+  "huella_resultado": "e48fe234237b1d6941a4811e0347044f16609148430f7aab2350d8d82b746acc",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "madrid",
+    "ancla": {
+      "population": "14e841862590a20f2b3ed161a0df3c5782eda4ce1bc7d26ae4b5ebc1236f04c7",
+      "target_sectioning": "7ef5281be89af24155c4c27b21ba6e8f69f8b21a5b5b53aac5299757141e883f"
+    },
+    "n": 20,
+    "semillas": [
+      763731873,
+      291855033,
+      2096709436,
+      295868932,
+      46435939,
+      1767925601,
+      166739728,
+      2118146402,
+      971703099,
+      1802514727,
+      818388154,
+      718489201,
+      842263680,
+      2024767353,
+      429883401,
+      1050295523,
+      1823248586,
+      482048421,
+      1702061156,
+      1003406928
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "2043f6c6cbdd869ff0ce46e96ca14369a7df06bc2e74ba31649e0cf7ffbeb061",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 6842.089,
+  "candidatos": [
+    {
+      "id": "gerrychain-s291855033",
+      "generador": "gerrychain",
+      "semilla": 291855033,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019139116278219542,
+      "huella_plan": "86b52797914404f413858bb8d996608f37b0e9684f3e391ef10c5e136981f426",
+      "composicion": "bateria/competicion/madrid/gerrychain-s291855033/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "40150527f59edb257d8732d4ec634372debfd946947ce72948f52d1354c33d2c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 374.051,
+        "juzgar_s": 0.238
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 265.8,
+          "baseline": 4.0,
+          "semilla_canonica": 24.5,
+          "M05": 73.9,
+          "M06": 3.8,
+          "validacion": 1.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s295868932",
+      "generador": "gerrychain",
+      "semilla": 295868932,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019139116278219542,
+      "huella_plan": "86b52797914404f413858bb8d996608f37b0e9684f3e391ef10c5e136981f426",
+      "composicion": "bateria/competicion/madrid/gerrychain-s295868932/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "78dcf94b2c827a5b2be39e35013ec827e0be14e2b5ab057365f4a7eacce1843f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 345.51,
+        "juzgar_s": 0.242
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 252.1,
+          "baseline": 3.1,
+          "semilla_canonica": 21.3,
+          "M05": 64.5,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s46435939",
+      "generador": "gerrychain",
+      "semilla": 46435939,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019139116278219542,
+      "huella_plan": "86b52797914404f413858bb8d996608f37b0e9684f3e391ef10c5e136981f426",
+      "composicion": "bateria/competicion/madrid/gerrychain-s46435939/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "dfaf41f29644bd3814b32dc170467d5a7e7ff9bc44e9af36caad833241da26d1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 317.827,
+        "juzgar_s": 0.333
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 224.8,
+          "baseline": 2.9,
+          "semilla_canonica": 21.1,
+          "M05": 64.2,
+          "M06": 3.3,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1767925601",
+      "generador": "gerrychain",
+      "semilla": 1767925601,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019139116278219542,
+      "huella_plan": "86b52797914404f413858bb8d996608f37b0e9684f3e391ef10c5e136981f426",
+      "composicion": "bateria/competicion/madrid/gerrychain-s1767925601/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "18b7bb8135d6157d93395848b6d47d2d8942f61a23853c8602440993a309e6b6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 311.775,
+        "juzgar_s": 0.246
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 219.9,
+          "baseline": 2.8,
+          "semilla_canonica": 21.2,
+          "M05": 63.2,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s971703099",
+      "generador": "gerrychain",
+      "semilla": 971703099,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019139116278219542,
+      "huella_plan": "86b52797914404f413858bb8d996608f37b0e9684f3e391ef10c5e136981f426",
+      "composicion": "bateria/competicion/madrid/gerrychain-s971703099/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "50d9c5c69d2142078a86a42c47a076b0aeb9c64ab90b358c0a276fbd8492e15d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 315.973,
+        "juzgar_s": 0.251
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 223.5,
+          "baseline": 2.9,
+          "semilla_canonica": 21.1,
+          "M05": 63.5,
+          "M06": 3.3,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2024767353",
+      "generador": "gerrychain",
+      "semilla": 2024767353,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019139116278219542,
+      "huella_plan": "86b52797914404f413858bb8d996608f37b0e9684f3e391ef10c5e136981f426",
+      "composicion": "bateria/competicion/madrid/gerrychain-s2024767353/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "27d9439a60d2f49c5b66ef654eabf4f663c689482258a37011e6cdc703b77210",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 329.852,
+        "juzgar_s": 0.238
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 232.6,
+          "baseline": 2.8,
+          "semilla_canonica": 21.5,
+          "M05": 67.9,
+          "M06": 3.3,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1823248586",
+      "generador": "gerrychain",
+      "semilla": 1823248586,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019139116278219542,
+      "huella_plan": "86b52797914404f413858bb8d996608f37b0e9684f3e391ef10c5e136981f426",
+      "composicion": "bateria/competicion/madrid/gerrychain-s1823248586/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ed72dccb0b69c96e013dc23f0d62af5e592beca40a8920a6133458259d33d05",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 337.973,
+        "juzgar_s": 0.255
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 238.5,
+          "baseline": 3.2,
+          "semilla_canonica": 23.9,
+          "M05": 66.6,
+          "M06": 3.8,
+          "validacion": 1.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s482048421",
+      "generador": "gerrychain",
+      "semilla": 482048421,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019139116278219542,
+      "huella_plan": "86b52797914404f413858bb8d996608f37b0e9684f3e391ef10c5e136981f426",
+      "composicion": "bateria/competicion/madrid/gerrychain-s482048421/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f54a7ea3666d709f0eb7f45da30cb28f87745aaf4853085038e6a6632b4bbdf0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 333.007,
+        "juzgar_s": 0.351
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 238.0,
+          "baseline": 3.2,
+          "semilla_canonica": 21.7,
+          "M05": 64.9,
+          "M06": 3.5,
+          "validacion": 1.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s763731873",
+      "generador": "gerrychain",
+      "semilla": 763731873,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019160673053181386,
+      "huella_plan": "0ec7e4991a4c99e21c9a7005a9ca6c568b6e8f6804b1d1c51ffc7f168e80023e",
+      "composicion": "bateria/competicion/madrid/gerrychain-s763731873/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0a73bed88f29a8658ff78fb85a54e622be239d0ba52377cb32784af08a1f98c0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 363.169,
+        "juzgar_s": 0.258
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 261.4,
+          "baseline": 3.0,
+          "semilla_canonica": 27.8,
+          "M05": 64.8,
+          "M06": 4.2,
+          "validacion": 1.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2096709436",
+      "generador": "gerrychain",
+      "semilla": 2096709436,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019160673053181386,
+      "huella_plan": "0ec7e4991a4c99e21c9a7005a9ca6c568b6e8f6804b1d1c51ffc7f168e80023e",
+      "composicion": "bateria/competicion/madrid/gerrychain-s2096709436/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "96efe5360da0b0b30694503640aefb4ae431c9c19bc029949f92332e83bf1418",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 369.697,
+        "juzgar_s": 0.239
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 263.4,
+          "baseline": 2.8,
+          "semilla_canonica": 24.3,
+          "M05": 74.4,
+          "M06": 3.2,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2118146402",
+      "generador": "gerrychain",
+      "semilla": 2118146402,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019160673053181386,
+      "huella_plan": "0ec7e4991a4c99e21c9a7005a9ca6c568b6e8f6804b1d1c51ffc7f168e80023e",
+      "composicion": "bateria/competicion/madrid/gerrychain-s2118146402/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6436b6e27025d328597d59dcf0cded93528688454fb46e0c25423cf488c66096",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 312.797,
+        "juzgar_s": 0.24
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 224.7,
+          "baseline": 3.0,
+          "semilla_canonica": 21.4,
+          "M05": 59.0,
+          "M06": 3.2,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s818388154",
+      "generador": "gerrychain",
+      "semilla": 818388154,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019160673053181386,
+      "huella_plan": "0ec7e4991a4c99e21c9a7005a9ca6c568b6e8f6804b1d1c51ffc7f168e80023e",
+      "composicion": "bateria/competicion/madrid/gerrychain-s818388154/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4c689b1661631a50af3d95d885398dd3e73d972cebbe17cc10d365e3347970a3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 312.566,
+        "juzgar_s": 0.236
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 222.1,
+          "baseline": 2.9,
+          "semilla_canonica": 21.4,
+          "M05": 61.6,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s718489201",
+      "generador": "gerrychain",
+      "semilla": 718489201,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019160673053181386,
+      "huella_plan": "0ec7e4991a4c99e21c9a7005a9ca6c568b6e8f6804b1d1c51ffc7f168e80023e",
+      "composicion": "bateria/competicion/madrid/gerrychain-s718489201/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "165477bc1ac318aa9b7670aac47698b356a91d1ab20b1f9114a53b82c53617b1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 307.848,
+        "juzgar_s": 0.241
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 220.6,
+          "baseline": 3.0,
+          "semilla_canonica": 21.1,
+          "M05": 58.4,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s429883401",
+      "generador": "gerrychain",
+      "semilla": 429883401,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019160673053181386,
+      "huella_plan": "0ec7e4991a4c99e21c9a7005a9ca6c568b6e8f6804b1d1c51ffc7f168e80023e",
+      "composicion": "bateria/competicion/madrid/gerrychain-s429883401/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4b8bd56de466377731df9a58dfd881287a8c6e344aec7bcd306e6354a67a2534",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 328.48,
+        "juzgar_s": 0.235
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 232.8,
+          "baseline": 3.6,
+          "semilla_canonica": 23.5,
+          "M05": 63.5,
+          "M06": 3.3,
+          "validacion": 1.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1050295523",
+      "generador": "gerrychain",
+      "semilla": 1050295523,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019160673053181386,
+      "huella_plan": "0ec7e4991a4c99e21c9a7005a9ca6c568b6e8f6804b1d1c51ffc7f168e80023e",
+      "composicion": "bateria/competicion/madrid/gerrychain-s1050295523/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c80be6161e931112885c7c7468cf12cbc26df9678d36c6e77a3342a6d572a728",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 332.731,
+        "juzgar_s": 0.246
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 237.8,
+          "baseline": 2.9,
+          "semilla_canonica": 23.1,
+          "M05": 63.9,
+          "M06": 3.3,
+          "validacion": 1.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1702061156",
+      "generador": "gerrychain",
+      "semilla": 1702061156,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019160673053181386,
+      "huella_plan": "0ec7e4991a4c99e21c9a7005a9ca6c568b6e8f6804b1d1c51ffc7f168e80023e",
+      "composicion": "bateria/competicion/madrid/gerrychain-s1702061156/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "81fb751cbf93a1d8159470c325ca4a4c2d3653c8773e2185f188ce0f3e661fca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 325.705,
+        "juzgar_s": 0.258
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 233.4,
+          "baseline": 3.4,
+          "semilla_canonica": 22.0,
+          "M05": 61.7,
+          "M06": 3.6,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1003406928",
+      "generador": "gerrychain",
+      "semilla": 1003406928,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019160673053181386,
+      "huella_plan": "0ec7e4991a4c99e21c9a7005a9ca6c568b6e8f6804b1d1c51ffc7f168e80023e",
+      "composicion": "bateria/competicion/madrid/gerrychain-s1003406928/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "918f8c6ffe91db23d1017aca6778c96a96fc18d5a645b09eeda54775fdf1e07f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 332.264,
+        "juzgar_s": 0.251
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 238.6,
+          "baseline": 3.0,
+          "semilla_canonica": 22.5,
+          "M05": 63.0,
+          "M06": 3.6,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s842263680",
+      "generador": "gerrychain",
+      "semilla": 842263680,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.01916118842140869,
+      "huella_plan": "6a155896b45baa81704358df4d8766ffd628921f818cd9d9abc4ca645e22e072",
+      "composicion": "bateria/competicion/madrid/gerrychain-s842263680/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ca2ed8f793c2ed03edd174823d4a955c5d1f8b0701a5fad665675cb756de0296",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 306.742,
+        "juzgar_s": 0.24
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 219.5,
+          "baseline": 3.0,
+          "semilla_canonica": 21.7,
+          "M05": 57.9,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1802514727",
+      "generador": "gerrychain",
+      "semilla": 1802514727,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019161401983214213,
+      "huella_plan": "10be59d0b298699ad427e14aee1de987725180aaa94c1f68de70124fe8bd6c77",
+      "composicion": "bateria/competicion/madrid/gerrychain-s1802514727/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "31185960bcfd6f61d3ae3e21f0c385fa12a5c1bd401d014179895b3fb8feb557",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 311.241,
+        "juzgar_s": 0.234
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 223.9,
+          "baseline": 2.8,
+          "semilla_canonica": 21.4,
+          "M05": 58.4,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s166739728",
+      "generador": "gerrychain",
+      "semilla": 166739728,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 21,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019162368671710332,
+      "huella_plan": "b83c229d49acda0f7febf0bb1970f7f7de4c9e190151cb8ad766f9d551a640e7",
+      "composicion": "bateria/competicion/madrid/gerrychain-s166739728/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d8cf832bdf4b5b7304f85db0430053cdedede6adce20af975385c523062b4442",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 314.301,
+        "juzgar_s": 0.236
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 225.6,
+          "baseline": 3.0,
+          "semilla_canonica": 21.2,
+          "M05": 59.7,
+          "M06": 3.3,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 21,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 24,
+      "desvio_max": 0.7386799551739889,
+      "ecm": 0.019505941840976492,
+      "huella_plan": "408807492cc220f731577a690a05a2a8fe7165245a3d7216f30ca63824994e1a",
+      "composicion": "bateria/competicion/madrid/canonico/madrid_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "87a504f401cbb58e59fe4f7dcc27e8d173063ca9533d71dc66ab93d8c68de87f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 253.251,
+        "juzgar_s": 0.258
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 222.1,
+          "M05": 24.2,
+          "M06": 4.7,
+          "validacion": 1.8
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.7387,
+          "fuera_tolerancia": 24,
+          "tolerancia": 0.12,
+          "municipios_partidos": 13
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s295868932: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "mejora_al_canonico": true
+}

@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_cantabria",
+  "ganador": "gerrychain-s1822159695",
+  "valido": true,
+  "huella_resultado": "47b3893cb0a1a6dc5930ca11d10254bd22ee35b705c645c4417deecabb779931",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_cantabria",
+    "ancla": {
+      "population": "6c528643ca8972c7fe013104e01e8197e5975d6db31a36dc86c271d5353d6edf",
+      "target_sectioning": "ae057570b86b658ab025d81f2dd16ba2219d3d2635b6fa3a42268551a904f55b"
+    },
+    "n": 20,
+    "semillas": [
+      1213543125,
+      815357355,
+      316109232,
+      35386229,
+      2131449901,
+      199360181,
+      1779353292,
+      648533817,
+      26212067,
+      1633451828,
+      1022607478,
+      428209833,
+      206058851,
+      1962882936,
+      1339248879,
+      319027217,
+      2113777439,
+      477572062,
+      2007289675,
+      1822159695
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "f7eaf59198d8799c7ee7412085c08a1cd494478d68c99a3da114ebb9d0cdf4a7",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 235.493,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1822159695",
+      "generador": "gerrychain",
+      "semilla": 1822159695,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004770669644298735,
+      "ecm": 6.745092372721801e-06,
+      "huella_plan": "5d1479c1381c20f8f75ccd24df3cbc72a129d720b46874a9156d53515badba20",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s1822159695/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cf7172793b7a0a18a0114b71971842397cb8feddedab98a63281cdb5d084514f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.991,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.8,
+          "M05": 6.3,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0048,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s477572062",
+      "generador": "gerrychain",
+      "semilla": 477572062,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004770669644298735,
+      "ecm": 7.291713988935037e-06,
+      "huella_plan": "6f64c311fd65786202bc839d4315c8635086ca3fcf3eb04e56f17aea21d2387b",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s477572062/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "30077b5e62d21dad8918063f5fad985278c3d88eb92f3e218036999bf9d61e25",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.31,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 0.8,
+          "M05": 6.4,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0048,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s199360181",
+      "generador": "gerrychain",
+      "semilla": 199360181,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004770669644298735,
+      "ecm": 8.466066579759668e-06,
+      "huella_plan": "fe0ba30d2a3b06c7d681e5ecc9639087ee1a81c47156c17f3efbc20ef8e93517",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s199360181/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f6570a0ae1047ad16fd7dfe062d66c178d3b7ed21b1711bc0aa8325cf54bc082",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.247,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.9,
+          "M05": 6.3,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0048,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s316109232",
+      "generador": "gerrychain",
+      "semilla": 316109232,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004770669644298735,
+      "ecm": 8.580624882967325e-06,
+      "huella_plan": "9165052f817ad6f9efd6493ec8f91d6cb272f701964e7901991868b39e580ab4",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s316109232/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4ea9b2d6310fe5ee3b779374f619902864733e51a5bcfe0ef170341d7501db1f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.969,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.9,
+          "M05": 6.3,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0048,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1213543125",
+      "generador": "gerrychain",
+      "semilla": 1213543125,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004770669644298735,
+      "ecm": 9.630367156081965e-06,
+      "huella_plan": "2b01df6543e921be8466457009eb3d933a56fdbc44102db09eec6aa59ab53489",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s1213543125/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c371b575b95d405df888b028640c3f9fa822b66874b4a3773c3efebe48faceaa",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.145,
+        "juzgar_s": 0.036
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.9,
+          "M05": 6.3,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0048,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s319027217",
+      "generador": "gerrychain",
+      "semilla": 319027217,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004770669644298735,
+      "ecm": 1.1048625524083967e-05,
+      "huella_plan": "f36a41f1d37d29f51213ee3d3af3de2f69376e1463ab73bd8b8bf02277297415",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s319027217/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "547252064118f6e054e58a4289ba7ac3fc9084f653c819ca3eb8e6bfda5298e7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.293,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.9,
+          "M05": 6.5,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0048,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s206058851",
+      "generador": "gerrychain",
+      "semilla": 206058851,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.004770669644298735,
+      "ecm": 1.1715813544126946e-05,
+      "huella_plan": "fbbed4cc4f481c296f017aa4ad241682d70a1d21f8c0df5dcfefc0ceccfeed69",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s206058851/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ba387c093cd1b1ec4283132cc838c7cb65e4ee893dafc0de4c12d80401035d06",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.011,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.9,
+          "M05": 7.0,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0048,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1962882936",
+      "generador": "gerrychain",
+      "semilla": 1962882936,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.005594957060574078,
+      "ecm": 2.0359737233359842e-05,
+      "huella_plan": "7e8301cad38616fbf97193a071a98b424694e92690af3d0c8adae1bab8ed163a",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s1962882936/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b70f6b91007027947d3f0a3ec7894706133a8194b291b2962151a4a15b0cc5b3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 10.776,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.9,
+          "M05": 6.1,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0056,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1633451828",
+      "generador": "gerrychain",
+      "semilla": 1633451828,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.006793148047118648,
+      "ecm": 1.3913622967844591e-05,
+      "huella_plan": "3257b3c9e96f7eba70b009d25023f83cf690fc99ee740518cd4526e8755c7c64",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s1633451828/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e83cd90fb72e73728d697237c55a21837564177bd33b182d91d381d84fe18e68",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.026,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 1.0,
+          "M05": 6.9,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0068,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s815357355",
+      "generador": "gerrychain",
+      "semilla": 815357355,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.007933553936439791,
+      "ecm": 3.107703333919526e-05,
+      "huella_plan": "6258836d5eb1eed742f75887b9bbcbbb609d0e30efe4e76829459004d516fc67",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s815357355/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2df5ac5c90da6eeb8398c9d7f8f75f15d540a98f691c0165688ac7fb39b3b47e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.081,
+        "juzgar_s": 0.035
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.8,
+          "M05": 6.3,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0079,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2007289675",
+      "generador": "gerrychain",
+      "semilla": 2007289675,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.008154496955235244,
+      "ecm": 3.2459647494852774e-05,
+      "huella_plan": "1fa5d3eebadb8687f7dcb46c30d0d06057d3a395525697dba915ed26222d18b1",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s2007289675/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "457f68814ca79b1211b001bff5b49c719e689753a7b2fd8b18291ef0b8c6ef68",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.403,
+        "juzgar_s": 0.028
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 1.1,
+          "M05": 6.3,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0082,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2131449901",
+      "generador": "gerrychain",
+      "semilla": 2131449901,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.008315955315124229,
+      "ecm": 3.07629945412947e-05,
+      "huella_plan": "7491de64ebeb2153a142a26a303feb8ce32773e3c2274e177594d54d75724ca0",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s2131449901/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ac50047677f2275be569b0dcafa8359d561ff2ae814e089cbf5f43653138fedc",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.619,
+        "juzgar_s": 0.038
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.3,
+          "baseline": 0.9,
+          "M05": 6.5,
+          "M06": 1.0,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0083,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1339248879",
+      "generador": "gerrychain",
+      "semilla": 1339248879,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.008953290946264958,
+      "ecm": 3.7784153360581514e-05,
+      "huella_plan": "449faf19e0528f54c38731d502642320979e747bdfe8bff7ecfb10f30070c5a8",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s1339248879/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "56ea7339228f1d37fb207fa29913ef663badbcd04cdf7965338663384e44cb46",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.384,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.9,
+          "M05": 6.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.009,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s26212067",
+      "generador": "gerrychain",
+      "semilla": 26212067,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.00920822519872125,
+      "ecm": 3.6634757495417854e-05,
+      "huella_plan": "e123079ede902f4364dd7157e237ddfbd16c19592db091d6c620fec6d18c9ec2",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s26212067/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f19dc16682b1b7325b76ff49ac19d3d5b36a9a34459451982fd67c8471baad77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.651,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.9,
+          "M05": 6.5,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0092,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.009539639726914429,
+      "ecm": 2.5488171046094742e-05,
+      "huella_plan": "3452242ab802b840c886c204b89ca823062a7d0b2ae391f24aa39b2284fb0459",
+      "composicion": "bateria/competicion/congreso_cantabria/canonico/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d8ae384a125153650b80eff44e3899162c65fbce73796788e29bb18b306428ac",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 5.49,
+        "juzgar_s": 0.042
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "M05": 1.3,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0095,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s35386229",
+      "generador": "gerrychain",
+      "semilla": 35386229,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.009539639726914429,
+      "ecm": 2.5488171046094742e-05,
+      "huella_plan": "3452242ab802b840c886c204b89ca823062a7d0b2ae391f24aa39b2284fb0459",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s35386229/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d8ae384a125153650b80eff44e3899162c65fbce73796788e29bb18b306428ac",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.931,
+        "juzgar_s": 0.034
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 1.0,
+          "M05": 6.7,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0095,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1779353292",
+      "generador": "gerrychain",
+      "semilla": 1779353292,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.009539639726914429,
+      "ecm": 2.5488171046094742e-05,
+      "huella_plan": "3452242ab802b840c886c204b89ca823062a7d0b2ae391f24aa39b2284fb0459",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s1779353292/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d8ae384a125153650b80eff44e3899162c65fbce73796788e29bb18b306428ac",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.722,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.9,
+          "M05": 6.9,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0095,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s648533817",
+      "generador": "gerrychain",
+      "semilla": 648533817,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.009539639726914429,
+      "ecm": 2.5488171046094742e-05,
+      "huella_plan": "3452242ab802b840c886c204b89ca823062a7d0b2ae391f24aa39b2284fb0459",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s648533817/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d8ae384a125153650b80eff44e3899162c65fbce73796788e29bb18b306428ac",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.994,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.8,
+          "M05": 7.2,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0095,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1022607478",
+      "generador": "gerrychain",
+      "semilla": 1022607478,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.009539639726914429,
+      "ecm": 2.5488171046094742e-05,
+      "huella_plan": "3452242ab802b840c886c204b89ca823062a7d0b2ae391f24aa39b2284fb0459",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s1022607478/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d8ae384a125153650b80eff44e3899162c65fbce73796788e29bb18b306428ac",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.632,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 1.0,
+          "M05": 6.6,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0095,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s428209833",
+      "generador": "gerrychain",
+      "semilla": 428209833,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.009539639726914429,
+      "ecm": 2.5488171046094742e-05,
+      "huella_plan": "3452242ab802b840c886c204b89ca823062a7d0b2ae391f24aa39b2284fb0459",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s428209833/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d8ae384a125153650b80eff44e3899162c65fbce73796788e29bb18b306428ac",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.194,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.1,
+          "baseline": 0.9,
+          "M05": 6.3,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0095,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2113777439",
+      "generador": "gerrychain",
+      "semilla": 2113777439,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.009539639726914429,
+      "ecm": 2.5488171046094742e-05,
+      "huella_plan": "3452242ab802b840c886c204b89ca823062a7d0b2ae391f24aa39b2284fb0459",
+      "composicion": "bateria/competicion/congreso_cantabria/gerrychain-s2113777439/congreso_cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d8ae384a125153650b80eff44e3899162c65fbce73796788e29bb18b306428ac",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 11.953,
+        "juzgar_s": 0.028
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.2,
+          "baseline": 0.9,
+          "M05": 6.8,
+          "M06": 1.2,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0095,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s477572062: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "mejora_al_canonico": true
+}

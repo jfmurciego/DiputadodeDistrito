@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "illes_balears",
+  "ganador": "gerrychain-s1769702141",
+  "valido": true,
+  "huella_resultado": "83439b16f6758d6fe065ea12cb30f5905b58805ced6295a7656b8bb5d438ab4a",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "illes_balears",
+    "ancla": {
+      "population": "fb105c27f3145280b4982de04638bf9b3205c3629c3a4edc1f91c17daf55f92b",
+      "target_sectioning": "eabbf448aa3b5ce4bad555fd9bc555f478f1f7655fedc05fd74f1c93ecea45c5"
+    },
+    "n": 20,
+    "semillas": [
+      975526517,
+      1769702141,
+      550364589,
+      2043065125,
+      347682017,
+      304474157,
+      2129219193,
+      380309228,
+      813875017,
+      1104498471,
+      844134468,
+      738050289,
+      1988855981,
+      821054107,
+      1165370235,
+      1243726662,
+      1341298838,
+      469444266,
+      302102135,
+      455233461
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "4b2da02201d935f94433e67e87d93adc34707085c5df895e9e39279a4f1f2f65",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 867.727,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1769702141",
+      "generador": "gerrychain",
+      "semilla": 1769702141,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.055446178734250416,
+      "huella_plan": "0ba9d7ffbe35f59a9a0be30447d96ce817c03993f54d8dd726f551992a80c658",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s1769702141/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4471b0c9cb67d77eeb5abebae24ae400d37fff54ed88ceaaa2408c61db1b0fd6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.463,
+        "juzgar_s": 0.147
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.6,
+          "baseline": 1.9,
+          "M05": 25.4,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s550364589",
+      "generador": "gerrychain",
+      "semilla": 550364589,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.055446178734250416,
+      "huella_plan": "0ba9d7ffbe35f59a9a0be30447d96ce817c03993f54d8dd726f551992a80c658",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s550364589/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8671382c91dcb11c443b87ecb00ff6eb16e28385b747b7aa40b8d360a98a5673",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 39.282,
+        "juzgar_s": 0.143
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.8,
+          "baseline": 1.8,
+          "M05": 23.0,
+          "M06": 3.1,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2043065125",
+      "generador": "gerrychain",
+      "semilla": 2043065125,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.055446178734250416,
+      "huella_plan": "0ba9d7ffbe35f59a9a0be30447d96ce817c03993f54d8dd726f551992a80c658",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s2043065125/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fc7dc2db3c0216ad42091759da4f3fdaa50c6dc15aacc3e49ef5d116d8bbfb8f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 39.522,
+        "juzgar_s": 0.142
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.2,
+          "baseline": 1.9,
+          "M05": 24.2,
+          "M06": 2.8,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s347682017",
+      "generador": "gerrychain",
+      "semilla": 347682017,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.055446178734250416,
+      "huella_plan": "0ba9d7ffbe35f59a9a0be30447d96ce817c03993f54d8dd726f551992a80c658",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s347682017/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "01a46fc6a13293da44f0bae324e0593582dde8886958d3e30f0179a8a09c2823",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 40.813,
+        "juzgar_s": 0.143
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.3,
+          "baseline": 1.8,
+          "M05": 25.4,
+          "M06": 2.9,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1341298838",
+      "generador": "gerrychain",
+      "semilla": 1341298838,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.055446178734250416,
+      "huella_plan": "0ba9d7ffbe35f59a9a0be30447d96ce817c03993f54d8dd726f551992a80c658",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s1341298838/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6aef202a0970c69ada0178d86ce9eeac807ea7f89c70bd9bc03eacf75d684417",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 39.842,
+        "juzgar_s": 0.141
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.3,
+          "baseline": 1.7,
+          "M05": 24.2,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s455233461",
+      "generador": "gerrychain",
+      "semilla": 455233461,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.055446178734250416,
+      "huella_plan": "0ba9d7ffbe35f59a9a0be30447d96ce817c03993f54d8dd726f551992a80c658",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s455233461/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e7ef97343d3d7047bf85daf2b8d5bb39329961eb10b52fd86e850180723af173",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.362,
+        "juzgar_s": 0.171
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.3,
+          "baseline": 1.9,
+          "M05": 25.6,
+          "M06": 3.0,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.055449122703697964,
+      "huella_plan": "352601fd129085d69e2b1c0cd1524cf2f2f39541f5536cdc3ecb4ef76466357c",
+      "composicion": "bateria/competicion/illes_balears/canonico/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c9c76e215142718bc3617088405e3eb238eafb09f7f33c4ab7a6b7245d6ca83c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.666,
+        "juzgar_s": 0.143
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.2,
+          "M05": 11.6,
+          "M06": 2.8,
+          "validacion": 1.6
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s975526517",
+      "generador": "gerrychain",
+      "semilla": 975526517,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.05554298786701875,
+      "huella_plan": "c65ec853dc7c9c99066ea5edd3f26f7090debefd4c15db592d10799dd964884e",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s975526517/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b2ae2893a00b9ef9d6285fcd562c95765e2a8583e9ff9a9ecae0e9376d9c8510",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.013,
+        "juzgar_s": 0.146
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.5,
+          "baseline": 1.8,
+          "M05": 25.3,
+          "M06": 2.9,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s304474157",
+      "generador": "gerrychain",
+      "semilla": 304474157,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.05554298786701875,
+      "huella_plan": "c65ec853dc7c9c99066ea5edd3f26f7090debefd4c15db592d10799dd964884e",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s304474157/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c57c8a335da7f602f1c85c1299ee2c38e2c1fb828648c1901340685fb5d907fd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.108,
+        "juzgar_s": 0.143
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.7,
+          "baseline": 2.0,
+          "M05": 25.6,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2129219193",
+      "generador": "gerrychain",
+      "semilla": 2129219193,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.05554298786701875,
+      "huella_plan": "c65ec853dc7c9c99066ea5edd3f26f7090debefd4c15db592d10799dd964884e",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s2129219193/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6198798d690055812d2b68b617e743fa1b41464a7551d641a87b0e2a3fa45a27",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.523,
+        "juzgar_s": 0.144
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.5,
+          "baseline": 1.9,
+          "M05": 25.4,
+          "M06": 3.1,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s380309228",
+      "generador": "gerrychain",
+      "semilla": 380309228,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.05554298786701875,
+      "huella_plan": "c65ec853dc7c9c99066ea5edd3f26f7090debefd4c15db592d10799dd964884e",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s380309228/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0124f35202cc2a40f4f15880131fa0c1880c373b2ed68d4b810c1bf431802a89",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 42.864,
+        "juzgar_s": 0.142
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.5,
+          "baseline": 1.8,
+          "M05": 26.6,
+          "M06": 3.1,
+          "validacion": 1.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s813875017",
+      "generador": "gerrychain",
+      "semilla": 813875017,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.05554298786701875,
+      "huella_plan": "c65ec853dc7c9c99066ea5edd3f26f7090debefd4c15db592d10799dd964884e",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s813875017/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "60059f33ff2773bcbab99d553e7371171c296cc16f39b79931537c6c0d37bc06",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 46.042,
+        "juzgar_s": 0.192
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.8,
+          "baseline": 2.0,
+          "M05": 28.1,
+          "M06": 3.1,
+          "validacion": 1.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1104498471",
+      "generador": "gerrychain",
+      "semilla": 1104498471,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.05554298786701875,
+      "huella_plan": "c65ec853dc7c9c99066ea5edd3f26f7090debefd4c15db592d10799dd964884e",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s1104498471/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6479745e82212c533fe8d7508c1f05dee287ecbf992817154abe634cb124faf8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 46.028,
+        "juzgar_s": 0.153
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.9,
+          "baseline": 2.2,
+          "M05": 28.8,
+          "M06": 3.5,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s844134468",
+      "generador": "gerrychain",
+      "semilla": 844134468,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.05554298786701875,
+      "huella_plan": "c65ec853dc7c9c99066ea5edd3f26f7090debefd4c15db592d10799dd964884e",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s844134468/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "251f3e7b0e3629e937b361fceed8958f6d6a678a81a288003edbeb6365124e8e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 43.954,
+        "juzgar_s": 0.141
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.8,
+          "baseline": 2.4,
+          "M05": 26.2,
+          "M06": 3.0,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s821054107",
+      "generador": "gerrychain",
+      "semilla": 821054107,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.05554298786701875,
+      "huella_plan": "c65ec853dc7c9c99066ea5edd3f26f7090debefd4c15db592d10799dd964884e",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s821054107/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b7a0247169264fc3a0d92c0dbd08c3b3a75968b80e78ca9c29a175384f86f48c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 39.872,
+        "juzgar_s": 0.139
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.8,
+          "baseline": 1.8,
+          "M05": 25.1,
+          "M06": 2.8,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1165370235",
+      "generador": "gerrychain",
+      "semilla": 1165370235,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.05554298786701875,
+      "huella_plan": "c65ec853dc7c9c99066ea5edd3f26f7090debefd4c15db592d10799dd964884e",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s1165370235/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "531d41d4f4d7399517a000eb7b3e14c9b2e052e9cf9025bf656ab4e10fdcb18f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 44.011,
+        "juzgar_s": 0.146
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.8,
+          "baseline": 1.9,
+          "M05": 27.7,
+          "M06": 3.1,
+          "validacion": 1.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1243726662",
+      "generador": "gerrychain",
+      "semilla": 1243726662,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.05554298786701875,
+      "huella_plan": "c65ec853dc7c9c99066ea5edd3f26f7090debefd4c15db592d10799dd964884e",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s1243726662/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0240e451c1a0319468bb832cb76acf871d65ce7269960ae39b3eae7ad004315e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 42.224,
+        "juzgar_s": 0.142
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.8,
+          "baseline": 1.7,
+          "M05": 26.3,
+          "M06": 2.8,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s469444266",
+      "generador": "gerrychain",
+      "semilla": 469444266,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.05554298786701875,
+      "huella_plan": "c65ec853dc7c9c99066ea5edd3f26f7090debefd4c15db592d10799dd964884e",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s469444266/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f365bde44c73eb3e04a06677518256226b0fa781bbafdb5ee0af84c9ec0ef433",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.74,
+        "juzgar_s": 0.142
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.6,
+          "baseline": 1.9,
+          "M05": 25.7,
+          "M06": 2.9,
+          "validacion": 1.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s738050289",
+      "generador": "gerrychain",
+      "semilla": 738050289,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.055550230989484084,
+      "huella_plan": "e7500e25e550d38b9527026ae23da92458632ba2938fb8829cdbaacee8c65967",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s738050289/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c19f528b5c738a20a78e4e10c29ecbc093e3b8934b8eefebf5a91195dd833137",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 42.765,
+        "juzgar_s": 0.138
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.7,
+          "baseline": 1.8,
+          "M05": 26.7,
+          "M06": 3.0,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1988855981",
+      "generador": "gerrychain",
+      "semilla": 1988855981,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.055550230989484084,
+      "huella_plan": "e7500e25e550d38b9527026ae23da92458632ba2938fb8829cdbaacee8c65967",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s1988855981/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "393b83e4861661c0c0f187636ca9b6f86ff8183c4aa77d65d3941ff2679d9200",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 43.485,
+        "juzgar_s": 0.141
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.9,
+          "baseline": 2.1,
+          "M05": 26.6,
+          "M06": 3.5,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s302102135",
+      "generador": "gerrychain",
+      "semilla": 302102135,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 15,
+      "desvio_max": 0.6803627719839392,
+      "ecm": 0.055550230989484084,
+      "huella_plan": "e7500e25e550d38b9527026ae23da92458632ba2938fb8829cdbaacee8c65967",
+      "composicion": "bateria/competicion/illes_balears/gerrychain-s302102135/illes_balears_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8f81b44ccdff6b23b1a7ada64c11c4f02d82ae87488dec913f76b0b5b2cab52e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 40.058,
+        "juzgar_s": 0.149
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.3,
+          "baseline": 1.8,
+          "M05": 24.1,
+          "M06": 3.4,
+          "validacion": 1.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.6804,
+          "fuera_tolerancia": 15,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s550364589: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor error cuadrático medio (ecm)",
+  "mejora_al_canonico": true
+}

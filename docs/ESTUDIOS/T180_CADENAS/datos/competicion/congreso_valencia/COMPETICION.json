@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_valencia",
+  "ganador": "gerrychain-s1455864281",
+  "valido": true,
+  "huella_resultado": "3096b05d3dfae69efd1428530cae47ec2a4e6ea49849818e1161f523d0e5a384",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_valencia",
+    "ancla": {
+      "population": "af77d09dede959f976ad1d4a093a8273727852a598c0565ffffdaf20bacda859",
+      "target_sectioning": "5e13a7485743104a4ebfe7ec920cde60026ff519754b1752035ce07d6b6228d6"
+    },
+    "n": 20,
+    "semillas": [
+      196672859,
+      971680448,
+      1235228126,
+      1923520694,
+      23063250,
+      327884273,
+      1455864281,
+      1761236949,
+      227075318,
+      951267544,
+      736408345,
+      628579351,
+      1985822406,
+      545020262,
+      2019495586,
+      1027829663,
+      798828171,
+      1486216476,
+      1433975559,
+      59248066
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "1243c928271a210b3cc881c727ffcfcb3133fb391545d022ea728a6ed274d7a6",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 929.527,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1455864281",
+      "generador": "gerrychain",
+      "semilla": 1455864281,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0906565353365143,
+      "ecm": 0.0021640153563060247,
+      "huella_plan": "2cf6a984e125c372bb9edcc9faf8f5d18af0804f5275a46a8b67c2c4ca513d5f",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s1455864281/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bf224181745a55afb8932b859bf933849a5efcd726d5f286b65b3a54582cfe00",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.851,
+        "juzgar_s": 0.125
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.1,
+          "baseline": 2.0,
+          "semilla_canonica": 4.0,
+          "M05": 11.9,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0907,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010687745453607997,
+      "huella_plan": "74af3ebc710640bf7b1564ab32959c5c8cbe1e92ecef64551a625700d6ee61bd",
+      "composicion": "bateria/competicion/congreso_valencia/canonico/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d115e5712c76f64fcdf8c86e8afa36d0959dfe4948d8c4a5b90b7be6a4ed3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 32.275,
+        "juzgar_s": 0.145
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.6,
+          "M05": 4.2,
+          "M06": 2.1,
+          "validacion": 0.9
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s196672859",
+      "generador": "gerrychain",
+      "semilla": 196672859,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010687745453607997,
+      "huella_plan": "74af3ebc710640bf7b1564ab32959c5c8cbe1e92ecef64551a625700d6ee61bd",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s196672859/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d115e5712c76f64fcdf8c86e8afa36d0959dfe4948d8c4a5b90b7be6a4ed3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 43.324,
+        "juzgar_s": 0.151
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 22.3,
+          "baseline": 2.1,
+          "semilla_canonica": 4.1,
+          "M05": 11.7,
+          "M06": 2.0,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1923520694",
+      "generador": "gerrychain",
+      "semilla": 1923520694,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010687745453607997,
+      "huella_plan": "74af3ebc710640bf7b1564ab32959c5c8cbe1e92ecef64551a625700d6ee61bd",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s1923520694/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d115e5712c76f64fcdf8c86e8afa36d0959dfe4948d8c4a5b90b7be6a4ed3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.259,
+        "juzgar_s": 0.179
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.2,
+          "baseline": 1.8,
+          "semilla_canonica": 3.7,
+          "M05": 11.4,
+          "M06": 2.0,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s23063250",
+      "generador": "gerrychain",
+      "semilla": 23063250,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010687745453607997,
+      "huella_plan": "74af3ebc710640bf7b1564ab32959c5c8cbe1e92ecef64551a625700d6ee61bd",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s23063250/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d115e5712c76f64fcdf8c86e8afa36d0959dfe4948d8c4a5b90b7be6a4ed3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 43.405,
+        "juzgar_s": 0.18
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 22.7,
+          "baseline": 2.0,
+          "semilla_canonica": 3.9,
+          "M05": 11.6,
+          "M06": 1.9,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s327884273",
+      "generador": "gerrychain",
+      "semilla": 327884273,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010687745453607997,
+      "huella_plan": "74af3ebc710640bf7b1564ab32959c5c8cbe1e92ecef64551a625700d6ee61bd",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s327884273/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d115e5712c76f64fcdf8c86e8afa36d0959dfe4948d8c4a5b90b7be6a4ed3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 41.561,
+        "juzgar_s": 0.148
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.0,
+          "baseline": 1.9,
+          "semilla_canonica": 3.7,
+          "M05": 12.0,
+          "M06": 1.9,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s951267544",
+      "generador": "gerrychain",
+      "semilla": 951267544,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010687745453607997,
+      "huella_plan": "74af3ebc710640bf7b1564ab32959c5c8cbe1e92ecef64551a625700d6ee61bd",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s951267544/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d115e5712c76f64fcdf8c86e8afa36d0959dfe4948d8c4a5b90b7be6a4ed3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 46.027,
+        "juzgar_s": 0.118
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.4,
+          "baseline": 2.0,
+          "semilla_canonica": 4.1,
+          "M05": 13.1,
+          "M06": 2.0,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s736408345",
+      "generador": "gerrychain",
+      "semilla": 736408345,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010687745453607997,
+      "huella_plan": "74af3ebc710640bf7b1564ab32959c5c8cbe1e92ecef64551a625700d6ee61bd",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s736408345/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d115e5712c76f64fcdf8c86e8afa36d0959dfe4948d8c4a5b90b7be6a4ed3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 49.676,
+        "juzgar_s": 0.11
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 25.6,
+          "baseline": 2.0,
+          "semilla_canonica": 4.3,
+          "M05": 14.5,
+          "M06": 2.1,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s628579351",
+      "generador": "gerrychain",
+      "semilla": 628579351,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010687745453607997,
+      "huella_plan": "74af3ebc710640bf7b1564ab32959c5c8cbe1e92ecef64551a625700d6ee61bd",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s628579351/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d115e5712c76f64fcdf8c86e8afa36d0959dfe4948d8c4a5b90b7be6a4ed3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 49.618,
+        "juzgar_s": 0.109
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 25.5,
+          "baseline": 2.2,
+          "semilla_canonica": 4.6,
+          "M05": 14.1,
+          "M06": 2.2,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1985822406",
+      "generador": "gerrychain",
+      "semilla": 1985822406,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010687745453607997,
+      "huella_plan": "74af3ebc710640bf7b1564ab32959c5c8cbe1e92ecef64551a625700d6ee61bd",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s1985822406/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d115e5712c76f64fcdf8c86e8afa36d0959dfe4948d8c4a5b90b7be6a4ed3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 46.395,
+        "juzgar_s": 0.167
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.4,
+          "baseline": 2.1,
+          "semilla_canonica": 3.7,
+          "M05": 13.8,
+          "M06": 2.2,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s545020262",
+      "generador": "gerrychain",
+      "semilla": 545020262,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010687745453607997,
+      "huella_plan": "74af3ebc710640bf7b1564ab32959c5c8cbe1e92ecef64551a625700d6ee61bd",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s545020262/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d115e5712c76f64fcdf8c86e8afa36d0959dfe4948d8c4a5b90b7be6a4ed3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 45.156,
+        "juzgar_s": 0.113
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.1,
+          "baseline": 1.8,
+          "semilla_canonica": 4.4,
+          "M05": 12.8,
+          "M06": 1.9,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1027829663",
+      "generador": "gerrychain",
+      "semilla": 1027829663,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010687745453607997,
+      "huella_plan": "74af3ebc710640bf7b1564ab32959c5c8cbe1e92ecef64551a625700d6ee61bd",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s1027829663/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d115e5712c76f64fcdf8c86e8afa36d0959dfe4948d8c4a5b90b7be6a4ed3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 46.112,
+        "juzgar_s": 0.115
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.8,
+          "baseline": 2.6,
+          "semilla_canonica": 4.7,
+          "M05": 11.8,
+          "M06": 2.0,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s59248066",
+      "generador": "gerrychain",
+      "semilla": 59248066,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010687745453607997,
+      "huella_plan": "74af3ebc710640bf7b1564ab32959c5c8cbe1e92ecef64551a625700d6ee61bd",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s59248066/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "64d115e5712c76f64fcdf8c86e8afa36d0959dfe4948d8c4a5b90b7be6a4ed3c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 42.26,
+        "juzgar_s": 0.111
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.8,
+          "baseline": 1.8,
+          "semilla_canonica": 3.7,
+          "M05": 11.9,
+          "M06": 1.9,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s971680448",
+      "generador": "gerrychain",
+      "semilla": 971680448,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0010988771317212349,
+      "huella_plan": "5b71c19113f640046139d64d87ba241d0a68167d5bbfc3b109437a1aee7798c9",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s971680448/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5fa19e4c9d75d10788895f43dd81ab9d68ec402b0d21eb1144ce19649a86c2c0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 43.128,
+        "juzgar_s": 0.123
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.8,
+          "baseline": 1.9,
+          "semilla_canonica": 3.7,
+          "M05": 12.6,
+          "M06": 2.0,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1486216476",
+      "generador": "gerrychain",
+      "semilla": 1486216476,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0011298963419047704,
+      "huella_plan": "0fe75e7f793316229497b9db67adbbca79fdb5d1d09b44e8f647c580194c2f1c",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s1486216476/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d1c297f8c8eba79b70f528ce6f5dc22ca519dc06bcbe7bcb73a3647db3ff5b12",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 44.574,
+        "juzgar_s": 0.118
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 22.8,
+          "baseline": 1.9,
+          "semilla_canonica": 4.0,
+          "M05": 12.3,
+          "M06": 2.4,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1433975559",
+      "generador": "gerrychain",
+      "semilla": 1433975559,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0012311948610225958,
+      "huella_plan": "5308b83308b0e07055fe3a7704cbeb633213d82ef1d79f5593e5ddab0a84e201",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s1433975559/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7f9598c4d19bb71a5cfd4869eda47eb4c5aee674d33c8fdb98c77ca0b7f31923",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 45.045,
+        "juzgar_s": 0.115
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.7,
+          "baseline": 1.8,
+          "semilla_canonica": 3.8,
+          "M05": 12.4,
+          "M06": 2.1,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s227075318",
+      "generador": "gerrychain",
+      "semilla": 227075318,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0013813864746569772,
+      "huella_plan": "9e97b4b032d2885f982d9c97309bced1f7c6db2f783f8cff1ff9420f25e55815",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s227075318/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f98c6e87896a22c65deeb7b57b558e6a14abf79f472df72d20c14ecb9072089d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 45.832,
+        "juzgar_s": 0.128
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.7,
+          "baseline": 2.2,
+          "semilla_canonica": 4.1,
+          "M05": 12.0,
+          "M06": 2.2,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2019495586",
+      "generador": "gerrychain",
+      "semilla": 2019495586,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09094785875406168,
+      "ecm": 0.0019717895369015435,
+      "huella_plan": "a5e6ba5f9b5d35105f9d3ef7e445fe7202245acccac42eb3920953b0e2da028f",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s2019495586/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "63111a1bc3ccb0f467f6590ae3a42b6c3a7726dde3c6b1a172757dd6d1c77691",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 43.343,
+        "juzgar_s": 0.117
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 22.0,
+          "baseline": 1.9,
+          "semilla_canonica": 3.9,
+          "M05": 12.4,
+          "M06": 1.9,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0909,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1235228126",
+      "generador": "gerrychain",
+      "semilla": 1235228126,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09341507451894938,
+      "ecm": 0.002147546241089774,
+      "huella_plan": "759f45bb47d85db8275788236ef02a58fa2be608137ecf0ecd83264813e2420a",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s1235228126/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "be9afb9e620f8fc0fa27094a616c9800f0732d4e4d6abe01e9bb16bde4799829",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 43.631,
+        "juzgar_s": 0.122
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 22.5,
+          "baseline": 1.8,
+          "semilla_canonica": 4.1,
+          "M05": 12.2,
+          "M06": 1.9,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0934,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1761236949",
+      "generador": "gerrychain",
+      "semilla": 1761236949,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09347002699822834,
+      "ecm": 0.0020255912524129124,
+      "huella_plan": "4f033632935d49ab99de4e2c45290026004f0a8afaa997d94c863b6385e7e20b",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s1761236949/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8e15693a8ac333527e05761863d0ff3948600c5efafe7e7c7cf392ae06f47f10",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 47.479,
+        "juzgar_s": 0.123
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 25.2,
+          "baseline": 2.2,
+          "semilla_canonica": 4.7,
+          "M05": 12.4,
+          "M06": 2.0,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0935,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s798828171",
+      "generador": "gerrychain",
+      "semilla": 798828171,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.09478286431141345,
+      "ecm": 0.002605820297219126,
+      "huella_plan": "530a189723f91938e838e6e0a8d875e8695e2fcb7374e37a47280400fa63fd60",
+      "composicion": "bateria/competicion/congreso_valencia/gerrychain-s798828171/congreso_valencia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1269955fb64a2425f2cfc26f6b7dc1b5e2c1fba41d3d07bdc49a0ba8b841982c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 44.841,
+        "juzgar_s": 0.115
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.4,
+          "baseline": 2.1,
+          "semilla_canonica": 3.9,
+          "M05": 12.3,
+          "M06": 2.0,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0948,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor desvío máximo (desvio_max)",
+  "mejora_al_canonico": true
+}

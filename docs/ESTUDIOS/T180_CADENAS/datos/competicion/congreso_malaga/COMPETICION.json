@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_malaga",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "3fc0b5f9c70475257d39112613cba629a30bdd6978381e10ead3f84f3414fb74",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_malaga",
+    "ancla": {
+      "population": "3fa04c74ca6d336406fa01fe2b45740b7ac2306f09a081e6e451dca873958ebe",
+      "target_sectioning": "23ae23014c198dc15f232efb675fbdc9afeba5fef14bb2cbd506bd1d7c7c9acf"
+    },
+    "n": 20,
+    "semillas": [
+      484723878,
+      88021095,
+      1092008342,
+      394442400,
+      1500437648,
+      127378496,
+      1805370029,
+      1974049345,
+      1451148321,
+      288274097,
+      1463038930,
+      1269064412,
+      527355131,
+      2070974047,
+      2133073965,
+      745307743,
+      906577986,
+      185587641,
+      265460908,
+      2074829701
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "58b24d077430960defc7853c1ea27976aae97d9489396ca9cb60e61bc47ccfe0",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 541.242,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.012559108767608285,
+      "huella_plan": "2948207185f7c31ac1be2cd0c4fa5e691e15463d19f7aaf465c02a75b522f145",
+      "composicion": "bateria/competicion/congreso_malaga/canonico/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "027c4a589ac5461d477f6825dc2bec2b8f0ca6250635489adefde4391e6730a3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 15.01,
+        "juzgar_s": 0.126
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.7,
+          "M05": 3.2,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1805370029",
+      "generador": "gerrychain",
+      "semilla": 1805370029,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.012887919649793288,
+      "huella_plan": "053f9638c167d550b32342eaf895c3ed7fc9bc3281f8dc99326039067e84d25a",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s1805370029/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7c27d2427daeb325193be6d2f605b822991a55895dba762073407c73b5d0c814",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.056,
+        "juzgar_s": 0.083
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.0,
+          "baseline": 1.6,
+          "M05": 13.7,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1451148321",
+      "generador": "gerrychain",
+      "semilla": 1451148321,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.01294890712333934,
+      "huella_plan": "be3630c6572ebee711be71f9a85a3e99b4681046c483265d8ab720011696de6e",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s1451148321/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8e04e8dcf0560f5a87f4f76102da35aae2389bd29050fe1fa400226afb0e0181",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.649,
+        "juzgar_s": 0.088
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.9,
+          "baseline": 1.5,
+          "M05": 14.5,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s185587641",
+      "generador": "gerrychain",
+      "semilla": 185587641,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.013035472504408197,
+      "huella_plan": "b543f6ad21147a0ecde9aefb5f2763974045a2105d91f6f5d3fd64bc8baf95c7",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s185587641/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0eeefb2646e18f075164e0d1013b1248b3bd68ef4f9727c5cd37b1e3b788f561",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.916,
+        "juzgar_s": 0.093
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.9,
+          "baseline": 1.6,
+          "M05": 14.6,
+          "M06": 1.9,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1463038930",
+      "generador": "gerrychain",
+      "semilla": 1463038930,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.013078268206661242,
+      "huella_plan": "fac97183e6056540afdc406837e9341a876977ee4153e4466d213ab70689ef3b",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s1463038930/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "7ff4e736ae18bea20c073ff5701148eb69715e966f31302d275abd3f69fdc44b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.641,
+        "juzgar_s": 0.084
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.0,
+          "baseline": 1.7,
+          "M05": 14.2,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s745307743",
+      "generador": "gerrychain",
+      "semilla": 745307743,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.013137394073179685,
+      "huella_plan": "d83e4055b0bbdc519a4ba4e8a77ecda4faf5160bab4c451e6eac5c58af4d00b9",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s745307743/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4434e0157fd57efdd05d671dcdbc4974f1575131e56c695f509e80e5a8271330",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.863,
+        "juzgar_s": 0.089
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.8,
+          "baseline": 1.5,
+          "M05": 14.8,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s394442400",
+      "generador": "gerrychain",
+      "semilla": 394442400,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.01314092178295077,
+      "huella_plan": "10049284676dde5bd1c58353f499f3ddd60cb587666fc3519fe423a908bf1615",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s394442400/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "06181c10d87966c030b6172f7b3958657fa2b2762ce1ff8e84c027b9b264f670",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.442,
+        "juzgar_s": 0.094
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.4,
+          "baseline": 1.6,
+          "M05": 13.7,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1974049345",
+      "generador": "gerrychain",
+      "semilla": 1974049345,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.013146156258793958,
+      "huella_plan": "682113db5736653b485d5fc6103b713fa9bd3dca2823118404450ec08a313db7",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s1974049345/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b1c00e6af358201f58d8f7f2ad589ee4c25b8b20ee896ac25b7fd4742b39d49f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.244,
+        "juzgar_s": 0.086
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.9,
+          "baseline": 1.5,
+          "M05": 13.0,
+          "M06": 1.9,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1092008342",
+      "generador": "gerrychain",
+      "semilla": 1092008342,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.01315405184872001,
+      "huella_plan": "3655e3d95d8bc1349ec686bf872141838b49c5108695514a07c15b6251740877",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s1092008342/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "833d2d006891c4955daa242ce437e6979b205f387617b6b6dbbfd69ffb825328",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.31,
+        "juzgar_s": 0.103
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.5,
+          "baseline": 1.5,
+          "M05": 14.4,
+          "M06": 1.9,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s484723878",
+      "generador": "gerrychain",
+      "semilla": 484723878,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.013157947471773046,
+      "huella_plan": "d4cad4d46d21c2ffc0575b0e763d3f16a39d1f5090bf63854dbce3bc8c4e3022",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s484723878/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0d2edfe78dfb70a054a60b172308460a8cb37bd64377cd6f36b2ad7fdf0994ce",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.747,
+        "juzgar_s": 0.108
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.6,
+          "baseline": 1.8,
+          "M05": 13.6,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s527355131",
+      "generador": "gerrychain",
+      "semilla": 527355131,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.0131806424723408,
+      "huella_plan": "9abbb2c8d258f66ebf91f67db232c49012810fb6fbafbe30c37161261b49ca8b",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s527355131/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1676e1c8dc4d58cd7556f99e2db098dab05a8f7ff4c590ad81faafcef9cb96fb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.8,
+        "juzgar_s": 0.084
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.2,
+          "baseline": 1.6,
+          "M05": 13.3,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s88021095",
+      "generador": "gerrychain",
+      "semilla": 88021095,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.013180799490991378,
+      "huella_plan": "5a62563a2f714178a66e40f2fbd853e9b0b17b2261d2d4a8e3ef4545fd0ad7b0",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s88021095/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "42a1a69994ff9100d56ab2901eb4679b87f2728d9560827af913cd735bc7e910",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.189,
+        "juzgar_s": 0.096
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.8,
+          "baseline": 1.6,
+          "M05": 12.7,
+          "M06": 2.0,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s288274097",
+      "generador": "gerrychain",
+      "semilla": 288274097,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.01321642794954853,
+      "huella_plan": "b1b21af469d08404c179e64e7bc2faaab362abde16e27bffe1270604cd108ef1",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s288274097/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "74d041967411a27944104bf747f9cb35515afce1c8821d27b1cbfc80fed6bcff",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.274,
+        "juzgar_s": 0.086
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.8,
+          "baseline": 1.6,
+          "M05": 13.2,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2133073965",
+      "generador": "gerrychain",
+      "semilla": 2133073965,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.013261568140739364,
+      "huella_plan": "04c83b7ed9766ebc712809a6977f6b701d6fc52aaa7c59d02f6ca965290099c1",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s2133073965/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ad16e6b79a18646c3465455e70c1b707b3fffbc1939f151c7f06f8c6e345ca9a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.193,
+        "juzgar_s": 0.093
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.9,
+          "baseline": 1.8,
+          "M05": 13.7,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s906577986",
+      "generador": "gerrychain",
+      "semilla": 906577986,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.013272345055617769,
+      "huella_plan": "d940b768aa81695b6aaa0c62f25ff6a09d52dea4a121013e698b1c667bff7815",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s906577986/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a35bbddf318f06ae0ed6b4e193477f78844656d254ecff8c2e74f227053b6ad7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.398,
+        "juzgar_s": 0.09
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.2,
+          "baseline": 1.6,
+          "M05": 14.0,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1269064412",
+      "generador": "gerrychain",
+      "semilla": 1269064412,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.013303931907428401,
+      "huella_plan": "d87523addb71577932819aef3bdd6a28e9eadef9b3b4bd9ada4d932b9be3cda4",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s1269064412/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0a93ac00a477b2ee00154c7b8de3dd1ba80b4ae05bced25abaa70c80a8e45959",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.855,
+        "juzgar_s": 0.084
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.9,
+          "baseline": 1.5,
+          "M05": 13.7,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2074829701",
+      "generador": "gerrychain",
+      "semilla": 2074829701,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.01334359908215924,
+      "huella_plan": "484060416af87994667c28b1df0f8db7502123d9eb2e9a5b6abbb221da6bb560",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s2074829701/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "69f332d96ca2f03acd86fcef6437ae6f2a312313cae270502f89e24367992057",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.1,
+        "juzgar_s": 0.098
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.0,
+          "baseline": 1.6,
+          "M05": 13.7,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s127378496",
+      "generador": "gerrychain",
+      "semilla": 127378496,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.013380505271562768,
+      "huella_plan": "8711d910b36a09131aa11c4e8c238c7e511e735b91a8af29ec91c9ed829cb3a6",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s127378496/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1d506a94d5d372d3b53d48c772dcd8f0c3639294d57bf584586f9643ca478749",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.489,
+        "juzgar_s": 0.091
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.6,
+          "baseline": 1.5,
+          "M05": 13.6,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1500437648",
+      "generador": "gerrychain",
+      "semilla": 1500437648,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.013652464250096186,
+      "huella_plan": "d690c11432ad850f145740524492613690b9a112239c9db4f6e343cda0c1549e",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s1500437648/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cf9be524362e2e1c901da8ae8164be01869222bec5eb88cc6ceae044cd165015",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.288,
+        "juzgar_s": 0.089
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.5,
+          "baseline": 1.6,
+          "M05": 13.3,
+          "M06": 1.9,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s265460908",
+      "generador": "gerrychain",
+      "semilla": 265460908,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.013852087424736533,
+      "huella_plan": "7bf02e2b4c30eec69a288a7bca90522606f519950114392a6e5275bf0ffe92b2",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s265460908/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b8f4222184e407f33c894bf8128796b950d2491a80df6aa09f0ae0af5d84df1e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.003,
+        "juzgar_s": 0.11
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.3,
+          "baseline": 1.6,
+          "M05": 14.2,
+          "M06": 2.0,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2070974047",
+      "generador": "gerrychain",
+      "semilla": 2070974047,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.27139864257317736,
+      "ecm": 0.01390219107127118,
+      "huella_plan": "dbc853a937b22223550ca2f7ab60f9c7c2e5bde1fef54724934fb18453337eca",
+      "composicion": "bateria/competicion/congreso_malaga/gerrychain-s2070974047/congreso_malaga_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "609590fe35abb2eafd493393303aa176869c8db11887a4407b02dc77c696fd89",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.792,
+        "juzgar_s": 0.105
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.1,
+          "baseline": 1.6,
+          "M05": 13.4,
+          "M06": 1.8,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2714,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1805370029: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

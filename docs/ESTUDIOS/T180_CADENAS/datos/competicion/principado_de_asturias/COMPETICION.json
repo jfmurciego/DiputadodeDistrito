@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "principado_de_asturias",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "f43b48b508dab4875efdf24ee34b6ea453e1281ab2314be9fa3b9589ebbbac00",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "principado_de_asturias",
+    "ancla": {
+      "population": "042104ba010c3b4b25560e4a647ec506cdf6a22001c296a3b107a80a166df439",
+      "target_sectioning": "b4b0473265ab1f6b75426fa4a00b5e21fd212e3edb9dfea657b69896b0f47ec6"
+    },
+    "n": 20,
+    "semillas": [
+      1853783485,
+      867009707,
+      1759365086,
+      1704510381,
+      1178313242,
+      586614416,
+      1804878586,
+      1597359497,
+      1227203578,
+      449611501,
+      55532351,
+      1442986734,
+      927536913,
+      1165619629,
+      1347191029,
+      1798538976,
+      2090564231,
+      956789899,
+      324291565,
+      1332726228
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "7a26ef7c118b5538b1808e7e65c1363686c35f452d77864f058839da71f7b287",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 579.344,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.37076317515853924,
+      "ecm": 0.006762766190648857,
+      "huella_plan": "2e7110c329756e5e22605a915c8407bb17a884f7ef6156674bbb02379bb8c632",
+      "composicion": "bateria/competicion/principado_de_asturias/canonico/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c4f79cd3a69c34bffc06279f904a14295f5ecda3f724316d7cce48327cfcd381",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.055,
+        "juzgar_s": 0.143
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.2,
+          "M04": 4.2,
+          "M05": 2.6,
+          "M06": 1.8,
+          "validacion": 1.0
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.3708,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s956789899",
+      "generador": "gerrychain",
+      "semilla": 956789899,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.011960098508206956,
+      "huella_plan": "d31a0f975871e6f42f7c5817a7e83f7c2be83cc4cf4d917dcb397d0b37dbd1f0",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s956789899/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a2f6a465ee28621de75824e2e51ff9b41401bc6da16f1896b44543db8cefd8a3",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.997,
+        "juzgar_s": 0.081
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.4,
+          "M04": 3.9,
+          "baseline": 1.4,
+          "M05": 17.8,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1853783485",
+      "generador": "gerrychain",
+      "semilla": 1853783485,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012185803742063883,
+      "huella_plan": "283fcf2bab49db1c081861c217ff9a37cf5bd9ff80fd8e4418ee6fd4e17f8d02",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s1853783485/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "90e1083882aaae1deb510140764a9c703550acd137cbf2be3948c362eb66c2a6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.52,
+        "juzgar_s": 0.082
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.3,
+          "M04": 4.1,
+          "baseline": 1.7,
+          "M05": 15.5,
+          "M06": 1.8,
+          "validacion": 1.1
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s324291565",
+      "generador": "gerrychain",
+      "semilla": 324291565,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012300621247387226,
+      "huella_plan": "b8ef6cd4853bd53b24634a8a9d18229a591cded849e55a8b3528c0fc4c225995",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s324291565/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d42007f2ee22b544ba45f029402fd02ce9bab985d5584f199bb53b6d5ba08318",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.8,
+        "juzgar_s": 0.081
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.7,
+          "M04": 4.0,
+          "baseline": 1.5,
+          "M05": 16.7,
+          "M06": 2.0,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1347191029",
+      "generador": "gerrychain",
+      "semilla": 1347191029,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012323135369428475,
+      "huella_plan": "9f427ed38473d7203d7e524bbd10fd5745c9a8b0f984c9bc04f9d6202924590e",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s1347191029/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "353d19b57a0d589b48d194f8c1e8c5bd4ab53d8884b14f9893a93826bf39d3e6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.95,
+        "juzgar_s": 0.081
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.3,
+          "M04": 4.4,
+          "baseline": 1.5,
+          "M05": 17.4,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1178313242",
+      "generador": "gerrychain",
+      "semilla": 1178313242,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012426374993849815,
+      "huella_plan": "fcf900c9b00852df7874e75f8a032d05cd48bf74a4c69eccf01273d6b9fb1e0c",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s1178313242/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "da8fbd4bf6ac8953d82e7d839568831fa17dc35d360bbf932f58960552950ab5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 28.008,
+        "juzgar_s": 0.106
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.4,
+          "M04": 4.0,
+          "baseline": 1.4,
+          "M05": 16.8,
+          "M06": 2.0,
+          "validacion": 1.1
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s449611501",
+      "generador": "gerrychain",
+      "semilla": 449611501,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012427889996382769,
+      "huella_plan": "a23f8aa35bbb2464ef9828df6117d2b925fa34ddd4934cdec7fcdb9547b36955",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s449611501/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9c034d7687461624df0db9cdbd791f1b9152cb2e7c08684569f30c8a5b7a350d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 28.026,
+        "juzgar_s": 0.084
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 3.0,
+          "M04": 4.1,
+          "baseline": 1.5,
+          "M05": 16.6,
+          "M06": 1.7,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1759365086",
+      "generador": "gerrychain",
+      "semilla": 1759365086,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.01248314304039861,
+      "huella_plan": "f295b51cf5c4808cd3ad82fceedc18d9cf45d7942bfee1151618d58bed8ac41c",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s1759365086/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "96841935e60cc303969858173aac1d355f63fbdcf8d35767085290ce980003f6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.67,
+        "juzgar_s": 0.092
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.5,
+          "M04": 5.2,
+          "baseline": 1.6,
+          "M05": 15.6,
+          "M06": 1.7,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1442986734",
+      "generador": "gerrychain",
+      "semilla": 1442986734,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.01250105133422047,
+      "huella_plan": "942b8524dbf2e5184321c0894bd451483bb5f5b3336afe161ec24aff87cc49a0",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s1442986734/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0540a0200f3f30535aa5ffe3b29bd3627b302433b6f40f1db79f7eb46ee60a3b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.767,
+        "juzgar_s": 0.119
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.7,
+          "M04": 3.9,
+          "baseline": 1.7,
+          "M05": 15.8,
+          "M06": 1.7,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1165619629",
+      "generador": "gerrychain",
+      "semilla": 1165619629,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012512412697270157,
+      "huella_plan": "3df322b5821b3002b63ef35bf31fc89fa27d299f6ff225df283728b5ecd6309a",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s1165619629/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5bedf6502f29d0bc1a099b612a4ec55c87089246fa8e6a8d9d2e5f1dca303d98",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.362,
+        "juzgar_s": 0.082
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.5,
+          "M04": 3.9,
+          "baseline": 1.5,
+          "M05": 15.7,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s927536913",
+      "generador": "gerrychain",
+      "semilla": 927536913,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012550000018593958,
+      "huella_plan": "2d2f07f431f853b69094feb27c20ccbca9ec105e1693cc767f96ba2109199994",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s927536913/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "00efa3e6063c77365dacd883c32b96a0e8b8c64afeb363af185d984c9d959024",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.219,
+        "juzgar_s": 0.088
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.7,
+          "M04": 4.3,
+          "baseline": 1.5,
+          "M05": 15.2,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s55532351",
+      "generador": "gerrychain",
+      "semilla": 55532351,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012670691782183207,
+      "huella_plan": "44dea6286f006e348dc7e1a32d5badacaa23f6e4f86e225ca1bc23853b02897d",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s55532351/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "75bc098681d331f0f8c592883fdbf988aa41702e692a85705ff3bb36fe8ac765",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 30.118,
+        "juzgar_s": 0.11
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.6,
+          "M04": 4.5,
+          "baseline": 1.7,
+          "M05": 18.4,
+          "M06": 1.9,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1798538976",
+      "generador": "gerrychain",
+      "semilla": 1798538976,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012746816791486065,
+      "huella_plan": "7f79b610e1f75f255b3a70963c3615a4fe047c0edee188b6937eece9889cee80",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s1798538976/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ce6f61cd7eb7084fdec03ec6081adc8d9f42d7ebfea0bc7deef3e13aefc53ab2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.437,
+        "juzgar_s": 0.086
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.7,
+          "M04": 3.8,
+          "baseline": 1.4,
+          "M05": 16.6,
+          "M06": 1.9,
+          "validacion": 1.0
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1804878586",
+      "generador": "gerrychain",
+      "semilla": 1804878586,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012769593669278274,
+      "huella_plan": "497a7857e93651905191ed25f442bec3245a3537d9ee88804f309a639b27d0df",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s1804878586/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6fe985f2f38d0f8ae9c21f6fad5338265216a01b2f55286092960d0cb1567fa6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 29.768,
+        "juzgar_s": 0.098
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.9,
+          "M04": 4.8,
+          "baseline": 1.6,
+          "M05": 17.5,
+          "M06": 2.0,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1227203578",
+      "generador": "gerrychain",
+      "semilla": 1227203578,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012781240017837885,
+      "huella_plan": "930e08f0590486fa4f1b4946056e117dc726faebebc8b303685a136cf9a27ad4",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s1227203578/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b4e8af6d0816c36e62a8f41a0b22ffbeefc41ee9c68d70949940f7bf6e3c6e72",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 31.72,
+        "juzgar_s": 0.093
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.9,
+          "M04": 5.2,
+          "baseline": 1.7,
+          "M05": 18.8,
+          "M06": 2.1,
+          "validacion": 1.0
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s586614416",
+      "generador": "gerrychain",
+      "semilla": 586614416,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.01279152065892575,
+      "huella_plan": "ff4028dbf21af64a3a6dcbc177ebfd6ee44d09f6dfa768578a625ad757923b33",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s586614416/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "645266010f5c1f9716e05cb4f9abaab127a36e9469130b5d7647e126f3952369",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 28.542,
+        "juzgar_s": 0.093
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.7,
+          "M04": 4.6,
+          "baseline": 1.6,
+          "M05": 16.5,
+          "M06": 1.9,
+          "validacion": 1.1
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1332726228",
+      "generador": "gerrychain",
+      "semilla": 1332726228,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012970653569642502,
+      "huella_plan": "c66e9418dc3f3800624ef55b2872ec21c2e927903ab169df917a971ef3dc94dc",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s1332726228/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5e366d4e1308e02b2fa2066ee406054e429ff7f94d7aa3cd5c3a5d0866395dc6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.626,
+        "juzgar_s": 0.089
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.7,
+          "M04": 4.1,
+          "baseline": 1.3,
+          "M05": 16.8,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s867009707",
+      "generador": "gerrychain",
+      "semilla": 867009707,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 4,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.01303894854648575,
+      "huella_plan": "2712e7daf86bb88327fb8eefc56f992dd319d15677a5443fa488eea840bb51d1",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s867009707/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "827a3058f850a359d02979dedce796ce41d6f10cfafa8832a89c8a5921ce59b8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.975,
+        "juzgar_s": 0.081
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.3,
+          "M04": 4.3,
+          "baseline": 1.6,
+          "M05": 17.1,
+          "M06": 1.6,
+          "validacion": 1.0
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 4,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2090564231",
+      "generador": "gerrychain",
+      "semilla": 2090564231,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 5,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.012636521441569367,
+      "huella_plan": "67c76ef29d27d9f5d5e836b0d38f969daf0ee9b966cfe4377be2697e60614e48",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s2090564231/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f58a4bb6939d2ed115d9fdd5a0fb07e9bc3485d36f5064894963419515443ab4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 27.428,
+        "juzgar_s": 0.084
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.4,
+          "M04": 3.8,
+          "baseline": 1.4,
+          "M05": 17.0,
+          "M06": 1.7,
+          "validacion": 1.0
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 5,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1704510381",
+      "generador": "gerrychain",
+      "semilla": 1704510381,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 5,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.01303130062021158,
+      "huella_plan": "b6b739abc9dd421d28af667096f92cca7bff30dca06aefd8b3b2cda966712b1b",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s1704510381/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6f6940c05f67e49dea6e4d458a5726fcdeb36269c2132a606d4e187a83fb539b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 31.649,
+        "juzgar_s": 0.085
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 3.7,
+          "M04": 4.0,
+          "baseline": 1.6,
+          "M05": 19.4,
+          "M06": 1.9,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 5,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1597359497",
+      "generador": "gerrychain",
+      "semilla": 1597359497,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 5,
+      "desvio_max": 0.4395562888893307,
+      "ecm": 0.013066658652387379,
+      "huella_plan": "e4a468ae69c07c9ff0a05a11901aefbdf0b7a0d81a54f16f782062eb65406c31",
+      "composicion": "bateria/competicion/principado_de_asturias/gerrychain-s1597359497/principado_de_asturias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b96103752b5c6082ffef0e86224a2dc3669e54ca5362c1cabe6598f247995b05",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 29.757,
+        "juzgar_s": 0.093
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 2.3,
+          "M04": 4.2,
+          "baseline": 1.8,
+          "M05": 18.3,
+          "M06": 1.8,
+          "validacion": 1.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.4396,
+          "fuera_tolerancia": 5,
+          "tolerancia": 0.12,
+          "municipios_partidos": 6
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s956789899: tiene menor desvío máximo (desvio_max)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

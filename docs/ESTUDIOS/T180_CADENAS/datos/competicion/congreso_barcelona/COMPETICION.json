@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_barcelona",
+  "ganador": "gerrychain-s1594088439",
+  "valido": true,
+  "huella_resultado": "8072a9143764541364dfc528c3b55276eb14d0e14a033e542e60de91d6531798",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_barcelona",
+    "ancla": {
+      "population": "ff4f947c6d5384d8f5388dc12533462f0a64add48c49d29a58e30d9bbcf289c7",
+      "target_sectioning": "cd164d76ce4e6896ed93f987215b9569eec8c15767dc952a1205784a7b2132e3"
+    },
+    "n": 20,
+    "semillas": [
+      1774511647,
+      1214267961,
+      142900716,
+      441036275,
+      1594088439,
+      744553378,
+      1837970946,
+      440038744,
+      309193596,
+      215118301,
+      176876267,
+      441492732,
+      1528216872,
+      1685352893,
+      1775387654,
+      1325089755,
+      1085118150,
+      1423179301,
+      933399712,
+      1123720792
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "05ed2e2d8ae906e07cec52515781d59636fdede945de28831e8c0a2a109eaad8",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 1890.782,
+  "candidatos": [
+    {
+      "id": "gerrychain-s1594088439",
+      "generador": "gerrychain",
+      "semilla": 1594088439,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14460799026314755,
+      "ecm": 0.006165205983896584,
+      "huella_plan": "25a49ada40509c5319781349ef25d95b423d011879f4cf77a6144a36defa4c67",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s1594088439/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "79e71467b70b1160eff01c0ed4b7cd62f89e4a8cfda1cf8110bb48cbb83fba78",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 91.723,
+        "juzgar_s": 0.204
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 65.5,
+          "baseline": 1.0,
+          "semilla_canonica": 6.3,
+          "M05": 15.0,
+          "M06": 2.6,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1446,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.0031888857899546232,
+      "huella_plan": "1de6de446c388ca493c9111d7cb83fd01c6ef2fa3c672a6e6a6dcc53b79702d0",
+      "composicion": "bateria/competicion/congreso_barcelona/canonico/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b5e9972620cc955897fb651d906923944be0066874d2b318959d68cfd7ef1b60",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 72.973,
+        "juzgar_s": 0.237
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 62.6,
+          "M05": 6.2,
+          "M06": 2.7,
+          "validacion": 1.1
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s215118301",
+      "generador": "gerrychain",
+      "semilla": 215118301,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.005326111536915641,
+      "huella_plan": "cd07c46aab4f8d067d6b099e9dfcc9d31454502e5fb86b1af99986b6d5efd388",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s215118301/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5556c1b8ef3bfb6bcbf5848e3313dc881f328677345cb0d3b639e441943c48ea",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 96.628,
+        "juzgar_s": 0.189
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 69.8,
+          "baseline": 0.9,
+          "semilla_canonica": 6.3,
+          "M05": 14.9,
+          "M06": 3.2,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1123720792",
+      "generador": "gerrychain",
+      "semilla": 1123720792,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.005553000906761218,
+      "huella_plan": "e78e1a69b0750cc2aa5057c197b7b830362fe857c4c33f478f398a4af68e3d00",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s1123720792/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8ff89b1671dd63a56cfef3fed4b5f00e297273c88e24bea18a97bf67fa9586ea",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 88.838,
+        "juzgar_s": 0.241
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 62.4,
+          "baseline": 1.1,
+          "semilla_canonica": 6.3,
+          "M05": 15.4,
+          "M06": 2.5,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s176876267",
+      "generador": "gerrychain",
+      "semilla": 176876267,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.005798583742879295,
+      "huella_plan": "fe4f4bf468d9feaee180ca3619f70bef8095046e97de6414f110db5dcd79e9c0",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s176876267/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "67f57ea643b5533f17de606c8ce04a3c2351ab9dc6378be63cfd4cb40b7e658e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 91.436,
+        "juzgar_s": 0.191
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 65.3,
+          "baseline": 1.0,
+          "semilla_canonica": 6.1,
+          "M05": 15.2,
+          "M06": 2.6,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s309193596",
+      "generador": "gerrychain",
+      "semilla": 309193596,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.0058614572867915675,
+      "huella_plan": "33cb2d6c1ca7676d38daaa871bb400190bd113696a1d5c23a6059a665a9c888f",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s309193596/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "657d1e8ae93588f675fe41648425a767b7e074baf22fb24c0024de0a923b8f00",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 94.452,
+        "juzgar_s": 0.217
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 66.7,
+          "baseline": 0.9,
+          "semilla_canonica": 6.0,
+          "M05": 16.4,
+          "M06": 3.0,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1423179301",
+      "generador": "gerrychain",
+      "semilla": 1423179301,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.005929043854407012,
+      "huella_plan": "e6bf0961e8da1cb7586e148593f37d5d71a75ca6fbbb13a945d77364b5bae5e4",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s1423179301/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "281f36f66c58bd3aecca3edb323be51f91a098721a83788737917050c80b7923",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 90.718,
+        "juzgar_s": 0.214
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 63.2,
+          "baseline": 1.0,
+          "semilla_canonica": 6.1,
+          "M05": 16.5,
+          "M06": 2.5,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1775387654",
+      "generador": "gerrychain",
+      "semilla": 1775387654,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.005932367204741478,
+      "huella_plan": "366db970198080c307b569f2b0d90ebcbe31aaa4abd205c2409940acfcb0767e",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s1775387654/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "938026eb03ee4f2a51b3680641027976e76bc0277a5b7d6db3310fd464226287",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 84.655,
+        "juzgar_s": 0.195
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 59.4,
+          "baseline": 1.0,
+          "semilla_canonica": 6.1,
+          "M05": 14.4,
+          "M06": 2.6,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1085118150",
+      "generador": "gerrychain",
+      "semilla": 1085118150,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.006170422114822784,
+      "huella_plan": "d3541177a103523496cce7f2995ea0095f9cb01d6eb167894ea334a8bb99f62e",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s1085118150/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "74fc2c8af342a75a568f794be7e8980651dbfd7a2c071268aba027335ffdef0e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 91.441,
+        "juzgar_s": 0.282
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 63.3,
+          "baseline": 1.0,
+          "semilla_canonica": 7.2,
+          "M05": 15.8,
+          "M06": 2.8,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s933399712",
+      "generador": "gerrychain",
+      "semilla": 933399712,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.006177942069860208,
+      "huella_plan": "5c1de7e9a909b2cece1f75faa08a4ff16b263ee354df2ea43020ec9f29c5d5cb",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s933399712/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "38f73624896417d3d6ba67eaf79ba6e3cfc7b0f3536c31470bf68d945f6d3d7a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 89.183,
+        "juzgar_s": 0.235
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 62.8,
+          "baseline": 0.9,
+          "semilla_canonica": 6.2,
+          "M05": 15.2,
+          "M06": 2.7,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1685352893",
+      "generador": "gerrychain",
+      "semilla": 1685352893,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.006400812767702684,
+      "huella_plan": "a966a54bc1c158522bf82ffe081a83fac13e1f6b412a4abfaea5ab7108a18612",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s1685352893/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5ef37d3e353835e1f2539ab7ec74ac53abd8252e602d141375cd115754c58ba8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 86.09,
+        "juzgar_s": 0.2
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 59.8,
+          "baseline": 0.9,
+          "semilla_canonica": 6.0,
+          "M05": 15.3,
+          "M06": 2.7,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1528216872",
+      "generador": "gerrychain",
+      "semilla": 1528216872,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.006511715167990687,
+      "huella_plan": "2784be66a5bb19fe553e71bbc002383937ec13e7900a62c1c8078c07c57f13a0",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s1528216872/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "4103de78d850f89822cd2ea29a6109dcbbeb835eb6f5318de7b34e3d2b000831",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 91.448,
+        "juzgar_s": 0.192
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 65.2,
+          "baseline": 1.1,
+          "semilla_canonica": 5.9,
+          "M05": 15.0,
+          "M06": 2.9,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1774511647",
+      "generador": "gerrychain",
+      "semilla": 1774511647,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.006663190788054049,
+      "huella_plan": "1444edc35c201c3085f9256d5c88cc24ea4af4c31eaa9500750f0b74522756c8",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s1774511647/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "21982811ce37c225e8b22582325cc42671b9c164b1ea558b3a8b83b6d8811f29",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 88.91,
+        "juzgar_s": 0.245
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 62.7,
+          "baseline": 0.9,
+          "semilla_canonica": 5.8,
+          "M05": 15.6,
+          "M06": 2.6,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s440038744",
+      "generador": "gerrychain",
+      "semilla": 440038744,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.006683008944779689,
+      "huella_plan": "f018ca7a9035b8cf80f9751a39879789c8da53b956f55d9642749fd6a3d4af0e",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s440038744/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b2f24f22b8f760529cfe6d377cbbd2f655197f0f6203687dd9057299affb42b1",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 95.363,
+        "juzgar_s": 0.259
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 67.3,
+          "baseline": 1.0,
+          "semilla_canonica": 6.3,
+          "M05": 15.9,
+          "M06": 2.9,
+          "validacion": 1.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1837970946",
+      "generador": "gerrychain",
+      "semilla": 1837970946,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.006781446115387571,
+      "huella_plan": "9bc62a36aef375ab9ec0da3c9677a3ec4dca334c59ad8cd72cb692af40fcc34e",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s1837970946/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8146aeb6002c70f680a6df32b89eef481c8e399d1d3d8f9fc19e71ddf92f18eb",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 94.595,
+        "juzgar_s": 0.236
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 66.0,
+          "baseline": 1.0,
+          "semilla_canonica": 6.5,
+          "M05": 17.0,
+          "M06": 2.8,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1214267961",
+      "generador": "gerrychain",
+      "semilla": 1214267961,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.0071522384952477265,
+      "huella_plan": "77935b085630f3f0b35fa9d5cfd7e70c9a3ef3f5eee06965bdd8172323afa0f4",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s1214267961/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5150d092dc2b6fcc9fb5304a8ebf9bd1c54a831b7fcb87b0bf444799cb032d09",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 91.382,
+        "juzgar_s": 0.21
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 64.6,
+          "baseline": 1.1,
+          "semilla_canonica": 5.9,
+          "M05": 16.0,
+          "M06": 2.5,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s441036275",
+      "generador": "gerrychain",
+      "semilla": 441036275,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.00728678894338857,
+      "huella_plan": "5cb72001dd092eb88c25779801e400d81297e758fb2355178ea421d10163a701",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s441036275/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d5865723eb668c489f29d085b523a79dbbc4480a0666368cebe5c848ec10ea2c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 88.514,
+        "juzgar_s": 0.253
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 61.5,
+          "baseline": 1.0,
+          "semilla_canonica": 5.9,
+          "M05": 15.7,
+          "M06": 3.0,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s142900716",
+      "generador": "gerrychain",
+      "semilla": 142900716,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.0074338708736329945,
+      "huella_plan": "c3b0437725dbdc6de4c9f90c3d19adcc3960c0898179bd108d389a72accb3e66",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s142900716/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ce16d3d8ee392643e03db4284de60091aa997791f940b1ee4937e9368a390109",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 86.68,
+        "juzgar_s": 0.199
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 60.8,
+          "baseline": 1.0,
+          "semilla_canonica": 6.5,
+          "M05": 14.8,
+          "M06": 2.4,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s441492732",
+      "generador": "gerrychain",
+      "semilla": 441492732,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.007853227574172122,
+      "huella_plan": "5fa51948ec5ef348f6ad80832f5bea3bc0e1914f3572b3132018c7d958f1a528",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s441492732/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "c359d482689310e136bab66fda19848c6f46919ef2c720da5ff8974bc1cec269",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 92.925,
+        "juzgar_s": 0.192
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 65.5,
+          "baseline": 0.9,
+          "semilla_canonica": 6.3,
+          "M05": 15.9,
+          "M06": 2.9,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1325089755",
+      "generador": "gerrychain",
+      "semilla": 1325089755,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.00796831422545301,
+      "huella_plan": "407e62efbb05ff61a6f49dfd14b6498b5965701d03491003dfbe34c074aadc8d",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s1325089755/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e5225d3fc7079ddd2b6df7c952a58753ac131ee2ba265e0bbab0241028ef5fe0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 86.108,
+        "juzgar_s": 0.186
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 60.4,
+          "baseline": 1.0,
+          "semilla_canonica": 5.9,
+          "M05": 14.9,
+          "M06": 2.7,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s744553378",
+      "generador": "gerrychain",
+      "semilla": 744553378,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.22312861242262852,
+      "ecm": 0.008414067049509925,
+      "huella_plan": "4ac94866ed1a84c6c2e901f2ba58e6f802a8e86dd31d3d83f3844c4388f38f59",
+      "composicion": "bateria/competicion/congreso_barcelona/gerrychain-s744553378/congreso_barcelona_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "02b3c85796d240b765d38ac59941f9f6e858a70619d32599894b5b94f33a0052",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 92.145,
+        "juzgar_s": 0.197
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 66.0,
+          "baseline": 1.0,
+          "semilla_canonica": 6.5,
+          "M05": 14.8,
+          "M06": 2.5,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.2231,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.15,
+          "municipios_partidos": 5
+        }
+      }
+    }
+  ],
+  "motivo": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "mejora_al_canonico": true
+}

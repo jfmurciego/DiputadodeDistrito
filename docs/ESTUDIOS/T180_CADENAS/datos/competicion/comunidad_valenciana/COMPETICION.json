@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "comunidad_valenciana",
+  "ganador": "gerrychain-s882243471",
+  "valido": true,
+  "huella_resultado": "4749bf3576fec07d6e336af51a783898e4e951bed2932bbd42baccf4d3076a5e",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "comunidad_valenciana",
+    "ancla": {
+      "population": "1bb88e20437edfee346d0cabc254044e9fd07ef6e94892318e9263b2c8a38478",
+      "target_sectioning": "1e02b961cfa6747afb8728c0d87de35c5c7fae6bf37d49164422b7ba1c211036"
+    },
+    "n": 20,
+    "semillas": [
+      881922691,
+      685399463,
+      882243471,
+      1469592055,
+      1139495729,
+      1283741415,
+      950166466,
+      142607276,
+      1007264789,
+      176957791,
+      1898139382,
+      61782083,
+      1230845733,
+      967552395,
+      1952685705,
+      2142003206,
+      835496494,
+      1840089550,
+      1580471154,
+      932282221
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "a2772cad28f33ba90415e980d7eb04e55318dcec55a9714eaba1a4a51ad5534a",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 3840.889,
+  "candidatos": [
+    {
+      "id": "gerrychain-s882243471",
+      "generador": "gerrychain",
+      "semilla": 882243471,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 30,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04494073848139514,
+      "huella_plan": "a2062ebb48e395549f5f991f3428274370efdd01e8e6b6b3b3fd55e4d3e2ce11",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s882243471/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d0fa95a4b695b1b5a977cee6a4c96f05948de250981b149a82e408f54d783d4e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 186.951,
+        "juzgar_s": 0.248
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 39.1,
+          "baseline": 3.0,
+          "semilla_canonica": 33.7,
+          "M05": 106.2,
+          "M06": 3.3,
+          "validacion": 1.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 30,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s932282221",
+      "generador": "gerrychain",
+      "semilla": 932282221,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 30,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.045055423738793225,
+      "huella_plan": "81169c85183fa5be59d699a0c8439cdaab5fb59bb11427bde4826b6e9a1a875b",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s932282221/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "87dbabe7e8991cc95042b96b308cc39314b201beadeca54c50a6893a54595c88",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 185.079,
+        "juzgar_s": 0.304
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 35.9,
+          "baseline": 3.1,
+          "semilla_canonica": 33.0,
+          "M05": 108.2,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 30,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s61782083",
+      "generador": "gerrychain",
+      "semilla": 61782083,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 31,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04491335839876758,
+      "huella_plan": "65c9c5855665950d7cddc78d3fc17826645942f36a2da8b3b3b8ee1ec233bc16",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s61782083/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e7a44c6295731da1f8476245a26b906af9c1d4c7fa8a3f346f082691e9bc879b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 177.437,
+        "juzgar_s": 0.308
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 36.5,
+          "baseline": 3.0,
+          "semilla_canonica": 31.6,
+          "M05": 101.4,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 31,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1469592055",
+      "generador": "gerrychain",
+      "semilla": 1469592055,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 31,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.045001762581013086,
+      "huella_plan": "f4d82576694db50a452a8fcaf881a1d9805e9e400027da2a476eaef47ec8540e",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s1469592055/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e48d8636474a0bc0cb2a926c816d401d3a5325bcfa0f68f3ef1deadc68ca3e50",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 195.034,
+        "juzgar_s": 0.247
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 39.7,
+          "baseline": 3.6,
+          "semilla_canonica": 33.5,
+          "M05": 112.9,
+          "M06": 3.8,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 31,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2142003206",
+      "generador": "gerrychain",
+      "semilla": 2142003206,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 31,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04501903920003431,
+      "huella_plan": "a0cc596e03e1cecc94c692a8dfe80978777cf1010f8e555e7d3fe4ae9bec5cb1",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s2142003206/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b26fd01b0e399df890392f3e6752bd1b5a730df82f9793d32efa2c9e10130a29",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 175.879,
+        "juzgar_s": 0.271
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 36.7,
+          "baseline": 3.2,
+          "semilla_canonica": 31.5,
+          "M05": 99.9,
+          "M06": 3.2,
+          "validacion": 1.2
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 31,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s967552395",
+      "generador": "gerrychain",
+      "semilla": 967552395,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 31,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04506321466065804,
+      "huella_plan": "619f95718c453b388becf11b996d2f10176862ec9fd21200a6a8abea1eb312c3",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s967552395/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ccfdf68ed613c5ee2475e58905a040ca57fe690b2eb9b9e5b28c212166486e97",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 182.157,
+        "juzgar_s": 0.362
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 36.5,
+          "baseline": 3.2,
+          "semilla_canonica": 32.7,
+          "M05": 104.8,
+          "M06": 3.4,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 31,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1840089550",
+      "generador": "gerrychain",
+      "semilla": 1840089550,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 31,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.045074902673522696,
+      "huella_plan": "ebc6a82d13d238ee76df8ac4132a3dd00c4e70e925f08285e061200fb94235ea",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s1840089550/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5ce2c2a185f28a1e7355e5f25a118b915d89ccc6fbbd9c8c827cd120303cad0f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 180.671,
+        "juzgar_s": 0.236
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 37.1,
+          "baseline": 3.1,
+          "semilla_canonica": 31.7,
+          "M05": 104.0,
+          "M06": 3.2,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 31,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s685399463",
+      "generador": "gerrychain",
+      "semilla": 685399463,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 31,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04507983310356652,
+      "huella_plan": "4c293347805e8cef875a00656c691a79fe1f6b0cbc9c843488d188aff6af33b2",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s685399463/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "cda799a6e69e9d48582c207f2099719b2a49fb69c736f30a9211bbe9fc171f4b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 186.895,
+        "juzgar_s": 0.287
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 36.8,
+          "baseline": 3.3,
+          "semilla_canonica": 33.3,
+          "M05": 109.0,
+          "M06": 3.1,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 31,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1952685705",
+      "generador": "gerrychain",
+      "semilla": 1952685705,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 32,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04499049874225906,
+      "huella_plan": "0279eebaaeee2fe1682572b9fdbdf1c362915337300a64182b79a222cdf053fa",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s1952685705/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0807d8bd3b0cde6b1cecedd1fd4d43635c5bb8c38613111c4e15cc2a265d5c07",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 182.595,
+        "juzgar_s": 0.342
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 37.2,
+          "baseline": 3.3,
+          "semilla_canonica": 31.9,
+          "M05": 105.4,
+          "M06": 3.5,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 32,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1007264789",
+      "generador": "gerrychain",
+      "semilla": 1007264789,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 32,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.044997770625910136,
+      "huella_plan": "c5c786180ae840bc69ff36e1308e11006e739d2ebf6a5ce2f0e783eab85f1b70",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s1007264789/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1a59f97d26765f54b706591ff179690354241d55ed5fea54ae5b1c05ba0c6fff",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 191.87,
+        "juzgar_s": 0.277
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 39.2,
+          "baseline": 3.0,
+          "semilla_canonica": 35.9,
+          "M05": 109.0,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 32,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s881922691",
+      "generador": "gerrychain",
+      "semilla": 881922691,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 32,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04503493875409515,
+      "huella_plan": "c48eff52f96677c171c96d7b8089fdcd30e309a7d307fc59e3c986305d17658d",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s881922691/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "69404cf4a6f5d8d5d2667db451b35b3c0628954b9205ab2032c9ffb4cbd338d2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 202.864,
+        "juzgar_s": 0.263
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 50.4,
+          "baseline": 3.3,
+          "semilla_canonica": 39.5,
+          "M05": 104.8,
+          "M06": 3.2,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 32,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s950166466",
+      "generador": "gerrychain",
+      "semilla": 950166466,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 32,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04504319552594651,
+      "huella_plan": "70cb204f2068092a86ced0915da9b7f97478a0480373209c47aab68703ad2742",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s950166466/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "eb6f53b6c9242456fb0bf1f6643bf5605cb141523ea43f483a6451a259e76e94",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 187.726,
+        "juzgar_s": 0.242
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 40.2,
+          "baseline": 3.1,
+          "semilla_canonica": 33.5,
+          "M05": 106.1,
+          "M06": 3.4,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 32,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s142607276",
+      "generador": "gerrychain",
+      "semilla": 142607276,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 32,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.045066376955098554,
+      "huella_plan": "cd35d427b8c28e3ae5156e8d590884273c55ae3e78cfa34e52730798b607831a",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s142607276/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f9fc9b159b230e09ab70127753c8c95300a6c2e969fcb3eb9500958f3a2f77b0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 197.027,
+        "juzgar_s": 0.241
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 36.8,
+          "baseline": 3.1,
+          "semilla_canonica": 36.6,
+          "M05": 115.6,
+          "M06": 3.4,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 32,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1139495729",
+      "generador": "gerrychain",
+      "semilla": 1139495729,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 32,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04508944346449636,
+      "huella_plan": "da87211973b23e240dd7dad91a1cb6b06539812cea84b3438081f4be0ddd12bb",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s1139495729/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6995b41a94c424e4d9bc5a812c1f8d8a949e0876da978a3d487ecb8b350f445e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 202.591,
+        "juzgar_s": 0.247
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 38.5,
+          "baseline": 3.0,
+          "semilla_canonica": 35.3,
+          "M05": 120.9,
+          "M06": 3.4,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 32,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1230845733",
+      "generador": "gerrychain",
+      "semilla": 1230845733,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 32,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04511420048481292,
+      "huella_plan": "49188842f1fb26835eac3bcae2059f64f6b3b1cb73b039bc0bcfacb57b4ed4e3",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s1230845733/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "66eaed1a2e904bd3dcc8eb62142fcfd8839189016cd8f06920790a6d9c16a635",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 173.715,
+        "juzgar_s": 0.351
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 35.5,
+          "baseline": 3.1,
+          "semilla_canonica": 31.4,
+          "M05": 98.7,
+          "M06": 3.4,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 32,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1580471154",
+      "generador": "gerrychain",
+      "semilla": 1580471154,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 32,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.045126276279077275,
+      "huella_plan": "409a8dff5fa1fcbade1812faf794cc3e2f24a45ab6a8cb9c5bf08f28695daebd",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s1580471154/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3495441f27197e5299149e26e81ba97f1fc215ebc4676bc0d10aae9388e7f94d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 176.551,
+        "juzgar_s": 0.285
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 35.9,
+          "baseline": 2.9,
+          "semilla_canonica": 31.1,
+          "M05": 101.8,
+          "M06": 3.3,
+          "validacion": 1.3
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 32,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s176957791",
+      "generador": "gerrychain",
+      "semilla": 176957791,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 32,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.0451497384218514,
+      "huella_plan": "9eea7fdecdbbbb1d5f2e002b38ef6aa9c611c6e46f4bc382e1eed92f5a93aeab",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s176957791/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e55975fa4c5874f4cd1b7139c956f9b93da286b05960d5fa8aa02d32d2c069b4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 193.814,
+        "juzgar_s": 0.329
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 36.7,
+          "baseline": 3.1,
+          "semilla_canonica": 33.2,
+          "M05": 115.2,
+          "M06": 3.9,
+          "validacion": 1.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 32,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s835496494",
+      "generador": "gerrychain",
+      "semilla": 835496494,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 32,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04515918456076414,
+      "huella_plan": "870b7190526a26cc4fc9d3939dade15cb1e96d35192ea904810d2fb4c73a56d2",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s835496494/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ea18ba251e18511034338950ba24c6ae30684a145cb66d182aff4dbe583d29ad",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 182.102,
+        "juzgar_s": 0.267
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 35.2,
+          "baseline": 3.0,
+          "semilla_canonica": 32.3,
+          "M05": 106.9,
+          "M06": 3.2,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 32,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1283741415",
+      "generador": "gerrychain",
+      "semilla": 1283741415,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 32,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04520041913231227,
+      "huella_plan": "88d037246b50a2bb72814ac5e423a36ab8bc06fbbed21ea27d7474982ffcd6a1",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s1283741415/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8fdf76f9c2bab202d650d3a966b2adaf0f18f7476a7b81dac4be9a07b900b010",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 189.392,
+        "juzgar_s": 0.241
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 37.4,
+          "baseline": 3.0,
+          "semilla_canonica": 32.8,
+          "M05": 111.2,
+          "M06": 3.3,
+          "validacion": 1.5
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 32,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1898139382",
+      "generador": "gerrychain",
+      "semilla": 1898139382,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 33,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.04506125726258206,
+      "huella_plan": "d7d5b5af2f80ce689246b3392729638fd21f312f484b564870e4e524e319429d",
+      "composicion": "bateria/competicion/comunidad_valenciana/gerrychain-s1898139382/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "84e45f64f5103db74c1afeb50e446c48e90f08599565817f7c4950860494264f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 181.797,
+        "juzgar_s": 0.279
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 36.3,
+          "baseline": 3.2,
+          "semilla_canonica": 31.9,
+          "M05": 105.4,
+          "M06": 3.4,
+          "validacion": 1.4
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 33,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 42,
+      "desvio_max": 0.7467836229282072,
+      "ecm": 0.046541277231294906,
+      "huella_plan": "011634e82b662b7d32a7ba52c5d2857fa52b367b3094d3ac7639c01874bff09f",
+      "composicion": "bateria/competicion/comunidad_valenciana/canonico/comunidad_valenciana_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e79759461c64bf0971282b39284906dd21ad28907ff2efba6485bfd3d71c1e2b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 102.842,
+        "juzgar_s": 0.268
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 45.3,
+          "M05": 50.7,
+          "M06": 4.5,
+          "validacion": 1.9
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.7468,
+          "fuera_tolerancia": 42,
+          "tolerancia": 0.12,
+          "municipios_partidos": 7
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s932282221: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "mejora_al_canonico": true
+}

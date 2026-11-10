@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_melilla",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "4a80221058948bbc8bfbf7bdc1e340790aaa03a9e4c362ec6afd3943749d8462",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_melilla",
+    "ancla": {
+      "population": "892d722de3ccd76619bf0180e5f0349a5736afd9b0f5a143b7a0e6af79c2e92f",
+      "target_sectioning": "e8cde902d4d2356667eff627c225243aac3be893136d94a8c8352054582293dc"
+    },
+    "n": 20,
+    "semillas": [
+      2108954445,
+      2077300445,
+      2062093525,
+      2043248107,
+      1982002019,
+      571762013,
+      779095404,
+      1025019248,
+      265457518,
+      489448491,
+      825913468,
+      1415762071,
+      905208448,
+      507193610,
+      225599675,
+      1597617938,
+      1721790367,
+      233255486,
+      526094623,
+      296810589
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "46cdc60b9e1d6edaebc363d4bdaeea6b133159b69f49bfc8fc40b78ba42c913f",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 146.1,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/canonico/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.082,
+        "juzgar_s": 0.015
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "M05": 0.8,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2108954445",
+      "generador": "gerrychain",
+      "semilla": 2108954445,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s2108954445/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.602,
+        "juzgar_s": 0.008
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.6,
+          "M05": 1.1,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2077300445",
+      "generador": "gerrychain",
+      "semilla": 2077300445,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s2077300445/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.833,
+        "juzgar_s": 0.01
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.8,
+          "M05": 1.1,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2062093525",
+      "generador": "gerrychain",
+      "semilla": 2062093525,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s2062093525/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.839,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.6,
+          "M05": 1.0,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2043248107",
+      "generador": "gerrychain",
+      "semilla": 2043248107,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s2043248107/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.187,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.8,
+          "M05": 1.1,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1982002019",
+      "generador": "gerrychain",
+      "semilla": 1982002019,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s1982002019/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.065,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.6,
+          "M05": 1.1,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s571762013",
+      "generador": "gerrychain",
+      "semilla": 571762013,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s571762013/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.31,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.1,
+          "baseline": 0.7,
+          "M05": 1.1,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s779095404",
+      "generador": "gerrychain",
+      "semilla": 779095404,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s779095404/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.729,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.5,
+          "M05": 1.1,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1025019248",
+      "generador": "gerrychain",
+      "semilla": 1025019248,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s1025019248/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.807,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.6,
+          "M05": 1.1,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s265457518",
+      "generador": "gerrychain",
+      "semilla": 265457518,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s265457518/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.221,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.7,
+          "M05": 1.2,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s489448491",
+      "generador": "gerrychain",
+      "semilla": 489448491,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s489448491/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.779,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 0.5,
+          "M05": 1.2,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s825913468",
+      "generador": "gerrychain",
+      "semilla": 825913468,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s825913468/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.738,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.5,
+          "M05": 1.0,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1415762071",
+      "generador": "gerrychain",
+      "semilla": 1415762071,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s1415762071/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.102,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 0.7,
+          "M05": 1.1,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s905208448",
+      "generador": "gerrychain",
+      "semilla": 905208448,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s905208448/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.991,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.6,
+          "M05": 1.0,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s507193610",
+      "generador": "gerrychain",
+      "semilla": 507193610,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s507193610/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.343,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.1,
+          "baseline": 0.6,
+          "M05": 1.1,
+          "M06": 0.7,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s225599675",
+      "generador": "gerrychain",
+      "semilla": 225599675,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s225599675/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.922,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.6,
+          "M05": 1.0,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1597617938",
+      "generador": "gerrychain",
+      "semilla": 1597617938,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s1597617938/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.249,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.6,
+          "M05": 1.1,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1721790367",
+      "generador": "gerrychain",
+      "semilla": 1721790367,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s1721790367/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.94,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.6,
+          "M05": 1.2,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s233255486",
+      "generador": "gerrychain",
+      "semilla": 233255486,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s233255486/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.101,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.7,
+          "M05": 1.2,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s526094623",
+      "generador": "gerrychain",
+      "semilla": 526094623,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s526094623/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.999,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 0.5,
+          "M05": 1.1,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s296810589",
+      "generador": "gerrychain",
+      "semilla": 296810589,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "45f92200153999ff3405a0cd98469196198bfb6893cc9023f0e37878e4168d0e",
+      "composicion": "bateria/competicion/congreso_melilla/gerrychain-s296810589/congreso_melilla_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "228bea29ffea3d3abb3e2b52f08e08eaebe914e4a787b5888eff48b7271beacd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.095,
+        "juzgar_s": 0.007
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 0.6,
+          "M05": 1.1,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s2108954445: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}
