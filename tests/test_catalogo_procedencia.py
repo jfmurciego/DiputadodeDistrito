@@ -3,8 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba del catálogo de procedencia (T-74)
-VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS: 1.1.0 (T-203): aviso ORIGEN_M06_NO_PUBLICADO por (territorio, elección).
+ANTERIOR: legacy/tests/test_catalogo_procedencia_v1.0.0_20261110.py
 FUNCIÓN: registros sintéticos: producto completo, M08 publicado sin sha256 (ERROR), composición de un M06 no
   publicado (AVISO), determinismo; y en el repositorio, catálogo versionado igual al regenerado y sin errores.
 """
@@ -60,6 +61,18 @@ class CatalogoSintetico(unittest.TestCase):
             self.assertIn(("ORIGEN_M06_NO_PUBLICADO", "composicion"), codigos)
             self.assertIn(("SIN_COPIA_R2", "M08"), codigos)
             self.assertEqual(cp.serializar(cat), cp.serializar(cp.generar(raiz)))
+
+    def test_origen_m06_por_eleccion(self):
+        # El sha256_m06 es el del M06 de 2023: vale para 2023 (sin election_date) y no para una composición de 2026.
+        for extra, avisa in (({}, False), ({"election_date": "2026-11-29"}, True)):
+            with tempfile.TemporaryDirectory() as d:
+                raiz = Path(d)
+                repo_sintetico(raiz)
+                escribir(raiz, "datos/composicion/MANIFEST.json", {"territorios": {"t1": dict(
+                    {"run_id": "9", "sha256_m06": H, "sha256_csv": "d" * 64}, **extra)}})
+                cat = cp.generar(raiz)
+                codigos = {(i["codigo"], i["producto"]) for i in cat["incoherencias"]}
+                self.assertEqual(("ORIGEN_M06_NO_PUBLICADO", "composicion") in codigos, avisa, extra)
 
     def test_publicado_sin_sha256_es_error_y_comprobar_falla(self):
         with tempfile.TemporaryDirectory() as d:
