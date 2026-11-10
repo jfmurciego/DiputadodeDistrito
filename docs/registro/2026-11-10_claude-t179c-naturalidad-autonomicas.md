@@ -1,0 +1,6 @@
+## 2026-11-10 — T-179 (nacional, 2.ª parte) — Naturalidad: C y D8 en las autonómicas
+
+**Causa:** segunda parte de la evidencia nacional (requisito del relevo); arreglos menores del revisor de #662.
+**Cambio:** `ddd_motor2/naturalidad_competicion.py` 1.3.0: objetivo por circunscripción cuando el contrato trae `province_districts` de más de una provincia o isla (población de la circunscripción / su cuota; ReCom corta cada par por la mitad de su población); `--reanudar` rechaza un RESULTADO.json de otra versión, parámetros, funciones o entorno; `unidades_de`, `funciones_de`, `parametros` e `incompatible` como funciones con test. Sin cuotas múltiples (Congreso y autonómicas de una circunscripción), resultado igual que 1.2.0. Entregable en `docs/ESTUDIOS/T179_naturalidad_nacional/autonomicas/` (12 de 15; Castilla y León, Extremadura y Principado de Asturias van en T-202). README nacional: matices de «empata» y de los distritos fuera de tolerancia (municipios e islas exentos en el contrato). Producción no lo importa; sin huellas ni workflows.
+**Pruebas:** `tests.test_motor2_naturalidad` (16 + 1 con seccionado: huella de León igual a 1.1.0), `GovernanceHeaders`.
+**Riesgos:** ninguno en producción.

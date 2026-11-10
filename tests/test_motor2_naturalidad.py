@@ -7,6 +7,7 @@ import csv
 import hashlib
 import json
 import math
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -101,6 +102,47 @@ class Laboratorio(unittest.TestCase):
         lab.largo = {("a", "b"): 1.0}
         k = lab.clave({"a": "1", "b": "2", "c": "3"}, "A")
         self.assertEqual(k[:2], (0, 0.0))  # contra el objetivo regional (83) los tres estarían fuera
+
+    def test_funciones_y_reanudar(self):
+        from types import SimpleNamespace
+        from ddd_motor2.naturalidad_competicion import FUNCIONES, VERSION, funciones_de, incompatible, parametros
+        self.assertEqual(funciones_de("C,D8"), ("A", "C", "D8"))  # A siempre: es la referencia
+        self.assertEqual(funciones_de(",".join(FUNCIONES)), FUNCIONES)
+        with self.assertRaises(ValueError):
+            funciones_de("C,X")
+        a = SimpleNamespace(cadenas=20, pasos=300, rpj=0.5, rca=0.3, rmov=0.2, rlong=0.3)
+        f, ent = funciones_de("C,D8"), {"geos": "3.14.1"}
+        previo = {"version": VERSION, "parametros": parametros(a, f), "entorno": ent}
+        self.assertEqual(incompatible(previo, a, f, ent), "")
+        self.assertIn("parámetros", incompatible(previo, a, FUNCIONES, ent))       # otras funciones
+        self.assertIn("parámetros", incompatible(previo, SimpleNamespace(**{**vars(a), "pasos": 150}), f, ent))
+        self.assertIn("entorno", incompatible(previo, a, f, {"geos": "3.12.0"}))
+        self.assertIn("versión", incompatible({**previo, "version": "1.2.0"}, a, f, ent))
+        self.assertNotIn("funciones", parametros(a, FUNCIONES))  # con las cinco, los parámetros de 1.1.0
+
+    def test_municipio_en_dos_islas(self):
+        from ddd_motor2.naturalidad_competicion import unidades_de
+        sec = ["3502401001", "3502401010", "3501601001", "3501601002"]
+        pob_m = {"35024": 20, "35016": 500}
+        psec = {"3502401001": "35-C01", "3502401010": "35-C04", "3501601001": "35-C01", "3501601002": "35-C01"}
+        u = unidades_de(sec, pob_m, 100, psec)
+        self.assertEqual(u["3502401001"], "35024:35-C01")  # Teguise en Lanzarote
+        self.assertEqual(u["3502401010"], "35024:35-C04")  # y en La Graciosa
+        self.assertEqual(u["3501601001"], "3501601001")    # municipio mayor que el objetivo: por secciones
+        self.assertEqual(unidades_de(sec[:1], pob_m, 100, {}), {"3502401001": "35024"})  # sin islas, el municipio
+
+    @unittest.skipUnless(os.environ.get("DDD_SECCIONADO_DIR"), "necesita el seccionado INE (DDD_SECCIONADO_DIR)")
+    def test_huella_leon_igual_a_1_1_0(self):
+        """Sin islas ni puentes, la versión vigente reproduce la huella de 1.1.0 (#656) en León (unos 2 min)."""
+        import tempfile
+        from ddd_motor2.naturalidad_competicion import main
+        ref = json.loads((ROOT / "docs/ESTUDIOS/T172_naturalidad/resultados/congreso_leon/RESULTADO.json")
+                         .read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as d:
+            self.assertEqual(main(["--seccionado-dir", os.environ["DDD_SECCIONADO_DIR"], "--out", d, "--pasos", "300",
+                                   "congreso_leon"]), 0)
+            r = json.loads((Path(d) / "congreso_leon" / "RESULTADO.json").read_text(encoding="utf-8"))
+        self.assertEqual(r["huella_d"], ref["huella_d"])
 
     def test_islas_y_enclaves_del_contrato(self):
         from ddd_motor2.naturalidad_competicion import particiones, puentes_contrato
