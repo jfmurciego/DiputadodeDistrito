@@ -1,11 +1,26 @@
-# Diputado de Distrito — motor multi-territorio
+# Diputado de Distrito — motor de distritos uninominales
 
-**README v4.9.0** · 20-09-2026 · Estado: **plataforma ejecutable; industrialización territorial en curso**  
-**Anterior:** `legacy/docs/README_v4.6.0.md`
+**README v4.10.0** · 10-11-2026 · Estado: **motor ejecutable; mapas de Congreso publicados; trabajo en curso en el motor nuevo y el histórico autonómico**  
+**Anterior:** `legacy/docs/README_v4.9.0.md`
 
-[![DOI de la versión (provisional)](https://zenodo.org/badge/DOI/10.5281/zenodo.24093968.svg)](https://doi.org/10.5281/zenodo.24093968) Depósito Zenodo de la versión de mapa Congreso Huesca 1.0.0 (contiene el código fuente del repositorio, no el paquete firmado `.tar.gz`).
+## Qué es
 
-DDD es un motor modular y reproducible para construir, optimizar, validar y auditar distritos uninominales desde unidades censales oficiales.
+Diputado de Distrito (DDD) es un **motor modular y reproducible** que construye, optimiza, valida y audita distritos uninominales a partir de unidades censales oficiales (secciones del INE). El producto es el motor/generador de distritos; los mapas que produce son un ejercicio de investigación y **no tienen valor oficial**.
+
+La geometría de los distritos nunca depende de los resultados electorales: estos se incorporan después, sobre el mapa ya generado.
+
+## Estado a 10-11-2026
+
+Cifras comprobadas en el repositorio:
+
+- **Publicadas** en `orchestracion/publicaciones_visor.json`: las **19 comunidades** (17 comunidades autónomas, Ceuta y Melilla) y las **52 circunscripciones** del Congreso (50 provincias, Ceuta y Melilla), cada una con su mapa territorial y su resultado de 2023 (71 territorios en total).
+- **Histórico de generales** en `datos/resultados/historico/`: 6 elecciones (2011-11, 2015-12, 2016-06, 2019-04, 2019-11 y 2023-07), con ganador y votos por partido por distrito para las 52 circunscripciones, y rotación por distrito en `rotacion/`.
+- **Visor**: v1 en la raíz del sitio (`visor/`) y v2 en `/v2/` (`visor/v2/`).
+- **Datos abiertos** por provincia en `datos_abiertos/` (52 provincias; `INDEX.json` con sha256 de cada fichero): distritos en GeoJSON, ganador por distrito de las generales de 2023 en CSV y ficha estática de cada distrito.
+
+En desarrollo (no se dan por hechos): el **motor nuevo**, el **histórico autonómico** (hay datos en `datos/resultados/historico/autonomicas/` solo para algunas comunidades) y la ampliación del mapa de Congreso de 350 diputados a todas las provincias.
+
+El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 <!-- DDD:ESTADO:INICIO -->
 # Estado operativo del proyecto
@@ -161,26 +176,37 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 
 ## Arquitectura
 
-Un repositorio, una rama permanente (`main`), un motor común (`ddd_core/`, `modulos/`, `herramientas/`) y contratos territoriales declarativos en `territorios/<id>/`.
+Un repositorio, una rama permanente (`main`), un motor común (`ddd_core/`, `modulos/`, `herramientas/`) y contratos territoriales declarativos en `territorios/<id>/`. La cadena mantiene separadas la preparación territorial, la preparación electoral, la generación territorial y la incorporación posterior de resultados (módulos M01–M08). Descripción completa en `docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md` y `docs/ARQUITECTURA_MULTI_TERRITORIO.md`.
 
-La cadena funcional mantiene la separación entre:
+## Cómo reproducir
 
-1. **preparación territorial reutilizable**;
-2. **preparación electoral independiente**;
-3. **generación territorial**;
-4. **incorporación posterior de resultados electorales**.
+1. Las dependencias están fijadas en los ficheros `requirements*.lock` y el entorno en el `Dockerfile`.
+2. En local, con Docker: `./ddd-local.sh comprobar` y `./ddd-local.sh construir`; el resto de operaciones están en `docs/INSTALACION_LOCAL.md`.
+3. La ejecución territorial completa se lanza con el flujo de GitHub Actions «00 Ejecución Completa del Proyecto» (`.github/workflows/ejecucion-completa-proyecto.yml`); la guía operativa está en `docs/INVENTARIO_OPERATIVO.md`.
+4. Los datos abiertos se verifican con `sha256sum` contra `datos_abiertos/INDEX.json`.
+5. Pruebas: `python -m unittest discover tests`.
 
-Las etapas semánticas G10 preservan la compatibilidad con M01–M08 y permiten reenganche sin recalcular productos certificados.
+## Componentes externos en uso
 
-## Productos y operación
+- **INE**: secciones censales, seccionado y padrón.
+- **Ministerio del Interior (Infoelectoral)**: resultados electorales.
+- **BOE**: escaños y normativa electoral.
+- **GitHub** (repositorio y Actions) y **Cloudflare R2** (archivo de artefactos).
+- **GerryChain**: optimización y conjuntos de planes alternativos.
+- **MapLibre** y **OpenStreetMap**: visor cartográfico.
+- **Zensical**: sitio de documentación (`documentacion_publica/`).
+- **Zenodo** y **ORCID**: archivo y citación.
+- **Sigstore**: firma y atestación de procedencia.
 
-- `resultados/finales/` contiene las fuentes canónicas de visualización.
-- Los productos pesados se conservan como artefactos reproducibles de GitHub Actions.
-- Una evidencia idéntica debe poder reutilizarse sin repetir cálculo.
-- Toda sustitución importante conserva el predecesor en `legacy/`.
-- El detalle operativo está en `docs/INVENTARIO_OPERATIVO.md`.
-- El punto de reenganche está en `docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md`.
+Las fuentes oficiales conservan sus propias condiciones de reutilización.
 
----
+## Licencias
 
-**19 territorios monitorizados** · **1 cadena territorial validada en la automatización vigente** · **README = tablero operativo de entrada**
+- **Código**: Apache-2.0 (`LICENSE`).
+- **Datos** (`datos_abiertos/`): CC BY 4.0, citando «Diputado de Distrito» y el run de procedencia.
+
+## Cómo citar
+
+Jesus Murciego (Independent researcher). *Diputado de Distrito: motor reproducible de distritos uninominales*. Software, versión 4.10.0. <https://github.com/jfmurciego/DiputadodeDistrito>. DOI: pendiente de la primera versión publicada en Zenodo.
+
+Metadatos en `CITATION.cff` y `.zenodo.json`.
