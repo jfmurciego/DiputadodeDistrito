@@ -4,7 +4,7 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.2.2 · FECHA: 2026-11-10 · ESTADO: candidato
 CAMBIOS 1.2.2: T-201, `territory_state(..., eleccion)`: el M08 publicado cuenta por (territorio, elección), por defecto 2023-07-23; un M08
-  de otra elección no marca PUBLICADO ni pisa el run.
+  de otra elección no marca PUBLICADO ni pisa el run; tampoco su M06 marca TERRITORIAL_CERTIFICADO.
 CAMBIOS 1.2.1: T-130, el Gestor da por resultado de la 00 el de la que lanzó él (la primera, p. ej. la de prueba), no el de la
   hija «Reutilizar» que encadena el bot (run 42637133308: seguía la 42651881625 en vez de la 42637193077). Una hija
   fallida solo cuenta si hay que publicar (el eslabón electoral es el que se publica).
@@ -194,7 +194,8 @@ def territory_state(root: Path, tid: str, viewer: dict, today, eleccion: str = r
         # Con los artefactos de la 00 caducados, la 05 no puede promover el run: se rehace con «Reutilizar».
         return {"estado": "COMPLETO_SIN_PUBLICAR" if age <= ARTIFACT_DAYS else "COMPLETO_CADUCADO",
                 "run_id": str(last["workflow_run_id"])}
-    m06 = any(p.get("territory_id") == tid and p.get("kind") == "canonical_m06" for p in viewer.get("products") or [])
+    m06 = any(p.get("territory_id") == tid and p.get("kind") == "canonical_m06"
+                and rl.eleccion_de(p) == eleccion for p in viewer.get("products") or [])
     if m06 or any(str(m.get("territorial_status") or "").startswith("CERTIFIED") for m in manifests):
         return {"estado": "TERRITORIAL_CERTIFICADO", "run_id": ""}
     return {"estado": "SIN_PRODUCTO", "run_id": ""}

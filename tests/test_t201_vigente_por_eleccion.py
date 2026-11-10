@@ -95,7 +95,7 @@ class VigentePorEleccion(unittest.TestCase):
         self.assertEqual(lv.territory_state(self.d, "congreso_soria", v26, today),
                          lv.territory_state(self.d, "congreso_soria", v23, today))
         self.assertEqual(lv.territory_state(self.d, "congreso_soria", v26, today), {"estado": "PUBLICADO", "run_id": "20"})
-        self.assertEqual(lv.territory_state(self.d, "congreso_teruel", v26, today)["estado"], "TERRITORIAL_CERTIFICADO")
+        self.assertEqual(lv.territory_state(self.d, "congreso_teruel", v26, today)["estado"], "SIN_PRODUCTO")
         self.assertEqual(lv.territory_state(self.d, "congreso_teruel", v26, today, "2026-11-29"),
                          {"estado": "PUBLICADO", "run_id": "901"})
 
