@@ -2,9 +2,9 @@
 
 - Decisión: D-52 (autorización por campaña). Chat del Operador: session_01KQDtFsAtHP9atzNnDthr9A.
 - Frase literal del propietario: «utorizo la campaña 2026-11-10_bateria-motor2-autonomicas-r4 tal como figura en la ficha.» (sic; primera letra omitida)
-- Fecha y hora de la frase (Europe/Madrid): 2026-11-10 22:20 (aprox.)
+- Fecha y hora de la frase (Europe/Madrid): 2026-11-10 22:08 (aprox.)
 - Estado de la ficha: BORRADOR. Requiere T-217 y T-218 fusionadas en `main`; las entradas exactas se fijan con ellas.
-- Caducidad: 2026-11-11 22:20 (24 h).
+- Caducidad: 2026-11-11 22:08 (24 h).
 - Gasto semanal al autorizar: se mide al recibir la frase y se anota aquí; tope 15.000 min/semana, aviso al 70 %.
 
 ## Límites
