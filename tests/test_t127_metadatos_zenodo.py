@@ -23,13 +23,26 @@ class MetadatosZenodo(unittest.TestCase):
         self.assertIn('given-names: "Jesus"', t)
         self.assertIn('affiliation: "Independent researcher"', t)
         self.assertIn(ORCID, t)
-        self.assertIn('version: "4.9.0"', t)
+        self.assertIn('version: "4.10.0"', t)
         self.assertIn("license: Apache-2.0", t)
         self.assertNotIn("rellenar", t)
 
+    def test_doi_concepto_y_version_coherentes(self):
+        concepto, version = "10.5281/zenodo.24093967", "10.5281/zenodo.24093968"
+        cff = (R / "CITATION.cff").read_text(encoding="utf-8")
+        readme = (R / "README.md").read_text(encoding="utf-8")
+        guia = (R / "docs/PUBLICACION_ZENODO.md").read_text(encoding="utf-8")
+        z = json.loads((R / ".zenodo.json").read_text(encoding="utf-8"))
+        for doi in (concepto, version):
+            self.assertIn(f'value: "{doi}"', cff)
+            self.assertIn(doi, readme)
+            self.assertIn(doi, guia)
+        self.assertIn(f"zenodo.org/badge/DOI/{concepto}.svg", readme)
+        self.assertIn(concepto, [r["identifier"] for r in z["related_identifiers"]])
+
     def test_version_readme_y_paper(self):
         readme = (R / "README.md").read_text(encoding="utf-8")
-        self.assertRegex(readme, r"\*\*README v4\.9\.0\*\*")
+        self.assertRegex(readme, r"\*\*README v4\.10\.0\*\*")
         paper = (R / "docs/ARTICULO_JOSS/paper.md").read_text(encoding="utf-8")
         self.assertIn("name: Jesus Murciego", paper)
         self.assertIn('name: "Independent researcher"', paper)
