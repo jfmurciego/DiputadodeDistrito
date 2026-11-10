@@ -3,15 +3,15 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Batería del motor
-FECHA: 2026-11-09
+FECHA: 2026-11-10
 ESTADO: candidato
-CAMBIOS: fichero nuevo.
+CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de la elección por defecto (2023-07-23).
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/bateria_motor_v1.0.0_20261110.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -414,7 +414,8 @@ def composicion_publicada(t: str) -> tuple[Path | None, str | None]:
     pv = ROOT / "orchestracion" / "publicaciones_visor.json"
     if pv.is_file():
         for p in json.loads(pv.read_text(encoding="utf-8")).get("products") or []:
-            if p.get("kind") == "canonical_m06" and p.get("territory_id") == t and str(p.get("run_id") or "").isdigit():
+            if p.get("kind") == "canonical_m06" and p.get("territory_id") == t and str(p.get("run_id") or "").isdigit() \
+                    and str(p.get("election_date") or "2023-07-23") == "2023-07-23":
                 runs.append(int(p["run_id"]))
     if runs:
         f = ROOT / "datos" / "composicion" / "runs" / f"{t}_{max(runs)}.csv"

@@ -14,6 +14,7 @@ import unittest
 import zipfile
 from datetime import date
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -22,6 +23,9 @@ from herramientas import registro_publicaciones_visor as rpv  # noqa: E402
 import generar_datos_abiertos as da  # noqa: E402
 import generar_hemiciclo as gh  # noqa: E402
 import legislatura_vigente as lv  # noqa: E402
+import composicion_m06 as cm  # noqa: E402
+import generar_nombres_comunidades_nacional as gn  # noqa: E402
+import bateria_motor as bm  # noqa: E402
 import resultados_ligeros as rl  # noqa: E402
 
 E26 = {"election_date": "2026-11-29", "election_id": "congreso_soria_2026-11-29"}
@@ -98,6 +102,34 @@ class VigentePorEleccion(unittest.TestCase):
         self.assertEqual(lv.territory_state(self.d, "congreso_teruel", v26, today)["estado"], "SIN_PRODUCTO")
         self.assertEqual(lv.territory_state(self.d, "congreso_teruel", v26, today, "2026-11-29"),
                          {"estado": "PUBLICADO", "run_id": "901"})
+
+    def test_composicion_nombres_y_bateria_no_cambian(self):
+        solo, mixto = self.reg("a.json", self.p23), self.reg("b.json", self.p23 + self.p26)
+        self.assertEqual({t: p["run_id"] for t, p in cm.m06_vigentes(mixto).items()}, {"congreso_soria": "20"})
+        self.assertEqual(cm.m06_vigentes(mixto), cm.m06_vigentes(solo))
+        self.assertEqual(cm.m06_vigentes(mixto, "2026-11-29")["congreso_teruel"]["run_id"], "901")
+        # nombres: descargar() usa el registro real del repo; se comprueba con un RAIZ temporal y gh simulado
+        raiz = self.d / "raiz"
+        (raiz / "orchestracion").mkdir(parents=True)
+        (raiz / gn.REGISTRO).write_text(mixto.read_text())
+        pedidos = []
+
+        def falso(cmd, **k):
+            pedidos.append(cmd[2])
+            raise RuntimeError("stop")
+        with mock.patch.object(gn, "RAIZ", raiz), mock.patch.object(gn.subprocess, "run", falso):
+            with self.assertRaises(RuntimeError):
+                gn.descargar(self.d / "dest")
+        self.assertEqual(pedidos, ["repos/%s/git/blobs/%s" % (gn.REPO, "bm06" + "20")])
+        # batería: composición publicada del run 2023 aunque exista un run 2026 mayor
+        runs = self.d / "datos/composicion/runs"
+        runs.mkdir(parents=True)
+        (self.d / "orchestracion").mkdir()
+        (self.d / "orchestracion/publicaciones_visor.json").write_text(mixto.read_text())
+        for r in (20, 900):
+            (runs / f"congreso_soria_{r}.csv").write_text("x")
+        with mock.patch.object(bm, "ROOT", self.d):
+            self.assertEqual(bm.composicion_publicada("congreso_soria")[1], "20")
 
     def test_identidad_incluye_la_eleccion(self):
         a = {"territory_id": "t", "kind": "scenario_m08", "scenario_id": "s1"}
