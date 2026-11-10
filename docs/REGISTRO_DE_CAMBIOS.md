@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.243
-Fecha: 2026-11-09
-Alcance: T-127 — DOI de versión provisional del primer depósito de Zenodo
+Versión: 1.0.244
+Fecha: 2026-11-10
+Alcance: T-146 — Tests de Extremadura no fijan el estado vivo del catálogo
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_t127-zenodo-doi.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.242_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t146-tests-estado-vivo.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.243_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.242_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.244 · [2026-11-10 — T-146 — Tests de Extremadura no fijan el estado vivo del catálogo](registro/2026-11-10_t146-tests-estado-vivo.md)
 - 1.0.243 · [2026-11-09 — T-127 — DOI de versión provisional del primer depósito de Zenodo](registro/2026-11-09_t127-zenodo-doi.md)
 - 1.0.242 · [2026-11-09 — lecciones — Lecciones de la jornada del 09-11 (Coordinador y chats de tarea)](registro/2026-11-09_lecciones-0911b.md)
 - 1.0.241 · [2026-11-09 — T-135 — Distritos numerados de 1 a K en lo público (zona datos abiertos y visor)](registro/2026-11-09_t135-distritos-desde-1.md)
