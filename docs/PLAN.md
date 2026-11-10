@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.38
+Versión: 1.0.39
 Fecha: 2026-11-10
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-61 a D-64 (decisiones del corte 5.0.0, naturalidad, número de cadenas, relevo del planificador)
-Anterior: legacy/docs/PLAN_v1.0.37_20261110.md
+Cambios/motivo: D-65 a D-68 (padrón de las generales 2026, regla del núcleo sin herencias, 10 cadenas, función D8) y cola T-175 a T-203
+Anterior: legacy/docs/PLAN_v1.0.38_20261110.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -99,11 +99,34 @@ con frase del propietario en su chat.
 - D-62. Naturalidad (piloto en seis territorios, `docs/ESTUDIOS/T172_naturalidad/`): al propietario le gustan los criterios B y C, sobre todo el C (población dentro de tolerancia y, a igualdad, menos partidos judiciales y comarcas partidos y mejor forma, cortando por donde hay menos vínculo). No está fijado: faltan las variantes con el desvío limitado al 5 % y al 8 % y el criterio C en los 71 territorios. Cantabria y Extremadura no se relanzan: esperan al motor nuevo.
 - D-63. El número de cadenas de la competición es un parámetro y podrá ser una opción de la campaña, con un valor oficial fijado por edición antes de generar (forma parte de la regla pública, como la semilla). En curso la medición con 20 cadenas anidadas para saber a partir de cuántas deja de mejorar.
 - D-64. Relevo del planificador (orden del propietario en el chat del Coordinador, 10-11): el sucesor arranca de este plan, de `docs/ESTADO.md` y del traspaso. Regla de comunicación con el propietario: temas y objetivos, lenguaje de arquitectura sin identificadores de tarea, y distinguir siempre entre decidido, construido, probado y publicado.
+- D-65. Generales del 29-11-2026 (propietario, chat del planificador, «hay que ser fiel a la realidad»): la noche electoral usa los mapas vigentes (padrón y seccionado 2023) y lleva los resultados 2026 a ellos por equivalencia de secciones; las 52 se regeneran con el par 2025/2025 en el corte 5.0.0. El RD 806/2026 (BOE-A-2026-20742) no nombra el padrón; su reparto (Cádiz 9→8, Madrid 37→38) implica uno posterior a 2023. Los escaños no cambian los K de DDD (van por contrato). El aviso público sobre el padrón va a los textos de la web, que aprueba el propietario.
+- D-66. Regla del núcleo (máximo 1 distrito mixto por municipio) sin admitir las infracciones que trae el mapa vigente; si un territorio es infactible por población, excepción explícita en su contrato con su motivo (máximo 2), que aprueba el propietario. Caso Ávila: el vigente incumple; los mapas nuevos la cumplen sin excepción.
+- D-67. Número de cadenas provisional: 10 por edición (medición en 20 territorios: distritos fuera de tolerancia 172 sin cadenas, 126 con 5, 125 con 10, 124 con 20; `docs/ESTUDIOS/T180_CADENAS/`). Se fija como oficial cuando lo confirme la batería de los 71 con la función elegida.
+- D-68. Función de calidad del motor nuevo: D8 = criterio C (población dentro de tolerancia y, a igualdad, menos partidos judiciales y comarcas agrarias partidos y mejor forma, cortando por donde hay menos vínculo) con el desvío máximo limitado al 8 % solo para elegir entre candidatos válidos; no es una regla del núcleo. En el Congreso logra el 86 % de la mejora de C con desvío medio 11,4 % frente a 16,4 % (`docs/ESTUDIOS/T179_naturalidad_nacional/`).
+
+### Cola vigente del motor y de las generales 2026 (10-11)
+| Id | Tarea | Estado |
+|---|---|---|
+| T-175 | Núcleos cerrados en el certificador y enumeración exacta en territorios pequeños | HECHA |
+| T-179 | Naturalidad C y D8: 52 del Congreso y 12 autonómicas | HECHA |
+| T-180 | Curva del número de cadenas (N = 1 a 20) en 20 territorios | HECHA (PR en revisión) |
+| T-194 | Criterio automatizado de aceptación del relevo | HECHA; (a) con datos reales, en la batería |
+| T-194b | Datos reales mínimos de Melilla y Soria en la CI, si caben (≤2 MB, ≤60 s) | PENDIENTE (P2, sin chat propio) |
+| T-195 | Núcleos cerrados en la competición del motor nuevo | HECHA |
+| T-196 | Batería de los 71 con D8 y N = 10 (ejecución) | PREPARADO; la lanza el Operador con frase del propietario |
+| T-197 | Ensayo en seco de la noche electoral 2026 | HECHA |
+| T-198 | Corte 5.0.0: tests de aprobación y de nombres de flujo; tabla de equivalencias | HECHA |
+| T-199 | Dimensión de elección en el registro y fecha parametrizada | HECHA |
+| T-200 | Homologación 2026 y equivalencia de secciones 2026 | HECHA |
+| T-201 | Elección como dimensión en la lectura de publicaciones | HECHA |
+| T-202 | Naturalidad en Castilla y León, Extremadura y Principado de Asturias | HECHA (PR en revisión) |
+| T-203 | Catálogo de procedencia por elección | PENDIENTE (P3, límite 25-11) |
+| T-204 | Actualización del plan (D-65 a D-68 y esta cola) | ESTA PR |
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192 y T-193. Siguiente libre para el planificador: T-194.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193 y T-204. El planificador ha dado T-194 a T-204 (10-11). Siguiente libre para el planificador: T-205.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
