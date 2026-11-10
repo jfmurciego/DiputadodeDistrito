@@ -35,7 +35,7 @@ adjunto sigue en la Release de GitHub, con su firma verificable. Decisión del p
 
 ## Datos de autor que constan
 Nombre «Jesus Murciego», ORCID 0009-0002-4434-959X, afiliación «Independent researcher» (decisión del propietario, 09-11).
-Versión del proyecto: 4.10.0.
+Versión del proyecto: 4.9.0.
 
 ## Primer depósito
 Mapa Congreso Huesca 1.0.0 (versión «mapa-congreso_huesca-v1.0.0», 9-11-2026): https://zenodo.org/records/24093968

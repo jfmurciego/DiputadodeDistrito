@@ -1,7 +1,7 @@
 # Diputado de Distrito — motor de distritos uninominales
 
-**README v4.10.0** · 10-11-2026 · Estado: **motor ejecutable; mapas de Congreso publicados; trabajo en curso en el motor nuevo y el histórico autonómico**  
-**Anterior:** `legacy/docs/README_v4.9.0.md`
+**README rev. 4.9.0-r1** (revisión del documento; versión del proyecto 4.9.0) · 10-11-2026 · Estado: **motor ejecutable; mapas de Congreso publicados; trabajo en curso en el motor nuevo y el histórico autonómico**  
+**Anterior:** `legacy/docs/README_v4.10.0.md`
 
 [![DOI de concepto](https://zenodo.org/badge/DOI/10.5281/zenodo.24093967.svg)](https://doi.org/10.5281/zenodo.24093967) Archivo en Zenodo de las versiones de mapa publicadas (la primera, Congreso Huesca 1.0.0). Cada depósito contiene el código fuente del repositorio en esa versión, no el paquete firmado `.tar.gz`.
 
@@ -209,7 +209,7 @@ Las fuentes oficiales conservan sus propias condiciones de reutilización.
 
 ## Cómo citar
 
-Jesus Murciego (Independent researcher). *Diputado de Distrito: motor reproducible de distritos uninominales*. Software, versión 4.10.0. <https://github.com/jfmurciego/DiputadodeDistrito>.
+Jesus Murciego (Independent researcher). *Diputado de Distrito: motor reproducible de distritos uninominales*. Software, versión 4.9.0. <https://github.com/jfmurciego/DiputadodeDistrito>.
 
 Archivo en Zenodo: DOI de concepto (todas las versiones de mapa; resuelve a la última) [10.5281/zenodo.24093967](https://doi.org/10.5281/zenodo.24093967). Hoy contiene un solo depósito, el mapa Congreso Huesca 1.0.0 (9-11-2026), con DOI de versión [10.5281/zenodo.24093968](https://doi.org/10.5281/zenodo.24093968): para citar ese mapa, usa el DOI de versión. El depósito no es el proyecto entero.
 
