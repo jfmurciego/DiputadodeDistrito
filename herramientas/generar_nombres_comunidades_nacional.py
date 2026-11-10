@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Nombres de distrito (C12) y comarcas partidas (C13) de los distritos nacionales.
 
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: Nombres, comarcas y partidos judiciales
-FECHA: 2026-11-07
+FECHA: 2026-11-10
 ESTADO: activo T-64
+CAMBIOS 1.1.1 (T-201): `descargar` toma el M06 de la elección por defecto (2023-07-23), no el run_id mayor entre elecciones.
 CAMBIOS: C13 usa también los partidos judiciales (configuracion/partidos_judiciales.csv, Ley 38/1988) en toda España; los nombres de distrito no cambian.
 MOTIVO: un nombre legible y estable por distrito nacional y la medida de comarcas partidas.
-ANTERIOR: legacy/2026-11-07_nombres_comunidades_v1.0.0/generar_nombres_comunidades_nacional_v1.0.0.py
+ANTERIOR: legacy/herramientas/generar_nombres_comunidades_nacional_v1.1.0_20261110.py
 
 Reglas de nombre (toponimia solo en español, tabla datos/distritos/toponimos_es.csv):
   1. distrito de un único municipio: «<municipio>»; si ese municipio está repartido entre k>1 distritos
@@ -33,7 +34,7 @@ import zipfile
 from collections import defaultdict
 from pathlib import Path
 
-VERSION = "1.1.0"
+VERSION = "1.1.1"
 RAIZ = Path(__file__).resolve().parents[1]
 SALIDA = "datos/distritos"
 POBLACION = "datos/distritos/municipios_ine_2025.csv"  # código, nombre INE y población 2025 por municipio
@@ -362,12 +363,9 @@ def descargar(destino):
     destino = Path(destino)
     destino.mkdir(parents=True, exist_ok=True)
     registro = json.loads((RAIZ / REGISTRO).read_text(encoding="utf-8"))
-    mejores = {}
-    for p in registro["products"]:
-        if p.get("kind") == "canonical_m06" and p["territory_id"].startswith("congreso_"):
-            t = p["territory_id"]
-            if t not in mejores or int(p["run_id"]) > int(mejores[t]["run_id"]):
-                mejores[t] = p
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import resultados_ligeros as rl
+    mejores = rl.vigente_por_eleccion(registro["products"], "canonical_m06", prefijo="congreso_")
     for t, p in sorted(mejores.items()):
         crudo = subprocess.run(
             ["gh", "api", f"repos/{REPO}/git/blobs/{p['blob_sha']}", "-H", "Accept: application/vnd.github.raw"],

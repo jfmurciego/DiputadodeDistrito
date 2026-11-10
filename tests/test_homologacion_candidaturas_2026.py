@@ -57,5 +57,38 @@ class Homologacion2026(unittest.TestCase):
         self.assertEqual(h.main(["comprobar"]), 0)
 
 
+class SiglasDelZip(unittest.TestCase):
+    """T-200: siglas de Interior (ENSAYO T-197, ZIP 2023) frente a las reglas y a las candidaturas BOE."""
+
+    def test_variantes_de_interior_sin_regla_fallan(self):
+        sin = h.siglas_sin_regla(["PSE-EE (PSOE)", "SUMAR - ECP", "JxCAT - JUNTS", "U.P.N."], "48")
+        self.assertEqual(sin, ["JxCAT - JUNTS", "PSE-EE (PSOE)", "SUMAR - ECP", "U.P.N."])
+        with self.assertRaisesRegex(ValueError, "SIGLAS_SIN_REGLA"):
+            h.exigir_siglas_zip(["PSE-EE (PSOE)"], "48")
+
+    def test_candidatura_boe_de_la_provincia_pasa(self):
+        # La Coruña (15): PACMA es candidatura BOE; en Soria (42) no.
+        self.assertEqual(h.siglas_sin_regla(["VOX", "PACMA"], "15"), [])
+        self.assertEqual(h.siglas_sin_regla(["PACMA"], "42"), ["PACMA"])
+
+    def test_tabla_interior_de_la_eleccion(self):
+        # reglas_generales.json["interior"]["202307"]["JUNTS"] = «CiU–Junts» (literal del fichero, no recalculado)
+        self.assertEqual(h.siglas_sin_regla(["JUNTS"], "08", eleccion="202307"), [])
+        self.assertEqual(h.siglas_sin_regla(["JUNTS"], "08"), ["JUNTS"])  # 202611 aún sin tabla de Interior
+
+    def test_regla_2026_explicita_gana(self):
+        import json
+        reglas = json.loads((ROOT / h.REGLAS).read_text(encoding="utf-8"))
+        self.assertEqual(h.resolver_zip(reglas, {}, "PODEMOS", "08", {}), ("Podemos–Sumar", "DECIDIDA", "PODEMOS"))
+
+    def test_regla_2026_pasa_por_exigir(self):
+        h.exigir_siglas_zip(["PODEMOS", "JxCat", "UPN-PP"], "08")  # sin error
+
+    def test_otra_eleccion_no_usa_reglas_ni_candidaturas_2026(self):
+        # PACMA es candidatura BOE de La Coruña (15) en 2026, pero no vale para 2023
+        self.assertEqual(h.siglas_sin_regla(["PACMA"], "15"), [])
+        self.assertEqual(h.siglas_sin_regla(["PACMA", "PODEMOS"], "15", eleccion="202307"), ["PACMA", "PODEMOS"])
+
+
 if __name__ == "__main__":
     unittest.main()

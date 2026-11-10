@@ -3,9 +3,11 @@
 """Hemiciclo nacional: suma de escaños por partido de tres maneras.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-07 · ESTADO: candidato
+VERSIÓN: 1.3.0 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS: 1.3.0 (T-201): `cargar_m08(cache, m08_dir, eleccion)` elige el M08 por (territorio, elección), por defecto 2023-07-23; interfaz
+  pública intacta (parámetro opcional al final).
 CAMBIOS: (b) se rellena con el oficial de 2019-11 (BOE-A-2019-18147, T-55) y una tabla explícita de homologación de siglas; lee los ganadores de datos/resultados/*.csv (T-53) cuando el manifiesto acredita el blob vigente; blobs como respaldo.
-ANTERIOR: legacy/herramientas/generar_hemiciclo_v1.1.0_20261107.py
+ANTERIOR: legacy/herramientas/generar_hemiciclo_v1.2.0_20261110.py
 QUÉ HACE: lee los M08 registrados (distritos_resultados.csv) de las provincias nacionales completas y suma:
   (a) reparto real 2023 (D'Hondt, umbral 3 %), calculado desde los votos y contrastado escaño a escaño con el oficial;
   (b) elección anterior (generales 2019-11): escaños oficiales del BOE (configuracion/resultados_oficiales_congreso_2019_11.csv),
@@ -367,14 +369,10 @@ def ganadores_geojson(datos: bytes) -> list[str]:
     return [f["properties"]["winner_party"] for f in filas]
 
 
-def cargar_m08(cache: Path, m08_dir: Path | None = None) -> tuple[dict[str, list[str]], dict[str, str]]:
+def cargar_m08(cache: Path, m08_dir: Path | None = None, eleccion: str = rl.ELECCION_POR_DEFECTO) -> tuple[dict[str, list[str]], dict[str, str]]:
     """provincia → ganadores por distrito y provincia → run, de los blobs del registro del visor (o de m08_dir)."""
-    prods: dict[str, dict] = {}
-    for p in json.loads(REGISTRO_VISOR.read_text(encoding="utf-8"))["products"]:
-        if p.get("kind") == "canonical_m08" and str(p.get("territory_id", "")).startswith("congreso_"):
-            t = p["territory_id"]
-            if t not in prods or int(p["run_id"]) > int(prods[t]["run_id"]):
-                prods[t] = p
+    prods = rl.vigente_por_eleccion(json.loads(REGISTRO_VISOR.read_text(encoding="utf-8"))["products"], "canonical_m08",
+                                    eleccion, "congreso_")
     gan, runs = {}, {}
     for t, p in sorted(prods.items()):
         if t not in _POR_ID:

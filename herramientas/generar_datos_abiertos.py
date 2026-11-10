@@ -3,8 +3,10 @@
 """Datos abiertos y fichas por distrito de las provincias nacionales completas (T-60).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/generar_datos_abiertos_v1.0.0.py
+VERSIÓN: 1.2.0 · FECHA: 2026-11-10 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/generar_datos_abiertos_v1.1.0_20261110.py
+CAMBIOS 1.2.0 (T-201): `vigentes_m06(registro, eleccion)` elige por (territorio, elección), por defecto 2023-07-23; una entrada de otra
+  elección no desplaza a la vigente. Salida idéntica si el registro no trae elecciones.
 CAMBIOS 1.1.0 (T-135): distritos numerados de 1 a K en CSV, fichas, INDEX.json, README y GeoJSON público (derivado del blob M06
   con propiedad `distrito`; su sha256 va en geojson.sha256 y el del GeoJSON M06 de origen en geojson.sha256_origen). El blob M06 no cambia.
 QUÉ HACE: por cada territorio congreso_* con M06 y M08 vigentes (mismo run) en orchestracion/publicaciones_visor.json:
@@ -59,14 +61,9 @@ def escribir(ruta: Path, datos: bytes) -> None:
         ruta.write_bytes(datos)
 
 
-def vigentes_m06(registro: Path = REGISTRO) -> dict[str, dict]:
-    prods: dict[str, dict] = {}
-    for p in json.loads(registro.read_text(encoding="utf-8"))["products"]:
-        if p.get("kind") == "canonical_m06" and p["territory_id"].startswith("congreso_"):
-            t = p["territory_id"]
-            if t not in prods or int(p["run_id"]) > int(prods[t]["run_id"]):
-                prods[t] = p
-    return prods
+def vigentes_m06(registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DEFECTO) -> dict[str, dict]:
+    return rl.vigente_por_eleccion(json.loads(registro.read_text(encoding="utf-8"))["products"], "canonical_m06",
+                                   eleccion, "congreso_")
 
 
 def extraer_geojson(zip_bytes: bytes) -> bytes:

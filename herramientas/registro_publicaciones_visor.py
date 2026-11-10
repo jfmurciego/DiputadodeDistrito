@@ -5,7 +5,10 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.5.0 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.6.0 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS 1.6.0 (T-201): `identity_key` incluye la elección como 4.º elemento (`eleccion_de`) y `_already_registered_reused_m06`
+  solo reconoce un M06 reutilizado dentro de la misma elección. Sin `election_date` nada cambia (2023-07-23).
+ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.5.0_20261110.py
 CAMBIOS 1.5.0 (T-199, hueco 2 del ensayo T-197): dimensión de elección OPCIONAL en las entradas (`election_date` AAAA-MM-DD y
   `election_id`). Compatible hacia atrás: sin ellas la entrada es de la elección por defecto (ELECCION_POR_DEFECTO,
   2023-07-23) y se lee igual; el esquema sigue en 2.0 y la identidad (territorio, kind, run/escenario) no cambia. Si
@@ -105,7 +108,7 @@ def _entries(registry: dict) -> list[dict]:
     return list(registry.get("products", [])) + list(registry.get("ensembles", []))
 
 
-def identity_key(entry: dict) -> tuple[str, str, str]:
+def identity_key(entry: dict) -> tuple[str, str, str, str]:
     territory = str(entry.get("territory_id") or "")
     kind = str(entry.get("kind") or "")
     if kind == "ensemble":
@@ -114,7 +117,7 @@ def identity_key(entry: dict) -> tuple[str, str, str]:
         identity = str(entry.get("scenario_id") or "")
     else:
         identity = str(entry.get("run_id") or entry.get("execution_id") or "")
-    return territory, kind, identity
+    return territory, kind, identity, eleccion_de(entry)
 
 
 def _validate_entry(entry: dict) -> None:
@@ -273,6 +276,7 @@ def _already_registered_reused_m06(registry: dict, entry: dict) -> bool:
             current.get("territory_id") == entry.get("territory_id")
             and current.get("kind") == "canonical_m06"
             and current.get("immutable_location") == entry.get("immutable_location")
+            and eleccion_de(current) == eleccion_de(entry)
             and identity_key(current) != key
         ):
             return True
