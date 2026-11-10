@@ -956,6 +956,13 @@
    "sha256_csv": "012274d09dcb71b4b87b9b8e0e74ae89b886b33b3109c0c3ec913a33b91bf5a3",
    "ruta": "datos/composicion/runs/congreso_valencia_42525625044.csv"
   },
+  "extremadura/42720735134": {
+   "territorio": "extremadura",
+   "run_id": "42720735134",
+   "secciones": 964,
+   "sha256_csv": "19c73a7536f5ce796d70470d179f50851b4a698abd84657b168b080b5128623b",
+   "ruta": "datos/composicion/runs/extremadura_42720735134.csv"
+  },
   "melilla/42504386196": {
    "territorio": "melilla",
    "run_id": "42504386196",

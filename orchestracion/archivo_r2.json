@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-09T23:15:54Z",
+  "actualizado_en": "2026-11-10T01:12:52Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -5626,6 +5626,20 @@
       "tamano_bytes": 201547377,
       "territorio": "extremadura",
       "url": "r2://ddd-research-archive/extremadura/41042675119/ddd-state-41042675119-M08.zip"
+    },
+    "extremadura/42720735134/ddd-minimo-42720735134-M06.zip": {
+      "archivado_en": "2026-11-10T01:12:52Z",
+      "artefacto": "ddd-minimo-42720735134-M06",
+      "artefacto_origen": "ddd-state-42720735134-M06",
+      "artifact_id": 13726305625,
+      "caducidad_original": "2026-11-24T01:05:56Z",
+      "run_id": "42720735134",
+      "sha256": "37086b32fcfb2cd0b06194d4a2637562b07ce7fe5d728253bf52909cb9d11aea",
+      "sha256_estado_original": "eceae373f3fd8c47757c5d3302e6f84e2a20d8880716c2b2a63f0d31268a33e6",
+      "tamano_bytes": 998271,
+      "tamano_estado_original": 92685933,
+      "territorio": "extremadura",
+      "url": "r2://ddd-research-archive/extremadura/42720735134/ddd-minimo-42720735134-M06.zip"
     },
     "galicia/40241719200/ddd-audit-40241719200.zip": {
       "archivado_en": "2026-11-07T17:02:38Z",
