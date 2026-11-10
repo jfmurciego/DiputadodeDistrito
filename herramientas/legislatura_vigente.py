@@ -2,7 +2,9 @@
 """Legislatura vigente: configuración, plan y lanzamiento por ámbito del Gestor de Campañas.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.1 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.2.2 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS 1.2.2: T-201, `territory_state(..., eleccion)`: el M08 publicado cuenta por (territorio, elección), por defecto 2023-07-23; un M08
+  de otra elección no marca PUBLICADO ni pisa el run.
 CAMBIOS 1.2.1: T-130, el Gestor da por resultado de la 00 el de la que lanzó él (la primera, p. ej. la de prueba), no el de la
   hija «Reutilizar» que encadena el bot (run 42637133308: seguía la 42651881625 en vez de la 42637193077). Una hija
   fallida solo cuenta si hay que publicar (el eslabón electoral es el que se publica).
@@ -12,7 +14,7 @@ CAMBIOS 1.2.0: T-105 (Gestor 2.0, D-22): `build_plan` admite inicio (reutilizar/
 CAMBIOS 1.1.0: T-102, ámbito «congreso 350» (49 gemelos `congreso350_*`, K = escaños reales de 2023);
   «legislatura completa» y «nacional» no los incluyen salvo que se pidan por territory_id (relevo `continuar`).
   Los gemelos nunca publican (D-18): 00 con publish_result=false y sin 05; «COMPLETO_SIN_PUBLICAR» → `nada`.
-ANTERIOR: legacy/herramientas/legislatura_vigente_v1.2.0_20261109.py
+ANTERIOR: legacy/herramientas/legislatura_vigente_v1.2.1_20261110.py
 QUÉ HACE: T-86.
   - `generar` escribe `configuracion/legislatura_vigente.yaml` desde los ficheros con fuente del repo
     (registro electoral, preparación de la legislatura y escaños oficiales del BOE), con su sha256; nada de memoria.
@@ -40,6 +42,7 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import clave_eleccion as ce  # noqa: E402
+import resultados_ligeros as rl  # noqa: E402
 
 CONFIG = Path("configuracion/legislatura_vigente.yaml")
 REGISTRY = Path("configuracion/registro_electoral.yaml")
@@ -168,9 +171,10 @@ def select(cfg: dict, ambito: str, tokens: list[str]) -> list[dict]:
     return [r for r in rows if any(hit(r, t) for t in tokens)]
 
 
-def territory_state(root: Path, tid: str, viewer: dict, today) -> dict:
+def territory_state(root: Path, tid: str, viewer: dict, today, eleccion: str = rl.ELECCION_POR_DEFECTO) -> dict:
     """Estado según el repo: M08 publicado, 00 completa sin publicar, producto territorial o nada."""
-    m08 = [p for p in viewer.get("products") or [] if p.get("territory_id") == tid and p.get("kind") == "canonical_m08"]
+    m08 = [p for p in viewer.get("products") or [] if p.get("territory_id") == tid and p.get("kind") == "canonical_m08"
+           and rl.eleccion_de(p) == eleccion]
     if m08:
         return {"estado": "PUBLICADO", "run_id": str(max(m08, key=lambda p: int(p.get("run_id") or 0)).get("run_id"))}
     manifests = []
