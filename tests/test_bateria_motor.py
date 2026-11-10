@@ -273,7 +273,6 @@ class BateriaMotor2EnActions(unittest.TestCase):
             self.assertIn(linea, src)
         lock = (ROOT / "requirements-ensemble.lock").read_text().lower()
         self.assertNotIn("pip install --requirement requirements-ensemble.lock", txt)  # T-181b: subía pandas 3 y rompía M04-M06
-        self.assertNotIn("pip install --requirement requirements-ensemble.lock", txt)  # T-181b: subía pandas 3 y rompía M04-M06
         self.assertIn("gerrychain==", lock)
         self.assertIn("networkx==", lock)
         self.assertIn("--cadenas", self.wf["jobs"]["aceptacion"]["steps"][-2]["run"])
