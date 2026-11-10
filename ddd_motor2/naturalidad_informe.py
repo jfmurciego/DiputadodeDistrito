@@ -2,16 +2,18 @@
 # -*- coding: utf-8 -*-
 """
 PROYECTO: Diputado de Distrito
-COMPONENTE: motor 2 — entregable del laboratorio de naturalidad: mapas A/B/C lado a lado y tabla
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Naturalidad · informe
+COMPONENTE: motor 2 — entregable del laboratorio de naturalidad: mapas A/D5/D8/C/B lado a lado y tablas
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Naturalidad · informe con topes D5/D8
 FECHA: 2026-11-10
 ESTADO: experimento (motor 2; producción no lo importa; nada se publica)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.1.0 (T-179): cinco paneles (A, D5, D8, C, B), filas D5/D8 en la tabla y DISTRITOS.csv (por distrito:
+  superficie, población, municipio principal y si es un núcleo cerrado dentro de un solo municipio), para explicar los
+  distritos urbanos minúsculos en superficie. 1.0.0: fichero nuevo.
 MOTIVO: T-172, paso 5: que el propietario decida con los mapas delante; el criterio no se fija en código.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: 1.0.0 (T-172, #651) — legacy/ddd_motor2/naturalidad_informe_v1.0.0_20261110.py
 USO: python -m ddd_motor2.naturalidad_informe --seccionado-dir <dir> --resultados <out del laboratorio> --salida <dir>
-QUÉ HACE: por territorio, un PNG con los tres ganadores (misma escala y mismos colores: cada distrito de B y C toma el
+QUÉ HACE: por territorio, un PNG con los cinco ganadores (misma escala y mismos colores: cada distrito de B y C toma el
   color del distrito de A con el que más población comparte), límites de partidos judiciales de fondo (gris) y
   límites de distrito (negro); y TABLA.md / TABLA.csv con población fuera de tolerancia, desvío máximo, compacidad,
   demarcaciones partidas, cohesión de movilidad y el «coste» en población de cada mejora (frente a A).
@@ -28,7 +30,9 @@ from pathlib import Path
 from . import naturalidad_mapas as nm
 
 NOMBRES = {"A": "A · solo población (función vigente)", "B": "B · población y luego naturalidad",
-           "C": "C · como B con grafo ponderado"}
+           "C": "C · como B con grafo ponderado", "D5": "D5 · como C, desvío máx. ≤ 5 %",
+           "D8": "D8 · como C, desvío máx. ≤ 8 %"}
+ORDEN = ("A", "D5", "D8", "C", "B")
 PALETA = ["#4e79a7", "#f28e2b", "#e15759", "#76b7b2", "#59a14f", "#edc948", "#b07aa1", "#ff9da7", "#9c755f",
           "#bab0ac", "#86bcb6", "#d37295", "#a0cbe8", "#ffbe7d", "#8cd17d", "#b6992d", "#f1ce63", "#499894",
           "#d4a6c8", "#fabfd2"]
@@ -49,7 +53,7 @@ def colores(planes: dict[str, dict[str, str]], pob: dict[str, int]) -> dict[str,
     base = sorted(set(planes["A"].values()), key=lambda d: (len(d), d))
     color_a = {d: PALETA[i % len(PALETA)] for i, d in enumerate(base)}
     out = {"A": color_a}
-    for f in ("B", "C"):
+    for f in sorted(k for k in planes if k != "A"):
         comun: dict[tuple[str, str], int] = defaultdict(int)
         for s, d in planes[f].items():
             comun[(d, planes["A"][s])] += pob[s]
@@ -75,8 +79,9 @@ def figura(t: str, geo: nm.Geometria, planes: dict, pob: dict, filas: dict, dest
     pj = gdf.assign(pj=gdf["CUSEC"].str[:5].map(tablas["pj"]).fillna("?")).dissolve("pj")
     cols = colores(planes, pob)
     x0, y0, x1, y1 = gdf.total_bounds
-    fig, ejes = plt.subplots(1, 3, figsize=(18, 7.2), dpi=110)
-    for ax, f in zip(ejes, "ABC"):
+    fs = [f for f in ORDEN if f in planes]
+    fig, ejes = plt.subplots(1, len(fs), figsize=(6 * len(fs), 7.2), dpi=110)
+    for ax, f in zip(ejes, fs):
         g = gdf.assign(d=gdf["CUSEC"].map(planes[f]))
         g.plot(ax=ax, color=g["d"].map(cols[f]), linewidth=0)
         pj.boundary.plot(ax=ax, color="#555555", linewidth=0.5, linestyle=(0, (2, 2)))
@@ -96,6 +101,31 @@ def figura(t: str, geo: nm.Geometria, planes: dict, pob: dict, filas: dict, dest
     plt.close(fig)
 
 
+def distritos(t: str, planes: dict, pob: dict, geo: nm.Geometria, nombres: dict) -> list[dict]:
+    """Por distrito: superficie (km², suma de secciones), población, municipio principal y si es un núcleo cerrado
+    (todas sus secciones en un solo municipio, que entonces es mayor que la población objetivo y se parte)."""
+    area = dict(zip(geo.gdf["CUSEC"], geo.gdf.geometry.area / 1e6))
+    filas = []
+    for f in ORDEN:
+        if f not in planes:
+            continue
+        por: dict[str, list[str]] = defaultdict(list)
+        for s, d in planes[f].items():
+            por[d].append(s)
+        for d in sorted(por, key=lambda x: (len(x), x)):
+            ss = por[d]
+            pm: dict[str, int] = defaultdict(int)
+            for s in ss:
+                pm[s[:5]] += pob[s]
+            m, pmax = max(pm.items(), key=lambda kv: (kv[1], kv[0]))
+            p = sum(pob[s] for s in ss)
+            filas.append({"territorio": t, "funcion": f, "distrito": d, "superficie_km2": round(sum(area[s] for s in ss), 1),
+                          "poblacion": p, "municipio_principal": nombres.get(m, m), "codigo_ine": m,
+                          "fraccion_pob_municipio_principal": round(pmax / p, 3), "municipios": len(pm),
+                          "nucleo_cerrado": len(pm) == 1})
+    return filas
+
+
 def r3(x):
     return "" if x is None else round(x, 3)
 
@@ -108,14 +138,16 @@ def main(argv=None) -> int:
     a = p.parse_args(argv)
     sal = Path(a.salida)
     sal.mkdir(parents=True, exist_ok=True)
-    todas = []
+    todas, dist = [], []
+    with open(nm.ROOT / "configuracion" / "partidos_judiciales.csv", encoding="utf-8") as fh:
+        nombres = {r["codigo_ine"]: r["nombre_ine"] for r in csv.DictReader(x for x in fh if not x.startswith("#"))}
     for res in sorted(Path(a.resultados).glob("*/RESULTADO.json")):
         r = json.loads(res.read_text(encoding="utf-8"))
         t = r["territorio"]
-        planes = {f: leer(res.parent / f"{t}_{f}.csv") for f in "ABC"}
+        planes = {f: leer(res.parent / f"{t}_{f}.csv") for f in ORDEN if f in r["ganadores"]}
         _, pob = nm.leer_composicion(res.parent / f"{t}_A.csv")
         filas = {}
-        for f in "ABC":
+        for f in planes:
             g, i = r["ganadores"][f], r["ganadores"][f]["indicadores"]
             filas[f] = {"territorio": t, "funcion": f, "candidato": g["candidato"],
                         "fuera_tolerancia": len(g["fuera_tolerancia"]), "desvio_max_pct": round(100 * g["desvio_max"], 2),
@@ -133,7 +165,8 @@ def main(argv=None) -> int:
                         "frontera_cortada": r3(i["corte"]["fraccion_peso_corte"])}
         geo = nm.Geometria(nm.shp_de(Path(a.seccionado_dir), nm.anio_seccionado(t)), set(planes["A"]))
         figura(t, geo, planes, pob, filas, sal / f"{t}.png")
-        todas += [filas[f] for f in "ABC"]
+        todas += [filas[f] for f in ORDEN if f in filas]
+        dist += distritos(t, planes, pob, geo, nombres)
         print(f"{t}: ok", flush=True)
     with open(sal / "TABLA.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=COLUMNAS, lineterminator="\n")
@@ -149,6 +182,10 @@ def main(argv=None) -> int:
             x["suma_desvio_personas"], x["coste_suma_desvio_vs_A"], x["pp_medio"], x["convexidad_media"],
             f"{x['pj_partidos']}/{x['pj_n']}", f"{x['ca_partidas']}/{x['ca_n']}", x["movilidad_cohesion"]]) + " |")
     (sal / "TABLA.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    with open(sal / "DISTRITOS.csv", "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=list(dist[0]), lineterminator="\n")
+        w.writeheader()
+        w.writerows(dist)
     return 0
 
 
