@@ -3,11 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba de la unión de movilidad INE EM-1 con las áreas (T-139, paso 1)
-VERSIÓN: 1.0.0 · FECHA: 2026-11-10 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-10 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_movilidad_em_union_v1.0.0.py
 FUNCIÓN: valores esperados leídos a mano de los xlsx del INE (no recalculados por la herramienta).
 """
+import csv
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -51,6 +53,51 @@ class Estadisticas(unittest.TestCase):
         self.assertEqual(e["K"], 11)
         self.assertEqual(e["municipios"], 45)
         self.assertEqual(e["pob_sin_area_en_municipios_partidos"], 0)
+
+
+class Indicador(unittest.TestCase):
+    """Valores calculados a mano sobre un territorio de juguete."""
+
+    def _montar(self, secciones):
+        d = Path(tempfile.mkdtemp()) / "t.csv"
+        with open(d, "w", newline="") as f:
+            w = csv.writer(f)
+            w.writerow(["seccion", "distrito", "poblacion"])
+            w.writerows(secciones)
+        return d
+
+    AREAS = [{"cumun": c, "tipo": "MUNICIPIO", "id_area_geo": c, "id_grupo": g} for c, g in
+             (("01001", "A"), ("01002", "B"), ("01003", "C"))]
+    MAPA = {"fa": "A", "fb": "B", "fc": "C"}
+
+    def _fl(self, *t):
+        return [{"cod_origen": o, "cod_destino": d, "flujo": str(n)} for o, d, n in t]
+
+    def test_areas_enteras(self):
+        p = self._montar([("0100100001", "1", 100), ("0100200001", "1", 100), ("0100300001", "2", 100)])
+        r = m.indicador_plan(p, self.AREAS, self._fl(("fa", "fb", 10), ("fa", "fc", 30), ("fb", "fa", 5)), self.MAPA)
+        self.assertAlmostEqual(r["distritos"]["1"][0], 15 / 45)
+        self.assertNotIn("2", r["distritos"])  # C no tiene flujos de salida
+        self.assertAlmostEqual(r["plan"], 15 / 45)
+
+    def test_area_partida_reparte_por_poblacion(self):
+        p = self._montar([("0100100001", "1", 50), ("0100100002", "2", 50), ("0100200001", "1", 100),
+                          ("0100300001", "2", 100)])
+        r = m.indicador_plan(p, self.AREAS, self._fl(("fa", "fb", 10)), self.MAPA)
+        self.assertAlmostEqual(r["distritos"]["1"][0], 1.0)
+        self.assertAlmostEqual(r["distritos"]["2"][0], 0.0)
+
+    def test_sin_capital(self):
+        p = self._montar([("0100100001", "1", 100), ("0100200001", "1", 100), ("0100300001", "2", 100)])
+        r = m.indicador_plan(p, self.AREAS, self._fl(("fa", "fb", 10), ("fa", "fc", 30), ("fb", "fa", 5)),
+                             self.MAPA, capital="01003")  # C fuera: queda 15/15
+        self.assertAlmostEqual(r["plan"], 1.0)
+
+    def test_hacia_fuera_no_cuenta_en_la_fraccion(self):
+        p = self._montar([("0100100001", "1", 100), ("0100200001", "1", 100)])
+        r = m.indicador_plan(p, self.AREAS, self._fl(("fa", "fb", 10), ("fa", "fc", 30)), self.MAPA)
+        self.assertAlmostEqual(r["plan"], 1.0)
+        self.assertEqual(r["flujo_hacia_fuera"], 30)
 
 
 if __name__ == "__main__":

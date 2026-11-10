@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+import unittest.mock
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -141,6 +142,93 @@ class Generacion(unittest.TestCase):
         api = ApiFalsa([run(1, "2026-11-02T10:00:00Z", "2026-11-02T10:30:00Z", "success", titulo=rn("x"), event="pull_request")])
         r = mp.generar(api, ROOT / "tests", 30, 0, 0, ahora=datetime(2026, 11, 8, tzinfo=timezone.utc))
         self.assertEqual(r["ejecuciones_00"]["territorios"], 0)
+
+
+class ApiTopada:
+    """API simulada fiel al defecto T-155: filtra por `created=a..b`, pagina de 100 y no devuelve más de 1.000 (los más recientes)."""
+    repo = "o/r"
+
+    def __init__(self, runs, minutos_job=10):
+        self.runs, self.minutos_job, self.fallos_pendientes = runs, minutos_job, 0
+
+    def get(self, ruta, params=None):
+        if ruta == "actions/runs":
+            a, b = params["created"].split("..")
+            sel = sorted((r for r in self.runs if a <= r["created_at"] <= b), key=lambda r: r["created_at"], reverse=True)[:1000]
+            i = (params["page"] - 1) * 100
+            return {"workflow_runs": sel[i:i + 100]}
+        if ruta == "pulls":
+            return []
+        if ruta.startswith("actions/runs/") and ruta.endswith("/jobs"):
+            if self.fallos_pendientes:
+                self.fallos_pendientes -= 1
+                raise ConnectionResetError("reset")
+            return {"jobs": [{"id": 1, "name": "j", "started_at": "2026-11-05T10:00:00Z",
+                              "completed_at": f"2026-11-05T10:{self.minutos_job:02d}:00Z"}]}
+        raise AssertionError(ruta)
+
+    def texto(self, ruta):
+        return ""
+
+
+class PaginacionCompleta(unittest.TestCase):
+    def runs(self):
+        out = []
+        for i in range(1300):  # 1.300 en una sola hora: obliga a partir la ventana
+            out.append(run(i + 1, f"2026-11-05T03:{(i // 60) % 60:02d}:{i % 60:02d}Z", "2026-11-05T05:00:00Z", "success",
+                           titulo="x", path=".github/workflows/otro.yml", name="Otro"))
+        for i in range(1300):  # 1.300 repartidos en cuatro días
+            d = 1 + (i % 4)
+            out.append(run(5000 + i, f"2026-11-0{d}T{(i * 7) % 24:02d}:{(i * 13) % 60:02d}:{(i * 29) % 60:02d}Z",
+                           "2026-11-05T05:00:00Z", "failure", titulo="y", path=".github/workflows/otro2.yml", name="Otro2"))
+        return out
+
+    def test_mas_de_mil_runs_suman_el_total_exacto(self):
+        runs = self.runs()
+        api = ApiTopada(runs)
+        # control: la consulta única del defecto se queda en 1.000
+        self.assertEqual(len(api.get("actions/runs", {"created": "2026-11-01T00:00:00Z..2026-11-10T00:00:00Z", "page": 1})["workflow_runs"]), 100)
+        r = mp.generar(api, ROOT / "tests", 10, 0, 100000, ahora=datetime(2026, 11, 10, tzinfo=timezone.utc))
+        m = r["minutos_actions"]
+        self.assertEqual(m["runs"], 2600)
+        self.assertEqual(m["runs_con_reloj_en_vez_de_jobs"], 0)
+        self.assertEqual(m["total"], 26000.0)  # 2.600 runs × 1 job de 10 min (literal, no recalculado)
+        self.assertEqual({f["workflow"]: f["runs"] for f in m["por_workflow"]}, {"Otro": 1300, "Otro2": 1300})
+
+    def test_reintenta_tras_reseteo_de_conexion(self):
+        api = ApiTopada([run(1, "2026-11-05T10:00:00Z", "2026-11-05T11:00:00Z", "success", path="a.yml", name="A")])
+        api.fallos_pendientes = 2
+        with unittest.mock.patch.object(mp.time, "sleep"):
+            # el simulado lanza ConnectionResetError; el cliente real reintenta en Cliente.get
+            cli = mp.Cliente("o/r", token="t")
+            llamadas = []
+
+            def falso(req, timeout=0):
+                llamadas.append(1)
+                if len(llamadas) < 3:
+                    raise ConnectionResetError("reset")
+                import io
+                return io.BytesIO(b'{"ok": 1}')
+            with unittest.mock.patch.object(mp.urllib.request, "urlopen", falso):
+                self.assertEqual(cli.get("actions/runs"), {"ok": 1})
+        self.assertEqual(len(llamadas), 3)
+
+
+class TopeSemanal(unittest.TestCase):
+    def test_umbrales_70_y_100_sin_corte(self):
+        # W44 (2026-11-02): 10.499 min → sin aviso; W45: 10.500 → 70; W46: 15.000 → 100
+        runs = [run(1, "2026-11-02T10:00:00Z", "x", "success"), run(2, "2026-11-09T10:00:00Z", "x", "success"),
+                run(3, "2026-11-16T10:00:00Z", "x", "success")]
+        g = mp.gasto_semanal(runs, {"1": 10499.0, "2": 10500.0, "3": 15000.0})
+        self.assertEqual([f["aviso"] for f in g["por_semana"]], [None, 70, 100])
+        self.assertEqual(g["por_semana"][1]["pct_tope"], 70.0)
+        self.assertEqual(g["aviso_semana_actual"], 100)
+        self.assertFalse(g["corte_automatico"])
+
+    def test_generar_incluye_gasto_semanal(self):
+        r = ApiTopada([run(1, "2026-11-05T10:00:00Z", "2026-11-05T11:00:00Z", "success", path="a.yml", name="A")])
+        d = mp.generar(r, ROOT / "tests", 10, 0, 10, ahora=datetime(2026, 11, 10, tzinfo=timezone.utc))
+        self.assertEqual(d["minutos_actions"]["gasto_semanal"]["por_semana"][0]["minutos"], 10.0)
 
 
 class Entrega(unittest.TestCase):

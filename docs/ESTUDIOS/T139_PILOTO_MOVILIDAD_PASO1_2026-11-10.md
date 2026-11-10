@@ -5,7 +5,7 @@ Continúa `T138_MOVILIDAD_COHESION_FUNCIONAL_2026-11-10.md`.
 
 ## Datos (almacenamiento durable = git; R2 solo si el Operador lo ordena)
 `datos/movilidad/` (derivado en CSV de los xlsx del INE, CC BY 4.0, estadística experimental; atribución: INE). `MANIFEST.json` lleva URL, sha256 de origen y de salida:
-- `areas_movilidad_2019.csv` 70388ee7d4a7a5482829eb2512d22ca7bc02c0a638758cc0472401b020d08c4d (xlsx origen `areas_de_movilidad_y_poblacion_a_1_ene_2019.xlsx`).
+- `areas_movilidad_2019.csv` f10499bb8b9469a11cd4a1b14c01fb8a8bbe7cde61ddf0f11468c41c19f2a2ae (xlsx origen `areas_de_movilidad_y_poblacion_a_1_ene_2019.xlsx`).
 - `flujos_em1_origen_destino.csv` 043b3acede9d28a18b1fef4dccecdad73e4e93986c633898bcb8b8c43dd76f51 (Tabla 1.3 EM-1, 82.296 flujos de más de 15 personas).
 - `codigos_flujo.csv` e326b2d281e0bac8a94699f9d31883a983bad8539bbf20678a029dfc45d7c7a6.
 Regenerar: `python herramientas/movilidad_em_union.py convertir <areas.xlsx> <flujos.xlsx> --origen-json <origen.json>` (necesita `openpyxl`; el análisis no).
