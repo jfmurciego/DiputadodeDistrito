@@ -72,7 +72,7 @@ class Main(unittest.TestCase):
               "out_report": str(run / "t_m05_informe.json")}
         return tmp, (cfg_ancla() if con_ancla else CFG), s5
 
-    def ejecutar(self, cfg, s5, planes_can, planes_gc):
+    def ejecutar(self, cfg, s5, planes_can, planes_gc, informe=lambda nombre: True):
         from unittest import mock
 
         from ddd_motor2 import competidor as m
@@ -88,8 +88,10 @@ class Main(unittest.TestCase):
                     destino = Path(destino)
                     destino.mkdir(parents=True, exist_ok=True)
                     (destino / Path(s5["out_geojson"]).name).write_text(f"M05 {nombre} {semilla}")
-                    (destino / Path(s5["out_report"]).name).write_text("{}")
+                    if informe(nombre):
+                        (destino / Path(s5["out_report"]).name).write_text("{}")
                     Path(s5["out_geojson"]).write_text("último candidato")  # como el M05 real
+                    Path(s5["out_report"]).write_text("informe del último candidato")
                     if plan is None:
                         return Salida(None, "FALLO")
                     return Salida(escribir_comp(destino / "comp.csv", plan))
@@ -119,6 +121,15 @@ class Main(unittest.TestCase):
         self.assertTrue(texto.startswith("M05 gerrychain "), texto)
         self.assertTrue(Path(s5["out_report"]).is_file())
         self.assertTrue((Path(s5["out_geojson"]).parent / "competicion" / "COMPETICION.json").is_file())
+
+    def test_ganador_sin_informe_borra_el_del_ultimo(self):
+        bueno = {"A": "1", "B": "1", "C": "2", "D": "2"}
+        malo = {"A": "1", "B": "2", "C": "2", "D": "2"}
+        _, cfg, s5 = self.preparar()
+        rc = self.ejecutar(cfg, s5, lambda s: bueno, lambda s: malo, informe=lambda nombre: nombre != "canonico")
+        self.assertEqual(rc, 0)
+        self.assertTrue(Path(s5["out_geojson"]).read_text().startswith("M05 canonico"))
+        self.assertFalse(Path(s5["out_report"]).exists())
 
 
 if __name__ == "__main__":

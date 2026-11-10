@@ -60,10 +60,26 @@ class Territorio(unittest.TestCase):
         self.assertEqual(f["candidatos"], 4)
         self.assertTrue((tmp / "competicion" / "prueba" / "COMPETICION.json").is_file())
         from ddd_motor2.competir import fila_guardada
-        g = fila_guardada("prueba", tmp)
+        g = fila_guardada("prueba", tmp, 3, cfg=e.cfg)
         self.assertTrue(g.pop("reanudado"))
         self.assertEqual({k: g[k] for k in f if k != "tiempo_s"}, {k: f[k] for k in f if k != "tiempo_s"})
-        self.assertIsNone(fila_guardada("otro", tmp))
+        self.assertIsNone(fila_guardada("otro", tmp, 3, cfg=e.cfg))
+        # Otra competición: otro número de cadenas, otra ancla u otras reglas → se recalcula.
+        self.assertIsNone(fila_guardada("prueba", tmp, 4, cfg=e.cfg))
+        self.assertIsNone(fila_guardada("prueba", tmp, 3, cfg=cfg_con_ancla(p="c" * 64)))
+        otra = cfg_con_ancla()
+        otra["validation"]["target_tolerance_ratio"] = 0.2
+        self.assertIsNone(fila_guardada("prueba", tmp, 3, cfg=otra))
+
+    def test_fallo_al_escribir_deja_error(self):
+        from unittest import mock
+        tmp = Path(tempfile.mkdtemp())
+        e = EntradaTerritorio("prueba", cfg_con_ancla(), tmp / "g.json")
+        with mock.patch("ddd_motor2.competir.competir_publico", return_value=object()), \
+                mock.patch("ddd_motor2.competir.escribir", side_effect=OSError("disco lleno")):
+            f = competir_territorio("prueba", tmp, 2, generadores=(None, None), entrada=e)
+        self.assertEqual(f["estado"], "ERROR")
+        self.assertIn("disco lleno", f["detalle"])
 
     def test_sin_ancla_es_error_explicito(self):
         tmp = Path(tempfile.mkdtemp())
