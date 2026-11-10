@@ -18,7 +18,7 @@
 | Concurrencia | lanzar en tandas que respeten el límite de runners; no lanzar un territorio con run en curso (también de `github-actions[bot]`) |
 | Tope de reintentos | 1 por territorio, solo tras fallo transitorio (red, runner, rate limit) |
 | FUERA | lo de `README.md`; publicar; borrados; cambios de motor, contrato o criterio; aprobar `produccion` (lo hace el propietario si el flujo lo pide) |
-| Parada | primer fallo no transitorio → no lanzar más tandas; los runs en curso de otros territorios siguen; diagnóstico; informar y esperar nueva frase |
+| Parada | si la 00 de prueba de La Rioja (motor2) no da el mismo ganador y la misma huella que la batería de Actions para `la_rioja`, parar sin lanzar el resto (añadido el 10-11 a petición del Planificador; solo restringe lo autorizado); primer fallo no transitorio → no lanzar más tandas; los runs en curso de otros territorios siguen; diagnóstico; informar y esperar nueva frase |
 
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
