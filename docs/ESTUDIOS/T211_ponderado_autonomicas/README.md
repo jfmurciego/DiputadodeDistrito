@@ -22,22 +22,50 @@ D8, 10 cadenas, entradas desde fuente INE). Salida completa en `salida_sesion.tx
    - **(b) Granularidad.** El laboratorio trabaja por secciones dentro de los municipios grandes (Madrid: 4150
      unidades); la competición, con las unidades M04 (Madrid: 269; 90 internas, todas ≥ 0,5 × objetivo; Pamplona:
      15 unidades de unos 14 000 hab., casi un distrito cada una). Con 300 pasos, las cadenas de Madrid ven de 3 a 7
-     planes distintos (el laboratorio, más de 100 en Navarra): apenas se mueven.
+     planes distintos (el laboratorio, de 103 a 143 en Navarra y de 191 a 224 en Madrid: `salida_sesion.txt`): apenas se mueven.
    - **(c) Punto de partida.** El laboratorio parte del mapa publicado (Navarra: «GerryChain 50», 11 fuera de
      tolerancia); la competición, del canónico M05 7.4.4 (Navarra 24, Madrid 24). Las cadenas bajan a 14 y 21.
-   - **(d) Medida publicada (corregida en esta PR).** Con varias circunscripciones, COMPETICION.json y la batería
-     publicaban los fuera de tolerancia contra el objetivo regional, pero elegían con los de la circunscripción
-     (País Vasco: elige con 8 y publica 9; Canarias: el ganador tiene 20, y se publicaban 21). La tabla de T-196
-     comparaba, en esas autonómicas, cifras medidas de otra forma.
+   - **(d) La clave D8 no contaba como el contrato (corregido en esta PR).** Con varias circunscripciones, el primer
+     término de la clave eran los fuera de tolerancia contra el objetivo de cada circunscripción. El contrato, el
+     núcleo (`reglas.evaluar`) y el M04 (`outside_target_tolerance`) los cuentan contra el objetivo regional, sin
+     exenciones. Por eso r3 dejó ganar mapas con más fuera de tolerancia que el canónico: Aragón 0→2, Castilla-La
+     Mancha 5→8, Castilla y León 2→4, Galicia 6→8 (en `CANDIDATOS.csv` de T-196, el ganador empata con el canónico
+     en `clave_fuera_tol`: 1/1, 5/5, 1/1, 6/6). No venía de los exentos (ninguna de las dos medidas los descuenta)
+     ni del tope (`exceso_tope` igual al del canónico en los cuatro): venía del objetivo.
+     **Exenciones:** el recuento del contrato (`reglas.evaluar`) es sobre todos los distritos; las exenciones solo
+     relajan el suelo y el tope del 8 % solo ordena, no entra en el recuento. En Aragón, Castilla-La Mancha, Castilla
+     y León y Galicia el contrato no tiene exentos. En Canarias, 14 de los 20 o 21 distritos fuera de tolerancia
+     contienen una partición exenta: el recuento del contrato los cuenta (`salida_sesion.txt`, `scripts/exentos.py`).
+     **Medidas cruzadas:** los dos recuentos no van siempre en el mismo sentido. En Canarias, el canónico tiene 21
+     por circunscripción y 20 por el objetivo regional; el ganador de r3, 20 y 21. La cifra publicada puede subir o
+     bajar según el candidato.
+   - **(e) Sin frontera en la batería (no corregido).** El grafo M03 que rehace la batería no trae `shared_border_m`
+     (0 de 12 244 aristas en Madrid y 0 de 1517 en Navarra: `salida_sesion.txt`). La frontera cortada vale 0 km en todos los candidatos de r3 y el recargo por
+     frontera corta es el mismo en todas las aristas: el término de forma de D8 no actúa.
 
 ## Cambio
 
-`ddd_motor2/competicion.py` 1.3.1: con C/D5/D8 y varias circunscripciones, `fuera_tolerancia` y `desvio_max`
-publicados salen de los desvíos de la clave; los regionales quedan en `extra.metricas_regionales`. No cambia la
-elección ni la huella (las HUELLAS_FIJAS siguen iguales); el Congreso tampoco cambia (una sola circunscripción).
-No se toca el generador: lo que pedía la tarea ya lo hacía.
+- `ddd_motor2/naturalidad_clave.py` 1.1.0: en la competición (`natural_desde_m06`), el primer término de la clave es
+  el recuento del contrato (objetivo regional). El resto de la clave (tope del 8 %, demarcaciones, frontera y
+  desvío) sigue midiéndose por circunscripción. El laboratorio no cambia.
+- `ddd_motor2/competicion.py` 1.3.2: el `fuera_tolerancia` publicado es ese mismo recuento; los valores por
+  circunscripción quedan en `extra.metricas_circunscripcion`.
+- El Congreso (una sola circunscripción) no cambia: las HUELLAS_FIJAS siguen iguales.
+
+## Antes y después en los 4 territorios (D8, 10 cadenas, fuera de tolerancia del contrato)
+
+Antes: r3 (`CANDIDATOS.csv` de T-196). Después: la competición en sesión con esta PR (el canónico sale igual que en r3).
+
+| Territorio | Canónico | Ganador r3 (antes) | Ganador ahora | Clave del ganador ahora (fuera, exceso, demarcaciones) |
+|---|---|---|---|---|
+| aragon | 0 (r3 0) | ponderado-s677079344: 2 | ponderado-s1768655224: 0 | 0, 0.0332, 35 |
+| castilla_la_mancha | 5 (r3 5) | ponderado-s214103641: 8 | ponderado-s547221014: 5 | 5, 0.0227, 53 |
+| castilla_y_leon | 2 (r3 2) | ponderado-s999727098: 4 | ponderado-s999727098: 2 | 2, 0.0383, 88 |
+| galicia | 6 (r3 6) | ponderado-s1167476498: 8 | ponderado-s1167476498: 6 | 6, 0.0394, 51 |
 
 ## Opciones (decisión del Planificador o del propietario; nada de esto está hecho)
+
+- (e) Que el M03 de la batería traiga `shared_border_m` (en la batería, el M03 sale del motor de producción: no es de este turno).
 
 - (a) Que el laboratorio respete `municipality_atomicity_limit_ratio` (naturalidad_competicion 1.6.0) y rehacer
   T-179 en las autonómicas: dará la cifra comparable de verdad.
