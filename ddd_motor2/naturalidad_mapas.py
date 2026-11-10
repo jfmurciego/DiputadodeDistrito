@@ -129,6 +129,13 @@ class Geometria:
         self.gdf = g.to_crs(CRS)
         self.gdf["geometry"] = shapely.make_valid(self.gdf.geometry.values)
         self._aristas = None
+        self._contactos: list[tuple[str, str]] = []
+
+    def contactos(self) -> list[tuple[str, str]]:
+        """Pares que solo se tocan (frontera < 1 m, p. ej. en un vértice): no son aristas de las métricas, pero el
+        laboratorio de la competición los usa como puentes de contigüidad."""
+        self.aristas()
+        return self._contactos
 
     def aristas(self) -> list[tuple[str, str, float]]:
         if self._aristas is None:
@@ -141,6 +148,7 @@ class Geometria:
             bi, bj = shp.boundary(geoms[i]), shp.boundary(geoms[j])
             largo = shp.length(shp.intersection(bi, bj))
             self._aristas = [(ids[a], ids[b], float(w)) for a, b, w in zip(i, j, largo) if w >= MIN_FRONTERA_M]
+            self._contactos = [(ids[a], ids[b]) for a, b, w in zip(i, j, largo) if w < MIN_FRONTERA_M]
         return self._aristas
 
     def distritos(self, asig: dict[str, str]) -> dict[str, object]:
