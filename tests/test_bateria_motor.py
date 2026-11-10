@@ -132,15 +132,23 @@ class BateriaMotor2EnActions(unittest.TestCase):
         ok = lambda t, f="empata": {"territorio": t, "estado": "VALIDO", "frente_al_canonico": f}  # noqa: E731
         esp = ["congreso_soria", "madrid"]
         hu = {"congreso_soria": {"igual": True, "huella_1": "x"}}
-        cs = lambda *ts: {t: {"evaluables": 3, "fallos_generador": 0} for t in ts}  # noqa: E731
-        parcial = b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "mejora")], hu, esp, cs(*esp))
+        cs = lambda *ts: {t: {"candidatos": 5, "exhaustivo": True, "cadenas": 3, "evaluables": 3, "fallos_generador": 0,  # noqa: E731
+                              "no_evaluados": [], "invalidas_sin_motivo": []} for t in ts}
+        parcial = b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "mejora")], hu, esp, cs(*esp), 3)
         self.assertTrue(parcial["parcial"])
         self.assertFalse(parcial["aceptacion"])  # sin Álava ni Melilla no hay verde por omisión
         todas = ["congreso_soria", "congreso_alava", "melilla", "madrid"]
         h3 = {t: {"igual": True, "huella_1": t} for t in todas[:3]}
-        c = b.criterio_aceptacion([ok(t) for t in todas], h3, todas, cs(*todas))
+        c = b.criterio_aceptacion([ok(t) for t in todas], h3, todas, cs(*todas), 3)
         self.assertTrue(c["aceptacion"])
         self.assertFalse(b.criterio_aceptacion([ok(t) for t in todas], h3, todas)["aceptacion"])  # sin datos de cadenas, NO
+        c5 = cs(*todas)
+        c5["madrid"]["candidatos"] = 4  # 1 + 3 + exhaustivo = 5 esperados
+        self.assertEqual(b.criterio_aceptacion([ok(t) for t in todas], h3, todas, c5, 3)["candidatos_incompletos"], ["madrid"])
+        c5["madrid"].update(candidatos=5, no_evaluados=["ponderado-s1"])
+        self.assertFalse(b.criterio_aceptacion([ok(t) for t in todas], h3, todas, c5, 3)["aceptacion"])
+        c5["madrid"].update(no_evaluados=[], invalidas_sin_motivo=["ponderado-s2"])
+        self.assertFalse(b.criterio_aceptacion([ok(t) for t in todas], h3, todas, c5, 3)["aceptacion"])
         self.assertFalse(c["parcial"])
         self.assertEqual(b.criterio_aceptacion([ok("congreso_soria")], hu, esp)["faltan"], ["madrid"])
         self.assertEqual(b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "empeora")], hu, esp)["empeoran"], ["madrid"])
@@ -170,7 +178,7 @@ class BateriaMotor2EnActions(unittest.TestCase):
             self._competir_real(out, "madrid", cadena_ok=True)
             buf = io.StringIO()
             with contextlib.redirect_stdout(buf):
-                self.assertEqual(b.main(["aceptacion", "--out", d, "madrid"]), 0)
+                self.assertEqual(b.main(["aceptacion", "--out", d, "--cadenas", "2", "madrid"]), 0)
             self.assertIn("PARCIAL", buf.getvalue())
             self.assertFalse(json.loads((out / "ACEPTACION.json").read_text())["aceptacion"])
 
@@ -184,8 +192,8 @@ class BateriaMotor2EnActions(unittest.TestCase):
             hr = out / "competicion" / "congreso_soria" / "HUELLA_REAL.json"
             hr.write_text(json.dumps({"territorio": "congreso_soria", "huella_1": "ab", "huella_2": "ab", "igual": True}))
             with contextlib.redirect_stdout(io.StringIO()):
-                self.assertEqual(b.main(["aceptacion", "--out", str(out), "congreso_soria", "madrid"]), 0)
-                self.assertEqual(b.main(["aceptacion", "--out", str(out), "congreso_soria", "madrid", "melilla"]), 1)
+                self.assertEqual(b.main(["aceptacion", "--out", str(out), "--cadenas", "2", "congreso_soria", "madrid"]), 0)
+                self.assertEqual(b.main(["aceptacion", "--out", str(out), "--cadenas", "2", "congreso_soria", "madrid", "melilla"]), 1)
             self.assertFalse(json.loads((out / "ACEPTACION.json").read_text())["aceptacion"])
 
     def _competir_real(self, out: Path, t: str, cadena_ok: bool):
@@ -207,11 +215,11 @@ class BateriaMotor2EnActions(unittest.TestCase):
         shutil.copy(out / "competicion" / "RESUMEN.json", out / "competicion" / t / "RESUMEN.json")
         return fila
 
-    def _aceptar(self, out: Path, t: str) -> dict:
+    def _aceptar(self, out: Path, t: str, n: int = 2) -> dict:
         import contextlib
         import io
         with contextlib.redirect_stdout(io.StringIO()):
-            rc = b.main(["aceptacion", "--out", str(out), t])
+            rc = b.main(["aceptacion", "--out", str(out), "--cadenas", str(n), t])
         return {"rc": rc, **json.loads((out / "ACEPTACION.json").read_text())}
 
     def test_t181_generador_fallido_da_no_aunque_gane_el_canonico(self):
@@ -231,6 +239,13 @@ class BateriaMotor2EnActions(unittest.TestCase):
             r = self._aceptar(out, "madrid")
             self.assertEqual((r["rc"], r["sin_cadenas"], r["fallo_generador"]), (0, [], []))  # PARCIAL: sin huellas, pero sin fallos
 
+    def test_t181_numero_de_candidatos_distinto_de_1_mas_n_es_no(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            self._competir_real(out, "madrid", cadena_ok=True)  # 2 cadenas + canónico + exhaustivo
+            self.assertEqual(self._aceptar(out, "madrid", 2)["candidatos_incompletos"], [])
+            self.assertEqual(self._aceptar(out, "madrid", 10)["candidatos_incompletos"], ["madrid"])
+
     def test_t181_sin_competicion_json_es_no(self):
         with tempfile.TemporaryDirectory() as d:
             out = Path(d)
@@ -240,20 +255,25 @@ class BateriaMotor2EnActions(unittest.TestCase):
 
     def test_t181_el_job_de_competicion_instala_y_comprueba_lo_que_importa_ponderado(self):
         pasos = self.wf["jobs"]["competicion"]["steps"]
-        textos = [p.get("run", "") for p in pasos]
-        i_inst = next(i for i, x in enumerate(textos) if "networkx==" in x or "'^networkx=='" in x)
-        i_comp = next(i for i, p in enumerate(pasos) if p.get("name") == "Competición del motor 2")
-        i_ent = next(i for i, p in enumerate(pasos) if p.get("name", "").startswith("Entradas"))
-        self.assertLess(i_inst, i_ent)  # falla en 1 min, antes de gastar minutos
-        self.assertIn("import networkx", textos[i_inst])
-        self.assertIn("requirements-ensemble.lock", textos[i_inst])
-        self.assertLess(i_inst, i_comp)
-        pin = [x for x in (ROOT / "requirements-ensemble.lock").read_text().splitlines() if x.lower().startswith("networkx==")]
-        self.assertEqual(len(pin), 1)
-        # lo que Ponderado importa de terceros (networkx, shapely) lo cubre el job
+        ix = lambda pre: next(i for i, p in enumerate(pasos) if p.get("name", "").startswith(pre))  # noqa: E731
+        i_dep, i_ent, i_comp = ix("Dependencias de las cadenas"), ix("Entradas"), ix("Competición del motor 2")
+        self.assertLess(i_ent, i_dep)  # las entradas usan el lock base; las cadenas, el del laboratorio
+        self.assertLess(i_dep, i_comp)  # falla en ~1 min, antes de gastar minutos de competición
+        txt = pasos[i_dep]["run"]
+        self.assertIn("requirements-ensemble.lock", txt)
+        for imp in ("import networkx", "from gerrychain import Graph, MarkovChain, Partition, updaters",
+                    "from gerrychain.proposals import recom", "from gerrychain.tree import bipartition_tree",
+                    "_ordered_edge_ids", "naturalidad_competicion import cadena", 'm.version("gerrychain") == pin'):
+            self.assertIn(imp, txt)
+        # lo que Ponderado importa de gerrychain (fuente) está en la comprobación
         src = (ROOT / "ddd_motor2/naturalidad_competicion.py").read_text(encoding="utf-8")
-        self.assertIn("import networkx", src)
-        self.assertIn("shapely", (ROOT / "requirements.lock").read_text().lower())
+        for linea in ("from gerrychain.tree.spanning_tree import _ordered_edge_ids", "from gerrychain import Graph, MarkovChain, Partition, updaters",
+                      "from gerrychain.proposals import recom", "from gerrychain.tree import bipartition_tree"):
+            self.assertIn(linea, src)
+        lock = (ROOT / "requirements-ensemble.lock").read_text().lower()
+        self.assertIn("gerrychain==", lock)
+        self.assertIn("networkx==", lock)
+        self.assertIn("--cadenas", self.wf["jobs"]["aceptacion"]["steps"][-2]["run"])
 
 
 if __name__ == "__main__":

@@ -9,9 +9,10 @@
 #   INE; ejecuta M04-M06 con el motor indicado y la validación de producción y deja la matriz territorio × regla como
 #   artefacto. Con archivar=true sube a R2 solo la entrada mínima (M01 + grafo M03 + ENTRADAS.json) de cada
 #   territorio. No publica ni escribe en main.
-# CAMBIOS: 1.1.1 (T-181): el job de competición instala networkx (pin de requirements-ensemble.lock; Ponderado lo importa en el
-#   mismo proceso; antes las 10 cadenas fallaban con ModuleNotFoundError y el ganador era siempre el canónico) y comprueba
-#   en ~1 min, antes de competir, que networkx y shapely se importan. El job m05 no cambia.
+# CAMBIOS: 1.1.1 (T-181): el job de competición instala requirements-ensemble.lock (lock del laboratorio: gerrychain y networkx, que
+#   Ponderado importa en el mismo proceso; antes las 10 cadenas fallaban con ModuleNotFoundError y el ganador era el canónico)
+#   tras las entradas, y comprueba en ~1 min, antes de competir, la versión de gerrychain y los imports reales de las cadenas.
+#   `aceptacion` recibe --cadenas N (candidatos = 1 + N, +1 exhaustivo). El job m05 no cambia.
 # CAMBIOS: 1.1.0 (T-208, D-72): entrada `motor: m05|motor2` (m05 por defecto, job idéntico); con motor2, matriz de un job por
 #   territorio (hasta 71; timeout 360 min) que ejecuta la competición (`funcion` D8 por defecto, `cadenas` 10) con
 #   PYTHONHASHSEED=0, entradas desde R2 o fuente INE y artefacto por territorio, y un job final que une la matriz y aplica el
@@ -172,12 +173,6 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.lock
       - run: python -m pip install --requirement requirements.lock
-      - name: Dependencias de las cadenas (networkx) y comprobación rápida
-        shell: bash
-        run: |
-          set -euo pipefail
-          python -m pip install "$(grep -i '^networkx==' requirements-ensemble.lock)"
-          python -c "import networkx, shapely; from ddd_motor2.naturalidad_competicion import cadena"
       - name: Entradas (R2 o fuente INE)
         shell: bash
         env:
@@ -190,6 +185,24 @@ jobs:
           set -euo pipefail
           r2=(); [[ -n "${R2_ACCOUNT_ID:-}" && -n "${AWS_ACCESS_KEY_ID:-}" ]] && r2=(--desde-r2)
           python herramientas/bateria_motor.py entradas "${r2[@]}" "$T"
+      - name: Dependencias de las cadenas (lock del laboratorio) y comprobación rápida
+        shell: bash
+        run: |
+          set -euo pipefail
+          # tras las entradas (que usan el lock base): Ponderado importa gerrychain y networkx en el mismo proceso
+          python -m pip install --requirement requirements-ensemble.lock
+          python - <<'PY'
+          import importlib.metadata as m, re
+          pin = re.search(r"(?im)^gerrychain==(\S+)", open("requirements-ensemble.lock").read()).group(1)
+          assert m.version("gerrychain") == pin, (m.version("gerrychain"), pin)
+          import networkx, shapely
+          from gerrychain import Graph, MarkovChain, Partition, updaters
+          from gerrychain.proposals import recom
+          from gerrychain.tree import bipartition_tree
+          from gerrychain.tree.spanning_tree import _ordered_edge_ids
+          from ddd_motor2.naturalidad_competicion import cadena
+          print("cadenas OK: gerrychain", pin)
+          PY
       - name: Competición del motor 2
         shell: bash
         run: |
@@ -219,6 +232,7 @@ jobs:
     timeout-minutes: 30
     env:
       TERRITORIOS: ${{ inputs.territorios }}
+      CADENAS: ${{ inputs.cadenas }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -237,7 +251,7 @@ jobs:
         run: |
           set -uo pipefail
           read -ra ts <<<"$TERRITORIOS"
-          python herramientas/bateria_motor.py aceptacion --out bateria "${ts[@]}" | tee -a "$GITHUB_STEP_SUMMARY"
+          python herramientas/bateria_motor.py aceptacion --out bateria --cadenas "$CADENAS" "${ts[@]}" | tee -a "$GITHUB_STEP_SUMMARY"
           exit "${PIPESTATUS[0]}"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
