@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.314
+Versión: 1.0.315
 Fecha: 2026-11-10
-Alcance: T-201b — La extracción de composición M06 elige el run por elección
+Alcance: T-179 (nacional, 2.ª parte) — Naturalidad: C y D8 en las autonómicas
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t201b-mantenimiento-eleccion.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.313_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_claude-t179c-naturalidad-autonomicas.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.314_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.313_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.315 · [2026-11-10 — T-179 (nacional, 2.ª parte) — Naturalidad: C y D8 en las autonómicas](registro/2026-11-10_claude-t179c-naturalidad-autonomicas.md)
 - 1.0.314 · [2026-11-10 — T-201b — La extracción de composición M06 elige el run por elección](registro/2026-11-10_t201b-mantenimiento-eleccion.md)
 - 1.0.313 · [2026-11-10 — T-201 — La vigente se elige por (territorio, elección)](registro/2026-11-10_t201-vigente-por-eleccion.md)
 - 1.0.312 · [2026-11-10 — T-200 — Cargadores de homologación y equivalencia de secciones para las generales 2026](registro/2026-11-10_claude-t200-homologacion-2026.md)
