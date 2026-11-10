@@ -254,5 +254,50 @@ class FlujoFallaCerrado(unittest.TestCase):
         self.assertIn("--no-deps", dep["run"])
 
 
+class MismaCompeticionQueLaBateria(unittest.TestCase):
+    """T-223: La Rioja dio otro ganador en T-216 y T-221 porque cambió el código (T-217/T-218, #694), no el entorno;
+    desde T-217 la batería hace competir al vigente y el P30 no: el P30 debe ser la misma competición."""
+
+    def test_por_defecto_ponderado_y_vigente_como_la_bateria(self):
+        from ddd_motor2.generadores import Ponderado, Vigente
+        cadena, vigente = p30.generadores_por_defecto()
+        self.assertIsInstance(cadena, Ponderado)
+        self.assertIsInstance(vigente, Vigente)
+        self.assertIsNone(p30.generadores_por_defecto(funcion="A")[1])  # con A, sin vigente (como competir.py)
+        inyectada = object()
+        self.assertEqual(p30.generadores_por_defecto(inyectada), (inyectada, None))  # pruebas: lo inyectado
+
+    def test_la_bateria_tambien_usa_el_vigente_con_d8(self):
+        import inspect
+        from ddd_motor2 import competir
+        fuente = inspect.getsource(competir.competir_territorio)
+        self.assertIn('funcion != "A"', fuente)
+        self.assertIn("Vigente()", fuente)
+
+    def test_el_vigente_entra_en_la_huella_motor2(self):
+        files = p30.huella_motor()["engine_files"]
+        self.assertIn("datos/composicion/la_rioja.csv", files)
+        self.assertIn("datos/composicion/congreso_la_rioja.csv", files)
+
+    def test_competir_sin_pythonhashseed_0_falla_cerrado(self):
+        for valor in (None, "1", "random"):
+            env = {k: v for k, v in os.environ.items() if k != "PYTHONHASHSEED"}
+            if valor is not None:
+                env["PYTHONHASHSEED"] = valor
+            with mock.patch.dict(os.environ, env, clear=True), \
+                    mock.patch.object(p30, "competir", side_effect=AssertionError("no debe competir")):
+                self.assertEqual(p30.main(["competir", "--params", "territorios/la_rioja/config/la_rioja_2025.yaml"]), 6)
+
+    def test_entorno_cubre_los_paquetes_que_fija_el_flujo(self):
+        e = p30.entorno()
+        self.assertIn("PYTHONHASHSEED", e)
+        self.assertIn("geos", e)
+        for m in ("gerrychain", "networkx", "rustworkx", "scipy", "numpy", "pandas", "shapely", "geopandas"):
+            self.assertIn(m, e)
+        wf = (WF / "_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        self.assertIn("PYTHONHASHSEED: '0'", wf)
+        self.assertIn('for nombre in ("gerrychain", "networkx", "rustworkx", "scipy")', wf)
+
+
 if __name__ == "__main__":
     unittest.main()
