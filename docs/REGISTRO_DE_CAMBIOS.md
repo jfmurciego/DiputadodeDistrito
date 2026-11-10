@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.297
+Versión: 1.0.298
 Fecha: 2026-11-10
-Alcance: T-176 — Histórico autonómico: medición de cobertura y lote 2
+Alcance: T-172 — Laboratorio de naturalidad: competición A/B/C y mapas lado a lado
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_claude-t176-historico-autonomico.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.296_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t172-naturalidad-laboratorio.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.297_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.296_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.298 · [2026-11-10 — T-172 — Laboratorio de naturalidad: competición A/B/C y mapas lado a lado](registro/2026-11-10_t172-naturalidad-laboratorio.md)
 - 1.0.297 · [2026-11-10 — T-176 — Histórico autonómico: medición de cobertura y lote 2](registro/2026-11-10_claude-t176-historico-autonomico.md)
 - 1.0.296 · [2026-11-10 — T-169 — Autorización por campaña (D-52)](registro/2026-11-10_claude-t169-autorizacion-campana.md)
 - 1.0.295 · [2026-11-10 — T-177 — Lista de descargas manuales para el propietario](registro/2026-11-10_t177-descargas-manuales.md)
