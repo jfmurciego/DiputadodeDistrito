@@ -34,7 +34,7 @@ class BateriaMotor(unittest.TestCase):
         # La imagen de CI excluye legacy/ (.dockerignore): allí solo se exige el motor vigente; las legacy, en el árbol.
         self.assertTrue(b.M05_BASE["7.4.4"].is_file())
         for v, p in b.M05_BASE.items():
-            if (ROOT / "legacy" / "ddd_core").is_dir() and any((ROOT / "legacy" / "ddd_core").iterdir()):
+            if (ROOT / ".git").exists():  # árbol completo (la imagen de CI no lleva .git ni todo legacy/)
                 self.assertTrue(p.is_file(), v)
 
     def test_comparacion_con_publicado_ignora_etiquetas(self):
