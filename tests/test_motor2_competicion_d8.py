@@ -92,6 +92,55 @@ class Interfaz(unittest.TestCase):
         self.assertIsNone(fila_guardada("sintetico", tmp, 3, cfg=e.cfg, funcion="A"))  # otra función: se recalcula
 
 
+class FueraPorCircunscripcion(unittest.TestCase):
+    """T-211: con cuotas de varias provincias, lo publicado (fuera_tolerancia, desvio_max) se mide como la clave:
+    contra el objetivo de cada circunscripción. A y B en la 22 (200 hab., 1 escaño); C y D en la 44 (120, 1 escaño).
+    Objetivo regional 160: los dos distritos quedan fuera (±25 %); por circunscripción, ninguno."""
+
+    POB = {"A": 100, "B": 100, "C": 60, "D": 60}
+    PROV = {"A": "22", "B": "22", "C": "44", "D": "44"}
+
+    def competir(self, funcion):
+        tmp = Path(tempfile.mkdtemp())
+        cfg = {"validation": {**CFG["validation"], "population_floor_ratio": 0.5, "population_cap_ratio": 1.5,
+                              "province_districts": {"22": 1, "44": 1}}}
+        secc = {u: f"{self.PROV[u]}0010100{i}" for i, u in enumerate(sorted(self.POB))}
+        g = tmp / "grafo.json"
+        g.write_text(json.dumps({"nodes": list(secc.values()), "edges": [
+            {"u": secc[a], "v": secc[b], "edge_type": "geometric", "shared_border_m": 100.0}
+            for a, b in (("A", "B"), ("B", "C"), ("C", "D"))]}))
+        pob, prov = self.POB, self.PROV
+
+        class Gen:
+            nombre = "canonico"
+
+            def generar(self, entrada, semilla, destino):
+                ruta = Path(destino) / "comp.csv"
+                ruta.parent.mkdir(parents=True, exist_ok=True)
+                with open(ruta, "w", newline="", encoding="utf-8") as fh:
+                    w = csv.writer(fh)
+                    w.writerow(["CUSEC_KEY", "district_id", "section_pop", "CPRO", "CUMUN", "ddd_unit_id",
+                                "ddd_closed_urban"])
+                    for u in sorted(pob):
+                        w.writerow([secc[u], "1" if prov[u] == "22" else "2", pob[u], prov[u], secc[u][:5], u, "0"])
+                return Salida(ruta)
+        return competir(EntradaTerritorio("sintetico", cfg, g), Gen(), Gen(), [], tmp / "out", exhaustivo=False,
+                        funcion=funcion)
+
+    def test_d8_publica_lo_que_elige(self):
+        r = self.competir("D8")
+        c = r.canonico
+        self.assertEqual(c.estado, "VALIDO", c.a_dict())
+        self.assertEqual((c.fuera_tolerancia, c.desvio_max), (0, 0))
+        self.assertEqual(c.natural[0], c.fuera_tolerancia)  # la clave y lo publicado, con la misma medida
+        self.assertEqual(c.extra["metricas_regionales"], {"fuera_tolerancia": 2, "desvio_max": 0.25})
+
+    def test_a_no_cambia(self):
+        c = self.competir("A").canonico
+        self.assertEqual((c.fuera_tolerancia, float(c.desvio_max)), (2, 0.25))
+        self.assertNotIn("metricas_regionales", c.extra)
+
+
 @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "sin gerrychain")
 class Ponderado(unittest.TestCase):
     def test_parte_del_canonico_y_no_empeora(self):
@@ -146,6 +195,25 @@ class ClaveCompartida(unittest.TestCase):
         from ddd_motor2 import naturalidad_mapas as nm
         asig, _ = nm.leer_composicion(nm.COMPOSICION / "congreso_soria.csv")
         self.comparar("congreso_soria", asig)
+
+
+@unittest.skipUnless(os.environ.get("DDD_BATERIA_OUT") and importlib.util.find_spec("geopandas"),
+                     "necesita las entradas y la competición de la batería (DDD_BATERIA_OUT)")
+class AutonomicaReal(unittest.TestCase):
+    """T-211 con datos reales: País Vasco (tres provincias, 25 escaños cada una), composición del canónico."""
+
+    def test_pais_vasco(self):
+        from ddd_motor2.competicion import Candidato, juzgar
+        from ddd_motor2.generadores import entrada_bateria
+        from ddd_motor2.reglas import Criterio
+        out = Path(os.environ["DDD_BATERIA_OUT"])
+        e = entrada_bateria("pais_vasco", out)
+        comp = next((out / "competicion" / "pais_vasco" / "canonico").glob("*_m06_composicion_distritos.csv"))
+        c = Candidato("canonico", "canonico", None, 0)
+        juzgar(c, Salida(comp), e, Criterio(), comp, "D8")
+        self.assertEqual(c.estado, "VALIDO", c.detalle)
+        self.assertEqual(c.fuera_tolerancia, c.natural[0])
+        self.assertNotEqual(c.extra["metricas_regionales"]["fuera_tolerancia"], c.fuera_tolerancia)
 
 
 if __name__ == "__main__":
