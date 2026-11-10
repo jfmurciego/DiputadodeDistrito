@@ -1,0 +1,34 @@
+{
+  "id_viejo": "congreso_las_palmas",
+  "id_nuevo": "nac35",
+  "contrato_sha256": "3e4e2f99c8a4b067db140f59459186de3872b032c8063ddf5d030afdb091c7a3",
+  "m01_sha256": "c8d7a6e7d394be27b6598cd0dd20d5852f0cbfa72fdc94928227ba3b21098458",
+  "m03_sha256": "b34a83dba765eb200b9e44ac1faf78d2228b9536e09bb97fb4d07f2ae708d4b3",
+  "M04": {
+    "geojson_sha256_viejo": "0828dc98a8ab324f45625645d6601cbd363705b1839dd1a052d2e796468a426e",
+    "geojson_sha256_nuevo": "0ab4d0ec7783217029add32ae1ea7371e773a23ab5296ce9e179537d5418b766",
+    "geojson_identico": false,
+    "geojson_identico_salvo_id": true,
+    "unidades": 715,
+    "distritos": 10,
+    "asignacion_identica": true,
+    "asignacion_sha256": "45490a6f263fec18ade31f9ada6af4038d8dc4fd13700effe0382f56c581bbf8",
+    "campos_con_el_id": [
+      "name"
+    ]
+  },
+  "M05": {
+    "geojson_sha256_viejo": "6bdc824e1936e3e17251a452c14092d8896aea00689cfd23cd7946de591814f5",
+    "geojson_sha256_nuevo": "8a8ffb30e65db10674f4b5ae1024c684c5471b9a96e7d28f93c7e798cde17ac8",
+    "geojson_identico": false,
+    "geojson_identico_salvo_id": true,
+    "unidades": 715,
+    "distritos": 10,
+    "asignacion_identica": true,
+    "asignacion_sha256": "0c871b479cd1b5ed46e71f170023c45bc62cd24e9999a0a230cfd7ec4d72fb7e",
+    "campos_con_el_id": [
+      "name"
+    ]
+  },
+  "PASA": true
+}
