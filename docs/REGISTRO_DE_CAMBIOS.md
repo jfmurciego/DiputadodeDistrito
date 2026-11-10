@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.247
+Versión: 1.0.248
 Fecha: 2026-11-10
-Alcance: T-147 — Guardia contra tests que fijan el estado vivo del ciclo de preparación
+Alcance: T-148 — Tabla maestra de notación AUT01-19 / NAC01-52
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t147-guardia-estado-vivo.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.246_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t148-notacion-tabla-maestra.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.247_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.246_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.248 · [2026-11-10 — T-148 — Tabla maestra de notación AUT01-19 / NAC01-52](registro/2026-11-10_t148-notacion-tabla-maestra.md)
 - 1.0.247 · [2026-11-10 — T-147 — Guardia contra tests que fijan el estado vivo del ciclo de preparación](registro/2026-11-10_t147-guardia-estado-vivo.md)
 - 1.0.246 · [2026-11-10 — T-138 — Nota de viabilidad: movilidad como cohesión funcional](registro/2026-11-10_t138-nota-movilidad.md)
 - 1.0.245 · [2026-11-10 — T-137 — Núcleo único de reglas: inventario y diseño](registro/2026-11-10_t137-nucleo-reglas.md)
