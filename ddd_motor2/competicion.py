@@ -3,11 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — orquestador de la competición «canónico + GerryChain»
-VERSIÓN: 1.3.0
-NOMBRE DE VERSIÓN: Competición · función de calidad D8
+VERSIÓN: 1.3.1
+NOMBRE DE VERSIÓN: Competición · fuera de tolerancia por circunscripción
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.3.0 — función de calidad elegible (`funcion`): "A" (la vigente, abajo) o, con naturalidad (T-172/T-179),
+CAMBIOS: 1.3.1 — con C/D5/D8 y objetivo por circunscripción (cuotas de varias provincias o islas), las métricas
+  publicadas del candidato (fuera_tolerancia, desvio_max: COMPETICION.json, RESUMEN y batería) salen de los mismos
+  desvíos que la clave de naturalidad, no del objetivo regional; las regionales quedan en extra["metricas_regionales"].
+  El orden, la elección y la huella no cambian (la clave ya medía por circunscripción). Con A o una sola
+  circunscripción (Congreso), todo igual que 1.3.0.
+  1.3.0 — función de calidad elegible (`funcion`): "A" (la vigente, abajo) o, con naturalidad (T-172/T-179),
   "C", "D5" o "D8": tras evaluable y violaciones duras, la clave de ddd_motor2/naturalidad_clave.py (la misma del
   laboratorio): fuera de tolerancia → exceso del desvío máximo sobre el tope (D5/D8; solo para elegir, no es regla)
   → partidos judiciales + comarcas agrarias partidos → frontera cortada (shared_border_m del M03) → desvío máximo →
@@ -22,10 +27,12 @@ CAMBIOS: 1.3.0 — función de calidad elegible (`funcion`): "A" (la vigente, ab
   1.1.0 — competir_publico (semillas públicas de semilla.py); Resultado.valido y Resultado.huella()
   (reproducibilidad bit a bit); sin referencia de núcleos y con unidades cerradas, ERROR_DATOS (indicador explícito:
   unidades con nucleo_cerrado, no el texto del aviso); pruebas de desempate por huella y de canónico fallido.
-MOTIVO: 1.3.0 — T-205: D8 en la competición del motor nuevo (decisión tras T-179). 1.2.0 — T-175: enumeración exacta para territorios pequeños en el competidor del motor nuevo.
+MOTIVO: 1.3.1 — T-211: en País Vasco la competición elegía con 8 fuera de tolerancia (objetivo de cada provincia) y
+  publicaba 9 (objetivo regional): la batería r3 comparaba con el laboratorio cifras medidas de otra forma.
+  1.3.0 — T-205: D8 en la competición del motor nuevo (decisión tras T-179). 1.2.0 — T-175: enumeración exacta para territorios pequeños en el competidor del motor nuevo.
   T-163 / D-48: la primera versión del motor nuevo es una competición entre el canónico y N cadenas de
   GerryChain bajo el núcleo único de reglas; gana el mejor plan válido, así que nunca es peor que el canónico.
-ANTERIOR: legacy/ddd_motor2/competicion_v1.2.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/competicion_v1.3.0_20261110.py
 QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador canónico (una vez) y la cadena con cada
   semilla, a través de adaptadores (protocolo Generador: devuelven una composición M06). Cada candidato se juzga con el
   núcleo (adaptadores.problema_y_plan + reglas.evaluar, Criterio D-44 por defecto) y se ordena con la función de
@@ -57,7 +64,7 @@ from .adaptadores import problema_y_plan
 from .calidad import metricas
 from .reglas import Criterio, ErrorContrato, ErrorDatos, Reglas, evaluar
 
-VERSION = "1.3.0"
+VERSION = "1.3.1"
 FUNCIONES = ("A", "C", "D5", "D8")
 ORDEN_A = ["evaluable", "violaciones_duras", "fuera_tolerancia", "desvio_max", "ecm", "huella_plan", "orden"]
 ORDEN_NATURAL = ["evaluable", "violaciones_duras", "fuera_tolerancia", "exceso_tope", "demarcaciones_partidas",
@@ -222,6 +229,12 @@ def juzgar(cand: Candidato, salida: Salida, entrada: EntradaTerritorio, criterio
         try:
             nat = natural_desde_m06(problema, reglas, salida.composicion, entrada.grafo_m03, entrada.cfg)
             cand.natural = nat.clave(plan, funcion, huella=cand.huella_plan)
+            if nat.obj_circ:  # lo publicado se mide como la clave: contra el objetivo de cada circunscripción
+                rel = [abs(Fraction(p) - o) / o for p, o in nat.desvios(plan).values()]
+                cand.extra["metricas_regionales"] = {"fuera_tolerancia": cand.fuera_tolerancia,
+                                                     "desvio_max": float(cand.desvio_max)}
+                cand.fuera_tolerancia = sum(1 for x in rel if x > nat.tol / nat.objetivo)
+                cand.desvio_max = max(rel)
         except (ErrorDatos, OSError, ValueError, KeyError) as exc:
             cand.estado, cand.detalle = "ERROR_DATOS", f"clave {funcion}: {type(exc).__name__}: {exc}"
             return
