@@ -1,10 +1,10 @@
 # Autorización de campaña 2026-11-10_bateria-motor2-d8-10-cadenas-r3
 
 - Decisión: D-52 (autorización por campaña). Chat del Operador: session_01KQDtFsAtHP9atzNnDthr9A.
-- Frase literal del propietario: (pendiente)
-- Fecha y hora de la frase (Europe/Madrid): (pendiente)
+- Frase literal del propietario: «Autorizo la campaña 2026-11-10_bateria-motor2-d8-10-cadenas-r3 tal como figura en la ficha.»
+- Fecha y hora de la frase (Europe/Madrid): 2026-11-10 19:20 (aprox.)
 - Estado de la ficha: BORRADOR. Sustituye a `-r2` (PARADA: el lock del laboratorio subía pandas a 3.0.5 y geopandas a 1.1.4). Requiere T-181b fusionada en `main`.
-- Caducidad: 72 h desde la frase del propietario.
+- Caducidad: 2026-11-13 19:20 (72 h).
 - Gasto semanal al autorizar: se mide al recibir la frase y se anota aquí; tope 15.000 min/semana, aviso al 70 %.
 
 ## Límites
@@ -26,6 +26,6 @@
 |---|---|---|---|---|---|---|
 
 ## Cierre
-Estado: `BORRADOR` (espera T-181b y la frase del propietario). Último uso: —.
+Estado: `ACEPTADA, EN_ESPERA` de T-181b en `main` (no estaba al recibir la frase). Último uso: —.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_bateria-motor2-d8-10-cadenas-r3 tal como figura en la ficha.»
