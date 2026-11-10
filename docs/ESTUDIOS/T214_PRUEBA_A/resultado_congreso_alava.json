@@ -1,0 +1,32 @@
+{
+  "id_viejo": "congreso_alava",
+  "id_nuevo": "nac01",
+  "contrato_sha256": "405379dd3c9af109b00924a8717fe94c5979720ca39b37c4e9625ad1e7305ce0",
+  "m01_sha256": "d451eec653a36dda0836daadbb0f3a9662e5aa01b35a8c51d70aef1c1411e581",
+  "m03_sha256": "5a461d16279b9f01df3b43acb85358c17c07d2d515ffa32255cdd5f8436e1aa1",
+  "M04": {
+    "geojson_sha256_viejo": "e5d471501245819491874ce488532fb1c827313a9bf7a5acaab948f5be3fd69d",
+    "geojson_sha256_nuevo": "9a144684d80a67908d5e4b109da914beefc3106704aa3cf03c88924b9e5a3aed",
+    "geojson_identico": false,
+    "geojson_identico_salvo_id": true,
+    "unidades": 240,
+    "distritos": 3,
+    "asignacion_identica": true,
+    "asignacion_sha256": "ec84a0b95cc47b1920aef7440c24876b67c4319c0be9c79161195afd3d5b8898",
+    "campos_con_el_id": [
+      "name"
+    ]
+  },
+  "M05": {
+    "geojson_sha256_viejo": "513eae7ec46c832265f0c78892b74cbab413aa85e3ef7902f9c83b6c61812606",
+    "geojson_sha256_nuevo": "513eae7ec46c832265f0c78892b74cbab413aa85e3ef7902f9c83b6c61812606",
+    "geojson_identico": true,
+    "geojson_identico_salvo_id": true,
+    "unidades": 240,
+    "distritos": 3,
+    "asignacion_identica": true,
+    "asignacion_sha256": "fe9555cf9d7cf1f9dd0a8a902bb212f6019af885f07b85ae278d7fbad0974d34",
+    "campos_con_el_id": []
+  },
+  "PASA": true
+}
