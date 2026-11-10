@@ -6,6 +6,11 @@ catálogo; el resto, `docs/ARQUITECTURA/CORTE_5_0_0.md` §a-c. Ids nuevos en min
 
 Nota: el test de entorno `produccion` (`tests/test_corte_5_0_0_equivalencias.py`) cubre solo la 05 y la 06.
 
+Separadores (T-215, aceptado por el Planificador): « — » en los nombres de flujo con botón manual (lo exige
+`test_all_manually_dispatchable_workflow_names_are_free_of_middle_dot`); «·» solo en territorios (`NAC01 · Álava`),
+en «Interno ·» y en los run-name. Desviación declarada: el job `archivar_r2` sigue en «Automático — Mantenimiento»;
+su traslado a ARC, después del corte.
+
 ## Módulos → fases
 
 | Viejo | Nuevo |

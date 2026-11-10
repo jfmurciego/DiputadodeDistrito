@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # VERSIÓN: 1.1.0
-# CAMBIOS 1.1.0: T-215, columna «Nombre visible v5» (el nombre que lleva hoy cada fichero tras el paso 4).
+# CAMBIOS 1.1.0: T-215, columna «Nombre visible v5» (el nombre que lleva hoy cada fichero tras el paso 4) y nota de separadores.
 # FECHA: 2026-11-10
 # ANTERIOR: legacy/tests/generar_equivalencias_5_0_0_v1.0.0_20261110.py
 """T-198: genera docs/ARQUITECTURA/EQUIVALENCIAS_5_0_0.md (viejo -> nuevo) de la tabla maestra.
@@ -97,6 +97,11 @@ def generar():
         "catálogo; el resto, `docs/ARQUITECTURA/CORTE_5_0_0.md` §a-c. Ids nuevos en minúsculas (DECISIÓN 5, pendiente).",
         "",
         "Nota: el test de entorno `produccion` (`tests/test_corte_5_0_0_equivalencias.py`) cubre solo la 05 y la 06.",
+        "",
+        "Separadores (T-215, aceptado por el Planificador): « — » en los nombres de flujo con botón manual (lo exige",
+        "`test_all_manually_dispatchable_workflow_names_are_free_of_middle_dot`); «·» solo en territorios (`NAC01 · Álava`),",
+        "en «Interno ·» y en los run-name. Desviación declarada: el job `archivar_r2` sigue en «Automático — Mantenimiento»;",
+        "su traslado a ARC, después del corte.",
         "",
         "## Módulos → fases", "",
     ]
