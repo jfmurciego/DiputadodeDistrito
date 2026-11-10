@@ -1,11 +1,15 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.7.0
+# VERSIÓN: 1.8.0
 # NOMBRE DE VERSIÓN: Diseño A — suite en paralelo con check agregado `pruebas`
 # FECHA: 2026-11-10
 # ESTADO: vigente
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
-# CAMBIOS: 1.7.0 (T-149): absorbe como jobs las puertas automáticas «Validar Contratos Territoriales»
+# CAMBIOS: 1.8.0 (T-149): los tres escritores de main (Catálogo de procedencia, Resultados ligeros, Numeración del Registro) pasan
+#   a jobs `catalogo`, `resultados` y `numeracion`: solo push a main, mismas rutas (job `cambios`, sin el disparo por el propio
+#   fichero), credencial de registro tras el checkout, concurrencia propia sin cancelar y continue-on-error para no teñir de rojo el
+#   run de la batería. No dependen de la suite ni entran en `pruebas`. Sin cambios en qué se comprueba ni cuándo.
+#   1.7.0 (T-149): absorbe como jobs las puertas automáticas «Validar Contratos Territoriales»
 #   (`contratos`), «Validar documentación pública» (`docs`) y «Validar Productos Públicos» (`productos`, solo push a
 #   main), cada uno con sus mismas rutas (job `cambios`) y sus permisos mínimos por job. `pruebas` sigue exigiendo guardian y suite en success; los tres
 #   jobs por rutas pueden quedar en skipped.
@@ -15,7 +19,7 @@
 #   pasos N08 condicionales. El check obligatorio sigue llamándose `pruebas`: job final que depende de todos y falla
 #   si alguno no termina en success. No se quita ningún test.
 # MOTIVO: `pruebas` tardaba ~13-15 min (2.168 tests, ~660 s en un solo proceso).
-# ANTERIOR: legacy/workflows/pruebas-plataforma_v1.6.0_20261110.yml
+# ANTERIOR: legacy/workflows/pruebas-plataforma_v1.7.0_20261110.yml
 name: Pruebas de la Plataforma
 on:
   push:
@@ -138,6 +142,9 @@ jobs:
       contratos: ${{ steps.f.outputs.contratos }}
       docs: ${{ steps.f.outputs.docs }}
       productos: ${{ steps.f.outputs.productos }}
+      catalogo: ${{ steps.f.outputs.catalogo }}
+      resultados: ${{ steps.f.outputs.resultados }}
+      numeracion: ${{ steps.f.outputs.numeracion }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -148,6 +155,7 @@ jobs:
         shell: bash
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          EVENTO: ${{ github.event_name }}
         run: |
           set -uo pipefail
           propio='^\.github/workflows/pruebas-plataforma\.yml$'
@@ -162,6 +170,13 @@ jobs:
             if [[ "$files" == "todo" ]] || grep -qE "$propio" <<<"$files" || grep -qE "$2" <<<"$files"; then echo "$1=true" >> "$GITHUB_OUTPUT"; else echo "$1=false" >> "$GITHUB_OUTPUT"; fi
           }
           marca contratos "$contratos"; marca docs "$docs"; marca productos "$productos"
+          # Escritores de main: solo en push, sin el disparo por el propio fichero; sin base comparable corren todos (son idempotentes).
+          escribe() { # nombre regex
+            if [[ "$EVENTO" == "push" ]] && { [[ "$files" == "todo" ]] || grep -qE "$2" <<<"$files"; }; then echo "$1=true" >> "$GITHUB_OUTPUT"; else echo "$1=false" >> "$GITHUB_OUTPUT"; fi
+          }
+          escribe catalogo '^(orchestracion/(publicaciones_visor|archivo_r2|productos_publicos)\.json|datos_abiertos/INDEX\.json|fuentes/catalogo_oficial\.yaml|configuracion/(catalogo_preparacion|publicaciones)\.yaml|datos/(composicion|resultados)/MANIFEST\.json)$'
+          escribe resultados '^(orchestracion/publicaciones_visor\.json|datos/composicion/MANIFEST\.json)$'
+          escribe numeracion '^docs/registro/'
 
   contratos:
     needs: cambios
@@ -293,3 +308,203 @@ jobs:
             fi
           done
           echo "pruebas en verde."
+
+  catalogo:
+    name: Regenerar catálogo de procedencia
+    needs: cambios
+    if: ${{ always() && github.event_name == 'push' && (needs.cambios.result != 'success' || needs.cambios.outputs.catalogo == 'true') }}
+    continue-on-error: true
+    concurrency:
+      group: ddd-catalogo-procedencia
+      cancel-in-progress: false
+      queue: max
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Regenerar y empujar
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -c 'import yaml' 2>/dev/null || pip install --break-system-packages pyyaml
+          git config user.name "ddd-registro[bot]"
+          git config user.email "ddd-registro[bot]@users.noreply.github.com"
+          for intento in 1 2 3; do
+            python herramientas/catalogo_procedencia.py --informe
+            git add orchestracion/catalogo_procedencia.json
+            if git diff --cached --quiet; then echo "Catálogo al día."; exit 0; fi
+            git commit -m "chore(procedencia): catálogo de procedencia regenerado"
+            if git push origin HEAD:main; then exit 0; fi
+            echo "::warning::push rechazado (intento $intento)"
+            git reset --hard -q origin/main
+            git pull -q origin main
+          done
+          exit 1
+
+      - name: Señal visible si el escritor falla (no pone main en rojo)
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          echo "::error title=Escritor de main fallido::Catálogo de procedencia falló en este push; el run sigue en verde por continue-on-error. Revisa el log del job."
+          { echo "### ❌ Catálogo de procedencia falló"; echo; echo "Push \`$GITHUB_SHA\` · el job tiene continue-on-error para no teñir de rojo la batería; el fallo es real."; } >> "$GITHUB_STEP_SUMMARY"
+
+
+  resultados:
+    name: Regenerar resultados ligeros
+    needs: cambios
+    if: ${{ always() && github.event_name == 'push' && (needs.cambios.result != 'success' || needs.cambios.outputs.resultados == 'true') }}
+    continue-on-error: true
+    concurrency:
+      group: ddd-resultados-ligeros
+      cancel-in-progress: false
+      queue: max
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Regenerar y empujar
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python -c 'import yaml' 2>/dev/null || pip install --break-system-packages pyyaml
+          python herramientas/resultados_ligeros.py
+          python herramientas/resultados_partidos.py
+          git config user.name "ddd-registro[bot]"
+          git config user.email "ddd-registro[bot]@users.noreply.github.com"
+          git add -A datos/resultados
+          if git diff --cached --quiet; then echo "Sin cambios en resultados."; exit 0; fi
+          git commit -m "datos: resultados ligeros desde canonical_m08"
+          for intento in 1 2 3; do
+            if git push origin HEAD:main; then exit 0; fi
+            echo "::warning::push rechazado (intento $intento)"
+            git pull --rebase origin main
+          done
+          exit 1
+
+      - name: Señal visible si el escritor falla (no pone main en rojo)
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          echo "::error title=Escritor de main fallido::Resultados ligeros falló en este push; el run sigue en verde por continue-on-error. Revisa el log del job."
+          { echo "### ❌ Resultados ligeros falló"; echo; echo "Push \`$GITHUB_SHA\` · el job tiene continue-on-error para no teñir de rojo la batería; el fallo es real."; } >> "$GITHUB_STEP_SUMMARY"
+
+
+  numeracion:
+    name: Numerar el registro de cambios
+    needs: cambios
+    if: ${{ always() && github.event_name == 'push' && (needs.cambios.result != 'success' || needs.cambios.outputs.numeracion == 'true') }}
+    continue-on-error: true
+    concurrency:
+      group: ddd-registro-numeracion
+      cancel-in-progress: false
+      queue: max
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Numerar entradas pendientes y empujar
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "ddd-registro[bot]"
+          git config user.email "ddd-registro[bot]@users.noreply.github.com"
+          for intento in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            python herramientas/numerar_registro.py | tee .ddd-numeracion.txt
+            if git diff --quiet && [[ -z "$(git ls-files --others --exclude-standard legacy/docs)" ]]; then
+              echo "Sin entradas pendientes."; exit 0
+            fi
+            python herramientas/comprobar_guardian_main.py registro
+            git add docs/REGISTRO_DE_CAMBIOS.md legacy/docs
+            git commit -q -m "registro: numerar $(grep -c '^[0-9]' .ddd-numeracion.txt) entrada(s) de docs/registro"
+            if git push origin HEAD:main; then exit 0; fi
+            echo "::warning::push rechazado (intento $intento); main avanzó, se renumera."
+            sleep $((intento * 5))
+          done
+          echo "::error::No se pudo empujar la numeración tras 5 intentos."; exit 1
+
+      - name: Señal visible si el escritor falla (no pone main en rojo)
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          echo "::error title=Escritor de main fallido::Numeración del registro falló en este push; el run sigue en verde por continue-on-error. Revisa el log del job."
+          { echo "### ❌ Numeración del registro falló"; echo; echo "Push \`$GITHUB_SHA\` · el job tiene continue-on-error para no teñir de rojo la batería; el fallo es real."; } >> "$GITHUB_STEP_SUMMARY"
