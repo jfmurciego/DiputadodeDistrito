@@ -10,7 +10,7 @@ internas, M04, M05 canónico vigente o motor base legacy 7.4.3/7.4.2, M06 y `her
 validación de producción), `matriz` y `archivar` (R2: solo la entrada mínima, M01 + grafo M03 + ENTRADAS.json, por orden
 del propietario; `entradas --desde-r2` reutiliza los estados M03 ya archivados si llevan la identidad del contrato
 vigente). `herramientas/banco_generadores.py` 1.0.0 (nuevo, T-132 A): canónico, GerryChain de producción y semilla por
-árboles (`recursive_tree_part`) + ReCom con las mismas reglas. Workflow manual `bateria-motor.yml` 1.0.0 («- Batería del Motor»,
+árboles (`recursive_tree_part`) + ReCom con las mismas reglas. Workflow manual `bateria-motor.yml` 1.0.0 («Auxiliar — Batería del Motor»,
 solo `workflow_dispatch`, sin programación ni escritura en `main`). No toca motor, contratos ni huellas.
 
 **Resultado (M04 7.6.7).** M05 7.4.4: 71/71 PASS en K, atomicidad, población, contigüidad, provincia y disciplina

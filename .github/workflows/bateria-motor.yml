@@ -12,7 +12,7 @@
 # CAMBIOS: 1.0.0: fichero nuevo (T-132).
 # MOTIVO: repetir la batería ante cualquier cambio del motor con un solo botón; sin programación ni vigilantes.
 # ANTERIOR: ninguna (fichero nuevo)
-name: '- Batería del Motor'
+name: 'Auxiliar — Batería del Motor'
 run-name: "Batería del motor ${{ inputs.versiones_m05 }} ${{ inputs.territorios || 'todos' }}"
 
 on:
