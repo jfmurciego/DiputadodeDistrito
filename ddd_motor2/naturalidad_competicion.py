@@ -3,11 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — laboratorio de naturalidad: competición con cinco funciones de calidad y grafo ponderado
-VERSIÓN: 1.4.0
+VERSIÓN: 1.5.0
 NOMBRE DE VERSIÓN: Naturalidad · competición A/B/C + D5/D8
 FECHA: 2026-11-10
 ESTADO: experimento (motor 2; producción no lo importa; no lanza nada; el criterio NO se fija aquí)
-CAMBIOS: 1.4.0 (T-202): (1) contratos con unidades internas (partitioning connected_internal_units: Extremadura,
+CAMBIOS: 1.5.0 (T-205): la clave de calidad (A, B, D5, D8), los desvíos, la naturalidad y los recargos salen a
+  ddd_motor2/naturalidad_clave.py (Natural), que comparte la competición del motor nuevo; mismo orden y mismos valores
+  (fracciones exactas también con objetivos por circunscripción). `cadena` admite cualquier Natural (el generador
+  «ponderado» de la competición la usa sobre las unidades M04 y el grafo M03).
+  1.4.0 (T-202): (1) contratos con unidades internas (partitioning connected_internal_units: Extremadura,
   Principado de Asturias): el municipio es atómico hasta atomicity_ratio × objetivo, como en producción; por encima,
   la unidad (y su clave R012) es la sección: más fina que los trozos de producción, que no se pueden reconstruir sin el
   grafo M03 original (caducado). (2) Mapa vigente que incumple el núcleo (D-66; p. ej. Ávila en dos distritos
@@ -34,7 +38,7 @@ CAMBIOS: 1.4.0 (T-202): (1) contratos con unidades internas (partitioning connec
   arista y, con ella, las cadenas (Badajoz, Madrid y Barcelona no reprodujeron #651). 1.0.0: fichero nuevo.
 MOTIVO: T-172, pasos 3 y 4: ¿cuánta población «cuesta» un mapa más natural? Misma entrada, mismas reglas (núcleo
   ddd_motor2.reglas.evaluar), mismas semillas públicas (semilla.py); cambia solo cómo se elige y cómo se corta.
-ANTERIOR: 1.3.0 (T-179, #669) — legacy/ddd_motor2/naturalidad_competicion_v1.3.0_20261110.py
+ANTERIOR: 1.4.0 (T-202, #671) — legacy/ddd_motor2/naturalidad_competicion_v1.4.0_20261110.py
 QUÉ HACE: por territorio,
   entrada   el mapa vigente (datos/composicion/<t>.csv: población por sección) y la geometría INE del contrato
             (naturalidad_mapas.Geometria). Unidades: cada municipio con población <= objetivo es una unidad (la regla
@@ -68,7 +72,6 @@ import hashlib
 import json
 import os
 import random
-import statistics
 import sys
 import time
 from collections import defaultdict
@@ -77,13 +80,13 @@ from functools import partial
 from pathlib import Path
 
 from . import naturalidad_mapas as nm
+from .naturalidad_clave import TOPES, Natural
 from .reglas import Reglas, evaluar
 from .reglas.modelo import Problema, Unidad
 from .semilla import descripcion
 
 ROOT = nm.ROOT
-VERSION = "1.4.0"
-TOPES = {"D5": 0.05, "D8": 0.08}
+VERSION = "1.5.0"
 FUNCIONES = ("A", "B", "C", "D5", "D8")
 
 
@@ -95,7 +98,7 @@ def cargar_cfg(t: str) -> dict:
     return load_params_yaml(str(ROOT / "territorios" / t / "config" / f"{t}_2025.yaml"))
 
 
-class Laboratorio:
+class Laboratorio(Natural):
     def __init__(self, t: str, seccionado_dir: Path, tablas: dict, mov):
         self.t, self.tablas, self.mov = t, tablas, mov
         self.cfg = cargar_cfg(t)
@@ -155,73 +158,6 @@ class Laboratorio:
             self.obj_circ = {c: Fraction(pc[c], n) for c, n in sorted(cuotas.items()) if n > 0}
 
     # ---------------------------------------------------------------- métricas baratas por estado (unidades)
-    def valido(self, asig: dict[str, str]) -> bool:
-        return evaluar(self.problema, self.reglas, asig).valido
-
-    def desvios(self, asig: dict[str, str]) -> dict[str, tuple[int, Fraction]]:
-        """Por distrito: (población, objetivo de su circunscripción, o el único si no hay cuotas múltiples)."""
-        pob: dict[str, int] = defaultdict(int)
-        circ: dict[str, str] = {}
-        for u, d in asig.items():
-            pob[d] += self.pob_u[u]
-            circ.setdefault(d, self.circ_u.get(u, ""))
-        return {d: (p, self.obj_circ.get(circ[d], self.objetivo) if self.obj_circ else self.objetivo)
-                for d, p in pob.items()}
-
-    def clave(self, asig: dict[str, str], funcion: str) -> tuple:
-        h = huella_plan(asig)
-        if self.obj_circ:
-            dv = self.desvios(asig)
-            rel = [abs(p - o) / o for p, o in dv.values()]
-            tr = self.tol / self.objetivo
-            fuera = sum(1 for x in rel if x > tr)
-            dmax, ecm = float(max(rel)), float(sum(x * x for x in rel) / len(rel))
-            if funcion == "A":
-                return (fuera, dmax, ecm, h)
-            if funcion in TOPES:
-                dentro = [x for x in rel if x <= tr]
-                return (fuera, max(0.0, float(max(dentro) if dentro else 0) - TOPES[funcion]), *self.clave(asig, "B")[1:])
-            return (fuera, *self._natural(asig), dmax, h)
-        pob: dict[str, int] = defaultdict(int)
-        for u, d in asig.items():
-            pob[d] += self.pob_u[u]
-        dev = [abs(p - self.objetivo) for p in pob.values()]
-        fuera = sum(1 for x in dev if x > self.tol)
-        dmax = max(dev) / self.objetivo
-        ecm = sum(x * x for x in dev) / (len(dev) * self.objetivo * self.objetivo)
-        if funcion == "A":
-            return (fuera, dmax, ecm, h)
-        if funcion in TOPES:
-            dentro = [x for x in dev if x <= self.tol]
-            exceso = max(0.0, (max(dentro) if dentro else 0) / self.objetivo - TOPES[funcion])
-            return (fuera, exceso, *self.clave(asig, "B")[1:])
-        return (fuera, *self._natural(asig), dmax, h)
-
-    def _natural(self, asig: dict[str, str]) -> tuple:
-        partidas = 0
-        for dem in (self.pj, self.ca):
-            ds: dict[str, set] = defaultdict(set)
-            for u, d in asig.items():
-                if dem[u] is not None:
-                    ds[dem[u]].add(d)
-            partidas += sum(1 for v in ds.values() if len(v) > 1)
-        corte = sum(w for (a, b), w in self.largo.items() if asig[a] != asig[b])
-        return (partidas, round(corte / 1000, 3))
-
-    def recargos(self, rpj: float, rca: float, rmov: float, rlong: float) -> dict[tuple[str, str], float]:
-        med = statistics.median(self.largo.values()) if self.largo else 1.0
-        out = {}
-        for (a, b), w in self.largo.items():
-            r = 0.0
-            for dem, val in ((self.pj, rpj), (self.ca, rca), (self.area, rmov)):
-                if dem[a] is None or dem[a] != dem[b]:
-                    r += val
-            r += rlong * (1 - min(1.0, w / med))
-            out[(a, b)] = r
-        for a, b in self.problema.puentes:
-            out[(a, b)] = rpj + rca + rmov + rlong
-        return out
-
     def reparar(self, asig: dict[str, str]) -> tuple[dict[str, str], list[str]]:
         """Plan válido cercano al vigente: para cada municipio con más distritos mixtos de los permitidos, pasa sus
         unidades de un distrito mixto a otro distrito del mismo municipio. Devuelve (plan, notas); plan vacío si no."""
@@ -361,7 +297,7 @@ def arbol_ponderado(graph, region_surcharge=None, treat_unassigned_as_single_reg
     return graph.minimum_spanning_tree_from_edge_weight(edge_weight_attribute_name="random_weight")
 
 
-def cadena(lab: Laboratorio, semilla: int, pasos: int, funciones: tuple[str, ...], recargo: dict | None) -> dict:
+def cadena(lab: Natural, semilla: int, pasos: int, funciones: tuple[str, ...], recargo: dict | None) -> dict:
     import networkx as nx  # noqa: PLC0415
     from gerrychain import Graph, MarkovChain, Partition, updaters  # noqa: PLC0415
     from gerrychain.proposals import recom  # noqa: PLC0415
