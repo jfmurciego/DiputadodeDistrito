@@ -11,8 +11,8 @@
 # CAMBIOS: 1.0.0: fichero nuevo (T-145). Entorno «produccion» siempre con ejecutar=true; informe y manifiesto también como artefacto.
 # MOTIVO: R2 supera los 10 GB gratuitos (28 GB); la lista (234 claves, 26,085 GB) fue aprobada por el propietario el 10-11.
 # ANTERIOR: ninguna (fichero nuevo)
-name: '- Podar R2'
-run-name: "Podar R2 · ${{ inputs.ejecutar && 'BORRADO' || 'simulación' }}"
+name: 'Auxiliar — Poda de R2'
+run-name: "Poda de R2 · ${{ inputs.ejecutar && 'BORRADO' || 'simulación' }}"
 
 on:
   workflow_dispatch:

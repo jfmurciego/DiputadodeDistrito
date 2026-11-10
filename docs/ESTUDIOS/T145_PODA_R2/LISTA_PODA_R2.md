@@ -46,7 +46,7 @@ Solo se suben entradas reconstruidas desde fuente: los territorios cuyo M03 se r
 
 ## Cómo se borra (workflow `podar-r2.yml` + `herramientas/podar_r2.py`, sin lanzar)
 `ola1_borrar.csv` lleva ahora dos columnas más (`copia_clave`, `copia_sha256`: la copia que conserva cada fila, legible por máquina); claves, tamaños y sha256 de las 234 filas son idénticos a los aprobados. **sha256 del CSV a fijar en la entrada: `40eef3b56c28625a1cb4a0eeef157f85de657fcebac744cc1e6a329858f0a98e`** (se recalcula si cambia la lista; la poda se niega si no coincide).
-- «- Podar R2», `workflow_dispatch` con `sha256_lista` y `ejecutar` (por defecto `false`).
+- «Auxiliar — Poda de R2», `workflow_dispatch` con `sha256_lista` y `ejecutar` (por defecto `false`).
 - Simulación (`ejecutar=false`): verifica todo y vuelca el informe completo (desajustes incluidos) en el resumen; no borra ni escribe en `main`.
 - `ejecutar=true` (entorno protegido `produccion`, clic humano): verifica **todas** las filas antes de la primera supresión y, si hay un solo desajuste, no borra nada. Verifica por fila: clave `ddd-state-*`, head-object + sha256 de la clave (R2 y manifiesto), existencia y sha256 de la copia que conserva (que no esté en la lista) y, para M01/M02/M03/M03U, la entrada mínima de la batería del territorio. Borra una a una, comprueba que desaparece, y se detiene al primer error. Registra en `main` el informe `docs/ESTUDIOS/T145_PODA_R2/informes/podado_<fecha>.json` y `archivo_r2.json` con la cuenta de la app de registro.
 - Concurrencia compartida con el archivista (un solo escritor del manifiesto). Pasos: primero simulación y luego borrado real, cada uno con la frase del propietario en el chat Operador.
