@@ -70,6 +70,16 @@ class CertificadorExacto(unittest.TestCase):
         if res["estado"] == "OPTIMO":
             self.assertEqual(evaluar_particion(res["asignacion"], sec, adj, reglas)["estado"], "PASS")
 
+    def test_enumerar_cuenta_exacta(self):
+        # Cadena de 4 secciones de 10 y K=2 con techo 1,5 (≤30) y suelo 0,5 (≥10): cortes 1|3, 2|2, 3|1 = 3 planes.
+        sec, adj = _cadena([10, 10, 10, 10])
+        reglas = _reglas(2, 40, suelo=0.5, techo=1.5)
+        res = resolver(sec, adj, reglas, tiempo=30, hilos=1, objetivo="enumerar")
+        self.assertEqual(res["estado"], "ENUMERADO")
+        self.assertEqual(res["planes_validos"], 3)
+        self.assertEqual(len({frozenset(frozenset(s for s, d in p.items() if d == k) for k in set(p.values()))
+                              for p in res["_planes"]}), 3)
+
 
 if __name__ == "__main__":
     unittest.main()

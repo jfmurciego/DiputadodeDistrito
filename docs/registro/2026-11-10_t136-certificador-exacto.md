@@ -5,9 +5,11 @@
 - **Cambio:** `herramientas/certificador_exacto.py` 1.0.0 (nuevo): modelo OR-Tools CP-SAT con las reglas de
   `validar_ejecucion.py` 1.3.5 (K, población con exenciones, contigüidad M03 por árbol padre/nivel, provincia,
   disciplina municipal R012), objetivos factibilidad, minimax y techo mínimo, pista desde una composición y
-  comprobación independiente de la solución. Estudio en `docs/ESTUDIOS/T136_CERTIFICADOR_EXACTO.md`. No toca el motor.
+  comprobación independiente de la solución; enumeración exacta de planes (`--objetivo enumerar`) y atomicidad de las
+  unidades M04 (`--unidades`). Estudio en `docs/ESTUDIOS/T136_CERTIFICADOR_EXACTO.md`. No toca el motor.
 - **Resultados:** Cádiz con techo 115 % es infactible (prueba en 29 s) y el techo mínimo es 1,15919× (óptimo, igual
   11/11 al publicado); Huesca admite equilibrio exacto (motor ±71 hab.); Madrid (3.603 átomos, K=59) no es tratable
-  con el modelo monolítico (8 GB, sin respuesta).
-- **Pruebas:** `python -m unittest tests.test_certificador_exacto` (4 tests; se saltan sin `ortools`).
+  con el modelo monolítico (8 GB, sin respuesta). Enumeración: Álava (unidades M04, K=3) tiene un único plan
+  válido, el publicado (0,04 s), lo que explica la cadena degenerada; Huesca (202 átomos) no cabe (159 planes en 600 s).
+- **Pruebas:** `python -m unittest tests.test_certificador_exacto` (5 tests; se saltan sin `ortools`).
 - **Modo de 00:** ninguno (herramienta de diagnóstico).

@@ -1,6 +1,6 @@
 # T-136 — Prototipo de certificador exacto (CP-SAT)
 
-Fecha: 2026-11-10. Herramienta: `herramientas/certificador_exacto.py` 1.0.0 (OR-Tools CP-SAT 9.15, `pip install ortools`).
+Fecha: 2026-11-10 (enumeración añadida el mismo día). Herramienta: `herramientas/certificador_exacto.py` 1.0.0 (OR-Tools CP-SAT 9.15, `pip install ortools`).
 Entradas: `herramientas/bateria_motor.py entradas` (T-132, rama `t132-bateria-motor`), M01 y M03 desde fuente con la
 huella de población del contrato. Máquina: sesión cloud, 4 núcleos, 15 GB. Sin lanzar nada.
 
@@ -50,6 +50,23 @@ Escalado (bolas BFS desde Madrid capital 2807901001, reglas del contrato, K = ro
 4. Las pruebas de infactibilidad dependen de la corrección del modelo: el modelo acepta la partición publicada de Cádiz
    (con 116 %), y las soluciones se comprueban aparte con las reglas de la validación. Las otras dos codificaciones de
    contigüidad no cerraron la de 115 % en 600 s (no la contradicen).
+
+## Enumeración exacta (decisión del propietario: enumerar donde el espacio es pequeño)
+
+`--objetivo enumerar`: cada plan hallado se excluye con una cláusula sobre la asignación (única por la ruptura de
+simetría) y se repite hasta INFACTIBLE, que da el recuento exacto. `--unidades <M04>` aplica la atomicidad de
+producción (`ddd_unit_id`, la misma unidad atómica que el ensemble).
+
+| Territorio | Átomos | K | Resultado | Tiempo |
+|---|---|---|---|---|
+| congreso_alava (unidades M04) | 53 | 3 | **ENUMERADO: 1 plan válido**, igual 3/3 al publicado | 0,04 s |
+| congreso_alava (secciones, sin unidades M04) | 216 | 3 | parcial: 6 planes en 120 s | 120 s |
+| congreso_huesca (unidades M04) | 202 | 2 | parcial: 159 planes en 600 s (~3,8 s por plan), sin terminar | 600 s |
+
+Álava: con las unidades de M04 (Vitoria en 3 unidades internas) solo existe un plan válido, el publicado; por eso la
+cadena sale degenerada (unique_state_ratio y self_loop_rate fuera de umbral): no hay otro estado al que moverse. La
+enumeración cabe con ~50 átomos; con ~200 (Huesca) ya no por este método (una resolución por plan). Para espacios
+medianos haría falta un contador específico (diagramas de decisión por frontera) o muestreo.
 
 ## Siguiente paso posible (sin hacer)
 

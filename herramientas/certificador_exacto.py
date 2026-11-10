@@ -22,12 +22,13 @@ QUÉ HACE: lee el contrato, las secciones (M01 o una composición con población
   Los municipios que no se pueden partir (ceil(P/objetivo) = 1) se contraen a un nodo por componente conexa
   (igualdad de asignación entre componentes), lo que no cambia el conjunto de soluciones.
   Objetivo: minimizar la mayor desviación absoluta respecto al objetivo (|P_k - P/K|), la mayor población de distrito
-  (techo mínimo alcanzable) o solo factibilidad.
+  (techo mínimo alcanzable), solo factibilidad, o enumerar todos los planes válidos (cada plan hallado se excluye
+  con una cláusula y se repite hasta INFACTIBLE: recuento exacto; si se agota el tiempo, recuento parcial).
   Resultado: OPTIMO, FACTIBLE (con cota), INFACTIBLE (prueba del solver) o DESCONOCIDO (sin respuesta en el tiempo);
   la solución se comprueba aparte con las mismas reglas (evaluar_particion) y se compara con la composición de
   referencia (motor 7.4.4 de la batería T-132 o datos/composicion/<t>.csv).
 USO: python herramientas/certificador_exacto.py --params territorios/<t>/config/<t>_2025.yaml \
-       --grafo <m03_grafo.json> [--secciones <m01.geojson.zip> | --composicion datos/composicion/<t>.csv] \
+       --grafo <m03_grafo.json> [--secciones <m01.geojson.zip> [--unidades <m04.geojson.zip>] | --composicion <csv>] \
        [--referencia <composicion.csv> ...] [--tiempo 600] [--hilos 8] [--techo-ratio 1.15] [--salida <informe.json>]
 """
 from __future__ import annotations
@@ -108,6 +109,12 @@ def leer_secciones(args, cfg) -> dict[str, dict]:
             mun = str(r[mun_f]).zfill(5) if mun_f in r and r[mun_f] is not None else s[:5]
             prov = str(r[prov_f]).zfill(2) if prov_f in r and r[prov_f] is not None else s[:2]
             out[s] = {"pop": int(round(float(r[pop] or 0))), "mun": mun, "prov": prov}
+        if getattr(args, "unidades", None):
+            from ddd_core.m04_seed_engine_v7411 import load_geo
+            u = load_geo(args.unidades)
+            for r in u[[sid, "ddd_unit_id"]].to_dict("records"):
+                if str(r[sid]) in out:
+                    out[str(r[sid])]["unidad"] = str(r["ddd_unit_id"])
     else:
         with open(args.composicion, encoding="utf-8") as fh:
             for r in csv.DictReader(fh):
@@ -193,7 +200,8 @@ def evaluar_particion(asig: dict[str, str], sec: dict[str, dict], adj, reglas: d
 
 # --------------------------------------------------------------------------- modelo
 def construir_atomos(sec, adj, reglas):
-    """Contrae municipios indivisibles a un átomo por componente conexa; los divisibles quedan por sección."""
+    """Contrae municipios indivisibles (y, con --unidades, las unidades M04) a un átomo por componente conexa, con
+    igualdad de distrito entre componentes del mismo grupo; sin unidades, los municipios divisibles van por sección."""
     m_secs: dict[str, list[str]] = defaultdict(list)
     for s, r in sec.items():
         m_secs[r["mun"]].append(s)
@@ -204,15 +212,22 @@ def construir_atomos(sec, adj, reglas):
         p = sum(sec[s]["pop"] for s in ss)
         hi = max(1, math.ceil(p / reglas["objetivo"])) if p > 0 else 1
         divisible = reglas["municipal"] is False or hi > 1
-        if divisible:
-            grupos = [[s] for s in ss]
+        if not divisible:
+            claves = {m: ss}
+        elif any("unidad" in sec[s] for s in ss):
+            # Atomicidad de producción: las secciones de una misma unidad M04 (ddd_unit_id) van juntas.
+            claves = defaultdict(list)
+            for s in ss:
+                claves[str(sec[s].get("unidad") or s)].append(s)
         else:
-            sub = {s: [v for v in adj.get(s, ()) if sec.get(v, {}).get("mun") == m] for s in ss}
-            grupos = _componentes(ss, sub)
-        for gr in grupos:
-            atomo_de.update({s: len(atomos) for s in gr})
-            atomos.append({"secs": gr, "pop": sum(sec[s]["pop"] for s in gr), "mun": m, "prov": sec[gr[0]]["prov"],
-                           "divisible": divisible, "hermanos": len(grupos)})
+            claves = {s: [s] for s in ss}
+        for clave, miembros in sorted(claves.items()):
+            sub = {s: [v for v in adj.get(s, ()) if v in set(miembros)] for s in miembros}
+            grupos = _componentes(miembros, sub)
+            for gr in grupos:
+                atomo_de.update({s: len(atomos) for s in gr})
+                atomos.append({"secs": gr, "pop": sum(sec[s]["pop"] for s in gr), "mun": m,
+                               "prov": sec[gr[0]]["prov"], "divisible": divisible, "grupo": f"{m}|{clave}"})
     aristas = set()
     for u, vs in adj.items():
         if u not in atomo_de:
@@ -251,8 +266,11 @@ def resolver(sec, adj, reglas, *, tiempo: float, hilos: int, objetivo: str = "mi
     por_mun: dict[str, list[int]] = defaultdict(list)
     for i, a in enumerate(atomos):
         por_mun[a["mun"]].append(i)
-    for mun, idx in por_mun.items():
-        if not atomos[idx[0]]["divisible"] and len(idx) > 1:
+    por_grupo: dict[str, list[int]] = defaultdict(list)
+    for i, a in enumerate(atomos):
+        por_grupo[a["grupo"]].append(i)
+    for idx in por_grupo.values():
+        if len(idx) > 1:
             for j in idx[1:]:
                 for k in range(K):
                     if (idx[0], k) in x:
@@ -407,6 +425,7 @@ def resolver(sec, adj, reglas, *, tiempo: float, hilos: int, objetivo: str = "mi
     # una solución conexa (óptima) de la relajación lo es del problema.
     limite = time.time() + float(tiempo)
     iteraciones, cortes, t_solver = 0, 0, 0.0
+    planes: list[tuple] = []
     sol = cp_model.CpSolver()
     while True:
         iteraciones += 1
@@ -416,6 +435,16 @@ def resolver(sec, adj, reglas, *, tiempo: float, hilos: int, objetivo: str = "mi
         est = sol.Solve(m)
         t_solver += sol.WallTime()
         nombre = sol.StatusName(est)
+        if objetivo == "enumerar" and nombre in ("OPTIMAL", "FEASIBLE") and contiguidad != "cortes":
+            # Enumeración exacta: la ruptura de simetría hace única la etiqueta de cada plan, así que excluir su
+            # asignación x excluye el plan. Termina con INFEASIBLE (recuento completo) o al agotar el tiempo.
+            fila = [x[i, k] for (i, k) in x if sol.Value(x[i, k])]
+            planes.append(tuple(next(k for k in range(K) if (i, k) in x and sol.Value(x[i, k])) for i in range(n)))
+            m.AddBoolOr([v.Not() for v in fila])
+            if time.time() >= limite:
+                nombre = "UNKNOWN"
+                break
+            continue
         if nombre not in ("OPTIMAL", "FEASIBLE") or contiguidad in ("flujo", "arbol", "ninguna"):
             break
         asig_k = {i: next(k for k in range(K) if (i, k) in x and sol.Value(x[i, k])) for i in range(n)}
@@ -453,6 +482,12 @@ def resolver(sec, adj, reglas, *, tiempo: float, hilos: int, objetivo: str = "mi
            "variables": len(m.Proto().variables), "restricciones": len(m.Proto().constraints),
            "t_modelo_s": round(t_modelo, 2), "t_solver_s": round(t_solver, 2),
            "estado_solver": nombre, "memoria_max_mb": round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024, 1)}
+    if objetivo == "enumerar":
+        res["planes_validos"] = len(planes)
+        res["enumeracion_completa"] = nombre == "INFEASIBLE"
+        res["estado"] = "ENUMERADO" if nombre == "INFEASIBLE" else "ENUMERACION_PARCIAL"
+        res["_planes"] = [{s: str(k) for i, k in enumerate(pl) for s in atomos[i]["secs"]} for pl in planes]
+        return res
     if nombre == "OPTIMAL":
         res["estado"] = "FACTIBLE" if objetivo == "factibilidad" else "OPTIMO"
     elif nombre == "FEASIBLE":
@@ -494,10 +529,11 @@ def main(argv=None) -> int:
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--secciones")
     g.add_argument("--composicion")
+    ap.add_argument("--unidades", help="GeoJSON M04 con ddd_unit_id: atomicidad de producción (solo con --secciones)")
     ap.add_argument("--referencia", action="append", default=[], help="composición a comparar (nombre=ruta o ruta)")
     ap.add_argument("--tiempo", type=float, default=600)
     ap.add_argument("--hilos", type=int, default=4)
-    ap.add_argument("--objetivo", choices=("minimax", "techo", "factibilidad"), default="minimax")
+    ap.add_argument("--objetivo", choices=("minimax", "techo", "factibilidad", "enumerar"), default="minimax")
     ap.add_argument("--techo-ratio", type=float)
     ap.add_argument("--suelo-ratio", type=float)
     ap.add_argument("--pista", help="composición usada como solución inicial (no restringe)")
@@ -516,6 +552,19 @@ def main(argv=None) -> int:
     res.update(resolver(sec, adj, reglas, tiempo=a.tiempo, hilos=a.hilos, objetivo=a.objetivo, pista=pista,
                         cota_desviacion=a.cota_desviacion, contiguidad=a.contiguidad))
     asig = res.pop("asignacion", None)
+    planes = res.pop("_planes", None)
+    if planes is not None:
+        evs = [evaluar_particion(pl, sec, adj, reglas) for pl in planes]
+        res["planes_comprobados_pass"] = sum(e["estado"] == "PASS" for e in evs)
+        if planes:
+            res["desviacion_ratio_min_max"] = [min(e["max_desviacion_ratio"] for e in evs),
+                                               max(e["max_desviacion_ratio"] for e in evs)]
+        if a.asignacion_csv:
+            with open(a.asignacion_csv, "w", encoding="utf-8", newline="") as fh:
+                w = csv.writer(fh)
+                w.writerow(["plan", "seccion", "distrito"])
+                for j, pl in enumerate(planes):
+                    w.writerows([j, s, d] for s, d in sorted(pl.items()))
     if asig:
         res["comprobacion"] = evaluar_particion(asig, sec, adj, reglas)
         if a.asignacion_csv:
