@@ -26,6 +26,6 @@
 | 17:39 | los 71 | batería motor2 D8 N=10, `territorios` vacío | 42856811551 | SUCCESS: aceptación SÍ, 71/71, 0 no válidos, 0 peores, huellas reales correctas (Soria, Álava, Melilla) | 2 / 440 min | 0/1 |
 
 ## Cierre
-Estado: `COMPLETADA`. 2 ejecuciones, ~440 min de jobs (tope 800). Último uso: 2026-11-10.
+Estado: `COMPLETADA` pero SIN MEDIR el motor nuevo: las 10 cadenas fallaron por falta de networkx/gerrychain en el flujo (Soria: 2 de 12 candidatos válidos) y ganó el canónico en los 71; arreglo en T-181 y campaña nueva `-r2`. 2 ejecuciones, ~440 min de jobs (tope 800). Último uso: 2026-11-10.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_bateria-motor2-d8-10-cadenas tal como figura en la ficha.»
