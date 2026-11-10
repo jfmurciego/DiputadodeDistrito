@@ -1,0 +1,181 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+PROYECTO: Diputado de Distrito
+COMPONENTE: motor 2 — adaptador de la composición M06 y el grafo M03 al núcleo de reglas
+VERSIÓN: 1.0.0
+NOMBRE DE VERSIÓN: Núcleo único de reglas · F1
+FECHA: 2026-11-10
+ESTADO: candidato (motor 2; producción no lo importa)
+CAMBIOS: fichero nuevo.
+MOTIVO: T-160 / T-132: misma vara para todos los generadores (canónico, GerryChain, árbol, exacto T-136), que
+  acaban en la composición M06. Fuera del núcleo, pero solo stdlib (csv + json): corre en la nube sin geopandas.
+ANTERIOR: ninguna (fichero nuevo)
+ENTRADA ÚNICA: problema_y_plan(composicion_m06_csv, grafo_m03_json, cfg) -> (Problema, {unidad: distrito}, avisos)
+  - Columnas (nombres por defecto de M06, cambiables con `columnas`): CUSEC_KEY, district_id, section_pop, CPRO, CUMUN,
+    ddd_unit_id, ddd_closed_urban; partición en DDD_PARTITION y clave R012 en partitioning.partition_unit_field si el
+    contrato usa connected_internal_units.
+  - Unidad = ddd_unit_id (las secciones se agregan); sin la columna, cada sección es su unidad (se avisa).
+  - Municipio/provincia/partición son campos: nunca se deducen del identificador. Si una unidad mezcla valores, el
+    campo queda vacío y las reglas que lo necesitan fallan con ErrorDatos (nunca se anula una regla en silencio).
+  - Una unidad repartida entre distritos rompe la atomicidad: ErrorDatos.
+  - Aristas del grafo M03 por sección → aristas entre unidades; las `topology_bridges` del contrato (M02) y las aristas
+    con edge_type «*bridge*» van a `puentes`.
+  - Núcleos cerrados: distritos formados solo por unidades ddd_closed_urban en la composición de `referencia`
+    (por defecto, la propia; como GCP con el plan inicial M04). Sin referencia distinta, R-NUCLEO es trivial: se avisa.
+"""
+from __future__ import annotations
+
+import csv
+import json
+from collections import defaultdict
+from pathlib import Path
+from typing import Any, Mapping
+
+from .reglas.modelo import ErrorDatos, Problema, Unidad
+
+COLUMNAS = {
+    "seccion": "CUSEC_KEY", "distrito": "district_id", "poblacion": "section_pop", "provincia": "CPRO",
+    "municipio": "CUMUN", "unidad": "ddd_unit_id", "cerrado": "ddd_closed_urban", "particion": "DDD_PARTITION",
+}
+VERDADEROS = {"1", "true", "t", "yes", "si", "sí", "y"}
+
+
+def _entero(texto: str, donde: str) -> int:
+    try:
+        x = float(texto)
+    except (TypeError, ValueError) as exc:
+        raise ErrorDatos(f"{donde}: población no numérica {texto!r}") from exc
+    if not x.is_integer() or x < 0:
+        raise ErrorDatos(f"{donde}: población no entera {texto!r}")
+    return int(x)
+
+
+def _vacio(v) -> bool:
+    return v is None or str(v).strip() == "" or str(v).strip().lower() in {"nan", "none", "null"}
+
+
+def _puentes_contrato(cfg: Mapping) -> set[tuple[str, str]]:
+    out = set()
+
+    def buscar(x):
+        if isinstance(x, Mapping):
+            for k, v in x.items():
+                if k == "topology_bridges" and isinstance(v, list):
+                    for b in v:
+                        if isinstance(b, Mapping) and b.get("u") is not None and b.get("v") is not None:
+                            out.add(tuple(sorted((str(b["u"]), str(b["v"])))))
+                else:
+                    buscar(v)
+
+    buscar((cfg or {}).get("modulo_02_construir_adyacencias") or {})
+    return out
+
+
+def leer_composicion(ruta: str | Path, columnas: Mapping[str, str] | None = None) -> list[dict]:
+    col = {**COLUMNAS, **(columnas or {})}
+    with open(ruta, encoding="utf-8", newline="") as fh:
+        filas = list(csv.DictReader(fh))
+    if not filas:
+        raise ErrorDatos(f"{ruta}: composición vacía")
+    for clave in ("seccion", "distrito", "poblacion"):
+        if col[clave] not in filas[0]:
+            raise ErrorDatos(f"{ruta}: falta la columna {col[clave]}")
+    return filas
+
+
+def problema_y_plan(composicion_m06_csv: str | Path, grafo_m03_json: str | Path, cfg: Mapping[str, Any], *,
+                    columnas: Mapping[str, str] | None = None,
+                    referencia_nucleos: str | Path | None = None) -> tuple[Problema, dict[str, str], list[str]]:
+    col = {**COLUMNAS, **(columnas or {})}
+    part = (cfg or {}).get("partitioning") or {}
+    campo_r012 = (str(part.get("partition_unit_field") or "")
+                  if part.get("enabled") and part.get("strategy") == "connected_internal_units" else "")
+    filas = leer_composicion(composicion_m06_csv, col)
+    avisos: list[str] = []
+    con_unidad = col["unidad"] in filas[0]
+    if not con_unidad:
+        avisos.append(f"sin columna {col['unidad']}: cada sección es su unidad")
+
+    seccion_a_unidad: dict[str, str] = {}
+    acum: dict[str, dict[str, Any]] = defaultdict(lambda: {"pob": 0, "valores": defaultdict(set), "distritos": set()})
+    for i, f in enumerate(filas, start=2):
+        s = str(f[col["seccion"]]).strip()
+        if s in seccion_a_unidad:
+            raise ErrorDatos(f"sección repetida en la composición: {s}")
+        if con_unidad and _vacio(f.get(col["unidad"])):
+            raise ErrorDatos(f"línea {i}: sección {s} sin {col['unidad']}")
+        uid = str(f[col["unidad"]]).strip() if con_unidad else s
+        seccion_a_unidad[s] = uid
+        a = acum[uid]
+        a["pob"] += _entero(f[col["poblacion"]], f"línea {i}")
+        a["distritos"].add(str(f[col["distrito"]]).strip())
+        for campo, nombre in (("municipio", col["municipio"]), ("provincia", col["provincia"]),
+                              ("particion", col["particion"]), ("unidad_r012", campo_r012)):
+            if nombre and nombre in f and not _vacio(f[nombre]):
+                a["valores"][campo].add(str(f[nombre]).strip())
+        if col["cerrado"] in f and str(f[col["cerrado"]]).strip().lower() in VERDADEROS:
+            a["valores"]["cerrado"].add("1")
+
+    partidas = sorted(u for u, a in acum.items() if len(a["distritos"]) != 1)
+    if partidas:
+        raise ErrorDatos(f"unidades repartidas entre distritos (atomicidad): {len(partidas)} (p. ej. {partidas[0]})")
+    plan = {u: next(iter(a["distritos"])) for u, a in acum.items()}
+
+    # Núcleos cerrados (como GCP): distritos de la referencia formados solo por unidades cerradas.
+    if referencia_nucleos is None:
+        ref_plan = plan
+        if any(a["valores"].get("cerrado") for a in acum.values()):
+            avisos.append("núcleos cerrados tomados de la propia composición: R-NUCLEO se cumple por construcción")
+    else:
+        ref_plan = {}
+        for f in leer_composicion(referencia_nucleos, col):
+            uid = seccion_a_unidad.get(str(f[col["seccion"]]).strip())
+            if uid is not None:
+                ref_plan[uid] = str(f[col["distrito"]]).strip()
+    miembros_ref: dict[str, set[str]] = defaultdict(set)
+    for u, d in ref_plan.items():
+        miembros_ref[d].add(u)
+    nucleo_de = {u: f"nucleo:{d}" for d, us in miembros_ref.items()
+                 if us and all(acum[u]["valores"].get("cerrado") for u in us) for u in us}
+
+    unidades = []
+    mezcladas: dict[str, int] = defaultdict(int)
+    for uid, a in acum.items():
+        campos = {}
+        for campo in ("municipio", "provincia", "particion", "unidad_r012"):
+            vals = a["valores"].get(campo, set())
+            if len(vals) > 1:
+                mezcladas[campo] += 1
+            campos[campo] = next(iter(vals)) if len(vals) == 1 else None
+        unidades.append(Unidad(uid, a["pob"], nucleo_cerrado=nucleo_de.get(uid), **campos))
+    for campo, n in sorted(mezcladas.items()):
+        avisos.append(f"{n} unidades con varios valores de {campo}: el campo queda vacío")
+
+    g = json.loads(Path(grafo_m03_json).read_text(encoding="utf-8"))
+    puentes_cfg = _puentes_contrato(cfg)
+    aristas, puentes, fuera = set(), set(), 0
+    for e in g.get("edges", []):
+        su, sv = str(e["u"]), str(e["v"])
+        if su not in seccion_a_unidad or sv not in seccion_a_unidad:
+            fuera += 1
+            continue
+        a, b = seccion_a_unidad[su], seccion_a_unidad[sv]
+        if a == b:
+            continue
+        par = tuple(sorted((a, b)))
+        if tuple(sorted((su, sv))) in puentes_cfg or "bridge" in str(e.get("edge_type") or ""):
+            puentes.add(par)
+        else:
+            aristas.add(par)
+    for su, sv in puentes_cfg:
+        if su in seccion_a_unidad and sv in seccion_a_unidad and seccion_a_unidad[su] != seccion_a_unidad[sv]:
+            puentes.add(tuple(sorted((seccion_a_unidad[su], seccion_a_unidad[sv]))))
+    if fuera:
+        avisos.append(f"{fuera} aristas del grafo con secciones ajenas a la composición")
+    nodos = {str(n["id"]) if isinstance(n, Mapping) else str(n) for n in g.get("nodes", [])}
+    sin_nodo = set(seccion_a_unidad) - nodos if nodos else set()
+    if sin_nodo:
+        avisos.append(f"{len(sin_nodo)} secciones de la composición sin nodo en el grafo")
+    puentes -= aristas
+    return Problema(tuple(unidades), tuple(sorted(aristas)), tuple(sorted(puentes))), plan, avisos
