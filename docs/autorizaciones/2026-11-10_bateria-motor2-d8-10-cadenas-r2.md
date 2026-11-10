@@ -1,10 +1,10 @@
 # Autorización de campaña 2026-11-10_bateria-motor2-d8-10-cadenas-r2
 
 - Decisión: D-52 (autorización por campaña). Chat del Operador: session_01KQDtFsAtHP9atzNnDthr9A.
-- Frase literal del propietario: (pendiente)
-- Fecha y hora de la frase (Europe/Madrid): (pendiente)
+- Frase literal del propietario: «Autorizo la campaña 2026-11-10_bateria-motor2-d8-10-cadenas-r2 tal como figura en la ficha.»
+- Fecha y hora de la frase (Europe/Madrid): 2026-11-10 18:34 (aprox.)
 - Estado de la ficha: BORRADOR. Repite la campaña `2026-11-10_bateria-motor2-d8-10-cadenas`, que no midió el motor nuevo (las 10 cadenas fallaron por falta de networkx/gerrychain en el flujo). Requiere T-181 fusionada en `main`.
-- Caducidad: 72 h desde la frase del propietario.
+- Caducidad: 2026-11-13 18:34 (72 h). T-181 en `main` (#681).
 - Gasto semanal al autorizar: se mide al recibir la frase y se anota aquí; tope 15.000 min/semana, aviso al 70 %.
 
 ## Límites
@@ -22,8 +22,9 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
+| 18:34 | Soria (prueba) | batería motor2 D8 N=10, `territorios=congreso_soria` | 42866296198 | EN_VUELO | 1 / — | 0/1 |
 
 ## Cierre
-Estado: `BORRADOR` (espera T-181 y la frase del propietario). Último uso: —.
+Estado: `EN_CURSO`. Último uso: —.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_bateria-motor2-d8-10-cadenas-r2 tal como figura en la ficha.»
