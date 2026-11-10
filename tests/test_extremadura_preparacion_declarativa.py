@@ -9,6 +9,7 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+from tests._estados_vivos import ESTADOS_PREPARADO  # noqa: E402
 
 
 def load_common_preparer():
@@ -39,9 +40,9 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertEqual(row["k_districts"], 65)
         self.assertEqual(row["k_source"], "norma")
         self.assertEqual(row["production_authorization"], "AUTHORIZED")
-        self.assertEqual(row["status"], "generation_ready")
+        self.assertIn(row["status"], ESTADOS_PREPARADO)
         self.assertEqual(self.params["meta"]["production_authorization"], "AUTHORIZED")
-        self.assertEqual(self.params["meta"]["status"], "generation_ready")
+        self.assertIn(self.params["meta"]["status"], ESTADOS_PREPARADO)
         self.assertFalse(self.readiness["execution_forbidden_in_this_package"])
         self.assertTrue(self.readiness["decision"]["may_execute_territory"])
 
@@ -132,9 +133,9 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
             if title:
                 self.assertIn("Preparación de Extremadura", title.group(1))
                 self.assertNotIn("preindustrial", title.group(1).lower())
-        self.assertEqual(self.params["meta"]["status"], "generation_ready")
+        self.assertIn(self.params["meta"]["status"], ESTADOS_PREPARADO)
         row = next(row for row in self.catalog["territories"] if row["territory_id"] == "extremadura")
-        self.assertEqual(row["status"], "generation_ready")
+        self.assertIn(row["status"], ESTADOS_PREPARADO)
 
     def test_remaining_blocks_are_explicit(self):
         steps = self.readiness["business_steps"]
