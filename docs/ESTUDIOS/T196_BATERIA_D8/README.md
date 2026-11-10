@@ -1,7 +1,7 @@
 # T-196 · Batería r3 del motor 2 (71 territorios, D8, N = 10) frente al canónico y al laboratorio T-179
 
 Run 42886114842 de `bateria-motor.yml` (`motor=motor2`, D8, 10 cadenas, entorno de producción: shapely 2.1.1, pandas 2.3.2).
-Aceptación SÍ: 71/71 válidos, 0 `FALLO_GENERADOR`, ninguno peor que el canónico, huellas reales correctas. Cada territorio
+Aceptación SÍ: 71/71 válidos, 0 `FALLO_GENERADOR`, ninguno peor que el canónico según la clave de elección (con el recuento bruto de distritos fuera de tolerancia, el ganador es peor en 6 autonómicas: véase la adenda), huellas reales correctas. Cada territorio
 evalúa 11 candidatos (canónico + 10 cadenas; 60 territorios) o 12 (con exhaustivo; 11 territorios). Datos y cálculo:
 
 - `datos/filas.json`: la fila de `ddd_motor2.competir` de cada job (sacada de los logs por job: los artefactos dan 403 desde la nube).
@@ -14,7 +14,7 @@ Lo calcula `competir.comparar`: clave de naturalidad del **ganador** frente a la
 evaluable, violaciones duras, distritos fuera de tolerancia, exceso sobre el tope del 8 %, demarcaciones partidas
 (partidos judiciales + comarcas agrarias), frontera cortada (km), desvío máximo. **Mejora** = la clave del ganador es
 estrictamente menor (gana una cadena); **empata** = igual (gana el canónico por desempate); **empeora** no puede darse
-porque el canónico compite. Quien decide es la primera componente que difiere: una «mejora» puede ser de población
+según la clave, porque el canónico compite (no vale para el recuento bruto de fuera de tolerancia: véase la adenda). Quien decide es la primera componente que difiere: una «mejora» puede ser de población
 (menos distritos fuera de tolerancia), de demarcaciones o de forma. La fila solo trae fuera de tolerancia y desvío del
 ganador: **no hay en los logs ni los partidos y comarcas ni los fuera de tolerancia del canónico** (están en
 `COMPETICION.json`, artefacto no accesible desde la nube), así que aquí no se puede desglosar por qué componente mejora cada territorio.
@@ -87,9 +87,13 @@ y `datos/MANIFEST_ARTEFACTOS.tsv` (id y sha256 de cada zip; 72 artefactos, el de
 Las cifras publicadas arriba no se han editado; esta adenda las completa y matiza dos puntos.
 
 - **Dos cuentas de «fuera de tolerancia».** «Bruto» es `fuera_tolerancia` del candidato (la que recoge la fila del log y la tabla de arriba); «clave» es la primera
-  componente de `clave_naturalidad`, con la que se decide la mejora, y es menor o igual que la bruta (criterio `tolerancia: metrica`, con exenciones). Con la clave el ganador nunca
-  es peor que el canónico; con la bruta sí puede serlo (Aragón 0 → 2, Castilla-La Mancha 5 → 8, Castilla y León 2 → 4, Galicia 6 → 8).
-- **Corrección de lo dicho arriba:** «el canónico tiene ≥ fuera de tolerancia que el ganador» vale para la clave, no para la cuenta bruta que usa la tabla.
+  componente de `clave_naturalidad`, con la que se decide la mejora (criterio `tolerancia: metrica`, con exenciones del contrato). **No son comparables entre sí**:
+  la clave puede ser mayor o menor que la bruta. Canónico bruto/clave: Andalucía 20/23, Aragón 0/1, Canarias 20/21, Comunidad Valenciana 42/47, Extremadura 1/2 e Illes Balears 15/16
+  (clave mayor); Castilla y León 2/1, Cataluña 53/51, Baleares (Congreso) 1/0 y País Vasco 9/8 (clave menor). Ganador bruto/clave: Andalucía 21/23, Comunidad Valenciana 31/37, Extremadura 1/2 e Illes Balears 14/15 (clave mayor).
+- **Con la clave el ganador nunca es peor que el canónico** (0 territorios). **Con el recuento bruto es peor en 6 autonómicas** (canónico → ganador): Andalucía 20 → 21, Aragón 0 → 2,
+  Canarias 20 → 21, Castilla-La Mancha 5 → 8, Castilla y León 2 → 4 y Galicia 6 → 8; en ningún otro territorio, Congreso incluido (comprobado en `datos/CANDIDATOS.csv`).
+- **Corrección de lo dicho arriba:** «el canónico tiene ≥ fuera de tolerancia que el ganador» vale solo para la clave, no para el recuento bruto que usa la tabla
+  (p. ej. Andalucía figura como «≥ 21» y el canónico real tiene 20 en bruto).
 - Partidos judiciales y comarcas vienen sumados en `demarcaciones_partidas`; el desglose no está en el JSON.
 - Mejoras por la clave de población (menos distritos fuera de tolerancia): Canarias, Cataluña, Navarra, Valencia, Baleares, Madrid y Asturias; por exceso sobre el tope, Cantabria y Extremadura;
   por demarcaciones partidas con la misma población: Andalucía, Aragón, Castilla-La Mancha, Castilla y León, Galicia y La Rioja.

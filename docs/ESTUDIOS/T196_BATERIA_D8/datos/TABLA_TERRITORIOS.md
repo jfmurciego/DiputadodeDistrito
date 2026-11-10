@@ -1,6 +1,6 @@
 # Tabla por territorio (T-196)
 
-Generada por `analizar.py`. «vigente» = mapa publicado en `datos/composicion` (columna A del laboratorio T-179). El canónico de r3 solo tiene dato de distritos fuera de tolerancia donde gana el canónico; en el resto se sabe que es ≥ el del ganador (la clave pone fuera de tolerancia antes que la forma), y el valor exacto está en `COMPETICION.json` (artefacto, no accesible). n/d = territorio sin dato en el laboratorio.
+Generada por `analizar.py`. «vigente» = mapa publicado en `datos/composicion` (columna A del laboratorio T-179). El canónico de r3 solo tiene dato de distritos fuera de tolerancia donde gana el canónico; en el resto la tabla pone «≥ ganador», que vale solo para la clave de elección y NO para el recuento bruto (en 6 autonómicas el canónico tiene menos que el ganador: Andalucía figura «≥ 21» y el canónico real es 20; véase la adenda del README) y el valor exacto está en `COMPETICION.json` (artefacto, no accesible). n/d = territorio sin dato en el laboratorio.
 
 | Territorio | Frente r3 | Fuera de tol.: vigente (lab A) | canónico r3 | ganador r3 | lab D8 | Desvío máx. %: vigente | canónico r3 | ganador r3 | lab D8 |
 |---|---|---|---|---|---|---|---|---|---|

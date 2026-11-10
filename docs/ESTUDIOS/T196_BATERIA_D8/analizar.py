@@ -7,7 +7,7 @@ escribe datos/COMPARACION.csv e imprime las tablas del README). Sin red: todas l
 Definiciones. `frente_al_canonico` lo calcula competir.comparar: clave de naturalidad del ganador < = > la del canónico
 (evaluable, violaciones duras, distritos fuera de tolerancia, exceso sobre el tope del 8 %, demarcaciones partidas
 —partidos judiciales + comarcas agrarias—, frontera cortada, desvío máximo). «Mejora» = el ganador es una cadena con clave
-estrictamente menor; «empata» = igual clave (gana el canónico por desempate); «empeora» no puede darse (el canónico compite).
+estrictamente menor; «empata» = igual clave (gana el canónico por desempate); «empeora» no puede darse según la clave (el canónico compite); con el recuento bruto de fuera de tolerancia el ganador sí es peor en 6 autonómicas (README, adenda).
 La fila de la batería solo trae fuera de tolerancia y desvío del ganador: partidos y comarcas están en COMPETICION.json
 (artefacto, no accesible desde la nube). Del laboratorio se usa la misma clave sin exceso_tope (no está en TABLA.csv)."""
 import csv
@@ -85,8 +85,8 @@ def main():
                 f"{r['lab_desvio_D8_pct'] or 'n/d'} |" for r in out]
     (AQUI / "datos" / "TABLA_TERRITORIOS.md").write_text(
         "# Tabla por territorio (T-196)\n\nGenerada por `analizar.py`. «vigente» = mapa publicado en `datos/composicion` (columna A del laboratorio T-179). "
-        "El canónico de r3 solo tiene dato de distritos fuera de tolerancia donde gana el canónico; en el resto se sabe que es ≥ el del ganador "
-        "(la clave pone fuera de tolerancia antes que la forma), y el valor exacto está en `COMPETICION.json` (artefacto, no accesible). "
+        "El canónico de r3 solo tiene dato de distritos fuera de tolerancia donde gana el canónico; en el resto la tabla pone «≥ ganador», que vale solo para la clave de elección y NO para el recuento bruto (en 6 autonómicas el canónico tiene menos que el ganador: Andalucía figura «≥ 21» y el canónico real es 20; véase la adenda del README) "
+        "y el valor exacto está en `COMPETICION.json` (artefacto, no accesible). "
         "n/d = territorio sin dato en el laboratorio.\n\n" + cabecera + "\n" + "\n".join(filas_md) + "\n", encoding="utf-8")
     print("## Frente al canónico (r3)")
     for amb in ("congreso", "autonomica", None):
