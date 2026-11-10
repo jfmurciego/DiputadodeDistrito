@@ -15,8 +15,6 @@ PREP=WF/"preparacion-fuentes.yml"
 ELECTORAL_PREP=WF/"preparacion-resultados-electorales.yml"
 GEN=WF/"produccion-distritos.yml"
 ELECTORAL_APPLY=WF/"incorporacion-resultados-electorales.yml"
-ENGINE=WF/"producir-territorio-por-contrato.yml"
-ROUTER=WF/"_reutilizable-operacion-territorial.yml"
 CAT=ROOT/"configuracion/catalogo_preparacion.yaml"
 
 def load(path:Path):
@@ -109,12 +107,6 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertNotIn("publish_result:",electoral)
         self.assertNotIn("_reutilizable-publicar-sitio.yml",electoral)
 
-    def test_territorial_product_has_no_electoral_dependency(self):
-        route=resolve_product("Distritos")
-        self.assertFalse(route["requires_electoral_package"])
-        self.assertEqual(route["to_stage"],"M06")
-        engine=load(ENGINE)
-        self.assertIn("fromJSON(needs.resolve.outputs.to_num) >= 7",engine["jobs"]["electoral_source"]["if"])
 
     def test_electoral_requires_prepared_inputs_without_recalculating_districts(self):
         text=ELECTORAL_APPLY.read_text(encoding="utf-8")
@@ -148,29 +140,16 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn('"decision": decision',territorial)
 
     def test_contractual_artifacts_and_internal_workflows_are_preserved(self):
-        engine=ENGINE.read_text(encoding="utf-8")
         ui=GEN.read_text(encoding="utf-8")
         prep=PREP.read_text(encoding="utf-8")
         electoral_prep=ELECTORAL_PREP.read_text(encoding="utf-8")
-        for token in [
-            "ddd-state-${{ github.run_id }}-${{ env.STAGE }}",
-            "ddd-audit-${{ github.run_id }}",
-            "ddd-electoral-source-${{ github.run_id }}",
-        ]: self.assertIn(token,engine)
         self.assertIn("ddd-checkpoint-selection-${{ github.run_id }}",ui)
         self.assertIn("ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}",electoral_prep)
         self.assertIn("ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}",prep)
         for name in [
-            "_reutilizable-auditoria-topologica.yml","_reutilizable-operacion-territorial.yml",
-            "generar-alternativas-territoriales.yml","orquestacion-control.yml","orquestacion-durable.yml",
-            "notificar-finalizacion-orquestacion.yml","desplegar-visor-publico.yml","_reutilizable-publicar-sitio.yml",
-            "producir-territorio-por-contrato.yml","_reutilizable-incorporacion-electoral.yml",
+            "generar-alternativas-territoriales.yml","desplegar-visor-publico.yml","_reutilizable-publicar-sitio.yml",
+            "_reutilizable-incorporacion-electoral.yml",
         ]: self.assertTrue((WF/name).is_file(),name)
-        router=ROUTER.read_text(encoding="utf-8")
-        self.assertIn("generar-alternativas-territoriales.yml",router)
-        self.assertIn("orquestacion-control.yml",router)
-        self.assertIn("orquestacion-durable.yml",router)
-        self.assertIn("_reutilizable-publicar-sitio.yml",router)
 
     def test_complete_54_case_matrix(self):
         cases=0

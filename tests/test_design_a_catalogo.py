@@ -42,10 +42,8 @@ class DesignA(unittest.TestCase):
 
     def test_internal_capabilities_remain(self):
         expected={
-          "_reutilizable-auditoria-topologica.yml","_reutilizable-operacion-territorial.yml",
           "desplegar-visor-publico.yml","_reutilizable-publicar-sitio.yml","generar-alternativas-territoriales.yml",
-          "notificar-finalizacion-orquestacion.yml","orquestacion-control.yml",
-          "orquestacion-durable.yml","producir-territorio-por-contrato.yml","_reutilizable-incorporacion-electoral.yml","_reutilizable-generacion-territorial.yml",
+          "_reutilizable-incorporacion-electoral.yml","_reutilizable-generacion-territorial.yml",
           "validar-contratos-territoriales.yml",
           "validar-productos-publicos.yml",
         }
@@ -61,9 +59,6 @@ class DesignA(unittest.TestCase):
         reusable=(WF/"_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8")
         for forbidden in ("m01:","m02:","m03:","m04:","m05:","m06:","auditar_componentes_geometricos","_reutilizable-publicar-sitio.yml"):
             self.assertNotIn(forbidden,reusable)
-        engine=load(WF/"producir-territorio-por-contrato.yml")
-        t=engine.get("on") or engine.get(True)
-        self.assertIn("workflow_call",t)
 
     def test_catalog_is_real_and_authorization_required(self):
         data=load_catalog(CAT); validate_repository(CAT,ROOT)

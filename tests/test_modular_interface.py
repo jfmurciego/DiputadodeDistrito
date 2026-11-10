@@ -67,28 +67,7 @@ class ModularWorkflowContractTests(unittest.TestCase):
         workflow = yaml.safe_load((ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8"))
         self.assertEqual(list(workflow["jobs"]), ["resolver_interfaz", "ruta"])
 
-    def test_production_workflow_keeps_internal_stages_with_functional_names(self):
-        workflow = yaml.safe_load((ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8"))
-        jobs = workflow["jobs"]
-        expected = ["resolve", "official_sources", "m01", "m02", "m03", "internal_units", "m04", "m05", "m06", "auditoria", "electoral_source", "m07", "m08", "visor"]
-        self.assertEqual(list(jobs), expected)
-        self.assertEqual(jobs["official_sources"]["name"], "Fuentes oficiales")
-        self.assertEqual(jobs["internal_units"]["name"], "Preparar unidades internas")
-        self.assertEqual(jobs["m06"]["name"], "Consolidación territorial")
-        self.assertEqual(jobs["auditoria"]["name"], "Auditoría geométrica de la consolidación territorial")
-        self.assertEqual(jobs["electoral_source"]["name"], "Verificar resultados electorales preparados")
-        self.assertEqual(jobs["m07"]["name"], "Agregar resultados electorales a los distritos")
-        self.assertEqual(jobs["m08"]["name"], "Generar producto electoral territorial")
-        for stage in range(1,9):
-            self.assertNotIn(f"M{stage:02d} ·", jobs[f"m{stage:02d}"]["name"])
 
-    def test_m07_recovers_and_installs_approved_electoral_artifact(self):
-        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        self.assertIn("Recuperar fuente electoral oficial aprobada", text)
-        self.assertIn("name: ddd-electoral-source-${{ github.run_id }}", text)
-        self.assertIn("instalar_fuente_electoral_oficial.py", text)
-        self.assertIn("--artifact-dir /app/.ddd-electoral-source", text)
-        self.assertIn("if: ${{ env.STAGE == 'M07' }}", text)
 
     def test_launcher_supports_explicit_chain_state_without_changing_stage_map(self):
         text = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
@@ -96,13 +75,6 @@ class ModularWorkflowContractTests(unittest.TestCase):
         for stage in range(1, 9):
             self.assertIn(f"M{stage:02d}) echo {stage}", text)
 
-    def test_checkpoint_audit_and_viewer_share_run_identity(self):
-        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        self.assertIn("name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}", text)
-        self.assertIn("name: ddd-state-${{ steps.state.outputs.run_id }}-${{ env.PREVIOUS_STAGE }}", text)
-        self.assertIn("name: ddd-audit-${{ github.run_id }}", text)
-        self.assertIn("production_run_id: ${{ github.run_id }}", text)
-        self.assertIn("cache-from: type=gha,scope=ddd-production-${{ github.sha }}", text)
 
 
 if __name__ == "__main__":

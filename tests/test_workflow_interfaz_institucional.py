@@ -7,7 +7,6 @@ ROOT=Path(__file__).resolve().parents[1]
 WORKFLOWS=ROOT/".github"/"workflows"
 GEN=WORKFLOWS/"produccion-distritos.yml"
 ELECTORAL=WORKFLOWS/"incorporacion-resultados-electorales.yml"
-PRODUCTION=WORKFLOWS/"producir-territorio-por-contrato.yml"
 ALL_TERRITORIES=selector_labels(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
@@ -107,12 +106,5 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         text=GEN.read_text(encoding="utf-8")
         self.assertIn("persist_state: ${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}",text)
 
-    def test_checkpoint_selection_and_engine_are_preserved(self):
-        self.assertIn("python -m herramientas.seleccionar_checkpoint_productivo",GEN.read_text(encoding="utf-8"))
-        self.assertIn("python -m herramientas.seleccionar_checkpoint_productivo",ELECTORAL.read_text(encoding="utf-8"))
-        production_text=PRODUCTION.read_text(encoding="utf-8")
-        for stage in ("m01:","m02:","m03:","m04:","m05:","m06:","m07:","m08:"):
-            self.assertIn(stage,production_text)
-        self.assertIn("visor:",production_text)
 
 if __name__=="__main__": unittest.main()

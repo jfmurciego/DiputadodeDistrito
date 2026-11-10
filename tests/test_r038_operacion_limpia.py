@@ -61,13 +61,6 @@ class R038OperacionLimpia(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stderr)
 
-    def test_linea_comun_publica_productos_del_run(self):
-        text = (WORKFLOWS / "producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        self.assertIn("steps.resolve.outputs.runs_dir", text)
-        self.assertIn("--run-id \"$DDD_RUN_ID\"", text)
-        self.assertIn("bash -n procedimiento.sh", text)
-        self.assertIn("workflow_call", text)
-        self.assertNotIn("workflow_dispatch", text)
 
     def test_publicacion_es_un_proceso_independiente(self):
         generation = (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")

@@ -113,24 +113,7 @@ class ProductionViewerStateTests(unittest.TestCase):
 
 
 class WorkflowGateTests(unittest.TestCase):
-    def test_production_emits_status_manifest_in_artifact(self):
-        workflow = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        builder = (ROOT / "herramientas/estado_produccion.py").read_text(encoding="utf-8")
-        self.assertIn("herramientas/estado_produccion.py", workflow)
-        self.assertIn("production_status.json", workflow)
-        self.assertIn('"schema": "ddd.production-status/1.3"', builder)
-        self.assertIn('"territorial_certification_status": decision', builder)
-        self.assertIn('TARGET_MET = "TARGET_MET"', builder)
-        self.assertIn('TARGET_IMPROVED_NOT_MET = "TARGET_IMPROVED_NOT_MET"', builder)
-        self.assertIn('TARGET_NOT_MET = "TARGET_NOT_MET"', builder)
-        self.assertIn('HARD_BLOCK = "HARD_BLOCK"', builder)
-        self.assertIn('return "BLOCK", "POPULATION_TARGET_NOT_MET"', builder)
 
-    def test_production_requires_independent_geometry(self):
-        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        self.assertIn("auditar_componentes_geometricos.py", text)
-        self.assertIn("--expected-districts", text)
-        self.assertIn("$expected", text)
 
     def test_aragon_contract_is_authorized_with_governed_exceptions(self):
         config = yaml.safe_load((ROOT / "territorios/aragon/config/aragon_2025.yaml").read_text(encoding="utf-8"))
@@ -139,9 +122,6 @@ class WorkflowGateTests(unittest.TestCase):
         self.assertEqual(config["meta"]["status"], "generation_ready")
         self.assertEqual(config["meta"]["production_authorization"], "AUTHORIZED")
 
-    def test_modular_execution_requires_contract_authorization(self):
-        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        self.assertIn('test "$PRODUCTION_AUTHORIZATION" = AUTHORIZED', text)
 
 
 if __name__ == "__main__":

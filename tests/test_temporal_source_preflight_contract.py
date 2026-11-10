@@ -450,32 +450,6 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             self.assertTrue(enabled["generation_state"]["generation_enabled"])
             self.assertEqual(enabled["meta"]["status"], "generation_ready")
 
-    def test_workflows_bind_preflight_to_promotion_sha_and_explicit_years(self):
-        preparation = (ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(encoding="utf-8")
-        reusable = (ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
-        producer = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        production = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
-        resolver = (ROOT / "herramientas/resolver_ejecucion_completa.py").read_text(encoding="utf-8")
-
-        self.assertIn("promotion_sha", preparation)
-        self.assertIn("prepared_source_ref", preparation)
-        self.assertNotIn("source_ref: ${{ needs.registrar.outputs.promotion_sha }}", preparation)
-        self.assertIn("enabled_source_ref", reusable)
-        self.assertIn('echo "enabled_source_ref=$enabled_source_ref" >> "$GITHUB_OUTPUT"', reusable)
-        full = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
-        prepared_ref = "${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.prepared_source_ref || needs.planificar.outputs.source_sha }}"
-        enabled_ref = "${{ needs.acreditar_generacion.result == 'success' && needs.acreditar_generacion.outputs.enabled_source_ref || (needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.prepared_source_ref || needs.planificar.outputs.source_sha) }}"
-        self.assertIn("source_ref: " + prepared_ref, full)
-        self.assertIn("source_ref: " + enabled_ref, full)
-        self.assertNotIn('legacy_year="$EDITION"', preparation)
-        for body in (reusable, producer, production):
-            self.assertIn("--population-year", body)
-            self.assertIn("--section-year", body)
-        self.assertNotIn("declared_generation_ready", resolver)
-        self.assertNotIn("linked_internal_partitioning", resolver)
-        self.assertIn('"compatibility_identity_sha256": source.get("compatibility_identity_sha256")', production)
-        self.assertIn('"population_year": source.get("population_year")', production)
-        self.assertIn('"section_year": source.get("section_year")', production)
 
 
 

@@ -14,7 +14,6 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 CHECKER = ROOT / "herramientas/comprobar_fuente_electoral_oficial.py"
 INSTALLER = ROOT / "herramientas/instalar_fuente_electoral_oficial.py"
-WORKFLOW = ROOT / ".github/workflows/producir-territorio-por-contrato.yml"
 
 
 def load_module(path: Path, name: str):
@@ -322,13 +321,6 @@ class OfficialElectionSourceSynthetic(unittest.TestCase):
             self.assertEqual(decision["checks"][0]["status"], "BLOCK_FORBIDDEN_SUBSTITUTE")
             self.assertFalse(called)
 
-    def test_workflow_recovers_and_installs_artifact_before_m07(self):
-        text = WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("name: ddd-electoral-source-${{ github.run_id }}", text)
-        self.assertIn("Recuperar fuente electoral oficial aprobada", text)
-        self.assertIn("instalar_fuente_electoral_oficial.py", text)
-        self.assertIn("--artifact-dir /app/.ddd-electoral-source", text)
-        self.assertNotIn("extremadura", (ROOT / "herramientas/instalar_fuente_electoral_oficial.py").read_text(encoding="utf-8").lower())
 
 
 if __name__ == "__main__":

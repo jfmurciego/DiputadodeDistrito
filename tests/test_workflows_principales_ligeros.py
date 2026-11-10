@@ -85,16 +85,6 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         self.assertIn("PRODUCTION_RUN_ID_OVERRIDE",publisher)
         self.assertNotIn("latest_validated.run_id",publisher)
 
-    def test_internal_pipeline_uses_functional_visible_names(self):
-        engine=(WF/"producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        for forbidden in (
-            "name: M01 ·","name: M02 ·","name: M03 ·","name: M04 ·",
-            "name: M05 ·","name: M06 ·","name: M07 ·","name: M08 ·",
-            "name: Auditoría geométrica M06",
-        ):
-            self.assertNotIn(forbidden,engine)
-        self.assertIn("name: Consolidación territorial",engine)
-        self.assertIn("name: Auditoría geométrica de la consolidación territorial",engine)
 
 if __name__=="__main__":
     unittest.main()

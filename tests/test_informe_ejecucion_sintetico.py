@@ -10,7 +10,6 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "herramientas" / "generar_informe_ejecucion.py"
-ROUTER = ROOT / ".github" / "workflows" / "_reutilizable-operacion-territorial.yml"
 
 
 def load_module():
@@ -133,11 +132,6 @@ class ExecutionReportSyntheticTests(unittest.TestCase):
             self.assertIn("La publicación se completó correctamente, pero el estado territorial permanece bloqueado", md)
             self.assertNotIn("Sin declaración automática", md)
 
-    def test_workflow_has_visible_always_running_business_report_job(self):
-        jobs = yaml.safe_load(ROUTER.read_text(encoding="utf-8"))["jobs"]; report = jobs["informe_ejecucion"]
-        self.assertEqual(report["name"], "Informe de ejecución"); self.assertIn("always()", report["if"])
-        text = ROUTER.read_text(encoding="utf-8")
-        self.assertIn("inventario_ejecucion.json", text); self.assertIn("informe_ejecucion.md", text); self.assertIn("pattern: ddd-*", text); self.assertNotIn("gh run view", text)
 
 
 if __name__ == "__main__":

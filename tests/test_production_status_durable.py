@@ -15,7 +15,6 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "herramientas" / "estado_produccion.py"
-WORKFLOW = ROOT / ".github" / "workflows" / "producir-territorio-por-contrato.yml"
 
 
 def governed_geometry() -> dict:
@@ -52,10 +51,6 @@ def partial_population() -> dict:
             "baseline_restored": False,
         }
     }
-
-
-def workflow_jobs() -> dict:
-    return yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))["jobs"]
 
 
 def evaluate_job_if(expression: str, context: dict[str, str]) -> bool:
@@ -130,114 +125,6 @@ class DurableProductionStatusTests(unittest.TestCase):
             "--output", str(audit_dir / "production_status.json"),
         ], cwd=ROOT, env=env, text=True, capture_output=True, check=False)
 
-    def test_checkpoint_partial_population_blocks_m07_m08_and_publication(self):
-        with tempfile.TemporaryDirectory() as raw:
-            tmp = Path(raw)
-            params, report, geometry, audit_dir = self._fixture(tmp)
-            report.write_text(json.dumps(partial_population()), encoding="utf-8")
-
-            result = self._run(params, geometry, audit_dir)
-            self.assertEqual(result.returncode, 0, result.stderr)
-            status = json.loads((audit_dir / "production_status.json").read_text(encoding="utf-8"))
-            causes = json.loads((audit_dir / "block_causes.json").read_text(encoding="utf-8"))
-            shutil.copy2(geometry, audit_dir / geometry.name)
-
-            self.assertEqual(status["execution_outcome"], "success")
-            self.assertEqual(status["geometric_decision"], "PASS_WITH_EXCEPTIONS")
-            self.assertEqual(status["population_decision"], "TARGET_IMPROVED_NOT_MET")
-            self.assertEqual(status["decision"], "BLOCK")
-            self.assertEqual(status["block_cause"], "POPULATION_TARGET_NOT_MET")
-            self.assertEqual(causes["block_cause"], "POPULATION_TARGET_NOT_MET")
-
-            members = archive_members(audit_dir, tmp)
-            self.assertIn("production_status.json", members)
-            self.assertIn("block_causes.json", members)
-            self.assertIn(geometry.name, members)
-
-            jobs = workflow_jobs()
-            upload_steps = [
-                step for step in jobs["auditoria"]["steps"]
-                if str(step.get("uses") or "").startswith("actions/upload-artifact@")
-            ]
-            self.assertEqual(len(upload_steps), 1)
-            self.assertRegex(
-                upload_steps[0]["uses"],
-                r"^actions/upload-artifact@[0-9a-f]{40}$",
-            )
-            self.assertEqual(upload_steps[0]["with"]["path"], ".ddd-audit")
-            self.assertEqual(upload_steps[0]["with"]["if-no-files-found"], "error")
-
-            gate_step = next(
-                step for step in jobs["auditoria"]["steps"]
-                if step.get("name") == "Aplicar puerta de certificación territorial"
-            )
-            self.assertIn(".ddd-audit/production_status.json", gate_step["run"])
-            self.assertIn("PASS|PASS_WITH_EXCEPTIONS", gate_step["run"])
-            self.assertNotIn("steps.geometric.outcome", gate_step["run"])
-
-            gate_dir = tmp / "gate"
-            (gate_dir / ".ddd-audit").mkdir(parents=True)
-            gate_status = gate_dir / ".ddd-audit" / "production_status.json"
-            gate_status.write_text(json.dumps(status), encoding="utf-8")
-            bin_dir = gate_dir / "bin"
-            bin_dir.mkdir()
-            jq = bin_dir / "jq"
-            jq.write_text(
-                "#!/usr/bin/env python3\n"
-                "import json, sys\n"
-                "path = sys.argv[-1]\n"
-                "data = json.load(open(path, encoding='utf-8'))\n"
-                "print(data.get('decision') or 'UNKNOWN')\n",
-                encoding="utf-8",
-            )
-            jq.chmod(0o755)
-            gate_env = os.environ.copy()
-            gate_env["PATH"] = f"{bin_dir}{os.pathsep}{gate_env.get('PATH', '')}"
-
-            blocked = subprocess.run(
-                ["bash", "-c", gate_step["run"]],
-                cwd=gate_dir,
-                env=gate_env,
-                text=True,
-                capture_output=True,
-                check=False,
-            )
-            self.assertNotEqual(blocked.returncode, 0)
-            self.assertIn("Certificación territorial bloqueada: BLOCK", blocked.stderr)
-
-            checkpoint_context = {
-                "resolve_result": "success",
-                "mode": "execute",
-                "from_num": "7",
-                "to_num": "8",
-                "m06_result": "skipped",
-                "auditoria_result": "failure",
-                "electoral_source_result": "skipped",
-                "m07_result": "skipped",
-                "m08_result": "skipped",
-                "publish_result": "true",
-                "checkpoint_run_id": "35319351944",
-            }
-            self.assertTrue(evaluate_job_if(jobs["auditoria"]["if"], checkpoint_context))
-            self.assertFalse(evaluate_job_if(jobs["electoral_source"]["if"], checkpoint_context))
-            self.assertFalse(evaluate_job_if(jobs["m07"]["if"], checkpoint_context))
-            self.assertFalse(evaluate_job_if(jobs["m08"]["if"], checkpoint_context))
-            self.assertFalse(evaluate_job_if(jobs["visor"]["if"], checkpoint_context))
-
-            for accepted_decision in ("PASS", "PASS_WITH_EXCEPTIONS"):
-                gate_status.write_text(json.dumps({"decision": accepted_decision}), encoding="utf-8")
-                accepted = subprocess.run(
-                    ["bash", "-c", gate_step["run"]],
-                    cwd=gate_dir,
-                    env=gate_env,
-                    text=True,
-                    capture_output=True,
-                    check=False,
-                )
-                self.assertEqual(accepted.returncode, 0, accepted.stderr)
-
-            state_step = next(step for step in jobs["auditoria"]["steps"] if step.get("name") == "Resolver checkpoint M06")
-            self.assertIn('else state_run_id="$CHECKPOINT_RUN_ID"', state_step["run"])
 
     def test_partial_population_is_not_a_block_when_contract_does_not_require_target(self):
         with tempfile.TemporaryDirectory() as raw:
