@@ -104,6 +104,32 @@ class Poda(Base):
         self.assertEqual(inf["borradas"], [])
 
 
+class Principal(Base):
+    def test_main_sale_con_error_ante_desajuste_y_sin_borrar(self):
+        import os
+        from unittest import mock
+        (self.td / "docs/ESTUDIOS/T145_PODA_R2").mkdir(parents=True)
+        (self.td / pr.LISTA).write_bytes(self.lista.read_bytes())
+        (self.td / "orchestracion").mkdir()
+        (self.td / pr.ar.MANIFIESTO).write_bytes(self.man.read_bytes())
+        self.r2[TOP] = "otro"
+        sha = hashlib.sha256(self.lista.read_bytes()).hexdigest()
+        env = {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}
+        with mock.patch.dict(os.environ, env), mock.patch.object(
+                pr, "clientes_r2", return_value=(self.r2.get, lambda t: True, self.borrar)):
+            rc = pr.main(["--root-dir", str(self.td), "--sha256-lista", sha, "--ejecutar"])
+        self.assertEqual((rc, self.borradas), (1, []))
+
+    def test_copia_de_otro_territorio_no_borra(self):
+        for f in self.filas:
+            f["copia_clave"] = "y/1/ddd-state-1-M08.zip"
+        self.arts["y/1/ddd-state-1-M08.zip"] = {"sha256": "t8"}
+        self.man.write_text(json.dumps({"schema": "s", "artefactos": self.arts}))
+        self.r2["y/1/ddd-state-1-M08.zip"] = "t8"
+        inf = self.run_(True)
+        self.assertEqual(({d["error"] for d in inf["desajustes"]}, self.borradas), ({"COPIA_DE_OTRO_TERRITORIO"}, []))
+
+
 class ListaReal(unittest.TestCase):
     def test_lista_aprobada_es_coherente(self):
         filas = list(csv.DictReader((ROOT / pr.LISTA).open(encoding="utf-8", newline="")))

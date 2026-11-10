@@ -8,7 +8,7 @@
 #   fijado en la entrada) tras verificar cada clave y la copia que conserva su contenido. Por defecto simula (ejecutar=false) e imprime el
 #   informe completo; con ejecutar=true, en el entorno protegido «produccion», borra solo si todo se verifica y registra en main el informe
 #   (docs/ESTUDIOS/T145_PODA_R2/informes/) y orchestracion/archivo_r2.json. Comparte concurrencia con el archivista (un solo escritor).
-# CAMBIOS: 1.0.0: fichero nuevo (T-145).
+# CAMBIOS: 1.0.0: fichero nuevo (T-145). Entorno «produccion» siempre con ejecutar=true; informe y manifiesto también como artefacto.
 # MOTIVO: R2 supera los 10 GB gratuitos (28 GB); la lista (234 claves, 26,085 GB) fue aprobada por el propietario el 10-11.
 # ANTERIOR: ninguna (fichero nuevo)
 name: '- Podar R2'
@@ -40,7 +40,7 @@ jobs:
     name: Verificar y podar
     runs-on: ubuntu-24.04
     timeout-minutes: 120
-    environment: ${{ (inputs.ejecutar && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]') && 'produccion' || '' }}
+    environment: ${{ inputs.ejecutar && 'produccion' || '' }}  # borrado irreversible: la puerta humana se exige siempre, también a bots
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
@@ -95,6 +95,16 @@ jobs:
           set -e
           [[ ! -f "$informe" ]] || { echo '```json'; cat "$informe"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
           exit "$rc"
+      - name: Conservar informe y manifiesto como artefacto
+        if: ${{ always() && inputs.ejecutar }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: poda-r2-informe-${{ github.run_id }}
+          path: |
+            docs/ESTUDIOS/T145_PODA_R2/informes/
+            orchestracion/archivo_r2.json
+          if-no-files-found: warn
+          retention-days: 90
       - name: Registrar informe y manifiesto en main
         if: ${{ always() && inputs.ejecutar }}
         shell: bash
@@ -111,4 +121,4 @@ jobs:
             git rebase --abort || true
             sleep $((i*3))
           done
-          echo "::error::No se pudo registrar la poda en main."; exit 1
+          echo "::error::PODA_SIN_REGISTRAR: los borrados YA están hechos en R2 pero main conserva las claves. Reaplica el informe y archivo_r2.json del artefacto poda-r2-informe-$GITHUB_RUN_ID."; exit 1

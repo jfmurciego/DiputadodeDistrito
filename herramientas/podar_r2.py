@@ -7,7 +7,7 @@ VERSIÓN: 1.0.0
 NOMBRE DE VERSIÓN: Poda de R2 con lista aprobada
 FECHA: 2026-11-10
 ESTADO: candidato
-CAMBIOS: 1.0.0: fichero nuevo (T-145).
+CAMBIOS: 1.0.0: fichero nuevo (T-145; la copia ha de ser del mismo territorio).
 MOTIVO: R2 tiene 28 GB frente a 10 GB gratuitos; el propietario aprobó la lista docs/ESTUDIOS/T145_PODA_R2/ola1_borrar.csv
   (234 claves). El borrado en R2 es irreversible: esta herramienta no borra nada fuera de esa lista.
 ANTERIOR: ninguna (fichero nuevo)
@@ -72,6 +72,8 @@ def verificar(filas: list[dict], man: dict, sha: Callable[[str], Optional[str]],
         etapa = _ESTADO.match(k).group(1)
         if ck in claves:
             err = "COPIA_EN_LA_LISTA"
+        elif ck.split("/")[0] != f["territorio"] or k.split("/")[0] != f["territorio"]:
+            err = "COPIA_DE_OTRO_TERRITORIO"
         elif arts.get(k, {}).get("sha256") != h:
             err = "MANIFIESTO_DISTINTO"
         elif sha(k) != h:
