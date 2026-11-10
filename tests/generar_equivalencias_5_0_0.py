@@ -95,6 +95,8 @@ def generar():
         "`tests/test_corte_5_0_0_equivalencias.py`). Fuente de los ids: `configuracion/notacion_territorial.csv` y el",
         "catálogo; el resto, `docs/ARQUITECTURA/CORTE_5_0_0.md` §a-c. Ids nuevos en minúsculas (DECISIÓN 5, pendiente).",
         "",
+        "Nota: el test de entorno `produccion` (`tests/test_corte_5_0_0_equivalencias.py`) cubre solo la 05 y la 06.",
+        "",
         "## Módulos → fases", "",
     ]
     L += _tab(["Viejo", "Nuevo"], FASES)

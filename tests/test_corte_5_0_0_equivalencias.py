@@ -28,20 +28,24 @@ def _nombres():
 class ReferenciasPorNombre(unittest.TestCase):
     def test_workflow_run_y_github_workflow_nombran_flujos_existentes(self):
         existentes = set(_nombres().values())
-        pendientes = 0
+        encontradas = []
         for f in sorted(WF.glob("*.yml")):
-            txt = f.read_text(encoding="utf-8")
-            for linea in txt.splitlines():
-                if linea.lstrip().startswith("#"):
-                    continue
-                refs = re.findall(r"github\.workflow\s*==\s*'([^']+)'", linea)
-                m = re.match(r"\s*workflows:\s*\[(.*)\]", linea)
-                if m:
-                    refs += re.findall(r"""["']([^"']+)["']""", m.group(1))
-                for r in refs:
-                    pendientes += 1
-                    self.assertIn(r, existentes, f"{f.name} nombra un flujo inexistente: {r!r}")
-        self.assertGreaterEqual(pendientes, 5)  # 05, 06 x2, forense, auto-merge
+            txt = "\n".join(l for l in f.read_text(encoding="utf-8").splitlines() if not l.lstrip().startswith("#"))
+            refs = re.findall(r"""github\.workflow\s*==\s*(?:'([^']+)'|"([^"]+)")""", txt)
+            refs = [a or b for a, b in refs]
+            for lista in re.findall(r"^\s*workflows:\s*\[(.*?)\]", txt, re.M | re.S):
+                refs += [a or b for a, b in re.findall(r"'([^']+)'|\"([^\"]+)\"", lista)]
+            for r in refs:
+                encontradas.append((f.name, r))
+                self.assertIn(r, existentes, f"{f.name} nombra un flujo inexistente: {r!r}")
+        esperadas = sorted([
+            ("auto-merge.yml", "Pruebas de la Plataforma"),
+            ("desplegar-visor-publico.yml", "05 Publicación del Visor"),
+            ("forense-00.yml", "00 Ejecución Completa del Proyecto"),
+            ("generar-alternativas-territoriales.yml", "06 Escenarios y Ensembles"),
+            ("generar-alternativas-territoriales.yml", "06 Escenarios y Ensembles"),
+        ])
+        self.assertEqual(sorted(encontradas), esperadas, "referencia por nombre nueva o perdida: revisa y actualiza la lista")
 
     def test_05_y_06_siguen_exigiendo_produccion(self):
         casos = {
