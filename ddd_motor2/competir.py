@@ -9,7 +9,9 @@ FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa; no lanza nada en Actions)
 CAMBIOS: 1.2.0 (T-217) — con C/D5/D8 compite también el mapa vigente publicado (generadores.Vigente), si cumple el
   núcleo, y la mitad de las cadenas parte de él; la fila del resumen añade «vigente» (estado; «compite»: sí/no) y
-  «frente_al_vigente» (mejora / empata / empeora; vacío si no compite), también al reanudar. Con A, como 1.1.0.
+  «frente_al_vigente» (mejora / empata / empeora; vacío si no compite), «vigente_reparado» y
+  «fuera_vigente_publicado», también al reanudar; la aceptación exige no tener más fuera de tolerancia que el vigente
+  publicado («peor_que_el_vigente»). Con A, como 1.1.0.
   1.1.0 (T-205) — --funcion D8 (por defecto) | C | D5 | A y --cadenas 10 por defecto. Con A compiten canónico +
   GerryChain de producción, como 1.0.1; con C/D5/D8, canónico + generador «ponderado» (generadores.Ponderado) y elige
   la clave de naturalidad compartida con el laboratorio. --reanudar exige además la misma función; «frente al
@@ -83,7 +85,8 @@ def _fila_vigente(r) -> dict:
         return {}
     cv = next((c for c in r.candidatos if c.id == "vigente"), None)
     return {"vigente": r.vigente.get("estado"), "vigente_compite": bool(r.vigente.get("compite")),
-            "vigente_detalle": r.vigente.get("detalle", ""),
+            "vigente_detalle": r.vigente.get("detalle", ""), "vigente_reparado": r.vigente.get("reparado"),
+            "fuera_vigente_publicado": (r.vigente.get("publicado") or {}).get("fuera_tolerancia"),
             "frente_al_vigente": comparar(r.ganador, cv) if cv is not None else ""}
 
 
@@ -121,7 +124,8 @@ def fila_guardada(t: str, out: Path, n_cadenas: int, cfg=None, funcion: str = "D
             "fuera_tolerancia": g["fuera_tolerancia"], "huella_resultado": d.get("huella_resultado"),
             "tiempo_s": d.get("tiempo_total_s"), "reanudado": True, "funcion": funcion,
             **({"vigente": d["vigente"].get("estado"), "vigente_compite": bool(d["vigente"].get("compite")),
-                "vigente_detalle": d["vigente"].get("detalle", ""),
+                "vigente_detalle": d["vigente"].get("detalle", ""), "vigente_reparado": d["vigente"].get("reparado"),
+                "fuera_vigente_publicado": (d["vigente"].get("publicado") or {}).get("fuera_tolerancia"),
                 "frente_al_vigente": ("" if "vigente" not in cands else "empata" if clave(g) == clave(cands["vigente"])
                                       else "mejora" if clave(g) < clave(cands["vigente"]) else "empeora")}
                if d.get("vigente") else {})}
@@ -132,7 +136,10 @@ def resumen(filas: list[dict]) -> dict:
     validos = sum(1 for f in filas if f.get("estado") == "VALIDO")
     cuenta = {k: sum(1 for f in filas if f.get("frente_al_canonico") == k) for k in ("mejora", "empata", "empeora")}
     tiempos = sorted(f["tiempo_s"] for f in filas if "tiempo_s" in f)
-    peor_vigente = [f["territorio"] for f in filas if f.get("frente_al_vigente") == "empeora"]
+    # la aceptación compara con el vigente PUBLICADO (fuera de tolerancia del contrato), reparado o no
+    peor_vigente = [f["territorio"] for f in filas if f.get("frente_al_vigente") == "empeora" or (
+        f.get("fuera_vigente_publicado") is not None and f.get("fuera_tolerancia") is not None
+        and f["fuera_tolerancia"] > f["fuera_vigente_publicado"])]
     return {"territorios": n, "validos": validos, **cuenta,
             "vigente_compite": sum(1 for f in filas if f.get("vigente_compite")), "peor_que_el_vigente": peor_vigente,
             "errores": [f["territorio"] for f in filas if f.get("estado") != "VALIDO"],

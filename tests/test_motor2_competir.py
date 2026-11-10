@@ -36,6 +36,8 @@ class Resumen(unittest.TestCase):
     def test_peor_que_el_vigente(self):  # T-217: no debería pasar nunca (el vigente válido compite)
         r = resumen([fila("a"), {**fila("b"), "vigente_compite": True, "frente_al_vigente": "empeora"}])
         self.assertEqual((r["peor_que_el_vigente"], r["vigente_compite"], r["aceptacion"]), (["b"], 1, False))
+        r = resumen([{**fila("c"), "fuera_tolerancia": 38, "fuera_vigente_publicado": 33}])  # Cataluña sin reparar
+        self.assertEqual(r["peor_que_el_vigente"], ["c"])
 
     def test_ficheros(self):
         tmp = Path(tempfile.mkdtemp())

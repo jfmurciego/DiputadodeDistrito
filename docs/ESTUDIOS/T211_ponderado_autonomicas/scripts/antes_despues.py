@@ -1,4 +1,6 @@
-"""T-211: antes (r3, CANDIDATOS.csv de T-196) y después (competición local con naturalidad_clave 1.1.0)."""
+"""T-211: antes (r3, CANDIDATOS.csv de T-196) y después (competición local con naturalidad_clave 1.1.0).
+Los COMPETICION.json del «después» se generaron en sesión (no están en git); su extracto (ganador, fuera de tolerancia y
+clave de cada candidato, huella) está en ../datos/despues_clave_contrato.json. Se reproduce con la batería nueva."""
 import csv, json, sys
 from pathlib import Path
 antes = {}

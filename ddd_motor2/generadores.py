@@ -10,7 +10,11 @@ ESTADO: candidato (motor 2; producción no lo importa)
 CAMBIOS: 1.2.0 — (T-217) generador «Vigente»: el mapa publicado (datos/composicion/<t>.csv) como composición M06 sobre
   las filas del canónico (población de la entrada; si las secciones no coinciden, o el mapa parte un municipio que el
   contrato declara atómico, no es representable y no compite); el «Ponderado» parte del vigente con las semillas que le
-  diga el contexto («semillas_desde_vigente»; la competición le da la mitad). (T-218, D-79) «piezas_finas»: fuera
+  diga el contexto («semillas_desde_vigente»; la competición le da la mitad). Si el publicado incumple el núcleo
+  (hecho con otro M04: R-NUCLEO; o R-MUN-MIXTOS como Ávila), «vigente reparado» (D-66): reparación mínima y
+  determinista (`reparar`), que se juzga de nuevo; lo publicado (fuera de tolerancia, validez, infracciones) queda en
+  extra["publicado"] y los pasos en extra["reparacion"]. Las cadenas del Ponderado usan la clave de naturalidad_clave
+  1.1.0 (primer término = fuera de tolerancia del contrato), así que con varias circunscripciones su recorrido cambia. (T-218, D-79) «piezas_finas»: fuera
   del Congreso, la unidad de la cadena es la sección en los municipios de más de municipality_atomicity_limit_ratio ×
   objetivo (la atomicidad que declara el contrato, como el laboratorio) y el municipio entero en los demás; no cambia
   suelo, techo, K, tolerancia ni la regla de distritos mixtos (el núcleo las juzga igual). Sin piezas finas en el
@@ -184,6 +188,85 @@ def piezas_finas(comp: Path, entrada: EntradaTerritorio, destino: Path, atributo
                     "secciones_sueltas": n, "unidades_antes": len(problema.unidades)}
 
 
+def reparar(problema, reglas, plan: dict[str, str], max_pasos: int = 20) -> tuple[dict[str, str], list[str]]:
+    """Vigente reparado (D-66, T-217): reparación mínima y determinista de las infracciones del núcleo que deja un mapa
+    hecho con otro M04. Cada paso arregla una infracción sin crear ninguna nueva (de otra regla o ámbito):
+      R-NUCLEO   las unidades del núcleo cerrado pasan al distrito que ya tiene más población del núcleo (empate: la
+                 etiqueta menor); si ese distrito tiene unidades ajenas al núcleo, cada una pasa al distrito de una
+                 vecina que no sea del núcleo (el de etiqueta menor).
+      R-MUN-MIXTOS las unidades del municipio en el distrito mixto con menos población del municipio pasan a otro distrito
+                 del mismo municipio (como el «vigente reparado» del laboratorio).
+    Devuelve (plan, notas); plan vacío si no se repara."""
+    from .reglas import evaluar
+    pob = {u.id: u.poblacion for u in problema.unidades}
+    nucleo = {u.id: u.nucleo_cerrado for u in problema.unidades if u.nucleo_cerrado is not None}
+    mun = {u.id: u.municipio for u in problema.unidades}
+    vecinos: dict[str, set] = defaultdict(set)
+    for a, b in tuple(problema.aristas) + tuple(problema.puentes):
+        vecinos[a].add(b)
+        vecinos[b].add(a)
+    plan, notas = dict(plan), []
+
+    def clave_v(v):
+        return (v.regla, v.ambito)
+
+    for _ in range(max_pasos):
+        inf = evaluar(problema, reglas, plan)
+        if inf.valido:
+            return plan, notas
+        antes = {clave_v(v) for v in inf.violaciones}
+        v = next((x for x in inf.violaciones if x.regla in ("R-NUCLEO", "R-MUN-MIXTOS")), None)
+        if v is None:
+            notas.append(f"sin reparación para {sorted(antes)[:5]}")
+            return {}, notas
+        intentos = []
+        if v.regla == "R-NUCLEO":
+            nuc = sorted(u for u, n in nucleo.items() if str(n) == v.ambito)  # ámbito = «nucleo:<distrito>»
+            if not nuc:
+                notas.append(f"{v.ambito}: sin unidades del núcleo")
+                return {}, notas
+            por_d: dict[str, int] = defaultdict(int)
+            for u in nuc:
+                por_d[plan[u]] += pob[u]
+            dest = min(por_d, key=lambda d: (-por_d[d], d))
+            prueba = {**plan, **{u: dest for u in nuc}}
+            ajenas = sorted(u for u, d in prueba.items() if d == dest and u not in set(nuc))
+            for u in ajenas:
+                otros = sorted({prueba[w] for w in vecinos[u] if w not in set(nuc) and prueba[w] != dest})
+                if otros:
+                    prueba[u] = otros[0]
+            movidas = [u for u in plan if plan[u] != prueba[u]]
+            intentos.append((prueba, f"{v.ambito}: {len(movidas)} unidades ({sum(pob[u] for u in movidas)} hab.) "
+                                     f"al distrito {dest} o a vecinos"))
+        else:
+            m = v.ambito
+            de_m: dict[str, list[str]] = defaultdict(list)
+            otros_m: dict[str, int] = defaultdict(int)
+            for u, d in plan.items():
+                if mun.get(u) == m:
+                    de_m[d].append(u)
+                else:
+                    otros_m[d] += 1
+            mixtos = sorted((d for d in de_m if otros_m.get(d)), key=lambda d: (sum(pob[u] for u in de_m[d]), d))
+            for d in mixtos:
+                for dest in sorted(x for x in de_m if x != d):
+                    intentos.append(({**plan, **{u: dest for u in de_m[d]}},
+                                     f"{m}: {len(de_m[d])} unidades ({sum(pob[u] for u in de_m[d])} hab.) del "
+                                     f"distrito {d} al {dest}"))
+        hecho = False
+        for prueba, nota in intentos:
+            despues = {clave_v(x) for x in evaluar(problema, reglas, prueba).violaciones}
+            if clave_v(v) not in despues and despues <= antes:
+                plan, hecho = prueba, True
+                notas.append(nota)
+                break
+        if not hecho:
+            notas.append(f"{v.regla} {v.ambito}: ninguna reparación mínima vale ({len(intentos)} intentos)")
+            return {}, notas
+    notas.append(f"más de {max_pasos} pasos")
+    return {}, notas
+
+
 class Vigente:
     """T-217: el mapa vigente publicado (datos/composicion/<t>.csv) como candidato, sobre las filas del canónico."""
 
@@ -234,10 +317,28 @@ class Vigente:
                 f[col["unidad"]] = f"{uid(f)}~v{d}"
             f[col["distrito"]] = d
         salida = _escribir(campos, filas, destino / Path(comp).name)
-        return Salida(salida, "OK", atributos_secciones=atributos,
-                      extra={"origen": f"datos/composicion/{ruta.name}",
-                             "sha256_origen": hashlib.sha256(ruta.read_bytes()).hexdigest(),
-                             "unidades_divididas": len(partidas), "piezas_finas": info})
+        extra = {"origen": f"datos/composicion/{ruta.name}", "sha256_origen": hashlib.sha256(ruta.read_bytes()).hexdigest(),
+                 "unidades_divididas": len(partidas), "piezas_finas": info}
+        # D-66: si el publicado incumple el núcleo (otro M04), vigente reparado; lo publicado queda en «publicado»
+        from .exhaustivo import escribir_composicion
+        reglas = Reglas.desde_contrato(entrada.cfg, criterio)
+        ref = ctx.get("referencia_nucleos")
+        prob_v, plan_v, _ = problema_y_plan(salida, entrada.grafo_m03, entrada.cfg, referencia_nucleos=ref,
+                                            atributos_secciones=atributos,
+                                            respaldo_municipio_cusec=criterio.respaldo_municipio_cusec)
+        from .reglas import evaluar
+        inf = evaluar(prob_v, reglas, plan_v)
+        extra["publicado"] = {"fuera_tolerancia": len(inf.metricas["fuera_tolerancia"]), "valido": inf.valido,
+                              "violaciones": [[x.regla, x.ambito] for x in inf.violaciones][:20]}
+        if not inf.valido:
+            plan_r, notas = reparar(prob_v, reglas, plan_v)
+            extra["reparacion"] = notas
+            if plan_r:
+                salida = escribir_composicion(salida, plan_r, destino / "reparado" / Path(comp).name, entrada.cfg)
+                extra["reparado"] = True
+            else:
+                extra["reparado"] = False
+        return Salida(salida, "OK", atributos_secciones=atributos, extra=extra)
 
 
 class Ponderado:

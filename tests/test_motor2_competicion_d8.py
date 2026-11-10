@@ -181,6 +181,34 @@ class VigenteCompite(unittest.TestCase):
         self.assertNotIn("vigente", r.a_dict())
 
 
+class VigenteReparado(unittest.TestCase):
+    """T-217 (D-66): el vigente publicado mete C en el núcleo cerrado {A, B} del canónico (R-NUCLEO); la reparación
+    mínima pasa C al distrito de su vecina D, se juzga de nuevo y compite; lo publicado queda en «publicado»."""
+
+    def test_repara_y_compite(self):
+        from ddd_motor2.generadores import Vigente
+
+        class Cerrado:
+            nombre = "canonico"
+
+            def generar(self, entrada, semilla, destino):
+                return Salida(escribir_comp(Path(destino) / "x_m06_composicion_distritos.csv", plan_corte(2), POB,
+                                            cerradas=("A", "B")))
+        tmp = Path(tempfile.mkdtemp())
+        carpeta = tmp / "vig"
+        carpeta.mkdir()
+        (carpeta / "sintetico.csv").write_text("seccion,distrito,poblacion\n" + "".join(
+            f"220010100{i},{'1' if i < 3 else '2'},0\n" for i in range(5)), encoding="utf-8")
+        r = competir(entrada(tmp), Cerrado(), Fijo("cadena", {7: plan_corte(2)}), [7], tmp / "out",
+                     exhaustivo=False, funcion="D8", vigente=Vigente(carpeta))
+        v = r.vigente
+        self.assertEqual(v["publicado"]["violaciones"], [["R-NUCLEO", v["publicado"]["violaciones"][0][1]]])
+        self.assertFalse(v["publicado"]["valido"])
+        self.assertTrue(v["reparado"] and v["compite"], v)
+        self.assertIn("1 unidades (6 hab.)", v["reparacion"][0])
+        self.assertIn("vigente", [c.id for c in r.candidatos])
+
+
 class PiezasFinas(unittest.TestCase):
     """T-218: fuera del Congreso, sección por unidad en los municipios de más de ratio × objetivo; Vigente sobre ellas."""
 

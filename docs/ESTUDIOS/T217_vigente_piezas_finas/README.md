@@ -16,24 +16,21 @@ Prueba en sesión: venv con `requirements.lock` y las cadenas instaladas con `--
   - No cambian suelo, techo, K, tolerancia ni la regla de distritos mixtos.
   - No se aplica con `partitioning connected_internal_units` (Extremadura, Principado de Asturias).
 
-## Resultado (fuera de tolerancia del contrato)
+## Resultado (fuera de tolerancia del contrato; aceptación frente al vigente PUBLICADO)
 
-| Territorio | Vigente | Canónico | Ganador r3 | Ganador ahora | ¿Nunca peor que el vigente? | Unidades (M04 → finas) |
-|---|---|---|---|---|---|---|
-| Navarra | 11 (válido, compite) | 24 | 14 | **11** (cadena desde el vigente) | **sí** (mejora en la cola de la clave) | 288 → 442 |
-| Comunidad de Madrid | 26 (válido, compite) | 24 | 21 | **14** (cadena desde el vigente) | **sí** | 269 → 3759 |
-| Cataluña | 33 (**no cumple el núcleo**: R-NUCLEO, núcleo 41) | 53 | 41 | **38** | **no: 38 frente a 33** | 997 → 3359 |
-| Castilla y León | no cumple el núcleo (R-MUN-MIXTOS, Ávila 05019) | 2 | 4 | 2 | no aplica (el vigente no es válido) | 2279 → 3157 |
+| Territorio | Vigente publicado | Reparación (D-66) | Canónico | Ganador r3 | Ganador ahora | ¿Nunca peor que el vigente? | Unidades (M04 → finas) |
+|---|---|---|---|---|---|---|---|
+| Navarra | 11, válido | no hace falta | 24 | 14 | **11** (cadena desde el vigente) | **sí** (mejora en la cola de la clave) | 288 → 442 |
+| Comunidad de Madrid | 26, válido | no hace falta | 24 | 21 | **14** (cadena desde el vigente) | **sí** | 269 → 3759 |
+| Cataluña | 33, R-NUCLEO (núcleo 41) | 3 secciones (6775 hab.) al distrito del núcleo → válido, 33 | 53 | 41 | **31** | **sí** | 997 → 3359 |
+| Castilla y León | 2, R-MUN-MIXTOS (Ávila 05019) | 1 unidad (1918 hab.) a otro distrito de Ávila → válido | 2 | 4 | **2** | **sí** (mejora en la cola de la clave) | 2279 → 3157 |
 
-**Cataluña.** El vigente reparte el núcleo cerrado 41 del canónico (municipio 08200, 38 secciones, 66 271 hab.):
-pone 59 496 hab. en un distrito y 6775 en otro. Los núcleos cerrados salen del M04 del canónico, y el vigente se hizo
-con otro M04. Juzgado con sus propios núcleos sería válido, con 33 fuera de tolerancia. Como no compite y las cadenas
-solo parten del canónico, el ganador (38) queda 5 por encima del vigente.
+**Cataluña.** El vigente reparte el núcleo cerrado 41 del canónico (municipio 08200, 66 271 hab.; 6775 hab. en otro
+distrito), porque los núcleos salen del M04 del canónico y el vigente se hizo con otro M04. La reparación mínima
+devuelve esas 3 secciones al distrito del núcleo; el vigente reparado es válido, compite y da semilla.
 
-## Opciones para Cataluña (decisión del Planificador; no hecho)
+**Reparación (`generadores.reparar`).** Es determinista, y cada paso arregla una infracción sin crear otra:
+- R-NUCLEO: el núcleo pasa al distrito con más población suya, y las unidades ajenas a ese distrito, a una vecina;
+- R-MUN-MIXTOS: como el «vigente reparado» del laboratorio.
 
-1. Vigente reparado: pasar al distrito mayoritario las secciones del núcleo que el vigente deja fuera (aquí 6775 hab.),
-   juzgarlo de nuevo y, si es válido, que compita y dé semilla. Mismo criterio que el «vigente reparado» del
-   laboratorio (D-66).
-2. Juzgar el vigente con sus propios núcleos: es incoherente con el resto de candidatos.
-3. Aceptarlo e informarlo.
+Si no hay reparación, el vigente no compite y se informa. La aceptación compara siempre con el vigente **publicado**.
