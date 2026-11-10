@@ -254,5 +254,105 @@ class FlujoFallaCerrado(unittest.TestCase):
         self.assertIn("--no-deps", dep["run"])
 
 
+class MismaCompeticionQueLaBateria(unittest.TestCase):
+    """T-223: La Rioja dio otro ganador en T-216 y T-221 porque cambió el código (T-217/T-218, #694), no el entorno;
+    desde T-217 la batería hace competir al vigente y el P30 no: el P30 debe ser la misma competición."""
+
+    def test_por_defecto_ponderado_y_vigente_como_la_bateria(self):
+        from ddd_motor2.generadores import Ponderado, Vigente
+        cadena, vigente = p30.generadores_por_defecto()
+        self.assertIsInstance(cadena, Ponderado)
+        self.assertIsInstance(vigente, Vigente)
+        self.assertIsNone(p30.generadores_por_defecto(funcion="A")[1])  # con A, sin vigente (como competir.py)
+        inyectada = object()
+        self.assertEqual(p30.generadores_por_defecto(inyectada), (inyectada, None))  # pruebas: lo inyectado
+
+    def test_la_bateria_tambien_usa_el_vigente_con_d8(self):
+        from ddd_motor2 import competir
+        from ddd_motor2.generadores import Ponderado, Vigente
+        vistos = {}
+
+        def captura(entrada, can, cad, destino, **kw):
+            vistos[kw["funcion"]] = (cad, kw.get("vigente"))
+            raise RuntimeError("fin de la prueba")
+
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(competir, "competir_publico", side_effect=captura):
+            for f in ("D8", "C"):
+                competir.competir_territorio("x", Path(d), entrada=object(), funcion=f)
+        for f in ("D8", "C"):
+            cad, vig = vistos[f]
+            self.assertIsInstance(cad, Ponderado)
+            self.assertIsInstance(vig, Vigente)
+            pc, pv = p30.generadores_por_defecto(funcion=f)
+            self.assertEqual((type(pc), type(pv)), (type(cad), type(vig)))  # el P30 elige lo mismo que la batería
+
+    def test_vigente_de_otro_seccionado_no_compite(self):
+        """Planificador (T-223): el vigente solo compite con el seccionado exacto de la entrada; las 52 del Congreso al
+        pasar al par 2025/2025 (D-65) quedan excluidas con motivo, sin reproyectar, y ninguna cadena parte de él."""
+        from dataclasses import replace
+        from ddd_motor2.competicion import competir as competir_d8
+        from ddd_motor2.generadores import Vigente
+        from tests.test_motor2_competicion_d8 import Fijo, entrada, plan_corte
+        tmp = Path(tempfile.mkdtemp())
+        e = entrada(tmp)
+        vistos = []
+
+        class Cadena(Fijo):
+            def generar(self, ent, semilla, destino):
+                vistos.append(ent.contexto.get("semillas_desde_vigente"))
+                return super().generar(ent, semilla, destino)
+        carpeta = tmp / "vig"
+        carpeta.mkdir()
+        for nombre, filas in (("falta", range(4)), ("sobra", range(6))):  # otra edición: una sección menos o una más
+            (carpeta / "sintetico.csv").write_text("seccion,distrito,poblacion\n" + "".join(
+                f"220010100{i},{'1' if i < 3 else '2'},0\n" for i in filas), encoding="utf-8")
+            vistos.clear()
+            r = competir_d8(e, Fijo("canonico", {None: plan_corte(2)}), Cadena("cadena", {7: plan_corte(3), 8: plan_corte(2)}),
+                            [7, 8], tmp / nombre, exhaustivo=False, funcion="D8", vigente=Vigente(carpeta))
+            self.assertEqual(Vigente(carpeta).generar(replace(e, contexto={"composicion_canonica": str(
+                next((tmp / nombre / "canonico").rglob("*.csv")))}), None, tmp / "solo").estado,
+                "VIGENTE_OTRO_SECCIONADO", nombre)
+            self.assertEqual(r.vigente["estado"], "FALLO_GENERADOR", (nombre, r.vigente))  # el generador no da composición
+            self.assertFalse(r.vigente["compite"])
+            self.assertTrue(r.vigente["detalle"].startswith("vigente excluido: otro seccionado"), r.vigente)
+            self.assertNotIn("vigente", [c.id for c in r.candidatos])
+            self.assertEqual(vistos, [None, None])  # todas las cadenas parten del canónico
+            self.assertFalse((tmp / nombre / "vigente" / "x_m06_composicion_distritos.csv").exists())  # sin reproyectar
+            # la aceptación de la batería (bateria_motor 1.2.1) no lo cuenta como fallo del generador ni como candidato
+            from ddd_motor2.informe import escribir
+            from herramientas import bateria_motor as bm
+            escribir(r, tmp / nombre / "informe")
+            c = bm.cadenas_de(tmp / nombre / "informe")
+            self.assertEqual((c["fallos_generador"], c["candidatos"], c["vigente_compite"]), (0, 3, False), c)
+            self.assertIn("vigente excluido: otro seccionado", c["vigente_excluido"])
+            ok = {"territorio": "sintetico", "estado": "VALIDO", "frente_al_canonico": "empata"}
+            res = bm.criterio_aceptacion([ok], {}, ["sintetico"], {"sintetico": c}, 2, {"sintetico": {"estado": "OK"}})
+            self.assertEqual((res["fallo_generador"], res["candidatos_incompletos"]), ([], []))
+
+    def test_el_vigente_entra_en_la_huella_motor2(self):
+        files = p30.huella_motor()["engine_files"]
+        self.assertIn("datos/composicion/la_rioja.csv", files)
+        self.assertIn("datos/composicion/congreso_la_rioja.csv", files)
+
+    def test_competir_sin_pythonhashseed_0_falla_cerrado(self):
+        for valor in (None, "1", "random"):
+            env = {k: v for k, v in os.environ.items() if k != "PYTHONHASHSEED"}
+            if valor is not None:
+                env["PYTHONHASHSEED"] = valor
+            with mock.patch.dict(os.environ, env, clear=True), \
+                    mock.patch.object(p30, "competir", side_effect=AssertionError("no debe competir")):
+                self.assertEqual(p30.main(["competir", "--params", "territorios/la_rioja/config/la_rioja_2025.yaml"]), 6)
+
+    def test_entorno_cubre_los_paquetes_que_fija_el_flujo(self):
+        e = p30.entorno()
+        self.assertIn("PYTHONHASHSEED", e)
+        self.assertIn("geos", e)
+        for m in ("gerrychain", "networkx", "rustworkx", "scipy", "numpy", "pandas", "shapely", "geopandas"):
+            self.assertIn(m, e)
+        wf = (WF / "_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        self.assertIn("PYTHONHASHSEED: '0'", wf)
+        self.assertIn('for nombre in ("gerrychain", "networkx", "rustworkx", "scipy")', wf)
+
+
 if __name__ == "__main__":
     unittest.main()

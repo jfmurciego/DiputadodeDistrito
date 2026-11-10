@@ -334,7 +334,7 @@ class PiezasFinas(unittest.TestCase):
         self.assertEqual([f["district_id"] for f in filas], ["1", "1", "1", "2", "2"])
         self.assertEqual([f["section_pop"] for f in filas], [str(POB[u]) for u in UNIDADES])  # población de la entrada
         (carpeta / "sintetico.csv").write_text("seccion,distrito,poblacion\n9999999999,1,0\n", encoding="utf-8")
-        self.assertEqual(Vigente(carpeta).generar(e, None, tmp / "v2").estado, "VIGENTE_NO_REPRESENTABLE")
+        self.assertEqual(Vigente(carpeta).generar(e, None, tmp / "v2").estado, "VIGENTE_OTRO_SECCIONADO")
 
 
 @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "sin gerrychain")
