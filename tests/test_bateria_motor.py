@@ -1,5 +1,6 @@
 """T-132: batería del motor (herramientas/bateria_motor.py)."""
 import json
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -109,6 +110,7 @@ class BateriaMotor2EnActions(unittest.TestCase):
         self.assertIn("--desde-r2", txt)
         for t in ("congreso_soria", "congreso_alava", "melilla"):
             self.assertIn(f"matrix.t == '{t}'", txt)
+        self.assertIn('cp bateria/competicion/RESUMEN.json "bateria/competicion/$T/RESUMEN.json"', txt)
 
     def test_lista_valida_territorios(self):
         import contextlib
@@ -144,8 +146,12 @@ class BateriaMotor2EnActions(unittest.TestCase):
                 fila = {"territorio": t, "estado": "VALIDO", "ganador": "g", "valido": True, "frente_al_canonico": "empata",
                         "canonico": "VALIDO", "candidatos_validos": 3, "candidatos": 3, "desvio_max": 0.01,
                         "desvio_max_canonico": 0.01, "fuera_tolerancia": 0, "huella_resultado": h, "tiempo_s": 1.0}
+                # disposición real: competir.main escribe el agregado en competicion/RESUMEN.json y el workflow lo copia
+                # junto a COMPETICION.json del territorio (artefacto por territorio)
+                from ddd_motor2.competir import escribir_resumen
+                escribir_resumen([fila], out / "x" / "competicion")
                 (out / "x" / "competicion" / t).mkdir(parents=True)
-                (out / "x" / "competicion" / t / "RESUMEN.json").write_text(json.dumps({"territorios": [fila]}))
+                shutil.copy(out / "x" / "competicion" / "RESUMEN.json", out / "x" / "competicion" / t / "RESUMEN.json")
             hr = out / "x" / "competicion" / "congreso_soria" / "HUELLA_REAL.json"
             hr.write_text(json.dumps({"territorio": "congreso_soria", "huella_1": "ab", "huella_2": "ab", "igual": True}))
             import contextlib

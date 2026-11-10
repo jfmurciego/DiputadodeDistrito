@@ -184,9 +184,10 @@ jobs:
         run: |
           set -uo pipefail
           python -m ddd_motor2.competir --out bateria --funcion "$FUNCION" --cadenas "$CADENAS" "$T"
-          # el veredicto lo da el job final; aquí solo cuenta que haya resultado
-          [[ -f "bateria/competicion/$T/RESUMEN.json" ]] || exit 1
-          exit 0
+          # el veredicto lo da el job final; aquí solo cuenta que haya resultado. competir escribe un RESUMEN.json agregado
+          # (una fila: este territorio); se guarda junto a su COMPETICION.json para subirlo en el artefacto del territorio.
+          [[ -f bateria/competicion/RESUMEN.json ]] || exit 1
+          cp bateria/competicion/RESUMEN.json "bateria/competicion/$T/RESUMEN.json"
       - name: Huella real (Soria, Álava y Melilla)
         if: ${{ matrix.t == 'congreso_soria' || matrix.t == 'congreso_alava' || matrix.t == 'melilla' }}
         run: python herramientas/bateria_motor.py huella "$T" --out bateria --funcion "$FUNCION" --cadenas "$CADENAS"
