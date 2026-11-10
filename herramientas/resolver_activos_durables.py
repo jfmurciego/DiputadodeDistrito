@@ -545,7 +545,8 @@ def validate_durable_assets(
         except DurableAssetBlock as exc:
             # T-166: solo se descarta el M08 cuyo run NO llegó a producirlo: fase 04 en failure o sin digest de
             # artefacto (receipt registrado a partir de una 04 fallida). Cualquier otro defecto de la fase
-            # productora (decisión distinta de VALIDADO con 04 en success, manifiesto incompleto) sigue bloqueando.
+            # productora (04 en success con digest ajeno, o no VALIDADA) sigue bloqueando. Una 04 sin digest de
+            # artefacto se trata como no producida aunque figure en success: el M08 no es descargable y se reincorpora.
             sin_producir = (
                 str(phase_04.get("result") or "") == "failure"
                 or not str(phase_04.get("artifact_digest") or "").removeprefix("sha256:")

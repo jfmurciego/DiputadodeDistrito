@@ -91,6 +91,15 @@ class AcotadoYSustitucionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK.*DURABLE_PRODUCER_PHASE_INVALID"):
             _plan(self.root)
 
+    def test_fase_04_en_success_sin_digest_se_trata_como_no_producida(self):
+        # Decisión explícita: sin digest de artefacto el M08 no es descargable; se rechaza y se reincorpora.
+        ruta, manifiesto, fase = self._fase_04_vieja()
+        fase.update({"executed": True, "result": "success", "validation_decision": "VALIDADO", "artifact_digest": None})
+        ruta.write_text(json.dumps(manifiesto), encoding="utf-8")
+        plan = _plan(self.root)
+        self.assertTrue(plan["run_incorporate"])
+        self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
+
     def test_el_m08_rechazado_se_sustituye_al_registrarse_el_nuevo(self):
         self.assertIsNotNone(_plan(self.root)["catalog_state"]["rejected_electoral_product"])
         # Registro del M08 nuevo: manifiesto con la 04 en success enlazada al receipt, y receipt del catálogo.
