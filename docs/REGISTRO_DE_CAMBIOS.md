@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.252
+Versión: 1.0.254
 Fecha: 2026-11-10
-Alcance: T-156 — Auditoría del visor (accesibilidad, peso) y opciones de analítica sin cookies
+Alcance: T-136 — Prototipo de certificador exacto (CP-SAT)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t156-auditoria-visor-uso.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.251_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t136-certificador-exacto.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.253_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.251_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.254 · [2026-11-10 — T-136 — Prototipo de certificador exacto (CP-SAT)](registro/2026-11-10_t136-certificador-exacto.md)
+- 1.0.253 · [2026-11-10 — T-159 — README actualizado (v4.10.0)](registro/2026-11-10_docs-readme-t159.md)
 - 1.0.252 · [2026-11-10 — T-156 — Auditoría del visor (accesibilidad, peso) y opciones de analítica sin cookies](registro/2026-11-10_t156-auditoria-visor-uso.md)
 - 1.0.251 · [2026-11-10 — T-139 — Piloto de movilidad, paso 1: datos EM-1, unión de áreas y 5 provincias](registro/2026-11-10_t139-movilidad-paso1.md)
 - 1.0.250 · [2026-11-10 — T-145 — Lista de poda de R2 (propuesta, sin borrar)](registro/2026-11-10_t145-lista-poda-r2.md)
