@@ -381,7 +381,7 @@ class Enumeracion(unittest.TestCase):
         """Si podar() marca un parcial, ninguna extensión completa es válida."""
         rng = random.Random(11)
         n_validos = n_podados = 0
-        for caso in range(15):
+        for caso in range(25):
             p = _rejilla(rng, cols=4, nucleos=caso % 4 == 0)
             k = rng.choice([2, 3])
             r = Reglas.desde_contrato(_contrato_aleatorio(rng, k, permisivo=caso % 3 != 0),
@@ -399,7 +399,7 @@ class Enumeracion(unittest.TestCase):
                         coincide = all(mapa.setdefault(parcial[u], a[u]) == a[u] for u in fijas)
                         coincide = coincide and len(set(mapa.values())) == len(mapa)
                         self.assertFalse(coincide, f"caso {caso}: poda {podar(p, r, parcial)} con extensión válida")
-        self.assertGreater(n_validos, 15)  # no vacuo (21 con la semilla 11)
+        self.assertGreater(n_validos, 30)  # no vacuo: 39 planes válidos con la semilla 11 y 25 casos
         self.assertGreater(n_podados, 100)
 
     def test_presupuesto_agotado_no_es_completo(self):
