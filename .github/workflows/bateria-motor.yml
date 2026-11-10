@@ -172,11 +172,11 @@ jobs:
       - name: Entradas (R2 o fuente INE)
         shell: bash
         env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: auto
-        R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
-        R2_BUCKET: ${{ vars.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
         run: |
           set -euo pipefail
           r2=(); [[ -n "${R2_ACCOUNT_ID:-}" && -n "${AWS_ACCESS_KEY_ID:-}" ]] && r2=(--desde-r2)

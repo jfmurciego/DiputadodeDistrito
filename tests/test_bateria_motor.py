@@ -108,6 +108,12 @@ class BateriaMotor2EnActions(unittest.TestCase):
             self.assertIn(f"matrix.t == '{t}'", txt)
         self.assertIn('cp bateria/competicion/RESUMEN.json "bateria/competicion/$T/RESUMEN.json"', txt)
 
+    def test_credenciales_r2_solo_en_el_paso_de_entradas(self):
+        job = self.wf["jobs"]["competicion"]
+        self.assertFalse([k for k in job["env"] if k.startswith(("AWS_", "R2_"))])
+        con = [s["name"] for s in job["steps"] if any(k.startswith("AWS_") for k in s.get("env", {}))]
+        self.assertEqual(con, ["Entradas (R2 o fuente INE)"])
+
     def test_lista_valida_territorios(self):
         import contextlib
         import io
