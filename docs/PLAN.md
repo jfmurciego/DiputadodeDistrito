@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.37
+Versión: 1.0.38
 Fecha: 2026-11-10
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-58 a D-60 del 10-11 (respuestas del propietario, analítica, recomendaciones del corte 5.0.0) y estado de los temas
-Anterior: legacy/docs/PLAN_v1.0.36_20261110.md
+Cambios/motivo: D-61 a D-64 (decisiones del corte 5.0.0, naturalidad, número de cadenas, relevo del planificador)
+Anterior: legacy/docs/PLAN_v1.0.37_20261110.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -95,11 +95,15 @@ con frase del propietario en su chat.
 - D-58. Respuestas del propietario (10-11, en el chat del Coordinador): sí a la poda del archivo (234 claves) y al borrado de las ejecuciones de los flujos retirados (222 y 844), que ejecuta el Operador con su frase; Zenodo: el propietario comprueba el DOI y el mapa de 350 se describe como «en desarrollo»; las descargas manuales las hace él; la naturalidad se decide con los mapas delante. Se dejan como están: fusión automática y forense (no se tocan), autorización por campaña (en borrador hasta su revisión) y publicación del visor (no se publica hasta que lo diga).
 - D-59. Medición de uso del visor: Cloudflare Web Analytics, sin cookies. Se prepara sin publicar; el propietario crea el sitio y aporta el identificador.
 - D-60. Corte 5.0.0, recomendaciones vigentes (`docs/ESTUDIOS/T170_MIGRACION_IDS/`): no cambiar la capa visible antes del corte; sufijo «-350» para el mapa de 350; nueve territorios duplicados entre AUT y NAC; primera prueba de la migración: el motor con identificador viejo y nuevo y la misma semilla debe dar el mismo mapa bit a bit.
+- D-61. Especificación del corte 5.0.0 (`docs/ARQUITECTURA/CORTE_5_0_0.md`), decisiones cerradas: P20 Base territorial y P30 Distritos son dos flujos visibles y separados; la batería del motor es visible, bajo demanda, con código VER, fuera de las fases; el archivado diario va en ARC; el forense puede cambiar una sola línea (nombre del flujo P00) solo en el corte y con revisión independiente; productos «Mapa certificado», «Resultados por distrito» y «Alternativas», con el archivo en arc-e/, arc-c/ y arc-p/; identificador interno en minúsculas (`nac01`) y a la vista «NAC01 · Álava»; la semilla pública usa el código de la tabla maestra; el mapa de 350 y el histórico no entran en el corte; los nombres viejos conviven un ciclo de publicación completo sin lecturas antes de borrarlos, y ese borrado necesita frase del propietario. Antes de cambiar nombres de flujos hay que probar que la aprobación para publicar sigue siendo obligatoria.
+- D-62. Naturalidad (piloto en seis territorios, `docs/ESTUDIOS/T172_naturalidad/`): al propietario le gustan los criterios B y C, sobre todo el C (población dentro de tolerancia y, a igualdad, menos partidos judiciales y comarcas partidos y mejor forma, cortando por donde hay menos vínculo). No está fijado: faltan las variantes con el desvío limitado al 5 % y al 8 % y el criterio C en los 71 territorios. Cantabria y Extremadura no se relanzan: esperan al motor nuevo.
+- D-63. El número de cadenas de la competición es un parámetro y podrá ser una opción de la campaña, con un valor oficial fijado por edición antes de generar (forma parte de la regla pública, como la semilla). En curso la medición con 20 cadenas anidadas para saber a partir de cuántas deja de mejorar.
+- D-64. Relevo del planificador (orden del propietario en el chat del Coordinador, 10-11): el sucesor arranca de este plan, de `docs/ESTADO.md` y del traspaso. Regla de comunicación con el propietario: temas y objetivos, lenguaje de arquitectura sin identificadores de tarea, y distinguir siempre entre decidido, construido, probado y publicado.
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191 y T-192. Siguiente libre para el planificador: T-193.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192 y T-193. Siguiente libre para el planificador: T-194.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
