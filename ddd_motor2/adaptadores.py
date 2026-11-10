@@ -61,7 +61,9 @@ def leer_atributos(ruta: str | Path, campo_id: str) -> dict[str, dict]:
     ruta = Path(ruta)
     if ruta.suffix == ".zip":
         with zipfile.ZipFile(ruta) as z:
-            nombre = next(n for n in z.namelist() if n.endswith((".geojson", ".json")))
+            nombre = next((n for n in z.namelist() if n.endswith((".geojson", ".json"))), None)
+            if nombre is None:
+                raise ErrorDatos(f"{ruta}: el ZIP no trae ningún .geojson ni .json")
             datos = json.loads(z.read(nombre))
     else:
         datos = json.loads(ruta.read_text(encoding="utf-8"))

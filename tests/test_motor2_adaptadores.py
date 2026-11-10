@@ -96,6 +96,14 @@ class Adaptador(unittest.TestCase):
         self.assertIn("2 secciones sin municipio: CUSEC[:5] (respaldo de compatibilidad)", avisos)
         self.assertTrue(evaluar(p, Reglas.desde_contrato(cfg()), plan).valido)
 
+    def test_zip_sin_geojson_falla_claro(self):
+        import zipfile
+        with zipfile.ZipFile(self.tmp / "vacio.zip", "w") as z:
+            z.writestr("leeme.txt", "nada")
+        comp, grafo = self.escribir([["s1", "1", "100", "22", "22001", "A", "0"]], [])
+        with self.assertRaisesRegex(ErrorDatos, "no trae ningún .geojson"):
+            problema_y_plan(comp, grafo, cfg(), atributos_secciones=self.tmp / "vacio.zip")
+
     def test_columnas_del_contrato_islas_y_atributos_geojson(self):
         cab = ["CUSEC_KEY", "district_id", "section_pop", "DDD_PARTITION", "DDD_MUNICIPALITY_PARTITION", "ddd_unit_id"]
         filas = [["s1", "1", "100", "35-C01", "35016:35-C01", "U1"], ["s2", "2", "100", "35-C01", "35001:35-C01", "U2"]]
