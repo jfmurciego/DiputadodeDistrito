@@ -3,7 +3,9 @@
 """Resultados electorales ligeros por territorio, versionados en git (T-53).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.4.0 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS: 1.4.0: T-203, ELECCION_POR_DEFECTO se importa de registro_publicaciones_visor en vez de repetir el literal.
+ANTERIOR: legacy/herramientas/resultados_ligeros_v1.3.0_20261110.py
 CAMBIOS: 1.3.0: T-201, `vigentes(registro, eleccion)` y `vigente_por_eleccion`: la vigente es la de (territorio, elección), nunca solo el run_id
   mayor; sin elección explícita, 2023-07-23 (entradas sin `election_date` incluidas). Salida idéntica si el registro no trae elecciones.
 ANTERIOR: legacy/herramientas/resultados_ligeros_v1.2.0_20261110.py
@@ -42,7 +44,9 @@ def sha256(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
 
 
-ELECCION_POR_DEFECTO = "2023-07-23"  # = registro_publicaciones_visor.ELECCION_POR_DEFECTO (lo comprueba un test)
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from herramientas.registro_publicaciones_visor import ELECCION_POR_DEFECTO  # noqa: E402,F401
 
 
 def eleccion_de(p: dict) -> str:

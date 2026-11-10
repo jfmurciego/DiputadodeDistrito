@@ -3,13 +3,15 @@
 """Catálogo de procedencia único, derivado de los registros existentes (T-74).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-10 · ESTADO: candidato
-CAMBIOS: 1.2.0 (T-201): «vigente» se calcula por (territorio, tipo, elección), no por el run_id mayor entre elecciones; sin election_date, 2023-07-23.
+VERSIÓN: 1.3.0 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS: 1.3.0 (T-203): los avisos ORIGEN_M06/M08_NO_PUBLICADO y RESULTADOS_M08_NO_PUBLICADO comparan por (territorio, elección), no solo por territorio;
+  el literal 2023-07-23 pasa a ELECCION_POR_DEFECTO (registro_publicaciones_visor). Entradas sin election_date = 2023: salida idéntica.
+  1.2.0 (T-201): «vigente» se calcula por (territorio, tipo, elección), no por el run_id mayor entre elecciones; sin election_date, 2023-07-23.
   1.1.0 (T-89): sección «fuentes_secundarias» (manifiesto sha256 y contraste de nazioenbehatokia).
   1.0.0: fichero nuevo.
 MOTIVO: la procedencia estaba repartida en cinco registros; este índice la junta por territorio y producto sin migrar
   a sus escritores.
-ANTERIOR: legacy/herramientas/catalogo_procedencia_v1.1.0_20261110.py
+ANTERIOR: legacy/herramientas/catalogo_procedencia_v1.2.0_20261110.py
 QUÉ HACE: lee (solo lectura) orchestracion/publicaciones_visor.json, orchestracion/archivo_r2.json,
   datos_abiertos/INDEX.json, orchestracion/productos_publicos.json, fuentes/catalogo_oficial.yaml,
   configuracion/catalogo_preparacion.yaml, configuracion/publicaciones.yaml (DOI) y los MANIFEST de datos/composicion y
@@ -32,6 +34,10 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from herramientas.registro_publicaciones_visor import ELECCION_POR_DEFECTO  # noqa: E402
+
 SALIDA = "orchestracion/catalogo_procedencia.json"
 SCHEMA = "ddd.catalogo-procedencia/1.0"
 ENTRADAS = {
@@ -123,22 +129,22 @@ def generar(raiz: Path = ROOT) -> dict:
 
     # Productos del visor (M06, M08, estáticos): el vigente es el run más reciente por territorio y tipo.
     def _eleccion(p: dict) -> str:
-        return str(p.get("election_date") or "2023-07-23")
+        return str(p.get("election_date") or ELECCION_POR_DEFECTO)
 
     vigente: dict[tuple, int] = {}
     for p in visor.get("products", []):
         if p.get("run_id"):
             k = (p["territory_id"], p["kind"], _eleccion(p))
             vigente[k] = max(vigente.get(k, 0), int(p["run_id"]))
-    sha_m06: dict[str, set] = {}
-    m08: dict[str, set] = {}
+    sha_m06: dict[tuple, set] = {}
+    m08: dict[tuple, set] = {}
     for p in visor.get("products", []):
         tid, kind, run = p["territory_id"], p["kind"], p.get("run_id")
         producto = {"canonical_m06": "M06", "canonical_m08": "M08"}.get(kind, kind)
         if kind == "canonical_m06":
-            sha_m06.setdefault(tid, set()).add(p.get("sha256"))
+            sha_m06.setdefault((tid, _eleccion(p)), set()).add(p.get("sha256"))
         if kind == "canonical_m08":
-            m08.setdefault(tid, set()).add((str(run), p.get("blob_sha"), p.get("sha256")))
+            m08.setdefault((tid, _eleccion(p)), set()).add((str(run), p.get("blob_sha"), p.get("sha256")))
         ter(tid)["productos"].append({
             "producto": producto,
             "id": p["id"],
@@ -169,7 +175,7 @@ def generar(raiz: Path = ROOT) -> dict:
             "sha256": c.get("sha256_csv"), "copia_git": {"blob_sha": None, "ruta": f"datos/composicion/{tid}.csv"},
             "copias_r2": [], "publicacion": "DATOS_ABIERTOS", "origen_sha256": c.get("sha256_m06"),
         })
-        if c.get("sha256_m06") not in sha_m06.get(tid, set()):
+        if c.get("sha256_m06") not in sha_m06.get((tid, _eleccion(c)), set()):
             inco("AVISO", tid, "composicion", "ORIGEN_M06_NO_PUBLICADO",
                  f"sha256_m06 {c.get('sha256_m06')} no es un canonical_m06 del visor")
     for tid, r in sorted(((d["resultados"] or {}).get("territorios") or {}).items()):
@@ -178,7 +184,7 @@ def generar(raiz: Path = ROOT) -> dict:
             "sha256": r.get("sha256_csv"), "copia_git": {"blob_sha": None, "ruta": f"datos/resultados/{tid}.csv"},
             "copias_r2": [], "publicacion": "DATOS_ABIERTOS", "origen_sha256": r.get("sha256_origen"),
         })
-        if (str(r.get("run_id")), r.get("blob_sha"), r.get("sha256_origen")) not in m08.get(tid, set()):
+        if (str(r.get("run_id")), r.get("blob_sha"), r.get("sha256_origen")) not in m08.get((tid, _eleccion(r)), set()):
             inco("AVISO", tid, "resultados", "ORIGEN_M08_NO_PUBLICADO",
                  f"run {r.get('run_id')} / blob {r.get('blob_sha')} no es un canonical_m08 del visor")
     for tid, x in sorted(((d["datos_abiertos"] or {}).get("territorios") or {}).items()):
@@ -189,11 +195,11 @@ def generar(raiz: Path = ROOT) -> dict:
             "copia_git": {"blob_sha": x.get("blob_sha"), "ruta": f"datos_abiertos/{g.get('ruta')}"},
             "copias_r2": [], "publicacion": "DATOS_ABIERTOS", "origen_sha256": x.get("sha256_origen"),
         })
-        if x.get("sha256_origen") not in sha_m06.get(tid, set()):
+        if x.get("sha256_origen") not in sha_m06.get((tid, _eleccion(x)), set()):
             inco("AVISO", tid, "datos_abiertos", "ORIGEN_M06_NO_PUBLICADO",
                  f"sha256_origen {x.get('sha256_origen')} no es un canonical_m06 del visor")
         res = x.get("resultados") or {}
-        if res and (str(res.get("run_id")), res.get("blob_sha_m08")) not in {(a, b) for a, b, _ in m08.get(tid, set())}:
+        if res and (str(res.get("run_id")), res.get("blob_sha_m08")) not in {(a, b) for a, b, _ in m08.get((tid, _eleccion(x)), set())}:
             inco("AVISO", tid, "datos_abiertos", "RESULTADOS_M08_NO_PUBLICADO",
                  f"run {res.get('run_id')} / blob {res.get('blob_sha_m08')} no es un canonical_m08 del visor")
 

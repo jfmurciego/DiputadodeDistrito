@@ -85,9 +85,10 @@ const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim
 const col=p=>css(VARP[p]||"--otros");
 const $=id=>document.getElementById(id);
 let modo="electoral",terr=null,capa="ganador",rot=null,vista="congreso",prov=null,ccaa=null,map=null,sel=null,selId=null,selCcaa=null,hoverCcaa=null;
+const NOTAS_ELECCION={"2026":"Los distritos de las generales de 2026 están trazados con el padrón y el seccionado de 2023; se actualizarán con el padrón de 2025."};
 const barra=$("elecciones-barra");
 const et=document.createElement("span");et.textContent="Elecciones generales";barra.appendChild(et);
-ELEC.forEach(([a,m])=>{const b=document.createElement("button");b.className="eleccion";const on=a==="2023";b.disabled=!on;b.setAttribute("aria-pressed",String(on));b.innerHTML=a+"<small>"+m+(on?"":a==="2026"?" · 29-11":" · sin datos")+"</small>";barra.appendChild(b)});
+ELEC.forEach(([a,m])=>{const b=document.createElement("button");b.className="eleccion";const on=a==="2023";b.disabled=!on;b.setAttribute("aria-pressed",String(on));b.innerHTML=a+"<small>"+m+(on?"":a==="2026"?" · 29-11":" · sin datos")+"</small>";b.addEventListener("click",()=>{const n=$("nota-eleccion");if(n){n.textContent=NOTAS_ELECCION[a]||"";n.hidden=!NOTAS_ELECCION[a]}});barra.appendChild(b)});
 function totales(){const t={};prov.features.forEach(f=>{for(const[p,n]of Object.entries(f.properties.esc))t[p]=(t[p]||0)+n});return t}
 function hemi(esc){
  const total=Object.values(esc).reduce((a,b)=>a+b,0),filas=9,r0=38,r1=96,pts=[];

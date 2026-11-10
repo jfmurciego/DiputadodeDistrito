@@ -42,7 +42,7 @@ class MetadatosZenodo(unittest.TestCase):
 
     def test_version_readme_y_paper(self):
         readme = (R / "README.md").read_text(encoding="utf-8")
-        self.assertRegex(readme, r"\*\*README rev\. 4\.9\.0-r1\*\*")
+        self.assertRegex(readme, r"\*\*README rev\. 4\.9\.0-r2\*\*")
         paper = (R / "docs/ARTICULO_JOSS/paper.md").read_text(encoding="utf-8")
         self.assertIn("name: Jesus Murciego", paper)
         self.assertIn('name: "Independent researcher"', paper)
