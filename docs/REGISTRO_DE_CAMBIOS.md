@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.295
+Versión: 1.0.297
 Fecha: 2026-11-10
-Alcance: T-177 — Lista de descargas manuales para el propietario
+Alcance: T-176 — Histórico autonómico: medición de cobertura y lote 2
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t177-descargas-manuales.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.294_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_claude-t176-historico-autonomico.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.296_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.294_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.297 · [2026-11-10 — T-176 — Histórico autonómico: medición de cobertura y lote 2](registro/2026-11-10_claude-t176-historico-autonomico.md)
+- 1.0.296 · [2026-11-10 — T-169 — Autorización por campaña (D-52)](registro/2026-11-10_claude-t169-autorizacion-campana.md)
 - 1.0.295 · [2026-11-10 — T-177 — Lista de descargas manuales para el propietario](registro/2026-11-10_t177-descargas-manuales.md)
 - 1.0.294 · [2026-11-10 — T-149 — Los tres escritores de main pasan a jobs de «Pruebas de la Plataforma»](registro/2026-11-10_t149e-main-writers-ahorro.md)
 - 1.0.293 · [2026-11-10 — T-192 — Plan: decisiones D-58 a D-60 y estado de los temas](registro/2026-11-10_claude-plan-d58.md)
