@@ -81,15 +81,16 @@ def podar(problema: Problema, reglas: Reglas, parcial: Mapping[str, object],
         m_tot: dict[str, int] = defaultdict(int)
         m_n: dict[str, int] = defaultdict(int)
         for u in problema.unidades:
-            m_tot[getattr(u, campo)] += u.poblacion
-            m_n[getattr(u, campo)] += 1
-        claves_d = {d: {getattr(por[x], campo) for x in ms} for d, ms in miembros.items()}
+            for m, pm in u.piezas(campo):
+                m_tot[m] += pm
+                m_n[m] += 1
+        claves_d = {d: {m for x in ms for m, _ in por[x].piezas(campo)} for d, ms in miembros.items()}
         m_d: dict[str, set[str]] = defaultdict(set)
         m_asig: dict[str, int] = defaultdict(int)
         for uid, d in asig.items():
-            m = getattr(por[uid], campo)
-            m_d[m].add(d)
-            m_asig[m] += 1
+            for m, _ in por[uid].piezas(campo):
+                m_d[m].add(d)
+                m_asig[m] += 1
         for m, ds in m_d.items():
             minimo, maximo = ctx.rango_municipal(m_tot[m])
             if len(ds) > maximo:

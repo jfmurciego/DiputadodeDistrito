@@ -42,10 +42,10 @@ class Estado:
         if reglas.disciplina_municipal:
             for uid, d in self.asig.items():
                 if uid in problema.por_id:
-                    m = getattr(problema.por_id[uid], self.campo)
-                    self.m_pob[m] += problema.por_id[uid].poblacion
-                    self.m_d[m][d] += 1
-                    self.d_m[d][m] += 1
+                    for m, pm in problema.por_id[uid].piezas(self.campo):
+                        self.m_pob[m] += pm
+                        self.m_d[m][d] += 1
+                        self.d_m[d][m] += 1
         self.v_dist = {d: violaciones_distrito(self.ctx, d, self._us(d)) for d in self.miembros}
         self.prov_d = {d: provincia_de(reglas, self._us(d)) for d in self.miembros}
         self.v_mun = {m: self._v_mun(m) for m in self.m_pob}
@@ -90,12 +90,13 @@ class Estado:
         self.miembros[d1].add(u)
         tocados_m: set[str] = set()
         if self.r.disciplina_municipal:
-            m = getattr(self.p.por_id[u], self.campo)
-            self.m_d[m][d0] -= 1
-            self.m_d[m][d1] += 1
-            self.d_m[d0][m] -= 1
-            self.d_m[d1][m] += 1
-            tocados_m = {x for d in (d0, d1) for x, n in self.d_m[d].items() if n > 0} | {m}
+            propios = {m for m, _ in self.p.por_id[u].piezas(self.campo)}
+            for m in propios:
+                self.m_d[m][d0] -= 1
+                self.m_d[m][d1] += 1
+                self.d_m[d0][m] -= 1
+                self.d_m[d1][m] += 1
+            tocados_m = {x for d in (d0, d1) for x, n in self.d_m[d].items() if n > 0} | propios
         for d in (d0, d1):
             if self.miembros[d]:
                 us = self._us(d)

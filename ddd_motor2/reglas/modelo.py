@@ -59,7 +59,11 @@ def norm_codigo(valor: Any, ancho: int = 2) -> str | None:
 @dataclass(frozen=True)
 class Unidad:
     """Unidad atómica (la sección es una unidad trivial). `unidad_r012` es la clave de disciplina municipal cuando el
-    contrato parte municipios en unidades internas (`connected_internal_units`, p. ej. «35012:35-C01»)."""
+    contrato parte municipios en unidades internas (`connected_internal_units`, p. ej. «35012:35-C01»).
+    `desglose`: para unidades atómicas que abarcan varios municipios (grupos administrativos, p. ej. Cataluña
+    «25215|25234»), los municipios con su población; entonces `municipio` va vacío y R012 y las exenciones cuentan cada
+    municipio por separado, como la validación por secciones. El valor de municipio puede llevar partición
+    («35016:35-C01», campo DDD_MUNICIPALITY_PARTITION de las islas): la exención compara el código antes de «:»."""
 
     id: str
     poblacion: int
@@ -68,6 +72,7 @@ class Unidad:
     particion: str | None = None
     unidad_r012: str | None = None
     nucleo_cerrado: str | None = None
+    desglose: tuple[tuple[str, int], ...] = ()
 
     def __post_init__(self):
         if not isinstance(self.poblacion, int) or isinstance(self.poblacion, bool) or self.poblacion < 0:
@@ -80,6 +85,26 @@ class Unidad:
             object.__setattr__(self, "unidad_r012", str(self.unidad_r012).strip() or None)
         if self.nucleo_cerrado is not None:
             object.__setattr__(self, "nucleo_cerrado", str(self.nucleo_cerrado).strip() or None)
+        if self.desglose:
+            desglose = tuple(sorted((norm_codigo(m, 5), int(p)) for m, p in self.desglose))
+            if self.municipio is not None:
+                raise ErrorDatos(f"unidad {self.id}: municipio y desglose a la vez")
+            if len({m for m, _ in desglose}) != len(desglose) or None in {m for m, _ in desglose}:
+                raise ErrorDatos(f"unidad {self.id}: desglose con municipios vacíos o repetidos")
+            if sum(p for _, p in desglose) != self.poblacion:
+                raise ErrorDatos(f"unidad {self.id}: el desglose no suma la población de la unidad")
+            object.__setattr__(self, "desglose", desglose)
+
+    def piezas(self, campo: str) -> tuple[tuple[str | None, int], ...]:
+        """(clave, población) de la unidad para la disciplina municipal según el campo de R012."""
+        if campo == "municipio" and self.desglose:
+            return self.desglose
+        return ((getattr(self, campo), self.poblacion),)
+
+    def municipios(self) -> set[str]:
+        """Códigos INE de municipio de la unidad (antes de «:» si el valor lleva partición)."""
+        valores = [m for m, _ in self.desglose] if self.desglose else [self.municipio]
+        return {str(m).split(":", 1)[0] for m in valores if m is not None}
 
 
 @dataclass(frozen=True)
@@ -284,7 +309,8 @@ class Reglas:
         faltan: dict[str, list[str]] = {}
 
         def exigir(campo: str):
-            ids = [u.id for u in problema.unidades if getattr(u, campo) is None]
+            ids = [u.id for u in problema.unidades
+                   if getattr(u, campo) is None and not (campo == "municipio" and u.desglose)]
             if ids:
                 faltan[campo] = ids
 
