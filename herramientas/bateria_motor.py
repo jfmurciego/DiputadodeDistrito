@@ -26,7 +26,11 @@ QUÉ HACE: subcomandos
               regla, sin reglas paralelas); compara la partición con datos/composicion/<t>.csv.
   matriz      junta los resultados en <out>/MATRIZ.csv y <out>/MATRIZ.md (territorio × regla, tiempos, semilla,
               igualdad con lo publicado y entre versiones del motor).
-  archivar    sube <out>/entradas/ a R2 (cliente de herramientas/archivar_artefactos_r2.py; R2_BUCKET y R2_ACCOUNT_ID).
+              Con --desde-r2 reutiliza antes el estado ddd-state-<run>-M03 archivado en R2 (orchestracion/archivo_r2.json)
+              si su sha256 cuadra y lleva la identidad del contrato vigente. Solo se conserva la entrada mínima
+              (M01 secciones + grafo M03, ENTRADA_MINIMA) y ENTRADAS.json con el sha256 de todo lo demás.
+  archivar    sube a R2 la entrada mínima de las reconstruidas desde fuente: bateria/entradas/<t>/<huella>.zip
+              (cliente de herramientas/archivar_artefactos_r2.py; R2_BUCKET y R2_ACCOUNT_ID).
 USO: python herramientas/bateria_motor.py nacionales
      python herramientas/bateria_motor.py entradas --todos
      python herramientas/bateria_motor.py motor --todos [--m05 7.4.2]
@@ -67,6 +71,10 @@ M05_BASE = {
     "7.4.2": ROOT / "legacy" / "ddd_core" / "m05_opt_engine_v7.4.2_20261108.py",
 }
 FECHA_ZIP = (2025, 1, 1, 0, 0, 0)
+# Entrada mínima de M04 (orden del propietario, 10-11): M01 secciones con población y grafo M03; con ellas M04-M06 dan la
+# misma partición (comprobado en Congreso Madrid, con unidades internas). Lo demás queda solo como sha256 en ENTRADAS.json.
+ENTRADA_MINIMA = ("_m01_secciones_poblacion.geojson.zip", "_m03_grafo.json")
+ARCHIVO_R2 = ROOT / "orchestracion" / "archivo_r2.json"
 
 
 def sha256(path: Path) -> str:
@@ -258,13 +266,104 @@ def entradas_uno(t: str, out: Path, nac: dict, seccionado: str = "ogc") -> dict:
             res.update(estado=f"FALLO_M0{n}", rc=rc)
             return res
     res["estado"] = "OK"
+    res["origen"] = "fuente"
     res["salidas"] = {}
     for f in sorted(cache.iterdir()):
         if f.is_file() and any(f"_m0{n}_" in f.name for n in (1, 2, 3)):
-            shutil.copy2(f, dest / f.name)
             res["salidas"][f.name] = sha256(f)
-    (dest / "ENTRADAS.json").write_text(json.dumps(res, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    _guardar_minima(t, cache, dest, res)
     return res
+
+
+def _identidad_contrato(t: str) -> dict:
+    cfg = _cfg(t)
+    gs = cfg.get("generation_state") or {}
+    return {"contrato": str(contrato(t).relative_to(ROOT)), "contrato_sha256": sha256(contrato(t)),
+            "package_sha256": gs.get("package_sha256"), "compatibility_identity_sha256": gs.get("compatibility_identity_sha256")}
+
+
+def _guardar_minima(t: str, cache: Path, dest: Path, res: dict) -> None:
+    """Deja en ``dest`` solo la entrada mínima y ENTRADAS.json (sha256 de todo, identidad del contrato)."""
+    for f in dest.iterdir():
+        if f.is_file() and f.name not in ("log.txt",):
+            f.unlink()
+    res["entrada_minima"] = {}
+    for suf in ENTRADA_MINIMA:
+        f = next(cache.glob(f"*{suf}"), None)
+        if f is None:
+            res["estado"] = f"FALTA_ENTRADA_MINIMA{suf}"
+            continue
+        shutil.copy2(f, dest / f.name)
+        res["entrada_minima"][f.name] = sha256(f)
+    res["identidad_contrato"] = _identidad_contrato(t)
+    (dest / "ENTRADAS.json").write_text(json.dumps(res, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def _r2_cp(origen: str, destino: str) -> None:
+    ep = f"https://{os.environ['R2_ACCOUNT_ID']}.r2.cloudflarestorage.com"
+    subprocess.run(["aws", "s3", "cp", origen, destino, "--endpoint-url", ep, "--only-show-errors"], check=True)
+
+
+def estados_r2(t: str) -> list[dict]:
+    """Estados ddd-state-<run>-M03/M03U del territorio en orchestracion/archivo_r2.json, del más reciente al más antiguo."""
+    if not ARCHIVO_R2.is_file():
+        return []
+    d = json.loads(ARCHIVO_R2.read_text(encoding="utf-8"))
+    arts = d.get("artefactos") or {}
+    arts = list(arts.values()) if isinstance(arts, dict) else arts
+    sel = [a for a in arts if a.get("territorio") == t and str(a.get("artefacto", "")).endswith(("-M03", "-M03U"))]
+    return sorted(sel, key=lambda a: (int(a.get("run_id") or 0), str(a["artefacto"]).endswith("-M03")), reverse=True)
+
+
+def entradas_r2_uno(t: str, out: Path) -> dict | None:
+    """Reutiliza la entrada mínima de un estado M03 archivado en R2 si su sha256 cuadra con archivo_r2.json y el
+    estado lleva la identidad del contrato vigente (package_sha256 o compatibility_identity_sha256). None si no hay."""
+    ident = _identidad_contrato(t)
+    claves = [x for x in (ident["package_sha256"], ident["compatibility_identity_sha256"]) if x]
+    for art in estados_r2(t):
+        res: dict = {"territorio": t, "origen": "r2", "estado_r2": art["artefacto"], "url": art["url"], "tiempos": {}}
+        work = out / "_trabajo" / t
+        shutil.rmtree(work, ignore_errors=True)
+        work.mkdir(parents=True)
+        zpath = work / "estado.zip"
+        t0 = time.time()
+        bucket_key = art["url"].replace("r2://", "s3://", 1)
+        try:
+            _r2_cp(bucket_key, str(zpath))
+        except (subprocess.CalledProcessError, KeyError) as exc:
+            res["error"] = f"descarga: {exc}"
+            continue
+        res["tiempos"]["descarga_r2"] = round(time.time() - t0, 1)
+        if sha256(zpath) != art.get("sha256"):
+            res["error"] = "sha256 distinto de archivo_r2.json"
+            continue
+        with zipfile.ZipFile(zpath) as zf:
+            nombres = zf.namelist()
+            texto = [n for n in nombres if n.endswith((".json", ".yaml", ".yml")) and zf.getinfo(n).file_size < 5_000_000]
+            vigente = any(any(c in zf.read(n).decode("utf-8", "ignore") for c in claves) for n in texto) if claves else False
+            res["contrato_vigente"] = vigente
+            if not vigente:
+                res["error"] = "el estado no lleva la identidad del contrato vigente"
+                print(f"{t}: {art['artefacto']} no corresponde al contrato vigente", flush=True)
+                continue
+            cache = _cache(t)
+            shutil.rmtree(cache, ignore_errors=True)
+            cache.mkdir(parents=True)
+            for suf in ENTRADA_MINIMA:
+                miembro = next((n for n in nombres if n.endswith(suf)), None)
+                if miembro is None:
+                    res["error"] = f"sin {suf}"
+                    break
+                (cache / Path(miembro).name).write_bytes(zf.read(miembro))
+            else:
+                dest = out / "entradas" / t
+                shutil.rmtree(dest, ignore_errors=True)
+                dest.mkdir(parents=True)
+                res["estado"] = "OK"
+                _guardar_minima(t, cache, dest, res)
+                shutil.rmtree(work, ignore_errors=True)
+                return res
+    return None
 
 
 def entradas(args) -> int:
@@ -272,6 +371,10 @@ def entradas(args) -> int:
     out = Path(args.out)
     fallos = 0
     for t in (territorios() if args.todos else args.territorios):
+        r = entradas_r2_uno(t, out) if args.desde_r2 else None
+        if r is not None:
+            print(f"{t}: OK reutilizada de R2 {r['estado_r2']}", flush=True)
+            continue
         r = entradas_uno(t, out, nac, args.seccionado)
         iguales = {k: v["igual_contrato"] for k, v in (r.get("fuentes") or {}).items()}
         print(f"{t}: {r['estado']} {r['tiempos']} huella=contrato {iguales}", flush=True)
@@ -304,10 +407,31 @@ def _reglas(val: dict) -> dict:
     return r
 
 
+def composicion_publicada(t: str) -> tuple[Path | None, str | None]:
+    """Composición del M06 vigente en el visor (canonical_m06 más reciente de orchestracion/publicaciones_visor.json):
+    datos/composicion/runs/<t>_<run>.csv si existe; si no, la canónica datos/composicion/<t>.csv (puede ser de otro run)."""
+    runs = []
+    pv = ROOT / "orchestracion" / "publicaciones_visor.json"
+    if pv.is_file():
+        for p in json.loads(pv.read_text(encoding="utf-8")).get("products") or []:
+            if p.get("kind") == "canonical_m06" and p.get("territory_id") == t and str(p.get("run_id") or "").isdigit():
+                runs.append(int(p["run_id"]))
+    if runs:
+        f = ROOT / "datos" / "composicion" / "runs" / f"{t}_{max(runs)}.csv"
+        if f.is_file():
+            return f, str(max(runs))
+    canon = ROOT / "datos" / "composicion" / f"{t}.csv"
+    if not canon.is_file():
+        return None, None
+    man = ROOT / "datos" / "composicion" / "MANIFEST.json"
+    run = ((json.loads(man.read_text(encoding="utf-8")).get("territorios") or {}).get(t) or {}).get("run_id") if man.is_file() else None
+    return canon, str(run) if run else None
+
+
 def _comparar_publicado(t: str, comp: Path) -> dict:
-    pub = ROOT / "datos" / "composicion" / f"{t}.csv"
-    if not pub.is_file() or not comp.is_file():
-        return {"publicado": pub.is_file(), "igual": None}
+    pub, run = composicion_publicada(t)
+    if pub is None or not comp.is_file():
+        return {"publicado": pub is not None, "igual": None}
     import pandas as pd
     a = pd.read_csv(pub, dtype=str)
     b = pd.read_csv(comp, dtype=str)
@@ -315,7 +439,8 @@ def _comparar_publicado(t: str, comp: Path) -> dict:
     pa = {frozenset(g["seccion"]) for _, g in a.groupby("distrito")}
     pb = {frozenset(g[sid]) for _, g in b.groupby("district_id")}
     sa, sb = set(a["seccion"]), set(b[sid])
-    return {"publicado": True, "igual": pa == pb, "distritos_iguales": len(pa & pb), "distritos_publicados": len(pa),
+    return {"publicado": True, "run_publicado": run, "fichero": str(pub.relative_to(ROOT)), "igual": pa == pb,
+            "distritos_iguales": len(pa & pb), "distritos_publicados": len(pa),
             "secciones_solo_publicado": len(sa - sb), "secciones_solo_bateria": len(sb - sa)}
 
 
@@ -431,6 +556,12 @@ def matriz(args) -> int:
     for v in versiones:
         for f in sorted((out / "motor" / v).glob("*/RESULTADO.json")):
             r = json.loads(f.read_text(encoding="utf-8"))
+            comp = next(f.parent.glob("*_m06_composicion_distritos.csv"), None)
+            if comp is not None:  # siempre contra el M06 vigente del visor, aunque el resultado sea anterior
+                r["publicado"] = _comparar_publicado(r["territorio"], comp)
+                if not r.get("metricas"):
+                    vf = f.parent / "VALIDACION.json"
+                    r["metricas"] = metricas(r["territorio"], comp, json.loads(vf.read_text(encoding="utf-8")) if vf.is_file() else {})
             por_t.setdefault(r["territorio"], {})[v] = r
     for t in sorted(por_t):
         for v, r in sorted(por_t[t].items()):
@@ -443,6 +574,10 @@ def matriz(args) -> int:
                 "semilla": (r.get("m05_informe") or {}).get("seed"),
                 "tiempo_s": round(sum((r.get("tiempos") or {}).values()), 1),
                 "igual_publicado": (r.get("publicado") or {}).get("igual"),
+                "run_publicado": (r.get("publicado") or {}).get("run_publicado"),
+                "desvio_max": (r.get("metricas") or {}).get("desvio_max"),
+                "fuera_tolerancia": (r.get("metricas") or {}).get("fuera_tolerancia"),
+                "municipios_partidos": (r.get("metricas") or {}).get("municipios_partidos"),
                 "distritos_iguales_publicado": (r.get("publicado") or {}).get("distritos_iguales"),
                 "igual_otras_versiones": json.dumps(otras, sort_keys=True),
                 "fallos": " | ".join(r.get("fallos") or []),
@@ -469,23 +604,36 @@ def matriz(args) -> int:
 
 # --------------------------------------------------------------------------- archivar
 def archivar(args) -> int:
+    """Sube a R2 la entrada mínima de cada territorio reconstruido desde fuente (las reutilizadas de R2 ya están):
+    clave bateria/entradas/<territorio>/<sha256[:16] de la entrada>.zip con ENTRADAS.json + M01 + grafo M03."""
     from herramientas.archivar_artefactos_r2 import r2_cliente
     bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
     if not bucket or not cuenta:
         print("::error::BATERIA_R2_SIN_CREDENCIALES (R2_BUCKET/R2_ACCOUNT_ID)")
         return 2
     out = Path(args.out)
-    nac = json.loads((NACIONAL / "NACIONALES.json").read_text(encoding="utf-8"))
-    paquete = out / f"bateria-entradas-{nac['ficheros']['65034_totales.csv.zip']['sha256'][:12]}.zip"
-    with zipfile.ZipFile(paquete, "w", zipfile.ZIP_DEFLATED) as zf:
-        zf.write(NACIONAL / "NACIONALES.json", "NACIONALES.json")
-        for f in sorted((out / "entradas").rglob("*")):
-            if f.is_file() and f.name != "log.txt":
-                zf.write(f, str(f.relative_to(out)))
-    _, subir = r2_cliente(bucket, cuenta)
-    clave = f"bateria/{paquete.name}"
-    subir(clave, paquete, sha256(paquete))
-    print(json.dumps({"r2": f"r2://{bucket}/{clave}", "sha256": sha256(paquete), "bytes": paquete.stat().st_size}))
+    sha_remoto, subir = r2_cliente(bucket, cuenta)
+    indice = {}
+    for ent in sorted((out / "entradas").glob("*/ENTRADAS.json")):
+        r = json.loads(ent.read_text(encoding="utf-8"))
+        if r.get("origen") != "fuente" or r.get("estado") != "OK":
+            continue
+        huella = hashlib.sha256(json.dumps(r["entrada_minima"], sort_keys=True).encode()).hexdigest()[:16]
+        paquete = out / "_trabajo" / f"{r['territorio']}-{huella}.zip"
+        paquete.parent.mkdir(parents=True, exist_ok=True)
+        with zipfile.ZipFile(paquete, "w", zipfile.ZIP_DEFLATED) as zf:
+            for nombre in ["ENTRADAS.json", *r["entrada_minima"]]:
+                info = zipfile.ZipInfo(nombre, FECHA_ZIP)
+                info.compress_type = zipfile.ZIP_DEFLATED
+                zf.writestr(info, (ent.parent / nombre).read_bytes())
+        clave = f"bateria/entradas/{r['territorio']}/{huella}.zip"
+        h = sha256(paquete)
+        if sha_remoto(clave) != h:
+            subir(clave, paquete, h)
+        indice[r["territorio"]] = {"url": f"r2://{bucket}/{clave}", "sha256": h, "bytes": paquete.stat().st_size,
+                                   "entrada_minima": r["entrada_minima"], "identidad_contrato": r.get("identidad_contrato")}
+    (out / "ARCHIVO_ENTRADAS.json").write_text(json.dumps(indice, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(json.dumps({"archivadas": len(indice)}))
     return 0
 
 
@@ -499,6 +647,8 @@ def main(argv=None) -> int:
         p.add_argument("--todos", action="store_true")
         p.add_argument("--out", default=str(OUT))
         if nombre == "entradas":
+            p.add_argument("--desde-r2", action="store_true",
+                           help="reutiliza el estado M03 archivado en R2 (archivo_r2.json) si es del contrato vigente")
             p.add_argument("--seccionado", default="ogc", choices=("ogc", "shapefile"),
                            help="ogc: ruta de producción (OGC del INE); shapefile: copia nacional verificada, sin red")
         if nombre == "motor":

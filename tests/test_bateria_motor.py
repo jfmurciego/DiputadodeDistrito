@@ -58,6 +58,23 @@ class BateriaMotor(unittest.TestCase):
             self.assertEqual(d["source_bindings"]["secciones_censales"]["materialized_path"], "inputs/seccionado_2023.zip")
             self.assertEqual("snapshot" in d["source_bindings"]["secciones_censales"], modo == "shapefile")
 
+    def test_estados_r2_prefieren_el_run_mas_reciente_y_m03(self):
+        with tempfile.TemporaryDirectory() as td:
+            f = Path(td) / "archivo_r2.json"
+            arts = {str(i): {"territorio": "x", "artefacto": a, "run_id": r, "url": "r2://b/k", "sha256": "0"}
+                    for i, (a, r) in enumerate([("ddd-state-1-M03", "1"), ("ddd-state-2-M03U", "2"),
+                                                ("ddd-state-2-M03", "2"), ("ddd-state-2-M04", "2")])}
+            f.write_text(json.dumps({"artefactos": arts}), encoding="utf-8")
+            viejo, b.ARCHIVO_R2 = b.ARCHIVO_R2, f
+            try:
+                self.assertEqual([a["artefacto"] for a in b.estados_r2("x")],
+                                 ["ddd-state-2-M03", "ddd-state-2-M03U", "ddd-state-1-M03"])
+            finally:
+                b.ARCHIVO_R2 = viejo
+
+    def test_entrada_minima_es_m01_y_grafo_m03(self):
+        self.assertEqual(b.ENTRADA_MINIMA, ("_m01_secciones_poblacion.geojson.zip", "_m03_grafo.json"))
+
 
 if __name__ == "__main__":
     unittest.main()

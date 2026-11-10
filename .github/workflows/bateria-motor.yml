@@ -4,9 +4,11 @@
 # NOMBRE DE VERSIÓN: Batería del motor
 # FECHA: 2026-11-09
 # ESTADO: candidato
-# QUÉ HACE: reconstruye desde fuente INE las entradas de los 71 territorios (herramientas/bateria_motor.py entradas),
-#   ejecuta M04-M06 con el motor indicado y la validación de producción, y deja la matriz territorio × regla como
-#   artefacto. Con archivar=true sube las entradas a R2 (secretos del archivista). No publica ni escribe en main.
+# QUÉ HACE: entradas de los 71 territorios (herramientas/bateria_motor.py entradas): reutiliza el estado M03 archivado
+#   en R2 si es del contrato vigente (sha256 de orchestracion/archivo_r2.json) y, si no, las reconstruye desde fuente
+#   INE; ejecuta M04-M06 con el motor indicado y la validación de producción y deja la matriz territorio × regla como
+#   artefacto. Con archivar=true sube a R2 solo la entrada mínima (M01 + grafo M03 + ENTRADAS.json) de las
+#   reconstruidas. No publica ni escribe en main.
 # CAMBIOS: 1.0.0: fichero nuevo (T-132).
 # MOTIVO: repetir la batería ante cualquier cambio del motor con un solo botón; sin programación ni vigilantes.
 # ANTERIOR: ninguna (fichero nuevo)
@@ -47,6 +49,11 @@ jobs:
     env:
       TERRITORIOS: ${{ inputs.territorios }}
       VERSIONES: ${{ inputs.versiones_m05 }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+      R2_BUCKET: ${{ vars.R2_BUCKET }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -61,8 +68,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -n "$TERRITORIOS" ]]; then read -ra ts <<<"$TERRITORIOS"; python herramientas/bateria_motor.py entradas "${ts[@]}"
-          else python herramientas/bateria_motor.py entradas --todos; fi
+          r2=(); [[ -n "${R2_ACCOUNT_ID:-}" && -n "${AWS_ACCESS_KEY_ID:-}" ]] && r2=(--desde-r2)
+          if [[ -n "$TERRITORIOS" ]]; then read -ra ts <<<"$TERRITORIOS"; python herramientas/bateria_motor.py entradas "${r2[@]}" "${ts[@]}"
+          else python herramientas/bateria_motor.py entradas "${r2[@]}" --todos; fi
       - name: Motor y validación
         shell: bash
         run: |
@@ -77,12 +85,6 @@ jobs:
           exit "$rc"
       - name: Archivar entradas en R2
         if: ${{ always() && inputs.archivar }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: auto
-          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
-          R2_BUCKET: ${{ vars.R2_BUCKET }}
         run: python herramientas/bateria_motor.py archivar
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
@@ -90,6 +92,7 @@ jobs:
           name: bateria-motor-${{ github.run_id }}
           path: |
             bateria/MATRIZ.*
+            bateria/ARCHIVO_ENTRADAS.json
             bateria/entradas/*/ENTRADAS.json
             bateria/motor/*/*/RESULTADO.json
             bateria/motor/*/*/VALIDACION.json
