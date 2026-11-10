@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.305
+Versión: 1.0.306
 Fecha: 2026-11-10
-Alcance: T-128 — Coordinador: lecciones de cierres, D-61 y estado para el relevo
+Alcance: T-194 — Criterio automatizado de aceptación del motor 2
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_coordinador-relevo.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.304_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t194-aceptacion-motor2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.305_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.304_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.306 · [2026-11-10 — T-194 — Criterio automatizado de aceptación del motor 2](registro/2026-11-10_t194-aceptacion-motor2.md)
 - 1.0.305 · [2026-11-10 — T-128 — Coordinador: lecciones de cierres, D-61 y estado para el relevo](registro/2026-11-10_coordinador-relevo.md)
 - 1.0.304 · [2026-11-10 — T-193 — Plan: decisiones D-61 a D-64 y relevo del planificador](registro/2026-11-10_claude-plan-relevo-1011.md)
 - 1.0.303 · [2026-11-10 — T-175 — Enumeración exacta para territorios pequeños (motor nuevo y certificador)](registro/2026-11-10_t175-enumeracion-exacta.md)
