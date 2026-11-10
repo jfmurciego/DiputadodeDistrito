@@ -110,3 +110,7 @@ M04, con los campos del contrato. Las unidades M04 se unen con unión-búsqueda.
 Las conclusiones de Cádiz y Álava no cambian. Con las unidades M04, que son la atomicidad de producción, el problema
 queda en decenas de átomos y se resuelve en menos de un segundo. Los resultados de Huesca y Madrid de la 1.0.0 se
 hicieron sin unidades M04 y con secciones del M01.
+
+Límite conocido de la 1.1.0: R-NUCLEO (núcleos urbanos cerrados) no se aplica, porque el M04 no rellena
+`Unidad.nucleo_cerrado`. Ese dato sale de un adaptador que T-160 deja para F2/F3: distritos de la semilla formados solo
+por unidades `ddd_closed_urban`.
