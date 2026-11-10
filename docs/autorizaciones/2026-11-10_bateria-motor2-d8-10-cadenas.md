@@ -14,7 +14,7 @@
 | Territorios | 1) Soria (Congreso) como prueba; 2) solo si la prueba termina en success y con resultado válido, los 71 (`territorios` vacío) |
 | Mapa / motor | motor nuevo con D8 y 10 cadenas; sin relevo del motor vigente |
 | Publica | no |
-| Tope de coste | 2 ejecuciones (prueba + 71) más reintentos; 600 min de Actions (suma de la duración de los jobs). Referencia: la batería de los 71 con el motor nuevo tardó 221 min |
+| Tope de coste | 2 ejecuciones (prueba + 71) más reintentos; 800 min de Actions (suma de la duración de los jobs). Estimado 600-650 min (Planificador); referencia: la batería de los 71 con el motor nuevo sin D8 tardó 221 min |
 | Tope de reintentos | 1 por ejecución, solo tras fallo transitorio (red, runner, rate limit; p. ej. ConnectionResetError en la descarga del INE) |
 | FUERA | lo de `README.md`; publicar; escribir en `main`; archivar en R2; relevo del motor; cambios de motor, contrato o criterio |
 | Parada | primer fallo no transitorio → no relanzar, diagnóstico, informar y esperar nueva frase. Si la prueba de Soria no es válida, no se lanzan los 71 |
