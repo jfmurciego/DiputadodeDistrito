@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.257
+Versión: 1.0.258
 Fecha: 2026-11-10
-Alcance: T-150 — Historial de workflows desactivados y lista de borrado de runs
+Alcance: T-161 — Métricas del proceso: paginación completa y minutos reales de jobs
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t150-historial-workflows.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.256_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_claude-t161-metricas-paginacion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.257_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.256_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.258 · [2026-11-10 — T-161 — Métricas del proceso: paginación completa y minutos reales de jobs](registro/2026-11-10_claude-t161-metricas-paginacion.md)
 - 1.0.257 · [2026-11-10 — T-150 — Historial de workflows desactivados y lista de borrado de runs](registro/2026-11-10_t150-historial-workflows.md)
 - 1.0.256 · [2026-11-10 — T-155 — Cuadro de coste real de las dos últimas semanas](registro/2026-11-10_claude-t155-coste-real.md)
 - 1.0.255 · [2026-11-10 — T-171 — Plan por temas y decisiones del 09 y 10-11](registro/2026-11-10_claude-plan-temas-1011.md)
