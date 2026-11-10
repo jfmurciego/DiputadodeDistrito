@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.326
+Versión: 1.0.327
 Fecha: 2026-11-10
-Alcance: T-181 — Batería motor 2: la aceptación exige cadenas que compitan
+Alcance: T-180 — Cuántas cadenas hacen falta en la competición del motor 2 (71 territorios)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_claude-t181-bateria-cadenas.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.325_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_claude-t180-cadenas.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.326_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.325_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.327 · [2026-11-10 — T-180 — Cuántas cadenas hacen falta en la competición del motor 2 (71 territorios)](registro/2026-11-10_claude-t180-cadenas.md)
 - 1.0.326 · [2026-11-10 — T-181 — Batería motor 2: la aceptación exige cadenas que compitan](registro/2026-11-10_claude-t181-bateria-cadenas.md)
 - 1.0.325 · [2026-11-10 — Operador — Campaña «batería del motor nuevo con D8 y 10 cadenas» (D-52)](registro/2026-11-10_operador-ficha-bateria-motor2.md)
 - 1.0.324 · [2026-11-10 — T-208 — Batería del motor 2 en Actions (D-72)](registro/2026-11-10_claude-t208-bateria-actions.md)
