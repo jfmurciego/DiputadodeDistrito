@@ -480,10 +480,33 @@ def metricas(t: str, comp: Path | None, val: dict) -> dict:
             "tolerancia": tol, "municipios_partidos": partidos}
 
 
+def _composicion_m06(t: str, run_id: str, cache: Path) -> Path | None:
+    """Composición M06 en la ruta que fija el contrato (con el run_id de la ejecución), o en la caché."""
+    viejo = os.environ.get("DDD_RUN_ID")
+    os.environ["DDD_RUN_ID"] = run_id
+    try:
+        from ddd_core.config import load_params_yaml, module_cfg
+        s6 = module_cfg(load_params_yaml(str(contrato(t))), "modulo_06_consolidar_distritos", "step6_export_final")
+        f = Path(s6.get("out_composition_csv") or "")
+        if f.is_file():
+            return f
+    finally:
+        if viejo is None:
+            os.environ.pop("DDD_RUN_ID", None)
+        else:
+            os.environ["DDD_RUN_ID"] = viejo
+    return next(cache.glob("*_m06_composicion_distritos.csv"), None)
+
+
 def validar_y_resumir(t: str, p: str, run_id: str, dest: Path, res: dict, cache: Path, log: Path, env: dict) -> dict:
     """M06 ya ejecutado: validación de producción, reglas, métricas y comparación con lo publicado."""
     rc, s = _run([sys.executable, "herramientas/validar_ejecucion.py", "--params", p, "--run-id", run_id], log, env)
     res["tiempos"]["validacion"] = s
+    comp = _composicion_m06(t, run_id, cache)
+    if comp:  # antes de borrar ejecuciones/<run>: algunos contratos (Aragón) dejan ahí la composición
+        shutil.copy2(comp, dest / comp.name)
+        res["composicion_sha256"] = sha256(comp)
+        comp = dest / comp.name
     vpath = ROOT / "ejecuciones" / run_id / "VALIDACION.json"
     val = json.loads(vpath.read_text(encoding="utf-8")) if vpath.is_file() else {"estado": "FAIL", "failures": ["sin VALIDACION"]}
     shutil.rmtree(ROOT / "ejecuciones" / run_id, ignore_errors=True)
@@ -498,10 +521,6 @@ def validar_y_resumir(t: str, p: str, run_id: str, dest: Path, res: dict, cache:
         if f:
             d = json.loads(f.read_text(encoding="utf-8"))
             res[clave] = {k: d.get(k) for k in ("version", "engine_version", "seed", "population_baseline_status")}
-    comp = next(cache.glob("*_m06_composicion_distritos.csv"), None)
-    if comp:
-        shutil.copy2(comp, dest / comp.name)
-        res["composicion_sha256"] = sha256(comp)
     res["metricas"] = metricas(t, comp, val)
     res["publicado"] = _comparar_publicado(t, comp) if comp else {"igual": None}
     (dest / "RESULTADO.json").write_text(json.dumps(res, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

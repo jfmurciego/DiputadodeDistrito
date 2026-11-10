@@ -3,9 +3,9 @@
 | andalucia | 7.4.2 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 109/109 | 98.1 | True |
 | andalucia | 7.4.3 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 109/109 | 98.7 | True |
 | andalucia | 7.4.4 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 109/109 | 287.0 | False |
-| aragon | 7.4.2 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 67/67 | 23.4 | None |
-| aragon | 7.4.3 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 67/67 | 24.3 | None |
-| aragon | 7.4.4 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 67/67 | 23.5 | None |
+| aragon | 7.4.2 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 67/67 | 21.7 | True |
+| aragon | 7.4.3 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 67/67 | 21.8 | True |
+| aragon | 7.4.4 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 67/67 | 21.4 | True |
 | canarias | 7.4.2 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 70/70 | 58.2 | False |
 | canarias | 7.4.3 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 70/70 | 59.2 | False |
 | canarias | 7.4.4 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 70/70 | 57.5 | False |
@@ -214,8 +214,8 @@
 | region_de_murcia | 7.4.3 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 45/45 | 218.5 | True |
 | region_de_murcia | 7.4.4 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 45/45 | 223.3 | True |
 
-7.4.2: PASS 70/71; igual al publicado 60/69
+7.4.2: PASS 70/71; igual al publicado 61/70
 
-7.4.3: PASS 71/71; igual al publicado 61/69
+7.4.3: PASS 71/71; igual al publicado 62/70
 
-7.4.4: PASS 71/71; igual al publicado 58/69
+7.4.4: PASS 71/71; igual al publicado 59/70
