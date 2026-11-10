@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-10T23:02:35Z",
+  "actualizado_en": "2026-11-10T23:14:23Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -4435,19 +4435,20 @@
       "territorio": "la_rioja",
       "url": "r2://ddd-research-archive/la_rioja/40979652189/ddd-minimo-40979652189-M08.zip"
     },
-    "la_rioja/42916463221/ddd-minimo-42916463221-M06.zip": {
-      "archivado_en": "2026-11-10T23:02:35Z",
-      "artefacto": "ddd-minimo-42916463221-M06",
-      "artefacto_origen": "ddd-state-42916463221-M06",
-      "artifact_id": 13810273808,
-      "caducidad_original": "2026-11-24T22:59:17Z",
-      "run_id": "42916463221",
-      "sha256": "11194dcd0587f5298662a5bc934ba9cecb29e6075f3dfb64c2a219faa0fc8fb3",
-      "sha256_estado_original": "d2f34d36598c9c2c8f99982af805dddc610eed2c5168b6bae6de81bac4a6e726",
-      "tamano_bytes": 250056,
-      "tamano_estado_original": 77729172,
+    "la_rioja/42920452778/ddd-minimo-42920452778-M08.zip": {
+      "archivado_en": "2026-11-10T23:14:23Z",
+      "artefacto": "ddd-minimo-42920452778-M08",
+      "artefacto_origen": "ddd-state-42920452778-M08",
+      "artifact_id": 13812041006,
+      "caducidad_original": "2026-11-24T23:13:44Z",
+      "incluye_m06_run": "42916463221",
+      "run_id": "42920452778",
+      "sha256": "ea2763ff8c7e11dcec27fd038a4697a9b4e8a3c5bb21357c9e852c0dc7a2b013",
+      "sha256_estado_original": "7cb66a00358b6b918788297c0646dffc454d3c40d41a407962cf3ecc56f7fdb4",
+      "tamano_bytes": 472792,
+      "tamano_estado_original": 78442535,
       "territorio": "la_rioja",
-      "url": "r2://ddd-research-archive/la_rioja/42916463221/ddd-minimo-42916463221-M06.zip"
+      "url": "r2://ddd-research-archive/la_rioja/42920452778/ddd-minimo-42920452778-M08.zip"
     },
     "madrid/40787900559/ddd-audit-40787900559.zip": {
       "archivado_en": "2026-11-07T17:04:58Z",
