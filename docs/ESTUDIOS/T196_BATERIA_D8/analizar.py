@@ -18,7 +18,7 @@ from pathlib import Path
 AQUI = Path(__file__).resolve().parent
 LAB = AQUI.parent / "T179_naturalidad_nacional"
 UNICOS = {"congreso_avila", "congreso_ceuta", "congreso_melilla", "congreso_palencia", "congreso_segovia", "congreso_soria",
-          "congreso_teruel", "congreso_zamora", "ceuta", "melilla"}  # un solo distrito: nada que elegir
+          "congreso_teruel", "congreso_zamora"}  # un solo distrito: nada que elegir (Ceuta y Melilla autonómicas tienen varios)
 
 
 def num(x):
@@ -26,10 +26,17 @@ def num(x):
 
 
 def lab_tablas():
-    out = {}
+    """Lee las TABLA.csv del laboratorio. Cada (territorio, función) debe salir de UNA sola tabla: si dos tablas lo traen, se avisa
+    (antes el último en orden alfabético pisaba en silencio: autonomicas/mapas, mapas, t202/mapas)."""
+    out, origen, solapes = {}, {}, []
     for f in sorted(LAB.rglob("TABLA.csv")):
         for r in csv.DictReader(open(f, encoding="utf-8")):
-            out[(r["territorio"], r["funcion"])] = r
+            k = (r["territorio"], r["funcion"])
+            if k in out:
+                solapes.append((k, origen[k], str(f.relative_to(LAB)), out[k] != r))
+            out[k], origen[k] = r, str(f.relative_to(LAB))
+    if solapes:
+        print("AVISO: territorios en más de una TABLA.csv del laboratorio:", solapes)
     return out
 
 

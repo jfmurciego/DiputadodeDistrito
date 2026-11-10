@@ -24,17 +24,18 @@ ganador: **no hay en los logs ni los partidos y comarcas ni los fuera de toleran
 | Ámbito | Territorios | Mejora | Empata | Empeora | Con más de un distrito: mejora / empata | Gana una cadena | Fuera de tolerancia del ganador |
 |---|---|---|---|---|---|---|---|
 | Congreso (52) | 52 | 40 | 12 | 0 | 40 / 4 (de 44) | 41 | 7 |
-| Autonómicas (19) | 19 | 15 | 4 | 0 | 15 / 2 (de 17) | 16 | 236 |
-| Total | 71 | 55 | 16 | 0 | 55 / 6 (de 61) | 57 | 243 |
+| Autonómicas (19) | 19 | 15 | 4 | 0 | 15 / 4 (de 19) | 16 | 236 |
+| Total | 71 | 55 | 16 | 0 | 55 / 8 (de 63) | 57 | 243 |
 
-Los 10 territorios de un solo distrito (Ávila, Ceuta, Melilla, Palencia, Segovia, Soria, Teruel, Zamora en el Congreso;
-Ceuta y Melilla autonómicas) empatan siempre. Empatan además Álava, Baleares, Valencia y Zaragoza (Congreso) y País Vasco y Región de Murcia (autonómicas).
+Los 8 territorios del Congreso de un solo distrito (Ávila, Ceuta, Melilla, Palencia, Segovia, Soria, Teruel, Zamora) empatan siempre y no cuentan
+en la columna «más de un distrito». Ceuta y Melilla autonómicas **no** son de un solo distrito (sus ganadores traen 12 y 6 distritos fuera de tolerancia):
+empatan, igual que Álava, Baleares, Valencia y Zaragoza (Congreso) y País Vasco y Región de Murcia (autonómicas).
 (Los 16 empates incluyen 2 donde una cadena iguala la clave del canónico.) Tiempo de competición: 201 min en total (Congreso 109, autonómicas 92),
 mediana 130 s por territorio, máximo Castilla y León 628 s; el run entero costó ~502 min de Actions (71 jobs con instalación y entradas).
 
 ## Comparación con el laboratorio (T-179, D8 frente a A)
 
-Se compara con `T179_naturalidad_nacional/**/TABLA.csv` (67 territorios con dato; sin dato: Andalucía, Aragón, Ceuta, Illes Balears).
+Se compara con las tres `TABLA.csv` del laboratorio (`mapas/` 52 Congreso, `autonomicas/mapas/` 12 y `t202/mapas/` 3; 67 territorios con dato; sin dato: Andalucía, Aragón, Ceuta, Illes Balears). Ningún (territorio, función) aparece en más de una tabla (201 filas = 67 × 3), así que no hay pisado entre ellas; `analizar.py` avisa si alguna vez lo hubiera.
 Clave del laboratorio aproximada con las mismas componentes que hay en la tabla (sin el exceso sobre el tope).
 
 **Congreso: reproduce el laboratorio.**

@@ -6,7 +6,7 @@ cantabria,autonomica,False,VALIDO,11,11,mejora,ponderado-s291565873,9,72.3,72.3,
 castilla_la_mancha,autonomica,False,VALIDO,11,11,mejora,ponderado-s214103641,8,40.74,40.74,550.5,mejora,ponderado-93993687,,5,1,40.86,14.06,False,True
 castilla_y_leon,autonomica,False,VALIDO,11,11,mejora,ponderado-s999727098,4,15.39,13.64,628.3,mejora,ponderado-1252383190,,1,1,14.31,14.31,False,True
 cataluna,autonomica,False,VALIDO,11,11,mejora,ponderado-s1904841058,41,60.28,62.12,395.5,mejora,ponderado-755549489,,33,32,67.9,67.9,False,True
-ceuta,autonomica,True,VALIDO,12,12,empata,canonico,12,29.53,29.53,131.5,,,12,,,,,,
+ceuta,autonomica,False,VALIDO,12,12,empata,canonico,12,29.53,29.53,131.5,,,12,,,,,,
 comunidad_foral_de_navarra,autonomica,False,VALIDO,11,11,mejora,ponderado-s1024523409,14,64.78,64.78,603.5,mejora,ponderado-1953110071,,11,8,67.04,67.04,False,True
 comunidad_valenciana,autonomica,False,VALIDO,11,11,mejora,ponderado-s1007264789,31,74.68,74.68,382.8,mejora,ponderado-1952685705,,29,27,69.55,69.55,False,True
 congreso_alava,congreso,False,VALIDO,12,12,empata,canonico,0,14.94,14.94,32.4,mejora,ponderado-1247029794,0,0,0,14.94,7.81,,False
@@ -66,7 +66,7 @@ galicia,autonomica,False,VALIDO,11,11,mejora,ponderado-s1167476498,8,56.18,56.18
 illes_balears,autonomica,False,VALIDO,11,11,mejora,ponderado-s2129219193,14,68.04,68.04,129.9,,,,,,,,,
 la_rioja,autonomica,False,VALIDO,11,11,mejora,ponderado-s117919649,1,41.78,41.78,141.3,mejora,ponderado-1411574835,,1,1,41.78,41.78,False,True
 madrid,autonomica,False,VALIDO,11,11,mejora,ponderado-s2118146402,21,73.87,73.87,519.6,mejora,ponderado-291855033,,26,6,73.87,73.87,False,True
-melilla,autonomica,True,VALIDO,12,12,empata,canonico,6,74.99,74.99,27.2,mejora,ponderado-1789513075,6,6,0,74.99,45.04,,False
+melilla,autonomica,False,VALIDO,12,12,empata,canonico,6,74.99,74.99,27.2,mejora,ponderado-1789513075,6,6,0,74.99,45.04,,False
 pais_vasco,autonomica,False,VALIDO,11,11,empata,ponderado-s1048245436,9,23.62,23.62,212.2,mejora,ponderado-260312324,,8,6,23.52,23.52,False,False
 principado_de_asturias,autonomica,False,VALIDO,11,11,mejora,ponderado-s1804878586,3,37.08,37.08,144.7,mejora,ponderado-1597359497,,4,1,37.08,37.08,False,True
 region_de_murcia,autonomica,False,VALIDO,11,11,empata,canonico,10,66.76,66.76,252.3,mejora,ponderado-1062536328,10,10,5,66.76,66.76,,False
