@@ -22,12 +22,14 @@ COMPOSICION = "section_code,district_id\n2600101001,1\n2600101002,2\n"
 
 
 def p30_la_rioja(composicion_sha256):
-    """Forma de P30.json de La Rioja (T-216): gana ponderado-s117919649, 81 secciones, fuera_tolerancia=1."""
-    return {"schema": "ddd.motor2-p30/1.0", "territorio": "la_rioja", "ganador": "ponderado-s117919649",
+    """Cifras del P30.json real de La Rioja (00 simulada en local, T-221, huella_resultado 7bb9b44b…): gana
+    ponderado-s2009387672, 78 secciones cambiadas, fuera_tolerancia=1 y desvío máximo igual al del canónico."""
+    return {"schema": "ddd.motor2-p30/1.0", "territorio": "la_rioja", "ganador": "ponderado-s2009387672",
             "valido": True, "estado_ganador": "VALIDO", "estado": "P30_GANA_OTRO_PLAN", "rehacer_m06": True,
-            "secciones_cambiadas": 81, "huella_resultado": "3e5091b5",
-            "metricas": {"ganador": {"fuera_tolerancia": 1, "desvio_max": 0.1432},
-                         "canonico": {"fuera_tolerancia": 1, "desvio_max": 0.1488}},
+            "secciones_cambiadas": 78,
+            "huella_resultado": "7bb9b44b3a51690d47632914979669ca8339566ef9229f1663d91dc59eee4675",
+            "metricas": {"ganador": {"fuera_tolerancia": 1, "desvio_max": 0.4177583606903271},
+                         "canonico": {"fuera_tolerancia": 1, "desvio_max": 0.4177583606903271}},
             "verificacion_m06": {"igual_al_ganador": True, "composicion_sha256": composicion_sha256},
             "m05_restaurada": True}
 
@@ -70,11 +72,11 @@ class Motor2Certificacion(unittest.TestCase):
         _, s = self.run_status("--motor", "motor2", "--runs-dir", str(self.runs))
         self.assertEqual(s["population_evidence_source"], "MOTOR2_P30")
         self.assertEqual(s["population_outliers_after"], 1)  # el M05 canónico decía 0
-        self.assertEqual(s["population_max_deviation_after"], 0.1432)
+        self.assertEqual(s["population_max_deviation_after"], 0.4177583606903271)
         self.assertEqual(s["population_outliers_before"], 1)
-        self.assertEqual(s["motor2_ganador"], "ponderado-s117919649")
-        self.assertEqual(s["motor2_secciones_cambiadas"], 81)
-        self.assertEqual(s["population_decision"], "TARGET_IMPROVED_NOT_MET")
+        self.assertEqual(s["motor2_ganador"], "ponderado-s2009387672")
+        self.assertEqual(s["motor2_secciones_cambiadas"], 78)
+        self.assertEqual(s["population_decision"], "TARGET_NOT_MET")
         self.assertEqual(s["decision"], "PASS")
 
     def test_m05_identico_aunque_haya_un_p30(self):
