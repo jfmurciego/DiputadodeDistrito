@@ -13,5 +13,5 @@
   «presupuesto de nodos» con diagnóstico 0,10/0,90 como comprobación posterior.
   `comparar_criterios` y `resumen_por_opcion` dan a la batería T-132 cuántos territorios cambian de veredicto con
   cada opción.
-- Pruebas: `python -m unittest tests.test_motor2_reglas` (21 tests, uno o más por divergencia 1-8 del inventario).
+- Pruebas: `python -m unittest tests.test_motor2_reglas` (20 tests, uno o más por divergencia 1-8 del inventario).
 - Siguiente: estado incremental, poda y enumerador; el certificador T-136 pasa a usar el núcleo.
