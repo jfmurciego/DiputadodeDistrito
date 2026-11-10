@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.334
+Versión: 1.0.335
 Fecha: 2026-11-10
-Alcance: T-211 — Ponderado en las autonómicas: causa medida y fuera de tolerancia por circunscripción
+Alcance: T-219 — Plan 1.0.41: decisiones D-74 a D-79 y cola T-210 a T-219
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_claude-t211-diagnostico-ponderado.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.333_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_claude-t219-plan-d74-d79.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.334_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.333_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.335 · [2026-11-10 — T-219 — Plan 1.0.41: decisiones D-74 a D-79 y cola T-210 a T-219](registro/2026-11-10_claude-t219-plan-d74-d79.md)
 - 1.0.334 · [2026-11-10 — T-211 — Ponderado en las autonómicas: causa medida y fuera de tolerancia por circunscripción](registro/2026-11-10_claude-t211-diagnostico-ponderado.md)
 - 1.0.333 · [2026-11-10 — T-212 — Aceptación del motor 2: nunca peor que el mapa vigente publicado, indicadores en el resumen del paso](registro/2026-11-10_claude-t212-aceptacion-vigente.md)
 - 1.0.332 · [2026-11-10 — T-213 — Corte 5.0.0 paso 0: copias y manifiesto de congelación](registro/2026-11-10_claude-t213-corte-paso0.md)
