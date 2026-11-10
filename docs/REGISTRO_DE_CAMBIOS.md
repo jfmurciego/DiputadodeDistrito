@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.318
+Versión: 1.0.319
 Fecha: 2026-11-10
-Alcance: T-128 — Coordinador: lecciones de cierres (3.ª tanda), tareas del motor y D-65 a D-71
+Alcance: Operador — Ficha de campaña del histórico autonómico (Andalucía, Baleares, Aragón), cerrada sin ejecutar
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_coordinador-lecciones-3.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.317_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_operador-ficha-historico-autonomico.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.318_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.317_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.319 · [2026-11-10 — Operador — Ficha de campaña del histórico autonómico (Andalucía, Baleares, Aragón), cerrada sin ejecutar](registro/2026-11-10_operador-ficha-historico-autonomico.md)
 - 1.0.318 · [2026-11-10 — T-128 — Coordinador: lecciones de cierres (3.ª tanda), tareas del motor y D-65 a D-71](registro/2026-11-10_coordinador-lecciones-3.md)
 - 1.0.317 · [2026-11-10 — T-204 — Plan 1.0.39: decisiones D-65 a D-68 y cola del motor y de las generales 2026](registro/2026-11-10_claude-t204-plan-d65-d68.md)
 - 1.0.316 · [2026-11-10 — T-202 — Naturalidad: C y D8 en Castilla y León, Extremadura y Principado de Asturias](registro/2026-11-10_claude-t202-naturalidad-cyl-ext-ast.md)
