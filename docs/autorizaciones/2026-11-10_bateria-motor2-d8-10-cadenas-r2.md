@@ -11,7 +11,7 @@
 | Campo | Contenido |
 |---|---|
 | Qué se lanza | `bateria-motor.yml` («Auxiliar — Batería del Motor»): `motor=motor2`, `funcion=D8`, `cadenas=10` |
-| Territorios | 1) Soria (Congreso) como prueba; 2) los 71 (`territorios` vacío) solo si Soria termina en success Y su informe muestra todos los candidatos listados evaluados (12: canónico + GerryChain de producción + 10 ponderadas), 0 `FALLO_GENERADOR` y las 10 cadenas ponderadas válidas o con motivo de rechazo del núcleo |
+| Territorios | 1) Soria (Congreso) como prueba; 2) los 71 (`territorios` vacío) solo si Soria termina en success Y su informe muestra las 10 cadenas ponderadas evaluadas (válidas o con motivo de rechazo del núcleo), 0 `FALLO_GENERADOR` y el recuento de candidatos según el flujo: 1 canónico + 10 ponderadas + exhaustivo si el territorio es pequeño (Soria: 12; sin GerryChain de producción) |
 | Mapa / motor | motor nuevo con D8 y 10 cadenas; sin relevo del motor vigente |
 | Publica | no |
 | Tope de coste | 2 ejecuciones (prueba + 71) más reintentos; 800 min de Actions (suma de la duración de los jobs). Referencia: la ejecución anterior sin cadenas tardó ~440 min |
