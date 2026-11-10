@@ -41,3 +41,5 @@ Workflow manual `workflow_dispatch` de solo lectura, con `R2_ACCESS_KEY_ID`/`R2_
 
 ## Condición añadida por T-132 (PR #601)
 La «entrada mínima» de la batería (`bateria/entradas/<territorio>/<huella>.zip`, solo `ENTRADAS.json` + M01 secciones + grafo M03; índice `bateria/ARCHIVO_ENTRADAS.json`) se extrae con `--desde-r2` de `ddd-state-<run>-M03` (luego M03U) del run más reciente de `archivo_r2.json`. Por tanto, **las claves M01/M02/M03/M03U de la ola 1 no se borran de un territorio hasta que su entrada mínima conste en `ARCHIVO_ENTRADAS.json`** (un territorio puede salir en la ola 1 en cuanto la tenga). Si falta, se conserva el M03 (o M03U) del run más reciente de ese territorio. Esto solo retrasa las filas M01-M03U (≈ 4/9 del tamaño de cada run), no el resto de la ola.
+
+Solo se suben entradas reconstruidas desde fuente: los territorios cuyo M03 se reutiliza de R2 no tienen mínima y sus M01-M03U no se podan hasta que `archivar` suba también la mínima extraída de esos estados (cambio de T-132 propuesto, una línea).
