@@ -44,6 +44,11 @@ HUELLAS_FIJAS = {  # huella_resultado de la competición: reglas, semillas, plan
     "alava": "82440ac2f1e0c5057690b7c7a0a8e3e51f03da2b58b68d6599009da6f13abc46",
     "melilla": "68c31e6263da52a9635b19b53f285f72acc8578412e2b59b4393884350c9bc74",
 }
+HUELLAS_FIJAS_A = {  # las de la función A (antes de T-205): la competición con --funcion A no cambia
+    "soria": "a968322628dfdc308e613aa2461b412cc8dd15b394b56d4fe6913c1f3ce1b4c2",
+    "alava": "38d7b91d1969838fc32c310a06a3f7af2d3d927dcacdbc60c854e1a93f72d46d",
+    "melilla": "2e865182d50efa3ea769c6d35342ccf9f806987954a0118744b715c8d0c98e1b",
+}
 ESTUDIO = ROOT / "docs" / "ESTUDIOS" / "T132_BATERIA_MOTOR"
 
 
@@ -90,10 +95,10 @@ def entrada(t, tmp):
     return EntradaTerritorio(t, cfg_territorio(t), g)
 
 
-def competir_t(t, tmp):
+def competir_t(t, tmp, funcion=FUNCION):
     e = entrada(t, tmp)
     return e, competir_publico(e, Generador("canonico", t), Generador("gerrychain", t), tmp / f"out_{t}",
-                               n_cadenas=N_CADENAS, criterio=CRITERIO, funcion=FUNCION)
+                               n_cadenas=N_CADENAS, criterio=CRITERIO, funcion=funcion)
 
 
 class HuellaFija(unittest.TestCase):
@@ -106,6 +111,12 @@ class HuellaFija(unittest.TestCase):
                 h2 = competir_t(t, Path(tempfile.mkdtemp()))[1].huella()
                 self.assertEqual(h1, h2, "dos ejecuciones difieren")
                 self.assertEqual(h1, HUELLAS_FIJAS[t], f"la huella de {t} cambió: si es intencionado, actualiza HUELLAS_FIJAS")
+
+    def test_huella_funcion_a_compatible(self):
+        """Pin de compatibilidad (T-205): con la función A, las huellas de antes de D8."""
+        for t in TERRITORIOS:
+            with self.subTest(t=t):
+                self.assertEqual(competir_t(t, Path(tempfile.mkdtemp()), "A")[1].huella(), HUELLAS_FIJAS_A[t])
 
     @unittest.skipUnless(os.environ.get("DDD_ACEPTACION_BATERIA"), "motor real: define DDD_ACEPTACION_BATERIA")
     def test_motor_real_dos_ejecuciones(self):
