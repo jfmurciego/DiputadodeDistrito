@@ -13,7 +13,10 @@ tanda de 20 cadenas** basta: el ganador con N cadenas se calcula a posteriori en
 - Función A (vigente): violaciones duras, distritos fuera de tolerancia, desvío máximo, ECM, huella.
 - Función B (naturalidad, `naturalidad_competicion.py`), a posteriori sobre los mismos candidatos: violaciones duras,
   fuera de tolerancia, partidos judiciales + comarcas agrarias partidos, frontera cortada (km), desvío máximo.
-- N de saturación: el menor N de la rejilla a partir del cual el ganador ya no cambia (0 = gana el canónico).
+- N de saturación: el menor N de la rejilla a partir del cual el ganador ya no cambia (0 = gana el canónico). Cuenta
+  todo cambio de ganador, también por ECM, centésimas de desvío o solo por el desempate de huella con métricas
+  iguales, aunque no mejore el número de distritos fuera de tolerancia (p. ej. Congreso Cáceres: gana una cadena en
+  N = 15 con las mismas métricas que el canónico, `A_mejora_20` = False, saturación 15).
 
 ## Resultado (71 territorios)
 
@@ -57,7 +60,10 @@ Todos los candidatos válidos (21/21 en los 71). Agregado (`todos_71/AGREGADO.cs
 (~40 KB por territorio; 2,7 MB en total). `datos/NATURALIDAD_B.csv` lleva, por candidato, los partidos y comarcas
 partidos y la frontera cortada, con el sha256 del seccionado INE usado. Con ellos,
 `analizar_cadenas.py --out datos --naturalidad-b datos/NATURALIDAD_B.csv` regenera AGREGADO, CURVA, TERRITORIOS y
-TIEMPOS idénticos byte a byte, sin la tanda ni la geometría (comprobado). Las composiciones M06 de cada candidato no se
+TIEMPOS sin la tanda ni la geometría. Lo comprobé en local (no hay prueba en la CI): ejecutar
+`python docs/ESTUDIOS/T180_CADENAS/analizar_cadenas.py --out docs/ESTUDIOS/T180_CADENAS/datos --naturalidad-b
+docs/ESTUDIOS/T180_CADENAS/datos/NATURALIDAD_B.csv --salida /tmp/x` y `cmp /tmp/x/<f>.csv todos_71/<f>.csv` para los
+cuatro ficheros: iguales. Las composiciones M06 de cada candidato no se
 versionan; su sha256 está en COMPETICION.json. Un territorio sin B sale con `B_estado` ≠ OK en TERRITORIOS.csv y queda
 fuera de la curva B (en esta tanda, 71/71 OK).
 
@@ -74,8 +80,9 @@ Medidos en local con 3–4 territorios a la vez en 4 CPU (contención incluida).
 
 ## Recomendación
 
-**N oficial = 10 por edición** con la función A. Da el 97 % de la mejora en distritos fuera de tolerancia (67 de 69) y
+**Recomendación PROVISIONAL (D-67): N = 10 por edición** con la función A. Da el 97 % de la mejora en distritos fuera de tolerancia (67 de 69) y
 28 de los 30 territorios que llegan a mejorar con 20. Pasar a 20 casi duplica el coste (10,9 → 20,8 h) por 2
-distritos. N = 5 cuesta la mitad, pero deja sin mejorar 4 territorios más (26 frente a 30). Si la función oficial
-acabara siendo de naturalidad (B, D8), la curva satura más tarde (p75 15) y convendría 15–20; hay que medirlo con esa
-función, no con este estudio, que solo selecciona a posteriori.
+distritos. N = 5 cuesta la mitad, pero deja sin mejorar 4 territorios más (26 frente a 30). Esta curva es con las cadenas de
+A (GerryChain de producción). B y D8 usan cadenas ponderadas distintas (`naturalidad_competicion`, generador
+«ponderado»), que no se han medido aquí: la selección con B sobre estos candidatos satura más tarde (p75 15), pero que
+B o D8 necesiten 15–20 cadenas es una conjetura, a medir con la batería D8 arreglada (T-196).
