@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.36
+Versión: 1.0.37
 Fecha: 2026-11-10
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: decisiones D-48 a D-57 del 10-11 (motor, CI, semilla, versión, permisos, Actions); corrige D-43
-Anterior: legacy/docs/PLAN_v1.0.35_20261110.md
+Cambios/motivo: D-58 a D-60 del 10-11 (respuestas del propietario, analítica, recomendaciones del corte 5.0.0) y estado de los temas
+Anterior: legacy/docs/PLAN_v1.0.36_20261110.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -46,7 +46,7 @@ con frase del propietario en su chat.
 ### Temas y objetivo de «verde»
 | Tema | Objetivo | Estado (10-11) |
 |---|---|---|
-| Motor nuevo («el motor que demuestra», D-32, D-48) | Paquete nuevo al lado del actual; releva al viejo cuando la batería demuestre que es igual o mejor en los 71 | Núcleo de reglas, competición canónico + GerryChain, semilla pública y certificador ligero en `main`; falta la aceptación de la competición en los 71 |
+| Motor nuevo («el motor que demuestra», D-32, D-48, D-57) | Paquete nuevo al lado del actual; releva al viejo en el corte 5.0.0, por decisión del propietario | Competición aceptada en los 71: 71 válidos, mejora 21, empata 50, empeora 0, reproducible bit a bit, 5,6 veces más tiempo. Relevo en espera del piloto de naturalidad; pendientes: núcleos cerrados en el certificador, enumeración exacta en territorios pequeños, regla pública de elección |
 | Ejecución autonómica (19) y nacional (52) | Territorial, electoral, ensemble 10 y 25 en verde; mapa de 350 completo | Territorial y electoral publicados; ensemble 25 habilitado en el 06; 13 comunidades bloqueadas por puentes y exención por partición hasta el motor nuevo |
 | Gestor de campañas | Una orden lanza todo: nacional y autonómico, con o sin ensemble, con histórico | Campaña completa en seco e histórico conectados (T-123, T-130, T-133) |
 | Histórico desde 2011 | 6 generales validadas y autonómicas de las 19 comunidades, cada una con su calendario (D-40) | Generales: datos 52 × 6, validación en curso; autonómicas: calendario y 3 comunidades (T-121, T-131) |
@@ -56,7 +56,7 @@ con frase del propietario en su chat.
 | Archivo R2 | Solo entradas mínimas, productos y auditorías; sin estados redundantes (D-35) | Lista de poda aceptada (234 claves, 26 GB); herramienta de poda con simulación (T-145) |
 | Notación de territorios | AUT01-AUT19 y NAC01-NAC52 con nombre en español (D-36) | Tabla maestra, inventario y capa visible en curso; identificadores internos, pendientes de plan |
 | Notación de fases | P00 a P60 en decenas, camino único, archivo continuo ARC (D-37, D-47) | Solo ideas (borrador v5); se aplica en el corte 5.0.0 (D-45) |
-| Lista de Actions | Solo lo que lanza el propietario, más un automático (D-38) | Renombrado, inventario e historial hechos (T-149, T-150); consolidación por pasos; borrado de 222 runs pendiente del Operador |
+| Lista de Actions | Solo lo que lanza el propietario, más un automático y las excepciones aceptadas (D-38, D-55, D-56) | De 36 a 33 ficheros; objetivo 23-24 tras la consolidación; los retirados desaparecen al borrar sus ejecuciones (D-58) |
 | Temas nuevos (10-11) | Autorización por campaña (D-41), coste y presupuesto, uso y accesibilidad del visor, otros ámbitos en preparación (D-42), README (D-43) | Encargados al Coordinador |
 
 ### Decisiones del propietario (09 y 10-11)
@@ -92,11 +92,14 @@ con frase del propietario en su chat.
 - D-55. Lista de Actions: el revisor de PR queda como flujo aparte, con nombre sin «_»; la lista queda en 22 elementos tras la consolidación. La regla activa de protección de `main` exige el check `veredicto`.
 - D-56. Lista de Actions: se aceptan como excepción cuatro piezas internas con nombre «Interno · …» (generación territorial, publicador del sitio, incorporación electoral y puerta de validación); no se integran en quien las llama. Se revisan en el corte 5.0.0.
 - D-57. El relevo del motor espera: el propietario quiere más pruebas y distritos más naturales. Piloto de naturalidad en seis territorios con tres funciones de calidad (solo población; población y, a igualdad, menos partidos judiciales y comarcas partidos y mejor forma; lo anterior con el grafo ponderado por vínculo y geografía física). Decide con los mapas delante. Condiciones previas al corte que siguen: núcleos cerrados en el certificador, enumeración exacta en territorios pequeños y regla pública de elección escrita.
+- D-58. Respuestas del propietario (10-11, en el chat del Coordinador): sí a la poda del archivo (234 claves) y al borrado de las ejecuciones de los flujos retirados (222 y 844), que ejecuta el Operador con su frase; Zenodo: el propietario comprueba el DOI y el mapa de 350 se describe como «en desarrollo»; las descargas manuales las hace él; la naturalidad se decide con los mapas delante. Se dejan como están: fusión automática y forense (no se tocan), autorización por campaña (en borrador hasta su revisión) y publicación del visor (no se publica hasta que lo diga).
+- D-59. Medición de uso del visor: Cloudflare Web Analytics, sin cookies. Se prepara sin publicar; el propietario crea el sitio y aporta el identificador.
+- D-60. Corte 5.0.0, recomendaciones vigentes (`docs/ESTUDIOS/T170_MIGRACION_IDS/`): no cambiar la capa visible antes del corte; sufijo «-350» para el mapa de 350; nueve territorios duplicados entre AUT y NAC; primera prueba de la migración: el motor con identificador viejo y nuevo y la misma semilla debe dar el mismo mapa bit a bit.
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171 y T-191. Siguiente libre para el planificador: T-192.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191 y T-192. Siguiente libre para el planificador: T-193.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),

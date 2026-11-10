@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.291
+Versión: 1.0.294
 Fecha: 2026-11-10
-Alcance: T-174 — Hueco de analítica sin cookies (Cloudflare Web Analytics), inactivo sin token
+Alcance: T-149 — Los tres escritores de main pasan a jobs de «Pruebas de la Plataforma»
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t174-analitica-cloudflare.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.290_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t149e-main-writers-ahorro.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.293_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,9 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.290_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.294 · [2026-11-10 — T-149 — Los tres escritores de main pasan a jobs de «Pruebas de la Plataforma»](registro/2026-11-10_t149e-main-writers-ahorro.md)
+- 1.0.293 · [2026-11-10 — T-192 — Plan: decisiones D-58 a D-60 y estado de los temas](registro/2026-11-10_claude-plan-d58.md)
+- 1.0.292 · [2026-11-10 — T-172 — Indicadores de naturalidad (paso 1 del piloto)](registro/2026-11-10_t172-naturalidad-indicadores.md)
 - 1.0.291 · [2026-11-10 — T-174 — Hueco de analítica sin cookies (Cloudflare Web Analytics), inactivo sin token](registro/2026-11-10_t174-analitica-cloudflare.md)
 - 1.0.290 · [2026-11-10 — Coordinador — Lecciones del 10-11 y tablero de estado](registro/2026-11-10_lecciones-1011.md)
 - 1.0.289 · [2026-11-10 — T-149 — Los dos reutilizables restantes pierden el «_» del nombre](registro/2026-11-10_t149d-puerta-incorporacion.md)
