@@ -3,16 +3,18 @@
 """Banco de generadores (T-132 A): canónico, GerryChain de producción y GerryChain con semilla por árboles.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: Banco de generadores con competidor
 FECHA: 2026-11-10
 ESTADO: candidato (banco de pruebas; no es ruta de producción)
-CAMBIOS: 1.1.0 (D-48): generador «competidor» (orden DDD_COMPETIDOR, por defecto ``python -m ddd_motor2.competidor``,
+CAMBIOS: 1.1.1: conserva el informe de competición (COMPETICION.json/md) del competidor, que T-163 deja junto a la salida
+  M05 (caché del contrato) o en ejecuciones/<run>/competicion, y anota ganador y huella en RESULTADO.json.
+  1.1.0 (D-48): generador «competidor» (orden DDD_COMPETIDOR, por defecto ``python -m ddd_motor2.competidor``,
   que sustituye a M05 con --params --run-id --semilla) y subcomando ``reproducibilidad`` (dos ejecuciones, sha256 de la
   composición M06). 1.0.0: fichero nuevo.
 MOTIVO: comparar, con las mismas entradas, el mismo contrato y la misma validación (herramientas/validar_ejecucion.py),
   si los distritos válidos dependen del constructor artesanal M04 o los da también una semilla genérica por árboles.
-ANTERIOR: legacy/herramientas/banco_generadores_v1.0.0_20261109.py
+ANTERIOR: legacy/herramientas/banco_generadores_v1.1.0_20261110.py
 QUÉ HACE: por territorio, generador y semilla, sobre las entradas de herramientas/bateria_motor.py:
   canonico    unidades + M04 + M05 canónico vigente + M06.
   gerrychain  unidades + M04 + M05 GerryChain de producción (ddd_core/m05_gerrychain_strategy.py, ReCom) con
@@ -184,6 +186,13 @@ def ejecutar_uno(t: str, out: Path, generador: str, semilla: int) -> dict:
         rc, s = bm._run(COMPETIDOR + ["--params", p, "--run-id", run_id, "--semilla", str(semilla)], log, env)
         res["tiempos"]["M05"] = s
         res["competidor"] = " ".join(COMPETIDOR)
+        for comp_dir in (ROOT / "ejecuciones" / run_id / "competicion", cache / "competicion"):
+            if comp_dir.is_dir():  # informe del competidor (T-163), antes de que se borre el run o la caché
+                shutil.copytree(comp_dir, dest / "competicion", dirs_exist_ok=True)
+                f = comp_dir / "COMPETICION.json"
+                if f.is_file():
+                    c = json.loads(f.read_text(encoding="utf-8"))
+                    res["competicion"] = {k: c.get(k) for k in ("ganador", "huella_resultado", "tiempo_total_s")}
     else:
         inicial: list[str] = []
         rc, s = bm._run([py, "ddd_core/m05_gerrychain_strategy.py", "--params", p, "--run-id", run_id,

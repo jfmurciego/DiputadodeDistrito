@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.281
+Versión: 1.0.295
 Fecha: 2026-11-10
-Alcance: T-170 — Plan de migración de ids AUT/NAC (D-54)
+Alcance: T-177 — Lista de descargas manuales para el propietario
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t170-migracion-ids.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.280_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t177-descargas-manuales.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.294_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,20 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.280_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.295 · [2026-11-10 — T-177 — Lista de descargas manuales para el propietario](registro/2026-11-10_t177-descargas-manuales.md)
+- 1.0.294 · [2026-11-10 — T-149 — Los tres escritores de main pasan a jobs de «Pruebas de la Plataforma»](registro/2026-11-10_t149e-main-writers-ahorro.md)
+- 1.0.293 · [2026-11-10 — T-192 — Plan: decisiones D-58 a D-60 y estado de los temas](registro/2026-11-10_claude-plan-d58.md)
+- 1.0.292 · [2026-11-10 — T-172 — Indicadores de naturalidad (paso 1 del piloto)](registro/2026-11-10_t172-naturalidad-indicadores.md)
+- 1.0.291 · [2026-11-10 — T-174 — Hueco de analítica sin cookies (Cloudflare Web Analytics), inactivo sin token](registro/2026-11-10_t174-analitica-cloudflare.md)
+- 1.0.290 · [2026-11-10 — Coordinador — Lecciones del 10-11 y tablero de estado](registro/2026-11-10_lecciones-1011.md)
+- 1.0.289 · [2026-11-10 — T-149 — Los dos reutilizables restantes pierden el «_» del nombre](registro/2026-11-10_t149d-puerta-incorporacion.md)
+- 1.0.288 · [2026-11-10 — T-149 — Un solo auxiliar de mantenimiento programado](registro/2026-11-10_t149c-mantenimiento.md)
+- 1.0.287 · [2026-11-10 — T-149 — «Pruebas de la Plataforma» absorbe las puertas automáticas por rutas](registro/2026-11-10_t149b-consolidacion.md)
+- 1.0.286 · [2026-11-10 — T-191 — Plan: decisiones D-48 a D-57](registro/2026-11-10_claude-plan-d48-d54.md)
+- 1.0.285 · [2026-11-10 — T-173 — Nota de fuentes para la naturalidad de distritos](registro/2026-11-10_claude-t173-fuentes-naturalidad.md)
+- 1.0.284 · [2026-11-10 — T-132 — Batería de los 71 con el competidor «canónico + GerryChain» (D-48)](registro/2026-11-10_t132d-competidor-71.md)
+- 1.0.283 · [2026-11-10 — T-167 — Verificación de los 844 runs retirados por T-149 y decisión propuesta](registro/2026-11-10_docs-t167-verificacion-runs-g10.md)
+- 1.0.282 · [2026-11-10 — T-168 — Comprobación de la fusión automática y del forense (solo lectura)](registro/2026-11-10_t168-fusion-forense.md)
 - 1.0.281 · [2026-11-10 — T-170 — Plan de migración de ids AUT/NAC (D-54)](registro/2026-11-10_t170-migracion-ids.md)
 - 1.0.280 · [2026-11-10 — T-171 — Versión del proyecto vuelve a 4.9.0 (D-51)](registro/2026-11-10_t171-version-4-9-0.md)
 - 1.0.279 · [2026-11-10 — T-163 — Motor 2: semilla pública aprobada (D-50)](registro/2026-11-10_t163-semilla-aprobada.md)

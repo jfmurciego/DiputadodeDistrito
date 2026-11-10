@@ -1,10 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.1
-# ANTERIOR: legacy/workflows/revisor-pr_v1.0.0_20261108.yml
+# VERSIÓN: 1.0.2
+# ANTERIOR: legacy/workflows/revisor-pr_v1.0.1_20261110.yml
+# CAMBIOS 1.0.2: T-149, solo el nombre visible («Revisor de PR», sin «_Interno — »). Jobs y check `veredicto` intactos.
 # CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Revisor independiente en cada PR
-# FECHA: 2026-11-08
+# FECHA: 2026-11-10
 # ESTADO: candidato
 # QUÉ HACE: en cada PR (no borrador, de este repositorio) ejecuta el subagente revisor (.claude/agents/revisor.md,
 #   Sonnet, solo lectura) con anthropics/claude-code-action y deja su veredicto JSON, ligado al SHA del HEAD, en un
@@ -13,7 +14,7 @@
 # CAMBIOS: versión inicial (T-48).
 # MOTIVO: §12 del framework de agentes: revisión independiente sistemática; calibración en evals/oro (T-39).
 # ANTERIOR: ninguna (fichero nuevo)
-name: _Interno — Revisor de PR
+name: Revisor de PR
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]

@@ -1,0 +1,121 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.1
+# ANTERIOR: legacy/workflows/revisor-pr_v1.0.0_20261108.yml
+# CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
+# NOMBRE DE VERSIÓN: Revisor independiente en cada PR
+# FECHA: 2026-11-08
+# ESTADO: candidato
+# QUÉ HACE: en cada PR (no borrador, de este repositorio) ejecuta el subagente revisor (.claude/agents/revisor.md,
+#   Sonnet, solo lectura) con anthropics/claude-code-action y deja su veredicto JSON, ligado al SHA del HEAD, en un
+#   comentario fijo de la PR y en el resumen del job. El job «veredicto» falla si el revisor da FAIL (no es un check
+#   obligatorio: el ruleset solo exige `pruebas`). Sin el secreto CLAUDE_CODE_OAUTH_TOKEN se salta limpiamente.
+# CAMBIOS: versión inicial (T-48).
+# MOTIVO: §12 del framework de agentes: revisión independiente sistemática; calibración en evals/oro (T-39).
+# ANTERIOR: ninguna (fichero nuevo)
+name: _Interno — Revisor de PR
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+permissions:
+  contents: read
+concurrency:
+  group: ddd-revisor-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  comprobar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    outputs:
+      listo: ${{ steps.c.outputs.listo }}
+    steps:
+      - id: c
+        shell: bash
+        env:
+          TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          DRAFT: ${{ github.event.pull_request.draft }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${TOKEN:-}" ]]; then echo "::notice::Sin CLAUDE_CODE_OAUTH_TOKEN: revisor omitido."; echo "listo=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [[ "$DRAFT" == "true" || "$HEAD_REPO" != "$GITHUB_REPOSITORY" ]]; then echo "::notice::PR en borrador o de un fork: revisor omitido."; echo "listo=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          echo "listo=true" >> "$GITHUB_OUTPUT"
+
+  revisar:
+    needs: comprobar
+    if: needs.comprobar.outputs.listo == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      veredicto: ${{ steps.revisor.outputs.structured_output }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - id: revisor
+        uses: anthropics/claude-code-action@61a9c274fa7110a66dfafc1bbbced03833eb25fe # v1
+        env:
+          GH_TOKEN: ${{ github.token }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ github.token }}
+          prompt: |
+            Actúa como el subagente definido en .claude/agents/revisor.md (léelo primero) y revisa la PR
+            #${{ github.event.pull_request.number }} de ${{ github.repository }}.
+            HEAD: ${{ github.event.pull_request.head.sha }} · base: ${{ github.event.pull_request.base.sha }}.
+            Diff: `gh pr diff ${{ github.event.pull_request.number }}` o `git diff <base>...<HEAD>`.
+            Solo lectura: no edites, no hagas commit ni push, no comentes en GitHub. La CI corre en paralelo:
+            no esperes a ella ni bloquees por ella (ci = "no_aplica"); juzga el diff con CLAUDE.md y .claude/rules/.
+            Devuelve el JSON de la definición; "caso" = "PR-${{ github.event.pull_request.number }}" y "sha" = el HEAD.
+          claude_args: |
+            --model sonnet
+            --max-turns 30
+            --allowedTools Read,Grep,Glob,Bash(git diff:*),Bash(git show:*),Bash(git log:*),Bash(gh pr diff:*),Bash(gh pr view:*)
+            --json-schema '{"type":"object","properties":{"caso":{"type":"string"},"sha":{"type":"string"},"veredicto":{"type":"string","enum":["PASS","PASS_WITH_EXCEPTIONS","FAIL","BLOCKED"]},"defectos":{"type":"array","items":{"type":"object","properties":{"gravedad":{"type":"string"},"clase":{"type":"string"},"fichero":{"type":"string"},"linea":{"type":"integer"},"detalle":{"type":"string"}},"required":["gravedad","clase","fichero","detalle"]}},"ci":{"type":"string"},"siguiente":{"type":"string"}},"required":["caso","sha","veredicto","defectos","siguiente"]}'
+
+  veredicto:
+    needs: revisar
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Publicar el veredicto en la PR
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VEREDICTO: ${{ needs.revisar.outputs.veredicto }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$VEREDICTO" | jq -e . > veredicto.json || { echo "::error::El revisor no devolvió JSON."; exit 1; }
+          v="$(jq -r .veredicto veredicto.json)"; sha="$(jq -r .sha veredicto.json)"
+          [[ "$HEAD_SHA" == "$sha"* ]] || echo "::warning::El veredicto es de $sha y el HEAD es $HEAD_SHA: no vale para este HEAD."
+          marca="<!-- ddd-revisor -->"
+          {
+            echo "$marca"
+            echo "**Revisor (Sonnet, solo lectura)** · \`$v\` · HEAD \`${HEAD_SHA:0:10}\`"
+            echo
+            jq -r '.defectos[] | "- **\(.gravedad)** `\(.clase)` \(.fichero):\(.linea // 0) — \(.detalle)"' veredicto.json
+            echo
+            echo "Siguiente: $(jq -r .siguiente veredicto.json)"
+            echo
+            echo "<details><summary>JSON</summary>"
+            echo
+            echo '```json'
+            jq . veredicto.json
+            echo '```'
+            echo "</details>"
+          } > cuerpo.md
+          cat cuerpo.md >> "$GITHUB_STEP_SUMMARY"
+          id="$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate -q ".[] | select(.body | startswith(\"$marca\")) | .id" | head -1)"
+          if [[ -n "$id" ]]; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -F body=@cuerpo.md >/dev/null
+          else
+            gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -F body=@cuerpo.md >/dev/null
+          fi
+          if [[ "$v" == "FAIL" ]]; then echo "::error::Revisor: FAIL en ${HEAD_SHA:0:10}."; exit 1; fi

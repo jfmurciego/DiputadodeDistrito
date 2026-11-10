@@ -44,8 +44,6 @@ class DesignA(unittest.TestCase):
         expected={
           "desplegar-visor-publico.yml","_reutilizable-publicar-sitio.yml","generar-alternativas-territoriales.yml",
           "_reutilizable-incorporacion-electoral.yml","_reutilizable-generacion-territorial.yml",
-          "validar-contratos-territoriales.yml",
-          "validar-productos-publicos.yml",
         }
         self.assertTrue(expected.issubset({p.name for p in WF.glob("*.yml")}))
 
