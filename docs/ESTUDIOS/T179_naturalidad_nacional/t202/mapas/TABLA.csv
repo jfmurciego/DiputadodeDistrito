@@ -1,0 +1,10 @@
+territorio,funcion,k,valido,candidato,fuera_tolerancia,desvio_max_pct,max_desvio_personas,suma_desvio_personas,coste_suma_desvio_vs_A,pp_medio,pp_min,convexidad_media,pj_partidos,pj_n,pj_pob_fuera_mayoritario,ca_partidas,ca_n,comarca_partidas,movilidad_cohesion,frontera_cortada
+castilla_y_leon,A,82,False,vigente,1,14.31,4530,81005,0,0.184,0.026,0.58,38,41,1648452,53,59,,0.235,0.276
+castilla_y_leon,D8,82,True,ponderado-1252383190,1,14.31,4530,84841,3836,0.184,0.026,0.581,37,41,1647637,52,59,,0.235,0.277
+castilla_y_leon,C,82,True,ponderado-1252383190,1,14.31,4530,84841,3836,0.184,0.026,0.581,37,41,1647637,52,59,,0.235,0.277
+extremadura,A,65,True,vigente,0,10.48,1700,53726,0,0.271,0.106,0.686,20,21,733700,20,22,,0.141,0.368
+extremadura,D8,65,True,ponderado-1715659553,0,10.23,1659,49757,-3969,0.272,0.106,0.686,20,21,735410,20,22,,0.141,0.367
+extremadura,C,65,True,ponderado-1703490688,0,10.88,1765,56934,3208,0.275,0.123,0.69,20,21,733700,20,22,,0.144,0.364
+principado_de_asturias,A,45,True,vigente,4,37.08,8289,53152,0,0.242,0.079,0.663,18,18,693089,10,10,,0.128,0.323
+principado_de_asturias,D8,45,True,ponderado-1597359497,1,37.08,8289,55380,2229,0.253,0.118,0.667,17,18,709490,8,10,,0.133,0.301
+principado_de_asturias,C,45,True,ponderado-1798538976,1,37.08,8289,66651,13499,0.283,0.118,0.686,14,18,693860,8,10,,0.114,0.286

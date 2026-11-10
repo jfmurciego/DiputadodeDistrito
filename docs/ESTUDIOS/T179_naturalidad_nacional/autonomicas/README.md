@@ -1,7 +1,7 @@
 # Naturalidad en las autonómicas: C y D8 frente a A (2.ª parte)
 
 Mismo laboratorio, reglas y semillas que en las 52 provincias del Congreso (`../README.md`), ahora en las 12
-autonómicas cuyo mapa vigente cumple el núcleo. Castilla y León, Extremadura y Principado de Asturias van en T-202.
+autonómicas cuyo mapa vigente cumple el núcleo. Castilla y León, Extremadura y Principado de Asturias, en `../t202/README.md`.
 
 **Objetivo por circunscripción.** Donde el contrato reparte escaños por provincia o isla (`province_districts`:
 Canarias, Castilla-La Mancha, Cataluña, Comunidad Valenciana, Galicia y País Vasco), el desvío de cada distrito se
