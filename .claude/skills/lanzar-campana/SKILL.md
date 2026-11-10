@@ -19,7 +19,7 @@ generar`; la CI comprueba que coincide). Si cambia una elección, se regenera; n
    de ≤ 12 días sin publicar), `reutilizar`, `desde_el_principio`, `esperar` (00 en curso).
 2. Pasa el plan al propietario y pide permiso explícito para lanzar ese ámbito (y publicar: D-3). Con D-52, presenta la
    ficha de campaña (ámbito, territorios, mapa, ensemble, publica sí/no, topes, caducidad, FUERA) y pide una sola frase:
-   registrada en `docs/autorizaciones/`, cubre el `lanzar` y los `continuar`/reintentos del Gestor dentro de los topes.
+   registrada en `docs/autorizaciones/`, cubre el `lanzar` y los `continuar`/reintentos del Gestor solo tras un fallo transitorio y dentro de los topes.
 3. Lanzar: los mismos inputs con `modo=lanzar` (opcional `forzar=true` rehace también los publicados;
    `max_paralelo`, por defecto 3; `estrategia`). Queda esperando el clic del propietario en `produccion`: uno por campaña.
    Después, el Gestor (como bot, sin más clics): territorio de prueba si el lote es > 1 (si falla, para); el resto con

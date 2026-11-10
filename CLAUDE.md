@@ -9,7 +9,7 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - Topónimos solo en español (Mahón, Ciudadela, Ibiza, Vizcaya, Guipúzcoa, Alicante, Castellón…), nunca en otras lenguas.
 - No lanzar ejecuciones productivas ni publicar (visor, releases) sin permiso explícito en ese mensaje.
 - Autorización por campaña (D-52, 10-11): una frase del propietario en el chat del Operador autoriza una CAMPAÑA con ficha
-  (`docs/autorizaciones/`: qué, topes de coste y reintentos, caducidad, exclusiones); dentro no se vuelve a preguntar. Fuera de
+  (la frase nombra la ficha y se muestra el gasto semanal, D-46; `docs/autorizaciones/`: qué, topes de coste y reintentos, caducidad, exclusiones); dentro no se vuelve a preguntar. Fuera de
   ella, caducada o tras el primer fallo no transitorio: parar e informar. Solo cuenta esa frase (no `send_message`); no aprueba `produccion` ni fusiona `no-automerge`.
 - Sin vigilantes ni revisiones programadas salvo que se pidan.
 - Objetivo (08-11): un motor repetible (se ejecutará miles de veces, con el Gestor), no conservar resultados antiguos: relanza y regenera si hace falta.

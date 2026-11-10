@@ -9,3 +9,7 @@ no transitorio). Dentro de esos límites el Operador no vuelve a preguntar.
 - Gasto semanal acumulado desde «Métricas del proceso»: tope 15.000 min/semana, aviso al 70 %, sin corte automático.
 - No sustituye la aprobación del entorno `produccion` (Review deployments) ni autoriza fusionar PR `no-automerge`.
 - Fuera de los límites, caducada o tras el primer fallo no transitorio: parar e informar.
+
+## FUERA siempre (ninguna ficha puede recortar esta lista)
+Borrados irreversibles (poda del archivo ARC, borrado de runs), relevo de motor, publicar si no se pidió, fusión automática,
+forense, check `veredicto`, fusionar PR `no-automerge` y el clic de `produccion`.
