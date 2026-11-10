@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.288
+Versión: 1.0.289
 Fecha: 2026-11-10
-Alcance: T-149 — Un solo auxiliar de mantenimiento programado
+Alcance: T-149 — Los dos reutilizables restantes pierden el «_» del nombre
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t149c-mantenimiento.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.287_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t149d-puerta-incorporacion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.288_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.287_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.289 · [2026-11-10 — T-149 — Los dos reutilizables restantes pierden el «_» del nombre](registro/2026-11-10_t149d-puerta-incorporacion.md)
 - 1.0.288 · [2026-11-10 — T-149 — Un solo auxiliar de mantenimiento programado](registro/2026-11-10_t149c-mantenimiento.md)
 - 1.0.287 · [2026-11-10 — T-149 — «Pruebas de la Plataforma» absorbe las puertas automáticas por rutas](registro/2026-11-10_t149b-consolidacion.md)
 - 1.0.286 · [2026-11-10 — T-191 — Plan: decisiones D-48 a D-57](registro/2026-11-10_claude-plan-d48-d54.md)
