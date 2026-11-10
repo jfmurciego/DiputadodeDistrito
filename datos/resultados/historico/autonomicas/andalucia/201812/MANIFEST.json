@@ -1,0 +1,55 @@
+{
+ "comunidad": "andalucia",
+ "cuadre": {
+  "aproximado_en_distrito": false,
+  "campos_sin_dato_a_cero": {},
+  "cera_excluido": [],
+  "defecto_frente_total": 0.0,
+  "dentro_tope_d17": true,
+  "dif_max_partido": 0,
+  "distritos": 109,
+  "nivel": "seccion",
+  "oficial": "sin fuente oficial local: AVISO",
+  "ok": true,
+  "perdida_dentro_tope": true,
+  "perdida_frente_fuente": 0.0,
+  "perdidos_por_causa": {},
+  "total_autonomico": 3555010,
+  "votos_distritos": 3555010,
+  "votos_espejo": 3555010,
+  "votos_perdidos": 0
+ },
+ "eleccion": "201812",
+ "fuentes": {
+  "asignacion_por_geometria": {
+   "habitantes": 0,
+   "metodo": "sección vigente ausente de la composición M06 → distrito de la unión de secciones conocidas más próxima; empate: mayor contacto",
+   "secciones": 0
+  },
+  "calendario": "cdccb737ab624a989c1f9599478251563bc3b1b41fadbd44d7b14df00eedac4e",
+  "composicion": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7",
+  "historicos": {
+   "2012": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
+   "2015": "50dda58ed4afb57c7f1f38e6b6b8150768efaa225bfc3a523b9c210a2a218c03",
+   "2019": "656119dadadb57ef3fa9d20a8ba33399fe606e553c9fef3fc338786e52fae967",
+   "2020": "07544bb49256e9e9f290b6f459a0a833e69c97900eb840c3f5bbe863914ede6e",
+   "2024": "df931fa0d372808eb81abb2f2645ed5ecccbd6ed397b85db656980748ddd6bf7"
+  },
+  "observatorio": {
+   "hauteskundea/01-201812.json": "d27fc07861c970453e5a7e87730b1f5e739577c80b8b5f0b3e2c2c9316dde06a",
+   "sekzioa/01-201812/04.json": "5f52f7b56e3813e7d1012aa6183a3620bbe6b96a730fe909cb66442c5e9e0a98",
+   "sekzioa/01-201812/11.json": "eeebf2455d35402cc3186c3080b2b54a201bafda067bf5696ccdf0d3c921e0ae",
+   "sekzioa/01-201812/14.json": "3161628d3d00e80fd9370dec5d5f1248bfb08e6dcc77f7c182b35e0dc9eaa4ca",
+   "sekzioa/01-201812/18.json": "22ddba15160b01ca2b51c84d3f223faf028785c5a904dd0567f3af63f7ea1852",
+   "sekzioa/01-201812/21.json": "07b528d1c6c1eab795feaa04b096407a7fee8a78b45c1b4cf002b5cb9efb771e",
+   "sekzioa/01-201812/23.json": "ed0ba8e4bc292f50f6962c206636c8bfa5f3b5250843451e00885e95c9ac481b",
+   "sekzioa/01-201812/29.json": "048dfce8486ace780ede1bc79897d100c189fa3b2e78be83b633ee6d69ce5800",
+   "sekzioa/01-201812/41.json": "13d339168c1a3368f00a21700759aac42524b985854a46aacdb8b12e5dd48bb5"
+  },
+  "padron_65034": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+  "seccionado_2025": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+ },
+ "peso": "poblacion (D-13)",
+ "schema": "ddd.reagregacion-autonomicas/1.0",
+ "seccionado_historico": 2019
+}

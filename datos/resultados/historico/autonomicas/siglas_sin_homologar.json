@@ -1,892 +1,1432 @@
 [
  [
-  "canarias",
-  "201105",
-  "ACSSP"
+  "andalucia",
+  "201203",
+  "AES"
  ],
  [
-  "canarias",
-  "201105",
-  "AHI-CC"
+  "andalucia",
+  "201203",
+  "AMD"
  ],
  [
-  "canarias",
-  "201105",
-  "ANC"
+  "andalucia",
+  "201203",
+  "AUPAL"
  ],
  [
-  "canarias",
-  "201105",
-  "C.D.L."
+  "andalucia",
+  "201203",
+  "C.Re.A."
  ],
  [
-  "canarias",
-  "201105",
-  "C.G.C.a."
+  "andalucia",
+  "201203",
+  "CAnda"
  ],
  [
-  "canarias",
-  "201105",
-  "CC-PNC-CCN"
+  "andalucia",
+  "201203",
+  "CCD"
  ],
  [
-  "canarias",
-  "201105",
-  "CSDC"
+  "andalucia",
+  "201203",
+  "CDL"
  ],
  [
-  "canarias",
-  "201105",
-  "D.N."
+  "andalucia",
+  "201203",
+  "ECNP"
  ],
  [
-  "canarias",
-  "201105",
-  "IUC"
- ],
- [
-  "canarias",
-  "201105",
-  "IpH-IUC"
- ],
- [
-  "canarias",
-  "201105",
-  "MP"
- ],
- [
-  "canarias",
-  "201105",
-  "MUPC"
- ],
- [
-  "canarias",
-  "201105",
-  "NCa"
- ],
- [
-  "canarias",
-  "201105",
-  "PACMA"
- ],
- [
-  "canarias",
-  "201105",
-  "PCPC"
- ],
- [
-  "canarias",
-  "201105",
-  "PH"
- ],
- [
-  "canarias",
-  "201105",
-  "PP"
- ],
- [
-  "canarias",
-  "201105",
-  "PPMAJO"
- ],
- [
-  "canarias",
-  "201105",
-  "PSOE"
- ],
- [
-  "canarias",
-  "201105",
-  "PSyEP"
- ],
- [
-  "canarias",
-  "201105",
-  "PUM+J"
- ],
- [
-  "canarias",
-  "201105",
-  "SCC"
- ],
- [
-  "canarias",
-  "201105",
-  "UCE"
- ],
- [
-  "canarias",
-  "201105",
-  "UNIDAD DEL PUEBLO"
- ],
- [
-  "canarias",
-  "201105",
-  "UPyD"
- ],
- [
-  "canarias",
-  "201105",
-  "VERDES"
- ],
- [
-  "canarias",
-  "201505",
-  "+XT"
- ],
- [
-  "canarias",
-  "201505",
-  "AMF"
- ],
- [
-  "canarias",
-  "201505",
-  "ANC"
- ],
- [
-  "canarias",
-  "201505",
-  "ASG"
- ],
- [
-  "canarias",
-  "201505",
-  "CCN-UNIDOS"
- ],
- [
-  "canarias",
-  "201505",
-  "CCa-AHI"
- ],
- [
-  "canarias",
-  "201505",
-  "CCa-PNC"
- ],
- [
-  "canarias",
-  "201505",
-  "Cs"
- ],
- [
-  "canarias",
-  "201505",
-  "EB"
- ],
- [
-  "canarias",
-  "201505",
-  "IUC-LV-Unidad del Pueblo-ALTER"
- ],
- [
-  "canarias",
-  "201505",
-  "IpH-IUC-LV-ALTER"
- ],
- [
-  "canarias",
-  "201505",
-  "MUPC"
- ],
- [
-  "canarias",
-  "201505",
-  "NCa"
- ],
- [
-  "canarias",
-  "201505",
-  "P.C.P.C."
- ],
- [
-  "canarias",
-  "201505",
-  "PACMA"
- ],
- [
-  "canarias",
-  "201505",
-  "PODEMOS"
- ],
- [
-  "canarias",
-  "201505",
-  "PP"
- ],
- [
-  "canarias",
-  "201505",
-  "PSOE"
- ],
- [
-  "canarias",
-  "201505",
-  "PUM+J"
- ],
- [
-  "canarias",
-  "201505",
-  "RECORTES CERO"
- ],
- [
-  "canarias",
-  "201505",
-  "RECORTES CERO LA PALMA"
- ],
- [
-  "canarias",
-  "201505",
-  "RECORTES CERO TENERIFE"
- ],
- [
-  "canarias",
-  "201505",
-  "SAIn"
- ],
- [
-  "canarias",
-  "201505",
-  "UNIDOS"
- ],
- [
-  "canarias",
-  "201505",
-  "UPyD"
- ],
- [
-  "canarias",
-  "201505",
-  "VOX"
- ],
- [
-  "canarias",
-  "201905",
-  "+XT"
- ],
- [
-  "canarias",
-  "201905",
-  "3e en acción"
- ],
- [
-  "canarias",
-  "201905",
-  "AHI-CC"
- ],
- [
-  "canarias",
-  "201905",
-  "AHORA CANARIAS"
- ],
- [
-  "canarias",
-  "201905",
-  "ASG"
- ],
- [
-  "canarias",
-  "201905",
-  "ASTF"
- ],
- [
-  "canarias",
-  "201905",
-  "CCa-PNC"
- ],
- [
-  "canarias",
-  "201905",
-  "CONTIGO"
- ],
- [
-  "canarias",
-  "201905",
-  "Ci-PROGRESO"
- ],
- [
-  "canarias",
-  "201905",
-  "Cs"
- ],
- [
-  "canarias",
-  "201905",
-  "IUC"
- ],
- [
-  "canarias",
-  "201905",
-  "LV-GV"
- ],
- [
-  "canarias",
-  "201905",
-  "NCa"
- ],
- [
-  "canarias",
-  "201905",
-  "NIVARIA"
- ],
- [
-  "canarias",
-  "201905",
-  "PACMA"
- ],
- [
-  "canarias",
-  "201905",
-  "PARTIDO DE FUERTEVENTURA"
- ],
- [
-  "canarias",
-  "201905",
-  "PCPC"
- ],
- [
-  "canarias",
-  "201905",
-  "PH"
- ],
- [
-  "canarias",
-  "201905",
-  "PP"
- ],
- [
-  "canarias",
-  "201905",
-  "PSLF"
- ],
- [
-  "canarias",
-  "201905",
-  "PSOE"
- ],
- [
-  "canarias",
-  "201905",
-  "PUM+J"
- ],
- [
-  "canarias",
-  "201905",
-  "Podemos-Sí Se Puede-Equo"
- ],
- [
-  "canarias",
-  "201905",
-  "SCT"
- ],
- [
-  "canarias",
-  "201905",
-  "UDC"
- ],
- [
-  "canarias",
-  "201905",
-  "UPLanzarote"
- ],
- [
-  "canarias",
-  "201905",
-  "VOX"
- ],
- [
-  "canarias",
-  "201905",
-  "Votemos"
- ],
- [
-  "canarias",
-  "202305",
-  "+C"
- ],
- [
-  "canarias",
-  "202305",
-  "3E"
- ],
- [
-  "canarias",
-  "202305",
-  "A.H.I."
- ],
- [
-  "canarias",
-  "202305",
-  "AHORA CANARIAS-PCPC"
- ],
- [
-  "canarias",
-  "202305",
-  "AMF"
- ],
- [
-  "canarias",
-  "202305",
-  "ASAMBLEA HERREÑA"
- ],
- [
-  "canarias",
-  "202305",
-  "ASG"
- ],
- [
-  "canarias",
-  "202305",
-  "CCA"
- ],
- [
-  "canarias",
-  "202305",
-  "CONTIGO"
- ],
- [
-  "canarias",
-  "202305",
-  "Cs"
- ],
- [
-  "canarias",
-  "202305",
-  "DVC"
- ],
- [
-  "canarias",
-  "202305",
-  "HABLEMOS AHORA"
- ],
- [
-  "canarias",
-  "202305",
-  "IXLG"
- ],
- [
-  "canarias",
-  "202305",
-  "MAE"
- ],
- [
-  "canarias",
-  "202305",
-  "NC-BC"
- ],
- [
-  "canarias",
-  "202305",
-  "P.N.C."
- ],
- [
-  "canarias",
-  "202305",
-  "PACMA"
- ],
- [
-  "canarias",
-  "202305",
-  "PP"
- ],
- [
-  "canarias",
-  "202305",
-  "PSOE"
- ],
- [
-  "canarias",
-  "202305",
-  "REUNIR CANARIAS SOSTENIBLE"
- ],
- [
-  "canarias",
-  "202305",
-  "UDC"
- ],
- [
-  "canarias",
-  "202305",
-  "UNIDAS SÍ PODEMOS"
- ],
- [
-  "canarias",
-  "202305",
-  "UXGC"
- ],
- [
-  "canarias",
-  "202305",
-  "VOX"
- ],
- [
-  "cantabria",
-  "202305",
-  "CANTABRIA DISTINTA"
- ],
- [
-  "cantabria",
-  "202305",
-  "CANTABRISTAS"
- ],
- [
-  "cantabria",
-  "202305",
-  "Cs"
- ],
- [
-  "cantabria",
-  "202305",
+  "andalucia",
+  "201203",
   "EQUO"
  ],
  [
-  "cantabria",
-  "202305",
-  "OLA CANTABRIA"
+  "andalucia",
+  "201203",
+  "Eb"
  ],
  [
-  "cantabria",
-  "202305",
+  "andalucia",
+  "201203",
+  "F.C."
+ ],
+ [
+  "andalucia",
+  "201203",
+  "FE de las JONS"
+ ],
+ [
+  "andalucia",
+  "201203",
+  "HARTOS.org"
+ ],
+ [
+  "andalucia",
+  "201203",
+  "IULV-CA"
+ ],
+ [
+  "andalucia",
+  "201203",
+  "MD"
+ ],
+ [
+  "andalucia",
+  "201203",
+  "MSR"
+ ],
+ [
+  "andalucia",
+  "201203",
+  "P.N.de A."
+ ],
+ [
+  "andalucia",
+  "201203",
+  "PA"
+ ],
+ [
+  "andalucia",
+  "201203",
   "PACMA"
  ],
  [
-  "cantabria",
-  "202305",
-  "PCTE"
- ],
- [
-  "cantabria",
-  "202305",
-  "PODEMOS-IU"
- ],
- [
-  "cantabria",
-  "202305",
-  "PP"
- ],
- [
-  "cantabria",
-  "202305",
-  "PRC"
- ],
- [
-  "cantabria",
-  "202305",
-  "PSC-PSOE"
- ],
- [
-  "cantabria",
-  "202305",
-  "VOX"
- ],
- [
-  "castilla_la_mancha",
-  "201905",
-  "ANATUR-UDEC"
- ],
- [
-  "castilla_la_mancha",
-  "201905",
-  "Cs"
- ],
- [
-  "castilla_la_mancha",
-  "201905",
-  "JC"
- ],
- [
-  "castilla_la_mancha",
-  "201905",
-  "PACMA"
- ],
- [
-  "castilla_la_mancha",
-  "201905",
-  "PCAS-TC"
- ],
- [
-  "castilla_la_mancha",
-  "201905",
+  "andalucia",
+  "201203",
   "PCPE"
  ],
  [
-  "castilla_la_mancha",
-  "201905",
-  "PODEMOS-IU-EQUO CLM"
+  "andalucia",
+  "201203",
+  "PDSA"
  ],
  [
-  "castilla_la_mancha",
-  "201905",
+  "andalucia",
+  "201203",
+  "PFyV"
+ ],
+ [
+  "andalucia",
+  "201203",
+  "PH"
+ ],
+ [
+  "andalucia",
+  "201203",
+  "PHAN"
+ ],
+ [
+  "andalucia",
+  "201203",
   "PP"
  ],
  [
-  "castilla_la_mancha",
-  "201905",
-  "PSOE"
+  "andalucia",
+  "201203",
+  "PRAO"
  ],
  [
-  "castilla_la_mancha",
-  "201905",
+  "andalucia",
+  "201203",
+  "PSOE-A"
+ ],
+ [
+  "andalucia",
+  "201203",
   "PUM+J"
  ],
  [
-  "castilla_la_mancha",
-  "201905",
-  "VOX"
+  "andalucia",
+  "201203",
+  "RISA"
  ],
  [
-  "la_rioja",
-  "201105",
-  "ECOLO-VERDE"
+  "andalucia",
+  "201203",
+  "SAIn"
  ],
  [
-  "la_rioja",
-  "201105",
-  "IU"
+  "andalucia",
+  "201203",
+  "SyR"
  ],
  [
-  "la_rioja",
-  "201105",
-  "P.C.P.E."
+  "andalucia",
+  "201203",
+  "UCE"
  ],
  [
-  "la_rioja",
-  "201105",
-  "PACMA"
- ],
- [
-  "la_rioja",
-  "201105",
-  "PP"
- ],
- [
-  "la_rioja",
-  "201105",
-  "PR"
- ],
- [
-  "la_rioja",
-  "201105",
-  "PSOE"
- ],
- [
-  "la_rioja",
-  "201105",
-  "PUM+J"
- ],
- [
-  "la_rioja",
-  "201105",
+  "andalucia",
+  "201203",
   "UPyD"
  ],
  [
-  "la_rioja",
-  "201505",
-  "CR-IU-EQUO"
+  "andalucia",
+  "201503",
+  "CILUS"
  ],
  [
-  "la_rioja",
-  "201505",
+  "andalucia",
+  "201503",
   "Cs"
  ],
  [
-  "la_rioja",
-  "201505",
+  "andalucia",
+  "201503",
+  "CÁMBIALO"
+ ],
+ [
+  "andalucia",
+  "201503",
   "EB"
  ],
  [
-  "la_rioja",
-  "201505",
+  "andalucia",
+  "201503",
+  "FE de las JONS"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "IULV-CA"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "LYG"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "NEODEMÓCRATAS"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "PA"
+ ],
+ [
+  "andalucia",
+  "201503",
   "PACMA"
  ],
  [
-  "la_rioja",
-  "201505",
+  "andalucia",
+  "201503",
+  "PBG"
+ ],
+ [
+  "andalucia",
+  "201503",
   "PCPE"
  ],
  [
-  "la_rioja",
-  "201505",
+  "andalucia",
+  "201503",
+  "PNdeA"
+ ],
+ [
+  "andalucia",
+  "201503",
   "PODEMOS"
  ],
  [
-  "la_rioja",
-  "201505",
+  "andalucia",
+  "201503",
   "PP"
  ],
  [
-  "la_rioja",
-  "201505",
-  "PR+"
+  "andalucia",
+  "201503",
+  "PRAO"
  ],
  [
-  "la_rioja",
-  "201505",
-  "PSOE"
+  "andalucia",
+  "201503",
+  "PSOE-A"
  ],
  [
-  "la_rioja",
-  "201505",
+  "andalucia",
+  "201503",
+  "PTJ"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "PUM+J"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "RECORTES CERO ALMERÍA"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "RECORTES CERO CÓRDOBA"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "RECORTES CERO GRANADA"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "RECORTES CERO HUELVA"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "RECORTES CERO JAÉN"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "RECORTES CERO MÁLAGA"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "RECORTES CERO SEVILLA"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "RISA"
+ ],
+ [
+  "andalucia",
+  "201503",
+  "SyR"
+ ],
+ [
+  "andalucia",
+  "201503",
   "UPyD"
  ],
  [
-  "la_rioja",
-  "201905",
-  "Cs"
- ],
- [
-  "la_rioja",
-  "201905",
-  "PACMA"
- ],
- [
-  "la_rioja",
-  "201905",
-  "PODEMOS-IU-EQUO"
- ],
- [
-  "la_rioja",
-  "201905",
-  "PP"
- ],
- [
-  "la_rioja",
-  "201905",
-  "PR+"
- ],
- [
-  "la_rioja",
-  "201905",
-  "PSOE"
- ],
- [
-  "la_rioja",
-  "201905",
+  "andalucia",
+  "201503",
   "VOX"
  ],
  [
-  "la_rioja",
-  "202305",
+  "andalucia",
+  "201812",
+  "ADELANTE ANDALUCÍA"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "ALTER"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "AxSÍ"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "CAnda"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "CILU-LINARES"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "CILUS"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "ConecAnd"
+ ],
+ [
+  "andalucia",
+  "201812",
   "Cs"
  ],
  [
-  "la_rioja",
-  "202305",
+  "andalucia",
+  "201812",
+  "EB"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "EQUO-INICIATIVA"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "FE de las JONS"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "IZAR"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "IxH"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "NA"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "P.C.O.E."
+ ],
+ [
+  "andalucia",
+  "201812",
+  "PACMA"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "PCPA"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "PP"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "PSOE-A"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "RECORTES CERO"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "RISA"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "Respeto"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "SOLUCIONA"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "UNIDOS SÍ-Democracia Efectiva"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "UPyD"
+ ],
+ [
+  "andalucia",
+  "201812",
+  "VOX"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "ADELANTE ANDALUCÍA-ANDALUCISTAS"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "AL"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "CRSxA"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "Cs"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "DESPIERTA"
+ ],
+ [
+  "andalucia",
+  "202206",
   "ESCAÑOS EN BLANCO"
  ],
  [
-  "la_rioja",
-  "202305",
+  "andalucia",
+  "202206",
+  "FE de las JONS"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "Federación BASTA YA!"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "IZAR"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "JM+"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "JUFUDI"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "JxG"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "LOS VERDES"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "N.A."
+ ],
+ [
+  "andalucia",
+  "202206",
   "PACMA"
  ],
  [
-  "la_rioja",
-  "202305",
-  "PLRi"
+  "andalucia",
+  "202206",
+  "PARTIDO AUTÓNOMOS"
  ],
  [
-  "la_rioja",
-  "202305",
-  "PODEMOS-I.U."
+  "andalucia",
+  "202206",
+  "PCPA"
  ],
  [
-  "la_rioja",
-  "202305",
+  "andalucia",
+  "202206",
+  "PCTE"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "POR ANDALUCÍA"
+ ],
+ [
+  "andalucia",
+  "202206",
   "PP"
  ],
  [
-  "la_rioja",
-  "202305",
-  "PR+E"
+  "andalucia",
+  "202206",
+  "PSOE-A"
  ],
  [
-  "la_rioja",
-  "202305",
-  "PSOE"
+  "andalucia",
+  "202206",
+  "PUM+J"
  ],
  [
-  "la_rioja",
-  "202305",
-  "VINEA"
+  "andalucia",
+  "202206",
+  "RECORTES CERO"
  ],
  [
-  "la_rioja",
-  "202305",
+  "andalucia",
+  "202206",
+  "RECORTES CERO-IPAL"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "RECORTES CERO-JV"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "SOMOS FUTURO"
+ ],
+ [
+  "andalucia",
+  "202206",
+  "VOLT"
+ ],
+ [
+  "andalucia",
+  "202206",
   "VOX"
  ],
  [
-  "region_de_murcia",
-  "201905",
-  "3e en acción"
+  "andalucia",
+  "202206",
+  "XH"
  ],
  [
-  "region_de_murcia",
-  "201905",
-  "CANTONAL"
+  "andalucia",
+  "202605",
+  "100x100"
  ],
  [
-  "region_de_murcia",
-  "201905",
-  "CONTIGO"
+  "andalucia",
+  "202605",
+  "29"
  ],
  [
-  "region_de_murcia",
-  "201905",
-  "CR"
+  "andalucia",
+  "202605",
+  "ADELANTE ANDALUCÍA"
  ],
  [
-  "region_de_murcia",
+  "andalucia",
+  "202605",
+  "ALM"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "ANDALUCISTAS"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "ANDALUSÍ"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "CONECTA"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "ESCAÑOS EN BLANCO"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "FE de las JONS"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "HE>"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "IPAL"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "IZAR"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "JM+"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "JUFUDI"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "MUNDO+JUSTO"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "NA"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "PACMA"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "PARTIDO AUTÓNOMOS"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "PCPA"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "PCTE"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "PODER ANDALUZ"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "POR ANDALUCÍA"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "PP"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "PSOE-A"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "SALF"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "SOCIEDAD UNIDA"
+ ],
+ [
+  "andalucia",
+  "202605",
+  "VOX"
+ ],
+ [
+  "aragon",
+  "201905",
+  "Alto Aragón en Común"
+ ],
+ [
+  "aragon",
+  "201905",
+  "CHA"
+ ],
+ [
+  "aragon",
   "201905",
   "Cs"
  ],
  [
-  "region_de_murcia",
+  "aragon",
   "201905",
-  "DPL"
+  "EB"
  ],
  [
-  "region_de_murcia",
+  "aragon",
   "201905",
-  "MC-CCD"
+  "FIA"
  ],
  [
-  "region_de_murcia",
+  "aragon",
   "201905",
-  "P.C.P.E."
+  "IU"
  ],
  [
-  "region_de_murcia",
+  "aragon",
+  "201905",
+  "MOVIMIENTO ARAGONES SOCIAL"
+ ],
+ [
+  "aragon",
   "201905",
   "PACMA"
  ],
  [
-  "region_de_murcia",
+  "aragon",
+  "201905",
+  "PAR"
+ ],
+ [
+  "aragon",
+  "201905",
+  "PCTE"
+ ],
+ [
+  "aragon",
+  "201905",
+  "PLATAFORMA Ñ"
+ ],
+ [
+  "aragon",
   "201905",
   "PODEMOS-EQUO"
  ],
  [
-  "region_de_murcia",
+  "aragon",
   "201905",
   "PP"
  ],
  [
-  "region_de_murcia",
+  "aragon",
   "201905",
   "PSOE"
  ],
  [
-  "region_de_murcia",
+  "aragon",
   "201905",
-  "SOMOS REGIÓN"
+  "TIERRA ARAGONESA"
  ],
  [
-  "region_de_murcia",
+  "aragon",
   "201905",
-  "UDDE"
+  "VOX"
  ],
  [
-  "region_de_murcia",
+  "aragon",
+  "202305",
+  "CHA"
+ ],
+ [
+  "aragon",
+  "202305",
+  "Cs"
+ ],
+ [
+  "aragon",
+  "202305",
+  "EB"
+ ],
+ [
+  "aragon",
+  "202305",
+  "ENTRE TODOS BAJO / BAIX CINCA"
+ ],
+ [
+  "aragon",
+  "202305",
+  "EXISTE"
+ ],
+ [
+  "aragon",
+  "202305",
+  "FIA"
+ ],
+ [
+  "aragon",
+  "202305",
+  "IU"
+ ],
+ [
+  "aragon",
+  "202305",
+  "PACMA"
+ ],
+ [
+  "aragon",
+  "202305",
+  "PAR"
+ ],
+ [
+  "aragon",
+  "202305",
+  "PCTE"
+ ],
+ [
+  "aragon",
+  "202305",
+  "PODEMOS-AV"
+ ],
+ [
+  "aragon",
+  "202305",
+  "PP"
+ ],
+ [
+  "aragon",
+  "202305",
+  "PSOE"
+ ],
+ [
+  "aragon",
+  "202305",
+  "VERDES EQUO"
+ ],
+ [
+  "aragon",
+  "202305",
+  "VOX"
+ ],
+ [
+  "aragon",
+  "202602",
+  "CHA"
+ ],
+ [
+  "aragon",
+  "202602",
+  "COALICIÓN ARAGONESA"
+ ],
+ [
+  "aragon",
+  "202602",
+  "EB"
+ ],
+ [
+  "aragon",
+  "202602",
+  "ENTRE TODOS BAJO / BAIX CINCA"
+ ],
+ [
+  "aragon",
+  "202602",
+  "EXISTE"
+ ],
+ [
+  "aragon",
+  "202602",
+  "IU-SUMAR"
+ ],
+ [
+  "aragon",
+  "202602",
+  "PACMA"
+ ],
+ [
+  "aragon",
+  "202602",
+  "PAR"
+ ],
+ [
+  "aragon",
+  "202602",
+  "PCTE"
+ ],
+ [
+  "aragon",
+  "202602",
+  "PODEMOS-AV"
+ ],
+ [
+  "aragon",
+  "202602",
+  "PP"
+ ],
+ [
+  "aragon",
+  "202602",
+  "PSOE"
+ ],
+ [
+  "aragon",
+  "202602",
+  "PUM+J"
+ ],
+ [
+  "aragon",
+  "202602",
+  "SALF"
+ ],
+ [
+  "aragon",
+  "202602",
+  "VOX"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "ASI"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "CCD"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "CENB"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "Cs"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "CxI"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "Dissidents"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "ENE"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "ESOS"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "ESQUERRA REPUBLICANA"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "EUIB"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "EVME"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "Esquerra de Menorca"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "ExC"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "GxF + PSOE"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "IB-LLIGA"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "MSR"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "NOV-A"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "PACMA"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "PFyV"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "PIIB"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "PLIE"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "PP"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "PRB+i"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "PREF"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "PSM-IV-EXM"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "PSOE"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "PSOE-PACTE"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "Partit Socialista de Menorca"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "Sa Unió de Formentera (PP"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "TD"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "UCE"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "UMe"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "UPCM"
+ ],
+ [
+  "illes_balears",
+  "201105",
+  "UPyD"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "AL-in"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "ASI"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "Ciudadanos de Menorca"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "CompromísFormentera"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "Cs"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "EUIB"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "El Pi"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "Esquerra Republicana"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "GUANYEM"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "GxE"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "GxF"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "MC EPIC"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "MxMe"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "Más Eivissa"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "Més per Mallorca"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "PACMA"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "PFyV"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "PLIE"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "PODEMOS"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "PP"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "PREF"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "PSIB-PSOE"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "RECORTES CERO MALLORCA"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "RECORTES CERO MENORCA"
+ ],
+ [
+  "illes_balears",
+  "201505",
+  "UPyD"
+ ],
+ [
+  "illes_balears",
   "201905",
+  "ASI"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "Ara Eivissa"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "Cs"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "El Pi"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "GxF+PSIB-PSOE+EUIB"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "MC EPIC"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "Moviment 4 illes"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "MxMe"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "MÉS"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "PACMA"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "PACT"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "PLIE"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "PP"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "PSIB-PSOE"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "PxE"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "Sa Unió de Formentera (PP"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "Unidas Podemos"
+ ],
+ [
+  "illes_balears",
+  "201905",
+  "VOX"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "ARA EIVISSA"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "CPERB"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "Cs"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "EPIC"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "EUIB-PODEMOS"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "El Pi"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "GXF + PSIB-PSOE"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "MxMe"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "MÉS"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "Nuevo Orden Nacional"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "PERXB"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "PLIE"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "PP"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "PSIB-PSOE"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "Progreso en Verde"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "Reset"
+ ],
+ [
+  "illes_balears",
+  "202305",
+  "SA UNIÓ"
+ ],
+ [
+  "illes_balears",
+  "202305",
   "VOX"
  ]
 ]

@@ -1,0 +1,65 @@
+{
+ "comunidad": "andalucia",
+ "elecciones": {
+  "201203": {
+   "aproximado_en_distrito": false,
+   "campos_sin_dato_a_cero": {},
+   "cera_excluido": [],
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "201503": {
+   "aproximado_en_distrito": false,
+   "campos_sin_dato_a_cero": {},
+   "cera_excluido": [],
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "201812": {
+   "aproximado_en_distrito": false,
+   "campos_sin_dato_a_cero": {},
+   "cera_excluido": [],
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "202206": {
+   "aproximado_en_distrito": false,
+   "campos_sin_dato_a_cero": {},
+   "cera_excluido": [],
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "202605": {
+   "aproximado_en_distrito": false,
+   "campos_sin_dato_a_cero": {},
+   "cera_excluido": [],
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.003729,
+   "perdidos_por_causa": {
+    "sin_geometria": 15425.0
+   },
+   "votos_perdidos": 15425.0
+  }
+ },
+ "huecos": [],
+ "no_cuadran": [],
+ "schema": "ddd.reagregacion-autonomicas/1.0"
+}
