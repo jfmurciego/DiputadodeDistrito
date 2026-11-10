@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.319
+Versión: 1.0.321
 Fecha: 2026-11-10
-Alcance: Operador — Ficha de campaña del histórico autonómico (Andalucía, Baleares, Aragón), cerrada sin ejecutar
+Alcance: T-207 — Composición canónica de Andalucía y Aragón desde el M06 publicado
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_operador-ficha-historico-autonomico.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.318_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t207-composicion-andalucia-aragon.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.320_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.318_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.321 · [2026-11-10 — T-207 — Composición canónica de Andalucía y Aragón desde el M06 publicado](registro/2026-11-10_t207-composicion-andalucia-aragon.md)
+- 1.0.320 · [2026-11-10 — T-205 — D8 en la competición del motor nuevo](registro/2026-11-10_claude-t205-competicion-d8.md)
 - 1.0.319 · [2026-11-10 — Operador — Ficha de campaña del histórico autonómico (Andalucía, Baleares, Aragón), cerrada sin ejecutar](registro/2026-11-10_operador-ficha-historico-autonomico.md)
 - 1.0.318 · [2026-11-10 — T-128 — Coordinador: lecciones de cierres (3.ª tanda), tareas del motor y D-65 a D-71](registro/2026-11-10_coordinador-lecciones-3.md)
 - 1.0.317 · [2026-11-10 — T-204 — Plan 1.0.39: decisiones D-65 a D-68 y cola del motor y de las generales 2026](registro/2026-11-10_claude-t204-plan-d65-d68.md)
