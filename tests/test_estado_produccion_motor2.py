@@ -24,12 +24,13 @@ COMPOSICION = "section_code,district_id\n2600101001,1\n2600101002,2\n"
 def p30_la_rioja(composicion_sha256):
     """Cifras del P30.json real de La Rioja (00 simulada en local, T-221, huella_resultado 7bb9b44b…): gana
     ponderado-s2009387672, 78 secciones cambiadas, fuera_tolerancia=1 y desvío máximo igual al del canónico."""
-    return {"schema": "ddd.motor2-p30/1.0", "territorio": "la_rioja", "ganador": "ponderado-s2009387672",
+    return {"schema": "ddd.p30-motor2/1.0", "territorio": "la_rioja", "ganador": "ponderado-s2009387672",
             "valido": True, "estado_ganador": "VALIDO", "estado": "P30_GANA_OTRO_PLAN", "rehacer_m06": True,
             "secciones_cambiadas": 78,
             "huella_resultado": "7bb9b44b3a51690d47632914979669ca8339566ef9229f1663d91dc59eee4675",
-            "metricas": {"ganador": {"fuera_tolerancia": 1, "desvio_max": 0.4177583606903271},
-                         "canonico": {"fuera_tolerancia": 1, "desvio_max": 0.4177583606903271}},
+            "composicion_m06_sha256": "c" * 64,  # la canónica con la que compitió (no es la certificada)
+            "metricas": {"ganador": {"fuera_tolerancia": 1, "violaciones_duras": 0, "desvio_max": 0.4177583606903271},
+                         "canonico": {"fuera_tolerancia": 1, "violaciones_duras": 0, "desvio_max": 0.4177583606903271}},
             "verificacion_m06": {"igual_al_ganador": True, "composicion_sha256": composicion_sha256},
             "m05_restaurada": True}
 
@@ -104,6 +105,8 @@ class Motor2Certificacion(unittest.TestCase):
             "M05 no restaurada": {"m05_restaurada": False},
             "composición distinta": {"verificacion_m06": {"igual_al_ganador": True, "composicion_sha256": "0" * 64}},
             "sin métricas": {"metricas": {"ganador": {"fuera_tolerancia": 1}}},
+            "sin violaciones duras": {"metricas": {"ganador": {"fuera_tolerancia": 1, "desvio_max": 0.4},
+                                                   "canonico": {"fuera_tolerancia": 1, "desvio_max": 0.4}}},
         }
         for nombre, cambio in casos.items():
             with self.subTest(nombre):
@@ -112,12 +115,40 @@ class Motor2Certificacion(unittest.TestCase):
 
     def test_gana_canonico_no_exige_m06_rehecho(self):
         p30 = p30_la_rioja(self.sha) | {"estado": "P30_GANA_CANONICO", "rehacer_m06": False, "secciones_cambiadas": 0,
-                                       "metricas": {"ganador": {"fuera_tolerancia": 0, "desvio_max": 0.1},
-                                                    "canonico": {"fuera_tolerancia": 0, "desvio_max": 0.1}}}
+                                       "composicion_m06_sha256": self.sha,
+                                       "metricas": {"ganador": {"fuera_tolerancia": 0, "violaciones_duras": 0, "desvio_max": 0.1},
+                                                    "canonico": {"fuera_tolerancia": 0, "violaciones_duras": 0, "desvio_max": 0.1}}}
         del p30["verificacion_m06"], p30["m05_restaurada"]
         self.escribir_p30(p30)
         _, s = self.run_status("--motor", "motor2", "--runs-dir", str(self.runs))
         self.assertEqual((s["decision"], s["population_decision"]), ("PASS", "TARGET_MET"))
+        for nombre, cambio in (("sha distinto", "0" * 64), ("sin sha", None)):
+            with self.subTest(nombre):
+                self.escribir_p30(p30 | {"composicion_m06_sha256": cambio})
+                self.assert_bloquea("P30_POPULATION_EVIDENCE_INVALID")
+
+    def test_violaciones_duras_del_ganador_bloquean(self):
+        p30 = p30_la_rioja(self.sha)
+        p30["metricas"]["ganador"]["violaciones_duras"] = 2
+        self.escribir_p30(p30)
+        s = self.assert_bloquea("POPULATION_HARD_BLOCK")
+        self.assertEqual(s["population_hard_constraints_after"], 2)
+
+    def test_diagnostico_m06_no_borra_la_fuente_motor2(self):
+        cfg = yaml.safe_load(self.params.read_text(encoding="utf-8"))
+        cfg["modulos"]["modulo_06_consolidar_distritos"]["out_diagnostic_json"] = "runs/{run_id}/m06_diag.json"
+        self.params.write_text(yaml.safe_dump(cfg), encoding="utf-8")
+        (self.runs / "m06_diag.json").write_text(json.dumps(
+            {"hard_population_violations": 0, "structural_status": "PASS", "population_conformance": "PASS"}),
+            encoding="utf-8")
+        self.escribir_p30(p30_la_rioja(self.sha))
+        _, s = self.run_status("--motor", "motor2", "--runs-dir", str(self.runs))
+        self.assertEqual(s["population_evidence_source"], "MOTOR2_P30")
+        self.assertEqual(s["population_hard_constraints_source"], "M06_DIAGNOSTIC")
+        self.assertEqual(s["decision"], "PASS")
+        _, m05 = self.run_status(name="m05.json")  # con m05, como antes: la fuente pasa a M06_DIAGNOSTIC
+        self.assertEqual(m05["population_evidence_source"], "M06_DIAGNOSTIC")
+        self.assertNotIn("population_hard_constraints_source", m05)
 
     def test_workflow_pasa_motor_y_runs_dir(self):
         texto = WORKFLOW.read_text(encoding="utf-8")

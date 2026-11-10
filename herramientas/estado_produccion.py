@@ -166,7 +166,11 @@ def _merge_m06_population_evidence(population: dict, m06: dict | None) -> dict:
 
     hard = int(m06.get("m06_hard_population_violations", 0))
     merged["population_hard_constraints_after"] = hard
-    merged["population_evidence_source"] = "M06_DIAGNOSTIC"
+    if population.get("population_evidence_source") == MOTOR2_P30:
+        # Con motor2 la fuente sigue siendo el P30; el diagnóstico M06 del plan rehecho consta aparte y manda en las duras.
+        merged["population_hard_constraints_source"] = "M06_DIAGNOSTIC"
+    else:
+        merged["population_evidence_source"] = "M06_DIAGNOSTIC"
     merged["population_evidence_status"] = "VALID"
     merged["population_evidence_error"] = None
     if hard:
@@ -367,19 +371,22 @@ def motor2_population_dimension(p30: dict) -> dict:
             return {"error": f"P30 sin metricas.{clave}"}
         try:
             fuera = m["fuera_tolerancia"]
+            duras = m["violaciones_duras"]
             desvio = float(m["desvio_max"])
-            if isinstance(fuera, bool) or not isinstance(fuera, int) or fuera < 0:
-                raise ValueError("fuera_tolerancia no es un entero >= 0")
+            for nombre, valor in (("fuera_tolerancia", fuera), ("violaciones_duras", duras)):
+                if isinstance(valor, bool) or not isinstance(valor, int) or valor < 0:
+                    raise ValueError(f"{nombre} no es un entero >= 0")
             if not math.isfinite(desvio) or desvio < 0:
                 raise ValueError("desvio_max no es finito >= 0")
         except (KeyError, TypeError, ValueError) as exc:
             return {"error": f"P30 metricas.{clave} inválidas: {type(exc).__name__}: {exc}"}
-        pares[clave] = (int(fuera), desvio)
-    (outliers_before, max_before), (outliers_after, max_after) = pares["canonico"], pares["ganador"]
-    # El ganador VALIDO del motor 2 no tiene violaciones duras (evaluar del certificador); el diagnóstico M06 del plan
-    # rehecho, si el contrato lo declara, se fusiona después y manda.
-    hard_after = 0
-    if outliers_after == 0:
+        pares[clave] = (int(fuera), desvio, int(duras))
+    (outliers_before, max_before, hard_before), (outliers_after, max_after, hard_after) = pares["canonico"], pares["ganador"]
+    # Las violaciones duras del ganador salen del P30 (evaluar del certificador); el diagnóstico M06 del plan rehecho,
+    # si el contrato lo declara, se fusiona después y manda.
+    if hard_after != 0:
+        decision = HARD_BLOCK
+    elif outliers_after == 0:
         decision = TARGET_MET
     elif outliers_after < outliers_before or max_after < max_before:
         decision = TARGET_IMPROVED_NOT_MET
@@ -399,7 +406,7 @@ def motor2_population_dimension(p30: dict) -> dict:
         "population_max_deviation_after": max_after,
         "population_termination_reason": None,
         "population_baseline_restored": False,
-        "population_hard_constraints_before": None,
+        "population_hard_constraints_before": hard_before,
         "population_hard_constraints_after": hard_after,
         "motor": "motor2",
         "motor2_ganador": p30.get("ganador"),
@@ -423,20 +430,27 @@ def _load_motor2_population_evidence(params: Path, run_id: str, runs_dir: Path) 
         return _p30_invalid(path_text, "P30 debe ser un objeto JSON")
     if p30.get("valido") is not True or p30.get("estado") not in P30_ESTADOS_VALIDOS or p30.get("estado_ganador") != "VALIDO":
         return _p30_invalid(path_text, f"P30 sin ganador válido: estado={p30.get('estado')} valido={p30.get('valido')}")
+    # La composición M06 certificada debe ser la del ganador: la verificada tras rehacer M06 si gana otro plan, o la
+    # canónica con la que compitió el P30 si gana el canónico.
     if p30.get("rehacer_m06"):
         verif = p30.get("verificacion_m06") if isinstance(p30.get("verificacion_m06"), dict) else {}
         if verif.get("igual_al_ganador") is not True:
             return _p30_invalid(path_text, "P30_M06_NO_ES_EL_GANADOR: el M06 rehecho no está verificado como el plan ganador")
         if p30.get("m05_restaurada") is not True:
             return _p30_invalid(path_text, "P30_M05_NO_RESTAURADA")
-        try:
-            composicion = _m06_composition_path(params, run_id)
-        except Exception as exc:  # noqa: BLE001
-            return _p30_invalid(path_text, f"composición M06 no resoluble: {type(exc).__name__}: {exc}")
-        if composicion is None or not composicion.is_file():
-            return _p30_invalid(path_text, f"composición M06 ausente: {composicion}")
-        if _sha256_file(composicion) != verif.get("composicion_sha256"):
-            return _p30_invalid(path_text, "la composición M06 certificada no es la verificada como ganadora en el P30")
+        esperado, que = verif.get("composicion_sha256"), "verificada como ganadora"
+    else:
+        esperado, que = p30.get("composicion_m06_sha256"), "canónica con la que compitió"
+    if not esperado:
+        return _p30_invalid(path_text, f"P30 sin sha256 de la composición M06 {que}")
+    try:
+        composicion = _m06_composition_path(params, run_id)
+    except Exception as exc:  # noqa: BLE001
+        return _p30_invalid(path_text, f"composición M06 no resoluble: {type(exc).__name__}: {exc}")
+    if composicion is None or not composicion.is_file():
+        return _p30_invalid(path_text, f"composición M06 ausente: {composicion}")
+    if _sha256_file(composicion) != esperado:
+        return _p30_invalid(path_text, f"la composición M06 certificada no es la {que} en el P30")
     result = motor2_population_dimension(p30)
     if "error" in result:
         return _p30_invalid(path_text, result["error"])

@@ -3,14 +3,17 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — P30 dentro de la cadena de producción (00 / 02, modo `motor: motor2`)
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: P30 en producción · competición D8 tras el canónico del run
 FECHA: 2026-11-10
 ESTADO: candidato (solo se ejecuta con la entrada `motor: motor2`; con `m05`, por defecto, nada lo llama)
-CAMBIOS: 1.0.0 — fichero nuevo.
+CAMBIOS: 1.0.1 — (T-221) P30.json publica también `metricas.<ganador|canonico>.violaciones_duras` y
+  `composicion_m06_sha256` (la composición M06 canónica con la que compitió): la certificación (estado_produccion
+  --motor motor2) los exige. Nada cambia en la competición ni en huella_resultado.
+  1.0.0 — fichero nuevo.
 MOTIVO: T-216 (corte 5.0.0, paso 3; D-75): el motor nuevo como P30 en la cadena de producción detrás de un interruptor
   `motor: m05|motor2` con `m05` por defecto hasta el relevo.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/ddd_motor2/produccion_v1.0.0_20261110.py
 QUÉ HACE (en el job M06 de la generación territorial, tras M04 + M05 canónico + M06 del propio run):
   competir   competición pública del motor 2 (competicion.competir_publico, la de la batería T-208): el canónico es el
              M06 que acaba de producir el run (mismas entradas M01-M03, M04, M05 canónico; no se recalcula), compite con
@@ -49,7 +52,7 @@ from pathlib import Path
 from typing import Mapping
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 ESQUEMA = "ddd.p30-motor2/1.0"
 FUNCION = "D8"  # única fuente de la función y N del P30: el flujo no los pasa y la huella motor2 los incluye
 CADENAS = 10
@@ -230,7 +233,8 @@ def competir(params: Path, n_cadenas: int = CADENAS, funcion: str = FUNCION, *, 
               "motor2": huella_motor(funcion, n_cadenas), "candidatos": len(res.candidatos),
               "candidatos_validos": sum(c.estado == "VALIDO" for c in res.candidatos), "rehacer_m06": False,
               "secciones_cambiadas": 0, "run_id": os.environ.get("DDD_RUN_ID"),
-              "metricas": {k: {"fuera_tolerancia": c.fuera_tolerancia,
+              "composicion_m06_sha256": _sha(r["composicion"].read_bytes()) if r["composicion"].is_file() else None,
+              "metricas": {k: {"fuera_tolerancia": c.fuera_tolerancia, "violaciones_duras": c.duras,
                                "desvio_max": None if c.desvio_max is None else float(c.desvio_max)}
                            for k, c in (("ganador", g), ("canonico", res.canonico))}}
     if not res.valido:
