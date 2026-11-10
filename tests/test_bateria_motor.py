@@ -284,7 +284,8 @@ class BateriaMotor2EnActions(unittest.TestCase):
             inc1 = self._competicion_json(out, "congreso_alava", 3, {"estado": "VALIDO", "compite": True}, False)
             inc2 = self._competicion_json(out, "ceuta", 3, {"estado": "INVALIDO", "compite": False}, True)
         self.assertEqual((ex["candidatos"], ex["vigente_compite"], ex["vigente_excluido"]), (5, False, "INVALIDO; núcleo partido en 28079"))
-        self.assertEqual((sin["candidatos"], sin["vigente_excluido"]), (4, None))
+        self.assertEqual(sin["candidatos"], 4)
+        self.assertIn("sin bloque", sin["vigente_excluido"])
         self.assertEqual((con["candidatos"], con["cadenas"]), (6, 3))
         self.assertTrue(inc1["vigente_incoherente"] and inc2["vigente_incoherente"])
         ok = lambda t: {"territorio": t, "estado": "VALIDO", "frente_al_canonico": "empata"}  # noqa: E731
@@ -292,7 +293,8 @@ class BateriaMotor2EnActions(unittest.TestCase):
         esp = list(cs)
         r = b.criterio_aceptacion([ok(t) for t in esp], {}, esp, cs, 3, {t: {"estado": "OK"} for t in esp})
         self.assertEqual(r["candidatos_incompletos"], ["ceuta", "congreso_alava"])
-        self.assertEqual(r["vigente_excluido"], {"madrid": "INVALIDO; núcleo partido en 28079"})
+        self.assertEqual(r["vigente_excluido"]["madrid"], "INVALIDO; núcleo partido en 28079")
+        self.assertEqual(sorted(r["vigente_excluido"]), ["madrid", "melilla"])
         self.assertFalse(r["aceptacion"])
         # un excluido que además «cuenta» (5 + 1 = 6 candidatos) no cuadra: sin verde por omisión
         self.assertEqual(b.criterio_aceptacion([ok("madrid")], {}, ["madrid"], {"madrid": {**ex, "candidatos": 6}}, 3)

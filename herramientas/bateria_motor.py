@@ -9,7 +9,7 @@ FECHA: 2026-11-10
 ESTADO: candidato
 CAMBIOS 1.2.1 (T-222): el recuento de candidatos cuenta el vigente que compite (T-217): esperados = 1 + N (+1 exhaustivo)
   (+1 si el COMPETICION.json dice que el vigente compite y lo trae como candidato). El vigente no cuenta como cadena ni como
-  cadena evaluable. Si no compite (no cumple el núcleo, no representable, fallo), consta en «vigente_excluido» con su motivo
+  cadena evaluable. Si no compite (no cumple el núcleo, no representable, fallo, o sin bloque «vigente»), consta en «vigente_excluido» con su motivo
   y no cuenta; si «compite» y la lista de candidatos no cuadran entre sí, el territorio queda en candidatos_incompletos (NO).
   Antes la fase 1 de r4 (run 42913861593: Madrid y Navarra, 12/12 VALIDO) salió NO por esperar 11.
 CAMBIOS 1.2.0 (T-212): criterio «nunca peor que el mapa vigente publicado»: `indicadores` (por territorio, en el job: fuera de
@@ -909,7 +909,7 @@ def indicadores(args) -> int:
 def cadenas_de(carpeta: Path) -> dict | None:
     """Candidatos de un COMPETICION.json: el canónico, el vigente (T-217) y el exhaustivo no son cadenas; el resto sí.
     `vigente_compite`: el bloque «vigente» dice que compite Y está entre los candidatos (si no cuadran, `vigente_incoherente`);
-    `vigente_excluido`: motivo por el que no compite (None si compite o si el COMPETICION.json no trae vigente)."""
+    `vigente_excluido`: motivo por el que no compite (también si el COMPETICION.json no trae bloque «vigente»; None si compite)."""
     try:
         d = json.loads((carpeta / "COMPETICION.json").read_text(encoding="utf-8"))
         todos = d["candidatos"]
@@ -917,7 +917,9 @@ def cadenas_de(carpeta: Path) -> dict | None:
         en_lista = any(c["id"] == "vigente" for c in todos)
         dice = bool(info.get("compite"))
         excluido = None
-        if info and not dice and not en_lista:
+        if not info and not en_lista:
+            excluido = "sin bloque «vigente» en COMPETICION.json (función A o competición anterior a T-217)"
+        elif info and not dice and not en_lista:
             excluido = "; ".join(x for x in (info.get("estado") or "sin estado", info.get("detalle")) if x)
         cs = [c for c in todos if c["id"] not in (d["canonico"], "vigente") and c["generador"] != "exhaustivo"]
         return {"candidatos": len(todos), "exhaustivo": any(c["generador"] == "exhaustivo" for c in todos), "cadenas": len(cs),
