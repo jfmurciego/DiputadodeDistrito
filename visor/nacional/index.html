@@ -1,11 +1,11 @@
 <!doctype html>
 <!--
 Proyecto: Diputado de Distrito
-Versión: 1.0.2 | Nombre: visor Nacional (T-84, D-16)
+Versión: 1.0.3 | Nombre: visor Nacional (T-84, D-16)
 Fecha: 2026-11-10 | Alcance: vista Nacional, elecciones generales; Autonómica pendiente
 Estado: candidato
-Cambios/motivo: T-174, hueco opcional de analítica sin cookies (Cloudflare Web Analytics); inactivo sin token.
-Anterior: legacy/visor/nacional/index_v1.0.1.html
+Cambios/motivo: T-206, nota solo para la elección 2026 (D-69), oculta mientras no se muestre 2026. Antes: T-174, hueco opcional de analítica sin cookies (Cloudflare Web Analytics); inactivo sin token.
+Anterior: legacy/visor/nacional/index_v1.0.2.html
 -->
 <html lang="es">
 <head>
@@ -28,7 +28,7 @@ Anterior: legacy/visor/nacional/index_v1.0.1.html
   <p id="status" class="status">Cargando…</p>
   <section id="legend" class="card"></section>
   <section class="card"><h2>Distrito</h2><div id="detail">Pulsa un distrito para ver su ficha.</div></section>
-  <section class="card"><p class="note">Datos: elecciones generales de 2023 sobre los distritos propuestos (CC-BY-4.0). Solo consta el ganador por distrito. El visor muestra únicamente lo publicado.</p></section>
+  <section class="card"><p id="nota-eleccion" class="note" hidden></p><p class="note">Datos: elecciones generales de 2023 sobre los distritos propuestos (CC-BY-4.0). Solo consta el ganador por distrito. El visor muestra únicamente lo publicado.</p></section>
  </aside>
 </main>
 <nav class="timebar" id="timebar" aria-label="Elección"></nav>

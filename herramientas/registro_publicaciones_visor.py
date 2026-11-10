@@ -5,7 +5,9 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.6.0 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.6.1 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS 1.6.1 (T-203): ELECCION_POR_DEFECTO se importa de eleccion_por_defecto.py (módulo ligero, sin pyproj); mismo valor.
+ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.6.0_20261110.py
 CAMBIOS 1.6.0 (T-201): `identity_key` incluye la elección como 4.º elemento (`eleccion_de`) y `_already_registered_reused_m06`
   solo reconoce un M06 reutilizado dentro de la misma elección. Sin `election_date` nada cambia (2023-07-23).
 ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.5.0_20261110.py
@@ -55,7 +57,7 @@ SCENARIO_KINDS = {"scenario_m06", "scenario_m08"}
 CANONICAL_KINDS = {"canonical_m06", "canonical_m08"}
 PRODUCT_KINDS = {"static"} | CANONICAL_KINDS | SCENARIO_KINDS
 PREFIJO_MAPA_350 = "congreso350_"
-ELECCION_POR_DEFECTO = "2023-07-23"  # entradas sin election_date (anteriores a 1.5.0)
+from herramientas.eleccion_por_defecto import ELECCION_POR_DEFECTO  # noqa: E402,F401
 STRATEGIES = {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}
 
 

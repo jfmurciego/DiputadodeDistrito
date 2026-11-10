@@ -1,9 +1,10 @@
-/* Anterior: legacy/visor/nacional/nacional_v1.0.2.js
- * Proyecto: Diputado de Distrito · Versión 1.0.3 · visor Nacional (T-84, D-16)
+/* Anterior: legacy/visor/nacional/nacional_v1.0.3.js
+ * Proyecto: Diputado de Distrito · Versión 1.0.4 · visor Nacional (T-84, D-16)
  * Vista Nacional: barra temporal, capas y feature-state de MapLibre. Solo muestra lo publicado en datos/
  * (datos_abiertos/INDEX.json). No inventa histórico: las elecciones y capas sin datos salen desactivadas.
  * 1.0.1: encuadre inicial por límites (no por centro/zoom) para que el móvil de 390 px vea la Península.
  * 1.0.2: atajos Península/Canarias (Canarias queda fuera del encuadre inicial).
+ * 1.0.4: T-206, NOTAS_ELECCION: texto público (D-69) solo para 2026; con 2023 sigue oculto.
  * 1.0.3: T-135, CSV y GeoJSON de datos abiertos numeran los distritos de 1 a K (propiedad `distrito`).
  * Teselas PMTiles: pendiente (hoy GeoJSON por provincia, cargado en paralelo). */
 "use strict";
@@ -14,6 +15,7 @@ const ELECCIONES=[
  {id:"2016",label:"2016",ok:false,motivo:"pendiente de T-83/T-85"},
  {id:"2019",label:"2019",ok:false,motivo:"pendiente de T-83/T-85"},
  {id:"2023",label:"2023",ok:true}];
+const NOTAS_ELECCION={"2026":"Los distritos de las generales de 2026 están trazados con el padrón y el seccionado de 2023; se actualizarán con el padrón de 2025."};
 const CAPAS=[
  {id:"ganador-distrito",label:"Ganador por distrito",ok:true},
  {id:"ganador-seccion",label:"Ganador por sección",ok:false,motivo:"sin datos por sección publicados"},
@@ -43,6 +45,7 @@ function botones(cont,items,activo,onclick){
 function pintaControles(){
  botones($("#timebar"),ELECCIONES,eleccion,id=>{eleccion=id;pintaControles()});
  botones($("#layers"),CAPAS,capa,id=>{capa=id;pintaControles()});
+ const nota=$("#nota-eleccion");if(nota){nota.textContent=NOTAS_ELECCION[eleccion]||"";nota.hidden=!NOTAS_ELECCION[eleccion]}
 }
 function parseCsv(t){return t.trim().split(/\r?\n/).slice(1).map(l=>{const c=l.split(",");
  return{distrito:+c[0],poblacion:+c[1],votos:+c[2],ganador:c[3],votosGanador:+c[4],pct:+c[5]}})}
