@@ -42,7 +42,7 @@ Clave del laboratorio aproximada con las mismas componentes que hay en la tabla 
 - El canónico de r3 coincide con el mapa vigente (A) en el desvío máximo de los 51 territorios del Congreso salvo Las Palmas (65,85 % frente a 41,93 %).
 - Mejora en 40 de 44 provincias con más de un distrito (laboratorio: 40 mejora, 3 empata, 1 empeora). Distinto frente: Álava,
   Baleares, Valencia y Zaragoza empatan en r3 y mejoran en el laboratorio; Alicante mejora en r3 y empeora en el laboratorio.
-- La cadena ganadora es la misma que en el laboratorio solo en 2 de 54 casos (el laboratorio eligía entre 20 cadenas; aquí entre 10).
+- La cadena ganadora es la misma que en el laboratorio solo en 2 de 54 casos (el laboratorio elegía entre 20 cadenas; aquí entre 10).
 
 **Autonómicas: NO reproduce el laboratorio en población.** En las 15 autonómicas con dato:
 
@@ -56,7 +56,7 @@ País Vasco 9 / 6, Cantabria 9 / 6, Castilla y León 4 / 1, Extremadura 1 / 0, G
 En estos territorios la «mejora» que cuenta r3 (15 de 19) no viene de la población. Causa probable, **no verificada**: el laboratorio de
 autonómicas (T-179, 2.ª parte) mide el desvío de cada distrito contra el objetivo de su circunscripción (`province_districts`) y corta cada par
 de distritos por la mitad de su población, y el generador `Ponderado` que usa la batería no lo hace en esas autonómicas. Otras diferencias
-(shapely 2.1.1 frente a 2.1.2, grafo M03 reconstruido desde fuente, 10 frente a 20 cadenas) no explican por sí solas una diferencia tan grande.
+(shapely 2.1.1 frente a 2.1.2, grafo M03 reconstruido desde fuente, 10 frente a 20 cadenas) no se han descartado.
 
 ## Límites
 
