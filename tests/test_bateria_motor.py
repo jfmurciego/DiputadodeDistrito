@@ -139,8 +139,10 @@ class BateriaMotor2EnActions(unittest.TestCase):
         self.assertFalse(parcial["aceptacion"])  # sin Álava ni Melilla no hay verde por omisión
         todas = ["congreso_soria", "congreso_alava", "melilla", "madrid"]
         h3 = {t: {"igual": True, "huella_1": t} for t in todas[:3]}
-        c = b.criterio_aceptacion([ok(t) for t in todas], h3, todas, cs(*todas), 3)
+        vg = {t: {"estado": "OK"} for t in todas}
+        c = b.criterio_aceptacion([ok(t) for t in todas], h3, todas, cs(*todas), 3, vg)
         self.assertTrue(c["aceptacion"])
+        self.assertFalse(b.criterio_aceptacion([ok(t) for t in todas], h3, todas, cs(*todas), 3)["aceptacion"])  # sin vigente, NO
         self.assertFalse(b.criterio_aceptacion([ok(t) for t in todas], h3, todas)["aceptacion"])  # sin datos de cadenas, NO
         c5 = cs(*todas)
         c5["madrid"]["candidatos"] = 4  # 1 + 3 + exhaustivo = 5 esperados
@@ -196,8 +198,10 @@ class BateriaMotor2EnActions(unittest.TestCase):
                 self.assertEqual(b.main(["aceptacion", "--out", str(out), "--cadenas", "2", "congreso_soria", "madrid", "melilla"]), 1)
             self.assertFalse(json.loads((out / "ACEPTACION.json").read_text())["aceptacion"])
 
-    def _competir_real(self, out: Path, t: str, cadena_ok: bool):
-        """Salida real de competir_territorio + escribir_resumen (generadores sintéticos); la cadena falla o no."""
+    def _competir_real(self, out: Path, t: str, cadena_ok: bool, vigente="bueno", canonico="bueno", pob=None):
+        """Salida real de competir_territorio + escribir_resumen (generadores sintéticos); la cadena falla o no.
+        T-212: deja también INDICADORES.json con el vigente indicado (`bueno` | `malo` | None = sin composición vigente |
+        "no_escribir" = sin INDICADORES.json), tal como lo hace el paso `indicadores` del job."""
         from ddd_motor2.competicion import EntradaTerritorio
         from ddd_motor2.competir import competir_territorio, escribir_resumen
         from ddd_motor2.semilla import semillas
@@ -209,10 +213,22 @@ class BateriaMotor2EnActions(unittest.TestCase):
             {"u": secc[a], "v": secc[c]} for a, c in (("A", "B"), ("B", "C"), ("C", "D"))]}))
         e = EntradaTerritorio(t, cfg_con_ancla(), grafo)
         bueno = {"A": "1", "B": "1", "C": "2", "D": "2"}
+        malo = {"A": "1", "B": "2", "C": "2", "D": "2"}  # 100 / 300 con objetivo 200: dos distritos fuera de tolerancia
         planes = {x: (bueno if cadena_ok else None) for x in semillas(e.cfg, t, 2)}
-        fila = competir_territorio(t, out, 2, generadores=(Fijo("canonico", {None: bueno}), Fijo("ponderado", planes)), entrada=e)
+        can = {"bueno": bueno, "malo": malo}[canonico]
+        pob = pob or POB
+        fila = competir_territorio(t, out, 2, generadores=(Fijo("canonico", {None: can}, pob), Fijo("ponderado", planes, pob)), entrada=e)
         escribir_resumen([fila], out / "competicion")
         shutil.copy(out / "competicion" / "RESUMEN.json", out / "competicion" / t / "RESUMEN.json")
+        if vigente != "no_escribir":
+            pub = None
+            if vigente:
+                pub = out / "vigente.csv"
+                plan_v = vigente if isinstance(vigente, dict) else {"bueno": bueno, "malo": malo}[vigente]
+                pub.write_text("seccion,distrito,poblacion\n" + "".join(
+                    f"{secc[u]},{plan_v[u]},{pob[u]}\n" for u in sorted(secc)), encoding="utf-8")
+            r = b.indicadores_territorio(t, out, cfg=e.cfg, grafo=grafo, vigente=(pub, "123" if pub else None))
+            b.escribir_indicadores(r, out)
         return fila
 
     def _aceptar(self, out: Path, t: str, n: int = 2) -> dict:
@@ -221,6 +237,95 @@ class BateriaMotor2EnActions(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()):
             rc = b.main(["aceptacion", "--out", str(out), "--cadenas", str(n), t])
         return {"rc": rc, **json.loads((out / "ACEPTACION.json").read_text())}
+
+    def test_t212_ganador_igual_al_vigente_no_es_peor_y_el_resumen_trae_los_indicadores(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            self._competir_real(out, "madrid", cadena_ok=True)
+            i = json.loads((out / "competicion" / "madrid" / "INDICADORES.json").read_text())
+            self.assertEqual((i["estado"], i["run_vigente"]), ("OK", "123"))
+            for k in ("vigente", "canonico", "ganador_indicadores"):  # literales: 2 distritos de 200, uno por mitad
+                self.assertEqual((i[k]["distritos"], i[k]["fuera_tolerancia"], i[k]["desvio_max"]), (2, 0, 0.0), k)
+                self.assertEqual({x: i[k][x] for x in ("partidos_judiciales_partidos", "comarcas_partidas", "frontera_cortada_km")},
+                                 {x: i["vigente"][x] for x in ("partidos_judiciales_partidos", "comarcas_partidas", "frontera_cortada_km")}, k)
+                self.assertTrue(i[k]["valido_reglas_actuales"])
+            md = (out / "competicion" / "madrid" / "INDICADORES.md").read_text()
+            for texto in ("frente al vigente: OK", "| Vigente |", "| Canónico (canonico) |", "| Ganador (", "Part. judiciales", "PP medio"):
+                self.assertIn(texto, md)
+            r = self._aceptar(out, "madrid")
+            self.assertEqual((r["vigente_peor"], r["vigente_sin"]), ([], []))
+            self.assertIn("Frente al vigente", (out / "ACEPTACION.md").read_text())
+
+    def test_t212_ganador_peor_que_el_vigente_es_no(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            pob = {"A": 100, "B": 120, "C": 100, "D": 80}  # total 400, objetivo 200, tolerancia 10 %
+            # el vigente (B+D / A+C, discontinuo: no valdría hoy) tiene desvío 0; el mejor plan contiguo, A+B / C+D, 10 %
+            self._competir_real(out, "madrid", cadena_ok=True, pob=pob, vigente={"A": "1", "B": "2", "C": "1", "D": "2"})
+            i = json.loads((out / "competicion" / "madrid" / "INDICADORES.json").read_text())
+            self.assertEqual((i["estado"], i["vigente"]["desvio_max"], i["vigente"]["valido_reglas_actuales"]), ("PEOR", 0.0, False))
+            self.assertEqual((i["ganador_indicadores"]["fuera_tolerancia"], round(i["ganador_indicadores"]["desvio_max"], 6)), (0, 0.1))
+            self.assertIn("mayor desvío máximo (10.00 % > 0.00 %)", i["motivo"])
+            r = self._aceptar(out, "madrid")
+            self.assertEqual((r["rc"], r["vigente_peor"], r["aceptacion"]), (1, ["madrid"], False))
+            self.assertIn("Peores que el mapa vigente publicado: ['madrid']", (out / "ACEPTACION.md").read_text())
+
+    def test_t212_forma_con_la_m01_de_las_entradas(self):
+        import zipfile
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            dx = 0.01 / 0.7431  # 1 grado de longitud a 42° mide 0,7431 de uno de latitud: secciones cuadradas
+            feats = [{"type": "Feature", "properties": {"CUSEC_KEY": f"220010100{i}"}, "geometry": {
+                "type": "Polygon", "coordinates": [[[dx * i, 42.0], [dx * (i + 1), 42.0], [dx * (i + 1), 42.01],
+                                                     [dx * i, 42.01], [dx * i, 42.0]]]}} for i in range(4)]
+            with zipfile.ZipFile(out / "x_m01_secciones_poblacion.geojson.zip", "w") as z:
+                z.writestr("m01.geojson", json.dumps({"type": "FeatureCollection", "features": feats}))
+            self._competir_real(out, "madrid", cadena_ok=True)  # distritos A+B y C+D: dos rectángulos 2:1
+            i = json.loads((out / "competicion" / "madrid" / "INDICADORES.json").read_text())
+            for k in ("vigente", "canonico", "ganador_indicadores"):
+                self.assertNotIn("pp_error", i[k], i[k])
+                self.assertAlmostEqual(i[k]["pp_medio"], 4 * 3.14159265 * 2 / 36, delta=0.03)  # rectángulo 2:1 ≈ 0,70
+            self.assertIn("0.7", (out / "competicion" / "madrid" / "INDICADORES.md").read_text())
+
+    def test_t212_peor_es_fuera_de_tolerancia_y_despues_desvio_maximo(self):
+        g = {"fuera_tolerancia": 1, "desvio_max": 0.3}
+        self.assertEqual(b.peor_que(g, {"fuera_tolerancia": 1, "desvio_max": 0.3}), [])
+        self.assertEqual(b.peor_que(g, {"fuera_tolerancia": 2, "desvio_max": 0.1}), [])  # menos fuera compensa un desvío mayor
+        self.assertEqual(len(b.peor_que(g, {"fuera_tolerancia": 0, "desvio_max": 0.9})), 1)
+        self.assertIn("mayor desvío máximo", b.peor_que(g, {"fuera_tolerancia": 1, "desvio_max": 0.2})[0])
+
+    def test_t212_sin_vigente_consta_y_no_es_verde(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            self._competir_real(out, "madrid", cadena_ok=True, vigente=None)
+            self.assertEqual(json.loads((out / "competicion" / "madrid" / "INDICADORES.json").read_text())["estado"], "SIN_VIGENTE")
+            r = self._aceptar(out, "madrid")
+            self.assertEqual((r["rc"], r["vigente_sin"], r["aceptacion"]), (1, ["madrid"], False))
+            self.assertIn("sin composición vigente", r["vigente_motivos"]["madrid"])
+
+    def test_t212_sin_indicadores_o_no_evaluable_no_es_verde_por_omision(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            self._competir_real(out, "madrid", cadena_ok=True, vigente="no_escribir")
+            r = self._aceptar(out, "madrid")
+            self.assertEqual((r["rc"], r["vigente_sin"]), (1, ["madrid"]))
+            self.assertEqual(r["vigente_motivos"]["madrid"], "sin INDICADORES.json")
+        ok = lambda t: {"territorio": t, "estado": "VALIDO", "frente_al_canonico": "empata"}  # noqa: E731
+        c = b.criterio_aceptacion([ok("x")], {}, ["x"], vigentes={"x": {"territorio": "x", "estado": "NO_EVALUABLE", "motivo": "KeyError: z"}})
+        self.assertEqual((c["vigente_sin"], c["vigente_motivos"]), (["x"], {"x": "KeyError: z"}))
+        u = b.criterio_aceptacion([ok("c")], {}, ["c"], vigentes={"c": {"territorio": "c", "estado": "UN_DISTRITO"}})
+        self.assertEqual((u["vigente_sin"], u["vigente_un_distrito"]), ([], ["c"]))  # el único plan posible: consta y no bloquea
+
+    def test_t212_vigente_con_otras_secciones_no_es_evaluable(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            self._competir_real(out, "madrid", cadena_ok=True)
+            pub = out / "otro.csv"
+            pub.write_text("seccion,distrito,poblacion\n2200101000,0,100\n", encoding="utf-8")
+            from tests.test_motor2_semilla import cfg as cfg_con_ancla
+            r = b.indicadores_territorio("madrid", out, cfg=cfg_con_ancla(), grafo=out / "grafo.json", vigente=(pub, "1"))
+            self.assertEqual(r["estado"], "NO_EVALUABLE")
+            self.assertIn("secciones distintas", r["motivo"])
 
     def test_t181_generador_fallido_da_no_aunque_gane_el_canonico(self):
         with tempfile.TemporaryDirectory() as d:
@@ -252,6 +357,17 @@ class BateriaMotor2EnActions(unittest.TestCase):
             self._competir_real(out, "madrid", cadena_ok=True)
             (out / "competicion" / "madrid" / "COMPETICION.json").unlink()
             self.assertEqual(self._aceptar(out, "madrid")["sin_cadenas"], ["madrid"])
+
+    def test_t212_el_job_escribe_los_indicadores_en_el_resumen_del_paso(self):
+        pasos = self.wf["jobs"]["competicion"]["steps"]
+        nombres = [p.get("name", "") for p in pasos]
+        i_comp = nombres.index("Competición del motor 2")
+        i_ind = next(i for i, n in enumerate(nombres) if n.startswith("Indicadores frente al vigente"))
+        self.assertGreater(i_ind, i_comp)
+        run = pasos[i_ind]["run"]
+        self.assertIn("bateria_motor.py indicadores", run)
+        self.assertIn("GITHUB_STEP_SUMMARY", run)  # sin depender de bajar artefactos (403 desde la nube)
+        self.assertEqual(pasos[i_ind]["if"], "${{ !cancelled() }}")
 
     def test_t181_el_job_de_competicion_instala_y_comprueba_lo_que_importa_ponderado(self):
         pasos = self.wf["jobs"]["competicion"]["steps"]

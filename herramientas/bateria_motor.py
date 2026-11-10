@@ -3,10 +3,15 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.1
+VERSIÓN: 1.2.0
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-10
 ESTADO: candidato
+CAMBIOS 1.2.0 (T-212): criterio «nunca peor que el mapa vigente publicado»: `indicadores` (por territorio, en el job: fuera de
+  tolerancia, desvío máximo, partidos judiciales y comarcas partidos, frontera cortada y Polsby-Popper del vigente
+  (datos/composicion), el canónico y el ganador, a INDICADORES.json/md y al resumen del paso) y `aceptacion` compara el ganador
+  también con el vigente: peor = más distritos fuera de tolerancia o, con los mismos, mayor desvío máximo (la misma regla que
+  T-194 aplica al canónico). Sin composición vigente o no comparable, el territorio consta explícitamente y no hay aceptación.
 CAMBIOS 1.1.1 (T-181): `aceptacion` exige al menos una cadena evaluable por territorio y ningún FALLO_GENERADOR (se leen del
   COMPETICION.json del territorio; sin él, NO), `--cadenas N`: candidatos = 1 + N (+1 exhaustivo), todos evaluados y cada cadena inválida con motivo. Antes un territorio donde fallaban todas las cadenas daba «SÍ» (ganador = canónico).
 CAMBIOS 1.1.0 (T-208): subcomandos `lista` (matriz de territorios para Actions), `huella` (huella real: dos ejecuciones de la
@@ -16,7 +21,7 @@ CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de 
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
-ANTERIOR: legacy/herramientas/bateria_motor_v1.1.0_20261110.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.1.1_20261110.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -39,8 +44,9 @@ QUÉ HACE: subcomandos
   lista       JSON {"include":[{"t":...}]} con los territorios pedidos (o los 71) para la matriz de Actions.
   huella      huella real (criterio a de T-194): repite la competición del motor 2 en <out>/_huella2 y compara la
               huella_resultado con la de <out>/competicion/<t>/RESUMEN.json; escribe HUELLA_REAL.json junto a ella.
+  indicadores indicadores de naturalidad del vigente, el canónico y el ganador de un territorio (ver CAMBIOS 1.2.0).
   aceptacion  une <out>/**/competicion/<t>/RESUMEN.json y aplica el criterio de aceptación del motor 2 (docs/ARQUITECTURA/
-              ACEPTACION_MOTOR2.md): todos válidos, ninguno peor que el canónico y huella real igual en Soria, Álava
+              ACEPTACION_MOTOR2.md): todos válidos, ninguno peor que el canónico ni que el vigente y huella real igual en Soria, Álava
               y Melilla; escribe ACEPTACION.json/md y RESUMEN.{json,md}; sale 1 si no se cumple.
 USO: python herramientas/bateria_motor.py nacionales
      python herramientas/bateria_motor.py entradas --todos
@@ -706,6 +712,178 @@ def huella(args) -> int:
     return 0 if res["igual"] else 1
 
 
+# --------------------------------------------------------------------------- indicadores frente al vigente (T-212)
+def peor_que(g: dict, ref: dict) -> list[str]:
+    """Causas por las que el plan `g` es peor que `ref` (vacío = no es peor). Criterio c de T-194 (ACEPTACION_MOTOR2.md):
+    primero distritos fuera de tolerancia (la del contrato), después, con los mismos, desvío máximo; sin margen."""
+    if g["fuera_tolerancia"] > ref["fuera_tolerancia"]:
+        return [f"más distritos fuera de tolerancia ({g['fuera_tolerancia']} > {ref['fuera_tolerancia']})"]
+    if g["fuera_tolerancia"] == ref["fuera_tolerancia"] and g["desvio_max"] > ref["desvio_max"]:
+        return [f"mayor desvío máximo ({g['desvio_max'] * 100:.2f} % > {ref['desvio_max'] * 100:.2f} %)"]
+    return []
+
+
+def _composicion_de(carpeta: Path) -> Path | None:
+    return next(iter(sorted(carpeta.glob("*_m06_composicion_distritos.csv"))), None) if carpeta.is_dir() else None
+
+
+def _forma(comp: Path, plan: dict, col: dict, grafo_dir: Path) -> dict:
+    """Polsby-Popper medio y mínimo de los distritos (geometrías de la M01 de las entradas, EPSG:3035). Solo informa: si no
+    se puede calcular, devuelve el motivo."""
+    import tempfile
+    from ddd_motor2 import naturalidad as nat, naturalidad_mapas as nm
+    from ddd_motor2.adaptadores import leer_composicion
+    try:
+        import geopandas as gpd
+        zips = sorted(grafo_dir.glob("*_m01_secciones_poblacion.geojson.zip"))
+        if not zips:
+            return {"pp_error": "sin M01 (geometrías) en las entradas"}
+        with tempfile.TemporaryDirectory() as td, zipfile.ZipFile(zips[0]) as z:
+            n = next(x for x in z.namelist() if x.endswith((".geojson", ".json")))
+            z.extract(n, td)
+            g = gpd.read_file(Path(td) / n)
+        clave = next((c for c in (col["seccion"], "CUSEC_KEY", "CUSEC") if c in g.columns), None)
+        if clave is None or g.crs is None:
+            return {"pp_error": "la M01 no trae identificador de sección o CRS"}
+        sec_u = {str(f[col["seccion"]]).strip(): str(f.get(col["unidad"]) or f[col["seccion"]]).strip()
+                 for f in leer_composicion(comp, col)}
+        g = g.assign(_d=[plan.get(sec_u.get(str(s).strip())) for s in g[clave]]).dropna(subset=["_d"]).to_crs(nm.CRS)
+        f = nat.forma({str(d): geo for d, geo in g.dissolve(by="_d").geometry.items()})
+        v = [x["polsby_popper"] for x in f.values() if x["polsby_popper"] is not None]
+        return {"pp_medio": sum(v) / len(v), "pp_min": min(v)} if v else {"pp_error": "sin geometrías"}
+    except Exception as exc:  # solo informa
+        return {"pp_error": f"{type(exc).__name__}: {exc}"}
+
+
+def _indicadores_plan(comp: Path, cfg: dict, grafo: Path, referencia: Path | None, atributos: Path | None) -> dict:
+    from fractions import Fraction
+    from ddd_motor2.adaptadores import columnas_de_contrato, problema_y_plan
+    from ddd_motor2.naturalidad_clave import corte_km, natural_desde_m06, partidas
+    from ddd_motor2.reglas import Criterio, Reglas, evaluar
+    crit = Criterio()
+    reglas = Reglas.desde_contrato(cfg, crit)
+    problema, plan, _ = problema_y_plan(comp, grafo, cfg, referencia_nucleos=referencia, atributos_secciones=atributos,
+                                        respaldo_municipio_cusec=crit.respaldo_municipio_cusec)
+    nat = natural_desde_m06(problema, reglas, comp, grafo, cfg)
+    tol = nat.tol / nat.objetivo
+    rel = [abs(Fraction(p) - o) / o for p, o in nat.desvios(plan).values()]
+    r = {"distritos": len(rel), "fuera_tolerancia": sum(1 for x in rel if x > tol), "desvio_max": float(max(rel)),
+         "partidos_judiciales_partidos": partidas(plan, (nat.pj,)), "comarcas_partidas": partidas(plan, (nat.ca,)),
+         "frontera_cortada_km": corte_km(plan, nat.largo), "valido_reglas_actuales": evaluar(problema, reglas, plan).valido}
+    r.update(_forma(comp, plan, columnas_de_contrato(cfg), grafo.parent))
+    return r
+
+
+def _vigente_sobre(canonico: Path, vigente: Path, destino: Path, col: dict) -> Path:
+    """Composición del canónico (con unidades, municipio y provincia) con el distrito de cada sección tomado del vigente."""
+    with open(vigente, encoding="utf-8", newline="") as fh:
+        v = {str(r["seccion"]).strip(): r["distrito"] for r in csv.DictReader(fh)}
+    with open(canonico, encoding="utf-8", newline="") as fh:
+        rd = csv.DictReader(fh)
+        filas = list(rd)
+        campos = rd.fieldnames
+    sec = {str(f[col["seccion"]]).strip() for f in filas}
+    if sec != set(v):
+        raise ValueError(f"secciones distintas: {len(sec - set(v))} solo en el canónico, {len(set(v) - sec)} solo en el vigente")
+    for f in filas:
+        f[col["distrito"]] = v[str(f[col["seccion"]]).strip()]
+    destino.mkdir(parents=True, exist_ok=True)
+    out = destino / "vigente_m06_composicion_distritos.csv"
+    with open(out, "w", encoding="utf-8", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=campos)
+        w.writeheader()
+        w.writerows(filas)
+    return out
+
+
+def indicadores_territorio(t: str, out: Path, *, cfg: dict | None = None, grafo: Path | None = None,
+                           vigente: tuple[Path | None, str | None] | None = None) -> dict:
+    """Indicadores del vigente, el canónico y el ganador de `t` (lee <out>/competicion/<t>/COMPETICION.json). Estado:
+    OK | PEOR | UN_DISTRITO (el único plan posible; sin vigente se anota) | SIN_VIGENTE | NO_EVALUABLE (con motivo).
+    Escribe INDICADORES.json y .md junto al COMPETICION.json. `cfg`, `grafo` y `vigente` se pueden inyectar (pruebas)."""
+    from ddd_motor2.adaptadores import columnas_de_contrato
+    out = Path(out)
+    carpeta = out / "competicion" / t
+    res: dict = {"territorio": t, "estado": "NO_EVALUABLE", "motivo": ""}
+    try:
+        cfg = cfg if cfg is not None else _cfg(t)
+        grafo = grafo or next((out / "entradas" / t).glob("*_m03_grafo.json"))
+        pub, run = vigente if vigente is not None else composicion_publicada(t)
+        res.update(run_vigente=run, fichero_vigente=str(pub.relative_to(ROOT)) if pub and pub.is_relative_to(ROOT) else (str(pub) if pub else None))
+        d = json.loads((carpeta / "COMPETICION.json").read_text(encoding="utf-8"))
+        cands = {c["id"]: c for c in d["candidatos"]}
+
+        def donde(cid: str) -> tuple[Path, Path | None]:
+            c = cands[cid]
+            p = Path(c.get("composicion") or "")
+            if not p.is_file():
+                p = _composicion_de(carpeta / cid) or p
+            if not p.is_file():
+                raise FileNotFoundError(f"sin composición del candidato {cid}")
+            return p, next(iter(sorted((carpeta / cid).glob("*_m06_secciones.geojson*"))), None)
+        can, attrs = donde(d["canonico"])
+        res["ganador"], res["canonico_id"] = d["ganador"], d["canonico"]
+        res["canonico"] = _indicadores_plan(can, cfg, grafo, can, attrs)
+        if d["ganador"] == d["canonico"]:
+            gan = res["canonico"]
+        else:
+            comp_g, attrs_g = donde(d["ganador"])
+            gan = _indicadores_plan(comp_g, cfg, grafo, can, attrs_g)
+        res["ganador_indicadores"] = gan
+        if pub is None:
+            k = int(((cfg.get("validation") or {}).get("expected_districts")) or 0)
+            res["estado"], res["motivo"] = ("UN_DISTRITO", "un solo distrito: el único plan posible; sin composición vigente") \
+                if k == 1 else ("SIN_VIGENTE", "sin composición vigente publicada (datos/composicion)")
+            return res
+        vig = _vigente_sobre(can, pub, carpeta / "vigente", columnas_de_contrato(cfg))
+        res["vigente"] = _indicadores_plan(vig, cfg, grafo, can, attrs)
+        causas = peor_que(gan, res["vigente"])
+        res["estado"], res["motivo"] = ("PEOR", "; ".join(causas)) if causas else ("OK", "")
+    except Exception as exc:
+        res["estado"], res["motivo"] = "NO_EVALUABLE", f"{type(exc).__name__}: {exc}"
+    return res
+
+
+def _celda(v) -> str:
+    return "—" if v is None else (f"{v:.2f}" if isinstance(v, float) else str(v))
+
+
+def tabla_indicadores(r: dict) -> list[str]:
+    lin = [f"### {r['territorio']} · frente al vigente: {r['estado']}" + (f" ({r['motivo']})" if r.get("motivo") else ""),
+           f"Vigente: run {r.get('run_vigente') or '—'} · `{r.get('fichero_vigente') or 'sin composición'}`.", "",
+           "| Plan | Fuera de tol. | Desvío máx. % | Part. judiciales | Comarcas | Frontera km | PP medio | PP mín. | Válido (reglas actuales) |",
+           "|---|---|---|---|---|---|---|---|---|"]
+    notas: list[str] = []
+    for nombre, k in (("Vigente", "vigente"), (f"Canónico ({r.get('canonico_id', '')})", "canonico"),
+                      (f"Ganador ({r.get('ganador', '')})", "ganador_indicadores")):
+        x = r.get(k)
+        if x is None:
+            lin.append(f"| {nombre} | sin dato | | | | | | | |")
+            continue
+        pp = x.get("pp_medio"), x.get("pp_min")
+        lin.append(f"| {nombre} | {x['fuera_tolerancia']} | {x['desvio_max'] * 100:.2f} | {x['partidos_judiciales_partidos']} | "
+                   f"{x['comarcas_partidas']} | {_celda(x['frontera_cortada_km'])} | {_celda(pp[0] and round(pp[0], 3))} | "
+                   f"{_celda(pp[1] and round(pp[1], 3))} | {x['valido_reglas_actuales']} |")
+        if x.get("pp_error"):
+            notas.append(f"Polsby-Popper de {nombre.split(' ')[0].lower()} no calculado: {x['pp_error']}")
+    return lin + ([""] + notas if notas else [])
+
+
+def escribir_indicadores(r: dict, out: Path) -> str:
+    """INDICADORES.json y .md junto al COMPETICION.json del territorio; devuelve el markdown (resumen del paso)."""
+    carpeta = Path(out) / "competicion" / r["territorio"]
+    carpeta.mkdir(parents=True, exist_ok=True)
+    (carpeta / "INDICADORES.json").write_text(json.dumps(r, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    md = "\n".join(tabla_indicadores(r)) + "\n"
+    (carpeta / "INDICADORES.md").write_text(md, encoding="utf-8")
+    return md
+
+
+def indicadores(args) -> int:
+    print(escribir_indicadores(indicadores_territorio(args.territorio, Path(args.out)), Path(args.out)))
+    return 0  # el veredicto lo da `aceptacion`; aquí solo se deja constancia
+
+
 def cadenas_de(carpeta: Path) -> dict | None:
     """Candidatos de un COMPETICION.json: el canónico y el exhaustivo no son cadenas; el resto sí."""
     try:
@@ -723,11 +901,18 @@ def cadenas_de(carpeta: Path) -> dict | None:
 
 
 def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str], cadenas: dict | None = None,
-                       n_cadenas: int | None = None) -> dict:
+                       n_cadenas: int | None = None, vigentes: dict | None = None) -> dict:
     """Criterio T-194 sobre los resultados reales: sin red ni motor. `huellas` = {territorio: HUELLA_REAL.json};
     `cadenas` = {territorio: cadenas_de(...)}. T-181: sin cadena evaluable, con FALLO_GENERADOR, con candidatos sin evaluar,
-    con un número de candidatos distinto de 1 + N (+1 si hay exhaustivo) o con una cadena inválida sin motivo, no hay aceptación."""
+    con un número de candidatos distinto de 1 + N (+1 si hay exhaustivo) o con una cadena inválida sin motivo, no hay aceptación.
+    T-212: `vigentes` = {territorio: INDICADORES.json}; PEOR que el vigente = NO; sin indicadores, SIN_VIGENTE o NO_EVALUABLE
+    = sin aceptación y constan por nombre (nunca verde por omisión); UN_DISTRITO sin vigente consta aparte y vale."""
     cadenas = cadenas or {}
+    vigentes = vigentes or {}
+    est = {t: (vigentes.get(t) or {}).get("estado") for t in esperados}
+    vig_peor = sorted(t for t in esperados if est[t] == "PEOR")
+    vig_sin = sorted(t for t in esperados if est[t] not in ("OK", "PEOR", "UN_DISTRITO"))
+    vig_un = sorted(t for t in esperados if est[t] == "UN_DISTRITO")
     por_t = {f["territorio"]: f for f in filas}
     faltan = [t for t in esperados if t not in por_t]
     no_validos = sorted(t for t in esperados if t in por_t and por_t[t].get("estado") != "VALIDO")
@@ -743,9 +928,11 @@ def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str], 
     h_mal = sorted(t for t in h_pedidas if not (huellas.get(t) or {}).get("igual"))
     return {"esperados": len(esperados), "faltan": faltan, "no_validos": no_validos, "empeoran": peores,
             "sin_cadenas": sin_cadenas, "fallo_generador": fallo_gen, "candidatos_incompletos": incompletos,
+            "vigente_peor": vig_peor, "vigente_sin": vig_sin, "vigente_un_distrito": vig_un,
+            "vigente_motivos": {t: (vigentes.get(t) or {}).get("motivo") or "sin INDICADORES.json" for t in vig_peor + vig_sin},
             "huella_real": {t: (huellas.get(t) or {}).get("huella_1") for t in h_pedidas}, "huella_real_mal": h_mal,
             "parcial": len(h_pedidas) < len(HUELLA_REAL),
-            "aceptacion": bool(esperados) and not (faltan or no_validos or peores or h_mal or sin_cadenas or fallo_gen or incompletos) and len(h_pedidas) == len(HUELLA_REAL)}
+            "aceptacion": bool(esperados) and not (faltan or no_validos or peores or h_mal or sin_cadenas or fallo_gen or incompletos or vig_peor or vig_sin) and len(h_pedidas) == len(HUELLA_REAL)}
 
 
 def aceptacion(args) -> int:
@@ -759,22 +946,38 @@ def aceptacion(args) -> int:
         h = json.loads(f.read_text(encoding="utf-8"))
         huellas[h["territorio"]] = h
     esperados = args.territorios or territorios()
+    vigentes = {}
+    for f in sorted(out.rglob("INDICADORES.json")):
+        if f.parent.parent.name == "competicion":
+            i = json.loads(f.read_text(encoding="utf-8"))
+            vigentes[i["territorio"]] = i
     filas = sorted({x["territorio"]: x for x in filas}.values(), key=lambda x: x["territorio"])
     tot = escribir_resumen(filas, out / "competicion") if filas else {}
     cadenas = {t: c for t in esperados if (c := cadenas_de(out / "competicion" / t)) is not None}
-    res = criterio_aceptacion(filas, huellas, esperados, cadenas, args.cadenas)
+    res = criterio_aceptacion(filas, huellas, esperados, cadenas, args.cadenas, vigentes)
     res["totales"] = tot
     (out / "ACEPTACION.json").write_text(json.dumps(res, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     fallos = bool(res["faltan"] or res["no_validos"] or res["empeoran"] or res["huella_real_mal"] or res["sin_cadenas"]
-              or res["fallo_generador"] or res["candidatos_incompletos"] or not esperados)
+              or res["fallo_generador"] or res["candidatos_incompletos"] or res["vigente_peor"] or res["vigente_sin"]
+              or not esperados)
     veredicto = "NO" if fallos else ("PARCIAL (sin las tres huellas reales: no es aceptación)" if res["parcial"] else "SÍ")
     md = [f"# Aceptación del motor 2 · {veredicto}", "",
           f"- Territorios esperados: {res['esperados']}; faltan: {res['faltan'] or 'ninguno'}.",
           f"- No válidos: {res['no_validos'] or 'ninguno'}; peores que el canónico: {res['empeoran'] or 'ninguno'}.",
           f"- Sin ninguna cadena evaluable: {res['sin_cadenas'] or 'ninguno'}; con FALLO_GENERADOR: {res['fallo_generador'] or 'ninguno'}; "
           f"candidatos sin evaluar o fuera de 1 + N (+1 exhaustivo): {res['candidatos_incompletos'] or 'ninguno'}.",
+          f"- Peores que el mapa vigente publicado: {res['vigente_peor'] or 'ninguno'}; sin vigente comparable (no cuentan como verde): "
+          f"{res['vigente_sin'] or 'ninguno'}; un distrito sin composición vigente (único plan posible): {res['vigente_un_distrito'] or 'ninguno'}.",
+          *[f"  - {t}: {m}" for t, m in res["vigente_motivos"].items()],
           f"- Huella real (Soria, Álava, Melilla; dos ejecuciones iguales): "
           f"{'fallan ' + ', '.join(res['huella_real_mal']) if res['huella_real_mal'] else 'correcta'} {res['huella_real']}."]
+    if vigentes:
+        md += ["", "## Frente al vigente (fuera de tolerancia · desvío máx. %)", "",
+               "| Territorio | Estado | Vigente | Canónico | Ganador |", "|---|---|---|---|---|"]
+        for t in esperados:
+            i = vigentes.get(t) or {}
+            c = lambda k: (f"{i[k]['fuera_tolerancia']} · {i[k]['desvio_max'] * 100:.2f}" if i.get(k) else "—")  # noqa: E731
+            md.append(f"| {t} | {i.get('estado', 'sin INDICADORES.json')} | {c('vigente')} | {c('canonico')} | {c('ganador_indicadores')} |")
     (out / "ACEPTACION.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md))
     return 1 if fallos else 0  # PARCIAL sale 0 (sin fallos) pero nunca cuenta como aceptación: `aceptacion` es false
@@ -798,6 +1001,9 @@ def main(argv=None) -> int:
             p.add_argument("--m05", default="7.4.4", choices=sorted(M05_BASE))
     for nombre in ("matriz", "archivar"):
         sub.add_parser(nombre).add_argument("--out", default=str(OUT))
+    p = sub.add_parser("indicadores")
+    p.add_argument("territorio")
+    p.add_argument("--out", default=str(OUT))
     sub.add_parser("lista").add_argument("territorios", nargs="*")
     p = sub.add_parser("huella")
     p.add_argument("territorio")
@@ -809,7 +1015,7 @@ def main(argv=None) -> int:
     p.add_argument("territorios", nargs="*")
     p.add_argument("--out", default=str(OUT))
     a = ap.parse_args(argv)
-    return {"lista": lista, "huella": huella, "aceptacion": aceptacion, "nacionales": nacionales, "entradas": entradas, "motor": motor, "matriz": matriz, "archivar": archivar}[a.cmd](a)
+    return {"lista": lista, "huella": huella, "indicadores": indicadores, "aceptacion": aceptacion, "nacionales": nacionales, "entradas": entradas, "motor": motor, "matriz": matriz, "archivar": archivar}[a.cmd](a)
 
 
 if __name__ == "__main__":

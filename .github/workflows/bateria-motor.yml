@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: bateria-motor.yml
-# VERSIÓN: 1.1.2
+# VERSIÓN: 1.1.3
 # NOMBRE DE VERSIÓN: Batería del motor
 # FECHA: 2026-11-10
 # ESTADO: candidato
@@ -9,6 +9,10 @@
 #   INE; ejecuta M04-M06 con el motor indicado y la validación de producción y deja la matriz territorio × regla como
 #   artefacto. Con archivar=true sube a R2 solo la entrada mínima (M01 + grafo M03 + ENTRADAS.json) de cada
 #   territorio. No publica ni escribe en main.
+# CAMBIOS: 1.1.3 (T-212): el job de cada territorio añade el paso «Indicadores frente al vigente» (bateria_motor.py indicadores): fuera de
+#   tolerancia, desvío máximo, partidos judiciales y comarcas partidos, frontera cortada y Polsby-Popper del vigente publicado, el
+#   canónico y el ganador, al RESUMEN del paso y al log (sin bajar artefactos) y a INDICADORES.json/md en el artefacto del territorio;
+#   el job final aplica «nunca peor que el vigente» y lista los territorios sin vigente comparable.
 # CAMBIOS: 1.1.2 (T-181b): el job de competición ya no instala requirements-ensemble.lock entero (subía pandas 3 y geopandas 1.1.4 y
 #   el canónico fallaba en 21+ territorios): gerrychain y sus dependencias propias (networkx, rustworkx, scipy, tqdm, six) con
 #   `--no-deps` y las versiones del lock del laboratorio, y la comprobación previa falla si cambia cualquier paquete del entorno
@@ -25,7 +29,7 @@
 #   Coste: ~450-650 min de Actions en los 71 (ver la PR). El nombre del flujo no cambia (corte 5.0.0).
 #   1.0.0: fichero nuevo (T-132).
 # MOTIVO: repetir la batería ante cualquier cambio del motor con un solo botón; sin programación ni vigilantes.
-# ANTERIOR: legacy/workflows/bateria-motor_v1.1.1_20261110.yml
+# ANTERIOR: legacy/workflows/bateria-motor_v1.1.2_20261110.yml
 name: 'Auxiliar — Batería del Motor'
 run-name: "Batería del motor ${{ inputs.motor == 'motor2' && format('motor2 {0} N={1}', inputs.funcion, inputs.cadenas) || inputs.versiones_m05 }} ${{ inputs.territorios || 'todos' }}"
 
@@ -228,6 +232,14 @@ jobs:
           # (una fila: este territorio); se guarda junto a su COMPETICION.json para subirlo en el artefacto del territorio.
           [[ -f bateria/competicion/RESUMEN.json ]] || exit 1
           cp bateria/competicion/RESUMEN.json "bateria/competicion/$T/RESUMEN.json"
+      - name: Indicadores frente al vigente (T-212)
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          # el veredicto lo da el job final; aquí solo se deja constancia (resumen del paso, log e INDICADORES.* en el artefacto)
+          python herramientas/bateria_motor.py indicadores "$T" --out bateria | tee -a "$GITHUB_STEP_SUMMARY"
+          exit "${PIPESTATUS[0]}"
       - name: Huella real (Soria, Álava y Melilla)
         if: ${{ matrix.t == 'congreso_soria' || matrix.t == 'congreso_alava' || matrix.t == 'melilla' }}
         run: python herramientas/bateria_motor.py huella "$T" --out bateria --funcion "$FUNCION" --cadenas "$CADENAS"
