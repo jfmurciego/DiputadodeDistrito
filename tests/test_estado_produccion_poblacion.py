@@ -260,12 +260,6 @@ class ProductionPopulationGateTests(unittest.TestCase):
         self.assertEqual(result["decision"], "PASS_WITH_EXCEPTIONS")
         self.assertNotIn("block_cause", result)
 
-    def test_m06_execution_is_not_gated_by_population_certification(self):
-        workflow = Path(".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        m06_block = workflow.split("  m06:\n", 1)[1].split("\n  auditoria:\n", 1)[0]
-        self.assertIn("needs.m05.result == 'success'", m06_block)
-        self.assertIn("fromJSON(needs.resolve.outputs.from_num) == 6", m06_block)
-        self.assertNotIn("population_decision", m06_block)
 
 
 if __name__ == "__main__":

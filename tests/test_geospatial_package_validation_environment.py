@@ -71,7 +71,6 @@ class GeospatialPackageValidationEnvironmentTests(unittest.TestCase):
                 "preparacion-fuentes.yml",
                 "produccion-distritos.yml",
                 "_reutilizable-generacion-territorial.yml",
-                "producir-territorio-por-contrato.yml",
             }.issubset(workflows),
             found,
         )
@@ -79,7 +78,6 @@ class GeospatialPackageValidationEnvironmentTests(unittest.TestCase):
     def test_generation_reusables_validate_recovered_package_in_container(self):
         for name in (
             "_reutilizable-generacion-territorial.yml",
-            "producir-territorio-por-contrato.yml",
         ):
             with self.subTest(workflow=name):
                 text = (WORKFLOWS / name).read_text(encoding="utf-8")

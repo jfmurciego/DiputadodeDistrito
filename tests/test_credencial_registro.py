@@ -10,7 +10,7 @@ WF = Path(__file__).resolve().parents[1] / ".github/workflows"
 PUSHERS = re.compile(r"promover_catalogo_tras_preparacion|promover_catalogo_operacional|registrar_par_fuentes_legislatura|"
                      r"persistir_estado_operativo_compartido|persistir_producto_electoral_operacional|persistir_evidencia_pre_m04_operacional|git push")
 # Solo los llama este reutilizable sin llamadores activos.
-UNREACHABLE = {"_reutilizable-operacion-territorial.yml", "producir-territorio-por-contrato.yml"}
+UNREACHABLE = set()
 
 
 class CredencialRegistro(unittest.TestCase):

@@ -1,7 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.12.0
-# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.11.0_20261109.yml
+# VERSIÓN: 3.12.1
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.12.0_20261110.yml
+# CAMBIOS 3.12.1: T-149, solo el nombre visible (Interno · Publicador del sitio) para ordenar la lista de Actions.
 # CAMBIOS 3.12.0: T-124, las descargas gh api de .ddd-publication/materializar_registro.sh se reintentan hasta 3 veces con
 #   espera creciente (2 s, 4 s) solo ante errores transitorios (HTTP 5xx, reset de conexión, timeout); los 4xx no se reintentan.
 #   Causa: la 05 42662842906 falló por un 504 de la API en el preflight.
@@ -38,8 +39,8 @@
 # ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.5.0_20261108.yml
 # CAMBIOS: añade exclusión por defecto del visor analítico Congreso y carga de procedencia al habilitarlo explícitamente.
 # MOTIVO: mantener candidatos no certificados fuera de Pages salvo selección explícita del caller.
-# FECHA: 2026-11-08
-name: _Interno — Publicador del Sitio
+# FECHA: 2026-11-10
+name: Interno · Publicador del sitio
 
 on:
   workflow_call:

@@ -12,8 +12,6 @@ Anterior: versión 1.35.0 en historial Git
 - Estado de máquina: `orchestracion/estado_operativo_g10.json`.
 - Estado legible: `docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_G10.md`.
 - Interfaz humana principal: `.github/workflows/ejecucion-generacion-distritos.yml`.
-- Router institucional reutilizable: `.github/workflows/_reutilizable-operacion-territorial.yml`.
-- Línea contractual reutilizable: `.github/workflows/producir-territorio-por-contrato.yml`.
 
 ## Estado de ingeniería
 

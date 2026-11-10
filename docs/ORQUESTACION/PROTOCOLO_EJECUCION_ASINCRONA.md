@@ -21,7 +21,7 @@ GitHub Actions ejecuta; ChatGPT prepara y reanuda. Nunca se mantiene una sesión
 - Un workflow debe encadenar todos los pasos deterministas del lote.
 - Sólo debe detenerse ante `FAIL`, `BLOCKED` o una decisión no automatizable.
 - Cada lote debe generar `RUN_SUMMARY.json` y evidencia durable.
-- Antes de crear un workflow pesado, incluir su nombre en `.github/workflows/notificar-finalizacion-orquestacion.yml`.
+- (Retirado en T-149: el workflow de notificación de lote ya no existe.)
 - No se hace sondeo de runs desde ChatGPT salvo petición expresa del usuario.
 - No se ejecutan territorios posteriores sin autorización expresa.
 

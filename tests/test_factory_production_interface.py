@@ -27,13 +27,6 @@ class FactoryProductionInterface(unittest.TestCase):
         self.assertNotIn("aragon) params=", text)
         self.assertNotIn("castilla_y_leon) params=", text)
 
-    def test_linea_comun_es_reutilizable_y_execute_esta_bloqueado(self):
-        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        self.assertNotIn("workflow_dispatch", text)
-        self.assertIn("workflow_call", text)
-        self.assertNotIn("push:", text)
-        self.assertIn("EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION", text)
-        self.assertIn("resolver_ejecucion_territorial.py", text)
 
 
 if __name__ == "__main__":

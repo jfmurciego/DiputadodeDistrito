@@ -5,24 +5,16 @@
 
 ## Interfaces y workflows vigentes
 
+> Nota T-149 (10-11): `_reutilizable-operacion-territorial`, `producir-territorio-por-contrato`, `_reutilizable-auditoria-topologica`, `orquestacion-control` y `orquestacion-durable` se retiraron (sin llamador en `main`); copias en `legacy/workflows/`. Inventario vigente: `docs/ESTUDIOS/T149_LISTA_ACTIONS/INVENTARIO.md`.
+
 - `.github/workflows/ejecucion-generacion-distritos.yml`: única interfaz humana
   para contratos, producción, visor, ensembles y orquestación. El formulario
   expone nombres institucionales en español, usa únicamente entradas `choice`
   y `boolean`, y resuelve internamente los IDs técnicos necesarios.
-- `.github/workflows/_reutilizable-operacion-territorial.yml`: router interno que
-  delega exclusivamente la ruta institucional seleccionada.
-- `.github/workflows/producir-territorio-por-contrato.yml`: única cadena
-  reutilizable M01–M08 con motor canónico para admisión, verificación,
-  preparación, certificación y producción territorial.
 - `.github/workflows/generar-alternativas-territoriales.yml`: cadena
   reutilizable GerryChain, sintética → Aragón 10 → Aragón 50.
-- `.github/workflows/_reutilizable-auditoria-topologica.yml`: diagnóstico
-  topológico reutilizable.
 - `.github/workflows/desplegar-visor-publico.yml`: interfaz humana **Publicar Sitio Web**; sólo `workflow_dispatch`, sin ejecución territorial.
 - `.github/workflows/_reutilizable-publicar-sitio.yml`: despliegue técnico común de GitHub Pages; sólo `workflow_call`. La producción territorial actualiza el visor mediante este componente y conserva el snapshot promovido de `publicado/dashboard/`.
-- `.github/workflows/orquestacion-control.yml`: control de ejecución reutilizable.
-- `.github/workflows/orquestacion-durable.yml`: resolución durable de
-  reutilización y estado.
 - `.github/workflows/pruebas-ddd.yml`: integración continua automática.
 - `.github/workflows/validar-contratos-territoriales.yml`: puerta automática de
   validación estructural de contratos.

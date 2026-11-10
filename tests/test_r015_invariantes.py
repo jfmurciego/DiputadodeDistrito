@@ -273,7 +273,6 @@ class GovernanceHeaders(unittest.TestCase):
         "herramientas/registrar_ejecucion.py",
         "herramientas/validar_ejecucion.py",
         "procedimiento.sh",
-        ".github/workflows/producir-territorio-por-contrato.yml",
     ]
     CANONICAL_VERSIONED_DOCS = [
         "README.md",
