@@ -45,8 +45,8 @@ Mapa Congreso Huesca 1.0.0 (versión «mapa-congreso_huesca-v1.0.0», 9-11-2026)
 
 Ambos DOI los copió el propietario de la página del depósito. El fichero del depósito es el ZIP de código fuente de GitHub, **no** el paquete firmado `.tar.gz` (su sha256 está en la Release). El depósito es un mapa (Huesca), no el proyecto entero: el README cita el DOI de concepto como archivo de las versiones de mapa publicadas, no como cita de todo el motor.
 
-## Pendiente
-- Verificar que ambos DOI resuelven: zenodo.org no es alcanzable desde el entorno en la nube; lo comprueba el propietario.
+## Verificado
+- El propietario comprobó el 10-11-2026 que ambos DOI (24093967 y 24093968) resuelven a la página de Huesca en Zenodo, con el fichero `jfmurciego/DiputadodeDistrito-mapa-congreso_huesca-v1.0.0.zip` (el ZIP de código, no el paquete firmado).
 
 ## Plan A (ahora) y plan B (corte 5.0.0) — D-74
 - **Plan A, hasta el corte:** se mantiene la integración GitHub–Zenodo descrita arriba. Cada depósito de mapa guarda el ZIP de
