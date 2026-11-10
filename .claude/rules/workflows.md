@@ -79,3 +79,17 @@ paths:
 - Los adaptadores del motor nuevo dependen de nombres de fichero (glob ancho cogió el GeoJSON de distritos): fija nombre y extensión; la composición no trae todos los campos de la validación (islas: DDD_PARTITION).
 - Tests con fracciones exactas (100·1,15 da 114,999…); imagen de CI sin `.git`: nada de `git grep` en tests; comprueba que los tests aleatorios no son vacuos.
 
+
+## Lecciones 10-11 (cierres de chats, 2.ª tanda)
+- Sin el repositorio de origen (`source_url`) un chat de tarea no puede empujar; sin él la sesión sale `no-git-repo`: ciérrala y recréala.
+- Borrado irreversible (poda ARC, runs): entorno protegido sin exención de bots, informe como artefacto antes del push y verificación de todas las filas antes de borrar la primera; el Operador repite el inventario.
+- Semilla pública con el id del territorio: si el id cambia, cambia el mapa; sembrar con el código de la tabla maestra vía resolutor (D-61/6). La huella del laboratorio depende de GEOS/shapely (RESULTADO.json guarda el entorno).
+- Al subir VERSIÓN de un fichero de `ddd_motor2/` también se exige copia en `legacy/ddd_motor2/` (el revisor da FAIL si falta).
+- `desplegar-visor-publico.yml` y `generar-alternativas-territoriales.yml` solo piden la aprobación `produccion` si `github.workflow ==` su nombre; al renombrar desaparece sin avisar. El nombre de la 00 lo usan el forense, `legislatura_vigente.py` (TITLE_00) y `metricas_proceso.py` (RUN_NAME). El corte exige prueba explícita de que la aprobación sigue (D-61).
+- El registro rechaza `congreso350_*`; en el corte debe rechazar también `nacNN-350`.
+- Ahorro de CI (1.9.0): clasificar en un job sin concurrencia, grupos únicos por run fuera del caso cancelable, diff `--no-renames`; clave `concurrency` duplicada la acepta PyYAML pero no GitHub. Tras squash de PR apilada el merge de origin/main choca con contenido idéntico: diff vacío → «ours». Reducir comprobaciones exige la frase del propietario en el chat que ejecuta («CI Bypass»).
+- Lista de Actions: 24 ficheros (23 sin la Poda de R2); cuatro «Interno ·» aceptadas; fusión automática y forense intactos hasta el corte.
+- CLAUDE.md está en 100 líneas: regla nueva exige compactar otra. Parches de ESTUDIOS: `git apply --check`, luego sustituir el id de decisión con sed. PR sensible: borrador + etiqueta no-automerge por REST y salir de borrador con `pulls/<n>/ccr/ready_for_review`. Los MCP de GitHub se desconectan a ratos: `gh api` REST sigue.
+- Naturalidad/GerryChain: seccionado INE desde ine.es; pyogrio con `where` exige leer la columna filtrada; contigüidad con puentes en vértice (Madrid, Barcelona); GerryChain 1.0 usa ids internos (guardar id real); elegir por naturalidad sin tope propio lleva el desvío al borde de la tolerancia (≈15 %), de ahí D5/D8.
+- Histórico autonómico: medir en `fuentes/observatorio_autonomicas/index.json` (clave sekzioak) antes de descargar; `siglas_sin_homologar.json` se sobrescribe por pasada: fusionar a mano.
+- Desde la nube solo `boe.es` e `ine.es`; zenodo.org, github.io y developers.cloudflare.com dan 403: DOI y aviso de Cloudflare los comprueba el propietario. Nombres de release `fuente-*` y URLs de descargas manuales son propuesta hasta confirmarlos.
