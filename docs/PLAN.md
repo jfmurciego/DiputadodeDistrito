@@ -4,7 +4,7 @@ Versión: 1.0.36
 Fecha: 2026-11-10
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: decisiones D-48 a D-55 del 10-11 (motor, CI, semilla, versión, permisos, Actions); corrige D-43
+Cambios/motivo: decisiones D-48 a D-57 del 10-11 (motor, CI, semilla, versión, permisos, Actions); corrige D-43
 Anterior: legacy/docs/PLAN_v1.0.35_20261110.md
 -->
 
@@ -90,6 +90,8 @@ con frase del propietario en su chat.
 - D-53. Fusión automática y forense: se revisan en solo lectura; no se renombran ni se tocan sin autorización expresa.
 - D-54. Identificadores internos AUT/NAC: se prepara el plan de migración y riesgos; se ejecutaría en el corte 5.0.0. La capa visible también espera al corte (D-45).
 - D-55. Lista de Actions: el revisor de PR queda como flujo aparte, con nombre sin «_»; la lista queda en 22 elementos tras la consolidación. La regla activa de protección de `main` exige el check `veredicto`.
+- D-56. Lista de Actions: se aceptan como excepción cuatro piezas internas con nombre «Interno · …» (generación territorial, publicador del sitio, incorporación electoral y puerta de validación); no se integran en quien las llama. Se revisan en el corte 5.0.0.
+- D-57. El relevo del motor espera: el propietario quiere más pruebas y distritos más naturales. Piloto de naturalidad en seis territorios con tres funciones de calidad (solo población; población y, a igualdad, menos partidos judiciales y comarcas partidos y mejor forma; lo anterior con el grafo ponderado por vínculo y geografía física). Decide con los mapas delante. Condiciones previas al corte que siguen: núcleos cerrados en el certificador, enumeración exacta en territorios pequeños y regla pública de elección escrita.
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
