@@ -1,6 +1,20 @@
 {
  "schema": "ddd.composicion-m06/1.0",
  "territorios": {
+  "andalucia": {
+   "run_id": "42495072594",
+   "blob_sha": "d90d9e047cdaca7e0f15e88b3528b9ab2c4bac3e",
+   "sha256_m06": "c46a253a0db0896b5e58fd97c5a7681fa246bcf3853d6df20be573152b194541",
+   "secciones": 6029,
+   "sha256_csv": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7"
+  },
+  "aragon": {
+   "run_id": "42497101869",
+   "blob_sha": "c7b411cd678e4fb96011664b842c7a46c0e02ce3",
+   "sha256_m06": "80e0786ebc6f44015e41b71c152d2dfe4d8b79e1b12b37e0d244a7c23a5a1b0c",
+   "secciones": 1463,
+   "sha256_csv": "aafc159d0c84bbab14ab368c0df89428654cce827be665c1dcce9753d35957c5"
+  },
   "canarias": {
    "run_id": "40951280657",
    "blob_sha": "6eed168481c04e8ca07e1b607e1cabeae0b5e1ba",
@@ -709,6 +723,16 @@
    "sha256_m06": "93028055fcb72b3225b046c4829f2b30b623efa6d5843f8e3b4e41b2ee5c0452",
    "secciones": 2141,
    "sha256_csv": "f207453cf1fdf152b5b9e9cac54a0ed4ccdf5d590e5bc4de591dd7a8e68802ae"
+  },
+  "illes_balears": {
+   "run_id": "41033500476",
+   "blob_sha": "45656210387ab6ffdcf62d7e10c11c060b6d8298",
+   "sha256_m06": "756dcb5076f6ea0b6a902b6163d3cc267d48ae57caea907f82a5b62d5535b633",
+   "secciones": 670,
+   "sha256_csv": "a040ccba6185af197d81d02479c3c3df3e41249d748c438c5531a10d57229afe",
+   "sha256_seccionado_ine": "7a15e700a4592d793230441cfcb4b72e40979998aef019ca644389271886bf1f",
+   "url_seccionado_ine": "https://www.ine.es/prodyser/cartografia/seccionado_2023.zip",
+   "anio_secciones": 2023
   },
   "la_rioja": {
    "run_id": "40867456776",

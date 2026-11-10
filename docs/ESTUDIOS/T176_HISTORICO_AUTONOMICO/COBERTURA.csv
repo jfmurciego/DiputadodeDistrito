@@ -1,14 +1,14 @@
 comunidad,eleccion,fecha_mes,granularidad_calendario,seccion_en_observatorio,composicion_m06,en_repo,cuadra,defecto_frente_total,perdida_geometria,aproximado_en_distrito,estado,causa,accesible_desde_nube,siglas
-andalucia,201203,2012-03,por sección,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-andalucia,201503,2015-03,por sección,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-andalucia,201812,2018-12,por sección,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-andalucia,202206,2022-06,por sección,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-andalucia,202605,2026-05,por sección,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-aragon,201105,2011-05,por municipio,no,no,no,,,,,HUECO,"fuente solo por por municipio (sin sección): requiere el dato por sección de la Junta/instituto autonómico, descarga manual del propietario",no,
-aragon,201505,2015-05,por municipio,no,no,no,,,,,HUECO,"fuente solo por por municipio (sin sección): requiere el dato por sección de la Junta/instituto autonómico, descarga manual del propietario",no,
-aragon,201905,2019-05,por mesa,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-aragon,202305,2023-05,por mesa,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-aragon,202602,2026-02,por mesa,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
+andalucia,201203,2012-03,por sección,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+andalucia,201503,2015-03,por sección,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+andalucia,201812,2018-12,por sección,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+andalucia,202206,2022-06,por sección,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+andalucia,202605,2026-05,por sección,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+aragon,201105,2011-05,por municipio,no,si,no,,,,,HUECO,"fuente solo por por municipio (sin sección): requiere el dato por sección de la Junta/instituto autonómico, descarga manual del propietario",no,
+aragon,201505,2015-05,por municipio,no,si,no,,,,,HUECO,"fuente solo por por municipio (sin sección): requiere el dato por sección de la Junta/instituto autonómico, descarga manual del propietario",no,
+aragon,201905,2019-05,por mesa,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+aragon,202305,2023-05,por mesa,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+aragon,202602,2026-02,por mesa,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
 canarias,201105,2011-05,por mesa,si,si,si,si,0.0,0.0,si,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
 canarias,201505,2015-05,por mesa,si,si,si,si,0.0,0.0,si,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
 canarias,201905,2019-05,por mesa,si,si,si,si,0.0,0.0,si,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
@@ -48,10 +48,10 @@ galicia,201210,2012-10,por mesa,si,si,si,si,0.0,0.0,no,COMPLETA_Y_CUADRA,,si,sin
 galicia,201609,2016-09,por mesa,si,si,si,si,-1e-05,0.0,no,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
 galicia,202007,2020-07,por mesa,si,si,si,si,0.0,0.0,no,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
 galicia,202402,2024-02,por mesa,si,si,si,si,0.0,0.0,no,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
-illes_balears,201105,2011-05,por mesa,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-illes_balears,201505,2015-05,por mesa,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-illes_balears,201905,2019-05,por mesa,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-illes_balears,202305,2023-05,por mesa,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
+illes_balears,201105,2011-05,por mesa,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+illes_balears,201505,2015-05,por mesa,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+illes_balears,201905,2019-05,por mesa,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+illes_balears,202305,2023-05,por mesa,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
 la_rioja,201105,2011-05,por mesa,si,si,si,si,0.0,0.0,si,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
 la_rioja,201505,2015-05,por mesa,si,si,si,si,0.0,0.0,si,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
 la_rioja,201905,2019-05,por mesa,si,si,si,si,0.0,0.0,si,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)

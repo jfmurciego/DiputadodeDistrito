@@ -48,7 +48,7 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 390,
+  "productos": 393,
   "errores": 0,
   "avisos": 146
  },
@@ -94,6 +94,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-andalucia",
+     "run_id": "42495072594",
+     "vigente": true,
+     "sha256": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/andalucia.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "c46a253a0db0896b5e58fd97c5a7681fa246bcf3853d6df20be573152b194541"
     },
     {
      "producto": "resultados",
@@ -152,6 +166,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-aragon",
+     "run_id": "42497101869",
+     "vigente": true,
+     "sha256": "aafc159d0c84bbab14ab368c0df89428654cce827be665c1dcce9753d35957c5",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/aragon.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "80e0786ebc6f44015e41b71c152d2dfe4d8b79e1b12b37e0d244a7c23a5a1b0c"
     },
     {
      "producto": "resultados",
@@ -6029,6 +6057,20 @@
       }
      ],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-illes_balears",
+     "run_id": "41033500476",
+     "vigente": true,
+     "sha256": "a040ccba6185af197d81d02479c3c3df3e41249d748c438c5531a10d57229afe",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/illes_balears.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "756dcb5076f6ea0b6a902b6163d3cc267d48ae57caea907f82a5b62d5535b633"
     },
     {
      "producto": "resultados",
