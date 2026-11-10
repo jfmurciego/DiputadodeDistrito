@@ -3,13 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — informe por territorio de la competición
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Competición · informe
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Competición · informe con función de calidad
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.1.0 (T-205) — el motivo usa los criterios de la función de la competición (A o naturalidad C/D5/D8);
+  «mejora al canónico» compara la clave sin huella ni orden. 1.0.0 — fichero nuevo.
 MOTIVO: T-163 / D-48: decir qué candidato ganó, por qué, y la tabla de todos (germen del «universo de mapas»).
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/ddd_motor2/informe_v1.0.0_20261110.py
 SALIDA: escribir(resultado, carpeta) -> (COMPETICION.json, COMPETICION.md). El JSON es Resultado.a_dict() más
   «motivo»; el resumen legible repite ganador, motivo, semillas públicas y la tabla ordenada por calidad.
 """
@@ -30,12 +31,25 @@ CRITERIOS = (  # mismo orden que Candidato.clave()
     ("orden", "mismo plan: se queda el primero (el canónico)"),
 )
 
+CRITERIOS_NATURAL = (  # Candidato.clave() con funcion C/D5/D8
+    ("evaluable", "es evaluable (los otros fallaron al generar o con los datos)"),
+    ("violaciones_duras", "tiene menos violaciones duras"),
+    ("fuera_tolerancia", "tiene menos distritos fuera de tolerancia"),
+    ("exceso_tope", "se pasa menos del tope de desvío (solo para elegir)"),
+    ("demarcaciones_partidas", "parte menos partidos judiciales y comarcas agrarias"),
+    ("frontera_cortada_km", "corta menos frontera"),
+    ("desvio_max", "tiene menor desvío máximo"),
+    ("huella_plan", "desempate determinista por huella del plan"),
+    ("orden", "mismo plan: se queda el primero (el canónico)"),
+)
+
 
 def motivo(ganador: Candidato, otro: Candidato | None) -> str:
     """Primer criterio de la clave lexicográfica en que el ganador supera a `otro`."""
     if otro is None:
         return "único candidato"
-    for (nombre, texto), a, b in zip(CRITERIOS, ganador.clave(), otro.clave()):
+    crit = CRITERIOS_NATURAL if ganador.natural is not None or otro.natural is not None else CRITERIOS
+    for (nombre, texto), a, b in zip(crit, ganador.clave(), otro.clave()):
         if a != b:
             return f"frente a {otro.id}: {texto} ({nombre})"
     return f"frente a {otro.id}: idéntico"
@@ -54,7 +68,7 @@ def escribir(resultado: Resultado, carpeta: Path) -> tuple[Path, Path]:
     d = resultado.a_dict()
     d["motivo"] = motivo(g, segundo)
     d["motivo_frente_al_canonico"] = "es el canónico" if g is resultado.canonico else motivo(g, resultado.canonico)
-    d["mejora_al_canonico"] = g.clave()[:5] < resultado.canonico.clave()[:5]
+    d["mejora_al_canonico"] = g.clave()[:-2] < resultado.canonico.clave()[:-2]
     fj = carpeta / "COMPETICION.json"
     fj.write_text(json.dumps(d, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
