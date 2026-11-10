@@ -115,6 +115,39 @@ class ReescribirEntradaM06(unittest.TestCase):
                 p30.reescribir_entrada_m06(ruta, "CUSEC_KEY", "district_id", {"s0": 1})
 
 
+class VerificarRestauraM05(unittest.TestCase):
+    def test_m06_del_ganador_y_m05_original(self):
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            m05 = d / "x_m05_distritos_optimizados.geojson.zip"
+            with zipfile.ZipFile(m05, "w") as zf:
+                zf.writestr("x.geojson", json.dumps({"type": "FeatureCollection", "features": []}))
+            original = m05.read_bytes()
+            runs = d / "run"
+            destino = runs / "p30_motor2"
+            (destino / p30.RESPALDO).mkdir(parents=True)
+            (destino / p30.RESPALDO / m05.name).write_bytes(original)
+            m05.write_bytes(b"reescrita")
+            comp = d / "x_m06_composicion_distritos.csv"
+            comp.write_text("CUSEC_KEY,district_id\ns0,1\ns1,2\n", encoding="utf-8")
+            (destino / "PLAN_GANADOR.json").write_text(json.dumps({"s0": 1, "s1": 2}), encoding="utf-8")
+            (destino / "P30.json").write_text(json.dumps({"rehacer_m06": True, "m05_salida": {
+                "sha256": hashlib.sha256(original).hexdigest()}}), encoding="utf-8")
+            contrato = d / "c.yaml"
+            contrato.write_text("meta: {}\n", encoding="utf-8")
+            rutas = {"in_m06": m05, "composicion": comp, "runs": runs}
+            with mock.patch.object(p30, "_rutas", return_value=rutas):
+                v = p30.verificar(contrato)
+                self.assertEqual(p30.main(["verificar", "--params", str(contrato)]), 0)  # idempotente
+                m05.write_bytes(b"otra")  # sin respaldo y con otro contenido: falla cerrado
+                self.assertEqual(p30.main(["verificar", "--params", str(contrato)]), 5)
+                m05.write_bytes(original)
+            self.assertTrue(v["verificacion_m06"]["igual_al_ganador"])
+            self.assertTrue(v["m05_restaurada"])
+            self.assertEqual(m05.read_bytes(), original)
+            self.assertFalse((destino / p30.RESPALDO).exists())
+
+
 class ManifiestoP30(unittest.TestCase):
     def _estado(self, d, datos):
         f = Path(d) / "run" / "p30_motor2" / "P30.json"
@@ -129,12 +162,14 @@ class ManifiestoP30(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             self._estado(d, {"valido": True, "estado": "P30_GANA_OTRO_PLAN", "ganador": "ponderado-s1",
                              "huella_resultado": "h", "motor2": {"fingerprint": "f"}, "rehacer_m06": True,
-                             "verificacion_m06": {"igual_al_ganador": True}, "funcion": "D8", "cadenas": 10})
+                             "verificacion_m06": {"igual_al_ganador": True}, "m05_restaurada": True,
+                             "funcion": "D8", "cadenas": 10})
             r = mg._p30(Path(d))
             self.assertEqual((r["motor"], r["ganador"], r["motor2_fingerprint"]), ("motor2", "ponderado-s1", "f"))
 
     def test_invalido_o_sin_verificar_no_se_acredita(self):
-        for datos in ({"valido": False}, {"valido": True, "rehacer_m06": True}):
+        for datos in ({"valido": False}, {"valido": True, "rehacer_m06": True},
+                      {"valido": True, "rehacer_m06": True, "verificacion_m06": {"igual_al_ganador": True}}):
             with tempfile.TemporaryDirectory() as d:
                 self._estado(d, datos)
                 with self.assertRaises(mg.GenerationManifestError):

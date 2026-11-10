@@ -19,10 +19,13 @@ QUÉ HACE (en el job M06 de la generación territorial, tras M04 + M05 canónico
              y P30.json (ganador, validez, huella del resultado, función, N, huella del motor 2). Si el ganador no es el
              canónico, reescribe el distrito de cada sección en la entrada de M06 (la salida M05) con el plan ganador
              (stdlib: geometrías y demás propiedades intactas; etiquetas 1..K emparejadas con las del canónico por
-             máxima población común) y sale con 0 y `rehacer_m06=true`: el flujo vuelve a ejecutar M06.
+             máxima población común) y sale con 0 y `rehacer_m06=true`: el flujo vuelve a ejecutar M06. Antes guarda la
+             salida M05 original (sha256 en P30.json): M05 es el competidor canónico y su linaje no cambia.
              Sin ganador válido: P30_SIN_GANADOR_VALIDO, sale con 3 (falla cerrado; nunca se publica un plan inválido).
-  verificar  tras rehacer M06: la composición M06 nueva es la partición del ganador (mismos conjuntos de secciones);
-             si no, P30_M06_NO_ES_EL_GANADOR y sale con 4.
+  verificar  tras rehacer M06: la composición M06 nueva es la partición del ganador (mismas etiquetas); si no,
+             P30_M06_NO_ES_EL_GANADOR y sale con 4. Después restaura byte a byte la salida M05 original (la evidencia M05
+             —report.output.sha256, portfolio de GerryChain 50— sigue cuadrando); si su sha256 no vuelve a ser el
+             guardado, P30_M05_NO_RESTAURADA y sale con 5.
   huella     huella del motor 2 (sha256 de ddd_motor2/**/*.py y de las tablas de naturalidad que lee, función y N) para
              compatibility/motor.json (herramientas/huella_checkpoint_motor.py, capa `motor2`).
 NO HACE: tocar M04/M05/M06 ni ddd_core; decidir el relevo; lanzar nada.
@@ -49,6 +52,7 @@ ESQUEMA = "ddd.p30-motor2/1.0"
 FUNCION = "D8"
 CADENAS = 10
 # Tablas que lee la clave de naturalidad (naturalidad_mapas: partidos judiciales, comarcas agrarias, áreas de movilidad).
+RESPALDO = ".m05_original"  # copia temporal de la salida M05 mientras se rehace M06 (se borra al restaurar)
 DATOS_NATURALIDAD = ("configuracion/partidos_judiciales.csv", "docs/ESTUDIOS/T64_*/comarcas_agrarias.csv",
                      "datos/movilidad/**/*")
 
@@ -223,7 +227,10 @@ def competir(params: Path, n_cadenas: int = CADENAS, funcion: str = FUNCION, *, 
               "estado_ganador": g.estado, "huella_resultado": res.huella(), "semilla_publica": res.semilla_publica,
               "motor2": huella_motor(funcion, n_cadenas), "candidatos": len(res.candidatos),
               "candidatos_validos": sum(c.estado == "VALIDO" for c in res.candidatos), "rehacer_m06": False,
-              "secciones_cambiadas": 0, "run_id": os.environ.get("DDD_RUN_ID")}
+              "secciones_cambiadas": 0, "run_id": os.environ.get("DDD_RUN_ID"),
+              "metricas": {k: {"fuera_tolerancia": c.fuera_tolerancia,
+                               "desvio_max": None if c.desvio_max is None else float(c.desvio_max)}
+                           for k, c in (("ganador", g), ("canonico", res.canonico))}}
     if not res.valido:
         salida["estado"] = "P30_SIN_GANADOR_VALIDO"
     elif g.id == res.canonico.id:
@@ -237,6 +244,10 @@ def competir(params: Path, n_cadenas: int = CADENAS, funcion: str = FUNCION, *, 
         pob = {str(f[col["seccion"]]).strip(): int(f.get(col["poblacion"]) or 0) for f in filas}
         et = etiquetas(plan_g, plan_c, pob)
         plan = {s: et[d] for s, d in plan_g.items()}
+        respaldo = destino / RESPALDO / r["in_m06"].name
+        respaldo.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(r["in_m06"], respaldo)
+        salida["m05_salida"] = {"ruta": str(r["in_m06"]), "sha256": _sha(r["in_m06"].read_bytes())}
         salida["secciones_cambiadas"] = reescribir_entrada_m06(r["in_m06"], r["id"], r["distrito"], plan)
         (destino / "PLAN_GANADOR.json").write_text(json.dumps(plan, sort_keys=True) + "\n", encoding="utf-8")
         salida.update(estado="P30_GANA_OTRO_PLAN", rehacer_m06=True)
@@ -256,6 +267,12 @@ def verificar(params: Path, runs_dir: Path | None = None) -> dict:
     ok = m06 == {s: str(d) for s, d in plan.items()}
     p30["verificacion_m06"] = {"igual_al_ganador": ok, "composicion": str(r["composicion"]),
                                "composicion_sha256": _sha(r["composicion"].read_bytes())}
+    respaldo = r["runs"] / "p30_motor2" / RESPALDO / r["in_m06"].name
+    if respaldo.is_file():
+        shutil.copy2(respaldo, r["in_m06"])
+        shutil.rmtree(respaldo.parent)
+    esperado = (p30.get("m05_salida") or {}).get("sha256")
+    p30["m05_restaurada"] = bool(esperado) and _sha(r["in_m06"].read_bytes()) == esperado
     (r["runs"] / "p30_motor2" / "P30.json").write_text(json.dumps(p30, ensure_ascii=False, indent=2, default=str) + "\n",
                                                        encoding="utf-8")
     return p30
@@ -289,6 +306,10 @@ def main(argv=None) -> int:
     if not v["verificacion_m06"]["igual_al_ganador"]:
         print("::error title=P30_M06_NO_ES_EL_GANADOR::la composición M06 rehecha no es la partición del ganador")
         return 4
+    print(f"P30 salida M05 restaurada (sha256 original): {v['m05_restaurada']}")
+    if not v["m05_restaurada"]:
+        print("::error title=P30_M05_NO_RESTAURADA::la salida M05 no vuelve a su sha256 original")
+        return 5
     return 0
 
 

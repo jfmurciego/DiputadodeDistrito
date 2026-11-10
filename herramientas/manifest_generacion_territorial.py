@@ -458,8 +458,8 @@ def _p30(state_dir: Path) -> dict[str, Any] | None:
     if not data.get("valido"):
         raise GenerationManifestError("P30 sin ganador válido: el M06 no se acredita")
     verificacion = data.get("verificacion_m06")
-    if data.get("rehacer_m06") and not (verificacion or {}).get("igual_al_ganador"):
-        raise GenerationManifestError("P30: el M06 rehecho no está verificado como el plan ganador")
+    if data.get("rehacer_m06") and not ((verificacion or {}).get("igual_al_ganador") and data.get("m05_restaurada")):
+        raise GenerationManifestError("P30: M06 rehecho sin verificar como el ganador o salida M05 sin restaurar")
     return {
         "motor": "motor2",
         "estado": data.get("estado"),
@@ -470,6 +470,7 @@ def _p30(state_dir: Path) -> dict[str, Any] | None:
         "huella_resultado": data.get("huella_resultado"),
         "motor2_fingerprint": (data.get("motor2") or {}).get("fingerprint"),
         "rehacer_m06": bool(data.get("rehacer_m06")),
+        "metricas": data.get("metricas"),
         "p30_sha256": _sha(matches[0]),
     }
 
