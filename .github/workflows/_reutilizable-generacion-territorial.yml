@@ -7,7 +7,8 @@
 #   canónico es el M06 del run), con el entorno de la batería (Python 3.13, requirements.lock y cadenas sin dependencias);
 #   si gana otro plan, se reescribe la entrada de M06 y se rehace M06 en el contenedor, y se verifica que es el ganador.
 #   El checkpoint M06 lleva la capa `motor2` en compatibility/motor.json y p30_motor2/ en run/. Con m05 los pasos nuevos
-#   se saltan y el checkpoint es idéntico (huella_checkpoint_motor --motor m05 = salida de 1.0.0).
+#   se saltan y el checkpoint es idéntico (huella_checkpoint_motor --motor m05 = salida de 1.0.0). motor2 exige
+#   optimization_algorithm «Canónico» (resolve falla con 20 si no); N y función salen de ddd_motor2/produccion.py.
 # CAMBIOS 1.3.4: T-149, solo el nombre visible (Interno · Generación territorial) para ordenar la lista de Actions.
 # CAMBIOS 1.3.3: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Diagnóstico automático con linaje y manifiesto
@@ -143,6 +144,9 @@ jobs:
         run: |
           set -euo pipefail
           case "${{ inputs.motor }}" in m05|motor2) ;; *) echo "::error::motor desconocido: ${{ inputs.motor }} (m05 | motor2)"; exit 20;; esac
+          if [[ "${{ inputs.motor }}" == motor2 && "${{ inputs.optimization_algorithm }}" != "Canónico" ]]; then
+            echo "::error::motor2 solo con el M05 canónico (es el competidor canónico del P30): ${{ inputs.optimization_algorithm }} no está probado"; exit 20
+          fi
           stage_num(){
             case "$1" in
               TERRITORY_PREPARATION|M01) echo 1;; TERRITORY_ADJACENCY|M02) echo 2;;
@@ -492,10 +496,27 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install --requirement requirements.lock
+          # Como la batería (T-181b): las cadenas se instalan SIN dependencias y no pueden cambiar el entorno base.
+          python -m pip freeze --all | sort > "$RUNNER_TEMP/antes.txt"
           grep -iE '^(gerrychain|networkx|rustworkx|scipy|tqdm|six)==' requirements-ensemble.lock > "$RUNNER_TEMP/cadenas.txt"
           python -m pip install --no-deps --requirement "$RUNNER_TEMP/cadenas.txt"
+          python -m pip freeze --all | sort > "$RUNNER_TEMP/despues.txt"
+          cambiados="$(comm -23 "$RUNNER_TEMP/antes.txt" "$RUNNER_TEMP/despues.txt")"
+          [[ -z "$cambiados" ]] || { echo "::error::P30: cambian paquetes del entorno base: $cambiados"; exit 1; }
+          python - <<'PY'
+          import importlib.metadata as m, re
+          def pins(f):
+              return dict(re.findall(r"(?im)^([A-Za-z0-9_.-]+)==(\S+)", open(f).read()))
+          for nombre, ver in pins("requirements.lock").items():
+              assert m.version(nombre) == ver, (nombre, m.version(nombre), ver)
+          lab = pins("requirements-ensemble.lock")
+          for nombre in ("gerrychain", "networkx", "rustworkx", "scipy"):
+              assert m.version(nombre) == lab[nombre], (nombre, m.version(nombre), lab[nombre])
+          from ddd_motor2.naturalidad_competicion import cadena  # noqa: F401
+          print("P30 entorno OK: gerrychain", lab["gerrychain"])
+          PY
       - id: p30
-        name: P30 · competición del motor 2 (D8, 10 cadenas)
+        name: P30 · competición del motor 2
         if: ${{ env.STAGE == 'M06' && inputs.motor == 'motor2' }}
         shell: bash
         env:
@@ -503,8 +524,9 @@ jobs:
         run: |
           set -euo pipefail
           sudo chown -R "$(id -u):$(id -g)" "$CACHE_DIR" "$RUNS_DIR"
+          # N y función: las constantes de ddd_motor2/produccion.py (las mismas que entran en la huella motor2).
           DDD_RUN_ID="$RUN_ID" python -m ddd_motor2.produccion competir --params "$PARAMS" --runs-dir "$RUNS_DIR" \
-            --cadenas 10 --funcion D8 2>&1 | tee ".ddd-logs/P30.log"
+            2>&1 | tee ".ddd-logs/P30.log"
           p30="$RUNS_DIR/p30_motor2/P30.json"
           echo "rehacer_m06=$(jq -r '.rehacer_m06' "$p30")" >> "$GITHUB_OUTPUT"
           { echo "### P30 · motor 2"; echo; jq -r '"Ganador: \(.ganador) · \(.estado) · válido=\(.valido) · huella \(.huella_resultado)"' "$p30"; echo
