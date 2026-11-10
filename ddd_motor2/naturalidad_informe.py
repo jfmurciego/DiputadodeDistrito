@@ -3,11 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — entregable del laboratorio de naturalidad: mapas A/D5/D8/C/B lado a lado y tablas
-VERSIÓN: 1.2.0
+VERSIÓN: 1.3.0
 NOMBRE DE VERSIÓN: Naturalidad · informe nacional
 FECHA: 2026-11-10
 ESTADO: experimento (motor 2; producción no lo importa; nada se publica)
-CAMBIOS: 1.2.0 (T-179, nacional): --png (lista de territorios con lámina; sin ella, todos), nombres en español de los
+CAMBIOS: 1.3.0 (T-202): columna «valido» (el mapa cumple el núcleo); en TABLA.md, un mapa que no lo cumple (el
+  vigente de Castilla y León, D-66) se marca «A (incumple el núcleo)». EMPEORA cuenta también la suma de desvíos
+  (más personas que A) y el Polsby-Popper mínimo.
+  1.2.0 (T-179, nacional): --png (lista de territorios con lámina; sin ella, todos), nombres en español de los
   67 territorios y EMPEORA.md/.csv: territorios donde C o D8 empeoran algo frente a A (más distritos fuera de
   tolerancia, más partidos judiciales o comarcas agrarias partidos, menor Polsby-Popper medio) o no hallan candidato
   (gana el mapa vigente; los de un solo distrito no cuentan). Columna k. DISTRITOS.csv solo de los territorios con lámina.
@@ -15,7 +18,7 @@ CAMBIOS: 1.2.0 (T-179, nacional): --png (lista de territorios con lámina; sin e
   superficie, población, municipio principal y si es un núcleo cerrado dentro de un solo municipio), para explicar los
   distritos urbanos minúsculos en superficie. 1.0.0: fichero nuevo.
 MOTIVO: T-172, paso 5: que el propietario decida con los mapas delante; el criterio no se fija en código.
-ANTERIOR: 1.1.0 (T-179, #656) — legacy/ddd_motor2/naturalidad_informe_v1.1.0_20261110.py
+ANTERIOR: 1.2.0 (T-179, #662) — legacy/ddd_motor2/naturalidad_informe_v1.2.0_20261110.py
 USO: python -m ddd_motor2.naturalidad_informe --seccionado-dir <dir> --resultados <out del laboratorio> --salida <dir>
        [--png t1,t2,...]
 QUÉ HACE: por territorio, un PNG con los cinco ganadores (misma escala y mismos colores: cada distrito de B y C toma el
@@ -60,7 +63,7 @@ def nombre(t: str) -> str:
         prov = {i: n for i, n in PROVINCIAS.values()}
         return prov.get(t[9:], t)
     return t
-COLUMNAS = ["territorio", "funcion", "k", "candidato", "fuera_tolerancia", "desvio_max_pct", "max_desvio_personas",
+COLUMNAS = ["territorio", "funcion", "k", "valido", "candidato", "fuera_tolerancia", "desvio_max_pct", "max_desvio_personas",
             "suma_desvio_personas", "coste_suma_desvio_vs_A", "pp_medio", "pp_min", "convexidad_media",
             "pj_partidos", "pj_n", "pj_pob_fuera_mayoritario", "ca_partidas", "ca_n", "comarca_partidas",
             "movilidad_cohesion", "frontera_cortada"]
@@ -169,8 +172,11 @@ def empeora(filas: list[dict], sal: Path) -> list[dict]:
                            ("ca_partidas", "comarcas agrarias partidas")):
                 if x[k] > a[k]:
                     m.append(f"{txt} {a[k]} → {x[k]}")
-            if x["pp_medio"] != "" and a["pp_medio"] != "" and x["pp_medio"] < a["pp_medio"]:
-                m.append(f"Polsby-Popper medio {a['pp_medio']} → {x['pp_medio']}")
+            for k, txt in (("pp_medio", "Polsby-Popper medio"), ("pp_min", "Polsby-Popper mínimo")):
+                if x[k] != "" and a[k] != "" and x[k] < a[k]:
+                    m.append(f"{txt} {a[k]} → {x[k]}")
+            if x["coste_suma_desvio_vs_A"] > 0:  # diferencia sin redondear, redondeada al final (como TABLA.csv)
+                m.append(f"suma de desvíos +{x['coste_suma_desvio_vs_A']} personas")
             if m:
                 out.append({"territorio": t, "nombre": nombre(t), "funcion": f, "empeora": "; ".join(m)})
     with open(sal / "EMPEORA.csv", "w", newline="", encoding="utf-8") as fh:
@@ -208,7 +214,8 @@ def main(argv=None) -> int:
         filas = {}
         for f in planes:
             g, i = r["ganadores"][f], r["ganadores"][f]["indicadores"]
-            filas[f] = {"territorio": t, "funcion": f, "k": len(set(planes[f].values())), "candidato": g["candidato"],
+            filas[f] = {"territorio": t, "funcion": f, "k": len(set(planes[f].values())), "valido": g["valido"],
+                        "candidato": g["candidato"],
                         "fuera_tolerancia": len(g["fuera_tolerancia"]), "desvio_max_pct": round(100 * g["desvio_max"], 2),
                         "max_desvio_personas": round(g["max_desvio_personas"]),
                         "suma_desvio_personas": round(g["suma_desvio_personas"]),
@@ -238,7 +245,7 @@ def main(argv=None) -> int:
     md = ["| " + " | ".join(cab) + " |", "|" + "---|" * len(cab)]
     for x in todas:
         md.append("| " + " | ".join(str(v) for v in [
-            nombre(x["territorio"]), x["funcion"], x["fuera_tolerancia"], x["desvio_max_pct"],
+            nombre(x["territorio"]), x["funcion"] + ("" if x["valido"] else " (incumple el núcleo)"), x["fuera_tolerancia"], x["desvio_max_pct"],
             x["suma_desvio_personas"], x["coste_suma_desvio_vs_A"], x["pp_medio"], x["convexidad_media"],
             f"{x['pj_partidos']}/{x['pj_n']}", f"{x['ca_partidas']}/{x['ca_n']}", x["movilidad_cohesion"]]) + " |")
     (sal / "TABLA.md").write_text("\n".join(md) + "\n", encoding="utf-8")

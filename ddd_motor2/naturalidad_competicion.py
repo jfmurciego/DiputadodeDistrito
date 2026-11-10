@@ -3,13 +3,22 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — laboratorio de naturalidad: competición con cinco funciones de calidad y grafo ponderado
-VERSIÓN: 1.3.0
+VERSIÓN: 1.4.0
 NOMBRE DE VERSIÓN: Naturalidad · competición A/B/C + D5/D8
 FECHA: 2026-11-10
 ESTADO: experimento (motor 2; producción no lo importa; no lanza nada; el criterio NO se fija aquí)
-CAMBIOS: 1.3.0 (T-179, autonómicas): objetivo por circunscripción cuando el contrato trae province_districts de más de
+CAMBIOS: 1.4.0 (T-202): (1) contratos con unidades internas (partitioning connected_internal_units: Extremadura,
+  Principado de Asturias): el municipio es atómico hasta atomicity_ratio × objetivo, como en producción; por encima,
+  la unidad (y su clave R012) es la sección: más fina que los trozos de producción, que no se pueden reconstruir sin el
+  grafo M03 original (caducado). (2) Mapa vigente que incumple el núcleo (D-66; p. ej. Ávila en dos distritos
+  mixtos en Castilla y León): A sigue siendo el vigente, marcado no válido; C y D8 parten de un «vigente reparado»
+  (las secciones del municipio en el distrito mixto sobrante pasan a otro distrito del mismo municipio, si el plan
+  queda válido) y solo eligen entre mapas válidos; si no hay reparación, se informa con los intentos.
+  1.3.0 (T-179, autonómicas): objetivo por circunscripción cuando el contrato trae province_districts de más de
   una provincia o isla: objetivo = población de la circunscripción / su cuota; desvíos, tolerancia, topes y fuera de
-  tolerancia se miden contra él, y ReCom corta cada par fusionado por la mitad de su población (misma circunscripción).
+  tolerancia se miden contra él, y ReCom corta cada par fusionado por la mitad de su población. ReCom no limita el par a una
+  circunscripción: un par de circunscripciones distintas da un plan que rechaza la restricción `nucleo` (R-CUOTA /
+  provincia única), y la cadena se queda en el estado anterior.
   Sin cuotas múltiples (Congreso), todo igual que 1.2.0.
   --reanudar solo salta un territorio si su RESULTADO.json tiene la misma versión, parámetros (con funciones) y
   entorno; si no, lo rechaza sin sobrescribirlo.
@@ -25,7 +34,7 @@ CAMBIOS: 1.3.0 (T-179, autonómicas): objetivo por circunscripción cuando el co
   arista y, con ella, las cadenas (Badajoz, Madrid y Barcelona no reprodujeron #651). 1.0.0: fichero nuevo.
 MOTIVO: T-172, pasos 3 y 4: ¿cuánta población «cuesta» un mapa más natural? Misma entrada, mismas reglas (núcleo
   ddd_motor2.reglas.evaluar), mismas semillas públicas (semilla.py); cambia solo cómo se elige y cómo se corta.
-ANTERIOR: 1.2.0 (T-179, #662) — legacy/ddd_motor2/naturalidad_competicion_v1.2.0_20261110.py
+ANTERIOR: 1.3.0 (T-179, #669) — legacy/ddd_motor2/naturalidad_competicion_v1.3.0_20261110.py
 QUÉ HACE: por territorio,
   entrada   el mapa vigente (datos/composicion/<t>.csv: población por sección) y la geometría INE del contrato
             (naturalidad_mapas.Geometria). Unidades: cada municipio con población <= objetivo es una unidad (la regla
@@ -73,7 +82,7 @@ from .reglas.modelo import Problema, Unidad
 from .semilla import descripcion
 
 ROOT = nm.ROOT
-VERSION = "1.3.0"
+VERSION = "1.4.0"
 TOPES = {"D5": 0.05, "D8": 0.08}
 FUNCIONES = ("A", "B", "C", "D5", "D8")
 
@@ -100,7 +109,10 @@ class Laboratorio:
             pob_m[s[:5]] += p
         part = particiones(self.cfg)
         psec = {s: (part.get(s) or part.get(s[:5])) for s in self.asig0} if part else {}
-        self.unidad = unidades_de(self.asig0, pob_m, self.objetivo, psec)
+        cp = self.cfg.get("partitioning") or {}
+        self.internas = bool(cp.get("enabled")) and cp.get("strategy") == "connected_internal_units"
+        limite = self.objetivo * Fraction(str(cp.get("atomicity_ratio", 1))) if self.internas else self.objetivo
+        self.unidad = unidades_de(self.asig0, pob_m, limite, psec)
         self.secciones_de: dict[str, list[str]] = defaultdict(list)
         for s in sorted(self.asig0):
             self.secciones_de[self.unidad[s]].append(s)
@@ -118,7 +130,8 @@ class Laboratorio:
         contacto = sorted(p for p in contacto if p[0] != p[1] and p not in largo)
         self.largo = dict(sorted(largo.items()))
         self.problema = Problema(
-            tuple(Unidad(u, pob_u[u], municipio=u if ":" in u else u[:5], provincia=pi, particion=pi if part else None)
+            tuple(Unidad(u, pob_u[u], municipio=u if ":" in u else u[:5], provincia=pi, particion=pi if part else None,
+                         unidad_r012=u if self.internas else None)
                   for u in sorted(pob_u)
                   # en las islas el contrato usa la partición como campo de provincia (DDD_PARTITION)
                   for pi in [(part.get(self.secciones_de[u][0]) or part.get(u[:5])) if part else u[:2]]),
@@ -208,6 +221,41 @@ class Laboratorio:
         for a, b in self.problema.puentes:
             out[(a, b)] = rpj + rca + rmov + rlong
         return out
+
+    def reparar(self, asig: dict[str, str]) -> tuple[dict[str, str], list[str]]:
+        """Plan válido cercano al vigente: para cada municipio con más distritos mixtos de los permitidos, pasa sus
+        unidades de un distrito mixto a otro distrito del mismo municipio. Devuelve (plan, notas); plan vacío si no."""
+        plan, notas = dict(asig), []
+        for _ in range(20):
+            inf = evaluar(self.problema, self.reglas, plan)
+            if inf.valido:
+                return plan, notas
+            v = next((x for x in inf.violaciones if x.regla == "R-MUN-MIXTOS"), None)
+            if v is None:
+                notas.append(f"sin reparación para {[(x.regla, x.ambito) for x in inf.violaciones][:5]}")
+                return {}, notas
+            m = v.ambito
+            de_m: dict[str, list[str]] = defaultdict(list)
+            otros: dict[str, int] = defaultdict(int)
+            for u, d in plan.items():
+                (de_m[d].append(u) if u[:5] == m else otros.__setitem__(d, otros[d] + 1))
+            mixtos = sorted((d for d in de_m if otros.get(d)), key=lambda d: (sum(self.pob_u[u] for u in de_m[d]), d))
+            hecho = False
+            for d in mixtos:
+                for destino in sorted(x for x in de_m if x != d):
+                    prueba = {**plan, **{u: destino for u in de_m[d]}}
+                    inf2 = evaluar(self.problema, self.reglas, prueba)
+                    if not any(x.regla == "R-MUN-MIXTOS" and x.ambito == m for x in inf2.violaciones) and \
+                            all(x.regla == "R-MUN-MIXTOS" for x in inf2.violaciones):
+                        notas.append(f"{m}: {len(de_m[d])} unidades del distrito {d} al {destino}")
+                        plan, hecho = prueba, True
+                        break
+                    notas.append(f"{m}: {d}→{destino} no vale ({[(x.regla, x.ambito) for x in inf2.violaciones][:3]})")
+                if hecho:
+                    break
+            if not hecho:
+                return {}, notas
+        return {}, notas
 
     def a_secciones(self, asig_u: dict[str, str]) -> dict[str, str]:
         return {s: asig_u[self.unidad[s]] for s in self.asig0}
@@ -320,7 +368,7 @@ def cadena(lab: Laboratorio, semilla: int, pasos: int, funciones: tuple[str, ...
     from gerrychain.tree import bipartition_tree  # noqa: PLC0415
     g = nx.Graph()
     for u in sorted(lab.pob_u):
-        g.add_node(u, population=lab.pob_u[u], district=lab.u0[u], uid=u)
+        g.add_node(u, population=lab.pob_u[u], district=getattr(lab, "u_ini", lab.u0)[u], uid=u)
     g.add_edges_from(sorted(lab.largo) + sorted(lab.problema.puentes))
     graph = Graph.from_networkx(g)
     ini = Partition(graph, assignment="district", updaters={"population": updaters.Tally("population", alias="population")})
@@ -331,7 +379,9 @@ def cadena(lab: Laboratorio, semilla: int, pasos: int, funciones: tuple[str, ...
         bip = partial(bipartition_tree, allow_pair_reselection=True, max_attempts=1000,
                       spanning_tree_fn=partial(arbol_ponderado, recargo=recargo))
     eps = float(lab.tol / lab.objetivo)
-    if lab.obj_circ:  # cada par fusionado es de una circunscripción: se corta por la mitad de su población
+    # con objetivos por circunscripción se corta por la mitad de la población del par; si el par mezcla
+    # circunscripciones, el plan resultante lo rechaza `nucleo` (R-CUOTA / provincia única)
+    if lab.obj_circ:
         bip, eps = partial(_bip_mitad, bip=bip, eps=eps), 1e6
     prop = partial(recom, pop_col="population", pop_target=float(lab.objetivo), epsilon=eps,
                    node_repeats=0, bipartition_tree_fn=bip)
@@ -389,11 +439,15 @@ def correr(t: str, a, tablas: dict, mov) -> dict:
     t0 = time.perf_counter()
     lab = Laboratorio(t, Path(a.seccionado_dir), tablas, mov)
     t_ent = time.perf_counter() - t0
-    if not lab.valido(lab.u0):
-        raise ValueError(f"{t}: el mapa vigente no es válido para el núcleo con esta entrada")
+    lab.u_ini, reparacion = lab.u0, []
+    if not lab.valido(lab.u0):  # D-66: A sigue siendo el vigente; C/D8 solo entre mapas válidos
+        lab.u_ini, reparacion = lab.reparar(lab.u0)
+        if not lab.u_ini:
+            raise ValueError(f"{t}: el mapa vigente no es válido y no se repara: {reparacion[-3:]}")
     desc = descripcion(lab.cfg, t, a.cadenas)
     rec = lab.recargos(a.rpj, a.rca, a.rmov, a.rlong)
-    cand = {f: [("vigente", None, lab.clave(lab.u0, f), lab.u0)] for f in funciones}
+    cand = {f: [("vigente", None, lab.clave(lab.u0, f), lab.u0)] if f == "A" or lab.u_ini is lab.u0 else
+            [("vigente-reparado", None, lab.clave(lab.u_ini, f), lab.u_ini)] for f in funciones}
     cadenas = {"libre": [], "ponderado": []}
     for s in desc["semillas"]:
         if libres:
@@ -437,6 +491,8 @@ def correr(t: str, a, tablas: dict, mov) -> dict:
                         "indicadores": ind,
                         "sha256_csv": hashlib.sha256((out / f"{t}_{f}.csv").read_bytes()).hexdigest()}
     res = {"territorio": t, "version": VERSION, "topes": TOPES, "unidades": len(lab.pob_u), "aristas": len(lab.largo),
+           **({"vigente_valido": False, "reparacion": reparacion} if lab.u_ini is not lab.u0 else {}),
+           **({"unidades_internas": "seccion por encima de atomicity_ratio x objetivo"} if lab.internas else {}),
            "puentes_contacto": len(lab.problema.puentes), "objetivo": float(lab.objetivo), "tolerancia": float(lab.tol),
            **({"objetivos_circunscripcion": {c: float(o) for c, o in lab.obj_circ.items()}} if lab.obj_circ else {}),
            "parametros": parametros(a, funciones),

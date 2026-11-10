@@ -1,0 +1,970 @@
+{
+ "territorio": "extremadura",
+ "version": "1.4.0",
+ "topes": {
+  "D5": 0.05,
+  "D8": 0.08
+ },
+ "unidades": 705,
+ "aristas": 1955,
+ "unidades_internas": "seccion por encima de atomicity_ratio x objetivo",
+ "puentes_contacto": 80,
+ "objetivo": 16205.307692307691,
+ "tolerancia": 1944.636923076923,
+ "objetivos_circunscripcion": {
+  "06": 16223.292682926829,
+  "10": 16174.583333333334
+ },
+ "parametros": {
+  "cadenas": 20,
+  "pasos": 300,
+  "rpj": 0.5,
+  "rca": 0.3,
+  "rmov": 0.2,
+  "rlong": 0.3,
+  "funciones": [
+   "A",
+   "C",
+   "D8"
+  ]
+ },
+ "semilla_publica": {
+  "esquema": "ddd-semilla-publica/1",
+  "territorio": "extremadura",
+  "ancla": {
+   "population": "de69c1f9ff54e8c03693970711ccc82a93e239817f8dc7fdd24ae9d0c47a9405",
+   "target_sectioning": "abc7e5c8d49fb9b00f92a0c55fde29d0de855f165d86d0fc18fa173defc28b15"
+  },
+  "n": 20,
+  "semillas": [
+   1282667371,
+   679554530,
+   986349886,
+   1715659553,
+   1302089861,
+   764758532,
+   1779769317,
+   1144273725,
+   391671322,
+   283640999,
+   363149773,
+   770534146,
+   88819066,
+   1677632748,
+   317730276,
+   305309316,
+   371900700,
+   1703490688,
+   253560066,
+   716781516
+  ],
+  "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+ },
+ "huella_reglas": "5b825e69b0a9637936e828042caaa478617bee2c0227d153b2d1ba8f506f5b64",
+ "ganadores": {
+  "A": {
+   "candidato": "vigente",
+   "semilla": null,
+   "clave": [
+    0,
+    0.10480564680412836,
+    0.003621485938738702,
+    "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+   ],
+   "valido": true,
+   "fuera_tolerancia": [],
+   "desvio_max": 0.10480564680412836,
+   "suma_desvio_personas": 53726.0406504065,
+   "max_desvio_personas": 1700.2926829268292,
+   "indicadores": {
+    "distritos": 65,
+    "pp_medio": 0.2710530494622345,
+    "pp_min": 0.10557286892225917,
+    "convexidad_media": 0.6859114881970924,
+    "convexidad_min": 0.4671418864170961,
+    "corte": {
+     "aristas": 2605,
+     "cortes": 943,
+     "fraccion_cortes": 0.3619961612284069,
+     "peso_corte": 4415201.662561266,
+     "fraccion_peso_corte": 0.36776511706914905
+    },
+    "pj": {
+     "n": 21,
+     "partidas": 20,
+     "lista_partidas": [
+      "06-01",
+      "06-02",
+      "06-03",
+      "06-04",
+      "06-05",
+      "06-06",
+      "06-07",
+      "06-08",
+      "06-09",
+      "06-10",
+      "06-11",
+      "06-12",
+      "06-13",
+      "06-14",
+      "10-01",
+      "10-02",
+      "10-03",
+      "10-04",
+      "10-05",
+      "10-07"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.29557045639584006,
+     "poblacion_fuera_de_mayoritario": 733700,
+     "poblacion_sin_dato": 11793
+    },
+    "ca": {
+     "n": 22,
+     "partidas": 20,
+     "lista_partidas": [
+      "06-ALBURQUERQUE",
+      "06-ALMENDRALEJO",
+      "06-AZUAGA",
+      "06-BADAJOZ",
+      "06-CASTUERA",
+      "06-DON BENITO",
+      "06-JEREZ DE LOS CABALLEROS",
+      "06-LLERENA",
+      "06-MÉRIDA",
+      "06-OLIVENZA",
+      "06-PUEBLA ALCOCER",
+      "10-BROZAS",
+      "10-CORIA",
+      "10-CÁCERES",
+      "10-HERVÁS",
+      "10-JARAÍZ DE LA VERA",
+      "10-LOGROSÁN",
+      "10-NAVALMORAL DE LA MATA",
+      "10-PLASENCIA",
+      "10-TRUJILLO"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.28494144389558235,
+     "poblacion_fuera_de_mayoritario": 746795,
+     "poblacion_sin_dato": 8962
+    },
+    "comarca": {
+     "n": 0,
+     "partidas": 0,
+     "lista_partidas": [],
+     "fraccion_poblacion_en_mayoritario": null,
+     "poblacion_fuera_de_mayoritario": 0,
+     "poblacion_sin_dato": 1053345
+    },
+    "movilidad": {
+     "cohesion": 0.14096478079958655,
+     "flujo": 152857.0,
+     "areas": 112
+    }
+   },
+   "sha256_csv": "d09bf6d43f1b34b99dee43447a9f681bf9c4978fe941be1704e31b44631976ec"
+  },
+  "C": {
+   "candidato": "ponderado-1703490688",
+   "semilla": 1703490688,
+   "clave": [
+    0,
+    40,
+    4364.324,
+    0.10877614991994347,
+    "f34a49f9b392ad295ce554e2fc7a4cfe3d00693c317b58e0c1512bfbb54a0677"
+   ],
+   "valido": true,
+   "fuera_tolerancia": [],
+   "desvio_max": 0.10877614991994347,
+   "suma_desvio_personas": 56933.70731707317,
+   "max_desvio_personas": 1764.7073170731708,
+   "indicadores": {
+    "distritos": 65,
+    "pp_medio": 0.2746119025442482,
+    "pp_min": 0.12252828703217837,
+    "convexidad_media": 0.6902263884448016,
+    "convexidad_min": 0.4671418864170961,
+    "corte": {
+     "aristas": 2605,
+     "cortes": 941,
+     "fraccion_cortes": 0.36122840690978886,
+     "peso_corte": 4364324.256310694,
+     "fraccion_peso_corte": 0.36352727320698175
+    },
+    "pj": {
+     "n": 21,
+     "partidas": 20,
+     "lista_partidas": [
+      "06-01",
+      "06-02",
+      "06-03",
+      "06-04",
+      "06-05",
+      "06-06",
+      "06-07",
+      "06-08",
+      "06-09",
+      "06-10",
+      "06-11",
+      "06-12",
+      "06-13",
+      "06-14",
+      "10-01",
+      "10-02",
+      "10-03",
+      "10-04",
+      "10-05",
+      "10-07"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.29557045639584006,
+     "poblacion_fuera_de_mayoritario": 733700,
+     "poblacion_sin_dato": 11793
+    },
+    "ca": {
+     "n": 22,
+     "partidas": 20,
+     "lista_partidas": [
+      "06-ALBURQUERQUE",
+      "06-ALMENDRALEJO",
+      "06-AZUAGA",
+      "06-BADAJOZ",
+      "06-CASTUERA",
+      "06-DON BENITO",
+      "06-JEREZ DE LOS CABALLEROS",
+      "06-LLERENA",
+      "06-MÉRIDA",
+      "06-OLIVENZA",
+      "06-PUEBLA ALCOCER",
+      "10-BROZAS",
+      "10-CORIA",
+      "10-CÁCERES",
+      "10-HERVÁS",
+      "10-JARAÍZ DE LA VERA",
+      "10-LOGROSÁN",
+      "10-NAVALMORAL DE LA MATA",
+      "10-PLASENCIA",
+      "10-TRUJILLO"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.28433342940281486,
+     "poblacion_fuera_de_mayoritario": 747430,
+     "poblacion_sin_dato": 8962
+    },
+    "comarca": {
+     "n": 0,
+     "partidas": 0,
+     "lista_partidas": [],
+     "fraccion_poblacion_en_mayoritario": null,
+     "poblacion_fuera_de_mayoritario": 0,
+     "poblacion_sin_dato": 1053345
+    },
+    "movilidad": {
+     "cohesion": 0.1435614563476201,
+     "flujo": 152857.0,
+     "areas": 112
+    }
+   },
+   "sha256_csv": "272266e55d69f8dc2be35896d9ccef0dd8dd3a9fea504cecad04f74ca83a2727"
+  },
+  "D8": {
+   "candidato": "ponderado-1715659553",
+   "semilla": 1715659553,
+   "clave": [
+    0,
+    0.022278416308980614,
+    40,
+    4400.443,
+    0.10227841630898062,
+    "d26a16ab38fbbab24d106ac56b7e3a97da5cdc58c4f1e92cb08860a4ea0f6e8f"
+   ],
+   "valido": true,
+   "fuera_tolerancia": [],
+   "desvio_max": 0.10227841630898062,
+   "suma_desvio_personas": 49757.20731707317,
+   "max_desvio_personas": 1659.2926829268292,
+   "indicadores": {
+    "distritos": 65,
+    "pp_medio": 0.271506546988232,
+    "pp_min": 0.10557286892225917,
+    "convexidad_media": 0.6863798379963545,
+    "convexidad_min": 0.4671418864170961,
+    "corte": {
+     "aristas": 2605,
+     "cortes": 942,
+     "fraccion_cortes": 0.3616122840690979,
+     "peso_corte": 4400443.481582582,
+     "fraccion_peso_corte": 0.3665358313943007
+    },
+    "pj": {
+     "n": 21,
+     "partidas": 20,
+     "lista_partidas": [
+      "06-01",
+      "06-02",
+      "06-03",
+      "06-04",
+      "06-05",
+      "06-06",
+      "06-07",
+      "06-08",
+      "06-09",
+      "06-10",
+      "06-11",
+      "06-12",
+      "06-13",
+      "06-14",
+      "10-01",
+      "10-02",
+      "10-03",
+      "10-04",
+      "10-05",
+      "10-07"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.2939286756686176,
+     "poblacion_fuera_de_mayoritario": 735410,
+     "poblacion_sin_dato": 11793
+    },
+    "ca": {
+     "n": 22,
+     "partidas": 20,
+     "lista_partidas": [
+      "06-ALBURQUERQUE",
+      "06-ALMENDRALEJO",
+      "06-AZUAGA",
+      "06-BADAJOZ",
+      "06-CASTUERA",
+      "06-DON BENITO",
+      "06-JEREZ DE LOS CABALLEROS",
+      "06-LLERENA",
+      "06-MÉRIDA",
+      "06-OLIVENZA",
+      "06-PUEBLA ALCOCER",
+      "10-BROZAS",
+      "10-CORIA",
+      "10-CÁCERES",
+      "10-HERVÁS",
+      "10-JARAÍZ DE LA VERA",
+      "10-LOGROSÁN",
+      "10-NAVALMORAL DE LA MATA",
+      "10-PLASENCIA",
+      "10-TRUJILLO"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.2829287722990512,
+     "poblacion_fuera_de_mayoritario": 748897,
+     "poblacion_sin_dato": 8962
+    },
+    "comarca": {
+     "n": 0,
+     "partidas": 0,
+     "lista_partidas": [],
+     "fraccion_poblacion_en_mayoritario": null,
+     "poblacion_fuera_de_mayoritario": 0,
+     "poblacion_sin_dato": 1053345
+    },
+    "movilidad": {
+     "cohesion": 0.14084370583938713,
+     "flujo": 152857.0,
+     "areas": 112
+    }
+   },
+   "sha256_csv": "84aebf20af40d619bdd464c4c052ff0850a7d8b569336c5e0fd0e4f9910970cd"
+  }
+ },
+ "candidatos": {
+  "A": [
+   [
+    "vigente",
+    [
+     0,
+     0.10480564680412836,
+     0.003621485938738702,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ]
+  ],
+  "C": [
+   [
+    "vigente",
+    [
+     0,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-1282667371",
+    [
+     0,
+     40,
+     4404.943,
+     0.10480564680412836,
+     "4bdab8e2a47030210f4c57b378666f6246294036b493133bb660226b3c58ede6"
+    ]
+   ],
+   [
+    "ponderado-679554530",
+    [
+     0,
+     40,
+     4398.27,
+     0.10480564680412836,
+     "4cea86982719113935e0bf023e57e80896ee9b09c099380f1b0ef209e5302d7f"
+    ]
+   ],
+   [
+    "ponderado-986349886",
+    [
+     0,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-1715659553",
+    [
+     0,
+     40,
+     4400.443,
+     0.10227841630898062,
+     "d26a16ab38fbbab24d106ac56b7e3a97da5cdc58c4f1e92cb08860a4ea0f6e8f"
+    ]
+   ],
+   [
+    "ponderado-1302089861",
+    [
+     0,
+     40,
+     4408.749,
+     0.11187820397228161,
+     "a6ec106e2f206eb468bc032f7d0d3945c3efd94caa0821a48ac45257fc20bd30"
+    ]
+   ],
+   [
+    "ponderado-764758532",
+    [
+     0,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-1779769317",
+    [
+     0,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-1144273725",
+    [
+     0,
+     40,
+     4407.932,
+     0.10480564680412836,
+     "cca58390ab173ce72f552ce1a044e8ec2c32abb15129269ab9c7745c454960d8"
+    ]
+   ],
+   [
+    "ponderado-391671322",
+    [
+     0,
+     40,
+     4407.469,
+     0.11296765415579828,
+     "c712a51da85fd00b6dd9921edd5266e4c5cf222b7a02d5120aeb0a5c85da6947"
+    ]
+   ],
+   [
+    "ponderado-283640999",
+    [
+     0,
+     40,
+     4397.706,
+     0.11228961670588058,
+     "583c2c7b6cab16e325e8028937aea00e7903cdfc2f9dbec61adddb6f8d5d2393"
+    ]
+   ],
+   [
+    "ponderado-363149773",
+    [
+     0,
+     40,
+     4415.194,
+     0.11873051856049872,
+     "9e27a051e043bd1da23df8792b9ae0e4d8f13409aabd5a2d73f5287e2f8704a7"
+    ]
+   ],
+   [
+    "ponderado-770534146",
+    [
+     0,
+     40,
+     4405.539,
+     0.10480564680412836,
+     "50335314b574ad6ac88da0bd6f9ed6b5b43fef59e768756aa667c70d59f9b274"
+    ]
+   ],
+   [
+    "ponderado-88819066",
+    [
+     0,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-1677632748",
+    [
+     0,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-317730276",
+    [
+     0,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-305309316",
+    [
+     0,
+     40,
+     4386.366,
+     0.10877614991994347,
+     "ba9c3f5f6be6c64875cfc53502699c329e8298b260c51e6a538fbb5710bef1fa"
+    ]
+   ],
+   [
+    "ponderado-371900700",
+    [
+     0,
+     40,
+     4411.301,
+     0.10480564680412836,
+     "fa18ebfe57be40c7c80851276743e8921c447b74a57e3d6dffd82fe05accbc27"
+    ]
+   ],
+   [
+    "ponderado-1703490688",
+    [
+     0,
+     40,
+     4364.324,
+     0.10877614991994347,
+     "f34a49f9b392ad295ce554e2fc7a4cfe3d00693c317b58e0c1512bfbb54a0677"
+    ]
+   ],
+   [
+    "ponderado-253560066",
+    [
+     0,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-716781516",
+    [
+     0,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ]
+  ],
+  "D8": [
+   [
+    "vigente",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-1282667371",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4404.943,
+     0.10480564680412836,
+     "4bdab8e2a47030210f4c57b378666f6246294036b493133bb660226b3c58ede6"
+    ]
+   ],
+   [
+    "ponderado-679554530",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4398.27,
+     0.10480564680412836,
+     "4cea86982719113935e0bf023e57e80896ee9b09c099380f1b0ef209e5302d7f"
+    ]
+   ],
+   [
+    "ponderado-986349886",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-1715659553",
+    [
+     0,
+     0.022278416308980614,
+     40,
+     4400.443,
+     0.10227841630898062,
+     "d26a16ab38fbbab24d106ac56b7e3a97da5cdc58c4f1e92cb08860a4ea0f6e8f"
+    ]
+   ],
+   [
+    "ponderado-1302089861",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-764758532",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-1779769317",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-1144273725",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4407.932,
+     0.10480564680412836,
+     "cca58390ab173ce72f552ce1a044e8ec2c32abb15129269ab9c7745c454960d8"
+    ]
+   ],
+   [
+    "ponderado-391671322",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-283640999",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-363149773",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-770534146",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4405.539,
+     0.10480564680412836,
+     "50335314b574ad6ac88da0bd6f9ed6b5b43fef59e768756aa667c70d59f9b274"
+    ]
+   ],
+   [
+    "ponderado-88819066",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-1677632748",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-317730276",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-305309316",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-371900700",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4411.301,
+     0.10480564680412836,
+     "fa18ebfe57be40c7c80851276743e8921c447b74a57e3d6dffd82fe05accbc27"
+    ]
+   ],
+   [
+    "ponderado-1703490688",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-253560066",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ],
+   [
+    "ponderado-716781516",
+    [
+     0,
+     0.024805646804128362,
+     40,
+     4415.202,
+     0.10480564680412836,
+     "ff6570941ba14bdd5d82e01070deaf86fe04a9b5834623ebffb566cd30ad796a"
+    ]
+   ]
+  ]
+ },
+ "cadenas": {
+  "libre": [],
+  "ponderado": [
+   {
+    "semilla": 1282667371,
+    "unicos": 152,
+    "tiempo_s": 2.9657597339992208,
+    "fallo": ""
+   },
+   {
+    "semilla": 679554530,
+    "unicos": 160,
+    "tiempo_s": 2.993916838999212,
+    "fallo": ""
+   },
+   {
+    "semilla": 986349886,
+    "unicos": 140,
+    "tiempo_s": 2.8504389909994643,
+    "fallo": ""
+   },
+   {
+    "semilla": 1715659553,
+    "unicos": 143,
+    "tiempo_s": 2.8916951659994083,
+    "fallo": ""
+   },
+   {
+    "semilla": 1302089861,
+    "unicos": 161,
+    "tiempo_s": 2.946566063999853,
+    "fallo": ""
+   },
+   {
+    "semilla": 764758532,
+    "unicos": 139,
+    "tiempo_s": 3.152852539999003,
+    "fallo": ""
+   },
+   {
+    "semilla": 1779769317,
+    "unicos": 159,
+    "tiempo_s": 2.5262431129995093,
+    "fallo": ""
+   },
+   {
+    "semilla": 1144273725,
+    "unicos": 158,
+    "tiempo_s": 3.1302210400008335,
+    "fallo": ""
+   },
+   {
+    "semilla": 391671322,
+    "unicos": 173,
+    "tiempo_s": 2.9156072389996552,
+    "fallo": ""
+   },
+   {
+    "semilla": 283640999,
+    "unicos": 134,
+    "tiempo_s": 3.0823694039991096,
+    "fallo": ""
+   },
+   {
+    "semilla": 363149773,
+    "unicos": 143,
+    "tiempo_s": 2.9822856200007664,
+    "fallo": ""
+   },
+   {
+    "semilla": 770534146,
+    "unicos": 149,
+    "tiempo_s": 2.5764743910003745,
+    "fallo": ""
+   },
+   {
+    "semilla": 88819066,
+    "unicos": 155,
+    "tiempo_s": 3.1236715750001167,
+    "fallo": ""
+   },
+   {
+    "semilla": 1677632748,
+    "unicos": 147,
+    "tiempo_s": 3.1551691189997655,
+    "fallo": ""
+   },
+   {
+    "semilla": 317730276,
+    "unicos": 142,
+    "tiempo_s": 3.225926494000305,
+    "fallo": ""
+   },
+   {
+    "semilla": 305309316,
+    "unicos": 150,
+    "tiempo_s": 3.3334572929998103,
+    "fallo": ""
+   },
+   {
+    "semilla": 371900700,
+    "unicos": 137,
+    "tiempo_s": 3.348209546998987,
+    "fallo": ""
+   },
+   {
+    "semilla": 1703490688,
+    "unicos": 144,
+    "tiempo_s": 2.8734723329998815,
+    "fallo": ""
+   },
+   {
+    "semilla": 253560066,
+    "unicos": 145,
+    "tiempo_s": 2.936565903000883,
+    "fallo": ""
+   },
+   {
+    "semilla": 716781516,
+    "unicos": 130,
+    "tiempo_s": 3.1113191559998086,
+    "fallo": ""
+   }
+  ]
+ },
+ "entorno": {
+  "python": "3.13.18",
+  "geos": "3.14.1",
+  "shapely": "2.2.0",
+  "geopandas": "1.2.0",
+  "pyogrio": "0.13.0",
+  "gerrychain": "1.0.0",
+  "networkx": "3.7"
+ },
+ "tiempos_s": {
+  "entrada": 0.8187167310006771,
+  "total": 64.12100391400054
+ },
+ "huella": "36bbc25650cd70a9950d46eae3cf52d315849168099b42458513b5f7cd2bc980",
+ "huella_d": "be9f347175324b1a2bebc579fb4c619159d1dd7d35b534916eb6bb0a0cfdb263"
+}

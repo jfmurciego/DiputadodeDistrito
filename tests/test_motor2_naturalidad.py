@@ -144,6 +144,46 @@ class Laboratorio(unittest.TestCase):
             r = json.loads((Path(d) / "congreso_leon" / "RESULTADO.json").read_text(encoding="utf-8"))
         self.assertEqual(r["huella_d"], ref["huella_d"])
 
+    def test_reparar_vigente_con_dos_mixtos(self):
+        """D-66: el municipio 10001 está en dos distritos mixtos (incumple); la reparación lo deja en uno."""
+        from ddd_motor2.naturalidad_competicion import Laboratorio as Lab
+        from ddd_motor2.reglas import Reglas, evaluar
+        from ddd_motor2.reglas.modelo import Problema, Unidad
+        reglas = Reglas.desde_contrato({"validation": {
+            "expected_districts": 3, "population_floor_ratio": 0, "population_cap_ratio": 10,
+            "target_tolerance_ratio": 5, "require_single_province_per_district": False,
+            "require_municipality_discipline": True}})
+        ids = ["2000100001", "1000100001", "1000100002", "1000100003", "3000100001"]  # o1 - s1 - s2 - s3 - o2
+        lab = Lab.__new__(Lab)
+        lab.reglas = reglas
+        lab.problema = Problema(tuple(Unidad(u, 100, municipio=u[:5], provincia="10") for u in ids),
+                                tuple(zip(ids, ids[1:])))
+        lab.pob_u = {u: 100 for u in ids}
+        vigente = dict(zip(ids, ["1", "1", "2", "3", "3"]))  # 10001 en el 1 y el 3, ambos mixtos
+        self.assertFalse(evaluar(lab.problema, reglas, vigente).valido)
+        plan, notas = lab.reparar(vigente)
+        self.assertTrue(plan and evaluar(lab.problema, reglas, plan).valido, notas)
+        self.assertEqual(plan["2000100001"], "1")  # el resto del plan no se toca
+
+    def test_corte_por_mitad_del_par(self):
+        """Con objetivo por circunscripción, el corte usa la mitad de la población del par y la tolerancia real."""
+        from ddd_motor2.naturalidad_competicion import _bip_mitad
+
+        class Sub:
+            node_indices = [0, 1, 2]
+
+            def node_data(self, n):
+                return {"population": [30, 50, 20][n]}
+
+        visto = {}
+
+        def bip(sub, pop_col, pop_target, epsilon, **kw):
+            visto.update(pop_target=pop_target, epsilon=epsilon, kw=kw)
+            return {0}
+
+        self.assertEqual(_bip_mitad(Sub(), "population", 999.0, 1e6, bip=bip, eps=0.15, rng=7), {0})
+        self.assertEqual(visto, {"pop_target": 50.0, "epsilon": 0.15, "kw": {"rng": 7}})
+
     def test_islas_y_enclaves_del_contrato(self):
         from ddd_motor2.naturalidad_competicion import particiones, puentes_contrato
         cfg = {"m": {"x": {"hard_partition_lookup": "configuracion/particiones_insulares_2025.json",

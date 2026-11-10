@@ -1,7 +1,7 @@
 # Naturalidad en las autonómicas: C y D8 frente a A (2.ª parte)
 
 Mismo laboratorio, reglas y semillas que en las 52 provincias del Congreso (`../README.md`), ahora en las 12
-autonómicas cuyo mapa vigente cumple el núcleo. Castilla y León, Extremadura y Principado de Asturias van en T-202.
+autonómicas cuyo mapa vigente cumple el núcleo. Castilla y León, Extremadura y Principado de Asturias, en `../t202/README.md`.
 
 **Objetivo por circunscripción.** Donde el contrato reparte escaños por provincia o isla (`province_districts`:
 Canarias, Castilla-La Mancha, Cataluña, Comunidad Valenciana, Galicia y País Vasco), el desvío de cada distrito se
@@ -29,10 +29,23 @@ por la mitad de su población. Con una sola circunscripción es el objetivo regi
 
 ## Dónde C o D8 empeoran algo frente a A
 
+Incluye la suma de desvíos (personas de más frente a A) y el Polsby-Popper mínimo (el distrito menos compacto):
+
 | Territorio | Función | Qué empeora frente a A |
 |---|---|---|
+| Cantabria (autonómicas) | C | Polsby-Popper mínimo 0.108 → 0.107; suma de desvíos +4940 personas |
+| Cantabria (autonómicas) | D8 | Polsby-Popper mínimo 0.108 → 0.099; suma de desvíos +2480 personas |
 | Cataluña (autonómicas) | D8 | Polsby-Popper medio 0.233 → 0.232 |
-| Melilla (autonómicas) | D8 | Polsby-Popper medio 0.404 → 0.366 |
+| Navarra (autonómicas) | C | suma de desvíos +962 personas |
+| Galicia (autonómicas) | C | suma de desvíos +7238 personas |
+| Galicia (autonómicas) | D8 | suma de desvíos +7238 personas |
+| La Rioja (autonómicas) | C | suma de desvíos +758 personas |
+| Comunidad de Madrid (autonómicas) | C | suma de desvíos +43548 personas |
+| Comunidad de Madrid (autonómicas) | D8 | suma de desvíos +43548 personas |
+| Melilla (autonómicas) | C | Polsby-Popper mínimo 0.109 → 0.092 |
+| Melilla (autonómicas) | D8 | Polsby-Popper medio 0.404 → 0.366; Polsby-Popper mínimo 0.109 → 0.106 |
+| Región de Murcia (autonómicas) | C | Polsby-Popper mínimo 0.072 → 0.038 |
+| Región de Murcia (autonómicas) | D8 | Polsby-Popper mínimo 0.072 → 0.045 |
 
 Ninguna autonómica se queda sin candidato válido.
 

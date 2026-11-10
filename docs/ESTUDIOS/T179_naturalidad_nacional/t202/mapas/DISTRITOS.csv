@@ -1,0 +1,577 @@
+territorio,funcion,distrito,superficie_km2,poblacion,municipio_principal,codigo_ine,fraccion_pob_municipio_principal,municipios,nucleo_cerrado
+castilla_y_leon,A,0,78.5,29958,Ávila,05019,1.0,1,True
+castilla_y_leon,A,1,3508.8,26041,"Barraco, El",05022,0.08,121,False
+castilla_y_leon,A,2,206.9,27866,Ávila,05019,0.991,4,False
+castilla_y_leon,A,3,1918.7,25852,Arenas de San Pedro,05014,0.251,51,False
+castilla_y_leon,A,4,674.9,24781,Sotillo de la Adrada,05240,0.204,13,False
+castilla_y_leon,A,5,1662.0,26240,Arévalo,05016,0.3,60,False
+castilla_y_leon,A,6,62.7,28924,Aranda de Duero,09018,1.0,1,True
+castilla_y_leon,A,7,1.8,29734,Burgos,09059,1.0,1,True
+castilla_y_leon,A,8,4.8,29265,Burgos,09059,1.0,1,True
+castilla_y_leon,A,9,2.2,30012,Burgos,09059,1.0,1,True
+castilla_y_leon,A,10,16.9,29997,Burgos,09059,1.0,1,True
+castilla_y_leon,A,11,29.1,29345,Burgos,09059,1.0,1,True
+castilla_y_leon,A,12,4.5,29274,Miranda de Ebro,09219,1.0,1,True
+castilla_y_leon,A,13,3480.5,31178,Aranda de Duero,09018,0.16,114,False
+castilla_y_leon,A,14,61.7,31463,Burgos,09059,0.954,2,False
+castilla_y_leon,A,15,2569.3,31151,Miranda de Ebro,09219,0.236,77,False
+castilla_y_leon,A,16,3059.8,31166,Briviesca,09056,0.215,104,False
+castilla_y_leon,A,17,4748.8,31154,Medina de Pomar,09209,0.198,74,False
+castilla_y_leon,A,18,7.4,31097,León,24089,1.0,1,True
+castilla_y_leon,A,19,24.9,30646,León,24089,1.0,1,True
+castilla_y_leon,A,20,2.6,31056,León,24089,1.0,1,True
+castilla_y_leon,A,21,60.5,31391,Ponferrada,24115,1.0,1,True
+castilla_y_leon,A,22,1760.8,28311,Valencia de Don Juan,24188,0.182,48,False
+castilla_y_leon,A,23,897.5,28540,Valverde de la Virgen,24189,0.278,21,False
+castilla_y_leon,A,24,2547.2,28927,Bembibre,24014,0.279,27,False
+castilla_y_leon,A,25,1435.3,29517,Cacabelos,24030,0.161,22,False
+castilla_y_leon,A,26,961.5,28373,Villaquilambre,24222,0.669,13,False
+castilla_y_leon,A,27,4.2,31292,León,24089,1.0,1,True
+castilla_y_leon,A,28,4071.7,28275,"Robla, La",24134,0.127,41,False
+castilla_y_leon,A,29,222.6,31721,Ponferrada,24115,1.0,1,True
+castilla_y_leon,A,30,64.2,29996,San Andrés del Rabanedo,24142,1.0,1,True
+castilla_y_leon,A,31,1868.8,29290,Villablino,24202,0.259,17,False
+castilla_y_leon,A,32,1643.8,29598,"Bañeza, La",24010,0.349,19,False
+castilla_y_leon,A,33,11.2,25991,Palencia,34120,1.0,1,True
+castilla_y_leon,A,34,74.2,25972,Palencia,34120,1.0,1,True
+castilla_y_leon,A,35,115.3,26671,Palencia,34120,0.953,5,False
+castilla_y_leon,A,36,2622.2,26688,Aguilar de Campoo,34004,0.26,52,False
+castilla_y_leon,A,37,3700.8,26679,Carrión de los Condes,34047,0.075,93,False
+castilla_y_leon,A,38,1528.4,26701,Villamuriel de Cerrato,34225,0.243,41,False
+castilla_y_leon,A,39,2.9,29300,Salamanca,37274,1.0,1,True
+castilla_y_leon,A,40,4.0,29306,Salamanca,37274,1.0,1,True
+castilla_y_leon,A,41,1.0,28733,Salamanca,37274,1.0,1,True
+castilla_y_leon,A,42,7.3,29266,Salamanca,37274,1.0,1,True
+castilla_y_leon,A,43,1802.8,29946,Béjar,37046,0.4,68,False
+castilla_y_leon,A,44,91.2,29373,Santa Marta de Tormes,37294,0.509,6,False
+castilla_y_leon,A,45,3490.7,30334,Peñaranda de Bracamonte,37246,0.203,100,False
+castilla_y_leon,A,46,24.4,28978,Salamanca,37274,1.0,1,True
+castilla_y_leon,A,47,3554.6,31100,Ciudad Rodrigo,37107,0.377,75,False
+castilla_y_leon,A,48,2016.4,30792,Alba de Tormes,37008,0.166,66,False
+castilla_y_leon,A,49,1353.8,31318,Villamayor,37354,0.247,46,False
+castilla_y_leon,A,50,3.2,27120,Segovia,40194,1.0,1,True
+castilla_y_leon,A,51,361.5,32602,Segovia,40194,0.769,13,False
+castilla_y_leon,A,52,1850.5,32317,Palazuelos de Eresma,40155,0.189,62,False
+castilla_y_leon,A,53,2466.4,32788,Cuéllar,40063,0.288,77,False
+castilla_y_leon,A,54,2113.7,33424,"Espinar, El",40076,0.311,57,False
+castilla_y_leon,A,55,66.4,29364,Soria,42173,1.0,1,True
+castilla_y_leon,A,56,4649.6,30409,Soria,42173,0.381,95,False
+castilla_y_leon,A,57,5586.7,30410,Almazán,42020,0.182,88,False
+castilla_y_leon,A,58,1.7,29973,Valladolid,47186,1.0,1,True
+castilla_y_leon,A,59,2.0,29936,Valladolid,47186,1.0,1,True
+castilla_y_leon,A,60,2.9,30094,Valladolid,47186,1.0,1,True
+castilla_y_leon,A,61,2.2,30262,Valladolid,47186,1.0,1,True
+castilla_y_leon,A,62,24.4,30298,Valladolid,47186,1.0,1,True
+castilla_y_leon,A,63,4.0,30663,Valladolid,47186,1.0,1,True
+castilla_y_leon,A,64,61.5,30157,Valladolid,47186,1.0,1,True
+castilla_y_leon,A,65,10.8,29673,Valladolid,47186,1.0,1,True
+castilla_y_leon,A,66,5.8,30460,Valladolid,47186,1.0,1,True
+castilla_y_leon,A,67,1155.9,28482,Tordesillas,47165,0.309,22,False
+castilla_y_leon,A,68,174.9,28712,Cistérniga,47052,0.33,4,False
+castilla_y_leon,A,69,53.3,27444,Laguna de Duero,47076,0.838,2,False
+castilla_y_leon,A,70,31.9,29162,Arroyo de la Encomienda,47010,0.781,2,False
+castilla_y_leon,A,71,1084.8,28187,Medina del Campo,47085,0.718,27,False
+castilla_y_leon,A,72,82.1,30282,Valladolid,47186,1.0,1,True
+castilla_y_leon,A,73,945.6,28156,Íscar,47075,0.233,24,False
+castilla_y_leon,A,74,1576.6,28245,Peñafiel,47114,0.183,52,False
+castilla_y_leon,A,75,2890.2,28458,Cigales,47050,0.192,91,False
+castilla_y_leon,A,76,28.1,30093,Zamora,49275,1.0,1,True
+castilla_y_leon,A,77,1760.3,26419,Toro,49219,0.316,47,False
+castilla_y_leon,A,78,121.1,29764,Zamora,49275,1.0,1,True
+castilla_y_leon,A,79,1521.8,26375,Benavente,49021,0.655,37,False
+castilla_y_leon,A,80,4193.1,26478,Morales del Vino,49127,0.115,63,False
+castilla_y_leon,A,81,2936.8,26435,Villalpando,49250,0.054,100,False
+castilla_y_leon,D8,0,78.5,29958,Ávila,05019,1.0,1,True
+castilla_y_leon,D8,1,3493.0,24123,"Barraco, El",05022,0.086,120,False
+castilla_y_leon,D8,2,222.7,29784,Ávila,05019,0.991,4,False
+castilla_y_leon,D8,3,1918.7,25852,Arenas de San Pedro,05014,0.251,51,False
+castilla_y_leon,D8,4,674.9,24781,Sotillo de la Adrada,05240,0.204,13,False
+castilla_y_leon,D8,5,1662.0,26240,Arévalo,05016,0.3,60,False
+castilla_y_leon,D8,6,62.7,28924,Aranda de Duero,09018,1.0,1,True
+castilla_y_leon,D8,7,1.8,29734,Burgos,09059,1.0,1,True
+castilla_y_leon,D8,8,4.8,29265,Burgos,09059,1.0,1,True
+castilla_y_leon,D8,9,2.2,30012,Burgos,09059,1.0,1,True
+castilla_y_leon,D8,10,16.9,29997,Burgos,09059,1.0,1,True
+castilla_y_leon,D8,11,29.1,29345,Burgos,09059,1.0,1,True
+castilla_y_leon,D8,12,4.5,29274,Miranda de Ebro,09219,1.0,1,True
+castilla_y_leon,D8,13,3480.5,31178,Aranda de Duero,09018,0.16,114,False
+castilla_y_leon,D8,14,61.7,31463,Burgos,09059,0.954,2,False
+castilla_y_leon,D8,15,2569.3,31151,Miranda de Ebro,09219,0.236,77,False
+castilla_y_leon,D8,16,3059.8,31166,Briviesca,09056,0.215,104,False
+castilla_y_leon,D8,17,4748.8,31154,Medina de Pomar,09209,0.198,74,False
+castilla_y_leon,D8,18,7.4,31097,León,24089,1.0,1,True
+castilla_y_leon,D8,19,24.9,30646,León,24089,1.0,1,True
+castilla_y_leon,D8,20,2.6,31056,León,24089,1.0,1,True
+castilla_y_leon,D8,21,60.5,31391,Ponferrada,24115,1.0,1,True
+castilla_y_leon,D8,22,1827.3,29052,Valencia de Don Juan,24188,0.177,45,False
+castilla_y_leon,D8,23,897.5,28540,Valverde de la Virgen,24189,0.278,21,False
+castilla_y_leon,D8,24,2547.2,28927,Bembibre,24014,0.279,27,False
+castilla_y_leon,D8,25,1435.3,29517,Cacabelos,24030,0.161,22,False
+castilla_y_leon,D8,26,961.5,28373,Villaquilambre,24222,0.669,13,False
+castilla_y_leon,D8,27,4.2,31292,León,24089,1.0,1,True
+castilla_y_leon,D8,28,4005.3,27534,"Robla, La",24134,0.13,44,False
+castilla_y_leon,D8,29,222.6,31721,Ponferrada,24115,1.0,1,True
+castilla_y_leon,D8,30,64.2,29996,San Andrés del Rabanedo,24142,1.0,1,True
+castilla_y_leon,D8,31,1868.8,29290,Villablino,24202,0.259,17,False
+castilla_y_leon,D8,32,1643.8,29598,"Bañeza, La",24010,0.349,19,False
+castilla_y_leon,D8,33,11.2,25991,Palencia,34120,1.0,1,True
+castilla_y_leon,D8,34,74.2,25972,Palencia,34120,1.0,1,True
+castilla_y_leon,D8,35,115.3,26671,Palencia,34120,0.953,5,False
+castilla_y_leon,D8,36,2622.2,26688,Aguilar de Campoo,34004,0.26,52,False
+castilla_y_leon,D8,37,3700.8,26679,Carrión de los Condes,34047,0.075,93,False
+castilla_y_leon,D8,38,1528.4,26701,Villamuriel de Cerrato,34225,0.243,41,False
+castilla_y_leon,D8,39,2.9,29300,Salamanca,37274,1.0,1,True
+castilla_y_leon,D8,40,4.0,29306,Salamanca,37274,1.0,1,True
+castilla_y_leon,D8,41,1.0,28733,Salamanca,37274,1.0,1,True
+castilla_y_leon,D8,42,7.3,29266,Salamanca,37274,1.0,1,True
+castilla_y_leon,D8,43,1802.8,29946,Béjar,37046,0.4,68,False
+castilla_y_leon,D8,44,91.2,29373,Santa Marta de Tormes,37294,0.509,6,False
+castilla_y_leon,D8,45,3490.7,30334,Peñaranda de Bracamonte,37246,0.203,100,False
+castilla_y_leon,D8,46,24.4,28978,Salamanca,37274,1.0,1,True
+castilla_y_leon,D8,47,3554.6,31100,Ciudad Rodrigo,37107,0.377,75,False
+castilla_y_leon,D8,48,2016.4,30792,Alba de Tormes,37008,0.166,66,False
+castilla_y_leon,D8,49,1353.8,31318,Villamayor,37354,0.247,46,False
+castilla_y_leon,D8,50,3.2,27120,Segovia,40194,1.0,1,True
+castilla_y_leon,D8,51,361.5,32602,Segovia,40194,0.769,13,False
+castilla_y_leon,D8,52,1850.5,32317,Palazuelos de Eresma,40155,0.189,62,False
+castilla_y_leon,D8,53,2466.4,32788,Cuéllar,40063,0.288,77,False
+castilla_y_leon,D8,54,2113.7,33424,"Espinar, El",40076,0.311,57,False
+castilla_y_leon,D8,55,66.4,29364,Soria,42173,1.0,1,True
+castilla_y_leon,D8,56,4649.6,30409,Soria,42173,0.381,95,False
+castilla_y_leon,D8,57,5586.7,30410,Almazán,42020,0.182,88,False
+castilla_y_leon,D8,58,1.7,29973,Valladolid,47186,1.0,1,True
+castilla_y_leon,D8,59,2.0,29936,Valladolid,47186,1.0,1,True
+castilla_y_leon,D8,60,2.9,30094,Valladolid,47186,1.0,1,True
+castilla_y_leon,D8,61,2.2,30262,Valladolid,47186,1.0,1,True
+castilla_y_leon,D8,62,24.4,30298,Valladolid,47186,1.0,1,True
+castilla_y_leon,D8,63,4.0,30663,Valladolid,47186,1.0,1,True
+castilla_y_leon,D8,64,61.5,30157,Valladolid,47186,1.0,1,True
+castilla_y_leon,D8,65,10.8,29673,Valladolid,47186,1.0,1,True
+castilla_y_leon,D8,66,5.8,30460,Valladolid,47186,1.0,1,True
+castilla_y_leon,D8,67,1155.9,28482,Tordesillas,47165,0.309,22,False
+castilla_y_leon,D8,68,174.9,28712,Cistérniga,47052,0.33,4,False
+castilla_y_leon,D8,69,53.3,27444,Laguna de Duero,47076,0.838,2,False
+castilla_y_leon,D8,70,31.9,29162,Arroyo de la Encomienda,47010,0.781,2,False
+castilla_y_leon,D8,71,1084.8,28187,Medina del Campo,47085,0.718,27,False
+castilla_y_leon,D8,72,82.1,30282,Valladolid,47186,1.0,1,True
+castilla_y_leon,D8,73,945.6,28156,Íscar,47075,0.233,24,False
+castilla_y_leon,D8,74,1576.6,28245,Peñafiel,47114,0.183,52,False
+castilla_y_leon,D8,75,2890.2,28458,Cigales,47050,0.192,91,False
+castilla_y_leon,D8,76,28.1,30093,Zamora,49275,1.0,1,True
+castilla_y_leon,D8,77,1760.3,26419,Toro,49219,0.316,47,False
+castilla_y_leon,D8,78,121.1,29764,Zamora,49275,1.0,1,True
+castilla_y_leon,D8,79,1521.8,26375,Benavente,49021,0.655,37,False
+castilla_y_leon,D8,80,4193.1,26478,Morales del Vino,49127,0.115,63,False
+castilla_y_leon,D8,81,2936.8,26435,Villalpando,49250,0.054,100,False
+castilla_y_leon,C,0,78.5,29958,Ávila,05019,1.0,1,True
+castilla_y_leon,C,1,3493.0,24123,"Barraco, El",05022,0.086,120,False
+castilla_y_leon,C,2,222.7,29784,Ávila,05019,0.991,4,False
+castilla_y_leon,C,3,1918.7,25852,Arenas de San Pedro,05014,0.251,51,False
+castilla_y_leon,C,4,674.9,24781,Sotillo de la Adrada,05240,0.204,13,False
+castilla_y_leon,C,5,1662.0,26240,Arévalo,05016,0.3,60,False
+castilla_y_leon,C,6,62.7,28924,Aranda de Duero,09018,1.0,1,True
+castilla_y_leon,C,7,1.8,29734,Burgos,09059,1.0,1,True
+castilla_y_leon,C,8,4.8,29265,Burgos,09059,1.0,1,True
+castilla_y_leon,C,9,2.2,30012,Burgos,09059,1.0,1,True
+castilla_y_leon,C,10,16.9,29997,Burgos,09059,1.0,1,True
+castilla_y_leon,C,11,29.1,29345,Burgos,09059,1.0,1,True
+castilla_y_leon,C,12,4.5,29274,Miranda de Ebro,09219,1.0,1,True
+castilla_y_leon,C,13,3480.5,31178,Aranda de Duero,09018,0.16,114,False
+castilla_y_leon,C,14,61.7,31463,Burgos,09059,0.954,2,False
+castilla_y_leon,C,15,2569.3,31151,Miranda de Ebro,09219,0.236,77,False
+castilla_y_leon,C,16,3059.8,31166,Briviesca,09056,0.215,104,False
+castilla_y_leon,C,17,4748.8,31154,Medina de Pomar,09209,0.198,74,False
+castilla_y_leon,C,18,7.4,31097,León,24089,1.0,1,True
+castilla_y_leon,C,19,24.9,30646,León,24089,1.0,1,True
+castilla_y_leon,C,20,2.6,31056,León,24089,1.0,1,True
+castilla_y_leon,C,21,60.5,31391,Ponferrada,24115,1.0,1,True
+castilla_y_leon,C,22,1827.3,29052,Valencia de Don Juan,24188,0.177,45,False
+castilla_y_leon,C,23,897.5,28540,Valverde de la Virgen,24189,0.278,21,False
+castilla_y_leon,C,24,2547.2,28927,Bembibre,24014,0.279,27,False
+castilla_y_leon,C,25,1435.3,29517,Cacabelos,24030,0.161,22,False
+castilla_y_leon,C,26,961.5,28373,Villaquilambre,24222,0.669,13,False
+castilla_y_leon,C,27,4.2,31292,León,24089,1.0,1,True
+castilla_y_leon,C,28,4005.3,27534,"Robla, La",24134,0.13,44,False
+castilla_y_leon,C,29,222.6,31721,Ponferrada,24115,1.0,1,True
+castilla_y_leon,C,30,64.2,29996,San Andrés del Rabanedo,24142,1.0,1,True
+castilla_y_leon,C,31,1868.8,29290,Villablino,24202,0.259,17,False
+castilla_y_leon,C,32,1643.8,29598,"Bañeza, La",24010,0.349,19,False
+castilla_y_leon,C,33,11.2,25991,Palencia,34120,1.0,1,True
+castilla_y_leon,C,34,74.2,25972,Palencia,34120,1.0,1,True
+castilla_y_leon,C,35,115.3,26671,Palencia,34120,0.953,5,False
+castilla_y_leon,C,36,2622.2,26688,Aguilar de Campoo,34004,0.26,52,False
+castilla_y_leon,C,37,3700.8,26679,Carrión de los Condes,34047,0.075,93,False
+castilla_y_leon,C,38,1528.4,26701,Villamuriel de Cerrato,34225,0.243,41,False
+castilla_y_leon,C,39,2.9,29300,Salamanca,37274,1.0,1,True
+castilla_y_leon,C,40,4.0,29306,Salamanca,37274,1.0,1,True
+castilla_y_leon,C,41,1.0,28733,Salamanca,37274,1.0,1,True
+castilla_y_leon,C,42,7.3,29266,Salamanca,37274,1.0,1,True
+castilla_y_leon,C,43,1802.8,29946,Béjar,37046,0.4,68,False
+castilla_y_leon,C,44,91.2,29373,Santa Marta de Tormes,37294,0.509,6,False
+castilla_y_leon,C,45,3490.7,30334,Peñaranda de Bracamonte,37246,0.203,100,False
+castilla_y_leon,C,46,24.4,28978,Salamanca,37274,1.0,1,True
+castilla_y_leon,C,47,3554.6,31100,Ciudad Rodrigo,37107,0.377,75,False
+castilla_y_leon,C,48,2016.4,30792,Alba de Tormes,37008,0.166,66,False
+castilla_y_leon,C,49,1353.8,31318,Villamayor,37354,0.247,46,False
+castilla_y_leon,C,50,3.2,27120,Segovia,40194,1.0,1,True
+castilla_y_leon,C,51,361.5,32602,Segovia,40194,0.769,13,False
+castilla_y_leon,C,52,1850.5,32317,Palazuelos de Eresma,40155,0.189,62,False
+castilla_y_leon,C,53,2466.4,32788,Cuéllar,40063,0.288,77,False
+castilla_y_leon,C,54,2113.7,33424,"Espinar, El",40076,0.311,57,False
+castilla_y_leon,C,55,66.4,29364,Soria,42173,1.0,1,True
+castilla_y_leon,C,56,4649.6,30409,Soria,42173,0.381,95,False
+castilla_y_leon,C,57,5586.7,30410,Almazán,42020,0.182,88,False
+castilla_y_leon,C,58,1.7,29973,Valladolid,47186,1.0,1,True
+castilla_y_leon,C,59,2.0,29936,Valladolid,47186,1.0,1,True
+castilla_y_leon,C,60,2.9,30094,Valladolid,47186,1.0,1,True
+castilla_y_leon,C,61,2.2,30262,Valladolid,47186,1.0,1,True
+castilla_y_leon,C,62,24.4,30298,Valladolid,47186,1.0,1,True
+castilla_y_leon,C,63,4.0,30663,Valladolid,47186,1.0,1,True
+castilla_y_leon,C,64,61.5,30157,Valladolid,47186,1.0,1,True
+castilla_y_leon,C,65,10.8,29673,Valladolid,47186,1.0,1,True
+castilla_y_leon,C,66,5.8,30460,Valladolid,47186,1.0,1,True
+castilla_y_leon,C,67,1155.9,28482,Tordesillas,47165,0.309,22,False
+castilla_y_leon,C,68,174.9,28712,Cistérniga,47052,0.33,4,False
+castilla_y_leon,C,69,53.3,27444,Laguna de Duero,47076,0.838,2,False
+castilla_y_leon,C,70,31.9,29162,Arroyo de la Encomienda,47010,0.781,2,False
+castilla_y_leon,C,71,1084.8,28187,Medina del Campo,47085,0.718,27,False
+castilla_y_leon,C,72,82.1,30282,Valladolid,47186,1.0,1,True
+castilla_y_leon,C,73,945.6,28156,Íscar,47075,0.233,24,False
+castilla_y_leon,C,74,1576.6,28245,Peñafiel,47114,0.183,52,False
+castilla_y_leon,C,75,2890.2,28458,Cigales,47050,0.192,91,False
+castilla_y_leon,C,76,28.1,30093,Zamora,49275,1.0,1,True
+castilla_y_leon,C,77,1760.3,26419,Toro,49219,0.316,47,False
+castilla_y_leon,C,78,121.1,29764,Zamora,49275,1.0,1,True
+castilla_y_leon,C,79,1521.8,26375,Benavente,49021,0.655,37,False
+castilla_y_leon,C,80,4193.1,26478,Morales del Vino,49127,0.115,63,False
+castilla_y_leon,C,81,2936.8,26435,Villalpando,49250,0.054,100,False
+extremadura,A,0,723.5,14523,Mérida,06083,0.512,8,False
+extremadura,A,1,1061.3,15662,Jerez de los Caballeros,06070,0.581,5,False
+extremadura,A,2,268.5,15570,Mérida,06083,0.444,6,False
+extremadura,A,3,8.0,17338,Badajoz,06015,1.0,1,True
+extremadura,A,4,1.5,17859,Badajoz,06015,1.0,1,True
+extremadura,A,5,2.3,14574,Mérida,06083,1.0,1,True
+extremadura,A,6,8.1,14564,Badajoz,06015,1.0,1,True
+extremadura,A,7,509.2,16848,Badajoz,06015,0.736,4,False
+extremadura,A,8,791.4,17680,Campanario,06028,0.266,7,False
+extremadura,A,9,342.7,17353,Mérida,06083,0.559,6,False
+extremadura,A,10,1819.7,14944,Castuera,06036,0.365,8,False
+extremadura,A,11,2.5,15779,Don Benito,06044,1.0,1,True
+extremadura,A,12,275.4,15117,Villanueva de la Serena,06153,0.595,4,False
+extremadura,A,13,3.7,15052,Badajoz,06015,1.0,1,True
+extremadura,A,14,534.4,16662,Olivenza,06095,0.707,3,False
+extremadura,A,15,367.0,14697,Badajoz,06015,0.701,3,False
+extremadura,A,16,358.1,16424,Don Benito,06044,0.955,2,False
+extremadura,A,17,398.6,15861,Fuente del Maestre,06054,0.413,4,False
+extremadura,A,18,62.2,16372,Villanueva de la Serena,06153,0.827,2,False
+extremadura,A,19,119.6,15195,Montijo,06088,1.0,1,True
+extremadura,A,20,8.3,15185,Badajoz,06015,1.0,1,True
+extremadura,A,21,103.4,17755,Zafra,06158,0.941,3,False
+extremadura,A,22,3.7,17836,Mérida,06083,1.0,1,True
+extremadura,A,23,1712.7,16069,Monesterio,06085,0.264,16,False
+extremadura,A,24,917.5,15882,Llerena,06074,0.357,7,False
+extremadura,A,25,286.0,15501,Calamonte,06025,0.396,4,False
+extremadura,A,26,804.8,15767,Fregenal de la Sierra,06050,0.299,9,False
+extremadura,A,27,6.8,17272,Almendralejo,06011,1.0,1,True
+extremadura,A,28,854.1,16215,"Santos de Maimona, Los",06122,0.5,6,False
+extremadura,A,29,157.6,17272,Almendralejo,06011,1.0,1,True
+extremadura,A,30,730.0,16289,Santa Marta,06121,0.258,10,False
+extremadura,A,31,2482.7,17000,Herrera del Duque,06063,0.199,16,False
+extremadura,A,32,8.1,15431,Badajoz,06015,1.0,1,True
+extremadura,A,33,540.1,14895,Badajoz,06015,1.0,1,True
+extremadura,A,34,816.1,17527,Guareña,06060,0.38,9,False
+extremadura,A,35,1040.4,16243,Oliva de la Frontera,06093,0.302,7,False
+extremadura,A,36,165.3,16796,Puebla de la Calzada,06103,0.346,4,False
+extremadura,A,37,560.3,16398,Villafranca de los Barros,06149,0.749,4,False
+extremadura,A,38,0.9,16294,Badajoz,06015,1.0,1,True
+extremadura,A,39,1386.9,17572,San Vicente de Alcántara,06123,0.298,6,False
+extremadura,A,40,1524.5,17882,Azuaga,06014,0.425,9,False
+extremadura,A,41,1596.2,15700,Malpartida de Plasencia,10116,0.297,16,False
+extremadura,A,42,536.9,15955,Talayuela,10180,0.465,7,False
+extremadura,A,43,1298.3,16556,Zarza de Granadilla,10216,0.11,25,False
+extremadura,A,44,3.3,17306,Cáceres,10037,1.0,1,True
+extremadura,A,45,628.2,15609,Montehermoso,10127,0.357,15,False
+extremadura,A,46,735.9,17432,Arroyo de la Luz,10021,0.315,6,False
+extremadura,A,47,2312.9,17784,Trujillo,10195,0.487,16,False
+extremadura,A,48,68.6,16084,Cáceres,10037,1.0,1,True
+extremadura,A,49,912.7,16396,Moraleja,10128,0.4,13,False
+extremadura,A,50,589.6,15833,Coria,10067,0.758,11,False
+extremadura,A,51,852.3,15735,Alcuéscar,10010,0.156,18,False
+extremadura,A,52,4.9,15084,Plasencia,10148,1.0,1,True
+extremadura,A,53,32.0,17247,Cáceres,10037,1.0,1,True
+extremadura,A,54,938.2,16962,Jaraíz de la Vera,10104,0.403,18,False
+extremadura,A,55,156.0,17297,Navalmoral de la Mata,10131,1.0,1,True
+extremadura,A,56,2848.9,14598,Valencia de Alcántara,10203,0.352,17,False
+extremadura,A,57,1286.0,16597,Cáceres,10037,0.849,4,False
+extremadura,A,58,2572.3,15359,Logrosán,10109,0.121,22,False
+extremadura,A,59,2.7,14652,Plasencia,10148,1.0,1,True
+extremadura,A,60,926.7,15984,Miajadas,10121,0.588,11,False
+extremadura,A,61,381.9,17049,Cáceres,10037,0.983,2,False
+extremadura,A,62,215.5,15829,Cáceres,10037,0.955,3,False
+extremadura,A,63,408.4,15451,Plasencia,10148,0.679,7,False
+extremadura,A,64,561.3,15691,Hervás,10096,0.249,13,False
+extremadura,D8,0,3.3,16126,Mérida,06083,1.0,1,True
+extremadura,D8,1,1061.3,15662,Jerez de los Caballeros,06070,0.581,5,False
+extremadura,D8,2,268.5,15570,Mérida,06083,0.444,6,False
+extremadura,D8,3,8.0,17338,Badajoz,06015,1.0,1,True
+extremadura,D8,4,1.5,17859,Badajoz,06015,1.0,1,True
+extremadura,D8,5,2.3,14574,Mérida,06083,1.0,1,True
+extremadura,D8,6,8.1,14564,Badajoz,06015,1.0,1,True
+extremadura,D8,7,509.2,16848,Badajoz,06015,0.736,4,False
+extremadura,D8,8,791.4,17680,Campanario,06028,0.266,7,False
+extremadura,D8,9,926.7,15984,Miajadas,10121,0.588,11,False
+extremadura,D8,10,1819.7,14944,Castuera,06036,0.365,8,False
+extremadura,D8,11,2.5,15779,Don Benito,06044,1.0,1,True
+extremadura,D8,12,275.4,15117,Villanueva de la Serena,06153,0.595,4,False
+extremadura,D8,13,3.7,15052,Badajoz,06015,1.0,1,True
+extremadura,D8,14,534.4,16662,Olivenza,06095,0.707,3,False
+extremadura,D8,15,367.0,14697,Badajoz,06015,0.701,3,False
+extremadura,D8,16,358.1,16424,Don Benito,06044,0.955,2,False
+extremadura,D8,17,398.6,15861,Fuente del Maestre,06054,0.413,4,False
+extremadura,D8,18,62.2,16372,Villanueva de la Serena,06153,0.827,2,False
+extremadura,D8,19,119.6,15195,Montijo,06088,1.0,1,True
+extremadura,D8,20,8.3,15185,Badajoz,06015,1.0,1,True
+extremadura,D8,21,103.4,17755,Zafra,06158,0.941,3,False
+extremadura,D8,22,723.9,16233,Mérida,06083,0.564,8,False
+extremadura,D8,23,1712.7,16069,Monesterio,06085,0.264,16,False
+extremadura,D8,24,917.5,15882,Llerena,06074,0.357,7,False
+extremadura,D8,25,286.0,15501,Calamonte,06025,0.396,4,False
+extremadura,D8,26,804.8,15767,Fregenal de la Sierra,06050,0.299,9,False
+extremadura,D8,27,6.8,17272,Almendralejo,06011,1.0,1,True
+extremadura,D8,28,854.1,16215,"Santos de Maimona, Los",06122,0.5,6,False
+extremadura,D8,29,157.6,17272,Almendralejo,06011,1.0,1,True
+extremadura,D8,30,730.0,16289,Santa Marta,06121,0.258,10,False
+extremadura,D8,31,2482.7,17000,Herrera del Duque,06063,0.199,16,False
+extremadura,D8,32,8.1,15431,Badajoz,06015,1.0,1,True
+extremadura,D8,33,540.1,14895,Badajoz,06015,1.0,1,True
+extremadura,D8,34,816.1,17527,Guareña,06060,0.38,9,False
+extremadura,D8,35,1040.4,16243,Oliva de la Frontera,06093,0.302,7,False
+extremadura,D8,36,165.3,16796,Puebla de la Calzada,06103,0.346,4,False
+extremadura,D8,37,560.3,16398,Villafranca de los Barros,06149,0.749,4,False
+extremadura,D8,38,0.9,16294,Badajoz,06015,1.0,1,True
+extremadura,D8,39,1386.9,17572,San Vicente de Alcántara,06123,0.298,6,False
+extremadura,D8,40,1524.5,17882,Azuaga,06014,0.425,9,False
+extremadura,D8,41,1596.2,15700,Malpartida de Plasencia,10116,0.297,16,False
+extremadura,D8,42,536.9,15955,Talayuela,10180,0.465,7,False
+extremadura,D8,43,562.4,16083,Hervás,10096,0.242,13,False
+extremadura,D8,44,3.3,17306,Cáceres,10037,1.0,1,True
+extremadura,D8,45,628.2,15609,Montehermoso,10127,0.357,15,False
+extremadura,D8,46,735.9,17432,Arroyo de la Luz,10021,0.315,6,False
+extremadura,D8,47,2312.9,17784,Trujillo,10195,0.487,16,False
+extremadura,D8,48,68.6,16084,Cáceres,10037,1.0,1,True
+extremadura,D8,49,912.7,16396,Moraleja,10128,0.4,13,False
+extremadura,D8,50,589.6,15833,Coria,10067,0.758,11,False
+extremadura,D8,51,852.3,15735,Alcuéscar,10010,0.156,18,False
+extremadura,D8,52,4.9,15084,Plasencia,10148,1.0,1,True
+extremadura,D8,53,32.0,17247,Cáceres,10037,1.0,1,True
+extremadura,D8,54,938.2,16962,Jaraíz de la Vera,10104,0.403,18,False
+extremadura,D8,55,156.0,17297,Navalmoral de la Mata,10131,1.0,1,True
+extremadura,D8,56,2848.9,14598,Valencia de Alcántara,10203,0.352,17,False
+extremadura,D8,57,1286.0,16597,Cáceres,10037,0.849,4,False
+extremadura,D8,58,2572.3,15359,Logrosán,10109,0.121,22,False
+extremadura,D8,59,2.7,14652,Plasencia,10148,1.0,1,True
+extremadura,D8,60,342.7,17353,Mérida,06083,0.559,6,False
+extremadura,D8,61,381.9,17049,Cáceres,10037,0.983,2,False
+extremadura,D8,62,215.5,15829,Cáceres,10037,0.955,3,False
+extremadura,D8,63,408.4,15451,Plasencia,10148,0.679,7,False
+extremadura,D8,64,1297.2,16164,Zarza de Granadilla,10216,0.112,25,False
+extremadura,C,0,723.5,14523,Mérida,06083,0.512,8,False
+extremadura,C,1,1061.3,15662,Jerez de los Caballeros,06070,0.581,5,False
+extremadura,C,2,268.5,15570,Mérida,06083,0.444,6,False
+extremadura,C,3,8.0,17338,Badajoz,06015,1.0,1,True
+extremadura,C,4,1.5,17859,Badajoz,06015,1.0,1,True
+extremadura,C,5,2.3,14574,Mérida,06083,1.0,1,True
+extremadura,C,6,8.1,14564,Badajoz,06015,1.0,1,True
+extremadura,C,7,509.2,16848,Badajoz,06015,0.736,4,False
+extremadura,C,8,791.4,17680,Campanario,06028,0.266,7,False
+extremadura,C,9,746.0,16892,Guareña,06060,0.394,9,False
+extremadura,C,10,1819.7,14944,Castuera,06036,0.365,8,False
+extremadura,C,11,2.5,15779,Don Benito,06044,1.0,1,True
+extremadura,C,12,275.4,15117,Villanueva de la Serena,06153,0.595,4,False
+extremadura,C,13,3.7,15052,Badajoz,06015,1.0,1,True
+extremadura,C,14,534.4,16662,Olivenza,06095,0.707,3,False
+extremadura,C,15,367.0,14697,Badajoz,06015,0.701,3,False
+extremadura,C,16,358.1,16424,Don Benito,06044,0.955,2,False
+extremadura,C,17,398.6,15861,Fuente del Maestre,06054,0.413,4,False
+extremadura,C,18,62.2,16372,Villanueva de la Serena,06153,0.827,2,False
+extremadura,C,19,119.6,15195,Montijo,06088,1.0,1,True
+extremadura,C,20,8.3,15185,Badajoz,06015,1.0,1,True
+extremadura,C,21,103.4,17755,Zafra,06158,0.941,3,False
+extremadura,C,22,3.7,17836,Mérida,06083,1.0,1,True
+extremadura,C,23,1712.7,16069,Monesterio,06085,0.264,16,False
+extremadura,C,24,917.5,15882,Llerena,06074,0.357,7,False
+extremadura,C,25,286.0,15501,Calamonte,06025,0.396,4,False
+extremadura,C,26,804.8,15767,Fregenal de la Sierra,06050,0.299,9,False
+extremadura,C,27,6.8,17272,Almendralejo,06011,1.0,1,True
+extremadura,C,28,854.1,16215,"Santos de Maimona, Los",06122,0.5,6,False
+extremadura,C,29,157.6,17272,Almendralejo,06011,1.0,1,True
+extremadura,C,30,730.0,16289,Santa Marta,06121,0.258,10,False
+extremadura,C,31,2482.7,17000,Herrera del Duque,06063,0.199,16,False
+extremadura,C,32,8.1,15431,Badajoz,06015,1.0,1,True
+extremadura,C,33,540.1,14895,Badajoz,06015,1.0,1,True
+extremadura,C,34,412.8,17988,Mérida,06083,0.539,7,False
+extremadura,C,35,1040.4,16243,Oliva de la Frontera,06093,0.302,7,False
+extremadura,C,36,165.3,16796,Puebla de la Calzada,06103,0.346,4,False
+extremadura,C,37,560.3,16398,Villafranca de los Barros,06149,0.749,4,False
+extremadura,C,38,0.9,16294,Badajoz,06015,1.0,1,True
+extremadura,C,39,1386.9,17572,San Vicente de Alcántara,06123,0.298,6,False
+extremadura,C,40,1524.5,17882,Azuaga,06014,0.425,9,False
+extremadura,C,41,1596.2,15700,Malpartida de Plasencia,10116,0.297,16,False
+extremadura,C,42,572.7,14457,Talayuela,10180,0.514,9,False
+extremadura,C,43,1298.3,16556,Zarza de Granadilla,10216,0.11,25,False
+extremadura,C,44,3.3,17306,Cáceres,10037,1.0,1,True
+extremadura,C,45,628.2,15609,Montehermoso,10127,0.357,15,False
+extremadura,C,46,735.9,17432,Arroyo de la Luz,10021,0.315,6,False
+extremadura,C,47,2312.9,17784,Trujillo,10195,0.487,16,False
+extremadura,C,48,68.6,16084,Cáceres,10037,1.0,1,True
+extremadura,C,49,912.7,16396,Moraleja,10128,0.4,13,False
+extremadura,C,50,589.6,15833,Coria,10067,0.758,11,False
+extremadura,C,51,757.4,14955,Alcuéscar,10010,0.165,15,False
+extremadura,C,52,4.9,15084,Plasencia,10148,1.0,1,True
+extremadura,C,53,32.0,17247,Cáceres,10037,1.0,1,True
+extremadura,C,54,938.2,16962,Jaraíz de la Vera,10104,0.403,18,False
+extremadura,C,55,156.0,17297,Navalmoral de la Mata,10131,1.0,1,True
+extremadura,C,56,2848.9,14598,Valencia de Alcántara,10203,0.352,17,False
+extremadura,C,57,1286.0,16597,Cáceres,10037,0.849,4,False
+extremadura,C,58,2572.3,15359,Logrosán,10109,0.121,22,False
+extremadura,C,59,2.7,14652,Plasencia,10148,1.0,1,True
+extremadura,C,60,1021.5,16764,Miajadas,10121,0.56,14,False
+extremadura,C,61,381.9,17049,Cáceres,10037,0.983,2,False
+extremadura,C,62,215.5,15829,Cáceres,10037,0.955,3,False
+extremadura,C,63,408.4,15451,Plasencia,10148,0.679,7,False
+extremadura,C,64,525.4,17189,Hervás,10096,0.227,11,False
+principado_de_asturias,A,0,1.2,22346,Oviedo,33044,1.0,1,True
+principado_de_asturias,A,1,11.6,22333,Avilés,33004,1.0,1,True
+principado_de_asturias,A,2,28.3,22449,Oviedo,33044,1.0,1,True
+principado_de_asturias,A,3,1525.7,23797,Vegadeo,33074,0.163,13,False
+principado_de_asturias,A,4,47.4,26481,Corvera de Asturias,33020,0.59,2,False
+principado_de_asturias,A,5,506.9,22482,Laviana,33032,0.552,2,False
+principado_de_asturias,A,6,182.1,22587,Mieres,33037,0.797,4,False
+principado_de_asturias,A,7,0.8,22549,Gijón,33024,1.0,1,True
+principado_de_asturias,A,8,1.2,21712,Oviedo,33044,1.0,1,True
+principado_de_asturias,A,9,162.2,22093,Siero,33066,0.943,2,False
+principado_de_asturias,A,10,184.8,22269,San Martín del Rey Aurelio,33060,0.692,3,False
+principado_de_asturias,A,11,467.2,22122,Llanes,33036,0.614,4,False
+principado_de_asturias,A,12,140.6,23762,Oviedo,33044,0.921,2,False
+principado_de_asturias,A,13,0.8,21622,Gijón,33024,1.0,1,True
+principado_de_asturias,A,14,1.0,21782,Gijón,33024,1.0,1,True
+principado_de_asturias,A,15,2.1,21649,Oviedo,33044,1.0,1,True
+principado_de_asturias,A,16,0.9,21634,Oviedo,33044,1.0,1,True
+principado_de_asturias,A,17,2.3,21571,Gijón,33024,1.0,1,True
+principado_de_asturias,A,18,4.4,21525,Oviedo,33044,1.0,1,True
+principado_de_asturias,A,19,3.0,21653,Avilés,33004,1.0,1,True
+principado_de_asturias,A,20,2.5,21483,Gijón,33024,1.0,1,True
+principado_de_asturias,A,21,0.5,21177,Gijón,33024,1.0,1,True
+principado_de_asturias,A,22,11.6,21937,Gijón,33024,1.0,1,True
+principado_de_asturias,A,23,18.6,21431,Gijón,33024,1.0,1,True
+principado_de_asturias,A,24,0.8,21322,Gijón,33024,1.0,1,True
+principado_de_asturias,A,25,6.2,21061,Oviedo,33044,0.511,2,False
+principado_de_asturias,A,26,35.0,20995,Siero,33066,0.518,2,False
+principado_de_asturias,A,27,148.9,20634,Gozón,33025,0.507,2,False
+principado_de_asturias,A,28,0.6,21924,Gijón,33024,1.0,1,True
+principado_de_asturias,A,29,13.3,30646,Gijón,33024,1.0,1,True
+principado_de_asturias,A,30,8.5,20792,Avilés,33004,1.0,1,True
+principado_de_asturias,A,31,83.6,18171,Mieres,33037,1.0,1,True
+principado_de_asturias,A,32,29.0,19343,Langreo,33031,1.0,1,True
+principado_de_asturias,A,33,1552.7,21968,Cangas de Onís,33012,0.29,11,False
+principado_de_asturias,A,34,598.3,22936,Villaviciosa,33076,0.654,3,False
+principado_de_asturias,A,35,129.0,21504,Gijón,33024,1.0,1,True
+principado_de_asturias,A,36,0.8,21364,Oviedo,33044,1.0,1,True
+principado_de_asturias,A,37,90.5,23787,Oviedo,33044,0.922,2,False
+principado_de_asturias,A,38,59.2,23700,Langreo,33031,0.787,2,False
+principado_de_asturias,A,39,144.0,24122,Llanera,33035,0.578,2,False
+principado_de_asturias,A,40,81.1,23168,Castrillón,33016,0.954,2,False
+principado_de_asturias,A,41,878.5,22378,Valdés,33034,0.49,7,False
+principado_de_asturias,A,42,474.0,23350,Pravia,33051,0.336,5,False
+principado_de_asturias,A,43,2037.8,24535,Cangas del Narcea,33011,0.473,5,False
+principado_de_asturias,A,44,922.2,23914,Lena,33033,0.432,6,False
+principado_de_asturias,D8,0,2.2,23269,Oviedo,33044,1.0,1,True
+principado_de_asturias,D8,1,9.6,21536,Avilés,33004,1.0,1,True
+principado_de_asturias,D8,2,10.5,19995,Oviedo,33044,0.922,2,False
+principado_de_asturias,D8,3,519.2,23532,Navia,33041,0.346,6,False
+principado_de_asturias,D8,4,3.6,23793,Avilés,33004,1.0,1,True
+principado_de_asturias,D8,5,1552.7,21968,Cangas de Onís,33012,0.29,11,False
+principado_de_asturias,D8,6,170.7,21548,Mieres,33037,0.801,3,False
+principado_de_asturias,D8,7,1.0,21023,Gijón,33024,1.0,1,True
+principado_de_asturias,D8,8,137.8,23175,Oviedo,33044,0.92,2,False
+principado_de_asturias,D8,9,113.9,20428,Siero,33066,0.69,3,False
+principado_de_asturias,D8,10,598.3,22936,Villaviciosa,33076,0.654,3,False
+principado_de_asturias,D8,11,467.2,22122,Llanes,33036,0.614,4,False
+principado_de_asturias,D8,12,144.0,24122,Llanera,33035,0.578,2,False
+principado_de_asturias,D8,13,0.6,23576,Gijón,33024,1.0,1,True
+principado_de_asturias,D8,14,128.8,20295,Gijón,33024,1.0,1,True
+principado_de_asturias,D8,15,4.3,21332,Oviedo,33044,1.0,1,True
+principado_de_asturias,D8,16,1.3,23186,Oviedo,33044,1.0,1,True
+principado_de_asturias,D8,17,2.3,21571,Gijón,33024,1.0,1,True
+principado_de_asturias,D8,18,0.9,20599,Oviedo,33044,1.0,1,True
+principado_de_asturias,D8,19,45.4,22545,Corvera de Asturias,33020,0.693,2,False
+principado_de_asturias,D8,20,0.5,21736,Gijón,33024,1.0,1,True
+principado_de_asturias,D8,21,11.9,22723,Gijón,33024,1.0,1,True
+principado_de_asturias,D8,22,0.8,22303,Gijón,33024,1.0,1,True
+principado_de_asturias,D8,23,18.6,21431,Gijón,33024,1.0,1,True
+principado_de_asturias,D8,24,0.8,20377,Gijón,33024,1.0,1,True
+principado_de_asturias,D8,25,17.4,22184,Oviedo,33044,1.0,1,True
+principado_de_asturias,D8,26,79.6,20909,Langreo,33031,0.772,2,False
+principado_de_asturias,D8,27,148.9,20634,Gozón,33025,0.507,2,False
+principado_de_asturias,D8,28,0.6,21900,Gijón,33024,1.0,1,True
+principado_de_asturias,D8,29,13.3,30646,Gijón,33024,1.0,1,True
+principado_de_asturias,D8,30,12.0,23385,Avilés,33004,1.0,1,True
+principado_de_asturias,D8,31,3.0,23502,Oviedo,33044,1.0,1,True
+principado_de_asturias,D8,32,944.9,24201,Lena,33033,0.427,7,False
+principado_de_asturias,D8,33,184.8,22269,San Martín del Rey Aurelio,33060,0.692,3,False
+principado_de_asturias,D8,34,506.9,22482,Laviana,33032,0.552,2,False
+principado_de_asturias,D8,35,2.6,21367,Gijón,33024,1.0,1,True
+principado_de_asturias,D8,36,100.1,24059,Oviedo,33044,0.922,2,False
+principado_de_asturias,D8,37,46.2,21577,Siero,33066,1.0,1,True
+principado_de_asturias,D8,38,19.4,20085,Langreo,33031,1.0,1,True
+principado_de_asturias,D8,39,3.1,21368,Oviedo,33044,1.0,1,True
+principado_de_asturias,D8,40,81.1,23168,Castrillón,33016,0.954,2,False
+principado_de_asturias,D8,41,2354.8,23297,Cangas del Narcea,33011,0.498,14,False
+principado_de_asturias,D8,42,474.0,23350,Pravia,33051,0.336,5,False
+principado_de_asturias,D8,43,1567.9,23881,Valdés,33034,0.459,5,False
+principado_de_asturias,D8,44,94.0,20675,Mieres,33037,0.915,2,False
+principado_de_asturias,C,0,6.0,24035,Oviedo,33044,1.0,1,True
+principado_de_asturias,C,1,1.0,24170,Avilés,33004,1.0,1,True
+principado_de_asturias,C,2,194.7,19969,Mieres,33037,0.785,3,False
+principado_de_asturias,C,3,1092.8,22500,Vegadeo,33074,0.173,14,False
+principado_de_asturias,C,4,15.3,24908,Avilés,33004,1.0,1,True
+principado_de_asturias,C,5,97.4,23000,Siero,33066,0.945,2,False
+principado_de_asturias,C,6,40.5,22646,Langreo,33031,1.0,1,True
+principado_de_asturias,C,7,0.9,20753,Gijón,33024,1.0,1,True
+principado_de_asturias,C,8,116.8,22449,Oviedo,33044,0.904,3,False
+principado_de_asturias,C,9,5.4,22362,Oviedo,33044,1.0,1,True
+principado_de_asturias,C,10,901.2,19959,Piloña,33049,0.342,5,False
+principado_de_asturias,C,11,788.7,19750,Llanes,33036,0.688,6,False
+principado_de_asturias,C,12,45.3,21638,Corvera de Asturias,33020,0.722,2,False
+principado_de_asturias,C,13,11.5,19779,Gijón,33024,1.0,1,True
+principado_de_asturias,C,14,1.5,19893,Gijón,33024,1.0,1,True
+principado_de_asturias,C,15,2.2,20455,Oviedo,33044,1.0,1,True
+principado_de_asturias,C,16,2.7,23201,Oviedo,33044,1.0,1,True
+principado_de_asturias,C,17,2.3,21571,Gijón,33024,1.0,1,True
+principado_de_asturias,C,18,1.6,24334,Oviedo,33044,1.0,1,True
+principado_de_asturias,C,19,8.9,20543,Avilés,33004,1.0,1,True
+principado_de_asturias,C,20,0.9,22000,Gijón,33024,1.0,1,True
+principado_de_asturias,C,21,79.6,19869,Gijón,33024,1.0,1,True
+principado_de_asturias,C,22,0.6,23465,Gijón,33024,1.0,1,True
+principado_de_asturias,C,23,69.0,23849,Gijón,33024,1.0,1,True
+principado_de_asturias,C,24,0.6,23453,Gijón,33024,1.0,1,True
+principado_de_asturias,C,25,80.5,21938,San Martín del Rey Aurelio,33060,0.702,2,False
+principado_de_asturias,C,26,51.3,23132,Siero,33066,1.0,1,True
+principado_de_asturias,C,27,148.9,20634,Gozón,33025,0.507,2,False
+principado_de_asturias,C,28,232.5,21806,Oviedo,33044,0.825,3,False
+principado_de_asturias,C,29,13.3,30646,Gijón,33024,1.0,1,True
+principado_de_asturias,C,30,0.6,23513,Gijón,33024,1.0,1,True
+principado_de_asturias,C,31,48.2,20502,Mieres,33037,1.0,1,True
+principado_de_asturias,C,32,160.5,21550,Llanera,33035,0.647,3,False
+principado_de_asturias,C,33,884.0,24779,Laviana,33032,0.501,4,False
+principado_de_asturias,C,34,512.7,23913,Villaviciosa,33076,0.628,4,False
+principado_de_asturias,C,35,1.0,20157,Gijón,33024,1.0,1,True
+principado_de_asturias,C,36,0.9,20150,Oviedo,33044,1.0,1,True
+principado_de_asturias,C,37,474.0,23350,Pravia,33051,0.336,5,False
+principado_de_asturias,C,38,1.1,21764,Oviedo,33044,1.0,1,True
+principado_de_asturias,C,39,223.0,21538,Langreo,33031,0.409,5,False
+principado_de_asturias,C,40,81.1,23168,Castrillón,33016,0.954,2,False
+principado_de_asturias,C,41,1024.4,23553,Lena,33033,0.439,6,False
+principado_de_asturias,C,42,1781.3,24329,Cangas del Narcea,33011,0.477,6,False
+principado_de_asturias,C,43,1393.7,22308,Valdés,33034,0.491,4,False
+principado_de_asturias,C,44,1.2,22779,Oviedo,33044,1.0,1,True

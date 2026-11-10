@@ -1,3 +1,81 @@
 territorio,nombre,funcion,empeora
+congreso_albacete,Albacete,C,suma de desvíos +30770 personas
+congreso_albacete,Albacete,D8,suma de desvíos +14235 personas
 congreso_alicante,Alicante,D8,partidos judiciales partidos 10 → 11
+congreso_almeria,Almería,C,suma de desvíos +57087 personas
+congreso_almeria,Almería,D8,suma de desvíos +27549 personas
+congreso_asturias,Asturias,C,suma de desvíos +35044 personas
+congreso_asturias,Asturias,D8,suma de desvíos +7766 personas
+congreso_badajoz,Badajoz,C,suma de desvíos +31472 personas
+congreso_badajoz,Badajoz,D8,suma de desvíos +28916 personas
+congreso_baleares,Baleares,C,Polsby-Popper mínimo 0.047 → 0.045
+congreso_baleares,Baleares,D8,Polsby-Popper mínimo 0.047 → 0.045
+congreso_barcelona,Barcelona,C,suma de desvíos +289540 personas
+congreso_barcelona,Barcelona,D8,suma de desvíos +167874 personas
+congreso_burgos,Burgos,C,suma de desvíos +30861 personas
+congreso_burgos,Burgos,D8,suma de desvíos +18311 personas
+congreso_caceres,Cáceres,C,suma de desvíos +38608 personas
+congreso_caceres,Cáceres,D8,suma de desvíos +19740 personas
+congreso_cadiz,Cádiz,C,suma de desvíos +8643 personas
+congreso_cadiz,Cádiz,D8,suma de desvíos +8643 personas
+congreso_cantabria,Cantabria,C,suma de desvíos +33266 personas
+congreso_cantabria,Cantabria,D8,suma de desvíos +33266 personas
+congreso_castellon,Castellón,C,suma de desvíos +65860 personas
+congreso_castellon,Castellón,D8,suma de desvíos +18996 personas
+congreso_ciudad_real,Ciudad Real,C,suma de desvíos +13198 personas
+congreso_ciudad_real,Ciudad Real,D8,suma de desvíos +4368 personas
+congreso_cordoba,Córdoba,C,suma de desvíos +68718 personas
+congreso_cordoba,Córdoba,D8,suma de desvíos +34498 personas
+congreso_cuenca,Cuenca,C,suma de desvíos +29000 personas
+congreso_cuenca,Cuenca,D8,suma de desvíos +14614 personas
+congreso_gerona,Gerona,C,suma de desvíos +54400 personas
+congreso_gerona,Gerona,D8,suma de desvíos +21474 personas
+congreso_granada,Granada,C,suma de desvíos +53604 personas
+congreso_granada,Granada,D8,suma de desvíos +23556 personas
+congreso_guadalajara,Guadalajara,C,suma de desvíos +18242 personas
+congreso_guadalajara,Guadalajara,D8,suma de desvíos +18242 personas
+congreso_guipuzcoa,Guipúzcoa,C,suma de desvíos +15274 personas
+congreso_guipuzcoa,Guipúzcoa,D8,suma de desvíos +6596 personas
+congreso_huelva,Huelva,C,suma de desvíos +34066 personas
+congreso_huelva,Huelva,D8,suma de desvíos +5476 personas
+congreso_huesca,Huesca,C,suma de desvíos +14052 personas
+congreso_huesca,Huesca,D8,suma de desvíos +14052 personas
+congreso_jaen,Jaén,C,suma de desvíos +59501 personas
+congreso_jaen,Jaén,D8,suma de desvíos +29795 personas
+congreso_la_coruna,La Coruña,C,suma de desvíos +74282 personas
+congreso_la_coruna,La Coruña,D8,suma de desvíos +26504 personas
+congreso_la_rioja,La Rioja,C,suma de desvíos +27058 personas
+congreso_la_rioja,La Rioja,D8,suma de desvíos +11088 personas
+congreso_las_palmas,Las Palmas,C,suma de desvíos +9095 personas
+congreso_las_palmas,Las Palmas,D8,suma de desvíos +9095 personas
+congreso_leon,León,C,suma de desvíos +17630 personas
 congreso_leon,León,D8,Polsby-Popper medio 0.264 → 0.25
+congreso_lerida,Lérida,C,suma de desvíos +45960 personas
+congreso_lerida,Lérida,D8,suma de desvíos +30822 personas
+congreso_lugo,Lugo,C,suma de desvíos +23746 personas
+congreso_lugo,Lugo,D8,suma de desvíos +5126 personas
+congreso_madrid,Madrid,C,suma de desvíos +217861 personas
+congreso_madrid,Madrid,D8,suma de desvíos +103551 personas
+congreso_malaga,Málaga,C,suma de desvíos +36218 personas
+congreso_malaga,Málaga,D8,suma de desvíos +20807 personas
+congreso_murcia,Murcia,C,suma de desvíos +4150 personas
+congreso_navarra,Navarra,C,suma de desvíos +41465 personas
+congreso_navarra,Navarra,D8,suma de desvíos +3949 personas
+congreso_orense,Orense,C,suma de desvíos +18180 personas
+congreso_orense,Orense,D8,suma de desvíos +2620 personas
+congreso_pontevedra,Pontevedra,C,Polsby-Popper mínimo 0.09 → 0.073; suma de desvíos +48323 personas
+congreso_pontevedra,Pontevedra,D8,Polsby-Popper mínimo 0.09 → 0.076; suma de desvíos +6712 personas
+congreso_salamanca,Salamanca,C,suma de desvíos +30177 personas
+congreso_salamanca,Salamanca,D8,suma de desvíos +673 personas
+congreso_santa_cruz_de_tenerife,Santa Cruz de Tenerife,C,suma de desvíos +17835 personas
+congreso_sevilla,Sevilla,C,suma de desvíos +53770 personas
+congreso_sevilla,Sevilla,D8,suma de desvíos +4250 personas
+congreso_tarragona,Tarragona,C,suma de desvíos +55475 personas
+congreso_tarragona,Tarragona,D8,suma de desvíos +10474 personas
+congreso_toledo,Toledo,C,suma de desvíos +51252 personas
+congreso_toledo,Toledo,D8,suma de desvíos +28076 personas
+congreso_valencia,Valencia,C,suma de desvíos +143789 personas
+congreso_valencia,Valencia,D8,suma de desvíos +8203 personas
+congreso_vizcaya,Vizcaya,C,suma de desvíos +67430 personas
+congreso_vizcaya,Vizcaya,D8,suma de desvíos +9220 personas
+congreso_zaragoza,Zaragoza,C,suma de desvíos +3268 personas
