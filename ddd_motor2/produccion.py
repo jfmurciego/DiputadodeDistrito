@@ -3,17 +3,23 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — P30 dentro de la cadena de producción (00 / 02, modo `motor: motor2`)
-VERSIÓN: 1.0.1
-NOMBRE DE VERSIÓN: P30 en producción · competición D8 tras el canónico del run
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: P30 en producción · la misma competición que la batería
 FECHA: 2026-11-10
 ESTADO: candidato (solo se ejecuta con la entrada `motor: motor2`; con `m05`, por defecto, nada lo llama)
-CAMBIOS: 1.0.1 — (T-221) P30.json publica también `metricas.<ganador|canonico>.violaciones_duras` y
-  `composicion_m06_sha256` (la composición M06 canónica con la que compitió): la certificación (estado_produccion
-  --motor motor2) los exige. Nada cambia en la competición ni en huella_resultado.
+CAMBIOS: 1.1.0 — (T-223) el P30 compite como la batería desde T-217 (competir.competir_territorio): con D8 entra
+  también el mapa vigente publicado (generadores.Vigente; si cumple el núcleo, la mitad de las cadenas parte de él).
+  La huella motor2 incluye datos/composicion/*.csv (el vigente cambia el resultado). P30.json guarda el entorno
+  (python, PYTHONHASHSEED, versiones de la comprobación de la batería, GEOS) y el vigente (estado, compite, detalle, sha256). Con otro
+  seccionado el vigente no compite (generadores 1.2.1).
+  `competir` desde la línea de órdenes falla cerrado sin PYTHONHASHSEED=0 (P30_ENTORNO_NO_REPRODUCIBLE, sale con 6).
+  1.0.1 — (T-221) P30.json publica también `metricas.<ganador|canonico>.violaciones_duras` y
+    `composicion_m06_sha256` (la composición M06 canónica con la que compitió): la certificación (estado_produccion
+    --motor motor2) los exige. Nada cambia en la competición ni en huella_resultado.
   1.0.0 — fichero nuevo.
 MOTIVO: T-216 (corte 5.0.0, paso 3; D-75): el motor nuevo como P30 en la cadena de producción detrás de un interruptor
   `motor: m05|motor2` con `m05` por defecto hasta el relevo.
-ANTERIOR: legacy/ddd_motor2/produccion_v1.0.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/produccion_v1.0.1_20261110.py
 QUÉ HACE (en el job M06 de la generación territorial, tras M04 + M05 canónico + M06 del propio run):
   competir   competición pública del motor 2 (competicion.competir_publico, la de la batería T-208): el canónico es el
              M06 que acaba de producir el run (mismas entradas M01-M03, M04, M05 canónico; no se recalcula), compite con
@@ -52,14 +58,18 @@ from pathlib import Path
 from typing import Mapping
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.0.1"
+VERSION = "1.1.0"
 ESQUEMA = "ddd.p30-motor2/1.0"
 FUNCION = "D8"  # única fuente de la función y N del P30: el flujo no los pasa y la huella motor2 los incluye
 CADENAS = 10
 # Tablas que lee la clave de naturalidad (naturalidad_mapas: partidos judiciales, comarcas agrarias, áreas de movilidad).
 RESPALDO = ".m05_original"  # copia temporal de la salida M05 mientras se rehace M06 (se borra al restaurar)
 DATOS_NATURALIDAD = ("configuracion/partidos_judiciales.csv", "docs/ESTUDIOS/T64_*/comarcas_agrarias.csv",
-                     "datos/movilidad/**/*")
+                     "datos/movilidad/**/*",
+                     "datos/composicion/*.csv")  # T-223: el mapa vigente publicado compite (generadores.Vigente)
+# Paquetes que fija la comprobación de dependencias del P30 y de la batería (requirements.lock + cadenas del laboratorio).
+PAQUETES_ENTORNO = ("numpy", "pandas", "shapely", "geopandas", "pyogrio", "pyproj", "gerrychain", "networkx",
+                    "rustworkx", "scipy")
 
 
 def _sha(data: bytes) -> str:
@@ -206,9 +216,37 @@ def reescribir_entrada_m06(ruta: Path, campo_id: str, campo_distrito: str, plan:
 
 
 # --------------------------------------------------------------------------- subcomandos
+def entorno() -> dict:
+    """Lo que decide la reproducibilidad bit a bit fuera del código: intérprete, semilla de hash y versiones."""
+    from importlib.metadata import PackageNotFoundError, version  # noqa: PLC0415
+    out = {"python": sys.version.split()[0], "PYTHONHASHSEED": os.environ.get("PYTHONHASHSEED")}
+    for m in PAQUETES_ENTORNO:
+        try:
+            out[m] = version(m)
+        except PackageNotFoundError:
+            out[m] = None
+    try:
+        import shapely  # noqa: PLC0415
+        out["geos"] = shapely.geos_version_string
+    except ImportError:
+        out["geos"] = None
+    return out
+
+
+def generadores_por_defecto(cadena=None, vigente=None, funcion: str = FUNCION):
+    """Como competir.competir_territorio (la batería): sin inyección, Ponderado y, salvo con A, el vigente publicado."""
+    if cadena is None:
+        from .generadores import Ponderado, Vigente  # noqa: PLC0415
+        cadena = Ponderado()
+        if vigente is None and funcion != "A":
+            vigente = Vigente()
+    return cadena, vigente
+
+
 def competir(params: Path, n_cadenas: int = CADENAS, funcion: str = FUNCION, *, cadena=None,
-             runs_dir: Path | None = None) -> dict:
-    """P30 del run. `cadena` se puede inyectar (pruebas); por defecto, generadores.Ponderado()."""
+             runs_dir: Path | None = None, vigente=None) -> dict:
+    """P30 del run. `cadena` y `vigente` se pueden inyectar (pruebas); por defecto, como la batería
+    (competir.competir_territorio): generadores.Ponderado() y, salvo con la función A, generadores.Vigente()."""
     import yaml  # noqa: PLC0415
     from .competicion import EntradaTerritorio, competir_publico  # noqa: PLC0415
     from .informe import escribir  # noqa: PLC0415
@@ -218,12 +256,11 @@ def competir(params: Path, n_cadenas: int = CADENAS, funcion: str = FUNCION, *, 
     t = _territorio(params)
     destino = r["runs"] / "p30_motor2"
     shutil.rmtree(destino, ignore_errors=True)
-    if cadena is None:
-        from .generadores import Ponderado  # noqa: PLC0415
-        cadena = Ponderado()
+    cadena, vigente = generadores_por_defecto(cadena, vigente, funcion)
     canonico = CanonicoDelRun(r["composicion"], _secciones_m06(r["composicion"].parent))
     entrada = EntradaTerritorio(t, cfg, r["grafo"])
-    res = competir_publico(entrada, canonico, cadena, destino / "competicion", n_cadenas=n_cadenas, funcion=funcion)
+    res = competir_publico(entrada, canonico, cadena, destino / "competicion", n_cadenas=n_cadenas, funcion=funcion,
+                           vigente=vigente)
     escribir(res, destino)
     g = res.ganador
     col = columnas_de_contrato(cfg)
@@ -232,7 +269,9 @@ def competir(params: Path, n_cadenas: int = CADENAS, funcion: str = FUNCION, *, 
               "estado_ganador": g.estado, "huella_resultado": res.huella(), "semilla_publica": res.semilla_publica,
               "motor2": huella_motor(funcion, n_cadenas), "candidatos": len(res.candidatos),
               "candidatos_validos": sum(c.estado == "VALIDO" for c in res.candidatos), "rehacer_m06": False,
-              "secciones_cambiadas": 0, "run_id": os.environ.get("DDD_RUN_ID"),
+              "secciones_cambiadas": 0, "run_id": os.environ.get("DDD_RUN_ID"), "entorno": entorno(),
+              "vigente": {k: (res.vigente or {}).get(k) for k in ("estado", "compite", "detalle", "sha256_origen",
+                                                                 "reparado")},
               "composicion_m06_sha256": _sha(r["composicion"].read_bytes()) if r["composicion"].is_file() else None,
               "metricas": {k: {"fuera_tolerancia": c.fuera_tolerancia, "violaciones_duras": c.duras,
                                "desvio_max": None if c.desvio_max is None else float(c.desvio_max)}
@@ -297,6 +336,9 @@ def main(argv=None) -> int:
         print(json.dumps(huella_motor(), indent=2))
         return 0
     if a.orden == "competir":
+        if os.environ.get("PYTHONHASHSEED") != "0":  # T-223: sin ella el orden de los conjuntos cambia entre procesos
+            print("::error title=P30_ENTORNO_NO_REPRODUCIBLE::el P30 exige PYTHONHASHSEED=0 (como la batería)")
+            return 6
         s = competir(a.params, runs_dir=a.runs_dir)
         print(f"P30 {s['territorio']}: {s['estado']} ganador={s['ganador']} válido={s['valido']} "
               f"candidatos válidos={s['candidatos_validos']}/{s['candidatos']} huella={s['huella_resultado']} "

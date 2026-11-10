@@ -3,11 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — adaptadores de generador para la competición (canónico y GerryChain)
-VERSIÓN: 1.2.0
-NOMBRE DE VERSIÓN: Competición · vigente y piezas finas
+VERSIÓN: 1.2.1
+NOMBRE DE VERSIÓN: Competición · vigente solo con el mismo seccionado
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.2.0 — (T-217) generador «Vigente»: el mapa publicado (datos/composicion/<t>.csv) como composición M06 sobre
+CAMBIOS: 1.2.1 — (T-223, Planificador) el vigente solo compite si sus secciones son exactamente las de la entrada
+  (el seccionado de la edición del contrato que se genera); si no, «VIGENTE_OTRO_SECCIONADO» con el motivo
+  («vigente excluido: otro seccionado», p. ej. las 52 del Congreso al pasar al par 2025/2025, D-65), sin reproyectarlo.
+  1.2.0 — (T-217) generador «Vigente»: el mapa publicado (datos/composicion/<t>.csv) como composición M06 sobre
   las filas del canónico (población de la entrada; si las secciones no coinciden, o el mapa parte un municipio que el
   contrato declara atómico, no es representable y no compite); el «Ponderado» parte del vigente con las semillas que le
   diga el contexto («semillas_desde_vigente»; la competición le da la mitad). Si el publicado incumple el núcleo
@@ -30,7 +33,7 @@ CAMBIOS: 1.2.0 — (T-217) generador «Vigente»: el mapa publicado (datos/compo
 MOTIVO: T-163: que el orquestador (competicion.py) llame a los generadores reales sin tocarlos, con las mismas
   entradas y pasos que la batería T-132 (herramientas/bateria_motor.py y banco_generadores.py), que se importan en
   diferido y no se modifican.
-ANTERIOR: legacy/ddd_motor2/generadores_v1.1.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/generadores_v1.2.0_20261110.py
 GENERADORES:
   Canonico    M04 + M05 canónico vigente (7.4.4, semilla fija) + M06 = bateria_motor.motor_uno(t, out, "7.4.4").
   GerryChain  M04 + M05 GerryChain de producción ddd_core/m05_gerrychain_strategy.py (ReCom, --seed-count 1
@@ -295,8 +298,9 @@ class Vigente:
         campos, filas = _filas(base)
         secs = {str(f[col["seccion"]]).strip() for f in filas}
         if secs != set(vig):
-            return Salida(None, "VIGENTE_NO_REPRESENTABLE",
-                          f"secciones distintas de la entrada: {len(secs - set(vig))} sin distrito vigente, "
+            return Salida(None, "VIGENTE_OTRO_SECCIONADO",
+                          f"vigente excluido: otro seccionado ({ruta.name}): {len(secs - set(vig))} secciones de la "
+                          f"entrada sin distrito vigente, "
                           f"{len(set(vig) - secs)} del vigente que no están en la entrada")
         problema, _, _ = problema_y_plan(base, entrada.grafo_m03, entrada.cfg, atributos_secciones=atributos,
                                          respaldo_municipio_cusec=criterio.respaldo_municipio_cusec)
