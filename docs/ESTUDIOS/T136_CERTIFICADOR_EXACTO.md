@@ -190,3 +190,58 @@ El publicado cumple R-NUCLEO en los cuatro. En Burgos la regla poda el espacio d
 
 Reproducir: `herramientas/bateria_motor.py entradas <t>` y `motor <t>`; después
 `python herramientas/certificador_exacto.py --params territorios/<t>/config/<t>_2025.yaml --grafo bateria/entradas/<t>/<t>_2025_m03_grafo.json --secciones territorios/<t>/.cache/ddd/preparacion/<t>_2025/<t>_2025_m04_semillas.geojson.zip --objetivo minimax --modelo ligero --pista datos/composicion/<t>.csv --referencia publicado=datos/composicion/<t>.csv --tiempo 120 [--sin-nucleos]`.
+
+## 1.4.0 (2026-11-10, T-175): enumeración exacta para territorios pequeños
+
+Una sola regla de calidad, la vigente, en `ddd_motor2/calidad.py`. Es lexicográfica: violaciones duras → distritos fuera
+de tolerancia → desvío máximo |p−obj|/obj → error cuadrático medio → huella del plan. Usa fracciones exactas. La
+comparten tres sitios:
+- **Motor nuevo (competición 1.2.0).** Hay un candidato nuevo, «exhaustivo». `ddd_motor2/exhaustivo.enumerar_exacto`
+  decide con `Criterio.metodo`. Por defecto, presupuesto de 200.000 nodos; con «tamano», solo si K ≤ 3 o hay ≤ 40
+  unidades. Si enumera, recorre todos los planes válidos con `reglas.enumerar` (1.1.0, que guarda el mejor por clave)
+  sobre las unidades de la composición del canónico. Si la enumeración termina, el ganador es el óptimo exacto de la
+  regla. En el competidor, el M05 del exhaustivo es el del canónico con `district_id` reescrito.
+- **Certificador 1.4.0.** Ordena con la misma regla los planes de `--objetivo enumerar` (CP-SAT) y da
+  `mejor_por_calidad`, sus empates y si cada referencia es ese plan. El mejor solo es exacto con ENUMERADO.
+- La huella de desempate en el certificador es la de la partición en **secciones**, porque la numeración de unidades
+  cambia entre el M04 y el M06. En la competición se usa la de unidades. Las dos coinciden salvo en empates exactos de
+  desvío y error cuadrático.
+
+Medición: secciones del M04 de la batería (motor 7.4.4), perfil núcleo, 4 núcleos. «Núcleo» es la enumeración del
+motor nuevo (Python puro, presupuesto en nodos). «CP-SAT» es el certificador (una resolución por plan, tiempo límite).
+
+| Territorio | K | Unidades | Núcleo (motor nuevo) | CP-SAT (certificador) | Mejor por calidad | ¿Es el publicado? |
+|---|---|---|---|---|---|---|
+| **congreso_alava** | 3 | 53 (1 núcleo) | **ENUMERADO: 1 plan**, 1.276 nodos, 0,22 s | **ENUMERADO: 1 plan**, 0,05 s | desvío 50.243/336.308 (0,1494) | **sí** (misma huella en ambos) |
+| congreso_soria | 1 | 183 | ENUMERADO: 1 plan, 184 nodos, 0,13 s | ENUMERADO: 1 plan, 0,08 s | desvío 0 | sí |
+| congreso_huesca | 2 | 202 | incompleto: 200.000 nodos en 125 s, 0 planes vistos; 2.000.000 no terminó en 1.500 s | parcial: 159 planes en 600 s (1.1.0) | — | — |
+| congreso_lugo | 3 | 67 | incompleto: 2.000.000 nodos en 601 s, 0 planes | parcial: 297 planes en 120 s | (parcial) | no entre los vistos |
+| congreso_albacete | 3 | 88 (1 núcleo) | incompleto: 2.000.000 nodos en 732 s, 0 planes | parcial: 172 planes en 120 s | — | — |
+| congreso_orense | 3 | 92 | — | parcial: 131 planes en 120 s | — | — |
+| congreso_la_rioja | 3 | 175 (1 núcleo) | — | parcial: 7 planes en 120 s | — | — |
+| congreso_cuenca / guadalajara | 2 | 238 / 288 | — | parcial: 21 / 12 planes en 120 s | — | — |
+| congreso_burgos / salamanca / caceres | 3 | 372 / 363 / 223 | — | parcial: 1 / 2 / 0 planes en 120 s | — | — |
+
+Conclusiones:
+1. **Álava: hay exactamente 1 plan válido y es el publicado.** Lo dan las dos enumeraciones, con la misma huella de
+   partición. Con R-NUCLEO y sin ella sale lo mismo. Lo elige la regla de calidad porque es el único: no hay desempate.
+2. El límite es el número de planes, no el de unidades. Lugo, con 67 unidades, tiene cientos de planes válidos o más.
+   La enumeración del núcleo recorre en orden de anchura sin cota de población por delante. En 2.000.000 de nodos no
+   encuentra ni uno en Lugo, Albacete ni Huesca, y cuesta unos 0,3-0,6 ms por nodo. CP-SAT encuentra planes enseguida,
+   pero resuelve una vez por plan (unos 0,4 s cada uno), así que no cierra recuentos de cientos.
+3. Presupuesto vigente (200.000 nodos): en la práctica solo enumera territorios con muy pocos planes (Álava, K=1). Cuesta
+   hasta unos 2 min por territorio que no cabe (Huesca: 125 s). El criterio «tamano» (K ≤ 3) lo intentaría en 16
+   circunscripciones y solo completaría Álava y las de K=1. Para enumerar de verdad K=2-3 con cientos o miles de planes
+   haría falta un contador por frontera o una poda con la población restante; no se ha hecho.
+
+Reproducir (tras `bateria_motor.py entradas <t>` y `motor <t>`):
+```
+python herramientas/certificador_exacto.py --params territorios/congreso_alava/config/congreso_alava_2025.yaml \
+  --grafo bateria/entradas/congreso_alava/congreso_alava_2025_m03_grafo.json \
+  --secciones territorios/congreso_alava/.cache/ddd/preparacion/congreso_alava_2025/congreso_alava_2025_m04_semillas.geojson.zip \
+  --objetivo enumerar --referencia publicado=datos/composicion/congreso_alava.csv --tiempo 120
+C=territorios/congreso_alava/.cache/ddd/preparacion/congreso_alava_2025/congreso_alava_2025_
+python -m ddd_motor2.exhaustivo --params territorios/congreso_alava/config/congreso_alava_2025.yaml \
+  --composicion ${C}m06_composicion_distritos.csv --grafo bateria/entradas/congreso_alava/congreso_alava_2025_m03_grafo.json \
+  --atributos ${C}m06_secciones.geojson.zip --salida /tmp/alava_exhaustivo.csv     # validos=1, mejor_es_la_entrada=true
+```

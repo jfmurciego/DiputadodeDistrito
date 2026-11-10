@@ -18,6 +18,7 @@ QUÉ HACE:
     reglas.enumerar y guarda el mejor por calidad. Campos: metodo, motivo, completo, nodos, presupuesto, validos,
     huella (del conjunto de planes), mejor (plan), mejor_metricas, segundo_clave, empatados, tiempo_s.
     Solo «completo» certifica el óptimo; si no, la cadena sigue (los planes vistos son una cota inferior del recuento).
+  CLI: python -m ddd_motor2.exhaustivo --params --composicion <m06.csv> --grafo <m03.json> [--presupuesto N].
   escribir_composicion(base_csv, plan, salida, cfg): composición M06 con el plan (unidad -> distrito) sobre las filas
     de otra composición del mismo territorio (mismas secciones y unidades); distritos 0..K-1 por la menor sección
     (como M05/M06).
@@ -106,3 +107,41 @@ def huella_composicion(ruta: str | Path, cfg: Mapping[str, Any], columnas: Mappi
     col = {**columnas_de_contrato(cfg), **(columnas or {})}
     with open(ruta, encoding="utf-8", newline="") as fh:
         return huella_plan({str(f[col["seccion"]]).strip(): str(f[col["distrito"]]).strip() for f in csv.DictReader(fh)})
+
+
+def main(argv=None) -> int:
+    """python -m ddd_motor2.exhaustivo --params <contrato> --composicion <m06.csv> --grafo <m03.json>
+    [--atributos <m06_secciones.geojson.zip>] [--presupuesto N] [--salida <csv del mejor>]"""
+    import argparse
+    import json
+    import sys
+    root = Path(__file__).resolve().parents[1]
+    if str(root) not in sys.path:
+        sys.path.insert(0, str(root))
+    from ddd_core.config import load_params_yaml
+    from .adaptadores import problema_y_plan
+    from .reglas import Criterio
+    ap = argparse.ArgumentParser(prog="python -m ddd_motor2.exhaustivo")
+    ap.add_argument("--params", required=True)
+    ap.add_argument("--composicion", required=True)
+    ap.add_argument("--grafo", required=True)
+    ap.add_argument("--atributos")
+    ap.add_argument("--presupuesto", type=int)
+    ap.add_argument("--salida")
+    a = ap.parse_args(argv)
+    cfg = load_params_yaml(a.params)
+    problema, plan, avisos = problema_y_plan(a.composicion, a.grafo, cfg, atributos_secciones=a.atributos)
+    reglas = Reglas.desde_contrato(cfg, Criterio())
+    res = enumerar_exacto(problema, reglas, a.presupuesto)
+    mejor = res.pop("mejor", None)
+    res["avisos"] = avisos
+    res["entrada"] = legible(metricas(problema, reglas, plan))
+    res["mejor_es_la_entrada"] = bool(mejor) and huella_plan(mejor) == res["entrada"]["huella_plan"]
+    if mejor and a.salida:
+        res["mejor_huella_secciones"] = huella_composicion(escribir_composicion(a.composicion, mejor, a.salida, cfg), cfg)
+    print(json.dumps(res, ensure_ascii=False, indent=2, default=str))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
