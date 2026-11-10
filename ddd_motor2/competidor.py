@@ -20,7 +20,8 @@ USO: DDD_RUN_ID=<id> PYTHONHASHSEED=0 python -m ddd_motor2.competidor --params t
   Formación M04 no es admisible, como producción) y M06 para obtener la composición que juzga el núcleo.
   --semilla se ignora: las semillas son las públicas del territorio (ddd_motor2/semilla.py); se acepta por la firma
   común del banco. El informe de la competición va a <carpeta de out_geojson>/competicion/COMPETICION.{json,md}.
-  rc 0 si dejó salida; 2 si ningún candidato produjo plan; 3 si el contrato no trae el ancla de la semilla.
+  rc 0 si dejó salida (aunque el ganador no sea válido: la batería valida); 2 si ningún candidato es evaluable (sin plan,
+  o ERROR_DATOS/ERROR_CONTRATO en todos; borra out_geojson y out_report); 3 si el contrato no trae el ancla.
 """
 from __future__ import annotations
 
@@ -159,8 +160,10 @@ def main(argv=None) -> int:
         return 3
     escribir(r, carpeta)
     g = r.ganador
-    if g.composicion == "":
-        print("ningún candidato produjo plan", file=sys.stderr)
+    if not g.evaluable:  # nadie con plan juzgable (fallo de generador o ErrorDatos/ErrorContrato en todos)
+        for clave in ("out_geojson", "out_report"):  # no dejar a la batería el M05 del último candidato
+            Path(s5[clave]).unlink(missing_ok=True)
+        print(f"ningún candidato evaluable (ganador {g.id}: {g.estado})", file=sys.stderr)
         return 2
     d = Path(g.composicion).parent
     for clave in ("out_geojson", "out_report"):

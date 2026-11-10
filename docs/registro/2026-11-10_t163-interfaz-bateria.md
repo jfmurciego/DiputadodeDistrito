@@ -11,7 +11,8 @@
   (lee in_graph_json/in_geojson de modulo_05; deja el M05 y el informe del ganador en out_geojson/out_report). Por
   candidato: M05 (canónico `modulos/05`; GerryChain `m05_gerrychain_strategy --seed-count 1 --seed-base <semilla
   pública>`, desde la semilla canónica si la Formación M04 no es admisible) + M06 para juzgar con el núcleo. `--semilla`
-  se ignora (semillas públicas). Informe en `<carpeta M05>/competicion/`. rc 0 / 2 sin plan / 3 sin ancla.
-- Pruebas: `python -m unittest tests.test_motor2_competidor` (semilla inicial de GerryChain). La ejecución real (M05, M06,
+  se ignora (semillas públicas). Informe en `<carpeta M05>/competicion/`. rc 0 con salida / 2 sin candidato
+  evaluable (borra out_geojson y out_report) / 3 sin ancla.
+- Pruebas: `python -m unittest tests.test_motor2_competidor` (semilla inicial de GerryChain y main(): rc 3, rc 2, copia del ganador). La ejecución real (M05, M06,
   GerryChain) la mide la batería T-132: esta sesión no tiene geopandas ni GerryChain.
 - Siguiente: la batería de los 71 (T-132).

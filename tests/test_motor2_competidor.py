@@ -53,5 +53,73 @@ class Competidor(unittest.TestCase):
         self.assertIn(str(Path("/c/t_m05_distritos_optimizados.geojson.zip")), p.ordenes[-1])
 
 
+class Main(unittest.TestCase):
+    """main() con rutas y generadores falsos: rc 3 sin ancla, rc 2 sin evaluable, copia del ganador en out_*."""
+
+    def preparar(self, con_ancla=True):
+        import json
+        import tempfile
+        from tests.test_motor2_competicion import CFG, POB
+        from tests.test_motor2_semilla import cfg as cfg_ancla
+        tmp = Path(tempfile.mkdtemp())
+        secc = {u: f"220010100{i}" for i, u in enumerate(sorted(POB))}
+        grafo = tmp / "grafo.json"
+        grafo.write_text(json.dumps({"nodes": list(secc.values()), "edges": [
+            {"u": secc[a], "v": secc[b]} for a, b in (("A", "B"), ("B", "C"), ("C", "D"))]}))
+        run = tmp / "ejecuciones" / "r"
+        run.mkdir(parents=True)
+        s5 = {"in_graph_json": str(grafo), "out_geojson": str(run / "t_m05.geojson.zip"),
+              "out_report": str(run / "t_m05_informe.json")}
+        return tmp, (cfg_ancla() if con_ancla else CFG), s5
+
+    def ejecutar(self, cfg, s5, planes_can, planes_gc):
+        from unittest import mock
+
+        from ddd_motor2 import competidor as m
+        from tests.test_motor2_competicion import escribir_comp
+
+        def fabrica(nombre, planes):
+            class Falso:
+                def __init__(self, *a, **k):
+                    self.nombre = nombre
+
+                def generar(self, entrada, semilla, destino):
+                    plan = planes(semilla)
+                    destino = Path(destino)
+                    destino.mkdir(parents=True, exist_ok=True)
+                    (destino / Path(s5["out_geojson"]).name).write_text(f"M05 {nombre} {semilla}")
+                    (destino / Path(s5["out_report"]).name).write_text("{}")
+                    Path(s5["out_geojson"]).write_text("último candidato")  # como el M05 real
+                    if plan is None:
+                        return Salida(None, "FALLO")
+                    return Salida(escribir_comp(destino / "comp.csv", plan))
+            return Falso
+        with mock.patch.object(m, "rutas", return_value=(cfg, s5, {})), \
+                mock.patch.object(m, "CanonicoM05", fabrica("canonico", planes_can)), \
+                mock.patch.object(m, "GerryChainM05", fabrica("gerrychain", planes_gc)):
+            return m.main(["--params", "territorios/prueba/config/prueba_2025.yaml", "--run-id", "r", "--semilla", "1",
+                           "--cadenas", "2"])
+
+    def test_sin_ancla_rc3(self):
+        _, cfg, s5 = self.preparar(con_ancla=False)
+        self.assertEqual(self.ejecutar(cfg, s5, lambda s: None, lambda s: None), 3)
+
+    def test_sin_evaluable_rc2_y_borra_salida(self):
+        _, cfg, s5 = self.preparar()
+        self.assertEqual(self.ejecutar(cfg, s5, lambda s: None, lambda s: None), 2)
+        self.assertFalse(Path(s5["out_geojson"]).exists())
+        self.assertFalse(Path(s5["out_report"]).exists())
+
+    def test_copia_el_ganador(self):
+        bueno = {"A": "1", "B": "1", "C": "2", "D": "2"}
+        malo = {"A": "1", "B": "2", "C": "2", "D": "2"}
+        _, cfg, s5 = self.preparar()
+        self.assertEqual(self.ejecutar(cfg, s5, lambda s: malo, lambda s: bueno), 0)
+        texto = Path(s5["out_geojson"]).read_text()
+        self.assertTrue(texto.startswith("M05 gerrychain "), texto)
+        self.assertTrue(Path(s5["out_report"]).is_file())
+        self.assertTrue((Path(s5["out_geojson"]).parent / "competicion" / "COMPETICION.json").is_file())
+
+
 if __name__ == "__main__":
     unittest.main()
