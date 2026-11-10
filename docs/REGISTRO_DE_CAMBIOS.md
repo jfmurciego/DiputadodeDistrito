@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.267
+Versión: 1.0.268
 Fecha: 2026-11-10
-Alcance: T-149 — Lista de Actions: los 4 workflows «- …» pasan a «Auxiliar — …»
+Alcance: T-132 — Banco de generadores: validez y calidad en los 71 territorios
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t149-auxiliares-actions.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.266_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t132b-banco-calidad.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.267_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.266_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.268 · [2026-11-10 — T-132 — Banco de generadores: validez y calidad en los 71 territorios](registro/2026-11-10_t132b-banco-calidad.md)
 - 1.0.267 · [2026-11-10 — T-149 — Lista de Actions: los 4 workflows «- …» pasan a «Auxiliar — …»](registro/2026-11-10_t149-auxiliares-actions.md)
 - 1.0.266 · [2026-11-09 — T-132 — Batería del motor: 71 territorios desde fuente, M04-M06 en local y matriz territorio × regla](registro/2026-11-09_t132-bateria-motor.md)
 - 1.0.265 · [2026-11-10 — T-139 — Piloto de movilidad, paso 3: tabla por provincia y recomendación](registro/2026-11-10_t139-movilidad-paso3.md)
