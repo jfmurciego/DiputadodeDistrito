@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.254
+Versión: 1.0.257
 Fecha: 2026-11-10
-Alcance: T-136 — Prototipo de certificador exacto (CP-SAT)
+Alcance: T-150 — Historial de workflows desactivados y lista de borrado de runs
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t136-certificador-exacto.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.253_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t150-historial-workflows.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.256_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,9 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.253_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.257 · [2026-11-10 — T-150 — Historial de workflows desactivados y lista de borrado de runs](registro/2026-11-10_t150-historial-workflows.md)
+- 1.0.256 · [2026-11-10 — T-155 — Cuadro de coste real de las dos últimas semanas](registro/2026-11-10_claude-t155-coste-real.md)
+- 1.0.255 · [2026-11-10 — T-171 — Plan por temas y decisiones del 09 y 10-11](registro/2026-11-10_claude-plan-temas-1011.md)
 - 1.0.254 · [2026-11-10 — T-136 — Prototipo de certificador exacto (CP-SAT)](registro/2026-11-10_t136-certificador-exacto.md)
 - 1.0.253 · [2026-11-10 — T-159 — README actualizado (v4.10.0)](registro/2026-11-10_docs-readme-t159.md)
 - 1.0.252 · [2026-11-10 — T-156 — Auditoría del visor (accesibilidad, peso) y opciones de analítica sin cookies](registro/2026-11-10_t156-auditoria-visor-uso.md)
