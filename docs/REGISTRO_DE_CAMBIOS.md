@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.302
+Versión: 1.0.303
 Fecha: 2026-11-10
-Alcance: T-175 — R-NUCLEO en el certificador exacto
+Alcance: T-175 — Enumeración exacta para territorios pequeños (motor nuevo y certificador)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t175-nucleo-certificador.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.301_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t175-enumeracion-exacta.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.302_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.301_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.303 · [2026-11-10 — T-175 — Enumeración exacta para territorios pequeños (motor nuevo y certificador)](registro/2026-11-10_t175-enumeracion-exacta.md)
 - 1.0.302 · [2026-11-10 — T-175 — R-NUCLEO en el certificador exacto](registro/2026-11-10_t175-nucleo-certificador.md)
 - 1.0.301 · [2026-11-10 — T-179 — Naturalidad: variantes D5 y D8 (tope de desvío solo para elegir)](registro/2026-11-10_claude-t179-naturalidad-d5-d8.md)
 - 1.0.300 · [2026-11-10 — T-178 — Especificación del corte 5.0.0](registro/2026-11-10_t178-corte-5-0-0.md)
