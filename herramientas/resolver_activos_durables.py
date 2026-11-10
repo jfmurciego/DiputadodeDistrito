@@ -1,14 +1,17 @@
 """Resolver de activos durables M06/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.1
-NOMBRE DE VERSIÓN: Contrastar fuentes del manifiesto M06 02
-FECHA: 2026-10-26
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: M08 sin linaje productor se rechaza, no bloquea
+FECHA: 2026-11-10
 ESTADO: candidato
 QUÉ HACE: valida activos territoriales/electorales y sus manifiestos de productor.
-CAMBIOS: compara la fuente M06 standalone con el artefacto territorial declarado en sus inputs.
-MOTIVO: evitar buscar fases 00 inexistentes y bloquear fuentes cruzadas.
-ANTERIOR: legacy/herramientas/resolver_activos_durables_pre_source_m06_inputs_20261026.py
+CAMBIOS 1.2.0: T-166, si la fase 04 del manifiesto no enlaza el M08 del catálogo (04 en failure, digest vacío) o no es
+  una fase productora válida, el M08 se rechaza (rejected_electoral_product, reusable=false) y la 00 lo reincorpora.
+CAMBIOS 1.1.1: compara la fuente M06 standalone con el artefacto territorial declarado en sus inputs.
+MOTIVO: la 00 hija «Reutilizar» encadenada fallaba siempre en Planificar (DURABLE_LINEAGE_INCOMPATIBLE: electoral_product)
+  y dejaba el eslabón electoral sin hacer; un receipt auténtico cuyo manifiesto no prueba la 04 no es reutilizable.
+ANTERIOR: legacy/herramientas/resolver_activos_durables_v1.1.1_20261110.py
 """
 from __future__ import annotations
 
@@ -534,12 +537,26 @@ def validate_durable_assets(
             root, territory_id, edition, electoral_product["run_id"],
             receipt=electoral_product, contract_path=state.get("contract_path"),
         )
-        _producer_phase_asset(
-            _phase(manifest, "04 ·"),
-            electoral_product,
-            label="electoral_product",
-        )
-        if electoral_source:
+        try:
+            _producer_phase_asset(
+                _phase(manifest, "04 ·"),
+                electoral_product,
+                label="electoral_product",
+            )
+        except DurableAssetBlock as exc:
+            if not str(exc).startswith((
+                "DURABLE_LINEAGE_INCOMPATIBLE: electoral_product:",
+                "DURABLE_PRODUCER_PHASE_INVALID: electoral_product:",
+            )):
+                raise
+            # T-166: el receipt es auténtico pero su run no probó la 04 (failure / digest vacío).
+            rejected_electoral_product = {
+                "asset": electoral_product,
+                "reason": str(exc),
+                "reusable": False,
+            }
+            electoral_product = None
+        if electoral_source and electoral_product:
             try:
                 _same_phase_asset(
                     _phase(manifest, "03 ·"), electoral_source,

@@ -1,8 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.6.2
-# CAMBIOS 1.6.2: T-166, «Encadenar par de fuentes y 04» comprueba antes (resolver --check-chain) que la 00 hija «Reutilizar»
-#   podría planificar; si el catálogo conserva un M08 sin linaje durable no activa el par ni lanza la hija (CHAIN_SKIPPED_M08_LINEAGE).
+# VERSIÓN: 1.6.1
 # CAMBIOS 1.6.1: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Cadena electoral en GitHub (sin el Mac)
 # ESTADO: candidato
@@ -29,14 +27,14 @@
 #   Sin duplicados: si el territorio ya tiene una activación o una 00 en cola o en curso, no se relanza
 #   (CHAIN_DUPLICATE_SKIPPED). Estado de cada eslabón en el artefacto ddd-cadena-<run> y en el resumen.
 #   run-name con el territorio y el modo para identificar los runs.
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.6.1_20261110.yml
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.6.0_20261108.yml
 # CAMBIOS: 1.4.0: si 01–03 quedan válidas y la 04 se salta por falta de prepared_source_pair, el job
 #   encadenar_par_y_04 activa el par (preparacion-legislatura-vigente prepare_one) y relanza el 00 en
 #   modo reutilizar; una ejecución en modo reutilizar no vuelve a encadenar.
 #   1.4.1: el encadenado también se dispara en modo reutilizar (el modo por defecto); el bucle se
 #   evita porque el relanzamiento lo dispara github-actions[bot], que no vuelve a encadenar.
 # MOTIVO: un único "Ejecutar desde el principio" debe llegar a la 04 sin pasos manuales.
-# FECHA: 2026-11-10
+# FECHA: 2026-11-08
 name: 00 Ejecución Completa del Proyecto
 run-name: "${{ inputs.territory_id && format('00 Ejecución Completa del Proyecto · {0} · {1}', inputs.territory_id, inputs.execution_mode) || '00 Ejecución Completa del Proyecto' }}"
 
@@ -1604,30 +1602,7 @@ jobs:
       ALGORITHM: ${{ inputs.optimization_algorithm }}
       ORIGEN: ${{ github.run_id }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: ${{ github.ref_name }}
-      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
-      - id: guarda
-        name: Comprobar que la 00 hija podría planificar
-        shell: bash
-        run: |
-          set -euo pipefail
-          # T-166: con un M08 en el catálogo sin linaje durable (04 fallida o sin digest), la hija «Reutilizar»
-          # falla siempre en Planificar (DURABLE_LINEAGE_INCOMPATIBLE: electoral_product): no se encadena.
-          res="$(python -m herramientas.resolver_ejecucion_completa --territory "$TERRITORY" --edition "$EDITION" \
-            --execution-mode reuse --check-chain)"
-          echo "$res"
-          if [[ "$(jq -r .chain <<<"$res")" == true ]]; then echo "chain=true" >> "$GITHUB_OUTPUT"; exit 0; fi
-          echo "chain=false" >> "$GITHUB_OUTPUT"
-          mkdir -p .ddd-cadena
-          jq -n --arg t "$TERRITORY" --arg o "$ORIGEN" --arg m "$(jq -r .reason <<<"$res")" \
-            '{schema:"ddd.cadena-electoral/1.0",territorio:$t,origen_run_id:$o,
-              electoral:{estado:"CHAIN_SKIPPED_M08_LINEAGE",publish_result:false},mensaje:$m}' > .ddd-cadena/cadena.json
-          { echo "### Cadena electoral · $TERRITORY"; echo; echo '```json'; cat .ddd-cadena/cadena.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
-          echo "::notice::CHAIN_SKIPPED_M08_LINEAGE: el catálogo de $TERRITORY conserva un M08 sin linaje durable; la 00 hija no podría planificar, no se encadena."
       - name: Activar par de fuentes y relanzar en modo reutilizar
-        if: ${{ steps.guarda.outputs.chain == 'true' }}
         shell: bash
         run: |
           set -euo pipefail

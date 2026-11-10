@@ -1,16 +1,14 @@
 """Planificador de ejecución 00 con separación entre M06 y M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0
-NOMBRE DE VERSIÓN: Comprobación previa del encadenado 00 → 00 «Reutilizar»
-FECHA: 2026-11-10
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Reutilización territorial con linaje M06 independiente
+FECHA: 2026-10-26
 ESTADO: candidato
 QUÉ HACE: resuelve continuidad con evidencia durable de productos.
-CAMBIOS 1.2.0: T-166, `--check-chain` y `chain_block_reason`: dicen si la 00 hija «Reutilizar» podría planificar.
-CAMBIOS 1.1.0: descarta M08 con linaje territorial incompatible y conserva reutilización M06.
-MOTIVO: la hija encadenada fallaba siempre en Planificar (DURABLE_LINEAGE_INCOMPATIBLE: electoral_product) cuando el
-  catálogo conserva un M08 de una 04 fallida; la 00 madre debe saberlo antes de gastar minutos.
-ANTERIOR: legacy/herramientas/resolver_ejecucion_completa_v1.1.0_20261110.py
+CAMBIOS: descarta M08 con linaje territorial incompatible y conserva reutilización M06.
+MOTIVO: evitar que un producto electoral histórico bloquee un M06 territorial certificado.
+ANTERIOR: legacy/herramientas/resolver_ejecucion_completa_pre_m06_manifest_20261026.py
 """
 from __future__ import annotations
 
@@ -920,24 +918,6 @@ _core.build_plan = build_plan
 _core.apply_explicit_territorial_source = apply_explicit_territorial_source
 
 
-def chain_block_reason(*, territory: str, edition: str, catalog: Path, root_dir: Path) -> str | None:
-    """Motivo por el que la 00 hija «Reutilizar» no podría planificar, o None si puede encadenarse.
-
-    Solo cubre el linaje durable del M08 del catálogo (T-166): cualquier otro fallo lo sigue
-    informando la propia hija, como hasta ahora.
-    """
-    try:
-        build_plan(territory=territory, edition=edition, execution_mode="reuse", catalog=catalog,
-                   root_dir=root_dir, force_selected_algorithm=False)
-    except ValueError as exc:
-        text = str(exc)
-        if text.startswith("CONTINUE_DURABLE_BLOCK:") and "DURABLE_LINEAGE_INCOMPATIBLE: electoral_product" in text:
-            return text
-    except SystemExit:
-        pass  # territorio/edición inexistente: lo informa la hija; la guarda no bloquea por ello
-    return None
-
-
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--territory", required=True)
@@ -948,15 +928,8 @@ def main() -> None:
     ap.add_argument("--catalog", default="configuracion/catalogo_preparacion.yaml")
     ap.add_argument("--root-dir", default=".")
     ap.add_argument("--output")
-    ap.add_argument("--check-chain", action="store_true",
-                    help="T-166: imprime {chain, reason}; chain=false si la hija «Reutilizar» no podría planificar")
     ns = ap.parse_args()
     root = Path(ns.root_dir)
-    if ns.check_chain:
-        reason = chain_block_reason(territory=ns.territory, edition=ns.edition,
-                                    catalog=root / ns.catalog, root_dir=root)
-        print(json.dumps({"chain": reason is None, "reason": reason}, ensure_ascii=False))
-        return
     plan = build_plan(
         territory=ns.territory, edition=ns.edition, execution_mode=ns.execution_mode,
         catalog=root / ns.catalog, root_dir=root, optimization_algorithm=ns.optimization_algorithm,
