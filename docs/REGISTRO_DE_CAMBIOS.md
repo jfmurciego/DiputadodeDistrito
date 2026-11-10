@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.264
+Versión: 1.0.265
 Fecha: 2026-11-10
-Alcance: T-136 — Certificador exacto 1.1.0 sobre el núcleo de reglas (fallos F1 y F2)
+Alcance: T-139 — Piloto de movilidad, paso 3: tabla por provincia y recomendación
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t136b-certificador-nucleo.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.263_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t139-movilidad-paso3.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.264_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.263_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.265 · [2026-11-10 — T-139 — Piloto de movilidad, paso 3: tabla por provincia y recomendación](registro/2026-11-10_t139-movilidad-paso3.md)
 - 1.0.264 · [2026-11-10 — T-136 — Certificador exacto 1.1.0 sobre el núcleo de reglas (fallos F1 y F2)](registro/2026-11-10_t136b-certificador-nucleo.md)
 - 1.0.263 · [2026-11-10 — T-160 — Núcleo de reglas del motor 2 (F1, paso 2: estado incremental, poda y enumerador)](registro/2026-11-10_t160-estado-enumerador.md)
 - 1.0.262 · [2026-11-10 — T-160 — Adaptador composición M06 + grafo M03 al núcleo de reglas (F1, paso 3)](registro/2026-11-10_t160-adaptador.md)
