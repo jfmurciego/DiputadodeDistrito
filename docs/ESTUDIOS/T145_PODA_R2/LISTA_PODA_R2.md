@@ -4,10 +4,10 @@ Fuente: `orchestracion/archivo_r2.json` (623 entradas, 28,06 GB, a 2026-11-09T23
 Ficheros: `ola1_borrar.csv` (lista exacta) y `conservar_estado_completo.csv`.
 
 ## (a) Qué es redundante
-- **Composición del archivo:** 246 `ddd-state-*` (27,6 GB, 31 runs de 19 territorios, todos subidos el 2026-11-07 17h por el archivista 1.0, antes de T-72) y 377 paquetes mínimos/auditorías (0,16 GB).
+- **Composición del archivo:** 246 `ddd-state-*` (27,6 GB, 32 runs de 19 territorios, todos subidos el 2026-11-07 17h por el archivista 1.0, antes de T-72) y 377 paquetes mínimos/auditorías (0,16 GB).
 - **Inclusión (por construcción):** cada etapa del workflow generador restaura el estado anterior (`cache/`, `run/`, `sources/`), añade lo suyo y sube todo (`_reutilizable-generacion-territorial.yml`, pasos «Restaurar estado contractual» y «Empaquetar checkpoint acumulado», cadena M01→M02→M03→M03U→M04…M08). Los tamaños crecen sin excepción dentro de cada run (p. ej. Aragón 85→85→85→85→87→207→210→213→213 MB). Por tanto M08 ⊇ M07 ⊇ … ⊇ M01 salvo ficheros sobrescritos entre etapas (p. ej. `CHAIN_STATE.json`): son versiones intermedias sin valor de archivo. **No verificable desde la nube** sin abrir los ZIP (ver «Comprobación»).
 - **Mismo contenido entre runs:** ningún sha256 se repite (los ZIP llevan marcas de tiempo). El indicio de fuentes idénticas es el tamaño de M01 (Castilla y León 96/96 MB, Navarra 93/93, La Rioja 76/76, Madrid 87/87), pero no prueba contenido igual.
-- **Vigente:** run más reciente por territorio y tipo (`canonical_m06`/`canonical_m08`) del visor. De los 31 runs con estado en R2, **12 son vigentes**; los otros 19 están superados. Todos menos uno tienen su producto en `ddd-minimo-<run>-M06/M08` (o declarado en `incluye_m06_run`) y auditoría.
+- **Vigente:** run más reciente por territorio y tipo (`canonical_m06`/`canonical_m08`) del visor. De los 32 runs con estado en R2, **12 son vigentes**; los otros 20 están superados. Todos menos uno tienen su producto en `ddd-minimo-<run>-M06/M08` (o declarado en `incluye_m06_run`) y auditoría.
 - **Excepción sin cobertura:** `principado_de_asturias/40132061626` (vigente) **no tiene paquete mínimo**: su M08 solo existe en R2.
 
 ## (b) Regla de conservación propuesta
@@ -19,8 +19,8 @@ Por territorio se conserva:
 
 ## (c) Lista a borrar (ola 1)
 `ola1_borrar.csv`: **234 claves, 26,085 GB** (clave, territorio, run, etapa, tamaño, sha256, motivo, copia que conserva).
-- 24 claves M01…M07/M03U de los 12 runs vigentes: incluidas en la etapa más alta del mismo run (que se conserva).
-- 210 claves de los 19 runs superados: producto en su paquete mínimo; el resto, reconstruible (batería M01-M03; 00 «Generar desde fuente» M04-M08; objetivo del propietario 08-11: motor repetible, no conservar resultados antiguos).
+- 89 claves M01…M07/M03/M03U de los 12 runs vigentes: incluidas en la etapa más alta del mismo run (que se conserva).
+- 145 claves de los 20 runs superados: producto en su paquete mínimo; el resto, reconstruible (batería M01-M03; 00 «Generar desde fuente» M04-M08; objetivo del propietario 08-11: motor repetible, no conservar resultados antiguos).
 - Tras la ola 1 quedan 389 claves, ~1,98 GB.
 
 **Se conserva** (`conservar_estado_completo.csv`, 12 claves, 1,812 GB): etapa más alta de los 12 runs vigentes. Incluye Asturias 40132061626 (única copia del M08; no entra en ninguna ola).
