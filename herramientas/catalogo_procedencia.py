@@ -3,12 +3,13 @@
 """Catálogo de procedencia único, derivado de los registros existentes (T-74).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-07 · ESTADO: candidato
-CAMBIOS: 1.1.0 (T-89): sección «fuentes_secundarias» (manifiesto sha256 y contraste de nazioenbehatokia).
+VERSIÓN: 1.2.0 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS: 1.2.0 (T-201): «vigente» se calcula por (territorio, tipo, elección), no por el run_id mayor entre elecciones; sin election_date, 2023-07-23.
+  1.1.0 (T-89): sección «fuentes_secundarias» (manifiesto sha256 y contraste de nazioenbehatokia).
   1.0.0: fichero nuevo.
 MOTIVO: la procedencia estaba repartida en cinco registros; este índice la junta por territorio y producto sin migrar
   a sus escritores.
-ANTERIOR: legacy/herramientas/catalogo_procedencia_v1.0.0_20261107.py
+ANTERIOR: legacy/herramientas/catalogo_procedencia_v1.1.0_20261110.py
 QUÉ HACE: lee (solo lectura) orchestracion/publicaciones_visor.json, orchestracion/archivo_r2.json,
   datos_abiertos/INDEX.json, orchestracion/productos_publicos.json, fuentes/catalogo_oficial.yaml,
   configuracion/catalogo_preparacion.yaml, configuracion/publicaciones.yaml (DOI) y los MANIFEST de datos/composicion y
@@ -121,10 +122,13 @@ def generar(raiz: Path = ROOT) -> dict:
                               "detalle": detalle})
 
     # Productos del visor (M06, M08, estáticos): el vigente es el run más reciente por territorio y tipo.
+    def _eleccion(p: dict) -> str:
+        return str(p.get("election_date") or "2023-07-23")
+
     vigente: dict[tuple, int] = {}
     for p in visor.get("products", []):
         if p.get("run_id"):
-            k = (p["territory_id"], p["kind"])
+            k = (p["territory_id"], p["kind"], _eleccion(p))
             vigente[k] = max(vigente.get(k, 0), int(p["run_id"]))
     sha_m06: dict[str, set] = {}
     m08: dict[str, set] = {}
@@ -139,7 +143,7 @@ def generar(raiz: Path = ROOT) -> dict:
             "producto": producto,
             "id": p["id"],
             "run_id": str(run) if run else None,
-            "vigente": bool(run) and int(run) == vigente.get((tid, kind)),
+            "vigente": bool(run) and int(run) == vigente.get((tid, kind, _eleccion(p))),
             "sha256": p.get("sha256"),
             "copia_git": {"blob_sha": p["blob_sha"], "ruta": p.get("source_path")} if p.get("blob_sha") else None,
             "copias_r2": _copias_r2(r2, tid, run, producto) if producto in ("M06", "M08") else [],

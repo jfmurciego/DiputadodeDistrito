@@ -3,7 +3,10 @@
 """Resultados electorales ligeros por territorio, versionados en git (T-53).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-08 · ESTADO: candidato
+VERSIÓN: 1.3.0 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS: 1.3.0: T-201, `vigentes(registro, eleccion)` y `vigente_por_eleccion`: la vigente es la de (territorio, elección), nunca solo el run_id
+  mayor; sin elección explícita, 2023-07-23 (entradas sin `election_date` incluidas). Salida idéntica si el registro no trae elecciones.
+ANTERIOR: legacy/herramientas/resultados_ligeros_v1.2.0_20261110.py
 CAMBIOS: 1.2.0: conserva todas las claves ajenas del MANIFEST (p. ej. «partidos_runs») y solo borra los CSV de territorios
   que su MANIFEST anterior listaba (no contraste_2023.csv ni otros ficheros ajenos) (T-114).
 CAMBIOS: 1.1.0: conserva la clave «partidos» del MANIFEST y no borra <territorio>_partidos.csv (T-67).
@@ -39,14 +42,29 @@ def sha256(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
 
 
-def vigentes(registro: Path = REGISTRO_VISOR) -> dict[str, dict]:
-    """territorio → producto canonical_m08 del run más reciente."""
+ELECCION_POR_DEFECTO = "2023-07-23"  # = registro_publicaciones_visor.ELECCION_POR_DEFECTO (lo comprueba un test)
+
+
+def eleccion_de(p: dict) -> str:
+    return str(p.get("election_date") or ELECCION_POR_DEFECTO)
+
+
+def vigente_por_eleccion(products: list[dict], kind: str, eleccion: str = ELECCION_POR_DEFECTO,
+                         prefijo: str = "") -> dict[str, dict]:
+    """territorio → producto `kind` de la elección dada con el run_id mayor (T-201: nunca el mayor entre elecciones)."""
     prods: dict[str, dict] = {}
-    for p in json.loads(registro.read_text(encoding="utf-8"))["products"]:
-        if p.get("kind") == "canonical_m08":
-            t = p["territory_id"]
-            if t not in prods or int(p["run_id"]) > int(prods[t]["run_id"]):
-                prods[t] = p
+    for p in products:
+        if p.get("kind") != kind or eleccion_de(p) != eleccion or not str(p.get("territory_id", "")).startswith(prefijo):
+            continue
+        t = p["territory_id"]
+        if t not in prods or int(p["run_id"]) > int(prods[t]["run_id"]):
+            prods[t] = p
+    return prods
+
+
+def vigentes(registro: Path = REGISTRO_VISOR, eleccion: str = ELECCION_POR_DEFECTO) -> dict[str, dict]:
+    """territorio → producto canonical_m08 de la elección dada (por defecto 2023) con el run más reciente."""
+    prods = vigente_por_eleccion(json.loads(registro.read_text(encoding="utf-8"))["products"], "canonical_m08", eleccion)
     return dict(sorted(prods.items()))
 
 

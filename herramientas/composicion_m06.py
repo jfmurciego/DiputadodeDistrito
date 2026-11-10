@@ -3,8 +3,9 @@
 """Composición sección→distrito del M06 publicado, ligera y versionada en git (T-67).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS 1.1.0 (T-201): `m06_vigentes(registro, eleccion)` elige por (territorio, elección), por defecto 2023-07-23, nunca solo por run_id mayor.
+ANTERIOR: legacy/herramientas/composicion_m06_v1.0.0_20261110.py
 QUÉ HACE: el M06 publicado (blob de git) solo trae polígonos por distrito; la asignación sección→distrito vive en el CSV
   ``*_m06_composicion_distritos.csv`` del estado M06 del run (artefactos de 14 días). Esta herramienta toma ese CSV
   (de un directorio, ZIP o TAR ya descargado, con ZIP/TAR anidados), lo valida contra el M06 publicado (mismos distritos,
@@ -28,6 +29,9 @@ import sys
 import tarfile
 import zipfile
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import resultados_ligeros as rl  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRO_VISOR = ROOT / "orchestracion/publicaciones_visor.json"
@@ -130,13 +134,8 @@ def bajar_blob(p: dict) -> bytes:
     return r.stdout
 
 
-def m06_vigentes(registro: Path = REGISTRO_VISOR) -> dict[str, dict]:
-    prods: dict[str, dict] = {}
-    for p in json.loads(registro.read_text(encoding="utf-8"))["products"]:
-        if p.get("kind") == "canonical_m06":
-            t = p["territory_id"]
-            if t not in prods or int(p["run_id"]) > int(prods[t]["run_id"]):
-                prods[t] = p
+def m06_vigentes(registro: Path = REGISTRO_VISOR, eleccion: str = rl.ELECCION_POR_DEFECTO) -> dict[str, dict]:
+    prods = rl.vigente_por_eleccion(json.loads(registro.read_text(encoding="utf-8"))["products"], "canonical_m06", eleccion)
     return dict(sorted(prods.items()))
 
 
