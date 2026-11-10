@@ -12,9 +12,9 @@ class LightweightBusinessWorkflows(unittest.TestCase):
     def test_visible_business_names_are_numbered(self):
         expected={
             "ejecucion-completa-proyecto.yml":"P00 Campaña",
-            "preparacion-fuentes.yml":"P10 Fuentes · P11 Territoriales",
-            "produccion-distritos.yml":"P20 Base territorial · P30 Distritos",
-            "preparacion-resultados-electorales.yml":"P10 Fuentes · P12 Electorales",
+            "preparacion-fuentes.yml":"P10 Fuentes — P11 Territoriales",
+            "produccion-distritos.yml":"P20 Base territorial — P30 Distritos",
+            "preparacion-resultados-electorales.yml":"P10 Fuentes — P12 Electorales",
             "incorporacion-resultados-electorales.yml":"P40 Resultados electorales",
             "desplegar-visor-publico.yml":"P50 Publicación",
         }

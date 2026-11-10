@@ -27,14 +27,14 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_visible_workflows(self):
         visible={
             "P00 Campaña":WF/"ejecucion-completa-proyecto.yml",
-            "P10 Fuentes · P11 Territoriales":PREP,
-            "P10 Fuentes · P12 Electorales":ELECTORAL_PREP,
-            "P20 Base territorial · P30 Distritos":GEN,
+            "P10 Fuentes — P11 Territoriales":PREP,
+            "P10 Fuentes — P12 Electorales":ELECTORAL_PREP,
+            "P20 Base territorial — P30 Distritos":GEN,
             "P40 Resultados electorales":ELECTORAL_APPLY,
             "Pruebas de la Plataforma":WF/"pruebas-plataforma.yml",
             "P50 Publicación":WF/"desplegar-visor-publico.yml",
-            "P00 Campaña · Gestor":WF/"gestor-campanas.yml",
-            "P30 Distritos · P33 Alternativas":WF/"generar-alternativas-territoriales.yml",
+            "P00 Campaña — Gestor":WF/"gestor-campanas.yml",
+            "P30 Distritos — P33 Alternativas":WF/"generar-alternativas-territoriales.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]

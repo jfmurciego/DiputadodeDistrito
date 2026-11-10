@@ -131,7 +131,7 @@ class Lanzar(unittest.TestCase):
             return
         self.n += 1
         title = (f"{lv.TITLE_00} · {inputs['territory_id']} · {inputs['execution_mode']}" if wf == lv.WF_00
-                 else "P50 Publicación" if wf == lv.WF_05 else "P30 Distritos · P33 Alternativas")
+                 else "P50 Publicación" if wf == lv.WF_05 else "P30 Distritos — P33 Alternativas")
         self.runs[wf].append({"id": self.n, "display_title": title, "status": "queued", "conclusion": None,
                               "created_at": "2026-11-07T10:00:%02dZ" % (self.n % 60)})
 

@@ -20,7 +20,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         return ((triggers.get("workflow_dispatch") or {}).get("inputs",{}) or {})
 
     def test_generation_interface_name_and_controls(self):
-        self.assertEqual(self._load(GEN)["name"],"P20 Base territorial · P30 Distritos")
+        self.assertEqual(self._load(GEN)["name"],"P20 Base territorial — P30 Distritos")
         inputs=self._dispatch_inputs(GEN)
         self.assertEqual(list(inputs),["territory_id","data_edition","execution_mode","optimization_algorithm"])
         self.assertEqual(inputs["territory_id"]["options"],ALL_TERRITORIES)

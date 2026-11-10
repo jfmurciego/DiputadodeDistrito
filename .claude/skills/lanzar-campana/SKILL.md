@@ -1,6 +1,6 @@
 ---
 name: lanzar-campana
-description: Procedimiento para lanzar la legislatura vigente (nacional, autonómicas, una comunidad o provincias) con el «P00 Campaña · Gestor» (gestor-campanas.yml, modos plan y lanzar). Úsala solo en el chat operador; «lanzar» exige permiso explícito del propietario en ese mensaje.
+description: Procedimiento para lanzar la legislatura vigente (nacional, autonómicas, una comunidad o provincias) con el «P00 Campaña — Gestor» (gestor-campanas.yml, modos plan y lanzar). Úsala solo en el chat operador; «lanzar» exige permiso explícito del propietario en ese mensaje.
 ---
 
 # Lanzar una campaña de la legislatura vigente

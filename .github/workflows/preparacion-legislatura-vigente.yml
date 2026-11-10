@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-legislatura-vigente.yml
 # VERSIÓN: 1.0.11
-# CAMBIOS 1.0.11: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P00 Campaña · Legislatura» (antes Auxiliar — Activación de Legislatura Vigente).
+# CAMBIOS 1.0.11: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P00 Campaña — Legislatura» (antes Auxiliar — Activación de Legislatura Vigente).
 # CAMBIOS 1.0.9: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Cola durable de operaciones con nombre por territorio
 # FECHA: 2026-11-10
@@ -20,7 +20,7 @@
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
 # ANTERIOR: legacy/workflows/preparacion-legislatura-vigente_v1.0.10_20261110.yml
 # CAMBIOS 1.0.10: T-149, solo el nombre visible ('Auxiliar — Activación de Legislatura Vigente') para ordenar la lista de Actions.
-name: P00 Campaña · Legislatura
+name: P00 Campaña — Legislatura
 run-name: "Activación de Legislatura Vigente · ${{ inputs.territory || 'todos' }} · ${{ inputs.operation || 'plan' }}"
 
 on:

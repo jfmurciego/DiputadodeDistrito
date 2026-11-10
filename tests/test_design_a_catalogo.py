@@ -16,9 +16,9 @@ def triggers(path):
 class DesignA(unittest.TestCase):
     def test_business_interfaces_are_named(self):
         self.assertEqual(load(WF/"ejecucion-completa-proyecto.yml")["name"],"P00 Campaña")
-        self.assertEqual(load(WF/"preparacion-fuentes.yml")["name"],"P10 Fuentes · P11 Territoriales")
-        self.assertEqual(load(WF/"preparacion-resultados-electorales.yml")["name"],"P10 Fuentes · P12 Electorales")
-        self.assertEqual(load(WF/"produccion-distritos.yml")["name"],"P20 Base territorial · P30 Distritos")
+        self.assertEqual(load(WF/"preparacion-fuentes.yml")["name"],"P10 Fuentes — P11 Territoriales")
+        self.assertEqual(load(WF/"preparacion-resultados-electorales.yml")["name"],"P10 Fuentes — P12 Electorales")
+        self.assertEqual(load(WF/"produccion-distritos.yml")["name"],"P20 Base territorial — P30 Distritos")
         self.assertEqual(load(WF/"incorporacion-resultados-electorales.yml")["name"],"P40 Resultados electorales")
         self.assertEqual(load(WF/"pruebas-plataforma.yml")["name"],"Pruebas de la Plataforma")
 

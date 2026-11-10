@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
 # VERSIÓN: 8.1.8
-# CAMBIOS 8.1.8: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P20 Base territorial · P30 Distritos» (antes 02 Generación de Distritos Autonómicos).
+# CAMBIOS 8.1.8: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P20 Base territorial — P30 Distritos» (antes 02 Generación de Distritos Autonómicos).
 # CAMBIOS 8.1.7: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Generación de distritos autonómicos
 # FECHA: 2026-11-10
@@ -15,7 +15,7 @@
 # CAMBIOS 8.1.6: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
 # ANTERIOR: legacy/workflows/produccion-distritos_v8.1.7_20261110.yml
 # MOTIVO: la Comunidad Valenciana acredita su declaración en evidencia versionada; la ruta fija leía config/fuentes_oficiales.yaml sin años y bloqueaba el run 40784680666.
-name: P20 Base territorial · P30 Distritos
+name: P20 Base territorial — P30 Distritos
 
 on:
   workflow_call:

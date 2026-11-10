@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
 # VERSIÓN: 1.4.12
-# CAMBIOS 1.4.12: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P10 Fuentes · P11 Territoriales» (antes 01 Preparación de Datos Territoriales).
+# CAMBIOS 1.4.12: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P10 Fuentes — P11 Territoriales» (antes 01 Preparación de Datos Territoriales).
 # CAMBIOS 1.4.11: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
 # FECHA: 2026-11-10
@@ -20,7 +20,7 @@
 # CAMBIOS 1.4.10: T-96, el job generation_pending (persistencia PENDING en main) usa la «Credencial de registro» tras el checkout;
 #   con github.token el ruleset proteger-main rechazaba el push (GH013, "veredicto" esperado; run 42463443610, Ceuta).
 # ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.11_20261110.yml
-name: P10 Fuentes · P11 Territoriales
+name: P10 Fuentes — P11 Territoriales
 
 on:
   workflow_call:

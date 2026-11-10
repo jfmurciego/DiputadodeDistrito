@@ -33,20 +33,20 @@ FASES = [  # (viejo, nuevo)
 ]
 # (fichero, nombre anterior al corte, flujo v5, nombre visible v5 — T-215)
 FLUJOS = [
-    ("gestor-campanas.yml", "0 Gestor de Campañas", "P00 Campaña", "P00 Campaña · Gestor"),
+    ("gestor-campanas.yml", "0 Gestor de Campañas", "P00 Campaña", "P00 Campaña — Gestor"),
     ("ejecucion-completa-proyecto.yml", "00 Ejecución Completa del Proyecto", "P00 Campaña", "P00 Campaña"),
-    ("activacion-por-eleccion.yml", "Auxiliar — Activación por Elección", "P00 Campaña", "P00 Campaña · Elección"),
-    ("preparacion-legislatura-vigente.yml", "Auxiliar — Activación de Legislatura Vigente", "P00 Campaña", "P00 Campaña · Legislatura"),
-    ("preparacion-fuentes.yml", "01 Preparación de Datos Territoriales", "P10 Fuentes", "P10 Fuentes · P11 Territoriales"),
-    ("preparacion-resultados-electorales.yml", "03 Preparación de Resultados Electorales", "P10 Fuentes", "P10 Fuentes · P12 Electorales"),
-    ("produccion-distritos.yml", "02 Generación de Distritos Autonómicos", "P20 Base territorial + P30 Distritos", "P20 Base territorial · P30 Distritos"),
-    ("generar-alternativas-territoriales.yml", "06 Escenarios y Ensembles", "P30 Distritos (P33)", "P30 Distritos · P33 Alternativas"),
+    ("activacion-por-eleccion.yml", "Auxiliar — Activación por Elección", "P00 Campaña", "P00 Campaña — Elección"),
+    ("preparacion-legislatura-vigente.yml", "Auxiliar — Activación de Legislatura Vigente", "P00 Campaña", "P00 Campaña — Legislatura"),
+    ("preparacion-fuentes.yml", "01 Preparación de Datos Territoriales", "P10 Fuentes", "P10 Fuentes — P11 Territoriales"),
+    ("preparacion-resultados-electorales.yml", "03 Preparación de Resultados Electorales", "P10 Fuentes", "P10 Fuentes — P12 Electorales"),
+    ("produccion-distritos.yml", "02 Generación de Distritos Autonómicos", "P20 Base territorial + P30 Distritos", "P20 Base territorial — P30 Distritos"),
+    ("generar-alternativas-territoriales.yml", "06 Escenarios y Ensembles", "P30 Distritos (P33)", "P30 Distritos — P33 Alternativas"),
     ("incorporacion-resultados-electorales.yml", "04 Incorporación de Resultados Electorales", "P40 Resultados electorales", "P40 Resultados electorales"),
     ("desplegar-visor-publico.yml", "05 Publicación del Visor", "P50 Publicación", "P50 Publicación"),
-    ("cadena-publicacion.yml", "05 Cadena de Publicación", "P50 Publicación", "P50 Publicación · Cadena"),
+    ("cadena-publicacion.yml", "05 Cadena de Publicación", "P50 Publicación", "P50 Publicación — Cadena"),
     ("publicar-version-mapa.yml", "Publicar versión de mapa", "P60 Publicación académica", "P60 Publicación académica"),
-    ("podar-r2.yml", "Auxiliar — Poda de R2", "ARC Archivo", "ARC Archivo · Poda de R2"),
-    ("recuperar-producto-electoral-durable.yml", "Recuperar producto electoral durable", "ARC Archivo", "ARC Archivo · Recuperar producto electoral"),
+    ("podar-r2.yml", "Auxiliar — Poda de R2", "ARC Archivo", "ARC Archivo — Poda de R2"),
+    ("recuperar-producto-electoral-durable.yml", "Recuperar producto electoral durable", "ARC Archivo", "ARC Archivo — Recuperar producto electoral"),
 ]
 PRODUCTOS = [
     ("M06, `kind=canonical_m06`", "Mapa certificado, `kind=mapa_certificado`"),
