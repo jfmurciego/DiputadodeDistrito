@@ -4,6 +4,7 @@
 - Frase literal del propietario (copiada del chat, entre comillas): «…»
 - Fecha y hora de la frase (Europe/Madrid): AAAA-MM-DD HH:MM
 - Caducidad: AAAA-MM-DD HH:MM
+- Gasto semanal al autorizar: acumulado X min (X %) de 15.000; previsto de la campaña Y min; acumulado resultante Z % (aviso ≥ 70 %).
 
 ## Límites (copia de la ficha)
 Qué se lanza · Elección y territorios · Mapa/ensemble · Publica (sí/no) · Tope de coste (ejecuciones/minutos) ·

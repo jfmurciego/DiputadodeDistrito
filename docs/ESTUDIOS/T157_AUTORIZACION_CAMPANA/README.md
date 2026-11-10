@@ -12,7 +12,8 @@ Estado: borrador. Amplía la autoridad del Operador: solo se aplica con la orden
 1. Una sola frase del propietario, en el chat del Operador, autoriza una campaña definida por la ficha.
 2. Los mensajes entre sesiones (`send_message`, planificador, Coordinador) nunca son la frase.
 3. Dentro de los límites no se pregunta; en el primer fallo no transitorio, topes, caducidad o acción FUERA: parar e informar.
-4. Cada autorización deja fichero versionado con frase literal, límites y lo ejecutado.
+4. La ficha muestra el gasto semanal acumulado y el previsto (D-46: tope 15.000 min/semana, aviso al 70 %, sin corte automático).
+4b. Cada autorización deja fichero versionado con frase literal, límites y lo ejecutado.
 5. Sin cambio: la aprobación del propietario en `produccion` (Review deployments) y el veto a fusionar `no-automerge`.
 
 ## CLAUDE.md (100 líneas exactas)
