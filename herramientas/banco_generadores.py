@@ -191,14 +191,16 @@ def ejecutar_uno(t: str, out: Path, generador: str, semilla: int) -> dict:
                 inicial = ["--initial", str(seed)]
                 res["semilla_inicial"] = "canonica"
         if generador == "exacto":
-            # Semilla de factibilidad del certificador exacto (T-136, CP-SAT) con la atomicidad ddd_unit_id de M04.
-            m01 = next(cache.glob("*_m01_secciones_poblacion.geojson.zip"))
-            m04 = next(cache.glob("*_m04_semillas.geojson.zip"))
+            # Semilla de factibilidad del certificador exacto (T-136 1.1.0, CP-SAT, perfil producción) sobre el M04
+            # (ddd_unit_id, DDD_PARTITION, DDD_MUNICIPALITY_PARTITION).
+            # Si M04 no es admisible (p. ej. sin ddd_unit_id, Cádiz), las unidades salen de la semilla canónica, como en
+            # producción.
+            m04 = Path(inicial[1]) if inicial else next(cache.glob("*_m04_semillas.geojson.zip"))
             graf = next(cache.glob("*_m03_grafo.json"))
             asig = dest / "SEMILLA_EXACTA.csv"
             informe = dest / "CERTIFICADOR.json"
             rc, s = bm._run([BANCO_PY, "herramientas/certificador_exacto.py", "--params", p, "--grafo", str(graf),
-                             "--secciones", str(m01), "--unidades", str(m04), "--objetivo", "factibilidad",
+                             "--secciones", str(m04), "--perfil", "produccion", "--objetivo", "factibilidad",
                              "--tiempo", str(TIEMPO_EXACTO), "--hilos", "2", "--salida", str(informe),
                              "--asignacion-csv", str(asig)], log, env)
             res["tiempos"]["semilla_exacta"] = s
