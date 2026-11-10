@@ -1,0 +1,34 @@
+{
+  "id_viejo": "congreso_madrid",
+  "id_nuevo": "nac28",
+  "contrato_sha256": "57aca507bf6228c7349973576e35be540994b912d4da534bebbc61b8218b9952",
+  "m01_sha256": "8b13e641c0ed0387c7e1fe38db00c42ed971487ccc4151b1f1009a4d58bf1f3d",
+  "m03_sha256": "00c2683cf88f7c092d2c2c7ed30de80116ed54a6063d8e65a219ebef95bc8011",
+  "M04": {
+    "geojson_sha256_viejo": "e13bf72a828d762aa303e9b36f7dbf6071b658a18d31287c4c9f302054256df4",
+    "geojson_sha256_nuevo": "db65fd65eee69cdba7f08a8479b7cf176015b8c978631d3629abfc30abd248a2",
+    "geojson_identico": false,
+    "geojson_identico_salvo_id": true,
+    "unidades": 4479,
+    "distritos": 59,
+    "asignacion_identica": true,
+    "asignacion_sha256": "070718d89970ea51cd93ff0e3613578cb4bf3d5524fd9b4f5a03c50f823cabf9",
+    "campos_con_el_id": [
+      "name"
+    ]
+  },
+  "M05": {
+    "geojson_sha256_viejo": "06629413ce87211cee7f3b61f6882ec8ae31180c9fcb3d2a6dab98aa8bde552c",
+    "geojson_sha256_nuevo": "d34d398da2861bb41d4160063da14ed46a5e616bc3f1f1da9ed1fc41c8372861",
+    "geojson_identico": false,
+    "geojson_identico_salvo_id": true,
+    "unidades": 4479,
+    "distritos": 59,
+    "asignacion_identica": true,
+    "asignacion_sha256": "835b17cca3787bc5c511f3b279434ba5085a00f0f7e2a6f55d590a5a2c2fd0fe",
+    "campos_con_el_id": [
+      "name"
+    ]
+  },
+  "PASA": true
+}

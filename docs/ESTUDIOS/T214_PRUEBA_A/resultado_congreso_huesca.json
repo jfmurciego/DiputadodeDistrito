@@ -1,0 +1,32 @@
+{
+  "id_viejo": "congreso_huesca",
+  "id_nuevo": "nac22",
+  "contrato_sha256": "ab5b5da615a30737f2337ac50978016d23cad6e5ac8cf7d549ea904b631f441b",
+  "m01_sha256": "ddac504c3e5f45c8e591628a6e9acc0a94c164c7806aa1b0ff478614169d4e4b",
+  "m03_sha256": "43dfcdb6a80770244d64ed60a17edc8ab900da43d7d6b46160275638124a2cdb",
+  "M04": {
+    "geojson_sha256_viejo": "e47fe025cdbe47fd9689aaebcf669a4cd83999e048a8f9cd34c8c49e6256c8f0",
+    "geojson_sha256_nuevo": "1871295c9fed0aa010237cb47084d26d6c924a7c34138a5cf04c0c8111ba5062",
+    "geojson_identico": false,
+    "geojson_identico_salvo_id": true,
+    "unidades": 286,
+    "distritos": 2,
+    "asignacion_identica": true,
+    "asignacion_sha256": "732dcd2334aec50dcafb32ce8dd99697aa94bf51d775924bd588e856abdb22a8",
+    "campos_con_el_id": [
+      "name"
+    ]
+  },
+  "M05": {
+    "geojson_sha256_viejo": "5cf2b27632208ac6695fe39004fae2d24f8fe122abc17710fbaf220a38c5da3c",
+    "geojson_sha256_nuevo": "5cf2b27632208ac6695fe39004fae2d24f8fe122abc17710fbaf220a38c5da3c",
+    "geojson_identico": true,
+    "geojson_identico_salvo_id": true,
+    "unidades": 286,
+    "distritos": 2,
+    "asignacion_identica": true,
+    "asignacion_sha256": "732dcd2334aec50dcafb32ce8dd99697aa94bf51d775924bd588e856abdb22a8",
+    "campos_con_el_id": []
+  },
+  "PASA": true
+}
