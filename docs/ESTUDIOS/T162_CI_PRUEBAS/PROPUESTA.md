@@ -128,8 +128,9 @@ son lo que más pesa; el 1 es el más barato de hacer. Los solapes no son medibl
 repetir `analisis_runs.py` una semana y reajustar.
 
 ## 5. Coordinación y siguientes pasos
-- Todas las opciones tocan `pruebas-plataforma.yml` (y la 3, el `Dockerfile`): compartido con T-149 (#603). Implementar
-  después de que T-149 cierre, en PR aparte por opción (VERSIÓN + copia en `legacy/workflows/`).
+- Todas las opciones tocan `pruebas-plataforma.yml` (y la 3, el `Dockerfile`). T-149 confirma (10-11) que #603 no toca
+  ese fichero; quien lo editará es **T-151** (pasos 2-5 de T-149 → T-151-T-154, en serie). Coordinar con T-151 antes de
+  implementar, en PR aparte por opción (VERSIÓN + copia en `legacy/workflows/`).
 - Tests a ajustar al implementar: `test_workflow_safety` (sin botón manual; el `schedule` no es botón), `test_design_a_catalogo`.
 - Pendiente de decisión del propietario (vía Planificador): opción 1 (se admite que un commit de bot solo pase `guardian`
   hasta el nocturno) y opción 2 (se admite que los commits intermedios de una ráfaga en `main` queden sin suite).
