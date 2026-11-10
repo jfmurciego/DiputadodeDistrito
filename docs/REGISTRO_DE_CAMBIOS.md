@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.259
+Versión: 1.0.261
 Fecha: 2026-11-10
-Alcance: T-139 — Piloto de movilidad, paso 2: indicador de cohesión funcional
+Alcance: T-160 — Núcleo único de reglas del motor 2 (F1, paso 1: modelo y evaluador)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t139-movilidad-paso2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.258_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t160-nucleo-reglas.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.260_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.258_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.261 · [2026-11-10 — T-160 — Núcleo único de reglas del motor 2 (F1, paso 1: modelo y evaluador)](registro/2026-11-10_t160-nucleo-reglas.md)
+- 1.0.260 · [2026-11-10 — T-158 — Otros ámbitos (municipales, europeas, Ecuador): notas de preparación](registro/2026-11-10_t158-otros-ambitos.md)
 - 1.0.259 · [2026-11-10 — T-139 — Piloto de movilidad, paso 2: indicador de cohesión funcional](registro/2026-11-10_t139-movilidad-paso2.md)
 - 1.0.258 · [2026-11-10 — T-161 — Métricas del proceso: paginación completa y minutos reales de jobs](registro/2026-11-10_claude-t161-metricas-paginacion.md)
 - 1.0.257 · [2026-11-10 — T-150 — Historial de workflows desactivados y lista de borrado de runs](registro/2026-11-10_t150-historial-workflows.md)
