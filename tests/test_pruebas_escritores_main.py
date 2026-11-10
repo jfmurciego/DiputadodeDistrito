@@ -33,7 +33,7 @@ class EscritoresDeMain(unittest.TestCase):
                 self.assertIn("github.event_name == 'push'", j["if"])
                 self.assertIn(f"needs.cambios.outputs.{flag} == 'true'", j["if"])
                 self.assertIn("needs.cambios.result != 'success'", j["if"])  # si `cambios` falla, el escritor corre
-                self.assertTrue(j["if"].lstrip("${{ ").startswith("always()"))
+                self.assertTrue(j["if"].lstrip("${{ ").startswith("!cancelled()"))
                 self.assertIs(j["continue-on-error"], True)
                 self.assertEqual(j["permissions"], {"contents": "write"})
                 self.assertEqual(j["concurrency"], {"group": grupo, "cancel-in-progress": False, "queue": "max"})

@@ -1,11 +1,17 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.8.0
+# VERSIÓN: 1.9.0
 # NOMBRE DE VERSIÓN: Diseño A — suite en paralelo con check agregado `pruebas`
 # FECHA: 2026-11-10
 # ESTADO: vigente
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
-# CAMBIOS: 1.8.0 (T-149): los tres escritores de main (Catálogo de procedencia, Resultados ligeros, Numeración del Registro) pasan
+# CAMBIOS: 1.9.0 (T-149, D-49, ahorro de CI aprobado por el propietario): (1) un push de CÓDIGO a main cancela la comprobación superada del
+#   push de código anterior (concurrencia por job `ddd-main-<job>` solo si `cambios` no lo clasifica como robot: un push de robot NUNCA cancela
+#   un run de código, y `cambios` no está en el grupo cancelable; en PR sigue la cancelación por PR y la nocturna nunca se cancela);
+#   (2) un push a main de un robot (actor [bot]) que solo toca rutas de datos/registro ejecuta únicamente `guardian`; la suite completa
+#   corre en cada PR, en cada push de código (aunque lo haga un bot; rutas exactas .json/.md/.csv, el diff sin detección de renombres) y cada noche (`schedule` 02:23 UTC, sin botón manual); `pruebas`
+#   conserva el nombre y exige la suite salvo en ese push de robot; (3) los escritores de main usan `!cancelled()` en vez de `always()`.
+#   1.8.0 (T-149): los tres escritores de main (Catálogo de procedencia, Resultados ligeros, Numeración del Registro) pasan
 #   a jobs `catalogo`, `resultados` y `numeracion`: solo push a main, mismas rutas (job `cambios`, sin el disparo por el propio
 #   fichero), credencial de registro tras el checkout, concurrencia propia sin cancelar y continue-on-error para no teñir de rojo el
 #   run de la batería. No dependen de la suite ni entran en `pruebas`. Sin cambios en qué se comprueba ni cuándo.
@@ -19,19 +25,26 @@
 #   pasos N08 condicionales. El check obligatorio sigue llamándose `pruebas`: job final que depende de todos y falla
 #   si alguno no termina en success. No se quita ningún test.
 # MOTIVO: `pruebas` tardaba ~13-15 min (2.168 tests, ~660 s en un solo proceso).
-# ANTERIOR: legacy/workflows/pruebas-plataforma_v1.7.0_20261110.yml
+# ANTERIOR: legacy/workflows/pruebas-plataforma_v1.8.0_20261110b.yml
 name: Pruebas de la Plataforma
 on:
   push:
     branches: [main]
   pull_request:
+  schedule:
+    - cron: '23 2 * * *'
 permissions:
   contents: read
 concurrency:
-  group: ddd-pruebas-${{ github.event.pull_request.number || github.sha }}
-  cancel-in-progress: true
+  group: ddd-pruebas-${{ github.event.pull_request.number || github.sha }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name != 'schedule' }}
 jobs:
   guardian:
+    needs: cambios
+    if: ${{ !cancelled() }}
+    concurrency:
+      group: ${{ github.event_name == 'push' && needs.cambios.outputs.robot != 'true' && 'ddd-main-guardian' || format('ddd-run-{0}-guardian', github.run_id) }}
+      cancel-in-progress: true
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -57,6 +70,11 @@ jobs:
         run: python -m unittest tests.test_national_ine_original_parts -v
 
   suite:
+    needs: cambios
+    if: ${{ needs.cambios.outputs.robot != 'true' }}
+    concurrency:
+      group: ${{ github.event_name == 'push' && needs.cambios.outputs.robot != 'true' && format('ddd-main-suite-{0}', matrix.grupo) || format('ddd-run-{0}-suite-{1}', github.run_id, matrix.grupo) }}
+      cancel-in-progress: true
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     strategy:
@@ -145,6 +163,7 @@ jobs:
       catalogo: ${{ steps.f.outputs.catalogo }}
       resultados: ${{ steps.f.outputs.resultados }}
       numeracion: ${{ steps.f.outputs.numeracion }}
+      robot: ${{ steps.f.outputs.robot }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -156,13 +175,15 @@ jobs:
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
           EVENTO: ${{ github.event_name }}
+          ACTOR: ${{ github.actor }}
+          RUTAS_ROBOT: '^(orchestracion/[^/]+\.json|datos/.+\.(json|csv|md)|publicado/.+\.json|datos_abiertos/INDEX\.json|docs/registro/[^/]+\.md|docs/REGISTRO_DE_CAMBIOS\.md|legacy/docs/.+\.md|README\.md|dashboard/metricas_proceso\.json|territorios/[^/]+/evidencia/.+\.json)$'
         run: |
           set -uo pipefail
           propio='^\.github/workflows/pruebas-plataforma\.yml$'
           contratos='^(ddd_core/config\.py|ddd_core/territory_contract\.py|herramientas/validar_contrato_territorial\.py|schemas/territory-production-contract\.schema\.json|configuracion/catalogo_territorios_espana_2025\.yaml|inputs/MANIFEST\.sha256|tests/test_territory_contract_admission\.py)$|^territorios/[^/]+/config/[^/]*\.yaml$'
           docs='^documentacion_publica/'
           productos='^(visor/|resultados/finales/|orchestracion/productos_publicos\.json$|herramientas/g10_public_product_manifest\.py$)'
-          if [[ -z "$BASE" || "$BASE" =~ ^0+$ ]] || ! files="$(git diff --name-only "$BASE" "$GITHUB_SHA" 2>/dev/null)"; then
+          if [[ -z "$BASE" || "$BASE" =~ ^0+$ ]] || ! files="$(git diff --name-only --no-renames "$BASE" "$GITHUB_SHA" 2>/dev/null)"; then
             echo "::notice::Sin base comparable: se ejecutan todas las puertas."
             files="todo"
           fi
@@ -177,8 +198,20 @@ jobs:
           escribe catalogo '^(orchestracion/(publicaciones_visor|archivo_r2|productos_publicos)\.json|datos_abiertos/INDEX\.json|fuentes/catalogo_oficial\.yaml|configuracion/(catalogo_preparacion|publicaciones)\.yaml|datos/(composicion|resultados)/MANIFEST\.json)$'
           escribe resultados '^(orchestracion/publicaciones_visor\.json|datos/composicion/MANIFEST\.json)$'
           escribe numeracion '^docs/registro/'
+          # Push de un robot que solo registra datos o numera el registro: basta la comprobación de integridad (guardian).
+          # Cualquier ruta fuera de la lista (código, tests, workflows, configuración) o un actor que no sea [bot]: suite completa.
+          robot=false
+          if [[ "$EVENTO" == "push" && "$files" != "todo" && "$ACTOR" == *"[bot]" && -n "$files" ]]; then
+            ajeno="$(grep -vE "$RUTAS_ROBOT" <<<"$files" || true)"
+            if [[ -z "$ajeno" ]]; then robot=true; else echo "::notice::Push de robot con rutas fuera de la lista: suite completa. Ajenas: $ajeno"; fi
+          fi
+          echo "robot=$robot" >> "$GITHUB_OUTPUT"
+          echo "robot=$robot (evento=$EVENTO, actor=$ACTOR)"
 
   contratos:
+    concurrency:
+      group: ${{ github.event_name == 'push' && needs.cambios.outputs.robot != 'true' && 'ddd-main-contratos' || format('ddd-run-{0}-contratos', github.run_id) }}
+      cancel-in-progress: true
     needs: cambios
     if: ${{ needs.cambios.outputs.contratos == 'true' }}
     runs-on: ubuntu-24.04
@@ -255,6 +288,9 @@ jobs:
           retention-days: 14
 
   productos:
+    concurrency:
+      group: ${{ github.event_name == 'push' && needs.cambios.outputs.robot != 'true' && 'ddd-main-productos' || format('ddd-run-{0}-productos', github.run_id) }}
+      cancel-in-progress: true
     needs: cambios
     if: ${{ github.event_name == 'push' && needs.cambios.outputs.productos == 'true' }}
     runs-on: ubuntu-24.04
@@ -283,6 +319,9 @@ jobs:
           path: site
 
   pruebas:
+    concurrency:
+      group: ${{ github.event_name == 'push' && needs.cambios.outputs.robot != 'true' && 'ddd-main-pruebas' || format('ddd-run-{0}-pruebas', github.run_id) }}
+      cancel-in-progress: true
     needs: [guardian, suite, cambios, contratos, docs, productos]
     if: ${{ always() }}
     runs-on: ubuntu-24.04
@@ -294,13 +333,18 @@ jobs:
           GUARDIAN: ${{ needs.guardian.result }}
           SUITE: ${{ needs.suite.result }}
           CAMBIOS: ${{ needs.cambios.result }}
+          ROBOT: ${{ needs.cambios.outputs.robot }}
           CONTRATOS: ${{ needs.contratos.result }}
           DOCS: ${{ needs.docs.result }}
           PRODUCTOS: ${{ needs.productos.result }}
         run: |
           echo "guardian=$GUARDIAN suite=$SUITE contratos=$CONTRATOS docs=$DOCS productos=$PRODUCTOS"
-          if [[ "$GUARDIAN" != "success" || "$SUITE" != "success" || "$CAMBIOS" != "success" ]]; then
-            echo "::error::pruebas en rojo: guardian=$GUARDIAN, suite=$SUITE, cambios=$CAMBIOS."; exit 1
+          if [[ "$GUARDIAN" != "success" || "$CAMBIOS" != "success" ]]; then
+            echo "::error::pruebas en rojo: guardian=$GUARDIAN, cambios=$CAMBIOS."; exit 1
+          fi
+          # La suite es obligatoria salvo en un push de robot que solo toca datos/registro (lo cubre la batería nocturna).
+          if [[ "$SUITE" != "success" && ! ( "$SUITE" == "skipped" && "$ROBOT" == "true" ) ]]; then
+            echo "::error::pruebas en rojo: suite=$SUITE (robot=$ROBOT)."; exit 1
           fi
           for puerta in "contratos=$CONTRATOS" "docs=$DOCS" "productos=$PRODUCTOS"; do
             if [[ "${puerta#*=}" != "success" && "${puerta#*=}" != "skipped" ]]; then
@@ -312,7 +356,7 @@ jobs:
   catalogo:
     name: Regenerar catálogo de procedencia
     needs: cambios
-    if: ${{ always() && github.event_name == 'push' && (needs.cambios.result != 'success' || needs.cambios.outputs.catalogo == 'true') }}
+    if: ${{ !cancelled() && github.event_name == 'push' && (needs.cambios.result != 'success' || needs.cambios.outputs.catalogo == 'true') }}
     continue-on-error: true
     concurrency:
       group: ddd-catalogo-procedencia
@@ -377,7 +421,7 @@ jobs:
   resultados:
     name: Regenerar resultados ligeros
     needs: cambios
-    if: ${{ always() && github.event_name == 'push' && (needs.cambios.result != 'success' || needs.cambios.outputs.resultados == 'true') }}
+    if: ${{ !cancelled() && github.event_name == 'push' && (needs.cambios.result != 'success' || needs.cambios.outputs.resultados == 'true') }}
     continue-on-error: true
     concurrency:
       group: ddd-resultados-ligeros
@@ -444,7 +488,7 @@ jobs:
   numeracion:
     name: Numerar el registro de cambios
     needs: cambios
-    if: ${{ always() && github.event_name == 'push' && (needs.cambios.result != 'success' || needs.cambios.outputs.numeracion == 'true') }}
+    if: ${{ !cancelled() && github.event_name == 'push' && (needs.cambios.result != 'success' || needs.cambios.outputs.numeracion == 'true') }}
     continue-on-error: true
     concurrency:
       group: ddd-registro-numeracion
@@ -508,3 +552,23 @@ jobs:
         run: |
           echo "::error title=Escritor de main fallido::Numeración del registro falló en este push; el run sigue en verde por continue-on-error. Revisa el log del job."
           { echo "### ❌ Numeración del registro falló"; echo; echo "Push \`$GITHUB_SHA\` · el job tiene continue-on-error para no teñir de rojo la batería; el fallo es real."; } >> "$GITHUB_STEP_SUMMARY"
+
+  aviso_nocturna:
+    needs: pruebas
+    if: ${{ always() && github.event_name == 'schedule' && needs.pruebas.result != 'success' }}
+    permissions:
+      issues: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Abrir aviso si la batería nocturna de main falla
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          titulo="Batería nocturna de main en rojo"
+          abierto="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "\"$titulo\" in:title" --json number --jq '.[0].number // empty')"
+          cuerpo="La batería completa nocturna sobre main (${GITHUB_SHA}) no terminó en verde: ${RUN_URL}. «main en verde» no se cumple hasta que una batería completa sobre main termine en success."
+          if [[ -n "$abierto" ]]; then gh issue comment "$abierto" --repo "$GITHUB_REPOSITORY" --body "$cuerpo"; else gh issue create --repo "$GITHUB_REPOSITORY" --title "$titulo" --body "$cuerpo"; fi

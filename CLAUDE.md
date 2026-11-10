@@ -14,7 +14,7 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - Sin vigilantes ni revisiones programadas salvo que se pidan.
 - Objetivo (08-11): un motor repetible (se ejecutará miles de veces, con el Gestor), no conservar resultados antiguos: relanza y regenera si hace falta.
 - Respuestas cortas, en español. D-18: sin estudios, difusión, estado operativo ni propuestas de contenido por iniciativa propia: solo criterio técnico y opciones.
-- No fusionar ninguna PR hasta ver la CI en verde en la PR y en `main`.
+- No fusionar ninguna PR hasta ver la CI en verde en la PR y en `main` («main en verde»: `.claude/rules/workflows.md`; robots solo con guardián + nocturna).
 
 ## Mapa
 - Plan y cola de tareas: `docs/PLAN.md` (solo lo edita el planificador). Arquitectura de agentes y fases P00-P60:
