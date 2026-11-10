@@ -14,6 +14,10 @@ Ampliación (orden del Planificador vía Coordinador): se retiran el workflow mu
 `producir-territorio-por-contrato.yml`, `_reutilizable-auditoria-topologica.yml`, `orquestacion-durable.yml` y
 `orquestacion-control.yml` (el 06 queda: lo llama la 00). Los dos reutilizables que se quedan pasan a
 «Interno · Generación territorial» e «Interno · Publicador del sitio» (excepción temporal `workflow_call`).
-Pruebas: se retiran o ajustan los tests que leían esos ficheros (≈25 métodos en 22 ficheros); no se encontró ningún
-test que cargara lógica viva. Riesgo: se pierde la cobertura de texto de ese motor modular, sin uso en `main`.
-Paso 6 (fusión automática y forense) no se toca.
+Pruebas: se eliminan solo las aserciones que leían los ficheros retirados; la parte viva de los tests se conserva
+(preflight temporal, estado de producción durable, preparación de Extremadura, matriz Design A, rutas, estado de
+producción, seguridad de workflows, interfaz institucional, fuente electoral). Se retiran enteros únicamente los
+métodos y ficheros cuyo único objeto era el texto del motor modular retirado. Gobernanza: los 6 workflows renombrados
+suben VERSIÓN con copia en `legacy/workflows/` y los 6 retirados dejan su última versión en `legacy/workflows/`.
+Referencias vivas actualizadas (contrato de Extremadura, PUNTO_REENGANCHE, PROTOCOLO_EJECUCION_ASINCRONA).
+Riesgo: se pierde la cobertura de texto de ese motor, sin uso en `main`. Paso 6 (fusión automática y forense) no se toca.

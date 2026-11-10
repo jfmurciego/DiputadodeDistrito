@@ -1,15 +1,16 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: archivar-artefactos-r2.yml
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
 # NOMBRE DE VERSIÓN: Archivista R2
-# FECHA: 2026-11-07
+# FECHA: 2026-11-10
 # ESTADO: candidato
 # QUÉ HACE: copia a Cloudflare R2 los artefactos de Actions referenciados por el catálogo y el visor antes de que
 #   caduquen (14 días), priorizando los que caducan antes, y registra orchestracion/archivo_r2.json en main con la
 #   app ddd-registro (DDD_REGISTRO_APP_ID/KEY; sin ellos, github.token).
 # CAMBIOS: 1.0.0: fichero nuevo (T-47).
 # MOTIVO: el M05 de Cantabria (run 41037133327) caduca el 13-11 y otros productos registrados se perderían.
-# ANTERIOR: ninguna (fichero nuevo)
+# ANTERIOR: legacy/workflows/archivar-artefactos-r2_v1.0.0_20261110.yml
+# CAMBIOS 1.0.1: T-149, solo el nombre visible ('Auxiliar — Archivar artefactos en R2') para ordenar la lista de Actions.
 name: 'Auxiliar — Archivar artefactos en R2'
 run-name: "Archivar artefactos en R2 · ${{ inputs.caduca_antes || 'todo lo vivo' }}"
 

@@ -106,4 +106,17 @@ class WorkflowSafety(unittest.TestCase):
                 "legacy ausente fuera del entorno reproducible autorizado",
             )
 
+    def test_produccion_aplica_politica_geometrica_y_preserva_excepciones(self):
+        state_builder=(ROOT/"herramientas/estado_produccion.py").read_text(encoding="utf-8")
+        self.assertIn('"PASS_WITH_EXCEPTIONS"', state_builder)
+        self.assertIn("geometric_exceptions_causally_governed", state_builder)
+
+    def test_unica_ejecucion_territorial_manual_es_interfaz_institucional(self):
+        self.assertTrue((WORKFLOWS/"produccion-distritos.yml").is_file())
+
+    def test_orquestacion_no_expone_boton_manual_y_conserva_ci(self):
+        self.assertFalse((WORKFLOWS/"g10-control.yml").exists())
+        self.assertFalse((WORKFLOWS/"g10-operar-lote.yml").exists())
+
+
 if __name__=="__main__":unittest.main()

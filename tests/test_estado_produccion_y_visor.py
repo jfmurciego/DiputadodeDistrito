@@ -122,6 +122,16 @@ class WorkflowGateTests(unittest.TestCase):
         self.assertEqual(config["meta"]["status"], "generation_ready")
         self.assertEqual(config["meta"]["production_authorization"], "AUTHORIZED")
 
+    def test_production_emits_status_manifest_in_artifact(self):
+        builder = (ROOT / "herramientas/estado_produccion.py").read_text(encoding="utf-8")
+        self.assertIn('"schema": "ddd.production-status/1.3"', builder)
+        self.assertIn('"territorial_certification_status": decision', builder)
+        self.assertIn('TARGET_MET = "TARGET_MET"', builder)
+        self.assertIn('TARGET_IMPROVED_NOT_MET = "TARGET_IMPROVED_NOT_MET"', builder)
+        self.assertIn('TARGET_NOT_MET = "TARGET_NOT_MET"', builder)
+        self.assertIn('HARD_BLOCK = "HARD_BLOCK"', builder)
+        self.assertIn('return "BLOCK", "POPULATION_TARGET_NOT_MET"', builder)
+
 
 
 if __name__ == "__main__":

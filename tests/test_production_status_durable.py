@@ -213,6 +213,31 @@ class DurableProductionStatusTests(unittest.TestCase):
                 self.assertIn(geometry.name, members)
                 self.assertNotIn("UNKNOWN", json.dumps(status, sort_keys=True))
 
+    def test_checkpoint_partial_population_blocks_m07_m08_and_publication(self):
+        with tempfile.TemporaryDirectory() as raw:
+            tmp = Path(raw)
+            params, report, geometry, audit_dir = self._fixture(tmp)
+            report.write_text(json.dumps(partial_population()), encoding="utf-8")
+
+            result = self._run(params, geometry, audit_dir)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            status = json.loads((audit_dir / "production_status.json").read_text(encoding="utf-8"))
+            causes = json.loads((audit_dir / "block_causes.json").read_text(encoding="utf-8"))
+            shutil.copy2(geometry, audit_dir / geometry.name)
+
+            self.assertEqual(status["execution_outcome"], "success")
+            self.assertEqual(status["geometric_decision"], "PASS_WITH_EXCEPTIONS")
+            self.assertEqual(status["population_decision"], "TARGET_IMPROVED_NOT_MET")
+            self.assertEqual(status["decision"], "BLOCK")
+            self.assertEqual(status["block_cause"], "POPULATION_TARGET_NOT_MET")
+            self.assertEqual(causes["block_cause"], "POPULATION_TARGET_NOT_MET")
+
+            members = archive_members(audit_dir, tmp)
+            self.assertIn("production_status.json", members)
+            self.assertIn("block_causes.json", members)
+            self.assertIn(geometry.name, members)
+
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -207,4 +207,9 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn("Agregar resultados electorales a los distritos",text)
         self.assertIn("Generar producto electoral territorial",text)
 
+    def test_territorial_product_has_no_electoral_dependency(self):
+        route=resolve_product("Distritos")
+        self.assertFalse(route["requires_electoral_package"])
+        self.assertEqual(route["to_stage"],"M06")
+
 if __name__=="__main__": unittest.main()

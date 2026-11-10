@@ -106,5 +106,9 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         text=GEN.read_text(encoding="utf-8")
         self.assertIn("persist_state: ${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}",text)
 
+    def test_checkpoint_selection_and_engine_are_preserved(self):
+        self.assertIn("python -m herramientas.seleccionar_checkpoint_productivo",GEN.read_text(encoding="utf-8"))
+        self.assertIn("python -m herramientas.seleccionar_checkpoint_productivo",ELECTORAL.read_text(encoding="utf-8"))
+
 
 if __name__=="__main__": unittest.main()

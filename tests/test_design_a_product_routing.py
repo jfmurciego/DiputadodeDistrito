@@ -42,6 +42,11 @@ class ProductRoutingDesignA(unittest.TestCase):
         self.assertIn("Localizar producto territorial certificado",text)
         self.assertIn("Localizar resultados electorales preparados",text)
 
+    def test_generation_and_electoral_paths_are_separate(self):
+        generation=load(GEN); electoral=load(ELECTORAL)
+        self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-generacion-territorial.yml")
+        self.assertEqual(electoral["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
+
 
 
 if __name__=="__main__": unittest.main()

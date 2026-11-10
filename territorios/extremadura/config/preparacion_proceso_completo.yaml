@@ -43,7 +43,7 @@ business_steps:
     remaining_blocker: null
   internal_units_preparation:
     ready: true
-    evidence: [herramientas/preparar_unidades_internas.py, herramientas/construir_unidades_internas_m04.py, .github/workflows/producir-territorio-por-contrato.yml, territorios/extremadura/config/extremadura_2025.yaml]
+    evidence: [herramientas/preparar_unidades_internas.py, herramientas/construir_unidades_internas_m04.py, territorios/extremadura/config/extremadura_2025.yaml]
     capability: declarative_internal_partition_preprocessor
     strategy: connected_internal_units
     execution: visible_github_actions_job
@@ -77,7 +77,7 @@ business_steps:
       detail: 'El workflow consulta automáticamente las fuentes oficiales declaradas. Si encuentra un fichero público con granularidad mínima de sección lo congela y calcula su SHA-256; si detecta ausencia, credenciales o granularidad insuficiente emite BLOCK. RTVE queda expresamente excluida como sustituto.'
   maps_generation_and_publication:
     ready: false
-    evidence: [modulos/08_integrar_resultados.py, .github/workflows/producir-territorio-por-contrato.yml]
+    evidence: [modulos/08_integrar_resultados.py]
     common_capability_available: true
     remaining_blocker:
       type: UPSTREAM_BLOCK

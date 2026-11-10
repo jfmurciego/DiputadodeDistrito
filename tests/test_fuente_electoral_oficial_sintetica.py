@@ -321,6 +321,9 @@ class OfficialElectionSourceSynthetic(unittest.TestCase):
             self.assertEqual(decision["checks"][0]["status"], "BLOCK_FORBIDDEN_SUBSTITUTE")
             self.assertFalse(called)
 
+    def test_instalador_fuente_electoral_no_contiene_territorio_concreto(self):
+        self.assertNotIn("extremadura", (ROOT / "herramientas/instalar_fuente_electoral_oficial.py").read_text(encoding="utf-8").lower())
+
 
 
 if __name__ == "__main__":

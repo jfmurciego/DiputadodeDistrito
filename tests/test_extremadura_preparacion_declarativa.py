@@ -105,6 +105,40 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertFalse(steps["maps_generation_and_publication"]["ready"])
         self.assertEqual(self.readiness["decision"]["readiness"], "READY_FOR_GENERATION")
 
+    def test_common_internal_units_step_is_configuration_driven_and_visible(self):
+        preparer = load_common_preparer()
+        command = preparer.build_command(self.params_path, "synthetic-run")
+        self.assertIsNotNone(command)
+        joined = " ".join(command)
+        self.assertIn("construir_unidades_internas_m04.py", joined)
+        self.assertIn("M04_PARTITION_UNIT", joined)
+        self.assertIn("extremadura_2025_m03_unidades_internas.geojson", joined)
+        self.assertIn("POP_2025", command)
+        self.assertNotIn("POP_{year}", command)
+        active = self.params_path.read_text(encoding="utf-8").lower()
+        self.assertNotIn("c020", active)
+        common_code = (ROOT / "herramientas/preparar_unidades_internas.py").read_text(encoding="utf-8").lower()
+        for forbidden in ("extremadura", "badajoz", "cáceres", "caceres"):
+            self.assertNotIn(forbidden, common_code)
+        procedure = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
+        self.assertIn("preparar_unidades_internas.py", procedure)
+
+    def test_electoral_source_is_automatic_and_fail_closed(self):
+        block = self.election_block
+        self.assertEqual(block["decision"], "BLOCKED")
+        self.assertFalse(block["rtve_allowed_as_substitute"])
+        self.assertEqual(block["press_repository"]["access"], "credentials_required")
+        self.assertFalse((ROOT / "territorios/extremadura/config/elecciones/extremadura_asamblea_2025.json").exists())
+        self.assertEqual(self.params["meta"]["electoral_sources_declaration"], "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml")
+        self.assertEqual(self.election_sources["minimum_resolution"], "section")
+        forbidden = " ".join(str(x).lower() for x in self.election_sources["forbidden_substitutes"])
+        self.assertIn("rtve", forbidden)
+        urls = " ".join(str(s["url"]).lower() for s in self.election_sources["sources"])
+        self.assertNotIn("rtve", urls)
+        electoral = self.readiness["business_steps"]["electoral_results"]
+        self.assertFalse(electoral["ready"])
+        self.assertTrue(electoral["automated_check"])
+
 
 if __name__ == "__main__":
     unittest.main()

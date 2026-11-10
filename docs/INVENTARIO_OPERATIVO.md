@@ -5,6 +5,8 @@
 
 ## Interfaces y workflows vigentes
 
+> Nota T-149 (10-11): `_reutilizable-operacion-territorial`, `producir-territorio-por-contrato`, `_reutilizable-auditoria-topologica`, `orquestacion-control` y `orquestacion-durable` se retiraron (sin llamador en `main`); copias en `legacy/workflows/`. Inventario vigente: `docs/ESTUDIOS/T149_LISTA_ACTIONS/INVENTARIO.md`.
+
 - `.github/workflows/ejecucion-generacion-distritos.yml`: única interfaz humana
   para contratos, producción, visor, ensembles y orquestación. El formulario
   expone nombres institucionales en español, usa únicamente entradas `choice`
