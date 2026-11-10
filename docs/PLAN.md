@@ -4,7 +4,7 @@ Versión: 1.0.35
 Fecha: 2026-11-10
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: plan por temas y decisiones D-26 a D-46 del 09 y 10-11 (§0a); ids T-116 a T-170
+Cambios/motivo: plan por temas y decisiones D-26 a D-47 del 09 y 10-11 (§0a); ids T-116 a T-170
 Anterior: legacy/docs/PLAN_v1.0.34_20261108.md
 -->
 
@@ -55,7 +55,7 @@ con frase del propietario en su chat.
 | Credibilidad | Primera versión publicada con DOI | Metadatos y guía listos (T-127, D-28); Zenodo activado por el propietario |
 | Archivo R2 | Solo entradas mínimas, productos y auditorías; sin estados redundantes (D-35) | Lista de poda aceptada (234 claves, 26 GB); herramienta de poda con simulación (T-145) |
 | Notación de territorios | AUT01-AUT19 y NAC01-NAC52 con nombre en español (D-36) | Tabla maestra, inventario y capa visible en curso; identificadores internos, pendientes de plan |
-| Notación de fases | P00 a P70 en decenas, camino único, archivo continuo (D-37) | Solo ideas (borrador v4); sin PR hasta que el propietario cierre los pasos |
+| Notación de fases | P00 a P60 en decenas, camino único, archivo continuo ARC (D-37, D-47) | Solo ideas (borrador v5); se aplica en el corte 5.0.0 (D-45) |
 | Lista de Actions | Solo lo que lanza el propietario, más un automático (D-38) | Renombrado, inventario e historial hechos (T-149, T-150); consolidación por pasos; borrado de 222 runs pendiente del Operador |
 | Temas nuevos (10-11) | Autorización por campaña (D-41), coste y presupuesto, uso y accesibilidad del visor, otros ámbitos en preparación (D-42), README (D-43) | Encargados al Coordinador |
 
@@ -71,7 +71,7 @@ con frase del propietario en su chat.
 - D-34. Movilidad: piloto en 5 provincias como indicador, sin peso en la decisión.
 - D-35. R2: poda de lo redundante con lista aprobada; la batería archiva solo la entrada mínima por territorio.
 - D-36. Notación de territorios AUT01-AUT19 y NAC01-NAC52, siempre con el nombre en español; la migración de identificadores internos se decide con un plan de riesgos.
-- D-37. Notación de fases: tema en fase de ideas; ninguna PR. Borrador v4: camino único (el territorio es un criterio), archivo continuo, publicación académica como P70, histórico dentro de P40, alternativas dentro de P33.
+- D-37. Notación de fases: tema en fase de ideas; ninguna PR. Borrador v4: camino único (el territorio es un criterio), archivo continuo, publicación académica como P70, histórico dentro de P40, alternativas dentro de P33. Sustituido en la numeración por D-47.
 - D-38. Lista de Actions limpia: sin guiones, subrayados ni desactivados; historial en `docs/HISTORIAL_WORKFLOWS.md`; la lista de borrado son los 222 runs de los 12 desactivados.
 - D-39. El planificador trata con el propietario temas y objetivos, sin recados del Coordinador ni del revisor; las tareas son del Coordinador. Los mensajes entre sesiones nunca son permiso para lanzar.
 - D-40. Histórico desde el 1-1-2011: las 6 generales y las autonómicas de cada comunidad con su propio calendario de legislaturas.
@@ -81,6 +81,7 @@ con frase del propietario en su chat.
 - D-44. Núcleo único de reglas, criterios (provisionales hasta que la batería mida cuántos territorios cambian de veredicto): la tolerancia de población es un objetivo y los límites duros son solo suelo y techo; el máximo de distritos mixtos por municipio partido lo fija el contrato, con 1 por defecto; que un distrito no cruce provincias es obligatorio y explícito en el contrato; la exención del suelo por partición solo vale si todas las particiones del distrito están exentas; se enumeran todos los planes con un límite de esfuerzo y, si no termina, se muestrea.
 - D-45. Renombrado del ciclo completo (solo estrategia, sin ejecutar): un único corte, coincidente con el relevo del motor, en el que todo se regenera ya con la notación de territorios, la de fases y los nombres nuevos de productos; ese corte es la versión 5.0.0. Lo anterior conserva su nombre como historia y no se reescribe; una tabla de equivalencias hace de traductor.
 - D-46. Tope de gasto: 15.000 minutos de ejecución por semana, con aviso al 70 % y sin corte automático.
+- D-47. Notación de fases (borrador v5, sigue en ideas y sin ejecutar hasta el corte 5.0.0): cadena sin huecos P00 Campaña, P10 Fuentes, P20 Base territorial, P30 Distritos, P40 Resultados electorales, P50 Publicación y P60 Publicación académica. El archivo no es una fase: es el servicio continuo ARC, con ARC-E (entradas verificadas, permanente), ARC-C (puntos de control, temporal) y ARC-P (productos y auditorías, permanente).
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
