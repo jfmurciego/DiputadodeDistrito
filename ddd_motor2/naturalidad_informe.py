@@ -91,7 +91,7 @@ def figura(t: str, geo: nm.Geometria, planes: dict, pob: dict, filas: dict, dest
         ax.set_axis_off()
     fig.suptitle(f"{NOMBRE_TERRITORIO.get(t, t)} — mismos datos y reglas; cambia cómo se elige "
                  "y cómo se corta (línea discontinua: partidos judiciales)", fontsize=11)
-    fig.tight_layout()
+    fig.tight_layout(rect=(0, 0, 1, 0.94))
     fig.savefig(destino, metadata={"Software": None})
     plt.close(fig)
 

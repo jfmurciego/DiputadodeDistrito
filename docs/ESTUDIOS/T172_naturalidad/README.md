@@ -22,12 +22,18 @@ aún no hay fuente oficial descargada. Tabla completa en `mapas/TABLA.csv`.
 | Badajoz | A | 0 | 1.41 | 5261 | 0 | 0.14 | 0.521 | 13/14 | 9/12 | 0.638 |
 | Badajoz | B | 0 | 14.48 | 38143 | 32882 | 0.237 | 0.611 | 8/14 | 5/12 | 0.684 |
 | Badajoz | C | 0 | 14.95 | 38923 | 33662 | 0.234 | 0.665 | 4/14 | 2/12 | 0.664 |
+| Barcelona | A | 1 | 22.31 | 217168 | 0 | 0.208 | 0.593 | 21/25 | 10/10 | 0.459 |
+| Barcelona | B | 1 | 22.31 | 512776 | 295608 | 0.262 | 0.656 | 20/25 | 9/10 | 0.523 |
+| Barcelona | C | 1 | 22.31 | 509890 | 292722 | 0.277 | 0.666 | 18/25 | 8/10 | 0.498 |
 | Cádiz | A | 1 | 17.54 | 56220 | 0 | 0.267 | 0.671 | 5/13 | 4/5 | 0.632 |
 | Cádiz | B | 1 | 17.54 | 80475 | 24255 | 0.282 | 0.686 | 3/13 | 4/5 | 0.633 |
 | Cádiz | C | 1 | 17.54 | 75123 | 18903 | 0.299 | 0.702 | 3/13 | 4/5 | 0.625 |
 | León | A | 0 | 0.6 | 1813 | 0 | 0.227 | 0.606 | 4/7 | 6/10 | 0.637 |
 | León | B | 0 | 14.87 | 60829 | 59016 | 0.254 | 0.647 | 2/7 | 4/10 | 0.622 |
 | León | C | 0 | 13.67 | 42997 | 41184 | 0.301 | 0.687 | 1/7 | 2/10 | 0.637 |
+| Madrid | A | 0 | 13.49 | 466868 | 0 | 0.259 | 0.662 | 19/19 | 6/6 | 0.394 |
+| Madrid | B | 0 | 14.84 | 519574 | 52706 | 0.264 | 0.665 | 18/19 | 5/6 | 0.398 |
+| Madrid | C | 0 | 14.69 | 529844 | 62976 | 0.274 | 0.676 | 18/19 | 5/6 | 0.399 |
 
 «Coste frente a A»: cuántas personas más suman los desvíos de todos los distritos respecto a la población objetivo.
 Polsby-Popper y convexidad: 1 = forma ideal; más alto, menos anguloso.
@@ -39,7 +45,9 @@ Polsby-Popper y convexidad: 1 = forma ideal; más alto, menos anguloso.
 - El precio es población: B y C llevan el desvío máximo casi al borde de la tolerancia (≈14-15 %), porque la tolerancia
   es el único límite de población. Si se quiere un término medio, la opción es fijar un desvío máximo menor solo para
   elegir (p. ej. 5 %) y pedir naturalidad dentro de él; eso lo decide el propietario.
-- Cádiz conserva un distrito fuera de tolerancia en los tres casos (municipio exento por decisión previa).
+- Cádiz y Barcelona conservan un distrito fuera de tolerancia en los tres casos (en Cádiz, municipio exento por
+  decisión previa). En Madrid y Barcelona la mejora es pequeña: casi todos los partidos judiciales quedan partidos
+  por el tamaño de las ciudades, y el coste en población es mayor en Barcelona.
 
 ## Cómo se ha hecho
 
