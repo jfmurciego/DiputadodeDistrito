@@ -1,0 +1,12 @@
+--- a/.claude/skills/lanzar-00/SKILL.md
++++ b/.claude/skills/lanzar-00/SKILL.md
+@@ -6,7 +6,8 @@
+ # Lanzar una 00
+ 
+ Requisitos previos (si falta uno, no se lanza):
+-- Permiso explícito del propietario en este chat para este territorio o lote.
++- Permiso explícito del propietario en este chat para este territorio o lote, o una autorización de campaña vigente (D-41,
++  `docs/autorizaciones/`) que incluya este territorio, modo y `publish_result`, con topes sin agotar. Anota el lanzamiento en su fichero.
+ - Ningún run de ese territorio en curso (incluidos los encadenados de `github-actions[bot]`).
+ - Evidencia local del motor si cambió M04, M05, contrato o política (skill `diagnosticar-run`).
+ 

@@ -1,0 +1,12 @@
+--- a/.claude/skills/publicar-visor/SKILL.md
++++ b/.claude/skills/publicar-visor/SKILL.md
+@@ -5,7 +5,8 @@
+ 
+ # Publicar en el visor
+ 
+-1. Permiso explícito del propietario en este chat, con la lista de territorios o escenarios.
++1. Permiso explícito del propietario en este chat, con la lista de territorios o escenarios; o autorización de campaña
++   vigente (D-41, `docs/autorizaciones/`) cuya ficha diga «publica: sí» y nombre esos territorios. Sin ese «sí», no se publica.
+ 2. Comprueba que cada territorio tiene una 00 completa (M06 + 04 en success) y anota su `production_run_id`.
+    El visor solo muestra lo que está en `orchestracion/publicaciones_visor.json`.
+ 3. Lanza por REST un dispatch por territorio nuevo, con `production_run_id=<run 00 completo>`; con el campo vacío solo
