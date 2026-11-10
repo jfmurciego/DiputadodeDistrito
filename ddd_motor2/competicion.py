@@ -3,16 +3,21 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — orquestador de la competición «canónico + GerryChain»
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Competición · semilla pública y revisión
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: Competición · enumeración exacta
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.1.0 — competir_publico (semillas públicas de semilla.py); Resultado.valido y Resultado.huella()
+CAMBIOS: 1.2.0 — la regla de calidad sale a ddd_motor2/calidad.py (mismo orden); candidato «exhaustivo»: si el
+  territorio es pequeño (Criterio.metodo: presupuesto de nodos o tamaño), se enumeran TODOS los planes válidos sobre
+  las unidades de la composición del canónico (referencia de núcleos incluida) y compite el mejor por calidad; si la
+  enumeración termina, el ganador es el óptimo exacto de la regla. exhaustivo=False lo quita.
+  1.1.0 — competir_publico (semillas públicas de semilla.py); Resultado.valido y Resultado.huella()
   (reproducibilidad bit a bit); sin referencia de núcleos y con unidades cerradas, ERROR_DATOS (indicador explícito:
   unidades con nucleo_cerrado, no el texto del aviso); pruebas de desempate por huella y de canónico fallido.
-MOTIVO: T-163 / D-48: la primera versión del motor nuevo es una competición entre el canónico y N cadenas de
+MOTIVO: 1.2.0 — T-175: enumeración exacta para territorios pequeños en el competidor del motor nuevo.
+  T-163 / D-48: la primera versión del motor nuevo es una competición entre el canónico y N cadenas de
   GerryChain bajo el núcleo único de reglas; gana el mejor plan válido, así que nunca es peor que el canónico.
-ANTERIOR: legacy/ddd_motor2/competicion_v1.0.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/competicion_v1.1.0_20261110.py
 QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador canónico (una vez) y la cadena con cada
   semilla, a través de adaptadores (protocolo Generador: devuelven una composición M06). Cada candidato se juzga con el
   núcleo (adaptadores.problema_y_plan + reglas.evaluar, Criterio D-44 por defecto) y se ordena con la función de
@@ -41,9 +46,10 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping, Protocol
 
 from .adaptadores import problema_y_plan
+from .calidad import huella_plan, metricas
 from .reglas import Criterio, ErrorContrato, ErrorDatos, Reglas, evaluar
 
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 
 
 @dataclass(frozen=True)
@@ -126,6 +132,7 @@ class Resultado:
     criterio: dict
     tiempo_total_s: float
     semilla_publica: dict = field(default_factory=dict)
+    exhaustivo: dict = field(default_factory=dict)  # decisión y recuento de la enumeración exacta (sin el plan)
 
     @property
     def valido(self) -> bool:
@@ -135,6 +142,7 @@ class Resultado:
         """sha256 de lo que debe repetirse bit a bit con la misma entrada: reglas, semillas, plan y composición de
         cada candidato y ganador (sin tiempos ni rutas)."""
         forma = {"reglas": self.huella_reglas, "ganador": self.ganador.id,
+                 "exhaustivo": [self.exhaustivo.get(k) for k in ("metodo", "completo", "nodos", "validos", "huella")],
                  "candidatos": [[c.id, c.semilla, c.estado, c.huella_plan, c.composicion_sha256]
                                 for c in sorted(self.candidatos, key=lambda c: c.orden)]}
         return hashlib.sha256(json.dumps(forma, separators=(",", ":")).encode("utf-8")).hexdigest()
@@ -143,7 +151,7 @@ class Resultado:
         return {
             "version_orquestador": VERSION, "territorio": self.territorio, "ganador": self.ganador.id,
             "valido": self.valido, "huella_resultado": self.huella(), "semilla_publica": self.semilla_publica,
-            "canonico": self.canonico.id, "huella_reglas": self.huella_reglas, "criterio": self.criterio,
+            "canonico": self.canonico.id, "exhaustivo": self.exhaustivo, "huella_reglas": self.huella_reglas, "criterio": self.criterio,
             "orden_calidad": ["evaluable", "violaciones_duras", "fuera_tolerancia", "desvio_max", "ecm",
                               "huella_plan", "orden"],
             "tiempo_total_s": round(self.tiempo_total_s, 3),
@@ -157,15 +165,6 @@ def sha256_fichero(ruta: Path) -> str:
         for bloque in iter(lambda: fh.read(1 << 20), b""):
             h.update(bloque)
     return h.hexdigest()
-
-
-def huella_plan(plan: Mapping[str, str]) -> str:
-    """sha256 del plan como partición (conjuntos de unidades), sin depender de las etiquetas de distrito."""
-    grupos: dict[str, list[str]] = {}
-    for u, d in plan.items():
-        grupos.setdefault(str(d), []).append(str(u))
-    forma = sorted(sorted(us) for us in grupos.values())
-    return hashlib.sha256(json.dumps(forma, separators=(",", ":"), ensure_ascii=False).encode("utf-8")).hexdigest()
 
 
 def juzgar(cand: Candidato, salida: Salida, entrada: EntradaTerritorio, criterio: Criterio,
@@ -196,16 +195,9 @@ def juzgar(cand: Candidato, salida: Salida, entrada: EntradaTerritorio, criterio
         cand.detalle = "sin referencia de núcleos cerrados (el canónico no dio composición): R-NUCLEO no juzgable"
         return
     cand.violaciones = [{"regla": v.regla, "ambito": v.ambito, "detalle": v.detalle} for v in inf.violaciones]
-    cand.duras = len(inf.violaciones)
-    cand.fuera_tolerancia = len(inf.metricas["fuera_tolerancia"])
-    objetivo = reglas.limites(problema.poblacion_total)[0]
-    pob: dict[str, int] = {}
-    for u, d in plan.items():
-        pob[d] = pob.get(d, 0) + problema.por_id[u].poblacion
-    desv = [Fraction(p) / objetivo - 1 for p in pob.values()] if objetivo else [Fraction(0)]
-    cand.desvio_max = max(abs(x) for x in desv)
-    cand.ecm = sum((x * x for x in desv), Fraction(0)) / len(desv)
-    cand.huella_plan = huella_plan(plan)
+    m = metricas(problema, reglas, plan, inf)
+    cand.duras, cand.fuera_tolerancia = m["violaciones_duras"], m["fuera_tolerancia"]
+    cand.desvio_max, cand.ecm, cand.huella_plan = m["desvio_max"], m["ecm"], m["huella_plan"]
     cand.estado = "VALIDO" if inf.valido else "INVALIDO"
 
 
@@ -221,9 +213,36 @@ def _ejecutar(gen: Generador, entrada: EntradaTerritorio, semilla: int | None, d
     return salida
 
 
+def _exhaustivo(entrada: EntradaTerritorio, sal_can: Salida, referencia: Path | None, criterio: Criterio,
+                destino: Path) -> tuple[dict, Salida | None]:
+    """Enumeración exacta sobre las unidades de la composición del canónico; si se completa, su mejor plan por
+    calidad como composición M06 (mismas filas que la del canónico)."""
+    from .exhaustivo import enumerar_exacto, escribir_composicion, huella_composicion
+    if sal_can.composicion is None or not Path(sal_can.composicion).is_file():
+        return {"metodo": "cadena", "motivo": "sin composición del canónico", "intentada": False}, None
+    try:
+        reglas = Reglas.desde_contrato(entrada.cfg, criterio)
+        problema, _, _ = problema_y_plan(
+            sal_can.composicion, entrada.grafo_m03, entrada.cfg, referencia_nucleos=referencia,
+            atributos_secciones=sal_can.atributos_secciones or entrada.atributos_secciones,
+            respaldo_municipio_cusec=criterio.respaldo_municipio_cusec)
+        info = enumerar_exacto(problema, reglas)
+    except (ErrorContrato, ErrorDatos) as exc:
+        return {"metodo": "cadena", "motivo": f"{type(exc).__name__}: {exc}", "intentada": False}, None
+    mejor = info.pop("mejor", None)
+    if info["metodo"] != "enumeracion" or mejor is None:
+        return info, None
+    comp = escribir_composicion(sal_can.composicion, mejor, destino / Path(sal_can.composicion).name, entrada.cfg)
+    info["mejor_huella_secciones"] = huella_composicion(comp, entrada.cfg)
+    return info, Salida(comp, "OK", atributos_secciones=sal_can.atributos_secciones,
+                        extra={"enumeracion": {k: info[k] for k in ("nodos", "validos", "huella", "empatados")}})
+
+
 def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador, semillas: Iterable[int],
-             destino: Path, *, criterio: Criterio | None = None, semilla_canonica: int | None = None) -> Resultado:
-    """Canónico + una cadena por semilla; devuelve todos los candidatos juzgados y el ganador."""
+             destino: Path, *, criterio: Criterio | None = None, semilla_canonica: int | None = None,
+             exhaustivo: bool = True) -> Resultado:
+    """Canónico + una cadena por semilla (+ el mejor plan de la enumeración exacta si el territorio es pequeño);
+    devuelve todos los candidatos juzgados y el ganador."""
     t_ini = time.monotonic()
     criterio = criterio or Criterio()
     destino = Path(destino)
@@ -241,6 +260,15 @@ def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador,
     for i, s in enumerate(semillas, start=1):
         c = Candidato(f"{cadena.nombre}-s{s}", cadena.nombre, s, i)
         pendientes.append((c, _ejecutar(cadena, entrada, s, destino / c.id, c)))
+    info_ex: dict = {}
+    if exhaustivo:
+        t0 = time.monotonic()
+        info_ex, sal_ex = _exhaustivo(entrada, sal_can, referencia, criterio, destino / "exhaustivo")
+        if sal_ex is not None:
+            c = Candidato("exhaustivo", "exhaustivo", None, len(pendientes))
+            c.tiempos["generar_s"] = round(time.monotonic() - t0, 3)
+            c.extra = dict(sal_ex.extra)
+            pendientes.append((c, sal_ex))
     for c, sal in pendientes:
         t0 = time.monotonic()
         juzgar(c, sal, entrada, criterio, referencia)
@@ -255,14 +283,14 @@ def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador,
         huella = ""
     return Resultado(entrada.territorio, candidatos, ganador, can, huella,
                      {k: getattr(criterio, k) for k in criterio.__dataclass_fields__},
-                     time.monotonic() - t_ini)
+                     time.monotonic() - t_ini, exhaustivo=info_ex)
 
 
 def competir_publico(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador, destino: Path, *,
-                     n_cadenas: int = 5, criterio: Criterio | None = None) -> Resultado:
+                     n_cadenas: int = 5, criterio: Criterio | None = None, exhaustivo: bool = True) -> Resultado:
     """La competición con las N semillas públicas del territorio (semilla.py): misma entrada ⇒ mismo resultado."""
     from .semilla import descripcion
     desc = descripcion(entrada.cfg, entrada.territorio, n_cadenas)
-    r = competir(entrada, canonico, cadena, desc["semillas"], destino, criterio=criterio)
+    r = competir(entrada, canonico, cadena, desc["semillas"], destino, criterio=criterio, exhaustivo=exhaustivo)
     r.semilla_publica = desc
     return r

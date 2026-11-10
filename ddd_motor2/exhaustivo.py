@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+PROYECTO: Diputado de Distrito
+COMPONENTE: motor 2 — enumeración exacta para territorios pequeños, con elección por la regla de calidad
+VERSIÓN: 1.0.0
+NOMBRE DE VERSIÓN: Enumeración exacta · territorios pequeños
+FECHA: 2026-11-10
+ESTADO: candidato (motor 2; producción no lo importa)
+CAMBIOS: fichero nuevo.
+MOTIVO: T-175: donde el espacio de planes cabe, el motor nuevo enumera TODOS los planes válidos y elige el mejor por
+  la regla de calidad vigente (calidad.py), en vez de muestrear; el certificador usa la misma regla.
+ANTERIOR: ninguna (fichero nuevo)
+QUÉ HACE:
+  enumerar_exacto(problema, reglas, presupuesto=None) -> dict: decide con reglas.elegir_metodo (Criterio.metodo:
+    «presupuesto» intenta la enumeración con Criterio.presupuesto_nodos; «tamano» solo si K <= tamano_max_k o
+    unidades <= tamano_max_unidades, y también con presupuesto) y, si enumera, recorre todos los planes válidos con
+    reglas.enumerar y guarda el mejor por calidad. Campos: metodo, motivo, completo, nodos, presupuesto, validos,
+    huella (del conjunto de planes), mejor (plan), mejor_metricas, segundo_clave, empatados, tiempo_s.
+    Solo «completo» certifica el óptimo; si no, la cadena sigue (los planes vistos son una cota inferior del recuento).
+  escribir_composicion(base_csv, plan, salida, cfg): composición M06 con el plan (unidad -> distrito) sobre las filas
+    de otra composición del mismo territorio (mismas secciones y unidades); distritos 0..K-1 por la menor sección
+    (como M05/M06).
+  huella_composicion(csv, cfg): huella de la partición en secciones (comparable con la del certificador, que trabaja
+    por secciones; la numeración de unidades cambia entre M04 y M06).
+Solo stdlib.
+"""
+from __future__ import annotations
+
+import csv
+import time
+from pathlib import Path
+from typing import Any, Mapping
+
+from .adaptadores import columnas_de_contrato
+from .calidad import huella_plan, legible, metricas
+from .reglas import Problema, Reglas, elegir_metodo, enumerar
+
+
+def enumerar_exacto(problema: Problema, reglas: Reglas, presupuesto: int | None = None) -> dict:
+    t0 = time.monotonic()
+    c = reglas.criterio
+    presupuesto = int(presupuesto or c.presupuesto_nodos)
+    base = {"k": reglas.k, "unidades": len(problema.unidades), "presupuesto": presupuesto,
+            "criterio_metodo": c.metodo, "huella_reglas": reglas.huella()}
+    if c.metodo == "tamano":
+        d = elegir_metodo(problema, reglas)
+        if d.metodo != "enumeracion":
+            return {**base, "metodo": "cadena", "motivo": d.motivo, "completo": False, "intentada": False,
+                    "tiempo_s": round(time.monotonic() - t0, 3)}
+    elif c.metodo == "diagnostico":
+        return {**base, "metodo": "cadena", "motivo": "criterio diagnóstico: decide la cadena", "completo": False,
+                "intentada": False, "tiempo_s": 0.0}
+    r = enumerar(problema, reglas, presupuesto, max_planes=0,
+                 clave=lambda plan: metricas(problema, reglas, plan)["clave"])
+    if c.metodo == "presupuesto":
+        d = elegir_metodo(problema, reglas, recuento={**r, "nodos": r["nodos"]})
+        metodo, motivo = d.metodo, d.motivo
+    else:
+        metodo = "enumeracion" if r["completo"] else "cadena"
+        motivo = f"tamaño; enumeración {'completa' if r['completo'] else 'incompleta'} en {r['nodos']} nodos"
+    out = {**base, "metodo": metodo, "motivo": motivo, "intentada": True, "completo": r["completo"],
+           "nodos": r["nodos"], "validos": r["validos"], "huella": r["huella"], "mejor": r["mejor"],
+           "mejor_metricas": legible(metricas(problema, reglas, r["mejor"])) if r["mejor"] else None,
+           "segundo_clave": None if r["segundo_clave"] is None else
+           {"violaciones_duras": r["segundo_clave"][0], "fuera_tolerancia": r["segundo_clave"][1],
+            "desvio_max": float(r["segundo_clave"][2]), "ecm": float(r["segundo_clave"][3])},
+           "empatados": r["empatados"], "tiempo_s": round(time.monotonic() - t0, 3)}
+    return out
+
+
+def escribir_composicion(base_csv: str | Path, plan: Mapping[str, str], salida: str | Path,
+                         cfg: Mapping[str, Any], columnas: Mapping[str, str] | None = None) -> Path:
+    col = {**columnas_de_contrato(cfg), **(columnas or {})}
+    with open(base_csv, encoding="utf-8", newline="") as fh:
+        rd = csv.DictReader(fh)
+        campos, filas = list(rd.fieldnames or []), list(rd)
+    for c in (col["seccion"], col["distrito"]):
+        if c not in campos:
+            raise ValueError(f"{base_csv}: falta la columna {c}")
+    con_unidad = col["unidad"] in campos
+
+    def unidad(f):
+        return str(f[col["unidad"]]).strip() if con_unidad else str(f[col["seccion"]]).strip()
+
+    faltan = sorted({unidad(f) for f in filas} - set(plan))
+    if faltan:
+        raise ValueError(f"el plan no asigna {len(faltan)} unidades (p. ej. {faltan[0]})")
+    menor: dict[str, str] = {}
+    for f in filas:
+        d, s = str(plan[unidad(f)]), str(f[col["seccion"]]).strip()
+        menor[d] = min(menor.get(d, s), s)
+    etiqueta = {d: str(i) for i, d in enumerate(sorted(menor, key=menor.get))}
+    for f in filas:
+        f[col["distrito"]] = etiqueta[str(plan[unidad(f)])]
+    salida = Path(salida)
+    salida.parent.mkdir(parents=True, exist_ok=True)
+    with open(salida, "w", encoding="utf-8", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=campos)
+        w.writeheader()
+        w.writerows(filas)
+    return salida
+
+
+def huella_composicion(ruta: str | Path, cfg: Mapping[str, Any], columnas: Mapping[str, str] | None = None) -> str:
+    col = {**columnas_de_contrato(cfg), **(columnas or {})}
+    with open(ruta, encoding="utf-8", newline="") as fh:
+        return huella_plan({str(f[col["seccion"]]).strip(): str(f[col["distrito"]]).strip() for f in csv.DictReader(fh)})

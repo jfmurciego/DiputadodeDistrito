@@ -57,7 +57,7 @@ class Territorio(unittest.TestCase):
         f = competir_territorio("prueba", tmp, 3, generadores=(Fijo("canonico", {None: bueno}), cad), entrada=e)
         self.assertEqual((f["estado"], f["valido"], f["ganador"], f["frente_al_canonico"]),
                          ("VALIDO", True, "canonico", "empata"))
-        self.assertEqual(f["candidatos"], 4)
+        self.assertEqual(f["candidatos"], 5)  # canónico + 3 cadenas + exhaustivo (territorio pequeño)
         self.assertTrue((tmp / "competicion" / "prueba" / "COMPETICION.json").is_file())
         from ddd_motor2.competir import fila_guardada
         g = fila_guardada("prueba", tmp, 3, cfg=e.cfg)

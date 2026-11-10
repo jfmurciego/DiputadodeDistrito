@@ -84,7 +84,7 @@ class Reproducibilidad(unittest.TestCase):
         self.assertEqual(r1.ganador.composicion_sha256, r2.ganador.composicion_sha256)
         d = r1.a_dict()
         self.assertEqual(d["semilla_publica"]["semillas"], semillas(cfg(), "prueba", 5))
-        self.assertEqual([c.semilla for c in r1.candidatos[1:]], d["semilla_publica"]["semillas"])
+        self.assertEqual([c.semilla for c in r1.candidatos if c.generador == "gerrychain"], d["semilla_publica"]["semillas"])
 
 
 if __name__ == "__main__":

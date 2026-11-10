@@ -3,11 +3,15 @@
 """Certificador exacto (T-136): programación entera con contigüidad para una circunscripción.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0
-NOMBRE DE VERSIÓN: Certificador exacto con núcleos cerrados
+VERSIÓN: 1.4.0
+NOMBRE DE VERSIÓN: Certificador exacto · enumeración con la regla de calidad
 FECHA: 2026-11-10
 ESTADO: candidato (diagnóstico; no genera productos ni toca el motor)
-CAMBIOS: 1.3.0 — R-NUCLEO (T-175): las secciones leen district_id y ddd_closed_urban; el adaptador de núcleos desde
+CAMBIOS: 1.4.0 — enumeración: cada plan enumerado se ordena con la regla de calidad vigente (ddd_motor2/calidad.py, la de la
+  competición; la huella de desempate es la de la partición en SECCIONES, comparable entre ficheros aunque cambie la
+  numeración de unidades entre M04 y M06) y se informa del mejor («mejor_por_calidad»), de los empates y de si
+  cada referencia es ese plan. Solo con ENUMERADO (búsqueda completa) el mejor es el óptimo exacto.
+  1.3.0 — R-NUCLEO (T-175): las secciones leen district_id y ddd_closed_urban; el adaptador de núcleos desde
   las unidades (ddd_motor2.adaptadores.nucleos_desde_unidades, por unidad M04: cerrada si todas sus secciones lo son)
   marca Unidad.nucleo_cerrado. En el modelo, cada núcleo es un solo grupo de átomos y su distrito no admite otros
   átomos; los superátomos no mezclan núcleo y resto. La relajación fluida lo ignora (sigue siendo cota válida).
@@ -26,11 +30,12 @@ CAMBIOS: 1.3.0 — R-NUCLEO (T-175): las secciones leen district_id y ddd_closed
   La atomicidad de las unidades M04 se aplica con unión-búsqueda (una unidad puede abarcar varios municipios).
   Exención por partición, max_mixed y tolerancia según el Criterio. Solo contigüidad por árbol (flujo y cortes se
   quitan: más lentos en el estudio 1.0.0).
-MOTIVO: 1.3.0 — R-NUCLEO no se aplicaba: faltaba el adaptador de núcleos desde las unidades de partición.
+MOTIVO: 1.4.0 — que el certificador elija entre los planes enumerados con la misma regla que el motor nuevo.
+  1.3.0 — R-NUCLEO no se aplicaba: faltaba el adaptador de núcleos desde las unidades de partición.
   1.2.0 — Madrid (K=59, 3.603 átomos) no resuelve en el modelo monolítico (T-136); hace falta un modelo que
   escale y, donde el exacto no llegue, una cota de calidad. 1.1.0 — fallos F1 (Canarias: infactibilidad falsa por leer la provincia del M01, sin DDD_PARTITION ni exenciones por
   partición) y F2 (Cádiz: unidades M04 partidas) que vio T-132; y acuerdo con T-160 de usar el núcleo único.
-ANTERIOR: legacy/herramientas/certificador_exacto_v1.2.0_20261110.py
+ANTERIOR: legacy/herramientas/certificador_exacto_v1.3.0_20261110.py
 QUÉ HACE: lee el contrato, las secciones de M04 y el grafo M03, y plantea en OR-Tools CP-SAT las reglas del núcleo:
   K, población en [suelo, techo] (exenciones), tolerancia dura si el criterio lo pide, contigüidad (árbol padre/nivel
   por átomo), provincia única y cuotas, disciplina municipal R012 con el campo y max_mixed del núcleo. Átomos:
@@ -62,9 +67,10 @@ if str(ROOT) not in sys.path:
 
 from ddd_core.config import load_params_yaml, module_cfg  # noqa: E402
 from ddd_motor2.adaptadores import VERDADEROS, con_nucleos as con_nucleos_de, nucleos_desde_unidades  # noqa: E402
+from ddd_motor2.calidad import legible, metricas  # noqa: E402
 from ddd_motor2.reglas import Criterio, ErrorDatos, Problema, Reglas, Unidad, evaluar  # noqa: E402
 
-VERSION = "1.3.0"
+VERSION = "1.4.0"
 
 
 # --------------------------------------------------------------------------- datos -> núcleo
@@ -889,9 +895,17 @@ def main(argv=None) -> int:
     planes = res.pop("_planes", None)
     if asig:
         res["comprobacion"] = juzgar(problema, reglas, asig, unidad_m04)
+    mejor_huella = None
     if planes is not None:
         res["planes_comprobados_pass"] = sum(juzgar(problema, reglas, p, unidad_m04)["estado"] == "PASS"
                                              for p in planes)
+        if planes:
+            ms = [metricas(problema, reglas, p) for p in planes]
+            j = min(range(len(ms)), key=lambda i: ms[i]["clave"])
+            mejor_huella = ms[j]["huella_plan"]
+            res["mejor_por_calidad"] = {"plan": j, "exacto": res.get("estado") == "ENUMERADO",
+                                        "empatados": sum(m["clave"][:4] == ms[j]["clave"][:4] for m in ms),
+                                        **legible(ms[j])}
     filas = [(0, asig)] if asig else list(enumerate(planes or []))
     if a.asignacion_csv and filas:
         with open(a.asignacion_csv, "w", encoding="utf-8", newline="") as fh:
@@ -904,6 +918,10 @@ def main(argv=None) -> int:
         nombre, _, ruta = ref.rpartition("=")
         comp = leer_composicion(ruta)
         ev = juzgar(problema, reglas, comp, unidad_m04)
+        if mejor_huella is not None and set(comp) >= {u.id for u in problema.unidades}:
+            mr = metricas(problema, reglas, comp)
+            ev["calidad"] = legible(mr)
+            ev["es_el_mejor_por_calidad"] = mr["huella_plan"] == mejor_huella
         if asig:
             pa = {frozenset(s for s, d in asig.items() if d == k) for k in set(asig.values())}
             pb = {frozenset(s for s, d in comp.items() if d == k) for k in set(comp.values())}

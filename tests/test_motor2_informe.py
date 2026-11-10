@@ -30,7 +30,7 @@ class Informe(unittest.TestCase):
         e = EntradaTerritorio("prueba", CFG, grafo)
         canon = Fijo("canonico", {None: {"A": "1", "B": "1", "C": "1", "D": "2"}}, pob)  # 310/90: inválido
         gc = Fijo("gerrychain", {7: {"A": "1", "B": "1", "C": "2", "D": "2"}, 8: None}, pob)
-        r = competir(e, canon, gc, [7, 8], tmp / "out")
+        r = competir(e, canon, gc, [7, 8], tmp / "out", exhaustivo=False)
         fj, fm = escribir(r, tmp / "inf")
         d = json.loads(fj.read_text(encoding="utf-8"))
         self.assertEqual(d["ganador"], "gerrychain-s7")
