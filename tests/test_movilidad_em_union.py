@@ -3,8 +3,8 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba de la unión de movilidad INE EM-1 con las áreas (T-139, paso 1)
-VERSIÓN: 1.1.0 · FECHA: 2026-11-10 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_movilidad_em_union_v1.0.0.py
+VERSIÓN: 1.2.0 · FECHA: 2026-11-10 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_movilidad_em_union_v1.1.0.py
 FUNCIÓN: valores esperados leídos a mano de los xlsx del INE (no recalculados por la herramienta).
 """
 import csv
@@ -98,6 +98,25 @@ class Indicador(unittest.TestCase):
         r = m.indicador_plan(p, self.AREAS, self._fl(("fa", "fb", 10), ("fa", "fc", 30)), self.MAPA)
         self.assertAlmostEqual(r["plan"], 1.0)
         self.assertEqual(r["flujo_hacia_fuera"], 30)
+
+
+class Correlacion(unittest.TestCase):
+    def test_spearman_valores_conocidos(self):
+        self.assertAlmostEqual(m.spearman([1, 2, 3], [10, 20, 30]), 1.0)
+        self.assertAlmostEqual(m.spearman([1, 2, 3], [3, 2, 1]), -1.0)
+        self.assertAlmostEqual(m.spearman([1, 2, 3, 4], [1, 3, 2, 4]), 0.8)  # 1 - 6*2/(4*15)
+
+    def test_empates_con_rango_medio(self):
+        self.assertEqual(m.rangos([5, 5, 7]), [1.5, 1.5, 3.0])
+
+
+class CompacidadM06(unittest.TestCase):
+    def test_poblacion_m06_igual_a_composicion(self):
+        # poblaciones por distrito del M06 == suma de la composición vigente (comprobado a mano para Cádiz: 1.254.866)
+        filas = [r for r in m.leer_csv(m.COMPACIDAD_CSV) if r["territorio"] == "congreso_cadiz"]
+        self.assertEqual(len(filas), 11)
+        self.assertEqual(sum(int(r["poblacion_m06"]) for r in filas), 1254866)
+        self.assertTrue(all(0 < float(r["polsby_popper_m06"]) <= 1 for r in m.leer_csv(m.COMPACIDAD_CSV)))
 
 
 if __name__ == "__main__":

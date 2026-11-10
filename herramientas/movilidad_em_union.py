@@ -3,11 +3,12 @@
 """Movilidad INE (EM-1, telefonía móvil): conversión a CSV, unión flujos↔áreas y estadísticas por provincia (T-139, paso 1).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-10 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/movilidad_em_union_v1.0.0.py (1.0.0: convertir, verificar, candidatas)
+VERSIÓN: 1.2.0 · FECHA: 2026-11-10 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/movilidad_em_union_v1.1.0.py (1.1.0: indicador; 1.0.0: convertir, verificar, candidatas)
 QUÉ HACE: (1) `convertir`: xlsx del INE -> CSV en `datos/movilidad/` + MANIFEST con sha256 de origen y de salida;
   (2) `verificar`: unión código de flujo (`001A`) -> `ID_GRUPO` (`01VI`) por nombre normalizado, exige biyección;
   (3) `candidatas`: por provincia, población en áreas que el plan vigente parte entre distritos;
+  (5) `compacidad` (baja el M06 vigente: necesita `gh` y GH_TOKEN) y `tabla` (paso 3: relación indicador/población/compacidad).
   (4) `indicador`: cohesión funcional por distrito y plan (1.1.0, T-139 paso 2), con y sin la capital.
   Solo indicador de investigación: no toca el motor ni la función de calidad; nada se publica.
 FUENTE: https://www.ine.es/experimental/movilidad/experimental_em1.htm (CC BY 4.0, estadística experimental).
@@ -218,6 +219,90 @@ def cmd_indicador(areas: list[dict]) -> None:
             w.writerow([t, etiqueta, "hacia_fuera", "", "", r["flujo_hacia_fuera"]])
 
 
+COMPACIDAD_CSV = DIR / "piloto_compacidad_m06.csv"
+
+
+def rangos(v: list[float]) -> list[float]:
+    o = sorted(range(len(v)), key=lambda i: v[i])
+    r = [0.0] * len(v)
+    i = 0
+    while i < len(o):
+        j = i
+        while j + 1 < len(o) and v[o[j + 1]] == v[o[i]]:
+            j += 1
+        for k in range(i, j + 1):
+            r[o[k]] = (i + j) / 2 + 1
+        i = j + 1
+    return r
+
+
+def spearman(x: list[float], y: list[float]) -> float:
+    rx, ry = rangos(x), rangos(y)
+    n = len(x)
+    mx, my = sum(rx) / n, sum(ry) / n
+    num = sum((a - mx) * (b - my) for a, b in zip(rx, ry))
+    den = (sum((a - mx) ** 2 for a in rx) * sum((b - my) ** 2 for b in ry)) ** 0.5
+    return num / den if den else float("nan")
+
+
+def cmd_compacidad() -> None:
+    import io
+    import zipfile
+    sys.path.insert(0, str(ROOT / "herramientas"))
+    import composicion_m06 as c06
+    prods = c06.m06_vigentes()
+    w = csv.writer(sys.stdout, lineterminator="\n")
+    w.writerow(["territorio", "distrito", "poblacion_m06", "polsby_popper_m06", "run_id", "blob_sha", "sha256_zip_m06"])
+    for t in CAPITALES:
+        p = prods[t]
+        b = c06.bajar_blob(p)
+        h = hashlib.sha256(b).hexdigest()
+        if h != p["sha256"]:
+            raise ValueError(f"{t}: sha256 del blob distinto del registro")
+        z = zipfile.ZipFile(io.BytesIO(b))
+        gj = json.loads(z.read(next(n for n in z.namelist() if n.endswith(".geojson"))))
+        for ft in sorted(gj["features"], key=lambda f: f["properties"]["district_id"]):
+            q = ft["properties"]
+            w.writerow([t, numero_publico(int(q["district_id"])), q["district_pop"], f"{q['polsby_popper']:.4f}",
+                        p["run_id"], p["blob_sha"], h])
+
+
+def cmd_tabla(areas: list[dict]) -> None:
+    ind = defaultdict(dict)
+    for r in leer_csv(DIR / "piloto_indicador_em1.csv"):
+        if r["ambito"] == "distrito" and r["cohesion"]:
+            ind[(r["territorio"], r["capital"])][int(r["distrito"])] = float(r["cohesion"])
+    plan = {(r["territorio"], r["capital"]): float(r["cohesion"]) for r in leer_csv(DIR / "piloto_indicador_em1.csv")
+            if r["ambito"] == "plan"}
+    comp = defaultdict(dict)
+    for r in leer_csv(COMPACIDAD_CSV):
+        comp[r["territorio"]][int(r["distrito"])] = (int(r["poblacion_m06"]), float(r["polsby_popper_m06"]))
+    w = csv.writer(sys.stdout, lineterminator="\n")
+    w.writerow(["territorio", "K", "poblacion", "pp_medio_m06", "pp_min_m06", "cohesion_plan_con", "cohesion_plan_sin",
+                "rho_cohesion_con_vs_pp", "rho_cohesion_sin_vs_pp", "rho_cohesion_con_vs_poblacion_distrito", "n"])
+    todo = defaultdict(list)
+    for t in CAPITALES:
+        ds = sorted(comp[t])
+        pob = sum(comp[t][d][0] for d in ds)
+        pps = [comp[t][d][1] for d in ds]
+        fila = [t, len(ds), pob, f"{sum(pps) / len(pps):.3f}", f"{min(pps):.3f}",
+                f"{plan[(t, 'con')]:.3f}", f"{plan[(t, 'sin')]:.3f}"]
+        rs = []
+        for cap in ("con", "sin"):
+            dd = [d for d in ds if d in ind[(t, cap)]]
+            rs.append(spearman([ind[(t, cap)][d] for d in dd], [comp[t][d][1] for d in dd]) if len(dd) > 2 else float("nan"))
+            for d in dd:
+                todo[cap].append((ind[(t, cap)][d], comp[t][d][1], comp[t][d][0]))
+        dd = [d for d in ds if d in ind[(t, "con")]]
+        rp = spearman([ind[(t, "con")][d] for d in dd], [comp[t][d][0] for d in dd]) if len(dd) > 2 else float("nan")
+        w.writerow(fila + [f"{rs[0]:.2f}", f"{rs[1]:.2f}", f"{rp:.2f}", len(dd)])
+    for cap in ("con", "sin"):
+        v = todo[cap]
+        w.writerow([f"TODOS_{cap}", "", "", "", "", "", "", f"{spearman([a for a, _, _ in v], [b for _, b, _ in v]):.2f}"
+                    if cap == "con" else "", f"{spearman([a for a, _, _ in v], [b for _, b, _ in v]):.2f}" if cap == "sin" else "",
+                    f"{spearman([a for a, _, _ in v], [c for _, _, c in v]):.2f}" if cap == "con" else "", len(v)])
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sp = ap.add_subparsers(dest="cmd", required=True)
@@ -228,11 +313,19 @@ def main(argv=None) -> int:
     sp.add_parser("verificar")
     sp.add_parser("candidatas")
     sp.add_parser("indicador")
+    sp.add_parser("compacidad")
+    sp.add_parser("tabla")
     a = ap.parse_args(argv)
     if a.cmd == "convertir":
         convertir(a.areas_xlsx, a.flujos_xlsx, json.loads(a.origen_json.read_text(encoding="utf-8")))
         return 0
+    if a.cmd == "compacidad":
+        cmd_compacidad()
+        return 0
     areas = leer_csv(AREAS_CSV)
+    if a.cmd == "tabla":
+        cmd_tabla(areas)
+        return 0
     if a.cmd == "verificar":
         m = unir(areas, leer_csv(CODIGOS_CSV))
         print(f"unión OK: {len(m)} códigos de flujo <-> {len({x['id_grupo'] for x in areas})} grupos (biyección)")

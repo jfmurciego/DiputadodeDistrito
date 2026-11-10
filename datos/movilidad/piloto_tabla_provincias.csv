@@ -1,0 +1,8 @@
+territorio,K,poblacion,pp_medio_m06,pp_min_m06,cohesion_plan_con,cohesion_plan_sin,rho_cohesion_con_vs_pp,rho_cohesion_sin_vs_pp,rho_cohesion_con_vs_poblacion_distrito,n
+congreso_cadiz,11,1254866,0.278,0.060,0.643,0.657,0.16,0.27,0.11,11
+congreso_granada,8,934072,0.143,0.044,0.410,0.603,0.81,0.71,-0.12,8
+congreso_leon,4,448573,0.265,0.154,0.660,0.834,0.20,0.50,0.60,4
+congreso_gerona,7,808672,0.148,0.063,0.615,0.704,-0.32,-0.54,-0.75,7
+congreso_tarragona,7,848592,0.105,0.035,0.556,0.588,0.46,0.60,0.82,7
+TODOS_con,,,,,,,0.38,,0.04,37
+TODOS_sin,,,,,,,,0.41,,32
