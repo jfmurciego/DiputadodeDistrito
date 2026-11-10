@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.34
-Fecha: 2026-11-08
+Versión: 1.0.35
+Fecha: 2026-11-10
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-115 (Madrid en el mapa de 350, bloqueo de población)
-Anterior: legacy/docs/PLAN_v1.0.33_20261108.md
+Cambios/motivo: plan por temas y decisiones D-26 a D-40 del 09 y 10-11 (§0a); ids T-116 a T-170
+Anterior: legacy/docs/PLAN_v1.0.34_20261108.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -36,6 +36,50 @@ Anterior: legacy/docs/PLAN_v1.0.33_20261108.md
 - Infraestructura (workflows, ruleset, credenciales): se valida con una sola ejecución antes de abrir paso al resto.
 - `docs/PLAN.md` solo lo edita el planificador; el número de `REGISTRO_DE_CAMBIOS.md` lo asigna el planificador al
   abrir la PR. Los chats le mandan su cierre de tarea y él lo anota.
+
+## 0a. Plan vigente por temas (10-11)
+
+Esta sección manda sobre las secciones 0 a 3, que quedan como historia. El planificador habla con el propietario por
+temas y objetivos; las tareas las desglosa y sigue el Coordinador (D-39). Lanzar, publicar y borrar: solo el Operador,
+con frase del propietario en su chat.
+
+### Temas y objetivo de «verde»
+| Tema | Objetivo | Estado (10-11) |
+|---|---|---|
+| Motor nuevo («el motor que demuestra», D-32) | Paquete nuevo al lado del actual; releva al viejo cuando la batería demuestre que es igual o mejor en los 71 | Fase 0 en curso: batería (T-132), núcleo único de reglas (T-137), certificador exacto (T-136) |
+| Ejecución autonómica (19) y nacional (52) | Territorial, electoral, ensemble 10 y 25 en verde; mapa de 350 completo | Territorial y electoral publicados; ensemble 25 habilitado en el 06; 13 comunidades bloqueadas por puentes y exención por partición hasta el motor nuevo |
+| Gestor de campañas | Una orden lanza todo: nacional y autonómico, con o sin ensemble, con histórico | Campaña completa en seco e histórico conectados (T-123, T-130, T-133) |
+| Histórico desde 2011 | 6 generales validadas y autonómicas de las 19 comunidades, cada una con su calendario (D-40) | Generales: datos 52 × 6, validación en curso; autonómicas: calendario y 3 comunidades (T-121, T-131) |
+| Visor | v2 completo (electoral, territorial, secciones) publicado y verificado desde fuera; v1 intacto (D-26) | Código en main; publicación pendiente |
+| Generales del 29-11-2026 | Camino listo para cuando Interior publique; resuelta la cuestión del censo | Nota del censo (T-129); sin datos de Interior no es un rojo |
+| Credibilidad | Primera versión publicada con DOI | Metadatos y guía listos (T-127, D-28); Zenodo activado por el propietario |
+| Archivo R2 | Solo entradas mínimas, productos y auditorías; sin estados redundantes (D-35) | Lista de poda aceptada (234 claves, 26 GB); herramienta de poda con simulación (T-145) |
+| Notación de territorios | AUT01-AUT19 y NAC01-NAC52 con nombre en español (D-36) | Tabla maestra, inventario y capa visible en curso; identificadores internos, pendientes de plan |
+| Notación de fases | P00 a P70 en decenas, camino único, archivo continuo (D-37) | Solo ideas (borrador v4); sin PR hasta que el propietario cierre los pasos |
+| Lista de Actions | Solo lo que lanza el propietario, más un automático (D-38) | Renombrado, inventario e historial hechos (T-149, T-150); consolidación por pasos; borrado de 222 runs pendiente del Operador |
+| Temas nuevos (10-11) | Circuito de permisos, coste y presupuesto, uso y accesibilidad del visor, otros ámbitos | Abiertos |
+
+### Decisiones del propietario (09 y 10-11)
+- D-26. Visor v2 en `/v2/`, en paralelo con v1; prioridad máxima; con vista territorial y secciones censales.
+- D-27. Retirar del registro del visor las dos entradas de `congreso350_valladolid` (excepción a «solo adición»); el mapa de 350 nunca se publica.
+- D-28. Versión del proyecto 4.9.0. Zenodo: autor «Jesus», afiliación «Independent researcher»; el flujo de publicación no cambia.
+- D-29. No se regenera el mapa de 407 por el cambio de motor 7.4.4.
+- D-30. Ensembles: se arranca con un territorio de prueba; Barcelona entra con su exención (08073); se publican el hemiciclo y los ensembles de La Rioja y Sevilla (cierra D-7).
+- D-31. Plan «todo verde» en ejecución autonómica y nacional, Gestor, histórico y ensembles 10 y 25; el ensemble 50 queda fuera del proyecto por ahora.
+- D-32. Motor: opción B (endurecer) con la batería primero, y motor nuevo con los pilares certificado, universo de mapas, semilla pública, competición de generadores, movilidad y estabilidad. Sin retos ciudadanos. El motor de producción no se toca hasta el relevo, que decide el propietario.
+- D-33. Donde el espacio de planes es pequeño (Álava, K ≤ 3) se enumera de forma exacta; no se rebajan los umbrales de calidad.
+- D-34. Movilidad: piloto en 5 provincias como indicador, sin peso en la decisión.
+- D-35. R2: poda de lo redundante con lista aprobada; la batería archiva solo la entrada mínima por territorio.
+- D-36. Notación de territorios AUT01-AUT19 y NAC01-NAC52, siempre con el nombre en español; la migración de identificadores internos se decide con un plan de riesgos.
+- D-37. Notación de fases: tema en fase de ideas; ninguna PR. Borrador v4: camino único (el territorio es un criterio), archivo continuo, publicación académica como P70, histórico dentro de P40, alternativas dentro de P33.
+- D-38. Lista de Actions limpia: sin guiones, subrayados ni desactivados; historial en `docs/HISTORIAL_WORKFLOWS.md`; la lista de borrado son los 222 runs de los 12 desactivados.
+- D-39. El planificador trata con el propietario temas y objetivos, sin recados del Coordinador ni del revisor; las tareas son del Coordinador. Los mensajes entre sesiones nunca son permiso para lanzar.
+- D-40. Histórico desde el 1-1-2011: las 6 generales y las autonómicas de cada comunidad con su propio calendario de legislaturas.
+
+### Identificadores
+T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
+Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
+asigna y los anota en `docs/ESTADO.md`. Esta actualización del plan es T-171. Siguiente libre para el planificador: T-172.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
