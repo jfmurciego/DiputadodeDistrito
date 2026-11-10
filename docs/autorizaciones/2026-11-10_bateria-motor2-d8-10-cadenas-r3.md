@@ -24,8 +24,9 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
+| 20:22 | Soria + Barcelona (fase 1) | batería motor2 D8 N=10 | 42884601639 | EN_VUELO | 1 / — | 0/1 |
 
 ## Cierre
-Estado: `ACEPTADA, EN_ESPERA` de T-181b en `main` (no estaba al recibir la frase). Último uso: —.
+Estado: `EN_CURSO` (T-181b en `main`, #683). Último uso: —.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_bateria-motor2-d8-10-cadenas-r3 tal como figura en la ficha.»
