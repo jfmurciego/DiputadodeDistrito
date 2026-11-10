@@ -50,7 +50,7 @@
   "territorios": 71,
   "productos": 390,
   "errores": 0,
-  "avisos": 136
+  "avisos": 146
  },
  "territorios": {
   "andalucia": {
@@ -208,12 +208,7 @@
       "blob_sha": "6eed168481c04e8ca07e1b607e1cabeae0b5e1ba",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/canarias/40951280657/ddd-state-40951280657-M06.zip",
-       "sha256": "625796d5cf68465b21000944dd358bb4409e0b0852644a3507d7e5ad42868629"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -239,12 +234,7 @@
       "blob_sha": "ea6f74782bc1683b00fe5f7e98b5b177430107e5",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/canarias/40951280657/ddd-state-40951280657-M08.zip",
-       "sha256": "b0b6ceaf2b354559e9ce7f0430359a9f2e1d0258863e1bb69c139df1cc8cf3c9"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -316,12 +306,7 @@
       "blob_sha": "35422a1cbbd8a811fae9f4c63f966a19945fb13d",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/cantabria/40241638106/ddd-state-40241638106-M06.zip",
-       "sha256": "4cba58ed39ac13c106d35df230fade2af65a7a87210bef25dea524cd5138f8d4"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -334,12 +319,7 @@
       "blob_sha": "b4a30d75a0ca0222db154592319896c8acaf4a43",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/cantabria/41037133327/ddd-state-41037133327-M06.zip",
-       "sha256": "4a0cc8bd12a92f86fb74b874b8590da94e2828e10f71a3a578a0882d9fe879d8"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -545,12 +525,7 @@
       "blob_sha": "7917a37b81b943ba648befbe41eb1fc46332d0e2",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/castilla_y_leon/40969454399/ddd-state-40969454399-M06.zip",
-       "sha256": "66dc44bae7adc9c58dc1e76a0d9379d9c8a075b6f72613afb29805cd4bc97eb2"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -648,12 +623,7 @@
       "blob_sha": "225518d4baea8c24c73607cb58a761e6637c1592",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/cataluna/40952013601/ddd-state-40952013601-M06.zip",
-       "sha256": "8ee90d1e0ed12c19d1fb370bb8aeed03406e609269c8cd9e027817a6df0c5adb"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -666,12 +636,7 @@
       "blob_sha": "caa21b4f1a10b38ab80ecbd9b397eebc56381ae5",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/cataluna/41062562553/ddd-state-41062562553-M06.zip",
-       "sha256": "f8917865b064a2711b220b0a406f267d1cacb51d88e38cb69d6f734e68bf6ecb"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -684,12 +649,7 @@
       "blob_sha": "c9a11ab4833770636ad799a49d1f297dee26387f",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/cataluna/40952013601/ddd-state-40952013601-M08.zip",
-       "sha256": "39ec29bf000271666dbe0379b6e3a14da859ddb5d995068a5720447043b96eef"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -837,12 +797,7 @@
       "blob_sha": "c20e8357c7d1aad5b321c462875341174ec33f4f",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/comunidad_foral_de_navarra/40847881909/ddd-state-40847881909-M06.zip",
-       "sha256": "4d74b3bbfbc80911e5fba9dc4c66a5f91ed5f04f2e3c1c33e7ca2c83e6ca1511"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -855,12 +810,7 @@
       "blob_sha": "4d0cca79214f8e7586848919d0d8028217bf8460",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M06.zip",
-       "sha256": "6f35b4daa7b839945bdd64a8d5b8fbbb48091f76760140fe411e17af5727e8dd"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -873,12 +823,7 @@
       "blob_sha": "8a0e50d22c6fcabf9576459fc613306a0ae6becc",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/comunidad_foral_de_navarra/40847881909/ddd-state-40847881909-M08.zip",
-       "sha256": "d7f5e4d28234d593d3a67923b7a0d664ffb2fef01ae4bca7e206c5a9282186c7"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -968,12 +913,7 @@
       "blob_sha": "590d954319932f716c69001083016526f16773f6",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/comunidad_valenciana/41062567297/ddd-state-41062567297-M06.zip",
-       "sha256": "2ee98e3d269c78a497dc26037798afd1865aa57a8cba359282be2259f33bc506"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -986,12 +926,7 @@
       "blob_sha": "e49d211494356485cd13a17d554b05b38c35bce4",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/comunidad_valenciana/40973760398/ddd-state-40973760398-M08.zip",
-       "sha256": "7d30d380913c108b5b0afe4177d5b83d874112bea2dada24161c968b63bc9c46"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -5881,12 +5816,7 @@
       "blob_sha": "8cd1063c3e9c53ac6531d9d8f2ab3cb8a4857638",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/extremadura/41042675119/ddd-state-41042675119-M06.zip",
-       "sha256": "927c5d206e006d89975c30a7cc763ad890354f8bc08818f9232ce854356c31ec"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -5899,12 +5829,7 @@
       "blob_sha": "dfeb085cbf4a5201e29b9ddb3e129bca264f0df1",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/extremadura/40965231300/ddd-state-40965231300-M08.zip",
-       "sha256": "436cf8745eab8fa94827d3f5a1b9f60cd20c1f1f78d748188d0e8ebf97553b0a"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6084,12 +6009,7 @@
       "blob_sha": "45656210387ab6ffdcf62d7e10c11c060b6d8298",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/illes_balears/41033500476/ddd-state-41033500476-M06.zip",
-       "sha256": "93bde6278f409dda6b4b25350979150263086991771d8fe9c0f63cbf4f6ec5c4"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6152,12 +6072,7 @@
       "blob_sha": "2bc4b066b871d7a4f51b2646e63432117f1648d8",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/la_rioja/40867456776/ddd-state-40867456776-M06.zip",
-       "sha256": "d2d53eb72ad88809617b04a958f4bc4d645786ac52d9e75ea3a9fbf4d9463346"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6234,12 +6149,7 @@
       "blob_sha": "7aecce7a88854918d8cea23b1a67b366391371ce",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/madrid/40787900559/ddd-state-40787900559-M06.zip",
-       "sha256": "a0258112ed6dec09d720075eaa37a10985aa55adbd22197a96f8752de3e86ac8"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6316,12 +6226,7 @@
       "blob_sha": "0070ea2763dd5754bcc12b2cc4f2ec1f4f587d8a",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/melilla/40840795932/ddd-state-40840795932-M06.zip",
-       "sha256": "f8c2d14fcef4cb294542d11f604c5ec1c413b6119a0b91102ebed22edbdee291"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6347,12 +6252,7 @@
       "blob_sha": "3aecb7f93e50b3ea977ea6fb3aeebad6fcb848d7",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/melilla/40840795932/ddd-state-40840795932-M08.zip",
-       "sha256": "a2b3db6b89c06d15408affa105c73424bfdbb3787f40f9f6abaf939b57c3b06d"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6424,12 +6324,7 @@
       "blob_sha": "347793dd1c19c93e7a9aa79087262d53358d1640",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/pais_vasco/40951146225/ddd-state-40951146225-M06.zip",
-       "sha256": "94865ccb2f9787337a647029b5dbad2838ffc41e71ee811d941d5f4f37ca3b4e"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6558,12 +6453,7 @@
       "blob_sha": "ea91213419925f762e4a34234511ccc44a4dec64",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/principado_de_asturias/40132061626/ddd-state-40132061626-M06.zip",
-       "sha256": "64275fcf814003e64232053bcdcf2e68b58ac0f1d4c222fdcb9e589177c01dd0"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6718,12 +6608,7 @@
       "blob_sha": "278a4ee50d621c4363422aa36f0741d455c59c8d",
       "ruta": null
      },
-     "copias_r2": [
-      {
-       "url": "r2://ddd-research-archive/region_de_murcia/40957577850/ddd-state-40957577850-M08.zip",
-       "sha256": "dcd9ff153ac52f188edcaa1ab1be953d4811ff184d82bb99fb93ac7d395d329d"
-      }
-     ],
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6927,6 +6812,13 @@
   },
   {
    "nivel": "AVISO",
+   "territorio": "cantabria",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 41037133327: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
    "territorio": "castilla_la_mancha",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
@@ -6948,6 +6840,13 @@
   },
   {
    "nivel": "AVISO",
+   "territorio": "cataluna",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 41062562553: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
    "territorio": "ceuta",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
@@ -6959,6 +6858,20 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 42503542766: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "comunidad_foral_de_navarra",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 41049986588: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "comunidad_valenciana",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 41062567297: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7687,6 +7600,13 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 41296815536: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "extremadura",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 41042675119: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7697,6 +7617,27 @@
   },
   {
    "nivel": "AVISO",
+   "territorio": "illes_balears",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 41033500476: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "la_rioja",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 40867456776: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "madrid",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 40787900559: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
    "territorio": "melilla",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
@@ -7708,6 +7649,20 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 42504386196: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "pais_vasco",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 40951146225: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "principado_de_asturias",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 40132061626: solo copia git"
   },
   {
    "nivel": "AVISO",

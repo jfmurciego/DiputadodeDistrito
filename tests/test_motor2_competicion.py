@@ -16,7 +16,8 @@ if str(ROOT) not in sys.path:
 
 from fractions import Fraction  # noqa: E402
 
-from ddd_motor2.competicion import Candidato, EntradaTerritorio, Salida, competir, huella_plan  # noqa: E402
+from ddd_motor2.calidad import huella_plan  # noqa: E402
+from ddd_motor2.competicion import Candidato, EntradaTerritorio, Salida, competir  # noqa: E402
 
 # Cuatro unidades en línea A-B-C-D, un municipio cada una, una provincia, K=2.
 POB = {"A": 100, "B": 100, "C": 100, "D": 100}
@@ -66,7 +67,7 @@ class Competicion(unittest.TestCase):
         gc = Fijo("gerrychain", {1: {"A": "1", "B": "2", "C": "2", "D": "2"},              # 90/310: techo
                                  2: {"A": "x", "B": "x", "C": "y", "D": "y"},              # igual al canónico
                                  3: None, 4: "excepcion"}, pob)
-        r = competir(self.entrada, canon, gc, [1, 2, 3, 4], self.tmp / "out")
+        r = competir(self.entrada, canon, gc, [1, 2, 3, 4], self.tmp / "out", exhaustivo=False)
         self.assertEqual(r.ganador.id, "canonico")  # empate con s2 (mismo plan): gana el orden
         estados = {c.id: c.estado for c in r.candidatos}
         self.assertEqual(estados, {"canonico": "VALIDO", "gerrychain-s1": "INVALIDO", "gerrychain-s2": "VALIDO",
@@ -143,6 +144,90 @@ class Competicion(unittest.TestCase):
         with self.assertRaises(ValueError):
             competir(self.entrada, Fijo("canonico", {}), Fijo("gerrychain", {}), [1, 1], self.tmp / "o")
 
+
+class NucleoDesdeM04(unittest.TestCase):
+    """T-195: R-NUCLEO se juzga contra el distrito inicial del M04, no contra la composición del canónico."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        self.secc = {u: f"220010100{i}" for i, u in enumerate(sorted(POB))}
+        grafo = self.tmp / "ciclo.json"
+        grafo.write_text(json.dumps({"nodes": list(self.secc.values()), "edges": [
+            {"u": self.secc[a], "v": self.secc[b]} for a, b in (("A", "B"), ("B", "C"), ("C", "D"), ("D", "A"))]}))
+        m04 = self.tmp / "m04.geojson"  # M04: {A,B} en el distrito 1 (cerradas), {C,D} en el 2
+        m04.write_text(json.dumps({"type": "FeatureCollection", "features": [
+            {"type": "Feature", "geometry": None, "properties": {"CUSEC_KEY": self.secc[u], "district_id": d}}
+            for u, d in {"A": 1, "B": 1, "C": 2, "D": 2}.items()]}))
+        self.m04 = m04
+        self.ab_cd = {"A": "1", "B": "1", "C": "2", "D": "2"}
+        self.bc_da = {"A": "2", "B": "1", "C": "1", "D": "2"}  # válido por población, pero parte {A,B}
+
+    def _competir(self, con_m04):
+        from ddd_motor2.adaptadores import referencia_desde_m04
+        ref = referencia_desde_m04(self.m04, self.tmp / "ref.csv") if con_m04 else None
+        e = EntradaTerritorio("ciclo", CFG, self.tmp / "ciclo.json", referencia_nucleos=ref)
+        return competir(e, Fijo("canonico", {None: self.bc_da}, cerradas=("A", "B")),
+                        Fijo("gerrychain", {1: self.ab_cd}, cerradas=("A", "B")), [1], self.tmp / "o", exhaustivo=False)
+
+    def test_la_referencia_m04_descarta_al_canonico_que_rompe_el_nucleo(self):
+        r = self._competir(True)
+        estados = {c.id: c.estado for c in r.candidatos}
+        self.assertEqual(estados, {"canonico": "INVALIDO", "gerrychain-s1": "VALIDO"})
+        self.assertEqual(r.ganador.id, "gerrychain-s1")
+        self.assertIn("R-NUCLEO", {v["regla"] for v in r.candidatos[0].violaciones})
+
+    def test_sin_referencia_m04_el_canonico_se_juzga_contra_si_mismo(self):
+        r = self._competir(False)  # comportamiento anterior: núcleo trivial, el canónico no se descarta
+        self.assertEqual(r.canonico.estado, "VALIDO")
+
+    def test_referencia_exige_district_id(self):
+        from ddd_motor2.adaptadores import referencia_desde_m04
+        from ddd_motor2.reglas import ErrorDatos
+        malo = self.tmp / "malo.geojson"
+        malo.write_text(json.dumps({"features": [{"properties": {"CUSEC_KEY": "1"}}]}))
+        with self.assertRaises(ErrorDatos):
+            referencia_desde_m04(malo, self.tmp / "x.csv")
+
+
+class Exhaustivo(unittest.TestCase):
+    """T-175: en un territorio pequeño la competición enumera todos los planes válidos y compite el mejor."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        grafo = self.tmp / "grafo.json"
+        secc = {u: f"220010100{i}" for i, u in enumerate(sorted(POB))}
+        grafo.write_text(json.dumps({"nodes": list(secc.values()), "edges": [
+            {"u": secc[a], "v": secc[b]} for a, b in (("A", "B"), ("B", "C"), ("C", "D"))]}))
+        self.entrada = EntradaTerritorio("prueba", CFG, grafo)
+
+    def test_el_exhaustivo_gana_si_las_cadenas_no_llegan(self):
+        # A-B-C-D 90/110/100/100: el único válido es AB|CD (200/200). El canónico y la cadena
+        # dan planes inválidos; la enumeración encuentra el único válido.
+        pob = {"A": 90, "B": 110, "C": 100, "D": 100}
+        malo = {"A": "1", "B": "2", "C": "2", "D": "2"}
+        r = competir(self.entrada, Fijo("canonico", {None: malo}, pob), Fijo("gerrychain", {1: malo}, pob), [1],
+                     self.tmp / "o")
+        self.assertEqual(r.ganador.id, "exhaustivo")
+        self.assertTrue(r.valido)
+        self.assertEqual((r.exhaustivo["metodo"], r.exhaustivo["completo"], r.exhaustivo["validos"]),
+                         ("enumeracion", True, 1))
+        self.assertEqual(r.ganador.huella_plan, huella_plan({"A": "1", "B": "1", "C": "2", "D": "2"}))
+
+    def test_presupuesto_agotado_no_compite(self):
+        from ddd_motor2.reglas import Criterio
+        bueno = {"A": "1", "B": "1", "C": "2", "D": "2"}
+        r = competir(self.entrada, Fijo("canonico", {None: bueno}), Fijo("gerrychain", {1: bueno}), [1],
+                     self.tmp / "o", criterio=Criterio(presupuesto_nodos=2))
+        self.assertEqual((r.exhaustivo["metodo"], r.exhaustivo["completo"]), ("cadena", False))
+        self.assertNotIn("exhaustivo", [c.id for c in r.candidatos])
+        self.assertEqual(r.ganador.id, "canonico")
+
+    def test_empata_con_el_canonico_si_ya_es_el_optimo(self):
+        bueno = {"A": "1", "B": "1", "C": "2", "D": "2"}
+        r = competir(self.entrada, Fijo("canonico", {None: bueno}), Fijo("gerrychain", {}), [1], self.tmp / "o")
+        ex = next(c for c in r.candidatos if c.id == "exhaustivo")
+        self.assertEqual(ex.clave()[:6], r.canonico.clave()[:6])
+        self.assertEqual(r.ganador.id, "canonico")  # desempate final por orden
 
 if __name__ == "__main__":
     unittest.main()

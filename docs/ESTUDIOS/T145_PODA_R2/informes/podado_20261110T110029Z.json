@@ -1,0 +1,1649 @@
+{
+  "borradas": [
+    {
+      "clave": "aragon/40979465420/ddd-state-40979465420-M01.zip",
+      "copia_clave": "aragon/40979465420/ddd-minimo-40979465420-M08.zip",
+      "copia_sha256": "c6ef9c8a7c840043612146b942bec50bfd2cac5d2f3087c93f5b8d8ac1d7e662",
+      "sha256": "1561d6e873ef6404621d009eda7cfad0f3d463b81fe6323873b1c59a9a36cd58",
+      "tamano_bytes": 84528596
+    },
+    {
+      "clave": "aragon/40979465420/ddd-state-40979465420-M02.zip",
+      "copia_clave": "aragon/40979465420/ddd-minimo-40979465420-M08.zip",
+      "copia_sha256": "c6ef9c8a7c840043612146b942bec50bfd2cac5d2f3087c93f5b8d8ac1d7e662",
+      "sha256": "cb6e53404feafa1ff1be6bf51d55578ad88158a98591984446253eb352f99562",
+      "tamano_bytes": 84546919
+    },
+    {
+      "clave": "aragon/40979465420/ddd-state-40979465420-M03.zip",
+      "copia_clave": "aragon/40979465420/ddd-minimo-40979465420-M08.zip",
+      "copia_sha256": "c6ef9c8a7c840043612146b942bec50bfd2cac5d2f3087c93f5b8d8ac1d7e662",
+      "sha256": "6d0c6505589bf8148368c24c13c7915193ea1359c247cf53e9fa4448ba4961bb",
+      "tamano_bytes": 84578723
+    },
+    {
+      "clave": "aragon/40979465420/ddd-state-40979465420-M03U.zip",
+      "copia_clave": "aragon/40979465420/ddd-minimo-40979465420-M08.zip",
+      "copia_sha256": "c6ef9c8a7c840043612146b942bec50bfd2cac5d2f3087c93f5b8d8ac1d7e662",
+      "sha256": "48dba48377e2c795eddbb3fdc63161dc3c826b3a00382bf1d3fc5bed5432ae90",
+      "tamano_bytes": 84578723
+    },
+    {
+      "clave": "aragon/40979465420/ddd-state-40979465420-M04.zip",
+      "copia_clave": "aragon/40979465420/ddd-minimo-40979465420-M08.zip",
+      "copia_sha256": "c6ef9c8a7c840043612146b942bec50bfd2cac5d2f3087c93f5b8d8ac1d7e662",
+      "sha256": "28ff4f66b81540628265af04570de237b7cab756c80873bb7a912489c3bcd9d1",
+      "tamano_bytes": 86998013
+    },
+    {
+      "clave": "aragon/40979465420/ddd-state-40979465420-M05.zip",
+      "copia_clave": "aragon/40979465420/ddd-minimo-40979465420-M08.zip",
+      "copia_sha256": "c6ef9c8a7c840043612146b942bec50bfd2cac5d2f3087c93f5b8d8ac1d7e662",
+      "sha256": "ab3e1b0f774dbc70559057ff2a5e882a0f03626f66c601caaa9bd8da655fcdcc",
+      "tamano_bytes": 206899262
+    },
+    {
+      "clave": "aragon/40979465420/ddd-state-40979465420-M06.zip",
+      "copia_clave": "aragon/40979465420/ddd-minimo-40979465420-M08.zip",
+      "copia_sha256": "c6ef9c8a7c840043612146b942bec50bfd2cac5d2f3087c93f5b8d8ac1d7e662",
+      "sha256": "257d40366b285d0fd4753e1264f9002fa0ebbdc0d7886b5b7311665657a25bfe",
+      "tamano_bytes": 210081074
+    },
+    {
+      "clave": "aragon/40979465420/ddd-state-40979465420-M07.zip",
+      "copia_clave": "aragon/40979465420/ddd-minimo-40979465420-M08.zip",
+      "copia_sha256": "c6ef9c8a7c840043612146b942bec50bfd2cac5d2f3087c93f5b8d8ac1d7e662",
+      "sha256": "3775e190de9bf2772c6bdf05a02a2b68af67d9d873caebf9247c9811aae37022",
+      "tamano_bytes": 212523578
+    },
+    {
+      "clave": "aragon/40979465420/ddd-state-40979465420-M08.zip",
+      "copia_clave": "aragon/40979465420/ddd-minimo-40979465420-M08.zip",
+      "copia_sha256": "c6ef9c8a7c840043612146b942bec50bfd2cac5d2f3087c93f5b8d8ac1d7e662",
+      "sha256": "063520ed35b9b2dc459addd51d9003e2f1d54aedae67e235cddcc7a03259e9de",
+      "tamano_bytes": 213252100
+    },
+    {
+      "clave": "canarias/40951280657/ddd-state-40951280657-M03U.zip",
+      "copia_clave": "canarias/40951280657/ddd-minimo-40951280657-M08.zip",
+      "copia_sha256": "9254c9ad6bc14b03d188b207e682e0541d719168159f4a72b7d9b9b357d5976f",
+      "sha256": "1c5497b6c9f6ef950d97c2a281ad4144de1dd2868b60cb8e7b5f24df7de79196",
+      "tamano_bytes": 105652740
+    },
+    {
+      "clave": "canarias/40951280657/ddd-state-40951280657-M04.zip",
+      "copia_clave": "canarias/40951280657/ddd-minimo-40951280657-M08.zip",
+      "copia_sha256": "9254c9ad6bc14b03d188b207e682e0541d719168159f4a72b7d9b9b357d5976f",
+      "sha256": "5156d6e84523f09072e947a44adb8b9201fc428b9ae9a7963945b216373c6111",
+      "tamano_bytes": 111925789
+    },
+    {
+      "clave": "canarias/40951280657/ddd-state-40951280657-M05.zip",
+      "copia_clave": "canarias/40951280657/ddd-minimo-40951280657-M08.zip",
+      "copia_sha256": "9254c9ad6bc14b03d188b207e682e0541d719168159f4a72b7d9b9b357d5976f",
+      "sha256": "c467b1bfac65b3891f0f39566a727de7c473f3e3e8f4c94ea2c5f302672e7698",
+      "tamano_bytes": 118197053
+    },
+    {
+      "clave": "canarias/40951280657/ddd-state-40951280657-M06.zip",
+      "copia_clave": "canarias/40951280657/ddd-minimo-40951280657-M08.zip",
+      "copia_sha256": "9254c9ad6bc14b03d188b207e682e0541d719168159f4a72b7d9b9b357d5976f",
+      "sha256": "625796d5cf68465b21000944dd358bb4409e0b0852644a3507d7e5ad42868629",
+      "tamano_bytes": 127664556
+    },
+    {
+      "clave": "canarias/40951280657/ddd-state-40951280657-M07.zip",
+      "copia_clave": "canarias/40951280657/ddd-minimo-40951280657-M08.zip",
+      "copia_sha256": "9254c9ad6bc14b03d188b207e682e0541d719168159f4a72b7d9b9b357d5976f",
+      "sha256": "246b1ff30ebb0d7766b4f8bd354d21c746d24bc2f9bd8ea58146a2f5a8ed65d9",
+      "tamano_bytes": 133971164
+    },
+    {
+      "clave": "canarias/40951280657/ddd-state-40951280657-M08.zip",
+      "copia_clave": "canarias/40951280657/ddd-minimo-40951280657-M08.zip",
+      "copia_sha256": "9254c9ad6bc14b03d188b207e682e0541d719168159f4a72b7d9b9b357d5976f",
+      "sha256": "b0b6ceaf2b354559e9ce7f0430359a9f2e1d0258863e1bb69c139df1cc8cf3c9",
+      "tamano_bytes": 137150880
+    },
+    {
+      "clave": "cantabria/40241638106/ddd-state-40241638106-M01.zip",
+      "copia_clave": "cantabria/40241638106/ddd-minimo-40241638106-M06.zip",
+      "copia_sha256": "e440f26b66a9de49e458f94937d06250ec1edd81851d880cffc9332ec29984a4",
+      "sha256": "7402c2d9e976d8f7ea453c717a849bb99222407686fd9fadf43310d53adfbb36",
+      "tamano_bytes": 1204074
+    },
+    {
+      "clave": "cantabria/40241638106/ddd-state-40241638106-M02.zip",
+      "copia_clave": "cantabria/40241638106/ddd-minimo-40241638106-M06.zip",
+      "copia_sha256": "e440f26b66a9de49e458f94937d06250ec1edd81851d880cffc9332ec29984a4",
+      "sha256": "6b9f4fe6dfa283da2a917eb0f3c025d5111809300ab29ccd4a4e10851c5a937b",
+      "tamano_bytes": 1210458
+    },
+    {
+      "clave": "cantabria/40241638106/ddd-state-40241638106-M03.zip",
+      "copia_clave": "cantabria/40241638106/ddd-minimo-40241638106-M06.zip",
+      "copia_sha256": "e440f26b66a9de49e458f94937d06250ec1edd81851d880cffc9332ec29984a4",
+      "sha256": "f2468a26301e5ca7befec1a56436990ea4d62bc0b2e3e8ec99fb753f4a87b0f0",
+      "tamano_bytes": 1221961
+    },
+    {
+      "clave": "cantabria/40241638106/ddd-state-40241638106-M03U.zip",
+      "copia_clave": "cantabria/40241638106/ddd-minimo-40241638106-M06.zip",
+      "copia_sha256": "e440f26b66a9de49e458f94937d06250ec1edd81851d880cffc9332ec29984a4",
+      "sha256": "66608099fa874a5d7e0df1c851dd9050c4d493a64ba0b447e039aa02704f35c8",
+      "tamano_bytes": 1221961
+    },
+    {
+      "clave": "cantabria/40241638106/ddd-state-40241638106-M04.zip",
+      "copia_clave": "cantabria/40241638106/ddd-minimo-40241638106-M06.zip",
+      "copia_sha256": "e440f26b66a9de49e458f94937d06250ec1edd81851d880cffc9332ec29984a4",
+      "sha256": "b50bcd24ea50b53700b0fe544abfb6210de604d176c0d484096c42dff87f29ad",
+      "tamano_bytes": 1736709
+    },
+    {
+      "clave": "cantabria/40241638106/ddd-state-40241638106-M05.zip",
+      "copia_clave": "cantabria/40241638106/ddd-minimo-40241638106-M06.zip",
+      "copia_sha256": "e440f26b66a9de49e458f94937d06250ec1edd81851d880cffc9332ec29984a4",
+      "sha256": "e97b0d1ce4973cc781c32584c6e70bb6f095b67b418df7d20c560340dd02437f",
+      "tamano_bytes": 2253116
+    },
+    {
+      "clave": "cantabria/40241638106/ddd-state-40241638106-M06.zip",
+      "copia_clave": "cantabria/40241638106/ddd-minimo-40241638106-M06.zip",
+      "copia_sha256": "e440f26b66a9de49e458f94937d06250ec1edd81851d880cffc9332ec29984a4",
+      "sha256": "4cba58ed39ac13c106d35df230fade2af65a7a87210bef25dea524cd5138f8d4",
+      "tamano_bytes": 3053642
+    },
+    {
+      "clave": "cantabria/41037133327/ddd-state-41037133327-M01.zip",
+      "copia_clave": "cantabria/41037133327/ddd-state-41037133327-M08.zip",
+      "copia_sha256": "64b29150edf84166a23f2234fbd1bd5f54106bcfe1a3455bf7e8d8ff9a0791dd",
+      "sha256": "e5a3fd483f595a9508ca6cc2e660fff4ee8ff41ec7cc387b5a119f54d56a3c6c",
+      "tamano_bytes": 76149368
+    },
+    {
+      "clave": "cantabria/41037133327/ddd-state-41037133327-M02.zip",
+      "copia_clave": "cantabria/41037133327/ddd-state-41037133327-M08.zip",
+      "copia_sha256": "64b29150edf84166a23f2234fbd1bd5f54106bcfe1a3455bf7e8d8ff9a0791dd",
+      "sha256": "ddee6670442441a24e27b1fd6ce6b405b6175ebbaf890f26aaf214f6322b7562",
+      "tamano_bytes": 76155752
+    },
+    {
+      "clave": "cantabria/41037133327/ddd-state-41037133327-M03.zip",
+      "copia_clave": "cantabria/41037133327/ddd-state-41037133327-M08.zip",
+      "copia_sha256": "64b29150edf84166a23f2234fbd1bd5f54106bcfe1a3455bf7e8d8ff9a0791dd",
+      "sha256": "680cfadedd825a530a63818b5dd13dd9232a67f3206b6aa79c4b089faf9e76bd",
+      "tamano_bytes": 76167257
+    },
+    {
+      "clave": "cantabria/41037133327/ddd-state-41037133327-M03U.zip",
+      "copia_clave": "cantabria/41037133327/ddd-state-41037133327-M08.zip",
+      "copia_sha256": "64b29150edf84166a23f2234fbd1bd5f54106bcfe1a3455bf7e8d8ff9a0791dd",
+      "sha256": "50402f257681855c1268670d018c06ba98117320952be0895d557acee34cc638",
+      "tamano_bytes": 76167257
+    },
+    {
+      "clave": "cantabria/41037133327/ddd-state-41037133327-M04.zip",
+      "copia_clave": "cantabria/41037133327/ddd-state-41037133327-M08.zip",
+      "copia_sha256": "64b29150edf84166a23f2234fbd1bd5f54106bcfe1a3455bf7e8d8ff9a0791dd",
+      "sha256": "86601daa89d8fd3d82ed02644b0f18675ba761bc5553c498d5279b2c01d00a5e",
+      "tamano_bytes": 76682025
+    },
+    {
+      "clave": "cantabria/41037133327/ddd-state-41037133327-M05.zip",
+      "copia_clave": "cantabria/41037133327/ddd-state-41037133327-M08.zip",
+      "copia_sha256": "64b29150edf84166a23f2234fbd1bd5f54106bcfe1a3455bf7e8d8ff9a0791dd",
+      "sha256": "facfbfcdef2566b24b55dea433d8ac289525727d97354fce0400b542e3914884",
+      "tamano_bytes": 102460319
+    },
+    {
+      "clave": "cantabria/41037133327/ddd-state-41037133327-M06.zip",
+      "copia_clave": "cantabria/41037133327/ddd-state-41037133327-M08.zip",
+      "copia_sha256": "64b29150edf84166a23f2234fbd1bd5f54106bcfe1a3455bf7e8d8ff9a0791dd",
+      "sha256": "4a0cc8bd12a92f86fb74b874b8590da94e2828e10f71a3a578a0882d9fe879d8",
+      "tamano_bytes": 103260898
+    },
+    {
+      "clave": "cantabria/41037133327/ddd-state-41037133327-M07.zip",
+      "copia_clave": "cantabria/41037133327/ddd-state-41037133327-M08.zip",
+      "copia_sha256": "64b29150edf84166a23f2234fbd1bd5f54106bcfe1a3455bf7e8d8ff9a0791dd",
+      "sha256": "953c8942ef967dbb9c50994cbea6b7a463d8cdc689ac1a93ea8f31c708be7b6a",
+      "tamano_bytes": 103779158
+    },
+    {
+      "clave": "castilla_la_mancha/40241650464/ddd-state-40241650464-M01.zip",
+      "copia_clave": "castilla_la_mancha/40241650464/ddd-state-40241650464-M06.zip",
+      "copia_sha256": "02daf0fded87f9b1d607091e37ee769d3aa5820f4c67a201ba42f6f460e3c32a",
+      "sha256": "80fc1bedf3ee7e6864bae0230312890fa452839653472ccb6aaffbce76741aab",
+      "tamano_bytes": 16159282
+    },
+    {
+      "clave": "castilla_la_mancha/40241650464/ddd-state-40241650464-M02.zip",
+      "copia_clave": "castilla_la_mancha/40241650464/ddd-state-40241650464-M06.zip",
+      "copia_sha256": "02daf0fded87f9b1d607091e37ee769d3aa5820f4c67a201ba42f6f460e3c32a",
+      "sha256": "af4a17ebc33cc1ab29409a80b96e7065ce4efa619c68badb2fdd9d3bbcc2c7bb",
+      "tamano_bytes": 16184159
+    },
+    {
+      "clave": "castilla_la_mancha/40241650464/ddd-state-40241650464-M03.zip",
+      "copia_clave": "castilla_la_mancha/40241650464/ddd-state-40241650464-M06.zip",
+      "copia_sha256": "02daf0fded87f9b1d607091e37ee769d3aa5820f4c67a201ba42f6f460e3c32a",
+      "sha256": "53d4b510833fba4cf4191370b1d986d116dcbe2dd73b07b6880c15c85843f2b6",
+      "tamano_bytes": 16234397
+    },
+    {
+      "clave": "castilla_la_mancha/40241650464/ddd-state-40241650464-M03U.zip",
+      "copia_clave": "castilla_la_mancha/40241650464/ddd-state-40241650464-M06.zip",
+      "copia_sha256": "02daf0fded87f9b1d607091e37ee769d3aa5820f4c67a201ba42f6f460e3c32a",
+      "sha256": "0bdbe78f19d4df1dfaf47b934d470b2166aed928d214fd953af865601d13a28a",
+      "tamano_bytes": 16234397
+    },
+    {
+      "clave": "castilla_la_mancha/40241650464/ddd-state-40241650464-M04.zip",
+      "copia_clave": "castilla_la_mancha/40241650464/ddd-state-40241650464-M06.zip",
+      "copia_sha256": "02daf0fded87f9b1d607091e37ee769d3aa5820f4c67a201ba42f6f460e3c32a",
+      "sha256": "adc9537cffc0ce67ed81b7f23f11b3f7b1803b1ffcfb419e391809777e0ac108",
+      "tamano_bytes": 20006130
+    },
+    {
+      "clave": "castilla_la_mancha/40241650464/ddd-state-40241650464-M05.zip",
+      "copia_clave": "castilla_la_mancha/40241650464/ddd-state-40241650464-M06.zip",
+      "copia_sha256": "02daf0fded87f9b1d607091e37ee769d3aa5820f4c67a201ba42f6f460e3c32a",
+      "sha256": "831feeb45c2987f4369f1d2797a8c0c0270c527223b1833c79d2003aaedb84c1",
+      "tamano_bytes": 23777112
+    },
+    {
+      "clave": "castilla_la_mancha/40979540141/ddd-state-40979540141-M01.zip",
+      "copia_clave": "castilla_la_mancha/40979540141/ddd-minimo-40979540141-M08.zip",
+      "copia_sha256": "322a7429e8a59633e167ef311dc76091763ddcd8e2df513c5a272222b8353e1b",
+      "sha256": "8725a8dc96c762ac3e60a506a0cb117acec19873982e21c77f8a457b24ce1d7d",
+      "tamano_bytes": 90096219
+    },
+    {
+      "clave": "castilla_la_mancha/40979540141/ddd-state-40979540141-M02.zip",
+      "copia_clave": "castilla_la_mancha/40979540141/ddd-minimo-40979540141-M08.zip",
+      "copia_sha256": "322a7429e8a59633e167ef311dc76091763ddcd8e2df513c5a272222b8353e1b",
+      "sha256": "f06016264f837e2b76851dbcd77377a6ac034294ad5b4adb607c3d1add4062aa",
+      "tamano_bytes": 90121098
+    },
+    {
+      "clave": "castilla_la_mancha/40979540141/ddd-state-40979540141-M03.zip",
+      "copia_clave": "castilla_la_mancha/40979540141/ddd-minimo-40979540141-M08.zip",
+      "copia_sha256": "322a7429e8a59633e167ef311dc76091763ddcd8e2df513c5a272222b8353e1b",
+      "sha256": "429d46195a21bdca88a6f923581182a08a3798368c8b5aa93c4cde425dca1ed2",
+      "tamano_bytes": 90171335
+    },
+    {
+      "clave": "castilla_la_mancha/40979540141/ddd-state-40979540141-M03U.zip",
+      "copia_clave": "castilla_la_mancha/40979540141/ddd-minimo-40979540141-M08.zip",
+      "copia_sha256": "322a7429e8a59633e167ef311dc76091763ddcd8e2df513c5a272222b8353e1b",
+      "sha256": "efaf50a8955da8bf0f186308e38c2fc669ea5c6d7caa12f085403395461bee46",
+      "tamano_bytes": 90171335
+    },
+    {
+      "clave": "castilla_la_mancha/40979540141/ddd-state-40979540141-M04.zip",
+      "copia_clave": "castilla_la_mancha/40979540141/ddd-minimo-40979540141-M08.zip",
+      "copia_sha256": "322a7429e8a59633e167ef311dc76091763ddcd8e2df513c5a272222b8353e1b",
+      "sha256": "9956ac06f7f387e039d8342a7662b9930f23133d38789d327c10779daf9759df",
+      "tamano_bytes": 93943085
+    },
+    {
+      "clave": "castilla_la_mancha/40979540141/ddd-state-40979540141-M05.zip",
+      "copia_clave": "castilla_la_mancha/40979540141/ddd-minimo-40979540141-M08.zip",
+      "copia_sha256": "322a7429e8a59633e167ef311dc76091763ddcd8e2df513c5a272222b8353e1b",
+      "sha256": "7acc32d81e6a37ab5689bae8dab5673cbdce35b06fbf2f05c3ed483f77c93187",
+      "tamano_bytes": 280983646
+    },
+    {
+      "clave": "castilla_la_mancha/40979540141/ddd-state-40979540141-M06.zip",
+      "copia_clave": "castilla_la_mancha/40979540141/ddd-minimo-40979540141-M08.zip",
+      "copia_sha256": "322a7429e8a59633e167ef311dc76091763ddcd8e2df513c5a272222b8353e1b",
+      "sha256": "9a25063155237129ba0da8a90f02bd2e726aec9571cdb17ddd477679564266e2",
+      "tamano_bytes": 285587426
+    },
+    {
+      "clave": "castilla_la_mancha/40979540141/ddd-state-40979540141-M07.zip",
+      "copia_clave": "castilla_la_mancha/40979540141/ddd-minimo-40979540141-M08.zip",
+      "copia_sha256": "322a7429e8a59633e167ef311dc76091763ddcd8e2df513c5a272222b8353e1b",
+      "sha256": "d3a0ebb14a0218fc014daa82da92de7b6fdd590534ad80c3c62858ab2c676c8d",
+      "tamano_bytes": 289386568
+    },
+    {
+      "clave": "castilla_la_mancha/40979540141/ddd-state-40979540141-M08.zip",
+      "copia_clave": "castilla_la_mancha/40979540141/ddd-minimo-40979540141-M08.zip",
+      "copia_sha256": "322a7429e8a59633e167ef311dc76091763ddcd8e2df513c5a272222b8353e1b",
+      "sha256": "3d84d63743c542f49c494808c0f706f024463e0436837e56d223d3ae82d8b9e5",
+      "tamano_bytes": 290180651
+    },
+    {
+      "clave": "castilla_y_leon/40969454399/ddd-state-40969454399-M01.zip",
+      "copia_clave": "castilla_y_leon/40969454399/ddd-minimo-40969454399-M06.zip",
+      "copia_sha256": "72cacd670a7595f28ce4a436571a3532f133203cd4daae2b25272aa6e6f9c2d2",
+      "sha256": "a2fe3c1867d2388c31f4b4efff82a228c67c576df8cb4f08a452df87a907eea1",
+      "tamano_bytes": 96351581
+    },
+    {
+      "clave": "castilla_y_leon/40969454399/ddd-state-40969454399-M02.zip",
+      "copia_clave": "castilla_y_leon/40969454399/ddd-minimo-40969454399-M06.zip",
+      "copia_sha256": "72cacd670a7595f28ce4a436571a3532f133203cd4daae2b25272aa6e6f9c2d2",
+      "sha256": "ba7707de973871bba0e9072c7c975903e6c803c1da8ad98a811ebbdd8041327b",
+      "tamano_bytes": 96396958
+    },
+    {
+      "clave": "castilla_y_leon/40969454399/ddd-state-40969454399-M03.zip",
+      "copia_clave": "castilla_y_leon/40969454399/ddd-minimo-40969454399-M06.zip",
+      "copia_sha256": "72cacd670a7595f28ce4a436571a3532f133203cd4daae2b25272aa6e6f9c2d2",
+      "sha256": "c736a74092607b93c70c74bf8f078c3d44ef289dff59d9d5740a28a8622976d7",
+      "tamano_bytes": 96492316
+    },
+    {
+      "clave": "castilla_y_leon/40969454399/ddd-state-40969454399-M03U.zip",
+      "copia_clave": "castilla_y_leon/40969454399/ddd-minimo-40969454399-M06.zip",
+      "copia_sha256": "72cacd670a7595f28ce4a436571a3532f133203cd4daae2b25272aa6e6f9c2d2",
+      "sha256": "3926412a87febeab1d50f7c1263e30db162bd17045b78f4a2e7664397044659c",
+      "tamano_bytes": 96492316
+    },
+    {
+      "clave": "castilla_y_leon/40969454399/ddd-state-40969454399-M04.zip",
+      "copia_clave": "castilla_y_leon/40969454399/ddd-minimo-40969454399-M06.zip",
+      "copia_sha256": "72cacd670a7595f28ce4a436571a3532f133203cd4daae2b25272aa6e6f9c2d2",
+      "sha256": "c98070ea55ee1b40711ec6f6fd88ec69e958457a962002d1430acbbaf5f4d28a",
+      "tamano_bytes": 101566537
+    },
+    {
+      "clave": "castilla_y_leon/40969454399/ddd-state-40969454399-M05.zip",
+      "copia_clave": "castilla_y_leon/40969454399/ddd-minimo-40969454399-M06.zip",
+      "copia_sha256": "72cacd670a7595f28ce4a436571a3532f133203cd4daae2b25272aa6e6f9c2d2",
+      "sha256": "dc1b17e40886a15af5267067a3380d3950be67216ddcfdb0f126f228078b2753",
+      "tamano_bytes": 106637986
+    },
+    {
+      "clave": "castilla_y_leon/40969454399/ddd-state-40969454399-M06.zip",
+      "copia_clave": "castilla_y_leon/40969454399/ddd-minimo-40969454399-M06.zip",
+      "copia_sha256": "72cacd670a7595f28ce4a436571a3532f133203cd4daae2b25272aa6e6f9c2d2",
+      "sha256": "66dc44bae7adc9c58dc1e76a0d9379d9c8a075b6f72613afb29805cd4bc97eb2",
+      "tamano_bytes": 113462694
+    },
+    {
+      "clave": "castilla_y_leon/40979527162/ddd-state-40979527162-M01.zip",
+      "copia_clave": "castilla_y_leon/40979527162/ddd-minimo-40979527162-M08.zip",
+      "copia_sha256": "cda356e43b9338b845974d3cf8aef9c7f53371f52c1019c5b9cd6b6739d57e5a",
+      "sha256": "4c0f01f94e18c883418a75abcbeec5737b1c3873bfd131cfdbec193f59f06303",
+      "tamano_bytes": 96351581
+    },
+    {
+      "clave": "castilla_y_leon/40979527162/ddd-state-40979527162-M02.zip",
+      "copia_clave": "castilla_y_leon/40979527162/ddd-minimo-40979527162-M08.zip",
+      "copia_sha256": "cda356e43b9338b845974d3cf8aef9c7f53371f52c1019c5b9cd6b6739d57e5a",
+      "sha256": "21bfa2e2148ca01641d3e8839b9d6c2450dddce13ba88a94a70659c28d2e7fc2",
+      "tamano_bytes": 96396957
+    },
+    {
+      "clave": "castilla_y_leon/40979527162/ddd-state-40979527162-M03.zip",
+      "copia_clave": "castilla_y_leon/40979527162/ddd-minimo-40979527162-M08.zip",
+      "copia_sha256": "cda356e43b9338b845974d3cf8aef9c7f53371f52c1019c5b9cd6b6739d57e5a",
+      "sha256": "5e1f969ab132920c0361fff3d2cbc6168c1d349b1fcd33e481bba0c6d42a795f",
+      "tamano_bytes": 96492315
+    },
+    {
+      "clave": "castilla_y_leon/40979527162/ddd-state-40979527162-M03U.zip",
+      "copia_clave": "castilla_y_leon/40979527162/ddd-minimo-40979527162-M08.zip",
+      "copia_sha256": "cda356e43b9338b845974d3cf8aef9c7f53371f52c1019c5b9cd6b6739d57e5a",
+      "sha256": "937d2cd63ca3432dba099b96977d26e52d403123b876f0b5879862ec78ed974e",
+      "tamano_bytes": 96492315
+    },
+    {
+      "clave": "castilla_y_leon/40979527162/ddd-state-40979527162-M04.zip",
+      "copia_clave": "castilla_y_leon/40979527162/ddd-minimo-40979527162-M08.zip",
+      "copia_sha256": "cda356e43b9338b845974d3cf8aef9c7f53371f52c1019c5b9cd6b6739d57e5a",
+      "sha256": "2d29b1f438a3c7e612f0679a3d8184c01da9bf4745e87da25762ac3ba5e402db",
+      "tamano_bytes": 101566537
+    },
+    {
+      "clave": "castilla_y_leon/40979527162/ddd-state-40979527162-M05.zip",
+      "copia_clave": "castilla_y_leon/40979527162/ddd-minimo-40979527162-M08.zip",
+      "copia_sha256": "cda356e43b9338b845974d3cf8aef9c7f53371f52c1019c5b9cd6b6739d57e5a",
+      "sha256": "fb9b0e41c7bf8ac16cf5f59abb8f30fb256de5a569de8657e658dd95ef214db4",
+      "tamano_bytes": 354039138
+    },
+    {
+      "clave": "castilla_y_leon/40979527162/ddd-state-40979527162-M06.zip",
+      "copia_clave": "castilla_y_leon/40979527162/ddd-minimo-40979527162-M08.zip",
+      "copia_sha256": "cda356e43b9338b845974d3cf8aef9c7f53371f52c1019c5b9cd6b6739d57e5a",
+      "sha256": "4f69fa84a529ea7f474197f0094570f37de4eac5a92c6356e72db16d728de824",
+      "tamano_bytes": 360489576
+    },
+    {
+      "clave": "castilla_y_leon/40979527162/ddd-state-40979527162-M07.zip",
+      "copia_clave": "castilla_y_leon/40979527162/ddd-minimo-40979527162-M08.zip",
+      "copia_sha256": "cda356e43b9338b845974d3cf8aef9c7f53371f52c1019c5b9cd6b6739d57e5a",
+      "sha256": "96b145fc70426efb77454798dde5d237e863414221064d401cb10b971ff1633d",
+      "tamano_bytes": 365610615
+    },
+    {
+      "clave": "castilla_y_leon/40979527162/ddd-state-40979527162-M08.zip",
+      "copia_clave": "castilla_y_leon/40979527162/ddd-minimo-40979527162-M08.zip",
+      "copia_sha256": "cda356e43b9338b845974d3cf8aef9c7f53371f52c1019c5b9cd6b6739d57e5a",
+      "sha256": "04d1b913b5056d9a6155cc6a84c74aaf8227fa333100442a342bb5c306edafd6",
+      "tamano_bytes": 366903711
+    },
+    {
+      "clave": "cataluna/40952013601/ddd-state-40952013601-M03U.zip",
+      "copia_clave": "cataluna/40952013601/ddd-minimo-40952013601-M08.zip",
+      "copia_sha256": "e9ad08bc9e603f812addb0bcf542e25b784e62e7b3e9f45b271496799e17f712",
+      "sha256": "1dc5ee4ef7cdd94dfefe01fa5280da6bbd339b0aa8c5333689e61bc2cda6320e",
+      "tamano_bytes": 95248151
+    },
+    {
+      "clave": "cataluna/40952013601/ddd-state-40952013601-M04.zip",
+      "copia_clave": "cataluna/40952013601/ddd-minimo-40952013601-M08.zip",
+      "copia_sha256": "e9ad08bc9e603f812addb0bcf542e25b784e62e7b3e9f45b271496799e17f712",
+      "sha256": "c6dfd7d223381c7d1e1ac72d1ff221ea401c62971a76e2b3a5889fc1eb2a9055",
+      "tamano_bytes": 100065709
+    },
+    {
+      "clave": "cataluna/40952013601/ddd-state-40952013601-M05.zip",
+      "copia_clave": "cataluna/40952013601/ddd-minimo-40952013601-M08.zip",
+      "copia_sha256": "e9ad08bc9e603f812addb0bcf542e25b784e62e7b3e9f45b271496799e17f712",
+      "sha256": "ba3a69a5d2eb125f5a91815730137eb94017ebd7af47e3a181ea20d8c005472b",
+      "tamano_bytes": 104878515
+    },
+    {
+      "clave": "cataluna/40952013601/ddd-state-40952013601-M06.zip",
+      "copia_clave": "cataluna/40952013601/ddd-minimo-40952013601-M08.zip",
+      "copia_sha256": "e9ad08bc9e603f812addb0bcf542e25b784e62e7b3e9f45b271496799e17f712",
+      "sha256": "8ee90d1e0ed12c19d1fb370bb8aeed03406e609269c8cd9e027817a6df0c5adb",
+      "tamano_bytes": 111811592
+    },
+    {
+      "clave": "cataluna/40952013601/ddd-state-40952013601-M07.zip",
+      "copia_clave": "cataluna/40952013601/ddd-minimo-40952013601-M08.zip",
+      "copia_sha256": "e9ad08bc9e603f812addb0bcf542e25b784e62e7b3e9f45b271496799e17f712",
+      "sha256": "5cc979b1037b1afba366175b6004096bee47eebca51c7aceb6378af6bf83ae1c",
+      "tamano_bytes": 116695168
+    },
+    {
+      "clave": "cataluna/40952013601/ddd-state-40952013601-M08.zip",
+      "copia_clave": "cataluna/40952013601/ddd-minimo-40952013601-M08.zip",
+      "copia_sha256": "e9ad08bc9e603f812addb0bcf542e25b784e62e7b3e9f45b271496799e17f712",
+      "sha256": "39ec29bf000271666dbe0379b6e3a14da859ddb5d995068a5720447043b96eef",
+      "tamano_bytes": 118747394
+    },
+    {
+      "clave": "cataluna/41062562553/ddd-state-41062562553-M01.zip",
+      "copia_clave": "cataluna/41062562553/ddd-state-41062562553-M08.zip",
+      "copia_sha256": "ec8df377f8d933a16c5878fa15b9dd9c15be96b591f6943e0bff110f8c7f3ba9",
+      "sha256": "7221e4e8f8024006e0753f516581d32fe7a39fd795edd1893cd31a293d74fc80",
+      "tamano_bytes": 95078412
+    },
+    {
+      "clave": "cataluna/41062562553/ddd-state-41062562553-M02.zip",
+      "copia_clave": "cataluna/41062562553/ddd-state-41062562553-M08.zip",
+      "copia_sha256": "ec8df377f8d933a16c5878fa15b9dd9c15be96b591f6943e0bff110f8c7f3ba9",
+      "sha256": "1e9b9b1adcadc193a81792ac43718a3dfbcf8c587f9c2adbc1e93fe1ca3bd0c9",
+      "tamano_bytes": 95139461
+    },
+    {
+      "clave": "cataluna/41062562553/ddd-state-41062562553-M03.zip",
+      "copia_clave": "cataluna/41062562553/ddd-state-41062562553-M08.zip",
+      "copia_sha256": "ec8df377f8d933a16c5878fa15b9dd9c15be96b591f6943e0bff110f8c7f3ba9",
+      "sha256": "55c0d6135b6fff285ea7a6394d89fe00b2cee58999f3ae9e54e5623273ebee89",
+      "tamano_bytes": 95248148
+    },
+    {
+      "clave": "cataluna/41062562553/ddd-state-41062562553-M03U.zip",
+      "copia_clave": "cataluna/41062562553/ddd-state-41062562553-M08.zip",
+      "copia_sha256": "ec8df377f8d933a16c5878fa15b9dd9c15be96b591f6943e0bff110f8c7f3ba9",
+      "sha256": "501ac9820148a15f2f7ff47ccca23b9092373d3692b89af7a749dc8f0f86c71b",
+      "tamano_bytes": 95248148
+    },
+    {
+      "clave": "cataluna/41062562553/ddd-state-41062562553-M04.zip",
+      "copia_clave": "cataluna/41062562553/ddd-state-41062562553-M08.zip",
+      "copia_sha256": "ec8df377f8d933a16c5878fa15b9dd9c15be96b591f6943e0bff110f8c7f3ba9",
+      "sha256": "5559df42de3e6dd70bd949cbbdb8a263aad630eece3005ea398d6a80fb1997ab",
+      "tamano_bytes": 100065710
+    },
+    {
+      "clave": "cataluna/41062562553/ddd-state-41062562553-M05.zip",
+      "copia_clave": "cataluna/41062562553/ddd-state-41062562553-M08.zip",
+      "copia_sha256": "ec8df377f8d933a16c5878fa15b9dd9c15be96b591f6943e0bff110f8c7f3ba9",
+      "sha256": "6a7476fe0a18191d333201bdc0ea6e93de6a9eb4c72eae9fee8e0d8bf47883fe",
+      "tamano_bytes": 342815395
+    },
+    {
+      "clave": "cataluna/41062562553/ddd-state-41062562553-M06.zip",
+      "copia_clave": "cataluna/41062562553/ddd-state-41062562553-M08.zip",
+      "copia_sha256": "ec8df377f8d933a16c5878fa15b9dd9c15be96b591f6943e0bff110f8c7f3ba9",
+      "sha256": "f8917865b064a2711b220b0a406f267d1cacb51d88e38cb69d6f734e68bf6ecb",
+      "tamano_bytes": 349475646
+    },
+    {
+      "clave": "cataluna/41062562553/ddd-state-41062562553-M07.zip",
+      "copia_clave": "cataluna/41062562553/ddd-state-41062562553-M08.zip",
+      "copia_sha256": "ec8df377f8d933a16c5878fa15b9dd9c15be96b591f6943e0bff110f8c7f3ba9",
+      "sha256": "b7d6ecb1ffbd58390e6dbff86e9664c599a0c4d2ecb33424f2acea4775cba62f",
+      "tamano_bytes": 354359229
+    },
+    {
+      "clave": "ceuta/40784389253/ddd-state-40784389253-M01.zip",
+      "copia_clave": "ceuta/40784389253/ddd-minimo-40784389253-M08.zip",
+      "copia_sha256": "bcc31915ba62a05059461ffcf0123257ec22267557f6e92e501bfa2585f01103",
+      "sha256": "f41ea809201a80230f342a3bd4f66d7a6ed28c9f17236dc804e1123728c128e1",
+      "tamano_bytes": 74211583
+    },
+    {
+      "clave": "ceuta/40784389253/ddd-state-40784389253-M02.zip",
+      "copia_clave": "ceuta/40784389253/ddd-minimo-40784389253-M08.zip",
+      "copia_sha256": "bcc31915ba62a05059461ffcf0123257ec22267557f6e92e501bfa2585f01103",
+      "sha256": "ded0f768227a21a0f1d93c9560f41c041b1ee1ca5606d7e0887725ffdabe3cb2",
+      "tamano_bytes": 74213171
+    },
+    {
+      "clave": "ceuta/40784389253/ddd-state-40784389253-M03.zip",
+      "copia_clave": "ceuta/40784389253/ddd-minimo-40784389253-M08.zip",
+      "copia_sha256": "bcc31915ba62a05059461ffcf0123257ec22267557f6e92e501bfa2585f01103",
+      "sha256": "67ef84cea4eadbc9632e9fdf670c30f37a924eead7ba1704bfbe5c82440bd100",
+      "tamano_bytes": 74215469
+    },
+    {
+      "clave": "ceuta/40784389253/ddd-state-40784389253-M03U.zip",
+      "copia_clave": "ceuta/40784389253/ddd-minimo-40784389253-M08.zip",
+      "copia_sha256": "bcc31915ba62a05059461ffcf0123257ec22267557f6e92e501bfa2585f01103",
+      "sha256": "611c73dd6b40d7e776117262910f6ce0509ebb657027167fda441d8e13f59696",
+      "tamano_bytes": 74215469
+    },
+    {
+      "clave": "ceuta/40784389253/ddd-state-40784389253-M04.zip",
+      "copia_clave": "ceuta/40784389253/ddd-minimo-40784389253-M08.zip",
+      "copia_sha256": "bcc31915ba62a05059461ffcf0123257ec22267557f6e92e501bfa2585f01103",
+      "sha256": "df0965c79df5281cda02f70385c26ade9fe13c18f08a3c7d4c8d0284ce335e8f",
+      "tamano_bytes": 74278649
+    },
+    {
+      "clave": "ceuta/40784389253/ddd-state-40784389253-M05.zip",
+      "copia_clave": "ceuta/40784389253/ddd-minimo-40784389253-M08.zip",
+      "copia_sha256": "bcc31915ba62a05059461ffcf0123257ec22267557f6e92e501bfa2585f01103",
+      "sha256": "29ca9a3d1fe0a9f126a74750aee870313c3a7bb7c8147918ecc01c3c8dfa1b34",
+      "tamano_bytes": 74341060
+    },
+    {
+      "clave": "ceuta/40784389253/ddd-state-40784389253-M06.zip",
+      "copia_clave": "ceuta/40784389253/ddd-minimo-40784389253-M08.zip",
+      "copia_sha256": "bcc31915ba62a05059461ffcf0123257ec22267557f6e92e501bfa2585f01103",
+      "sha256": "94e839301814588b4f9024fc01bc139f8a5338f5abd818f950da8b6500cb8a18",
+      "tamano_bytes": 74464588
+    },
+    {
+      "clave": "ceuta/40784389253/ddd-state-40784389253-M07.zip",
+      "copia_clave": "ceuta/40784389253/ddd-minimo-40784389253-M08.zip",
+      "copia_sha256": "bcc31915ba62a05059461ffcf0123257ec22267557f6e92e501bfa2585f01103",
+      "sha256": "fbefd1d64462f72eb5c5436d38130c909a0dda4afa0dce49a1667219a6f4c45b",
+      "tamano_bytes": 74527631
+    },
+    {
+      "clave": "ceuta/40784389253/ddd-state-40784389253-M08.zip",
+      "copia_clave": "ceuta/40784389253/ddd-minimo-40784389253-M08.zip",
+      "copia_sha256": "bcc31915ba62a05059461ffcf0123257ec22267557f6e92e501bfa2585f01103",
+      "sha256": "ff0b75c365e0155d738c1693f57d3b6ffc1a88ff7f9ec9f7e480d1fc35e1728d",
+      "tamano_bytes": 74586367
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/40847881909/ddd-state-40847881909-M01.zip",
+      "copia_clave": "comunidad_foral_de_navarra/40847881909/ddd-minimo-40847881909-M08.zip",
+      "copia_sha256": "7fa14380ec5a13db997b4198d81b46ee5876c679adbc6bf47d27a70515435ad5",
+      "sha256": "a56738f9cd97f2b94c3243c82ac9722ab0bb800d9a65815205b6470e01d6d267",
+      "tamano_bytes": 93091139
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/40847881909/ddd-state-40847881909-M02.zip",
+      "copia_clave": "comunidad_foral_de_navarra/40847881909/ddd-minimo-40847881909-M08.zip",
+      "copia_sha256": "7fa14380ec5a13db997b4198d81b46ee5876c679adbc6bf47d27a70515435ad5",
+      "sha256": "36bf8129c964efa359295401469d52729f819e8d8c7b173c6ce870f6fe860cd8",
+      "tamano_bytes": 93099056
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/40847881909/ddd-state-40847881909-M03.zip",
+      "copia_clave": "comunidad_foral_de_navarra/40847881909/ddd-minimo-40847881909-M08.zip",
+      "copia_sha256": "7fa14380ec5a13db997b4198d81b46ee5876c679adbc6bf47d27a70515435ad5",
+      "sha256": "2d5e0c66874a39f034c932e48c6c1acd4a1d1470f0ee5a6bb4fd0a1c1118edd1",
+      "tamano_bytes": 93114904
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/40847881909/ddd-state-40847881909-M03U.zip",
+      "copia_clave": "comunidad_foral_de_navarra/40847881909/ddd-minimo-40847881909-M08.zip",
+      "copia_sha256": "7fa14380ec5a13db997b4198d81b46ee5876c679adbc6bf47d27a70515435ad5",
+      "sha256": "0485cba28d7e284c52768d38bb258c44bbbc56d25138774e63a769b26c4243f3",
+      "tamano_bytes": 93114904
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/40847881909/ddd-state-40847881909-M04.zip",
+      "copia_clave": "comunidad_foral_de_navarra/40847881909/ddd-minimo-40847881909-M08.zip",
+      "copia_sha256": "7fa14380ec5a13db997b4198d81b46ee5876c679adbc6bf47d27a70515435ad5",
+      "sha256": "e7f010a035911fdfa56350f3ec38fd58e455b640609b6c6686e3110f76aed136",
+      "tamano_bytes": 97486599
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/40847881909/ddd-state-40847881909-M05.zip",
+      "copia_clave": "comunidad_foral_de_navarra/40847881909/ddd-minimo-40847881909-M08.zip",
+      "copia_sha256": "7fa14380ec5a13db997b4198d81b46ee5876c679adbc6bf47d27a70515435ad5",
+      "sha256": "dd2371bb25be931d0c37e4b4d139b3cba7749b933aeb8dcadc0047c425711a0c",
+      "tamano_bytes": 101854717
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/40847881909/ddd-state-40847881909-M06.zip",
+      "copia_clave": "comunidad_foral_de_navarra/40847881909/ddd-minimo-40847881909-M08.zip",
+      "copia_sha256": "7fa14380ec5a13db997b4198d81b46ee5876c679adbc6bf47d27a70515435ad5",
+      "sha256": "4d74b3bbfbc80911e5fba9dc4c66a5f91ed5f04f2e3c1c33e7ca2c83e6ca1511",
+      "tamano_bytes": 108464710
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/40847881909/ddd-state-40847881909-M07.zip",
+      "copia_clave": "comunidad_foral_de_navarra/40847881909/ddd-minimo-40847881909-M08.zip",
+      "copia_sha256": "7fa14380ec5a13db997b4198d81b46ee5876c679adbc6bf47d27a70515435ad5",
+      "sha256": "c87c5d034a14a6bb912c8d2dc15fd66f7a5f86563fddc46cbcbe40daa8ca5ee2",
+      "tamano_bytes": 112855249
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/40847881909/ddd-state-40847881909-M08.zip",
+      "copia_clave": "comunidad_foral_de_navarra/40847881909/ddd-minimo-40847881909-M08.zip",
+      "copia_sha256": "7fa14380ec5a13db997b4198d81b46ee5876c679adbc6bf47d27a70515435ad5",
+      "sha256": "d7f5e4d28234d593d3a67923b7a0d664ffb2fef01ae4bca7e206c5a9282186c7",
+      "tamano_bytes": 115084200
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M01.zip",
+      "copia_clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M08.zip",
+      "copia_sha256": "8b59f36746496aa4b908c17863d0db7fe2613c3ce16cf8a8347fb9cf4f7fde68",
+      "sha256": "5ed59acdaca00bfcb36961325cebfc49ddbb0f5998476b68fdeac6d0a9b2dc43",
+      "tamano_bytes": 93091138
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M02.zip",
+      "copia_clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M08.zip",
+      "copia_sha256": "8b59f36746496aa4b908c17863d0db7fe2613c3ce16cf8a8347fb9cf4f7fde68",
+      "sha256": "e1cc7851e7d93344b1f028e9ab4f57a6ede89c818461b5e7efadbdf28710afff",
+      "tamano_bytes": 93099058
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M03.zip",
+      "copia_clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M08.zip",
+      "copia_sha256": "8b59f36746496aa4b908c17863d0db7fe2613c3ce16cf8a8347fb9cf4f7fde68",
+      "sha256": "f2f0947b3777fc5942624c100bef37dab2fd67c5770c330a6433d5c42e0a6630",
+      "tamano_bytes": 93114904
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M03U.zip",
+      "copia_clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M08.zip",
+      "copia_sha256": "8b59f36746496aa4b908c17863d0db7fe2613c3ce16cf8a8347fb9cf4f7fde68",
+      "sha256": "9be06cea9098928f23079c994734ec455a3fff4c3df211637c27f91dde2912e3",
+      "tamano_bytes": 93114904
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M04.zip",
+      "copia_clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M08.zip",
+      "copia_sha256": "8b59f36746496aa4b908c17863d0db7fe2613c3ce16cf8a8347fb9cf4f7fde68",
+      "sha256": "c3918e70f1449ae029cfc08181c8e64d739e1ea0f4a61fc8812ef858d74f5ca7",
+      "tamano_bytes": 97486601
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M05.zip",
+      "copia_clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M08.zip",
+      "copia_sha256": "8b59f36746496aa4b908c17863d0db7fe2613c3ce16cf8a8347fb9cf4f7fde68",
+      "sha256": "268b9fefee8aa4a9c335952e355d58b5494b0710fbe2ed15a1c3b73ecf2d48e8",
+      "tamano_bytes": 319556454
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M06.zip",
+      "copia_clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M08.zip",
+      "copia_sha256": "8b59f36746496aa4b908c17863d0db7fe2613c3ce16cf8a8347fb9cf4f7fde68",
+      "sha256": "6f35b4daa7b839945bdd64a8d5b8fbbb48091f76760140fe411e17af5727e8dd",
+      "tamano_bytes": 325843843
+    },
+    {
+      "clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M07.zip",
+      "copia_clave": "comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M08.zip",
+      "copia_sha256": "8b59f36746496aa4b908c17863d0db7fe2613c3ce16cf8a8347fb9cf4f7fde68",
+      "sha256": "0255c916bdc2851e54fad16f0571584aae695917c3d543637b6a211500506f34",
+      "tamano_bytes": 330234614
+    },
+    {
+      "clave": "comunidad_valenciana/40973760398/ddd-state-40973760398-M07.zip",
+      "copia_clave": "comunidad_valenciana/40973760398/ddd-minimo-40973760398-M08.zip",
+      "copia_sha256": "3bacc18d3f01d17ff895eac8e173dd17920806512a7dbdc729885718948fa070",
+      "sha256": "e64a3fba1f81429a4e06eadfd0ad115abaeb4ef29894a3d2cd85e4a0293f1d8c",
+      "tamano_bytes": 100934925
+    },
+    {
+      "clave": "comunidad_valenciana/40973760398/ddd-state-40973760398-M08.zip",
+      "copia_clave": "comunidad_valenciana/40973760398/ddd-minimo-40973760398-M08.zip",
+      "copia_sha256": "3bacc18d3f01d17ff895eac8e173dd17920806512a7dbdc729885718948fa070",
+      "sha256": "7d30d380913c108b5b0afe4177d5b83d874112bea2dada24161c968b63bc9c46",
+      "tamano_bytes": 102094605
+    },
+    {
+      "clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M01.zip",
+      "copia_clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M08.zip",
+      "copia_sha256": "ca65edac2de86fe1f9c499b379a30814ffec3e3ea515848e955a558796693cc4",
+      "sha256": "6b49e3c2b91b1214ecd1453da2e0708f29db268692d98bb111c953d8f4c26f49",
+      "tamano_bytes": 87358409
+    },
+    {
+      "clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M02.zip",
+      "copia_clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M08.zip",
+      "copia_sha256": "ca65edac2de86fe1f9c499b379a30814ffec3e3ea515848e955a558796693cc4",
+      "sha256": "44ea9dffb5263e4c83a9cf41a4a84cd1a53a4371ed3ff921ec6598a020d68cae",
+      "tamano_bytes": 87399760
+    },
+    {
+      "clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M03.zip",
+      "copia_clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M08.zip",
+      "copia_sha256": "ca65edac2de86fe1f9c499b379a30814ffec3e3ea515848e955a558796693cc4",
+      "sha256": "20848f281349209e2af46e514c7fd825d8e4741b3b80c6b8836df670cf573c66",
+      "tamano_bytes": 87473457
+    },
+    {
+      "clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M03U.zip",
+      "copia_clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M08.zip",
+      "copia_sha256": "ca65edac2de86fe1f9c499b379a30814ffec3e3ea515848e955a558796693cc4",
+      "sha256": "b21fa8b4ed126c4602062fa7cf4ac9c06f768f33b44518ea5884da35e35a633a",
+      "tamano_bytes": 87473457
+    },
+    {
+      "clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M04.zip",
+      "copia_clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M08.zip",
+      "copia_sha256": "ca65edac2de86fe1f9c499b379a30814ffec3e3ea515848e955a558796693cc4",
+      "sha256": "8c41e7936087254c88e10ce4e6e393feb04c7745b3b764edf8de2d2b19a75b50",
+      "tamano_bytes": 90530194
+    },
+    {
+      "clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M05.zip",
+      "copia_clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M08.zip",
+      "copia_sha256": "ca65edac2de86fe1f9c499b379a30814ffec3e3ea515848e955a558796693cc4",
+      "sha256": "08214526d11b6f96204ec5e9fe6b7e6aafe96400d62477b0e4d11f424673edab",
+      "tamano_bytes": 244756296
+    },
+    {
+      "clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M06.zip",
+      "copia_clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M08.zip",
+      "copia_sha256": "ca65edac2de86fe1f9c499b379a30814ffec3e3ea515848e955a558796693cc4",
+      "sha256": "2ee98e3d269c78a497dc26037798afd1865aa57a8cba359282be2259f33bc506",
+      "tamano_bytes": 248889172
+    },
+    {
+      "clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M07.zip",
+      "copia_clave": "comunidad_valenciana/41062567297/ddd-state-41062567297-M08.zip",
+      "copia_sha256": "ca65edac2de86fe1f9c499b379a30814ffec3e3ea515848e955a558796693cc4",
+      "sha256": "525fb28fff35369900b320ac779a4bce683584ad962162f5c1cd19d79b47935b",
+      "tamano_bytes": 251988311
+    },
+    {
+      "clave": "congreso_huesca/41057319037/ddd-state-41057319037-M01.zip",
+      "copia_clave": "congreso_huesca/41057319037/ddd-minimo-41057319037-M06.zip",
+      "copia_sha256": "df4da917ebfa3616d1978300490c41d6c4de9ed8c12f1ab826a26325ff720c37",
+      "sha256": "1703b1894c84d5e2a782bde87b5696d0835ddf42ba4af8ba31751d60e6ffb2db",
+      "tamano_bytes": 76928233
+    },
+    {
+      "clave": "congreso_huesca/41057319037/ddd-state-41057319037-M02.zip",
+      "copia_clave": "congreso_huesca/41057319037/ddd-minimo-41057319037-M06.zip",
+      "copia_sha256": "df4da917ebfa3616d1978300490c41d6c4de9ed8c12f1ab826a26325ff720c37",
+      "sha256": "79ffb07d7e60c25ae41ed7320bb65a02ede2c037ae2f81e1c77eb0631dfaac75",
+      "tamano_bytes": 76932751
+    },
+    {
+      "clave": "congreso_huesca/41057319037/ddd-state-41057319037-M03.zip",
+      "copia_clave": "congreso_huesca/41057319037/ddd-minimo-41057319037-M06.zip",
+      "copia_sha256": "df4da917ebfa3616d1978300490c41d6c4de9ed8c12f1ab826a26325ff720c37",
+      "sha256": "8e7679c31c8e6d99e424e9f9c2c7d3efb91d6c5b59db5e52e36b639b9d095150",
+      "tamano_bytes": 76941930
+    },
+    {
+      "clave": "congreso_huesca/41057319037/ddd-state-41057319037-M03U.zip",
+      "copia_clave": "congreso_huesca/41057319037/ddd-minimo-41057319037-M06.zip",
+      "copia_sha256": "df4da917ebfa3616d1978300490c41d6c4de9ed8c12f1ab826a26325ff720c37",
+      "sha256": "bc61ec782a4d4b0032d5e45f456d41faa6f1856c4cde752f0c97fc77ecb3efbb",
+      "tamano_bytes": 76941930
+    },
+    {
+      "clave": "congreso_huesca/41057319037/ddd-state-41057319037-M04.zip",
+      "copia_clave": "congreso_huesca/41057319037/ddd-minimo-41057319037-M06.zip",
+      "copia_sha256": "df4da917ebfa3616d1978300490c41d6c4de9ed8c12f1ab826a26325ff720c37",
+      "sha256": "07419d7396f541c425e82553d9378a6318874c24f98357b9e0364ac789c041de",
+      "tamano_bytes": 77626211
+    },
+    {
+      "clave": "congreso_huesca/41057319037/ddd-state-41057319037-M05.zip",
+      "copia_clave": "congreso_huesca/41057319037/ddd-minimo-41057319037-M06.zip",
+      "copia_sha256": "df4da917ebfa3616d1978300490c41d6c4de9ed8c12f1ab826a26325ff720c37",
+      "sha256": "80289310bc1112255af15408e15120b1572f5e43f79e0a58ea81af5c6328517a",
+      "tamano_bytes": 78309993
+    },
+    {
+      "clave": "congreso_huesca/41057319037/ddd-state-41057319037-M06.zip",
+      "copia_clave": "congreso_huesca/41057319037/ddd-minimo-41057319037-M06.zip",
+      "copia_sha256": "df4da917ebfa3616d1978300490c41d6c4de9ed8c12f1ab826a26325ff720c37",
+      "sha256": "4e7052a1b085ebedde94c435f5ffa17f5473e693e30e9018e71f82cc84101eb5",
+      "tamano_bytes": 79109105
+    },
+    {
+      "clave": "extremadura/40965231300/ddd-state-40965231300-M07.zip",
+      "copia_clave": "extremadura/40965231300/ddd-minimo-40965231300-M08.zip",
+      "copia_sha256": "2c4d06d667e58e3b633ab5ea91d80de91a9894ac1b606435824aaa9628e534e7",
+      "sha256": "c015b5d52f06a7cad8a1132e7da24d94020ffc71d723619e341ef30ea9a9c758",
+      "tamano_bytes": 94837617
+    },
+    {
+      "clave": "extremadura/40965231300/ddd-state-40965231300-M08.zip",
+      "copia_clave": "extremadura/40965231300/ddd-minimo-40965231300-M08.zip",
+      "copia_sha256": "2c4d06d667e58e3b633ab5ea91d80de91a9894ac1b606435824aaa9628e534e7",
+      "sha256": "436cf8745eab8fa94827d3f5a1b9f60cd20c1f1f78d748188d0e8ebf97553b0a",
+      "tamano_bytes": 95794713
+    },
+    {
+      "clave": "extremadura/41042675119/ddd-state-41042675119-M01.zip",
+      "copia_clave": "extremadura/41042675119/ddd-state-41042675119-M08.zip",
+      "copia_sha256": "35fec26cf60ceeaac3a5dabbaeccab3b434f759d985672816036ac2dd87727a7",
+      "sha256": "40a91b4385d326f9e2980c780b864c3ea53eb3ddf1b21f4867d9899da514ffbc",
+      "tamano_bytes": 83166981
+    },
+    {
+      "clave": "extremadura/41042675119/ddd-state-41042675119-M02.zip",
+      "copia_clave": "extremadura/41042675119/ddd-state-41042675119-M08.zip",
+      "copia_sha256": "35fec26cf60ceeaac3a5dabbaeccab3b434f759d985672816036ac2dd87727a7",
+      "sha256": "42d78d157a13c739e6aa4d03e695d141d148d75eb15188c061a892c4b954b6d6",
+      "tamano_bytes": 83179557
+    },
+    {
+      "clave": "extremadura/41042675119/ddd-state-41042675119-M03.zip",
+      "copia_clave": "extremadura/41042675119/ddd-state-41042675119-M08.zip",
+      "copia_sha256": "35fec26cf60ceeaac3a5dabbaeccab3b434f759d985672816036ac2dd87727a7",
+      "sha256": "98f258cd0751ffc96c6bd68f4687a0277394f3bda2acdeee8c82e4de9054901c",
+      "tamano_bytes": 83204320
+    },
+    {
+      "clave": "extremadura/41042675119/ddd-state-41042675119-M03U.zip",
+      "copia_clave": "extremadura/41042675119/ddd-state-41042675119-M08.zip",
+      "copia_sha256": "35fec26cf60ceeaac3a5dabbaeccab3b434f759d985672816036ac2dd87727a7",
+      "sha256": "2eb2a926723b38a9b309f1362fb13ff31e06850cccfb4f665b8e10b43111084d",
+      "tamano_bytes": 85295547
+    },
+    {
+      "clave": "extremadura/41042675119/ddd-state-41042675119-M04.zip",
+      "copia_clave": "extremadura/41042675119/ddd-state-41042675119-M08.zip",
+      "copia_sha256": "35fec26cf60ceeaac3a5dabbaeccab3b434f759d985672816036ac2dd87727a7",
+      "sha256": "497945e2a4b39da790d21c19e9f01f1877279305d8b5e7832cc6630037b479e8",
+      "tamano_bytes": 87432744
+    },
+    {
+      "clave": "extremadura/41042675119/ddd-state-41042675119-M05.zip",
+      "copia_clave": "extremadura/41042675119/ddd-state-41042675119-M08.zip",
+      "copia_sha256": "35fec26cf60ceeaac3a5dabbaeccab3b434f759d985672816036ac2dd87727a7",
+      "sha256": "b378f23fd0624c1b66b34f3b79ed85aa6d9b6b5013f68d8b42b475cfd8aa0fb9",
+      "tamano_bytes": 195493968
+    },
+    {
+      "clave": "extremadura/41042675119/ddd-state-41042675119-M06.zip",
+      "copia_clave": "extremadura/41042675119/ddd-state-41042675119-M08.zip",
+      "copia_sha256": "35fec26cf60ceeaac3a5dabbaeccab3b434f759d985672816036ac2dd87727a7",
+      "sha256": "927c5d206e006d89975c30a7cc763ad890354f8bc08818f9232ce854356c31ec",
+      "tamano_bytes": 198523190
+    },
+    {
+      "clave": "extremadura/41042675119/ddd-state-41042675119-M07.zip",
+      "copia_clave": "extremadura/41042675119/ddd-state-41042675119-M08.zip",
+      "copia_sha256": "35fec26cf60ceeaac3a5dabbaeccab3b434f759d985672816036ac2dd87727a7",
+      "sha256": "8418144d7ec8b6a8b1afea225c5c9a28533faf274db6fe7bf59684646262d4b7",
+      "tamano_bytes": 200676711
+    },
+    {
+      "clave": "galicia/40241719200/ddd-state-40241719200-M01.zip",
+      "copia_clave": "galicia/40241719200/ddd-state-40241719200-M06.zip",
+      "copia_sha256": "b44244f06c6e9c6bbfa10966615f7b0b8840cd76ad39d76c63776512d8d405dc",
+      "sha256": "32f4db43359f06a7b77e08343cd6c5d6a6b9ba8d6a5fd2414e0d6b5e30d9d864",
+      "tamano_bytes": 6563225
+    },
+    {
+      "clave": "galicia/40241719200/ddd-state-40241719200-M02.zip",
+      "copia_clave": "galicia/40241719200/ddd-state-40241719200-M06.zip",
+      "copia_sha256": "b44244f06c6e9c6bbfa10966615f7b0b8840cd76ad39d76c63776512d8d405dc",
+      "sha256": "70b962dc2deae5767d22a15ab6cdb0788cc4c702380d366bd90176d8b54107bf",
+      "tamano_bytes": 6588540
+    },
+    {
+      "clave": "galicia/40241719200/ddd-state-40241719200-M03.zip",
+      "copia_clave": "galicia/40241719200/ddd-state-40241719200-M06.zip",
+      "copia_sha256": "b44244f06c6e9c6bbfa10966615f7b0b8840cd76ad39d76c63776512d8d405dc",
+      "sha256": "4185481f13c77d7a868b8629ede12100c23dbd10d3276636fd29c44e57cc5122",
+      "tamano_bytes": 6633666
+    },
+    {
+      "clave": "galicia/40241719200/ddd-state-40241719200-M03U.zip",
+      "copia_clave": "galicia/40241719200/ddd-state-40241719200-M06.zip",
+      "copia_sha256": "b44244f06c6e9c6bbfa10966615f7b0b8840cd76ad39d76c63776512d8d405dc",
+      "sha256": "15bb625d6937b67345263197eb87ea25a4a1a7e449d8412c5de985c8a4e66070",
+      "tamano_bytes": 6633666
+    },
+    {
+      "clave": "galicia/40241719200/ddd-state-40241719200-M04.zip",
+      "copia_clave": "galicia/40241719200/ddd-state-40241719200-M06.zip",
+      "copia_sha256": "b44244f06c6e9c6bbfa10966615f7b0b8840cd76ad39d76c63776512d8d405dc",
+      "sha256": "e4d1d30e3842f70d082efb4329c555a6fb1f7023bd23aeaebcbad03b84bf7475",
+      "tamano_bytes": 9479871
+    },
+    {
+      "clave": "galicia/40241719200/ddd-state-40241719200-M05.zip",
+      "copia_clave": "galicia/40241719200/ddd-state-40241719200-M06.zip",
+      "copia_sha256": "b44244f06c6e9c6bbfa10966615f7b0b8840cd76ad39d76c63776512d8d405dc",
+      "sha256": "df53eb81399a522087405dc7d77507c9f4eed515c6d6956de2f19594fa078f9b",
+      "tamano_bytes": 12329136
+    },
+    {
+      "clave": "galicia/41044499258/ddd-state-41044499258-M01.zip",
+      "copia_clave": "galicia/41044499258/ddd-minimo-41044499258-M08.zip",
+      "copia_sha256": "da36d906b4dbb6a3e39cffe2cfaae2382e00ef783f511fc65dd3de1bd8f34b33",
+      "sha256": "858e14cad9a8af2fdb627397bc98b8e59fac492ad476d35e29739dd18dc237c8",
+      "tamano_bytes": 85790481
+    },
+    {
+      "clave": "galicia/41044499258/ddd-state-41044499258-M02.zip",
+      "copia_clave": "galicia/41044499258/ddd-minimo-41044499258-M08.zip",
+      "copia_sha256": "da36d906b4dbb6a3e39cffe2cfaae2382e00ef783f511fc65dd3de1bd8f34b33",
+      "sha256": "e401060339acadae4f8ed07fe4d82b28c0eebebfb10e59ba20a6a0df6efa6ba2",
+      "tamano_bytes": 85815797
+    },
+    {
+      "clave": "galicia/41044499258/ddd-state-41044499258-M03.zip",
+      "copia_clave": "galicia/41044499258/ddd-minimo-41044499258-M08.zip",
+      "copia_sha256": "da36d906b4dbb6a3e39cffe2cfaae2382e00ef783f511fc65dd3de1bd8f34b33",
+      "sha256": "b2d76113e1fe3141c94f22e8dc9f3e3dba02d77ddf950fdf9baf1695ab0c417f",
+      "tamano_bytes": 85860928
+    },
+    {
+      "clave": "galicia/41044499258/ddd-state-41044499258-M03U.zip",
+      "copia_clave": "galicia/41044499258/ddd-minimo-41044499258-M08.zip",
+      "copia_sha256": "da36d906b4dbb6a3e39cffe2cfaae2382e00ef783f511fc65dd3de1bd8f34b33",
+      "sha256": "8fa86a812834a168fb3970c0b90d98e73a0f821e1a9f32059a6ad1cd0c73b70b",
+      "tamano_bytes": 85860928
+    },
+    {
+      "clave": "galicia/41044499258/ddd-state-41044499258-M04.zip",
+      "copia_clave": "galicia/41044499258/ddd-minimo-41044499258-M08.zip",
+      "copia_sha256": "da36d906b4dbb6a3e39cffe2cfaae2382e00ef783f511fc65dd3de1bd8f34b33",
+      "sha256": "65f192976dad2ed3384c8c0cd65f5531a53a424b5761e79f9bebabbb8e4f3d4d",
+      "tamano_bytes": 88707153
+    },
+    {
+      "clave": "galicia/41044499258/ddd-state-41044499258-M05.zip",
+      "copia_clave": "galicia/41044499258/ddd-minimo-41044499258-M08.zip",
+      "copia_sha256": "da36d906b4dbb6a3e39cffe2cfaae2382e00ef783f511fc65dd3de1bd8f34b33",
+      "sha256": "f52222f7bb06524a24f2423113e03b54e4bac015c534d1b75703a0df62918ec4",
+      "tamano_bytes": 232795783
+    },
+    {
+      "clave": "galicia/41044499258/ddd-state-41044499258-M06.zip",
+      "copia_clave": "galicia/41044499258/ddd-minimo-41044499258-M08.zip",
+      "copia_sha256": "da36d906b4dbb6a3e39cffe2cfaae2382e00ef783f511fc65dd3de1bd8f34b33",
+      "sha256": "c6e36fe47b81f95236db7f7d75e915da978da0ed65ddb0b8ea31195975802734",
+      "tamano_bytes": 236735333
+    },
+    {
+      "clave": "galicia/41044499258/ddd-state-41044499258-M07.zip",
+      "copia_clave": "galicia/41044499258/ddd-minimo-41044499258-M08.zip",
+      "copia_sha256": "da36d906b4dbb6a3e39cffe2cfaae2382e00ef783f511fc65dd3de1bd8f34b33",
+      "sha256": "10dd0949b58c18e6df409a5327f1c658bff30c34b83c6d387a28b4f289298496",
+      "tamano_bytes": 239611954
+    },
+    {
+      "clave": "galicia/41044499258/ddd-state-41044499258-M08.zip",
+      "copia_clave": "galicia/41044499258/ddd-minimo-41044499258-M08.zip",
+      "copia_sha256": "da36d906b4dbb6a3e39cffe2cfaae2382e00ef783f511fc65dd3de1bd8f34b33",
+      "sha256": "82dc88f493435eceb477cc664117110ed5d4998eb7f9ed70ece42568db4aab53",
+      "tamano_bytes": 240680388
+    },
+    {
+      "clave": "illes_balears/41033500476/ddd-state-41033500476-M01.zip",
+      "copia_clave": "illes_balears/41033500476/ddd-state-41033500476-M08.zip",
+      "copia_sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3",
+      "sha256": "08e1e13b6acee41900eed0b49418261c3a1d5af678ca0adac01ebe34a0f890c4",
+      "tamano_bytes": 84205106
+    },
+    {
+      "clave": "illes_balears/41033500476/ddd-state-41033500476-M02.zip",
+      "copia_clave": "illes_balears/41033500476/ddd-state-41033500476-M08.zip",
+      "copia_sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3",
+      "sha256": "9404a1fb00a51e46c8204914535594430c9d51491951b9dd982b85ef14152e81",
+      "tamano_bytes": 84213106
+    },
+    {
+      "clave": "illes_balears/41033500476/ddd-state-41033500476-M03.zip",
+      "copia_clave": "illes_balears/41033500476/ddd-state-41033500476-M08.zip",
+      "copia_sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3",
+      "sha256": "cb0f7be89996cab58ef22bd51b80459a7e48838709e5f943e41a201d6fa1a125",
+      "tamano_bytes": 84227792
+    },
+    {
+      "clave": "illes_balears/41033500476/ddd-state-41033500476-M03U.zip",
+      "copia_clave": "illes_balears/41033500476/ddd-state-41033500476-M08.zip",
+      "copia_sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3",
+      "sha256": "34ca124ad4bb2709b04cd2e41c02e5354bf7731c6ef7424ad09cf75de42da7ce",
+      "tamano_bytes": 86634040
+    },
+    {
+      "clave": "illes_balears/41033500476/ddd-state-41033500476-M04.zip",
+      "copia_clave": "illes_balears/41033500476/ddd-state-41033500476-M08.zip",
+      "copia_sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3",
+      "sha256": "c490c6bf47fd4a710d5cdc4e19f1db4aa2af8b9a73c7109c851ee0a860dbe905",
+      "tamano_bytes": 89058803
+    },
+    {
+      "clave": "illes_balears/41033500476/ddd-state-41033500476-M05.zip",
+      "copia_clave": "illes_balears/41033500476/ddd-state-41033500476-M08.zip",
+      "copia_sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3",
+      "sha256": "6f7cc91e4564428a9959c81fa80759679309a4b9e400c94c9b0d53154e24ac4e",
+      "tamano_bytes": 209152231
+    },
+    {
+      "clave": "illes_balears/41033500476/ddd-state-41033500476-M06.zip",
+      "copia_clave": "illes_balears/41033500476/ddd-state-41033500476-M08.zip",
+      "copia_sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3",
+      "sha256": "93bde6278f409dda6b4b25350979150263086991771d8fe9c0f63cbf4f6ec5c4",
+      "tamano_bytes": 213300214
+    },
+    {
+      "clave": "illes_balears/41033500476/ddd-state-41033500476-M07.zip",
+      "copia_clave": "illes_balears/41033500476/ddd-state-41033500476-M08.zip",
+      "copia_sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3",
+      "sha256": "8f461339acdc0e3241d9237e067399b774cfc4886abc04f106b4723d2b2185f4",
+      "tamano_bytes": 215740193
+    },
+    {
+      "clave": "la_rioja/40867456776/ddd-state-40867456776-M01.zip",
+      "copia_clave": "la_rioja/40867456776/ddd-state-40867456776-M08.zip",
+      "copia_sha256": "058fae7bdf1ea412070a8db035adbdf082611066741b7a46d493c56710858b2a",
+      "sha256": "f2f34db81b2ce1fc5abe41f55d0ec5235e49a1889492c2f2458fd306f081905a",
+      "tamano_bytes": 76026205
+    },
+    {
+      "clave": "la_rioja/40867456776/ddd-state-40867456776-M02.zip",
+      "copia_clave": "la_rioja/40867456776/ddd-state-40867456776-M08.zip",
+      "copia_sha256": "058fae7bdf1ea412070a8db035adbdf082611066741b7a46d493c56710858b2a",
+      "sha256": "a1c94e27561a1948a25c1df1f7ed691b8737c77088cf108acb304cb7c184f21e",
+      "tamano_bytes": 76031196
+    },
+    {
+      "clave": "la_rioja/40867456776/ddd-state-40867456776-M03.zip",
+      "copia_clave": "la_rioja/40867456776/ddd-state-40867456776-M08.zip",
+      "copia_sha256": "058fae7bdf1ea412070a8db035adbdf082611066741b7a46d493c56710858b2a",
+      "sha256": "d78c43c1bb9fdb0df7c8f052f701b970ee260974100e0b8ea2a0e1d61e47b202",
+      "tamano_bytes": 76041007
+    },
+    {
+      "clave": "la_rioja/40867456776/ddd-state-40867456776-M03U.zip",
+      "copia_clave": "la_rioja/40867456776/ddd-state-40867456776-M08.zip",
+      "copia_sha256": "058fae7bdf1ea412070a8db035adbdf082611066741b7a46d493c56710858b2a",
+      "sha256": "6dfbad35c4c22d81885a33cb3af9a015c3bc250677d5fc58c3f4649e8e8bfe45",
+      "tamano_bytes": 76041007
+    },
+    {
+      "clave": "la_rioja/40867456776/ddd-state-40867456776-M04.zip",
+      "copia_clave": "la_rioja/40867456776/ddd-state-40867456776-M08.zip",
+      "copia_sha256": "058fae7bdf1ea412070a8db035adbdf082611066741b7a46d493c56710858b2a",
+      "sha256": "26d20e88a4633514e9c11f9023c498090291b657773f1ffba32d1a1a4b58e6fa",
+      "tamano_bytes": 76524145
+    },
+    {
+      "clave": "la_rioja/40867456776/ddd-state-40867456776-M05.zip",
+      "copia_clave": "la_rioja/40867456776/ddd-state-40867456776-M08.zip",
+      "copia_sha256": "058fae7bdf1ea412070a8db035adbdf082611066741b7a46d493c56710858b2a",
+      "sha256": "4208f724d4e2678e02265ab16c54bf1fb3b0371241bf95d077113a918aadcb90",
+      "tamano_bytes": 77007433
+    },
+    {
+      "clave": "la_rioja/40867456776/ddd-state-40867456776-M06.zip",
+      "copia_clave": "la_rioja/40867456776/ddd-state-40867456776-M08.zip",
+      "copia_sha256": "058fae7bdf1ea412070a8db035adbdf082611066741b7a46d493c56710858b2a",
+      "sha256": "d2d53eb72ad88809617b04a958f4bc4d645786ac52d9e75ea3a9fbf4d9463346",
+      "tamano_bytes": 77727062
+    },
+    {
+      "clave": "la_rioja/40867456776/ddd-state-40867456776-M07.zip",
+      "copia_clave": "la_rioja/40867456776/ddd-state-40867456776-M08.zip",
+      "copia_sha256": "058fae7bdf1ea412070a8db035adbdf082611066741b7a46d493c56710858b2a",
+      "sha256": "47388cdab0693d43889832066bfd5ec32292302935064e3dbdeaa616fa0dddda",
+      "tamano_bytes": 78214636
+    },
+    {
+      "clave": "la_rioja/40979652189/ddd-state-40979652189-M01.zip",
+      "copia_clave": "la_rioja/40979652189/ddd-minimo-40979652189-M08.zip",
+      "copia_sha256": "0eb76f89c2c073e26af862bb3e6bcce58835fcfa4f5b2e539f4bff760c82f7fa",
+      "sha256": "07d6d1e5a4526fc3c07df5eb108071d8442079f32b29c163987a5a906fc20b4f",
+      "tamano_bytes": 76026205
+    },
+    {
+      "clave": "la_rioja/40979652189/ddd-state-40979652189-M02.zip",
+      "copia_clave": "la_rioja/40979652189/ddd-minimo-40979652189-M08.zip",
+      "copia_sha256": "0eb76f89c2c073e26af862bb3e6bcce58835fcfa4f5b2e539f4bff760c82f7fa",
+      "sha256": "549c25e07bcd81b052616f6712c2faa4d20730affeee6532389eac628efc0b79",
+      "tamano_bytes": 76031195
+    },
+    {
+      "clave": "la_rioja/40979652189/ddd-state-40979652189-M03.zip",
+      "copia_clave": "la_rioja/40979652189/ddd-minimo-40979652189-M08.zip",
+      "copia_sha256": "0eb76f89c2c073e26af862bb3e6bcce58835fcfa4f5b2e539f4bff760c82f7fa",
+      "sha256": "ebfec354bf0e3a9cba6e9e9c43015686e857077667029b2c3da647c5e8d76a3b",
+      "tamano_bytes": 76041005
+    },
+    {
+      "clave": "la_rioja/40979652189/ddd-state-40979652189-M03U.zip",
+      "copia_clave": "la_rioja/40979652189/ddd-minimo-40979652189-M08.zip",
+      "copia_sha256": "0eb76f89c2c073e26af862bb3e6bcce58835fcfa4f5b2e539f4bff760c82f7fa",
+      "sha256": "a4abba02c07a80e9dcc03705228522aef52c8b6af5699402264da27ad0c69514",
+      "tamano_bytes": 76041005
+    },
+    {
+      "clave": "la_rioja/40979652189/ddd-state-40979652189-M04.zip",
+      "copia_clave": "la_rioja/40979652189/ddd-minimo-40979652189-M08.zip",
+      "copia_sha256": "0eb76f89c2c073e26af862bb3e6bcce58835fcfa4f5b2e539f4bff760c82f7fa",
+      "sha256": "61a521adeb961bf76fbcbd8c22fce7d450dd5dbce87ff1a38168297ea97db146",
+      "tamano_bytes": 76524144
+    },
+    {
+      "clave": "la_rioja/40979652189/ddd-state-40979652189-M05.zip",
+      "copia_clave": "la_rioja/40979652189/ddd-minimo-40979652189-M08.zip",
+      "copia_sha256": "0eb76f89c2c073e26af862bb3e6bcce58835fcfa4f5b2e539f4bff760c82f7fa",
+      "sha256": "fc4325411e603dd6bed765ea8f691ffb70680caa5806519dac4022cb96c5c87b",
+      "tamano_bytes": 100259224
+    },
+    {
+      "clave": "la_rioja/40979652189/ddd-state-40979652189-M06.zip",
+      "copia_clave": "la_rioja/40979652189/ddd-minimo-40979652189-M08.zip",
+      "copia_sha256": "0eb76f89c2c073e26af862bb3e6bcce58835fcfa4f5b2e539f4bff760c82f7fa",
+      "sha256": "749cba0731dbb10bfd1fc94d6a25e1f04f7afd471389fa9fe565f7518a59b5ed",
+      "tamano_bytes": 100964120
+    },
+    {
+      "clave": "la_rioja/40979652189/ddd-state-40979652189-M07.zip",
+      "copia_clave": "la_rioja/40979652189/ddd-minimo-40979652189-M08.zip",
+      "copia_sha256": "0eb76f89c2c073e26af862bb3e6bcce58835fcfa4f5b2e539f4bff760c82f7fa",
+      "sha256": "049d43333974564335eb5497df8fd32b0ad4922684fa5f3d8a898a4caa496e0f",
+      "tamano_bytes": 101451735
+    },
+    {
+      "clave": "la_rioja/40979652189/ddd-state-40979652189-M08.zip",
+      "copia_clave": "la_rioja/40979652189/ddd-minimo-40979652189-M08.zip",
+      "copia_sha256": "0eb76f89c2c073e26af862bb3e6bcce58835fcfa4f5b2e539f4bff760c82f7fa",
+      "sha256": "a0b3dbebc81537f0c96a98cc57c277dac2ceee9c8b63350f6c3eecea7b9f18c3",
+      "tamano_bytes": 101664654
+    },
+    {
+      "clave": "madrid/40787900559/ddd-state-40787900559-M01.zip",
+      "copia_clave": "madrid/40787900559/ddd-state-40787900559-M08.zip",
+      "copia_sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8",
+      "sha256": "86d5456e86284b99bfd63be46b30c81c6f5e442e9996d095bf80205bf17376aa",
+      "tamano_bytes": 86964086
+    },
+    {
+      "clave": "madrid/40787900559/ddd-state-40787900559-M02.zip",
+      "copia_clave": "madrid/40787900559/ddd-state-40787900559-M08.zip",
+      "copia_sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8",
+      "sha256": "68057e9d852eb13f2fca56571df3658e43fb850ba95852e1cf29144ff9596833",
+      "tamano_bytes": 87014483
+    },
+    {
+      "clave": "madrid/40787900559/ddd-state-40787900559-M03.zip",
+      "copia_clave": "madrid/40787900559/ddd-state-40787900559-M08.zip",
+      "copia_sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8",
+      "sha256": "6df27e910f45786aeb767689bebe01e4a061b5578928dcf6f0678db07376d60c",
+      "tamano_bytes": 87097856
+    },
+    {
+      "clave": "madrid/40787900559/ddd-state-40787900559-M03U.zip",
+      "copia_clave": "madrid/40787900559/ddd-state-40787900559-M08.zip",
+      "copia_sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8",
+      "sha256": "b44e85a5e3a8ae1d79180d5bf8235054a6697794db1ece036eba514a7406ed76",
+      "tamano_bytes": 87097856
+    },
+    {
+      "clave": "madrid/40787900559/ddd-state-40787900559-M04.zip",
+      "copia_clave": "madrid/40787900559/ddd-state-40787900559-M08.zip",
+      "copia_sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8",
+      "sha256": "ce33508e07106c97ddb29e4e4c34f2a3f56291a4f15262e139c8402732dbe629",
+      "tamano_bytes": 90130160
+    },
+    {
+      "clave": "madrid/40787900559/ddd-state-40787900559-M05.zip",
+      "copia_clave": "madrid/40787900559/ddd-state-40787900559-M08.zip",
+      "copia_sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8",
+      "sha256": "052b17eac62b4a8bb6564a40b0762ed58eca4aa62e1e88ff0b0969503f90851b",
+      "tamano_bytes": 93158135
+    },
+    {
+      "clave": "madrid/40787900559/ddd-state-40787900559-M06.zip",
+      "copia_clave": "madrid/40787900559/ddd-state-40787900559-M08.zip",
+      "copia_sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8",
+      "sha256": "a0258112ed6dec09d720075eaa37a10985aa55adbd22197a96f8752de3e86ac8",
+      "tamano_bytes": 97593321
+    },
+    {
+      "clave": "madrid/40787900559/ddd-state-40787900559-M07.zip",
+      "copia_clave": "madrid/40787900559/ddd-state-40787900559-M08.zip",
+      "copia_sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8",
+      "sha256": "6d3ab17aa9e9dc551dc137f8f302629e340bccc05530bac98ef4a7121c215c68",
+      "tamano_bytes": 100679431
+    },
+    {
+      "clave": "madrid/41046373806/ddd-state-41046373806-M01.zip",
+      "copia_clave": "madrid/41046373806/ddd-minimo-41046373806-M08.zip",
+      "copia_sha256": "5758dc06b4dafd04b04a3b6479851e2fc8b5b47009d2c87300ceb26b78485c3c",
+      "sha256": "a5af7c9dc2ff38590c03a65f18be274856a6481b08846182f06dff44809b3b5a",
+      "tamano_bytes": 86964084
+    },
+    {
+      "clave": "madrid/41046373806/ddd-state-41046373806-M02.zip",
+      "copia_clave": "madrid/41046373806/ddd-minimo-41046373806-M08.zip",
+      "copia_sha256": "5758dc06b4dafd04b04a3b6479851e2fc8b5b47009d2c87300ceb26b78485c3c",
+      "sha256": "53157271b9e91fea60fd485955c3cf2997daf4c7f8133c252c8a624b79b1c3a3",
+      "tamano_bytes": 87014481
+    },
+    {
+      "clave": "madrid/41046373806/ddd-state-41046373806-M03.zip",
+      "copia_clave": "madrid/41046373806/ddd-minimo-41046373806-M08.zip",
+      "copia_sha256": "5758dc06b4dafd04b04a3b6479851e2fc8b5b47009d2c87300ceb26b78485c3c",
+      "sha256": "607654aa2d0a9db32a1ebd350efde95783e1f2ed447dc5ffc217a096591b5a7f",
+      "tamano_bytes": 87097854
+    },
+    {
+      "clave": "madrid/41046373806/ddd-state-41046373806-M03U.zip",
+      "copia_clave": "madrid/41046373806/ddd-minimo-41046373806-M08.zip",
+      "copia_sha256": "5758dc06b4dafd04b04a3b6479851e2fc8b5b47009d2c87300ceb26b78485c3c",
+      "sha256": "694bdc8ff97a3703ac550aa0b6749c3db3c8b5dc5821d773751a6b0fefd019ab",
+      "tamano_bytes": 87097854
+    },
+    {
+      "clave": "madrid/41046373806/ddd-state-41046373806-M04.zip",
+      "copia_clave": "madrid/41046373806/ddd-minimo-41046373806-M08.zip",
+      "copia_sha256": "5758dc06b4dafd04b04a3b6479851e2fc8b5b47009d2c87300ceb26b78485c3c",
+      "sha256": "cdd540ecb309bdde21138f68b1ac0f5e516a57d43e8aaa46b51b825cb677add9",
+      "tamano_bytes": 90130158
+    },
+    {
+      "clave": "madrid/41046373806/ddd-state-41046373806-M05.zip",
+      "copia_clave": "madrid/41046373806/ddd-minimo-41046373806-M08.zip",
+      "copia_sha256": "5758dc06b4dafd04b04a3b6479851e2fc8b5b47009d2c87300ceb26b78485c3c",
+      "sha256": "4b688b6f7295e7c7cfd76f199dd8ecbf4ed5d5d8935b10f41ad1f02c8fdadab6",
+      "tamano_bytes": 243086023
+    },
+    {
+      "clave": "madrid/41046373806/ddd-state-41046373806-M06.zip",
+      "copia_clave": "madrid/41046373806/ddd-minimo-41046373806-M08.zip",
+      "copia_sha256": "5758dc06b4dafd04b04a3b6479851e2fc8b5b47009d2c87300ceb26b78485c3c",
+      "sha256": "d695e3be4e25105dcbfcd60df825f76f0335cd73931385115b8c7485e21d4943",
+      "tamano_bytes": 247437116
+    },
+    {
+      "clave": "madrid/41046373806/ddd-state-41046373806-M07.zip",
+      "copia_clave": "madrid/41046373806/ddd-minimo-41046373806-M08.zip",
+      "copia_sha256": "5758dc06b4dafd04b04a3b6479851e2fc8b5b47009d2c87300ceb26b78485c3c",
+      "sha256": "2d48fc0fecb02ecaad4c27d38213711794c2d755d6fc762f6436c922c0fee89c",
+      "tamano_bytes": 250523186
+    },
+    {
+      "clave": "madrid/41046373806/ddd-state-41046373806-M08.zip",
+      "copia_clave": "madrid/41046373806/ddd-minimo-41046373806-M08.zip",
+      "copia_sha256": "5758dc06b4dafd04b04a3b6479851e2fc8b5b47009d2c87300ceb26b78485c3c",
+      "sha256": "79a2be39285998a4477d3701984508a43806292d0ea0d0282533e73dfb6adbaf",
+      "tamano_bytes": 251799287
+    },
+    {
+      "clave": "melilla/40840795932/ddd-state-40840795932-M01.zip",
+      "copia_clave": "melilla/40840795932/ddd-minimo-40840795932-M08.zip",
+      "copia_sha256": "90a6f1e76a813fc770c88b83062713223be3a84df899078f6f84e70c5eb660bd",
+      "sha256": "159e9f6d6d6f4a1a5fd0c52a5e87d430ad12d669b3a431f037563289b36b44a2",
+      "tamano_bytes": 74641302
+    },
+    {
+      "clave": "melilla/40840795932/ddd-state-40840795932-M02.zip",
+      "copia_clave": "melilla/40840795932/ddd-minimo-40840795932-M08.zip",
+      "copia_sha256": "90a6f1e76a813fc770c88b83062713223be3a84df899078f6f84e70c5eb660bd",
+      "sha256": "9994efef84443af69bbd34c5149dd6ae26d47a7fdacbe8add51d3882b53fc485",
+      "tamano_bytes": 74642775
+    },
+    {
+      "clave": "melilla/40840795932/ddd-state-40840795932-M03.zip",
+      "copia_clave": "melilla/40840795932/ddd-minimo-40840795932-M08.zip",
+      "copia_sha256": "90a6f1e76a813fc770c88b83062713223be3a84df899078f6f84e70c5eb660bd",
+      "sha256": "a69f375a9656318c233bddab833245a2bb6f07cf8776ff8b6915659beb5b4c0d",
+      "tamano_bytes": 74644879
+    },
+    {
+      "clave": "melilla/40840795932/ddd-state-40840795932-M03U.zip",
+      "copia_clave": "melilla/40840795932/ddd-minimo-40840795932-M08.zip",
+      "copia_sha256": "90a6f1e76a813fc770c88b83062713223be3a84df899078f6f84e70c5eb660bd",
+      "sha256": "a5e0f67e18dd8b920718560da4f86d8b50199a540d6aa54ec37edeab20407274",
+      "tamano_bytes": 74644879
+    },
+    {
+      "clave": "melilla/40840795932/ddd-state-40840795932-M04.zip",
+      "copia_clave": "melilla/40840795932/ddd-minimo-40840795932-M08.zip",
+      "copia_sha256": "90a6f1e76a813fc770c88b83062713223be3a84df899078f6f84e70c5eb660bd",
+      "sha256": "efb38c82ffba64912d66138245810bbea6fdd777c047aed17f6e816460f9cb73",
+      "tamano_bytes": 74808781
+    },
+    {
+      "clave": "melilla/40840795932/ddd-state-40840795932-M05.zip",
+      "copia_clave": "melilla/40840795932/ddd-minimo-40840795932-M08.zip",
+      "copia_sha256": "90a6f1e76a813fc770c88b83062713223be3a84df899078f6f84e70c5eb660bd",
+      "sha256": "02720553c207d11147bc916bded443d6baf7cf308af7e4a9a693eda39980a644",
+      "tamano_bytes": 74971914
+    },
+    {
+      "clave": "melilla/40840795932/ddd-state-40840795932-M06.zip",
+      "copia_clave": "melilla/40840795932/ddd-minimo-40840795932-M08.zip",
+      "copia_sha256": "90a6f1e76a813fc770c88b83062713223be3a84df899078f6f84e70c5eb660bd",
+      "sha256": "f8c2d14fcef4cb294542d11f604c5ec1c413b6119a0b91102ebed22edbdee291",
+      "tamano_bytes": 75298322
+    },
+    {
+      "clave": "melilla/40840795932/ddd-state-40840795932-M07.zip",
+      "copia_clave": "melilla/40840795932/ddd-minimo-40840795932-M08.zip",
+      "copia_sha256": "90a6f1e76a813fc770c88b83062713223be3a84df899078f6f84e70c5eb660bd",
+      "sha256": "961d11ab969f1d8ed1b26109523c43af901dc09db595860921c559614104a5e1",
+      "tamano_bytes": 75462509
+    },
+    {
+      "clave": "melilla/40840795932/ddd-state-40840795932-M08.zip",
+      "copia_clave": "melilla/40840795932/ddd-minimo-40840795932-M08.zip",
+      "copia_sha256": "90a6f1e76a813fc770c88b83062713223be3a84df899078f6f84e70c5eb660bd",
+      "sha256": "a2b3db6b89c06d15408affa105c73424bfdbb3787f40f9f6abaf939b57c3b06d",
+      "tamano_bytes": 75623735
+    },
+    {
+      "clave": "pais_vasco/40951146225/ddd-state-40951146225-M03U.zip",
+      "copia_clave": "pais_vasco/40951146225/ddd-state-40951146225-M08.zip",
+      "copia_sha256": "1055816b0d86391c38b706d5f5a0a5f11826b50f215500b2df91092972b50e99",
+      "sha256": "bd1554bbc505c95e6c811db343a872eb82364b052d1eeff8acdceb33c294380e",
+      "tamano_bytes": 92220136
+    },
+    {
+      "clave": "pais_vasco/40951146225/ddd-state-40951146225-M04.zip",
+      "copia_clave": "pais_vasco/40951146225/ddd-state-40951146225-M08.zip",
+      "copia_sha256": "1055816b0d86391c38b706d5f5a0a5f11826b50f215500b2df91092972b50e99",
+      "sha256": "08588652547ac7063fb8080f73922f37ae4d0065971e3d83155412d707577a82",
+      "tamano_bytes": 96337764
+    },
+    {
+      "clave": "pais_vasco/40951146225/ddd-state-40951146225-M05.zip",
+      "copia_clave": "pais_vasco/40951146225/ddd-state-40951146225-M08.zip",
+      "copia_sha256": "1055816b0d86391c38b706d5f5a0a5f11826b50f215500b2df91092972b50e99",
+      "sha256": "e131ddcab5f409779b005fc003e30f7e8b3395802166c557700ce2da02bf7ec5",
+      "tamano_bytes": 100454937
+    },
+    {
+      "clave": "pais_vasco/40951146225/ddd-state-40951146225-M06.zip",
+      "copia_clave": "pais_vasco/40951146225/ddd-state-40951146225-M08.zip",
+      "copia_sha256": "1055816b0d86391c38b706d5f5a0a5f11826b50f215500b2df91092972b50e99",
+      "sha256": "94865ccb2f9787337a647029b5dbad2838ffc41e71ee811d941d5f4f37ca3b4e",
+      "tamano_bytes": 106389924
+    },
+    {
+      "clave": "pais_vasco/40951146225/ddd-state-40951146225-M07.zip",
+      "copia_clave": "pais_vasco/40951146225/ddd-state-40951146225-M08.zip",
+      "copia_sha256": "1055816b0d86391c38b706d5f5a0a5f11826b50f215500b2df91092972b50e99",
+      "sha256": "737c9fbe1c4eb74c93ee9d5a4ef041c18a0ed262d97243219a1078151bebc897",
+      "tamano_bytes": 110540568
+    },
+    {
+      "clave": "pais_vasco/40979640315/ddd-state-40979640315-M01.zip",
+      "copia_clave": "pais_vasco/40979640315/ddd-minimo-40979640315-M08.zip",
+      "copia_sha256": "f7715e357083ff9a4c1b592eae2f32612904e543eb966d38a3a14c90f9fb781a",
+      "sha256": "5783e0762a40c25d0b61e882298a4f849951ce028ac1a72a7acbb566793fc2d2",
+      "tamano_bytes": 92162825
+    },
+    {
+      "clave": "pais_vasco/40979640315/ddd-state-40979640315-M02.zip",
+      "copia_clave": "pais_vasco/40979640315/ddd-minimo-40979640315-M08.zip",
+      "copia_sha256": "f7715e357083ff9a4c1b592eae2f32612904e543eb966d38a3a14c90f9fb781a",
+      "sha256": "8d78b1ebee96219042c6bd14b05174488bff16d4987e3d43992e621b06cd9bb3",
+      "tamano_bytes": 92183299
+    },
+    {
+      "clave": "pais_vasco/40979640315/ddd-state-40979640315-M03.zip",
+      "copia_clave": "pais_vasco/40979640315/ddd-minimo-40979640315-M08.zip",
+      "copia_sha256": "f7715e357083ff9a4c1b592eae2f32612904e543eb966d38a3a14c90f9fb781a",
+      "sha256": "4f3d6d482b94a05a959ff344d8077dff097a048a366acaea51e6f319b5ef660e",
+      "tamano_bytes": 92220136
+    },
+    {
+      "clave": "pais_vasco/40979640315/ddd-state-40979640315-M03U.zip",
+      "copia_clave": "pais_vasco/40979640315/ddd-minimo-40979640315-M08.zip",
+      "copia_sha256": "f7715e357083ff9a4c1b592eae2f32612904e543eb966d38a3a14c90f9fb781a",
+      "sha256": "12f0f7a5788b09afc8cf8fcb092624df62968e961ae31034dfc0b846e43dbd2e",
+      "tamano_bytes": 92220136
+    },
+    {
+      "clave": "pais_vasco/40979640315/ddd-state-40979640315-M04.zip",
+      "copia_clave": "pais_vasco/40979640315/ddd-minimo-40979640315-M08.zip",
+      "copia_sha256": "f7715e357083ff9a4c1b592eae2f32612904e543eb966d38a3a14c90f9fb781a",
+      "sha256": "4d28296a2736387bbe78838951b7e754f5f8e65cd8e8704d7af81abd2633c767",
+      "tamano_bytes": 96337764
+    },
+    {
+      "clave": "pais_vasco/40979640315/ddd-state-40979640315-M05.zip",
+      "copia_clave": "pais_vasco/40979640315/ddd-minimo-40979640315-M08.zip",
+      "copia_sha256": "f7715e357083ff9a4c1b592eae2f32612904e543eb966d38a3a14c90f9fb781a",
+      "sha256": "469326da03fd648d533d7bf2adef682f829b2d5dea8166eb49867bc0ea5e4561",
+      "tamano_bytes": 301939953
+    },
+    {
+      "clave": "pais_vasco/40979640315/ddd-state-40979640315-M06.zip",
+      "copia_clave": "pais_vasco/40979640315/ddd-minimo-40979640315-M08.zip",
+      "copia_sha256": "f7715e357083ff9a4c1b592eae2f32612904e543eb966d38a3a14c90f9fb781a",
+      "sha256": "d29a982a4a6e7456b0f129d5119e1eb53d26834284dada7bcd6b969d394edf74",
+      "tamano_bytes": 307764823
+    },
+    {
+      "clave": "pais_vasco/40979640315/ddd-state-40979640315-M07.zip",
+      "copia_clave": "pais_vasco/40979640315/ddd-minimo-40979640315-M08.zip",
+      "copia_sha256": "f7715e357083ff9a4c1b592eae2f32612904e543eb966d38a3a14c90f9fb781a",
+      "sha256": "d2d987ec5e6fd767fac461b8f1471853900673033d7dba454677303385a1eb5a",
+      "tamano_bytes": 311915355
+    },
+    {
+      "clave": "pais_vasco/40979640315/ddd-state-40979640315-M08.zip",
+      "copia_clave": "pais_vasco/40979640315/ddd-minimo-40979640315-M08.zip",
+      "copia_sha256": "f7715e357083ff9a4c1b592eae2f32612904e543eb966d38a3a14c90f9fb781a",
+      "sha256": "9f0d871b475feb7ed9f52c4123ea15783b86b9f49a1b2d1dd7f7c8730430c5f2",
+      "tamano_bytes": 313600460
+    },
+    {
+      "clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M01.zip",
+      "copia_clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M08.zip",
+      "copia_sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1",
+      "sha256": "61f61612102664dc02f30f666edd1b2b416b81500c95d0230ffc4ba50617fc9e",
+      "tamano_bytes": 2898909
+    },
+    {
+      "clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M02.zip",
+      "copia_clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M08.zip",
+      "copia_sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1",
+      "sha256": "68f8a8ed2423228d4b1a75ff9b20a23e1f6a78e8ef317756152fa6981cf6cd7b",
+      "tamano_bytes": 2909394
+    },
+    {
+      "clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M03.zip",
+      "copia_clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M08.zip",
+      "copia_sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1",
+      "sha256": "e71f5fe30ae44ba418fe3fa6a55b208bd4f604e4064addb5343d4f51b741d41f",
+      "tamano_bytes": 2927396
+    },
+    {
+      "clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M03U.zip",
+      "copia_clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M08.zip",
+      "copia_sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1",
+      "sha256": "43e72032737550b79f33944029da73ffb3ec14918aec1c1aec702ac570482052",
+      "tamano_bytes": 4148381
+    },
+    {
+      "clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M04.zip",
+      "copia_clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M08.zip",
+      "copia_sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1",
+      "sha256": "1e937ada22862352d87878210da90b8639ce64a68951653a219ac097f4f351e7",
+      "tamano_bytes": 5398650
+    },
+    {
+      "clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M05.zip",
+      "copia_clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M08.zip",
+      "copia_sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1",
+      "sha256": "436446771d1a5fa13f7ea1cd39f661edaf1a4d981cb474879bde80eb5c0de122",
+      "tamano_bytes": 6648136
+    },
+    {
+      "clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M06.zip",
+      "copia_clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M08.zip",
+      "copia_sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1",
+      "sha256": "64275fcf814003e64232053bcdcf2e68b58ac0f1d4c222fdcb9e589177c01dd0",
+      "tamano_bytes": 8460958
+    },
+    {
+      "clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M07.zip",
+      "copia_clave": "principado_de_asturias/40132061626/ddd-state-40132061626-M08.zip",
+      "copia_sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1",
+      "sha256": "dd19750d71aa707505f336e68501d95ca90497433e610919311ac202224daa4a",
+      "tamano_bytes": 9725709
+    },
+    {
+      "clave": "principado_de_asturias/40979477771/ddd-state-40979477771-M01.zip",
+      "copia_clave": "principado_de_asturias/40979477771/ddd-minimo-40979477771-M08.zip",
+      "copia_sha256": "7438e9768c4547a5c846a2974b778efb7c9d240b844c47d6b5fe37c99f3876d4",
+      "sha256": "607221dd01e9a7689c483553049bbfee8a200cab01600508d1ff16c8310bb6ab",
+      "tamano_bytes": 79049000
+    },
+    {
+      "clave": "principado_de_asturias/40979477771/ddd-state-40979477771-M02.zip",
+      "copia_clave": "principado_de_asturias/40979477771/ddd-minimo-40979477771-M08.zip",
+      "copia_sha256": "7438e9768c4547a5c846a2974b778efb7c9d240b844c47d6b5fe37c99f3876d4",
+      "sha256": "b38ed9bfafd9a60728863f3e342ac7af7a9c4bee356e0c724f61d86c9c6e3c62",
+      "tamano_bytes": 79059495
+    },
+    {
+      "clave": "principado_de_asturias/40979477771/ddd-state-40979477771-M03.zip",
+      "copia_clave": "principado_de_asturias/40979477771/ddd-minimo-40979477771-M08.zip",
+      "copia_sha256": "7438e9768c4547a5c846a2974b778efb7c9d240b844c47d6b5fe37c99f3876d4",
+      "sha256": "a31c54449a23a5fb3f89f859edeab0a40c5332a116bd1d470b2d6f1403ae0bf2",
+      "tamano_bytes": 79077496
+    },
+    {
+      "clave": "principado_de_asturias/40979477771/ddd-state-40979477771-M03U.zip",
+      "copia_clave": "principado_de_asturias/40979477771/ddd-minimo-40979477771-M08.zip",
+      "copia_sha256": "7438e9768c4547a5c846a2974b778efb7c9d240b844c47d6b5fe37c99f3876d4",
+      "sha256": "6c3ab52cc817287a2d2e16646347843b3df9f0d11a66276fb9ea3499f92d0921",
+      "tamano_bytes": 80298481
+    },
+    {
+      "clave": "principado_de_asturias/40979477771/ddd-state-40979477771-M04.zip",
+      "copia_clave": "principado_de_asturias/40979477771/ddd-minimo-40979477771-M08.zip",
+      "copia_sha256": "7438e9768c4547a5c846a2974b778efb7c9d240b844c47d6b5fe37c99f3876d4",
+      "sha256": "1ed3fa28cd52c8c69d03e27dde2863f157339cbadcdcdc95be5337f0b2fd5ae5",
+      "tamano_bytes": 81548762
+    },
+    {
+      "clave": "principado_de_asturias/40979477771/ddd-state-40979477771-M05.zip",
+      "copia_clave": "principado_de_asturias/40979477771/ddd-minimo-40979477771-M08.zip",
+      "copia_sha256": "7438e9768c4547a5c846a2974b778efb7c9d240b844c47d6b5fe37c99f3876d4",
+      "sha256": "c5759a7f16b6fc7b8db3dff604641a853045112f58f1c2037177b3f75bb091f0",
+      "tamano_bytes": 143295313
+    },
+    {
+      "clave": "principado_de_asturias/40979477771/ddd-state-40979477771-M06.zip",
+      "copia_clave": "principado_de_asturias/40979477771/ddd-minimo-40979477771-M08.zip",
+      "copia_sha256": "7438e9768c4547a5c846a2974b778efb7c9d240b844c47d6b5fe37c99f3876d4",
+      "sha256": "9f460bf1894a406f4106818103d03e0108660ed43b437089d8cf7ea4bab06bd9",
+      "tamano_bytes": 145065963
+    },
+    {
+      "clave": "principado_de_asturias/40979477771/ddd-state-40979477771-M07.zip",
+      "copia_clave": "principado_de_asturias/40979477771/ddd-minimo-40979477771-M08.zip",
+      "copia_sha256": "7438e9768c4547a5c846a2974b778efb7c9d240b844c47d6b5fe37c99f3876d4",
+      "sha256": "e54f6bdd119eefda252bf575d89965e7fc7d4a705e89f51707e5c53886cedcc3",
+      "tamano_bytes": 146330621
+    },
+    {
+      "clave": "principado_de_asturias/40979477771/ddd-state-40979477771-M08.zip",
+      "copia_clave": "principado_de_asturias/40979477771/ddd-minimo-40979477771-M08.zip",
+      "copia_sha256": "7438e9768c4547a5c846a2974b778efb7c9d240b844c47d6b5fe37c99f3876d4",
+      "sha256": "9b44674bae9c1ee3fa6004b3d06995c9c7eac3cd10105567739d683868ed8c45",
+      "tamano_bytes": 146840317
+    },
+    {
+      "clave": "region_de_murcia/40945284725/ddd-state-40945284725-M01.zip",
+      "copia_clave": "region_de_murcia/40945284725/ddd-minimo-40945284725-M06.zip",
+      "copia_sha256": "4f4c26d8cdb523dec1eb9b0606b1a2e4343d3b4ea1942f6e5261dc2a798a8f30",
+      "sha256": "cd58a21b8aa0e27ada476c3c244429e88e120369fe4e94862c23b705a165bae7",
+      "tamano_bytes": 79007699
+    },
+    {
+      "clave": "region_de_murcia/40945284725/ddd-state-40945284725-M02.zip",
+      "copia_clave": "region_de_murcia/40945284725/ddd-minimo-40945284725-M06.zip",
+      "copia_sha256": "4f4c26d8cdb523dec1eb9b0606b1a2e4343d3b4ea1942f6e5261dc2a798a8f30",
+      "sha256": "1c91a580d57173c68759b0dd1c52c58055d93a489e27f8509795b507679dfbf1",
+      "tamano_bytes": 79022655
+    },
+    {
+      "clave": "region_de_murcia/40945284725/ddd-state-40945284725-M03.zip",
+      "copia_clave": "region_de_murcia/40945284725/ddd-minimo-40945284725-M06.zip",
+      "copia_sha256": "4f4c26d8cdb523dec1eb9b0606b1a2e4343d3b4ea1942f6e5261dc2a798a8f30",
+      "sha256": "9c9bb27bdd11c81120a6fa3e005787da76e5fda54f42054babc474f08ea99cf1",
+      "tamano_bytes": 79047735
+    },
+    {
+      "clave": "region_de_murcia/40945284725/ddd-state-40945284725-M03U.zip",
+      "copia_clave": "region_de_murcia/40945284725/ddd-minimo-40945284725-M06.zip",
+      "copia_sha256": "4f4c26d8cdb523dec1eb9b0606b1a2e4343d3b4ea1942f6e5261dc2a798a8f30",
+      "sha256": "5e19b6b6aa9fe2681d86efbe0b4c488d81b7ca0fa57e65c9b03d4fd821de30c3",
+      "tamano_bytes": 79047735
+    },
+    {
+      "clave": "region_de_murcia/40945284725/ddd-state-40945284725-M04.zip",
+      "copia_clave": "region_de_murcia/40945284725/ddd-minimo-40945284725-M06.zip",
+      "copia_sha256": "4f4c26d8cdb523dec1eb9b0606b1a2e4343d3b4ea1942f6e5261dc2a798a8f30",
+      "sha256": "fb80f63fc6331bc19f4c26aaea3cb9d8a0dfca2743d4ed3142f9a592742b259e",
+      "tamano_bytes": 80342106
+    },
+    {
+      "clave": "region_de_murcia/40945284725/ddd-state-40945284725-M05.zip",
+      "copia_clave": "region_de_murcia/40945284725/ddd-minimo-40945284725-M06.zip",
+      "copia_sha256": "4f4c26d8cdb523dec1eb9b0606b1a2e4343d3b4ea1942f6e5261dc2a798a8f30",
+      "sha256": "18df32692afcb67f0cc3dbfd6659d448af371fbb5db8c58b204a9bcaaa255c5d",
+      "tamano_bytes": 81634370
+    },
+    {
+      "clave": "region_de_murcia/40945284725/ddd-state-40945284725-M06.zip",
+      "copia_clave": "region_de_murcia/40945284725/ddd-minimo-40945284725-M06.zip",
+      "copia_sha256": "4f4c26d8cdb523dec1eb9b0606b1a2e4343d3b4ea1942f6e5261dc2a798a8f30",
+      "sha256": "f3169dd583c1d7033ff17717bfd6329151d10677c32e590eabbf8fd4c49b5eb1",
+      "tamano_bytes": 83399819
+    },
+    {
+      "clave": "region_de_murcia/40957577850/ddd-state-40957577850-M07.zip",
+      "copia_clave": "region_de_murcia/40957577850/ddd-minimo-40957577850-M08.zip",
+      "copia_sha256": "48b2b1a964f66b39a141f8f0ae1e5057c32e379b96c66b87969a9e790f4e6861",
+      "sha256": "b97631f2160056c7336616e584c66d29a9dd90d4ba203ab4e387beb2b1f4cf76",
+      "tamano_bytes": 84713765
+    },
+    {
+      "clave": "region_de_murcia/40957577850/ddd-state-40957577850-M08.zip",
+      "copia_clave": "region_de_murcia/40957577850/ddd-minimo-40957577850-M08.zip",
+      "copia_sha256": "48b2b1a964f66b39a141f8f0ae1e5057c32e379b96c66b87969a9e790f4e6861",
+      "sha256": "dcd9ff153ac52f188edcaa1ab1be953d4811ff184d82bb99fb93ac7d395d329d",
+      "tamano_bytes": 85175114
+    }
+  ],
+  "bytes_borrados": 26085405682,
+  "bytes_lista": 26085405682,
+  "claves": 234,
+  "desajustes": [],
+  "ejecutar": true,
+  "error": null,
+  "fecha": "2026-11-10T11:09:32Z"
+}

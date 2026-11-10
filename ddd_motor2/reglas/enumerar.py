@@ -3,14 +3,17 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: núcleo de reglas del motor 2 — poda monótona y enumeración exacta con presupuesto de nodos
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Núcleo único de reglas · F1
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Enumeración con elección por calidad
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.1.0 — enumerar(..., clave=f): guarda el plan válido de menor f(plan) («mejor», «mejor_clave»), recorriendo
+  TODOS los válidos (no solo los max_planes guardados); «segundo_clave» y «empatados» (planes con la mejor clave).
+  1.0.0 — fichero nuevo.
 MOTIVO: T-160: donde el espacio de planes cabe, enumerar todos en vez de muestrear (criterio del propietario: cadena
   solo donde el espacio es grande). El veredicto de cada plan enumerado es evaluar() del núcleo.
-ANTERIOR: ninguna (fichero nuevo)
+MOTIVO 1.1.0: T-175: enumeración exacta integrada en el competidor y el certificador.
+ANTERIOR: legacy/ddd_motor2/reglas/enumerar_v1.0.0_20261110.py
 QUÉ HACE:
   podar(problema, reglas, parcial) -> violaciones SEGURAS de un plan parcial: monótonas, es decir, toda extensión del
     parcial a un plan completo las tiene también (test por fuerza bruta). Techo, provincia única, K, R012 máx y
@@ -131,8 +134,10 @@ def _orden_bfs(problema: Problema, adj) -> list[str]:
     return orden
 
 
-def enumerar(problema: Problema, reglas: Reglas, presupuesto: int | None = None, max_planes: int = 1000) -> dict:
-    """Recuento exacto de planes válidos si cabe en el presupuesto de nodos."""
+def enumerar(problema: Problema, reglas: Reglas, presupuesto: int | None = None, max_planes: int = 1000,
+             clave=None) -> dict:
+    """Recuento exacto de planes válidos si cabe en el presupuesto de nodos. Con `clave` (plan -> valor ordenable),
+    además el mejor plan válido (menor clave) entre TODOS los recorridos."""
     ctx = Contexto.de(problema, reglas)
     if presupuesto is None:
         presupuesto = reglas.criterio.presupuesto_nodos
@@ -143,6 +148,7 @@ def enumerar(problema: Problema, reglas: Reglas, presupuesto: int | None = None,
     estado = {"nodos": 0, "agotado": False}
     huellas: list[str] = []
     planes: list[dict] = []
+    mejor = {"plan": None, "clave": None, "segundo": None, "empatados": 0}
 
     def canonico() -> str:
         bloques = defaultdict(list)
@@ -164,6 +170,15 @@ def enumerar(problema: Problema, reglas: Reglas, presupuesto: int | None = None,
                 huellas.append(hashlib.sha256(canonico().encode()).hexdigest())
                 if len(planes) < max_planes:
                     planes.append(dict(asig))
+                if clave is not None:
+                    c = clave(asig)
+                    if mejor["clave"] is None or c < mejor["clave"]:
+                        mejor["segundo"] = mejor["clave"]
+                        mejor.update(plan=dict(asig), clave=c, empatados=1)
+                    elif c == mejor["clave"]:
+                        mejor["empatados"] += 1
+                    elif mejor["segundo"] is None or c < mejor["segundo"]:
+                        mejor["segundo"] = c
             return
         u = orden[i]
         for d in range(min(usadas + 1, reglas.k)):
@@ -174,5 +189,9 @@ def enumerar(problema: Problema, reglas: Reglas, presupuesto: int | None = None,
     rec(0, 0)
     completo = not estado["agotado"]
     huella = hashlib.sha256("\n".join(sorted(huellas)).encode()).hexdigest() if completo else ""
-    return {"completo": completo, "nodos": min(estado["nodos"], presupuesto), "validos": len(huellas),
-            "huella": huella, "planes": planes, "huella_reglas": reglas.huella()}
+    out = {"completo": completo, "nodos": min(estado["nodos"], presupuesto), "validos": len(huellas),
+           "huella": huella, "planes": planes, "huella_reglas": reglas.huella()}
+    if clave is not None:
+        out.update(mejor=mejor["plan"], mejor_clave=mejor["clave"], segundo_clave=mejor["segundo"],
+                   empatados=mejor["empatados"])
+    return out

@@ -3,7 +3,9 @@
 """T-163 · competidor como sustituto de M05: lógica de semilla inicial de GerryChain (sin ejecutar M05 real)."""
 from __future__ import annotations
 
+import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -12,7 +14,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from ddd_motor2.competicion import Salida  # noqa: E402
-from ddd_motor2.competidor import CanonicoM05, GerryChainM05  # noqa: E402
+from ddd_motor2.competidor import CanonicoM05, GerryChainM05, referencia_m04  # noqa: E402
 
 
 class PasoFalso:
@@ -130,6 +132,43 @@ class Main(unittest.TestCase):
         self.assertEqual(rc, 0)
         self.assertTrue(Path(s5["out_geojson"]).read_text().startswith("M05 canonico"))
         self.assertFalse(Path(s5["out_report"]).exists())
+
+
+
+
+class ReferenciaM04(unittest.TestCase):
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+
+    def _m04(self, props):
+        f = self.tmp / "m04.geojson"
+        f.write_text(json.dumps({"features": [{"properties": p} for p in props]}))
+        return {"in_geojson": str(f)}
+
+    def test_completo_usa_el_m04(self):
+        ref, motivo = referencia_m04(self._m04([{"CUSEC_KEY": "1", "district_id": 1},
+                                                {"CUSEC_KEY": "2", "district_id": 2}]), {}, self.tmp)
+        self.assertTrue(ref.is_file())
+        self.assertIn("M04", motivo)
+
+    def test_respaldo_si_no_hay_m04_o_ningun_district_id(self):
+        ref, motivo = referencia_m04({"in_geojson": str(self.tmp / "no.geojson")}, {}, self.tmp)
+        self.assertEqual((ref, "ausente" in motivo), (None, True))
+        ref, motivo = referencia_m04(self._m04([{"CUSEC_KEY": "1"}]), {}, self.tmp)
+        self.assertEqual((ref, "no trae" in motivo), (None, True))
+
+    def test_parcial_o_corrupto_falla(self):
+        from ddd_motor2.reglas import ErrorDatos
+        with self.assertRaises(ErrorDatos):
+            referencia_m04(self._m04([{"CUSEC_KEY": "1", "district_id": 1}, {"CUSEC_KEY": "2"}]), {}, self.tmp)
+        malo = self.tmp / "malo.geojson"
+        malo.write_text("{no json")
+        with self.assertRaises(ErrorDatos):
+            referencia_m04({"in_geojson": str(malo)}, {}, self.tmp)
+        zip_malo = self.tmp / "malo.geojson.zip"
+        zip_malo.write_bytes(b"no es un zip")
+        with self.assertRaises(ErrorDatos):
+            referencia_m04({"in_geojson": str(zip_malo)}, {}, self.tmp)
 
 
 if __name__ == "__main__":
