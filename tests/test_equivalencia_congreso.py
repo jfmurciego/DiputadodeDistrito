@@ -25,6 +25,18 @@ class Equivalencia(unittest.TestCase):
         with self.assertRaisesRegex(FileNotFoundError, "EQUIVALENCIA_NO_ACREDITADA"):
             ec.cargar("2027-01-01")
 
+    def test_2023_detecta_sha256_alterado(self):
+        import shutil
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "configuracion").mkdir()
+            for suf in (".csv", ".json"):
+                shutil.copy(ROOT / f"configuracion/equivalencia_secciones_congreso_2023{suf}", Path(d) / "configuracion")
+            c = Path(d) / "configuracion/equivalencia_secciones_congreso_2023.csv"
+            c.write_text(c.read_text(encoding="utf-8") + "9999999999,0000000000,reparto,1.000000,1.000000\n", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "sha256"):
+                ec.cargar("2023-07-23", root=Path(d))
+
 
 if __name__ == "__main__":
     unittest.main()

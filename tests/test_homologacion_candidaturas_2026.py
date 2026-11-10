@@ -81,6 +81,14 @@ class SiglasDelZip(unittest.TestCase):
         reglas = json.loads((ROOT / h.REGLAS).read_text(encoding="utf-8"))
         self.assertEqual(h.resolver_zip(reglas, {}, "PODEMOS", "08", {}), ("Podemos–Sumar", "DECIDIDA", "PODEMOS"))
 
+    def test_regla_2026_pasa_por_exigir(self):
+        h.exigir_siglas_zip(["PODEMOS", "JxCat", "UPN-PP"], "08")  # sin error
+
+    def test_otra_eleccion_no_usa_reglas_ni_candidaturas_2026(self):
+        # PACMA es candidatura BOE de La Coruña (15) en 2026, pero no vale para 2023
+        self.assertEqual(h.siglas_sin_regla(["PACMA"], "15"), [])
+        self.assertEqual(h.siglas_sin_regla(["PACMA", "PODEMOS"], "15", eleccion="202307"), ["PACMA", "PODEMOS"])
+
 
 if __name__ == "__main__":
     unittest.main()

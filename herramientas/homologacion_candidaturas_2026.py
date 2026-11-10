@@ -46,6 +46,7 @@ def resolver(reglas: dict, sigla: str) -> tuple[str, str, str]:
 
 
 SIN_REGLA = "SIN_REGLA"
+ELECCION = "202611"
 GENERALES = "datos/homologacion_siglas/reglas_generales.json"
 
 
@@ -59,13 +60,17 @@ def candidaturas_boe(root: Path = ROOT) -> dict[str, set[str]]:
 
 
 def resolver_zip(reglas: dict, generales: dict, sigla: str, codigo: str, boe: dict[str, set[str]],
-                 eleccion: str = "202611") -> tuple[str, str, str]:
+                 eleccion: str = ELECCION) -> tuple[str, str, str]:
     """Sigla del ZIP de Interior → (homologado, certeza, regla). Orden: regla 2026 explícita, tabla ``interior`` de
     la elección en reglas_generales.json, sigla idéntica a una candidatura BOE de la provincia; si no, SIN_REGLA."""
+    interior = generales.get("interior", {}).get(eleccion, {})
+    if eleccion != ELECCION:  # reglas y candidaturas 2026 solo valen para 2026: otra elección manda su tabla interior
+        if sigla in interior:
+            return interior[sigla], "DECIDIDA", f"INTERIOR-{eleccion}"
+        return sigla, SIN_REGLA, SIN_REGLA
     h, cert, rid = resolver(reglas, sigla)
     if rid != "IDENTIDAD":
         return h, cert, rid
-    interior = generales.get("interior", {}).get(eleccion, {})
     if sigla in interior:
         return interior[sigla], "DECIDIDA", f"INTERIOR-{eleccion}"
     if sigla in boe.get(codigo, set()):
@@ -73,14 +78,14 @@ def resolver_zip(reglas: dict, generales: dict, sigla: str, codigo: str, boe: di
     return sigla, SIN_REGLA, SIN_REGLA
 
 
-def siglas_sin_regla(siglas, codigo: str, eleccion: str = "202611", root: Path = ROOT) -> list[str]:
+def siglas_sin_regla(siglas, codigo: str, eleccion: str = ELECCION, root: Path = ROOT) -> list[str]:
     reglas = json.loads((root / REGLAS).read_text(encoding="utf-8"))
     generales = json.loads((root / GENERALES).read_text(encoding="utf-8"))
     boe = candidaturas_boe(root)
     return sorted(s for s in set(siglas) if resolver_zip(reglas, generales, s, codigo, boe, eleccion)[1] == SIN_REGLA)
 
 
-def exigir_siglas_zip(siglas, codigo: str, eleccion: str = "202611", root: Path = ROOT) -> None:
+def exigir_siglas_zip(siglas, codigo: str, eleccion: str = ELECCION, root: Path = ROOT) -> None:
     """Falla (ValueError SIGLAS_SIN_REGLA) si alguna sigla del ZIP no tiene regla ni candidatura BOE."""
     sin = siglas_sin_regla(siglas, codigo, eleccion, root)
     if sin:
