@@ -55,7 +55,8 @@ Objetivo: el propietario ve solo **P00 … P60 y ARC**, más lo automático.
 |---|---|---|
 | **P00 Campaña** | `gestor-campanas.yml` · 0 Gestor de Campañas; `ejecucion-completa-proyecto.yml` · 00 Ejecución Completa del Proyecto; `activacion-por-eleccion.yml` · Auxiliar — Activación por Elección; `preparacion-legislatura-vigente.yml` · Auxiliar — Activación de Legislatura Vigente | Modos: `plan`, `campaña`, `territorio`, `eleccion`, `legislatura`. Entorno `produccion` en el job que lanza |
 | **P10 Fuentes** | `preparacion-fuentes.yml` · 01 Preparación de Datos Territoriales; `preparacion-resultados-electorales.yml` · 03 Preparación de Resultados Electorales | Entrada `subfase: P11 / P12 / P13` |
-| **P30 Distritos** (incluye P20) | `produccion-distritos.yml` · 02 Generación de Distritos Autonómicos; `_reutilizable-generacion-territorial.yml` · Interno · Generación territorial; `generar-alternativas-territoriales.yml` · 06 Escenarios y Ensembles (→ P33); job `extraer_m06` de `mantenimiento-programado.yml` (antes Extraer composición M06) | Ver DECISIÓN 1 (P20 visible o no). El motor nuevo vive aquí (§d) |
+| **P20 Base territorial** | `produccion-distritos.yml` · 02 Generación de Distritos Autonómicos (parte de base territorial: M01-M03); jobs de M01-M03 de `_reutilizable-generacion-territorial.yml` · Interno · Generación territorial | Flujo propio (decisión del propietario, 10-11). Reutilizable: P30 lo llama si la base no está en ARC-E; su producto se archiva en ARC-E |
+| **P30 Distritos** | `produccion-distritos.yml` · 02 (parte de distritos: M04-M06); `_reutilizable-generacion-territorial.yml` · Interno · Generación territorial (M04-M06: generación con el motor nuevo y certificación); `generar-alternativas-territoriales.yml` · 06 Escenarios y Ensembles (→ P33); job `extraer_m06` de `mantenimiento-programado.yml` (antes Extraer composición M06) | El motor nuevo vive aquí (§d); P34 certificación dentro |
 | **P40 Resultados electorales** | `incorporacion-resultados-electorales.yml` · 04 Incorporación de Resultados Electorales; `_reutilizable-incorporacion-electoral.yml` · Interno · Incorporación electoral; `_reutilizable-puerta-validacion.yml` · Interno · Puerta de validación de fase | La puerta pasa a acción compuesta (T-149 §2 paso 5): no aparece en la lista |
 | **P50 Publicación** | `desplegar-visor-publico.yml` · 05 Publicación del Visor; `cadena-publicacion.yml` · 05 Cadena de Publicación; `_reutilizable-publicar-sitio.yml` · Interno · Publicador del sitio | El publicador queda como job con entorno `github-pages` dentro de P50 |
 | **P60 Publicación académica** | `publicar-version-mapa.yml` · Publicar versión de mapa | Entorno `publicacion` (revisor humano) intacto |
@@ -63,17 +64,21 @@ Objetivo: el propietario ve solo **P00 … P60 y ARC**, más lo automático.
 | *Automático* · Pruebas de la Plataforma | `pruebas-plataforma.yml` (jobs `guardian`, `suite`, `contratos`, `docs`, `productos`, `pruebas`, `catalogo`, `resultados`, `numeracion`) | **No se renombra** (T-149 §4) |
 | *Automático* · Revisor de PR | `revisor-pr.yml` (job `veredicto`, exigido por el ruleset, D-55) | No se renombra el job |
 | *Automático* · Mantenimiento | `mantenimiento-programado.yml` (queda el job `metricas`) | Ver DECISIÓN 2 (si el archivo diario va aquí o en ARC) |
-| *Automático* · Verificación del motor | `bateria-motor.yml` · Auxiliar — Batería del Motor | Batería nocturna (D-49) |
+| Verificación del motor (**ABIERTO**) | `bateria-motor.yml` · Auxiliar — Batería del Motor | Ver DECISIÓN 1 |
 | *Automático, sin tocar* · Fusión automática y Forense | `auto-merge.yml`, `forense-00.yml` | D-53/D-58: no se tocan sin autorización expresa. Pero dependen por nombre: ver riesgo (f)4 y DECISIÓN 3 |
 
-Resultado: 7 entradas manuales (P00, P10, P30, P40, P50, P60, ARC; 8 con P20 si la DECISIÓN 1 lo pide) y 6 automáticas. Las
+Resultado: 8 entradas manuales (P00, P10, P20, P30, P40, P50, P60, ARC) y 5 automáticas, más la batería según la DECISIÓN 1. Las
 cuatro «Interno ·» aceptadas como excepción (D-56) desaparecen: tres se integran en su único dueño v5 y la puerta pasa a
 acción compuesta.
 
-**DECISIÓN DEL PROPIETARIO 1 — P20 visible.** Hoy nadie lanza la base territorial sola: M01-M03 corren dentro de la
-generación territorial. Recomendación: P20 no es flujo propio; sus jobs son la primera etapa de «P30 Distritos» y su
-producto (base territorial) se archiva en ARC-E. Alternativa: «P20 Base territorial» visible, reutilizable por P30
-(una pieza más en la lista).
+Decidido (propietario vía Planificador, 10-11): P20 Base territorial y P30 Distritos son dos flujos separados. Al
+dividir el Interno · Generación territorial (13 jobs), la concurrencia `ddd-territorial-engine-…` debe cubrir los dos
+(un P20 y un P30 del mismo territorio no pueden correr a la vez sobre la misma base).
+
+**DECISIÓN DEL PROPIETARIO 1 — ABIERTO: batería del motor, visible bajo demanda o automática.** Recomendación:
+automática (cada noche y en toda PR que toque el motor, D-49), con disparo manual conservado para quien la necesite,
+pero fuera de la lista del propietario: es una verificación del motor, no un paso de producción. Alternativa: entrada
+visible «P30 · Verificación del motor» bajo demanda.
 
 **DECISIÓN DEL PROPIETARIO 2 — archivo diario.** Recomendación: el archivo diario (cron) va en ARC (un solo dueño de R2,
 misma concurrencia que la poda); «Mantenimiento» queda solo con métricas.
@@ -131,7 +136,7 @@ El cubo (`ddd-research-archive`) no cambia. Las claves viejas se conservan hasta
 | piloto de movilidad (D-34) | P13 movilidad |
 
 **Workflows**: ver la tabla de (b) (fichero y nombre de hoy → flujo v5). Ficheros v5 recomendados:
-`p00-campana.yml`, `p10-fuentes.yml`, `p30-distritos.yml`, `p40-resultados.yml`, `p50-publicacion.yml`,
+`p00-campana.yml`, `p10-fuentes.yml`, `p20-base-territorial.yml`, `p30-distritos.yml`, `p40-resultados.yml`, `p50-publicacion.yml`,
 `p60-publicacion-academica.yml`, `arc-archivo.yml`; los automáticos conservan fichero y nombre. Los ficheros viejos
 pasan a `legacy/workflows/` (como hizo T-149 con `mantenimiento-programado.yml`).
 
@@ -271,7 +276,7 @@ uno completo sin lecturas por id viejo, medido por el contador del resolutor, T-
 ## Resumen de decisiones del propietario
 | # | Decisión | Recomendación |
 |---|---|---|
-| 1 | P20 como flujo visible | No: primera etapa de P30 |
+| 1 | Batería del motor: visible bajo demanda o automática (ABIERTO) | Automática, con disparo manual |
 | 2 | Archivo diario en ARC o en Mantenimiento | ARC |
 | 3 | Forense con el nombre nuevo de P00 | Autorizar el cambio de una línea en el corte |
 | 4 | Nombres de productos y claves R2 | Tablas de (c) |
@@ -281,7 +286,7 @@ uno completo sin lecturas por id viejo, medido por el contador del resolutor, T-
 | 8 | Histórico en el corte | No; después, como elecciones de P40 |
 | 9 | Ciclos de alias antes de borrar lo viejo | Uno, con contador a cero |
 
-Ya decidido y recogido aquí: corte único con el relevo (D-45), notación de fases (D-47), sufijo `-350`, nueve
+Ya decidido y recogido aquí: P20 y P30 como flujos separados (10-11); corte único con el relevo (D-45), notación de fases (D-47), sufijo `-350`, nueve
 duplicados AUT/NAC y prueba bit a bit (D-60), capa visible solo en el corte (D-54, D-60), cuatro «Interno ·» revisados en
 el corte (D-56).
 
