@@ -8,4 +8,4 @@
   no se lanzó nada.
 - Resultado (71): 21/21 candidatos válidos en todos. Con A, distritos fuera de tolerancia 270 → 204 (N=5) → 203 (N=10)
   → 201 (N=20); mejoran al canónico 26 / 28 / 30 territorios. Badajoz reproducible 6/6. CPU medida en los 71:
-  5,9 / 10,9 / 20,8 h para N = 5 / 10 / 20. Recomendación: N = 10 por edición (con B o D8 convendría 15–20; hay que medirlo).
+  5,9 / 10,9 / 20,8 h para N = 5 / 10 / 20. Recomendación provisional (D-67): N = 10 por edición; para B o D8 (cadenas ponderadas, no medidas aquí), por medir.
