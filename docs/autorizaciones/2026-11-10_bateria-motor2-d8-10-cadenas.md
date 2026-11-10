@@ -22,7 +22,8 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
-| 17:33 | Soria (prueba) | batería motor2 D8 N=10, `territorios=congreso_soria` | 42855755112 | EN_VUELO | 1 / — | 0/1 |
+| 17:33 | Soria (prueba) | batería motor2 D8 N=10, `territorios=congreso_soria` | 42855755112 | SUCCESS: aceptación PARCIAL (solo Soria), 0 no válidos, 0 peores, huella reproducible | 1 / 5 min | 0/1 |
+| 17:39 | los 71 | batería motor2 D8 N=10, `territorios` vacío | 42856811551 | EN_VUELO | 2 / 5 min + en curso | 0/1 |
 
 ## Cierre
 Estado: `EN_CURSO`. Último uso: —.
