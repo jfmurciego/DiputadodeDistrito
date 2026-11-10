@@ -5,11 +5,13 @@
 # FECHA: 2026-11-10
 # ESTADO: vigente
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
-# CAMBIOS: 1.7.0 (T-151): absorbe como jobs las puertas automáticas «Validar Contratos Territoriales»
+# CAMBIOS: 1.7.0 (T-149): absorbe como jobs las puertas automáticas «Validar Contratos Territoriales»
 #   (`contratos`), «Validar documentación pública» (`docs`), «Validar Productos Públicos» (`productos`, solo push a
 #   main) y el «Revisor de PR» (`comprobar`/`revisar`/`veredicto`, solo pull_request), cada uno con sus mismas rutas
 #   (job `cambios`) y sus permisos mínimos por job. `pruebas` sigue exigiendo guardian y suite en success; los tres
 #   jobs por rutas pueden quedar en skipped. El Revisor no entra en `pruebas` (no bloquea la fusión).
+#   El Revisor lleva continue-on-error (no deja el workflow en failure). `ready_for_review` no repite la batería: `pruebas`
+#   espera y exige el `pruebas` en verde del mismo SHA.
 #   1.6.0 (T-50): el guardián y las pruebas ligeras van en un job rápido (`guardian`); la suite unittest se
 #   reparte en 5 grupos paralelos equilibrados por tiempo (`herramientas/repartir_tests.py`, tiempos en
 #   `tests/tiempos_ci.json`), cada uno en su contenedor; el grupo 1 hace además el descubrimiento, GerryChain y los
@@ -26,10 +28,11 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: ddd-pruebas-${{ github.event.pull_request.number || github.sha }}
+  group: ddd-pruebas-${{ github.event.pull_request.number || github.sha }}-${{ github.event.action == 'ready_for_review' && 'listo' || 'ci' }}
   cancel-in-progress: true
 jobs:
   guardian:
+    if: ${{ github.event.action != 'ready_for_review' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -55,6 +58,7 @@ jobs:
         run: python -m unittest tests.test_national_ine_original_parts -v
 
   suite:
+    if: ${{ github.event.action != 'ready_for_review' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     strategy:
@@ -134,6 +138,7 @@ jobs:
           if-no-files-found: warn
 
   cambios:
+    if: ${{ github.event.action != 'ready_for_review' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 3
     outputs:
@@ -219,6 +224,9 @@ jobs:
   docs:
     needs: cambios
     if: ${{ needs.cambios.outputs.docs == 'true' }}
+    concurrency:
+      group: docs-preview-${{ github.ref }}
+      cancel-in-progress: true
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -268,6 +276,7 @@ jobs:
 
   comprobar:
     if: ${{ github.event_name == 'pull_request' }}
+    continue-on-error: true
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     outputs:
@@ -288,8 +297,12 @@ jobs:
   revisar:
     needs: comprobar
     if: needs.comprobar.outputs.listo == 'true'
+    continue-on-error: true
+    concurrency:
+      group: ddd-revisor-pr-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 15
     permissions:
       contents: read
       pull-requests: read
@@ -322,6 +335,7 @@ jobs:
 
   veredicto:
     needs: revisar
+    continue-on-error: true
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -368,9 +382,31 @@ jobs:
     needs: [guardian, suite, cambios, contratos, docs, productos]
     if: ${{ always() }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 2
+    timeout-minutes: 30
+    permissions:
+      checks: read
+      contents: read
     steps:
+      - name: Marcar PR como lista — la batería de ese SHA ya corrió (no se repite)
+        if: ${{ github.event.action == 'ready_for_review' }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -uo pipefail
+          # Solo espera y comprueba el `pruebas` de otro run sobre el mismo SHA; nunca da verde sin él.
+          for i in $(seq 1 90); do
+            res="$(gh api "repos/$GITHUB_REPOSITORY/commits/$HEAD_SHA/check-runs?check_name=pruebas&per_page=100" \
+              --jq '[.check_runs[] | select(.id != 0 and (.details_url | contains("/runs/'"$GITHUB_RUN_ID"'/") | not))] | map(.conclusion // "pendiente") | join(" ")')"
+            echo "pruebas previas en $HEAD_SHA: ${res:-ninguna}"
+            if [[ " $res " == *" success "* ]]; then echo "pruebas en verde (batería previa del mismo SHA)."; exit 0; fi
+            if [[ -n "$res" && " $res " != *" pendiente "* ]]; then echo "::error::Sin batería verde para $HEAD_SHA: $res"; exit 1; fi
+            sleep 20
+          done
+          echo "::error::Sin batería terminada para $HEAD_SHA tras 30 min."; exit 1
       - name: Agregar resultado (check obligatorio del ruleset)
+        if: ${{ github.event.action != 'ready_for_review' }}
         shell: bash
         env:
           GUARDIAN: ${{ needs.guardian.result }}

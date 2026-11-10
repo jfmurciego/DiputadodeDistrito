@@ -87,3 +87,23 @@ class AgentesEnCI(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class RevisorNoBloqueaLaFusion(unittest.TestCase):
+    """El Revisor vive en «Pruebas de la Plataforma»; la fusión automática exige conclusión success de ese workflow."""
+
+    def test_ningun_job_del_revisor_deja_el_workflow_en_failure(self):
+        d = cargar("pruebas-plataforma.yml")
+        for job in ("comprobar", "revisar", "veredicto"):
+            with self.subTest(job=job):
+                self.assertIs(d["jobs"][job].get("continue-on-error"), True)
+        self.assertNotIn("revisar", d["jobs"]["pruebas"]["needs"])
+        self.assertNotIn("veredicto", d["jobs"]["pruebas"]["needs"])
+
+    def test_ready_for_review_no_repite_la_bateria_y_no_cancela_la_suite(self):
+        d = cargar("pruebas-plataforma.yml")
+        self.assertIn("ready_for_review", disparadores(d)["pull_request"]["types"])
+        self.assertIn("ready_for_review", d["concurrency"]["group"])
+        for job in ("guardian", "suite", "cambios"):
+            self.assertIn("!= 'ready_for_review'", d["jobs"][job]["if"])
+        self.assertEqual(d["jobs"]["revisar"]["concurrency"]["group"], "ddd-revisor-pr-${{ github.event.pull_request.number }}")
+        self.assertEqual(d["jobs"]["docs"]["concurrency"]["group"], "docs-preview-${{ github.ref }}")

@@ -29,7 +29,7 @@ para reconsiderarlo, y que cada agente adicional tenga un beneficio comprobable.
 | Enfoque | Encaje en DDD | Evidencia |
 |---|---|---|
 | A. Proceso determinista sin LLM | Toda la producción (M01–M08, puertas, publicación) y los robots de CI | `.github/workflows/ejecucion-completa-proyecto.yml`, `pruebas-plataforma.yml`, `numerar-registro.yml` |
-| B. Una llamada estructurada a un LLM | Revisor y forense en CI: entrada fija, salida JSON, sin ciclo largo | `pruebas-plataforma.yml` (jobs `comprobar`/`revisar`/`veredicto`) 1.0.0, `forense-00.yml` 1.0.0 |
+| B. Una llamada estructurada a un LLM | Revisor y forense en CI: entrada fija, salida JSON, sin ciclo largo | `pruebas-plataforma.yml` (jobs `comprobar`/`revisar`/`veredicto`, desde la 1.7.0; antes `revisor-pr.yml` 1.0.1), `forense-00.yml` 1.0.0 |
 | C. Un agente con herramientas | Implementador e ingeniero de motor: una tarea, una PR | skill `implementador` |
 | D. Workflow determinista con pasos LLM | **Elegido como marco**: Actions es el control; los LLM solo juzgan (revisar, diagnosticar, implementar) | FRAMEWORK §1 principio 3 |
 | E. Supervisor con especialistas | Planificador → Coordinador → Operador → implementadores, coordinados por `send_message` | skills `planificador`, `coordinador`, `operador`; `CLAUDE.md` «Coordinación» |
