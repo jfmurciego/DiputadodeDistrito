@@ -64,3 +64,13 @@ paths:
 - El 06 solo admite las fases de `TERRITORIAL_STAGES` (herramientas/leer_config_ensemble.py) Y las del `case` del gate del workflow: añadir una fase toca ambos. Entra en el ensemble una comunidad sin `topology_bridges` ni exención por partición y de una provincia; 13 quedan fuera hasta decisión de motor.
 - La 05 con `production_run_id` vacío es «solo sitio» (T-125); antes resolvía `latest_validated` y registró `congreso350_valladolid` (retirado en T-126). El registro rechaza añadir `congreso350_*`.
 - Una PR que añade ficheros debe regenerar `orchestracion/catalogo_procedencia.json`; el bot de archivo reescribe evidencia que los tests leen vivos (Cantabria): fixture fija (#569).
+
+## Lecciones 10-11 (Coordinador)
+- El ruleset activo `proteger-main` exige el check `veredicto` (job del Revisor), no `pruebas`; admin y la app de registro lo esquivan. No lo hagas no-bloqueante ni muevas/renombres el job sin decisión del propietario. La fusión automática fusiona al ver `pruebas` en success sobre el HEAD exacto: no mira Revisor, ni main, ni revisión humana; una PR que espera correcciones va en borrador o con no-automerge.
+- Una PR apilada se fusiona con su primer HEAD (#624): no apiles más de dos; el squash deja conflictos add/add en la siguiente (versión de la rama si main = PR fusionada); reapunta con `gh api -X PATCH pulls/<n> -f base=main`.
+- Cuenta `gh api .../actions/runs` topa a 1.000 por consulta: ventanas `created=ini..fin` (6 h), bisección y caché por run; minutos = suma de jobs (el `/timing` da 0).
+- Desde la nube no se descargan artefactos (blobs Forbidden): solo metadatos por REST; solo boe.es e ine.es responden entre las fuentes externas.
+- La hija «Reutilizar» del bot falla con DURABLE_LINEAGE_INCOMPATIBLE si el catálogo conserva un resultado electoral viejo con la 04 en failure y digest vacío: la 00 buena queda TERRITORIAL_READY_ELECTORAL_PENDING sin resultados electorales.
+- Los adaptadores del motor nuevo dependen de nombres de fichero (glob ancho cogió el GeoJSON de distritos): fija nombre y extensión; la composición no trae todos los campos de la validación (islas: DDD_PARTITION).
+- Tests con fracciones exactas (100·1,15 da 114,999…); imagen de CI sin `.git`: nada de `git grep` en tests; comprueba que los tests aleatorios no son vacuos.
+
