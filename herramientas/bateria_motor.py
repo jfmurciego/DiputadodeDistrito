@@ -863,7 +863,7 @@ def tabla_indicadores(r: dict) -> list[str]:
     clave = r.get("clave_frente_canonico")
     lin = [f"### {r['territorio']}",
            f"- Comprobación 1 · clave de elección frente al canónico: **{clave or 'sin dato'}** ("
-           f"{'peor: NO' if clave == 'empeora' else ('sin dato: no cuenta como verde' if clave is None else 'no es peor')}).",
+           f"{'peor: NO' if clave == 'empeora' else ('sin dato en este paso; la puerta final usa el RESUMEN de la competición' if clave is None else 'no es peor')}).",
            f"- Comprobación 2 · distritos fuera de tolerancia (recuento bruto) frente al vigente: **{r['estado']}**"
            + (f" ({r['motivo']})" if r.get("motivo") else "") + ".",
            f"- Aviso (no bloquea) · desvío máximo frente al vigente: {'; '.join(r['aviso_desvio']) if r.get('aviso_desvio') else 'no es mayor'}.", "",
