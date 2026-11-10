@@ -20,7 +20,7 @@ una única sección de Ávila). El núcleo admite como máximo un distrito mixto
 Sus contratos parten los municipios grandes en «unidades internas» conexas (`connected_internal_units`), que se
 calculan sobre el grafo M03 de producción. Ese grafo ya no está (los artefactos caducan) y, con el grafo del
 laboratorio, la herramienta de producción da trozos distintos: el mapa vigente partiría 23 de ellos en Extremadura.
-Por eso el laboratorio usa una aproximación, igual que el motor en lo esencial:
+Por eso el laboratorio usa una aproximación:
 
 - municipio atómico hasta `atomicity_ratio` × objetivo (1,1 en Extremadura; 1,5 en Asturias), como en producción;
 - por encima, cada sección es su propia unidad (y su clave R012): **más fina que los trozos de producción**, así que
@@ -43,7 +43,10 @@ Por eso el laboratorio usa una aproximación, igual que el motor en lo esencial:
 - **Principado de Asturias**: C baja los partidos judiciales partidos de 18 a 14 y las comarcas de 10 a 8, y los
   distritos fuera de tolerancia de 4 a 1; D8, de 18 a 17 y de 4 a 1.
 - **Extremadura**: casi empate; D8 reduce la suma de desvíos (53.726 → 49.757) y C mejora algo la forma.
+- **Cautela en Asturias y Extremadura**: con la aproximación, las cadenas pueden cortar dentro de trozos que producción
+  no deja partir. Parte de la mejora de C en Asturias (partidos judiciales 18 → 14) y de la menor suma de desvíos de
+  D8 en Extremadura puede venir de esos cortes; habría que confirmarlo con las unidades internas reales.
 - **Castilla y León**: C y D8 coinciden (37 partidos judiciales partidos frente a 38; 52 comarcas frente a 53) y,
   a diferencia de A, cumplen el núcleo.
 - Aparte de la suma de desvíos, ninguna empeora nada frente a A. La suma sube algo: Castilla y León +3.836 personas
-  (C y D8), Extremadura +3.208 (C), Principado de Asturias +13.499 (C) y +2.228 (D8); `mapas/EMPEORA.md`.
+  (C y D8), Extremadura +3.208 (C), Principado de Asturias +13.499 (C) y +2.229 (D8); `mapas/EMPEORA.md`.

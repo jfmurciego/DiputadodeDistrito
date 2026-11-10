@@ -175,8 +175,8 @@ def empeora(filas: list[dict], sal: Path) -> list[dict]:
             for k, txt in (("pp_medio", "Polsby-Popper medio"), ("pp_min", "Polsby-Popper mínimo")):
                 if x[k] != "" and a[k] != "" and x[k] < a[k]:
                     m.append(f"{txt} {a[k]} → {x[k]}")
-            if x["suma_desvio_personas"] > a["suma_desvio_personas"]:
-                m.append(f"suma de desvíos +{x['suma_desvio_personas'] - a['suma_desvio_personas']} personas")
+            if x["coste_suma_desvio_vs_A"] > 0:  # diferencia sin redondear, redondeada al final (como TABLA.csv)
+                m.append(f"suma de desvíos +{x['coste_suma_desvio_vs_A']} personas")
             if m:
                 out.append({"territorio": t, "nombre": nombre(t), "funcion": f, "empeora": "; ".join(m)})
     with open(sal / "EMPEORA.csv", "w", newline="", encoding="utf-8") as fh:

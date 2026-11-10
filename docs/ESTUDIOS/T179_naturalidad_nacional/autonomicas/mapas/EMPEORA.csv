@@ -1,13 +1,13 @@
 territorio,nombre,funcion,empeora
-cantabria,Cantabria (autonómicas),C,Polsby-Popper mínimo 0.108 → 0.107; suma de desvíos +4941 personas
-cantabria,Cantabria (autonómicas),D8,Polsby-Popper mínimo 0.108 → 0.099; suma de desvíos +2481 personas
+cantabria,Cantabria (autonómicas),C,Polsby-Popper mínimo 0.108 → 0.107; suma de desvíos +4940 personas
+cantabria,Cantabria (autonómicas),D8,Polsby-Popper mínimo 0.108 → 0.099; suma de desvíos +2480 personas
 cataluna,Cataluña (autonómicas),D8,Polsby-Popper medio 0.233 → 0.232
-comunidad_foral_de_navarra,Navarra (autonómicas),C,suma de desvíos +963 personas
-galicia,Galicia (autonómicas),C,suma de desvíos +7237 personas
-galicia,Galicia (autonómicas),D8,suma de desvíos +7237 personas
+comunidad_foral_de_navarra,Navarra (autonómicas),C,suma de desvíos +962 personas
+galicia,Galicia (autonómicas),C,suma de desvíos +7238 personas
+galicia,Galicia (autonómicas),D8,suma de desvíos +7238 personas
 la_rioja,La Rioja (autonómicas),C,suma de desvíos +758 personas
-madrid,Comunidad de Madrid (autonómicas),C,suma de desvíos +43549 personas
-madrid,Comunidad de Madrid (autonómicas),D8,suma de desvíos +43549 personas
+madrid,Comunidad de Madrid (autonómicas),C,suma de desvíos +43548 personas
+madrid,Comunidad de Madrid (autonómicas),D8,suma de desvíos +43548 personas
 melilla,Melilla (autonómicas),C,Polsby-Popper mínimo 0.109 → 0.092
 melilla,Melilla (autonómicas),D8,Polsby-Popper medio 0.404 → 0.366; Polsby-Popper mínimo 0.109 → 0.106
 region_de_murcia,Región de Murcia (autonómicas),C,Polsby-Popper mínimo 0.072 → 0.038
