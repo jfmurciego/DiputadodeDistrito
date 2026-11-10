@@ -3,15 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — orquestador de la competición «canónico + GerryChain»
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Competición · paso 2
+VERSIÓN: 1.0.0
+NOMBRE DE VERSIÓN: Competición
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.1.0 — competir_publico (semillas de semilla.py) y huella del resultado (reproducibilidad bit a bit);
-  1.0.0 — fichero nuevo.
+CAMBIOS: fichero nuevo.
 MOTIVO: T-163 / D-48: la primera versión del motor nuevo es una competición entre el canónico y N cadenas de
   GerryChain bajo el núcleo único de reglas; gana el mejor plan válido, así que nunca es peor que el canónico.
-ANTERIOR: 1.0.0 (no fusionada; misma serie de PR T-163)
+ANTERIOR: ninguna (fichero nuevo)
 QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador canónico (una vez) y la cadena con cada
   semilla, a través de adaptadores (protocolo Generador: devuelven una composición M06). Cada candidato se juzga con el
   núcleo (adaptadores.problema_y_plan + reglas.evaluar, Criterio D-44 por defecto) y se ordena con la función de
@@ -22,7 +21,11 @@ QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador ca
     7. orden de los candidatos (el canónico primero).
   Las métricas 4 y 5 son fracciones exactas: el orden no depende del redondeo.
   Núcleos cerrados: la referencia es entrada.referencia_nucleos o, si falta, la composición del canónico, la misma
-  para todos los candidatos (con su propia composición R-NUCLEO sería trivial).
+  para todos los candidatos (con su propia composición R-NUCLEO sería trivial). Si no hay referencia (el canónico
+  falló) y el territorio tiene unidades cerradas, los candidatos quedan ERROR_DATOS: un plan con núcleos rotos no gana.
+  El ganador es siempre el primero por calidad aunque nadie sea válido: Resultado.valido lo dice.
+  competir_publico deriva antes las semillas públicas: si el contrato no trae el ancla, ErrorContrato y no se ejecuta
+  nada (el territorio sale como ERROR explícito; nunca con semillas fijas).
 Solo stdlib; los generadores reales están en ddd_motor2/generadores.py.
 """
 from __future__ import annotations
@@ -38,7 +41,7 @@ from typing import Any, Iterable, Mapping, Protocol
 from .adaptadores import problema_y_plan
 from .reglas import Criterio, ErrorContrato, ErrorDatos, Reglas, evaluar
 
-VERSION = "1.1.0"
+VERSION = "1.0.0"
 
 
 @dataclass(frozen=True)
@@ -122,6 +125,10 @@ class Resultado:
     tiempo_total_s: float
     semilla_publica: dict = field(default_factory=dict)
 
+    @property
+    def valido(self) -> bool:
+        return self.ganador.estado == "VALIDO"
+
     def huella(self) -> str:
         """sha256 de lo que debe repetirse bit a bit con la misma entrada: reglas, semillas, plan y composición de
         cada candidato y ganador (sin tiempos ni rutas)."""
@@ -133,7 +140,7 @@ class Resultado:
     def a_dict(self) -> dict:
         return {
             "version_orquestador": VERSION, "territorio": self.territorio, "ganador": self.ganador.id,
-            "huella_resultado": self.huella(), "semilla_publica": self.semilla_publica,
+            "valido": self.valido, "huella_resultado": self.huella(), "semilla_publica": self.semilla_publica,
             "canonico": self.canonico.id, "huella_reglas": self.huella_reglas, "criterio": self.criterio,
             "orden_calidad": ["evaluable", "violaciones_duras", "fuera_tolerancia", "desvio_max", "ecm",
                               "huella_plan", "orden"],
@@ -182,6 +189,10 @@ def juzgar(cand: Candidato, salida: Salida, entrada: EntradaTerritorio, criterio
         cand.estado, cand.detalle = "ERROR_DATOS", str(exc)
         return
     cand.avisos = list(avisos)
+    if referencia is None and any("propia composición" in a for a in avisos):
+        cand.estado = "ERROR_DATOS"
+        cand.detalle = "sin referencia de núcleos cerrados (el canónico no dio composición): R-NUCLEO no juzgable"
+        return
     cand.violaciones = [{"regla": v.regla, "ambito": v.ambito, "detalle": v.detalle} for v in inf.violaciones]
     cand.duras = len(inf.violaciones)
     cand.fuera_tolerancia = len(inf.metricas["fuera_tolerancia"])
@@ -232,8 +243,6 @@ def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador,
         t0 = time.monotonic()
         juzgar(c, sal, entrada, criterio, referencia)
         c.tiempos["juzgar_s"] = round(time.monotonic() - t0, 3)
-        if referencia is None:
-            c.avisos.append("sin referencia de núcleos cerrados (falló el canónico): R-NUCLEO con la propia composición")
 
     candidatos = [c for c, _ in pendientes]
     ganador = min(candidatos, key=Candidato.clave)
