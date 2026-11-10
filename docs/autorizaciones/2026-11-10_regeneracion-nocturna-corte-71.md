@@ -25,6 +25,6 @@
 |---|---|---|---|---|---|---|
 
 ## Cierre
-Estado: `ACEPTADA, EN_ESPERA` (espera el relevo en `main`; no estaba al recibir la frase). Último uso: —.
+Estado: `SUSTITUIDA` por `2026-11-10_regeneracion-nocturna-corte-71-v2` (cambia la prueba a La Rioja y añade T-221); frase sin uso. Último uso: —.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_regeneracion-nocturna-corte-71 tal como figura en la ficha.»
