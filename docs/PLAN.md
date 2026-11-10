@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.35
+Versión: 1.0.36
 Fecha: 2026-11-10
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: plan por temas y decisiones D-26 a D-47 del 09 y 10-11 (§0a); ids T-116 a T-170
-Anterior: legacy/docs/PLAN_v1.0.34_20261108.md
+Cambios/motivo: decisiones D-48 a D-55 del 10-11 (motor, CI, semilla, versión, permisos, Actions); corrige D-43
+Anterior: legacy/docs/PLAN_v1.0.35_20261110.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -46,7 +46,7 @@ con frase del propietario en su chat.
 ### Temas y objetivo de «verde»
 | Tema | Objetivo | Estado (10-11) |
 |---|---|---|
-| Motor nuevo («el motor que demuestra», D-32) | Paquete nuevo al lado del actual; releva al viejo cuando la batería demuestre que es igual o mejor en los 71 | Fase 0 en curso: batería (T-132), núcleo único de reglas (T-137), certificador exacto (T-136) |
+| Motor nuevo («el motor que demuestra», D-32, D-48) | Paquete nuevo al lado del actual; releva al viejo cuando la batería demuestre que es igual o mejor en los 71 | Núcleo de reglas, competición canónico + GerryChain, semilla pública y certificador ligero en `main`; falta la aceptación de la competición en los 71 |
 | Ejecución autonómica (19) y nacional (52) | Territorial, electoral, ensemble 10 y 25 en verde; mapa de 350 completo | Territorial y electoral publicados; ensemble 25 habilitado en el 06; 13 comunidades bloqueadas por puentes y exención por partición hasta el motor nuevo |
 | Gestor de campañas | Una orden lanza todo: nacional y autonómico, con o sin ensemble, con histórico | Campaña completa en seco e histórico conectados (T-123, T-130, T-133) |
 | Histórico desde 2011 | 6 generales validadas y autonómicas de las 19 comunidades, cada una con su calendario (D-40) | Generales: datos 52 × 6, validación en curso; autonómicas: calendario y 3 comunidades (T-121, T-131) |
@@ -77,16 +77,24 @@ con frase del propietario en su chat.
 - D-40. Histórico desde el 1-1-2011: las 6 generales y las autonómicas de cada comunidad con su propio calendario de legislaturas.
 - D-41. Circuito de permisos: autorización por campaña. Una frase del propietario en el chat del Operador cubre una campaña definida (qué se lanza, territorios, tope de coste, caducidad y lo que queda fuera); dentro de esos límites el Operador no vuelve a preguntar.
 - D-42. Otros ámbitos (municipales, europeas y Ecuador): solo preparar notas de fuentes y reglas; nada que necesite el motor.
-- D-43. Se actualiza el README del repositorio; si obliga a subir versión, el proyecto pasa a 4.10.0 con la cita alineada.
+- D-43. Se actualiza el README del repositorio. Corregido por D-51: la versión del proyecto se mantiene en 4.9.0.
 - D-44. Núcleo único de reglas, criterios (provisionales hasta que la batería mida cuántos territorios cambian de veredicto): la tolerancia de población es un objetivo y los límites duros son solo suelo y techo; el máximo de distritos mixtos por municipio partido lo fija el contrato, con 1 por defecto; que un distrito no cruce provincias es obligatorio y explícito en el contrato; la exención del suelo por partición solo vale si todas las particiones del distrito están exentas; se enumeran todos los planes con un límite de esfuerzo y, si no termina, se muestrea.
 - D-45. Renombrado del ciclo completo (solo estrategia, sin ejecutar): un único corte, coincidente con el relevo del motor, en el que todo se regenera ya con la notación de territorios, la de fases y los nombres nuevos de productos; ese corte es la versión 5.0.0. Lo anterior conserva su nombre como historia y no se reescribe; una tabla de equivalencias hace de traductor.
 - D-46. Tope de gasto: 15.000 minutos de ejecución por semana, con aviso al 70 % y sin corte automático.
 - D-47. Notación de fases (borrador v5, sigue en ideas y sin ejecutar hasta el corte 5.0.0): cadena sin huecos P00 Campaña, P10 Fuentes, P20 Base territorial, P30 Distritos, P40 Resultados electorales, P50 Publicación y P60 Publicación académica. El archivo no es una fase: es el servicio continuo ARC, con ARC-E (entradas verificadas, permanente), ARC-C (puntos de control, temporal) y ARC-P (productos y auditorías, permanente).
+- D-48. Primera versión del motor nuevo: competición entre el canónico y GerryChain bajo el núcleo único de reglas, con semilla pública, quedándose con el mejor plan por territorio (nunca peor que el canónico). Evidencia de la batería: GerryChain desde la semilla canónica es válido en 71 de 71 y, con la mejor de 5 semillas, mejora 19, empata 45 y empeora 6; el arranque genérico por árboles no basta en 41 territorios, así que el constructor actual sigue como proveedor del punto de partida. Líneas de fondo: certificador con modelo ligero y constructor de semillas sobre el núcleo.
+- D-49. Comprobaciones automáticas (frase del propietario en el chat del Coordinador): se cancelan las superadas en `main`; los apuntes de los robots pasan solo la comprobación de integridad, con la batería completa cada noche; todo cambio de código sigue exigiendo la batería completa.
+- D-50. Semilla pública: sha256 del padrón y del seccionado oficiales de la edición, más el territorio.
+- D-51. La versión del proyecto se mantiene en 4.9.0; el README lleva revisión propia.
+- D-52. Autorización por campaña (D-41): se prepara como propuesta que el propietario revisa antes de fusionar (frase en el chat del Coordinador).
+- D-53. Fusión automática y forense: se revisan en solo lectura; no se renombran ni se tocan sin autorización expresa.
+- D-54. Identificadores internos AUT/NAC: se prepara el plan de migración y riesgos; se ejecutaría en el corte 5.0.0. La capa visible también espera al corte (D-45).
+- D-55. Lista de Actions: el revisor de PR queda como flujo aparte, con nombre sin «_»; la lista queda en 22 elementos tras la consolidación. La regla activa de protección de `main` exige el check `veredicto`.
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md`. Esta actualización del plan es T-171. Siguiente libre para el planificador: T-172.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171 y T-191. Siguiente libre para el planificador: T-192.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
