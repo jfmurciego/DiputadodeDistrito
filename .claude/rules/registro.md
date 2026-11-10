@@ -11,7 +11,7 @@ paths:
 - Desde T-46 (registro 1.0.105, la última con número manual) nadie edita `docs/REGISTRO_DE_CAMBIOS.md`: cada PR
   añade su entrada en `docs/registro/AAAA-MM-DD_<rama>.md`, sin número (formato en `docs/registro/README.md`):
   `## AAAA-MM-DD — T-xx — título` y causa, cambio, pruebas y PR/run.
-- Al fusionar en `main`, el workflow «Numeración del Registro» (`numerar-registro.yml`, app de registro) asigna el
+- Al fusionar en `main`, el job `numeracion` de «Pruebas de la Plataforma» (antes `numerar-registro.yml`; app de registro) asigna el
   número consecutivo, reescribe la cabecera (`Versión` = `Anterior` + 1, copia en `legacy/docs/`) y el índice.
   La CI (`comprobar_guardian_main.py registro`) comprueba la cabecera, el formato de las entradas y el índice.
 - Ya no se pide número al planificador; dos PR abiertas no chocan en el registro.
