@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.281
+Versión: 1.0.282
 Fecha: 2026-11-10
-Alcance: T-170 — Plan de migración de ids AUT/NAC (D-54)
+Alcance: T-168 — Comprobación de la fusión automática y del forense (solo lectura)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t170-migracion-ids.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.280_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t168-fusion-forense.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.281_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.280_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.282 · [2026-11-10 — T-168 — Comprobación de la fusión automática y del forense (solo lectura)](registro/2026-11-10_t168-fusion-forense.md)
 - 1.0.281 · [2026-11-10 — T-170 — Plan de migración de ids AUT/NAC (D-54)](registro/2026-11-10_t170-migracion-ids.md)
 - 1.0.280 · [2026-11-10 — T-171 — Versión del proyecto vuelve a 4.9.0 (D-51)](registro/2026-11-10_t171-version-4-9-0.md)
 - 1.0.279 · [2026-11-10 — T-163 — Motor 2: semilla pública aprobada (D-50)](registro/2026-11-10_t163-semilla-aprobada.md)
