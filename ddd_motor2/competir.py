@@ -4,7 +4,7 @@
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — interfaz de la competición para la batería T-132
 VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Competición · paso 4
+NOMBRE DE VERSIÓN: Competición · interfaz
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa; no lanza nada en Actions)
 CAMBIOS: fichero nuevo.
@@ -17,7 +17,8 @@ USO (en local, con las entradas de la batería en <out>/entradas/<t> y el entorn
   Por territorio: <out>/competicion/<t>/COMPETICION.{json,md} (+ composición de cada candidato).
   Agregado: <out>/competicion/RESUMEN.json y RESUMEN.md: por territorio, ganador, estado, si mejora / empata / empeora
   al canónico, huella del resultado y tiempo; totales y veredicto de aceptación.
-  Código de salida: 0 si se cumple la aceptación en los territorios pedidos; 1 si no.
+  El resumen se reescribe tras cada territorio. Código de salida: 0 si se cumple la aceptación en los territorios
+  pedidos; 1 si no.
 API: competir_territorio(t, out, n_cadenas=5) -> dict (fila del resumen).
 """
 from __future__ import annotations
@@ -37,17 +38,19 @@ def comparar(ganador: Candidato, canonico: Candidato) -> str:
     return "mejora" if a < b else ("empata" if a == b else "empeora")
 
 
-def competir_territorio(t: str, out: Path, n_cadenas: int = 5) -> dict:
+def competir_territorio(t: str, out: Path, n_cadenas: int = 5, *, generadores=None, entrada=None) -> dict:
+    """`generadores` (canónico, cadena) y `entrada` se pueden inyectar (pruebas); por defecto, los de la batería."""
     out = Path(out)
     destino = out / "competicion" / t
     try:
-        entrada = entrada_bateria(t, out)
-        r = competir_publico(entrada, Canonico(), GerryChain(), destino, n_cadenas=n_cadenas)
+        entrada = entrada or entrada_bateria(t, out)
+        can, cad = generadores or (Canonico(), GerryChain())
+        r = competir_publico(entrada, can, cad, destino, n_cadenas=n_cadenas)
     except Exception as exc:  # sin entradas, sin ancla en el contrato…: el territorio queda en el resumen
         return {"territorio": t, "estado": "ERROR", "detalle": f"{type(exc).__name__}: {exc}"}
     escribir(r, destino)
     validos = [c for c in r.candidatos if c.estado == "VALIDO"]
-    return {"territorio": t, "estado": r.ganador.estado, "ganador": r.ganador.id,
+    return {"territorio": t, "estado": r.ganador.estado, "ganador": r.ganador.id, "valido": r.valido,
             "frente_al_canonico": comparar(r.ganador, r.canonico), "canonico": r.canonico.estado,
             "candidatos_validos": len(validos), "candidatos": len(r.candidatos),
             "desvio_max": None if r.ganador.desvio_max is None else float(r.ganador.desvio_max),
@@ -113,7 +116,7 @@ def main(argv=None) -> int:
         f = competir_territorio(t, out, a.cadenas)
         filas.append(f)
         print(json.dumps(f, ensure_ascii=False), flush=True)
-    tot = escribir_resumen(filas, out / "competicion")
+        tot = escribir_resumen(filas, out / "competicion")  # incremental: un corte deja lo hecho
     print(json.dumps(tot, ensure_ascii=False))
     return 0 if tot["aceptacion"] else 1
 

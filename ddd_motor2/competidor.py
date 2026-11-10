@@ -4,7 +4,7 @@
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — la competición como sustituto de M05 (interfaz acordada con la batería T-132)
 VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Competición · paso 5
+NOMBRE DE VERSIÓN: Competición · sustituto de M05
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa; no lanza nada en Actions)
 CAMBIOS: fichero nuevo.
@@ -122,19 +122,29 @@ class GerryChainM05:
                                    Path(destino), extra)
 
 
-def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(description="Competición canónico + GerryChain en lugar de M05 (T-163).")
+def parser() -> argparse.ArgumentParser:
+    ap = argparse.ArgumentParser(prog="python -m ddd_motor2.competidor",
+                                 description="Competición canónico + GerryChain en lugar de M05 (T-163).")
     ap.add_argument("--params", required=True)
     ap.add_argument("--run-id", default=os.environ.get("DDD_RUN_ID", ""))
     ap.add_argument("--semilla", type=int, help="ignorada: semillas públicas del territorio")
     ap.add_argument("--cadenas", type=int, default=5)
     ap.add_argument("--territorio", help="por defecto, el directorio territorios/<t>/ del contrato")
+    return ap
+
+
+def territorio_de(params: Path) -> str:
+    return params.parts[params.parts.index("territorios") + 1] if "territorios" in params.parts \
+        else params.stem.rsplit("_", 1)[0]
+
+
+def main(argv=None) -> int:
+    ap = parser()
     a = ap.parse_args(argv)
     if not a.run_id:
         ap.error("falta --run-id (o DDD_RUN_ID)")
     params = Path(a.params)
-    t = a.territorio or (params.parts[params.parts.index("territorios") + 1] if "territorios" in params.parts
-                         else params.stem.rsplit("_", 1)[0])
+    t = a.territorio or territorio_de(params)
     cfg, s5, s6 = rutas(str(params), a.run_id)
     carpeta = Path(s5["out_geojson"]).parent / "competicion"
     shutil.rmtree(carpeta, ignore_errors=True)
@@ -157,7 +167,8 @@ def main(argv=None) -> int:
         f = d / Path(s5[clave]).name
         if f.is_file():
             shutil.copy2(f, s5[clave])
-    print(f"ganador={g.id} estado={g.estado} huella_resultado={r.huella()}")
+    # rc 0 aunque el ganador no sea válido: hay salida y la batería la valida (M06 + validar_ejecucion + núcleo).
+    print(f"ganador={g.id} estado={g.estado} valido={r.valido} huella_resultado={r.huella()}")
     return 0
 
 

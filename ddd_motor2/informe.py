@@ -4,7 +4,7 @@
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — informe por territorio de la competición
 VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Competición · paso 3
+NOMBRE DE VERSIÓN: Competición · informe
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
 CAMBIOS: fichero nuevo.

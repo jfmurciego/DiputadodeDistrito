@@ -4,7 +4,7 @@
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — semilla pública de la competición
 VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Competición · paso 2
+NOMBRE DE VERSIÓN: Competición · semilla pública
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa). Ancla PROPUESTA, a confirmar por el propietario.
 CAMBIOS: fichero nuevo.

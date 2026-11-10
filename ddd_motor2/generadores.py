@@ -4,7 +4,7 @@
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — adaptadores de generador para la competición (canónico y GerryChain)
 VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Competición · paso 1
+NOMBRE DE VERSIÓN: Competición
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
 CAMBIOS: fichero nuevo.
