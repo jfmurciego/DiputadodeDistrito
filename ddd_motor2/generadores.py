@@ -61,7 +61,7 @@ def _salida(res: dict, dir_bateria: Path, destino: Path) -> Salida:
     copia = destino / comp.name
     shutil.copy2(comp, copia)
     atributos = None
-    geo = next(_bateria()._cache(res["territorio"]).glob("*_m06_*.geojson*"), None)
+    geo = next(_bateria()._cache(res["territorio"]).glob("*_m06_secciones.geojson*"), None)
     if geo is not None:
         atributos = destino / geo.name
         shutil.copy2(geo, atributos)
