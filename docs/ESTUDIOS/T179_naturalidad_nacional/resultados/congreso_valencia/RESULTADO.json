@@ -1,0 +1,916 @@
+{
+ "territorio": "congreso_valencia",
+ "version": "1.2.0",
+ "topes": {
+  "D5": 0.05,
+  "D8": 0.08
+ },
+ "unidades": 856,
+ "aristas": 2364,
+ "puentes_contacto": 210,
+ "objetivo": 115514.82608695653,
+ "tolerancia": 17327.22391304348,
+ "parametros": {
+  "cadenas": 20,
+  "pasos": 300,
+  "rpj": 0.5,
+  "rca": 0.3,
+  "rmov": 0.2,
+  "rlong": 0.3,
+  "funciones": [
+   "A",
+   "C",
+   "D8"
+  ]
+ },
+ "semilla_publica": {
+  "esquema": "ddd-semilla-publica/1",
+  "territorio": "congreso_valencia",
+  "ancla": {
+   "population": "af77d09dede959f976ad1d4a093a8273727852a598c0565ffffdaf20bacda859",
+   "target_sectioning": "5e13a7485743104a4ebfe7ec920cde60026ff519754b1752035ce07d6b6228d6"
+  },
+  "n": 20,
+  "semillas": [
+   196672859,
+   971680448,
+   1235228126,
+   1923520694,
+   23063250,
+   327884273,
+   1455864281,
+   1761236949,
+   227075318,
+   951267544,
+   736408345,
+   628579351,
+   1985822406,
+   545020262,
+   2019495586,
+   1027829663,
+   798828171,
+   1486216476,
+   1433975559,
+   59248066
+  ],
+  "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+ },
+ "huella_reglas": "1243c928271a210b3cc881c727ffcfcb3133fb391545d022ea728a6ed274d7a6",
+ "ganadores": {
+  "A": {
+   "candidato": "vigente",
+   "semilla": null,
+   "clave": [
+    0,
+    0.09094785875406168,
+    0.0010687745453607997,
+    "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+   ],
+   "valido": true,
+   "fuera_tolerancia": [],
+   "desvio_max": 0.09094785875406168,
+   "suma_desvio_personas": 60152.782608695656,
+   "max_desvio_personas": 10505.826086956522,
+   "indicadores": {
+    "distritos": 23,
+    "pp_medio": 0.16886965620452357,
+    "pp_min": 0.042571511056061086,
+    "convexidad_media": 0.5736207640841456,
+    "convexidad_min": 0.3186043724631986,
+    "corte": {
+     "aristas": 5063,
+     "cortes": 912,
+     "fraccion_cortes": 0.180130357495556,
+     "peso_corte": 1566825.17274249,
+     "fraccion_peso_corte": 0.28951544131789314
+    },
+    "pj": {
+     "n": 17,
+     "partidas": 16,
+     "lista_partidas": [
+      "46-01",
+      "46-02",
+      "46-03",
+      "46-04",
+      "46-05",
+      "46-06",
+      "46-07",
+      "46-08",
+      "46-09",
+      "46-10",
+      "46-11",
+      "46-12",
+      "46-13",
+      "46-14",
+      "46-15",
+      "46-17"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.5027363722010595,
+     "poblacion_fuera_de_mayoritario": 1315316,
+     "poblacion_sin_dato": 11733
+    },
+    "ca": {
+     "n": 13,
+     "partidas": 11,
+     "lista_partidas": [
+      "46-ALTO TURIA",
+      "46-CAMPOS DE LIRIA",
+      "46-ENGUERA Y LA CANAL",
+      "46-GANDÍA",
+      "46-HOYA DE BUÑOL",
+      "46-HUERTA DE VALENCIA",
+      "46-LA COSTERA DE JÁTIVA",
+      "46-REQUENA-UTIEL",
+      "46-RIBERAS DEL JÚCAR",
+      "46-SAGUNTO",
+      "46-VALLES DE ALBAIDA"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.274866665872954,
+     "poblacion_fuera_de_mayoritario": 1888100,
+     "poblacion_sin_dato": 53044
+    },
+    "comarca": {
+     "n": 0,
+     "partidas": 0,
+     "lista_partidas": [],
+     "fraccion_poblacion_en_mayoritario": null,
+     "poblacion_fuera_de_mayoritario": 0,
+     "poblacion_sin_dato": 2656841
+    },
+    "movilidad": {
+     "cohesion": 0.46702921334988096,
+     "flujo": 306658.0,
+     "areas": 127
+    }
+   },
+   "sha256_csv": "012274d09dcb71b4b87b9b8e0e74ae89b886b33b3109c0c3ec913a33b91bf5a3"
+  },
+  "C": {
+   "candidato": "ponderado-1235228126",
+   "semilla": 1235228126,
+   "clave": [
+    0,
+    17,
+    958.003,
+    0.1468108178095716,
+    "164d213d1cfc130ec74717e8df60c4cc42729b121c9a21798907ccd5b90fc7e5"
+   ],
+   "valido": true,
+   "fuera_tolerancia": [],
+   "desvio_max": 0.1468108178095716,
+   "suma_desvio_personas": 203942.1739130435,
+   "max_desvio_personas": 16958.82608695652,
+   "indicadores": {
+    "distritos": 23,
+    "pp_medio": 0.2660749569341276,
+    "pp_min": 0.09887127897128731,
+    "convexidad_media": 0.6919742778131521,
+    "convexidad_min": 0.508707280182577,
+    "corte": {
+     "aristas": 5063,
+     "cortes": 697,
+     "fraccion_cortes": 0.13766541576140628,
+     "peso_corte": 958003.1373964938,
+     "fraccion_peso_corte": 0.17701828253231422
+    },
+    "pj": {
+     "n": 17,
+     "partidas": 11,
+     "lista_partidas": [
+      "46-01",
+      "46-02",
+      "46-04",
+      "46-06",
+      "46-08",
+      "46-09",
+      "46-11",
+      "46-12",
+      "46-13",
+      "46-14",
+      "46-17"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.5776077952204598,
+     "poblacion_fuera_de_mayoritario": 1117273,
+     "poblacion_sin_dato": 11733
+    },
+    "ca": {
+     "n": 13,
+     "partidas": 6,
+     "lista_partidas": [
+      "46-CAMPOS DE LIRIA",
+      "46-GANDÍA",
+      "46-HOYA DE BUÑOL",
+      "46-HUERTA DE VALENCIA",
+      "46-RIBERAS DEL JÚCAR",
+      "46-SAGUNTO"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.33580651640661696,
+     "poblacion_fuera_de_mayoritario": 1729425,
+     "poblacion_sin_dato": 53044
+    },
+    "comarca": {
+     "n": 0,
+     "partidas": 0,
+     "lista_partidas": [],
+     "fraccion_poblacion_en_mayoritario": null,
+     "poblacion_fuera_de_mayoritario": 0,
+     "poblacion_sin_dato": 2656841
+    },
+    "movilidad": {
+     "cohesion": 0.51464407752574,
+     "flujo": 306658.0,
+     "areas": 127
+    }
+   },
+   "sha256_csv": "1d4700b7976340f522df0e39db6886029ac70f6a9d3c18a4a2a53b58d74d334a"
+  },
+  "D8": {
+   "candidato": "ponderado-1486216476",
+   "semilla": 1486216476,
+   "clave": [
+    0,
+    0.010947858754061679,
+    27,
+    1241.579,
+    0.09094785875406168,
+    "8c68abe0bad82f3e7a7812f186147e3d2e6eeab495d26abfd4638de1fc7d1d7d"
+   ],
+   "valido": true,
+   "fuera_tolerancia": [],
+   "desvio_max": 0.09094785875406168,
+   "suma_desvio_personas": 68355.47826086957,
+   "max_desvio_personas": 10505.826086956522,
+   "indicadores": {
+    "distritos": 23,
+    "pp_medio": 0.19379469320771883,
+    "pp_min": 0.042571511056061086,
+    "convexidad_media": 0.6000513059968209,
+    "convexidad_min": 0.3186043724631986,
+    "corte": {
+     "aristas": 5063,
+     "cortes": 875,
+     "fraccion_cortes": 0.17282243729014418,
+     "peso_corte": 1241579.270824348,
+     "fraccion_peso_corte": 0.22941702544559275
+    },
+    "pj": {
+     "n": 17,
+     "partidas": 16,
+     "lista_partidas": [
+      "46-01",
+      "46-02",
+      "46-03",
+      "46-04",
+      "46-05",
+      "46-06",
+      "46-07",
+      "46-08",
+      "46-09",
+      "46-10",
+      "46-11",
+      "46-12",
+      "46-13",
+      "46-14",
+      "46-15",
+      "46-17"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.5128467344244545,
+     "poblacion_fuera_de_mayoritario": 1288573,
+     "poblacion_sin_dato": 11733
+    },
+    "ca": {
+     "n": 13,
+     "partidas": 11,
+     "lista_partidas": [
+      "46-ALTO TURIA",
+      "46-CAMPOS DE LIRIA",
+      "46-ENGUERA Y LA CANAL",
+      "46-GANDÍA",
+      "46-HOYA DE BUÑOL",
+      "46-HUERTA DE VALENCIA",
+      "46-LA COSTERA DE JÁTIVA",
+      "46-REQUENA-UTIEL",
+      "46-RIBERAS DEL JÚCAR",
+      "46-SAGUNTO",
+      "46-VALLES DE ALBAIDA"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.2949584779458614,
+     "poblacion_fuera_de_mayoritario": 1835785,
+     "poblacion_sin_dato": 53044
+    },
+    "comarca": {
+     "n": 0,
+     "partidas": 0,
+     "lista_partidas": [],
+     "fraccion_poblacion_en_mayoritario": null,
+     "poblacion_fuera_de_mayoritario": 0,
+     "poblacion_sin_dato": 2656841
+    },
+    "movilidad": {
+     "cohesion": 0.4806758846710523,
+     "flujo": 306658.0,
+     "areas": 127
+    }
+   },
+   "sha256_csv": "652ecdc75534904f0d9773ae8ab65bbfa3fc71391ad2e8a0acfb0e60db32a843"
+  }
+ },
+ "candidatos": {
+  "A": [
+   [
+    "vigente",
+    [
+     0,
+     0.09094785875406168,
+     0.0010687745453607997,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ]
+  ],
+  "C": [
+   [
+    "vigente",
+    [
+     0,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-196672859",
+    [
+     0,
+     23,
+     945.612,
+     0.1468108178095716,
+     "5ab80682b469bd891468585dd063885a91bf162a33ee697e4accf3067c7cc197"
+    ]
+   ],
+   [
+    "ponderado-971680448",
+    [
+     0,
+     19,
+     808.119,
+     0.1496792619505646,
+     "f8b354c0f2bbbbe8982fb0c4b6a3b3346bd7d1ee7c71dd9c202324b4471236a9"
+    ]
+   ],
+   [
+    "ponderado-1235228126",
+    [
+     0,
+     17,
+     958.003,
+     0.1468108178095716,
+     "164d213d1cfc130ec74717e8df60c4cc42729b121c9a21798907ccd5b90fc7e5"
+    ]
+   ],
+   [
+    "ponderado-1923520694",
+    [
+     0,
+     19,
+     888.508,
+     0.13818854797859564,
+     "0e2949054917bb87b5f112c62b735a58b77457a1f08e5d882a0a602ccb90d4c5"
+    ]
+   ],
+   [
+    "ponderado-23063250",
+    [
+     0,
+     19,
+     896.213,
+     0.14558454947059307,
+     "fd340a1fdc828c5c503e5c8aafcc092eb63f975d86dddaf5745dc3f2ef42ca6f"
+    ]
+   ],
+   [
+    "ponderado-327884273",
+    [
+     0,
+     20,
+     917.879,
+     0.14586157018805415,
+     "61ebe77ea60ed7f11eb4440a82329e8ca534980f4faff4b83e30dd18add16bce"
+    ]
+   ],
+   [
+    "ponderado-1455864281",
+    [
+     0,
+     18,
+     807.114,
+     0.14226030086106017,
+     "c7d5bc55846403878278649da9e4e27696bbcc124613e494d590019c2e7204e9"
+    ]
+   ],
+   [
+    "ponderado-1761236949",
+    [
+     0,
+     22,
+     865.899,
+     0.1450967521202812,
+     "c7bdd5a18bcad905dc4497d51b2f142cbf07b136b01f5b1adef4f513e121a707"
+    ]
+   ],
+   [
+    "ponderado-227075318",
+    [
+     0,
+     19,
+     892.173,
+     0.1468108178095716,
+     "c6ab30761b9658d17a52e2b362a24733ad35377daf60ba2fba30dd4fb37c0ffd"
+    ]
+   ],
+   [
+    "ponderado-951267544",
+    [
+     0,
+     23,
+     940.16,
+     0.14539974353000423,
+     "13c66f953bbefd538f05ee4eb898a23a8421707400371729c4826cb656cede9f"
+    ]
+   ],
+   [
+    "ponderado-736408345",
+    [
+     0,
+     20,
+     1003.402,
+     0.14968791884798527,
+     "d74ece9ed9def68846b40a2f79eb83979787d0b54e52b498510127334195a279"
+    ]
+   ],
+   [
+    "ponderado-628579351",
+    [
+     0,
+     18,
+     859.706,
+     0.1485884928755616,
+     "a116a3da98a32542244666f7f1d69b0e84cc76a78ceafaddcd0157422f45c0a3"
+    ]
+   ],
+   [
+    "ponderado-1985822406",
+    [
+     0,
+     19,
+     847.307,
+     0.14586157018805415,
+     "9e91251b43bb43a1795d914601b37d23770bb5f7456b744e8e6c402fdda66142"
+    ]
+   ],
+   [
+    "ponderado-545020262",
+    [
+     0,
+     20,
+     873.998,
+     0.14797385315869485,
+     "6b7fe343f3c51a8208dd369ff48a12191d7bd36d02dcd00b2687b6c20706a0e5"
+    ]
+   ],
+   [
+    "ponderado-2019495586",
+    [
+     0,
+     20,
+     810.917,
+     0.147818029005123,
+     "92af7ad81b84e62b72f3a738085808470c6938c8c2de9471ddf6a96773f12c8c"
+    ]
+   ],
+   [
+    "ponderado-1027829663",
+    [
+     0,
+     21,
+     830.435,
+     0.146372327135873,
+     "06e06c0c6b3439225744e142b59e9795c9e7ba66b41820ddf19c862b7810b31d"
+    ]
+   ],
+   [
+    "ponderado-798828171",
+    [
+     0,
+     22,
+     864.828,
+     0.14586157018805415,
+     "ab8cd18af52d954d7dd67f65b8787565df96d01e16b90a3dce2b41360d01bdf1"
+    ]
+   ],
+   [
+    "ponderado-1486216476",
+    [
+     0,
+     20,
+     855.334,
+     0.14771979203874075,
+     "08a78a834ce9fa631a18b7ccaad0b3debae0e6623632fa97f3cfca705815d972"
+    ]
+   ],
+   [
+    "ponderado-1433975559",
+    [
+     0,
+     19,
+     873.118,
+     0.1465021805971829,
+     "6ba8dea0f2933605761b7f61d681c5df4a8b3b952174fb664ce03cf1cacb7576"
+    ]
+   ],
+   [
+    "ponderado-59248066",
+    [
+     0,
+     20,
+     938.697,
+     0.14555857877833112,
+     "36b53eef405c8fbf1974c96ad2c9212d565ff1b186522884b2086fbda8944495"
+    ]
+   ]
+  ],
+  "D8": [
+   [
+    "vigente",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-196672859",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1552.294,
+     0.09094785875406168,
+     "abebf8b09199273f6523e3e894b0bec93163a5e5c95b226f94e1913b28d35049"
+    ]
+   ],
+   [
+    "ponderado-971680448",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1556.412,
+     0.09094785875406168,
+     "0771874283602c68927bc113f0050b692328448f0093ec6ce8c1eb59f3e9911c"
+    ]
+   ],
+   [
+    "ponderado-1235228126",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-1923520694",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-23063250",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-327884273",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-1455864281",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-1761236949",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-227075318",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-951267544",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1535.643,
+     0.09094785875406168,
+     "99f70082337f4648f543e46ca350a1d5e3759d25aa01b6c1252188c4fa2baf4b"
+    ]
+   ],
+   [
+    "ponderado-736408345",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-628579351",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-1985822406",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1564.104,
+     0.09094785875406168,
+     "7150964d01c52bef4dfdbba1f16b142b72e4d4e1689ad6fac71436196c8e0fbd"
+    ]
+   ],
+   [
+    "ponderado-545020262",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1564.844,
+     0.09094785875406168,
+     "fd0edbff2a8c14b823186270609acf9dfa41b32c8cfcea3a88192128f31d4fe7"
+    ]
+   ],
+   [
+    "ponderado-2019495586",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-1027829663",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ],
+   [
+    "ponderado-798828171",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1563.427,
+     0.09094785875406168,
+     "27dcb2d62bbdf93b770ed0eebe2a4ae00b0a425060dd2bfac272f5a1baab5372"
+    ]
+   ],
+   [
+    "ponderado-1486216476",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1241.579,
+     0.09094785875406168,
+     "8c68abe0bad82f3e7a7812f186147e3d2e6eeab495d26abfd4638de1fc7d1d7d"
+    ]
+   ],
+   [
+    "ponderado-1433975559",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1490.446,
+     0.09094785875406168,
+     "9df7781b568a865a5847611cfa889c940edac026e01f3031bb63476b7ef60cc0"
+    ]
+   ],
+   [
+    "ponderado-59248066",
+    [
+     0,
+     0.010947858754061679,
+     27,
+     1566.825,
+     0.09094785875406168,
+     "2be27672c7abbb17a90c7882550b46ffdc30fbb8631b45a34dd86af8651aa076"
+    ]
+   ]
+  ]
+ },
+ "cadenas": {
+  "libre": [],
+  "ponderado": [
+   {
+    "semilla": 196672859,
+    "unicos": 159,
+    "tiempo_s": 2.970237886999712,
+    "fallo": ""
+   },
+   {
+    "semilla": 971680448,
+    "unicos": 153,
+    "tiempo_s": 2.5158639219998804,
+    "fallo": ""
+   },
+   {
+    "semilla": 1235228126,
+    "unicos": 158,
+    "tiempo_s": 2.607114451000143,
+    "fallo": ""
+   },
+   {
+    "semilla": 1923520694,
+    "unicos": 158,
+    "tiempo_s": 2.7545528489999924,
+    "fallo": ""
+   },
+   {
+    "semilla": 23063250,
+    "unicos": 159,
+    "tiempo_s": 2.7070477849997587,
+    "fallo": ""
+   },
+   {
+    "semilla": 327884273,
+    "unicos": 151,
+    "tiempo_s": 3.725255307000225,
+    "fallo": ""
+   },
+   {
+    "semilla": 1455864281,
+    "unicos": 147,
+    "tiempo_s": 3.0820261809999465,
+    "fallo": ""
+   },
+   {
+    "semilla": 1761236949,
+    "unicos": 164,
+    "tiempo_s": 2.6564993990000403,
+    "fallo": ""
+   },
+   {
+    "semilla": 227075318,
+    "unicos": 144,
+    "tiempo_s": 2.7894321750000017,
+    "fallo": ""
+   },
+   {
+    "semilla": 951267544,
+    "unicos": 158,
+    "tiempo_s": 2.5750218009998207,
+    "fallo": ""
+   },
+   {
+    "semilla": 736408345,
+    "unicos": 144,
+    "tiempo_s": 2.6312758770000073,
+    "fallo": ""
+   },
+   {
+    "semilla": 628579351,
+    "unicos": 147,
+    "tiempo_s": 2.4761634940000476,
+    "fallo": ""
+   },
+   {
+    "semilla": 1985822406,
+    "unicos": 121,
+    "tiempo_s": 3.013226953999947,
+    "fallo": ""
+   },
+   {
+    "semilla": 545020262,
+    "unicos": 159,
+    "tiempo_s": 2.925236097999914,
+    "fallo": ""
+   },
+   {
+    "semilla": 2019495586,
+    "unicos": 144,
+    "tiempo_s": 2.8278928810000252,
+    "fallo": ""
+   },
+   {
+    "semilla": 1027829663,
+    "unicos": 139,
+    "tiempo_s": 2.590280449000147,
+    "fallo": ""
+   },
+   {
+    "semilla": 798828171,
+    "unicos": 150,
+    "tiempo_s": 2.517520747999697,
+    "fallo": ""
+   },
+   {
+    "semilla": 1486216476,
+    "unicos": 169,
+    "tiempo_s": 2.7090987589999713,
+    "fallo": ""
+   },
+   {
+    "semilla": 1433975559,
+    "unicos": 159,
+    "tiempo_s": 2.5666585990002204,
+    "fallo": ""
+   },
+   {
+    "semilla": 59248066,
+    "unicos": 157,
+    "tiempo_s": 2.8879515589997027,
+    "fallo": ""
+   }
+  ]
+ },
+ "entorno": {
+  "python": "3.13.18",
+  "geos": "3.14.1",
+  "shapely": "2.2.0",
+  "geopandas": "1.2.0",
+  "pyogrio": "0.13.0",
+  "gerrychain": "1.0.0",
+  "networkx": "3.7"
+ },
+ "tiempos_s": {
+  "entrada": 0.7004690129997471,
+  "total": 59.47963187899995
+ },
+ "huella": "6ee92360e4a44cc1336486d19448db554ef298933c57624c29b0886b4b207a9e",
+ "huella_d": "340a073540a82b7d799b7639c5d60de1a10b08b572a992f5318a44bfa6bcbe71"
+}

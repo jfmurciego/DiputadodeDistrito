@@ -10,7 +10,7 @@ ESTADO: experimento (motor 2; producción no lo importa; nada se publica)
 CAMBIOS: 1.2.0 (T-179, nacional): --png (lista de territorios con lámina; sin ella, todos), nombres en español de los
   67 territorios y EMPEORA.md/.csv: territorios donde C o D8 empeoran algo frente a A (más distritos fuera de
   tolerancia, más partidos judiciales o comarcas agrarias partidos, menor Polsby-Popper medio) o no hallan candidato
-  (gana el mapa vigente). DISTRITOS.csv solo de los territorios con lámina.
+  (gana el mapa vigente; los de un solo distrito no cuentan). Columna k. DISTRITOS.csv solo de los territorios con lámina.
   1.1.0 (T-179): cinco paneles (A, D5, D8, C, B), filas D5/D8 en la tabla y DISTRITOS.csv (por distrito:
   superficie, población, municipio principal y si es un núcleo cerrado dentro de un solo municipio), para explicar los
   distritos urbanos minúsculos en superficie. 1.0.0: fichero nuevo.
@@ -60,7 +60,7 @@ def nombre(t: str) -> str:
         prov = {i: n for i, n in PROVINCIAS.values()}
         return prov.get(t[9:], t)
     return t
-COLUMNAS = ["territorio", "funcion", "candidato", "fuera_tolerancia", "desvio_max_pct", "max_desvio_personas",
+COLUMNAS = ["territorio", "funcion", "k", "candidato", "fuera_tolerancia", "desvio_max_pct", "max_desvio_personas",
             "suma_desvio_personas", "coste_suma_desvio_vs_A", "pp_medio", "pp_min", "convexidad_media",
             "pj_partidos", "pj_n", "pj_pob_fuera_mayoritario", "ca_partidas", "ca_n", "comarca_partidas",
             "movilidad_cohesion", "frontera_cortada"]
@@ -161,6 +161,8 @@ def empeora(filas: list[dict], sal: Path) -> list[dict]:
             if not x:
                 continue
             m = []
+            if x["k"] == 1:
+                continue  # un solo distrito: no hay nada que elegir
             if x["candidato"] == "vigente":
                 m.append("sin candidato mejor que el mapa vigente")
             for k, txt in (("fuera_tolerancia", "distritos fuera de tolerancia"), ("pj_partidos", "partidos judiciales partidos"),
@@ -206,7 +208,7 @@ def main(argv=None) -> int:
         filas = {}
         for f in planes:
             g, i = r["ganadores"][f], r["ganadores"][f]["indicadores"]
-            filas[f] = {"territorio": t, "funcion": f, "candidato": g["candidato"],
+            filas[f] = {"territorio": t, "funcion": f, "k": len(set(planes[f].values())), "candidato": g["candidato"],
                         "fuera_tolerancia": len(g["fuera_tolerancia"]), "desvio_max_pct": round(100 * g["desvio_max"], 2),
                         "max_desvio_personas": round(g["max_desvio_personas"]),
                         "suma_desvio_personas": round(g["suma_desvio_personas"]),
