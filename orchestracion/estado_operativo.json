@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-10T23:04:05.760549+00:00",
+  "generated_at": "2026-11-10T23:16:05.279115+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7669,11 +7669,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42916463221,
       "last_run": {
-        "run_id": 40979652189,
+        "run_id": 42916463221,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7708,10 +7708,10 @@
           "territory_id": "la_rioja",
           "territory_name": "La Rioja",
           "edition": "2025",
-          "run_id": 40979652189,
-          "artifact_name": "ddd-state-40979652189-M08",
-          "artifact_sha256": "a0b3dbebc81537f0c96a98cc57c277dac2ceee9c8b63350f6c3eecea7b9f18c3",
-          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+          "run_id": 42920452778,
+          "artifact_name": "ddd-state-42920452778-M08",
+          "artifact_sha256": "7cb66a00358b6b918788297c0646dffc454d3c40d41a407962cf3ecc56f7fdb4",
+          "source_commit": "8241b2e29c26026043a98b78bdb6a84f12b1de79",
           "stage": "M08"
         }
       },
