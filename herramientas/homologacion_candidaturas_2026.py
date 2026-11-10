@@ -3,8 +3,13 @@
 """Homologación de siglas de las candidaturas proclamadas de las generales 2026 (T-112, extiende T-97).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS: 1.1.0 (T-200): ``resolver_zip`` / ``siglas_sin_regla`` / ``exigir_siglas_zip``: homologan las siglas del ZIP
+  de Interior (no las del BOE) con las reglas 2026, la tabla ``interior`` de reglas_generales.json y las candidaturas
+  BOE de la provincia; toda sigla sin regla ni candidatura es SIN_REGLA y la comprobación falla (fail-closed). Nada
+  se infiere de memoria: las variantes de Interior 2026 se añaden con el ZIP real (sale tras el 29-11-2026).
+MOTIVO: el ensayo T-197 mostró siglas de Interior (PSE-EE (PSOE), SUMAR - ECP…) que pasaban como identidad ALTA sin aviso.
+ANTERIOR: legacy/herramientas/homologacion_candidaturas_2026_v1.0.0_20261110.py
 QUÉ HACE: aplica datos/homologacion_siglas/reglas_candidaturas_2026.json (familias de D-20: «Podemos–Sumar»,
   «CiU–Junts», «UPN y coaliciones», «CHA-IU») a configuracion/candidaturas_congreso_2026.csv (BOE-A-2026-23103 +
   corrección BOE-A-2026-23383) y escribe datos/homologacion_siglas/homologacion_candidaturas_2026.csv con certeza,
@@ -38,6 +43,53 @@ def resolver(reglas: dict, sigla: str) -> tuple[str, str, str]:
         if sigla in r["siglas"]:
             return r["homologado"], r["certeza"], r["id"]
     return sigla, "ALTA", "IDENTIDAD"
+
+
+SIN_REGLA = "SIN_REGLA"
+ELECCION = "202611"
+GENERALES = "datos/homologacion_siglas/reglas_generales.json"
+
+
+def candidaturas_boe(root: Path = ROOT) -> dict[str, set[str]]:
+    """código de provincia → siglas de las candidaturas BOE 2026."""
+    out: dict[str, set[str]] = {}
+    with (root / CAND).open(encoding="utf-8", newline="") as fh:
+        for c in csv.DictReader(fh):
+            out.setdefault(c["codigo"], set()).add(c["siglas"])
+    return out
+
+
+def resolver_zip(reglas: dict, generales: dict, sigla: str, codigo: str, boe: dict[str, set[str]],
+                 eleccion: str = ELECCION) -> tuple[str, str, str]:
+    """Sigla del ZIP de Interior → (homologado, certeza, regla). Orden: regla 2026 explícita, tabla ``interior`` de
+    la elección en reglas_generales.json, sigla idéntica a una candidatura BOE de la provincia; si no, SIN_REGLA."""
+    interior = generales.get("interior", {}).get(eleccion, {})
+    if eleccion != ELECCION:  # reglas y candidaturas 2026 solo valen para 2026: otra elección manda su tabla interior
+        if sigla in interior:
+            return interior[sigla], "DECIDIDA", f"INTERIOR-{eleccion}"
+        return sigla, SIN_REGLA, SIN_REGLA
+    h, cert, rid = resolver(reglas, sigla)
+    if rid != "IDENTIDAD":
+        return h, cert, rid
+    if sigla in interior:
+        return interior[sigla], "DECIDIDA", f"INTERIOR-{eleccion}"
+    if sigla in boe.get(codigo, set()):
+        return sigla, "ALTA", "IDENTIDAD_BOE"
+    return sigla, SIN_REGLA, SIN_REGLA
+
+
+def siglas_sin_regla(siglas, codigo: str, eleccion: str = ELECCION, root: Path = ROOT) -> list[str]:
+    reglas = json.loads((root / REGLAS).read_text(encoding="utf-8"))
+    generales = json.loads((root / GENERALES).read_text(encoding="utf-8"))
+    boe = candidaturas_boe(root)
+    return sorted(s for s in set(siglas) if resolver_zip(reglas, generales, s, codigo, boe, eleccion)[1] == SIN_REGLA)
+
+
+def exigir_siglas_zip(siglas, codigo: str, eleccion: str = ELECCION, root: Path = ROOT) -> None:
+    """Falla (ValueError SIGLAS_SIN_REGLA) si alguna sigla del ZIP no tiene regla ni candidatura BOE."""
+    sin = siglas_sin_regla(siglas, codigo, eleccion, root)
+    if sin:
+        raise ValueError(f"SIGLAS_SIN_REGLA provincia {codigo} elección {eleccion}: {sin}")
 
 
 def filas(root: Path = ROOT) -> list[dict]:
