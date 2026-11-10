@@ -15,7 +15,8 @@ ANTERIOR: ninguna (fichero nuevo)
 USO: python docs/ESTUDIOS/T180_CADENAS/analizar_cadenas.py --out bateria --seccionado-dir <dir con s2023/ s2024/ s2025/>
        [--salida docs/ESTUDIOS/T180_CADENAS] [--sin-b]
   Lee <out>/competicion/<t>/COMPETICION.json (ddd_motor2.competir --cadenas 20). Escribe CURVA.csv (territorio × N × función),
-  TIEMPOS.csv (por candidato) y TERRITORIOS.csv (resumen por territorio).
+  TIEMPOS.csv (por candidato) y TERRITORIOS.csv (resumen por territorio)
+  y AGREGADO.csv (por función y N).
 FUNCIONES:
   A  la de competicion.py: (evaluable, violaciones duras, fuera de tolerancia, desvío máximo, ECM, huella, orden).
   B  la de ddd_motor2/naturalidad_competicion.py llevada a los candidatos de la competición: (evaluable, violaciones
@@ -112,6 +113,40 @@ def curva(d: dict, clave) -> list[dict]:
     return filas
 
 
+def percentil(xs: list, q: float):
+    xs = sorted(xs)
+    return xs[min(len(xs) - 1, int(round(q * (len(xs) - 1))))] if xs else None
+
+
+def agregado(curvas: list[dict], terr: list[dict]) -> list[dict]:
+    """Por función y N: territorios que mejoran al canónico, distritos fuera de tolerancia y desvío máximo sumados,
+    territorios cuyo ganador cambia respecto al N anterior; y percentiles del N de saturación."""
+    can = {t["territorio"]: t for t in terr}
+    out = []
+    for f in ("A", "B"):
+        sat = [t[f"{f}_saturacion_n"] for t in terr]
+        prev = {}
+        for n in NS:
+            fs = [r for r in curvas if r["funcion"] == f and r["n"] == n]
+            if not fs:
+                continue
+            out.append({"funcion": f, "n": n, "territorios": len(fs),
+                        "mejoran_canonico": sum(1 for r in fs if r["mejora_canonico"]),
+                        "fuera_tolerancia_total": sum(r["fuera_tolerancia"] for r in fs),
+                        "fuera_tolerancia_canonico": sum(can[r["territorio"]]["canonico_fuera"] for r in fs),
+                        "desvio_max_medio": round(sum(r["desvio_max"] for r in fs) / len(fs), 5),
+                        "desvio_max_medio_canonico": round(sum(can[r["territorio"]]["canonico_desvio_max"]
+                                                               for r in fs) / len(fs), 5),
+                        "b_partidas_total": sum(r["b_partidas"] or 0 for r in fs),
+                        "cambian_frente_n_anterior": sum(1 for r in fs if r["territorio"] in prev
+                                                         and prev[r["territorio"]] != r["ganador"]),
+                        "saturados_en_n": sum(1 for x in sat if x <= n),
+                        "saturacion_p50": percentil(sat, .5), "saturacion_p75": percentil(sat, .75),
+                        "saturacion_p90": percentil(sat, .9), "saturacion_max": max(sat)})
+            prev = {r["territorio"]: r["ganador"] for r in fs}
+    return out
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="bateria")
@@ -165,7 +200,7 @@ def main(argv=None) -> int:
                        **{f"total_n{n}_s": round(base + sum(ch[:n]), 1) for n in (5, 10, 20)}})
         terr.append(fila_t)
     a.salida.mkdir(parents=True, exist_ok=True)
-    for nombre, filas in (("CURVA.csv", curvas), ("TIEMPOS.csv", tiempos), ("TERRITORIOS.csv", terr)):
+    for nombre, filas in (("AGREGADO.csv", agregado(curvas, terr)), ("CURVA.csv", curvas), ("TIEMPOS.csv", tiempos), ("TERRITORIOS.csv", terr)):
         cols = []
         for r in filas:
             cols += [k for k in r if k not in cols]
