@@ -21,7 +21,7 @@ ganador: **no hay en los logs ni los partidos y comarcas ni los fuera de toleran
 
 ## Resultado
 
-| Ámbito | Territorios | Mejora | Empata | Empeora | Con más de un distrito: mejora / empata | Gana una cadena | Fuera de tolerancia del ganador |
+| Ámbito | Territorios | Mejora | Empata | Empeora (según la clave) | Con más de un distrito: mejora / empata | Gana una cadena | Fuera de tolerancia del ganador |
 |---|---|---|---|---|---|---|---|
 | Congreso (52) | 52 | 40 | 12 | 0 | 40 / 4 (de 44) | 41 | 7 |
 | Autonómicas (19) | 19 | 15 | 4 | 0 | 15 / 4 (de 19) | 16 | 236 |
@@ -66,7 +66,7 @@ de distritos por la mitad de su población, y el generador `Ponderado` que usa l
 
 `datos/TABLA_TERRITORIOS.md` (y `datos/COMPARACION.csv`) trae, por territorio, los distritos fuera de tolerancia y el desvío máximo del mapa
 vigente publicado (`datos/composicion`, columna A del laboratorio), del canónico de r3, del ganador de r3 y del D8 del laboratorio. El canónico de r3
-solo tiene dato exacto donde gana el canónico; en el resto la tabla pone «≥ ganador» (la clave pone los fuera de tolerancia antes que la forma) y el
+solo tiene dato exacto donde gana el canónico; en el resto la tabla pone «≥ ganador», que vale solo para la clave de elección y no para el recuento bruto (véase la adenda T-196b) y el
 valor está en `COMPETICION.json` (artefacto no accesible).
 
 - **Congreso Las Palmas:** el canónico de r3 tiene un desvío máximo del 65,85 %, frente al 41,93 % del vigente publicado; el ganador de r3 queda en
@@ -89,7 +89,7 @@ Las cifras publicadas arriba no se han editado; esta adenda las completa y matiz
 - **Dos cuentas de «fuera de tolerancia».** «Bruto» es `fuera_tolerancia` del candidato (la que recoge la fila del log y la tabla de arriba); «clave» es la primera
   componente de `clave_naturalidad`, con la que se decide la mejora (criterio `tolerancia: metrica`, con exenciones del contrato). **No son comparables entre sí**:
   la clave puede ser mayor o menor que la bruta. Canónico bruto/clave: Andalucía 20/23, Aragón 0/1, Canarias 20/21, Comunidad Valenciana 42/47, Extremadura 1/2 e Illes Balears 15/16
-  (clave mayor); Castilla y León 2/1, Cataluña 53/51, Baleares (Congreso) 1/0 y País Vasco 9/8 (clave menor). Ganador bruto/clave: Andalucía 21/23, Comunidad Valenciana 31/37, Extremadura 1/2 e Illes Balears 14/15 (clave mayor).
+  (clave mayor); Castilla y León 2/1, Cataluña 53/51, Baleares (Congreso) 1/0 y País Vasco 9/8 (clave menor). Ganador bruto/clave: Andalucía 21/23, Comunidad Valenciana 31/37, Extremadura 1/2 e Illes Balears 14/15 (clave mayor); Aragón 2/1, Canarias 21/20, Castilla-La Mancha 8/5, Castilla y León 4/1, Cataluña 41/38, Galicia 8/6, País Vasco 9/8 y Baleares (Congreso) 1/0 (clave menor). Las listas de clave mayor y menor son exhaustivas (comprobado en `datos/CANDIDATOS.csv`); en el resto de territorios clave y bruto coinciden.
 - **Con la clave el ganador nunca es peor que el canónico** (0 territorios). **Con el recuento bruto es peor en 6 autonómicas** (canónico → ganador): Andalucía 20 → 21, Aragón 0 → 2,
   Canarias 20 → 21, Castilla-La Mancha 5 → 8, Castilla y León 2 → 4 y Galicia 6 → 8; en ningún otro territorio, Congreso incluido (comprobado en `datos/CANDIDATOS.csv`).
 - **Corrección de lo dicho arriba:** «el canónico tiene ≥ fuera de tolerancia que el ganador» vale solo para la clave, no para el recuento bruto que usa la tabla
