@@ -58,6 +58,18 @@ autonómicas (T-179, 2.ª parte) mide el desvío de cada distrito contra el obje
 de distritos por la mitad de su población, y el generador `Ponderado` que usa la batería no lo hace en esas autonómicas. Otras diferencias
 (shapely 2.1.1 frente a 2.1.2, grafo M03 reconstruido desde fuente, 10 frente a 20 cadenas) no se han descartado.
 
+## Tabla por territorio y el caso Las Palmas
+
+`datos/TABLA_TERRITORIOS.md` (y `datos/COMPARACION.csv`) trae, por territorio, los distritos fuera de tolerancia y el desvío máximo del mapa
+vigente publicado (`datos/composicion`, columna A del laboratorio), del canónico de r3, del ganador de r3 y del D8 del laboratorio. El canónico de r3
+solo tiene dato exacto donde gana el canónico; en el resto la tabla pone «≥ ganador» (la clave pone los fuera de tolerancia antes que la forma) y el
+valor está en `COMPETICION.json` (artefacto no accesible).
+
+- **Congreso Las Palmas:** el canónico de r3 tiene un desvío máximo del 65,85 %, frente al 41,93 % del vigente publicado; el ganador de r3 queda en
+  51,37 % con 1 distrito fuera de tolerancia (vigente 1, D8 del laboratorio 0 con 38,59 %). Es el único territorio del Congreso cuyo canónico de r3 no
+  coincide con el vigente en el desvío máximo. No se ha investigado la causa.
+- **Madrid (autonómica):** vigente 26, ganador de r3 21, D8 del laboratorio 6.
+
 ## Límites
 
 - Sin `COMPETICION.json`: no se recalculan partidos judiciales ni comarcas, ni el desglose de la clave, ni los fuera de tolerancia del canónico.

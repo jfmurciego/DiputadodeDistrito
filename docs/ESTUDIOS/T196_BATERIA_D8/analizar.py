@@ -60,6 +60,7 @@ def main():
             "fuera_tol_r3": f["fuera_tolerancia"], "desvio_r3_pct": round(100 * f["desvio_max"], 2),
             "desvio_canonico_r3_pct": round(100 * f["desvio_max_canonico"], 2), "tiempo_s": f["tiempo_s"],
             "lab_frente": lf or "", "lab_candidato": d8["candidato"] if d8 else "",
+            "fuera_tol_canonico_r3": f["fuera_tolerancia"] if f["ganador"] == "canonico" else "",  # solo si gana el canónico; si no, solo se sabe >= ganador
             "lab_fuera_tol_A": a["fuera_tolerancia"] if a else "", "lab_fuera_tol_D8": d8["fuera_tolerancia"] if d8 else "",
             "lab_desvio_A_pct": a["desvio_max_pct"] if a else "", "lab_desvio_D8_pct": d8["desvio_max_pct"] if d8 else "",
             "misma_semilla_ganadora": (semilla(f["ganador"]) == semilla(d8["candidato"])) if d8 and semilla(f["ganador"]) else "",
@@ -69,6 +70,17 @@ def main():
         w = csv.DictWriter(fh, fieldnames=list(out[0]))
         w.writeheader()
         w.writerows(out)
+    cabecera = ("| Territorio | Frente r3 | Fuera de tol.: vigente (lab A) | canónico r3 | ganador r3 | lab D8 | Desvío máx. %: vigente | canónico r3 | ganador r3 | lab D8 |\n"
+                "|---|---|---|---|---|---|---|---|---|---|")
+    filas_md = [f"| {r['territorio']} | {r['frente_r3']} | {r['lab_fuera_tol_A'] or 'n/d'} | "
+                f"{r['fuera_tol_canonico_r3'] if r['fuera_tol_canonico_r3'] != '' else ('≥ ' + str(r['fuera_tol_r3']))} | {r['fuera_tol_r3']} | "
+                f"{r['lab_fuera_tol_D8'] or 'n/d'} | {r['lab_desvio_A_pct'] or 'n/d'} | {r['desvio_canonico_r3_pct']} | {r['desvio_r3_pct']} | "
+                f"{r['lab_desvio_D8_pct'] or 'n/d'} |" for r in out]
+    (AQUI / "datos" / "TABLA_TERRITORIOS.md").write_text(
+        "# Tabla por territorio (T-196)\n\nGenerada por `analizar.py`. «vigente» = mapa publicado en `datos/composicion` (columna A del laboratorio T-179). "
+        "El canónico de r3 solo tiene dato de distritos fuera de tolerancia donde gana el canónico; en el resto se sabe que es ≥ el del ganador "
+        "(la clave pone fuera de tolerancia antes que la forma), y el valor exacto está en `COMPETICION.json` (artefacto, no accesible). "
+        "n/d = territorio sin dato en el laboratorio.\n\n" + cabecera + "\n" + "\n".join(filas_md) + "\n", encoding="utf-8")
     print("## Frente al canónico (r3)")
     for amb in ("congreso", "autonomica", None):
         rs = [r for r in out if amb is None or r["ambito"] == amb]
