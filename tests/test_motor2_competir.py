@@ -33,6 +33,10 @@ class Resumen(unittest.TestCase):
         self.assertFalse(resumen([fila("a"), {"territorio": "b", "estado": "ERROR", "detalle": "x"}])["aceptacion"])
         self.assertFalse(resumen([])["aceptacion"])
 
+    def test_peor_que_el_vigente(self):  # T-217: no debería pasar nunca (el vigente válido compite)
+        r = resumen([fila("a"), {**fila("b"), "vigente_compite": True, "frente_al_vigente": "empeora"}])
+        self.assertEqual((r["peor_que_el_vigente"], r["vigente_compite"], r["aceptacion"]), (["b"], 1, False))
+
     def test_ficheros(self):
         tmp = Path(tempfile.mkdtemp())
         tot = escribir_resumen([fila("a", s=3), fila("b", frente="mejora", s=5),

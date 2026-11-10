@@ -1,0 +1,66 @@
+## comunidad_foral_de_navarra · ganador ponderado-s700514306 · huella 68223d333c5b
+vigente: {'estado': 'VALIDO', 'detalle': '', 'origen': 'datos/composicion/comunidad_foral_de_navarra.csv', 'sha256_origen': '92ffd1f04346607af8d827cbd28f6ecfe3fb7fa48021af7ff8ed3308b6384ec0', 'unidades_divididas': 0, 'compite': True} violaciones: []
+piezas finas: {'aplicadas': True, 'limite': 23525.425, 'municipios_divisibles': 2, 'secciones_sueltas': 172, 'unidades_antes': 288}
+  ponderado-s700514306     VALIDO    fuera  11  clave [11, 0.0358, 12]  inicio vigente  unidades 442  únicos 33
+  ponderado-s1024523409    VALIDO    fuera  11  clave [11, 0.038, 12]  inicio vigente  unidades 442  únicos 31
+  ponderado-s868801851     VALIDO    fuera  11  clave [11, 0.0392, 12]  inicio vigente  unidades 442  únicos 35
+  ponderado-s21176674      VALIDO    fuera  11  clave [11, 0.0395, 12]  inicio vigente  unidades 442  únicos 32
+  ponderado-s1628596715    VALIDO    fuera  11  clave [11, 0.0395, 12]  inicio vigente  unidades 442  únicos 41
+  vigente                  VALIDO    fuera  11  clave [11, 0.0397, 12]  inicio None  unidades None  únicos None
+  ponderado-s946325741     VALIDO    fuera  13  clave [13, 0.0358, 12]  inicio canonico  unidades 442  únicos 60
+  ponderado-s1614479722    VALIDO    fuera  13  clave [13, 0.0367, 12]  inicio canonico  unidades 442  únicos 49
+  ponderado-s959200213     VALIDO    fuera  14  clave [14, 0.0363, 12]  inicio canonico  unidades 442  únicos 60
+  ponderado-s15633595      VALIDO    fuera  14  clave [14, 0.038, 12]  inicio canonico  unidades 442  únicos 62
+  ponderado-s2107829136    VALIDO    fuera  15  clave [15, 0.0315, 12]  inicio canonico  unidades 442  únicos 63
+  canonico                 VALIDO    fuera  24  clave [24, 0.0119, 12]  inicio None  unidades None  únicos None
+
+## madrid · ganador ponderado-s971703099 · huella a3889e4d7767
+vigente: {'estado': 'VALIDO', 'detalle': '', 'origen': 'datos/composicion/madrid.csv', 'sha256_origen': 'bad01f174c469b41495f2a314e4db8b3d5ee1217cb4d47390debc795b5e795ac', 'unidades_divididas': 0, 'compite': True} violaciones: []
+piezas finas: {'aplicadas': True, 'limite': 89080.22407407407, 'municipios_divisibles': 13, 'secciones_sueltas': 3593, 'unidades_antes': 269}
+  ponderado-s971703099     VALIDO    fuera  14  clave [14, 0.0399, 25]  inicio vigente  unidades 3759  únicos 26
+  ponderado-s1767925601    VALIDO    fuera  15  clave [15, 0.0399, 25]  inicio vigente  unidades 3759  únicos 31
+  ponderado-s1802514727    VALIDO    fuera  15  clave [15, 0.0399, 25]  inicio vigente  unidades 3759  únicos 23
+  ponderado-s166739728     VALIDO    fuera  15  clave [15, 0.0399, 25]  inicio vigente  unidades 3759  únicos 29
+  ponderado-s2118146402    VALIDO    fuera  15  clave [15, 0.0399, 25]  inicio vigente  unidades 3759  únicos 24
+  ponderado-s46435939      VALIDO    fuera  17  clave [17, 0.0399, 25]  inicio canonico  unidades 3759  únicos 18
+  ponderado-s295868932     VALIDO    fuera  18  clave [18, 0.0399, 25]  inicio canonico  unidades 3759  únicos 16
+  ponderado-s763731873     VALIDO    fuera  18  clave [18, 0.0399, 25]  inicio canonico  unidades 3759  únicos 20
+  ponderado-s291855033     VALIDO    fuera  19  clave [19, 0.0399, 25]  inicio canonico  unidades 3759  únicos 11
+  ponderado-s2096709436    VALIDO    fuera  19  clave [19, 0.0399, 25]  inicio canonico  unidades 3759  únicos 9
+  canonico                 VALIDO    fuera  24  clave [24, 0.0399, 25]  inicio None  unidades None  únicos None
+  vigente                  VALIDO    fuera  26  clave [26, 0.0399, 25]  inicio None  unidades None  únicos None
+
+## cataluna · ganador ponderado-s668019616 · huella a29dc035c739
+vigente: {'estado': 'INVALIDO', 'detalle': '', 'origen': 'datos/composicion/cataluna.csv', 'sha256_origen': '9c3a91f41672c74b314cc5cd5f8cd56b01d8e4b4c1e2e3df7da645d412d2a72b', 'unidades_divididas': 0, 'metricas_circunscripcion': {'fuera_tolerancia': 33, 'desvio_max': 0.6789841284100235}, 'compite': False} violaciones: [('R-NUCLEO', 'nucleo:41')]
+piezas finas: {'aplicadas': True, 'limite': 74187.32407407407, 'municipios_divisibles': 16, 'secciones_sueltas': 2429, 'unidades_antes': 997}
+  ponderado-s668019616     VALIDO    fuera  38  clave [38, 0.0394, 77]  inicio canonico  unidades 3359  únicos 92
+  ponderado-s668724984     VALIDO    fuera  41  clave [41, 0.0372, 72]  inicio canonico  unidades 3359  únicos 104
+  ponderado-s849881058     VALIDO    fuera  41  clave [41, 0.0375, 75]  inicio canonico  unidades 3359  únicos 110
+  ponderado-s668951879     VALIDO    fuera  41  clave [41, 0.0392, 73]  inicio canonico  unidades 3359  únicos 119
+  ponderado-s1769344304    VALIDO    fuera  42  clave [42, 0.0362, 75]  inicio canonico  unidades 3359  únicos 99
+  ponderado-s2001764373    VALIDO    fuera  42  clave [42, 0.0362, 76]  inicio canonico  unidades 3359  únicos 116
+  ponderado-s1904841058    VALIDO    fuera  43  clave [43, 0.0362, 76]  inicio canonico  unidades 3359  únicos 115
+  ponderado-s1873138711    VALIDO    fuera  43  clave [43, 0.0381, 75]  inicio canonico  unidades 3359  únicos 111
+  ponderado-s755549489     VALIDO    fuera  44  clave [44, 0.0362, 69]  inicio canonico  unidades 3359  únicos 97
+  ponderado-s1875366823    VALIDO    fuera  47  clave [47, 0.0362, 72]  inicio canonico  unidades 3359  únicos 81
+  canonico                 VALIDO    fuera  53  clave [53, 0.0392, 81]  inicio None  unidades None  únicos None
+
+## castilla_y_leon · ganador ponderado-s999727098 · huella ce8a1f7e5c0c
+vigente: {'estado': 'INVALIDO', 'detalle': '', 'origen': 'datos/composicion/castilla_y_leon.csv', 'sha256_origen': '67cee6906c1398b4d6f0b611300428c9f65489422e76ef0dab7115ccb6395e43', 'unidades_divididas': 0, 'metricas_circunscripcion': {'fuera_tolerancia': 1, 'desvio_max': 0.1431333767243177}, 'compite': False} violaciones: [('R-MUN-MIXTOS', '05019')]
+piezas finas: {'aplicadas': True, 'limite': 32797.16487804878, 'municipios_divisibles': 12, 'secciones_sueltas': 921, 'unidades_antes': 2279}
+  ponderado-s999727098     VALIDO    fuera   2  clave [2, 0.0383, 88]  inicio canonico  unidades 3157  únicos 136
+  canonico                 VALIDO    fuera   2  clave [2, 0.0383, 90]  inicio None  unidades None  únicos None
+  ponderado-s2109655839    VALIDO    fuera   2  clave [2, 0.0383, 90]  inicio canonico  unidades 3157  únicos 130
+  ponderado-s2109567164    VALIDO    fuera   2  clave [2, 0.0383, 90]  inicio canonico  unidades 3157  únicos 116
+  ponderado-s1439468606    VALIDO    fuera   2  clave [2, 0.0383, 90]  inicio canonico  unidades 3157  únicos 132
+  ponderado-s213239383     VALIDO    fuera   2  clave [2, 0.0383, 90]  inicio canonico  unidades 3157  únicos 135
+  ponderado-s726074469     VALIDO    fuera   2  clave [2, 0.0383, 90]  inicio canonico  unidades 3157  únicos 126
+  ponderado-s750501199     VALIDO    fuera   2  clave [2, 0.0383, 90]  inicio canonico  unidades 3157  únicos 125
+  ponderado-s1785098077    VALIDO    fuera   2  clave [2, 0.0383, 90]  inicio canonico  unidades 3157  únicos 118
+  ponderado-s1600771755    VALIDO    fuera   2  clave [2, 0.0383, 90]  inicio canonico  unidades 3157  únicos 154
+  ponderado-s844560265     VALIDO    fuera   2  clave [2, 0.0383, 90]  inicio canonico  unidades 3157  únicos 120
+
+## Cataluña: el vigente con el recuento del contrato y las dos referencias de núcleos
+cataluna vigente (referencia = canónico): válido False, fuera (contrato) 33, violaciones [('R-NUCLEO', 'nucleo:41')]
+cataluna vigente (referencia = el propio vigente): válido True, fuera (contrato) 33, violaciones []
+distrito 41 del canónico (núcleo cerrado, municipio 08200, 38 secciones, 66 271 hab.): en el vigente, 59 496 en su distrito 41 y 6775 en el 87

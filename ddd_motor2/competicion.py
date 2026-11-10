@@ -3,11 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — orquestador de la competición «canónico + GerryChain»
-VERSIÓN: 1.3.2
-NOMBRE DE VERSIÓN: Competición · fuera de tolerancia del contrato
+VERSIÓN: 1.4.0
+NOMBRE DE VERSIÓN: Competición · el vigente compite
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.3.2 — (T-211, D-68) con C/D5/D8 el primer término de la clave es el recuento de fuera de tolerancia del
+CAMBIOS: 1.4.0 — (T-217) `competir(..., vigente=<generador>)`: el mapa vigente publicado se juzga justo después del
+  canónico; si cumple el núcleo entra como candidato «vigente» (orden 1) y la mitad final de las semillas parte de él
+  (contexto «composicion_vigente», «semillas_desde_vigente»): el ganador nunca es peor que el vigente válido, por
+  construcción. Si no es representable o no cumple el núcleo, no compite y Resultado.vigente dice por qué (estado,
+  detalle, violaciones). Sin `vigente`, todo igual que 1.3.2 (HUELLAS_FIJAS sin cambios).
+  1.3.2 — (T-211, D-68) con C/D5/D8 el primer término de la clave es el recuento de fuera de tolerancia del
   contrato y del núcleo (objetivo regional, como reglas.evaluar y el M04), también con cuotas de varias provincias
   o islas (naturalidad_clave 1.1.0); antes era el recuento por circunscripción y la batería r3 dejaba ganar mapas
   con más distritos fuera de tolerancia que el canónico (Aragón 0→2, Castilla-La Mancha 5→8, Castilla y León 2→4,
@@ -30,12 +35,14 @@ CAMBIOS: 1.3.2 — (T-211, D-68) con C/D5/D8 el primer término de la clave es e
   1.1.0 — competir_publico (semillas públicas de semilla.py); Resultado.valido y Resultado.huella()
   (reproducibilidad bit a bit); sin referencia de núcleos y con unidades cerradas, ERROR_DATOS (indicador explícito:
   unidades con nucleo_cerrado, no el texto del aviso); pruebas de desempate por huella y de canónico fallido.
-MOTIVO: 1.3.2 — T-211: la clave D8 de la competición debe poner primero la población dentro de tolerancia como la
+MOTIVO: 1.4.0 — T-217 (opción c de T-211): en las autonómicas el canónico M05 queda peor que el mapa publicado
+  (Navarra: 24 fuera de tolerancia frente a 11) y las cadenas no lo alcanzan.
+  1.3.2 — T-211: la clave D8 de la competición debe poner primero la población dentro de tolerancia como la
   cuenta el contrato (D-68).
   1.3.0 — T-205: D8 en la competición del motor nuevo (decisión tras T-179). 1.2.0 — T-175: enumeración exacta para territorios pequeños en el competidor del motor nuevo.
   T-163 / D-48: la primera versión del motor nuevo es una competición entre el canónico y N cadenas de
   GerryChain bajo el núcleo único de reglas; gana el mejor plan válido, así que nunca es peor que el canónico.
-ANTERIOR: legacy/ddd_motor2/competicion_v1.3.1_20261110.py
+ANTERIOR: legacy/ddd_motor2/competicion_v1.3.2_20261110.py
 QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador canónico (una vez) y la cadena con cada
   semilla, a través de adaptadores (protocolo Generador: devuelven una composición M06). Cada candidato se juzga con el
   núcleo (adaptadores.problema_y_plan + reglas.evaluar, Criterio D-44 por defecto) y se ordena con la función de
@@ -67,7 +74,7 @@ from .adaptadores import problema_y_plan
 from .calidad import metricas
 from .reglas import Criterio, ErrorContrato, ErrorDatos, Reglas, evaluar
 
-VERSION = "1.3.2"
+VERSION = "1.4.0"
 FUNCIONES = ("A", "C", "D5", "D8")
 ORDEN_A = ["evaluable", "violaciones_duras", "fuera_tolerancia", "desvio_max", "ecm", "huella_plan", "orden"]
 ORDEN_NATURAL = ["evaluable", "violaciones_duras", "fuera_tolerancia", "exceso_tope", "demarcaciones_partidas",
@@ -161,6 +168,7 @@ class Resultado:
     semilla_publica: dict = field(default_factory=dict)
     exhaustivo: dict = field(default_factory=dict)  # decisión y recuento de la enumeración exacta (sin el plan)
     funcion: str = "A"
+    vigente: dict = field(default_factory=dict)  # T-217: si compitió y, si no, por qué
 
     @property
     def valido(self) -> bool:
@@ -182,6 +190,7 @@ class Resultado:
             "version_orquestador": VERSION, "territorio": self.territorio, "ganador": self.ganador.id,
             "valido": self.valido, "huella_resultado": self.huella(), "semilla_publica": self.semilla_publica,
             "canonico": self.canonico.id, "exhaustivo": self.exhaustivo, "huella_reglas": self.huella_reglas, "criterio": self.criterio,
+            **({"vigente": self.vigente} if self.vigente else {}),
             "funcion": self.funcion, "orden_calidad": ORDEN_A if self.funcion == "A" else ORDEN_NATURAL,
             "tiempo_total_s": round(self.tiempo_total_s, 3),
             "candidatos": [c.a_dict() for c in sorted(self.candidatos, key=Candidato.clave)],
@@ -281,8 +290,8 @@ def _exhaustivo(entrada: EntradaTerritorio, sal_can: Salida, referencia: Path | 
 
 def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador, semillas: Iterable[int],
              destino: Path, *, criterio: Criterio | None = None, semilla_canonica: int | None = None,
-             exhaustivo: bool = True, funcion: str = "A") -> Resultado:
-    """Canónico + una cadena por semilla (+ el mejor plan de la enumeración exacta si el territorio es pequeño);
+             exhaustivo: bool = True, funcion: str = "A", vigente: Generador | None = None) -> Resultado:
+    """Canónico (+ el vigente, si se da y cumple el núcleo) + una cadena por semilla (+ el mejor plan de la enumeración exacta si el territorio es pequeño);
     devuelve todos los candidatos juzgados y el ganador."""
     t_ini = time.monotonic()
     criterio = criterio or Criterio()
@@ -305,8 +314,26 @@ def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador,
                                              "atributos_canonicos": sal_can.atributos_secciones,
                                              "referencia_nucleos": referencia, "criterio": criterio,
                                              "funcion": funcion})
+    juzgados: set[str] = set()
+    info_vig: dict = {}
+    if vigente is not None:
+        cv = Candidato("vigente", vigente.nombre, None, 1)
+        sal_v = _ejecutar(vigente, entrada_cad, None, destino / cv.id, cv)
+        juzgar(cv, sal_v, entrada, criterio, referencia, funcion)
+        info_vig = {"estado": cv.estado, "detalle": cv.detalle, **({"violaciones": cv.violaciones[:20]}
+                                                                  if cv.violaciones else {}), **cv.extra}
+        if cv.estado == "VALIDO":
+            info_vig["compite"] = True
+            pendientes.append((cv, sal_v))
+            juzgados.add(cv.id)
+            mitad = semillas[len(semillas) // 2:]
+            entrada_cad = replace(entrada_cad, contexto={**entrada_cad.contexto, "composicion_vigente": sal_v.composicion,
+                                                         "semillas_desde_vigente": tuple(mitad)})
+        else:
+            info_vig["compite"] = False
+    base = len(pendientes) - 1
     for i, s in enumerate(semillas, start=1):
-        c = Candidato(f"{cadena.nombre}-s{s}", cadena.nombre, s, i)
+        c = Candidato(f"{cadena.nombre}-s{s}", cadena.nombre, s, base + i)
         pendientes.append((c, _ejecutar(cadena, entrada_cad, s, destino / c.id, c)))
     info_ex: dict = {}
     if exhaustivo:
@@ -318,29 +345,31 @@ def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador,
             c.extra = dict(sal_ex.extra)
             pendientes.append((c, sal_ex))
     for c, sal in pendientes:
+        if c.id in juzgados:
+            continue
         t0 = time.monotonic()
         juzgar(c, sal, entrada, criterio, referencia, funcion)
         c.tiempos["juzgar_s"] = round(time.monotonic() - t0, 3)
 
     candidatos = [c for c, _ in pendientes]
     ganador = min(candidatos, key=Candidato.clave)
-    assert ganador.clave() <= can.clave()  # por construcción: el canónico compite
+    assert ganador.clave() <= can.clave()  # por construcción: el canónico compite (y el vigente válido, si lo hay)
     try:
         huella = Reglas.desde_contrato(entrada.cfg, criterio).huella()
     except ErrorContrato:
         huella = ""
     return Resultado(entrada.territorio, candidatos, ganador, can, huella,
                      {k: getattr(criterio, k) for k in criterio.__dataclass_fields__},
-                     time.monotonic() - t_ini, exhaustivo=info_ex, funcion=funcion)
+                     time.monotonic() - t_ini, exhaustivo=info_ex, funcion=funcion, vigente=info_vig)
 
 
 def competir_publico(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador, destino: Path, *,
                      n_cadenas: int = 5, criterio: Criterio | None = None, exhaustivo: bool = True,
-                     funcion: str = "A") -> Resultado:
+                     funcion: str = "A", vigente: Generador | None = None) -> Resultado:
     """La competición con las N semillas públicas del territorio (semilla.py): misma entrada ⇒ mismo resultado."""
     from .semilla import descripcion
     desc = descripcion(entrada.cfg, entrada.territorio, n_cadenas)
     r = competir(entrada, canonico, cadena, desc["semillas"], destino, criterio=criterio, exhaustivo=exhaustivo,
-                 funcion=funcion)
+                 funcion=funcion, vigente=vigente)
     r.semilla_publica = desc
     return r

@@ -150,6 +150,90 @@ class FueraDelContrato(unittest.TestCase):
         self.assertNotIn("metricas_circunscripcion", r.canonico.extra)
 
 
+class VigenteCompite(unittest.TestCase):
+    """T-217: el vigente válido compite (orden 1) y el ganador nunca es peor; si no cumple el núcleo no compite."""
+
+    def competir(self, plan_vigente):
+        tmp = Path(tempfile.mkdtemp())
+        return competir(entrada(tmp), Fijo("canonico", {None: plan_corte(2)}), Fijo("cadena", {7: plan_corte(2)}),
+                        [7], tmp / "out", exhaustivo=False, funcion="D8",
+                        vigente=Fijo("vigente", {None: plan_vigente}))
+
+    def test_vigente_valido_gana(self):
+        r = self.competir(plan_corte(3))  # corta por la frontera corta: mejor en D8 que el canónico
+        self.assertEqual(r.ganador.id, "vigente")
+        self.assertTrue(r.vigente["compite"])
+        self.assertEqual([c.orden for c in sorted(r.candidatos, key=lambda c: c.orden)], [0, 1, 2])
+        self.assertIn("vigente", r.a_dict())
+
+    def test_vigente_invalido_no_compite(self):
+        r = self.competir({u: "1" for u in UNIDADES})  # un solo distrito con K = 2
+        self.assertFalse(r.vigente["compite"])
+        self.assertEqual(r.vigente["estado"], "INVALIDO")
+        self.assertNotIn("vigente", [c.id for c in r.candidatos])
+        self.assertTrue(r.vigente["violaciones"])
+
+    def test_sin_vigente_igual(self):
+        tmp = Path(tempfile.mkdtemp())
+        r = competir(entrada(tmp), Fijo("canonico", {None: plan_corte(2)}), Fijo("cadena", {7: plan_corte(3)}),
+                     [7], tmp / "out", exhaustivo=False, funcion="D8")
+        self.assertEqual(r.vigente, {})
+        self.assertNotIn("vigente", r.a_dict())
+
+
+class PiezasFinas(unittest.TestCase):
+    """T-218: fuera del Congreso, sección por unidad en los municipios de más de ratio × objetivo; Vigente sobre ellas."""
+
+    def preparar(self, ratio, territorio="sintetico"):
+        tmp = Path(tempfile.mkdtemp())
+        e = entrada(tmp)
+        cfg = {"validation": {**CFG["validation"], "municipality_atomicity_limit_ratio": ratio}}
+        comp = escribir_comp(tmp / "canonico" / "x_m06_composicion_distritos.csv", plan_corte(2), POB)
+        return tmp, EntradaTerritorio(territorio, cfg, e.grafo_m03, contexto={"composicion_canonica": str(comp)}), comp
+
+    def test_divide_solo_los_grandes(self):
+        from ddd_motor2.generadores import piezas_finas
+        tmp, e, comp = self.preparar(0.45)  # objetivo 403,5 → límite 181,6: A, B, D y E (200/201) son divisibles
+        sal, info = piezas_finas(comp, e, tmp / "finas.csv")
+        unidades = [r["ddd_unit_id"] for r in csv.DictReader(open(sal, encoding="utf-8"))]
+        self.assertEqual(unidades, ["A~2200101000", "B~2200101001", "C", "D~2200101003", "E~2200101004"])
+        self.assertEqual((info["municipios_divisibles"], info["secciones_sueltas"]), (4, 4))
+
+    def test_congreso_y_sin_ratio_no_cambian(self):
+        from ddd_motor2.generadores import piezas_finas
+        tmp, e, comp = self.preparar(0.45, "congreso_x")
+        self.assertEqual(piezas_finas(comp, e, tmp / "f.csv")[0], comp)
+        tmp, e, comp = self.preparar(None)
+        self.assertEqual(piezas_finas(comp, e, tmp / "f.csv")[0], comp)
+
+    def test_vigente_representable_o_no(self):
+        from ddd_motor2.generadores import Vigente
+        tmp, e, comp = self.preparar(1.15)
+        secc = [r["CUSEC_KEY"] for r in csv.DictReader(open(comp, encoding="utf-8"))]
+        carpeta = tmp / "vig"
+        carpeta.mkdir()
+        (carpeta / "sintetico.csv").write_text("seccion,distrito,poblacion\n" + "".join(
+            f"{s},{'1' if i < 3 else '2'},0\n" for i, s in enumerate(secc)), encoding="utf-8")
+        sal = Vigente(carpeta).generar(e, None, tmp / "v")
+        filas = list(csv.DictReader(open(sal.composicion, encoding="utf-8")))
+        self.assertEqual([f["district_id"] for f in filas], ["1", "1", "1", "2", "2"])
+        self.assertEqual([f["section_pop"] for f in filas], [str(POB[u]) for u in UNIDADES])  # población de la entrada
+        (carpeta / "sintetico.csv").write_text("seccion,distrito,poblacion\n9999999999,1,0\n", encoding="utf-8")
+        self.assertEqual(Vigente(carpeta).generar(e, None, tmp / "v2").estado, "VIGENTE_NO_REPRESENTABLE")
+
+
+@unittest.skipUnless(importlib.util.find_spec("gerrychain"), "sin gerrychain")
+class PonderadoDesdeVigente(unittest.TestCase):
+    def test_mitad_desde_el_vigente(self):
+        from ddd_motor2.generadores import Ponderado as Gen
+        tmp = Path(tempfile.mkdtemp())
+        r = competir(entrada(tmp), Fijo("canonico", {None: plan_corte(2)}), Gen(pasos=20), [11, 12], tmp / "out",
+                     exhaustivo=False, funcion="D8", vigente=Fijo("vigente", {None: plan_corte(3)}))
+        inicio = {c.semilla: c.extra.get("inicio") for c in r.candidatos if c.generador == "ponderado"}
+        self.assertEqual(inicio, {11: "canonico", 12: "vigente"})
+        self.assertLessEqual(r.ganador.clave()[:-1], next(c for c in r.candidatos if c.id == "vigente").clave()[:-1])
+
+
 @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "sin gerrychain")
 class Ponderado(unittest.TestCase):
     def test_parte_del_canonico_y_no_empeora(self):
