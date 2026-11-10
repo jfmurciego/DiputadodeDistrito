@@ -145,7 +145,7 @@ def main(argv=None) -> int:
     md = ["| " + " | ".join(cab) + " |", "|" + "---|" * len(cab)]
     for x in todas:
         md.append("| " + " | ".join(str(v) for v in [
-            x["territorio"].replace("congreso_", ""), x["funcion"], x["fuera_tolerancia"], x["desvio_max_pct"],
+            NOMBRE_TERRITORIO.get(x["territorio"], x["territorio"]), x["funcion"], x["fuera_tolerancia"], x["desvio_max_pct"],
             x["suma_desvio_personas"], x["coste_suma_desvio_vs_A"], x["pp_medio"], x["convexidad_media"],
             f"{x['pj_partidos']}/{x['pj_n']}", f"{x['ca_partidas']}/{x['ca_n']}", x["movilidad_cohesion"]]) + " |")
     (sal / "TABLA.md").write_text("\n".join(md) + "\n", encoding="utf-8")

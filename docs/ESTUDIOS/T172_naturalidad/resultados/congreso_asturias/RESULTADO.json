@@ -1,0 +1,1128 @@
+{
+ "territorio": "congreso_asturias",
+ "version": "1.0.0",
+ "unidades": 453,
+ "aristas": 1241,
+ "puentes_contacto": 84,
+ "objetivo": 125757.5,
+ "tolerancia": 18863.625,
+ "parametros": {
+  "cadenas": 20,
+  "pasos": 300,
+  "rpj": 0.5,
+  "rca": 0.3,
+  "rmov": 0.2,
+  "rlong": 0.3
+ },
+ "semilla_publica": {
+  "esquema": "ddd-semilla-publica/1",
+  "territorio": "congreso_asturias",
+  "ancla": {
+   "population": "042104ba010c3b4b25560e4a647ec506cdf6a22001c296a3b107a80a166df439",
+   "target_sectioning": "e1234bb2a6b4ef424ae222c262467a4e013887aa399b4e21b6bba9caac5369e4"
+  },
+  "n": 20,
+  "semillas": [
+   114158686,
+   1074604194,
+   249315265,
+   998028065,
+   1720604252,
+   1390030284,
+   537163516,
+   849323232,
+   1038619451,
+   311745963,
+   1444771562,
+   837360897,
+   811219773,
+   807208157,
+   1807093911,
+   2016110489,
+   1947241668,
+   1109788232,
+   1800983019,
+   1338591759
+  ],
+  "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+ },
+ "huella_reglas": "159565abc059cb500a7eed326b5e1cef6deb0244d9e0b326386441879e885273",
+ "ganadores": {
+  "A": {
+   "candidato": "libre-1800983019",
+   "semilla": 1800983019,
+   "clave": [
+    0,
+    0.047905691509452716,
+    0.0006909627962678881,
+    "038df95968e32d375478f63677fba0dcb4e325c9ea4dde629a377e80d3ebb1b4"
+   ],
+   "valido": true,
+   "fuera_tolerancia": [],
+   "desvio_max": 0.047905691509452716,
+   "suma_desvio_personas": 22454.0,
+   "max_desvio_personas": 6024.5,
+   "indicadores": {
+    "distritos": 8,
+    "pp_medio": 0.2472991886574133,
+    "pp_min": 0.11920019824607761,
+    "convexidad_media": 0.6108327052874665,
+    "convexidad_min": 0.49442329288978487,
+    "corte": {
+     "aristas": 2298,
+     "cortes": 252,
+     "fraccion_cortes": 0.10966057441253264,
+     "peso_corte": 403379.19097011915,
+     "fraccion_peso_corte": 0.09895510541287851
+    },
+    "pj": {
+     "n": 18,
+     "partidas": 8,
+     "lista_partidas": [
+      "33-02",
+      "33-04",
+      "33-05",
+      "33-06",
+      "33-08",
+      "33-09",
+      "33-10",
+      "33-12"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.6960559012384947,
+     "poblacion_fuera_de_mayoritario": 305786,
+     "poblacion_sin_dato": 0
+    },
+    "ca": {
+     "n": 10,
+     "partidas": 4,
+     "lista_partidas": [
+      "33-GIJÓN",
+      "33-GRADO",
+      "33-MIERES",
+      "33-OVIEDO"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.4436445142436833,
+     "poblacion_fuera_de_mayoritario": 559727,
+     "poblacion_sin_dato": 0
+    },
+    "comarca": {
+     "n": 0,
+     "partidas": 0,
+     "lista_partidas": [],
+     "fraccion_poblacion_en_mayoritario": null,
+     "poblacion_fuera_de_mayoritario": 0,
+     "poblacion_sin_dato": 1006060
+    },
+    "movilidad": {
+     "cohesion": 0.5475820194329692,
+     "flujo": 150138.0,
+     "areas": 57
+    }
+   },
+   "sha256_csv": "74f8bf32adc634ddc14221e770a67a5725e67200c44667c0b7087108c1b7bb5b"
+  },
+  "B": {
+   "candidato": "libre-311745963",
+   "semilla": 311745963,
+   "clave": [
+    0,
+    6,
+    384.249,
+    0.14538695505238255,
+    "ac5d248425b0ff9b57352c8d1e8d021e3eee0dc6bcbde7c27436e033e2c0d97b"
+   ],
+   "valido": true,
+   "fuera_tolerancia": [],
+   "desvio_max": 0.14538695505238255,
+   "suma_desvio_personas": 73087.0,
+   "max_desvio_personas": 18283.5,
+   "indicadores": {
+    "distritos": 8,
+    "pp_medio": 0.22746216063860983,
+    "pp_min": 0.11909132454262762,
+    "convexidad_media": 0.599559158413379,
+    "convexidad_min": 0.5267600766150634,
+    "corte": {
+     "aristas": 2298,
+     "cortes": 208,
+     "fraccion_cortes": 0.09051348999129678,
+     "peso_corte": 384248.70209141396,
+     "fraccion_peso_corte": 0.09426210293290575
+    },
+    "pj": {
+     "n": 18,
+     "partidas": 3,
+     "lista_partidas": [
+      "33-04",
+      "33-08",
+      "33-10"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.7310110728982366,
+     "poblacion_fuera_de_mayoritario": 270619,
+     "poblacion_sin_dato": 0
+    },
+    "ca": {
+     "n": 10,
+     "partidas": 3,
+     "lista_partidas": [
+      "33-BELMONTE DE MIRANDA",
+      "33-GIJÓN",
+      "33-OVIEDO"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.4690346500208735,
+     "poblacion_fuera_de_mayoritario": 534183,
+     "poblacion_sin_dato": 0
+    },
+    "comarca": {
+     "n": 0,
+     "partidas": 0,
+     "lista_partidas": [],
+     "fraccion_poblacion_en_mayoritario": null,
+     "poblacion_fuera_de_mayoritario": 0,
+     "poblacion_sin_dato": 1006060
+    },
+    "movilidad": {
+     "cohesion": 0.5553571879463927,
+     "flujo": 150138.0,
+     "areas": 57
+    }
+   },
+   "sha256_csv": "0f6638f16ccf5e76c6877ccd171d331ebbd3d93f49e3088fa36fa4ce72c1429c"
+  },
+  "C": {
+   "candidato": "ponderado-2016110489",
+   "semilla": 2016110489,
+   "clave": [
+    0,
+    5,
+    331.379,
+    0.14358189372403235,
+    "201407883e6010bbecd4fb28b3faed4f419c1ec7917d2f9f7d2bf56b6f2281d5"
+   ],
+   "valido": true,
+   "fuera_tolerancia": [],
+   "desvio_max": 0.14358189372403235,
+   "suma_desvio_personas": 70312.0,
+   "max_desvio_personas": 18056.5,
+   "indicadores": {
+    "distritos": 8,
+    "pp_medio": 0.26095005319508835,
+    "pp_min": 0.1901985877750584,
+    "convexidad_media": 0.6277673349800914,
+    "convexidad_min": 0.556728063299671,
+    "corte": {
+     "aristas": 2298,
+     "cortes": 195,
+     "fraccion_cortes": 0.08485639686684072,
+     "peso_corte": 331378.53503294877,
+     "fraccion_peso_corte": 0.08129223965888657
+    },
+    "pj": {
+     "n": 18,
+     "partidas": 3,
+     "lista_partidas": [
+      "33-02",
+      "33-08",
+      "33-10"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.7484851798103492,
+     "poblacion_fuera_de_mayoritario": 253039,
+     "poblacion_sin_dato": 0
+    },
+    "ca": {
+     "n": 10,
+     "partidas": 2,
+     "lista_partidas": [
+      "33-GIJÓN",
+      "33-OVIEDO"
+     ],
+     "fraccion_poblacion_en_mayoritario": 0.48806930004174703,
+     "poblacion_fuera_de_mayoritario": 515033,
+     "poblacion_sin_dato": 0
+    },
+    "comarca": {
+     "n": 0,
+     "partidas": 0,
+     "lista_partidas": [],
+     "fraccion_poblacion_en_mayoritario": null,
+     "poblacion_fuera_de_mayoritario": 0,
+     "poblacion_sin_dato": 1006060
+    },
+    "movilidad": {
+     "cohesion": 0.5848478512149978,
+     "flujo": 150138.0,
+     "areas": 57
+    }
+   },
+   "sha256_csv": "26987b922bf5baab644b90263a565f6dc138d2537715599d45c31a39c45b61c4"
+  }
+ },
+ "candidatos": {
+  "A": [
+   [
+    "vigente",
+    [
+     0,
+     0.1348587559390096,
+     0.003477031568275994,
+     "7257b8931990f7497ecbcc7097f984cd6fc6d5b2e0907b2bc9cec56f93e99696"
+    ]
+   ],
+   [
+    "libre-114158686",
+    [
+     0,
+     0.09496451503886448,
+     0.0035088834260449506,
+     "460b5a727993a4e24c92d259e6ba16aac92103708dca97aa9bbe9f58c641af39"
+    ]
+   ],
+   [
+    "libre-1074604194",
+    [
+     0,
+     0.10562789495656323,
+     0.006093084851587899,
+     "f79f2f3e3b62ef0823b2f308bf873d7bbf85e07614ec8b12c3602c2d10bc8bc9"
+    ]
+   ],
+   [
+    "libre-249315265",
+    [
+     0,
+     0.08149414547840089,
+     0.0034452404916079935,
+     "6c2eb63cd26c97280e475b19cfbc8e88715047142033baa0842f04e171181c40"
+    ]
+   ],
+   [
+    "libre-998028065",
+    [
+     0,
+     0.07827366161063952,
+     0.002600894160577011,
+     "e780f654c974acb0e886de8ccc00ff1dcfe8b8510fd625e9db79474ce3db8ae0"
+    ]
+   ],
+   [
+    "libre-1720604252",
+    [
+     0,
+     0.08046836172792875,
+     0.002436967610338957,
+     "07b371b6b8216aa067a94fa31d4f346ec828e7f3a0fc8d1b4b95070acfb157b0"
+    ]
+   ],
+   [
+    "libre-1390030284",
+    [
+     0,
+     0.0803252291115838,
+     0.00201652258826135,
+     "37d9a762761552eb7d848c4b04f91cb153384d4bf1c91522ee617c26ad5fe2fa"
+    ]
+   ],
+   [
+    "libre-537163516",
+    [
+     0,
+     0.08664691966681907,
+     0.0034194294216512776,
+     "36ca8e3b12551cf3c12ae1ece5608bbc3a29945072e76bf01f72fd9ff10f931b"
+    ]
+   ],
+   [
+    "libre-849323232",
+    [
+     0,
+     0.08461920760193228,
+     0.004249182155015425,
+     "645dd6853fcc888152f37e736427b59d50d73be982a887abff7ce2c686dad4bb"
+    ]
+   ],
+   [
+    "libre-1038619451",
+    [
+     0,
+     0.0994493370176729,
+     0.004517191290038672,
+     "42071db3c3497e70f550d5d313e065ee869fddffafd272321c5656593259f198"
+    ]
+   ],
+   [
+    "libre-311745963",
+    [
+     0,
+     0.08923125857304734,
+     0.0031624226776020203,
+     "a47b9c8a9e11bceb9b44e9e72dee8b723e9efc6110e753ecce3508a23ea57b11"
+    ]
+   ],
+   [
+    "libre-1444771562",
+    [
+     0,
+     0.10662187145895871,
+     0.004956858789768553,
+     "1d27ce068fedb040bf83d6c2251cb5dcaef69b7034b6d758de7d6df9eedb12ed"
+    ]
+   ],
+   [
+    "libre-837360897",
+    [
+     0,
+     0.06554281056795817,
+     0.0026770116374495423,
+     "efcd4e7fb85de997332d924a43099331df7f06a356c9ddeb1ebe972d2d001697"
+    ]
+   ],
+   [
+    "libre-811219773",
+    [
+     0,
+     0.10514283442339423,
+     0.0026796197394741094,
+     "3c6527230b61cf199e634e8183c1e442de3059eac7fb76e3fd0db43c5d6a6476"
+    ]
+   ],
+   [
+    "libre-807208157",
+    [
+     0,
+     0.07236546528040078,
+     0.002331030198177503,
+     "7fd8db0a5609a5de9ee3cffa1ad6210880191cf0a0f78d7d8b577d8952c8b1f4"
+    ]
+   ],
+   [
+    "libre-1807093911",
+    [
+     0,
+     0.08451583404568316,
+     0.00278935678454846,
+     "ef9676a296438dad067fd9c70c5dde997dbe6f2b2c3a81854b4acd38191f752c"
+    ]
+   ],
+   [
+    "libre-2016110489",
+    [
+     0,
+     0.07211100729578752,
+     0.0023006351582763917,
+     "bc252a4872876c06466c754e527668e109478fe66288320c8226a47244e59551"
+    ]
+   ],
+   [
+    "libre-1947241668",
+    [
+     0,
+     0.08139872373417092,
+     0.002392378389176172,
+     "4f4b3afa2d9ab4e3904d84b5a9adfdbfbb1181c0dc247d5e151266f317c36ab5"
+    ]
+   ],
+   [
+    "libre-1109788232",
+    [
+     0,
+     0.07875872214380852,
+     0.002832671610185409,
+     "d365fefe7eab90b21448da42b022cbd38731c5a22c114b3e094648dd373a01a5"
+    ]
+   ],
+   [
+    "libre-1800983019",
+    [
+     0,
+     0.047905691509452716,
+     0.0006909627962678881,
+     "038df95968e32d375478f63677fba0dcb4e325c9ea4dde629a377e80d3ebb1b4"
+    ]
+   ],
+   [
+    "libre-1338591759",
+    [
+     0,
+     0.07339124903087291,
+     0.0027951712991021622,
+     "7e30097b2d433d228dab82f491637c3ec8ce09418e5af37aea02a031cc76dd7c"
+    ]
+   ]
+  ],
+  "B": [
+   [
+    "vigente",
+    [
+     0,
+     12,
+     557.857,
+     0.1348587559390096,
+     "7257b8931990f7497ecbcc7097f984cd6fc6d5b2e0907b2bc9cec56f93e99696"
+    ]
+   ],
+   [
+    "libre-114158686",
+    [
+     0,
+     8,
+     377.092,
+     0.14451225573027454,
+     "6c84c0deb21ca1defbe85a001d8d2d18a179f361c0ed2d1f38c564492513664f"
+    ]
+   ],
+   [
+    "libre-1074604194",
+    [
+     0,
+     8,
+     362.923,
+     0.12910164403713495,
+     "3fe634482eb45a3da0065ec92da845b0c0fae0704badb5df3037c05fb99259d5"
+    ]
+   ],
+   [
+    "libre-249315265",
+    [
+     0,
+     10,
+     411.69,
+     0.1251098344035147,
+     "767395760ece18b501b91b3e4c74dd155ebb8c0acd2d0d605b33a88104855b73"
+    ]
+   ],
+   [
+    "libre-998028065",
+    [
+     0,
+     8,
+     357.482,
+     0.14813828201101326,
+     "d243d613ba895c25eb0867662f22980b1d13f1e70d2f72922ac52af766b52725"
+    ]
+   ],
+   [
+    "libre-1720604252",
+    [
+     0,
+     9,
+     369.946,
+     0.1305488738246228,
+     "c9a648312e0431a99fa7b8b3bd6401a129b02fdd520311df45df128c1d03be62"
+    ]
+   ],
+   [
+    "libre-1390030284",
+    [
+     0,
+     8,
+     369.602,
+     0.13249706776931794,
+     "20bca0aaa59b37cebaa387bd7d16694f22f9f7b51cf8ad00e1e4df7c4f30f426"
+    ]
+   ],
+   [
+    "libre-537163516",
+    [
+     0,
+     8,
+     393.163,
+     0.13509731029958452,
+     "ef8aaa4eeea0275c648301854da4e308adca69f613841adfef3043fb70f2bf49"
+    ]
+   ],
+   [
+    "libre-849323232",
+    [
+     0,
+     6,
+     418.954,
+     0.14567322028507246,
+     "d7205b02bf987b1fc8b3c5b5529249d5f4d919f71bb87e7434f969429ea042a7"
+    ]
+   ],
+   [
+    "libre-1038619451",
+    [
+     0,
+     8,
+     339.332,
+     0.1480190048307258,
+     "8c07d7add998044f3f49dfb6bdafd0535f268e5900051f3c4219d818d131049e"
+    ]
+   ],
+   [
+    "libre-311745963",
+    [
+     0,
+     6,
+     384.249,
+     0.14538695505238255,
+     "ac5d248425b0ff9b57352c8d1e8d021e3eee0dc6bcbde7c27436e033e2c0d97b"
+    ]
+   ],
+   [
+    "libre-1444771562",
+    [
+     0,
+     7,
+     409.383,
+     0.1424288809812536,
+     "df3d87424e7b8cf4eb64553c6ce8b1c1fc152576e872bf1f7e36a16841dd14b8"
+    ]
+   ],
+   [
+    "libre-837360897",
+    [
+     0,
+     10,
+     347.149,
+     0.11024789773969744,
+     "d5a41647ff5a251268aaddf2d2423d81f676a1bcde25237ad6fd287c1ffea4ee"
+    ]
+   ],
+   [
+    "libre-811219773",
+    [
+     0,
+     9,
+     351.527,
+     0.14183249507981632,
+     "88c707d4e497d11f03d787721205366edd00cbb0cc556c1c7e45793cb574c7a3"
+    ]
+   ],
+   [
+    "libre-807208157",
+    [
+     0,
+     9,
+     359.358,
+     0.13450092439814723,
+     "f28a3db72c30f3cdd18ab99f224051ac0b001bd5256c57a6bb8da7925f62bf56"
+    ]
+   ],
+   [
+    "libre-1807093911",
+    [
+     0,
+     7,
+     380.67,
+     0.14622189531439478,
+     "b451fea019d933e818defc2f9c317f8b4d00c043b7815e011beeb0c864470260"
+    ]
+   ],
+   [
+    "libre-2016110489",
+    [
+     0,
+     9,
+     402.662,
+     0.13996381925531282,
+     "1cad0341b514f3a1c65e60f322040a670fbe6866b170a4f0f5ae01b95c75f2ae"
+    ]
+   ],
+   [
+    "libre-1947241668",
+    [
+     0,
+     9,
+     349.858,
+     0.14411466512931634,
+     "46a6358b41375f0dae67b5e87213596889797cdab7befe2e9087ed10e355e72b"
+    ]
+   ],
+   [
+    "libre-1109788232",
+    [
+     0,
+     8,
+     337.139,
+     0.14183249507981632,
+     "75f9a025f8ed23f52915d027027826c9751d099dd89f60e44b877dbb9d844bd1"
+    ]
+   ],
+   [
+    "libre-1800983019",
+    [
+     0,
+     7,
+     392.056,
+     0.11979007216269408,
+     "df4f1e30aad7dfea4f5c5e7fa0615a6f32ba12949dd4d627c48596fbc5bdb657"
+    ]
+   ],
+   [
+    "libre-1338591759",
+    [
+     0,
+     9,
+     338.01,
+     0.1333002007832535,
+     "1ffc823fcd11712bd73f30088c90d7e967191c4319862eee6dd632cb1f586582"
+    ]
+   ]
+  ],
+  "C": [
+   [
+    "vigente",
+    [
+     0,
+     12,
+     557.857,
+     0.1348587559390096,
+     "7257b8931990f7497ecbcc7097f984cd6fc6d5b2e0907b2bc9cec56f93e99696"
+    ]
+   ],
+   [
+    "ponderado-114158686",
+    [
+     0,
+     5,
+     396.428,
+     0.14904478858119793,
+     "7f803d6f6dcea51e7e6c03c0e44dea7e8ca19e2cf416153fa48b67068dee5f92"
+    ]
+   ],
+   [
+    "ponderado-1074604194",
+    [
+     0,
+     5,
+     352.213,
+     0.12706598016022902,
+     "7e13708eaaae03144ee9b32f18cddf2ff1126cd22272561c6f97ce1ede467884"
+    ]
+   ],
+   [
+    "ponderado-249315265",
+    [
+     0,
+     5,
+     352.589,
+     0.14183249507981632,
+     "3a18191cb01ef1d4bf2060aac17655b13eef4d43f7ce3845432b609ea7747f41"
+    ]
+   ],
+   [
+    "ponderado-998028065",
+    [
+     0,
+     5,
+     350.385,
+     0.14183249507981632,
+     "959f57d4ad7ae76bb239e7eacad39a60033c07d5680de5460dcd2db5b9bc2da8"
+    ]
+   ],
+   [
+    "ponderado-1720604252",
+    [
+     0,
+     6,
+     342.984,
+     0.1462139435023756,
+     "598538e509b5c1cc866fe510bee9f7059ebc3ae1118edae09c3c567957343bef"
+    ]
+   ],
+   [
+    "ponderado-1390030284",
+    [
+     0,
+     5,
+     331.808,
+     0.14976840347494186,
+     "4462901b8c63019f9282a2999bdbc7b38cb618b81fc72e69d4077331f1ae51ff"
+    ]
+   ],
+   [
+    "ponderado-537163516",
+    [
+     0,
+     6,
+     340.052,
+     0.14411466512931634,
+     "8774c6de00a3e0a6a353718218f6177d9af35a186e718ba44248ec545f33358e"
+    ]
+   ],
+   [
+    "ponderado-849323232",
+    [
+     0,
+     6,
+     340.026,
+     0.14499731626344353,
+     "b0c0b903e2d6139cf7672538a9834f6f4b4588596667009c7e13686e0effa36b"
+    ]
+   ],
+   [
+    "ponderado-1038619451",
+    [
+     0,
+     5,
+     336.386,
+     0.14183249507981632,
+     "137dbf579d4e334122508146aed7ab68fd98a9ecdadcb4ec14384b28da4571e0"
+    ]
+   ],
+   [
+    "ponderado-311745963",
+    [
+     0,
+     6,
+     351.409,
+     0.14671490765958292,
+     "721b838788c298f634e3c342fbba90c7bc67803358c954106ecbe3a48865ba4b"
+    ]
+   ],
+   [
+    "ponderado-1444771562",
+    [
+     0,
+     6,
+     344.243,
+     0.14411466512931634,
+     "6adf2375223abce83746c167449fbe2786e338f54ed7cc448d17935ce77ad8f0"
+    ]
+   ],
+   [
+    "ponderado-837360897",
+    [
+     0,
+     5,
+     376.983,
+     0.142206230244717,
+     "935298660ab780568f0a15a4c639e4fa4ae65c1d1f868613964831df38c66311"
+    ]
+   ],
+   [
+    "ponderado-811219773",
+    [
+     0,
+     6,
+     337.427,
+     0.14757370335765263,
+     "9c0e014a6616b46de0a4593fb72e313cc1c0cfa68a42324ebafb89e9cd4bdb3c"
+    ]
+   ],
+   [
+    "ponderado-807208157",
+    [
+     0,
+     6,
+     341.247,
+     0.14411466512931634,
+     "f32895adf10d7d0ab6f0ea548bc52bd7b3b8115cb445ff261cf32e235427754e"
+    ]
+   ],
+   [
+    "ponderado-1807093911",
+    [
+     0,
+     5,
+     341.092,
+     0.14183249507981632,
+     "33d6cef86508da3f776660ca3c500516c63657c869b787a200f9611e179d00a8"
+    ]
+   ],
+   [
+    "ponderado-2016110489",
+    [
+     0,
+     5,
+     331.379,
+     0.14358189372403235,
+     "201407883e6010bbecd4fb28b3faed4f419c1ec7917d2f9f7d2bf56b6f2281d5"
+    ]
+   ],
+   [
+    "ponderado-1947241668",
+    [
+     0,
+     6,
+     340.016,
+     0.14411466512931634,
+     "ea90553c32dc681b2d1524c4f60724264f4922faffc2ce1f93f39a1810feddf4"
+    ]
+   ],
+   [
+    "ponderado-1109788232",
+    [
+     0,
+     5,
+     368.453,
+     0.13264815219768206,
+     "28aa43f8428cf0d77c80d093a6939b125566e1462d33fbacc4678852000c2239"
+    ]
+   ],
+   [
+    "ponderado-1800983019",
+    [
+     0,
+     5,
+     344.432,
+     0.147446474365346,
+     "0fa8286a104f6c1986f9f9583a74540d3513b52482457129297b8b5785541fa7"
+    ]
+   ],
+   [
+    "ponderado-1338591759",
+    [
+     0,
+     7,
+     358.364,
+     0.1218973023477725,
+     "9405bb9a39f7630b66a5e6ee6e950b626f39723e1f1deaf68e4ad986587a2fe1"
+    ]
+   ]
+  ]
+ },
+ "cadenas": {
+  "libre": [
+   {
+    "semilla": 114158686,
+    "unicos": 215,
+    "tiempo_s": 1.805829987999914,
+    "fallo": ""
+   },
+   {
+    "semilla": 1074604194,
+    "unicos": 165,
+    "tiempo_s": 1.8862309790001746,
+    "fallo": ""
+   },
+   {
+    "semilla": 249315265,
+    "unicos": 206,
+    "tiempo_s": 1.8071337359997415,
+    "fallo": ""
+   },
+   {
+    "semilla": 998028065,
+    "unicos": 192,
+    "tiempo_s": 1.864565144000153,
+    "fallo": ""
+   },
+   {
+    "semilla": 1720604252,
+    "unicos": 217,
+    "tiempo_s": 1.808199508999678,
+    "fallo": ""
+   },
+   {
+    "semilla": 1390030284,
+    "unicos": 204,
+    "tiempo_s": 1.972152111000014,
+    "fallo": ""
+   },
+   {
+    "semilla": 537163516,
+    "unicos": 216,
+    "tiempo_s": 1.8938267650000853,
+    "fallo": ""
+   },
+   {
+    "semilla": 849323232,
+    "unicos": 212,
+    "tiempo_s": 1.743243535000147,
+    "fallo": ""
+   },
+   {
+    "semilla": 1038619451,
+    "unicos": 198,
+    "tiempo_s": 1.5967263919997094,
+    "fallo": ""
+   },
+   {
+    "semilla": 311745963,
+    "unicos": 211,
+    "tiempo_s": 1.7624883849998696,
+    "fallo": ""
+   },
+   {
+    "semilla": 1444771562,
+    "unicos": 183,
+    "tiempo_s": 1.7060026070003005,
+    "fallo": ""
+   },
+   {
+    "semilla": 837360897,
+    "unicos": 201,
+    "tiempo_s": 1.769788279000295,
+    "fallo": ""
+   },
+   {
+    "semilla": 811219773,
+    "unicos": 191,
+    "tiempo_s": 1.7135218680000435,
+    "fallo": ""
+   },
+   {
+    "semilla": 807208157,
+    "unicos": 202,
+    "tiempo_s": 1.960991875000218,
+    "fallo": ""
+   },
+   {
+    "semilla": 1807093911,
+    "unicos": 190,
+    "tiempo_s": 1.6985894680001365,
+    "fallo": ""
+   },
+   {
+    "semilla": 2016110489,
+    "unicos": 191,
+    "tiempo_s": 1.8990046089998032,
+    "fallo": ""
+   },
+   {
+    "semilla": 1947241668,
+    "unicos": 201,
+    "tiempo_s": 1.69442164100019,
+    "fallo": ""
+   },
+   {
+    "semilla": 1109788232,
+    "unicos": 223,
+    "tiempo_s": 1.757337224999901,
+    "fallo": ""
+   },
+   {
+    "semilla": 1800983019,
+    "unicos": 207,
+    "tiempo_s": 1.6574811300001784,
+    "fallo": ""
+   },
+   {
+    "semilla": 1338591759,
+    "unicos": 190,
+    "tiempo_s": 1.7521675110001524,
+    "fallo": ""
+   }
+  ],
+  "ponderado": [
+   {
+    "semilla": 114158686,
+    "unicos": 93,
+    "tiempo_s": 1.688678740999876,
+    "fallo": ""
+   },
+   {
+    "semilla": 1074604194,
+    "unicos": 88,
+    "tiempo_s": 1.6609516729999996,
+    "fallo": ""
+   },
+   {
+    "semilla": 249315265,
+    "unicos": 107,
+    "tiempo_s": 1.7032212219996836,
+    "fallo": ""
+   },
+   {
+    "semilla": 998028065,
+    "unicos": 88,
+    "tiempo_s": 1.4986179590000575,
+    "fallo": ""
+   },
+   {
+    "semilla": 1720604252,
+    "unicos": 79,
+    "tiempo_s": 1.4870607670000027,
+    "fallo": ""
+   },
+   {
+    "semilla": 1390030284,
+    "unicos": 100,
+    "tiempo_s": 1.669381014999999,
+    "fallo": ""
+   },
+   {
+    "semilla": 537163516,
+    "unicos": 96,
+    "tiempo_s": 1.5757875919998696,
+    "fallo": ""
+   },
+   {
+    "semilla": 849323232,
+    "unicos": 96,
+    "tiempo_s": 1.4485698700000285,
+    "fallo": ""
+   },
+   {
+    "semilla": 1038619451,
+    "unicos": 81,
+    "tiempo_s": 1.5538522020001437,
+    "fallo": ""
+   },
+   {
+    "semilla": 311745963,
+    "unicos": 88,
+    "tiempo_s": 1.4111431720002656,
+    "fallo": ""
+   },
+   {
+    "semilla": 1444771562,
+    "unicos": 101,
+    "tiempo_s": 1.6707456959998126,
+    "fallo": ""
+   },
+   {
+    "semilla": 837360897,
+    "unicos": 86,
+    "tiempo_s": 1.583312425999793,
+    "fallo": ""
+   },
+   {
+    "semilla": 811219773,
+    "unicos": 123,
+    "tiempo_s": 1.5641511779999746,
+    "fallo": ""
+   },
+   {
+    "semilla": 807208157,
+    "unicos": 76,
+    "tiempo_s": 1.5743402130001414,
+    "fallo": ""
+   },
+   {
+    "semilla": 1807093911,
+    "unicos": 89,
+    "tiempo_s": 1.6041326030003802,
+    "fallo": ""
+   },
+   {
+    "semilla": 2016110489,
+    "unicos": 82,
+    "tiempo_s": 1.6090352229998643,
+    "fallo": ""
+   },
+   {
+    "semilla": 1947241668,
+    "unicos": 93,
+    "tiempo_s": 1.494797465999909,
+    "fallo": ""
+   },
+   {
+    "semilla": 1109788232,
+    "unicos": 95,
+    "tiempo_s": 1.7821169160001773,
+    "fallo": ""
+   },
+   {
+    "semilla": 1800983019,
+    "unicos": 77,
+    "tiempo_s": 1.5430377659999976,
+    "fallo": ""
+   },
+   {
+    "semilla": 1338591759,
+    "unicos": 128,
+    "tiempo_s": 1.727682497999922,
+    "fallo": ""
+   }
+  ]
+ },
+ "tiempos_s": {
+  "entrada": 0.7127024860001256,
+  "total": 71.04251609600033
+ },
+ "huella": "e98712801ae0a96fa8d0023544b76108ecaf5365815e303c57f1152ca80eb559"
+}

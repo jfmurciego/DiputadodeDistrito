@@ -1,0 +1,49 @@
+# Distritos más naturales: tres formas de elegir el mapa
+
+Mismos datos (población y secciones del INE), mismas reglas (contigüidad, municipios, tolerancia del contrato) y las
+mismas semillas públicas. Solo cambia cómo se elige el mapa ganador entre el mapa del motor actual y 20 cadenas:
+
+- **A · solo población**: la función de calidad vigente (menos distritos fuera de tolerancia y, después, el menor desvío).
+- **B · población y luego naturalidad**: primero que nadie quede fuera de tolerancia; a igualdad, menos partidos
+  judiciales y comarcas agrarias partidos y menos frontera cortada (forma más compacta); el desvío solo desempata al final.
+- **C · como B, cortando por donde hay menos vínculo**: las cadenas prefieren cortar entre partidos judiciales,
+  comarcas agrarias y áreas de movilidad distintas, y por fronteras largas.
+
+Mapas lado a lado en `mapas/` (mismos colores y escala; línea discontinua: partidos judiciales). Sin ríos ni relieve:
+aún no hay fuente oficial descargada. Tabla completa en `mapas/TABLA.csv`.
+
+## Resultado
+
+| Territorio | Función | Fuera de tolerancia | Desvío máx. % | Suma de desvíos (personas) | Coste frente a A (personas) | Polsby-Popper medio | Convexidad media | Partidos judiciales partidos | Comarcas agrarias partidas | Cohesión de movilidad |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Asturias | A | 0 | 4.79 | 22454 | 0 | 0.247 | 0.611 | 8/18 | 4/10 | 0.548 |
+| Asturias | B | 0 | 14.54 | 73087 | 50633 | 0.227 | 0.6 | 3/18 | 3/10 | 0.555 |
+| Asturias | C | 0 | 14.36 | 70312 | 47858 | 0.261 | 0.628 | 3/18 | 2/10 | 0.585 |
+| Badajoz | A | 0 | 1.41 | 5261 | 0 | 0.14 | 0.521 | 13/14 | 9/12 | 0.638 |
+| Badajoz | B | 0 | 14.48 | 38143 | 32882 | 0.237 | 0.611 | 8/14 | 5/12 | 0.684 |
+| Badajoz | C | 0 | 14.95 | 38923 | 33662 | 0.234 | 0.665 | 4/14 | 2/12 | 0.664 |
+| Cádiz | A | 1 | 17.54 | 56220 | 0 | 0.267 | 0.671 | 5/13 | 4/5 | 0.632 |
+| Cádiz | B | 1 | 17.54 | 80475 | 24255 | 0.282 | 0.686 | 3/13 | 4/5 | 0.633 |
+| Cádiz | C | 1 | 17.54 | 75123 | 18903 | 0.299 | 0.702 | 3/13 | 4/5 | 0.625 |
+| León | A | 0 | 0.6 | 1813 | 0 | 0.227 | 0.606 | 4/7 | 6/10 | 0.637 |
+| León | B | 0 | 14.87 | 60829 | 59016 | 0.254 | 0.647 | 2/7 | 4/10 | 0.622 |
+| León | C | 0 | 13.67 | 42997 | 41184 | 0.301 | 0.687 | 1/7 | 2/10 | 0.637 |
+
+«Coste frente a A»: cuántas personas más suman los desvíos de todos los distritos respecto a la población objetivo.
+Polsby-Popper y convexidad: 1 = forma ideal; más alto, menos anguloso.
+
+## Lectura
+
+- La naturalidad mejora claramente (Badajoz: partidos judiciales partidos de 13 a 4; León: de 4 a 1; formas más
+  compactas), y todos los mapas siguen dentro de las reglas.
+- El precio es población: B y C llevan el desvío máximo casi al borde de la tolerancia (≈14-15 %), porque la tolerancia
+  es el único límite de población. Si se quiere un término medio, la opción es fijar un desvío máximo menor solo para
+  elegir (p. ej. 5 %) y pedir naturalidad dentro de él; eso lo decide el propietario.
+- Cádiz conserva un distrito fuera de tolerancia en los tres casos (municipio exento por decisión previa).
+
+## Cómo se ha hecho
+
+Laboratorio sobre las secciones del INE y el mapa vigente: los municipios que no se pueden partir son una pieza; las
+cadenas parten del mapa vigente y cada paso se valida con las reglas completas del motor nuevo. 20 cadenas de 300 pasos
+por función. Reproducible bit a bit (`RESULTADO.json` lleva la huella). Tiempos por territorio: de 1 a 7 minutos.
+Código: `ddd_motor2/naturalidad*.py`.
