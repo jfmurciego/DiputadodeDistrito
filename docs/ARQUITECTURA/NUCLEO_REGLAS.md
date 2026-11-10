@@ -40,6 +40,31 @@ Decisiones de criterio que **no** fija esta PR (opciones para el propietario):
 - Defaults de provincia única: (a) obligatoria en el contrato (fallar si falta); (b) True; (c) False como VAL.
 - Exención por partición en distritos con varias particiones: (a) basta una exenta; (b) todas; (c) la primera (VAL).
 
+## Enumerador exacto (criterio del propietario: cadena solo donde el espacio es grande)
+
+Donde el espacio de planes cabe (K≤3 o pocas unidades; p. ej. Álava, con cadena degenerada según
+`ddd_ensemble/statistical_quality.py`: `unique_state_ratio<0,10` y `self_loop_rate>0,90`), se enumeran todos los
+planes en vez de muestrear. No se rebajan umbrales de calidad ni se tocan tolerancias por territorio.
+
+Qué usa del núcleo (la misma definición de plan válido, sin copia):
+- `Problema` y `Reglas` tal cual; `evaluar` como veredicto final de cada plan enumerado.
+- Poda durante la enumeración con predicados parciales del núcleo, que deben ser **monótonos** (si fallan en un
+  plan parcial, fallan en todo plan que lo extienda): techo, contigüidad del bloque cerrado, provincia única,
+  cuotas por provincia, R012 máx y mixtos, núcleos cerrados. Suelo y R012 mín solo se comprueban en distritos
+  cerrados. El núcleo expone estos predicados (`podar(parcial)`) y un test comprueba que enumerador + poda dan el
+  mismo conjunto que `evaluar` sobre fuerza bruta en problemas pequeños.
+- Salida: número exacto de planes válidos y su lista (o huella) para la batería; la elección del oficial entre ellos
+  es decisión de criterio aparte.
+
+Umbral entre cadena y enumeración (opciones para decidir; T-136 mide cuántos planes válidos hay en Álava):
+- (a) **Por tamaño a priori**: K≤3 o nº de unidades ≤ N. Simple; no garantiza que la enumeración termine.
+- (b) **Por cota del espacio**: contar particiones conexas (p. ej. cota superior por enumeración con presupuesto
+  de nodos); enumerar si se completa dentro del presupuesto, si no, cadena.
+- (c) **Por diagnóstico de la cadena**: correr la cadena y, si sale degenerada con los umbrales actuales de
+  `statistical_quality`, pasar a enumeración. Usa evidencia ya existente, pero gasta la cadena primero.
+- Evidencia que hace falta antes de fijarlo: recuento exacto de T-136 en Álava y tiempo de enumeración frente a
+  tamaño en los territorios pequeños de la batería.
+
 ## Migración sin invalidar huellas
 
 1. **F0 (esta tarea)**: documento + inventario.
