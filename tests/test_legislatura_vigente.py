@@ -167,6 +167,13 @@ class Lanzar(unittest.TestCase):
         with mock.patch.object(lv, "list_runs", side_effect=lambda wf, status="": runs if status == "queued" else []):
             self.assertEqual(lv.running_00(), {"cantabria": "7", "ceuta": "8"})
 
+    def test_esperar_sigue_una_00_en_curso_con_titulo_viejo(self):  # T-215: cruce del corte
+        self.runs[lv.WF_00].append({"id": 5, "display_title": "00 Ejecución Completa del Proyecto · A · Reutilizar",
+                                    "status": "in_progress", "conclusion": None, "created_at": "2026-11-07T08:00:00Z"})
+        report = self.campaign([{**self.row("A", "esperar", "5"), "publicar": False}], test_first=False, deadline=10 ** 5)
+        self.assertTrue(report[0]["resultado"].startswith("OK"), report)
+        self.assertEqual([d for d in self.dispatched if d[0] == lv.WF_00], [])
+
     def test_prueba_primero_y_salta_publicados(self):
         rows = [self.row("A"), self.row("B", "desde_el_principio"), self.row("C", "nada"), self.row("D", "publicar", "77")]
         report = self.campaign(rows)

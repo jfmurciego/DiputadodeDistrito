@@ -4,7 +4,7 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.2.3 · FECHA: 2026-11-10 · ESTADO: candidato
 CAMBIOS 1.2.3: T-215 (corte 5.0.0, paso 4), la 00 se llama «P00 Campaña»: TITLE_00 nuevo; los runs en curso con el
-  título viejo («00 Ejecución Completa del Proyecto · …») siguen contando como en curso.
+  título viejo («00 Ejecución Completa del Proyecto · …») siguen contando como en curso y `Campaign.poll` los sigue.
 CAMBIOS 1.2.2: T-201, `territory_state(..., eleccion)`: el M08 publicado cuenta por (territorio, elección), por defecto 2023-07-23; un M08
   de otra elección no marca PUBLICADO ni pisa el run; tampoco su M06 marca TERRITORIAL_CERTIFICADO.
 CAMBIOS 1.2.1: T-130, el Gestor da por resultado de la 00 el de la que lanzó él (la primera, p. ej. la de prueba), no el de la
@@ -359,7 +359,7 @@ class Territorio:
 
     def poll(self) -> None:
         if self.fase == "00":
-            mark = f"{TITLE_00} · {self.row['selector_00']} · "
+            mark = tuple(f"{t} · {self.row['selector_00']} · " for t in TITLES_00)  # T-215: también el título viejo
             waiting = self.row["accion"] == "esperar"
             runs = [r for r in list_runs(WF_00, since="" if waiting else self.since[:10])
                     if str(r.get("display_title") or "").startswith(mark)
