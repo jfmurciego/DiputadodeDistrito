@@ -18,7 +18,7 @@ ANTERIOR: ninguna (fichero nuevo)
 |---|---|---|
 | Revisor, forense (subagentes) | `tools: Read, Grep, Glob, Bash` y `disallowedTools` en `.claude/agents/*.md` | Edit/Write/NotebookEdit/Agent no existen para el subagente |
 | Revisor, forense (subagentes) | Hook global `.claude/hooks/rol_herramientas.py` (matcher `*`), rol por `agent_type` del hook | Bash solo de lectura (git diff/show/log…, `gh api` GET, `gh pr/run/issue view`, cat/grep/jq…); sin redirección a fichero, `tee`, `sed -i`, `find -delete/-exec`, python ni curl; MCP solo `get_/list_/read/search` |
-| Revisor en CI | `--allowedTools` de `pruebas-plataforma.yml` (jobs `comprobar`/`revisar`/`veredicto`) (sin cambios) | Solo Read/Grep/Glob y `git diff/show/log`, `gh pr diff/view` |
+| Revisor en CI | `--allowedTools` de `revisor-pr.yml` (sin cambios) | Solo Read/Grep/Glob y `git diff/show/log`, `gh pr diff/view` |
 | Operador | Mismo hook con `DDD_ROL=operador` en el entorno de su sesión | Edit/Write/NotebookEdit bloqueadas; Bash libre (lanza con `gh api -X POST …/dispatches`) |
 | Todos | `permissions.deny` de `.claude/settings.json` | `mcp__github__create_repository`, `mcp__github__fork_repository` |
 | Todos | `guardia_git.py` (ya existía) | Sin push forzado ni commit con marcas de conflicto |

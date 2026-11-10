@@ -6,12 +6,9 @@
 # ESTADO: vigente
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
 # CAMBIOS: 1.7.0 (T-149): absorbe como jobs las puertas automáticas «Validar Contratos Territoriales»
-#   (`contratos`), «Validar documentación pública» (`docs`), «Validar Productos Públicos» (`productos`, solo push a
-#   main) y el «Revisor de PR» (`comprobar`/`revisar`/`veredicto`, solo pull_request), cada uno con sus mismas rutas
-#   (job `cambios`) y sus permisos mínimos por job. `pruebas` sigue exigiendo guardian y suite en success; los tres
-#   jobs por rutas pueden quedar en skipped. El Revisor no entra en `pruebas` (no bloquea la fusión).
-#   El Revisor lleva continue-on-error (no deja el workflow en failure). `ready_for_review` no repite la batería: `pruebas`
-#   espera y exige el `pruebas` en verde del mismo SHA.
+#   (`contratos`), «Validar documentación pública» (`docs`) y «Validar Productos Públicos» (`productos`, solo push a
+#   main), cada uno con sus mismas rutas (job `cambios`) y sus permisos mínimos por job. `pruebas` sigue exigiendo guardian y suite en success; los tres
+#   jobs por rutas pueden quedar en skipped.
 #   1.6.0 (T-50): el guardián y las pruebas ligeras van en un job rápido (`guardian`); la suite unittest se
 #   reparte en 5 grupos paralelos equilibrados por tiempo (`herramientas/repartir_tests.py`, tiempos en
 #   `tests/tiempos_ci.json`), cada uno en su contenedor; el grupo 1 hace además el descubrimiento, GerryChain y los
@@ -24,15 +21,13 @@ on:
   push:
     branches: [main]
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
 permissions:
   contents: read
 concurrency:
-  group: ddd-pruebas-${{ github.event.pull_request.number || github.sha }}-${{ github.event.action == 'ready_for_review' && 'listo' || 'ci' }}
+  group: ddd-pruebas-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 jobs:
   guardian:
-    if: ${{ github.event.action != 'ready_for_review' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -58,7 +53,6 @@ jobs:
         run: python -m unittest tests.test_national_ine_original_parts -v
 
   suite:
-    if: ${{ github.event.action != 'ready_for_review' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     strategy:
@@ -138,7 +132,6 @@ jobs:
           if-no-files-found: warn
 
   cambios:
-    if: ${{ github.event.action != 'ready_for_review' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 3
     outputs:
@@ -274,139 +267,13 @@ jobs:
           name: visor-publico-verificado-${{ github.run_id }}
           path: site
 
-  comprobar:
-    if: ${{ github.event_name == 'pull_request' }}
-    continue-on-error: true
-    runs-on: ubuntu-24.04
-    timeout-minutes: 2
-    outputs:
-      listo: ${{ steps.c.outputs.listo }}
-    steps:
-      - id: c
-        shell: bash
-        env:
-          TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          DRAFT: ${{ github.event.pull_request.draft }}
-          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
-        run: |
-          set -euo pipefail
-          if [[ -z "${TOKEN:-}" ]]; then echo "::notice::Sin CLAUDE_CODE_OAUTH_TOKEN: revisor omitido."; echo "listo=false" >> "$GITHUB_OUTPUT"; exit 0; fi
-          if [[ "$DRAFT" == "true" || "$HEAD_REPO" != "$GITHUB_REPOSITORY" ]]; then echo "::notice::PR en borrador o de un fork: revisor omitido."; echo "listo=false" >> "$GITHUB_OUTPUT"; exit 0; fi
-          echo "listo=true" >> "$GITHUB_OUTPUT"
-
-  revisar:
-    needs: comprobar
-    if: needs.comprobar.outputs.listo == 'true'
-    continue-on-error: true
-    concurrency:
-      group: ddd-revisor-pr-${{ github.event.pull_request.number }}
-      cancel-in-progress: true
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    permissions:
-      contents: read
-      pull-requests: read
-    outputs:
-      veredicto: ${{ steps.revisor.outputs.structured_output }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          fetch-depth: 0
-      - id: revisor
-        uses: anthropics/claude-code-action@61a9c274fa7110a66dfafc1bbbced03833eb25fe # v1
-        env:
-          GH_TOKEN: ${{ github.token }}
-        with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          github_token: ${{ github.token }}
-          prompt: |
-            Actúa como el subagente definido en .claude/agents/revisor.md (léelo primero) y revisa la PR
-            #${{ github.event.pull_request.number }} de ${{ github.repository }}.
-            HEAD: ${{ github.event.pull_request.head.sha }} · base: ${{ github.event.pull_request.base.sha }}.
-            Diff: `gh pr diff ${{ github.event.pull_request.number }}` o `git diff <base>...<HEAD>`.
-            Solo lectura: no edites, no hagas commit ni push, no comentes en GitHub. La CI corre en paralelo:
-            no esperes a ella ni bloquees por ella (ci = "no_aplica"); juzga el diff con CLAUDE.md y .claude/rules/.
-            Devuelve el JSON de la definición; "caso" = "PR-${{ github.event.pull_request.number }}" y "sha" = el HEAD.
-          claude_args: |
-            --model sonnet
-            --max-turns 30
-            --allowedTools Read,Grep,Glob,Bash(git diff:*),Bash(git show:*),Bash(git log:*),Bash(gh pr diff:*),Bash(gh pr view:*)
-            --json-schema '{"type":"object","properties":{"caso":{"type":"string"},"sha":{"type":"string"},"veredicto":{"type":"string","enum":["PASS","PASS_WITH_EXCEPTIONS","FAIL","BLOCKED"]},"defectos":{"type":"array","items":{"type":"object","properties":{"gravedad":{"type":"string"},"clase":{"type":"string"},"fichero":{"type":"string"},"linea":{"type":"integer"},"detalle":{"type":"string"}},"required":["gravedad","clase","fichero","detalle"]}},"ci":{"type":"string"},"siguiente":{"type":"string"}},"required":["caso","sha","veredicto","defectos","siguiente"]}'
-
-  veredicto:
-    needs: revisar
-    continue-on-error: true
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    permissions:
-      pull-requests: write
-    steps:
-      - name: Publicar el veredicto en la PR
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-          VEREDICTO: ${{ needs.revisar.outputs.veredicto }}
-          PR: ${{ github.event.pull_request.number }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          set -euo pipefail
-          printf '%s' "$VEREDICTO" | jq -e . > veredicto.json || { echo "::error::El revisor no devolvió JSON."; exit 1; }
-          v="$(jq -r .veredicto veredicto.json)"; sha="$(jq -r .sha veredicto.json)"
-          [[ "$HEAD_SHA" == "$sha"* ]] || echo "::warning::El veredicto es de $sha y el HEAD es $HEAD_SHA: no vale para este HEAD."
-          marca="<!-- ddd-revisor -->"
-          {
-            echo "$marca"
-            echo "**Revisor (Sonnet, solo lectura)** · \`$v\` · HEAD \`${HEAD_SHA:0:10}\`"
-            echo
-            jq -r '.defectos[] | "- **\(.gravedad)** `\(.clase)` \(.fichero):\(.linea // 0) — \(.detalle)"' veredicto.json
-            echo
-            echo "Siguiente: $(jq -r .siguiente veredicto.json)"
-            echo
-            echo "<details><summary>JSON</summary>"
-            echo
-            echo '```json'
-            jq . veredicto.json
-            echo '```'
-            echo "</details>"
-          } > cuerpo.md
-          cat cuerpo.md >> "$GITHUB_STEP_SUMMARY"
-          id="$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate -q ".[] | select(.body | startswith(\"$marca\")) | .id" | head -1)"
-          if [[ -n "$id" ]]; then
-            gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -F body=@cuerpo.md >/dev/null
-          else
-            gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -F body=@cuerpo.md >/dev/null
-          fi
-          if [[ "$v" == "FAIL" ]]; then echo "::error::Revisor: FAIL en ${HEAD_SHA:0:10}."; exit 1; fi
-
   pruebas:
     needs: [guardian, suite, cambios, contratos, docs, productos]
     if: ${{ always() }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    permissions:
-      checks: read
-      contents: read
+    timeout-minutes: 2
     steps:
-      - name: Marcar PR como lista — la batería de ese SHA ya corrió (no se repite)
-        if: ${{ github.event.action == 'ready_for_review' }}
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          set -uo pipefail
-          # Solo espera y comprueba el `pruebas` de otro run sobre el mismo SHA; nunca da verde sin él.
-          for i in $(seq 1 90); do
-            res="$(gh api "repos/$GITHUB_REPOSITORY/commits/$HEAD_SHA/check-runs?check_name=pruebas&per_page=100" \
-              --jq '[.check_runs[] | select(.id != 0 and (.details_url | contains("/runs/'"$GITHUB_RUN_ID"'/") | not))] | map(.conclusion // "pendiente") | join(" ")')"
-            echo "pruebas previas en $HEAD_SHA: ${res:-ninguna}"
-            if [[ " $res " == *" success "* ]]; then echo "pruebas en verde (batería previa del mismo SHA)."; exit 0; fi
-            if [[ -n "$res" && " $res " != *" pendiente "* ]]; then echo "::error::Sin batería verde para $HEAD_SHA: $res"; exit 1; fi
-            sleep 20
-          done
-          echo "::error::Sin batería terminada para $HEAD_SHA tras 30 min."; exit 1
       - name: Agregar resultado (check obligatorio del ruleset)
-        if: ${{ github.event.action != 'ready_for_review' }}
         shell: bash
         env:
           GUARDIAN: ${{ needs.guardian.result }}

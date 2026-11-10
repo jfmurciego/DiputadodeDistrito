@@ -19,7 +19,7 @@ haga cumplir (ver `FICHAS_AGENTES.md` §1).
 | Componente | Diseñado | Implementado | Probado | Verificado | Evidencia / límite |
 |---|---|---|---|---|---|
 | Revisor (subagente) | Sí | Sí | Sí: oro 23/24 | Parcial | `evals/oro/LIBRO_DE_COSTES.md` (T-39); revisión real PR #425 (`evals/revisiones/`). Oro y memoria de las mismas fuentes |
-| Revisor en CI | Sí | Sí | No | No | `pruebas-plataforma.yml` (jobs `comprobar`/`revisar`/`veredicto`, desde la 1.7.0; antes `revisor-pr.yml` 1.0.1); pendiente de que corra con el secreto actualizado (`docs/ESTADO.md`). No es check obligatorio |
+| Revisor en CI | Sí | Sí | No | No | `revisor-pr.yml` 1.0.0; pendiente de que corra con el secreto actualizado (`docs/ESTADO.md`). No es check obligatorio |
 | Forense (subagente) | Sí | Sí | Sí: oro 20/20 | Parcial | T-40 en el libro de costes; caso real T-58 hecho en línea, sin subagente. Mide causas conocidas, no nuevas |
 | Forense en CI | Sí | Sí | No | No | `forense-00.yml` 1.0.0; sin issue de una 00 fallida citado como evidencia |
 | Auto-merge | Sí | Sí (1.2.0) | Sí | Sí | `tests/test_auto_merge.py`; prueba real #465 (`pruebas` 20:16:54, fusión 20:17:25, `docs/ESTADO.md`). Incidentes 1.0.0: #453, #454, #458 |
