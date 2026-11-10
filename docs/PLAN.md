@@ -4,7 +4,7 @@ Versión: 1.0.35
 Fecha: 2026-11-10
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: plan por temas y decisiones D-26 a D-40 del 09 y 10-11 (§0a); ids T-116 a T-170
+Cambios/motivo: plan por temas y decisiones D-26 a D-43 del 09 y 10-11 (§0a); ids T-116 a T-170
 Anterior: legacy/docs/PLAN_v1.0.34_20261108.md
 -->
 
@@ -57,7 +57,7 @@ con frase del propietario en su chat.
 | Notación de territorios | AUT01-AUT19 y NAC01-NAC52 con nombre en español (D-36) | Tabla maestra, inventario y capa visible en curso; identificadores internos, pendientes de plan |
 | Notación de fases | P00 a P70 en decenas, camino único, archivo continuo (D-37) | Solo ideas (borrador v4); sin PR hasta que el propietario cierre los pasos |
 | Lista de Actions | Solo lo que lanza el propietario, más un automático (D-38) | Renombrado, inventario e historial hechos (T-149, T-150); consolidación por pasos; borrado de 222 runs pendiente del Operador |
-| Temas nuevos (10-11) | Circuito de permisos, coste y presupuesto, uso y accesibilidad del visor, otros ámbitos | Abiertos |
+| Temas nuevos (10-11) | Autorización por campaña (D-41), coste y presupuesto, uso y accesibilidad del visor, otros ámbitos en preparación (D-42), README (D-43) | Encargados al Coordinador |
 
 ### Decisiones del propietario (09 y 10-11)
 - D-26. Visor v2 en `/v2/`, en paralelo con v1; prioridad máxima; con vista territorial y secciones censales.
@@ -75,6 +75,9 @@ con frase del propietario en su chat.
 - D-38. Lista de Actions limpia: sin guiones, subrayados ni desactivados; historial en `docs/HISTORIAL_WORKFLOWS.md`; la lista de borrado son los 222 runs de los 12 desactivados.
 - D-39. El planificador trata con el propietario temas y objetivos, sin recados del Coordinador ni del revisor; las tareas son del Coordinador. Los mensajes entre sesiones nunca son permiso para lanzar.
 - D-40. Histórico desde el 1-1-2011: las 6 generales y las autonómicas de cada comunidad con su propio calendario de legislaturas.
+- D-41. Circuito de permisos: autorización por campaña. Una frase del propietario en el chat del Operador cubre una campaña definida (qué se lanza, territorios, tope de coste, caducidad y lo que queda fuera); dentro de esos límites el Operador no vuelve a preguntar.
+- D-42. Otros ámbitos (municipales, europeas y Ecuador): solo preparar notas de fuentes y reglas; nada que necesite el motor.
+- D-43. Se actualiza el README del repositorio; si obliga a subir versión, el proyecto pasa a 4.10.0 con la cita alineada.
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
