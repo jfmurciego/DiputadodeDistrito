@@ -29,7 +29,7 @@ on:
         type: string
         default: '7.4.4'
       archivar:
-        description: 'Subir las entradas reconstruidas a R2'
+        description: 'Subir a R2 la entrada mínima de cada territorio'
         required: false
         type: boolean
         default: false
