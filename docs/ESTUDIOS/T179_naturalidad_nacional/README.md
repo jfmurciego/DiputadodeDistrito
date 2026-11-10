@@ -59,4 +59,4 @@ Ninguna provincia se queda sin candidato válido (salvo las de un solo distrito,
 `ddd_motor2/naturalidad_competicion.py` 1.2.0 con `--funciones C,D8 --reanudar`, en sesión (sin workflow), con el
 seccionado INE de cada contrato (sha256 en `datos/naturalidad/MANIFEST.json`). Islas: partición y puentes marítimos de
 `configuracion/particiones_insulares_2025.json`; enclaves y exclaves: `topology_bridges` del contrato. De 1 s a 4 min
-por provincia. Las autonómicas van en una segunda parte.
+por provincia. Las autonómicas, en `autonomicas/README.md`.
