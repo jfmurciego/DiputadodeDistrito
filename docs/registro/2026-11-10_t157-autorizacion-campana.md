@@ -5,3 +5,4 @@ Cambio: solo propuesta en `docs/ESTUDIOS/T157_AUTORIZACION_CAMPANA/` (ficha de c
 Pruebas: `git apply --check` de los cinco parches sobre `main`; CLAUDE.md resultante = 100 líneas.
 Efectos: ninguno en motor, huellas, workflows, visor ni datos; PR en borrador con `no-automerge` (amplía autoridad: aplicar solo con orden del propietario).
 Actualización (D-46, petición del Coordinador): la ficha incluye el gasto semanal acumulado y el previsto de la campaña (tope 15.000 min/semana, aviso al 70 %, sin corte automático); plantilla, README y parche de la skill operador actualizados.
+Fuente del acumulado semanal: «Métricas del proceso» (T-161 la corrige); respaldo por gh api hasta su fusión.
