@@ -1,0 +1,11 @@
+# PROYECTO: Diputado de Distrito
+# ENTORNO: banco de pruebas del motor (T-132 A, semilla del certificador exacto T-136); no es producción
+# VERSIÓN: 1.0.0
+# FECHA: 2026-11-10
+# ESTADO: candidato
+# USO: python -m venv --system-site-packages /opt/ddd-banco && /opt/ddd-banco/bin/pip install -r requirements-banco-motor.lock
+#   (sobre requirements.lock; no cambia pandas/numpy del motor)
+ortools==9.14.6206
+absl-py==2.5.1
+immutabledict==4.3.1
+protobuf==6.31.1

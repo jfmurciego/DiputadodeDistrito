@@ -42,7 +42,9 @@ if str(ROOT) not in sys.path:
 from herramientas import bateria_motor as bm  # noqa: E402
 
 GC_PY = os.environ.get("DDD_GERRYCHAIN_PYTHON", "/opt/ddd-gerrychain/bin/python")
-GENERADORES = ("canonico", "gerrychain", "arbol")
+GENERADORES = ("canonico", "gerrychain", "arbol", "exacto")
+BANCO_PY = os.environ.get("DDD_BANCO_PYTHON", "/opt/ddd-banco/bin/python")
+TIEMPO_EXACTO = float(os.environ.get("DDD_BANCO_TIEMPO_EXACTO", "900"))
 
 
 # --------------------------------------------------------------------------- semilla por árboles (venv GerryChain)
@@ -126,6 +128,23 @@ def semilla_arbol(params: str, run_id: str, salida: Path, informe: Path, semilla
     return 0 if not violaciones else 3
 
 
+def _escribir_semilla(m04: Path, asignacion_csv: Path, salida: Path) -> None:
+    """Copia el GeoJSON M04 (con ddd_unit_id) cambiando district_id por la asignación sección→distrito del CSV."""
+    import zipfile
+    with open(asignacion_csv, encoding="utf-8") as fh:
+        filas = list(csv.DictReader(fh))
+    etiquetas = {d: i for i, d in enumerate(sorted({f["distrito"] for f in filas}, key=str))}
+    asig = {str(f["seccion"]): etiquetas[f["distrito"]] for f in filas}
+    with zipfile.ZipFile(m04) as zf:
+        nombre = next(n for n in zf.namelist() if n.lower().endswith((".geojson", ".json")))
+        data = json.loads(zf.read(nombre))
+    for feat in data["features"]:
+        props = feat["properties"]
+        props["district_id"] = asig[str(props["CUSEC_KEY"])]
+    with zipfile.ZipFile(salida, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr(nombre, json.dumps(data, ensure_ascii=False))
+
+
 # --------------------------------------------------------------------------- un territorio
 def ejecutar_uno(t: str, out: Path, generador: str, semilla: int) -> dict:
     etiqueta = f"{generador}-s{semilla}"
@@ -171,6 +190,30 @@ def ejecutar_uno(t: str, out: Path, generador: str, semilla: int) -> dict:
                 shutil.copy2(out05, seed)
                 inicial = ["--initial", str(seed)]
                 res["semilla_inicial"] = "canonica"
+        if generador == "exacto":
+            # Semilla de factibilidad del certificador exacto (T-136, CP-SAT) con la atomicidad ddd_unit_id de M04.
+            m01 = next(cache.glob("*_m01_secciones_poblacion.geojson.zip"))
+            m04 = next(cache.glob("*_m04_semillas.geojson.zip"))
+            graf = next(cache.glob("*_m03_grafo.json"))
+            asig = dest / "SEMILLA_EXACTA.csv"
+            informe = dest / "CERTIFICADOR.json"
+            rc, s = bm._run([BANCO_PY, "herramientas/certificador_exacto.py", "--params", p, "--grafo", str(graf),
+                             "--secciones", str(m01), "--unidades", str(m04), "--objetivo", "factibilidad",
+                             "--tiempo", str(TIEMPO_EXACTO), "--hilos", "2", "--salida", str(informe),
+                             "--asignacion-csv", str(asig)], log, env)
+            res["tiempos"]["semilla_exacta"] = s
+            cert = json.loads(informe.read_text(encoding="utf-8")) if informe.is_file() else {"error": rc}
+            res["certificador"] = {k: cert.get(k) for k in ("estado", "atomos", "variables", "tiempo_s", "comprobacion")
+                                   if k in cert} or cert
+            if not asig.is_file():
+                res["estado"] = f"SEMILLA_EXACTA_{cert.get('estado', 'FALLO')}"
+                res["validacion"] = "NO_GENERADO"
+                (dest / "RESULTADO.json").write_text(json.dumps(res, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+                return res
+            semilla_ex = cache / "banco_semilla_exacta.geojson.zip"
+            _escribir_semilla(m04, asig, semilla_ex)
+            inicial = ["--initial", str(semilla_ex)]
+            res["semilla_inicial"] = "exacta"
         if generador == "arbol":
             arbol = cache / "banco_semilla_arbol.geojson.zip"
             informe = dest / "SEMILLA_ARBOL.json"
@@ -253,6 +296,71 @@ def matriz(args) -> int:
     return 0
 
 
+# --------------------------------------------------------------------------- calidad
+def _calidad_una(m01, comp: Path, k: int, tol: float) -> dict:
+    """Métricas de calidad de una composición M06 sobre las secciones M01 (municipio real CUMUN y geometría)."""
+    import math
+
+    import pandas as pd
+    c = pd.read_csv(comp, dtype=str)
+    sid = "CUSEC_KEY" if "CUSEC_KEY" in c.columns else c.columns[0]
+    asig = c.set_index(sid)["district_id"]
+    g = m01.assign(district_id=m01["CUSEC_KEY"].map(asig))
+    if g["district_id"].isna().any():
+        return {"error": f"secciones sin distrito: {int(g['district_id'].isna().sum())}"}
+    total = float(g["_pop"].sum())
+    objetivo = total / k
+    pops = g.groupby("district_id")["_pop"].sum()
+    rel = pops / objetivo - 1
+    mun_d = g.groupby("CUMUN")["district_id"].nunique()
+    d_mun = g.groupby("district_id")["CUMUN"].nunique()
+    dist = g[["district_id", "geometry"]].dissolve(by="district_id")
+    pp = (4 * math.pi * dist.geometry.area / dist.geometry.length ** 2)
+    return {"K": int(len(pops)), "fuera_tolerancia": int((rel.abs() > tol + 1e-9).sum()),
+            "desvio_max": round(float(rel.abs().max()), 5), "ecm": round(float((rel ** 2).mean()), 6),
+            "municipios_partidos": int((mun_d > 1).sum()), "distritos_mixtos": int((d_mun > 1).sum()),
+            "polsby_popper_medio": round(float(pp.mean()), 5)}
+
+
+def calidad(args) -> int:
+    """CALIDAD.csv: métricas de calidad del canónico (bateria/motor/<v>) y del banco (bateria/banco), por territorio."""
+    import geopandas as gpd
+    out = Path(args.out)
+    casos: dict[str, list[tuple[str, int, Path]]] = {}
+    for comp in sorted((out / "motor" / args.canonico).glob("*/*_m06_composicion_distritos.csv")):
+        casos.setdefault(comp.parent.name, []).append(("canonico", 0, comp))
+    for comp in sorted((out / "banco").glob("*/*/*_m06_composicion_distritos.csv")):
+        r = json.loads((comp.parent / "RESULTADO.json").read_text(encoding="utf-8"))
+        if r.get("validacion") == "PASS":
+            casos.setdefault(r["territorio"], []).append((r["generador"], int(r["semilla"]), comp))
+    filas = []
+    for t in sorted(casos):
+        if args.territorios and t not in args.territorios:
+            continue
+        m01p = next((out / "entradas" / t).glob("*_m01_secciones_poblacion.geojson.zip"))
+        m01 = gpd.read_file(m01p).to_crs(3035)
+        popc = next(c for c in m01.columns if c.startswith("POP_"))
+        m01["_pop"] = pd_num(m01[popc])
+        m01["CUSEC_KEY"] = m01["CUSEC_KEY"].astype(str)
+        cfg = bm._cfg(t)
+        tol = float((cfg.get("validation") or {}).get("target_tolerance_ratio") or 0.12)
+        for gen, sem, comp in casos[t]:
+            import pandas as pd
+            k = int(pd.read_csv(comp, usecols=["district_id"])["district_id"].nunique())
+            filas.append({"territorio": t, "generador": gen, "semilla": sem, **_calidad_una(m01, comp, k, tol)})
+        print(t, len(casos[t]), flush=True)
+    with open(out / "CALIDAD.csv", "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=sorted({k for f in filas for k in f}, key=lambda x: (x not in ("territorio", "generador", "semilla"), x)))
+        w.writeheader()
+        w.writerows(filas)
+    return 0
+
+
+def pd_num(serie):
+    import pandas as pd
+    return pd.to_numeric(serie.astype(str).str.replace(".", "", regex=False), errors="coerce").fillna(0)
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Banco de generadores (T-132 A)")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -264,8 +372,12 @@ def main(argv=None) -> int:
     e.add_argument("--out", default=str(bm.OUT))
     e.add_argument("--saltar-hechos", action="store_true", help="no repite las combinaciones con RESULTADO.json")
     sub.add_parser("matriz").add_argument("--out", default=str(bm.OUT))
+    c = sub.add_parser("calidad")
+    c.add_argument("territorios", nargs="*")
+    c.add_argument("--canonico", default="7.4.4")
+    c.add_argument("--out", default=str(bm.OUT))
     a = ap.parse_args(argv)
-    return {"ejecutar": ejecutar, "matriz": matriz}[a.cmd](a)
+    return {"ejecutar": ejecutar, "matriz": matriz, "calidad": calidad}[a.cmd](a)
 
 
 if __name__ == "__main__":
