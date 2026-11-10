@@ -1,10 +1,10 @@
 # Autorización de campaña 2026-11-10_regeneracion-nocturna-corte-71-v2
 
 - Decisión: D-52 (autorización por campaña). Chat del Operador: session_01KQDtFsAtHP9atzNnDthr9A.
-- Frase literal del propietario: (pendiente)
-- Fecha y hora de la frase (Europe/Madrid): (pendiente)
+- Frase literal del propietario: «Autorizo la campaña 2026-11-10_regeneracion-nocturna-corte-71-v2 tal como figura en la ficha.»
+- Fecha y hora de la frase (Europe/Madrid): 2026-11-10 22:30 (aprox.)
 - Estado de la ficha: BORRADOR. Sustituye a `2026-11-10_regeneracion-nocturna-corte-71` (prueba en La Rioja y requisito T-221). Requiere el relevo del motor (P30 con el motor nuevo) y T-221 (certificación con el plan ganador) fusionados en `main`; el flujo y sus entradas exactas se fijan entonces y se anotan aquí antes del primer lanzamiento.
-- Caducidad: 24 h desde la frase del propietario.
+- Caducidad: 2026-11-11 22:30 (24 h).
 - Gasto semanal al autorizar: se mide al recibir la frase y se anota aquí; tope 15.000 min/semana, aviso al 70 %. **AVISO** si el acumulado más el tope de esta campaña supera 10.500 min.
 
 ## Límites
@@ -25,6 +25,6 @@
 |---|---|---|---|---|---|---|
 
 ## Cierre
-Estado: `BORRADOR` (espera el relevo y T-221 en `main` y la frase del propietario). Último uso: —.
+Estado: `ACEPTADA, EN_ESPERA` (espera el relevo y T-221 en `main`; no estaban al recibir la frase). Último uso: —.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_regeneracion-nocturna-corte-71-v2 tal como figura en la ficha.»
