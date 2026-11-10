@@ -5,7 +5,14 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.4.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.5.0 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS 1.5.0 (T-199, hueco 2 del ensayo T-197): dimensión de elección OPCIONAL en las entradas (`election_date` AAAA-MM-DD y
+  `election_id`). Compatible hacia atrás: sin ellas la entrada es de la elección por defecto (ELECCION_POR_DEFECTO,
+  2023-07-23) y se lee igual; el esquema sigue en 2.0 y la identidad (territorio, kind, run/escenario) no cambia. Si
+  traen `election_date`, debe ser una fecha válida y `election_id` (si está) debe terminar en ella. La unicidad de
+  `canonical=true` pasa a ser por territorio, familia y elección. `describe-production --election-date/--election-id` y
+  `eleccion_de(entry)` para los consumidores (resultados_ligeros, resultados_partidos).
+MOTIVO 1.5.0: un M08 de 2026 con el mismo territory_id desplazaba al de 2023 como vigente (ganaba el run_id mayor).
 CAMBIOS 1.4.0 (T-125): el registro rechaza AÑADIR cualquier territorio `congreso350_*` (mapa 350, D-18/D-19: nunca se publica):
   `make_candidate` y `production_descriptors` lanzan ValueError. Las entradas que ya figuran no se tocan y siguen validando
   (`validate_registry` solo avisa con ::warning::); retirarlas es decisión del propietario.
@@ -18,12 +25,13 @@ CAMBIOS 1.1.0 (T-27 fase a): escenarios no canónicos. Kinds `scenario_m06` y `s
   `scenario_kind` ("alternative") y `canonical` falso; los `canonical_*` no cambian (si traen `canonical`, debe ser true).
   A lo sumo una entrada `canonical: true` por territorio y familia (m06/m08); un `scenario_m08` exige el `scenario_m06`
   del mismo `scenario_id`. El registro es de solo adición: la identidad de un escenario es territorio+kind+scenario_id.
-ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.3.0_20261109.py
+ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.4.0_20261110.py
 """
 from __future__ import annotations
 
 import argparse
 import copy
+import datetime
 import hashlib
 import json
 import re
@@ -44,7 +52,30 @@ SCENARIO_KINDS = {"scenario_m06", "scenario_m08"}
 CANONICAL_KINDS = {"canonical_m06", "canonical_m08"}
 PRODUCT_KINDS = {"static"} | CANONICAL_KINDS | SCENARIO_KINDS
 PREFIJO_MAPA_350 = "congreso350_"
+ELECCION_POR_DEFECTO = "2023-07-23"  # entradas sin election_date (anteriores a 1.5.0)
 STRATEGIES = {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}
+
+
+def eleccion_de(entry: dict) -> str:
+    """Fecha (AAAA-MM-DD) de la elección de una entrada; sin `election_date`, la elección por defecto."""
+    return str(entry.get("election_date") or ELECCION_POR_DEFECTO)
+
+
+def _validate_eleccion(entry: dict) -> None:
+    fecha = entry.get("election_date")
+    if fecha is None:
+        if entry.get("election_id") is not None:
+            raise ValueError(f"{entry.get('id')}: election_id exige election_date")
+        return
+    try:
+        valida = bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(fecha))) and datetime.date.fromisoformat(str(fecha))
+    except ValueError:
+        valida = False
+    if not valida:
+        raise ValueError(f"{entry.get('id')}: election_date inválida: {fecha!r}")
+    eid = entry.get("election_id")
+    if eid is not None and not str(eid).endswith(str(fecha)):
+        raise ValueError(f"{entry.get('id')}: election_id {eid!r} no corresponde a election_date {fecha}")
 
 
 def safe_id(value: str) -> str:
@@ -96,6 +127,7 @@ def _validate_entry(entry: dict) -> None:
         "sha256",
         "kind",
     )
+    _validate_eleccion(entry)
     missing = [key for key in required if not entry.get(key)]
     if missing:
         raise ValueError(f"{entry.get('id', '<sin id>')}: campos obligatorios ausentes: {missing}")
@@ -175,15 +207,15 @@ def validate_registry(registry: dict) -> None:
             raise ValueError(f"Activo inmutable duplicado en varias entradas: {location}")
         locations.add(location)
 
-    canonical_marked: set[tuple[str, str]] = set()
+    canonical_marked: set[tuple[str, str, str]] = set()
     scenario_m06: set[tuple[str, str]] = set()
     for entry in registry.get("products", []):
         territory = str(entry.get("territory_id") or "")
         if entry.get("canonical") is True:
             family = str(entry["kind"]).rsplit("_", 1)[-1]
-            if (territory, family) in canonical_marked:
+            if (territory, family, eleccion_de(entry)) in canonical_marked:
                 raise ValueError(f"{territory}: más de una entrada canonical=true para {family}")
-            canonical_marked.add((territory, family))
+            canonical_marked.add((territory, family, eleccion_de(entry)))
         if entry.get("kind") == "scenario_m06":
             scenario_m06.add((territory, str(entry["scenario_id"])))
     for entry in registry.get("products", []):
@@ -311,7 +343,8 @@ def verify_materialized_registry(registry: dict, materialized_root: Path) -> lis
 
 
 def production_descriptors(
-    production_root: Path, run_id: str, scenario_id: str | None = None, strategy: str | None = None
+    production_root: Path, run_id: str, scenario_id: str | None = None, strategy: str | None = None,
+    election_date: str | None = None, election_id: str | None = None,
 ) -> list[dict]:
     metadata = production_metadata(production_root)
     rechazar_mapa_350(metadata["territory_id"])
@@ -358,6 +391,11 @@ def production_descriptors(
         }
         if scenario_id:
             descriptor.update(scenario_id=scenario_id, strategy=strategy, scenario_kind="alternative", canonical=False)
+        if election_date:
+            descriptor["election_date"] = election_date
+            if election_id:
+                descriptor["election_id"] = election_id
+        _validate_eleccion({"id": descriptor["id"], **{k: descriptor[k] for k in ("election_date", "election_id") if k in descriptor}})
         descriptors.append(descriptor)
     if not descriptors:
         raise ValueError(f"La ejecución {run_id} no contiene M06 ni M08 publicable")
@@ -411,6 +449,8 @@ def main() -> None:
     describe_product.add_argument("--run-id", required=True)
     describe_product.add_argument("--scenario-id", help="Registra la ejecución como escenario no canónico (con --strategy)")
     describe_product.add_argument("--strategy", choices=sorted(STRATEGIES))
+    describe_product.add_argument("--election-date", help="AAAA-MM-DD; sin él, la entrada es de la elección por defecto")
+    describe_product.add_argument("--election-id")
     describe_product.add_argument("--output", type=Path, required=True)
 
     describe_ens = sub.add_parser("describe-ensemble")
@@ -445,7 +485,8 @@ def main() -> None:
             raise SystemExit("--scenario-id y --strategy van juntos")
         if args.scenario_id and not re.fullmatch(r"[a-z0-9][a-z0-9._-]{2,80}", args.scenario_id):
             raise SystemExit("--scenario-id inválido (minúsculas, cifras, punto, guion)")
-        payload = production_descriptors(args.production_root, args.run_id, args.scenario_id, args.strategy)
+        payload = production_descriptors(
+            args.production_root, args.run_id, args.scenario_id, args.strategy, args.election_date, args.election_id)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         return

@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.307
+Versión: 1.0.311
 Fecha: 2026-11-10
-Alcance: T-195 — R-NUCLEO del motor nuevo contra el M04
+Alcance: T-199 — Dimensión de elección en el registro del visor y FECHA parametrizada
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t195-nucleo-motor2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.306_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_claude-t199-eleccion-registro-fecha.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.310_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,10 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.306_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.311 · [2026-11-10 — T-199 — Dimensión de elección en el registro del visor y FECHA parametrizada](registro/2026-11-10_claude-t199-eleccion-registro-fecha.md)
+- 1.0.310 · [2026-11-10 — T-179 (nacional, 1.ª parte) — Naturalidad: C y D8 en las 52 provincias del Congreso](registro/2026-11-10_claude-t179b-naturalidad-71.md)
+- 1.0.309 · [2026-11-10 — T-198 — Guardas y equivalencias previas al corte 5.0.0](registro/2026-11-10_t198-equivalencias-5-0-0.md)
+- 1.0.308 · [2026-11-10 — T-197 — Ensayo de la noche electoral de las generales de 2026 (ZIP 2023 disfrazado)](registro/2026-11-10_t197-ensayo-generales-2026.md)
 - 1.0.307 · [2026-11-10 — T-195 — R-NUCLEO del motor nuevo contra el M04](registro/2026-11-10_t195-nucleo-motor2.md)
 - 1.0.306 · [2026-11-10 — T-194 — Criterio automatizado de aceptación del motor 2](registro/2026-11-10_t194-aceptacion-motor2.md)
 - 1.0.305 · [2026-11-10 — T-128 — Coordinador: lecciones de cierres, D-61 y estado para el relevo](registro/2026-11-10_coordinador-relevo.md)

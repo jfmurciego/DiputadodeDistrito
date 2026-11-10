@@ -3,8 +3,12 @@
 """Votos por partido y distrito en git (T-67).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-08 · ESTADO: candidato
-CAMBIOS: 1.3.0 (T-104, decisión del propietario del 08-11): una sección partida cuyas secciones M06 candidatas caen
+VERSIÓN: 1.4.0 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS: 1.4.0 (T-199, hueco 3 del ensayo T-197): la fecha de la elección ya no es solo una constante. ``fecha_generales_2026``
+  la lee de configuracion/elecciones_generales_2026.yaml; ``contratos(ruta, fecha)`` y ``generar(..., fecha)`` filtran por
+  ella y ``--fecha`` acepta AAAA-MM-DD o «2026». El valor por defecto sigue siendo FECHA = 2023-07-23 (legislatura vigente):
+  sin argumentos nada cambia.
+  1.3.0 (T-104, decisión del propietario del 08-11): una sección partida cuyas secciones M06 candidatas caen
   todas en el mismo distrito es «contenida_distrito»: el distrito es exacto y no cuenta para el tope D-17 (el reparto
   entre secciones sigue D-13 y queda en el informe). Regla general, no excepción: se retira CASOS_APARTE (Valencia,
   Bétera entera en un distrito, queda en 0 % partido). No se regenera ningún M06.
@@ -20,9 +24,10 @@ CAMBIOS: 1.3.0 (T-104, decisión del propietario del 08-11): una sección partid
   votos (y blancos, nulos y censo) de cada sección del ZIP sin distrito entre los distritos de sus secciones M06 con
   peso de población (D-13; área si no hay población), en enteros por restos mayores, y devuelve la lista de
   desajustes (``agregar_informe``). Por encima del tope, o sin tabla, falla como en 1.0.0.
-MOTIVO: Málaga, Alicante y Barcelona (T-101): el ZIP de Interior y el seccionado INE 2023 del M06 difieren en unas
+MOTIVO 1.4.0: con contratos de 2026 ``contratos()`` no habría encontrado ninguno.
+MOTIVO 1.1.0: Málaga, Alicante y Barcelona (T-101): el ZIP de Interior y el seccionado INE 2023 del M06 difieren en unas
   pocas secciones (recodificaciones) y el archivista fallaba con PARTIDOS_ORIGEN_FAILED.
-ANTERIOR: legacy/herramientas/resultados_partidos_v1.2.0_20261108.py
+ANTERIOR: legacy/herramientas/resultados_partidos_v1.3.0_20261110.py
 QUÉ HACE: por cada territorio con composición sección→distrito acreditada (datos/composicion, T-67) y M08 vigente
   (datos/resultados), agrega los votos por partido del ZIP nacional por mesa de Infoelectoral (release
   fuente-infoelectoral-02202307; huella y totales comprobados con herramientas/fuente_infoelectoral_mesas.convert)
@@ -40,6 +45,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import datetime
 import hashlib
 import io
 import json
@@ -59,7 +65,8 @@ import resultados_ligeros as rl  # noqa: E402
 SALIDA = ROOT / "datos/resultados"
 COMPOSICION = ROOT / "datos/composicion"
 CONTRATOS = ROOT / "configuracion/contratos_infoelectoral.yaml"
-FECHA = "2023-07-23"
+FECHA = "2023-07-23"  # elección por defecto (legislatura vigente); ver fecha_generales_2026
+ELECCIONES_2026 = ROOT / "configuracion/elecciones_generales_2026.yaml"
 EQUIVALENCIA = ROOT / "configuracion/equivalencia_secciones_congreso_2023.csv"
 EQUIVALENCIA_META = ROOT / "configuracion/equivalencia_secciones_congreso_2023.json"
 TOPE_DESAJUSTE = 0.005  # D-17: fracción de los votos a candidaturas de la provincia
@@ -71,10 +78,52 @@ def sha256(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
 
 
-def contratos(ruta: Path = CONTRATOS) -> dict[str, dict]:
-    """territorio → contrato Infoelectoral de la elección FECHA."""
+def _fecha_valida(valor: str, origen: str) -> str:
+    try:
+        if len(valor) != 10 or valor[4] != "-" or valor[7] != "-":
+            raise ValueError
+        datetime.date.fromisoformat(valor)
+    except ValueError:
+        raise ValueError(f"{origen}: fecha no válida {valor!r} (se espera AAAA-MM-DD real)") from None
+    return valor
+
+
+def fecha_generales_2026(ruta: Path = ELECCIONES_2026) -> str:
+    """election_date (AAAA-MM-DD) del universo de las generales de 2026; error claro si falta o no es una fecha real."""
+    try:
+        datos = yaml.safe_load(ruta.read_text(encoding="utf-8"))
+    except OSError as e:
+        raise ValueError(f"{ruta.name}: no se puede leer {ruta} ({e})") from None
+    valor = datos.get("election_date") if isinstance(datos, dict) else None
+    if valor in (None, ""):
+        raise ValueError(f"{ruta.name}: falta la clave election_date en {ruta}")
+    return _fecha_valida(str(valor), f"{ruta.name}: election_date")
+
+
+def resolver_fecha(valor: str | None) -> str:
+    """None → FECHA; «2026» → la del YAML de 2026; cualquier otra cosa debe ser una fecha real AAAA-MM-DD."""
+    if valor in (None, ""):
+        return FECHA
+    if valor == "2026":
+        return fecha_generales_2026()
+    return _fecha_valida(valor, "--fecha")
+
+
+def contratos(ruta: Path = CONTRATOS, fecha: str = FECHA) -> dict[str, dict]:
+    """territorio → contrato Infoelectoral de la elección `fecha` (por defecto FECHA)."""
     raw = yaml.safe_load(ruta.read_text(encoding="utf-8"))["contracts"]
-    return {r["territory_id"]: {"election_id": k, **r} for k, r in raw.items() if str(r.get("election_date")) == FECHA}
+    return {r["territory_id"]: {"election_id": k, **r} for k, r in raw.items() if str(r.get("election_date")) == fecha}
+
+
+def vigentes_eleccion(registro: Path, fecha: str = FECHA) -> dict[str, dict]:
+    """Como rl.vigentes, pero solo los canonical_m08 de la elección `fecha` (sin election_date → FECHA, T-199)."""
+    prods: dict[str, dict] = {}
+    for p in json.loads(registro.read_text(encoding="utf-8"))["products"]:
+        if p.get("kind") == "canonical_m08" and str(p.get("election_date") or FECHA) == fecha:
+            t = p["territory_id"]
+            if t not in prods or int(p["run_id"]) > int(prods[t]["run_id"]):
+                prods[t] = p
+    return dict(sorted(prods.items()))
 
 
 def bajar_zip(contrato: dict, destino: Path) -> Path:
@@ -268,9 +317,10 @@ def agregar_informe(zip_path: Path, contrato: dict, comp: dict[str, int], m08_ga
 
 
 def generar(salida: Path = SALIDA, registro: Path = rl.REGISTRO_VISOR, composicion: Path = COMPOSICION,
-            zip_path: Path | None = None, territorios: list[str] | None = None, contratos_yaml: Path = CONTRATOS) -> dict:
-    ctr = contratos(contratos_yaml)
-    m08 = rl.vigentes(registro)
+            zip_path: Path | None = None, territorios: list[str] | None = None, contratos_yaml: Path = CONTRATOS,
+            fecha: str = FECHA) -> dict:
+    ctr = contratos(contratos_yaml, fecha)
+    m08 = vigentes_eleccion(registro, fecha)
     ruta_man = composicion / "MANIFEST.json"
     comps = json.loads(ruta_man.read_text(encoding="utf-8"))["territorios"] if ruta_man.exists() else {}
     ruta_sal = salida / "MANIFEST.json"
@@ -324,9 +374,10 @@ def main(argv=None) -> int:
     ap.add_argument("--composicion", type=Path, default=COMPOSICION)
     ap.add_argument("--registro", type=Path, default=rl.REGISTRO_VISOR)
     ap.add_argument("--territorios", default="todos")
+    ap.add_argument("--fecha", default=None, help="elección de los contratos: AAAA-MM-DD o «2026» (por defecto 2023-07-23)")
     a = ap.parse_args(argv)
     ts = None if a.territorios.strip() in ("", "todos") else [t.strip() for t in a.territorios.split(",")]
-    r = generar(a.salida, a.registro, a.composicion, a.zip, ts)
+    r = generar(a.salida, a.registro, a.composicion, a.zip, ts, fecha=resolver_fecha(a.fecha))
     print(f"partidos: {len(r['hechos'])} territorios; sin composición/M08: {len(r['omitidos'])}")
     return 0
 
