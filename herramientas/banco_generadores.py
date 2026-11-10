@@ -3,14 +3,16 @@
 """Banco de generadores (T-132 A): canónico, GerryChain de producción y GerryChain con semilla por árboles.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Banco de generadores
-FECHA: 2026-11-09
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Banco de generadores con competidor
+FECHA: 2026-11-10
 ESTADO: candidato (banco de pruebas; no es ruta de producción)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.1.0 (D-48): generador «competidor» (orden DDD_COMPETIDOR, por defecto ``python -m ddd_motor2.competidor``,
+  que sustituye a M05 con --params --run-id --semilla) y subcomando ``reproducibilidad`` (dos ejecuciones, sha256 de la
+  composición M06). 1.0.0: fichero nuevo.
 MOTIVO: comparar, con las mismas entradas, el mismo contrato y la misma validación (herramientas/validar_ejecucion.py),
   si los distritos válidos dependen del constructor artesanal M04 o los da también una semilla genérica por árboles.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/banco_generadores_v1.0.0_20261109.py
 QUÉ HACE: por territorio, generador y semilla, sobre las entradas de herramientas/bateria_motor.py:
   canonico    unidades + M04 + M05 canónico vigente + M06.
   gerrychain  unidades + M04 + M05 GerryChain de producción (ddd_core/m05_gerrychain_strategy.py, ReCom) con
@@ -42,7 +44,11 @@ if str(ROOT) not in sys.path:
 from herramientas import bateria_motor as bm  # noqa: E402
 
 GC_PY = os.environ.get("DDD_GERRYCHAIN_PYTHON", "/opt/ddd-gerrychain/bin/python")
-GENERADORES = ("canonico", "gerrychain", "arbol", "exacto")
+GENERADORES = ("canonico", "gerrychain", "arbol", "exacto", "competidor")
+# Generador competidor (D-48, T-163): orden que sustituye a M05. Recibe --params <contrato> --run-id <id> --semilla <n>,
+# lee las salidas M03/M04 del contrato (como M05) y escribe el GeoJSON M05 (modulo_05.out_geojson) y su informe; la
+# batería hace después M06 y la validación de producción. Se cambia con DDD_COMPETIDOR (orden separada por espacios).
+COMPETIDOR = os.environ.get("DDD_COMPETIDOR", f"{sys.executable} -m ddd_motor2.competidor").split()
 BANCO_PY = os.environ.get("DDD_BANCO_PYTHON", "/opt/ddd-banco/bin/python")
 TIEMPO_EXACTO = float(os.environ.get("DDD_BANCO_TIEMPO_EXACTO", "900"))
 
@@ -174,6 +180,10 @@ def ejecutar_uno(t: str, out: Path, generador: str, semilla: int) -> dict:
     if generador == "canonico":
         rc, s = bm._run(canon, log, env)
         res["tiempos"]["M05"] = s
+    elif generador == "competidor":
+        rc, s = bm._run(COMPETIDOR + ["--params", p, "--run-id", run_id, "--semilla", str(semilla)], log, env)
+        res["tiempos"]["M05"] = s
+        res["competidor"] = " ".join(COMPETIDOR)
     else:
         inicial: list[str] = []
         rc, s = bm._run([py, "ddd_core/m05_gerrychain_strategy.py", "--params", p, "--run-id", run_id,
@@ -258,6 +268,33 @@ def ejecutar(args) -> int:
                 print(f"{t} {g} s{s}: {r['estado']} validación={r.get('validacion')} FAIL={malas} "
                       f"{r.get('metricas', {})} t={sum(r['tiempos'].values()):.1f}s", flush=True)
     return 0
+
+
+def reproducibilidad(args) -> int:
+    """Ejecuta dos veces cada (territorio, generador, semilla) y compara bit a bit la composición M06 (sha256)."""
+    out = Path(args.out)
+    filas = []
+    for t in (bm.territorios() if args.todos else args.territorios):
+        for g in args.generadores:
+            for s in args.semillas:
+                huellas = []
+                for i in (1, 2):
+                    sub = out / f"_repro{i}"
+                    sub.mkdir(parents=True, exist_ok=True)
+                    ent = sub / "entradas"
+                    if not ent.exists():
+                        ent.symlink_to((out / "entradas").resolve())
+                    r = ejecutar_uno(t, sub, g, s)
+                    huellas.append(r.get("composicion_sha256"))
+                igual = huellas[0] is not None and huellas[0] == huellas[1]
+                filas.append({"territorio": t, "generador": g, "semilla": s, "sha256_1": huellas[0], "sha256_2": huellas[1],
+                              "reproducible": igual})
+                print(f"{t} {g} s{s}: reproducible={igual}", flush=True)
+    with open(out / "REPRODUCIBILIDAD.csv", "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=list(filas[0]))
+        w.writeheader()
+        w.writerows(filas)
+    return 0 if all(f["reproducible"] for f in filas) else 1
 
 
 def matriz(args) -> int:
@@ -374,12 +411,18 @@ def main(argv=None) -> int:
     e.add_argument("--out", default=str(bm.OUT))
     e.add_argument("--saltar-hechos", action="store_true", help="no repite las combinaciones con RESULTADO.json")
     sub.add_parser("matriz").add_argument("--out", default=str(bm.OUT))
+    rp = sub.add_parser("reproducibilidad")
+    rp.add_argument("territorios", nargs="*")
+    rp.add_argument("--todos", action="store_true")
+    rp.add_argument("--generadores", nargs="+", default=["competidor"], choices=GENERADORES)
+    rp.add_argument("--semillas", nargs="+", type=int, default=[1])
+    rp.add_argument("--out", default=str(bm.OUT))
     c = sub.add_parser("calidad")
     c.add_argument("territorios", nargs="*")
     c.add_argument("--canonico", default="7.4.4")
     c.add_argument("--out", default=str(bm.OUT))
     a = ap.parse_args(argv)
-    return {"ejecutar": ejecutar, "matriz": matriz, "calidad": calidad}[a.cmd](a)
+    return {"ejecutar": ejecutar, "matriz": matriz, "calidad": calidad, "reproducibilidad": reproducibilidad}[a.cmd](a)
 
 
 if __name__ == "__main__":
