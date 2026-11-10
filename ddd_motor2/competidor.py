@@ -3,16 +3,20 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — la competición como sustituto de M05 (interfaz acordada con la batería T-132)
-VERSIÓN: 1.0.1
-NOMBRE DE VERSIÓN: Competición · sustituto de M05
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Competición · sustituto de M05 · enumeración exacta
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa; no lanza nada en Actions)
-CAMBIOS: 1.0.1 — si el ganador no trae informe M05, se borra out_report (no queda el del último candidato);
+CAMBIOS: 1.1.0 — la competición incluye el candidato «exhaustivo» (enumeración exacta en territorios pequeños,
+  competicion 1.2.0); si gana, su M05 es el GeoJSON M05 del canónico con district_id reescrito por sección según la
+  composición del exhaustivo (sin informe M05: se borra out_report); --sin-exhaustivo lo quita.
+  1.0.1 — si el ganador no trae informe M05, se borra out_report (no queda el del último candidato);
   1.0.0 — fichero nuevo.
-MOTIVO: T-163 / D-48: que el banco de la batería (herramientas/banco_generadores.py, generador «competidor») juzgue la
+MOTIVO: 1.1.0 — T-175: enumeración exacta en el competidor del motor nuevo.
+  T-163 / D-48: que el banco de la batería (herramientas/banco_generadores.py, generador «competidor») juzgue la
   competición igual que cualquier otro generador: la batería hace unidades + M04, llama a esta orden en lugar de M05 y
   después M06, validación de producción, núcleo y calidad.
-ANTERIOR: legacy/ddd_motor2/competidor_v1.0.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/competidor_v1.0.1_20261110.py
 USO: DDD_RUN_ID=<id> PYTHONHASHSEED=0 python -m ddd_motor2.competidor --params territorios/<t>/config/<t>_2025.yaml \
        --run-id <id> [--semilla <n>] [--cadenas 5] [--territorio <t>]
   Lee lo mismo que M05 (modulo_05: in_graph_json, in_geojson = M04) y deja en modulo_05.out_geojson y out_report el
@@ -124,6 +128,25 @@ class GerryChainM05:
                                    Path(destino), extra)
 
 
+def m05_desde_composicion(base_m05: Path, composicion: Path, destino: Path, s6: dict) -> Path:
+    """GeoJSON M05 con el plan de una composición M06 (mismas secciones): district_id reescrito por sección."""
+    import csv
+    from ddd_core.m05_swap_polish import load_geo, write_geo
+    idf = str(s6.get("id_field", "CUSEC_KEY"))
+    with open(composicion, encoding="utf-8", newline="") as fh:
+        rd = csv.DictReader(fh)
+        sid = idf if idf in (rd.fieldnames or []) else "CUSEC_KEY"
+        dist = {str(r[sid]).strip(): int(r["district_id"]) for r in rd}
+    g = load_geo(base_m05)
+    claves = g[idf].astype(str).str.strip()
+    faltan = sorted(set(claves) - set(dist))
+    if faltan:
+        raise ValueError(f"la composición no asigna {len(faltan)} secciones del M05 (p. ej. {faltan[0]})")
+    g["district_id"] = claves.map(dist).astype("int64")
+    write_geo(g, destino)
+    return destino
+
+
 def parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(prog="python -m ddd_motor2.competidor",
                                  description="Competición canónico + GerryChain en lugar de M05 (T-163).")
@@ -132,6 +155,7 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--semilla", type=int, help="ignorada: semillas públicas del territorio")
     ap.add_argument("--cadenas", type=int, default=5)
     ap.add_argument("--territorio", help="por defecto, el directorio territorios/<t>/ del contrato")
+    ap.add_argument("--sin-exhaustivo", action="store_true", help="sin enumeración exacta (solo canónico + cadenas)")
     return ap
 
 
@@ -155,7 +179,8 @@ def main(argv=None) -> int:
     can = CanonicoM05(paso)
     entrada = EntradaTerritorio(t, cfg, Path(s5["in_graph_json"]))
     try:
-        r = competir_publico(entrada, can, GerryChainM05(paso, can), carpeta, n_cadenas=a.cadenas)
+        r = competir_publico(entrada, can, GerryChainM05(paso, can), carpeta, n_cadenas=a.cadenas,
+                             exhaustivo=not a.sin_exhaustivo)
     except ErrorContrato as exc:
         print(f"ERROR_CONTRATO: {exc}", file=sys.stderr)
         return 3
@@ -167,6 +192,11 @@ def main(argv=None) -> int:
         print(f"ningún candidato evaluable (ganador {g.id}: {g.estado})", file=sys.stderr)
         return 2
     d = Path(g.composicion).parent
+    if g.id == "exhaustivo":  # sin M05 propio: el del canónico con el plan del exhaustivo
+        if can.m05 is None:
+            print("ganador exhaustivo sin M05 del canónico de base", file=sys.stderr)
+            return 2
+        m05_desde_composicion(can.m05, Path(g.composicion), d / Path(s5["out_geojson"]).name, s6)
     for clave in ("out_geojson", "out_report"):
         f = d / Path(s5[clave]).name
         if f.is_file():
