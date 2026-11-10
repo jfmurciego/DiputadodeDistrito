@@ -23,9 +23,9 @@
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
 | 18:34 | Soria (prueba) | batería motor2 D8 N=10, `territorios=congreso_soria` | 42866296198 | SUCCESS: 12/12 candidatos válidos, 0 FALLO_GENERADOR, cadenas evaluables; empata con el canónico; huella reproducible | 1 / 5 min | 0/1 |
-| 18:40 | los 71 | batería motor2 D8 N=10, `territorios` vacío | 42867280579 | EN_VUELO | 2 / 5 min + en curso | 0/1 |
+| 18:40 | los 71 | batería motor2 D8 N=10, `territorios` vacío | 42867280579 | FALLO NO TRANSITORIO: 21 territorios con FALLO_GENERADOR incluso en el canónico (7 s); `requirements-ensemble.lock` sube pandas 2.3.2→3.0.5 y geopandas 1.1.1→1.1.4 sobre el lock base. 44 success. Cancelado por el Operador con 7 jobs en curso | 2 / ~420 min | 0/1 |
 
 ## Cierre
-Estado: `EN_CURSO`. Último uso: —.
+Estado: `PARADA` (run 42867280579, fallo no transitorio de dependencias). No se relanza; hace falta arreglo y frase nueva. Último uso: —.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_bateria-motor2-d8-10-cadenas-r2 tal como figura en la ficha.»
