@@ -4,7 +4,7 @@ Versión: 1.0.35
 Fecha: 2026-11-10
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: plan por temas y decisiones D-26 a D-43 del 09 y 10-11 (§0a); ids T-116 a T-170
+Cambios/motivo: plan por temas y decisiones D-26 a D-44 del 09 y 10-11 (§0a); ids T-116 a T-170
 Anterior: legacy/docs/PLAN_v1.0.34_20261108.md
 -->
 
@@ -78,6 +78,7 @@ con frase del propietario en su chat.
 - D-41. Circuito de permisos: autorización por campaña. Una frase del propietario en el chat del Operador cubre una campaña definida (qué se lanza, territorios, tope de coste, caducidad y lo que queda fuera); dentro de esos límites el Operador no vuelve a preguntar.
 - D-42. Otros ámbitos (municipales, europeas y Ecuador): solo preparar notas de fuentes y reglas; nada que necesite el motor.
 - D-43. Se actualiza el README del repositorio; si obliga a subir versión, el proyecto pasa a 4.10.0 con la cita alineada.
+- D-44. Núcleo único de reglas, criterios (provisionales hasta que la batería mida cuántos territorios cambian de veredicto): la tolerancia de población es un objetivo y los límites duros son solo suelo y techo; el máximo de distritos mixtos por municipio partido lo fija el contrato, con 1 por defecto; que un distrito no cruce provincias es obligatorio y explícito en el contrato; la exención del suelo por partición solo vale si todas las particiones del distrito están exentas; se enumeran todos los planes con un límite de esfuerzo y, si no termina, se muestrea.
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
