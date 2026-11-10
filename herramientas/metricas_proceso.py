@@ -2,13 +2,14 @@
 """Métricas del proceso (T-65): 00 a la primera, minutos de Actions, PR y CI, coste de agentes.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Métricas automáticas del proceso
-FECHA: 2026-11-07
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Métricas del proceso con paginación completa
+FECHA: 2026-11-10
 ESTADO: candidato
-CAMBIOS: versión inicial (T-65).
-MOTIVO: FRAMEWORK §8: medir coste por provincia cerrada y % de 00 que pasan a la primera (objetivo > 60 %) sin modelo.
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS: runs por ventanas de fechas (bisecta si una ventana llega al tope de 1.000), reintentos con espera en la API,
+  minutos de Actions = suma de la duración real de los jobs (caché por run), no el reloj del run (T-161).
+MOTIVO: T-155 (#615): con una sola consulta topada a 1.000 daba 5.920 min frente a 46.284 reales (27-10 → 10-11).
+ANTERIOR: legacy/herramientas/metricas_proceso_v1.0.0_20261110.py
 QUÉ HACE: con la API REST de GitHub (stdlib; token de GH_TOKEN/GITHUB_TOKEN, o `gh api` si no hay) y los ficheros del
   repo escribe orchestracion/metricas_proceso.json (y un espejo opcional para el dashboard):
   - 00 por territorio: intentos hasta el primer éxito y % que pasan a la primera, por semana. El territorio sale de
@@ -48,6 +49,8 @@ OBJETIVO_PRIMERA = 60.0
 TERMINALES = {"success", "failure", "timed_out", "startup_failure"}
 EVENTOS_NO_00 = {"pull_request", "pull_request_target", "push"}
 RUN_NAME = re.compile(r"^00 Ejecución Completa del Proyecto · (.+?) · (.+)$")
+REINTENTOS = 5
+TOPE_CONSULTA = 1000  # la API de runs no devuelve más de 1.000 resultados por consulta filtrada
 LINEA_TERRITORIO = re.compile(r"TERRITORY:\s*(.+?)\s*$")
 
 
@@ -95,20 +98,23 @@ class Cliente:
         return h
 
     def get(self, ruta, params=None):
-        if not self.token:
-            out = subprocess.run(["gh", "api", f"repos/{self.repo}/{ruta}", *sum((["-f", f"{k}={v}"] for k, v in (params or {}).items()), []),
-                                  "-X", "GET"], capture_output=True, text=True, check=True)
-            return json.loads(out.stdout)
-        for intento in range(3):
+        """GET con reintentos y espera exponencial (la API resetea conexiones en lotes largos, y limita en 403/429/5xx)."""
+        for intento in range(REINTENTOS):
             try:
+                if not self.token:
+                    out = subprocess.run(["gh", "api", f"repos/{self.repo}/{ruta}", "-X", "GET",
+                                          *sum((["-f", f"{k}={v}"] for k, v in (params or {}).items()), [])],
+                                         capture_output=True, text=True, check=True)
+                    return json.loads(out.stdout)
                 with urllib.request.urlopen(urllib.request.Request(self._url(ruta, params), headers=self._cab()), timeout=60) as r:
                     return json.load(r)
-            except urllib.error.HTTPError:
-                raise
-            except OSError:
-                if intento == 2:
+            except urllib.error.HTTPError as e:
+                if e.code not in (403, 429, 500, 502, 503, 504) or intento == REINTENTOS - 1:
                     raise
-                time.sleep(2 ** (intento + 1))
+            except (OSError, subprocess.CalledProcessError, ValueError):
+                if intento == REINTENTOS - 1:
+                    raise
+            time.sleep(2 ** (intento + 1))
 
     def texto(self, ruta):
         if not self.token:
@@ -142,6 +148,35 @@ def paginar(api, ruta, params, clave, parar=None, max_paginas=60):
         if len(items) < 100:
             break
     return out
+
+
+def _iso(d):
+    return d.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def runs_por_ventanas(api, desde, hasta, horas=6, params=None):
+    """Todos los runs creados en [desde, hasta]: ventanas de `horas`; si una llega al tope de la API se parte por la mitad."""
+    vistos = {}
+
+    def ventana(a, b):
+        items = paginar(api, "actions/runs", {**(params or {}), "created": f"{_iso(a)}..{_iso(b)}"}, "workflow_runs")
+        if len(items) >= TOPE_CONSULTA and (b - a) > timedelta(seconds=1):
+            m = a + (b - a) / 2
+            ventana(a, m.replace(microsecond=0))
+            ventana(m.replace(microsecond=0) + timedelta(seconds=1), b)
+            return
+        if len(items) >= TOPE_CONSULTA:
+            print(f"AVISO: ≥{TOPE_CONSULTA} runs en un solo segundo ({_iso(a)}); resultado incompleto", file=sys.stderr)
+        for it in items:
+            vistos[it["id"]] = it
+
+    paso = timedelta(hours=horas)
+    a = desde
+    while a < hasta:
+        b = min(a + paso, hasta)
+        ventana(a, b)
+        a = b + timedelta(seconds=1)
+    return list(vistos.values())
 
 
 # ------------------------------------------------------------------- territorio
@@ -252,35 +287,54 @@ def calcular_00(runs_00, territorios):
     }
 
 
-def minutos_por_workflow(runs):
+def minutos_de_jobs(api, rid, cache_min):
+    """Duración real: suma de (completed_at - started_at) de todos los jobs del run (el /timing da 0 en repo público)."""
+    if rid not in cache_min:
+        jobs = paginar(api, f"actions/runs/{rid}/jobs", {"filter": "all"}, "jobs")
+        cache_min[rid] = round(sum(minutos(j.get("started_at"), j.get("completed_at")) for j in jobs), 3) if jobs else None
+    return cache_min[rid]
+
+
+def minutos_de_runs(api, runs, cache_min, max_detalle):
+    """run_id -> minutos. Jobs reales (con caché); sin jobs o pasado el tope de consultas, reloj del run. Devuelve (minutos, nº reloj)."""
+    res, consultas, reloj = {}, 0, 0
+    for r in sorted(runs, key=lambda x: x["created_at"], reverse=True):
+        if r.get("conclusion") is None:
+            continue
+        rid = str(r["id"])
+        m = cache_min.get(rid)
+        if rid not in cache_min and consultas < max_detalle:
+            consultas += 1
+            try:
+                m = minutos_de_jobs(api, rid, cache_min)
+            except (OSError, subprocess.CalledProcessError, KeyError, ValueError):
+                m = None
+        if m is None:
+            reloj += 1
+            m = minutos(r.get("run_started_at") or r.get("created_at"), r.get("updated_at"))
+        res[rid] = m
+    return res, reloj
+
+
+def minutos_por_workflow(runs, por_run=None):
     acc = defaultdict(lambda: {"runs": 0, "minutos": 0.0})
     for r in runs:
         if r.get("conclusion") is None:
             continue
         a = acc[r.get("name") or r.get("path") or "?"]
         a["runs"] += 1
-        a["minutos"] += minutos(r.get("run_started_at") or r.get("created_at"), r.get("updated_at"))
+        a["minutos"] += (por_run or {}).get(str(r["id"])) if por_run and str(r["id"]) in por_run else \
+            minutos(r.get("run_started_at") or r.get("created_at"), r.get("updated_at"))
     filas = [{"workflow": k, "runs": v["runs"], "minutos": round(v["minutos"], 1)} for k, v in acc.items()]
     return sorted(filas, key=lambda f: -f["minutos"])
 
 
-def minutos_por_territorio(api, runs_00, territorios, cache_min, max_detalle):
-    """Suma de la duración de los jobs de cada 00 (una consulta por run, cacheada)."""
-    consultas, acc = 0, defaultdict(float)
-    for r in sorted(runs_00, key=lambda x: x["created_at"], reverse=True):
+def minutos_por_territorio(runs_00, territorios, por_run):
+    acc = defaultdict(float)
+    for r in runs_00:
         rid = str(r["id"])
-        if r.get("conclusion") is None:
-            continue
-        if rid not in cache_min:
-            if consultas >= max_detalle:
-                continue
-            consultas += 1
-            try:
-                jobs = api.get(f"actions/runs/{rid}/jobs", {"per_page": 100})["jobs"]
-            except (OSError, subprocess.CalledProcessError, KeyError, ValueError):
-                continue
-            cache_min[rid] = round(sum(minutos(j.get("started_at"), j.get("completed_at")) for j in jobs), 1)
-        acc[territorios.get(rid) or "(sin territorio)"] += cache_min[rid]
+        if rid in por_run:
+            acc[territorios.get(rid) or "(sin territorio)"] += por_run[rid]
     return sorted(({"territorio": t, "minutos": round(m, 1)} for t, m in acc.items()), key=lambda f: -f["minutos"])
 
 
@@ -358,20 +412,22 @@ def leer_costes(raiz):
 
 
 # ------------------------------------------------------------------------ main
-def generar(api, raiz, dias, max_logs, max_detalle, ahora=None, previo=None):
+def generar(api, raiz, dias, max_logs, max_detalle, ahora=None, previo=None, ventana_horas=6):
     ahora = ahora or datetime.now(timezone.utc)
     desde = ahora - timedelta(days=dias)
     cache = (previo or {}).get("cache", {})
     c_terr, c_min, c_causas = (dict(cache.get(k, {})) for k in ("territorio_por_run", "minutos_por_run", "causa_por_run"))
-    runs = paginar(api, "actions/runs", {"status": "completed", "created": f">={desde:%Y-%m-%d}"}, "workflow_runs")
+    runs = runs_por_ventanas(api, desde, ahora, ventana_horas, {"status": "completed"})
     runs_00 = [r for r in runs if (r.get("path") or "").endswith(WF_00) and r.get("event") not in EVENTOS_NO_00]
     terr = resolver_territorios(api, runs_00, cargar_evidencia(raiz), c_terr, max_logs)
     p00 = calcular_00(runs_00, terr)
-    por_terr = minutos_por_territorio(api, runs_00, terr, c_min, max_detalle)
+    min_run, runs_reloj = minutos_de_runs(api, runs, c_min, max_detalle)
+    por_terr = minutos_por_territorio(runs_00, terr, min_run)
     prs = paginar(api, "pulls", {"state": "closed", "sort": "updated", "direction": "desc"}, None,
                   parar=lambda p: ts(p["updated_at"]) < desde)
     costes = leer_costes(raiz)
-    min_total = round(sum(f["minutos"] for f in minutos_por_workflow(runs)), 1)
+    por_wf = minutos_por_workflow(runs, min_run)
+    min_total = round(sum(f["minutos"] for f in por_wf), 1)
     cerradas = p00["con_exito"]
     vivos = {str(r["id"]) for r in runs}
     return {
@@ -379,7 +435,8 @@ def generar(api, raiz, dias, max_logs, max_detalle, ahora=None, previo=None):
         "generado": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "repo": api.repo, "ventana": {"desde": desde.strftime("%Y-%m-%d"), "dias": dias},
         "ejecuciones_00": p00,
-        "minutos_actions": {"total": min_total, "por_workflow": minutos_por_workflow(runs), "por_territorio_00": por_terr},
+        "minutos_actions": {"total": min_total, "runs": len(min_run), "runs_con_reloj_en_vez_de_jobs": runs_reloj,
+                            "por_workflow": por_wf, "por_territorio_00": por_terr},
         "pr": {**calcular_prs(prs, desde), "pruebas": calcular_pruebas(runs)},
         "fallos_ci_pr": fallos_ci(api, runs, c_causas, max_detalle),
         "coste_agentes": costes,
@@ -402,13 +459,14 @@ def main(argv=None):
     ap.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", "jfmurciego/diputadodedistrito"))
     ap.add_argument("--dias", type=int, default=42)
     ap.add_argument("--max-logs", type=int, default=40, help="descargas de log de «Planificar» por ejecución")
-    ap.add_argument("--max-detalle", type=int, default=80, help="consultas de jobs por ejecución (minutos y causas de CI)")
+    ap.add_argument("--max-detalle", type=int, default=1500, help="consultas de jobs por ejecución (minutos y causas de CI)")
+    ap.add_argument("--ventana-horas", type=int, default=6, help="tamaño de las ventanas de fechas (tope de 1.000 por consulta)")
     ap.add_argument("--salida", default=SALIDA)
     ap.add_argument("--espejo", help="copia adicional para el dashboard (p. ej. dashboard/metricas_proceso.json)")
     a = ap.parse_args(argv)
     out = ROOT / a.salida
     previo = json.loads(out.read_text(encoding="utf-8")) if out.exists() else None
-    datos = generar(Cliente(a.repo), ROOT, a.dias, a.max_logs, a.max_detalle, previo=previo)
+    datos = generar(Cliente(a.repo), ROOT, a.dias, a.max_logs, a.max_detalle, previo=previo, ventana_horas=a.ventana_horas)
     if previo and sin_fecha(previo) == sin_fecha(datos):
         datos["generado"] = previo["generado"]
     texto = json.dumps(datos, ensure_ascii=False, indent=1, sort_keys=False) + "\n"
