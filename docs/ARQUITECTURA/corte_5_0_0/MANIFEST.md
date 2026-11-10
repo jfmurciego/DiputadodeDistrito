@@ -11,21 +11,19 @@ los commits posteriores `606ec07` y `3c02ac5` solo añaden docs/registro y no to
 | archivo_r2.json | orchestracion/archivo_r2.json | 57be640663e5e677c5337cf018c18e4dee61eb3d751b05a69223e5660f379a6b |
 | inventario_r2_registro.csv | derivado de archivo_r2.json (clave, tamaño, sha256, fecha) | a491f75eab7f3acae7881618043be5ffaa5b38687336e0132a82a262544e4c05 |
 
-## Inventario de R2: del REGISTRO, no del cubo
-El entorno cloud no tiene credenciales de R2 (`R2_BUCKET`, `R2_ACCOUNT_ID`, `AWS_*` ausentes), así que **no se ha listado el cubo**.
-`inventario_r2_registro.csv` es lo que el archivista anotó: 390 objetos, 1.976.209.280 bytes (104 `ddd-audit`,
-102 `ddd-audit-electoral`, 184 `ddd-minimo`/`ddd-state`). **Discrepancia**: CORTE_5_0_0.md cita 624 objetos; el registro
-en `main` tiene 390. Hay que contrastar con el cubo real (orden abajo) antes de fiarse de cualquiera de las dos cifras.
+## Inventario de R2: del REGISTRO
+El entorno cloud no tiene credenciales de R2, así que no se ha listado el cubo. El inventario del paso 0 es
+`archivo_r2.json` (390 claves con sha256) y su derivado `inventario_r2_registro.csv`: 390 objetos, 1.976.209.280 bytes
+(104 `ddd-audit`, 102 `ddd-audit-electoral`, 184 `ddd-minimo`/`ddd-state`). La cifra de 624 de CORTE_5_0_0.md es anterior:
+234 claves se podaron el 2026-11-10 (aclaración del Operador/Planificador); vale 390.
 
-Orden para el Operador (solo lectura, con las credenciales del entorno `produccion`/archivo):
+**Orden del paso 7: listar el cubo y comprobar objeto a objeto contra `archivo_r2.json` antes de copiar.** El listado real
+va al principio del paso 7, dentro del flujo que copie ARC-E/ARC-P. Orden de solo lectura (Operador, credenciales del entorno):
 ```
 aws s3api list-objects-v2 --bucket "$R2_BUCKET" --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com" \
   --query 'Contents[].[Key,Size,ETag]' --output text > inventario_r2_cubo.tsv
 ```
-(el ETag de objetos multiparte no es sha256; para sha256 cruzar con `archivo_r2.json`). Comparar claves con el CSV.
-
-## Vuelta atrás
-`git checkout pre-5.0.0` y estos ficheros: los 3 originales deben coincidir byte a byte con las copias.
+(el ETag multiparte no es sha256; para sha256 cruzar con `archivo_r2.json`).
 
 ## Orden de etiqueta (Operador; reversible)
 ```
