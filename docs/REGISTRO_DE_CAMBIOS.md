@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.290
+Versión: 1.0.291
 Fecha: 2026-11-10
-Alcance: Coordinador — Lecciones del 10-11 y tablero de estado
+Alcance: T-174 — Hueco de analítica sin cookies (Cloudflare Web Analytics), inactivo sin token
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_lecciones-1011.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.289_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t174-analitica-cloudflare.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.290_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.289_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.291 · [2026-11-10 — T-174 — Hueco de analítica sin cookies (Cloudflare Web Analytics), inactivo sin token](registro/2026-11-10_t174-analitica-cloudflare.md)
 - 1.0.290 · [2026-11-10 — Coordinador — Lecciones del 10-11 y tablero de estado](registro/2026-11-10_lecciones-1011.md)
 - 1.0.289 · [2026-11-10 — T-149 — Los dos reutilizables restantes pierden el «_» del nombre](registro/2026-11-10_t149d-puerta-incorporacion.md)
 - 1.0.288 · [2026-11-10 — T-149 — Un solo auxiliar de mantenimiento programado](registro/2026-11-10_t149c-mantenimiento.md)
