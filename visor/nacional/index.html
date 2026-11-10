@@ -1,11 +1,11 @@
 <!doctype html>
 <!--
 Proyecto: Diputado de Distrito
-Versión: 1.0.1 | Nombre: visor Nacional (T-84, D-16)
-Fecha: 2026-11-08 | Alcance: vista Nacional, elecciones generales; Autonómica pendiente
+Versión: 1.0.2 | Nombre: visor Nacional (T-84, D-16)
+Fecha: 2026-11-10 | Alcance: vista Nacional, elecciones generales; Autonómica pendiente
 Estado: candidato
-Cambios/motivo: vista nueva con barra temporal y capas; solo muestra lo publicado en datos/.
-Anterior: legacy/visor/nacional/index_v1.0.0.html
+Cambios/motivo: T-174, hueco opcional de analítica sin cookies (Cloudflare Web Analytics); inactivo sin token.
+Anterior: legacy/visor/nacional/index_v1.0.1.html
 -->
 <html lang="es">
 <head>
@@ -34,5 +34,15 @@ Anterior: legacy/visor/nacional/index_v1.0.0.html
 <nav class="timebar" id="timebar" aria-label="Elección"></nav>
 <script src="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js"></script>
 <script src="nacional.js"></script>
+<!-- ANALITICA:INICIO (T-174) Cloudflare Web Analytics. Sin token no se inyecta nada. Rellenar TOKEN con el token del beacon (público por diseño); el mismo en visor/index.html, visor/nacional/index.html y visor/v2/index.html. -->
+<script>
+(function(){var TOKEN="";if(!TOKEN)return;
+var d=document,p=d.createElement("p");p.className="aviso-analitica";p.style.cssText="font-size:12px;margin:8px 16px;opacity:.85";
+p.appendChild(d.createTextNode("Medimos las visitas de forma agregada con Cloudflare Web Analytics, que según su documentación no usa cookies ni almacenamiento local ni sigue a las personas entre sitios. "));
+var a=d.createElement("a");a.href="https://developers.cloudflare.com/web-analytics/";a.target="_blank";a.rel="noreferrer";a.textContent="Documentación de Cloudflare";p.appendChild(a);
+d.body.appendChild(p);
+var s=d.createElement("script");s.defer=true;s.src="https://static.cloudflareinsights.com/beacon.min.js";s.setAttribute("data-cf-beacon",JSON.stringify({token:TOKEN}));d.head.appendChild(s);})();
+</script>
+<!-- ANALITICA:FIN -->
 </body>
 </html>
