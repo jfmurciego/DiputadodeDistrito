@@ -3,14 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — orquestador de la competición «canónico + GerryChain»
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Competición · paso 1
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Competición · paso 2
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.1.0 — competir_publico (semillas de semilla.py) y huella del resultado (reproducibilidad bit a bit);
+  1.0.0 — fichero nuevo.
 MOTIVO: T-163 / D-48: la primera versión del motor nuevo es una competición entre el canónico y N cadenas de
   GerryChain bajo el núcleo único de reglas; gana el mejor plan válido, así que nunca es peor que el canónico.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: 1.0.0 (no fusionada; misma serie de PR T-163)
 QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador canónico (una vez) y la cadena con cada
   semilla, a través de adaptadores (protocolo Generador: devuelven una composición M06). Cada candidato se juzga con el
   núcleo (adaptadores.problema_y_plan + reglas.evaluar, Criterio D-44 por defecto) y se ordena con la función de
@@ -37,7 +38,7 @@ from typing import Any, Iterable, Mapping, Protocol
 from .adaptadores import problema_y_plan
 from .reglas import Criterio, ErrorContrato, ErrorDatos, Reglas, evaluar
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 
 @dataclass(frozen=True)
@@ -119,10 +120,20 @@ class Resultado:
     huella_reglas: str
     criterio: dict
     tiempo_total_s: float
+    semilla_publica: dict = field(default_factory=dict)
+
+    def huella(self) -> str:
+        """sha256 de lo que debe repetirse bit a bit con la misma entrada: reglas, semillas, plan y composición de
+        cada candidato y ganador (sin tiempos ni rutas)."""
+        forma = {"reglas": self.huella_reglas, "ganador": self.ganador.id,
+                 "candidatos": [[c.id, c.semilla, c.estado, c.huella_plan, c.composicion_sha256]
+                                for c in sorted(self.candidatos, key=lambda c: c.orden)]}
+        return hashlib.sha256(json.dumps(forma, separators=(",", ":")).encode("utf-8")).hexdigest()
 
     def a_dict(self) -> dict:
         return {
             "version_orquestador": VERSION, "territorio": self.territorio, "ganador": self.ganador.id,
+            "huella_resultado": self.huella(), "semilla_publica": self.semilla_publica,
             "canonico": self.canonico.id, "huella_reglas": self.huella_reglas, "criterio": self.criterio,
             "orden_calidad": ["evaluable", "violaciones_duras", "fuera_tolerancia", "desvio_max", "ecm",
                               "huella_plan", "orden"],
@@ -234,3 +245,13 @@ def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador,
     return Resultado(entrada.territorio, candidatos, ganador, can, huella,
                      {k: getattr(criterio, k) for k in criterio.__dataclass_fields__},
                      time.monotonic() - t_ini)
+
+
+def competir_publico(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador, destino: Path, *,
+                     n_cadenas: int = 5, criterio: Criterio | None = None) -> Resultado:
+    """La competición con las N semillas públicas del territorio (semilla.py): misma entrada ⇒ mismo resultado."""
+    from .semilla import descripcion
+    desc = descripcion(entrada.cfg, entrada.territorio, n_cadenas)
+    r = competir(entrada, canonico, cadena, desc["semillas"], destino, criterio=criterio)
+    r.semilla_publica = desc
+    return r
