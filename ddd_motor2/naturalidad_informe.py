@@ -32,6 +32,8 @@ NOMBRES = {"A": "A · solo población (función vigente)", "B": "B · población
 PALETA = ["#4e79a7", "#f28e2b", "#e15759", "#76b7b2", "#59a14f", "#edc948", "#b07aa1", "#ff9da7", "#9c755f",
           "#bab0ac", "#86bcb6", "#d37295", "#a0cbe8", "#ffbe7d", "#8cd17d", "#b6992d", "#f1ce63", "#499894",
           "#d4a6c8", "#fabfd2"]
+NOMBRE_TERRITORIO = {"congreso_leon": "León", "congreso_cadiz": "Cádiz", "congreso_badajoz": "Badajoz",
+                     "congreso_asturias": "Asturias", "congreso_madrid": "Madrid", "congreso_barcelona": "Barcelona"}
 COLUMNAS = ["territorio", "funcion", "candidato", "fuera_tolerancia", "desvio_max_pct", "max_desvio_personas",
             "suma_desvio_personas", "coste_suma_desvio_vs_A", "pp_medio", "pp_min", "convexidad_media",
             "pj_partidos", "pj_n", "pj_pob_fuera_mayoritario", "ca_partidas", "ca_n", "comarca_partidas",
@@ -87,7 +89,7 @@ def figura(t: str, geo: nm.Geometria, planes: dict, pob: dict, filas: dict, dest
         ax.set_xlim(x0, x1)
         ax.set_ylim(y0, y1)
         ax.set_axis_off()
-    fig.suptitle(f"{t.replace('congreso_', '').replace('_', ' ').title()} — mismos datos y reglas; cambia cómo se elige "
+    fig.suptitle(f"{NOMBRE_TERRITORIO.get(t, t)} — mismos datos y reglas; cambia cómo se elige "
                  "y cómo se corta (línea discontinua: partidos judiciales)", fontsize=11)
     fig.tight_layout()
     fig.savefig(destino, metadata={"Software": None})
