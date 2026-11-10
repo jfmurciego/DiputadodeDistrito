@@ -96,6 +96,7 @@ class Equivalencias(unittest.TestCase):
         self.assertEqual(len(set(nombres.values())), len(nombres), "dos flujos con el mismo nombre visible")
         for fich, _, flujo, nombre_v5 in gen.FLUJOS:
             self.assertTrue(nombre_v5.startswith(flujo.split(" ")[0]), fich)
+        self.assertEqual(nombres["mantenimiento-programado.yml"], "Automático · Mantenimiento")  # §b del corte
         internos = [n for f, n in nombres.items() if f.startswith("_reutilizable-")]
         self.assertTrue(internos and all(re.match(r"^Interno · P\d0 ", n) for n in internos), internos)
 
