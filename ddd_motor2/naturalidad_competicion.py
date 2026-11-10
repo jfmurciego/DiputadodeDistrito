@@ -9,7 +9,9 @@ FECHA: 2026-11-10
 ESTADO: experimento (motor 2; producción no lo importa; no lanza nada; el criterio NO se fija aquí)
 CAMBIOS: 1.1.0 (T-179): variantes D5 y D8 = C con tope de desvío máximo del 5 % / 8 % solo para elegir entre
   candidatos (no es regla: el núcleo, suelo, techo y K no cambian). Las cadenas ponderadas son las mismas (mismas
-  semillas) y registran además el mejor estado bajo cada tope; A/B/C y su huella no cambian. 1.0.0: fichero nuevo.
+  semillas) y registran además el mejor estado bajo cada tope; A/B/C y su huella no cambian con el mismo entorno.
+  RESULTADO.json guarda las versiones de shapely/GEOS/geopandas/gerrychain («entorno»): con otra GEOS cambia alguna
+  arista y, con ella, las cadenas (Badajoz, Madrid y Barcelona no reprodujeron #651). 1.0.0: fichero nuevo.
 MOTIVO: T-172, pasos 3 y 4: ¿cuánta población «cuesta» un mapa más natural? Misma entrada, mismas reglas (núcleo
   ddd_motor2.reglas.evaluar), mismas semillas públicas (semilla.py); cambia solo cómo se elige y cómo se corta.
 ANTERIOR: 1.0.0 (T-172, #651)
@@ -225,6 +227,15 @@ def cadena(lab: Laboratorio, semilla: int, pasos: int, funciones: tuple[str, ...
             "fallo": fallo}
 
 
+def entorno() -> dict:
+    from importlib.metadata import version  # noqa: PLC0415
+    import shapely  # noqa: PLC0415
+    out = {"python": sys.version.split()[0], "geos": shapely.geos_version_string}
+    for m in ("shapely", "geopandas", "pyogrio", "gerrychain", "networkx"):
+        out[m] = version(m)
+    return out
+
+
 def _j(x):
     if isinstance(x, Fraction):
         return float(x)
@@ -286,7 +297,7 @@ def correr(t: str, a, tablas: dict, mov) -> dict:
                           "rlong": a.rlong},
            "semilla_publica": desc, "huella_reglas": lab.reglas.huella(), "ganadores": ganadores,
            "candidatos": {f: [[c[0], _j(c[2])] for c in cand[f]] for f in FUNCIONES},
-           "cadenas": cadenas, "tiempos_s": {"entrada": t_ent, "total": time.perf_counter() - t0}}
+           "cadenas": cadenas, "entorno": entorno(), "tiempos_s": {"entrada": t_ent, "total": time.perf_counter() - t0}}
 
     def _huella(fs) -> str:
         return hashlib.sha256(json.dumps(
