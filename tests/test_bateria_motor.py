@@ -81,3 +81,76 @@ class BateriaMotor(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BateriaMotor2EnActions(unittest.TestCase):
+    """T-208 (D-72): la batería del motor 2 en Actions."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.wf = yaml.safe_load((ROOT / ".github/workflows/bateria-motor.yml").read_text(encoding="utf-8"))
+
+    def test_entradas_y_defectos(self):
+        ent = self.wf[True]["workflow_dispatch"]["inputs"]
+        self.assertEqual(ent["motor"]["default"], "m05")
+        self.assertEqual(ent["funcion"]["default"], "D8")
+        self.assertEqual(ent["cadenas"]["default"], "10")
+        self.assertEqual(self.wf["name"], "Auxiliar — Batería del Motor")  # sin renombrar (corte 5.0.0)
+
+    def test_modo_m05_intacto_y_motor2_en_matriz(self):
+        j = self.wf["jobs"]
+        self.assertEqual(j["bateria"]["timeout-minutes"], 300)
+        self.assertEqual(j["bateria"]["if"], "${{ inputs.motor != 'motor2' }}")
+        self.assertEqual(j["competicion"]["timeout-minutes"], 360)
+        self.assertFalse(j["competicion"]["strategy"]["fail-fast"])
+        self.assertEqual(j["competicion"]["env"]["PYTHONHASHSEED"], "0")
+        self.assertEqual(j["aceptacion"]["needs"], ["plan", "competicion"])
+        txt = (ROOT / ".github/workflows/bateria-motor.yml").read_text(encoding="utf-8")
+        self.assertIn("--desde-r2", txt)
+        for t in ("congreso_soria", "congreso_alava", "melilla"):
+            self.assertIn(f"matrix.t == '{t}'", txt)
+
+    def test_lista_valida_territorios(self):
+        import contextlib
+        import io
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            self.assertEqual(b.main(["lista"]), 0)
+        self.assertEqual(len(json.loads(buf.getvalue())["include"]), 71)
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            self.assertEqual(b.main(["lista", "congreso_soria", "melilla"]), 0)
+        self.assertEqual(json.loads(buf.getvalue()), {"include": [{"t": "congreso_soria"}, {"t": "melilla"}]})
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(b.main(["lista", "atlantida"]), 2)
+
+    def test_criterio_de_aceptacion(self):
+        ok = lambda t, f="empata": {"territorio": t, "estado": "VALIDO", "frente_al_canonico": f}  # noqa: E731
+        esp = ["congreso_soria", "madrid"]
+        hu = {"congreso_soria": {"igual": True, "huella_1": "x"}}
+        self.assertTrue(b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "mejora")], hu, esp)["aceptacion"])
+        self.assertEqual(b.criterio_aceptacion([ok("congreso_soria")], hu, esp)["faltan"], ["madrid"])
+        self.assertEqual(b.criterio_aceptacion([ok("congreso_soria"), ok("madrid", "empeora")], hu, esp)["empeoran"], ["madrid"])
+        malo = [ok("congreso_soria"), {**ok("madrid"), "estado": "INVALIDO"}]
+        self.assertEqual(b.criterio_aceptacion(malo, hu, esp)["no_validos"], ["madrid"])
+        sin = b.criterio_aceptacion([ok("congreso_soria"), ok("madrid")], {"congreso_soria": {"igual": False}}, esp)
+        self.assertEqual(sin["huella_real_mal"], ["congreso_soria"])
+        self.assertFalse(sin["aceptacion"])
+
+    def test_aceptacion_une_la_matriz(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            for t, h in (("congreso_soria", "ab"), ("madrid", "cd")):
+                fila = {"territorio": t, "estado": "VALIDO", "ganador": "g", "valido": True, "frente_al_canonico": "empata",
+                        "canonico": "VALIDO", "candidatos_validos": 3, "candidatos": 3, "desvio_max": 0.01,
+                        "desvio_max_canonico": 0.01, "fuera_tolerancia": 0, "huella_resultado": h, "tiempo_s": 1.0}
+                (out / "x" / "competicion" / t).mkdir(parents=True)
+                (out / "x" / "competicion" / t / "RESUMEN.json").write_text(json.dumps({"territorios": [fila]}))
+            hr = out / "x" / "competicion" / "congreso_soria" / "HUELLA_REAL.json"
+            hr.write_text(json.dumps({"territorio": "congreso_soria", "huella_1": "ab", "huella_2": "ab", "igual": True}))
+            import contextlib
+            import io
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(b.main(["aceptacion", "--out", str(out), "congreso_soria", "madrid"]), 0)
+                self.assertEqual(b.main(["aceptacion", "--out", str(out), "congreso_soria", "madrid", "melilla"]), 1)
+            self.assertFalse(json.loads((out / "ACEPTACION.json").read_text())["aceptacion"])

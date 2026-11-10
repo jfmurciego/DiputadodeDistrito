@@ -3,15 +3,18 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1
+VERSIÓN: 1.1.0
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-10
 ESTADO: candidato
+CAMBIOS 1.1.0 (T-208): subcomandos `lista` (matriz de territorios para Actions), `huella` (huella real: dos ejecuciones de la
+  competición del motor 2 con igual huella) y `aceptacion` (une los resultados por territorio y aplica el criterio de
+  T-194); `entradas` descarga las copias nacionales solo si hace falta (antes fallaba si faltaban). Nada cambia en `motor`.
 CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de la elección por defecto (2023-07-23).
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
-ANTERIOR: legacy/herramientas/bateria_motor_v1.0.0_20261110.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.0.1_20261110.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -31,6 +34,12 @@ QUÉ HACE: subcomandos
               (M01 secciones + grafo M03, ENTRADA_MINIMA) y ENTRADAS.json con el sha256 de todo lo demás.
   archivar    sube a R2 la entrada mínima de cada territorio (reconstruida o extraída de R2): bateria/entradas/<t>/<huella>.zip
               (cliente de herramientas/archivar_artefactos_r2.py; R2_BUCKET y R2_ACCOUNT_ID).
+  lista       JSON {"include":[{"t":...}]} con los territorios pedidos (o los 71) para la matriz de Actions.
+  huella      huella real (criterio a de T-194): repite la competición del motor 2 en <out>/_huella2 y compara la
+              huella_resultado con la de <out>/competicion/<t>/RESUMEN.json; escribe HUELLA_REAL.json junto a ella.
+  aceptacion  une <out>/**/competicion/<t>/RESUMEN.json y aplica el criterio de aceptación del motor 2 (docs/ARQUITECTURA/
+              ACEPTACION_MOTOR2.md): todos válidos, ninguno peor que el canónico y huella real igual en Soria, Álava
+              y Melilla; escribe ACEPTACION.json/md y RESUMEN.{json,md}; sale 1 si no se cumple.
 USO: python herramientas/bateria_motor.py nacionales
      python herramientas/bateria_motor.py entradas --todos
      python herramientas/bateria_motor.py motor --todos [--m05 7.4.2]
@@ -367,7 +376,7 @@ def entradas_r2_uno(t: str, out: Path) -> dict | None:
 
 
 def entradas(args) -> int:
-    nac = json.loads((NACIONAL / "NACIONALES.json").read_text(encoding="utf-8"))["ficheros"]
+    nac = None  # copias nacionales: solo si algún territorio no se reutiliza de R2
     out = Path(args.out)
     fallos = 0
     for t in (territorios() if args.todos else args.territorios):
@@ -375,6 +384,10 @@ def entradas(args) -> int:
         if r is not None:
             print(f"{t}: OK reutilizada de R2 {r['estado_r2']}", flush=True)
             continue
+        if nac is None:
+            if not (NACIONAL / "NACIONALES.json").is_file():
+                nacionales(args)
+            nac = json.loads((NACIONAL / "NACIONALES.json").read_text(encoding="utf-8"))["ficheros"]
         r = entradas_uno(t, out, nac, args.seccionado)
         iguales = {k: v["igual_contrato"] for k, v in (r.get("fuentes") or {}).items()}
         print(f"{t}: {r['estado']} {r['tiempos']} huella=contrato {iguales}", flush=True)
@@ -658,6 +671,78 @@ def archivar(args) -> int:
     return 0
 
 
+# --------------------------------------------------------------------------- motor 2 en Actions (T-208)
+HUELLA_REAL = ("congreso_soria", "congreso_alava", "melilla")  # criterio a de T-194 (nombres de territorio de la batería)
+
+
+def lista(args) -> int:
+    todos = territorios()
+    pedidos = args.territorios or todos
+    desconocidos = [t for t in pedidos if t not in todos]
+    if desconocidos:
+        print(f"::error::BATERIA_TERRITORIO_DESCONOCIDO {' '.join(desconocidos)}")
+        return 2
+    print(json.dumps({"include": [{"t": t} for t in pedidos]}))
+    return 0
+
+
+def huella(args) -> int:
+    from ddd_motor2.competir import competir_territorio
+    out = Path(args.out)
+    t = args.territorio
+    primera = json.loads((out / "competicion" / t / "RESUMEN.json").read_text(encoding="utf-8"))["territorios"][0]
+    sombra = out / "_huella2"
+    sombra.mkdir(parents=True, exist_ok=True)
+    if not (sombra / "entradas").exists():
+        (sombra / "entradas").symlink_to((out / "entradas").resolve(), target_is_directory=True)
+    segunda = competir_territorio(t, sombra, args.cadenas, funcion=args.funcion)
+    h1, h2 = primera.get("huella_resultado"), segunda.get("huella_resultado")
+    res = {"territorio": t, "huella_1": h1, "huella_2": h2, "igual": bool(h1) and h1 == h2,
+           "funcion": args.funcion, "cadenas": args.cadenas, "estado_2": segunda.get("estado")}
+    (out / "competicion" / t / "HUELLA_REAL.json").write_text(json.dumps(res, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(res))
+    return 0 if res["igual"] else 1
+
+
+def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str]) -> dict:
+    """Criterio T-194 sobre los resultados reales: sin red ni motor. `huellas` = {territorio: HUELLA_REAL.json}."""
+    por_t = {f["territorio"]: f for f in filas}
+    faltan = [t for t in esperados if t not in por_t]
+    no_validos = sorted(t for t in esperados if t in por_t and por_t[t].get("estado") != "VALIDO")
+    peores = sorted(t for t in esperados if t in por_t and por_t[t].get("frente_al_canonico") == "empeora")
+    h_pedidas = [t for t in HUELLA_REAL if t in esperados]
+    h_mal = sorted(t for t in h_pedidas if not (huellas.get(t) or {}).get("igual"))
+    return {"esperados": len(esperados), "faltan": faltan, "no_validos": no_validos, "empeoran": peores,
+            "huella_real": {t: (huellas.get(t) or {}).get("huella_1") for t in h_pedidas}, "huella_real_mal": h_mal,
+            "aceptacion": bool(esperados) and not (faltan or no_validos or peores or h_mal)}
+
+
+def aceptacion(args) -> int:
+    from ddd_motor2.competir import escribir_resumen
+    out = Path(args.out)
+    filas, huellas = [], {}
+    for f in sorted(out.rglob("RESUMEN.json")):
+        if f.parent.parent.name == "competicion" and f.parent.name != "_huella2":
+            filas.extend(json.loads(f.read_text(encoding="utf-8"))["territorios"])
+    for f in sorted(out.rglob("HUELLA_REAL.json")):
+        h = json.loads(f.read_text(encoding="utf-8"))
+        huellas[h["territorio"]] = h
+    esperados = args.territorios or territorios()
+    filas = sorted({x["territorio"]: x for x in filas}.values(), key=lambda x: x["territorio"])
+    tot = escribir_resumen(filas, out / "competicion") if filas else {}
+    res = criterio_aceptacion(filas, huellas, esperados)
+    res["totales"] = tot
+    (out / "ACEPTACION.json").write_text(json.dumps(res, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    md = [f"# Aceptación del motor 2 · {'SÍ' if res['aceptacion'] else 'NO'}", "",
+          f"- Territorios esperados: {res['esperados']}; faltan: {res['faltan'] or 'ninguno'}.",
+          f"- No válidos: {res['no_validos'] or 'ninguno'}; peores que el canónico: {res['empeoran'] or 'ninguno'}.",
+          f"- Huella real (Soria, Álava, Melilla; dos ejecuciones iguales): "
+          f"{'fallan ' + ', '.join(res['huella_real_mal']) if res['huella_real_mal'] else 'correcta'} {res['huella_real']}."]
+    (out / "ACEPTACION.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    print("\n".join(md))
+    return 0 if res["aceptacion"] else 1
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -676,8 +761,17 @@ def main(argv=None) -> int:
             p.add_argument("--m05", default="7.4.4", choices=sorted(M05_BASE))
     for nombre in ("matriz", "archivar"):
         sub.add_parser(nombre).add_argument("--out", default=str(OUT))
+    sub.add_parser("lista").add_argument("territorios", nargs="*")
+    p = sub.add_parser("huella")
+    p.add_argument("territorio")
+    p.add_argument("--out", default=str(OUT))
+    p.add_argument("--funcion", default="D8")
+    p.add_argument("--cadenas", type=int, default=10)
+    p = sub.add_parser("aceptacion")
+    p.add_argument("territorios", nargs="*")
+    p.add_argument("--out", default=str(OUT))
     a = ap.parse_args(argv)
-    return {"nacionales": nacionales, "entradas": entradas, "motor": motor, "matriz": matriz, "archivar": archivar}[a.cmd](a)
+    return {"lista": lista, "huella": huella, "aceptacion": aceptacion, "nacionales": nacionales, "entradas": entradas, "motor": motor, "matriz": matriz, "archivar": archivar}[a.cmd](a)
 
 
 if __name__ == "__main__":

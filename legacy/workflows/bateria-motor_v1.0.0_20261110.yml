@@ -1,0 +1,101 @@
+# PROYECTO: Diputado de Distrito
+# FICHERO: bateria-motor.yml
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Batería del motor
+# FECHA: 2026-11-09
+# ESTADO: candidato
+# QUÉ HACE: entradas de los 71 territorios (herramientas/bateria_motor.py entradas): reutiliza el estado M03 archivado
+#   en R2 si es del contrato vigente (sha256 de orchestracion/archivo_r2.json) y, si no, las reconstruye desde fuente
+#   INE; ejecuta M04-M06 con el motor indicado y la validación de producción y deja la matriz territorio × regla como
+#   artefacto. Con archivar=true sube a R2 solo la entrada mínima (M01 + grafo M03 + ENTRADAS.json) de cada
+#   territorio. No publica ni escribe en main.
+# CAMBIOS: 1.0.0: fichero nuevo (T-132).
+# MOTIVO: repetir la batería ante cualquier cambio del motor con un solo botón; sin programación ni vigilantes.
+# ANTERIOR: ninguna (fichero nuevo)
+name: 'Auxiliar — Batería del Motor'
+run-name: "Batería del motor ${{ inputs.versiones_m05 }} ${{ inputs.territorios || 'todos' }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      territorios:
+        description: 'Territorios separados por espacios; vacío = los 71'
+        required: false
+        type: string
+        default: ''
+      versiones_m05:
+        description: 'Versiones del motor base M05 separadas por espacios (7.4.4 vigente; 7.4.3 y 7.4.2 legacy)'
+        required: false
+        type: string
+        default: '7.4.4'
+      archivar:
+        description: 'Subir a R2 la entrada mínima de cada territorio'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bateria-motor
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  bateria:
+    name: Batería del motor
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      TERRITORIOS: ${{ inputs.territorios }}
+      VERSIONES: ${{ inputs.versiones_m05 }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+      R2_BUCKET: ${{ vars.R2_BUCKET }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - run: python -m pip install --requirement requirements.lock
+      - name: Copias nacionales (INE)
+        run: python herramientas/bateria_motor.py nacionales
+      - name: Entradas desde fuente
+        shell: bash
+        run: |
+          set -euo pipefail
+          r2=(); [[ -n "${R2_ACCOUNT_ID:-}" && -n "${AWS_ACCESS_KEY_ID:-}" ]] && r2=(--desde-r2)
+          if [[ -n "$TERRITORIOS" ]]; then read -ra ts <<<"$TERRITORIOS"; python herramientas/bateria_motor.py entradas "${r2[@]}" "${ts[@]}"
+          else python herramientas/bateria_motor.py entradas "${r2[@]}" --todos; fi
+      - name: Motor y validación
+        shell: bash
+        run: |
+          set -uo pipefail
+          rc=0
+          for v in $VERSIONES; do
+            if [[ -n "$TERRITORIOS" ]]; then read -ra ts <<<"$TERRITORIOS"; python herramientas/bateria_motor.py motor --m05 "$v" "${ts[@]}" || rc=1
+            else python herramientas/bateria_motor.py motor --m05 "$v" --todos || rc=1; fi
+          done
+          python herramientas/bateria_motor.py matriz
+          cat bateria/MATRIZ.md >> "$GITHUB_STEP_SUMMARY"
+          exit "$rc"
+      - name: Archivar entradas en R2
+        if: ${{ always() && inputs.archivar }}
+        run: python herramientas/bateria_motor.py archivar
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: bateria-motor-${{ github.run_id }}
+          path: |
+            bateria/MATRIZ.*
+            bateria/ARCHIVO_ENTRADAS.json
+            bateria/entradas/*/ENTRADAS.json
+            bateria/motor/*/*/RESULTADO.json
+            bateria/motor/*/*/VALIDACION.json
+            inputs/_nacional/NACIONALES.json
+          retention-days: 14
