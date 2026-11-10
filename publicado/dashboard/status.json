@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-09T23:21:47.918962+00:00",
+  "generated_at": "2026-11-10T01:33:04.630981+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -333,12 +333,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/cantabria/evidencia/pares_fuentes/2025/fc21c1941280823586c1f01956414f55736ceb7ed9dccde68813a3886f1fab68.json",
-            "pair_sha256": "fc21c1941280823586c1f01956414f55736ceb7ed9dccde68813a3886f1fab68",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/cantabria/evidencia/pares_fuentes/2025/e6f708de40a73a4b2941809203619e18a79b4548b69b08af486739bc44c40311.json",
+            "pair_sha256": "e6f708de40a73a4b2941809203619e18a79b4548b69b08af486739bc44c40311",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -575,8 +575,8 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 40691774876,
-            "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/3e53d9481b871f105f2f6fd0d3564aaa10a4ce331e4fde4268cddda327fb8a37/40691774876/receipt.json"
+            "run_id": 42720735134,
+            "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6/42720735134/receipt.json"
           }
         },
         "electoral": {
@@ -588,12 +588,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/extremadura/evidencia/pares_fuentes/2025/9fa244d93cf37eace370e0eb60819d6ecf11e23803e47f02f0c5c9557ac80a5e.json",
             "pair_sha256": "9fa244d93cf37eace370e0eb60819d6ecf11e23803e47f02f0c5c9557ac80a5e",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -6998,7 +6998,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42707820760,
       "last_run": {
-        "run_id": 42637193077,
+        "run_id": 42707820760,
         "status": "SUCCESS",
         "completion_status": "TERRITORIAL_COMPLETE",
         "stopped_at": "03/04 · rama electoral omitida",
@@ -7297,11 +7297,11 @@
       "name": "Extremadura",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41042675119,
+      "run_id": 42720735134,
       "last_run": {
         "run_id": 41195457038,
         "status": "SUCCESS",
@@ -7310,15 +7310,15 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "extremadura",
           "edition": "2025",
-          "run_id": 40691774876,
-          "artifact_name": "ddd-source-package-extremadura-2025-40691774876",
-          "artifact_sha256": "62efb06eafc4302639b1264999ed8afb7bb7ba94f0639f872bae72dfb2b7c619",
+          "run_id": 42720735134,
+          "artifact_name": "ddd-source-package-extremadura-2025-42720735134",
+          "artifact_sha256": "9d50ad9459baa8c275927668e553c3fd09285dc28b8027d2c7746fd7c0c68158",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7327,13 +7327,13 @@
           "territory_id": "extremadura",
           "territory_name": "Extremadura",
           "edition": "2025",
-          "run_id": 41042675119,
-          "artifact_name": "ddd-state-41042675119-M06",
-          "artifact_sha256": "927c5d206e006d89975c30a7cc763ad890354f8bc08818f9232ce854356c31ec",
-          "source_commit": "04da88c4a3b0bf3a1fb8c40778090641bf9765a4",
+          "run_id": 42720735134,
+          "artifact_name": "ddd-state-42720735134-M06",
+          "artifact_sha256": "eceae373f3fd8c47757c5d3302e6f84e2a20d8880716c2b2a63f0d31268a33e6",
+          "source_commit": "bc6d6df8e58fab48f9f96f33abbf66ddffb3b534",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/extremadura/evidencia/generaciones_m06/41042675119.json"
+          "producer_manifest_path": "territorios/extremadura/evidencia/generaciones_m06/42720735134.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7351,7 +7351,7 @@
       },
       "autonomous_community_code_ine": "11",
       "display_name": "11 Extremadura",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "galicia",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 73,
+    "complete": 72,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12267,7 +12267,6 @@
       "08 Castilla-La Mancha",
       "09 Cataluña",
       "10 Comunidad Valenciana",
-      "11 Extremadura",
       "12 Galicia",
       "13 Comunidad de Madrid",
       "14 Región de Murcia",
@@ -12558,6 +12557,12 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "11 Extremadura",
+      "territory_id": "extremadura",
+      "autonomous_community_code_ine": "11",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Nacional 350 Álava",
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
@@ -12592,12 +12597,6 @@
       "territory_id": "congreso350_badajoz",
       "autonomous_community_code_ine": "R06",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Barcelona",
-      "territory_id": "congreso350_barcelona",
-      "autonomous_community_code_ine": "R08",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12605,6 +12604,12 @@
       "territory": "06 Cantabria",
       "territory_id": "cantabria",
       "autonomous_community_code_ine": "06",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "11 Extremadura",
+      "territory_id": "extremadura",
+      "autonomous_community_code_ine": "11",
       "action": "preparar fuentes electorales"
     }
   ]
