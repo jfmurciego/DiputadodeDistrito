@@ -77,6 +77,18 @@ class Laboratorio(unittest.TestCase):
         self.assertEqual(huella_plan({"a": "1", "b": "2"}), huella_plan({"a": "7", "b": "3"}))
         self.assertNotEqual(huella_plan({"a": "1", "b": "2"}), huella_plan({"a": "1", "b": "1"}))
 
+    def test_tope_d5_d8_solo_elige(self):
+        from ddd_motor2.naturalidad_competicion import Laboratorio as Lab
+        lab = Lab.__new__(Lab)
+        lab.pob_u, lab.objetivo, lab.tol = {"a": 93, "b": 107, "c": 100, "d": 100}, 100, 15
+        lab.pj = lab.ca = {u: None for u in lab.pob_u}
+        lab.largo = {("a", "b"): 1.0, ("c", "d"): 1.0}
+        cerca, lejos = {"a": "1", "b": "1", "c": "2", "d": "3"}, {"a": "1", "b": "2", "c": "2", "d": "3"}
+        self.assertEqual(lab.clave(cerca, "D5")[1], 0.0)          # 200 fuera (no cuenta); 100 y 100: 0 %
+        self.assertAlmostEqual(lab.clave(lejos, "D5")[1], 0.02)   # 93/207: fuera (no cuenta) y 7 % - 5 %
+        self.assertEqual(lab.clave(lejos, "D8")[1], 0.0)
+        self.assertEqual(lab.clave(cerca, "D5")[2:], lab.clave(cerca, "B")[1:])  # tras el tope, la clave de B
+
     def test_colores_emparejados(self):
         from ddd_motor2.naturalidad_informe import colores
         pob = {"a": 1, "b": 1, "c": 5}

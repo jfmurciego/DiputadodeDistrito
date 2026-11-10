@@ -2,15 +2,17 @@
 # -*- coding: utf-8 -*-
 """
 PROYECTO: Diputado de Distrito
-COMPONENTE: motor 2 — laboratorio de naturalidad: competición con tres funciones de calidad y grafo ponderado
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Naturalidad · competición A/B/C
+COMPONENTE: motor 2 — laboratorio de naturalidad: competición con cinco funciones de calidad y grafo ponderado
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Naturalidad · competición A/B/C + D5/D8
 FECHA: 2026-11-10
 ESTADO: experimento (motor 2; producción no lo importa; no lanza nada; el criterio NO se fija aquí)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.1.0 (T-179): variantes D5 y D8 = C con tope de desvío máximo del 5 % / 8 % solo para elegir entre
+  candidatos (no es regla: el núcleo, suelo, techo y K no cambian). Las cadenas ponderadas son las mismas (mismas
+  semillas) y registran además el mejor estado bajo cada tope; A/B/C y su huella no cambian. 1.0.0: fichero nuevo.
 MOTIVO: T-172, pasos 3 y 4: ¿cuánta población «cuesta» un mapa más natural? Misma entrada, mismas reglas (núcleo
   ddd_motor2.reglas.evaluar), mismas semillas públicas (semilla.py); cambia solo cómo se elige y cómo se corta.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: 1.0.0 (T-172, #651)
 QUÉ HACE: por territorio,
   entrada   el mapa vigente (datos/composicion/<t>.csv: población por sección) y la geometría INE del contrato
             (naturalidad_mapas.Geometria). Unidades: cada municipio con población <= objetivo es una unidad (la regla
@@ -25,6 +27,9 @@ QUÉ HACE: por territorio,
             C  como B, con cadenas sobre el grafo ponderado: árbol de expansión mínimo con peso aleatorio + recargo por
                arista que cruza partido judicial (rpj), comarca agraria (rca), área de movilidad EM-1 (rmov) y por
                frontera corta (rlong · (1 − min(1, longitud / mediana))). Corta, pues, por donde hay menos vínculo.
+            D5, D8  como C, con tope de desvío máximo (5 % / 8 %) solo para elegir: (fuera de tolerancia, exceso sobre
+               el tope, y después la clave de B). El tope se mide en los distritos dentro de tolerancia (el que ya está
+               fuera, p. ej. un municipio exento, no cuenta); si ningún candidato lo cumple gana el de menor exceso.
   salida    <out>/<t>/RESULTADO.json (candidatos, ganadores, tiempos, huella), <t>_{A,B,C}.csv (sección, distrito,
             población) e indicadores de naturalidad de cada ganador (naturalidad_mapas.indicadores).
 USO: PYTHONHASHSEED=0 python -m ddd_motor2.naturalidad_competicion --seccionado-dir <dir> --out <dir> \
@@ -54,6 +59,8 @@ from .reglas.modelo import Problema, Unidad
 from .semilla import descripcion
 
 ROOT = nm.ROOT
+TOPES = {"D5": 0.05, "D8": 0.08}
+FUNCIONES = ("A", "B", "C", "D5", "D8")
 
 
 def cargar_cfg(t: str) -> dict:
@@ -117,6 +124,10 @@ class Laboratorio:
         h = huella_plan(asig)
         if funcion == "A":
             return (fuera, dmax, ecm, h)
+        if funcion in TOPES:
+            dentro = [x for x in dev if x <= self.tol]
+            exceso = max(0.0, (max(dentro) if dentro else 0) / self.objetivo - TOPES[funcion])
+            return (fuera, exceso, *self.clave(asig, "B")[1:])
         partidas = 0
         for dem in (self.pj, self.ca):
             ds: dict[str, set] = defaultdict(set)
@@ -230,7 +241,7 @@ def correr(t: str, a, tablas: dict, mov) -> dict:
         raise ValueError(f"{t}: el mapa vigente no es válido para el núcleo con esta entrada")
     desc = descripcion(lab.cfg, t, a.cadenas)
     rec = lab.recargos(a.rpj, a.rca, a.rmov, a.rlong)
-    cand = {f: [("vigente", None, lab.clave(lab.u0, f), lab.u0)] for f in "ABC"}
+    cand = {f: [("vigente", None, lab.clave(lab.u0, f), lab.u0)] for f in FUNCIONES}
     cadenas = {"libre": [], "ponderado": []}
     for s in desc["semillas"]:
         r = cadena(lab, s, a.pasos, ("A", "B"), None)
@@ -238,15 +249,16 @@ def correr(t: str, a, tablas: dict, mov) -> dict:
         for f in "AB":
             if f in r["mejor"]:
                 cand[f].append((f"libre-{s}", s, *r["mejor"][f]))
-        r = cadena(lab, s, a.pasos, ("B",), rec)
+        r = cadena(lab, s, a.pasos, ("B", *TOPES), rec)
         cadenas["ponderado"].append({k: v for k, v in r.items() if k != "mejor"})
-        if "B" in r["mejor"]:
-            cand["C"].append((f"ponderado-{s}", s, *r["mejor"]["B"]))
+        for f, k in (("C", "B"), *((d, d) for d in TOPES)):
+            if k in r["mejor"]:
+                cand[f].append((f"ponderado-{s}", s, *r["mejor"][k]))
         print(f"  {t} semilla {s}: ok", flush=True)
     out = Path(a.out) / t
     out.mkdir(parents=True, exist_ok=True)
     ganadores = {}
-    for f in "ABC":
+    for f in FUNCIONES:
         idx = min(range(len(cand[f])), key=lambda i: (cand[f][i][2], i))
         cid, sem, k, asig = cand[f][idx]
         sec = lab.a_secciones(asig)
@@ -268,16 +280,21 @@ def correr(t: str, a, tablas: dict, mov) -> dict:
                         "max_desvio_personas": float(max(abs(p - lab.objetivo) for p in pob.values())),
                         "indicadores": ind,
                         "sha256_csv": hashlib.sha256((out / f"{t}_{f}.csv").read_bytes()).hexdigest()}
-    res = {"territorio": t, "version": "1.0.0", "unidades": len(lab.pob_u), "aristas": len(lab.largo),
+    res = {"territorio": t, "version": "1.1.0", "topes": TOPES, "unidades": len(lab.pob_u), "aristas": len(lab.largo),
            "puentes_contacto": len(lab.problema.puentes), "objetivo": float(lab.objetivo), "tolerancia": float(lab.tol),
            "parametros": {"cadenas": a.cadenas, "pasos": a.pasos, "rpj": a.rpj, "rca": a.rca, "rmov": a.rmov,
                           "rlong": a.rlong},
            "semilla_publica": desc, "huella_reglas": lab.reglas.huella(), "ganadores": ganadores,
-           "candidatos": {f: [[c[0], _j(c[2])] for c in cand[f]] for f in "ABC"},
+           "candidatos": {f: [[c[0], _j(c[2])] for c in cand[f]] for f in FUNCIONES},
            "cadenas": cadenas, "tiempos_s": {"entrada": t_ent, "total": time.perf_counter() - t0}}
-    res["huella"] = hashlib.sha256(json.dumps(
-        {"g": {f: [g["candidato"], g["sha256_csv"]] for f, g in ganadores.items()}, "c": res["candidatos"],
-         "p": res["parametros"], "r": res["huella_reglas"]}, sort_keys=True).encode()).hexdigest()
+
+    def _huella(fs) -> str:
+        return hashlib.sha256(json.dumps(
+            {"g": {f: [ganadores[f]["candidato"], ganadores[f]["sha256_csv"]] for f in fs},
+             "c": {f: res["candidatos"][f] for f in fs}, "p": res["parametros"], "r": res["huella_reglas"]},
+            sort_keys=True).encode()).hexdigest()
+    res["huella"] = _huella("ABC")  # la de 1.0.0: A/B/C no cambian
+    res["huella_d"] = _huella(FUNCIONES)
     (out / "RESULTADO.json").write_text(json.dumps(res, ensure_ascii=False, indent=1, default=_j) + "\n", encoding="utf-8")
     return res
 
