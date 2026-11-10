@@ -1,0 +1,353 @@
+{
+ "/v2/": {
+  "violations": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 5,
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "ej": [
+     "#modos > span |   Element has insufficient color contrast of 4.47 (foreground color: #68716d, background color: #f6f1e7, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1",
+     "div[aria-label=\"Sistema\"] > span |   Element has insufficient color contrast of 4.47 (foreground color: #68716d, background color: #f6f1e7, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+    ]
+   },
+   {
+    "id": "page-has-heading-one",
+    "impact": "moderate",
+    "n": 1,
+    "help": "Page should contain a level-one heading",
+    "ej": [
+     "html |   Page must have a level-one heading"
+    ]
+   }
+  ],
+  "incomplete": [
+   "aria-allowed-role:2",
+   "color-contrast:1"
+  ],
+  "tabsDistinct": 25,
+  "noFocusVis": 0,
+  "clickNonFocus": 0,
+  "skip": false,
+  "errs": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "res": [
+   {
+    "u": "/v2/",
+    "raw": 10478,
+    "gz": 3027
+   },
+   {
+    "u": "/v2/v2.css",
+    "raw": 20362,
+    "gz": 5383
+   },
+   {
+    "u": "https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css",
+    "raw": 69430,
+    "gz": 10002
+   },
+   {
+    "u": "/v2/v2.js",
+    "raw": 26552,
+    "gz": 9309
+   },
+   {
+    "u": "https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js",
+    "raw": 939369,
+    "gz": 248784
+   },
+   {
+    "u": "/v2/textos.md",
+    "raw": 2304,
+    "gz": 680
+   },
+   {
+    "u": "/v2/datos/comunidades.json",
+    "raw": 161292,
+    "gz": 46346
+   },
+   {
+    "u": "/v2/datos/provincias.json",
+    "raw": 358121,
+    "gz": 102131
+   },
+   {
+    "u": "/v2/datos/provincias.json",
+    "raw": 358121,
+    "gz": 102131
+   },
+   {
+    "u": "/v2/datos/rotacion.json",
+    "raw": 335,
+    "gz": 217
+   },
+   {
+    "u": "/v2/datos/territorial.json",
+    "raw": 335,
+    "gz": 217
+   },
+   {
+    "u": "/v2/datos/secciones/INDEX.json",
+    "raw": 335,
+    "gz": 217
+   },
+   {
+    "u": "https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css",
+    "raw": 69430,
+    "gz": 10002
+   }
+  ],
+  "total_raw": 2016464,
+  "total_gz": 538446
+ },
+ "/index.html": {
+  "violations": [
+   {
+    "id": "link-in-text-block",
+    "impact": "serious",
+    "n": 1,
+    "help": "Links must be distinguishable without relying on color",
+    "ej": [
+     "a[href$=\"maplibre.org/\"] |   The link has insufficient color contrast of 2.02:1 with the surrounding text. (Minimum contrast is 3:1, link text: #404040, surrounding text: #000000)"
+    ]
+   }
+  ],
+  "incomplete": [],
+  "tabsDistinct": 12,
+  "noFocusVis": 0,
+  "clickNonFocus": 0,
+  "skip": false,
+  "errs": [
+   "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+   "ut: AJAXError: Failed to fetch (0): https://tile.openstreetmap.org/6/31/23.png\n    at https://unpkg.com/maplibre-gl@5.7.",
+   "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+   "ut: AJAXError: Failed to fetch (0): https://tile.openstreetmap.org/6/31/24.png\n    at https://unpkg.com/maplibre-gl@5.7.",
+   "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+   "ut: AJAXError: Failed to fetch (0): https://tile.openstreetmap.org/6/32/23.png\n    at https://unpkg.com/maplibre-gl@5.7."
+  ],
+  "res": [
+   {
+    "u": "/index.html",
+    "raw": 2498,
+    "gz": 1100
+   },
+   {
+    "u": "https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css",
+    "raw": 69430,
+    "gz": 10002
+   },
+   {
+    "u": "/escenarios.js",
+    "raw": 2554,
+    "gz": 1021
+   },
+   {
+    "u": "/styles.css",
+    "raw": 3309,
+    "gz": 1276
+   },
+   {
+    "u": "/app.js",
+    "raw": 12979,
+    "gz": 5070
+   },
+   {
+    "u": "https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js",
+    "raw": 939369,
+    "gz": 248784
+   },
+   {
+    "u": "/data/public-products.json",
+    "raw": 335,
+    "gz": 217
+   },
+   {
+    "u": "/data/viewer-results.json",
+    "raw": 335,
+    "gz": 217
+   },
+   {
+    "u": "https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css",
+    "raw": 69430,
+    "gz": 10002
+   }
+  ],
+  "total_raw": 1100239,
+  "total_gz": 277689
+ },
+ "/nacional/": {
+  "violations": [
+   {
+    "id": "link-in-text-block",
+    "impact": "serious",
+    "n": 1,
+    "help": "Links must be distinguishable without relying on color",
+    "ej": [
+     "a |   The link has insufficient color contrast of 2.02:1 with the surrounding text. (Minimum contrast is 3:1, link text: #404040, surrounding text: #000000)"
+    ]
+   }
+  ],
+  "incomplete": [
+   "color-contrast:1"
+  ],
+  "tabsDistinct": 12,
+  "noFocusVis": 0,
+  "clickNonFocus": 0,
+  "skip": false,
+  "errs": [
+   "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+   "ut: AJAXError: Failed to fetch (0): https://tile.openstreetmap.org/7/63/48.png\n    at https://unpkg.com/maplibre-gl@5.7.",
+   "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+   "ut: AJAXError: Failed to fetch (0): https://tile.openstreetmap.org/7/62/48.png\n    at https://unpkg.com/maplibre-gl@5.7.",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Error: INDEX.json: HTTP 404\n    at http://localhost:8765/nacional/nacional.js:78:69\n    at async e.Map.<anonymous> (http"
+  ],
+  "res": [
+   {
+    "u": "/nacional/",
+    "raw": 1974,
+    "gz": 937
+   },
+   {
+    "u": "/nacional/styles.css",
+    "raw": 1633,
+    "gz": 724
+   },
+   {
+    "u": "https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css",
+    "raw": 69430,
+    "gz": 10002
+   },
+   {
+    "u": "/nacional/nacional.js",
+    "raw": 6926,
+    "gz": 3033
+   },
+   {
+    "u": "https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js",
+    "raw": 939369,
+    "gz": 248784
+   },
+   {
+    "u": "/datos/INDEX.json",
+    "raw": 335,
+    "gz": 217
+   },
+   {
+    "u": "https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css",
+    "raw": 69430,
+    "gz": 10002
+   }
+  ],
+  "total_raw": 1089097,
+  "total_gz": 273699
+ },
+ "/dashboard/": {
+  "violations": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 2,
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "ej": [
+     ".bad > p |   Element has insufficient color contrast of 4.49 (foreground color: #627186, background color: #fff0f0, font size: 10.5pt (14px), font weight: bold). Expected contrast ratio of 4.5:1",
+     "#snapshot |   Element has insufficient color contrast of 4.41 (foreground color: #627186, background color: #edf2f7, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+    ]
+   },
+   {
+    "id": "landmark-complementary-is-top-level",
+    "impact": "moderate",
+    "n": 1,
+    "help": "Aside should not be contained in another landmark",
+    "ej": [
+     ".side-stack |   The null landmark is contained in another landmark."
+    ]
+   }
+  ],
+  "incomplete": [
+   "color-contrast:6"
+  ],
+  "tabsDistinct": 8,
+  "noFocusVis": 0,
+  "clickNonFocus": 0,
+  "skip": false,
+  "errs": [],
+  "res": [
+   {
+    "u": "/dashboard/",
+    "raw": 10128,
+    "gz": 2926
+   },
+   {
+    "u": "/dashboard/styles.css",
+    "raw": 15162,
+    "gz": 3938
+   },
+   {
+    "u": "/dashboard/app.js",
+    "raw": 21755,
+    "gz": 6121
+   },
+   {
+    "u": "/dashboard/status.json",
+    "raw": 444549,
+    "gz": 37342
+   }
+  ],
+  "total_raw": 491594,
+  "total_gz": 50327
+ },
+ "/dashboard/hemiciclo.html": {
+  "violations": [],
+  "incomplete": [
+   "color-contrast:1",
+   "th-has-data-cells:1"
+  ],
+  "tabsDistinct": 4,
+  "noFocusVis": 0,
+  "clickNonFocus": 0,
+  "skip": false,
+  "errs": [],
+  "res": [
+   {
+    "u": "/dashboard/hemiciclo.html",
+    "raw": 5019,
+    "gz": 2471
+   },
+   {
+    "u": "/dashboard/hemiciclo.json",
+    "raw": 13025,
+    "gz": 2344
+   }
+  ],
+  "total_raw": 18044,
+  "total_gz": 4815
+ },
+ "/dashboard/metricas.html": {
+  "violations": [],
+  "incomplete": [],
+  "tabsDistinct": 2,
+  "noFocusVis": 0,
+  "clickNonFocus": 0,
+  "skip": false,
+  "errs": [],
+  "res": [
+   {
+    "u": "/dashboard/metricas.html",
+    "raw": 4538,
+    "gz": 2157
+   },
+   {
+    "u": "/dashboard/metricas_proceso.json",
+    "raw": 14087,
+    "gz": 2511
+   }
+  ],
+  "total_raw": 18625,
+  "total_gz": 4668
+ }
+}
