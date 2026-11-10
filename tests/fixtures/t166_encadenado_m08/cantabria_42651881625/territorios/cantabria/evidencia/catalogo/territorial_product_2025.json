@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "cantabria",
+  "territory_name": "Cantabria",
+  "edition": "2025",
+  "run_id": 42637193077,
+  "artifact_name": "ddd-state-42637193077-M06",
+  "artifact_sha256": "d691106cbd29f02fe1555fdc8a648ccb384da238507b3fb973cce6d8bd70fc20",
+  "source_commit": "880f71b184208392898eba77f08f337c9c594c55",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/cantabria/evidencia/generaciones_m06/42637193077.json"
+}

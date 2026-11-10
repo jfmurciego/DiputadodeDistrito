@@ -1,7 +1,8 @@
-"""Versión 1.0.2; 2026-11-01; candidato. Encadenado automático del par de fuentes hasta la 04 en el 00.
-Cambios: 1.0.2 (T-12) el encadenado exige la puerta 02 en success (sin M06 registrado no se encadena).
+"""Versión 1.0.3; 2026-11-10; candidato. Encadenado automático del par de fuentes hasta la 04 en el 00.
+Cambios: 1.0.3 (T-166) el paso de encadenado ya no es el primero (hay checkout y guarda previos); se busca por nombre.
+  1.0.2 (T-12) el encadenado exige la puerta 02 en success (sin M06 registrado no se encadena).
   1.0.1 el encadenado también aplica en modo reutilizar; el bucle se evita porque el relanzamiento lo dispara github-actions[bot].
-Anterior: legacy/tests/test_00_encadenado_par_v1.0.1_20261101.py
+Anterior: legacy/tests/test_00_encadenado_par_v1.0.2_20261110.py
 """
 from __future__ import annotations
 
@@ -39,7 +40,7 @@ class EncadenadoParTests(unittest.TestCase):
 
     def test_minimal_permissions_and_relaunch_in_reuse_mode(self):
         self.assertEqual({"actions": "write", "contents": "read"}, self.job["permissions"])
-        run = self.job["steps"][0]["run"]
+        run = next(x for x in self.job["steps"] if x.get("name", "").startswith("Activar par"))["run"]
         self.assertIn("preparacion-legislatura-vigente.yml/dispatches", run)
         self.assertIn('inputs[operation]=prepare_one', run)
         self.assertIn('inputs[execution_mode]=Reutilizar progreso existente', run)
@@ -49,7 +50,7 @@ class EncadenadoParTests(unittest.TestCase):
         activation = yaml.safe_load(ACTIVATION.read_text(encoding="utf-8"))
         self.assertIn("inputs.territory", activation["run-name"])
         self.assertIn("inputs.operation", activation["run-name"])
-        run = self.job["steps"][0]["run"]
+        run = next(x for x in self.job["steps"] if x.get("name", "").startswith("Activar par"))["run"]
         self.assertIn("Activación de Legislatura Vigente · $TERRITORY · prepare_one", run)
 
 
