@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.243
-Fecha: 2026-11-09
-Alcance: T-127 — DOI de versión provisional del primer depósito de Zenodo
+Versión: 1.0.250
+Fecha: 2026-11-10
+Alcance: T-145 — Lista de poda de R2 (propuesta, sin borrar)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_t127-zenodo-doi.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.242_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t145-lista-poda-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.249_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,13 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.242_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.250 · [2026-11-10 — T-145 — Lista de poda de R2 (propuesta, sin borrar)](registro/2026-11-10_t145-lista-poda-r2.md)
+- 1.0.249 · [2026-11-10 — T-148 — Inventario de impacto de la notación AUT/NAC](registro/2026-11-10_t148-notacion-inventario.md)
+- 1.0.248 · [2026-11-10 — T-148 — Tabla maestra de notación AUT01-19 / NAC01-52](registro/2026-11-10_t148-notacion-tabla-maestra.md)
+- 1.0.247 · [2026-11-10 — T-147 — Guardia contra tests que fijan el estado vivo del ciclo de preparación](registro/2026-11-10_t147-guardia-estado-vivo.md)
+- 1.0.246 · [2026-11-10 — T-138 — Nota de viabilidad: movilidad como cohesión funcional](registro/2026-11-10_t138-nota-movilidad.md)
+- 1.0.245 · [2026-11-10 — T-137 — Núcleo único de reglas: inventario y diseño](registro/2026-11-10_t137-nucleo-reglas.md)
+- 1.0.244 · [2026-11-10 — T-146 — Tests de Extremadura no fijan el estado vivo del catálogo](registro/2026-11-10_t146-tests-estado-vivo.md)
 - 1.0.243 · [2026-11-09 — T-127 — DOI de versión provisional del primer depósito de Zenodo](registro/2026-11-09_t127-zenodo-doi.md)
 - 1.0.242 · [2026-11-09 — lecciones — Lecciones de la jornada del 09-11 (Coordinador y chats de tarea)](registro/2026-11-09_lecciones-0911b.md)
 - 1.0.241 · [2026-11-09 — T-135 — Distritos numerados de 1 a K en lo público (zona datos abiertos y visor)](registro/2026-11-09_t135-distritos-desde-1.md)

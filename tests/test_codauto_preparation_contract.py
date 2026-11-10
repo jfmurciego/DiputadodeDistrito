@@ -168,6 +168,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 "gestor-campanas.yml",
                 "incorporacion-resultados-electorales.yml",
                 "metricas-proceso.yml",
+                "podar-r2.yml",  # T-145 poda R2 con lista aprobada
                 "preparacion-fuentes.yml",
                 "preparacion-legislatura-vigente.yml",
                 "preparacion-resultados-electorales.yml",
