@@ -4,497 +4,639 @@
    "andalucia",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    false
   ],
   [
    "aragon",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    false
   ],
   [
    "canarias",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "cantabria",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    false
   ],
   [
    "castilla_la_mancha",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "castilla_y_leon",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    false
   ],
   [
    "cataluna",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "ceuta",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "comunidad_foral_de_navarra",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    false
   ],
   [
    "comunidad_valenciana",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    false
   ],
   [
    "congreso_alava",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_albacete",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_alicante",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    false
   ],
   [
    "congreso_almeria",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_asturias",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_avila",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_badajoz",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_baleares",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_barcelona",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_burgos",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_caceres",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_cadiz",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_cantabria",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_castellon",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_ceuta",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_ciudad_real",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_cordoba",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_cuenca",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_gerona",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_granada",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_guadalajara",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_guipuzcoa",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_huelva",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_huesca",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_jaen",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_la_coruna",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_la_rioja",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_las_palmas",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    false
   ],
   [
    "congreso_leon",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_lerida",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_lugo",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_madrid",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_malaga",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_melilla",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_murcia",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_navarra",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_orense",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_palencia",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_pontevedra",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_salamanca",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_santa_cruz_de_tenerife",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_segovia",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_sevilla",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_soria",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_tarragona",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_teruel",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_toledo",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_valencia",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_valladolid",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_vizcaya",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_zamora",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "congreso_zaragoza",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "extremadura",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "galicia",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "illes_balears",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "la_rioja",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "madrid",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "melilla",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "pais_vasco",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "principado_de_asturias",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ],
   [
    "region_de_murcia",
    "PASS",
    "PASS",
-   [],
+   [
+    "prod:PASS"
+   ],
    true
   ]
  ],
