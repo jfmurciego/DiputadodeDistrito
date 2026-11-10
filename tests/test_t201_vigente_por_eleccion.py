@@ -26,6 +26,8 @@ import legislatura_vigente as lv  # noqa: E402
 import composicion_m06 as cm  # noqa: E402
 import generar_nombres_comunidades_nacional as gn  # noqa: E402
 import bateria_motor as bm  # noqa: E402
+import catalogo_procedencia as cp  # noqa: E402
+from tests import test_catalogo_procedencia as tcp  # noqa: E402
 import resultados_ligeros as rl  # noqa: E402
 
 E26 = {"election_date": "2026-11-29", "election_id": "congreso_soria_2026-11-29"}
@@ -130,6 +132,20 @@ class VigentePorEleccion(unittest.TestCase):
             (runs / f"congreso_soria_{r}.csv").write_text("x")
         with mock.patch.object(bm, "ROOT", self.d):
             self.assertEqual(bm.composicion_publicada("congreso_soria")[1], "20")
+
+    def test_catalogo_procedencia_vigente_por_eleccion(self):
+        raiz = self.d / "cat"
+        tcp.repo_sintetico(raiz)
+        antes = cp.generar(raiz)["territorios"]["t1"]["productos"]
+        ruta = raiz / "orchestracion/publicaciones_visor.json"
+        reg = json.loads(ruta.read_text())
+        reg["products"] += [dict(reg["products"][0], id="m06-t1-99", run_id="99", blob_sha="b99", election_date="2026-11-29"),
+                            dict(reg["products"][1], id="m08-t1-99", run_id="99", blob_sha="c99", election_date="2026-11-29")]
+        ruta.write_text(json.dumps(reg))
+        despues = {p["id"]: p for p in cp.generar(raiz)["territorios"]["t1"]["productos"]}
+        for p in antes:
+            self.assertEqual(despues[p["id"]], p)  # lo de 2023 (incl. vigente=True) no cambia
+        self.assertTrue(despues["m06-t1-10"]["vigente"] and despues["m06-t1-99"]["vigente"])
 
     def test_identidad_incluye_la_eleccion(self):
         a = {"territory_id": "t", "kind": "scenario_m08", "scenario_id": "s1"}
