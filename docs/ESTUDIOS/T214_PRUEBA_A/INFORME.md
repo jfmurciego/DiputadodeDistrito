@@ -26,6 +26,7 @@ no usa el id para sembrar (no aparece `territory_id` en `ddd_core/m04_*` ni `m05
   tiene K=1, así que el mapa es trivial (todas las unidades van al único distrito), y la parte del id que se ejerce
   (contrato, rutas, carpeta de configuración) es la misma que en los cinco territorios que sí pasan. Salvedad:
   `melilla` (AUT19) tiene K=25 y no es trivial; no queda probada aquí, aunque el motor no usa el id para sembrar.
+  La prueba A de `melilla` (AUT19, K=25) y de Ceuta pasa a ser condición del paso 5 del corte, antes de la regeneración: se hará en Actions con la batería (id viejo y nuevo, misma semilla, misma huella), dentro de la ficha de la regeneración (Planificador, 10-11).
 
 Conclusión: en los 5 territorios ejecutados el id no cambia el mapa; el sexto (Melilla) está dispensado. El `git mv`
 de `territorios/` no va en esta PR: es un paso propio (T-220), tras fusionar #688.
