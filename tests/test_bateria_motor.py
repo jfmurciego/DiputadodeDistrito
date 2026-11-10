@@ -31,8 +31,11 @@ class BateriaMotor(unittest.TestCase):
         self.assertTrue(r["provincia"] and r["atomicidad"])
 
     def test_versiones_del_motor_m05_existen(self):
+        # La imagen de CI excluye legacy/ (.dockerignore): allí solo se exige el motor vigente; las legacy, en el árbol.
+        self.assertTrue(b.M05_BASE["7.4.4"].is_file())
         for v, p in b.M05_BASE.items():
-            self.assertTrue(p.is_file(), v)
+            if (ROOT / "legacy" / "ddd_core").is_dir() and any((ROOT / "legacy" / "ddd_core").iterdir()):
+                self.assertTrue(p.is_file(), v)
 
     def test_comparacion_con_publicado_ignora_etiquetas(self):
         with tempfile.TemporaryDirectory() as td:
