@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.40
+Versión: 1.0.41
 Fecha: 2026-11-10
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-69 a D-73 (textos y pérdidas 2011, analítica aplazada, batería en Actions, línea de investigación) y T-205 a T-209
-Anterior: legacy/docs/PLAN_v1.0.39_20261110.md
+Cambios/motivo: D-74 a D-79 (Zenodo, plan del corte, 350 y histórico fuera, línea del forense, piezas finas en autonómicas) y T-210 a T-219
+Anterior: legacy/docs/PLAN_v1.0.40_20261110.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -108,6 +108,12 @@ con frase del propietario en su chat.
 - D-71. La analítica sin cookies del visor se aplaza hasta publicar el visor v2. El visor v2 sigue sin publicarse.
 - D-72. La batería de los 71 del motor nuevo (D8, 10 cadenas) corre en GitHub Actions, no en sesión: primero Soria y, si sale bien, los 71, por campaña autorizada en el chat del Operador (coste estimado 600-650 min).
 - D-73. Línea de investigación tras el corte 5.0.0 («solo la excelencia es aceptable»): (1) del certificador exacto a resolver el óptimo demostrado con programación entera en los territorios pequeños y medianos; (2) comparación con `redist` (SMC) y GerryChain puro en los mismos territorios y reglas; (3) aportación propia: optimización con varios objetivos (población y naturalidad) bajo disciplina municipal con certificado del hueco al óptimo; después, publicación académica (P60). Forma de incorporarlo: no se sustituye el canónico; el resolutor exacto (abierto y determinista, HiGHS o CBC) entra como competidor y certificador, de los territorios pequeños hacia arriba hasta donde dé; el SMC de `redist` solo como comparación para el artículo; el canónico sigue como suelo de «nunca peor» y como mapa de los territorios grandes. Nada antes del corte.
+- D-74. Zenodo: ahora, metadatos veraces (el depósito es el ZIP de código en la versión del mapa; el paquete firmado está en la Release; el DOI de concepto es la serie de mapas); en el corte 5.0.0, DOI de software por edición del motor y depósito de datos por mapa con el paquete firmado (token de Zenodo del propietario). Los dos DOI resuelven (comprobado por el propietario el 10-11).
+- D-75. Plan del corte (10-11): primero lo reversible (pasos 0-2 y PR de workflows v5 sin fusionar) en paralelo con el arreglo de las autonómicas; relevo, workflows, pruebas, regeneración y archivo cuando la batería de las 19 cumpla «nunca peor que el vigente publicado»; regeneración nocturna por campaña; publicar solo con frase del propietario.
+- D-76. El mapa de 350 queda fuera del corte 5.0.0.
+- D-77. En el corte se regenera solo la legislatura vigente; el histórico después, como una elección más.
+- D-78. Autorizado el cambio de una línea de `forense-00.yml` (nombre «P00 Campaña») dentro de la PR de workflows v5, con revisión independiente; la fusiona el propietario.
+- D-79. Autonómicas «listas aunque haya que pasar a piezas pequeñas»: la competición usa la atomicidad municipal que declara cada contrato (como el laboratorio) y el mapa vigente publicado entra como candidato y punto de partida; no cambian suelo, techo, K, tolerancia ni la regla de un distrito mixto por municipio. La clave D8 implementada debe contar primero los distritos fuera de tolerancia (D-68); la aceptación exige clave nunca peor que el canónico y fuera de tolerancia nunca peor que el vigente.
 
 ### Cola vigente del motor y de las generales 2026 (10-11)
 | Id | Tarea | Estado |
@@ -131,12 +137,22 @@ con frase del propietario en su chat.
 | T-206 | Texto del padrón 2026 en la web y el visor (D-69) | PENDIENTE (P2, límite 25-11) |
 | T-207 | Composición canónica de Andalucía, Aragón y Baleares desde el M06 publicado y reagregación de sus 12 elecciones | HECHA |
 | T-208 | Modo motor nuevo en la batería de Actions | REVISIÓN |
-| T-209 | Actualización del plan (D-69 a D-73) | ESTA PR |
+| T-209 | Actualización del plan (D-69 a D-73) | HECHA |
+| T-210 | Metadatos de Zenodo veraces | HECHA |
+| T-211 | Competición autonómica: causa medida y recuento por circunscripción | REVISIÓN |
+| T-212 | Aceptación «nunca peor que el vigente» e indicadores en el resumen | HECHA |
+| T-213 | Corte, paso 0: congelación | HECHA (etiqueta pre-5.0.0 la crea el propietario) |
+| T-214 | Corte, pasos 1-2: identificadores y prueba A | EN_CURSO |
+| T-215 | Corte, paso 4: workflows v5 | REVISIÓN (borrador, la fusiona el propietario) |
+| T-216 | Corte, paso 3: motor nuevo como P30 en producción | EN_CURSO |
+| T-217 | Vigente publicado como candidato y punto de partida | EN_CURSO |
+| T-218 | Atomicidad del contrato en la competición autonómica | EN_CURSO |
+| T-219 | Actualización del plan (D-74 a D-79) | ESTA PR |
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204 y T-209. El planificador ha dado T-194 a T-209 (10-11). Siguiente libre para el planificador: T-210.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209 y T-219. El planificador ha dado T-194 a T-219 (10-11). Siguiente libre para el planificador: T-220.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
