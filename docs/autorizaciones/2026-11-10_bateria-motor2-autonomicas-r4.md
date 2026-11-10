@@ -24,9 +24,9 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
-| 23:21 | Comunidad de Madrid + Navarra (fase 1) | batería motor2 D8 N=10 | 42913861593 | EN_VUELO | 1 / — | 0/1 |
+| 23:21 | Comunidad de Madrid + Navarra (fase 1) | batería motor2 D8 N=10 | 42913861593 | FAILURE en «Aceptación» (NO): «candidatos fuera de 1 + N (+1 exhaustivo)» en ambas; con T-217 el vigente compite y suma un candidato (12 en lugar de 11) que `cadenas_de`/`criterio_aceptacion` no descuenta. Por lo demás: ambas VALIDO 12/12, mejoran al canónico, 0 FALLO_GENERADOR, ninguna peor que el vigente | 1 / 31 min | 0/1 |
 
 ## Cierre
-Estado: `EN_CURSO` (T-217/T-218 en `main`, #694; punta 507be94 en verde). Último uso: 2026-11-10.
+Estado: `PARADA` (run 42913861593: aceptación NO por el recuento de candidatos con el vigente). Fase 2 no lanzada; hace falta arreglo y frase nueva. Último uso: 2026-11-10.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_bateria-motor2-autonomicas-r4 tal como figura en la ficha.»
