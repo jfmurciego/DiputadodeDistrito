@@ -11,7 +11,9 @@ CAMBIOS: 1.2.0 (T-217) — con C/D5/D8 compite también el mapa vigente publicad
   núcleo, y la mitad de las cadenas parte de él; la fila del resumen añade «vigente» (estado; «compite»: sí/no) y
   «frente_al_vigente» (mejora / empata / empeora; vacío si no compite), «vigente_reparado» y
   «fuera_vigente_publicado», también al reanudar; la aceptación exige no tener más fuera de tolerancia que el vigente
-  publicado («peor_que_el_vigente»). --reanudar solo reutiliza un COMPETICION.json juzgado con el mismo vigente
+  publicado («peor_que_el_vigente»); el territorio sin ese dato (sin mapa publicado, no representable, fallo del
+  generador) no cuenta como «no peor»: se lista en «sin_comparacion_vigente» con su motivo, en RESUMEN.json y en
+  RESUMEN.md (la aceptación no lo esconde ni lo bloquea; decide quien lee el resumen). --reanudar solo reutiliza un COMPETICION.json juzgado con el mismo vigente
   publicado (sha256). Con A, como 1.1.0.
   1.1.0 (T-205) — --funcion D8 (por defecto) | C | D5 | A y --cadenas 10 por defecto. Con A compiten canónico +
   GerryChain de producción, como 1.0.1; con C/D5/D8, canónico + generador «ponderado» (generadores.Ponderado) y elige
@@ -154,8 +156,13 @@ def resumen(filas: list[dict]) -> dict:
     peor_vigente = [f["territorio"] for f in filas if f.get("frente_al_vigente") == "empeora" or (
         f.get("fuera_vigente_publicado") is not None and f.get("fuera_tolerancia") is not None
         and f["fuera_tolerancia"] > f["fuera_vigente_publicado"])]
+    # nunca en verde por omisión: con C/D5/D8, el territorio sin dato del vigente publicado se lista con su motivo
+    sin_comparacion = {f["territorio"]: (f.get("vigente_detalle") or f.get("vigente") or "sin datos del vigente en la fila")
+                       for f in filas if f.get("estado") != "ERROR" and f.get("funcion", "A") != "A"
+                       and f.get("fuera_vigente_publicado") is None}
     return {"territorios": n, "validos": validos, **cuenta,
             "vigente_compite": sum(1 for f in filas if f.get("vigente_compite")), "peor_que_el_vigente": peor_vigente,
+            "sin_comparacion_vigente": sin_comparacion,
             "errores": [f["territorio"] for f in filas if f.get("estado") != "VALIDO"],
             "tiempo_total_s": round(sum(tiempos), 1),
             "tiempo_mediana_s": tiempos[len(tiempos) // 2] if tiempos else None,
@@ -172,7 +179,12 @@ def escribir_resumen(filas: list[dict], carpeta: Path) -> dict:
     lin = [f"# Competición del motor nuevo · resumen (función {', '.join(funciones)})", "",
            f"- Válidos: {tot['validos']}/{tot['territorios']}; frente al canónico: mejora {tot['mejora']}, empata "
            f"{tot['empata']}, empeora {tot['empeora']}.",
-           f"- Aceptación (todos válidos y ninguno peor): **{'sí' if tot['aceptacion'] else 'no'}**.",
+           f"- Aceptación (todos válidos, ninguno peor que el canónico ni que el vigente publicado): "
+           f"**{'sí' if tot['aceptacion'] else 'no'}**.",
+           f"- Frente al vigente publicado: peor en {len(tot['peor_que_el_vigente'])}"
+           f"{' (' + ', '.join(tot['peor_que_el_vigente']) + ')' if tot['peor_que_el_vigente'] else ''}; "
+           f"**sin comparación en {len(tot['sin_comparacion_vigente'])}**"
+           f"{': ' + '; '.join(f'{t} ({m})' for t, m in tot['sin_comparacion_vigente'].items()) if tot['sin_comparacion_vigente'] else ''}.",
            f"- Tiempo: total {tot['tiempo_total_s']} s, mediana {tot['tiempo_mediana_s']} s, máximo {tot['tiempo_max_s']} s.",
            "", "| Territorio | Ganador | Estado | Frente al canónico | Desvío máx. (canónico) | Válidos | Tiempo (s) |",
            "|---|---|---|---|---|---|---|"]

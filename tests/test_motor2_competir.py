@@ -33,6 +33,19 @@ class Resumen(unittest.TestCase):
         self.assertFalse(resumen([fila("a"), {"territorio": "b", "estado": "ERROR", "detalle": "x"}])["aceptacion"])
         self.assertFalse(resumen([])["aceptacion"])
 
+    def test_sin_comparacion_con_el_vigente(self):  # nunca en verde por omisión
+        filas = [{**fila("a"), "funcion": "D8", "vigente": "VIGENTE_NO_REPRESENTABLE",
+                  "vigente_detalle": "secciones distintas", "fuera_vigente_publicado": None},
+                 {**fila("b"), "funcion": "D8"},  # reanudada sin datos del vigente
+                 {**fila("c"), "funcion": "D8", "fuera_vigente_publicado": 3},
+                 {**fila("d"), "funcion": "A"}]
+        r = resumen(filas)
+        self.assertEqual(r["sin_comparacion_vigente"], {"a": "secciones distintas", "b": "sin datos del vigente en la fila"})
+        tmp = Path(tempfile.mkdtemp())
+        escribir_resumen(filas, tmp)
+        md = (tmp / "RESUMEN.md").read_text(encoding="utf-8")
+        self.assertIn("sin comparación en 2**: a (secciones distintas); b (sin datos del vigente en la fila)", md)
+
     def test_reanudar_exige_el_mismo_vigente(self):
         import hashlib
         from ddd_motor2.competir import _mismo_vigente

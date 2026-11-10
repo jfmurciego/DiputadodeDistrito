@@ -24,10 +24,12 @@ Detalle en `docs/ESTUDIOS/T217_vigente_piezas_finas/`.
 **Revisión independiente (f9a9cd6, PASS_WITH_EXCEPTIONS), menores corregidos:**
 - `--reanudar` exige el mismo vigente publicado (sha256);
 - en el Congreso, o con unidades internas, el vigente no parte unidades M04: si las parte, no es representable y se informa;
-- tests con ids «~» y núcleos cerrados con la referencia del canónico.
+- tests con ids «~» y núcleos cerrados con la referencia del canónico;
+- (Coordinador) nunca en verde por omisión: con C/D5/D8, un territorio sin dato del vigente publicado (sin mapa, no representable, fallo, reanudación sin vigente) no cuenta como «no peor». Se lista en `sin_comparacion_vigente` con su motivo, en RESUMEN.json y en RESUMEN.md. Elegido listar y no fallar: un territorio sin mapa publicado no podría aprobar nunca. La aceptación sigue exigiendo `peor_que_el_vigente` vacío;
+- test de la reparación R-MUN-MIXTOS (caso Ávila) y del vigente sin reparación posible; los tests comprueban el plan, no el texto de la nota.
 
 **Notas de #693 (Coordinador):**
-- El «después» de T-211 (Aragón 0, Castilla-La Mancha 5, Castilla y León 2, Galicia 6) se generó en sesión. Su extracto (candidatos, fuera de tolerancia, clave y huella) está en `docs/ESTUDIOS/T211_ponderado_autonomicas/datos/despues_clave_contrato.json`; se reproduce con la batería nueva.
+- El «después» de T-211 (Aragón 0, Castilla-La Mancha 5, Castilla y León 2, Galicia 6) se generó en sesión. Su extracto (candidatos, fuera de tolerancia, clave y huella) está en `docs/ESTUDIOS/T211_ponderado_autonomicas/datos/despues_clave_contrato.json`; se generó con el commit 3326ef48 (`version_orquestador` 1.3.1, el mismo código que la 1.3.2 de #693). Con esta PR la competición cambia: la batería nueva no reproduce esas huellas, solo la regla «no más fuera de tolerancia que el canónico».
 - La orden pedía contar «con las exenciones del contrato», pero el recuento las ignora a propósito, como `reglas.evaluar` y el M04 (`outside_target_tolerance`). En el contrato las exenciones solo relajan el suelo (R-SUELO; R-TOL asimétrica para el exento) y no sacan a ningún distrito del recuento de fuera de tolerancia. Descontarlas haría que la clave contara distinto que el núcleo y que el M04.
 
 **Riesgos:** ninguno en producción (M04/M05/ddd_core sin cambios). Las cadenas de Madrid tardan más (3759 unidades). La reparación solo cubre R-NUCLEO y R-MUN-MIXTOS; ante otra infracción, el vigente no compite y se informa.

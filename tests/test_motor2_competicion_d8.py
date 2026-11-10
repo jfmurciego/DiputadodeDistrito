@@ -219,9 +219,54 @@ class VigenteReparado(unittest.TestCase):
         self.assertEqual(v["publicado"]["violaciones"], [["R-NUCLEO", v["publicado"]["violaciones"][0][1]]])
         self.assertFalse(v["publicado"]["valido"])
         self.assertTrue(v["reparado"] and v["compite"], v)
-        self.assertIn("1 unidades (6 hab.)", v["reparacion"][0])
+        self.assertEqual(len(v["reparacion"]), 1)  # un solo paso
+        cv = next(c for c in r.candidatos if c.id == "vigente")
+        d = {f["CUSEC_KEY"]: f["district_id"] for f in csv.DictReader(open(cv.composicion, encoding="utf-8"))}
+        self.assertEqual(d["2200101002"], d["2200101003"])  # C (6 hab.) pasa al distrito de su vecina D
+        self.assertNotEqual(d["2200101001"], d["2200101002"])  # y el núcleo {A, B} queda solo
         self.assertIn("vigente", [c.id for c in r.candidatos])
         return r
+
+
+class ReparaMixtos(unittest.TestCase):
+    """T-217 (D-66, caso Ávila 05019): el municipio 22001 (M1, M2) en dos distritos mixtos (máximo 1); la reparación
+    pasa la parte con menos población del municipio al otro distrito y el plan queda válido."""
+
+    def test_r_mun_mixtos(self):
+        from ddd_motor2.adaptadores import problema_y_plan
+        from ddd_motor2.generadores import reparar
+        from ddd_motor2.reglas import Reglas, evaluar
+        tmp = Path(tempfile.mkdtemp())
+        filas = [("2200201000", "1", 190, "22002", "X"), ("2200101000", "1", 9, "22001", "M1"),
+                 ("2200101001", "2", 11, "22001", "M2"), ("2200301000", "2", 190, "22003", "Y")]
+        comp = tmp / "c.csv"
+        with open(comp, "w", newline="", encoding="utf-8") as fh:
+            w = csv.writer(fh)
+            w.writerow(["CUSEC_KEY", "district_id", "section_pop", "CPRO", "CUMUN", "ddd_unit_id", "ddd_closed_urban"])
+            for sec, d, p, m, u in filas:
+                w.writerow([sec, d, p, "22", m, u, "0"])
+        g = tmp / "g.json"
+        g.write_text(json.dumps({"nodes": [f[0] for f in filas], "edges": [
+            {"u": filas[i][0], "v": filas[i + 1][0], "edge_type": "geometric"} for i in range(3)]}))
+        prob, plan, _ = problema_y_plan(comp, g, CFG)
+        reglas = Reglas.desde_contrato(CFG)
+        self.assertIn("R-MUN-MIXTOS", {v.regla for v in evaluar(prob, reglas, plan).violaciones})
+        nuevo, notas = reparar(prob, reglas, plan)
+        self.assertTrue(evaluar(prob, reglas, nuevo).valido, notas)
+        self.assertEqual(nuevo["M1"], nuevo["M2"])
+        self.assertEqual(nuevo["M1"], plan["M2"])  # se mueve la parte menor (M1, 9 hab.)
+        self.assertEqual(sum(1 for u in plan if plan[u] != nuevo[u]), 1)
+
+    def test_sin_reparacion_posible(self):
+        from ddd_motor2.adaptadores import problema_y_plan
+        from ddd_motor2.generadores import reparar
+        from ddd_motor2.reglas import Reglas
+        tmp = Path(tempfile.mkdtemp())
+        comp = escribir_comp(tmp / "c.csv", {u: "1" for u in UNIDADES}, POB)  # un distrito con K = 2: R-K, sin arreglo
+        prob, plan, _ = problema_y_plan(comp, entrada(tmp).grafo_m03, CFG)
+        nuevo, notas = reparar(prob, Reglas.desde_contrato(CFG), plan)
+        self.assertEqual(nuevo, {})
+        self.assertTrue(notas)
 
 
 class PiezasFinas(unittest.TestCase):
