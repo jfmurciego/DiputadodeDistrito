@@ -16,7 +16,8 @@ if str(ROOT) not in sys.path:
 
 from fractions import Fraction  # noqa: E402
 
-from ddd_motor2.competicion import Candidato, EntradaTerritorio, Salida, competir, huella_plan  # noqa: E402
+from ddd_motor2.calidad import huella_plan  # noqa: E402
+from ddd_motor2.competicion import Candidato, EntradaTerritorio, Salida, competir  # noqa: E402
 
 # Cuatro unidades en línea A-B-C-D, un municipio cada una, una provincia, K=2.
 POB = {"A": 100, "B": 100, "C": 100, "D": 100}
@@ -144,10 +145,6 @@ class Competicion(unittest.TestCase):
             competir(self.entrada, Fijo("canonico", {}), Fijo("gerrychain", {}), [1, 1], self.tmp / "o")
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class Exhaustivo(unittest.TestCase):
     """T-175: en un territorio pequeño la competición enumera todos los planes válidos y compite el mejor."""
 
@@ -187,3 +184,6 @@ class Exhaustivo(unittest.TestCase):
         ex = next(c for c in r.candidatos if c.id == "exhaustivo")
         self.assertEqual(ex.clave()[:6], r.canonico.clave()[:6])
         self.assertEqual(r.ganador.id, "canonico")  # desempate final por orden
+
+if __name__ == "__main__":
+    unittest.main()

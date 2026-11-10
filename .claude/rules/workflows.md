@@ -39,8 +39,13 @@ paths:
 - El clasificador del arnés bloquea como «CI Bypass» / «Merge Without Review» / «Create Public Surface» las fusiones con `main`
   en rojo, los dispatch públicos (05/06) y las escrituras externas (comentar/cerrar PR): hace falta frase explícita del
   propietario por caso.
-- «`main` en verde» = ÚLTIMO run COMPLETADO de `pruebas-plataforma` en success. Con robots registrando, el run más reciente
-  casi nunca está terminado: una espera «run[0] completado» no acaba.
+- «`main` en verde» (D-49, 10-11) = el último push a `main` tiene `guardian` en success (integridad) Y el último run COMPLETADO de la
+  batería (`pruebas` con la suite) sobre `main` está en success; anota su fecha. Un push de código la ejecuta; un push de robot que solo
+  toca ficheros .json/.md/.csv de datos/registro (lista exacta `RUTAS_ROBOT`) pasa solo el guardián y lo cubre la batería nocturna (02:23
+  UTC). Un push de código posterior cancela la comprobación superada del anterior: un push de código cancelado cuenta como NO verde hasta
+  que una batería completa sobre `main` termine en success; un push de robot nunca cancela nada. Si cae la nocturna, el job
+  `aviso_nocturna` abre (o comenta) el issue «Batería nocturna de main en rojo» y `main` no está en verde hasta arreglarla.
+  Cambios de código, en PR o en main, siempre con la batería completa.
 - Una espera de fusión que dispara sola puede adelantarse a la orden (#455 antes que #457): páralas (TaskStop) si cambia el orden.
 
 ## Lecciones 08-11 (Coordinador)
@@ -48,7 +53,7 @@ paths:
 - Clave duplicada en un workflow (`territorios` dos veces): GitHub lo rechaza (run sin jobs) y PyYAML lo acepta. Usa `actionlint` o un cargador YAML estricto (test en #542).
 - Una PR apilada sobre otra rama no dispara `pruebas` (solo corre en PR a `main`): tras fusionar la base, reapunta a `main` y fusiona `origin/main`.
 - Las PR apiladas sobre una PR fusionada por squash chocan: fusiona `origin/main` en la rama (sin rebase ni force).
-- Los commits automáticos de archivo/registro cambian el catálogo de procedencia y dejan `main` rojo un rato hasta que `catalogo-procedencia.yml` lo regenera. Los tests no deben fijar el total de territorios publicados (49→52 rompió dos).
+- Los commits automáticos de archivo/registro cambian el catálogo de procedencia y dejan `main` rojo un rato hasta que el job `catalogo` de «Pruebas de la Plataforma» lo regenera. Los tests no deben fijar el total de territorios publicados (49→52 rompió dos).
 - API de jobs: pagina siempre (`--paginate`, 30 por página); el job que falla puede estar en la página 2 (Canarias, 48 jobs).
 - Etiquetar o pasar a lista una PR es «escritura externa» para el clasificador: la frase del propietario ha de estar en el chat que actúa. Chats de tarea nuevos: pásales el repositorio de origen (`source_url`) o no podrán empujar.
 - Tests que leen estado vivo (catálogo de procedencia, `datos_abiertos`, linaje sellado de CyL) caen cuando una 00/05 escribe en `main`: usa fixture fija (#554, publicador 3.7.0). En riesgo: castilla_y_leon_electoral_reuse, 00_reuse_real_regressions, continuar_ultimo_resultado_valido, preparacion_legislatura_vigente, registro_electoral_comun, gestor_campana_core, galicia_electoral_*.

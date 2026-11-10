@@ -1,0 +1,295 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.7.0
+# NOMBRE DE VERSIÓN: Diseño A — suite en paralelo con check agregado `pruebas`
+# FECHA: 2026-11-10
+# ESTADO: vigente
+# QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
+# CAMBIOS: 1.7.0 (T-149): absorbe como jobs las puertas automáticas «Validar Contratos Territoriales»
+#   (`contratos`), «Validar documentación pública» (`docs`) y «Validar Productos Públicos» (`productos`, solo push a
+#   main), cada uno con sus mismas rutas (job `cambios`) y sus permisos mínimos por job. `pruebas` sigue exigiendo guardian y suite en success; los tres
+#   jobs por rutas pueden quedar en skipped.
+#   1.6.0 (T-50): el guardián y las pruebas ligeras van en un job rápido (`guardian`); la suite unittest se
+#   reparte en 5 grupos paralelos equilibrados por tiempo (`herramientas/repartir_tests.py`, tiempos en
+#   `tests/tiempos_ci.json`), cada uno en su contenedor; el grupo 1 hace además el descubrimiento, GerryChain y los
+#   pasos N08 condicionales. El check obligatorio sigue llamándose `pruebas`: job final que depende de todos y falla
+#   si alguno no termina en success. No se quita ningún test.
+# MOTIVO: `pruebas` tardaba ~13-15 min (2.168 tests, ~660 s en un solo proceso).
+# ANTERIOR: legacy/workflows/pruebas-plataforma_v1.6.0_20261110.yml
+name: Pruebas de la Plataforma
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: ddd-pruebas-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+jobs:
+  guardian:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Guardián de main — sin marcas de conflicto en ficheros versionados
+        run: python herramientas/comprobar_guardian_main.py marcas
+      - name: Guardián de main — numeración consecutiva del registro de cambios
+        run: python herramientas/comprobar_guardian_main.py registro
+      - name: Auditar cabeceras y legacy en checkout
+        run: python -m unittest tests.test_r015_invariantes.GovernanceHeaders -v
+      - name: Probar SHA inmutable frente a avance de main
+        run: bash tests/test_source_sha_pinning_git.sh
+      - name: Probar registros electorales concurrentes sobre Git real
+        run: python -m unittest tests.test_registro_producto_electoral_concurrencia -v
+      - name: Probar persistencia pre-M04 concurrente sobre Git real
+        run: python -m unittest tests.test_pre_m04_persistencia_concurrente -v
+      - name: Probar recuperación durable de producto electoral
+        run: python -m unittest tests.test_recuperacion_producto_electoral -v
+      - name: Probar reanudación automática de M08 huérfano
+        run: python -m unittest tests.test_reanudacion_m08_huerfano -v
+      - name: Verificar geometría original INE 2025 en checkout
+        run: python -m unittest tests.test_national_ine_original_parts -v
+
+  suite:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        grupo: [1, 2, 3, 4, 5]
+    env:
+      GRUPOS: 5
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-tests:${GITHUB_SHA} .
+      - name: Diagnóstico original N08 de nueve provincias (solo PR 268)
+        if: ${{ matrix.grupo == 1 && github.event_name == 'pull_request' && github.event.pull_request.number == 268 }}
+        shell: bash
+        run: |
+          set -o pipefail
+          docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 \
+            -v "${GITHUB_WORKSPACE}/inputs/partes:/app/inputs/partes:ro" \
+            --entrypoint python ddd-tests:${GITHUB_SHA} \
+            -m herramientas.diagnosticar_desconexiones_congreso_n08 \
+            2>&1 | tee ci-n08-nine-cases.log
+      - name: Exportar expedientes nominales N08 originales (rama de expedientes)
+        if: ${{ matrix.grupo == 1 && github.event_name == 'pull_request' && github.head_ref == 'work/n08-nominal-exceptions-20261019' }}
+        shell: bash
+        run: |
+          mkdir -p n08-casos-certificados
+          docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 \
+            -v "${GITHUB_WORKSPACE}/n08-casos-certificados:/app/n08-casos-certificados" \
+            --entrypoint python ddd-tests:${GITHUB_SHA} \
+            -m herramientas.expedientes_excepciones_congreso_n08 \
+            --output /app/n08-casos-certificados/expedientes-n08-cinco-provincias.json
+      - name: Conservar expedientes nominales N08 y sus CUSEC
+        if: ${{ always() && matrix.grupo == 1 && github.event_name == 'pull_request' && github.head_ref == 'work/n08-nominal-exceptions-20261019' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: n08-cinco-provincias-cusec-original
+          path: n08-casos-certificados/expedientes-n08-cinco-provincias.json
+          retention-days: 90
+          if-no-files-found: warn
+      - name: Verificar descubrimiento completo de tests unittest
+        if: ${{ matrix.grupo == 1 }}
+        shell: bash
+        run: |
+          set -o pipefail
+          docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 --entrypoint python \
+            ddd-tests:${GITHUB_SHA} herramientas/verificar_descubrimiento_tests.py \
+            2>&1 | tee ci-test-discovery.log
+      - name: Verificar evidencia publicada y determinismo sintético (grupo ${{ matrix.grupo }} de 5)
+        shell: bash
+        run: |
+          set -o pipefail
+          docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 --entrypoint python \
+            ddd-tests:${GITHUB_SHA} herramientas/repartir_tests.py --grupos "$GRUPOS" --grupo ${{ matrix.grupo }} \
+            2>&1 | tee ci-unittest.log
+      - name: Probar runtime GerryChain aislado
+        if: ${{ matrix.grupo == 1 }}
+        shell: bash
+        run: |
+          set -o pipefail
+          docker run --rm -e PYTHONHASHSEED=0 -e DDD_SKIP_LEGACY_CHECK=1 \
+            --entrypoint /opt/ddd-gerrychain/bin/python ddd-tests:${GITHUB_SHA} \
+            -m unittest tests.test_m05_gerrychain_strategy.ContractTests \
+              tests.test_m05_gerrychain_strategy.GerryChainRuntimeTests -v \
+            2>&1 | tee ci-gerrychain.log
+      - name: Conservar diagnóstico de la suite
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ci-unittest-${{ github.run_id }}-${{ github.run_attempt }}-grupo-${{ matrix.grupo }}
+          path: |
+            ci-test-discovery.log
+            ci-unittest.log
+            ci-gerrychain.log
+            ci-n08-nine-cases.log
+          if-no-files-found: warn
+
+  cambios:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    outputs:
+      contratos: ${{ steps.f.outputs.contratos }}
+      docs: ${{ steps.f.outputs.docs }}
+      productos: ${{ steps.f.outputs.productos }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: f
+        name: Decidir qué puertas por rutas corresponden
+        shell: bash
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          set -uo pipefail
+          propio='^\.github/workflows/pruebas-plataforma\.yml$'
+          contratos='^(ddd_core/config\.py|ddd_core/territory_contract\.py|herramientas/validar_contrato_territorial\.py|schemas/territory-production-contract\.schema\.json|configuracion/catalogo_territorios_espana_2025\.yaml|inputs/MANIFEST\.sha256|tests/test_territory_contract_admission\.py)$|^territorios/[^/]+/config/[^/]*\.yaml$'
+          docs='^documentacion_publica/'
+          productos='^(visor/|resultados/finales/|orchestracion/productos_publicos\.json$|herramientas/g10_public_product_manifest\.py$)'
+          if [[ -z "$BASE" || "$BASE" =~ ^0+$ ]] || ! files="$(git diff --name-only "$BASE" "$GITHUB_SHA" 2>/dev/null)"; then
+            echo "::notice::Sin base comparable: se ejecutan todas las puertas."
+            files="todo"
+          fi
+          marca() { # nombre regex
+            if [[ "$files" == "todo" ]] || grep -qE "$propio" <<<"$files" || grep -qE "$2" <<<"$files"; then echo "$1=true" >> "$GITHUB_OUTPUT"; else echo "$1=false" >> "$GITHUB_OUTPUT"; fi
+          }
+          marca contratos "$contratos"; marca docs "$docs"; marca productos "$productos"
+
+  contratos:
+    needs: cambios
+    if: ${{ needs.cambios.outputs.contratos == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Instalar parser YAML
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Probar admisión y rechazos
+        run: python -m unittest tests.test_territory_contract_admission -v
+      - name: Emitir validaciones contractuales sin cálculo territorial
+        run: |
+          python - <<'PY'
+          import subprocess
+          import sys
+          from pathlib import Path
+          import yaml
+
+          root = Path('.')
+          configs = []
+          for path in sorted((root / 'territorios').glob('*/config/*_2025.yaml')):
+              data = yaml.safe_load(path.read_text(encoding='utf-8')) or {}
+              meta = data.get('meta') or {}
+              if meta.get('contract_level') != 'production_m01_m06':
+                  continue
+              territory_id = meta.get('territory_id')
+              if not territory_id:
+                  raise SystemExit(f'Contrato sin territory_id: {path}')
+              configs.append((territory_id, path))
+
+          if not configs:
+              raise SystemExit('No se encontró ningún contrato production_m01_m06')
+
+          out = root / 'validaciones-contratos'
+          out.mkdir(parents=True, exist_ok=True)
+          for territory_id, path in configs:
+              print(f'Validando contrato: {territory_id} -> {path}')
+              subprocess.run([
+                  sys.executable,
+                  'herramientas/validar_contrato_territorial.py',
+                  '--territory', territory_id,
+                  '--params', str(path),
+                  '--output', str(out / f'validacion-{territory_id}.json'),
+              ], check=True)
+          PY
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: validaciones-contratos-${{ github.run_id }}
+          path: validaciones-contratos
+
+  docs:
+    needs: cambios
+    if: ${{ needs.cambios.outputs.docs == 'true' }}
+    concurrency:
+      group: docs-preview-${{ github.ref }}
+      cancel-in-progress: true
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --requirement documentacion_publica/requirements.lock
+      - run: python -m unittest discover -s documentacion_publica/auditoria -p 'test_*.py' -v
+      - run: zensical build --strict --clean -f documentacion_publica/zensical.toml
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ddd-documentacion-${{ github.sha }}
+          path: documentacion_publica/site
+          if-no-files-found: error
+          retention-days: 14
+
+  productos:
+    needs: cambios
+    if: ${{ github.event_name == 'push' && needs.cambios.outputs.productos == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Validar contrato de publicación
+        run: |
+          set -euo pipefail
+          node --check visor/app.js
+          node --check visor/v2/v2.js
+          python herramientas/g10_public_product_manifest.py --registry orchestracion/productos_publicos.json --output public-products.json
+      - name: Empaquetar producto estático verificable
+        run: |
+          set -euo pipefail
+          mkdir -p site/data/aragon site/data/castilla_y_leon
+          cp visor/index.html visor/app.js visor/styles.css site/
+          mkdir -p site/v2 && cp -R visor/v2/. site/v2/ && cp web/textos.md site/v2/textos.md
+          sed -i 's#data-textos="../../web/textos.md"#data-textos="textos.md"#' site/v2/index.html
+          cp resultados/finales/aragon/distritos.geojson site/data/aragon/
+          cp resultados/finales/castilla_y_leon/distritos.geojson site/data/castilla_y_leon/
+          mv public-products.json site/data/
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: visor-publico-verificado-${{ github.run_id }}
+          path: site
+
+  pruebas:
+    needs: [guardian, suite, cambios, contratos, docs, productos]
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Agregar resultado (check obligatorio del ruleset)
+        shell: bash
+        env:
+          GUARDIAN: ${{ needs.guardian.result }}
+          SUITE: ${{ needs.suite.result }}
+          CAMBIOS: ${{ needs.cambios.result }}
+          CONTRATOS: ${{ needs.contratos.result }}
+          DOCS: ${{ needs.docs.result }}
+          PRODUCTOS: ${{ needs.productos.result }}
+        run: |
+          echo "guardian=$GUARDIAN suite=$SUITE contratos=$CONTRATOS docs=$DOCS productos=$PRODUCTOS"
+          if [[ "$GUARDIAN" != "success" || "$SUITE" != "success" || "$CAMBIOS" != "success" ]]; then
+            echo "::error::pruebas en rojo: guardian=$GUARDIAN, suite=$SUITE, cambios=$CAMBIOS."; exit 1
+          fi
+          for puerta in "contratos=$CONTRATOS" "docs=$DOCS" "productos=$PRODUCTOS"; do
+            if [[ "${puerta#*=}" != "success" && "${puerta#*=}" != "skipped" ]]; then
+              echo "::error::pruebas en rojo: puerta ${puerta}."; exit 1
+            fi
+          done
+          echo "pruebas en verde."

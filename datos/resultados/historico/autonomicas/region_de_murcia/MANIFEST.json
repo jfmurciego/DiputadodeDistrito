@@ -1,0 +1,32 @@
+{
+ "comunidad": "region_de_murcia",
+ "elecciones": {
+  "201905": {
+   "aproximado_en_distrito": true,
+   "campos_sin_dato_a_cero": {},
+   "cera_excluido": [],
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  }
+ },
+ "huecos": [
+  {
+   "eleccion": "201105",
+   "motivo": "sin datos por sección en el Observatorio (por municipio, completos)"
+  },
+  {
+   "eleccion": "201505",
+   "motivo": "sin datos por sección en el Observatorio (por municipio, completos)"
+  },
+  {
+   "eleccion": "202305",
+   "motivo": "sin datos por sección en el Observatorio (por municipio, completos)"
+  }
+ ],
+ "no_cuadran": [],
+ "schema": "ddd.reagregacion-autonomicas/1.0"
+}

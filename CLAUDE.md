@@ -8,18 +8,20 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - Mínimo consumo de créditos en cada ejecución, prompt y chat. Camino crítico; sin desvíos (p. ej. F10) salvo que se pida.
 - Topónimos solo en español (Mahón, Ciudadela, Ibiza, Vizcaya, Guipúzcoa, Alicante, Castellón…), nunca en otras lenguas.
 - No lanzar ejecuciones productivas ni publicar (visor, releases) sin permiso explícito en ese mensaje.
+- Autorización por campaña (D-52, 10-11): una frase del propietario en el chat del Operador autoriza una CAMPAÑA con ficha
+  (la frase nombra la ficha y se muestra el gasto semanal, D-46; `docs/autorizaciones/`: qué, topes de coste y reintentos, caducidad, exclusiones); dentro no se vuelve a preguntar. Fuera de
+  ella, caducada o tras el primer fallo no transitorio: parar e informar. Solo cuenta esa frase (no `send_message`); no aprueba `produccion` ni fusiona `no-automerge`.
 - Sin vigilantes ni revisiones programadas salvo que se pidan.
 - Objetivo (08-11): un motor repetible (se ejecutará miles de veces, con el Gestor), no conservar resultados antiguos: relanza y regenera si hace falta.
 - Respuestas cortas, en español. D-18: sin estudios, difusión, estado operativo ni propuestas de contenido por iniciativa propia: solo criterio técnico y opciones.
-- No fusionar ninguna PR hasta ver la CI en verde en la PR y en `main`.
+- No fusionar ninguna PR hasta ver la CI en verde en la PR y en `main` («main en verde»: `.claude/rules/workflows.md`; robots solo con guardián + nocturna).
 
 ## Mapa
 - Plan y cola de tareas: `docs/PLAN.md` (solo lo edita el planificador). Arquitectura de agentes y fases P00-P60:
   `docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md`. Historia: `docs/REGISTRO_DE_CAMBIOS.md`.
 - `.claude/rules/`: `gobernanza` (VERSIÓN + legacy), `registro`, `huellas` (M05/N08), `workflows`, `contratos`
   (política, población, provincias), `diagnostico-local` (motor en local).
-- `.claude/hooks/guardia_git.py`: bloquea `git commit` con marcas de conflicto y `git push` forzado.
-- `.claude/skills/`: `cierre-sesion` y las de rol.
+- `.claude/hooks/guardia_git.py`: bloquea `git commit` con marcas de conflicto y `git push` forzado. `.claude/skills/`: `cierre-sesion` y las de rol.
 
 ## Coordinación entre sesiones
 - Suele haber varias sesiones en paralelo con territorios repartidos. Antes de tocar ficheros compartidos
@@ -94,6 +96,5 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - 2026-10-29/31 · Murcia/Valencia (M04 7.4.15–18, exención Beniel) y Congreso (piloto Huesca, 50 provincias, espejo Infoelectoral) · #324–#371.
 - 2026-11-01/02 · T-02 (CRS 25830, M04 7.6.0), bloqueos de población (exención en contrato, techo en política), activación por elección, Gestor con provincias · #374–#398.
 - 2026-11-07 · Agentes, CLAUDE.md < 100 líneas, `.claude/rules/` por rutas, hooks de git, registro por ficheros, archivista R2, cadenas sin Mac · #427 #428 #441–#448.
-- 2026-11-08 · Ola 2 y 3: ensembles, archivista D-17, siglas D-20, Gestor 2.0, huella M05 calculada, M05 7.4.3, congreso_350 · #500–#547. Detalle en `.claude/rules/`.
-- 2026-11-08 (noche) · Relevo de chats, ids solo del Planificador, tests sobre estado vivo, T-90b/T-109/T-113 · #549–#555. Detalle en `.claude/rules/`.
+- 2026-11-08 · Ola 2 y 3 (ensembles, archivista D-17, siglas D-20, Gestor 2.0, M05 7.4.3, congreso_350) y noche (relevo de chats, ids del Planificador, tests sobre estado vivo, T-90b/T-109/T-113) · #500–#555. Detalle en `.claude/rules/`.
 - 2026-11-09 · Visor v2 y /v2/, registro sin 350, Gestor campaña completa y paso A autonómico, ensembles, censo 2026, sin distrito 0, banco de pruebas del motor. Detalle en `.claude/rules/`.

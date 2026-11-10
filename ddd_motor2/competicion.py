@@ -46,7 +46,7 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping, Protocol
 
 from .adaptadores import problema_y_plan
-from .calidad import huella_plan, metricas
+from .calidad import metricas
 from .reglas import Criterio, ErrorContrato, ErrorDatos, Reglas, evaluar
 
 VERSION = "1.2.0"
