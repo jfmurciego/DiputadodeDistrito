@@ -40,6 +40,7 @@ import os
 import shutil
 import subprocess
 import sys
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -163,7 +164,7 @@ def referencia_m04(s5: dict, cfg: dict, carpeta: Path) -> tuple[Path | None, str
         return None, f"M04 ausente ({m04}): referencia de núcleos = composición del canónico"
     try:
         atributos = leer_atributos(m04, "CUSEC_KEY")
-    except (OSError, ValueError) as exc:
+    except (OSError, ValueError, zipfile.BadZipFile) as exc:
         raise ErrorDatos(f"{m04}: M04 ilegible ({type(exc).__name__}: {exc})") from exc
     if not any(str(p.get(COLUMNAS["distrito"]) or "").strip() for p in atributos.values()):
         return None, f"el M04 no trae {COLUMNAS['distrito']}: referencia de núcleos = composición del canónico"

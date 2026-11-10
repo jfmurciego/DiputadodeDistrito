@@ -134,8 +134,6 @@ class Main(unittest.TestCase):
         self.assertFalse(Path(s5["out_report"]).exists())
 
 
-if __name__ == "__main__":
-    unittest.main()
 
 
 class ReferenciaM04(unittest.TestCase):
@@ -167,3 +165,11 @@ class ReferenciaM04(unittest.TestCase):
         malo.write_text("{no json")
         with self.assertRaises(ErrorDatos):
             referencia_m04({"in_geojson": str(malo)}, {}, self.tmp)
+        zip_malo = self.tmp / "malo.geojson.zip"
+        zip_malo.write_bytes(b"no es un zip")
+        with self.assertRaises(ErrorDatos):
+            referencia_m04({"in_geojson": str(zip_malo)}, {}, self.tmp)
+
+
+if __name__ == "__main__":
+    unittest.main()
