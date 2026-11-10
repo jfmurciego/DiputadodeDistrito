@@ -114,3 +114,54 @@ hicieron sin unidades M04 y con secciones del M01.
 Límite conocido de la 1.1.0: R-NUCLEO (núcleos urbanos cerrados) no se aplica, porque el M04 no rellena
 `Unidad.nucleo_cerrado`. Ese dato sale de un adaptador que T-160 deja para F2/F3: distritos de la semilla formados solo
 por unidades `ddd_closed_urban`.
+
+## 1.2.0 (2026-11-10, T-164, D-48): modelo ligero con cotas
+
+`--modelo ligero` combina dos modelos que escalan, y el completo si es pequeño:
+- **Cota inferior: relajación fluida.** Sin contigüidad y por clave R012. Una clave indivisible es un objeto entero.
+  Una clave divisible reparte su población en enteros entre lo..hi distritos. Refuerzos válidos: hi ≤ sus grupos
+  indivisibles, y cada trozo lleva al menos su menor pieza. Conserva K, cuotas, suelo, techo, tolerancia, mixtos y
+  exenciones (permisivas). Todo plan válido proyecta en una solución, así que su cota vale y su infactibilidad prueba
+  que no hay plan. Comprobado: el plan publicado, impuesto (`fijar_pista`), es solución en los cuatro territorios y da
+  su propio valor. La cota de CP-SAT vale aunque no termine.
+- **Cota superior: superátomos.** Junta átomos contiguos de un mismo distrito de la pista hasta grano × objetivo
+  (0,25 por defecto). Cada plan es válido (se juzga con el núcleo) y la pista sigue siendo factible.
+- **Exacto** si hay ≤ 400 átomos (`--umbral-exacto`): su plan y su cota entran en la combinación.
+- Resultado: `OPTIMO_CERTIFICADO` si las cotas coinciden; si no, `COTA` con el hueco.
+
+Átomos = unidades M04 (secciones del M04 de la batería, motor 7.4.4, perfil núcleo; pista = publicado). Tiempo límite:
+120 s (300 s en Madrid). 4 núcleos.
+
+| Territorio | K | Átomos (superátomos) | Pregunta | Resultado | Tiempo inf. / sup. | Total |
+|---|---|---|---|---|---|---|
+| congreso_alava | 3 | 53 (10) | minimax | ÓPTIMO certificado: 16.748 = publicado | 0,03 / 0,01 s | 1,2 s |
+| congreso_alava | 3 | 53 (10) | techo | ÓPTIMO certificado: 127.496 = publicado | 0,02 / 0,01 s | 1,2 s |
+| congreso_huesca | 2 | 202 (19) | minimax | ÓPTIMO certificado: 0 (publicado 71) | 0,03 / 0,03 s | 2,1 s |
+| congreso_huesca | 2 | 202 (19) | techo | ÓPTIMO certificado: 113.439 (publicado 113.510) | 0,03 / 0,03 s | 2,1 s |
+| congreso_cadiz | 11 | 46 (29) | minimax | ÓPTIMO certificado: 20.007 = publicado | 0,09 / 0,15 s | 1,5 s |
+| congreso_cadiz | 11 | 46 (29) | techo | ÓPTIMO certificado: 132.239 = publicado | 0,09 / 0,14 s | 1,8 s |
+| congreso_madrid | 59 | 214 (105) | factibilidad | FACTIBLE (plan del modelo restringido, PASS) | 4,0 / 9,7 s | 166 s |
+| congreso_madrid | 59 | 214 (105) | minimax | **ÓPTIMO certificado: 17.236 = publicado** | 18,5 / 16,6 s | 187 s |
+| congreso_madrid | 59 | 214 (105) | techo | **COTA: [133.447, 133.450], hueco 3 hab.** (publicado 133.450) | 3,5 / 8,5 s | 164 s |
+
+Solo las cotas, sin el exacto, tardan 10-35 s en Madrid. El resto del total es el modelo completo, que llega al tope
+sin terminar (150 s). Memoria máxima: 0,6 GB en Madrid (antes, 8 GB).
+
+Conclusiones:
+1. Madrid entra en el certificador. Con las unidades M04 tiene 214 átomos, no 3.603: los 3.603 eran secciones del M01
+   sin unidades M04 (1.0.0). Aun así, el modelo completo de 214 átomos y K=59 no termina en 150 s (cota 5.086). El ligero
+   prueba que el publicado es minimax-óptimo: ningún plan válido tiene una desviación máxima menor de 17.236 hab. En el
+   techo, el publicado queda a 3 hab. del mínimo posible.
+2. La relajación sola es débil cuando la contigüidad aprieta (Álava: cota 1 frente a 16.748; Cádiz: 9.865 frente a
+   20.007). Ahí cierra el hueco el exacto, que cabe. En Madrid manda la disciplina municipal y la relajación es
+   ajustada.
+3. Una INFACTIBILIDAD del modelo restringido (`INFACTIBLE_RESTRINGIDO`) no prueba nada. Solo la relajación o el exacto
+   prueban infactibilidad.
+
+Reproducir (tras `bateria_motor.py entradas` y `motor`; el M04 queda en `territorios/<t>/.cache/ddd/preparacion/`):
+```
+python herramientas/certificador_exacto.py --params territorios/congreso_madrid/config/congreso_madrid_2025.yaml \
+  --grafo bateria/entradas/congreso_madrid/congreso_madrid_2025_m03_grafo.json \
+  --secciones territorios/congreso_madrid/.cache/ddd/preparacion/congreso_madrid_2025/congreso_madrid_2025_m04_semillas.geojson.zip \
+  --objetivo minimax --modelo ligero --pista datos/composicion/congreso_madrid.csv --tiempo 300
+```
