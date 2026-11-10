@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # VERSIÓN: 1.1.0
 # CAMBIOS 1.1.0: T-215 (paso 4 del corte), nombres v5: la 05 es «P50 Publicación» y la 06 «P30 Distritos — P33 Alternativas»
-#   (siguen exigiendo `produccion`); el forense conserva el nombre viejo hasta el parche aparte de D-61 (única excepción).
+#   (siguen exigiendo `produccion`); el forense dispara con «P00 Campaña» (D-61/D-78), sin tolerancia al nombre viejo.
 # FECHA: 2026-11-10
 # ANTERIOR: legacy/tests/test_corte_5_0_0_equivalencias_v1.0.0_20261110.py
 """T-198: guardas previas al corte 5.0.0 (D-61): referencias entre flujos y entornos de producción."""
@@ -19,10 +19,6 @@ import generar_equivalencias_5_0_0 as gen  # noqa: E402
 WF = ROOT / ".github" / "workflows"
 NOMBRE_05 = "P50 Publicación"
 NOMBRE_06 = "P30 Distritos — P33 Alternativas"
-# D-61/DECISIÓN 3: el cambio de una línea de forense-00.yml («P00 Campaña») va en un parche aparte que exige la
-# autorización expresa del propietario. Hasta entonces es la ÚNICA referencia a un flujo que ya no existe.
-FORENSE_PENDIENTE = ("forense-00.yml", "00 Ejecución Completa del Proyecto")
-FORENSE_PARCHEADO = ("forense-00.yml", "P00 Campaña")
 
 
 def _nombres():
@@ -45,13 +41,11 @@ class ReferenciasPorNombre(unittest.TestCase):
                 refs += [a or b for a, b in re.findall(r"'([^']+)'|\"([^\"]+)\"", lista)]
             for r in refs:
                 encontradas.append((f.name, r))
-                if (f.name, r) != FORENSE_PENDIENTE:
-                    self.assertIn(r, existentes, f"{f.name} nombra un flujo inexistente: {r!r}")
-        forense = FORENSE_PARCHEADO if FORENSE_PARCHEADO in encontradas else FORENSE_PENDIENTE
+                self.assertIn(r, existentes, f"{f.name} nombra un flujo inexistente: {r!r}")
         esperadas = sorted([
             ("auto-merge.yml", "Pruebas de la Plataforma"),
             ("desplegar-visor-publico.yml", NOMBRE_05),
-            forense,
+            ("forense-00.yml", "P00 Campaña"),  # D-61/D-78
             ("generar-alternativas-territoriales.yml", NOMBRE_06),
             ("generar-alternativas-territoriales.yml", NOMBRE_06),
         ])
