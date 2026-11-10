@@ -16,7 +16,9 @@ CAMBIOS: 1.4.0 (T-202): (1) contratos con unidades internas (partitioning connec
   queda válido) y solo eligen entre mapas válidos; si no hay reparación, se informa con los intentos.
   1.3.0 (T-179, autonómicas): objetivo por circunscripción cuando el contrato trae province_districts de más de
   una provincia o isla: objetivo = población de la circunscripción / su cuota; desvíos, tolerancia, topes y fuera de
-  tolerancia se miden contra él, y ReCom corta cada par fusionado por la mitad de su población (misma circunscripción).
+  tolerancia se miden contra él, y ReCom corta cada par fusionado por la mitad de su población. ReCom no limita el par a una
+  circunscripción: un par de circunscripciones distintas da un plan que rechaza la restricción `nucleo` (R-CUOTA /
+  provincia única), y la cadena se queda en el estado anterior.
   Sin cuotas múltiples (Congreso), todo igual que 1.2.0.
   --reanudar solo salta un territorio si su RESULTADO.json tiene la misma versión, parámetros (con funciones) y
   entorno; si no, lo rechaza sin sobrescribirlo.
@@ -377,7 +379,9 @@ def cadena(lab: Laboratorio, semilla: int, pasos: int, funciones: tuple[str, ...
         bip = partial(bipartition_tree, allow_pair_reselection=True, max_attempts=1000,
                       spanning_tree_fn=partial(arbol_ponderado, recargo=recargo))
     eps = float(lab.tol / lab.objetivo)
-    if lab.obj_circ:  # cada par fusionado es de una circunscripción: se corta por la mitad de su población
+    # con objetivos por circunscripción se corta por la mitad de la población del par; si el par mezcla
+    # circunscripciones, el plan resultante lo rechaza `nucleo` (R-CUOTA / provincia única)
+    if lab.obj_circ:
         bip, eps = partial(_bip_mitad, bip=bip, eps=eps), 1e6
     prop = partial(recom, pop_col="population", pop_target=float(lab.objetivo), epsilon=eps,
                    node_repeats=0, bipartition_tree_fn=bip)

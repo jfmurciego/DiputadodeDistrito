@@ -8,7 +8,8 @@ NOMBRE DE VERSIÓN: Naturalidad · informe nacional
 FECHA: 2026-11-10
 ESTADO: experimento (motor 2; producción no lo importa; nada se publica)
 CAMBIOS: 1.3.0 (T-202): columna «valido» (el mapa cumple el núcleo); en TABLA.md, un mapa que no lo cumple (el
-  vigente de Castilla y León, D-66) se marca «A (incumple el núcleo)».
+  vigente de Castilla y León, D-66) se marca «A (incumple el núcleo)». EMPEORA cuenta también la suma de desvíos
+  (más personas que A) y el Polsby-Popper mínimo.
   1.2.0 (T-179, nacional): --png (lista de territorios con lámina; sin ella, todos), nombres en español de los
   67 territorios y EMPEORA.md/.csv: territorios donde C o D8 empeoran algo frente a A (más distritos fuera de
   tolerancia, más partidos judiciales o comarcas agrarias partidos, menor Polsby-Popper medio) o no hallan candidato
@@ -171,8 +172,11 @@ def empeora(filas: list[dict], sal: Path) -> list[dict]:
                            ("ca_partidas", "comarcas agrarias partidas")):
                 if x[k] > a[k]:
                     m.append(f"{txt} {a[k]} → {x[k]}")
-            if x["pp_medio"] != "" and a["pp_medio"] != "" and x["pp_medio"] < a["pp_medio"]:
-                m.append(f"Polsby-Popper medio {a['pp_medio']} → {x['pp_medio']}")
+            for k, txt in (("pp_medio", "Polsby-Popper medio"), ("pp_min", "Polsby-Popper mínimo")):
+                if x[k] != "" and a[k] != "" and x[k] < a[k]:
+                    m.append(f"{txt} {a[k]} → {x[k]}")
+            if x["suma_desvio_personas"] > a["suma_desvio_personas"]:
+                m.append(f"suma de desvíos +{x['suma_desvio_personas'] - a['suma_desvio_personas']} personas")
             if m:
                 out.append({"territorio": t, "nombre": nombre(t), "funcion": f, "empeora": "; ".join(m)})
     with open(sal / "EMPEORA.csv", "w", newline="", encoding="utf-8") as fh:

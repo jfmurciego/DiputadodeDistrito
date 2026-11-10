@@ -165,6 +165,25 @@ class Laboratorio(unittest.TestCase):
         self.assertTrue(plan and evaluar(lab.problema, reglas, plan).valido, notas)
         self.assertEqual(plan["2000100001"], "1")  # el resto del plan no se toca
 
+    def test_corte_por_mitad_del_par(self):
+        """Con objetivo por circunscripción, el corte usa la mitad de la población del par y la tolerancia real."""
+        from ddd_motor2.naturalidad_competicion import _bip_mitad
+
+        class Sub:
+            node_indices = [0, 1, 2]
+
+            def node_data(self, n):
+                return {"population": [30, 50, 20][n]}
+
+        visto = {}
+
+        def bip(sub, pop_col, pop_target, epsilon, **kw):
+            visto.update(pop_target=pop_target, epsilon=epsilon, kw=kw)
+            return {0}
+
+        self.assertEqual(_bip_mitad(Sub(), "population", 999.0, 1e6, bip=bip, eps=0.15, rng=7), {0})
+        self.assertEqual(visto, {"pop_target": 50.0, "epsilon": 0.15, "kw": {"rng": 7}})
+
     def test_islas_y_enclaves_del_contrato(self):
         from ddd_motor2.naturalidad_competicion import particiones, puentes_contrato
         cfg = {"m": {"x": {"hard_partition_lookup": "configuracion/particiones_insulares_2025.json",
