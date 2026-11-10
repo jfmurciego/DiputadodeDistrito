@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.311
+Versión: 1.0.312
 Fecha: 2026-11-10
-Alcance: T-199 — Dimensión de elección en el registro del visor y FECHA parametrizada
+Alcance: T-200 — Cargadores de homologación y equivalencia de secciones para las generales 2026
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_claude-t199-eleccion-registro-fecha.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.310_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_claude-t200-homologacion-2026.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.311_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.310_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.312 · [2026-11-10 — T-200 — Cargadores de homologación y equivalencia de secciones para las generales 2026](registro/2026-11-10_claude-t200-homologacion-2026.md)
 - 1.0.311 · [2026-11-10 — T-199 — Dimensión de elección en el registro del visor y FECHA parametrizada](registro/2026-11-10_claude-t199-eleccion-registro-fecha.md)
 - 1.0.310 · [2026-11-10 — T-179 (nacional, 1.ª parte) — Naturalidad: C y D8 en las 52 provincias del Congreso](registro/2026-11-10_claude-t179b-naturalidad-71.md)
 - 1.0.309 · [2026-11-10 — T-198 — Guardas y equivalencias previas al corte 5.0.0](registro/2026-11-10_t198-equivalencias-5-0-0.md)
