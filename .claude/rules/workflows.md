@@ -39,8 +39,10 @@ paths:
 - El clasificador del arnés bloquea como «CI Bypass» / «Merge Without Review» / «Create Public Surface» las fusiones con `main`
   en rojo, los dispatch públicos (05/06) y las escrituras externas (comentar/cerrar PR): hace falta frase explícita del
   propietario por caso.
-- «`main` en verde» = ÚLTIMO run COMPLETADO de `pruebas-plataforma` en success. Con robots registrando, el run más reciente
-  casi nunca está terminado: una espera «run[0] completado» no acaba.
+- «`main` en verde» (D-49, 10-11) = el último push a `main` tiene `guardian` en success (integridad) Y el último run COMPLETADO de la
+  batería (`pruebas` con la suite, no cancelado) sobre `main` está en success; anota su fecha. Un push de código la ejecuta; un push de
+  robot que solo toca datos/registro pasa solo el guardián y lo cubre la batería nocturna (02:23 UTC). Un push posterior cancela la
+  comprobación superada del anterior: un run cancelado no cuenta. Cambios de código, en PR o en main, siempre con la batería completa.
 - Una espera de fusión que dispara sola puede adelantarse a la orden (#455 antes que #457): páralas (TaskStop) si cambia el orden.
 
 ## Lecciones 08-11 (Coordinador)
