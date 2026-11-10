@@ -165,3 +165,28 @@ python herramientas/certificador_exacto.py --params territorios/congreso_madrid/
   --secciones territorios/congreso_madrid/.cache/ddd/preparacion/congreso_madrid_2025/congreso_madrid_2025_m04_semillas.geojson.zip \
   --objetivo minimax --modelo ligero --pista datos/composicion/congreso_madrid.csv --tiempo 300
 ```
+
+## 1.3.0 (2026-11-10, T-175): R-NUCLEO aplicada
+
+El certificador ya aplica R-NUCLEO. `leer_secciones` toma `district_id` y `ddd_closed_urban` de las secciones del M04. El
+adaptador nuevo `ddd_motor2.adaptadores.nucleos_desde_unidades` trabaja sobre las unidades de partición: una unidad M04
+es cerrada si lo son todas sus secciones, y un distrito de referencia formado solo por unidades cerradas es un núcleo.
+Es la regla del M05 GerryChain, que congela esos distritos. El adaptador desde la composición usa la misma función.
+En el modelo, el núcleo es un solo grupo de átomos y su distrito no admite átomos de fuera. Los superátomos no mezclan
+núcleo y resto. La relajación fluida no lo usa y sigue siendo una cota válida. `--sin-nucleos` quita la regla, para
+comparar. Si la entrada no trae las columnas (un M01, por ejemplo), no hay núcleos y la salida lo avisa.
+
+Medición: minimax, `--modelo ligero`, pista = publicado, 120 s, 4 núcleos, secciones del M04 de la batería (motor 7.4.4).
+
+| Territorio | K | Átomos | Núcleos | Con R-NUCLEO | Sin R-NUCLEO | Publicado |
+|---|---|---|---|---|---|---|
+| congreso_alava | 3 | 53 | 1 | ÓPTIMO certificado 16.748 (0,9 s) | igual (0,9 s) | 16.748, PASS |
+| congreso_albacete | 3 | 88 | 1 | ÓPTIMO certificado 530 (0,8 s) | igual (0,9 s) | 530, PASS |
+| congreso_burgos | 3 | 372 | 1 | **ÓPTIMO certificado 9** (exacto, 7,1 s) | COTA [9, 11] (61 s) | 11, PASS |
+| congreso_huesca | 2 | 202 | 0 | ÓPTIMO certificado 0 | igual | 71, PASS |
+
+El publicado cumple R-NUCLEO en los cuatro. En Burgos la regla poda el espacio de búsqueda: el modelo completo termina en
+7 s y certifica que el óptimo es 9 hab. (el publicado queda a 2 hab.). Sin la regla, en 120 s solo da la cota.
+
+Reproducir: `herramientas/bateria_motor.py entradas <t>` y `motor <t>`; después
+`python herramientas/certificador_exacto.py --params territorios/<t>/config/<t>_2025.yaml --grafo bateria/entradas/<t>/<t>_2025_m03_grafo.json --secciones territorios/<t>/.cache/ddd/preparacion/<t>_2025/<t>_2025_m04_semillas.geojson.zip --objetivo minimax --modelo ligero --pista datos/composicion/<t>.csv --referencia publicado=datos/composicion/<t>.csv --tiempo 120 [--sin-nucleos]`.
