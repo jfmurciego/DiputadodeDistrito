@@ -10,6 +10,7 @@
   "keywords": ["redistricting", "distritos uninominales", "secciones censales", "GerryChain", "ReCom", "INE", "España"],
   "description": "Motor modular M01–M08 para distritos uninominales desde secciones censales. Cada versión archiva los productos de un mapa publicado, su manifiesto SHA-256 y la atestación de procedencia SLSA. Los mapas no tienen valor oficial.",
   "related_identifiers": [
+    {"identifier": "10.5281/zenodo.24093967", "relation": "isVersionOf", "scheme": "doi"},
     {"identifier": "https://github.com/jfmurciego/DiputadodeDistrito", "relation": "isSupplementTo", "scheme": "url"},
     {"identifier": "https://jfmurciego.github.io/DiputadodeDistrito/", "relation": "isDocumentedBy", "scheme": "url"}
   ],

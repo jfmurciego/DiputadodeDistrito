@@ -423,8 +423,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41042675119
-        stage: M08
+        run_id: 42720735134
+        stage: M06
       preparation_evidence:
         run_id: 42720735134
         artifact_name: ddd-source-package-extremadura-2025-42720735134
@@ -440,8 +440,8 @@ territories:
         source_commit: 0ec9728c39bb6ded9db45608f5516d901805758a
       evidence:
         territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
-        electoral_source: territorios/extremadura/evidencia/fuentes_electorales/2025/c27f6d942fb89c1f5f7439f8d4aaf519e1b40a9b75b5dade999367925a3cd35d/40964574039/receipt.json
-        prepared_source_pair: territorios/extremadura/evidencia/pares_fuentes/2025/9fa244d93cf37eace370e0eb60819d6ecf11e23803e47f02f0c5c9557ac80a5e.json
+        electoral_source: territorios/extremadura/evidencia/fuentes_electorales/2025/e3963afbdaaefc34551d19d08eb4819e66266697dc33b6469b5b5aca318e3350/42720735134/receipt.json
+        prepared_source_pair: territorios/extremadura/evidencia/pares_fuentes/2025/67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3.json
         electoral_product: territorios/extremadura/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/extremadura/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: true

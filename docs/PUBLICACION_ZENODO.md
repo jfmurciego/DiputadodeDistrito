@@ -1,6 +1,7 @@
-# VERSIÓN: 1.0.0
-# FECHA: 2026-11-09
-# ANTERIOR: ninguna (fichero nuevo)
+# VERSIÓN: 1.1.0
+# FECHA: 2026-11-10
+# CAMBIOS: DOI de concepto y de versión confirmados por el propietario (T-159)
+# ANTERIOR: legacy/docs/PUBLICACION_ZENODO_v1.0.0.md
 # Guía para el propietario: publicar un mapa con DOI en Zenodo (sin pasos de comandos)
 
 ## Qué es
@@ -34,11 +35,15 @@ adjunto sigue en la Release de GitHub, con su firma verificable. Decisión del p
 
 ## Datos de autor que constan
 Nombre «Jesus Murciego», ORCID 0009-0002-4434-959X, afiliación «Independent researcher» (decisión del propietario, 09-11).
-Versión del proyecto: 4.9.0.
+Versión del proyecto: 4.10.0.
 
 ## Primer depósito
-Mapa Congreso Huesca 1.0.0: https://zenodo.org/records/24093968 — DOI de versión 10.5281/zenodo.24093968 (provisional: derivado del número de registro, sin verificar desde el entorno del proyecto). El fichero del depósito es el ZIP de código fuente de GitHub, **no** el paquete firmado `.tar.gz` (su sha256 está en la Release).
+Mapa Congreso Huesca 1.0.0 (versión «mapa-congreso_huesca-v1.0.0», 9-11-2026): https://zenodo.org/records/24093968
+
+- **DOI de versión:** 10.5281/zenodo.24093968 (solo ese mapa).
+- **DOI de concepto** (todas las versiones; resuelve a la última): 10.5281/zenodo.24093967.
+
+Ambos DOI los copió el propietario de la página del depósito. El fichero del depósito es el ZIP de código fuente de GitHub, **no** el paquete firmado `.tar.gz` (su sha256 está en la Release). El depósito es un mapa (Huesca), no el proyecto entero: el README cita el DOI de concepto como archivo de las versiones de mapa publicadas, no como cita de todo el motor.
 
 ## Pendiente
-- DOI de concepto («Cite all versions» en la página del registro): pendiente del propietario.
-- Verificar que el DOI de versión resuelve.
+- Verificar que ambos DOI resuelven: zenodo.org no es alcanzable desde el entorno en la nube; lo comprueba el propietario.
