@@ -987,6 +987,13 @@
    "sha256_csv": "19c73a7536f5ce796d70470d179f50851b4a698abd84657b168b080b5128623b",
    "ruta": "datos/composicion/runs/extremadura_42720735134.csv"
   },
+  "la_rioja/42916463221": {
+   "territorio": "la_rioja",
+   "run_id": "42916463221",
+   "secciones": 343,
+   "sha256_csv": "6495e251017adc026d4d0e8e44e5d6829728bd1b756df756c4d6ceb3c691f66c",
+   "ruta": "datos/composicion/runs/la_rioja_42916463221.csv"
+  },
   "melilla/42504386196": {
    "territorio": "melilla",
    "run_id": "42504386196",
