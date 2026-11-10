@@ -11,7 +11,7 @@ CAMBIOS: 1.1.0 (T-179): cinco paneles (A, D5, D8, C, B), filas D5/D8 en la tabla
   superficie, población, municipio principal y si es un núcleo cerrado dentro de un solo municipio), para explicar los
   distritos urbanos minúsculos en superficie. 1.0.0: fichero nuevo.
 MOTIVO: T-172, paso 5: que el propietario decida con los mapas delante; el criterio no se fija en código.
-ANTERIOR: 1.0.0 (T-172, #651)
+ANTERIOR: 1.0.0 (T-172, #651) — legacy/ddd_motor2/naturalidad_informe_v1.0.0_20261110.py
 USO: python -m ddd_motor2.naturalidad_informe --seccionado-dir <dir> --resultados <out del laboratorio> --salida <dir>
 QUÉ HACE: por territorio, un PNG con los cinco ganadores (misma escala y mismos colores: cada distrito de B y C toma el
   color del distrito de A con el que más población comparte), límites de partidos judiciales de fondo (gris) y

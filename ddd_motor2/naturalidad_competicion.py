@@ -14,7 +14,7 @@ CAMBIOS: 1.1.0 (T-179): variantes D5 y D8 = C con tope de desvío máximo del 5 
   arista y, con ella, las cadenas (Badajoz, Madrid y Barcelona no reprodujeron #651). 1.0.0: fichero nuevo.
 MOTIVO: T-172, pasos 3 y 4: ¿cuánta población «cuesta» un mapa más natural? Misma entrada, mismas reglas (núcleo
   ddd_motor2.reglas.evaluar), mismas semillas públicas (semilla.py); cambia solo cómo se elige y cómo se corta.
-ANTERIOR: 1.0.0 (T-172, #651)
+ANTERIOR: 1.0.0 (T-172, #651) — legacy/ddd_motor2/naturalidad_competicion_v1.0.0_20261110.py
 QUÉ HACE: por territorio,
   entrada   el mapa vigente (datos/composicion/<t>.csv: población por sección) y la geometría INE del contrato
             (naturalidad_mapas.Geometria). Unidades: cada municipio con población <= objetivo es una unidad (la regla
