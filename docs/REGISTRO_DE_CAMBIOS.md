@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.250
+Versión: 1.0.263
 Fecha: 2026-11-10
-Alcance: T-145 — Lista de poda de R2 (propuesta, sin borrar)
+Alcance: T-160 — Núcleo de reglas del motor 2 (F1, paso 2: estado incremental, poda y enumerador)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t145-lista-poda-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.249_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t160-estado-enumerador.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.262_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,19 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.249_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.263 · [2026-11-10 — T-160 — Núcleo de reglas del motor 2 (F1, paso 2: estado incremental, poda y enumerador)](registro/2026-11-10_t160-estado-enumerador.md)
+- 1.0.262 · [2026-11-10 — T-160 — Adaptador composición M06 + grafo M03 al núcleo de reglas (F1, paso 3)](registro/2026-11-10_t160-adaptador.md)
+- 1.0.261 · [2026-11-10 — T-160 — Núcleo único de reglas del motor 2 (F1, paso 1: modelo y evaluador)](registro/2026-11-10_t160-nucleo-reglas.md)
+- 1.0.260 · [2026-11-10 — T-158 — Otros ámbitos (municipales, europeas, Ecuador): notas de preparación](registro/2026-11-10_t158-otros-ambitos.md)
+- 1.0.259 · [2026-11-10 — T-139 — Piloto de movilidad, paso 2: indicador de cohesión funcional](registro/2026-11-10_t139-movilidad-paso2.md)
+- 1.0.258 · [2026-11-10 — T-161 — Métricas del proceso: paginación completa y minutos reales de jobs](registro/2026-11-10_claude-t161-metricas-paginacion.md)
+- 1.0.257 · [2026-11-10 — T-150 — Historial de workflows desactivados y lista de borrado de runs](registro/2026-11-10_t150-historial-workflows.md)
+- 1.0.256 · [2026-11-10 — T-155 — Cuadro de coste real de las dos últimas semanas](registro/2026-11-10_claude-t155-coste-real.md)
+- 1.0.255 · [2026-11-10 — T-171 — Plan por temas y decisiones del 09 y 10-11](registro/2026-11-10_claude-plan-temas-1011.md)
+- 1.0.254 · [2026-11-10 — T-136 — Prototipo de certificador exacto (CP-SAT)](registro/2026-11-10_t136-certificador-exacto.md)
+- 1.0.253 · [2026-11-10 — T-159 — README actualizado (v4.10.0)](registro/2026-11-10_docs-readme-t159.md)
+- 1.0.252 · [2026-11-10 — T-156 — Auditoría del visor (accesibilidad, peso) y opciones de analítica sin cookies](registro/2026-11-10_t156-auditoria-visor-uso.md)
+- 1.0.251 · [2026-11-10 — T-139 — Piloto de movilidad, paso 1: datos EM-1, unión de áreas y 5 provincias](registro/2026-11-10_t139-movilidad-paso1.md)
 - 1.0.250 · [2026-11-10 — T-145 — Lista de poda de R2 (propuesta, sin borrar)](registro/2026-11-10_t145-lista-poda-r2.md)
 - 1.0.249 · [2026-11-10 — T-148 — Inventario de impacto de la notación AUT/NAC](registro/2026-11-10_t148-notacion-inventario.md)
 - 1.0.248 · [2026-11-10 — T-148 — Tabla maestra de notación AUT01-19 / NAC01-52](registro/2026-11-10_t148-notacion-tabla-maestra.md)
