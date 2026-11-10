@@ -12,9 +12,14 @@ MOTIVO: T-160 / T-132: misma vara para todos los generadores (canónico, GerryCh
   acaban en la composición M06. Fuera del núcleo, pero solo stdlib (csv + json): corre en la nube sin geopandas.
 ANTERIOR: ninguna (fichero nuevo)
 ENTRADA ÚNICA: problema_y_plan(composicion_m06_csv, grafo_m03_json, cfg) -> (Problema, {unidad: distrito}, avisos)
-  - Columnas (nombres por defecto de M06, cambiables con `columnas`): CUSEC_KEY, district_id, section_pop, CPRO, CUMUN,
-    ddd_unit_id, ddd_closed_urban; partición en DDD_PARTITION y clave R012 en partitioning.partition_unit_field si el
-    contrato usa connected_internal_units.
+  - Columnas: CUSEC_KEY, district_id, section_pop, ddd_unit_id, ddd_closed_urban; provincia y partición en
+    validation.province_field y municipio en validation.municipality_field del contrato (CPRO/CUMUN si no los declara,
+    como validar_ejecucion; en las islas, DDD_PARTITION y DDD_MUNICIPALITY_PARTITION); clave R012 en
+    partitioning.partition_unit_field si el contrato usa connected_internal_units. `columnas` las sustituye.
+  - `atributos_secciones` (opcional): GeoJSON M06/M01 (.geojson, .json o .zip) cuyas propiedades completan, por sección,
+    las columnas que la composición no trae (p. ej. M04_PARTITION_UNIT en Extremadura y Asturias).
+  - Una unidad con secciones de varios municipios (grupo atómico, p. ej. Cataluña «25215|25234») lleva `desglose`
+    con la población de cada municipio.
   - Unidad = ddd_unit_id (las secciones se agregan); sin la columna, cada sección es su unidad (se avisa).
   - Municipio/provincia/partición son campos: nunca se deducen del identificador. Si una unidad mezcla valores, el
     campo queda vacío y las reglas que lo necesitan fallan con ErrorDatos (nunca se anula una regla en silencio).
@@ -36,8 +41,37 @@ from .reglas.modelo import ErrorDatos, Problema, Unidad
 
 COLUMNAS = {
     "seccion": "CUSEC_KEY", "distrito": "district_id", "poblacion": "section_pop", "provincia": "CPRO",
-    "municipio": "CUMUN", "unidad": "ddd_unit_id", "cerrado": "ddd_closed_urban", "particion": "DDD_PARTITION",
+    "municipio": "CUMUN", "unidad": "ddd_unit_id", "cerrado": "ddd_closed_urban",
 }
+
+
+def columnas_de_contrato(cfg: Mapping) -> dict[str, str]:
+    """Nombres de columna según el contrato (misma precedencia que validar_ejecucion)."""
+    val = (cfg or {}).get("validation") or {}
+    col = dict(COLUMNAS)
+    col["provincia"] = str(val.get("province_field") or "CPRO")
+    col["municipio"] = str(val.get("municipality_field") or "CUMUN")
+    col["particion"] = col["provincia"]  # la exención por partición mira el campo provincial (VAL 1.3.5)
+    return col
+
+
+def leer_atributos(ruta: str | Path, campo_id: str) -> dict[str, dict]:
+    """Propiedades por sección de un GeoJSON (sin geopandas)."""
+    import zipfile
+    ruta = Path(ruta)
+    if ruta.suffix == ".zip":
+        with zipfile.ZipFile(ruta) as z:
+            nombre = next(n for n in z.namelist() if n.endswith((".geojson", ".json")))
+            datos = json.loads(z.read(nombre))
+    else:
+        datos = json.loads(ruta.read_text(encoding="utf-8"))
+    out = {}
+    for f in datos.get("features", []):
+        props = f.get("properties") or {}
+        if campo_id not in props:
+            raise ErrorDatos(f"{ruta}: propiedades sin {campo_id}")
+        out[str(props[campo_id]).strip()] = props
+    return out
 VERDADEROS = {"1", "true", "t", "yes", "si", "sí", "y"}
 
 
@@ -86,19 +120,34 @@ def leer_composicion(ruta: str | Path, columnas: Mapping[str, str] | None = None
 
 def problema_y_plan(composicion_m06_csv: str | Path, grafo_m03_json: str | Path, cfg: Mapping[str, Any], *,
                     columnas: Mapping[str, str] | None = None,
-                    referencia_nucleos: str | Path | None = None) -> tuple[Problema, dict[str, str], list[str]]:
-    col = {**COLUMNAS, **(columnas or {})}
+                    referencia_nucleos: str | Path | None = None,
+                    atributos_secciones: str | Path | None = None) -> tuple[Problema, dict[str, str], list[str]]:
+    col = {**columnas_de_contrato(cfg), **(columnas or {})}
     part = (cfg or {}).get("partitioning") or {}
     campo_r012 = (str(part.get("partition_unit_field") or "")
                   if part.get("enabled") and part.get("strategy") == "connected_internal_units" else "")
     filas = leer_composicion(composicion_m06_csv, col)
     avisos: list[str] = []
+    if atributos_secciones is not None:
+        extra = leer_atributos(atributos_secciones, col["seccion"])
+        sin = 0
+        for f in filas:
+            props = extra.get(str(f[col["seccion"]]).strip())
+            if props is None:
+                sin += 1
+                continue
+            for k, v in props.items():
+                if k not in f or _vacio(f[k]):
+                    f[k] = "" if v is None else str(v)
+        if sin:
+            avisos.append(f"{sin} secciones sin atributos en {Path(atributos_secciones).name}")
     con_unidad = col["unidad"] in filas[0]
     if not con_unidad:
         avisos.append(f"sin columna {col['unidad']}: cada sección es su unidad")
 
     seccion_a_unidad: dict[str, str] = {}
-    acum: dict[str, dict[str, Any]] = defaultdict(lambda: {"pob": 0, "valores": defaultdict(set), "distritos": set()})
+    acum: dict[str, dict[str, Any]] = defaultdict(
+        lambda: {"pob": 0, "valores": defaultdict(set), "distritos": set(), "pob_mun": defaultdict(int)})
     for i, f in enumerate(filas, start=2):
         s = str(f[col["seccion"]]).strip()
         if s in seccion_a_unidad:
@@ -108,7 +157,10 @@ def problema_y_plan(composicion_m06_csv: str | Path, grafo_m03_json: str | Path,
         uid = str(f[col["unidad"]]).strip() if con_unidad else s
         seccion_a_unidad[s] = uid
         a = acum[uid]
-        a["pob"] += _entero(f[col["poblacion"]], f"línea {i}")
+        pob = _entero(f[col["poblacion"]], f"línea {i}")
+        a["pob"] += pob
+        if col["municipio"] in f and not _vacio(f[col["municipio"]]):
+            a["pob_mun"][str(f[col["municipio"]]).strip()] += pob
         a["distritos"].add(str(f[col["distrito"]]).strip())
         for campo, nombre in (("municipio", col["municipio"]), ("provincia", col["provincia"]),
                               ("particion", col["particion"]), ("unidad_r012", campo_r012)):
@@ -141,6 +193,7 @@ def problema_y_plan(composicion_m06_csv: str | Path, grafo_m03_json: str | Path,
 
     unidades = []
     mezcladas: dict[str, int] = defaultdict(int)
+    desgloses = 0
     for uid, a in acum.items():
         campos = {}
         for campo in ("municipio", "provincia", "particion", "unidad_r012"):
@@ -148,9 +201,20 @@ def problema_y_plan(composicion_m06_csv: str | Path, grafo_m03_json: str | Path,
             if len(vals) > 1:
                 mezcladas[campo] += 1
             campos[campo] = next(iter(vals)) if len(vals) == 1 else None
-        unidades.append(Unidad(uid, a["pob"], nucleo_cerrado=nucleo_de.get(uid), **campos))
+        desglose = ()
+        if len(a["valores"].get("municipio", ())) > 1:
+            mezcladas["municipio"] -= 1
+            if sum(a["pob_mun"].values()) == a["pob"]:  # todas las secciones con municipio
+                desglose = tuple(sorted(a["pob_mun"].items()))
+                desgloses += 1
+            else:
+                mezcladas["municipio_incompleto"] += 1
+        unidades.append(Unidad(uid, a["pob"], nucleo_cerrado=nucleo_de.get(uid), desglose=desglose, **campos))
     for campo, n in sorted(mezcladas.items()):
-        avisos.append(f"{n} unidades con varios valores de {campo}: el campo queda vacío")
+        if n:
+            avisos.append(f"{n} unidades con varios valores de {campo}: el campo queda vacío")
+    if desgloses:
+        avisos.append(f"{desgloses} unidades con varios municipios: desglose por municipio")
 
     g = json.loads(Path(grafo_m03_json).read_text(encoding="utf-8"))
     puentes_cfg = _puentes_contrato(cfg)

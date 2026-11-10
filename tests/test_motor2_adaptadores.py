@@ -52,18 +52,46 @@ class Adaptador(unittest.TestCase):
         self.assertEqual(avisos, [])
         self.assertTrue(evaluar(p, Reglas.desde_contrato(cfg()), plan).valido)
 
-    def test_municipio_es_campo_y_mezcla_falla(self):
-        # Ids con «formato» 22:22009:M que no se interpretan; la unidad A mezcla dos CUMUN.
+    def test_municipio_es_campo_y_unidad_multimunicipal_se_desglosa(self):
+        # Id con «formato» 22:22009:M que no se interpreta; la unidad mezcla dos CUMUN (grupo atómico).
         filas = [["s1", "1", "60", "22", "22001", "22:22009:M", "0"], ["s2", "1", "40", "22", "22003", "22:22009:M", "0"],
                  ["s3", "2", "100", "22", "22002", "B", "0"]]
         comp, grafo = self.escribir(filas, [("s1", "s2"), ("s2", "s3")])
         p, plan, avisos = problema_y_plan(comp, grafo, cfg())
-        self.assertIsNone(p.por_id["22:22009:M"].municipio)
-        self.assertIn("1 unidades con varios valores de municipio: el campo queda vacío", avisos)
-        with self.assertRaisesRegex(ErrorDatos, "municipio"):
+        u = p.por_id["22:22009:M"]
+        self.assertIsNone(u.municipio)
+        self.assertEqual(u.desglose, (("22001", 60), ("22003", 40)))
+        self.assertIn("1 unidades con varios municipios: desglose por municipio", avisos)
+        self.assertTrue(evaluar(p, Reglas.desde_contrato(cfg()), plan).valido)
+
+    def test_provincia_mezclada_o_municipio_incompleto_fallan(self):
+        filas = [["s1", "1", "60", "22", "22001", "A", "0"], ["s2", "1", "40", "44", "", "A", "0"],
+                 ["s3", "2", "100", "22", "22002", "B", "0"]]
+        comp, grafo = self.escribir(filas, [("s1", "s2"), ("s2", "s3")])
+        p, plan, avisos = problema_y_plan(comp, grafo, cfg())
+        self.assertIsNone(p.por_id["A"].provincia)
+        with self.assertRaisesRegex(ErrorDatos, "provincia"):
             evaluar(p, Reglas.desde_contrato(cfg()), plan)
-        # Sin disciplina municipal ni exenciones, el municipio no hace falta.
-        self.assertTrue(evaluar(p, Reglas.desde_contrato(cfg(require_municipality_discipline=False)), plan).valido)
+
+    def test_columnas_del_contrato_islas_y_atributos_geojson(self):
+        cab = ["CUSEC_KEY", "district_id", "section_pop", "DDD_PARTITION", "DDD_MUNICIPALITY_PARTITION", "ddd_unit_id"]
+        filas = [["s1", "1", "100", "35-C01", "35016:35-C01", "U1"], ["s2", "2", "100", "35-C01", "35001:35-C01", "U2"]]
+        comp, grafo = self.escribir(filas, [("s1", "s2")], cab=cab)
+        c = cfg(province_field="DDD_PARTITION", municipality_field="DDD_MUNICIPALITY_PARTITION",
+                province_districts={"35-C01": 2})
+        c["partitioning"] = {"enabled": True, "strategy": "connected_internal_units",
+                             "partition_unit_field": "M04_PARTITION_UNIT"}
+        p, plan, _ = problema_y_plan(comp, grafo, c)
+        self.assertEqual((p.por_id["U1"].provincia, p.por_id["U1"].municipio), ("35-C01", "35016:35-C01"))
+        with self.assertRaisesRegex(ErrorDatos, "unidad_r012"):
+            evaluar(p, Reglas.desde_contrato(c), plan)
+        geo = {"type": "FeatureCollection", "features": [
+            {"type": "Feature", "geometry": None, "properties": {"CUSEC_KEY": "s1", "M04_PARTITION_UNIT": "P1"}},
+            {"type": "Feature", "geometry": None, "properties": {"CUSEC_KEY": "s2", "M04_PARTITION_UNIT": "P2"}}]}
+        (self.tmp / "m06.geojson").write_text(json.dumps(geo))
+        p, plan, _ = problema_y_plan(comp, grafo, c, atributos_secciones=self.tmp / "m06.geojson")
+        self.assertEqual(p.por_id["U1"].unidad_r012, "P1")
+        self.assertTrue(evaluar(p, Reglas.desde_contrato(c), plan).valido)
 
     def test_unidad_partida_y_poblacion_no_entera_fallan(self):
         comp, grafo = self.escribir([["s1", "1", "60", "22", "22001", "A", "0"],
