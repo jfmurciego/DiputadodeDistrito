@@ -232,6 +232,124 @@ class BateriaMotor2EnActions(unittest.TestCase):
             b.escribir_indicadores(r, out)
         return fila
 
+    # ------------------------------------------------------------------ T-222: el vigente que compite cuenta
+    @staticmethod
+    def _competicion_json(out: Path, t: str, n: int, vigente: dict | None, con_candidato: bool, exhaustivo=False):
+        """COMPETICION.json con la forma de competicion 1.4.0 (T-217): canónico, vigente (orden 1) si compite, n cadenas."""
+        cands = [{"id": "canonico", "generador": "canonico", "estado": "VALIDO"}]
+        if con_candidato:
+            cands.append({"id": "vigente", "generador": "vigente", "estado": "VALIDO"})
+        cands += [{"id": f"ponderado-s{i}", "generador": "ponderado", "estado": "VALIDO"} for i in range(n)]
+        if exhaustivo:
+            cands.append({"id": "exhaustivo", "generador": "exhaustivo", "estado": "VALIDO"})
+        d = {"territorio": t, "canonico": "canonico", "ganador": "ponderado-s0", "candidatos": cands,
+             **({"vigente": vigente} if vigente is not None else {})}
+        (out / "competicion" / t).mkdir(parents=True, exist_ok=True)
+        (out / "competicion" / t / "COMPETICION.json").write_text(json.dumps(d), encoding="utf-8")
+        return b.cadenas_de(out / "competicion" / t)
+
+    def test_t222_r4_fase1_madrid_y_navarra_12_de_12_con_vigente_es_completo(self):
+        # run 42913861593: «candidatos_validos: 12, candidatos: 12», vigente VALIDO y compite, --cadenas 10, sin exhaustivo
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            cs = {t: self._competicion_json(out, t, 10, {"estado": "VALIDO", "detalle": "", "compite": True}, True)
+                  for t in ("madrid", "comunidad_foral_de_navarra")}
+        for c in cs.values():
+            self.assertEqual((c["candidatos"], c["cadenas"], c["evaluables"]), (12, 10, 10))
+            self.assertTrue(c["vigente_compite"])
+        ok = lambda t: {"territorio": t, "estado": "VALIDO", "frente_al_canonico": "mejora"}  # noqa: E731
+        esp = list(cs)
+        r = b.criterio_aceptacion([ok(t) for t in esp], {}, esp, cs, 10, {t: {"estado": "OK"} for t in esp})
+        self.assertEqual(r["candidatos_incompletos"], [])
+        self.assertEqual(r["vigente_excluido"], {})
+        self.assertTrue(r["parcial"])  # sin las tres huellas reales sigue sin ser aceptación
+        self.assertFalse(r["aceptacion"])
+        h3 = {t: {"igual": True, "huella_1": t} for t in ("congreso_soria", "congreso_alava", "melilla")}
+        cs3 = {**cs, **{t: {**cs["madrid"], "vigente_compite": False} | {"candidatos": 11} for t in h3}}
+        todos = esp + list(h3)
+        r = b.criterio_aceptacion([ok(t) for t in todos], h3, todos, cs3, 10, {t: {"estado": "OK"} for t in todos})
+        self.assertTrue(r["aceptacion"])
+        cs3["madrid"] = {**cs["madrid"], "candidatos": 11}  # falta una cadena: 11 ≠ 12
+        self.assertEqual(b.criterio_aceptacion([ok(t) for t in todos], h3, todos, cs3, 10, {t: {"estado": "OK"} for t in todos})
+                         ["candidatos_incompletos"], ["madrid"])
+
+    def test_t222_vigente_excluido_consta_con_motivo_y_no_cuenta(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            ex = self._competicion_json(out, "madrid", 3, {"estado": "INVALIDO", "detalle": "núcleo partido en 28079",
+                                                           "compite": False}, False, exhaustivo=True)
+            sin = self._competicion_json(out, "melilla", 3, None, False)  # pre-T-217 o reanudado sin vigente
+            con = self._competicion_json(out, "congreso_soria", 3, {"estado": "VALIDO", "compite": True}, True, exhaustivo=True)
+            # incoherentes: dice que compite y no está entre los candidatos, o al revés
+            inc1 = self._competicion_json(out, "congreso_alava", 3, {"estado": "VALIDO", "compite": True}, False)
+            inc2 = self._competicion_json(out, "ceuta", 3, {"estado": "INVALIDO", "compite": False}, True)
+        self.assertEqual((ex["candidatos"], ex["vigente_compite"], ex["vigente_excluido"]), (5, False, "INVALIDO; núcleo partido en 28079"))
+        self.assertEqual(sin["candidatos"], 4)
+        self.assertIn("sin bloque", sin["vigente_excluido"])
+        self.assertEqual((con["candidatos"], con["cadenas"]), (6, 3))
+        self.assertTrue(inc1["vigente_incoherente"] and inc2["vigente_incoherente"])
+        ok = lambda t: {"territorio": t, "estado": "VALIDO", "frente_al_canonico": "empata"}  # noqa: E731
+        cs = {"madrid": ex, "melilla": sin, "congreso_soria": con, "congreso_alava": inc1, "ceuta": inc2}
+        esp = list(cs)
+        r = b.criterio_aceptacion([ok(t) for t in esp], {}, esp, cs, 3, {t: {"estado": "OK"} for t in esp})
+        self.assertEqual(r["candidatos_incompletos"], ["ceuta", "congreso_alava"])
+        self.assertEqual(r["vigente_excluido"]["madrid"], "INVALIDO; núcleo partido en 28079")
+        self.assertEqual(sorted(r["vigente_excluido"]), ["madrid", "melilla"])
+        self.assertFalse(r["aceptacion"])
+        # un excluido que además «cuenta» (5 + 1 = 6 candidatos) no cuadra: sin verde por omisión
+        self.assertEqual(b.criterio_aceptacion([ok("madrid")], {}, ["madrid"], {"madrid": {**ex, "candidatos": 6}}, 3)
+                         ["candidatos_incompletos"], ["madrid"])
+
+    def test_t222_solo_el_vigente_valido_no_es_cadena_evaluable(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            c = self._competicion_json(out, "madrid", 0, {"estado": "VALIDO", "compite": True}, True)
+        self.assertEqual((c["cadenas"], c["evaluables"]), (0, 0))
+        r = b.criterio_aceptacion([{"territorio": "madrid", "estado": "VALIDO"}], {}, ["madrid"], {"madrid": c}, 0)
+        self.assertEqual(r["sin_cadenas"], ["madrid"])
+
+    def test_t222_competicion_real_con_vigente_y_reanudacion_de_la_aceptacion(self):
+        from ddd_motor2.competicion import EntradaTerritorio
+        from ddd_motor2.competir import competir_territorio, escribir_resumen
+        from ddd_motor2.semilla import semillas
+        from tests.test_motor2_competicion import POB, Fijo
+        from tests.test_motor2_semilla import cfg as cfg_con_ancla
+        bueno = {"A": "1", "B": "1", "C": "2", "D": "2"}
+        partido = {"A": "1", "B": "2", "C": "1", "D": "2"}  # distritos no conexos: no cumple el núcleo
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            secc = {u: f"220010100{i}" for i, u in enumerate(sorted(POB))}
+            grafo = out / "grafo.json"
+            grafo.write_text(json.dumps({"nodes": list(secc.values()), "edges": [
+                {"u": secc[a], "v": secc[c]} for a, c in (("A", "B"), ("B", "C"), ("C", "D"))]}))
+            filas = []
+            for t, plan_v in (("madrid", bueno), ("comunidad_foral_de_navarra", partido)):
+                e = EntradaTerritorio(t, cfg_con_ancla(), grafo)
+                planes = {x: bueno for x in semillas(e.cfg, t, 2)}
+                filas.append(competir_territorio(t, out, 2, generadores=(Fijo("canonico", {None: bueno}), Fijo("ponderado", planes)),
+                                                 entrada=e, vigente=Fijo("vigente", {None: plan_v})))
+            escribir_resumen(filas, out / "competicion")
+            cm = b.cadenas_de(out / "competicion" / "madrid")
+            cn = b.cadenas_de(out / "competicion" / "comunidad_foral_de_navarra")
+            self.assertTrue(cm["vigente_compite"])
+            self.assertEqual(cm["candidatos"] - (1 if cm["exhaustivo"] else 0), 1 + 2 + 1)
+            self.assertFalse(cn["vigente_compite"])
+            self.assertTrue(cn["vigente_excluido"])
+            self.assertEqual(cn["candidatos"] - (1 if cn["exhaustivo"] else 0), 1 + 2)
+            for t in ("madrid", "comunidad_foral_de_navarra"):
+                (out / "competicion" / t / "INDICADORES.json").write_text(json.dumps({"territorio": t, "estado": "OK"}))
+            import contextlib
+            import io
+            res = []
+            for _ in range(2):  # reanudación: la aceptación sobre la misma carpeta da lo mismo
+                with contextlib.redirect_stdout(io.StringIO()) as buf:
+                    b.main(["aceptacion", "--out", d, "--cadenas", "2", "madrid", "comunidad_foral_de_navarra"])
+                res.append(json.loads((out / "ACEPTACION.json").read_text()))
+            self.assertEqual(res[0], res[1])
+            self.assertEqual(res[0]["candidatos_incompletos"], [])
+            self.assertEqual(list(res[0]["vigente_excluido"]), ["comunidad_foral_de_navarra"])
+            self.assertIn("Vigente excluido", buf.getvalue())
+
     def _aceptar(self, out: Path, t: str, n: int = 2) -> dict:
         import contextlib
         import io

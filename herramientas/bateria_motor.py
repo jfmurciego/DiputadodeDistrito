@@ -3,10 +3,15 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0
+VERSIÓN: 1.2.1
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-10
 ESTADO: candidato
+CAMBIOS 1.2.1 (T-222): el recuento de candidatos cuenta el vigente que compite (T-217): esperados = 1 + N (+1 exhaustivo)
+  (+1 si el COMPETICION.json dice que el vigente compite y lo trae como candidato). El vigente no cuenta como cadena ni como
+  cadena evaluable. Si no compite (no cumple el núcleo, no representable, fallo, o sin bloque «vigente»), consta en «vigente_excluido» con su motivo
+  y no cuenta; si «compite» y la lista de candidatos no cuadran entre sí, el territorio queda en candidatos_incompletos (NO).
+  Antes la fase 1 de r4 (run 42913861593: Madrid y Navarra, 12/12 VALIDO) salió NO por esperar 11.
 CAMBIOS 1.2.0 (T-212): criterio «nunca peor que el mapa vigente publicado»: `indicadores` (por territorio, en el job: fuera de
   tolerancia, desvío máximo, partidos judiciales y comarcas partidos, frontera cortada y Polsby-Popper del vigente
   (datos/composicion), el canónico y el ganador, a INDICADORES.json/md y al resumen del paso) y `aceptacion` compara el ganador
@@ -22,7 +27,7 @@ CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de 
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
-ANTERIOR: legacy/herramientas/bateria_motor_v1.1.1_20261110.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.2.0_20261110.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -902,12 +907,23 @@ def indicadores(args) -> int:
 
 
 def cadenas_de(carpeta: Path) -> dict | None:
-    """Candidatos de un COMPETICION.json: el canónico y el exhaustivo no son cadenas; el resto sí."""
+    """Candidatos de un COMPETICION.json: el canónico, el vigente (T-217) y el exhaustivo no son cadenas; el resto sí.
+    `vigente_compite`: el bloque «vigente» dice que compite Y está entre los candidatos (si no cuadran, `vigente_incoherente`);
+    `vigente_excluido`: motivo por el que no compite (también si el COMPETICION.json no trae bloque «vigente»; None si compite)."""
     try:
         d = json.loads((carpeta / "COMPETICION.json").read_text(encoding="utf-8"))
         todos = d["candidatos"]
-        cs = [c for c in todos if c["id"] != d["canonico"] and c["generador"] != "exhaustivo"]
+        info = d.get("vigente") or {}
+        en_lista = any(c["id"] == "vigente" for c in todos)
+        dice = bool(info.get("compite"))
+        excluido = None
+        if not info and not en_lista:
+            excluido = "sin bloque «vigente» en COMPETICION.json (función A o competición anterior a T-217)"
+        elif info and not dice and not en_lista:
+            excluido = "; ".join(x for x in (info.get("estado") or "sin estado", info.get("detalle")) if x)
+        cs = [c for c in todos if c["id"] not in (d["canonico"], "vigente") and c["generador"] != "exhaustivo"]
         return {"candidatos": len(todos), "exhaustivo": any(c["generador"] == "exhaustivo" for c in todos), "cadenas": len(cs),
+                "vigente_compite": dice and en_lista, "vigente_incoherente": dice != en_lista, "vigente_excluido": excluido,
                 "evaluables": sum(1 for c in cs if c["estado"] in ("VALIDO", "INVALIDO")),
                 "fallos_generador": sum(1 for c in todos if c["estado"] == "FALLO_GENERADOR"),
                 "no_evaluados": sorted(c["id"] for c in todos if c["estado"] not in ("VALIDO", "INVALIDO")),
@@ -921,7 +937,7 @@ def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str], 
                        n_cadenas: int | None = None, vigentes: dict | None = None) -> dict:
     """Criterio T-194 sobre los resultados reales: sin red ni motor. `huellas` = {territorio: HUELLA_REAL.json};
     `cadenas` = {territorio: cadenas_de(...)}. T-181: sin cadena evaluable, con FALLO_GENERADOR, con candidatos sin evaluar,
-    con un número de candidatos distinto de 1 + N (+1 si hay exhaustivo) o con una cadena inválida sin motivo, no hay aceptación.
+    con un número de candidatos distinto de 1 + N (+1 si hay exhaustivo, +1 si compite el vigente, T-222) o con una cadena inválida sin motivo, no hay aceptación.
     T-212: `vigentes` = {territorio: INDICADORES.json}; PEOR que el vigente = NO; sin indicadores, SIN_VIGENTE o NO_EVALUABLE
     = sin aceptación y constan por nombre (nunca verde por omisión); UN_DISTRITO sin vigente consta aparte y vale."""
     cadenas = cadenas or {}
@@ -936,9 +952,9 @@ def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str], 
     no_validos = sorted(t for t in esperados if t in por_t and por_t[t].get("estado") != "VALIDO")
     peores = sorted(t for t in esperados if t in por_t and por_t[t].get("frente_al_canonico") == "empeora")
     def mal(c: dict) -> bool:
-        esperado = None if n_cadenas is None else 1 + n_cadenas + (1 if c["exhaustivo"] else 0)
+        esperado = None if n_cadenas is None else 1 + n_cadenas + (1 if c["exhaustivo"] else 0) + (1 if c.get("vigente_compite") else 0)
         return bool(not c["evaluables"] or c["fallos_generador"] or c["no_evaluados"] or c["invalidas_sin_motivo"]
-                    or (esperado is not None and c["candidatos"] != esperado))
+                    or c.get("vigente_incoherente") or (esperado is not None and c["candidatos"] != esperado))
     sin_cadenas = sorted(t for t in esperados if not (cadenas.get(t) or {}).get("evaluables"))
     fallo_gen = sorted(t for t in esperados if (cadenas.get(t) or {}).get("fallos_generador"))
     incompletos = sorted(t for t in esperados if t in cadenas and cadenas[t] and mal(cadenas[t]) and t not in sin_cadenas + fallo_gen)
@@ -946,6 +962,7 @@ def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str], 
     h_mal = sorted(t for t in h_pedidas if not (huellas.get(t) or {}).get("igual"))
     return {"esperados": len(esperados), "faltan": faltan, "no_validos": no_validos, "empeoran": peores,
             "sin_cadenas": sin_cadenas, "fallo_generador": fallo_gen, "candidatos_incompletos": incompletos,
+            "vigente_excluido": {t: c["vigente_excluido"] for t in esperados if (c := cadenas.get(t)) and c.get("vigente_excluido")},
             "vigente_peor": vig_peor, "vigente_sin": vig_sin, "vigente_un_distrito": vig_un, "vigente_aviso_desvio": vig_aviso,
             "vigente_motivos": {t: (vigentes.get(t) or {}).get("motivo") or "sin INDICADORES.json" for t in vig_peor + vig_sin},
             "huella_real": {t: (huellas.get(t) or {}).get("huella_1") for t in h_pedidas}, "huella_real_mal": h_mal,
@@ -983,7 +1000,9 @@ def aceptacion(args) -> int:
           f"- Territorios esperados: {res['esperados']}; faltan: {res['faltan'] or 'ninguno'}.",
           f"- No válidos: {res['no_validos'] or 'ninguno'}; peores que el canónico: {res['empeoran'] or 'ninguno'}.",
           f"- Sin ninguna cadena evaluable: {res['sin_cadenas'] or 'ninguno'}; con FALLO_GENERADOR: {res['fallo_generador'] or 'ninguno'}; "
-          f"candidatos sin evaluar o fuera de 1 + N (+1 exhaustivo): {res['candidatos_incompletos'] or 'ninguno'}.",
+          f"candidatos sin evaluar o fuera de 1 + N (+1 exhaustivo, +1 vigente que compite): {res['candidatos_incompletos'] or 'ninguno'}.",
+          f"- Vigente excluido de la competición (no cuenta como candidato): {', '.join(res['vigente_excluido']) or 'ninguno'}.",
+          *[f"  - {t}: {m}" for t, m in res["vigente_excluido"].items()],
           f"- Comprobación 1 · clave de elección peor que la del canónico: {res['empeoran'] or 'ninguno'}.",
           f"- Comprobación 2 · más distritos fuera de tolerancia (recuento bruto) que el mapa vigente publicado: {res['vigente_peor'] or 'ninguno'}; sin vigente comparable (no cuentan como verde): "
           f"{res['vigente_sin'] or 'ninguno'}; un distrito sin composición vigente (único plan posible): {res['vigente_un_distrito'] or 'ninguno'}.",
