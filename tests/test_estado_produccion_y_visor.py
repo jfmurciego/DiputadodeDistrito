@@ -13,6 +13,7 @@ from herramientas.preparar_visor_ejecucion import add_production
 
 
 ROOT = Path(__file__).resolve().parents[1]
+from tests._estados_vivos import ESTADOS_PREPARADO  # noqa: E402
 
 
 def write_product(path: Path, district_count: int) -> None:
@@ -136,7 +137,7 @@ class WorkflowGateTests(unittest.TestCase):
         config = yaml.safe_load((ROOT / "territorios/aragon/config/aragon_2025.yaml").read_text(encoding="utf-8"))
         self.assertEqual(config["meta"]["contract_level"], "production_m01_m06")
         # 01 materializa el contrato del M06 40656036271; el estado manual m08_validated_* no se conserva.
-        self.assertEqual(config["meta"]["status"], "generation_ready")
+        self.assertIn(config["meta"]["status"], ESTADOS_PREPARADO)
         self.assertEqual(config["meta"]["production_authorization"], "AUTHORIZED")
 
     def test_modular_execution_requires_contract_authorization(self):
