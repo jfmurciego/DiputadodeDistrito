@@ -181,6 +181,15 @@ class Criterio:
     diagnostico_min_unicos: float = 0.10
     diagnostico_max_bucles: float = 0.90
     contiguidad_con_puentes: bool = True
+    # Solo lo usan los adaptadores: si falta el campo de municipio de una sección, tomar CUSEC[:5] (VAL 1.3.4).
+    respaldo_municipio_cusec: bool = False
+
+    @classmethod
+    def compatibilidad_produccion(cls) -> "Criterio":
+        """Perfil «compatibilidad producción»: las reglas de validar_ejecucion.py 1.3.5 para comparar con lo publicado
+        (exención por la primera partición, mixtos 1 fijo, provincia única False si falta, municipio por CUSEC[:5])."""
+        return cls(tolerancia="metrica", max_mixtos="fijo_1", provincia_defecto="no", exencion_particion="primera",
+                   respaldo_municipio_cusec=True)
 
     def __post_init__(self):
         for nombre, validas in OPCIONES.items():

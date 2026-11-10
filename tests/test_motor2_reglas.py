@@ -219,6 +219,15 @@ class OtrasReglas(unittest.TestCase):
         self.assertNotEqual(a, Reglas.desde_contrato(contrato(), Criterio(tolerancia="dura")).huella())
         self.assertNotEqual(a, Reglas.desde_contrato(contrato(population_cap_ratio=1.16)).huella())
 
+    def test_perfil_compatibilidad_produccion(self):
+        c = Criterio.compatibilidad_produccion()
+        self.assertEqual((c.tolerancia, c.max_mixtos, c.provincia_defecto, c.exencion_particion,
+                          c.respaldo_municipio_cusec), ("metrica", "fijo_1", "no", "primera", True))
+        self.assertEqual((Criterio().exencion_particion, Criterio().respaldo_municipio_cusec), ("todas", False))
+        # Contrato sin provincia única: VAL lo da por False; el perfil también (el defecto D-44 falla).
+        r = Reglas.desde_contrato(contrato(require_single_province_per_district=None), c)
+        self.assertFalse(r.provincia_unica)
+
     def test_criterio_rechaza_opcion_desconocida(self):
         with self.assertRaises(ValueError):
             Criterio(tolerancia="blanda")
