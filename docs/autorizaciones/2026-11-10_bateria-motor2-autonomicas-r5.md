@@ -1,10 +1,10 @@
 # Autorización de campaña 2026-11-10_bateria-motor2-autonomicas-r5
 
 - Decisión: D-52 (autorización por campaña). Chat del Operador: session_01KQDtFsAtHP9atzNnDthr9A.
-- Frase literal del propietario: (pendiente)
-- Fecha y hora de la frase (Europe/Madrid): (pendiente)
+- Frase literal del propietario: «Autorizo la campaña 2026-11-10_bateria-motor2-autonomicas-r5 tal como figura en la ficha.»
+- Fecha y hora de la frase (Europe/Madrid): 2026-11-11 00:10 (aprox.)
 - Estado de la ficha: BORRADOR. Repite `-r4` (PARADA: la aceptación no descontaba el vigente del recuento de candidatos). Requiere T-222 fusionada en `main` (además de T-217/T-218, ya en `main`).
-- Caducidad: 24 h desde la frase del propietario.
+- Caducidad: 2026-11-12 00:10 (24 h).
 - Gasto semanal al autorizar: se mide al recibir la frase y se anota aquí; tope 15.000 min/semana, aviso al 70 %.
 
 ## Límites
@@ -24,8 +24,9 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
+| 00:22 | Comunidad de Madrid + Navarra (fase 1) | batería motor2 D8 N=10 | 42922787428 | EN_VUELO | 1 / — | 0/1 |
 
 ## Cierre
-Estado: `BORRADOR` (espera T-222 y la frase del propietario). Último uso: —.
+Estado: `EN_CURSO` (T-222 en `main`, #695; main 0d34f64 en verde). Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_bateria-motor2-autonomicas-r5 tal como figura en la ficha.»
