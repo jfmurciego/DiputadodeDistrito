@@ -153,6 +153,29 @@ class Divergencias(unittest.TestCase):
         self.assertIn("R-MUN-MIN", codigos(p, cfg, {"u0": "A", "u1": "A", "u2": "B", "u3": "C"}))
 
 
+class UnidadesEspeciales(unittest.TestCase):
+    def test_unidad_con_varios_municipios_cuenta_cada_uno(self):
+        # Cataluña «25:25215|25234:M»: grupo atómico de dos municipios en una unidad.
+        g = Unidad("G", 100, provincia="25", desglose=(("25215", 70), ("25234", 30)))
+        b = Unidad("B", 100, municipio="25001", provincia="25")
+        p = Problema((g, b), (("G", "B"),))
+        cfg = contrato(require_municipality_discipline=True)
+        self.assertTrue(evaluar(p, Reglas.desde_contrato(cfg), {"G": 1, "B": 2}).valido)
+        cfg_ex = contrato(population_cap_ratio=1.5, population_floor_exempt_municipalities=["25234"])
+        p2 = Problema((Unidad("G", 50, provincia="25", desglose=(("25215", 20), ("25234", 30))),
+                       Unidad("B", 150, municipio="25001", provincia="25")), (("G", "B"),))
+        self.assertTrue(evaluar(p2, Reglas.desde_contrato(cfg_ex), {"G": 1, "B": 2}).valido)  # exento por 25234
+        with self.assertRaises(ErrorDatos):
+            Unidad("X", 100, desglose=(("25215", 70), ("25234", 20)))  # no suma
+
+    def test_municipio_con_particion_de_islas_exime_por_codigo(self):
+        cfg = contrato(population_cap_ratio=1.5, population_floor_exempt_municipalities=["35016"])
+        us = (Unidad("A", 150, municipio="35001:35-C01", provincia="35-C01"),
+              Unidad("B", 50, municipio="35016:35-C01", provincia="35-C01"))
+        p = Problema(us, (("A", "B"),))
+        self.assertTrue(evaluar(p, Reglas.desde_contrato(cfg), {"A": 1, "B": 2}).valido)
+
+
 class OtrasReglas(unittest.TestCase):
     def test_razones_obligatorias_sin_defecto(self):
         for clave in ("population_floor_ratio", "population_cap_ratio", "target_tolerance_ratio",

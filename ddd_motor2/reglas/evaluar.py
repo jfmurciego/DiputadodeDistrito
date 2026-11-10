@@ -63,7 +63,7 @@ def _conexo(miembros: set[str], adj: Mapping[str, set[str]]) -> bool:
 
 def exento_de_suelo(reglas: Reglas, unidades) -> bool:
     """Exención por municipio (cualquiera exento) o por partición según Criterio.exencion_particion."""
-    if reglas.exentos_municipio and any(u.municipio in reglas.exentos_municipio for u in unidades):
+    if reglas.exentos_municipio and any(u.municipios() & reglas.exentos_municipio for u in unidades):
         return True
     if not reglas.exentas_particion:
         return False
@@ -130,14 +130,14 @@ def evaluar(problema: Problema, reglas: Reglas, asignacion: Mapping[str, object]
 
     if reglas.disciplina_municipal:
         campo = reglas.campo_r012
-        claves_d = {d: {getattr(u, campo) for u in us} for d, us in distritos.items()}
+        claves_d = {d: {m for u in us for m, _ in u.piezas(campo)} for d, us in distritos.items()}
         m_pob: dict[str, int] = defaultdict(int)
         m_d: dict[str, set[str]] = defaultdict(set)
         for d, us in distritos.items():
             for u in us:
-                m = getattr(u, campo)
-                m_pob[m] += u.poblacion
-                m_d[m].add(d)
+                for m, pm in u.piezas(campo):
+                    m_pob[m] += pm
+                    m_d[m].add(d)
         for m in sorted(m_d):
             p, ds = m_pob[m], m_d[m]
             minimo = max(1, _ceil(p / techo)) if p > 0 else 1
