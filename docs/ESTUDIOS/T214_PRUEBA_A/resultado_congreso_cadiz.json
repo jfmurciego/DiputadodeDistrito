@@ -1,0 +1,32 @@
+{
+  "id_viejo": "congreso_cadiz",
+  "id_nuevo": "nac11",
+  "contrato_sha256": "03c9ddfcd27006f7a431c619c6e7310c3e316b119ece406dbeebf355abd7c029",
+  "m01_sha256": "4f14f252e977dd0ca263ff337b2f876c3651e5ad18695132b86e916b60dbd1c0",
+  "m03_sha256": "d36e39946a15639e25f8ae37da225cbae1b0881e83c3bbe2e74ce48aaba9c24a",
+  "M04": {
+    "geojson_sha256_viejo": "5401e246b2450fd4121c6d377293c1e32c3607597df6013f4836c9a2fd07973f",
+    "geojson_sha256_nuevo": "4208296f29e6c9c94793466ea48d6d382868e4136137399500c585649ed01344",
+    "geojson_identico": false,
+    "geojson_identico_salvo_id": true,
+    "unidades": 926,
+    "distritos": 11,
+    "asignacion_identica": true,
+    "asignacion_sha256": "33d39c65fcd9490174294e90126f9927c911a735d6beace012d877f6bd99caf9",
+    "campos_con_el_id": [
+      "name"
+    ]
+  },
+  "M05": {
+    "geojson_sha256_viejo": "16bf1cfab6606a35180d4656753f736b0ab4db3ab4ba1691a386672bceb332d6",
+    "geojson_sha256_nuevo": "16bf1cfab6606a35180d4656753f736b0ab4db3ab4ba1691a386672bceb332d6",
+    "geojson_identico": true,
+    "geojson_identico_salvo_id": true,
+    "unidades": 926,
+    "distritos": 11,
+    "asignacion_identica": true,
+    "asignacion_sha256": "33d39c65fcd9490174294e90126f9927c911a735d6beace012d877f6bd99caf9",
+    "campos_con_el_id": []
+  },
+  "PASA": true
+}

@@ -92,6 +92,64 @@ class Interfaz(unittest.TestCase):
         self.assertIsNone(fila_guardada("sintetico", tmp, 3, cfg=e.cfg, funcion="A"))  # otra función: se recalcula
 
 
+class FueraDelContrato(unittest.TestCase):
+    """T-211 (D-68): con cuotas de varias provincias, el primer término de D8 es el recuento del contrato (objetivo
+    regional, como reglas.evaluar), no el de la circunscripción. Provincia 22 (2 escaños, 400 hab.): A-B-C-D-E en línea;
+    provincia 44 (1 escaño): F, 230 hab. Objetivo regional 210 ± 21; de la 22, 200 ± 20.
+    Canónico: corte tras C (200/200, ninguno fuera). Cadena: corte tras B (186/214) por una frontera corta: dentro de
+    tolerancia de su circunscripción (−7 %), pero 186 queda fuera del contrato (−11,4 %). Con 1.3.0 ganaba la cadena."""
+
+    POB = {"A": 86, "B": 100, "C": 14, "D": 100, "E": 100, "F": 230}
+    PROV = {"A": "22", "B": "22", "C": "22", "D": "22", "E": "22", "F": "44"}
+    BORDE = {("A", "B"): 3000.0, ("B", "C"): 100.0, ("C", "D"): 3000.0, ("D", "E"): 3000.0, ("E", "F"): 3000.0}
+    CANONICO = {"A": "1", "B": "1", "C": "1", "D": "2", "E": "2", "F": "3"}
+    CADENA = {"A": "1", "B": "1", "C": "2", "D": "2", "E": "2", "F": "3"}
+
+    def competir(self, funcion):
+        tmp = Path(tempfile.mkdtemp())
+        cfg = {"validation": {**CFG["validation"], "expected_districts": 3, "population_floor_ratio": 0.5,
+                              "population_cap_ratio": 1.5, "province_districts": {"22": 2, "44": 1}}}
+        secc = {u: f"{self.PROV[u]}0010100{i}" for i, u in enumerate(sorted(self.POB))}
+        g = tmp / "grafo.json"
+        g.write_text(json.dumps({"nodes": list(secc.values()), "edges": [
+            {"u": secc[a], "v": secc[b], "edge_type": "geometric", "shared_border_m": w}
+            for (a, b), w in self.BORDE.items()]}))
+        pob, prov = self.POB, self.PROV
+
+        class Gen:
+            def __init__(self, nombre, plan):
+                self.nombre, self.plan = nombre, plan
+
+            def generar(self, entrada, semilla, destino):
+                ruta = Path(destino) / "comp.csv"
+                ruta.parent.mkdir(parents=True, exist_ok=True)
+                with open(ruta, "w", newline="", encoding="utf-8") as fh:
+                    w = csv.writer(fh)
+                    w.writerow(["CUSEC_KEY", "district_id", "section_pop", "CPRO", "CUMUN", "ddd_unit_id",
+                                "ddd_closed_urban"])
+                    for u in sorted(pob):
+                        w.writerow([secc[u], self.plan[u], pob[u], prov[u], secc[u][:5], u, "0"])
+                return Salida(ruta)
+        return competir(EntradaTerritorio("sintetico", cfg, g), Gen("canonico", self.CANONICO),
+                        Gen("cadena", self.CADENA), [5], tmp / "out", exhaustivo=False, funcion=funcion)
+
+    def test_d8_no_elige_mas_fuera_que_el_canonico(self):
+        r = self.competir("D8")
+        cad = next(c for c in r.candidatos if c.id == "cadena-s5")
+        self.assertTrue(all(c.estado == "VALIDO" for c in r.candidatos), [c.a_dict() for c in r.candidatos])
+        self.assertEqual((r.canonico.fuera_tolerancia, cad.fuera_tolerancia), (0, 1))
+        self.assertEqual((r.canonico.natural[0], cad.natural[0]), (0, 1))  # primer término = recuento del contrato
+        self.assertLess(cad.natural[3], r.canonico.natural[3])  # la cadena corta menos frontera…
+        self.assertEqual(r.ganador.id, "canonico")  # …pero gana la población dentro de tolerancia
+        self.assertEqual(cad.extra["metricas_circunscripcion"]["fuera_tolerancia"], 0)
+        self.assertLessEqual(r.ganador.fuera_tolerancia, r.canonico.fuera_tolerancia)
+
+    def test_a_igual(self):
+        r = self.competir("A")
+        self.assertEqual(r.ganador.id, "canonico")
+        self.assertNotIn("metricas_circunscripcion", r.canonico.extra)
+
+
 @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "sin gerrychain")
 class Ponderado(unittest.TestCase):
     def test_parte_del_canonico_y_no_empeora(self):
@@ -146,6 +204,25 @@ class ClaveCompartida(unittest.TestCase):
         from ddd_motor2 import naturalidad_mapas as nm
         asig, _ = nm.leer_composicion(nm.COMPOSICION / "congreso_soria.csv")
         self.comparar("congreso_soria", asig)
+
+
+@unittest.skipUnless(os.environ.get("DDD_BATERIA_OUT") and importlib.util.find_spec("geopandas"),
+                     "necesita las entradas y la competición de la batería (DDD_BATERIA_OUT)")
+class AutonomicaReal(unittest.TestCase):
+    """T-211 con datos reales: País Vasco (tres provincias, 25 escaños cada una), composición del canónico."""
+
+    def test_pais_vasco(self):
+        from ddd_motor2.competicion import Candidato, juzgar
+        from ddd_motor2.generadores import entrada_bateria
+        from ddd_motor2.reglas import Criterio
+        out = Path(os.environ["DDD_BATERIA_OUT"])
+        e = entrada_bateria("pais_vasco", out)
+        comp = next((out / "competicion" / "pais_vasco" / "canonico").glob("*_m06_composicion_distritos.csv"))
+        c = Candidato("canonico", "canonico", None, 0)
+        juzgar(c, Salida(comp), e, Criterio(), comp, "D8")
+        self.assertEqual(c.estado, "VALIDO", c.detalle)
+        self.assertEqual(c.fuera_tolerancia, c.natural[0])  # publicado = primer término = contrato
+        self.assertNotEqual(c.extra["metricas_circunscripcion"]["fuera_tolerancia"], c.fuera_tolerancia)
 
 
 if __name__ == "__main__":

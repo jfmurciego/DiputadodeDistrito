@@ -2,8 +2,10 @@
 """Alta del producto paralelo «Congreso 350»: un territorio por provincia con K = escaños reales de 2023.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS 1.0.1 (T-214): la fila del gemelo se deriva sin `notacion` ni `id_legacy` del padre (catálogo 1.8.0):
+  el gemelo 350 queda fuera del corte (D-76) y el `k_rationale` final vuelve a casar.
+ANTERIOR: legacy/herramientas/generar_provincias_congreso_350_v1.0.0.py
 QUÉ HACE: T-102 (decisión D-19 del propietario). Para cada provincia del Congreso ya dada de alta
   (`congreso_<prov>`, K de N06, 407 distritos) crea su gemelo `congreso350_<prov>` con
   K = escaños de la circunscripción en las generales del 23-07-2023, leídos del CSV oficial
@@ -158,6 +160,7 @@ def _policy_block(root: Path, p: dict, csv_sha: str) -> str:
 
 def _master_line(root: Path, p: dict, csv_sha: str) -> str:
     line = _line_of(root / "configuracion/catalogo_territorios_espana_2025.yaml", f"territory_id: {p['source_id']},")
+    line = re.sub(r", notacion: '[A-Z]{3}\d\d', id_legacy: [a-z0-9_]+\}$", "}", line)
     line = _rename(line, p)
     line = re.sub(r"pilot_code: '\w+'", f"pilot_code: '{p['pilot_code']}'", line)
     line = re.sub(r" plate_code: '\w+',", "", line)

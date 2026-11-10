@@ -2,11 +2,17 @@
 """Huella del motor para checkpoints reutilizables (T-51).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Huella de motor, contrato y política
-FECHA: 2026-11-07
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Huella de motor, contrato y política · capa P30 del motor 2
+FECHA: 2026-11-10
 ESTADO: candidato
-CAMBIOS: versión inicial.
+CAMBIOS: 1.1.0 (T-216) — capa `motor2` solo con `--motor motor2` (o DDD_MOTOR=motor2): huella de ddd_motor2
+  (ddd_motor2/produccion.huella_motor: código, tablas de naturalidad, función y N) y `motor: motor2`; la huella total la
+  incluye. Con `m05` (por defecto) la salida es byte a byte la de 1.0.0. `comparar` en la etapa 6: si la capa motor2
+  difiere (o una está y la otra no), CHECKPOINT_ENGINE_MISMATCH desde M05: un M06 de un modo no se reutiliza en el otro;
+  los checkpoints M04/M05 valen en los dos modos (el canónico es el mismo).
+  1.0.0 — versión inicial.
+MOTIVO 1.1.0: T-216, corte 5.0.0 paso 3: el motor 2 como P30 detrás del interruptor `motor: m05|motor2`.
 MOTIVO: «Reutilizar progreso existente» restauraba checkpoints M04/M05/M06 hechos con otro motor, otro contrato u
   otra política (causa raíz nº 1 del catálogo: Las Palmas, run 41432561787; Murcia, CHECKPOINT_RUN_ID antiguo).
 QUÉ HACE: calcula una huella por capas y la compara con la guardada en el checkpoint (compatibility/motor.json):
@@ -17,15 +23,17 @@ QUÉ HACE: calcula una huella por capas y la compara con la guardada en el check
   `comparar` devuelve MATCH, CHECKPOINT_ENGINE_MISMATCH (con la etapa desde la que hay que rehacer: M04 o M05 y qué
   componente cambió) o CHECKPOINT_ENGINE_UNVERIFIED (checkpoint anterior a esta huella).
 NO HACE: decidir qué checkpoint se usa (lo hace seleccionar_checkpoint_productivo.py).
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/huella_checkpoint_motor_v1.0.0_20261107.py
 
 Uso: python herramientas/huella_checkpoint_motor.py --params CONTRATO [--root-dir .] [--output compatibility/motor.json]
+     [--motor m05|motor2]
 """
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 
 import yaml
@@ -39,6 +47,15 @@ M04_GLOB = "ddd_core/m04_*.py"
 MATCH = "MATCH"
 MISMATCH = "CHECKPOINT_ENGINE_MISMATCH"
 UNVERIFIED = "CHECKPOINT_ENGINE_UNVERIFIED"
+MOTORES = ("m05", "motor2")
+
+
+def motor_pedido(motor: str | None = None) -> str:
+    """Interruptor de P30: argumento, si no DDD_MOTOR, si no m05. Un valor desconocido falla cerrado."""
+    m = (motor or os.environ.get("DDD_MOTOR") or "m05").strip()
+    if m not in MOTORES:
+        raise ValueError(f"motor desconocido: {m!r} (uno de {MOTORES})")
+    return m
 
 
 def _sha(data: bytes) -> str:
@@ -63,7 +80,8 @@ def _limites_politica(root_dir: Path, territory_id: str | None, politica: str) -
     return ((datos.get("territories") or {}).get(territory_id) or {}).get("population_limits")
 
 
-def build_fingerprint(*, params: Path, root_dir: Path = Path("."), politica: str = POLITICA) -> dict:
+def build_fingerprint(*, params: Path, root_dir: Path = Path("."), politica: str = POLITICA,
+                      motor: str | None = None) -> dict:
     root_dir = root_dir.resolve()
     params_path = params if params.is_absolute() else root_dir / params
     cfg = yaml.safe_load(params_path.read_text(encoding="utf-8")) or {}
@@ -84,6 +102,13 @@ def build_fingerprint(*, params: Path, root_dir: Path = Path("."), politica: str
     payload = {"schema": ESQUEMA, "territory_id": tid, "m04": m04,
                "m05": {"fingerprint": m05["fingerprint"], "engine_files": m05["engine_files"],
                        "m05_config_sha256": m05["m05_config_sha256"]}}
+    if motor_pedido(motor) == "motor2":
+        from ddd_motor2.produccion import huella_motor  # noqa: PLC0415  (solo en el modo motor2)
+        payload["motor"] = "motor2"
+        payload["motor2"] = huella_motor(root=root_dir)
+        payload["fingerprint"] = _sha(_canon({"m04": m04["fingerprint"], "m05": m05["fingerprint"],
+                                              "motor2": payload["motor2"]["fingerprint"]}))
+        return payload
     payload["fingerprint"] = _sha(_canon({"m04": m04["fingerprint"], "m05": m05["fingerprint"]}))
     return payload
 
@@ -115,6 +140,10 @@ def comparar(guardada: dict | None, actual: dict, etapa: int) -> dict:
     if etapa >= 5 and (guardada.get("m05") or {}).get("fingerprint") != actual["m05"]["fingerprint"]:
         return {"status": MISMATCH, "invalidate_from": "M05", "differences": ["motor o configuración M05"],
                 "detail": "M05/M06 hechos con otro motor M05: se reutiliza M04 y se rehace desde M05"}
+    if etapa >= 6 and (guardada.get("motor2") or {}).get("fingerprint") != (actual.get("motor2") or {}).get("fingerprint"):
+        return {"status": MISMATCH, "invalidate_from": "M05",
+                "differences": [f"P30 {guardada.get('motor') or 'm05'} → {actual.get('motor') or 'm05'}"],
+                "detail": "M06 hecho con otro P30 (m05 o motor 2 distinto): se reutiliza M04/M05 y se rehace M06"}
     return {"status": MATCH, "invalidate_from": None}
 
 
@@ -123,8 +152,10 @@ def main() -> int:
     ap.add_argument("--params", required=True, type=Path)
     ap.add_argument("--root-dir", default=".", type=Path)
     ap.add_argument("--output", type=Path)
+    ap.add_argument("--motor", default=None, help="m05 (por defecto) | motor2; si falta, DDD_MOTOR")
     a = ap.parse_args()
-    texto = json.dumps(build_fingerprint(params=a.params, root_dir=a.root_dir), ensure_ascii=False, indent=2) + "\n"
+    texto = json.dumps(build_fingerprint(params=a.params, root_dir=a.root_dir, motor=a.motor), ensure_ascii=False,
+                       indent=2) + "\n"
     if a.output:
         a.output.parent.mkdir(parents=True, exist_ok=True)
         a.output.write_text(texto, encoding="utf-8")

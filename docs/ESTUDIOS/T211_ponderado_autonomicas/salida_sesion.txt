@@ -1,0 +1,115 @@
+# Navarra: competición local (D8, 10 cadenas) e instrumentación
+== candidatos competición (r3 local)
+  ponderado-s1024523409 VALIDO fuera 14 clave_nat [14, 0.03359731014423756, 12]
+  ponderado-s2107829136 VALIDO fuera 14 clave_nat [14, 0.034564348996883154, 12]
+  ponderado-s1628596715 VALIDO fuera 14 clave_nat [14, 0.03627526389002536, 12]
+  ponderado-s15633595 VALIDO fuera 14 clave_nat [14, 0.03783740357506825, 12]
+  ponderado-s1614479722 VALIDO fuera 14 clave_nat [14, 0.03887883003176351, 12]
+  ponderado-s700514306 VALIDO fuera 15 clave_nat [15, 0.025786611719023134, 12]
+  ponderado-s959200213 VALIDO fuera 15 clave_nat [15, 0.03166323243894638, 12]
+  ponderado-s868801851 VALIDO fuera 15 clave_nat [15, 0.0358289382657274, 12]
+  ponderado-s21176674 VALIDO fuera 15 clave_nat [15, 0.0358289382657274, 12]
+  ponderado-s946325741 VALIDO fuera 15 clave_nat [15, 0.03783740357506825, 12]
+  canonico VALIDO fuera 24 clave_nat [24, 0.011861252240926573, 12]
+== canónico (unidades M04) 288 aristas 729 obj 13443.1 obj_circ {} cuotas (('31', 50),)
+   fuera (clave) 24 fuera (evaluar) ['16', '17', '18', '19', '20', '22', '23', '24', '27', '29', '31', '32', '33', '34', '37', '38', '39', '40', '41', '42', '43', '44', '45', '49']
+   pob. unidad: mediana 432 máx 22152 unidades > tol 84
+   fuera 16 11370 13443 unidades 21 mayor 4877
+   fuera 17 11101 13443 unidades 15 mayor 2936
+   fuera 18 10827 13443 unidades 6 mayor 7587
+   fuera 19 15700 13443 unidades 1 mayor 15700
+   fuera 20 11207 13443 unidades 11 mayor 7818
+   fuera 22 11364 13443 unidades 17 mayor 2527
+   fuera 23 11618 13443 unidades 4 mayor 3705
+   fuera 24 11163 13443 unidades 28 mayor 4384
+   fuera 27 11556 13443 unidades 15 mayor 4881
+   fuera 29 15064 13443 unidades 3 mayor 12679
+   fuera 31 10909 13443 unidades 1 mayor 10909
+   fuera 32 18980 13443 unidades 3 mayor 8596
+   fuera 33 11352 13443 unidades 4 mayor 4431
+   fuera 34 11213 13443 unidades 3 mayor 5973
+   fuera 37 10859 13443 unidades 6 mayor 3529
+   fuera 38 18138 13443 unidades 2 mayor 10602
+   fuera 39 19549 13443 unidades 1 mayor 19549
+   fuera 40 16672 13443 unidades 7 mayor 14224
+   fuera 41 11382 13443 unidades 32 mayor 2964
+   fuera 42 20819 13443 unidades 1 mayor 20819
+   fuera 43 11169 13443 unidades 6 mayor 4047
+   fuera 44 22152 13443 unidades 1 mayor 22152
+   fuera 45 11306 13443 unidades 9 mayor 3811
+   fuera 49 10834 13443 unidades 13 mayor 3028
+   cadena 2107829136: unicos 39 fallo '' mejor fuera 14 t 18s
+
+# Navarra: unidades M04 grandes
+31:31086:M 22152 mun 31086 pob_mun 22152 unidades_mun 1 distrito 44
+31:31060:M 20819 mun 31060 pob_mun 20819 unidades_mun 1 distrito 42
+31:31901:M 19549 mun 31901 pob_mun 19549 unidades_mun 1 distrito 39
+31:31907:M 15700 mun 31907 pob_mun 15700 unidades_mun 1 distrito 19
+31:31201:U11 14678 mun 31201 pob_mun 206233 unidades_mun 15 distrito 10
+31:31201:U13 14454 mun 31201 pob_mun 206233 unidades_mun 15 distrito 12
+31:31097:M 14224 mun 31097 pob_mun 14224 unidades_mun 1 distrito 40
+31:31201:U8 14156 mun 31201 pob_mun 206233 unidades_mun 15 distrito 7
+31:31201:U2 14038 mun 31201 pob_mun 206233 unidades_mun 15 distrito 1
+31:31201:U7 14002 mun 31201 pob_mun 206233 unidades_mun 15 distrito 6
+31:31201:U3 13781 mun 31201 pob_mun 206233 unidades_mun 15 distrito 2
+31:31201:U6 13759 mun 31201 pob_mun 206233 unidades_mun 15 distrito 5
+partitioning null
+
+# País Vasco y Canarias
+pais_vasco: unidades 285 (internas 33, de ellas >= 0,5 x objetivo 33); objetivo 29702; circunscripciones 3; unidades sin objetivo de su circunscripción 0
+  ponderado-s1048245436: fuera (clave, objetivo de circunscripción) 8, fuera (evaluar, objetivo regional) 9
+  canonico: fuera (clave, objetivo de circunscripción) 8, fuera (evaluar, objetivo regional) 9
+canarias: unidades 117 (internas 28, de ellas >= 0,5 x objetivo 28); objetivo 31615; circunscripciones 8; unidades sin objetivo de su circunscripción 0
+  ponderado-s801799464: fuera (clave, objetivo de circunscripción) 20, fuera (evaluar, objetivo regional) 21
+  canonico: fuera (clave, objetivo de circunscripción) 21, fuera (evaluar, objetivo regional) 20
+# Madrid: candidatos (fuera de tolerancia, unicos de la cadena)
+  ponderado-s2118146402 VALIDO 21 5
+  ponderado-s1802514727 VALIDO 21 7
+  ponderado-s2096709436 VALIDO 22 3
+  ponderado-s971703099 VALIDO 22 3
+  ponderado-s291855033 VALIDO 22 4
+  ponderado-s295868932 VALIDO 22 3
+  ponderado-s166739728 VALIDO 22 3
+  ponderado-s1767925601 VALIDO 22 4
+  ponderado-s763731873 VALIDO 23 3
+  ponderado-s46435939 VALIDO 23 4
+  canonico VALIDO 24 None
+# huellas locales: madrid aab6c66387125c127bf0dca6045e759c82980ea78042f14c685f4757049cc99e navarra 802a811228e06f77ae8c3b0277feb1c96a47e8449a9acd8fd287ecb92d3fd78b
+madrid: unidades 269 (internas 90, de ellas >= 0,5 x objetivo 90); objetivo 50903; circunscripciones 1; unidades sin objetivo de su circunscripción 0
+  ponderado-s2118146402: fuera (clave, objetivo de circunscripción) 21, fuera (evaluar, objetivo regional) 21
+  canonico: fuera (clave, objetivo de circunscripción) 24, fuera (evaluar, objetivo regional) 24
+# r3 canarias 5b1ecbf5dc2d3c8dff700d10ac77d23a442ee143f4164eb4112ece56af9c5ff2
+# r3 comunidad_foral_de_navarra 802a811228e06f77ae8c3b0277feb1c96a47e8449a9acd8fd287ecb92d3fd78b
+# r3 madrid aab6c66387125c127bf0dca6045e759c82980ea78042f14c685f4757049cc99e
+# r3 pais_vasco b76129851baad92e85aa4697927d91a211caaf31ecb0ffeee2ac62374b690e9e
+# huella local pais_vasco b76129851baad92e85aa4697927d91a211caaf31ecb0ffeee2ac62374b690e9e
+# huella local canarias 5b1ecbf5dc2d3c8dff700d10ac77d23a442ee143f4164eb4112ece56af9c5ff2
+
+# Antes y después (Aragón, CLM, CyL, Galicia)
+| Territorio | Canónico | Ganador r3 (antes) | Ganador ahora | Clave del ganador ahora (fuera, exceso, demarcaciones) |
+|---|---|---|---|---|
+| aragon | 0 (r3 0) | ponderado-s677079344: 2 | ponderado-s1768655224: 0 | 0, 0.0332, 35 |
+| castilla_la_mancha | 5 (r3 5) | ponderado-s214103641: 8 | ponderado-s547221014: 5 | 5, 0.0227, 53 |
+| castilla_y_leon | 2 (r3 2) | ponderado-s999727098: 4 | ponderado-s999727098: 2 | 2, 0.0383, 88 |
+| galicia | 6 (r3 6) | ponderado-s1167476498: 8 | ponderado-s1167476498: 6 | 6, 0.0394, 51 |
+
+# Laboratorio T-179 (scripts/laboratorio.py)
+madrid: unidades 4150; vigente (A) fuera de tolerancia 26; planes únicos por cadena ponderada 191-224 (20 cadenas, 300 pasos)
+comunidad_foral_de_navarra: unidades 488; vigente (A) fuera de tolerancia 11; planes únicos por cadena ponderada 103-143 (20 cadenas, 300 pasos)
+mapa publicado de Navarra: run 41049986588, optimization_algorithm = 'GerryChain 50'
+
+# Exenciones y recuento del contrato (scripts/exentos.py; Canarias medido con competicion 1.3.0)
+aragon canonico: fuera 0, con exentos de suelo 0; exentos en el contrato: 0 municipios, 0 particiones
+aragon ponderado-s1768655224: fuera 0, con exentos de suelo 0; exentos en el contrato: 0 municipios, 0 particiones
+castilla_y_leon canonico: fuera 2, con exentos de suelo 0; exentos en el contrato: 0 municipios, 0 particiones
+castilla_y_leon ponderado-s999727098: fuera 2, con exentos de suelo 0; exentos en el contrato: 0 municipios, 0 particiones
+castilla_la_mancha canonico: fuera 5, con exentos de suelo 0; exentos en el contrato: 0 municipios, 0 particiones
+castilla_la_mancha ponderado-s547221014: fuera 5, con exentos de suelo 0; exentos en el contrato: 0 municipios, 0 particiones
+galicia canonico: fuera 6, con exentos de suelo 0; exentos en el contrato: 0 municipios, 0 particiones
+galicia ponderado-s1167476498: fuera 6, con exentos de suelo 0; exentos en el contrato: 0 municipios, 0 particiones
+canarias canonico: fuera 20, con exentos de suelo 14; exentos en el contrato: 0 municipios, 5 particiones
+canarias ponderado-s801799464: fuera 21, con exentos de suelo 14; exentos en el contrato: 0 municipios, 5 particiones
+
+# Aristas del grafo M03 de la batería con shared_border_m
+madrid: aristas 12244 con shared_border_m 0
+comunidad_foral_de_navarra: aristas 1517 con shared_border_m 0

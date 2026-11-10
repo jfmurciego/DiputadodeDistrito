@@ -3,14 +3,20 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — funciones de calidad con naturalidad (A, B/C, D5, D8): una sola definición
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Naturalidad · clave compartida
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Naturalidad · fuera de tolerancia del contrato en la competición
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: fichero nuevo (sale de naturalidad_competicion.Laboratorio 1.4.0 sin cambiar el orden).
+CAMBIOS: 1.1.0 (T-211, D-68) — `clave(..., fuera=)` y `Natural.fuera_contrato`: en la competición
+  (natural_desde_m06) el primer término es el recuento del contrato y del núcleo (reglas.evaluar, M04
+  outside_target_tolerance): distritos con |p − objetivo regional| > tolerancia, también con cuotas de varias
+  circunscripciones; el resto de la clave (tope, demarcaciones, frontera, desvío) sigue midiéndose contra el objetivo de
+  la circunscripción. El laboratorio (Laboratorio) no lo activa: sus resultados no cambian. Con una sola
+  circunscripción (Congreso) las dos medidas coinciden y nada cambia.
+  1.0.0 — fichero nuevo (sale de naturalidad_competicion.Laboratorio 1.4.0 sin cambiar el orden).
 MOTIVO: T-205: la competición del motor nuevo elige con D8 y debe usar la misma clave que el laboratorio de
   naturalidad (T-172/T-179): un mismo plan da la misma clave en los dos.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/ddd_motor2/naturalidad_clave_v1.0.0_20261110.py
 QUÉ HACE:
   clave(funcion, pob_obj, tol_ratio, huella, natural) — lexicográfica, menor es mejor; rel = |p − o| / o por distrito
   (o = objetivo de su circunscripción, o el único), fracciones exactas:
@@ -56,11 +62,13 @@ def corte_km(asig: Mapping[str, str], largo: Mapping[tuple[str, str], float]) ->
 
 
 def clave(funcion: str, pob_obj: Iterable[tuple[int, Fraction]], tol_ratio: Fraction, huella: str,
-          natural: Callable[[], tuple[int, float]]) -> tuple:
+          natural: Callable[[], tuple[int, float]], fuera: int | None = None) -> tuple:
+    """`fuera` sustituye al recuento de fuera de tolerancia medido con pob_obj (la competición pasa el del contrato)."""
     if funcion not in FUNCIONES_CLAVE:
         raise ValueError(f"función de calidad desconocida: {funcion}")
     rel = [abs(Fraction(p) - o) / o for p, o in pob_obj]
-    fuera = sum(1 for x in rel if x > tol_ratio)
+    if fuera is None:
+        fuera = sum(1 for x in rel if x > tol_ratio)
     dmax = max(rel)
     if funcion == "A":
         return (fuera, dmax, sum(x * x for x in rel) / len(rel), huella)
@@ -77,6 +85,7 @@ class Natural:
 
     obj_circ: dict = {}
     circ_u: dict = {}
+    fuera_contrato: bool = False  # primer término de la clave = recuento del contrato (objetivo regional)
 
     def valido(self, asig: dict[str, str]) -> bool:
         return evaluar(self.problema, self.reglas, asig).valido
@@ -91,13 +100,21 @@ class Natural:
         return {d: (p, self.obj_circ.get(circ[d], self.objetivo) if self.obj_circ else self.objetivo)
                 for d, p in pob.items()}
 
+    def fuera_regional(self, asig: dict[str, str]) -> int:
+        """Fuera de tolerancia como los cuenta el contrato y reglas.evaluar: contra el objetivo regional."""
+        pob: dict[str, int] = defaultdict(int)
+        for u, d in asig.items():
+            pob[d] += self.pob_u[u]
+        return sum(1 for p in pob.values() if abs(p - self.objetivo) > self.tol)
+
     def natural(self, asig: dict[str, str]) -> tuple[int, float]:
         return partidas(asig, (self.pj, self.ca)), corte_km(asig, self.largo)
 
     def clave(self, asig: dict[str, str], funcion: str, huella: str = "") -> tuple:
         from .naturalidad_competicion import huella_plan  # noqa: PLC0415  (la del laboratorio, por defecto)
         return clave(funcion, self.desvios(asig).values(), self.tol / self.objetivo, huella or huella_plan(asig),
-                     lambda: self.natural(asig))
+                     lambda: self.natural(asig),
+                     fuera=self.fuera_regional(asig) if self.fuera_contrato and self.obj_circ else None)
 
     def recargos(self, rpj: float, rca: float, rmov: float, rlong: float) -> dict[tuple[str, str], float]:
         med = (statistics.median(self.largo.values()) if self.largo else 0) or 1.0  # grafo sin longitudes: 1
@@ -139,6 +156,7 @@ def natural_desde_m06(problema, reglas, composicion: str | Path, grafo_m03: str 
         sec = str(f[col["seccion"]]).strip()
         sec_u[sec] = str(f.get(col["unidad"]) or sec).strip()
     n = Natural()
+    n.fuera_contrato = True  # competición: primer término como el contrato (D-68, T-211)
     n.problema, n.reglas = problema, reglas
     n.pob_u = {u.id: u.poblacion for u in problema.unidades}
     n.objetivo, _, _, n.tol = reglas.limites(problema.poblacion_total)

@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.333
+Versión: 1.0.337
 Fecha: 2026-11-10
-Alcance: T-212 — Aceptación del motor 2: nunca peor que el mapa vigente publicado, indicadores en el resumen del paso
+Alcance: T-214 — Resolutor único de ids de territorio y prueba A (corte 5.0.0, pasos 1-2 reversibles)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_claude-t212-aceptacion-vigente.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.332_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t214-ids-territorio.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.336_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,10 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.332_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.337 · [2026-11-10 — T-214 — Resolutor único de ids de territorio y prueba A (corte 5.0.0, pasos 1-2 reversibles)](registro/2026-11-10_t214-ids-territorio.md)
+- 1.0.336 · [2026-11-10 — T-211 (2.ª parte) — D8 de la competición: fuera de tolerancia como los cuenta el contrato](registro/2026-11-10_claude-t211b-clave-contrato.md)
+- 1.0.335 · [2026-11-10 — T-219 — Plan 1.0.41: decisiones D-74 a D-79 y cola T-210 a T-219](registro/2026-11-10_claude-t219-plan-d74-d79.md)
+- 1.0.334 · [2026-11-10 — T-211 — Ponderado en las autonómicas: causa medida y fuera de tolerancia por circunscripción](registro/2026-11-10_claude-t211-diagnostico-ponderado.md)
 - 1.0.333 · [2026-11-10 — T-212 — Aceptación del motor 2: nunca peor que el mapa vigente publicado, indicadores en el resumen del paso](registro/2026-11-10_claude-t212-aceptacion-vigente.md)
 - 1.0.332 · [2026-11-10 — T-213 — Corte 5.0.0 paso 0: copias y manifiesto de congelación](registro/2026-11-10_claude-t213-corte-paso0.md)
 - 1.0.331 · [2026-11-10 — T-196 — Informe de la batería r3 (motor 2, D8, N=10) frente al canónico y al laboratorio](registro/2026-11-10_claude-t196-bateria-d8.md)

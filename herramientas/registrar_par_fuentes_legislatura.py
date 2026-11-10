@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
+# CAMBIOS (T-214, 2026-11-10): validate_pair_receipt compara el territorio esperado por el resolutor único
+#   (ddd_core/territorio_ids.py): el par se admite con el id viejo o con el nuevo. ANTERIOR:
+#   legacy/herramientas/registrar_par_fuentes_legislatura_pre_t214_20261110.py
 from __future__ import annotations
 
 import argparse
 import json
 import re
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402
 
 try:
     from herramientas.catalogo_preparacion import validate_repository
@@ -321,7 +328,7 @@ def validate_pair_receipt(
     edition = str(pair.get("edition") or "")
     if not territory_id or not edition:
         raise PreparedSourcePairBlock("PAIR_BLOCK: identidad territorial/edición incompleta")
-    if expected_territory_id is not None and territory_id != str(expected_territory_id):
+    if expected_territory_id is not None and not mismo_territorio(territory_id, str(expected_territory_id)):
         raise PreparedSourcePairBlock("PAIR_BLOCK: territorio del par no coincide")
     if expected_edition is not None and edition != str(expected_edition):
         raise PreparedSourcePairBlock("PAIR_BLOCK: edición del par no coincide")

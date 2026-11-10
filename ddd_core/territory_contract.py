@@ -3,15 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Puerta de admisión de contrato territorial
-VERSIÓN: 1.3.0
-NOMBRE DE VERSIÓN: Admisión de territorios piloto
-FECHA: 2026-10-30
+VERSIÓN: 1.4.0
+NOMBRE DE VERSIÓN: Admisión con id viejo o nuevo
+FECHA: 2026-11-10
 ESTADO: vigente — R036
 QUÉ HACE: valida el contrato M01-M06 y comunica por separado si está autorizado, bloqueado o limitado a preflight.
 CAMBIOS: añade production_authorization coherente entre catálogo y contrato sin confundir validez estructural con permiso de ejecución.
 MOTIVO: impedir que un contrato bloqueado o experimental llegue a producción por una comparación textual incompleta.
 CAMBIOS 1.3.0: la entrada del catálogo maestro se busca también en pilot_territories (piloto Congreso).
-ANTERIOR: legacy/core/territory_contract_v1.2.0.py
+CAMBIOS 1.4.0 (T-214): el territorio solicitado se compara con meta.territory_id por el resolutor único
+  (ddd_core/territorio_ids.py): `congreso_alava` y `nac01` admiten el mismo contrato; `madrid` y `nac28`, no.
+MOTIVO 1.4.0: corte 5.0.0 paso 1-2 (D-61): leer ambos ids durante la convivencia de alias.
+ANTERIOR: legacy/core/territory_contract_v1.3.0.py
 """
 from __future__ import annotations
 
@@ -22,6 +25,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from ddd_core.config import load_params_yaml
+from ddd_core.territorio_ids import mismo_territorio
 
 MODULES = [
     "modulo_01_preparar_base_territorial",
@@ -121,7 +125,7 @@ def validate_production_contract(params_path: str | Path, *, expected_territory:
         _get(cfg, f"meta.{key}", errors)
     if not isinstance(territory_id, str) or not re.fullmatch(r"[a-z0-9]+(?:_[a-z0-9]+)*", territory_id or ""):
         errors.append("meta.territory_id debe usar minúsculas, números y guiones bajos")
-    if expected_territory and territory_id != expected_territory:
+    if expected_territory and not mismo_territorio(str(territory_id or ""), str(expected_territory)):
         errors.append(f"territorio solicitado {expected_territory!r} no coincide con meta.territory_id={territory_id!r}")
     if territory_id and params.name != f"{territory_id}_{cfg.get('meta', {}).get('year')}.yaml":
         warnings.append("el nombre del YAML no sigue <territory_id>_<year>.yaml")

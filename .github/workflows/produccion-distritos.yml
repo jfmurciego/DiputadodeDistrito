@@ -1,7 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 8.1.8
-# CAMBIOS 8.1.8: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P20 Base territorial — P30 Distritos» (antes 02 Generación de Distritos Autonómicos).
+# VERSIÓN: 8.2.1
+# CAMBIOS 8.2.1: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P20 Base territorial — P30 Distritos» (antes 02 Generación de Distritos Autonómicos).
+# CAMBIOS 8.2.0: T-216 (corte 5.0.0, paso 3): entrada `motor` (solo workflow_call; m05 por defecto | motor2) que pasa al
+#   reutilizable de generación (P30 del motor 2 tras el M06 canónico) y, como DDD_MOTOR, a la selección de checkpoints
+#   (un M06 hecho con un P30 no se reutiliza con el otro). Con m05, sin cambios.
 # CAMBIOS 8.1.7: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Generación de distritos autonómicos
 # FECHA: 2026-11-10
@@ -13,7 +16,7 @@
 # CAMBIOS 8.1.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 8.1.5: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
 # CAMBIOS 8.1.6: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
-# ANTERIOR: legacy/workflows/produccion-distritos_v8.1.7_20261110.yml
+# ANTERIOR: legacy/workflows/produccion-distritos_v8.2.0_20261110b.yml
 # MOTIVO: la Comunidad Valenciana acredita su declaración en evidencia versionada; la ruta fija leía config/fuentes_oficiales.yaml sin años y bloqueaba el run 40784680666.
 name: P20 Base territorial — P30 Distritos
 
@@ -35,6 +38,7 @@ on:
       gerrychain_entrypoint: {required: false, type: string, default: ''}
       require_unique_hashes: {required: false, type: boolean, default: false}
       require_generation_gate: {required: false, type: boolean, default: false}
+      motor: {required: false, type: string, default: m05}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -261,6 +265,7 @@ jobs:
           CHECKPOINT_POLICY: ${{ steps.resolve.outputs.checkpoint_policy }}
           EXECUTION_MODE: ${{ inputs.execution_mode }}
           OPTIMIZATION_ALGORITHM: ${{ inputs.optimization_algorithm }}
+          DDD_MOTOR: ${{ inputs.motor || 'm05' }}
         run: |
           set -euo pipefail
           checkpoint_run_id=''
@@ -612,6 +617,7 @@ jobs:
       source_ref: ${{ inputs.source_ref }}
       persist_state: ${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}
       optimization_algorithm: ${{ inputs.optimization_algorithm }}
+      motor: ${{ inputs.motor || 'm05' }}
       artifact_namespace: ${{ inputs.artifact_namespace }}
       gerrychain_entrypoint: ${{ inputs.optimization_algorithm == 'GerryChain 50' && 'gerrychain_50' || inputs.gerrychain_entrypoint }}
       require_unique_hashes: ${{ inputs.optimization_algorithm == 'GerryChain 50' || inputs.require_unique_hashes }}

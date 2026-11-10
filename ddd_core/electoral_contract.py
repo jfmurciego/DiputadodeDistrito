@@ -1,14 +1,17 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Contrato electoral común
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Entrada electoral verificable
-FECHA: 2026-09-14
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Entrada electoral con id viejo o nuevo
+FECHA: 2026-11-10
 QUÉ HACE: valida convocatoria, fuentes, adaptadores y diccionario de partidos de M07.
 ESTADO: vigente — R039
 CAMBIOS: componente nuevo independiente de cualquier territorio.
 MOTIVO: impedir entradas electorales artesanales, no trazadas o normalizadas en código.
-ANTERIOR: ninguno — componente nuevo.
+CAMBIOS 1.1.0 (T-214): expected_territory_id se compara por el resolutor único (ddd_core/territorio_ids.py):
+  el contrato electoral se admite con el id viejo o con el nuevo del mismo territorio.
+MOTIVO 1.1.0: corte 5.0.0 paso 1-2 (D-61).
+ANTERIOR: legacy/core/electoral_contract_v1.0.0.py
 """
 from __future__ import annotations
 
@@ -18,6 +21,8 @@ import re
 import unicodedata
 from pathlib import Path
 from typing import Any, Mapping
+
+from ddd_core.territorio_ids import mismo_territorio
 
 
 SCHEMA_FAMILY = "ddd-election"
@@ -611,7 +616,7 @@ def load_election_contract(
         raise ValueError(f"contrato: schema_version debe ser {SCHEMA_VERSION}")
     for key in ("election_id", "territory_id", "title", "election_date"):
         _required(contract, key, "contrato")
-    if expected_territory_id and contract["territory_id"] != expected_territory_id:
+    if expected_territory_id and not mismo_territorio(str(contract["territory_id"]), str(expected_territory_id)):
         raise ValueError(
             "contrato electoral de otro territorio: "
             f"{contract['territory_id']} != {expected_territory_id}"
