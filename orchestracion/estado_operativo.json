@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T14:02:11.128114+00:00",
+  "generated_at": "2026-11-11T14:28:43.554874+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 74,
-      "activable": 0,
+      "activated": 72,
+      "activable": 2,
       "territorial_pending": 46,
       "electoral_pending": 46,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 74,
-      "durable_pair": 74
+      "durable_pair": 72
     },
     "territories": [
       {
@@ -486,12 +486,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/cataluna/evidencia/pares_fuentes/2025/78bebbc5beefd9680e8a58a0651924f6653627cd9186290af990895670b135ca.json",
             "pair_sha256": "78bebbc5beefd9680e8a58a0651924f6653627cd9186290af990895670b135ca",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -843,12 +843,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/pais_vasco/evidencia/pares_fuentes/2025/17eb947b3aa1af5f9703a54b05a41ec6d8e7b4feeec5ace3dcc830ebd8f3b5a1.json",
             "pair_sha256": "17eb947b3aa1af5f9703a54b05a41ec6d8e7b4feeec5ace3dcc830ebd8f3b5a1",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -6992,20 +6992,20 @@
       "name": "Cantabria",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43025633460,
+      "run_id": 43033094596,
       "last_run": {
-        "run_id": 43025633460,
+        "run_id": 43033094596,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7046,7 +7046,7 @@
       },
       "autonomous_community_code_ine": "06",
       "display_name": "06 Cantabria",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "castilla_y_leon",
@@ -10656,7 +10656,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940553251,
+      "run_id": 43034949749,
       "last_run": {
         "run_id": 41299313598,
         "status": "SUCCESS",
@@ -10682,13 +10682,13 @@
           "territory_id": "congreso_valladolid",
           "territory_name": "Congreso Valladolid",
           "edition": "2025",
-          "run_id": 42940553251,
-          "artifact_name": "ddd-state-42940553251-M06",
-          "artifact_sha256": "8e662200c82210039b5b1189cbd35c751d4c9d8f092c155278c6065648fb37c8",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43034949749,
+          "artifact_name": "ddd-state-43034949749-M06",
+          "artifact_sha256": "f70bf7c19c8b9c1d7ad0506076abafd86138f4f50d7c75f638a1429a91719862",
+          "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_valladolid/evidencia/generaciones_m06/42940553251.json"
+          "producer_manifest_path": "territorios/congreso_valladolid/evidencia/generaciones_m06/43034949749.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10717,7 +10717,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940558507,
+      "run_id": 43034959389,
       "last_run": {
         "run_id": 41356074013,
         "status": "SUCCESS",
@@ -10743,13 +10743,13 @@
           "territory_id": "congreso_vizcaya",
           "territory_name": "Congreso Vizcaya",
           "edition": "2025",
-          "run_id": 42940558507,
-          "artifact_name": "ddd-state-42940558507-M06",
-          "artifact_sha256": "803e32930327b588e348f425f8f6f232723e9c4d1e2cb5dccd1f66fd8bd882ca",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43034959389,
+          "artifact_name": "ddd-state-43034959389-M06",
+          "artifact_sha256": "b7d87ed8658432a2061ee7f312ef98ad90a54120c992ab604b0de83cb7b4122c",
+          "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_vizcaya/evidencia/generaciones_m06/42940558507.json"
+          "producer_manifest_path": "territorios/congreso_vizcaya/evidencia/generaciones_m06/43034959389.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -12256,13 +12256,14 @@
     }
   ],
   "kpis": {
-    "complete": 64,
+    "complete": 65,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
       "05 Canarias",
+      "06 Cantabria",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "10 Comunidad Valenciana",
@@ -12532,23 +12533,17 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "castilla_la_mancha",
-    "name": "Castilla-La Mancha",
-    "display_name": "08 Castilla-La Mancha",
-    "autonomous_community_code_ine": "08",
-    "run_id": 43031565452,
+    "territory_id": "cantabria",
+    "name": "Cantabria",
+    "display_name": "06 Cantabria",
+    "autonomous_community_code_ine": "06",
+    "run_id": 43033094596,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
     {
-      "territory": "06 Cantabria",
-      "territory_id": "cantabria",
-      "autonomous_community_code_ine": "06",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
@@ -12588,17 +12583,17 @@
       "territory": "Nacional Vizcaya",
       "territory_id": "congreso_vizcaya",
       "autonomous_community_code_ine": "C48",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Zamora",
+      "territory_id": "congreso_zamora",
+      "autonomous_community_code_ine": "C49",
       "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
     {
-      "territory": "06 Cantabria",
-      "territory_id": "cantabria",
-      "autonomous_community_code_ine": "06",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
@@ -12638,6 +12633,12 @@
       "territory": "Nacional Vizcaya",
       "territory_id": "congreso_vizcaya",
       "autonomous_community_code_ine": "C48",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Zamora",
+      "territory_id": "congreso_zamora",
+      "autonomous_community_code_ine": "C49",
       "action": "preparar fuentes electorales"
     }
   ]
