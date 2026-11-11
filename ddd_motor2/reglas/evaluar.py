@@ -3,13 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: núcleo de reglas del motor 2 — evaluador completo de un plan
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Núcleo único de reglas · F1
-FECHA: 2026-11-10
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Núcleo único de reglas · validez sin métricas
+FECHA: 2026-11-11
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.1.0 — `valido(problema, reglas, asig, ctx=None)` (== evaluar(...).valido) sin métricas ni huella y con un
+  Contexto reutilizable; evaluar() y valido() comparten _violaciones (misma lista de violaciones). Contexto memoriza
+  rango_municipal por población (función pura de p, techo y objetivo). Mismos veredictos.
+  1.0.0 — fichero nuevo.
 MOTIVO: T-160: una sola definición ejecutable de «plan válido» para batería (T-132), certificador (T-136) y motor 2.
-ANTERIOR: ninguna (fichero nuevo)
+MOTIVO 1.1.0: T-262 (D-89): la restricción `nucleo` de las cadenas ReCom llama a evaluar() en cada paso y rehacía el
+  Contexto (adyacencia), las métricas y la huella de las reglas. Optimización bit a bit.
+ANTERIOR: legacy/ddd_motor2/reglas/evaluar_v1.0.0_20261110.py
 QUÉ HACE: evaluar(problema, reglas, asignacion) -> Informe con violaciones de códigos estables (modelo.CODIGOS) y
   métricas no duras (desviación, distritos fuera de tolerancia). Comparaciones exactas (enteros contra fracciones).
   Las reglas se calculan por ÁMBITO (distrito, municipio, cuotas, núcleo, plan) con las mismas funciones que usa el
@@ -87,6 +92,7 @@ class Contexto:
     techo: Fraction
     tol: Fraction
     adj: Mapping[str, set[str]]
+    _rangos: dict = field(default_factory=dict, compare=False, hash=False, repr=False)  # p -> rango (función pura)
 
     @classmethod
     def de(cls, problema: Problema, reglas: Reglas) -> "Contexto":
@@ -95,9 +101,11 @@ class Contexto:
         return cls(reglas, objetivo, suelo, techo, tol, problema.adyacencia(reglas.criterio.contiguidad_con_puentes))
 
     def rango_municipal(self, p: int) -> tuple[int, int]:
-        if p <= 0:
-            return 1, 1
-        return max(1, math.ceil(p / self.techo)), max(1, math.ceil(p / self.objetivo))
+        r = self._rangos.get(p)
+        if r is None:
+            r = (1, 1) if p <= 0 else (max(1, math.ceil(p / self.techo)), max(1, math.ceil(p / self.objetivo)))
+            self._rangos[p] = r
+        return r
 
 
 def violaciones_distrito(ctx: Contexto, d: str, us: list[Unidad]) -> list[Violacion]:
@@ -176,9 +184,8 @@ def provincia_de(reglas: Reglas, us: list[Unidad]) -> str | None:
     return next(iter(provs)) if reglas.provincia_unica and len(provs) == 1 else None
 
 
-def evaluar(problema: Problema, reglas: Reglas, asignacion: Mapping[str, object]) -> Informe:
-    """Veredicto completo de un plan (unidad -> distrito). Lanza ErrorDatos si faltan campos que una regla exige."""
-    ctx = Contexto.de(problema, reglas)
+def _violaciones(problema: Problema, reglas: Reglas, ctx: Contexto, asignacion: Mapping[str, object]):
+    """Violaciones del plan (sin ordenar ni deduplicar), el plan normalizado y sus distritos."""
     asig = {str(u): str(d) for u, d in asignacion.items()}
     distritos: dict[str, list[Unidad]] = defaultdict(list)
     for uid, d in asig.items():
@@ -211,7 +218,18 @@ def evaluar(problema: Problema, reglas: Reglas, asignacion: Mapping[str, object]
         miembros_de = {d: {u.id for u in us} for d, us in distritos.items()}
         for n, miembros in grupos_nucleo(problema).items():
             viol += violaciones_nucleo(n, miembros, asig, miembros_de)
+    return viol, distritos
 
+
+def valido(problema: Problema, reglas: Reglas, asignacion: Mapping[str, object], ctx: Contexto | None = None) -> bool:
+    """== evaluar(problema, reglas, asignacion).valido, sin métricas ni huella; `ctx` (Contexto.de) se puede reutilizar."""
+    return not _violaciones(problema, reglas, ctx or Contexto.de(problema, reglas), asignacion)[0]
+
+
+def evaluar(problema: Problema, reglas: Reglas, asignacion: Mapping[str, object]) -> Informe:
+    """Veredicto completo de un plan (unidad -> distrito). Lanza ErrorDatos si faltan campos que una regla exige."""
+    ctx = Contexto.de(problema, reglas)
+    viol, distritos = _violaciones(problema, reglas, ctx, asignacion)
     pob = {d: sum(u.poblacion for u in us) for d, us in distritos.items()}
     dev = max((abs(p - ctx.objetivo) for p in pob.values()), default=Fraction(0))
     metricas = {
