@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T10:38:10.223325+00:00",
+  "generated_at": "2026-11-11T10:41:41.665043+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9497,7 +9497,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940454004,
+      "run_id": 43001749134,
       "last_run": {
         "run_id": 41622703086,
         "status": "SUCCESS",
@@ -9523,13 +9523,13 @@
           "territory_id": "congreso_madrid",
           "territory_name": "Congreso Madrid",
           "edition": "2025",
-          "run_id": 42940454004,
-          "artifact_name": "ddd-state-42940454004-M06",
-          "artifact_sha256": "1624683dddce8eff6eca518576c32b8feecf7e1bf5aa2d01d1002b7d555c2757",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43001749134,
+          "artifact_name": "ddd-state-43001749134-M06",
+          "artifact_sha256": "adbfb4bd37e16c0166efe0e1d5aa08250a05173ca933f8cd2a63bddec874afd6",
+          "source_commit": "335ada5edc4938ad24ffb66b81f1107817351fd7",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_madrid/evidencia/generaciones_m06/42940454004.json"
+          "producer_manifest_path": "territorios/congreso_madrid/evidencia/generaciones_m06/43001749134.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9558,7 +9558,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940458916,
+      "run_id": 43001775134,
       "last_run": {
         "run_id": 42495070976,
         "status": "SUCCESS",
@@ -9584,13 +9584,13 @@
           "territory_id": "congreso_malaga",
           "territory_name": "Congreso Málaga",
           "edition": "2025",
-          "run_id": 42940458916,
-          "artifact_name": "ddd-state-42940458916-M06",
-          "artifact_sha256": "7976bd678c79b555fe4811875a244f9c688ba8e48026bb46904fa8233bffe8fc",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43001775134,
+          "artifact_name": "ddd-state-43001775134-M06",
+          "artifact_sha256": "ea15893e27ab064c24d5147576ecaac9cd3ded072f967ad38dab7e4fbac03edd",
+          "source_commit": "335ada5edc4938ad24ffb66b81f1107817351fd7",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_malaga/evidencia/generaciones_m06/42940458916.json"
+          "producer_manifest_path": "territorios/congreso_malaga/evidencia/generaciones_m06/43001775134.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9621,11 +9621,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43001766635,
       "last_run": {
-        "run_id": 41622862185,
+        "run_id": 43001766635,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
