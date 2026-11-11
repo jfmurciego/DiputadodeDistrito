@@ -717,6 +717,15 @@
    "sha256_csv": "21398f4df2aec843b5e4a6ecc0570649f60ceea407309fb22f66d7e07ba82e44",
    "ruta": "datos/resultados/runs/congreso350_valladolid_42613899978_partidos.csv"
   },
+  "congreso_alava/42983088643": {
+   "territorio": "congreso_alava",
+   "run_id": "42983088643",
+   "run_territorial": "42940320710",
+   "sha256_composicion": "a4507f48ddc8d95674949f533d9675cb1bb136b7125aca5c7c0f1a89d968f195",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "9d208c89b45c0ecf4f1994872f05a502b943fdd7cc8c62621df5489c4f26bf29",
+   "ruta": "datos/resultados/runs/congreso_alava_42983088643_partidos.csv"
+  },
   "congreso_albacete/42514994231": {
    "territorio": "congreso_albacete",
    "run_id": "42514994231",
