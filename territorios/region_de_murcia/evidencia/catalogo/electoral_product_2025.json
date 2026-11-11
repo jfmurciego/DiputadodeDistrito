@@ -4,9 +4,9 @@
   "territory_id": "region_de_murcia",
   "territory_name": "Región de Murcia",
   "edition": "2025",
-  "run_id": 42504383790,
-  "artifact_name": "ddd-state-42504383790-M08",
-  "artifact_sha256": "bba840cce34a4ec971ec1286851c23ecc65d31b327f927b178eeb5ff1a15d9ec",
-  "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
+  "run_id": 43053208175,
+  "artifact_name": "ddd-state-43053208175-M08",
+  "artifact_sha256": "e3ea2f63ebdf197537bd7d995175b953806f28d57297bcd2f0c665d230284f00",
+  "source_commit": "7aea1220986f37926599d0c8cb0f958e6475d2e8",
   "stage": "M08"
 }

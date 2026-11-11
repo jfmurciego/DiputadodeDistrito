@@ -4,11 +4,11 @@
   "territory_id": "madrid",
   "territory_name": "Comunidad de Madrid",
   "edition": "2025",
-  "run_id": 41046373806,
-  "artifact_name": "ddd-state-41046373806-M06",
-  "artifact_sha256": "d695e3be4e25105dcbfcd60df825f76f0335cd73931385115b8c7485e21d4943",
-  "source_commit": "a0c0f03c9baa9a49494fd55aba2c9be6b6124972",
+  "run_id": 43045415140,
+  "artifact_name": "ddd-state-43045415140-M06",
+  "artifact_sha256": "d2c83e4c06391e977efff7f933f110856a74a454e8ae2c335ee4f09a15697896",
+  "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/madrid/evidencia/generaciones_m06/41046373806.json"
+  "producer_manifest_path": "territorios/madrid/evidencia/generaciones_m06/43045415140.json"
 }
