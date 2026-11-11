@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""T-256: la poda con constantes precalculadas (enumerar 1.2.0) es idéntica a la 1.1.0 (legacy): mismas violaciones
+"""T-256: la poda con constantes precalculadas (enumerar 1.2.0) es idéntica a la 1.1.0 (fixture, copia de legacy): mismas violaciones
 en el mismo orden para parciales aleatorios, y la enumeración visita y poda exactamente los mismos nodos."""
 from __future__ import annotations
 
@@ -20,10 +20,14 @@ from ddd_motor2.reglas import Criterio, Reglas  # noqa: E402
 from test_motor2_reglas import _contrato_aleatorio, _rejilla  # noqa: E402
 
 
+# Copia de la 1.1.0 dentro de tests/: la imagen Docker de la CI excluye legacy/ (.dockerignore).
+FIXTURE = ROOT / "tests/fixtures/motor2_enumerar_v1_1_0/enumerar_v1_1_0.py"
+LEGACY = ROOT / "legacy/ddd_motor2/reglas/enumerar_v1.1.0_20261110.py"
+
+
 def _cargar_anterior():
     nombre = "ddd_motor2.reglas._enumerar_v110"  # dentro del paquete para que resuelvan los imports relativos
-    spec = importlib.util.spec_from_file_location(
-        nombre, ROOT / "legacy/ddd_motor2/reglas/enumerar_v1.1.0_20261110.py")
+    spec = importlib.util.spec_from_file_location(nombre, FIXTURE)
     mod = importlib.util.module_from_spec(spec)
     sys.modules[nombre] = mod
     spec.loader.exec_module(mod)
@@ -60,6 +64,12 @@ def _traza(mod, p, r, presupuesto):
 
 
 class PodaConstantes(unittest.TestCase):
+    def test_fixture_es_la_copia_legacy(self):
+        if not LEGACY.is_file():
+            self.skipTest("legacy/ no está en la imagen")
+        cuerpo = FIXTURE.read_text(encoding="utf-8").split("\n", 1)[1]
+        self.assertEqual(cuerpo, LEGACY.read_text(encoding="utf-8"))
+
     def test_misma_poda_en_parciales_aleatorios(self):
         rng = random.Random(256)
         n_podados = 0
