@@ -24,8 +24,10 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
-| 15:14 | Cataluña (paso 1) | P12 Electorales, reutilizar=false | 43036592492 (por orden de despacho; verificar territorio en el log) | EN_VUELO | 1 / — | 0/1 |
-| 15:14 | País Vasco (paso 1) | P12 Electorales, reutilizar=false | 43036604667 (ídem) | EN_VUELO | 2 / — | 0/1 |
+| 15:14 | Cataluña (paso 1) | P12 Electorales, reutilizar=false | 43036592492 (TERRITORY: 09 Cataluña) | SUCCESS (sin aviso de receipt nuevo) | 1 / — | 0/1 |
+| 15:14 | País Vasco (paso 1) | P12 Electorales, reutilizar=false | 43036604667 (TERRITORY: 16 País Vasco) | SUCCESS | 2 / — | 0/1 |
+| 15:42 | Cataluña (paso 2) | Legislatura prepare_one | 43041056183 | EN_VUELO | 3 / — | 0/1 |
+| 15:42 | País Vasco (paso 2) | P00 Generar desde fuente, motor2, cadena_electoral, sin publicar | 43041060549 | EN_VUELO | 4 / — | 0/1 |
 
 ## Cierre
 Estado: `EN_CURSO`. Último uso: 2026-11-11.
