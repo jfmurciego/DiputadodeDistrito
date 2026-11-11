@@ -4,9 +4,9 @@
   "territory_id": "congreso_lugo",
   "territory_name": "Congreso Lugo",
   "edition": "2025",
-  "run_id": 42514986960,
-  "artifact_name": "ddd-state-42514986960-M08",
-  "artifact_sha256": "34de9aa3f5114bfbf8a395ef4552dcbd8a6e49c6141c72022c5687082e748877",
-  "source_commit": "d9b783f30e7fa6d9f83d62b85ae3035f94f1858a",
+  "run_id": 42995722473,
+  "artifact_name": "ddd-state-42995722473-M08",
+  "artifact_sha256": "67a80acc4ac97a382b42c672d903b427c3ea2f3cae5b20abc45ed68257b1855d",
+  "source_commit": "28f748a7e99ce32be327b385dd78e36e064645a6",
   "stage": "M08"
 }
