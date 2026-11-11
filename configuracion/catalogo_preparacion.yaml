@@ -171,7 +171,7 @@ territories:
         territorial_product: territorios/illes_balears/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/illes_balears/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/illes_balears/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: canarias
   name: Canarias
   editions:
