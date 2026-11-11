@@ -1,0 +1,28 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_madrid",
+ "run_id": "43006307734",
+ "run_territorial": "43001749134",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 3535749,
+ "votos_desajustados": 1023,
+ "pct_desajuste": 0.0289,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "2808002028",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 1023,
+   "secciones_m06": {
+    "2808002027": 1.0
+   },
+   "distritos": {
+    "48": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 2808002027 con la tabla de T-85, fuera del tope D-17"
+  }
+ ]
+}

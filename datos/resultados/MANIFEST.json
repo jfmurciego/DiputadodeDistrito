@@ -1215,6 +1215,22 @@
     "sha256": "17c9cccc6d1dd0173d88bc1c46e150132d292bf352d50d09a83a31933585b09d"
    }
   },
+  "congreso_madrid/43006307734": {
+   "territorio": "congreso_madrid",
+   "run_id": "43006307734",
+   "run_territorial": "43001749134",
+   "sha256_composicion": "fc86747085490b06138423a3cc4c4e97bf2489dd1425e73933a844149465e6c6",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "0e377620918bec766950db1948d85ed0f44842a0810e41e1d5a511b31c1f4be4",
+   "ruta": "datos/resultados/runs/congreso_madrid_43006307734_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0289,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_madrid_43006307734_desajustes.json",
+    "sha256": "958061aa10e53c696e2c2228a945b444531776959b69646ba9207a0b6f437baa"
+   }
+  },
   "congreso_malaga/42495070976": {
    "territorio": "congreso_malaga",
    "run_id": "42495070976",
