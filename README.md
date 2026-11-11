@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T00:58:55.558820+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T01:11:41.130206+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -91,7 +91,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Jaén** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295799269 · SUCCESS | — | — | — |
 | **Nacional León** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41629735636 · SUCCESS | — | — | — |
 | **Nacional Lérida** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299033915 · SUCCESS | — | — | — |
-| **Nacional La Rioja** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42504388624 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional La Rioja** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42932144515 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Lugo** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42514986960 · SUCCESS | — | — | — |
 | **Nacional Madrid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41622703086 · SUCCESS | — | — | — |
 | **Nacional Málaga** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42495070976 · SUCCESS | — | — | — |
