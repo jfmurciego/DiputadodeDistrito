@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T04:06:51.864410+00:00",
+  "generated_at": "2026-11-11T04:07:58.390918+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8639,20 +8639,20 @@
       "name": "Nacional Córdoba",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 42940387433,
+      "run_id": 42953300723,
       "last_run": {
-        "run_id": 42940387433,
+        "run_id": 42953300723,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8693,7 +8693,7 @@
       },
       "autonomous_community_code_ine": "C14",
       "display_name": "Nacional Córdoba",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_la_coruna",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 29,
+    "complete": 30,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12283,6 +12283,7 @@
       "Nacional Baleares",
       "Nacional Barcelona",
       "Nacional Cádiz",
+      "Nacional Córdoba",
       "Nacional La Rioja",
       "Nacional 350 Madrid",
       "Nacional 350 Soria",
@@ -12497,13 +12498,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_alicante",
-    "name": "Nacional Alicante",
-    "display_name": "Nacional Alicante",
-    "autonomous_community_code_ine": "C03",
-    "run_id": 42953235024,
+    "territory_id": "congreso_cordoba",
+    "name": "Nacional Córdoba",
+    "display_name": "Nacional Córdoba",
+    "autonomous_community_code_ine": "C14",
+    "run_id": 42953300723,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
@@ -12550,9 +12551,9 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Córdoba",
-      "territory_id": "congreso_cordoba",
-      "autonomous_community_code_ine": "C14",
+      "territory": "Nacional La Coruña",
+      "territory_id": "congreso_la_coruna",
+      "autonomous_community_code_ine": "C15",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12600,9 +12601,9 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Córdoba",
-      "territory_id": "congreso_cordoba",
-      "autonomous_community_code_ine": "C14",
+      "territory": "Nacional La Coruña",
+      "territory_id": "congreso_la_coruna",
+      "autonomous_community_code_ine": "C15",
       "action": "preparar fuentes electorales"
     }
   ]
