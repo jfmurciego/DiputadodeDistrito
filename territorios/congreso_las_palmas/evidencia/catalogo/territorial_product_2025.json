@@ -4,11 +4,11 @@
   "territory_id": "congreso_las_palmas",
   "territory_name": "Congreso Las Palmas",
   "edition": "2025",
-  "run_id": 41432561787,
-  "artifact_name": "ddd-state-41432561787-M06",
-  "artifact_sha256": "8e630bb7d596cbe361149c4a2e51f27325036b9331e7559e68c8801f6159ad7a",
-  "source_commit": "0b6469ab4d63e540be7b1439c081b7b915c498a8",
+  "run_id": 42940489856,
+  "artifact_name": "ddd-state-42940489856-M06",
+  "artifact_sha256": "b0f830b934071e391255dadb24ec6347dfaa0d46b109f0b1c8c120e10cb54177",
+  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_las_palmas/evidencia/generaciones_m06/41432561787.json"
+  "producer_manifest_path": "territorios/congreso_las_palmas/evidencia/generaciones_m06/42940489856.json"
 }
