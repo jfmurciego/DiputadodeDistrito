@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T12:04:54Z",
+  "actualizado_en": "2026-11-11T12:05:37Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -4114,19 +4114,20 @@
       "territorio": "congreso_palencia",
       "url": "r2://ddd-research-archive/congreso_palencia/42940484559/ddd-minimo-42940484559-M06.zip"
     },
-    "congreso_palencia/43012127687/ddd-minimo-43012127687-M06.zip": {
-      "archivado_en": "2026-11-11T11:50:01Z",
-      "artefacto": "ddd-minimo-43012127687-M06",
-      "artefacto_origen": "ddd-state-43012127687-M06",
-      "artifact_id": 13852760777,
-      "caducidad_original": "2026-11-25T11:46:59Z",
-      "run_id": "43012127687",
-      "sha256": "bd1e8538fbf42ccdbd5cb91ad2f7831914a87cea255329997f4a36f77e00abba",
-      "sha256_estado_original": "7a804725cd719836ffe7cc96848a3879af48cb49856f6ef496b1cdfd9861c38d",
-      "tamano_bytes": 121504,
-      "tamano_estado_original": 77443239,
+    "congreso_palencia/43016085888/ddd-minimo-43016085888-M08.zip": {
+      "archivado_en": "2026-11-11T12:05:37Z",
+      "artefacto": "ddd-minimo-43016085888-M08",
+      "artefacto_origen": "ddd-state-43016085888-M08",
+      "artifact_id": 13852229284,
+      "caducidad_original": "2026-11-25T12:04:34Z",
+      "incluye_m06_run": "43012127687",
+      "run_id": "43016085888",
+      "sha256": "c15de05840cacdc727666641af115b0b967be2f68741f7e07ca1981af701fba3",
+      "sha256_estado_original": "f3b6f957c70a27da6cfeda275b729aae0d6d40bec74556638a988dbd71a0af33",
+      "tamano_bytes": 157258,
+      "tamano_estado_original": 77878402,
       "territorio": "congreso_palencia",
-      "url": "r2://ddd-research-archive/congreso_palencia/43012127687/ddd-minimo-43012127687-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_palencia/43016085888/ddd-minimo-43016085888-M08.zip"
     },
     "congreso_pontevedra/41351964088/ddd-audit-41351964088.zip": {
       "archivado_en": "2026-11-08T12:17:31Z",

@@ -1299,6 +1299,15 @@
    "sha256_csv": "9a5f01dd5d01377cfe816644ef5281a3cec3fea01e3ce60b6df92062ffc3227e",
    "ruta": "datos/resultados/runs/congreso_orense_43016113065_partidos.csv"
   },
+  "congreso_palencia/43016085888": {
+   "territorio": "congreso_palencia",
+   "run_id": "43016085888",
+   "run_territorial": "43012127687",
+   "sha256_composicion": "3a6ce8ce35cdcef4f375975954a5f97a536515b1b6381c0aa69ba79a98128159",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "91cd3798124034c9646d58949acefce52d65e71e7ca1d08a3e8fa8a0cabcc86d",
+   "ruta": "datos/resultados/runs/congreso_palencia_43016085888_partidos.csv"
+  },
   "congreso_santa_cruz_de_tenerife/42519017008": {
    "territorio": "congreso_santa_cruz_de_tenerife",
    "run_id": "42519017008",
