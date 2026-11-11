@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T16:06:29.918806+00:00",
+  "generated_at": "2026-11-11T16:07:36.317237+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7541,20 +7541,20 @@
       "name": "Comunidad Foral de Navarra",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43045437345,
+      "run_id": 43052874017,
       "last_run": {
-        "run_id": 43045437345,
+        "run_id": 43052874017,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7595,7 +7595,7 @@
       },
       "autonomous_community_code_ine": "15",
       "display_name": "15 Comunidad Foral de Navarra",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "pais_vasco",
@@ -7724,20 +7724,20 @@
       "name": "Ceuta",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 43045447315,
+      "run_id": 43052923691,
       "last_run": {
-        "run_id": 43045447315,
+        "run_id": 43052923691,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7778,7 +7778,7 @@
       },
       "autonomous_community_code_ine": "18",
       "display_name": "18 Ceuta",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "melilla",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 68,
+    "complete": 70,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12269,8 +12269,10 @@
       "10 Comunidad Valenciana",
       "11 Extremadura",
       "12 Galicia",
+      "15 Comunidad Foral de Navarra",
       "16 País Vasco",
       "17 La Rioja",
+      "18 Ceuta",
       "19 Melilla",
       "Nacional Álava",
       "Nacional Albacete",
@@ -12536,13 +12538,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "galicia",
-    "name": "Galicia",
-    "display_name": "12 Galicia",
-    "autonomous_community_code_ine": "12",
-    "run_id": 43051951192,
+    "territory_id": "ceuta",
+    "name": "Ceuta",
+    "display_name": "18 Ceuta",
+    "autonomous_community_code_ine": "18",
+    "run_id": 43052923691,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
@@ -12565,18 +12567,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "15 Comunidad Foral de Navarra",
-      "territory_id": "comunidad_foral_de_navarra",
-      "autonomous_community_code_ine": "15",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "18 Ceuta",
-      "territory_id": "ceuta",
-      "autonomous_community_code_ine": "18",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Lérida",
       "territory_id": "congreso_lerida",
       "autonomous_community_code_ine": "C25",
@@ -12592,6 +12582,18 @@
       "territory": "Nacional 350 Albacete",
       "territory_id": "congreso350_albacete",
       "autonomous_community_code_ine": "R02",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Alicante",
+      "territory_id": "congreso350_alicante",
+      "autonomous_community_code_ine": "R03",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Almería",
+      "territory_id": "congreso350_almeria",
+      "autonomous_community_code_ine": "R04",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -12612,18 +12614,6 @@
       "territory": "14 Región de Murcia",
       "territory_id": "region_de_murcia",
       "autonomous_community_code_ine": "14",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "15 Comunidad Foral de Navarra",
-      "territory_id": "comunidad_foral_de_navarra",
-      "autonomous_community_code_ine": "15",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "18 Ceuta",
-      "territory_id": "ceuta",
-      "autonomous_community_code_ine": "18",
       "action": "preparar fuentes electorales"
     },
     {
