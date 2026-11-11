@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13867067382,
+      "artifact_name": "ddd-audit-43041060549",
+      "artifact_sha256": "96345213c22ae89d0ac66ac5efa60c6d31a13bc0abf70e1a6e89faf31e71edf9",
+      "run_id": 43041060549,
+      "size_in_bytes": 15578
+    },
+    "m04": {
+      "artifact_id": 13866821556,
+      "artifact_name": "ddd-state-43041060549-M04",
+      "artifact_sha256": "640e01034b4b837cb61258f0efc36298af8ecd9aa0b2c61e780b702f53d7074f",
+      "run_id": 43041060549,
+      "size_in_bytes": 96339620
+    },
+    "m05": {
+      "artifact_id": 13866123226,
+      "artifact_name": "ddd-state-43041060549-M05",
+      "artifact_sha256": "fb3d5d57e71d1a08acc11b0dfe9a770be7a937c51ccc2d28b128dbba681e3249",
+      "run_id": 43041060549,
+      "size_in_bytes": 100457054
+    },
+    "m06": {
+      "artifact_id": 13866458740,
+      "artifact_name": "ddd-state-43041060549-M06",
+      "artifact_sha256": "ebeb78f02b76f2fc86e8484f04c599b07808873e02e94d42de70ff509adad40d",
+      "run_id": 43041060549,
+      "size_in_bytes": 110994593
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "c725f7e12261584bb3ebe780da98995638b650bec4ea8689d85a5cd6f4330f06",
+        "size_in_bytes": 413
+      },
+      "optimization_execution.json": {
+        "sha256": "345d2eac35e066cd846c26435c251549a555fa9205feb3cd3cf275e7fc5b9563",
+        "size_in_bytes": 664
+      },
+      "pais_vasco_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "30bb3d44272a1ed9e5795a36fd0ea05b28758d81a8f2112108bcd63cccecd0cb",
+        "size_in_bytes": 89473
+      },
+      "production_status.json": {
+        "sha256": "3a88879bfcb82752fe349e6dede53c4d52854e169bd619aeee9329268c0b1f98",
+        "size_in_bytes": 1486
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "3a88879bfcb82752fe349e6dede53c4d52854e169bd619aeee9329268c0b1f98",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/pais_vasco/config/pais_vasco_2025.yaml",
+    "sha256": "6815f944c3583f35bab4af40bc091373580b270324b60d19577a8da9c05e583a"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "d1d4c9b9ff221a998f3a6a763cf55c4855397350118c578ba83fd59e43472f07",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1897822469",
+      "generador": "ponderado",
+      "huella_resultado": "d58f13d19a7e2a7caee5e665ce1c206f25206eebfcbae8eb3dc2816654d8a1b8",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.23619418193962877,
+          "fuera_tolerancia": 9,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.23619418193962877,
+          "fuera_tolerancia": 8,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "e45ccf4120a9c5fbc06e6d25d244225da74d618317842bf08e94932da839be6e",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "e2b213a508881c5d97fcda032ebe857fb90c211c",
+    "edition": "2025",
+    "territory_id": "pais_vasco",
+    "territory_name": "País Vasco",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43041060549,
+    "workflow_sha": "e2b213a508881c5d97fcda032ebe857fb90c211c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13866821556,
+      "artifact_name": "ddd-state-43041060549-M04",
+      "artifact_sha256": "640e01034b4b837cb61258f0efc36298af8ecd9aa0b2c61e780b702f53d7074f",
+      "run_id": 43041060549,
+      "size_in_bytes": 96339620
+    },
+    "source_manifest_sha256": "54b13f0d6329eb30bfb5fedaa8c867aebbe0a3bf99680f6dcbada153e8b84ba8",
+    "source_package_artifact": {
+      "artifact_id": 12929082937,
+      "artifact_name": "ddd-source-package-pais_vasco-2025-40946888676",
+      "artifact_sha256": "c9175d33370e3a9eaf1e32b5b671efb5dc46462ddba7c8db9a6d6ae6d43dd90c",
+      "run_id": 40946888676,
+      "size_in_bytes": 88076378
+    }
+  },
+  "manifest_sha256": "719ff0a9f8bcf990efa1adfd2f77bba748c6b8905305eeed2d570ed0fb016a17",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
