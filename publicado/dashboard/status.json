@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T03:57:50.289951+00:00",
+  "generated_at": "2026-11-11T03:59:22.145012+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7907,20 +7907,20 @@
       "name": "Nacional Albacete",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 42940326013,
+      "run_id": 42952791883,
       "last_run": {
-        "run_id": 42940326013,
+        "run_id": 42952791883,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7961,7 +7961,7 @@
       },
       "autonomous_community_code_ine": "C02",
       "display_name": "Nacional Albacete",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_alicante",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 24,
+    "complete": 25,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12275,6 +12275,7 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
+      "Nacional Albacete",
       "Nacional Almería",
       "Nacional Ávila",
       "Nacional Badajoz",
@@ -12492,13 +12493,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_almeria",
-    "name": "Nacional Almería",
-    "display_name": "Nacional Almería",
-    "autonomous_community_code_ine": "C04",
-    "run_id": 42952468083,
+    "territory_id": "congreso_albacete",
+    "name": "Nacional Albacete",
+    "display_name": "Nacional Albacete",
+    "autonomous_community_code_ine": "C02",
+    "run_id": 42952791883,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
@@ -12518,12 +12519,6 @@
       "territory": "Nacional Álava",
       "territory_id": "congreso_alava",
       "autonomous_community_code_ine": "C01",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Albacete",
-      "territory_id": "congreso_albacete",
-      "autonomous_community_code_ine": "C02",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12548,6 +12543,12 @@
       "territory": "Nacional Burgos",
       "territory_id": "congreso_burgos",
       "autonomous_community_code_ine": "C09",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Cáceres",
+      "territory_id": "congreso_caceres",
+      "autonomous_community_code_ine": "C10",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12571,12 +12572,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Albacete",
-      "territory_id": "congreso_albacete",
-      "autonomous_community_code_ine": "C02",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Alicante",
       "territory_id": "congreso_alicante",
       "autonomous_community_code_ine": "C03",
@@ -12598,6 +12593,12 @@
       "territory": "Nacional Burgos",
       "territory_id": "congreso_burgos",
       "autonomous_community_code_ine": "C09",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Cáceres",
+      "territory_id": "congreso_caceres",
+      "autonomous_community_code_ine": "C10",
       "action": "preparar fuentes electorales"
     }
   ]
