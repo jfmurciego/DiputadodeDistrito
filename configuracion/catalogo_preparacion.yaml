@@ -657,8 +657,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 43003614878
-        stage: M06
+        run_id: 43007066596
+        stage: M08
       preparation_evidence:
         run_id: 40850322464
         artifact_name: ddd-source-package-la_rioja-2025-40850322464
