@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13823183110,
+      "artifact_name": "ddd-audit-42940468939",
+      "artifact_sha256": "f5a22e941947f9f87b12a8029cb131da9ae294825a77f73d7140c6b54b190e00",
+      "run_id": 42940468939,
+      "size_in_bytes": 3823
+    },
+    "m04": {
+      "artifact_id": 13821559938,
+      "artifact_name": "ddd-state-42940468939-M04",
+      "artifact_sha256": "3d742b173e14ff57230a8931cfacf2380f7a3ee966d1ab5209a98498e5c0bd31",
+      "run_id": 42940468939,
+      "size_in_bytes": 97481893
+    },
+    "m05": {
+      "artifact_id": 13822313620,
+      "artifact_name": "ddd-state-42940468939-M05",
+      "artifact_sha256": "4fe7719c729b1cd7e410ddb94d7446cd13c54ed12f7535052eb4dc4795eb6681",
+      "run_id": 42940468939,
+      "size_in_bytes": 101846869
+    },
+    "m06": {
+      "artifact_id": 13822184364,
+      "artifact_name": "ddd-state-42940468939-M06",
+      "artifact_sha256": "9cc6d17ad3cada9b24eaa052d5902bff701c2a35d2e33769a7a8b5ebd2896f0f",
+      "run_id": 42940468939,
+      "size_in_bytes": 111533230
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "b50053d025cde476b9e14729308666012d8a6b0ff04abb0b62b268734daad57b",
+        "size_in_bytes": 406
+      },
+      "congreso_navarra_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "e0ce9363900138cf66bf4bf36370189af69418f924729d862d6f07a69bbcdb17",
+        "size_in_bytes": 8560
+      },
+      "optimization_execution.json": {
+        "sha256": "1c0774782710c46e938d9bb2e9e56b3c45c1e31850683acb8ce39dcb01f00132",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "9102830657afcb3ee168ff44454c4eb2c11fe2cc89912a32c8d3efbc9811eeb5",
+        "size_in_bytes": 1499
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "9102830657afcb3ee168ff44454c4eb2c11fe2cc89912a32c8d3efbc9811eeb5",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_navarra/config/congreso_navarra_2025.yaml",
+    "sha256": "ab9d8a24ab8009fc9548c6f7acda0d605901a3ce77e1d4b7c3adcb8ecf11e77e"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "056e87611b99f41c5a2b0ad3ea371ec4176cf65682fe0cdeb36d945fe3117c74",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1539610584",
+      "generador": "ponderado",
+      "huella_resultado": "9d8b7744b3c52d2ec5ecc348a46f2fe07f0d70930a3016c48450771d73274392",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.07928379614820986,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.07928379614820986,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "b24051b5c62a1e551093c2bad09b341498587bcd0c51fe81f3d913baaa103e18",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_navarra",
+    "territory_name": "Congreso Navarra",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940468939,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13821559938,
+      "artifact_name": "ddd-state-42940468939-M04",
+      "artifact_sha256": "3d742b173e14ff57230a8931cfacf2380f7a3ee966d1ab5209a98498e5c0bd31",
+      "run_id": 42940468939,
+      "size_in_bytes": 97481893
+    },
+    "source_manifest_sha256": "e152893fb156a5b8d21497400a77b0c8b381b0d748177abb67da3b6641d7c802",
+    "source_package_artifact": {
+      "artifact_id": 13078209739,
+      "artifact_name": "ddd-source-package-congreso_navarra-2025-41292721581",
+      "artifact_sha256": "ed6564695ea6f9ba3c2c7f1e0b177608c2704fe2a1d4b5b58ab95fdfaed3d9ac",
+      "run_id": 41292721581,
+      "size_in_bytes": 88751928
+    }
+  },
+  "manifest_sha256": "7d19fd9852584688930200859e05766f4c7310da1ec0c7757d7d05c849801127",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

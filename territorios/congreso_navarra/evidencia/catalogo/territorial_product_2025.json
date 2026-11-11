@@ -4,11 +4,11 @@
   "territory_id": "congreso_navarra",
   "territory_name": "Congreso Navarra",
   "edition": "2025",
-  "run_id": 41292721581,
-  "artifact_name": "ddd-state-41292721581-M06",
-  "artifact_sha256": "7402db8c693ad24041843f1402898b326fcf55bf4e66fd449303c9ae5ea76a89",
-  "source_commit": "c6f4e96198e1c10e7acf1b9ecd7739e380cd8b53",
+  "run_id": 42940468939,
+  "artifact_name": "ddd-state-42940468939-M06",
+  "artifact_sha256": "9cc6d17ad3cada9b24eaa052d5902bff701c2a35d2e33769a7a8b5ebd2896f0f",
+  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_navarra/evidencia/generaciones_m06/41292721581.json"
+  "producer_manifest_path": "territorios/congreso_navarra/evidencia/generaciones_m06/42940468939.json"
 }
