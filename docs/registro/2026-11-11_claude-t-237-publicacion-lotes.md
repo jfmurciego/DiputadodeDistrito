@@ -7,6 +7,8 @@
   y describe TODOS los runs antes de crear ningún blob: si uno falla no se registra ninguno y el error dice cuál.
   Después, un candidato, un despliegue y un commit. P50 3.6.0: solo cabecera y texto del campo; la puerta
   `produccion` no cambia. Con un id, mismas rutas y pasos que antes.
-- Pruebas: `tests/test_t237_publicacion_lotes.py` (19: lista válida, separadores, id único idéntico, vacía, inválido,
+- Pruebas: `tests/test_t237_publicacion_lotes.py` (23, con `gh` y `python` falsos en Acreditar y Validar: lista válida, separadores, id único idéntico, vacía, inválido,
   duplicado, territorio repetido, 350, pasos reales del workflow con `gh` falso, orden validar→blob, puerta intacta).
 - Límites: en lote la evidencia es `publicacion_visor_<run>.json` por run (el informe de la 00 sigue leyendo la de un id).
+- Límite: la comprobación de identidad ya registrada (`candidate`) sigue tras crear los blobs, como antes; si falla quedan
+  blobs huérfanos, pero no se escribe el registro ni hay commit.

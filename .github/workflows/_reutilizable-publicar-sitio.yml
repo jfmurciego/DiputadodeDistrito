@@ -576,11 +576,13 @@ jobs:
           mkdir -p .ddd-publication
           if [[ -n "$PRODUCTION_RUN_ID" && -f .ddd-publication/lote.sh ]]; then
             source .ddd-publication/lote.sh
+            fallos=()
             for run in "${LOTE[@]}"; do
               args=(--requested-run-id "$run" --registry /tmp/site-candidate/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output "$(evidencia_run "$run")")
               [[ -d "$(raiz_run "$run")" ]] && args+=(--production-root "$(raiz_run "$run")")
-              python herramientas/evaluar_publicacion_visor.py "${args[@]}"
+              python herramientas/evaluar_publicacion_visor.py "${args[@]}" || fallos+=("$run")
             done
+            (( ${#fallos[@]} == 0 )) || { echo "::error::Evidencia final fallida para ${fallos[*]}"; exit 1; }
           else
             args=(--requested-run-id "$PRODUCTION_RUN_ID" --registry /tmp/site-candidate/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output .ddd-publication/publicacion_visor.json)
             python herramientas/evaluar_publicacion_visor.py "${args[@]}"

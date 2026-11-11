@@ -107,8 +107,8 @@ class DescriptoresDelLote(unittest.TestCase):
         self.assertFalse((tmp / "todo.json").exists())
 
 
-class PasosDelPublicador(unittest.TestCase):
-    """Ejecuta los pasos reales del workflow con un `gh` falso."""
+class _Entorno(unittest.TestCase):
+    """Directorio temporal con `gh` falso para ejecutar los pasos reales del workflow."""
 
     def setUp(self):
         self.tmp = Path(tempfile.mkdtemp())
@@ -144,6 +144,8 @@ mkdir -p "$7/ddd-x" && echo ok > "$7/ddd-x/f"
         r = self._bash("source .ddd-publication/lote.sh; for r in \"${LOTE[@]}\"; do echo \"$r $(raiz_run $r) $(evidencia_run $r)\"; done", run_ids)
         return r.stdout.split("\n")[:-1]
 
+
+class PasosDelPublicador(_Entorno):
     def test_id_unico_mismas_rutas_que_antes(self):
         r = self._normalizar_y_descargar("42531122768")
         self.assertEqual(r.returncode, 0, r.stderr)
@@ -172,6 +174,63 @@ mkdir -p "$7/ddd-x" && echo ok > "$7/ddd-x/f"
         r = self._normalizar_y_descargar(" , ")
         self.assertNotEqual(r.returncode, 0)
         self.assertIn("LOTE_VACIO", r.stdout)
+
+
+class AcreditarYDescribirTodoONada(_Entorno):
+    """Pasos Acreditar y Validar descriptores con un `python` falso que rechaza el run 202."""
+
+    def setUp(self):
+        super().setUp()
+        self.llamadas = self.tmp / "python.log"
+        fake = self.bin / "python"
+        fake.write_text(f"""#!/usr/bin/env bash
+echo "$*" >> {self.llamadas}
+args=" $* "
+if [[ "$args" == *" merge-descriptors "* ]]; then exec {sys.executable} "$@"; fi
+run=""; out=""; prev=""
+for a in "$@"; do
+  [[ "$prev" == --requested-run-id || "$prev" == --run-id ]] && run="$a"
+  [[ "$prev" == --output ]] && out="$a"
+  prev="$a"
+done
+[[ "$run" == 202 ]] && {{ echo "Publicación bloqueada: run $run sin M06 certificado" >&2; exit 1; }}
+if [[ "$args" == *" describe-production "* ]]; then
+  printf '[{{"id": "m08-t%s-%s", "territory_id": "t%s", "run_id": "%s"}}]' "$run" "$run" "$run" "$run" > "$out"
+fi
+""", encoding="utf-8")
+        fake.chmod(fake.stat().st_mode | stat.S_IEXEC)
+        self.descriptores = self.tmp / "product-descriptors.json"
+
+    def _paso(self, nombre, ids):
+        self.assertEqual(self._bash(_step("Normalizar lote de ejecuciones solicitadas").replace(
+            "python herramientas", f"{sys.executable} herramientas"), ids).returncode, 0)
+        script = _step(nombre).replace("/tmp/product-descriptors", str(self.tmp / "product-descriptors"))
+        return self._bash(script, ids)
+
+    def test_acreditar_evalua_todos_y_nombra_el_que_falla(self):
+        r = self._paso("Acreditar identidad de la ejecución descargada", "101 202 303")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("LOTE_RECHAZADO: no acreditan 202", r.stdout)
+        self.assertIn("run 202 sin M06", r.stderr)
+        self.assertIn("--requested-run-id 303", self.llamadas.read_text(encoding="utf-8"))
+
+    def test_descriptor_fallido_no_deja_lista_para_promover(self):
+        r = self._paso("Validar descriptores de todo el lote antes de escribir", "101 202 303")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("sin producto publicable en 202", r.stdout)
+        self.assertFalse(self.descriptores.exists())
+
+    def test_lote_valido_une_descriptores(self):
+        r = self._paso("Validar descriptores de todo el lote antes de escribir", "101 303")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual([d["run_id"] for d in json.loads(self.descriptores.read_text(encoding="utf-8"))], ["101", "303"])
+
+    def test_un_id_mismos_argumentos_que_antes(self):
+        r = self._paso("Acreditar identidad de la ejecución descargada", "101")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(self.llamadas.read_text(encoding="utf-8").split("\n")[-2],
+                         f"herramientas/evaluar_publicacion_visor.py --requested-run-id 101 --production-root {self.prod} "
+                         "--phase source --output .ddd-publication/publicacion_visor.json --strict-request")
 
 
 class Estructura(unittest.TestCase):
