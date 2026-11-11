@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T16:07:36.317237+00:00",
+  "generated_at": "2026-11-11T16:13:51.416877+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7464,10 +7464,10 @@
           "territory_id": "madrid",
           "territory_name": "Comunidad de Madrid",
           "edition": "2025",
-          "run_id": 41046373806,
-          "artifact_name": "ddd-state-41046373806-M08",
-          "artifact_sha256": "79a2be39285998a4477d3701984508a43806292d0ea0d0282533e73dfb6adbaf",
-          "source_commit": "a0c0f03c9baa9a49494fd55aba2c9be6b6124972",
+          "run_id": 43053498550,
+          "artifact_name": "ddd-state-43053498550-M08",
+          "artifact_sha256": "0572aae6f11797a09e2c9cb9a40cd17c94c793d0369ecf9b3e70f9d03986e7dc",
+          "source_commit": "aa9a78955d4f91013be40efdd1fe25e1fba80e0c",
           "stage": "M08"
         }
       },
@@ -7480,20 +7480,20 @@
       "name": "Región de Murcia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43045426513,
+      "run_id": 43053208175,
       "last_run": {
-        "run_id": 43045426513,
+        "run_id": 43053208175,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7534,7 +7534,7 @@
       },
       "autonomous_community_code_ine": "14",
       "display_name": "14 Región de Murcia",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "comunidad_foral_de_navarra",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 70,
+    "complete": 71,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12269,6 +12269,7 @@
       "10 Comunidad Valenciana",
       "11 Extremadura",
       "12 Galicia",
+      "14 Región de Murcia",
       "15 Comunidad Foral de Navarra",
       "16 País Vasco",
       "17 La Rioja",
@@ -12538,13 +12539,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "ceuta",
-    "name": "Ceuta",
-    "display_name": "18 Ceuta",
-    "autonomous_community_code_ine": "18",
-    "run_id": 43052923691,
+    "territory_id": "region_de_murcia",
+    "name": "Región de Murcia",
+    "display_name": "14 Región de Murcia",
+    "autonomous_community_code_ine": "14",
+    "run_id": 43053208175,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
@@ -12558,12 +12559,6 @@
       "territory": "13 Comunidad de Madrid",
       "territory_id": "madrid",
       "autonomous_community_code_ine": "13",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "14 Región de Murcia",
-      "territory_id": "region_de_murcia",
-      "autonomous_community_code_ine": "14",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12595,6 +12590,12 @@
       "territory_id": "congreso350_almeria",
       "autonomous_community_code_ine": "R04",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Ávila",
+      "territory_id": "congreso350_avila",
+      "autonomous_community_code_ine": "R05",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12608,12 +12609,6 @@
       "territory": "13 Comunidad de Madrid",
       "territory_id": "madrid",
       "autonomous_community_code_ine": "13",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "14 Región de Murcia",
-      "territory_id": "region_de_murcia",
-      "autonomous_community_code_ine": "14",
       "action": "preparar fuentes electorales"
     },
     {
