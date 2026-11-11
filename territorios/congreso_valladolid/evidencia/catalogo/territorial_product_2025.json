@@ -4,11 +4,11 @@
   "territory_id": "congreso_valladolid",
   "territory_name": "Congreso Valladolid",
   "edition": "2025",
-  "run_id": 42940553251,
-  "artifact_name": "ddd-state-42940553251-M06",
-  "artifact_sha256": "8e662200c82210039b5b1189cbd35c751d4c9d8f092c155278c6065648fb37c8",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43034949749,
+  "artifact_name": "ddd-state-43034949749-M06",
+  "artifact_sha256": "f70bf7c19c8b9c1d7ad0506076abafd86138f4f50d7c75f638a1429a91719862",
+  "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_valladolid/evidencia/generaciones_m06/42940553251.json"
+  "producer_manifest_path": "territorios/congreso_valladolid/evidencia/generaciones_m06/43034949749.json"
 }
