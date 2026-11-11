@@ -1165,6 +1165,15 @@
     "sha256": "d8b144db6c4876a0a7c3d6a59b152ebc0415f2964b61bb5834875e9f7a3cd858"
    }
   },
+  "congreso_leon/42996717873": {
+   "territorio": "congreso_leon",
+   "run_id": "42996717873",
+   "run_territorial": "42991571678",
+   "sha256_composicion": "d7f4c500ca83bd70b99d42a1006cdbf56454a0d60f927b88a369502c2dce3869",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "e2901b733f30f9262fb9697c704a2f166257348b0438d039470d8318e2ac1e6b",
+   "ruta": "datos/resultados/runs/congreso_leon_42996717873_partidos.csv"
+  },
   "congreso_lugo/42514986960": {
    "territorio": "congreso_lugo",
    "run_id": "42514986960",
