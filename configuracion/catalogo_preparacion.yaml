@@ -167,7 +167,7 @@ territories:
         source_commit: 2d29dc4536e23c35ec9f2eb594fc5b8021b77cd1
       evidence:
         electoral_source: territorios/illes_balears/evidencia/fuentes_electorales/2025/b66076b1a479a6ef255f0460de34adf8274e0b307bd9e18c350ef85d24292437/40955056606/receipt.json
-        prepared_source_pair: territorios/illes_balears/evidencia/pares_fuentes/2025/14766c46e536bfcfb9a6461047f5d4cea0b20d4cdb479fc8493870381fbd1a1c.json
+        prepared_source_pair: territorios/illes_balears/evidencia/pares_fuentes/2025/2a8ec31fdd7b769abc01cfa4cbedaa2a7b743327f173184cd85d2433d89de4eb.json
         territorial_product: territorios/illes_balears/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/illes_balears/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/illes_balears/evidencia/catalogo/generation_preflight_2025.json
