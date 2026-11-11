@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T12:11:52Z",
+  "actualizado_en": "2026-11-11T12:13:26Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -4401,6 +4401,20 @@
       "tamano_estado_original": 104029948,
       "territorio": "congreso_santa_cruz_de_tenerife",
       "url": "r2://ddd-research-archive/congreso_santa_cruz_de_tenerife/42940505848/ddd-minimo-42940505848-M06.zip"
+    },
+    "congreso_santa_cruz_de_tenerife/43012151677/ddd-minimo-43012151677-M06.zip": {
+      "archivado_en": "2026-11-11T12:13:26Z",
+      "artefacto": "ddd-minimo-43012151677-M06",
+      "artefacto_origen": "ddd-state-43012151677-M06",
+      "artifact_id": 13852464888,
+      "caducidad_original": "2026-11-25T12:09:48Z",
+      "run_id": "43012151677",
+      "sha256": "5ddb73c07e7764b3e69e20a6faf750aea23bb9d2f7e8735dd4c935abdbece14c",
+      "sha256_estado_original": "e15c9fea0a834780388896683dfc0eabda6af191a413b346e4f9b9154bc624aa",
+      "tamano_bytes": 1240101,
+      "tamano_estado_original": 104029957,
+      "territorio": "congreso_santa_cruz_de_tenerife",
+      "url": "r2://ddd-research-archive/congreso_santa_cruz_de_tenerife/43012151677/ddd-minimo-43012151677-M06.zip"
     },
     "congreso_segovia/41235620157/ddd-audit-41235620157.zip": {
       "archivado_en": "2026-11-08T12:06:46Z",
