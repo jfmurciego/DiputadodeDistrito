@@ -1316,6 +1316,13 @@
    "sha256_csv": "33b0bc74987e53ee60ec0eec8dfeb00b23268b1850939459e68266fff9145ac0",
    "ruta": "datos/composicion/runs/congreso_orense_42940474219.csv"
   },
+  "congreso_orense/43012119307": {
+   "territorio": "congreso_orense",
+   "run_id": "43012119307",
+   "secciones": 257,
+   "sha256_csv": "33b0bc74987e53ee60ec0eec8dfeb00b23268b1850939459e68266fff9145ac0",
+   "ruta": "datos/composicion/runs/congreso_orense_43012119307.csv"
+  },
   "congreso_palencia/42940484559": {
    "territorio": "congreso_palencia",
    "run_id": "42940484559",
