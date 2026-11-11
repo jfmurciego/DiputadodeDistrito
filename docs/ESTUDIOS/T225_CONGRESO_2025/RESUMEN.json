@@ -1,0 +1,1074 @@
+{
+ "schema": "ddd.t225-resumen/1.0",
+ "fecha": "2026-11-11",
+ "nota": "Ejecución local en la sesión (no es un run de Actions): adquisición OGC INE Secciones_2025 + 65034 (inputs/partes), materialización del contrato, M01-M03; motor canónico M05 7.4.4 con herramientas/bateria_motor.py; competición ddd_motor2.competir D8 N=10.",
+ "territorios": {
+  "congreso_alava": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 240,
+    "edges": 624
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.1483,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_albacete": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 296,
+    "edges": 792
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0036,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_alicante": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 1238,
+    "edges": 3365
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.1495,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 2
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.1274
+  },
+  "congreso_almeria": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 469,
+    "edges": 1257
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0015,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.1225
+  },
+  "congreso_asturias": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 826,
+    "edges": 2282
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.1172,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 2
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.5589
+  },
+  "congreso_avila": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 308,
+    "edges": 841
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.9516
+  },
+  "congreso_badajoz": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 553,
+    "edges": 1440
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0156,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_baleares": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 674,
+    "edges": 1728
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.3684,
+     "fuera_tolerancia": 1,
+     "tolerancia": 0.28,
+     "municipios_partidos": null
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0542
+  },
+  "congreso_barcelona": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 3652,
+    "edges": 10209
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.226,
+     "fuera_tolerancia": 1,
+     "tolerancia": 0.15,
+     "municipios_partidos": 5
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_burgos": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 577,
+    "edges": 1565
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0003,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 1.7023
+  },
+  "congreso_caceres": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 411,
+    "edges": 1121
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0025,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.1668
+  },
+  "congreso_cadiz": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 923,
+    "edges": 2467
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.1847,
+     "fuera_tolerancia": 1,
+     "tolerancia": 0.16,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.2449
+  },
+  "congreso_cantabria": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 458,
+    "edges": 1233
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0018,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.2114
+  },
+  "congreso_castellon": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 447,
+    "edges": 1193
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0034,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_ceuta": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 56,
+    "edges": 135
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_ciudad_real": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 418,
+    "edges": 1168
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0527,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.1477
+  },
+  "congreso_cordoba": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 622,
+    "edges": 1697
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0633,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_cuenca": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 310,
+    "edges": 850
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_gerona": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 536,
+    "edges": 1422
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.009,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_granada": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 674,
+    "edges": 1879
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0053,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_guadalajara": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 406,
+    "edges": 1110
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_guipuzcoa": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 544,
+    "edges": 1472
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.1023,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.3421
+  },
+  "congreso_huelva": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 374,
+    "edges": 1021
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0674,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_huesca": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 287,
+    "edges": 794
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0001,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_jaen": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 498,
+    "edges": 1272
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0038,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.6353
+  },
+  "congreso_la_coruna": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 878,
+    "edges": 2307
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.033,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.3087
+  },
+  "congreso_la_rioja": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 343,
+    "edges": 924
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0005,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.1364
+  },
+  "congreso_las_palmas": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 723,
+    "edges": 1896
+   },
+   "canonico": {
+    "estado": "FALLO_M04",
+    "validacion": "FAIL",
+    "fallos": [
+     "falta salida secciones: /home/user/DiputadodeDistrito/territorios/congreso_las_palmas/.cache/ddd/preparacion/congreso_las_palmas_2025/congreso_las_palmas_2025_m06_secciones.geojson.zip",
+     "falta salida distritos: /home/user/DiputadodeDistrito/territorios/congreso_las_palmas/.cache/ddd/preparacion/congreso_las_palmas_2025/congreso_las_palmas_2025_m06_distritos.geojson.zip",
+     "falta salida resumen: /home/user/DiputadodeDistrito/territorios/congreso_las_palmas/.cache/ddd/preparacion/congreso_las_palmas_2025/congreso_las_palmas_2025_m06_resumen_distritos.csv"
+    ],
+    "metricas": {}
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_leon": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 444,
+    "edges": 1240
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.1079,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.5242
+  },
+  "congreso_lerida": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 387,
+    "edges": 1040
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0074,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.2954
+  },
+  "congreso_lugo": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 273,
+    "edges": 733
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0041,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.7796
+  },
+  "congreso_madrid": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 4518,
+    "edges": 12410
+   },
+   "canonico": {
+    "estado": "FALLO_M04",
+    "validacion": "FAIL",
+    "fallos": [
+     "falta salida secciones: /home/user/DiputadodeDistrito/territorios/congreso_madrid/.cache/ddd/preparacion/congreso_madrid_2025/congreso_madrid_2025_m06_secciones.geojson.zip",
+     "falta salida distritos: /home/user/DiputadodeDistrito/territorios/congreso_madrid/.cache/ddd/preparacion/congreso_madrid_2025/congreso_madrid_2025_m06_distritos.geojson.zip",
+     "falta salida resumen: /home/user/DiputadodeDistrito/territorios/congreso_madrid/.cache/ddd/preparacion/congreso_madrid_2025/congreso_madrid_2025_m06_resumen_distritos.csv"
+    ],
+    "metricas": {}
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0665
+  },
+  "congreso_malaga": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 1092,
+    "edges": 2981
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "FAIL",
+    "fallos": [
+     "distritos sobre límite poblacional=1"
+    ],
+    "metricas": {
+     "desvio_max": 0.3704,
+     "fuera_tolerancia": 1,
+     "tolerancia": 0.15,
+     "municipios_partidos": 2
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_melilla": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 44,
+    "edges": 105
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_murcia": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 1224,
+    "edges": 3423
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.6907,
+     "fuera_tolerancia": 1,
+     "tolerancia": 0.15,
+     "municipios_partidos": 2
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.107
+  },
+  "congreso_navarra": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 582,
+    "edges": 1541
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0774,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.2299
+  },
+  "congreso_orense": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 256,
+    "edges": 695
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0378,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.2207
+  },
+  "congreso_palencia": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 273,
+    "edges": 744
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 1.6513
+  },
+  "congreso_pontevedra": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 727,
+    "edges": 1927
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.26,
+     "fuera_tolerancia": 1,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_salamanca": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 530,
+    "edges": 1496
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0004,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.8508
+  },
+  "congreso_santa_cruz_de_tenerife": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 684,
+    "edges": 1791
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.1228,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": null
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0662
+  },
+  "congreso_segovia": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 276,
+    "edges": 745
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.7592
+  },
+  "congreso_sevilla": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 1377,
+    "edges": 3822
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.1343,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 2
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_soria": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 218,
+    "edges": 572
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_tarragona": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 568,
+    "edges": 1532
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.1454,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.172
+  },
+  "congreso_teruel": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 284,
+    "edges": 715
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.0
+  },
+  "congreso_toledo": {
+   "m01_m03": "FALLO_M01",
+   "m03": null,
+   "canonico": null,
+   "votos_zip_sin_seccion_2025_pct": 0.1026
+  },
+  "congreso_valencia": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 1830,
+    "edges": 5104
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.1304,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.2903
+  },
+  "congreso_valladolid": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 565,
+    "edges": 1556
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.1424,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.1299
+  },
+  "congreso_vizcaya": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 923,
+    "edges": 2493
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0599,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.7599
+  },
+  "congreso_zamora": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 315,
+    "edges": 851
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.0,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 0
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 1.2316
+  },
+  "congreso_zaragoza": {
+   "m01_m03": "OK",
+   "m03": {
+    "nodes": 892,
+    "edges": 2450
+   },
+   "canonico": {
+    "estado": "OK",
+    "validacion": "PASS",
+    "fallos": [],
+    "metricas": {
+     "desvio_max": 0.1114,
+     "fuera_tolerancia": 0,
+     "tolerancia": 0.15,
+     "municipios_partidos": 1
+    }
+   },
+   "votos_zip_sin_seccion_2025_pct": 0.1478
+  }
+ },
+ "competicion": {
+  "totales": {
+   "territorios": 3,
+   "validos": 1,
+   "mejora": 0,
+   "empata": 3,
+   "empeora": 0,
+   "vigente_compite": 0,
+   "peor_que_el_vigente": [],
+   "sin_comparacion_vigente": {
+    "congreso_soria": "vigente excluido: otro seccionado (congreso_soria.csv): 2 secciones de la entrada sin distrito vigente, 0 del vigente que no están en la entrada",
+    "congreso_las_palmas": "el vigente se monta sobre las filas del canónico y no las hay",
+    "congreso_madrid": "el vigente se monta sobre las filas del canónico y no las hay"
+   },
+   "errores": [
+    "congreso_las_palmas",
+    "congreso_madrid"
+   ],
+   "tiempo_total_s": 281.6,
+   "tiempo_mediana_s": 5.1,
+   "tiempo_max_s": 273.1,
+   "aceptacion": false
+  },
+  "territorios": [
+   {
+    "territorio": "congreso_soria",
+    "estado": "VALIDO",
+    "ganador": "canonico",
+    "valido": true,
+    "frente_al_canonico": "empata",
+    "canonico": "VALIDO",
+    "candidatos_validos": 2,
+    "candidatos": 12,
+    "desvio_max": 0.0,
+    "desvio_max_canonico": 0.0,
+    "fuera_tolerancia": 0,
+    "huella_resultado": "4aaeb80ff4fdf2c1b0a656f716f464a4746e52b77d3fdf4e92fe5bc7a6294239",
+    "tiempo_s": 5.1,
+    "funcion": "D8",
+    "vigente": "FALLO_GENERADOR",
+    "vigente_compite": false,
+    "vigente_detalle": "vigente excluido: otro seccionado (congreso_soria.csv): 2 secciones de la entrada sin distrito vigente, 0 del vigente que no están en la entrada",
+    "vigente_reparado": null,
+    "fuera_vigente_publicado": null,
+    "frente_al_vigente": ""
+   },
+   {
+    "territorio": "congreso_las_palmas",
+    "estado": "FALLO_GENERADOR",
+    "ganador": "canonico",
+    "valido": false,
+    "frente_al_canonico": "empata",
+    "canonico": "FALLO_GENERADOR",
+    "candidatos_validos": 0,
+    "candidatos": 11,
+    "desvio_max": null,
+    "desvio_max_canonico": null,
+    "fuera_tolerancia": null,
+    "huella_resultado": "bfa5a64263c1941023b9e0016f16504558d3b6fb1d68d7181b9c6f69c74698d5",
+    "tiempo_s": 3.4,
+    "funcion": "D8",
+    "vigente": "FALLO_GENERADOR",
+    "vigente_compite": false,
+    "vigente_detalle": "el vigente se monta sobre las filas del canónico y no las hay",
+    "vigente_reparado": null,
+    "fuera_vigente_publicado": null,
+    "frente_al_vigente": ""
+   },
+   {
+    "territorio": "congreso_madrid",
+    "estado": "FALLO_GENERADOR",
+    "ganador": "canonico",
+    "valido": false,
+    "frente_al_canonico": "empata",
+    "canonico": "FALLO_GENERADOR",
+    "candidatos_validos": 0,
+    "candidatos": 11,
+    "desvio_max": null,
+    "desvio_max_canonico": null,
+    "fuera_tolerancia": null,
+    "huella_resultado": "252ee1e6aee273c1d96711a07c919f95a216bfd11ce58248d38a34ff7323f2cd",
+    "tiempo_s": 273.1,
+    "funcion": "D8",
+    "vigente": "FALLO_GENERADOR",
+    "vigente_compite": false,
+    "vigente_detalle": "el vigente se monta sobre las filas del canónico y no las hay",
+    "vigente_reparado": null,
+    "fuera_vigente_publicado": null,
+    "frente_al_vigente": ""
+   }
+  ]
+ }
+}
