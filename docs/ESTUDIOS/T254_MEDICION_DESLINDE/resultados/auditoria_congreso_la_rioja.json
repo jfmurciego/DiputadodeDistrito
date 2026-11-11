@@ -1,0 +1,98 @@
+{
+  "schema": "ddd.geometric-components-audit/2.0",
+  "tool_version": "2.0.1",
+  "decision": "PASS",
+  "gate_statement": "3 distritos evaluados / 3 PASS / 0 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+  "source": "/home/user/DiputadodeDistrito/territorios/congreso_la_rioja/.cache/ddd/preparacion/congreso_la_rioja_2025/congreso_la_rioja_2025_m06_secciones.geojson.zip",
+  "contract_path": "territorios/congreso_la_rioja/config/congreso_la_rioja_2025.yaml",
+  "contract_sha256": "b1cb69655fe716b5ceb185dcf7607ef83dd18d198775bf514a8642b4637a19e8",
+  "working_crs": "EPSG:3035",
+  "section_field": "CUSEC_KEY",
+  "district_field": "district_id",
+  "section_count": 343,
+  "district_count": 3,
+  "expected_districts": 3,
+  "expected_districts_ok": true,
+  "connected_districts": 3,
+  "governed_exceptions": 0,
+  "blocked_districts": 0,
+  "policy_mismatches": 0,
+  "contract_blockers": [],
+  "districts": [
+    {
+      "district_id": "0",
+      "decision": "PASS",
+      "section_count": 79,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "650ec942991b56eed7a2c2deb8279f30c41073200aa2a17fe6420134242209d0",
+      "contract_sha256": "b1cb69655fe716b5ceb185dcf7607ef83dd18d198775bf514a8642b4637a19e8",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 59759288.6621622,
+          "area_share": 1.0,
+          "geometry_sha256": "650ec942991b56eed7a2c2deb8279f30c41073200aa2a17fe6420134242209d0",
+          "bounds": [
+            3291687.4033285887,
+            2231047.638435865,
+            3307427.7822421463,
+            2242680.891840079
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "1",
+      "decision": "PASS",
+      "section_count": 152,
+      "component_count": 1,
+      "interior_ring_count": 2,
+      "geometry_sha256": "e4d9ccfc8c5317f84830bd13ae7d036d34208a9c4c2a1101dc1fb9ad5f5a3489",
+      "contract_sha256": "b1cb69655fe716b5ceb185dcf7607ef83dd18d198775bf514a8642b4637a19e8",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 2250496365.796298,
+          "area_share": 1.0,
+          "geometry_sha256": "e4d9ccfc8c5317f84830bd13ae7d036d34208a9c4c2a1101dc1fb9ad5f5a3489",
+          "bounds": [
+            3239063.5041679963,
+            2191936.1484760595,
+            3298891.1779233143,
+            2263898.159274289
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "2",
+      "decision": "PASS",
+      "section_count": 112,
+      "component_count": 1,
+      "interior_ring_count": 1,
+      "geometry_sha256": "409002a70e37730db8a90c07db2d5fb28dc3a0bf3d0d36a396319b0fcc4fb85f",
+      "contract_sha256": "b1cb69655fe716b5ceb185dcf7607ef83dd18d198775bf514a8642b4637a19e8",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 2717295156.00101,
+          "area_share": 1.0,
+          "geometry_sha256": "409002a70e37730db8a90c07db2d5fb28dc3a0bf3d0d36a396319b0fcc4fb85f",
+          "bounds": [
+            3266478.835802627,
+            2169557.143955374,
+            3357211.0508869803,
+            2234626.8791217757
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    }
+  ]
+}

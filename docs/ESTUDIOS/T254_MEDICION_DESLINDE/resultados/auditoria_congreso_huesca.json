@@ -1,0 +1,73 @@
+{
+  "schema": "ddd.geometric-components-audit/2.0",
+  "tool_version": "2.0.1",
+  "decision": "PASS",
+  "gate_statement": "2 distritos evaluados / 2 PASS / 0 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+  "source": "/home/user/DiputadodeDistrito/territorios/congreso_huesca/.cache/ddd/preparacion/congreso_huesca_2025/congreso_huesca_2025_m06_secciones.geojson.zip",
+  "contract_path": "territorios/congreso_huesca/config/congreso_huesca_2025.yaml",
+  "contract_sha256": "ab5b5da615a30737f2337ac50978016d23cad6e5ac8cf7d549ea904b631f441b",
+  "working_crs": "EPSG:3035",
+  "section_field": "CUSEC_KEY",
+  "district_field": "district_id",
+  "section_count": 286,
+  "district_count": 2,
+  "expected_districts": 2,
+  "expected_districts_ok": true,
+  "connected_districts": 2,
+  "governed_exceptions": 0,
+  "blocked_districts": 0,
+  "policy_mismatches": 0,
+  "contract_blockers": [],
+  "districts": [
+    {
+      "district_id": "0",
+      "decision": "PASS",
+      "section_count": 136,
+      "component_count": 1,
+      "interior_ring_count": 1,
+      "geometry_sha256": "e19dcc2c5127bb205acc5f1c412734a06c58fc67fe8c54267dfe5b026dff4dc2",
+      "contract_sha256": "ab5b5da615a30737f2337ac50978016d23cad6e5ac8cf7d549ea904b631f441b",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 7318108110.107211,
+          "area_share": 1.0,
+          "geometry_sha256": "e19dcc2c5127bb205acc5f1c412734a06c58fc67fe8c54267dfe5b026dff4dc2",
+          "bounds": [
+            3419510.693617042,
+            2104249.679701574,
+            3493073.3346015722,
+            2264866.3397536296
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "1",
+      "decision": "PASS",
+      "section_count": 150,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "47caf4b9a773826804ea693f042e3e37634ab448551d998ba56f698df297185c",
+      "contract_sha256": "ab5b5da615a30737f2337ac50978016d23cad6e5ac8cf7d549ea904b631f441b",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 8312229910.567215,
+          "area_share": 1.0,
+          "geometry_sha256": "47caf4b9a773826804ea693f042e3e37634ab448551d998ba56f698df297185c",
+          "bounds": [
+            3472683.498526563,
+            2082093.1632225448,
+            3563228.7261162503,
+            2244164.0295791687
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    }
+  ]
+}
