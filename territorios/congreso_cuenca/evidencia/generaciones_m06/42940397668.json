@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13823240999,
+      "artifact_name": "ddd-audit-42940397668",
+      "artifact_sha256": "6b18a0f5e516951687ce0d7f1eb0681de5de0fbbff2384a343ac20c3354d1e89",
+      "run_id": 42940397668,
+      "size_in_bytes": 2644
+    },
+    "m04": {
+      "artifact_id": 13821792689,
+      "artifact_name": "ddd-state-42940397668-M04",
+      "artifact_sha256": "8b79471fa30ce41805553c8bc8c3b7c8dbd70849d5fe43e3a4c1e6e99eb96be7",
+      "run_id": 42940397668,
+      "size_in_bytes": 77590113
+    },
+    "m05": {
+      "artifact_id": 13822565822,
+      "artifact_name": "ddd-state-42940397668-M05",
+      "artifact_sha256": "254341858a112703ca9228024bf19807bf9b7a90e5280f01833905ea2470fe5b",
+      "run_id": 42940397668,
+      "size_in_bytes": 78261178
+    },
+    "m06": {
+      "artifact_id": 13822019581,
+      "artifact_name": "ddd-state-42940397668-M06",
+      "artifact_sha256": "a61e3f75f8de520d528e20f4bd38e7591e8bedf534f24642e0ac5a517063134c",
+      "run_id": 42940397668,
+      "size_in_bytes": 79796283
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "241199afa97aa9d68014e81a63be6fd0bec5ce232b2e6ec8015a27104bfdc740",
+        "size_in_bytes": 373
+      },
+      "congreso_cuenca_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "72bf1cc608b6c1f6e87c877b55ee75ff1be8664fe12322ca50dac78fa8f9e81d",
+        "size_in_bytes": 2474
+      },
+      "optimization_execution.json": {
+        "sha256": "71045b174d37951eb9c33f7669829d226f7831fe17510ec5aa74f463c136090e",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "5e3fa2345440b959b1c75b061a15c8b4b4b296c3d3e9367a53df685a734aeb5d",
+        "size_in_bytes": 1430
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "5e3fa2345440b959b1c75b061a15c8b4b4b296c3d3e9367a53df685a734aeb5d",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_cuenca/config/congreso_cuenca_2025.yaml",
+    "sha256": "9d2784b68f44e00b64099292e0b1332e7de96187122c93dc4adc51d24c9bfaa0"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "072693cada83f3b5d0b90c4842643c5d81561adf5e4bdfa7c3edb6b2b7c80627",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s232521694",
+      "generador": "ponderado",
+      "huella_resultado": "05b44674d1ba39c902aed7be4b9426ee98cb82ce7bb3ab4f740b9e89a3db75f7",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.06550222741841198,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "d6b5cbdeb2b224e3c18b9fe3e0760b9aa1223df60ebeb396371d9da81ebe7777",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_cuenca",
+    "territory_name": "Congreso Cuenca",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940397668,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13821792689,
+      "artifact_name": "ddd-state-42940397668-M04",
+      "artifact_sha256": "8b79471fa30ce41805553c8bc8c3b7c8dbd70849d5fe43e3a4c1e6e99eb96be7",
+      "run_id": 42940397668,
+      "size_in_bytes": 77590113
+    },
+    "source_manifest_sha256": "24fa37afa2f6945ac13d132b2773b33108b76899f5b1eaee97ae294bffd1f31f",
+    "source_package_artifact": {
+      "artifact_id": 13055614408,
+      "artifact_name": "ddd-source-package-congreso_cuenca-2025-41236647382",
+      "artifact_sha256": "c5a7b2b573565cced64673bbf1e95a701570c9e739a2184a594e076eb9105dc6",
+      "run_id": 41236647382,
+      "size_in_bytes": 76235575
+    }
+  },
+  "manifest_sha256": "ed13f38207990a16b8d967a409a83d133d99acc25e228777a67f8386f8a3108e",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

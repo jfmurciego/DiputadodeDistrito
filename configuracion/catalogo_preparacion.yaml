@@ -1356,11 +1356,11 @@ territories:
       territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: true
-      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
+      territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41294075778
-        stage: M08
+        run_id: 42940397668
+        stage: M06
       preparation_evidence:
         run_id: 41236647382
         artifact_name: ddd-source-package-congreso_cuenca-2025-41236647382
