@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13823975277,
+      "artifact_name": "ddd-audit-42940553251",
+      "artifact_sha256": "745330dc5fc079e4c9130c2e56ccd694fcd4387eb268effd74da465f79342b34",
+      "run_id": 42940553251,
+      "size_in_bytes": 4089
+    },
+    "m04": {
+      "artifact_id": 13822367516,
+      "artifact_name": "ddd-state-42940553251-M04",
+      "artifact_sha256": "4ee1863835e39cb404bb6fbd4fef621622b77daf42bbd46ccebcf832dd44da40",
+      "run_id": 42940553251,
+      "size_in_bytes": 76838636
+    },
+    "m05": {
+      "artifact_id": 13823326201,
+      "artifact_name": "ddd-state-42940553251-M05",
+      "artifact_sha256": "085ddc2125e5c1c68e3384ed1103d07acb2006eebd0f733b865d3838c3aa6da0",
+      "run_id": 42940553251,
+      "size_in_bytes": 77369503
+    },
+    "m06": {
+      "artifact_id": 13823855216,
+      "artifact_name": "ddd-state-42940553251-M06",
+      "artifact_sha256": "8e662200c82210039b5b1189cbd35c751d4c9d8f092c155278c6065648fb37c8",
+      "run_id": 42940553251,
+      "size_in_bytes": 78638991
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "dcbfbdace717e2d78900682c4d3b4970d047d3e57b048f067dc44c95a294a6b5",
+        "size_in_bytes": 409
+      },
+      "congreso_valladolid_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "e7bdc307379c8ca69cfcfead7a12321abfa1d046d0cd8f5eb731fda617794286",
+        "size_in_bytes": 9310
+      },
+      "optimization_execution.json": {
+        "sha256": "a261831e208b8c0d2ddf1555c633873e15a4adb2648c962423d2c268b45674b0",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "8326a0fe2be59ee1427a8eb97530417e1258b3504319e53b7e786adfde3b0302",
+        "size_in_bytes": 1509
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "8326a0fe2be59ee1427a8eb97530417e1258b3504319e53b7e786adfde3b0302",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_valladolid/config/congreso_valladolid_2025.yaml",
+    "sha256": "5409a9db12e77e7640290e8fdf095a74eb9989685f34c814eb513111ccd5ff88"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "c753e2edf1bce2d99da4478a9e7f0a6b89b344cc6d75b16ae26aead1d379c455",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s2115446121",
+      "generador": "ponderado",
+      "huella_resultado": "2703e6fd1e56a3d47418b052e9026badea70b5701a1311f0f7179071994c874a",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.14015801800384783,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.1400467647357831,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "62acb4e0f41c2d2df484fc2a37bb4b029d8ef33efc1b9a27f7ed3685a6f627a2",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_valladolid",
+    "territory_name": "Congreso Valladolid",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940553251,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13822367516,
+      "artifact_name": "ddd-state-42940553251-M04",
+      "artifact_sha256": "4ee1863835e39cb404bb6fbd4fef621622b77daf42bbd46ccebcf832dd44da40",
+      "run_id": 42940553251,
+      "size_in_bytes": 76838636
+    },
+    "source_manifest_sha256": "5f008de516286f808bd60cde6386f46a5e04cbdd59016a44eb1167e8240d7561",
+    "source_package_artifact": {
+      "artifact_id": 13078568583,
+      "artifact_name": "ddd-source-package-congreso_valladolid-2025-41292964287",
+      "artifact_sha256": "5339f65d92d46db779652724e1689d5ff51830896eca9295fcd8a3ce30688ff4",
+      "run_id": 41292964287,
+      "size_in_bytes": 75758777
+    }
+  },
+  "manifest_sha256": "c5a3721e73a15f476d8240fb0640171bc383b8c19d86621345ecf35db0fb1ee6",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
