@@ -1001,6 +1001,13 @@
    "sha256_csv": "19679be0e0eadcc4f689dff054c55c927d6ca0e374b442364cbf0ff99fb356d0",
    "ruta": "datos/composicion/runs/congreso_cadiz_42940371696.csv"
   },
+  "congreso_cantabria/42940510614": {
+   "territorio": "congreso_cantabria",
+   "run_id": "42940510614",
+   "secciones": 460,
+   "sha256_csv": "153a4e36368976c40d669923ea80ee9fb5c5e51c39e9c64e1b932840140faf52",
+   "ruta": "datos/composicion/runs/congreso_cantabria_42940510614.csv"
+  },
   "congreso_castellon/42940377493": {
    "territorio": "congreso_castellon",
    "run_id": "42940377493",
