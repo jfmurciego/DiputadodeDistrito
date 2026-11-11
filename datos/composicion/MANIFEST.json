@@ -1183,6 +1183,13 @@
    "sha256_csv": "3974817d1330914a9aa7ecfb519986915929b7d8eb88617555e559efeaf76329",
    "ruta": "datos/composicion/runs/congreso_malaga_42940458916.csv"
   },
+  "congreso_melilla/42940578685": {
+   "territorio": "congreso_melilla",
+   "run_id": "42940578685",
+   "secciones": 44,
+   "sha256_csv": "fdc1449d7dfc6cb385cb29aff9fb238724ec4566bd8b22e8b768abf47b436d0d",
+   "ruta": "datos/composicion/runs/congreso_melilla_42940578685.csv"
+  },
   "congreso_murcia/42940463842": {
    "territorio": "congreso_murcia",
    "run_id": "42940463842",

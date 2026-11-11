@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:13:56Z",
+  "actualizado_en": "2026-11-11T03:14:43Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3570,6 +3570,20 @@
       "tamano_estado_original": 75480058,
       "territorio": "congreso_melilla",
       "url": "r2://ddd-research-archive/congreso_melilla/41293988485/ddd-minimo-41293988485-M08.zip"
+    },
+    "congreso_melilla/42940578685/ddd-minimo-42940578685-M06.zip": {
+      "archivado_en": "2026-11-11T03:14:43Z",
+      "artefacto": "ddd-minimo-42940578685-M06",
+      "artefacto_origen": "ddd-state-42940578685-M06",
+      "artifact_id": 13822812710,
+      "caducidad_original": "2026-11-25T02:33:48Z",
+      "run_id": "42940578685",
+      "sha256": "bcec2aeaae7b17f206d9ba168e615f9124d5ac13e968dbdbb542a281a3475e97",
+      "sha256_estado_original": "d5013dfc5597462edba99e5882f4d0319d748b035cf1e1cb8ee0791bd48321ca",
+      "tamano_bytes": 109405,
+      "tamano_estado_original": 75411363,
+      "territorio": "congreso_melilla",
+      "url": "r2://ddd-research-archive/congreso_melilla/42940578685/ddd-minimo-42940578685-M06.zip"
     },
     "congreso_murcia/41613691816/ddd-audit-41613691816.zip": {
       "archivado_en": "2026-11-08T12:19:58Z",
