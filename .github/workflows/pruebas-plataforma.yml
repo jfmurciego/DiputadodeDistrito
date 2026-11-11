@@ -616,7 +616,8 @@ jobs:
             echo "Tests fallidos:"
             echo
             echo '```'
-            grep -E '^(FAIL|ERROR): ' ci-estado-vivo.log | sort -u | head -50 || echo "(sin líneas FAIL/ERROR: timeout o fallo de instalación; revisa el log)"
+            fallidos="$(grep -sE '^(FAIL|ERROR): ' ci-estado-vivo.log | sort -u | head -50)"
+            echo "${fallidos:-(sin líneas FAIL/ERROR: timeout o fallo de instalación; revisa el log)}"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
