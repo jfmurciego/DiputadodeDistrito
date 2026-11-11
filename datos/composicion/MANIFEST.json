@@ -798,6 +798,13 @@
    "sha256_csv": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7",
    "ruta": "datos/composicion/runs/andalucia_42495072594.csv"
   },
+  "andalucia/43107035084": {
+   "territorio": "andalucia",
+   "run_id": "43107035084",
+   "secciones": 6029,
+   "sha256_csv": "d52340d0625d56b3006283739bb649b969226e8a5b6ea169dda88b4b47bf8082",
+   "ruta": "datos/composicion/runs/andalucia_43107035084.csv"
+  },
   "aragon/42497101869": {
    "territorio": "aragon",
    "run_id": "42497101869",

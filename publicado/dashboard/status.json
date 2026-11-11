@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T17:11:10.414415+00:00",
+  "generated_at": "2026-11-11T22:33:57.728048+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 73,
-      "activable": 1,
+      "activated": 74,
+      "activable": 0,
       "territorial_pending": 46,
       "electoral_pending": 46,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 74,
-      "durable_pair": 73
+      "durable_pair": 74
     },
     "territories": [
       {
@@ -78,12 +78,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/andalucia/evidencia/pares_fuentes/2025/f7a5276fe0adfca0d032910c787c7656f4cafcb91ac6852f5de8d46bd0ba7690.json",
-            "pair_sha256": "f7a5276fe0adfca0d032910c787c7656f4cafcb91ac6852f5de8d46bd0ba7690",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/andalucia/evidencia/pares_fuentes/2025/008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc.json",
+            "pair_sha256": "008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -6687,11 +6687,11 @@
       "name": "Andalucía",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42495072594,
+      "run_id": 43107035084,
       "last_run": {
         "run_id": 43011608060,
         "status": "FAILED",
@@ -6700,7 +6700,7 @@
         "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6717,13 +6717,13 @@
           "territory_id": "andalucia",
           "territory_name": "Andalucía",
           "edition": "2025",
-          "run_id": 42495072594,
-          "artifact_name": "ddd-state-42495072594-M06",
-          "artifact_sha256": "4d465d8d923e82aec8305a1b9719acc99635d8b767f1c32449f4c8a0088204d3",
-          "source_commit": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8",
+          "run_id": 43107035084,
+          "artifact_name": "ddd-state-43107035084-M06",
+          "artifact_sha256": "c5ffbc5fbfbd2809223617f295a7f05eaacdd60141673a216bfbde721d76cfc7",
+          "source_commit": "8e4e268e0dfb5e353a381456bfdee5c8133fc509",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/andalucia/evidencia/generaciones_m06/42495072594.json"
+          "producer_manifest_path": "territorios/andalucia/evidencia/generaciones_m06/43107035084.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -6741,7 +6741,7 @@
       },
       "autonomous_community_code_ine": "01",
       "display_name": "01 Andalucía",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aragon",
@@ -9310,20 +9310,20 @@
       "name": "Nacional Lérida",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43059014993,
+      "run_id": 43064129984,
       "last_run": {
-        "run_id": 43059014993,
+        "run_id": 43064129984,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9364,7 +9364,7 @@
       },
       "autonomous_community_code_ine": "C25",
       "display_name": "Nacional Lérida",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_la_rioja",
@@ -12258,7 +12258,6 @@
   "kpis": {
     "complete": 72,
     "complete_names": [
-      "01 Andalucía",
       "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
@@ -12300,6 +12299,7 @@
       "Nacional Huesca",
       "Nacional Jaén",
       "Nacional León",
+      "Nacional Lérida",
       "Nacional La Rioja",
       "Nacional Lugo",
       "Nacional Madrid",
@@ -12540,26 +12540,26 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "madrid",
-    "name": "Comunidad de Madrid",
-    "display_name": "13 Comunidad de Madrid",
-    "autonomous_community_code_ine": "13",
-    "run_id": 43053498550,
+    "territory_id": "congreso_lerida",
+    "name": "Nacional Lérida",
+    "display_name": "Nacional Lérida",
+    "autonomous_community_code_ine": "C25",
+    "run_id": 43064129984,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
     {
-      "territory": "09 Cataluña",
-      "territory_id": "cataluna",
-      "autonomous_community_code_ine": "09",
+      "territory": "01 Andalucía",
+      "territory_id": "andalucia",
+      "autonomous_community_code_ine": "01",
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Lérida",
-      "territory_id": "congreso_lerida",
-      "autonomous_community_code_ine": "C25",
+      "territory": "09 Cataluña",
+      "territory_id": "cataluna",
+      "autonomous_community_code_ine": "09",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12601,15 +12601,15 @@
   ],
   "next_actions": [
     {
-      "territory": "09 Cataluña",
-      "territory_id": "cataluna",
-      "autonomous_community_code_ine": "09",
+      "territory": "01 Andalucía",
+      "territory_id": "andalucia",
+      "autonomous_community_code_ine": "01",
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Lérida",
-      "territory_id": "congreso_lerida",
-      "autonomous_community_code_ine": "C25",
+      "territory": "09 Cataluña",
+      "territory_id": "cataluna",
+      "autonomous_community_code_ine": "09",
       "action": "preparar fuentes electorales"
     }
   ]
