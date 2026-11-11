@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13847398840,
+      "artifact_name": "ddd-audit-43001766635",
+      "artifact_sha256": "f444a2ffe28b18dd62189f289f1001fc0b7fce96e52f68dcf8e1701b224df633",
+      "run_id": 43001766635,
+      "size_in_bytes": 9142
+    },
+    "m04": {
+      "artifact_id": 13848025051,
+      "artifact_name": "ddd-state-43001766635-M04",
+      "artifact_sha256": "aa10a7d15b06bc921915567a32670cfb70d3991113b676ef73560ba831e6a935",
+      "run_id": 43001766635,
+      "size_in_bytes": 80342875
+    },
+    "m05": {
+      "artifact_id": 13846549595,
+      "artifact_name": "ddd-state-43001766635-M05",
+      "artifact_sha256": "7e5cc8b9b65943d70c6dd77d43965e80579053ecf9ea39685c873eb00039d00d",
+      "run_id": 43001766635,
+      "size_in_bytes": 81633651
+    },
+    "m06": {
+      "artifact_id": 13847647642,
+      "artifact_name": "ddd-state-43001766635-M06",
+      "artifact_sha256": "377fa36789d03f929e905be48c6b5a0bdc757c496da7b714c2da626d444f22b0",
+      "run_id": 43001766635,
+      "size_in_bytes": 84670907
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "a1c44e52a6ac47a6b22e056fe8f83a54478625ab61cc63331f9e3492d110f2b5",
+        "size_in_bytes": 409
+      },
+      "congreso_murcia_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "535253327e4327e567ed11a2af99a17783e9985401f753edd989164b3467783c",
+        "size_in_bytes": 132180
+      },
+      "optimization_execution.json": {
+        "sha256": "448b2741e066aff912315e19e1a84950823edf51dba21a06d24913c0f6a19fd3",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "2a948474b60ae78f2be4bf13ce2a2ae02acce0eba8b96315d93c9f47114d9511",
+        "size_in_bytes": 1496
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "2a948474b60ae78f2be4bf13ce2a2ae02acce0eba8b96315d93c9f47114d9511",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_murcia/config/congreso_murcia_2025.yaml",
+    "sha256": "2a30e775119f5a06a0c0ee4dc905bd2ddb8fb84154d915b68431bef99c5fc617"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "702145a43d368754a4fca8cc37186b2718de49f9a30e9f3e976bb4769c5b5624",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s334724815",
+      "generador": "ponderado",
+      "huella_resultado": "ff2e9f8b8283152ac824441d44314533d62be91e8e059658151d61c067e15a88",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.6926632347141056,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.6926632347141056,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "7961dd79e6785fef1a9b46a6b5a80d037619330f97f1847547eb3f7cab5e40dd",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "335ada5edc4938ad24ffb66b81f1107817351fd7",
+    "edition": "2025",
+    "territory_id": "congreso_murcia",
+    "territory_name": "Congreso Murcia",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43001766635,
+    "workflow_sha": "335ada5edc4938ad24ffb66b81f1107817351fd7"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13848025051,
+      "artifact_name": "ddd-state-43001766635-M04",
+      "artifact_sha256": "aa10a7d15b06bc921915567a32670cfb70d3991113b676ef73560ba831e6a935",
+      "run_id": 43001766635,
+      "size_in_bytes": 80342875
+    },
+    "source_manifest_sha256": "fd41429c3e6ee827fc4da6f688e3ef16972004ceb2c7113479fc7cb3da118c7a",
+    "source_package_artifact": {
+      "artifact_id": 13221418813,
+      "artifact_name": "ddd-source-package-congreso_murcia-2025-41613691816",
+      "artifact_sha256": "ff7c08e78d611563cad03de2f46ab3a02b69656d20796fbab14468026e720cfb",
+      "run_id": 41613691816,
+      "size_in_bytes": 77733027
+    }
+  },
+  "manifest_sha256": "642c1d2dff8475ce75bdb0f11920ea7507f843c624f6b83fb3b33b021f742275",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
