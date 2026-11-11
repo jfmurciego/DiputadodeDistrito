@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13852496886,
+      "artifact_name": "ddd-audit-43011625216",
+      "artifact_sha256": "a74ac492252dbb1dec99db04f9b842c0cd1fba6f46d20bd2b11e1ceed3f4aabb",
+      "run_id": 43011625216,
+      "size_in_bytes": 8662
+    },
+    "m04": {
+      "artifact_id": 13852620404,
+      "artifact_name": "ddd-state-43011625216-M04",
+      "artifact_sha256": "0ad115bab2561c10f639a598d7ba9f39d1b6e402f9adc8cf3bba03ec0972bb88",
+      "run_id": 43011625216,
+      "size_in_bytes": 81550620
+    },
+    "m05": {
+      "artifact_id": 13852076802,
+      "artifact_name": "ddd-state-43011625216-M05",
+      "artifact_sha256": "3b3e14538312c468223e9eb713285fe540c1adad6220717d50a9d1660db73209",
+      "run_id": 43011625216,
+      "size_in_bytes": 82800441
+    },
+    "m06": {
+      "artifact_id": 13852975959,
+      "artifact_name": "ddd-state-43011625216-M06",
+      "artifact_sha256": "1183add3081e0679e67a24b344559318cbc314906eb4e23415788434dac87198",
+      "run_id": 43011625216,
+      "size_in_bytes": 85987819
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "96fac818e8c5908589deaed908782943457cd4c54d7aa2357a3e7f8dcc5176d5",
+        "size_in_bytes": 425
+      },
+      "optimization_execution.json": {
+        "sha256": "a657a1c188be8132f9f623f971259acc9a45054f04049edb1801a981942d5251",
+        "size_in_bytes": 664
+      },
+      "principado_de_asturias_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "afeb7456077f205c6016f968f50603d573085a7a683608f754081da0286f7e57",
+        "size_in_bytes": 46613
+      },
+      "production_status.json": {
+        "sha256": "deeff0b7ab5df312b47ee797f2d2f5072c375d5d025ad5670e14076002ccab5a",
+        "size_in_bytes": 1535
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "deeff0b7ab5df312b47ee797f2d2f5072c375d5d025ad5670e14076002ccab5a",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml",
+    "sha256": "a2056ae17171b2eb01bcb57d5a648ce98340c4ac88ae0f76049d8cbdc4d95501"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "cdf75310b84693ae7ec24184ac762b521b3fbbb1a86d988a925cc583713686f5",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1804878586",
+      "generador": "ponderado",
+      "huella_resultado": "615e3986e18f78c470b825b95b90f37eac457df96e19e0f36d9f6c0bb4d4fb99",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.37076317515853924,
+          "fuera_tolerancia": 4,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.37076317515853924,
+          "fuera_tolerancia": 3,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "333ba0d349abdf4e9fbc1f8cdfca410a8fe30dea22d5856e7ee25ef96bba7946",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "2d29dc4536e23c35ec9f2eb594fc5b8021b77cd1",
+    "edition": "2025",
+    "territory_id": "principado_de_asturias",
+    "territory_name": "Principado de Asturias",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43011625216,
+    "workflow_sha": "2d29dc4536e23c35ec9f2eb594fc5b8021b77cd1"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13852620404,
+      "artifact_name": "ddd-state-43011625216-M04",
+      "artifact_sha256": "0ad115bab2561c10f639a598d7ba9f39d1b6e402f9adc8cf3bba03ec0972bb88",
+      "run_id": 43011625216,
+      "size_in_bytes": 81550620
+    },
+    "source_manifest_sha256": "09d2806e47e9549527a24c6185cf8819c04c639159ef560dd26d0781bca90a04",
+    "source_package_artifact": {
+      "artifact_id": 12820271948,
+      "artifact_name": "ddd-source-package-principado_de_asturias-2025-40693720831",
+      "artifact_sha256": "60bacfb549404fed841f2ceda6666376fb16852f05ac1ffba5223dc104e3fec6",
+      "run_id": 40693720831,
+      "size_in_bytes": 77813752
+    }
+  },
+  "manifest_sha256": "b7127cfa1eae658cb6345070963aa9b4d51f5013a21e0e3d410d431c0604540f",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
