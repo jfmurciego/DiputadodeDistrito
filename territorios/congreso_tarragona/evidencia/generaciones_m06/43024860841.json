@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13858700846,
+      "artifact_name": "ddd-audit-43024860841",
+      "artifact_sha256": "6a2f22f276f81531e5974a48c70c1c947dae31b327b250376271911e80e484de",
+      "run_id": 43024860841,
+      "size_in_bytes": 4149
+    },
+    "m04": {
+      "artifact_id": 13857955739,
+      "artifact_name": "ddd-state-43024860841-M04",
+      "artifact_sha256": "0e2f121c03fc3965cd6f3896a9f5d9f261371e641023f31f0dd3b8d2e08e4cc2",
+      "run_id": 43024860841,
+      "size_in_bytes": 79291753
+    },
+    "m05": {
+      "artifact_id": 13858156004,
+      "artifact_name": "ddd-state-43024860841-M05",
+      "artifact_sha256": "92c6574541cdcf76da7a2250b583dfca9f13830f8dfeebd088148558349f5adb",
+      "run_id": 43024860841,
+      "size_in_bytes": 80278335
+    },
+    "m06": {
+      "artifact_id": 13860525071,
+      "artifact_name": "ddd-state-43024860841-M06",
+      "artifact_sha256": "adf17101dea6dabc00f19c3e9f02bc7c5ca4c036535446a27a4fd16a0ca95971",
+      "run_id": 43024860841,
+      "size_in_bytes": 82793736
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "624d9f4105362348db1f4467e63b1f008a38a40c760a15df3b9f33f5a14306c2",
+        "size_in_bytes": 408
+      },
+      "congreso_tarragona_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "d3ba111525dd705f8ab1d25f47087e3affacfd8bde2551170b64c66e390915b5",
+        "size_in_bytes": 11368
+      },
+      "optimization_execution.json": {
+        "sha256": "be6daca48462b196160dc16e01269faefe85ed7f761ce85c77620552f2b70270",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "37c7a20903204e9ea3ff32fb2013e7d10829c7f7b42fa3a39e81be785b4c3a43",
+        "size_in_bytes": 1507
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "37c7a20903204e9ea3ff32fb2013e7d10829c7f7b42fa3a39e81be785b4c3a43",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_tarragona/config/congreso_tarragona_2025.yaml",
+    "sha256": "c84dca486b339076af6a88a4cd4f37ff5bf7ae04910a143567030b7635f56ad5"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "28adc1fa89f9b5ec259935e51cff9e684284bc9eda863557b3384eee02684e0c",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1154020006",
+      "generador": "ponderado",
+      "huella_resultado": "96de5a3071aa7269b86a6a6785809a30a488d07f3a2abff3dfdf2b0ce5f04ecf",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.14104540226634235,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.14104540226634235,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "1c3024654cd4b46853c6ca232acdce735a54d2a202c7e4ebd223669aa02fb73e",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+    "edition": "2025",
+    "territory_id": "congreso_tarragona",
+    "territory_name": "Congreso Tarragona",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43024860841,
+    "workflow_sha": "6ad5b525a72328c916f98ca06ee6c6035293e440"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13857955739,
+      "artifact_name": "ddd-state-43024860841-M04",
+      "artifact_sha256": "0e2f121c03fc3965cd6f3896a9f5d9f261371e641023f31f0dd3b8d2e08e4cc2",
+      "run_id": 43024860841,
+      "size_in_bytes": 79291753
+    },
+    "source_manifest_sha256": "0b2117e67823db04f5f159e5370ffd0dab1714a921a6dc5dac6e11609573cf87",
+    "source_package_artifact": {
+      "artifact_id": 13058929927,
+      "artifact_name": "ddd-source-package-congreso_tarragona-2025-41243062797",
+      "artifact_sha256": "52587a94ffe47e234d57e062bfb78e1b30d2d653b7af23ef534ba0c2ef03e964",
+      "run_id": 41243062797,
+      "size_in_bytes": 77303255
+    }
+  },
+  "manifest_sha256": "81d4e541fcafcff6799d62ed49dc24ff4841e00d7e5e92776b6768def9874e72",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
