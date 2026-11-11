@@ -902,6 +902,22 @@
     "sha256": "92153cc8e93609eb595057e36b9de9b876b224d40599c15567b5a4a4bfba6f54"
    }
   },
+  "congreso_caceres/42953363103": {
+   "territorio": "congreso_caceres",
+   "run_id": "42953363103",
+   "run_territorial": "42940366579",
+   "sha256_composicion": "26752e4669100873699db6a84575cfff7c062369443785a1f527aaec3d24a009",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "86afbf929b61148fa48b34f6a5c293d0c7f0035f21a2978e9cf363690131eaa4",
+   "ruta": "datos/resultados/runs/congreso_caceres_42953363103_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.3228,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_caceres_42953363103_desajustes.json",
+    "sha256": "e08499318f04dfbbb5978e337d419f5efa6e736d4f96d995aed88ac10e6730be"
+   }
+  },
   "congreso_cadiz/42953019279": {
    "territorio": "congreso_cadiz",
    "run_id": "42953019279",

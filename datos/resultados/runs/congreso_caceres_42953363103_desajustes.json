@@ -1,0 +1,40 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_caceres",
+ "run_id": "42953363103",
+ "run_territorial": "42940366579",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 232620,
+ "votos_desajustados": 751,
+ "pct_desajuste": 0.3228,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "1014804015",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 751,
+   "secciones_m06": {
+    "1014805001": 1.0
+   },
+   "distritos": {
+    "1": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 1014805001 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "1002101002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "1002101002": 1.0
+   },
+   "distritos": {
+    "0": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}
