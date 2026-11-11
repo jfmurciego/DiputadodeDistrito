@@ -5,11 +5,11 @@
    "lineas": 3,
    "estado": "vivo (producción)",
    "importadores": {
-    "produccion": 39,
-    "otros": 9,
+    "produccion": 42,
     "tests": 84,
     "herramientas": 57,
-    "legacy": 189
+    "legacy": 189,
+    "otros": 6
    }
   },
   {
@@ -382,7 +382,7 @@
    "lineas": 781,
    "estado": "vivo (producción)",
    "importadores": {
-    "otros": 3,
+    "produccion": 3,
     "tests": 6,
     "legacy": 1
    }
@@ -542,7 +542,7 @@
     "tests": 17,
     "herramientas": 4,
     "legacy": 13,
-    "otros": 8
+    "otros": 9
    }
   },
   {
@@ -595,7 +595,7 @@
     "tests": 5,
     "herramientas": 1,
     "legacy": 6,
-    "otros": 2
+    "otros": 3
    }
   },
   {
@@ -698,7 +698,7 @@
     "tests": 13,
     "herramientas": 2,
     "legacy": 7,
-    "otros": 4
+    "otros": 5
    }
   },
   {
@@ -735,7 +735,7 @@
     "tests": 8,
     "herramientas": 2,
     "legacy": 7,
-    "otros": 3
+    "otros": 4
    }
   },
   {
@@ -774,31 +774,6 @@
    "estado": "solo legacy",
    "fuera": {
     "legacy": 2
-   },
-   "modulo_vivo": true
-  },
-  {
-   "fichero": "ddd_core/m05_gerrychain_engine.py",
-   "linea": 105,
-   "simbolo": "load_comarca_lookup",
-   "lineas": 34,
-   "estado": "solo legacy/otros/tests",
-   "fuera": {
-    "otros": 1,
-    "tests": 1,
-    "legacy": 3
-   },
-   "modulo_vivo": true
-  },
-  {
-   "fichero": "ddd_core/m05_gerrychain_engine.py",
-   "linea": 378,
-   "simbolo": "adapt_files",
-   "lineas": 2,
-   "estado": "solo legacy/otros",
-   "fuera": {
-    "otros": 1,
-    "legacy": 3
    },
    "modulo_vivo": true
   },

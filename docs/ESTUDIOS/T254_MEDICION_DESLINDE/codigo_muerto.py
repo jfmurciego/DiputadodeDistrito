@@ -32,7 +32,7 @@ def categoria(p: Path) -> str:
         return "legacy"
     if r.startswith("tests/"):
         return "tests"
-    if r.startswith(("modulos/", "ddd_core/", "ddd_motor2/", ".github/")):
+    if r.startswith(("modulos/", "ddd_core/", "ddd_motor2/", "ddd_ensemble/", ".github/")):
         return "produccion"
     if r.startswith("herramientas/"):
         return "herramientas"

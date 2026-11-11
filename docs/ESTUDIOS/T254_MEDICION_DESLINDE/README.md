@@ -87,7 +87,7 @@ Los 10 módulos M04 viejos (`v745`–`v754`) suman **1 839 líneas**. La cadena 
 | Símbolo | Líneas | Uso |
 |---|---|---|
 | `m05_gerrychain_engine.run_gerrychain` | 101 | solo legacy y tests |
-| `m05_gerrychain_engine.load_comarca_lookup`, `select_best_state`, `adapt_files` | 34 + 20 + 2 | solo legacy y tests |
+| `m05_gerrychain_engine.select_best_state` | 20 | solo legacy y tests (`load_comarca_lookup` y `adapt_files` los usa `ddd_ensemble/runner.py`, la 07: vivos) |
 | `congreso_contract.validate_production_admission` | 6 | solo legacy y tests |
 | `ddd_motor2/produccion._grupos` | 5 | solo legacy |
 | `m05_population_repair._province_state_key` | 2 | solo legacy |
