@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T15:56:55.472542+00:00",
+  "generated_at": "2026-11-11T15:58:20.096342+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7297,20 +7297,20 @@
       "name": "Extremadura",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43045468808,
+      "run_id": 43051488486,
       "last_run": {
-        "run_id": 43045468808,
+        "run_id": 43051488486,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7351,7 +7351,7 @@
       },
       "autonomous_community_code_ine": "11",
       "display_name": "11 Extremadura",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "galicia",
@@ -7403,10 +7403,10 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 41044499258,
-          "artifact_name": "ddd-state-41044499258-M08",
-          "artifact_sha256": "82dc88f493435eceb477cc664117110ed5d4998eb7f9ed70ece42568db4aab53",
-          "source_commit": "a0c0f03c9baa9a49494fd55aba2c9be6b6124972",
+          "run_id": 43051951192,
+          "artifact_name": "ddd-state-43051951192-M08",
+          "artifact_sha256": "3077edb70e9623defce56ef0622b93d32aa3ddc7e73568b968428da924d21f8d",
+          "source_commit": "57171c9bcc0cc5cf44ab153c48b1c4b652ce8884",
           "stage": "M08"
         }
       },
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 66,
+    "complete": 67,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12267,6 +12267,7 @@
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "10 Comunidad Valenciana",
+      "11 Extremadura",
       "16 País Vasco",
       "17 La Rioja",
       "19 Melilla",
@@ -12534,13 +12535,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "melilla",
-    "name": "Melilla",
-    "display_name": "19 Melilla",
-    "autonomous_community_code_ine": "19",
-    "run_id": 43051007542,
+    "territory_id": "extremadura",
+    "name": "Extremadura",
+    "display_name": "11 Extremadura",
+    "autonomous_community_code_ine": "11",
+    "run_id": 43051488486,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
@@ -12548,12 +12549,6 @@
       "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "11 Extremadura",
-      "territory_id": "extremadura",
-      "autonomous_community_code_ine": "11",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12591,6 +12586,12 @@
       "territory_id": "congreso_lerida",
       "autonomous_community_code_ine": "C25",
       "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional 350 Álava",
+      "territory_id": "congreso350_alava",
+      "autonomous_community_code_ine": "R01",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12598,12 +12599,6 @@
       "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "11 Extremadura",
-      "territory_id": "extremadura",
-      "autonomous_community_code_ine": "11",
       "action": "preparar fuentes electorales"
     },
     {
