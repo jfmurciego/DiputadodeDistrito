@@ -4,11 +4,11 @@
   "territory_id": "congreso_huesca",
   "territory_name": "Congreso Huesca",
   "edition": "2025",
-  "run_id": 42519383275,
-  "artifact_name": "ddd-state-42519383275-M06",
-  "artifact_sha256": "8efae76a8737df21e939708e6f185a0c651fad5a0ad48cc44a9a528515b956aa",
-  "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
-  "decision": "PASS_WITH_EXCEPTIONS",
+  "run_id": 42940427352,
+  "artifact_name": "ddd-state-42940427352-M06",
+  "artifact_sha256": "bbd81bf46123e114bc1a3c39c7d61b634d00b57e59c55c3a37ec08e58abc855a",
+  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_huesca/evidencia/generaciones_m06/42519383275.json"
+  "producer_manifest_path": "territorios/congreso_huesca/evidencia/generaciones_m06/42940427352.json"
 }
