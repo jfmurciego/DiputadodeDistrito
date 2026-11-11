@@ -290,6 +290,18 @@ def plan(root: Path, **kwargs) -> dict:
     )
 
 
+
+def m08_enlaza_m06_vigente(root, territory_id, territorial, electoral):
+    """T-247: el M08 del catálogo pertenece al M06 vigente si el manifiesto de SU run tiene la fase 02 apuntando al run
+    y al sha256 del M06 vigente (puede ser otro run: la 00 hija «Reutilizar» hace la 04 sobre el M06 de la 00 madre)."""
+    path = root / f"territorios/{territory_id}/evidencia/ejecuciones_completas/{electoral['run_id']}.json"
+    if not path.is_file():
+        return False
+    fases = json.loads(path.read_text(encoding="utf-8")).get("phases") or []
+    f02 = next((p for p in fases if str(p.get("name", "")).startswith("02 ·")), {})
+    return (int(f02.get("run_id") or 0) == int(territorial["run_id"])
+            and str(f02.get("artifact_digest") or "").removeprefix("sha256:") == territorial["artifact_sha256"])
+
 class ContinueFromLastValidTests(unittest.TestCase):
     def assert_phases(self, p: dict, expected: tuple[bool, bool, bool, bool]) -> None:
         self.assertEqual(
@@ -401,8 +413,9 @@ class ContinueFromLastValidTests(unittest.TestCase):
             force_selected_algorithm=True,
         )
         self.assertEqual(plan["existing"]["territorial_product"]["run_id"], territorial["run_id"])
-        # El M06 vigente se reutiliza siempre; el M08 sólo si procede del mismo run.
-        if electoral["run_id"] == territorial["run_id"]:
+        # El M06 vigente se reutiliza siempre; el M08 sólo si su linaje (fase 02 de su run) es el M06 vigente (T-247:
+        # antes exigía el mismo run, y la cadena 00 → 00 «Reutilizar» de la campaña deja M06 y M08 en runs distintos).
+        if m08_enlaza_m06_vigente(ROOT, "castilla_la_mancha", territorial, electoral):
             self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
         else:
             self.assertFalse(plan["existing"]["electoral_product"]["run_id"])

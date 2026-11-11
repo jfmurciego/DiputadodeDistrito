@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "pais_vasco",
+  "territory_name": "País Vasco",
+  "edition": "2025",
+  "election": {
+    "election_id": "pais_vasco_parlamento_2024",
+    "election_date": "2024-04-21"
+  },
+  "references": {
+    "population": {
+      "required_year": 2024,
+      "year": 2024,
+      "reference_date": "2024-01-01"
+    },
+    "sectioning": {
+      "required_year": 2024,
+      "year": 2024,
+      "reference_label": "Secciones_2024"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 40946888676,
+    "artifact_name": "ddd-source-package-pais_vasco-2025-40946888676",
+    "artifact_sha256": "c9175d33370e3a9eaf1e32b5b671efb5dc46462ddba7c8db9a6d6ae6d43dd90c",
+    "package_sha256": "b47721cbd4aa28cae80b185814b0a002f903ce7a7b5e07aab372cafdd6cef874",
+    "source_commit": "091d40cef648abcc9319af1f6dc3488a5abdc556",
+    "source_declaration": "territorios/pais_vasco/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288/40946888676/receipt.json",
+    "population_year": 2024,
+    "section_year": 2024,
+    "territorial_identity_sha256": "ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "aa1097efe890eeff63689357f237e350b54a5d75707ed1bc8982ba243f64090f",
+    "compatibility_identity_sha256": "90707fb28597d7f75bf8af3d4dfb427cac2f3508bfae26220a4eca00a4c6c001",
+    "remote_verification": {
+      "run_id": 40946888676,
+      "artifact_id": 12929082937,
+      "artifact_name": "ddd-source-package-pais_vasco-2025-40946888676",
+      "artifact_sha256": "c9175d33370e3a9eaf1e32b5b671efb5dc46462ddba7c8db9a6d6ae6d43dd90c",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43036604667,
+    "artifact_name": "ddd-electoral-package-pais_vasco-2025-43036604667",
+    "artifact_sha256": "5fcc1e0915757eb104f7d58a99edce52f3265772fc1df1383f5e64b73777b407",
+    "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
+    "receipt_path": "territorios/pais_vasco/evidencia/fuentes_electorales/2025/32e2c695b91acc6bae9c8b0455b7678b814bf66dc374c741f94622693ff703ab/43036604667/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "pais_vasco_parlamento_2024",
+    "election_date": "2024-04-21",
+    "electoral_identity_sha256": "32e2c695b91acc6bae9c8b0455b7678b814bf66dc374c741f94622693ff703ab",
+    "remote_verification": {
+      "run_id": 43036604667,
+      "artifact_id": 13863795538,
+      "artifact_name": "ddd-electoral-package-pais_vasco-2025-43036604667",
+      "artifact_sha256": "5fcc1e0915757eb104f7d58a99edce52f3265772fc1df1383f5e64b73777b407",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288",
+  "electoral_compatibility_key": "32e2c695b91acc6bae9c8b0455b7678b814bf66dc374c741f94622693ff703ab",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/pais_vasco/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac"
+}
