@@ -1,10 +1,10 @@
 # Autorización de campaña 2026-11-11_bateria-motor2-autonomicas-r6
 
 - Decisión: D-52 (autorización por campaña). Chat del Operador: session_01KQDtFsAtHP9atzNnDthr9A.
-- Frase literal del propietario: (pendiente)
-- Fecha y hora de la frase (Europe/Madrid): (pendiente)
+- Frase literal del propietario: «Autorizo la campaña 2026-11-11_bateria-motor2-autonomicas-r6 tal como figura en la ficha, y que sea la referencia de La Rioja para la regeneración nocturna v2.»
+- Fecha y hora de la frase (Europe/Madrid): 2026-11-11 08:40 (aprox.)
 - Estado de la ficha: BORRADOR. Repite la fase 2 de `-r5` (aceptación NO) con T-228 (#699) y T-229 (#700) en `main`.
-- Caducidad: 24 h desde la frase del propietario.
+- Caducidad: 2026-11-12 08:40 (24 h).
 - Gasto semanal al autorizar: se mide al recibir la frase y se anota aquí; tope 15.000 min/semana, aviso al 70 %.
 
 ## Límites
@@ -22,8 +22,9 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
+| 08:42 | las 19 autonómicas | VER motor2 D8 N=10 | 42981399280 | EN_VUELO | 1 / — | 0/1 |
 
 ## Cierre
-Estado: `BORRADOR`. Último uso: —.
+Estado: `EN_CURSO`. Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-11_bateria-motor2-autonomicas-r6 tal como figura en la ficha.»

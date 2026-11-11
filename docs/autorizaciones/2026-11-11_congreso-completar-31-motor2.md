@@ -1,10 +1,10 @@
 # Autorización de campaña 2026-11-11_congreso-completar-31-motor2
 
 - Decisión: D-52 (autorización por campaña) y D-81. Chat del Operador: session_01KQDtFsAtHP9atzNnDthr9A.
-- Frase literal del propietario: (pendiente)
-- Fecha y hora de la frase (Europe/Madrid): (pendiente)
+- Frase literal del propietario: «Autorizo la campaña 2026-11-11_congreso-completar-32-motor2 tal como figura en la ficha.» (nombra la versión de 32; esta de 31 es la misma menos Jaén, ya completo: solo restringe)
+- Fecha y hora de la frase (Europe/Madrid): 2026-11-11 08:40 (aprox.)
 - Estado de la ficha: BORRADOR. Continúa `2026-11-11_regeneracion-congreso-52-motor2-2023` (PARADA en Álava). T-230b (#706) en `main`.
-- Caducidad: 24 h desde la frase del propietario.
+- Caducidad: 2026-11-12 08:40 (24 h).
 - Gasto semanal al autorizar: se mide al recibir la frase y se anota aquí; tope 15.000 min/semana, aviso al 70 %.
 
 ## Límites
@@ -24,8 +24,9 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
+| 08:42 | tanda 1: Álava (Reutilizar) 42981402781, Asturias 42981406489, Burgos 42981415070, Cantabria 42981422592, Ceuta 42981430591 | P00 Campaña motor2 | — | EN_VUELO | 5 / — | 0/1 |
 
 ## Cierre
-Estado: `BORRADOR`. Último uso: —.
+Estado: `EN_CURSO` (tanda 1). Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-11_congreso-completar-31-motor2 tal como figura en la ficha.»
