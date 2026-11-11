@@ -1,10 +1,10 @@
 # Autorización de campaña 2026-11-11_regeneracion-congreso-52-motor2-2023
 
 - Decisión: D-52 (autorización por campaña) y D-81. Chat del Operador: session_01KQDtFsAtHP9atzNnDthr9A.
-- Frase literal del propietario: (pendiente)
-- Fecha y hora de la frase (Europe/Madrid): (pendiente)
-- Estado de la ficha: BORRADOR.
-- Caducidad: 24 h desde la frase del propietario.
+- Frase literal del propietario: «Autorizo la campaña 2026-11-11_regeneracion-congreso-52-motor2-2023 tal como figura en la ficha.» Añadió: «No monitorices ningun job, ni este ni el autonomico».
+- Fecha y hora de la frase (Europe/Madrid): 2026-11-11 01:05 (aprox.)
+- Estado de la ficha: ACEPTADA. Sin vigilancia de runs (orden del propietario): cada paso siguiente se da al recibir aviso del Coordinador/Planificador o del propietario.
+- Caducidad: 2026-11-12 01:05 (24 h).
 - Gasto semanal al autorizar: se mide al recibir la frase y se anota aquí; tope 15.000 min/semana, aviso al 70 %. **AVISO**: con la nocturna de las 19 en paralelo, el acumulado previsto puede acercarse al 70 %.
 
 ## Límites
@@ -25,8 +25,9 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
+| 01:02 | Congreso La Rioja (referencia) | batería motor2 D8 N=10, `territorios=congreso_la_rioja` | 42928165086 | EN_VUELO | 1 / — | 0/1 |
 
 ## Cierre
-Estado: `BORRADOR`. Último uso: —.
+Estado: `EN_CURSO`. Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-11_regeneracion-congreso-52-motor2-2023 tal como figura en la ficha.»
