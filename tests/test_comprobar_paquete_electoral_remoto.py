@@ -6,6 +6,7 @@ import json
 import subprocess
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 import yaml
@@ -159,6 +160,52 @@ class PreflightPaqueteElectoral(unittest.TestCase):
         finally:
             cp.gh_api = original
         self.assertEqual(code, 0)
+
+    def run_cli(self):
+        out = self.root / "r.json"
+        code = cp.main(["--plan", str(self.root / "plan.json"), "--repo", REPO,
+                        "--root-dir", str(self.root), "--output", str(out)])
+        return code, json.loads(out.read_text(encoding="utf-8"))
+
+    def test_cli_con_gh_api_real_y_503_agotado_sale_con_0(self):
+        (self.root / "plan.json").write_text(json.dumps(plan()), encoding="utf-8")
+        llamadas = []
+
+        def runner(cmd):
+            llamadas.append(cmd)
+            return proc(1, stderr="gh: HTTP 503 Egress is over the account limit")
+        with mock.patch.object(cp, "_run", runner), mock.patch.object(cp, "_sleep", lambda s: None):
+            code, r = self.run_cli()
+        self.assertEqual((code, r["decision"]), (0, "INDETERMINATE"))
+        self.assertEqual(len(llamadas), 3)
+
+    def test_cli_json_corrupto_de_gh_sale_con_0(self):
+        (self.root / "plan.json").write_text(json.dumps(plan()), encoding="utf-8")
+        with mock.patch.object(cp, "_run", lambda cmd: proc(0, "<html>no es json")):
+            code, r = self.run_cli()
+        self.assertEqual((code, r["decision"]), (0, "INDETERMINATE"))
+
+    def test_cli_entradas_corruptas_salen_con_0(self):
+        casos = {
+            "plan ilegible": lambda: (self.root / "plan.json").write_text("{", encoding="utf-8"),
+            "pair.json corrupto": lambda: ((self.root / "plan.json").write_text(json.dumps(plan()), encoding="utf-8"),
+                                           (self.root / "pair.json").write_text("[", encoding="utf-8")),
+            "run_id no numérico": lambda: (self.root / "plan.json").write_text(json.dumps(plan(existing={
+                "electoral_source": {"run_id": "x", "artifact_name": NAME, "artifact_sha256": DIGEST}})), encoding="utf-8"),
+        }
+        for nombre, preparar in casos.items():
+            with self.subTest(nombre):
+                preparar()
+                with mock.patch.object(cp, "gh_api", fake_api([art()])):
+                    code, r = self.run_cli()
+                self.assertEqual((code, r["decision"]), (0, "INDETERMINATE"))
+
+    def test_cli_respuestas_raras_de_la_api_salen_con_0(self):
+        (self.root / "plan.json").write_text(json.dumps(plan()), encoding="utf-8")
+        for respuesta in ([], {"total_count": "muchos", "artifacts": []}):
+            with self.subTest(respuesta=respuesta), mock.patch.object(cp, "gh_api", lambda path, r=respuesta: r):
+                code, r = self.run_cli()
+            self.assertEqual((code, r["decision"]), (0, "INDETERMINATE"))
 
 
 def proc(rc, stdout="", stderr=""):

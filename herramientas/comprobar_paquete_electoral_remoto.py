@@ -43,8 +43,14 @@ class ApiIndeterminada(RuntimeError):
     """La API no permitió concluir (cuota, red, permisos): no es evidencia de que falte el paquete."""
 
 
-def gh_api(path: str, *, runner: Runner = _run, attempts: int = 3, sleep: Callable[[float], None] = time.sleep) -> object:
+_sleep = time.sleep
+
+
+def gh_api(path: str, *, runner: Runner | None = None, attempts: int = 3,
+           sleep: Callable[[float], None] | None = None) -> object:
     """REST con la clasificación de T-251: 404/410 = ausente ({}); el resto, reintento y ApiIndeterminada."""
+    runner = runner or _run
+    sleep = sleep or _sleep
     salida = ""
     for attempt in range(attempts):
         proc = runner(["gh", "api", path])
@@ -56,6 +62,14 @@ def gh_api(path: str, *, runner: Runner = _run, attempts: int = 3, sleep: Callab
         if attempt + 1 < attempts:
             sleep(2 ** (attempt + 1))
     raise ApiIndeterminada(f"{path}: {salida.strip()[:300]}")
+
+
+def _listing(api: Api, path: str) -> dict:
+    """Inventario de artefactos; una respuesta sin forma de inventario no prueba nada."""
+    doc = api(path)
+    if not isinstance(doc, dict) or not isinstance(doc.get("artifacts", []), list):
+        raise ApiIndeterminada(f"{path}: respuesta sin inventario de artefactos")
+    return doc
 
 
 def _sha(value: object) -> str:
@@ -144,14 +158,14 @@ def evaluar(
         return a.get("expired") is True or (expires is not None and expires <= now)
 
     try:
-        listing = api(f"repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100") or {}
+        listing = _listing(api, f"repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100")
         rows = listing.get("artifacts") or []
         complete = int(listing.get("total_count") or len(rows)) <= len(rows)
         named = [a for a in rows if a.get("name") == name]
         live = [a for a in named if not caducado(a) and _sha(a.get("digest")) == digest]
         found_note = "en su run"
         if not live:
-            others = (api(f"repos/{repo}/actions/artifacts?name={quote(name)}&per_page=100") or {}).get("artifacts") or []
+            others = _listing(api, f"repos/{repo}/actions/artifacts?name={quote(name)}&per_page=100").get("artifacts") or []
             live = [a for a in others if not caducado(a) and _sha(a.get("digest")) == digest]
             found_note = "en otro run con el mismo digest"
 
@@ -206,8 +220,13 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--margin-hours", type=float, default=DEFAULT_MARGIN_HOURS)
     ap.add_argument("--output", type=Path)
     ns = ap.parse_args(argv)
-    plan = json.loads(ns.plan.read_text(encoding="utf-8"))
-    result = evaluar(plan, repo=ns.repo, root=ns.root_dir, api=gh_api, margin_hours=ns.margin_hours)
+    try:
+        plan = json.loads(ns.plan.read_text(encoding="utf-8"))
+        result = evaluar(plan, repo=ns.repo, root=ns.root_dir, api=gh_api, margin_hours=ns.margin_hours)
+    except Exception as exc:  # noqa: BLE001 - lo inesperado nunca bloquea: decide la puerta 03
+        result = {"schema": SCHEMA, "decision": "INDETERMINATE", "code": "ELECTORAL_PACKAGE_UNDETERMINED",
+                  "warning": f"ELECTORAL_PACKAGE_UNDETERMINED: comprobación no concluyente "
+                             f"({type(exc).__name__}: {str(exc)[:300]}); decide la puerta 03"}
     rendered = json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     if ns.output:
         ns.output.write_text(rendered, encoding="utf-8")

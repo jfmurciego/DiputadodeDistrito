@@ -13,11 +13,13 @@
   `reutilizar_si_ya_preparada=false`, `prepare_one` de la legislatura vigente y relanzar la 00. Lo no
   determinable (503 de cuota, red, 403, inventario incompleto, identidad del plan incompleta), un artifact_id
   distinto con el mismo digest y la caducidad en menos de 12 h solo avisan (`::warning::`, salida 0) y decide
-  la puerta 03. La clasificación de errores es la de `herramientas/descargar_artefacto.py` (T-251). Sin
+  la puerta 03; cualquier excepción inesperada (JSON inválido, receipt o plan corruptos, respuesta sin
+  inventario) también. La clasificación de errores es la de `herramientas/descargar_artefacto.py` (T-251). Sin
   entradas nuevas en la 00; en `pull_request` no se ejecuta.
 - Pruebas: `tests/test_comprobar_paquete_electoral_remoto.py` (fixtures, sin red: vivo, caducado, ausente,
   digest y artifact_id distintos, caducidad inminente y pasada, otro run, release durable, API 503/403/red
-  con runner simulado, inventario incompleto, no aplicable, condiciones del paso, CLI);
+  con runner simulado, inventario incompleto, entradas y respuestas corruptas, CLI con el `gh_api` real y 503 agotado,
+  no aplicable, condiciones del paso, CLI);
   suites de la 00, par preparado, Gestor, seguridad de workflows y diseño A en verde.
 - Riesgos: ninguno sobre checkpoints ni huellas. Una 00 que antes llegaba a la puerta 03 con el paquete
   caducado ahora para en «Planificar».
