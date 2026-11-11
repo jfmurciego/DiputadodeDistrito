@@ -152,6 +152,18 @@ class Adaptador(unittest.TestCase):
         self.assertEqual(p.aristas, (("B", "C"),))
         self.assertEqual(p.puentes, (("A", "B"), ("C", "D")))
 
+    def test_puentes_del_contrato_bajo_modulos_y_cusec_entero(self):
+        # T-264: los contratos declaran los puentes en modulos.modulo_02_construir_adyacencias y el CUSEC llega
+        # como entero sin el cero inicial.
+        filas = [["0100101001", "1", "50", "01", "01001", "A", "0"], ["0100201001", "1", "50", "01", "01002", "B", "0"],
+                 ["0100301001", "2", "50", "01", "01003", "C", "0"]]
+        comp, grafo = self.escribir(filas, [("0100101001", "0100201001"), ("0100201001", "0100301001")])
+        c = cfg()
+        c["modulos"] = {"modulo_02_construir_adyacencias": {"topology_bridges": [{"u": 100101001, "v": 100201001}]}}
+        p, _, _ = problema_y_plan(comp, grafo, c)
+        self.assertEqual(p.aristas, (("B", "C"),))
+        self.assertEqual(p.puentes, (("A", "B"),))
+
     def test_nucleos_desde_referencia(self):
         filas = [["s1", "1", "100", "22", "22001", "A", "1"], ["s2", "2", "60", "22", "22002", "B", "0"],
                  ["s3", "2", "40", "22", "22002", "C", "0"]]

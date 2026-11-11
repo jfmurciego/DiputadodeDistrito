@@ -3,21 +3,25 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — adaptador de la composición M06 y el grafo M03 al núcleo de reglas
-VERSIÓN: 1.2.0
-NOMBRE DE VERSIÓN: Referencia de núcleos desde el M04
-FECHA: 2026-11-10
+VERSIÓN: 1.2.1
+NOMBRE DE VERSIÓN: Referencia de núcleos desde el M04 · puentes del contrato
+FECHA: 2026-11-11
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.2.0 — referencia_desde_m04(): CSV de referencia de núcleos (sección, district_id) desde el GeoJSON M04, el
+CAMBIOS: 1.2.1 — _puentes_contrato lee modulos.modulo_02_construir_adyacencias (donde los declaran los contratos;
+  la raíz queda de respaldo) y normaliza los CUSEC de topology_bridges con zfill(10) (llegan como entero sin cero
+  inicial; solo los ids numéricos). Antes devolvía vacío y los puentes solo llegaban por edge_type del grafo M03.
+  1.2.0 — referencia_desde_m04(): CSV de referencia de núcleos (sección, district_id) desde el GeoJSON M04, el
   mismo origen que el certificador y que frozen_districts de GerryChain (T-195).
   1.1.0 — nucleos_desde_unidades() y con_nucleos(): el adaptador de núcleos cerrados desde las unidades de
   partición (distrito de referencia y ddd_closed_urban por unidad), sin composición M06; problema_y_plan lo usa.
   1.0.0 — fichero nuevo.
 MOTIVO: T-160 / T-132: misma vara para todos los generadores (canónico, GerryChain, árbol, exacto T-136), que
   acaban en la composición M06. Fuera del núcleo, pero solo stdlib (csv + json): corre en la nube sin geopandas.
+MOTIVO 1.2.1: T-264 (T-254 §3, duplicado «puentes del contrato»): evaluar y la cadena deben ver la misma contigüidad.
 MOTIVO 1.2.0: T-195: la competición juzgaba R-NUCLEO contra la composición del canónico; la regla de producción
   (frozen_districts) y la del certificador parten del distrito inicial del M04.
 MOTIVO 1.1.0: T-175: el certificador exacto no aplicaba R-NUCLEO porque solo había adaptador desde la composición.
-ANTERIOR: legacy/ddd_motor2/adaptadores_v1.1.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/adaptadores_v1.2.0_20261110.py
 ENTRADA ÚNICA: problema_y_plan(composicion_m06_csv, grafo_m03_json, cfg) -> (Problema, {unidad: distrito}, avisos)
   - Columnas: CUSEC_KEY, district_id, section_pop, ddd_unit_id, ddd_closed_urban; provincia y partición en
     validation.province_field y municipio en validation.municipality_field del contrato (CPRO/CUMUN si no los declara,
@@ -141,6 +145,12 @@ def _vacio(v) -> bool:
     return v is None or str(v).strip() == "" or str(v).strip().lower() in {"nan", "none", "null"}
 
 
+def _cusec(x) -> str:
+    """CUSEC de topology_bridges: llega como entero sin cero inicial; los ids no numéricos quedan igual."""
+    t = str(x).strip()
+    return t.zfill(10) if t.isdigit() else t
+
+
 def _puentes_contrato(cfg: Mapping) -> set[tuple[str, str]]:
     out = set()
 
@@ -150,11 +160,13 @@ def _puentes_contrato(cfg: Mapping) -> set[tuple[str, str]]:
                 if k == "topology_bridges" and isinstance(v, list):
                     for b in v:
                         if isinstance(b, Mapping) and b.get("u") is not None and b.get("v") is not None:
-                            out.add(tuple(sorted((str(b["u"]), str(b["v"])))))
+                            out.add(tuple(sorted((_cusec(b["u"]), _cusec(b["v"])))))
                 else:
                     buscar(v)
 
-    buscar((cfg or {}).get("modulo_02_construir_adyacencias") or {})
+    cfg = cfg or {}
+    buscar((cfg.get("modulos") or {}).get("modulo_02_construir_adyacencias")
+           or cfg.get("modulo_02_construir_adyacencias") or {})
     return out
 
 
