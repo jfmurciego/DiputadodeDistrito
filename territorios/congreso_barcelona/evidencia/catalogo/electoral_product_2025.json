@@ -4,9 +4,9 @@
   "territory_id": "congreso_barcelona",
   "territory_name": "Congreso Barcelona",
   "edition": "2025",
-  "run_id": 42495069270,
-  "artifact_name": "ddd-state-42495069270-M08",
-  "artifact_sha256": "04472063cf0ce40959829682ddaf9d523348bd9181738fedd7ec0c8f8d080453",
-  "source_commit": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8",
+  "run_id": 42953127263,
+  "artifact_name": "ddd-state-42953127263-M08",
+  "artifact_sha256": "a9ffd2ef295af448e18c909b32a2b3a3a3dd3c5fcebcfc0d306ba3e0adf1afcb",
+  "source_commit": "6a9d860eee7224d7fcff7d030ec7a501a3cbd45d",
   "stage": "M08"
 }
