@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.366
+Versión: 1.0.367
 Fecha: 2026-11-11
-Alcance: T-246 — La 00 comprueba al planificar que el paquete electoral sigue descargable
+Alcance: T-267 (regresión de T-251) — La puerta de validación vuelve a funcionar bajo `bash -eo pipefail`
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-11_t246-preflight-paquete-electoral.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.365_registro_20261111.md
+Cambios/motivo: entrada docs/registro/2026-11-11_t251b-puerta-errexit.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.366_registro_20261111.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.365_registro_20261111.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.367 · [2026-11-11 — T-267 (regresión de T-251) — La puerta de validación vuelve a funcionar bajo `bash -eo pipefail`](registro/2026-11-11_t251b-puerta-errexit.md)
 - 1.0.366 · [2026-11-11 — T-246 — La 00 comprueba al planificar que el paquete electoral sigue descargable](registro/2026-11-11_t246-preflight-paquete-electoral.md)
 - 1.0.365 · [2026-11-11 — T-251 — La puerta distingue cuota de egress (503) de artefacto caducado](registro/2026-11-11_t251-descarga-artefactos-503.md)
 - 1.0.364 · [2026-11-11 — T-264 — motor2: los puentes del contrato llegan al adaptador](registro/2026-11-11_t264-puentes-adaptadores.md)
