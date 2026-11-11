@@ -345,8 +345,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41062562553
-        stage: M08
+        run_id: 43025661789
+        stage: M06
       preparation_evidence:
         run_id: 40946901555
         artifact_name: ddd-source-package-cataluna-2025-40946901555

@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13861270279,
+      "artifact_name": "ddd-audit-43025661789",
+      "artifact_sha256": "07ede35d842e5546b52e2cde9577c71d44f9ca56c21b4e4e567e3dd20858724c",
+      "run_id": 43025661789,
+      "size_in_bytes": 33418
+    },
+    "m04": {
+      "artifact_id": 13860395111,
+      "artifact_name": "ddd-state-43025661789-M04",
+      "artifact_sha256": "accf1bd23ffd2f742688b598f4443192f5996b841e9ca4109e1d899333a71d4d",
+      "run_id": 43025661789,
+      "size_in_bytes": 100067539
+    },
+    "m05": {
+      "artifact_id": 13860275829,
+      "artifact_name": "ddd-state-43025661789-M05",
+      "artifact_sha256": "abd588033239ae7f4d8d5cc9fe982f56b7967cb1e3f6fbfa5e960c45b06f09da",
+      "run_id": 43025661789,
+      "size_in_bytes": 104880702
+    },
+    "m06": {
+      "artifact_id": 13861186672,
+      "artifact_name": "ddd-state-43025661789-M06",
+      "artifact_sha256": "60e97d14b98f8bee0aed208b90e6a484c31e19673a1f48155a3cf092c3250e7f",
+      "run_id": 43025661789,
+      "size_in_bytes": 117888952
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "26f1bf23e7a85bc3ecec1cf9e863d43009a7c0bbdb030443da97df6765b7b1a3",
+        "size_in_bytes": 411
+      },
+      "cataluna_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "166625baad74082e6e9fc68f73d35556b3c246d668fcb6d263694bff63e1eca5",
+        "size_in_bytes": 320624
+      },
+      "optimization_execution.json": {
+        "sha256": "a7e9f7a2c7a78da356eb0e475a1f92b114768308728b733b233f3b317ebda5db",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "20c97d0bdf3146fdfc3a349fb7ec15dcce91913775a92cee572f7e5021a5b4b9",
+        "size_in_bytes": 1479
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "20c97d0bdf3146fdfc3a349fb7ec15dcce91913775a92cee572f7e5021a5b4b9",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/cataluna/config/cataluna_2025.yaml",
+    "sha256": "55b54e1a4540a6bc1e00d9dbb6695783af2e9356acd523bf9f1d3d333bb6c32c"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "922e665d2a55016ecf6118d7ce7b0beb11596c7eac08b5a9537d939ae3e70340",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1873138711",
+      "generador": "ponderado",
+      "huella_resultado": "ec606881150890597a60dca6f4d326772cfc6a301f44a116ce2d6c37a2d029d2",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.670669505160298,
+          "fuera_tolerancia": 58,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.6795659036790127,
+          "fuera_tolerancia": 31,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "48298cb740c6cbd7e558380894ce3606a0fa32ade7b988fe8d80b6b6841e7726",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+    "edition": "2025",
+    "territory_id": "cataluna",
+    "territory_name": "Cataluña",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43025661789,
+    "workflow_sha": "6ad5b525a72328c916f98ca06ee6c6035293e440"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13860395111,
+      "artifact_name": "ddd-state-43025661789-M04",
+      "artifact_sha256": "accf1bd23ffd2f742688b598f4443192f5996b841e9ca4109e1d899333a71d4d",
+      "run_id": 43025661789,
+      "size_in_bytes": 100067539
+    },
+    "source_manifest_sha256": "e363c12b6133d77a4f18738a8da1f0ac5041e2c404ee47dbae88ddcd92ac7873",
+    "source_package_artifact": {
+      "artifact_id": 12930565259,
+      "artifact_name": "ddd-source-package-cataluna-2025-40946901555",
+      "artifact_sha256": "48f48f116aa80838cc5a9c1a6b3794c807c52b65a3217b0c7a821016b65404f8",
+      "run_id": 40946901555,
+      "size_in_bytes": 90328041
+    }
+  },
+  "manifest_sha256": "e5c710dfe1af2eccf96896bdeaf172c3fafd463f895b6ab823e6cef9411a2bb0",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
