@@ -2,7 +2,11 @@
 
 Respuestas de `gh run download` simuladas; sin red ni esperas reales.
 """
+import os
+import stat
 import subprocess
+import tempfile
+import textwrap
 import unittest
 from pathlib import Path
 
@@ -89,6 +93,71 @@ class PuertaUsaLaDescargaClasificada(unittest.TestCase):
         self.assertNotIn("gh run download", wf)
         self.assertEqual(wf.count("herramientas.descargar_artefacto"), 2)
         self.assertIn("ARTIFACT_EGRESS_QUOTA", wf)
+
+
+def _gate_run():
+    import yaml
+    wf = yaml.safe_load((Path(__file__).resolve().parents[1]
+                         / ".github/workflows/_reutilizable-puerta-validacion.yml").read_text(encoding="utf-8"))
+    return next(step["run"] for job in wf["jobs"].values() for step in job["steps"]
+                if "herramientas.validar_puerta_ejecucion" in str(step.get("run", "")))
+
+
+def _bloque(run, inicio, fin, incluir_fin=True):
+    lineas = run.splitlines()
+    i = next(n for n, l in enumerate(lineas) if inicio in l)
+    j = next(n for n in range(i + 1, len(lineas)) if fin in lineas[n])
+    return textwrap.dedent("\n".join(lineas[i:j + (1 if incluir_fin else 0)]))
+
+
+class DescargarBajoErrexit(unittest.TestCase):
+    """T-251b: el paso corre con `bash -eo pipefail` (shell: bash); la 1.3.0 moría con exit 1 en silencio."""
+
+    @classmethod
+    def setUpClass(cls):
+        run = _gate_run()
+        cls.funcion = _bloque(run, "descargar() {", "dl_msg=") + "\n}"
+        cls.artefacto = _bloque(run, 'descargar "$ARTIFACT_NAME"', "esac")
+        cls.auditoria = _bloque(run, 'descargar "$audit_name"', '[[ "$from_release" == true ]]') + "\nfi"
+
+    def _ejecutar(self, cuerpo, rc, err=""):
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = Path(tmp) / "bin" / "python"
+            fake.parent.mkdir()
+            fake.write_text('#!/bin/sh\nprintf "%s" "$FAKE_ERR" >&2\nexit "$FAKE_RC"\n')
+            fake.chmod(fake.stat().st_mode | stat.S_IEXEC)
+            script = "\n".join([
+                'emit_blocked() { echo "BLOQUEADO $2 $1"; exit "$2"; }',
+                "mkdir -p .ddd-gate", self.funcion,
+                'ARTIFACT_NAME=ddd-state-1-M06; audit_name=ddd-audit-1; resolved_run_id=1; from_release=false',
+                cuerpo, 'echo "SIGUE rc=$dl_rc"'])
+            env = dict(os.environ, PATH=f"{fake.parent}:{os.environ['PATH']}", FAKE_RC=str(rc), FAKE_ERR=err,
+                       GITHUB_REPOSITORY="o/r")
+            return subprocess.run(["bash", "-eo", "pipefail", "-c", script], cwd=tmp, env=env,
+                                  capture_output=True, text=True)
+
+    def test_artefacto_por_codigo(self):
+        casos = {0: (0, "SIGUE rc=0"),
+                 75: (75, "BLOQUEADO 75 ARTIFACT_EGRESS_QUOTA: cuota"),
+                 44: (44, "BLOQUEADO 44 ARTIFACT_MISSING: caducado"),
+                 42: (42, "BLOQUEADO 42 No se pudo descargar ddd-state-1-M06: ARTIFACT_DOWNLOAD_FAILED: x")}
+        msgs = {0: "", 75: "::error::ARTIFACT_EGRESS_QUOTA: cuota\n", 44: "::error::ARTIFACT_MISSING: caducado\n",
+                42: "::warning::aviso\n::error::ARTIFACT_DOWNLOAD_FAILED: x\n"}
+        for rc, (esperado_rc, esperado_out) in casos.items():
+            with self.subTest(rc=rc):
+                p = self._ejecutar(self.artefacto, rc, msgs[rc])
+                self.assertEqual(p.returncode, esperado_rc, p.stdout + p.stderr)
+                self.assertIn(esperado_out, p.stdout)
+
+    def test_auditoria_por_codigo(self):
+        p = self._ejecutar(self.auditoria, 0)
+        self.assertEqual((p.returncode, p.stdout.strip()), (0, "SIGUE rc=0"), p.stderr)
+        p = self._ejecutar(self.auditoria, 75, "::error::ARTIFACT_EGRESS_QUOTA: cuota\n")
+        self.assertEqual(p.returncode, 75, p.stderr)
+        self.assertIn("BLOQUEADO 75 ARTIFACT_EGRESS_QUOTA", p.stdout)
+        p = self._ejecutar(self.auditoria, 44, "::error::ARTIFACT_MISSING: caducado\n")
+        self.assertEqual(p.returncode, 43, p.stderr)
+        self.assertIn("BLOQUEADO 43 Falta certificación ddd-audit-1", p.stdout)
 
 
 if __name__ == "__main__":
