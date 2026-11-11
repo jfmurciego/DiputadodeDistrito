@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T03:36:25.597498+00:00",
+  "generated_at": "2026-11-11T03:43:01.793255+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8013,10 +8013,10 @@
           "territory_id": "congreso_alicante",
           "territory_name": "Congreso Alicante",
           "edition": "2025",
-          "run_id": 42495067503,
-          "artifact_name": "ddd-state-42495067503-M08",
-          "artifact_sha256": "0703e4cda0c09573a0c35f2333bb283d84be5b70bc70345c3407c8fdfe013403",
-          "source_commit": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8",
+          "run_id": 42953235024,
+          "artifact_name": "ddd-state-42953235024-M08",
+          "artifact_sha256": "8301e5de5d94150631e9999832e3878602735f82e86710fd8d485f23b09e62a9",
+          "source_commit": "63eda2eb868bccaf87c017bc20cda01b6a06f3bf",
           "stage": "M08"
         }
       },
@@ -8257,10 +8257,10 @@
           "territory_id": "congreso_baleares",
           "territory_name": "Congreso Baleares",
           "edition": "2025",
-          "run_id": 41481449507,
-          "artifact_name": "ddd-state-41481449507-M08",
-          "artifact_sha256": "9824a5c23e324287374d740dcf375e3fee1a3cd2c0c2b053349239ddbf679ee3",
-          "source_commit": "49f01f011962a0d2248a7286c322077f8de6103f",
+          "run_id": 42953068884,
+          "artifact_name": "ddd-state-42953068884-M08",
+          "artifact_sha256": "8c26683f3cc565c9e9d26f88aaf52f7e476d4d607b7233bf67710edf8dd6e8bf",
+          "source_commit": "5841c5e374f931f1008a616b6a0f033bae70ee4f",
           "stage": "M08"
         }
       },
@@ -8318,10 +8318,10 @@
           "territory_id": "congreso_barcelona",
           "territory_name": "Congreso Barcelona",
           "edition": "2025",
-          "run_id": 42495069270,
-          "artifact_name": "ddd-state-42495069270-M08",
-          "artifact_sha256": "04472063cf0ce40959829682ddaf9d523348bd9181738fedd7ec0c8f8d080453",
-          "source_commit": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8",
+          "run_id": 42953127263,
+          "artifact_name": "ddd-state-42953127263-M08",
+          "artifact_sha256": "a9ffd2ef295af448e18c909b32a2b3a3a3dd3c5fcebcfc0d306ba3e0adf1afcb",
+          "source_commit": "6a9d860eee7224d7fcff7d030ec7a501a3cbd45d",
           "stage": "M08"
         }
       },
@@ -8440,10 +8440,10 @@
           "territory_id": "congreso_caceres",
           "territory_name": "Congreso Cáceres",
           "edition": "2025",
-          "run_id": 41294658600,
-          "artifact_name": "ddd-state-41294658600-M08",
-          "artifact_sha256": "85ffc45d83c90e217f3fee78af19f0b6f67972b56ce55029e9a69b068721d09e",
-          "source_commit": "d84c0c4235a5daae067d1876ec39b947f53bd81a",
+          "run_id": 42953363103,
+          "artifact_name": "ddd-state-42953363103-M08",
+          "artifact_sha256": "9615d0611f5d7123bf87de224204c481db9effc763761d0a6354699b3feb5d0c",
+          "source_commit": "23c8de11972392ad796a8dd604050377098791ba",
           "stage": "M08"
         }
       },
@@ -8501,10 +8501,10 @@
           "territory_id": "congreso_cadiz",
           "territory_name": "Congreso Cádiz",
           "edition": "2025",
-          "run_id": 41500124775,
-          "artifact_name": "ddd-state-41500124775-M08",
-          "artifact_sha256": "036e0dc515372ddbb91e7e8ec93b3613105d8da6b2d4580dc3323b58a84a67c6",
-          "source_commit": "f732d8193dbff286650d4e859a6c992fd04d8c7d",
+          "run_id": 42953019279,
+          "artifact_name": "ddd-state-42953019279-M08",
+          "artifact_sha256": "eed4707fe0c31b5f54827b84c6eb886dea495810c627efeec146e887da8ad299",
+          "source_commit": "d0c58d7f84535e1c94ef0bd1ff1c7f1e5c3c282a",
           "stage": "M08"
         }
       },
@@ -8684,10 +8684,10 @@
           "territory_id": "congreso_cordoba",
           "territory_name": "Congreso Córdoba",
           "edition": "2025",
-          "run_id": 41296161083,
-          "artifact_name": "ddd-state-41296161083-M08",
-          "artifact_sha256": "d63b784edc0238bf7e96bfd0c81407da2c416088b4b4f36e20cc154c5d5a8f0d",
-          "source_commit": "350f7376b59e8e0a760cfdb3dde3ef37cbdd3169",
+          "run_id": 42953300723,
+          "artifact_name": "ddd-state-42953300723-M08",
+          "artifact_sha256": "269d54a55cac337b883991b7e144ca6e61cb36f50b2778688a0ea512569b88ef",
+          "source_commit": "23c8de11972392ad796a8dd604050377098791ba",
           "stage": "M08"
         }
       },
@@ -8745,10 +8745,10 @@
           "territory_id": "congreso_la_coruna",
           "territory_name": "Congreso La Coruña",
           "edition": "2025",
-          "run_id": 41296991598,
-          "artifact_name": "ddd-state-41296991598-M08",
-          "artifact_sha256": "5627622d20e08f4841eeb0504413d23903fc65d7e49fffd312e1222a25065dd6",
-          "source_commit": "9bf68825125d71234f1aef60dac452643f8eda1b",
+          "run_id": 42953518518,
+          "artifact_name": "ddd-state-42953518518-M08",
+          "artifact_sha256": "2959479852aa774687fb39b239abd3e6cbc1514565422fa76bfc02e371e663fe",
+          "source_commit": "1e3d9c47b59c47d5c3e21151fae3578b0bc7413a",
           "stage": "M08"
         }
       },
@@ -8889,12 +8889,12 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42940407337,
       "last_run": {
-        "run_id": 41296546816,
+        "run_id": 42940407337,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
-        "publication": "executed"
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
       },
       "stage": "M06",
       "edition": "2025",
