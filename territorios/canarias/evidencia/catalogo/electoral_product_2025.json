@@ -4,9 +4,9 @@
   "territory_id": "canarias",
   "territory_name": "Canarias",
   "edition": "2025",
-  "run_id": 42523951377,
-  "artifact_name": "ddd-state-42523951377-M08",
-  "artifact_sha256": "a8bc17b31163ab7ea1a775bef9551222615d831c1f1e823e44d95faa7fc01c4e",
-  "source_commit": "038f783212382b5ed5199f2b5faff57e680382d1",
+  "run_id": 43020588641,
+  "artifact_name": "ddd-state-43020588641-M08",
+  "artifact_sha256": "2f5d4b4cdadda0928a0da99bf3efd954f49c6c0cde23b27a623523b95dcfaee5",
+  "source_commit": "60d4a67e58b1fe16f3e0763c060056adad0082a1",
   "stage": "M08"
 }
