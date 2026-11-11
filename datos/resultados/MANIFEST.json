@@ -822,6 +822,15 @@
     "sha256": "22f8ce16ba29a475ec0a11e6373a838a1bfbe5e609f97de7a8a7ac02478e5b2a"
    }
   },
+  "congreso_asturias/42985447971": {
+   "territorio": "congreso_asturias",
+   "run_id": "42985447971",
+   "run_territorial": "42981406489",
+   "sha256_composicion": "cf64864f98110e3bbdbfaea73cb89683fca0a151d3f417a5f48d6f0866640a4c",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "aa5579a1db775431c72947df37d5e6d730d9b17e5d14221717196e0810c47951",
+   "ruta": "datos/resultados/runs/congreso_asturias_42985447971_partidos.csv"
+  },
   "congreso_avila/42948760863": {
    "territorio": "congreso_avila",
    "run_id": "42948760863",
