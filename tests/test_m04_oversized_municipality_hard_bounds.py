@@ -5,7 +5,9 @@ from pathlib import Path
 
 import yaml
 
-from ddd_core import m04_seed_engine_v745 as engine
+# T-263: v745 (archivado) se sustituye por la base viva v7410; los dos tests que reproducían el fallo de banda
+# estrecha del v745 se retiran con él (documentaban el motor archivado, no el vivo).
+from ddd_core import m04_seed_engine_v7410 as engine
 from ddd_core import m04_seed_engine_v7412 as repaired_engine
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -76,10 +78,6 @@ def assert_partition_integrity(testcase, nodes, weights, adjacency, floor, cap, 
 
 
 class OversizedMunicipalityHardBounds(unittest.TestCase):
-    def test_logrono_fixture_reproduces_old_tight_band_failure(self):
-        with self.assertRaisesRegex(SystemExit, "no se puede extraer núcleo municipal factible"):
-            partition("logrono_run_35754690537.json", quality_band_as_hard=True)
-
     def test_logrono_hard_bounds_find_feasible_deterministic_partition(self):
         data = partition("logrono_run_35754690537.json")
         payload, nodes, weights, adjacency, target, floor, cap, tolerance, result = data
@@ -89,10 +87,6 @@ class OversizedMunicipalityHardBounds(unittest.TestCase):
         self.assertEqual(canonical_hash(cores, residual), "dbf5feca9122a76c1ce72f30bc6907eeff2c58604cb2ce125f5b3c26ed75f918")
         reversed_result = partition("logrono_run_35754690537.json", reverse=True)[-1]
         self.assertEqual(canonical_hash(*result[:2]), canonical_hash(*reversed_result[:2]))
-
-    def test_alcorcon_fixture_reproduces_old_tight_band_failure(self):
-        with self.assertRaisesRegex(SystemExit, "no se puede extraer núcleo municipal factible"):
-            partition("alcorcon_run_35755083483.json", quality_band_as_hard=True)
 
     def test_alcorcon_hard_bounds_allow_quality_outlier(self):
         data = partition("alcorcon_run_35755083483.json")
