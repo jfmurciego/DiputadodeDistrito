@@ -1113,6 +1113,13 @@
    "sha256_csv": "b93198a523386b186a1548afea871a8a5026109ca31744eafee7520fd9e5f959",
    "ruta": "datos/composicion/runs/congreso_la_rioja_42932144515.csv"
   },
+  "congreso_lerida/42940443438": {
+   "territorio": "congreso_lerida",
+   "run_id": "42940443438",
+   "secciones": 388,
+   "sha256_csv": "3357882f436af28e53505fb078eb3df44fe40511d1160f6b2c7d652a2c0eac91",
+   "ruta": "datos/composicion/runs/congreso_lerida_42940443438.csv"
+  },
   "congreso_lugo/42514986960": {
    "territorio": "congreso_lugo",
    "run_id": "42514986960",
