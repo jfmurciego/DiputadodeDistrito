@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13822743421,
+      "artifact_name": "ddd-audit-42940542275",
+      "artifact_sha256": "4d8ed0acd42b520308a3e6932d3ed4e29ddf783f8fc7248644f65c96b2ab5e2a",
+      "run_id": 42940542275,
+      "size_in_bytes": 3131
+    },
+    "m04": {
+      "artifact_id": 13822517547,
+      "artifact_name": "ddd-state-42940542275-M04",
+      "artifact_sha256": "de9e3f8b5ba9ea8f26137a18d7e1c9cbef308752b38b06fe4f89ff6ec3bd5b57",
+      "run_id": 42940542275,
+      "size_in_bytes": 79390037
+    },
+    "m05": {
+      "artifact_id": 13822762810,
+      "artifact_name": "ddd-state-42940542275-M05",
+      "artifact_sha256": "da4f70c87aff9fe81d487d9cb5ebd17628a9484ec4163188583f60b2b9d95eae",
+      "run_id": 42940542275,
+      "size_in_bytes": 80427543
+    },
+    "m06": {
+      "artifact_id": 13823665986,
+      "artifact_name": "ddd-state-42940542275-M06",
+      "artifact_sha256": "9fbc68284eccd7956093ec7161c640b045283a0ee56c1a1b9cac4caf7a7302f1",
+      "run_id": 42940542275,
+      "size_in_bytes": 82800491
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "03304719b020f4c89bb857b7bc8c356ac4ec0dac2dfd665974148a22cd8a8d91",
+        "size_in_bytes": 373
+      },
+      "congreso_toledo_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "0e6e33703904b45b764b163a4bb6bf561a6a97d154a7756cb48e09abd95e1aa0",
+        "size_in_bytes": 5706
+      },
+      "optimization_execution.json": {
+        "sha256": "b27fc9175fb0d4a9eb00edf623fa48a3f492772fad0bbb3a70dd1b2db6591f07",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "c32d03373a8445d8496eeac66470bf18d57c09569bdb7ee2cf7fb5681c407345",
+        "size_in_bytes": 1447
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "c32d03373a8445d8496eeac66470bf18d57c09569bdb7ee2cf7fb5681c407345",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_toledo/config/congreso_toledo_2025.yaml",
+    "sha256": "7d8473fc81fdab0344d3cd8b2e370166d347469cfe3396010ae9a8599ecca6b4"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "b4735e004cc1d0dd693cdb32bc658a8056beb697d1fee2db12c23f61a6f788dd",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1178440691",
+      "generador": "ponderado",
+      "huella_resultado": "81a0eca039906b05892290614ca45ed0a5dcee2bb87fe815b151f34af0e430bf",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.006425828053704494,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.0560762236155336,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "df3d3f5cb6e3d2d98d2aacc73eb18728300f260124ac789712bb6558984dc52f",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_toledo",
+    "territory_name": "Congreso Toledo",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940542275,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13822517547,
+      "artifact_name": "ddd-state-42940542275-M04",
+      "artifact_sha256": "de9e3f8b5ba9ea8f26137a18d7e1c9cbef308752b38b06fe4f89ff6ec3bd5b57",
+      "run_id": 42940542275,
+      "size_in_bytes": 79390037
+    },
+    "source_manifest_sha256": "aa27a6f24c99444191837ad84bd5cf688e6ec12267e0e6ae9f41402c7903afc4",
+    "source_package_artifact": {
+      "artifact_id": 13059053517,
+      "artifact_name": "ddd-source-package-congreso_toledo-2025-41242809451",
+      "artifact_sha256": "71f31e9845cf1cc6d6072b0ed5d3248502320699c6665548ebde86604e3db465",
+      "run_id": 41242809451,
+      "size_in_bytes": 77298947
+    }
+  },
+  "manifest_sha256": "d4628a560fff01e8fd580abfe2ba420e66debc909583e9002ef980cd04b16d5c",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
