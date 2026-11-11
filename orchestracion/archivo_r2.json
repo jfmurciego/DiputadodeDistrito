@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T13:37:19Z",
+  "actualizado_en": "2026-11-11T13:38:05Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -6098,19 +6098,20 @@
       "territorio": "congreso_segovia",
       "url": "r2://ddd-research-archive/congreso_segovia/42940515676/ddd-minimo-42940515676-M06.zip"
     },
-    "congreso_segovia/43024836898/ddd-minimo-43024836898-M06.zip": {
-      "archivado_en": "2026-11-11T13:22:24Z",
-      "artefacto": "ddd-minimo-43024836898-M06",
-      "artefacto_origen": "ddd-state-43024836898-M06",
-      "artifact_id": 13857947023,
-      "caducidad_original": "2026-11-25T13:18:57Z",
-      "run_id": "43024836898",
-      "sha256": "153ac8a604cedc2c8e467f1026df04ec5b89e171c48e98dc7810f6beeb626fdb",
-      "sha256_estado_original": "6aa0980e4a2999b05eece351086a3bd5ee61cc849517036073d74e532788b09d",
-      "tamano_bytes": 122639,
-      "tamano_estado_original": 77494380,
+    "congreso_segovia/43029353804/ddd-minimo-43029353804-M08.zip": {
+      "archivado_en": "2026-11-11T13:38:05Z",
+      "artefacto": "ddd-minimo-43029353804-M08",
+      "artefacto_origen": "ddd-state-43029353804-M08",
+      "artifact_id": 13858753994,
+      "caducidad_original": "2026-11-25T13:34:52Z",
+      "incluye_m06_run": "43024836898",
+      "run_id": "43029353804",
+      "sha256": "829d995bd494ac87a87f5c3e004c63f06e81be68bc72c39e9d6cc894b255a745",
+      "sha256_estado_original": "2c4eaaa4ccf4f3df9c3ed0b22eb40fa05a6ba2e45e9f8a7cca9fc22a609f284b",
+      "tamano_bytes": 157643,
+      "tamano_estado_original": 77934328,
       "territorio": "congreso_segovia",
-      "url": "r2://ddd-research-archive/congreso_segovia/43024836898/ddd-minimo-43024836898-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_segovia/43029353804/ddd-minimo-43029353804-M08.zip"
     },
     "congreso_sevilla/41244347546/ddd-audit-41244347546.zip": {
       "archivado_en": "2026-11-08T12:10:58Z",

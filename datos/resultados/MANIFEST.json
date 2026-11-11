@@ -1351,6 +1351,15 @@
    "sha256_csv": "b192b03a04030927927e8aa3ee408614cdfd018b077a2e8a7baa73d04e0682c1",
    "ruta": "datos/resultados/runs/congreso_santa_cruz_de_tenerife_43020203637_partidos.csv"
   },
+  "congreso_segovia/43029353804": {
+   "territorio": "congreso_segovia",
+   "run_id": "43029353804",
+   "run_territorial": "43024836898",
+   "sha256_composicion": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "0a2dc910af6815955a53414328a838ed62820eea545f686d43852e7fe1c7393c",
+   "ruta": "datos/resultados/runs/congreso_segovia_43029353804_partidos.csv"
+  },
   "congreso_soria/43029280043": {
    "territorio": "congreso_soria",
    "run_id": "43029280043",
