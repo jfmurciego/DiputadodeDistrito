@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:53:30Z",
+  "actualizado_en": "2026-11-11T02:54:59Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3680,6 +3680,20 @@
       "tamano_estado_original": 80648448,
       "territorio": "congreso_pontevedra",
       "url": "r2://ddd-research-archive/congreso_pontevedra/41353894475/ddd-minimo-41353894475-M08.zip"
+    },
+    "congreso_pontevedra/42940495323/ddd-minimo-42940495323-M06.zip": {
+      "archivado_en": "2026-11-11T02:54:59Z",
+      "artefacto": "ddd-minimo-42940495323-M06",
+      "artefacto_origen": "ddd-state-42940495323-M06",
+      "artifact_id": 13822103689,
+      "caducidad_original": "2026-11-25T02:28:37Z",
+      "run_id": "42940495323",
+      "sha256": "6a5ef07f5f33add1156967cdf4ad06ea69755d2b11e06671ecd76760e9db40cf",
+      "sha256_estado_original": "25aacd90dd4fc6880c12737537cb0e1fb7ff48a37419c4e4b976c17f14d0d3fd",
+      "tamano_bytes": 326613,
+      "tamano_estado_original": 80501255,
+      "territorio": "congreso_pontevedra",
+      "url": "r2://ddd-research-archive/congreso_pontevedra/42940495323/ddd-minimo-42940495323-M06.zip"
     },
     "congreso_salamanca/41241010241/ddd-audit-41241010241.zip": {
       "archivado_en": "2026-11-08T12:08:05Z",
