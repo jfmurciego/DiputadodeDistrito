@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T13:46:53.360478+00:00",
+  "generated_at": "2026-11-11T13:48:47.031299+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7098,10 +7098,10 @@
           "territory_id": "castilla_y_leon",
           "territory_name": "Castilla y León",
           "edition": "2025",
-          "run_id": 42531122768,
-          "artifact_name": "ddd-state-42531122768-M08",
-          "artifact_sha256": "85727339f12a4afcabba8e98f33168bd84c15bc23abc7ded8f89a3ff2d9c9826",
-          "source_commit": "ea7d79ddbe517361b81970cb7a307648819c2ff1",
+          "run_id": 43030986959,
+          "artifact_name": "ddd-state-43030986959-M08",
+          "artifact_sha256": "1bef8fe0f2070bd1c632da8defbc16e075d5ecb5eb8043a486e0245542c57b21",
+          "source_commit": "2fd0497e5765ed58157f4ffd92d8c20b42380547",
           "stage": "M08"
         }
       },
@@ -10347,20 +10347,20 @@
       "name": "Nacional Soria",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 43024852774,
+      "run_id": 43029280043,
       "last_run": {
-        "run_id": 43024852774,
+        "run_id": 43029280043,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10401,7 +10401,7 @@
       },
       "autonomous_community_code_ine": "C42",
       "display_name": "Nacional Soria",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_tarragona",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 57,
+    "complete": 58,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12309,6 +12309,7 @@
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
+      "Nacional Soria",
       "Nacional Teruel",
       "Nacional Ceuta",
       "Nacional Melilla",
@@ -12525,11 +12526,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_teruel",
-    "name": "Nacional Teruel",
-    "display_name": "Nacional Teruel",
-    "autonomous_community_code_ine": "C44",
-    "run_id": 43029189395,
+    "territory_id": "congreso_soria",
+    "name": "Nacional Soria",
+    "display_name": "Nacional Soria",
+    "autonomous_community_code_ine": "C42",
+    "run_id": 43029280043,
     "stage": "M08",
     "certification": "PASS",
     "edition": "2025"
