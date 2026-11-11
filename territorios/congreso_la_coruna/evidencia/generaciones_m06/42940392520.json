@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13822573004,
+      "artifact_name": "ddd-audit-42940392520",
+      "artifact_sha256": "e2d6b0456cdd92dddf901a18c51a5c04f7d17304115fde0c2279ed1a22aa608c",
+      "run_id": 42940392520,
+      "size_in_bytes": 6357
+    },
+    "m04": {
+      "artifact_id": 13821573718,
+      "artifact_name": "ddd-state-42940392520-M04",
+      "artifact_sha256": "4dd65b5a87826c2db96ed2fd20c864bafab0e553b7e5d1c09e1af4b331e982d0",
+      "run_id": 42940392520,
+      "size_in_bytes": 80119992
+    },
+    "m05": {
+      "artifact_id": 13822356916,
+      "artifact_name": "ddd-state-42940392520-M05",
+      "artifact_sha256": "b565efb27f22460e4c83b33ab350c520ae55cef82053067903ddb53b3541522d",
+      "run_id": 42940392520,
+      "size_in_bytes": 81312166
+    },
+    "m06": {
+      "artifact_id": 13822771091,
+      "artifact_name": "ddd-state-42940392520-M06",
+      "artifact_sha256": "7875a036739089dcd86f99e6a11d29048a2746d290b13021cd5985f2c0a123e3",
+      "run_id": 42940392520,
+      "size_in_bytes": 84146094
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "5b84a6a6b326aca26443c49056fe4fdfffd9f47c919c841b84ed396ba9c76b9f",
+        "size_in_bytes": 408
+      },
+      "congreso_la_coruna_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "305c78c76b5af3b71c180b2063c17d301aa52c08c1c185cc63ba9123f3e7d269",
+        "size_in_bytes": 33364
+      },
+      "optimization_execution.json": {
+        "sha256": "821b8b2817d6adbc3b7644ff1c236fffe56f9e16c082619ea1629e1b4faef803",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "25e7835bea2670800d0f6b43c47efd7869c2b84c6a4b0ef9bf36fc6d7769d0e9",
+        "size_in_bytes": 1508
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "25e7835bea2670800d0f6b43c47efd7869c2b84c6a4b0ef9bf36fc6d7769d0e9",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_la_coruna/config/congreso_la_coruna_2025.yaml",
+    "sha256": "02662d0e445b3ee82ce17d0765f5d7690efd47e9ec91ef9b4f6df80aa92548d9"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "3f8238753d2dbc02643cd4be3262193b0824b01bca37fb9cea4d1392bb4cc3e1",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1273088470",
+      "generador": "ponderado",
+      "huella_resultado": "6231a3abca5e696eea1cadcf0cdb596874040ae4b52aee29654bd49c42b91d04",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.050594189435920436,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.07085428745315353,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "c1da54de3f8ff887c950e2e8ab9cd9ad6b60ce83a800eb3ff5e302d029a7b502",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_la_coruna",
+    "territory_name": "Congreso La Coruña",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940392520,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13821573718,
+      "artifact_name": "ddd-state-42940392520-M04",
+      "artifact_sha256": "4dd65b5a87826c2db96ed2fd20c864bafab0e553b7e5d1c09e1af4b331e982d0",
+      "run_id": 42940392520,
+      "size_in_bytes": 80119992
+    },
+    "source_manifest_sha256": "7c3c118c41e4697e755c4ea123ee5efab2c896ba31a593e0ef5ba65dc0aebf0a",
+    "source_package_artifact": {
+      "artifact_id": 13059018711,
+      "artifact_name": "ddd-source-package-congreso_la_coruna-2025-41243697404",
+      "artifact_sha256": "c3e29f26b8c080248e37f94449ab610d6bec2423f02b77f3256de09080bef3a3",
+      "run_id": 41243697404,
+      "size_in_bytes": 77713280
+    }
+  },
+  "manifest_sha256": "716d027e2fc143654e093eaa35a6a5b7630d717a3fe15d7433058bc1979d30a3",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
