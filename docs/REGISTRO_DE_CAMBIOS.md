@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.358
+Versión: 1.0.359
 Fecha: 2026-11-11
-Alcance: T-254 — Medición de Deslinde 1.0: tiempo por fase, código muerto, duplicados y reparaciones
+Alcance: T-256 — Exhaustivo: `podar` con constantes precalculadas (bit a bit)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-11_t254-medicion-deslinde.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.357_registro_20261111.md
+Cambios/motivo: entrada docs/registro/2026-11-11_t256-podar-incremental.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.358_registro_20261111.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.357_registro_20261111.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.359 · [2026-11-11 — T-256 — Exhaustivo: `podar` con constantes precalculadas (bit a bit)](registro/2026-11-11_t256-podar-incremental.md)
 - 1.0.358 · [2026-11-11 — T-254 — Medición de Deslinde 1.0: tiempo por fase, código muerto, duplicados y reparaciones](registro/2026-11-11_t254-medicion-deslinde.md)
 - 1.0.357 · [2026-11-11 — T-255 — Definición formal de Deslinde 1.0](registro/2026-11-11_t255-deslinde-1-0.md)
 - 1.0.356 · [2026-11-11 — T-249 — Par M06/M08 por linaje en la P50 y en datos abiertos, con guarda contra reducciones](registro/2026-11-11_t249-datos-abiertos-par-coherente.md)
