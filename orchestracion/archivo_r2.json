@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:16:25Z",
+  "actualizado_en": "2026-11-11T03:17:21Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -4398,6 +4398,20 @@
       "tamano_estado_original": 79007903,
       "territorio": "congreso_teruel",
       "url": "r2://ddd-research-archive/congreso_teruel/41250394074/ddd-minimo-41250394074-M08.zip"
+    },
+    "congreso_teruel/42940536681/ddd-minimo-42940536681-M06.zip": {
+      "archivado_en": "2026-11-11T03:17:21Z",
+      "artefacto": "ddd-minimo-42940536681-M06",
+      "artefacto_origen": "ddd-state-42940536681-M06",
+      "artifact_id": 13823232492,
+      "caducidad_original": "2026-11-25T02:35:39Z",
+      "run_id": "42940536681",
+      "sha256": "f11c9714086bc0da22458094335bde2ca1f247ead0dc0baf38a377a248758d30",
+      "sha256_estado_original": "64300b43cf6764de7ff685ff2dba06db8594ad11f91ed41c6377ce0b9d56a372",
+      "tamano_bytes": 145626,
+      "tamano_estado_original": 79031068,
+      "territorio": "congreso_teruel",
+      "url": "r2://ddd-research-archive/congreso_teruel/42940536681/ddd-minimo-42940536681-M06.zip"
     },
     "congreso_toledo/41242809451/ddd-audit-41242809451.zip": {
       "archivado_en": "2026-11-08T12:08:43Z",
