@@ -4,9 +4,9 @@
   "territory_id": "congreso_santa_cruz_de_tenerife",
   "territory_name": "Congreso Santa Cruz de Tenerife",
   "edition": "2025",
-  "run_id": 42519017008,
-  "artifact_name": "ddd-state-42519017008-M08",
-  "artifact_sha256": "1d1c4230a0ed5d57993aba433b0784db8a835943cd7307d248978f9ffe3c7da7",
-  "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
+  "run_id": 43020203637,
+  "artifact_name": "ddd-state-43020203637-M08",
+  "artifact_sha256": "b33cd00659f100c41ee73f7b6ffef1beb4e4eb0ecc9aa162ec34e1f644badce9",
+  "source_commit": "4ee681f2159b08da7fa2da3d860250b61042b855",
   "stage": "M08"
 }
