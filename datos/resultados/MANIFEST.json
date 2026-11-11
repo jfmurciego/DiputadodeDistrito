@@ -1231,6 +1231,15 @@
     "sha256": "97970fccaf40f4cfe56cb7080a9971e1d137e9ff9746ff649310bd0768f20736"
    }
   },
+  "congreso_melilla/43006105644": {
+   "territorio": "congreso_melilla",
+   "run_id": "43006105644",
+   "run_territorial": "43001757563",
+   "sha256_composicion": "fdc1449d7dfc6cb385cb29aff9fb238724ec4566bd8b22e8b768abf47b436d0d",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "43ab4ac6fbe46ab67e028834ffb1ddc383782cbbe2f941c0a7702f2f23a7077c",
+   "ruta": "datos/resultados/runs/congreso_melilla_43006105644_partidos.csv"
+  },
   "congreso_murcia/43005676593": {
    "territorio": "congreso_murcia",
    "run_id": "43005676593",
