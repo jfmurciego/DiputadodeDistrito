@@ -1,0 +1,8 @@
+## 2026-11-11 — T-229 — El lector del vigente compara Canarias, Cataluña, Extremadura y Asturias
+
+- Causa (fase 2 de r5, run 42927322822, job 130227133975): las cuatro quedaron «sin comparación» por el lector del vigente de `indicadores`, no por el criterio.
+  - Canarias (38-C01:38023:38-C01:R) y Cataluña (08:08200:U1): `_vigente_sobre` monta el vigente publicado sobre las filas M04 del canónico, y el publicado reparte unidades M04 de municipios divisibles → ErrorDatos de atomicidad. El generador `vigente` de la competición sí lo representa (piezas finas, una unidad por distrito).
+  - Extremadura y Asturias (unidades internas, `M04_PARTITION_UNIT`): el ganador era el vigente, cuya carpeta no trae GeoJSON; se evaluaba sin atributos y faltaba `unidad_r012`.
+- Cambio (`herramientas/bateria_motor.py` 1.2.2): un candidato sin GeoJSON propio usa los atributos del canónico (como el generador); si el vigente sobre el canónico da ErrorDatos de atomicidad, se usa la composición publicada (no la reparada) que escribió el generador `vigente`, solo si su sha256 de origen es el del fichero publicado y reproduce su distrito en cada sección; si no, sigue NO_EVALUABLE con el motivo. El criterio («nunca peor que el vigente publicado») no cambia.
+- Pruebas: `tests/test_bateria_motor.py` (`LectorVigenteT229`, con las unidades reales de los cuatro territorios; tres fallan antes y pasan después; sin verde por omisión; un vigente fino mejor deja PEOR). En local, con entradas reales y competición de 1 cadena: Extremadura y Asturias (ganador vigente forzado) dan OK; antes, el mismo error del run.
+- Efectos: no toca M04/M05/ddd_core ni huellas N08; sin ejecuciones. Para el veredicto basta repetir la batería (o el job de aceptación con los artefactos de cada territorio).
