@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T14:54:23Z",
+  "actualizado_en": "2026-11-11T15:13:15Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -7759,6 +7759,20 @@
       "tamano_estado_original": 313600460,
       "territorio": "pais_vasco",
       "url": "r2://ddd-research-archive/pais_vasco/40979640315/ddd-minimo-40979640315-M08.zip"
+    },
+    "pais_vasco/43041060549/ddd-minimo-43041060549-M06.zip": {
+      "archivado_en": "2026-11-11T15:13:15Z",
+      "artefacto": "ddd-minimo-43041060549-M06",
+      "artefacto_origen": "ddd-state-43041060549-M06",
+      "artifact_id": 13866458740,
+      "caducidad_original": "2026-11-25T15:10:06Z",
+      "run_id": "43041060549",
+      "sha256": "f31c57d66a4514b5f6dabebefcced14515259e2de68e6452edefb14730f28653",
+      "sha256_estado_original": "ebeb78f02b76f2fc86e8484f04c599b07808873e02e94d42de70ff509adad40d",
+      "tamano_bytes": 2088686,
+      "tamano_estado_original": 110994593,
+      "territorio": "pais_vasco",
+      "url": "r2://ddd-research-archive/pais_vasco/43041060549/ddd-minimo-43041060549-M06.zip"
     },
     "principado_de_asturias/40132061626/ddd-audit-40132061626.zip": {
       "archivado_en": "2026-11-07T17:01:00Z",

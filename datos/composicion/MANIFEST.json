@@ -1638,6 +1638,13 @@
    "sha256_csv": "ff0230560101719270ddf9368eb284d552ee0343f444ddab2751182bcd889560",
    "ruta": "datos/composicion/runs/melilla_42504386196.csv"
   },
+  "pais_vasco/43041060549": {
+   "territorio": "pais_vasco",
+   "run_id": "43041060549",
+   "secciones": 1713,
+   "sha256_csv": "21035358982f9b647c40fbac2701b6150e819b6c72819ba379f411a06137403f",
+   "ruta": "datos/composicion/runs/pais_vasco_43041060549.csv"
+  },
   "principado_de_asturias/43011625216": {
    "territorio": "principado_de_asturias",
    "run_id": "43011625216",
