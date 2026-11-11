@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T13:42:39.047803+00:00",
+  "generated_at": "2026-11-11T13:45:13.401462+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7181,12 +7181,12 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43025661789,
       "last_run": {
-        "run_id": 41062562553,
+        "run_id": 43025661789,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
-        "publication": "executed"
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
       },
       "stage": "M06",
       "edition": "2025",
@@ -7281,10 +7281,10 @@
           "territory_id": "comunidad_valenciana",
           "territory_name": "Comunidad Valenciana",
           "edition": "2025",
-          "run_id": 41062567297,
-          "artifact_name": "ddd-state-41062567297-M08",
-          "artifact_sha256": "ca65edac2de86fe1f9c499b379a30814ffec3e3ea515848e955a558796693cc4",
-          "source_commit": "46609e3774f1555a6d5f54da44e618bd45e29e80",
+          "run_id": 43030421638,
+          "artifact_name": "ddd-state-43030421638-M08",
+          "artifact_sha256": "d7865a82cf0cdde9a6bbd1359e78845748227933177374624fe86f35b49c9273",
+          "source_commit": "fc8e51213e8c4c7a2873af67a0faa309633b6a73",
           "stage": "M08"
         }
       },
