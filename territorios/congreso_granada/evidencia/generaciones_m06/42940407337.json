@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13823062150,
+      "artifact_name": "ddd-audit-42940407337",
+      "artifact_sha256": "9d133a9d92046102808a16e0d8a43b71123367a627b6569e86c325849f09aa5e",
+      "run_id": 42940407337,
+      "size_in_bytes": 3700
+    },
+    "m04": {
+      "artifact_id": 13821797049,
+      "artifact_name": "ddd-state-42940407337-M04",
+      "artifact_sha256": "b6fe90e170f58d2123604eb3c2d3eab5bfc8f70f0b843de56ed42d7e68fd30a7",
+      "run_id": 42940407337,
+      "size_in_bytes": 80659009
+    },
+    "m05": {
+      "artifact_id": 13822970337,
+      "artifact_name": "ddd-state-42940407337-M05",
+      "artifact_sha256": "8e40b547dcf462bf3d00c9a9af20e2f6ed428e8b66f604dbb48268cc3ab4cc03",
+      "run_id": 42940407337,
+      "size_in_bytes": 81940862
+    },
+    "m06": {
+      "artifact_id": 13822831834,
+      "artifact_name": "ddd-state-42940407337-M06",
+      "artifact_sha256": "dd712ff635034971d6a11b6730e4619d12622fe319144fd236d6d373e60c4add",
+      "run_id": 42940407337,
+      "size_in_bytes": 84856547
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "806d119511f392bb8ac22b7bac401f8398fab8308bae40990e3a2803858e7a70",
+        "size_in_bytes": 406
+      },
+      "congreso_granada_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "fd5adec6c42c896edce0524362328a3b755db5893feede136a4c13e061e3bbec",
+        "size_in_bytes": 8233
+      },
+      "optimization_execution.json": {
+        "sha256": "44ae5ddc4d7b9c961070c36da152ae5cb0e5468d2de313099266cc6bc94d4450",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "c1995247c9d36217833a286a948fab6b011c4663f80a6d49d3622d63a4dd431b",
+        "size_in_bytes": 1498
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "c1995247c9d36217833a286a948fab6b011c4663f80a6d49d3622d63a4dd431b",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_granada/config/congreso_granada_2025.yaml",
+    "sha256": "943422875ac92be045f49b6bdecf169d9b1eb86cbd43f060b128ca44fd2cbf94"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "8fda86512f09c1b87302ee51a93a7c2fa226c6616b862a8b5b758fbcf772adb0",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1418922535",
+      "generador": "ponderado",
+      "huella_resultado": "e923f9cfb1e09dce3ec007a6b800ee432c7386075bce18429bfbfb6bdd2a1260",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.04474173297133412,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.0730564667391807,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "af8801eee8a7c6c48dee03d68ab5b456d11876d6979722097010ee6312bd47d2",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_granada",
+    "territory_name": "Congreso Granada",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940407337,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13821797049,
+      "artifact_name": "ddd-state-42940407337-M04",
+      "artifact_sha256": "b6fe90e170f58d2123604eb3c2d3eab5bfc8f70f0b843de56ed42d7e68fd30a7",
+      "run_id": 42940407337,
+      "size_in_bytes": 80659009
+    },
+    "source_manifest_sha256": "cbd370a6d6c97911d1b9417fdac06a5b97ea635cf8588f6e9461747ba584fc0e",
+    "source_package_artifact": {
+      "artifact_id": 13058548291,
+      "artifact_name": "ddd-source-package-congreso_granada-2025-41243199582",
+      "artifact_sha256": "094fb840cd04e2e88639ee37848937610b5a530fb8d27f7a19bcae9b0d12d881",
+      "run_id": 41243199582,
+      "size_in_bytes": 78076779
+    }
+  },
+  "manifest_sha256": "3340de709354b0129286189e6018f394338b09639fce096c450efbe8b043a3f1",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
