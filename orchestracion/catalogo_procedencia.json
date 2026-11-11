@@ -212,11 +212,11 @@
   },
   "canarias": {
    "fuente_territorial": {
-    "run_id": "42504381511",
+    "run_id": "43011642069",
     "package_sha256": "ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836",
-    "artifact_sha256": "15d1741f9a9a20768a06ce34dbedf2a8988af703646a7931128fc9343c76b57f",
+    "artifact_sha256": "b070824189e19022752db97dc9d3ea78f77a523aca054a7328ae7576370bb9c8",
     "territorial_identity_sha256": "148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393",
-    "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/42504381511/receipt.json",
+    "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/43011642069/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
