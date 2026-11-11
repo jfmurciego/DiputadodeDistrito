@@ -54,6 +54,21 @@ class RegistroParIdempotente(unittest.TestCase):
             self.assertEqual(result["territorial_product_reuse"], OLD)
             self.assertEqual(result["pair_sha256"], SHA)
 
+    def test_receipt_real_de_alava(self):
+        root = Path(__file__).resolve().parents[1]
+        real = root / "territorios/congreso_alava/evidencia/pares_fuentes/2025" / f"{SHA}.json"
+        if not real.is_file():
+            self.skipTest("receipt de Álava no presente")
+        stored = json.loads(real.read_text(encoding="utf-8"))
+        self.assertEqual(stored["territorial_product_reuse"]["reason"], "NO_TERRITORIAL_PRODUCT")
+        rebuilt = {**stored, "territorial_product_reuse": NEW}
+        result, path, before, _ = self._run(stored, rebuilt)
+        self.assertEqual(path.read_bytes(), before)
+        self.assertEqual(result["territorial_product_reuse"]["reason"], "NO_TERRITORIAL_PRODUCT")
+        otro = {**rebuilt, "electoral_source": {**stored["electoral_source"], "run_id": 1}}
+        with self.assertRaisesRegex(rp.PreparedSourcePairBlock, "contradictorio"):
+            self._run(stored, otro)
+
     def test_contradiccion_real_sigue_bloqueando(self):
         with self.assertRaisesRegex(rp.PreparedSourcePairBlock, "contradictorio"):
             self._run(_pair(OLD), _pair(NEW, artifact="c" * 64))
