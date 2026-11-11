@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.345
+Versión: 1.0.346
 Fecha: 2026-11-11
-Alcance: T-229 — El lector del vigente compara Canarias, Cataluña, Extremadura y Asturias
+Alcance: T-128 — Coordinador: lecciones del motor nuevo (4.ª tanda) y estado operativo
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-11_t229-lector-vigente.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.344_registro_20261111.md
+Cambios/motivo: entrada docs/registro/2026-11-11_coordinador-lecciones-4.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.345_registro_20261111.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.344_registro_20261111.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.346 · [2026-11-11 — T-128 — Coordinador: lecciones del motor nuevo (4.ª tanda) y estado operativo](registro/2026-11-11_coordinador-lecciones-4.md)
 - 1.0.345 · [2026-11-11 — T-229 — El lector del vigente compara Canarias, Cataluña, Extremadura y Asturias](registro/2026-11-11_t229-lector-vigente.md)
 - 1.0.344 · [2026-11-11 — T-228 — Aceptación del motor 2: la comprobación 2 cuenta como el contrato](registro/2026-11-11_claude-t228-aceptacion-recuento-contrato.md)
 - 1.0.343 · [2026-11-10 — T-215 — Workflows v5: nombres P00-P60, ARC e «Interno ·» (corte 5.0.0, paso 4)](registro/2026-11-10_t215-workflows-v5.md)
