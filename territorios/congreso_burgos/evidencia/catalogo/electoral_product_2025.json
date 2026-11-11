@@ -4,9 +4,9 @@
   "territory_id": "congreso_burgos",
   "territory_name": "Congreso Burgos",
   "edition": "2025",
-  "run_id": 41299221887,
-  "artifact_name": "ddd-state-41299221887-M08",
-  "artifact_sha256": "ef2091c0a186232f93aa50e6eca6911ae1edc19a05205a447e7d077807089f46",
-  "source_commit": "71da6315254ea9d9849b93baffb08b147f88b49d",
+  "run_id": 42986581831,
+  "artifact_name": "ddd-state-42986581831-M08",
+  "artifact_sha256": "e3e916c74d62578dd98ba095fcb6756c3ede0820d619935053c204c5a518632a",
+  "source_commit": "06840be543025cf2efd875a73d0adee5a7bf33eb",
   "stage": "M08"
 }
