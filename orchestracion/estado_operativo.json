@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T09:30:15.826102+00:00",
+  "generated_at": "2026-11-11T09:31:46.570902+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9072,7 +9072,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42991542477,
       "last_run": {
-        "run_id": 42940422226,
+        "run_id": 42991542477,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": "03/04 · rama electoral omitida",
