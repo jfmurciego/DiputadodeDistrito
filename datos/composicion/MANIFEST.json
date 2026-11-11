@@ -1260,6 +1260,13 @@
    "sha256_csv": "3974817d1330914a9aa7ecfb519986915929b7d8eb88617555e559efeaf76329",
    "ruta": "datos/composicion/runs/congreso_malaga_42940458916.csv"
   },
+  "congreso_malaga/43001775134": {
+   "territorio": "congreso_malaga",
+   "run_id": "43001775134",
+   "secciones": 1084,
+   "sha256_csv": "3974817d1330914a9aa7ecfb519986915929b7d8eb88617555e559efeaf76329",
+   "ruta": "datos/composicion/runs/congreso_malaga_43001775134.csv"
+  },
   "congreso_melilla/42940578685": {
    "territorio": "congreso_melilla",
    "run_id": "42940578685",
