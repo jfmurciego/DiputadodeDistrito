@@ -4,11 +4,11 @@
   "territory_id": "congreso_cordoba",
   "territory_name": "Congreso Córdoba",
   "edition": "2025",
-  "run_id": 41242424551,
-  "artifact_name": "ddd-state-41242424551-M06",
-  "artifact_sha256": "4fe8eb92f31b09fb0e45b360d59e787606a508bd223edfb6fdbcccba4ce4b809",
-  "source_commit": "3f888590f7d18e072fb3c65ca7a4a5818aaa6d36",
-  "decision": "PASS_WITH_EXCEPTIONS",
+  "run_id": 42940387433,
+  "artifact_name": "ddd-state-42940387433-M06",
+  "artifact_sha256": "40dd5ac91e1484962d832c99587e521566f6a77d7e642a7a1099ae4d55f431d3",
+  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_cordoba/evidencia/generaciones_m06/41242424551.json"
+  "producer_manifest_path": "territorios/congreso_cordoba/evidencia/generaciones_m06/42940387433.json"
 }

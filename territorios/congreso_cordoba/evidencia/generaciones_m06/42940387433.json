@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13823011943,
+      "artifact_name": "ddd-audit-42940387433",
+      "artifact_sha256": "7fad214e0eb46d4d90a0b22083b93d5daa5cdec5edb2d7cfdf40ce85dd6d7227",
+      "run_id": 42940387433,
+      "size_in_bytes": 3134
+    },
+    "m04": {
+      "artifact_id": 13821379318,
+      "artifact_name": "ddd-state-42940387433-M04",
+      "artifact_sha256": "4dcd99efb0fceb7e3cf3c89fe22daa222076da66cdf8cf244bd0cb4dd6f33cf2",
+      "run_id": 42940387433,
+      "size_in_bytes": 78553466
+    },
+    "m05": {
+      "artifact_id": 13822186661,
+      "artifact_name": "ddd-state-42940387433-M05",
+      "artifact_sha256": "9d784c361665cf8e7365f0367a9ad242cc1ccce99d63c54e1545d640387e793e",
+      "run_id": 42940387433,
+      "size_in_bytes": 79421877
+    },
+    "m06": {
+      "artifact_id": 13822177653,
+      "artifact_name": "ddd-state-42940387433-M06",
+      "artifact_sha256": "40dd5ac91e1484962d832c99587e521566f6a77d7e642a7a1099ae4d55f431d3",
+      "run_id": 42940387433,
+      "size_in_bytes": 81442556
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "5c5e1fe0aa85bb8b2bd2dfc6b5622e27d537066d25f021f98bf326b6f82c42ad",
+        "size_in_bytes": 374
+      },
+      "congreso_cordoba_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "8f35a0d382e32ad693722d0d6216b178feaac8deb73d77f016fe60bc44633d3b",
+        "size_in_bytes": 5715
+      },
+      "optimization_execution.json": {
+        "sha256": "d65054a29336472a6cb4335bdd445c8bec74db2ea426c485269463669a633379",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "53eb25883b7e7d85bd7fb4a91c4da659b3d9e2cf23aad67f38324c6fe4280a51",
+        "size_in_bytes": 1451
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "53eb25883b7e7d85bd7fb4a91c4da659b3d9e2cf23aad67f38324c6fe4280a51",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_cordoba/config/congreso_cordoba_2025.yaml",
+    "sha256": "4f180a11d7a30a8f172aab55b416908b2393278536863bf28caec1bfdfe550e8"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "70ceecc51081fec4170788ca8824061ef2ccd006d8f7dacd29beb7f2921d239e",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s189036351",
+      "generador": "ponderado",
+      "huella_resultado": "78cab5daa454251ed6018e17e5f7832e95fc16c90e35f0b76934f014352e9b94",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.01718705242050988,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.059442427245349046,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "a6eac77f93a3f7568e280ccb17e830ececa4882687f4060c25e00fc8980446d3",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_cordoba",
+    "territory_name": "Congreso Córdoba",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940387433,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13821379318,
+      "artifact_name": "ddd-state-42940387433-M04",
+      "artifact_sha256": "4dcd99efb0fceb7e3cf3c89fe22daa222076da66cdf8cf244bd0cb4dd6f33cf2",
+      "run_id": 42940387433,
+      "size_in_bytes": 78553466
+    },
+    "source_manifest_sha256": "ecdc44fd2ed2203f901ce4c328bef4160042894f296fc6a749069584554112a3",
+    "source_package_artifact": {
+      "artifact_id": 13059004006,
+      "artifact_name": "ddd-source-package-congreso_cordoba-2025-41242424551",
+      "artifact_sha256": "e5d35701bc33a7dd3dd81ae3dd5a5b3f990ba1882eb322595d86a85940d542e6",
+      "run_id": 41242424551,
+      "size_in_bytes": 76801054
+    }
+  },
+  "manifest_sha256": "8cadf042e2e9bb401d645478340bb2bd39b5a200bb63418daccd339036017eef",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
