@@ -25,7 +25,8 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
-| 01:02 | Congreso La Rioja (referencia) | batería motor2 D8 N=10, `territorios=congreso_la_rioja` | 42928165086 | EN_VUELO | 1 / — | 0/1 |
+| 01:02 | Congreso La Rioja (referencia) | batería motor2 D8 N=10, `territorios=congreso_la_rioja` | 42928165086 | SUCCESS (PARCIAL solo por huellas): VALIDO 12/12, gana `ponderado-s1629856150` (mejora), huella `5f2a151e600b87e3a1e12552eb6f2c9e3c26ab1fbcdc87283cd854a35ce6892f` | 1 / — | 0/1 |
+| 01:32 | Congreso La Rioja (prueba) | P00 Campaña, Generar desde fuente, motor2, Canónico, territorial_only + cadena_electoral, sin publicar | 42932144515 | EN_VUELO | 2 / — | 0/1 |
 
 ## Cierre
 Estado: `EN_CURSO`. Último uso: 2026-11-11.

@@ -25,6 +25,6 @@
 |---|---|---|---|---|---|---|
 
 ## Cierre
-Estado: `ACEPTADA, EN_ESPERA` (espera el relevo y T-221 en `main`; no estaban al recibir la frase). Último uso: —.
+Estado: `NO_EJECUTADA`: su referencia (`2026-11-10_bateria-motor2-autonomicas-r5`, fase 2, run 42927322822) dio aceptación NO (Castilla-La Mancha peor que el vigente en fuera de tolerancia; Canarias, Cataluña, Extremadura y Asturias sin vigente comparable; Canarias y Ceuta con vigente excluido). No se lanza; informar al propietario.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_regeneracion-nocturna-corte-71-v2 tal como figura en la ficha.»

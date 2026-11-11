@@ -25,9 +25,9 @@
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
 | 00:22 | Comunidad de Madrid + Navarra (fase 1) | batería motor2 D8 N=10 | 42922787428 | SUCCESS; aceptación «PARCIAL» solo porque faltan las huellas reales (Soria, Álava, Melilla no están en la fase 1); todas las comprobaciones en verde: Madrid y Navarra VALIDO 12/12, mejoran al canónico, ninguna peor que el vigente, 0 FALLO_GENERADOR, recuento correcto. Criterio literal «SÍ» no alcanzable en esta fase: el propietario lo da por cumplido («Autorizo lanzar la fase 2 de la campaña 2026-11-10_bateria-motor2-autonomicas-r5 contando como aceptada la fase 1 en PARCIAL por huellas reales», 11-11 00:55) | 1 / 33 min | 0/1 |
-| 00:55 | las 19 autonómicas (fase 2) | batería motor2 D8 N=10 | 42927322822 | EN_VUELO | 2 / 33 min + en curso | 0/1 |
+| 00:55 | las 19 autonómicas (fase 2) | batería motor2 D8 N=10 | 42927322822 | FAILURE: aceptación NO (revisión del Planificador): Castilla-La Mancha con más distritos fuera de tolerancia que el vigente (6 > 5); Canarias, Cataluña, Extremadura y Asturias sin vigente comparable (errores al leer el vigente: atomicidad y `unidad_r012`); Canarias y Ceuta con vigente excluido. 14 OK | 2 / — | 0/1 |
 
 ## Cierre
-Estado: `EN_CURSO` (T-222 en `main`, #695; main 0d34f64 en verde). Último uso: 2026-11-11.
+Estado: `PARADA` (aceptación NO en la fase 2). Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_bateria-motor2-autonomicas-r5 tal como figura en la ficha.»
