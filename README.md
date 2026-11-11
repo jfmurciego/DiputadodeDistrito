@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T08:20:54.970877+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T08:23:36.418201+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -74,7 +74,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Badajoz** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42949289470 · SUCCESS | — | — | — |
 | **Nacional Baleares** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953068884 · SUCCESS | — | — | — |
 | **Nacional Barcelona** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953127263 · SUCCESS | — | — | — |
-| **Nacional Burgos** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41299221887 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Burgos** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42981415070 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Cáceres** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953363103 · SUCCESS | — | — | — |
 | **Nacional Cádiz** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953019279 · SUCCESS | — | — | — |
 | **Nacional Castellón** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953757677 · SUCCESS | — | — | — |
