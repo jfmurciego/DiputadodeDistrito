@@ -1442,6 +1442,13 @@
    "sha256_csv": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
    "ruta": "datos/composicion/runs/congreso_teruel_42940536681.csv"
   },
+  "congreso_teruel/43024869107": {
+   "territorio": "congreso_teruel",
+   "run_id": "43024869107",
+   "secciones": 284,
+   "sha256_csv": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
+   "ruta": "datos/composicion/runs/congreso_teruel_43024869107.csv"
+  },
   "congreso_toledo/42940542275": {
    "territorio": "congreso_toledo",
    "run_id": "42940542275",
