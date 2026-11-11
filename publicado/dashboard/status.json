@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T16:59:55.086474+00:00",
+  "generated_at": "2026-11-11T17:11:10.414415+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9316,11 +9316,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43059014993,
       "last_run": {
-        "run_id": 43043776004,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "01 · Preparación de Datos Territoriales",
-        "reason": "ver log del run",
+        "run_id": 43059014993,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -9355,10 +9355,10 @@
           "territory_id": "congreso_lerida",
           "territory_name": "Congreso Lérida",
           "edition": "2025",
-          "run_id": 41299033915,
-          "artifact_name": "ddd-state-41299033915-M08",
-          "artifact_sha256": "53168bf36bad82ff3709137bc7761f37b6cb4a0707404d546126c723ba6260bb",
-          "source_commit": "0566d8b4bbf3a4a46c42fa6cb4c4a521e0b8d97e",
+          "run_id": 43064129984,
+          "artifact_name": "ddd-state-43064129984-M08",
+          "artifact_sha256": "cd7827464ad5fbcec8941237380a435974956b2ba0286183673ec63b25546b04",
+          "source_commit": "e04f8055d40a71425f921d49a491c1c83a3d6ee7",
           "stage": "M08"
         }
       },
