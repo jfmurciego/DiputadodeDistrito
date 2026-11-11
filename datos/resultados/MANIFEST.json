@@ -1074,6 +1074,15 @@
     "sha256": "713bcfc51fa680ee12fdbd216ebd1f2bf481c366651f4967add1280c26203a59"
    }
   },
+  "congreso_huelva/42996002594": {
+   "territorio": "congreso_huelva",
+   "run_id": "42996002594",
+   "run_territorial": "42991542477",
+   "sha256_composicion": "806c47a3809743ce8e422de4facfc9c0954c9f2d50192eb4a1c323447a0f7e03",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "489b4faf3cb941fbd3ae4fda2f7c35bd5541e5e29d161cca6dce79ca10aee4f2",
+   "ruta": "datos/resultados/runs/congreso_huelva_42996002594_partidos.csv"
+  },
   "congreso_huesca/42519383275": {
    "territorio": "congreso_huesca",
    "run_id": "42519383275",
