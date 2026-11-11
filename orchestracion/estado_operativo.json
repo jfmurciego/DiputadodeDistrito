@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T12:34:40.619694+00:00",
+  "generated_at": "2026-11-11T12:37:46.160363+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6976,10 +6976,10 @@
           "territory_id": "canarias",
           "territory_name": "Canarias",
           "edition": "2025",
-          "run_id": 42523951377,
-          "artifact_name": "ddd-state-42523951377-M08",
-          "artifact_sha256": "a8bc17b31163ab7ea1a775bef9551222615d831c1f1e823e44d95faa7fc01c4e",
-          "source_commit": "038f783212382b5ed5199f2b5faff57e680382d1",
+          "run_id": 43020588641,
+          "artifact_name": "ddd-state-43020588641-M08",
+          "artifact_sha256": "2f5d4b4cdadda0928a0da99bf3efd954f49c6c0cde23b27a623523b95dcfaee5",
+          "source_commit": "60d4a67e58b1fe16f3e0763c060056adad0082a1",
           "stage": "M08"
         }
       },
@@ -10103,20 +10103,20 @@
       "name": "Nacional Santa Cruz de Tenerife",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43012151677,
+      "run_id": 43020203637,
       "last_run": {
-        "run_id": 43012151677,
+        "run_id": 43020203637,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10157,7 +10157,7 @@
       },
       "autonomous_community_code_ine": "C38",
       "display_name": "Nacional Santa Cruz de Tenerife",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_cantabria",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 58,
+    "complete": 59,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12310,6 +12310,7 @@
       "Nacional Las Palmas",
       "Nacional Pontevedra",
       "Nacional Salamanca",
+      "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
       "Nacional Ceuta",
       "Nacional Melilla",
@@ -12526,11 +12527,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "illes_balears",
-    "name": "Islas Baleares",
-    "display_name": "04 Islas Baleares",
-    "autonomous_community_code_ine": "04",
-    "run_id": 43019811578,
+    "territory_id": "congreso_santa_cruz_de_tenerife",
+    "name": "Nacional Santa Cruz de Tenerife",
+    "display_name": "Nacional Santa Cruz de Tenerife",
+    "autonomous_community_code_ine": "C38",
+    "run_id": 43020203637,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12561,12 +12562,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Santa Cruz de Tenerife",
-      "territory_id": "congreso_santa_cruz_de_tenerife",
-      "autonomous_community_code_ine": "C38",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Segovia",
       "territory_id": "congreso_segovia",
       "autonomous_community_code_ine": "C40",
@@ -12582,6 +12577,12 @@
       "territory": "Nacional Soria",
       "territory_id": "congreso_soria",
       "autonomous_community_code_ine": "C42",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Tarragona",
+      "territory_id": "congreso_tarragona",
+      "autonomous_community_code_ine": "C43",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12611,12 +12612,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Santa Cruz de Tenerife",
-      "territory_id": "congreso_santa_cruz_de_tenerife",
-      "autonomous_community_code_ine": "C38",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Segovia",
       "territory_id": "congreso_segovia",
       "autonomous_community_code_ine": "C40",
@@ -12632,6 +12627,12 @@
       "territory": "Nacional Soria",
       "territory_id": "congreso_soria",
       "autonomous_community_code_ine": "C42",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Tarragona",
+      "territory_id": "congreso_tarragona",
+      "autonomous_community_code_ine": "C43",
       "action": "preparar fuentes electorales"
     }
   ]
