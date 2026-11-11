@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T10:54:24Z",
+  "actualizado_en": "2026-11-11T10:56:28Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3942,19 +3942,20 @@
       "territorio": "congreso_navarra",
       "url": "r2://ddd-research-archive/congreso_navarra/42940468939/ddd-minimo-42940468939-M06.zip"
     },
-    "congreso_navarra/43001785293/ddd-minimo-43001785293-M06.zip": {
-      "archivado_en": "2026-11-11T10:43:09Z",
-      "artefacto": "ddd-minimo-43001785293-M06",
-      "artefacto_origen": "ddd-state-43001785293-M06",
-      "artifact_id": 13848131971,
-      "caducidad_original": "2026-11-25T10:40:32Z",
-      "run_id": "43001785293",
-      "sha256": "ddf077e3ec7fa78ed085c117a6e2b10a0f782791e7170687ff7e091d381a3cbc",
-      "sha256_estado_original": "bcfce76dfe906a6f7128b2cd0376e65b2a3fa0df226453676f03cc57f5e750b3",
-      "tamano_bytes": 952877,
-      "tamano_estado_original": 111533216,
+    "congreso_navarra/43006653960/ddd-minimo-43006653960-M08.zip": {
+      "archivado_en": "2026-11-11T10:56:28Z",
+      "artefacto": "ddd-minimo-43006653960-M08",
+      "artefacto_origen": "ddd-state-43006653960-M08",
+      "artifact_id": 13848328746,
+      "caducidad_original": "2026-11-25T10:55:25Z",
+      "incluye_m06_run": "43001785293",
+      "run_id": "43006653960",
+      "sha256": "b547225c064cda8984ac5e75e7b68e996fc7e7929fcef1c4251d387ebb28697b",
+      "sha256_estado_original": "355c482489bcbd49003f1b440ee1f1240c55f5d3765c4f4659c0c04c7a7f9850",
+      "tamano_bytes": 1773792,
+      "tamano_estado_original": 116738589,
       "territorio": "congreso_navarra",
-      "url": "r2://ddd-research-archive/congreso_navarra/43001785293/ddd-minimo-43001785293-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_navarra/43006653960/ddd-minimo-43006653960-M08.zip"
     },
     "congreso_orense/41240887712/ddd-audit-41240887712.zip": {
       "archivado_en": "2026-11-08T12:08:03Z",
