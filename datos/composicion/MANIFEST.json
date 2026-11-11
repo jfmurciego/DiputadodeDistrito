@@ -1176,6 +1176,13 @@
    "sha256_csv": "06ff3f2a92aab8c31e36223c61915dbe174fb8d95cdd9ba1e7a0488a47fd0d79",
    "ruta": "datos/composicion/runs/congreso_santa_cruz_de_tenerife_42514989698.csv"
   },
+  "congreso_segovia/42940515676": {
+   "territorio": "congreso_segovia",
+   "run_id": "42940515676",
+   "secciones": 276,
+   "sha256_csv": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
+   "ruta": "datos/composicion/runs/congreso_segovia_42940515676.csv"
+  },
   "congreso_tarragona/42514991952": {
    "territorio": "congreso_tarragona",
    "run_id": "42514991952",
