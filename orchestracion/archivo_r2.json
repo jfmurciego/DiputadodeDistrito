@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:50:56Z",
+  "actualizado_en": "2026-11-11T02:51:42Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2586,6 +2586,20 @@
       "tamano_estado_original": 83828298,
       "territorio": "congreso_guipuzcoa",
       "url": "r2://ddd-research-archive/congreso_guipuzcoa/41298935355/ddd-minimo-41298935355-M08.zip"
+    },
+    "congreso_guipuzcoa/42940417361/ddd-minimo-42940417361-M06.zip": {
+      "archivado_en": "2026-11-11T02:51:42Z",
+      "artefacto": "ddd-minimo-42940417361-M06",
+      "artefacto_origen": "ddd-state-42940417361-M06",
+      "artifact_id": 13822542272,
+      "caducidad_original": "2026-11-25T02:26:43Z",
+      "run_id": "42940417361",
+      "sha256": "181f166109b75a127110f79d285e00bb6537e33f2600c6cda5e79258dbd99a04",
+      "sha256_estado_original": "cadf9ecf27c3e02e20d1d65d09a14901a9d931f54f3ea3760a235c2b509e6bd8",
+      "tamano_bytes": 492954,
+      "tamano_estado_original": 83252386,
+      "territorio": "congreso_guipuzcoa",
+      "url": "r2://ddd-research-archive/congreso_guipuzcoa/42940417361/ddd-minimo-42940417361-M06.zip"
     },
     "congreso_huelva/41318125504/ddd-audit-41318125504.zip": {
       "archivado_en": "2026-11-08T12:16:55Z",
