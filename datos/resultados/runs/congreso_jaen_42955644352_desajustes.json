@@ -1,0 +1,87 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_jaen",
+ "run_id": "42955644352",
+ "run_territorial": "42940432935",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 364706,
+ "votos_desajustados": 0,
+ "pct_desajuste": 0.0,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "2301801002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "2301801002": 1.0
+   },
+   "distritos": {
+    "2": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "2303301002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "2303301002": 1.0
+   },
+   "distritos": {
+    "2": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "2305601002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "2305601002": 1.0
+   },
+   "distritos": {
+    "4": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "2309401002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "2309401002": 1.0
+   },
+   "distritos": {
+    "1": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "2390102001",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "2390102001": 1.0
+   },
+   "distritos": {
+    "2": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "2390402002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "2390402002": 1.0
+   },
+   "distritos": {
+    "3": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}
