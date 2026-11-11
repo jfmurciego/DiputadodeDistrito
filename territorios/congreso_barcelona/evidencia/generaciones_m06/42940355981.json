@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13821988574,
+      "artifact_name": "ddd-audit-42940355981",
+      "artifact_sha256": "eb71ecfe2b4b0b03ac52a4b25959bc79bf74d98ed8f141192fa1c490def57d71",
+      "run_id": 42940355981,
+      "size_in_bytes": 9673
+    },
+    "m04": {
+      "artifact_id": 13821877134,
+      "artifact_name": "ddd-state-42940355981-M04",
+      "artifact_sha256": "b59f4496c75361f6f5691e6dea5c6c052bd0ac142441f92258d722ffa15f7819",
+      "run_id": 42940355981,
+      "size_in_bytes": 85892569
+    },
+    "m05": {
+      "artifact_id": 13822311824,
+      "artifact_name": "ddd-state-42940355981-M05",
+      "artifact_sha256": "31c4d9dd5dc74c53a876775b9fdbaf553642f1ea2f6ecaf3183b9244023a2cd0",
+      "run_id": 42940355981,
+      "size_in_bytes": 88049722
+    },
+    "m06": {
+      "artifact_id": 13823190029,
+      "artifact_name": "ddd-state-42940355981-M06",
+      "artifact_sha256": "3d8f2cf07f01197deb49fb01f8db8e5671872253e25b8fded458837f8430b34f",
+      "run_id": 42940355981,
+      "size_in_bytes": 93334480
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "7341d196a2806886ec658162bdf2a318850d67de7f942aee6db96660c7b6d0d4",
+        "size_in_bytes": 412
+      },
+      "congreso_barcelona_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "b97867e56e412f1af77046f872d8e67aa065c9514b12ab6abb72653125147ec2",
+        "size_in_bytes": 50941
+      },
+      "optimization_execution.json": {
+        "sha256": "350a032b338f3d51eec8752b68807aa2a7c20fba168fa1f3cc2e49122bc1c66a",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "83607bc497a8d1f28dca4a9e33c547eafa04e10c4a02777c83c9305a56fc6289",
+        "size_in_bytes": 1510
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "83607bc497a8d1f28dca4a9e33c547eafa04e10c4a02777c83c9305a56fc6289",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_barcelona/config/congreso_barcelona_2025.yaml",
+    "sha256": "7a3af93c5ff8d0ab19f9cc584b6eb43893ccec6bbd47f5de694c820b7eaae2dc"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "91c0dd3994bbbe11aac886aa823506f9879856dae3f2114e8e4ed42e48334bb6",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s440038744",
+      "generador": "ponderado",
+      "huella_resultado": "082a98663efa15f9d6df80317d66116874a0f05fb450b60ebf77c16fae75264c",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.22312861242262852,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.22312861242262852,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "8aedf5c34ba0ce4594ba3488a05ad6d7c42155aef6d1c938f224aba0448254e3",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_barcelona",
+    "territory_name": "Congreso Barcelona",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940355981,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13821877134,
+      "artifact_name": "ddd-state-42940355981-M04",
+      "artifact_sha256": "b59f4496c75361f6f5691e6dea5c6c052bd0ac142441f92258d722ffa15f7819",
+      "run_id": 42940355981,
+      "size_in_bytes": 85892569
+    },
+    "source_manifest_sha256": "061d7111e612bdde95fe9a68de12bdd881062bc0c8d5370e85937d1bc4a1b04b",
+    "source_package_artifact": {
+      "artifact_id": 13590555221,
+      "artifact_name": "ddd-source-package-congreso_barcelona-2025-42409499602",
+      "artifact_sha256": "37cc86abd67e4a2552cc48ad8149f645f1d46d7904aade8301d7957b2adcd270",
+      "run_id": 42409499602,
+      "size_in_bytes": 81486697
+    }
+  },
+  "manifest_sha256": "fd346c45ab457e1c06c5c650d350a7cb013a67127318f1ada401e78e62d25e04",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
