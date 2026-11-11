@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T12:07:15Z",
+  "actualizado_en": "2026-11-11T12:09:10Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -5805,19 +5805,20 @@
       "territorio": "principado_de_asturias",
       "url": "r2://ddd-research-archive/principado_de_asturias/40979477771/ddd-minimo-40979477771-M08.zip"
     },
-    "principado_de_asturias/43011625216/ddd-minimo-43011625216-M06.zip": {
-      "archivado_en": "2026-11-11T11:53:51Z",
-      "artefacto": "ddd-minimo-43011625216-M06",
-      "artefacto_origen": "ddd-state-43011625216-M06",
-      "artifact_id": 13852975959,
-      "caducidad_original": "2026-11-25T11:49:51Z",
-      "run_id": "43011625216",
-      "sha256": "98417215d0ac52b486f5762c38b67f0ee92f37b2a0594edf8623c481d705b5fd",
-      "sha256_estado_original": "1183add3081e0679e67a24b344559318cbc314906eb4e23415788434dac87198",
-      "tamano_bytes": 690409,
-      "tamano_estado_original": 85987819,
+    "principado_de_asturias/43016768497/ddd-minimo-43016768497-M08.zip": {
+      "archivado_en": "2026-11-11T12:09:10Z",
+      "artefacto": "ddd-minimo-43016768497-M08",
+      "artefacto_origen": "ddd-state-43016768497-M08",
+      "artifact_id": 13853233158,
+      "caducidad_original": "2026-11-25T12:08:32Z",
+      "incluye_m06_run": "43011625216",
+      "run_id": "43016768497",
+      "sha256": "bbc6308cd98a24fd3be08f44abf344c2fb6e15d6b6431f9899b9607c5835fa5e",
+      "sha256_estado_original": "a8c508acea6364240e9c3496c7211b65df68b4774dd717f819a095f5e3820067",
+      "tamano_bytes": 1246372,
+      "tamano_estado_original": 87807361,
       "territorio": "principado_de_asturias",
-      "url": "r2://ddd-research-archive/principado_de_asturias/43011625216/ddd-minimo-43011625216-M06.zip"
+      "url": "r2://ddd-research-archive/principado_de_asturias/43016768497/ddd-minimo-43016768497-M08.zip"
     },
     "region_de_murcia/40945284725/ddd-audit-40945284725.zip": {
       "archivado_en": "2026-11-07T17:09:06Z",
