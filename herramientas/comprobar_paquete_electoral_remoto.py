@@ -9,7 +9,9 @@ ESTADO: candidato
 QUÉ HACE: cuando la 00 consume un par preparado (no ejecuta 03), localiza por metadatos REST el
 paquete electoral acreditado con las mismas rutas que la puerta 03 → 04 (artefacto vivo del run,
 mismo nombre y digest en otro run, copia durable en release) y bloquea con una causa accionable
-si falta, caducó, contradice la acreditación o caduca antes de que la cadena llegue a usarlo.
+solo ante evidencia positiva: falta (404/410 o ausente de un inventario completo), caducó (`expired` o
+`expires_at` pasado) o su digest contradice la acreditación. Lo no determinable (503 de cuota, red, 403 de
+permisos, inventario incompleto) y la caducidad próxima solo avisan (::warning::, salida 0): decide la puerta 03.
 CAMBIOS: herramienta nueva.
 MOTIVO: el paquete fuente se retiene 30 días; con «Reutilizar» la 00 no lo regenera y caía en la
 puerta 03 tras gastar M04-M06.
@@ -22,10 +24,12 @@ import datetime as dt
 import json
 import re
 import sys
+import time
 from pathlib import Path
 from typing import Callable
 from urllib.parse import quote
 
+from herramientas.descargar_artefacto import Runner, _run, clasificar
 from herramientas.localizar_artefacto_durable import LocationError, locate
 
 SCHEMA = "ddd.preflight-paquete-electoral/1.0"
@@ -35,20 +39,23 @@ DEFAULT_MARGIN_HOURS = 12
 Api = Callable[[str], object]
 
 
-def gh_api(path: str, *, attempts: int = 4) -> object:
-    """REST con reintentos ante fallos transitorios; un 404 (run o artefacto purgado) es «vacío»."""
-    import subprocess
-    import time
+class ApiIndeterminada(RuntimeError):
+    """La API no permitió concluir (cuota, red, permisos): no es evidencia de que falte el paquete."""
 
+
+def gh_api(path: str, *, runner: Runner = _run, attempts: int = 3, sleep: Callable[[float], None] = time.sleep) -> object:
+    """REST con la clasificación de T-251: 404/410 = ausente ({}); el resto, reintento y ApiIndeterminada."""
+    salida = ""
     for attempt in range(attempts):
-        proc = subprocess.run(["gh", "api", path], capture_output=True, text=True)
+        proc = runner(["gh", "api", path])
         if proc.returncode == 0:
-            return json.loads(proc.stdout)
-        if "HTTP 404" in proc.stderr:
+            return json.loads(proc.stdout or "{}")
+        salida = f"{proc.stdout or ''}\n{proc.stderr or ''}"
+        if clasificar(salida) == "missing":
             return {}
         if attempt + 1 < attempts:
-            time.sleep(2 ** (attempt + 1))
-    raise RuntimeError(f"ELECTORAL_PACKAGE_API_UNAVAILABLE: {path}: {proc.stderr.strip()[:300]}")
+            sleep(2 ** (attempt + 1))
+    raise ApiIndeterminada(f"{path}: {salida.strip()[:300]}")
 
 
 def _sha(value: object) -> str:
@@ -123,58 +130,72 @@ def evaluar(
         return {**base, "decision": "BLOCK", "code": code,
                 "message": f"{code}: {detail}. {remedio(territory)}"}
 
+    def warn(code: str, detail: str, decision: str = "INDETERMINATE", **extra) -> dict:
+        return {**base, "decision": decision, "code": code, "warning": f"{code}: {detail}", **extra}
+
     name, digest, run_id = exp["artifact_name"], exp["artifact_sha256"], exp["run_id"]
     if run_id <= 0 or not name or not re.fullmatch(r"[0-9a-f]{64}", digest):
-        return block("ELECTORAL_PACKAGE_IDENTITY_INCOMPLETE",
-                     f"el plan no acredita run, nombre y sha256 del paquete electoral (run={run_id}, nombre={name!r})")
+        return warn("ELECTORAL_PACKAGE_IDENTITY_INCOMPLETE",
+                    f"el plan no acredita run, nombre y sha256 del paquete electoral (run={run_id}, nombre={name!r}); "
+                    "decide la puerta 03")
 
-    rows = (api(f"repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100") or {}).get("artifacts") or []
-    named = [a for a in rows if a.get("name") == name]
-    live = [a for a in named if a.get("expired") is not True and _sha(a.get("digest")) == digest]
-    found_note = "en su run"
-    if not live:
-        others = (api(f"repos/{repo}/actions/artifacts?name={quote(name)}&per_page=100") or {}).get("artifacts") or []
-        live = [a for a in others if a.get("expired") is not True and _sha(a.get("digest")) == digest]
-        found_note = "en otro run con el mismo digest"
-    if found_note == "en su run" and exp["artifact_id"] is not None and all(
-        a.get("id") != exp["artifact_id"] for a in live
-    ):
-        return block("ELECTORAL_PACKAGE_IDENTITY_MISMATCH",
-                     f"artifact_id remoto de {name} contradice el receipt del par ({exp['artifact_id']})")
+    def caducado(a: dict) -> bool:
+        expires = _parse_time(a.get("expires_at"))
+        return a.get("expired") is True or (expires is not None and expires <= now)
 
-    durable = None
+    try:
+        listing = api(f"repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100") or {}
+        rows = listing.get("artifacts") or []
+        complete = int(listing.get("total_count") or len(rows)) <= len(rows)
+        named = [a for a in rows if a.get("name") == name]
+        live = [a for a in named if not caducado(a) and _sha(a.get("digest")) == digest]
+        found_note = "en su run"
+        if not live:
+            others = (api(f"repos/{repo}/actions/artifacts?name={quote(name)}&per_page=100") or {}).get("artifacts") or []
+            live = [a for a in others if not caducado(a) and _sha(a.get("digest")) == digest]
+            found_note = "en otro run con el mismo digest"
 
-    def release_copy() -> dict | None:
-        try:
-            located = locate(repo, run_id, name, digest, api=api)
-        except LocationError:
-            return None
-        return located if located.get("source") == "release" else None
+        def release_copy() -> dict | None:
+            try:
+                located = locate(repo, run_id, name, digest, api=api)
+            except LocationError:
+                return None
+            return located if located.get("source") == "release" else None
 
-    if live:
-        latest = max(live, key=lambda a: _parse_time(a.get("expires_at")) or now)
-        expires = _parse_time(latest.get("expires_at"))
-        if expires is not None and expires < limit:
-            durable = release_copy()
-            if durable is None:
-                return block("ELECTORAL_PACKAGE_EXPIRES_SOON",
-                             f"{name} (run {run_id}) caduca el {expires.isoformat()}, antes de que la cadena llegue a 03 → 04")
-        return {**base, "decision": "READY",
-                "source": "release" if durable else "actions",
-                "note": found_note, "artifact_id": latest.get("id"),
-                "expires_at": latest.get("expires_at")}
+        if live:
+            latest = max(live, key=lambda a: _parse_time(a.get("expires_at")) or now)
+            ready = {"source": "actions", "note": found_note, "artifact_id": latest.get("id"),
+                     "expires_at": latest.get("expires_at")}
+            if (found_note == "en su run" and exp["artifact_id"] is not None
+                    and all(a.get("id") != exp["artifact_id"] for a in live)):
+                return warn("ELECTORAL_PACKAGE_ARTIFACT_ID_CHANGED",
+                            f"artifact_id remoto de {name} distinto del receipt del par ({exp['artifact_id']}); "
+                            "nombre y digest coinciden", decision="READY", **ready)
+            expires = _parse_time(latest.get("expires_at"))
+            if expires is not None and expires < limit and release_copy() is None:
+                return warn("ELECTORAL_PACKAGE_EXPIRES_SOON",
+                            f"{name} (run {run_id}) caduca el {expires.isoformat()}, quizá antes de la puerta 03 → 04; "
+                            + remedio(territory), decision="READY", **ready)
+            return {**base, "decision": "READY", **ready}
 
-    durable = release_copy()
+        durable = release_copy()
+    except ApiIndeterminada as exc:
+        return warn("ELECTORAL_PACKAGE_UNDETERMINED",
+                    f"no se pudo consultar la API de GitHub ({exc}); decide la puerta 03")
     if durable is not None:
         return {**base, "decision": "READY", "source": "release", "release_tag": durable.get("release_tag")}
-    if any(a.get("expired") is True for a in named):
+    if any(caducado(a) for a in named):
         return block("ELECTORAL_PACKAGE_EXPIRED",
                      f"{name} (run {run_id}) ha caducado en Actions y no tiene copia durable con el mismo sha256")
     if named:
         return block("ELECTORAL_PACKAGE_DIGEST_MISMATCH",
-                     f"{name} (run {run_id}) existe con un digest distinto del acreditado sha256:{digest}")
+                     f"{name} (run {run_id}) existe con un digest distinto del acreditado sha256:{digest} "
+                     "y no hay copia con el acreditado")
+    if not complete:
+        return warn("ELECTORAL_PACKAGE_UNDETERMINED",
+                    f"inventario del run {run_id} incompleto y sin {name}; decide la puerta 03")
     return block("ELECTORAL_PACKAGE_MISSING",
-                 f"{name} no existe en el run {run_id} ni en otro run ni en releases durables")
+                 f"{name} no existe en el run {run_id} (o el run ya no existe) ni en otro run ni en releases durables")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -186,11 +207,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--output", type=Path)
     ns = ap.parse_args(argv)
     plan = json.loads(ns.plan.read_text(encoding="utf-8"))
-    try:
-        result = evaluar(plan, repo=ns.repo, root=ns.root_dir, api=gh_api, margin_hours=ns.margin_hours)
-    except RuntimeError as exc:  # API caída: fallo técnico, no se pide regenerar
-        print(f"::error::{exc}", file=sys.stderr)
-        return 1
+    result = evaluar(plan, repo=ns.repo, root=ns.root_dir, api=gh_api, margin_hours=ns.margin_hours)
     rendered = json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     if ns.output:
         ns.output.write_text(rendered, encoding="utf-8")
@@ -198,6 +215,8 @@ def main(argv: list[str] | None = None) -> int:
     if result["decision"] == "BLOCK":
         print(f"::error::{result['message']}", file=sys.stderr)
         return EXIT_BLOCK
+    if result.get("warning"):
+        print(f"::warning::{result['warning']}", file=sys.stderr)
     return 0
 
 

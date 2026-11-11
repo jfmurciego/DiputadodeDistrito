@@ -2,8 +2,9 @@
 # CLASE: orquestador principal
 # VERSIÓN: 1.9.0
 # CAMBIOS 1.9.0: T-246, «Planificar» comprueba al principio que el paquete electoral del par (sin 03) sigue
-#   descargable (Actions vivo, mismo digest en otro run o copia durable) y no caduca durante la cadena; si no,
-#   falla con la causa y el workflow que lo regenera (herramientas/comprobar_paquete_electoral_remoto.py).
+#   descargable (Actions vivo, mismo digest en otro run o copia durable); solo con evidencia de que falta o caducó
+#   falla con la causa y el workflow que lo regenera; lo no determinable avisa y decide la puerta 03
+#   (herramientas/comprobar_paquete_electoral_remoto.py).
 # CAMBIOS 1.8.0: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P00 Campaña» (antes 00 Ejecución Completa del Proyecto); run-name con el prefijo nuevo; la comprobación de duplicados acepta el nuevo y el viejo.
 # CAMBIOS 1.7.0: T-216 (corte 5.0.0, paso 3): entrada `motor` (m05 por defecto | motor2) en el botón y en workflow_call;
 #   pasa a la 02 (P30 del motor 2 en lugar de M04+M05 como decisor, con huella `motor2` en el checkpoint M06 y
@@ -800,7 +801,7 @@ jobs:
             {
               echo "### Paquete electoral del par"
               echo
-              jq -r '"- Decisión: \(.decision) \(.code // "")", (if .message then "- \(.message)" else empty end)' .ddd-full-run/paquete_electoral.json
+              jq -r '"- Decisión: \(.decision) \(.code // "")", (.message // .warning // empty | "- \(.)")' .ddd-full-run/paquete_electoral.json
             } >> "$GITHUB_STEP_SUMMARY"
           fi
           exit "$code"
