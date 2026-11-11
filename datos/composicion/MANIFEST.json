@@ -1267,6 +1267,13 @@
    "sha256_csv": "87969e4784e4074e705d02dda271345a61f681e48f7070706d14b66caa11f3cc",
    "ruta": "datos/composicion/runs/congreso_tarragona_42940531574.csv"
   },
+  "congreso_toledo/42940542275": {
+   "territorio": "congreso_toledo",
+   "run_id": "42940542275",
+   "secciones": 530,
+   "sha256_csv": "ecfc662b417eb3d154aa3895abfcb79215ed749e9db3054883df579d608e9d42",
+   "ruta": "datos/composicion/runs/congreso_toledo_42940542275.csv"
+  },
   "congreso_valencia/42525625044": {
    "territorio": "congreso_valencia",
    "run_id": "42525625044",
