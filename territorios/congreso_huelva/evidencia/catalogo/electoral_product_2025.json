@@ -4,9 +4,9 @@
   "territory_id": "congreso_huelva",
   "territory_name": "Congreso Huelva",
   "edition": "2025",
-  "run_id": 41335929678,
-  "artifact_name": "ddd-state-41335929678-M08",
-  "artifact_sha256": "571a1603f7e46bd6656b9763bc50f32183dce520372bd14098e5fda646af63e6",
-  "source_commit": "8a14e0e670e508f817c8a1976bed8738daac2dfe",
+  "run_id": 42996002594,
+  "artifact_name": "ddd-state-42996002594-M08",
+  "artifact_sha256": "e435883592b00c5afc7e7b21feb11e35a80ef6d3f1ee6200819c43ac1b83d582",
+  "source_commit": "cfe716fc438444c6d25634256d725122a3012c94",
   "stage": "M08"
 }
