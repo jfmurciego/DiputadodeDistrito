@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T13:28:53.106943+00:00",
+  "generated_at": "2026-11-11T13:32:57.581644+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7053,11 +7053,11 @@
       "name": "Castilla y León",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42531122768,
+      "run_id": 43025642604,
       "last_run": {
         "run_id": 42531122768,
         "status": "SUCCESS",
@@ -7066,7 +7066,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7083,13 +7083,13 @@
           "territory_id": "castilla_y_leon",
           "territory_name": "Castilla y León",
           "edition": "2025",
-          "run_id": 42521090842,
-          "artifact_name": "ddd-state-42521090842-M06",
-          "artifact_sha256": "7ab13d45f73c56fc3839bbdd09e61a4b04f612d9bfc545b3386f70da2a8510d4",
-          "source_commit": "f1e89f098f13ec04ce38c081f88fb876edda1e6f",
+          "run_id": 43025642604,
+          "artifact_name": "ddd-state-43025642604-M06",
+          "artifact_sha256": "7823a31277d6b6886f3e06fd1a166e6625a0a9bf3e922bd970b5622f4149203f",
+          "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/42521090842.json"
+          "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/43025642604.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7107,7 +7107,7 @@
       },
       "autonomous_community_code_ine": "07",
       "display_name": "07 Castilla y León",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "castilla_la_mancha",
@@ -7236,11 +7236,11 @@
       "name": "Comunidad Valenciana",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41062567297,
+      "run_id": 43025671156,
       "last_run": {
         "run_id": 41062567297,
         "status": "SUCCESS",
@@ -7249,7 +7249,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7266,13 +7266,13 @@
           "territory_id": "comunidad_valenciana",
           "territory_name": "Comunidad Valenciana",
           "edition": "2025",
-          "run_id": 41062567297,
-          "artifact_name": "ddd-state-41062567297-M06",
-          "artifact_sha256": "2ee98e3d269c78a497dc26037798afd1865aa57a8cba359282be2259f33bc506",
-          "source_commit": "46609e3774f1555a6d5f54da44e618bd45e29e80",
+          "run_id": 43025671156,
+          "artifact_name": "ddd-state-43025671156-M06",
+          "artifact_sha256": "fadd4fd51471e88dd62a31a53aacef7e735d2ab0dc74f5a8aad4ca73fc365c88",
+          "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/41062567297.json"
+          "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/43025671156.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7290,7 +7290,7 @@
       },
       "autonomous_community_code_ine": "10",
       "display_name": "10 Comunidad Valenciana",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "extremadura",
@@ -10414,11 +10414,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43024860841,
       "last_run": {
-        "run_id": 42514991952,
+        "run_id": 43024860841,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -12256,17 +12256,15 @@
     }
   ],
   "kpis": {
-    "complete": 60,
+    "complete": 58,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
       "05 Canarias",
-      "07 Castilla y León",
       "08 Castilla-La Mancha",
       "09 Cataluña",
-      "10 Comunidad Valenciana",
       "12 Galicia",
       "13 Comunidad de Madrid",
       "14 Región de Murcia",
@@ -12545,6 +12543,18 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "07 Castilla y León",
+      "territory_id": "castilla_y_leon",
+      "autonomous_community_code_ine": "07",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "10 Comunidad Valenciana",
+      "territory_id": "comunidad_valenciana",
+      "autonomous_community_code_ine": "10",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "11 Extremadura",
       "territory_id": "extremadura",
       "autonomous_community_code_ine": "11",
@@ -12572,18 +12582,6 @@
       "territory": "Nacional Soria",
       "territory_id": "congreso_soria",
       "autonomous_community_code_ine": "C42",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Tarragona",
-      "territory_id": "congreso_tarragona",
-      "autonomous_community_code_ine": "C43",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Teruel",
-      "territory_id": "congreso_teruel",
-      "autonomous_community_code_ine": "C44",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12595,6 +12593,18 @@
       "action": "preparar fuentes electorales"
     },
     {
+      "territory": "07 Castilla y León",
+      "territory_id": "castilla_y_leon",
+      "autonomous_community_code_ine": "07",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "10 Comunidad Valenciana",
+      "territory_id": "comunidad_valenciana",
+      "autonomous_community_code_ine": "10",
+      "action": "preparar fuentes electorales"
+    },
+    {
       "territory": "11 Extremadura",
       "territory_id": "extremadura",
       "autonomous_community_code_ine": "11",
@@ -12622,18 +12632,6 @@
       "territory": "Nacional Soria",
       "territory_id": "congreso_soria",
       "autonomous_community_code_ine": "C42",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Tarragona",
-      "territory_id": "congreso_tarragona",
-      "autonomous_community_code_ine": "C43",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Teruel",
-      "territory_id": "congreso_teruel",
-      "autonomous_community_code_ine": "C44",
       "action": "preparar fuentes electorales"
     }
   ]
