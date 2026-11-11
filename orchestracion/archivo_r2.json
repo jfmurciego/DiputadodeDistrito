@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T13:35:17Z",
+  "actualizado_en": "2026-11-11T13:35:54Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -6491,19 +6491,20 @@
       "territorio": "congreso_teruel",
       "url": "r2://ddd-research-archive/congreso_teruel/42940536681/ddd-minimo-42940536681-M06.zip"
     },
-    "congreso_teruel/43024869107/ddd-minimo-43024869107-M06.zip": {
-      "archivado_en": "2026-11-11T13:20:06Z",
-      "artefacto": "ddd-minimo-43024869107-M06",
-      "artefacto_origen": "ddd-state-43024869107-M06",
-      "artifact_id": 13858256256,
-      "caducidad_original": "2026-11-25T13:17:48Z",
-      "run_id": "43024869107",
-      "sha256": "6dc208135670dcf60c059ef176b16d469753b897b05bcd50284e7c7e876e3edb",
-      "sha256_estado_original": "0b0e529d55df5ff6993637368185dd08189e3be2d46c59db7035e8c49a1c5cba",
-      "tamano_bytes": 145618,
-      "tamano_estado_original": 79031067,
+    "congreso_teruel/43029189395/ddd-minimo-43029189395-M08.zip": {
+      "archivado_en": "2026-11-11T13:35:54Z",
+      "artefacto": "ddd-minimo-43029189395-M08",
+      "artefacto_origen": "ddd-state-43029189395-M08",
+      "artifact_id": 13860877460,
+      "caducidad_original": "2026-11-25T13:33:50Z",
+      "incluye_m06_run": "43024869107",
+      "run_id": "43029189395",
+      "sha256": "a3630ffc93c17fb44f75cfe377c54e29bcdb530dd0784b89197746f303938d5d",
+      "sha256_estado_original": "1d98bf8cf8fa4f4d444242aef0a5aed1d6ce0cd8bed7bca6bbf4f1d04c93da07",
+      "tamano_bytes": 201624,
+      "tamano_estado_original": 79667386,
       "territorio": "congreso_teruel",
-      "url": "r2://ddd-research-archive/congreso_teruel/43024869107/ddd-minimo-43024869107-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_teruel/43029189395/ddd-minimo-43029189395-M08.zip"
     },
     "congreso_toledo/41242809451/ddd-audit-41242809451.zip": {
       "archivado_en": "2026-11-08T12:08:43Z",

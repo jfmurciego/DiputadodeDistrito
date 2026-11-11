@@ -1360,6 +1360,15 @@
    "sha256_csv": "ab706bd92a2b153e45fcc2ab7690f1c32f3e6f7f717226cc5adc62907133cae8",
    "ruta": "datos/resultados/runs/congreso_tarragona_42514991952_partidos.csv"
   },
+  "congreso_teruel/43029189395": {
+   "territorio": "congreso_teruel",
+   "run_id": "43029189395",
+   "run_territorial": "43024869107",
+   "sha256_composicion": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "85e32b6168ce5a7b08a0f9654f7cd061727992b838183ccb9bf05814eb2ea593",
+   "ruta": "datos/resultados/runs/congreso_teruel_43029189395_partidos.csv"
+  },
   "congreso_valencia/42525625044": {
    "territorio": "congreso_valencia",
    "run_id": "42525625044",
