@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:42:03Z",
+  "actualizado_en": "2026-11-11T02:42:52Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2224,6 +2224,20 @@
       "tamano_estado_original": 81628087,
       "territorio": "congreso_cordoba",
       "url": "r2://ddd-research-archive/congreso_cordoba/41296161083/ddd-minimo-41296161083-M08.zip"
+    },
+    "congreso_cordoba/42940387433/ddd-minimo-42940387433-M06.zip": {
+      "archivado_en": "2026-11-11T02:42:52Z",
+      "artefacto": "ddd-minimo-42940387433-M06",
+      "artefacto_origen": "ddd-state-42940387433-M06",
+      "artifact_id": 13822177653,
+      "caducidad_original": "2026-11-25T02:21:01Z",
+      "run_id": "42940387433",
+      "sha256": "7a3b6ec7d04b866a02d6d2b5cca4af47d9932c2f39cff3112b53f4827c10ebc3",
+      "sha256_estado_original": "40dd5ac91e1484962d832c99587e521566f6a77d7e642a7a1099ae4d55f431d3",
+      "tamano_bytes": 279480,
+      "tamano_estado_original": 81442556,
+      "territorio": "congreso_cordoba",
+      "url": "r2://ddd-research-archive/congreso_cordoba/42940387433/ddd-minimo-42940387433-M06.zip"
     },
     "congreso_cuenca/41236647382/ddd-audit-41236647382.zip": {
       "archivado_en": "2026-11-08T12:07:05Z",

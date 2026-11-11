@@ -987,6 +987,13 @@
    "sha256_csv": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
    "ruta": "datos/composicion/runs/congreso_ceuta_42488846588.csv"
   },
+  "congreso_cordoba/42940387433": {
+   "territorio": "congreso_cordoba",
+   "run_id": "42940387433",
+   "secciones": 621,
+   "sha256_csv": "c8b291b8a164be1700d2488364c8ddbaeddd5ec352664002bc10ad3e62fa7dbf",
+   "ruta": "datos/composicion/runs/congreso_cordoba_42940387433.csv"
+  },
   "congreso_huesca/42519383275": {
    "territorio": "congreso_huesca",
    "run_id": "42519383275",
