@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T12:37:46.160363+00:00",
+  "generated_at": "2026-11-11T13:22:03.462142+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6931,20 +6931,20 @@
       "name": "Canarias",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43011642069,
+      "run_id": 43020588641,
       "last_run": {
-        "run_id": 43011642069,
+        "run_id": 43020588641,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6985,7 +6985,7 @@
       },
       "autonomous_community_code_ine": "05",
       "display_name": "05 Canarias",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "cantabria",
@@ -10351,7 +10351,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42940525976,
+      "run_id": 43024852774,
       "last_run": {
         "run_id": 41250310066,
         "status": "SUCCESS",
@@ -10377,13 +10377,13 @@
           "territory_id": "congreso_soria",
           "territory_name": "Congreso Soria",
           "edition": "2025",
-          "run_id": 42940525976,
-          "artifact_name": "ddd-state-42940525976-M06",
-          "artifact_sha256": "b5646cea35c1c6bee1cadb87af6fda1e14d4594799969932ad66d22da42ba843",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43024852774,
+          "artifact_name": "ddd-state-43024852774-M06",
+          "artifact_sha256": "e81af842faf145dc1c257b54365f7afa12ace2beb76edfa04eef482f89984651",
+          "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_soria/evidencia/generaciones_m06/42940525976.json"
+          "producer_manifest_path": "territorios/congreso_soria/evidencia/generaciones_m06/43024852774.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10473,7 +10473,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42940536681,
+      "run_id": 43024869107,
       "last_run": {
         "run_id": 41250394074,
         "status": "SUCCESS",
@@ -10499,13 +10499,13 @@
           "territory_id": "congreso_teruel",
           "territory_name": "Congreso Teruel",
           "edition": "2025",
-          "run_id": 42940536681,
-          "artifact_name": "ddd-state-42940536681-M06",
-          "artifact_sha256": "64300b43cf6764de7ff685ff2dba06db8594ad11f91ed41c6377ce0b9d56a372",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43024869107,
+          "artifact_name": "ddd-state-43024869107-M06",
+          "artifact_sha256": "0b0e529d55df5ff6993637368185dd08189e3be2d46c59db7035e8c49a1c5cba",
+          "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_teruel/evidencia/generaciones_m06/42940536681.json"
+          "producer_manifest_path": "territorios/congreso_teruel/evidencia/generaciones_m06/43024869107.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -12256,12 +12256,13 @@
     }
   ],
   "kpis": {
-    "complete": 59,
+    "complete": 60,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
+      "05 Canarias",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "09 Cataluña",
@@ -12527,23 +12528,17 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_santa_cruz_de_tenerife",
-    "name": "Nacional Santa Cruz de Tenerife",
-    "display_name": "Nacional Santa Cruz de Tenerife",
-    "autonomous_community_code_ine": "C38",
-    "run_id": 43020203637,
+    "territory_id": "canarias",
+    "name": "Canarias",
+    "display_name": "05 Canarias",
+    "autonomous_community_code_ine": "05",
+    "run_id": 43020588641,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
     {
-      "territory": "05 Canarias",
-      "territory_id": "canarias",
-      "autonomous_community_code_ine": "05",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "06 Cantabria",
       "territory_id": "cantabria",
       "autonomous_community_code_ine": "06",
@@ -12583,17 +12578,17 @@
       "territory": "Nacional Tarragona",
       "territory_id": "congreso_tarragona",
       "autonomous_community_code_ine": "C43",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Teruel",
+      "territory_id": "congreso_teruel",
+      "autonomous_community_code_ine": "C44",
       "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
     {
-      "territory": "05 Canarias",
-      "territory_id": "canarias",
-      "autonomous_community_code_ine": "05",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "06 Cantabria",
       "territory_id": "cantabria",
       "autonomous_community_code_ine": "06",
@@ -12633,6 +12628,12 @@
       "territory": "Nacional Tarragona",
       "territory_id": "congreso_tarragona",
       "autonomous_community_code_ine": "C43",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Teruel",
+      "territory_id": "congreso_teruel",
+      "autonomous_community_code_ine": "C44",
       "action": "preparar fuentes electorales"
     }
   ]
