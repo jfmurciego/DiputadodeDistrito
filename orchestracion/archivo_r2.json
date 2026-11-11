@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:55:57Z",
+  "actualizado_en": "2026-11-11T02:57:21Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3644,6 +3644,20 @@
       "tamano_estado_original": 77406449,
       "territorio": "congreso_palencia",
       "url": "r2://ddd-research-archive/congreso_palencia/41298660623/ddd-minimo-41298660623-M08.zip"
+    },
+    "congreso_palencia/42940484559/ddd-minimo-42940484559-M06.zip": {
+      "archivado_en": "2026-11-11T02:57:21Z",
+      "artefacto": "ddd-minimo-42940484559-M06",
+      "artefacto_origen": "ddd-state-42940484559-M06",
+      "artifact_id": 13822902735,
+      "caducidad_original": "2026-11-25T02:29:13Z",
+      "run_id": "42940484559",
+      "sha256": "bdd926ee217b97cabdfeed4bd5583fb845ab54c768901fdffbdcd02e825f251e",
+      "sha256_estado_original": "79f0e7eaf034c2e7675b4cdf8455872c9255abcc671adce28e27eb5cd17fa50c",
+      "tamano_bytes": 121499,
+      "tamano_estado_original": 77443224,
+      "territorio": "congreso_palencia",
+      "url": "r2://ddd-research-archive/congreso_palencia/42940484559/ddd-minimo-42940484559-M06.zip"
     },
     "congreso_pontevedra/41351964088/ddd-audit-41351964088.zip": {
       "archivado_en": "2026-11-08T12:17:31Z",
