@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T09:42:59.165532+00:00",
+  "generated_at": "2026-11-11T09:44:42.933796+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9066,20 +9066,20 @@
       "name": "Nacional Huelva",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42991542477,
+      "run_id": 42996002594,
       "last_run": {
-        "run_id": 42991542477,
+        "run_id": 42996002594,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9120,7 +9120,7 @@
       },
       "autonomous_community_code_ine": "C21",
       "display_name": "Nacional Huelva",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_huesca",
@@ -9924,7 +9924,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940489856,
+      "run_id": 42991561887,
       "last_run": {
         "run_id": 41442913288,
         "status": "SUCCESS",
@@ -9950,13 +9950,13 @@
           "territory_id": "congreso_las_palmas",
           "territory_name": "Congreso Las Palmas",
           "edition": "2025",
-          "run_id": 42940489856,
-          "artifact_name": "ddd-state-42940489856-M06",
-          "artifact_sha256": "b0f830b934071e391255dadb24ec6347dfaa0d46b109f0b1c8c120e10cb54177",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 42991561887,
+          "artifact_name": "ddd-state-42991561887-M06",
+          "artifact_sha256": "4c53637c1257961c6b4ee671ea1da44d29a9d84d1ddbdbaa52dc0574b7de25e9",
+          "source_commit": "e2b935f5d09b947fb3595488e5e2a10eabc49cf7",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_las_palmas/evidencia/generaciones_m06/42940489856.json"
+          "producer_manifest_path": "territorios/congreso_las_palmas/evidencia/generaciones_m06/42991561887.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 46,
+    "complete": 47,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12295,6 +12295,7 @@
       "Nacional Granada",
       "Nacional Guadalajara",
       "Nacional Guipúzcoa",
+      "Nacional Huelva",
       "Nacional Jaén",
       "Nacional La Rioja",
       "Nacional Lugo",
@@ -12514,11 +12515,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_lugo",
-    "name": "Nacional Lugo",
-    "display_name": "Nacional Lugo",
-    "autonomous_community_code_ine": "C27",
-    "run_id": 42995722473,
+    "territory_id": "congreso_huelva",
+    "name": "Nacional Huelva",
+    "display_name": "Nacional Huelva",
+    "autonomous_community_code_ine": "C21",
+    "run_id": 42996002594,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12537,12 +12538,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Huelva",
-      "territory_id": "congreso_huelva",
-      "autonomous_community_code_ine": "C21",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Huesca",
       "territory_id": "congreso_huesca",
       "autonomous_community_code_ine": "C22",
@@ -12570,6 +12565,12 @@
       "territory": "Nacional Málaga",
       "territory_id": "congreso_malaga",
       "autonomous_community_code_ine": "C29",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Murcia",
+      "territory_id": "congreso_murcia",
+      "autonomous_community_code_ine": "C30",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12587,12 +12588,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Huelva",
-      "territory_id": "congreso_huelva",
-      "autonomous_community_code_ine": "C21",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Huesca",
       "territory_id": "congreso_huesca",
       "autonomous_community_code_ine": "C22",
@@ -12620,6 +12615,12 @@
       "territory": "Nacional Málaga",
       "territory_id": "congreso_malaga",
       "autonomous_community_code_ine": "C29",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Murcia",
+      "territory_id": "congreso_murcia",
+      "autonomous_community_code_ine": "C30",
       "action": "preparar fuentes electorales"
     }
   ]
