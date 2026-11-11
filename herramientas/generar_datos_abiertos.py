@@ -9,14 +9,15 @@ CAMBIOS 1.3.0 (T-249): el paquete usa el par de cada territorio: el M08 vigente 
   que acredita el manifiesto del run del M08, `linaje_m06_m08`; `pares_vigentes`), no el M06 más reciente. MOTIVO: el lote P50 43030563528 registró solo M06 nuevos de 34 territorios;
   su M06 vigente quedó sin M08 del mismo run, se omitieron en silencio y el paquete borró sus directorios (51 → 17).
   Guarda `DATOS_ABIERTOS_REDUCCION`: si el INDEX previo tenía un territorio que sigue en el registro y el nuevo no, falla
-  antes de escribir INDEX.json o borrar directorios; solo es retirada explícita un territorio sin ningún M06 o M08 de la elección en el registro.
+  antes de escribir INDEX.json o borrar directorios; avisa (`::warning::`) de cada territorio omitido y de cada «par antiguo
+  en uso» (M06 vigente más nuevo que el del par); solo es retirada explícita un territorio sin ningún M06 o M08 de la elección en el registro.
 CAMBIOS 1.2.0 (T-201): `vigentes_m06(registro, eleccion)` elige por (territorio, elección), por defecto 2023-07-23; una entrada de otra
   elección no desplaza a la vigente. Salida idéntica si el registro no trae elecciones.
 CAMBIOS 1.1.0 (T-135): distritos numerados de 1 a K en CSV, fichas, INDEX.json, README y GeoJSON público (derivado del blob M06
   con propiedad `distrito`; su sha256 va en geojson.sha256 y el del GeoJSON M06 de origen en geojson.sha256_origen). El blob M06 no cambia.
-QUÉ HACE: por cada territorio congreso_* con M08 vigente y el M06 de su mismo run en orchestracion/publicaciones_visor.json:
+QUÉ HACE: por cada territorio congreso_* con M08 vigente y el M06 de su linaje en orchestracion/publicaciones_visor.json:
   - lee el M06 (blob inmutable, verificado con su sha256) y toma población, secciones y municipios de cada distrito;
-  - copia el CSV de resultados de datos/resultados/ (T-53) comprobando que su manifiesto acredita el mismo run;
+  - copia el CSV de resultados de datos/resultados/ (T-53) comprobando que su manifiesto acredita ese M08;
   - escribe datos_abiertos/<territorio>/resultados.csv, una ficha estática distrito-<n>.html por distrito y un
     índice por provincia; escribe datos_abiertos/INDEX.json (licencia, run, blob_sha, sha256 del ZIP de origen, del
     GeoJSON y del CSV), datos_abiertos/README.md (licencia CC BY 4.0) y datos_abiertos/index.html.
@@ -201,9 +202,15 @@ def generar(salida: Path = SALIDA, registro: Path = REGISTRO, resultados: Path =
         nombres = json.loads((salida / "nombres.json").read_text(encoding="utf-8"))
     man = json.loads((resultados / "MANIFEST.json").read_text(encoding="utf-8"))["territorios"]
     terr: dict[str, dict] = {}
+    m6_vig = vigentes_m06(registro)
     for t, (p6, p8) in pares_vigentes(registro).items():
+        if t in m6_vig and m6_vig[t]["run_id"] != p6["run_id"]:
+            print(f"::warning::{t}: par antiguo en uso (M06 {p6['run_id']} + M08 {p8['run_id']}); el M06 vigente "
+                  f"{m6_vig[t]['run_id']} no tiene M08 de su linaje", file=sys.stderr)
         if t not in man or man[t]["blob_sha"] != p8["blob_sha"]:
-            continue  # M08 no acreditado por el manifiesto de resultados
+            print(f"::warning::{t}: datos abiertos omitido, el MANIFEST de resultados no acredita el M08 {p8['run_id']}",
+                  file=sys.stderr)
+            continue
         csv_bytes = (resultados / f"{t}.csv").read_bytes()
         if sha(csv_bytes) != man[t]["sha256_csv"]:
             raise ValueError(f"CSV de {t} no coincide con datos/resultados/MANIFEST.json")
@@ -222,6 +229,7 @@ def generar(salida: Path = SALIDA, registro: Path = REGISTRO, resultados: Path =
         f = (m06_dir or cache or Path("/nonexistent")) / f"{t}_{p6['run_id']}.zip"
         datos = f.read_bytes() if f.exists() else (None if m06_dir else rl.bajar_blob(p6))
         if datos is None:
+            print(f"::warning::{t}: datos abiertos omitido, falta el ZIP del M06 {p6['run_id']} en --m06-dir", file=sys.stderr)
             continue
         if sha(datos) != p6["sha256"]:
             raise ValueError(f"SHA-256 del M06 de {t} no coincide con el registro")
@@ -260,7 +268,7 @@ def generar(salida: Path = SALIDA, registro: Path = REGISTRO, resultados: Path =
         raise ValueError(f"DATOS_ABIERTOS_REDUCCION: {len(perdidos)} territorio(s) del INDEX previo sin regenerar: "
                          + ", ".join(perdidos))
     idx = {"schema": ESQUEMA, "licencia": LICENCIA, "atribucion": ATRIBUCION, "eleccion": ELECCION,
-           "origen": "orchestracion/publicaciones_visor.json (canonical_m06 + canonical_m08, mismo run)",
+           "origen": "orchestracion/publicaciones_visor.json (canonical_m08 vigente + canonical_m06 de su linaje)",
            "territorios": dict(sorted(terr.items()))}
     escribir(salida / "INDEX.json", (json.dumps(idx, ensure_ascii=False, indent=1) + "\n").encode("utf-8"))
     escribir(salida / "README.md", readme(idx).encode("utf-8"))

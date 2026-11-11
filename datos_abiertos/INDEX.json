@@ -7,7 +7,7 @@
  },
  "atribucion": "Diputado de Distrito (https://github.com/jfmurciego/DiputadodeDistrito)",
  "eleccion": "Elecciones generales de 2023 (Congreso)",
- "origen": "orchestracion/publicaciones_visor.json (canonical_m06 + canonical_m08, mismo run)",
+ "origen": "orchestracion/publicaciones_visor.json (canonical_m08 vigente + canonical_m06 de su linaje)",
  "territorios": {
   "congreso_alava": {
    "provincia": "Álava",

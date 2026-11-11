@@ -17,4 +17,8 @@
   blob M06 y La Rioja); `--comprobar` al día. El sitio desplegado no cambia hasta la próxima P50.
 - Pendiente (Operador, con frase del propietario): publicar el M08 de la cadena de los 35 territorios con M06 sin par (runs
   electorales «Reutilizar» del bot); hasta entonces el mapa del visor usa el M06 nuevo con resultados del par anterior.
-- Tests: `tests/test_datos_abiertos.py` (`ParCoherente`), `tests/test_t249_par_linaje.py`.
+- Avisos `::warning::` del generador: territorio omitido (MANIFEST de resultados que no acredita el M08, o ZIP del M06 ausente)
+  y «par antiguo en uso» (M06 vigente más nuevo que el del par: hoy 35, p. ej. congreso_alicante 42940331557 frente a 42495067503).
+  `origen` del INDEX.json: «canonical_m08 vigente + canonical_m06 de su linaje».
+- Tests: `tests/test_datos_abiertos.py` (`ParCoherente`; `test_m06_nuevo_sin_m08_conserva_el_par_anterior` reproduce el caso real:
+  M06 nuevo sin M08 con el INDEX previo, que se conserva entero), `tests/test_t249_par_linaje.py`.
