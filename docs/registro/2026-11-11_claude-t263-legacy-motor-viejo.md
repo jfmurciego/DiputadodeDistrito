@@ -7,7 +7,7 @@
   partición); se retiran los dos tests que reproducían el fallo de banda estrecha del v745 (documentaban el motor archivado; con v7410
   Alcorcón ya no falla). `test_huella_m05_motor_activo` comprueba además que v740 no está en `ddd_core/`. No se renombra nada.
 - **Efecto en huellas**: huella M04 de checkpoints (`ddd_core/m04_*.py` + `m04_engine.json`) CAMBIA (20 → 10 ficheros): la próxima 00
-  «Reutilizar» de cada territorio dará `CHECKPOINT_ENGINE_MISMATCH` y rehará desde M04. Huella M05 (cierre de imports) y motor2: sin cambio.
+  «Reutilizar» de cada territorio dará `CHECKPOINT_ENGINE_MISMATCH` y rehará desde M04. **La huella M04 de los checkpoints cambia; la próxima 00 de cada territorio va con «Generar desde fuente», no «Reutilizar».** Huella M05 (cierre de imports) y motor2: sin cambio.
 - **Pruebas (D-89)**: `bateria_motor.py motor --m05 7.4.4` en `congreso_huesca` y `la_rioja` con `origin/main` (8e4e268) y con la rama:
   composición M06 idéntica (sha256 `524b8c68…` y `faa44f88…`), `RESULTADO.json` idéntico, validación PASS; `preparacion_unidades_internas.json`
   solo difiere en marcas de tiempo. Unittest local OK: `test_m04_oversized_municipality_hard_bounds`, `test_huella_m05_motor_activo`,
