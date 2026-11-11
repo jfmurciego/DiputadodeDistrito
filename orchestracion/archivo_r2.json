@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:57:21Z",
+  "actualizado_en": "2026-11-11T02:58:17Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -1809,6 +1809,20 @@
       "tamano_estado_original": 81507196,
       "territorio": "congreso_burgos",
       "url": "r2://ddd-research-archive/congreso_burgos/41299221887/ddd-minimo-41299221887-M08.zip"
+    },
+    "congreso_burgos/42940361074/ddd-minimo-42940361074-M06.zip": {
+      "archivado_en": "2026-11-11T02:58:17Z",
+      "artefacto": "ddd-minimo-42940361074-M06",
+      "artefacto_origen": "ddd-state-42940361074-M06",
+      "artifact_id": 13822547601,
+      "caducidad_original": "2026-11-25T02:29:32Z",
+      "run_id": "42940361074",
+      "sha256": "921e9d06c61a72a688b05e75fb4506df9218e2952ba360eb8146d5f8dc11d775",
+      "sha256_estado_original": "9c93fb4deb910079403af7d160ecd93092c0246a1e04b74abfbe6a63a7ce3ec6",
+      "tamano_bytes": 328100,
+      "tamano_estado_original": 81283916,
+      "territorio": "congreso_burgos",
+      "url": "r2://ddd-research-archive/congreso_burgos/42940361074/ddd-minimo-42940361074-M06.zip"
     },
     "congreso_caceres/41240512324/ddd-audit-41240512324.zip": {
       "archivado_en": "2026-11-08T12:08:19Z",
