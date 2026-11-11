@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T13:24:39Z",
+  "actualizado_en": "2026-11-11T13:31:09Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -958,6 +958,20 @@
       "tamano_bytes": 253024625,
       "territorio": "comunidad_valenciana",
       "url": "r2://ddd-research-archive/comunidad_valenciana/41062567297/ddd-state-41062567297-M08.zip"
+    },
+    "comunidad_valenciana/43025671156/ddd-minimo-43025671156-M06.zip": {
+      "archivado_en": "2026-11-11T13:31:09Z",
+      "artefacto": "ddd-minimo-43025671156-M06",
+      "artefacto_origen": "ddd-state-43025671156-M06",
+      "artifact_id": 13860176315,
+      "caducidad_original": "2026-11-25T13:28:10Z",
+      "run_id": "43025671156",
+      "sha256": "ab3022ba71ce39a955a81bef6f24e994fbb8d350b6cb9811475c1cb0368a651e",
+      "sha256_estado_original": "fadd4fd51471e88dd62a31a53aacef7e735d2ab0dc74f5a8aad4ca73fc365c88",
+      "tamano_bytes": 1606160,
+      "tamano_estado_original": 101713766,
+      "territorio": "comunidad_valenciana",
+      "url": "r2://ddd-research-archive/comunidad_valenciana/43025671156/ddd-minimo-43025671156-M06.zip"
     },
     "congreso350_madrid/42588623702/ddd-audit-42588623702.zip": {
       "archivado_en": "2026-11-09T14:00:07Z",

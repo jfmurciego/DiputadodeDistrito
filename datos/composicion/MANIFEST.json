@@ -861,6 +861,13 @@
    "sha256_csv": "7caceb283fc2a2f61bc4904eb363411459386c40fb80b5df44140871c89c2795",
    "ruta": "datos/composicion/runs/ceuta_42503542766.csv"
   },
+  "comunidad_valenciana/43025671156": {
+   "territorio": "comunidad_valenciana",
+   "run_id": "43025671156",
+   "secciones": 3503,
+   "sha256_csv": "dc9f70b5d2e63c1a2055c8bace703f13109b6bb500cc1a2720dc040da5ee580b",
+   "ruta": "datos/composicion/runs/comunidad_valenciana_43025671156.csv"
+  },
   "congreso350_madrid/42588623702": {
    "territorio": "congreso350_madrid",
    "run_id": "42588623702",
