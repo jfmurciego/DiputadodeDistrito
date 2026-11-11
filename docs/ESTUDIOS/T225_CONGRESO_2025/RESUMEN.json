@@ -1070,5 +1070,12 @@
     "frente_al_vigente": ""
    }
   ]
- }
+ },
+ "reproducir": [
+  "bash inputs/partes/reconstruir_fuentes.sh && python herramientas/bateria_motor.py nacionales",
+  "por territorio: adquisición como herramientas/bateria_motor.entradas_uno (ADQUISICION_OGC, official_live) + python herramientas/materializar_contrato_generacion.py --root-dir . --territory-id <t> --edition 2025 --package <pkg> --population-year 2025 --section-year 2025 + modulos 01-03 con el contrato",
+  "PYTHONHASHSEED=0 python herramientas/bateria_motor.py motor --out <out> --m05 7.4.4 <territorios>",
+  "PYTHONHASHSEED=0 python -m ddd_motor2.competir --out <out> --funcion D8 --cadenas 10 congreso_soria congreso_madrid congreso_las_palmas",
+  "python herramientas/equivalencia_seccionado_2026_2025.py --s2026 seccionado_2026.zip --s2025 seccionado_2025.zip --padron 65034.csv.zip"
+ ]
 }
