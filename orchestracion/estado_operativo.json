@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T03:44:32.848474+00:00",
+  "generated_at": "2026-11-11T03:46:51.768449+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8562,10 +8562,10 @@
           "territory_id": "congreso_castellon",
           "territory_name": "Congreso Castellón",
           "edition": "2025",
-          "run_id": 41295629673,
-          "artifact_name": "ddd-state-41295629673-M08",
-          "artifact_sha256": "a765d8861651de563bb8ebf3200d2666ef03357b6e7c37740285d7d10165c4f9",
-          "source_commit": "c9406033181dad1a5a2ed2b0b5975ee6a514065d",
+          "run_id": 42953757677,
+          "artifact_name": "ddd-state-42953757677-M08",
+          "artifact_sha256": "f10c10277318b5c54c0c2b0b0afcea3bb7c7afec44358250e0da2352020c1974",
+          "source_commit": "71fa121ff55a2d9c4d1ec277c7eff80f7ce4b276",
           "stage": "M08"
         }
       },
@@ -8806,10 +8806,10 @@
           "territory_id": "congreso_cuenca",
           "territory_name": "Congreso Cuenca",
           "edition": "2025",
-          "run_id": 41294075778,
-          "artifact_name": "ddd-state-41294075778-M08",
-          "artifact_sha256": "45b111cd3cf5e6af86c0ddd151742681f4a79930273e964b6e059510ec0bad64",
-          "source_commit": "5201250f03b365e59a8f0af38fbddd94ca0b0edc",
+          "run_id": 42954007732,
+          "artifact_name": "ddd-state-42954007732-M08",
+          "artifact_sha256": "792e96cddd2a18feecda017d74231372d1bc049be81de5716df348593d0696ed",
+          "source_commit": "35badd2eb8f3eeb35f863781e611205b6412c68a",
           "stage": "M08"
         }
       },
@@ -8828,12 +8828,12 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42940402050,
       "last_run": {
-        "run_id": 41298839274,
+        "run_id": 42940402050,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
-        "publication": "executed"
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
       },
       "stage": "M06",
       "edition": "2025",
