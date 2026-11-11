@@ -4,11 +4,11 @@
   "territory_id": "congreso_zamora",
   "territory_name": "Congreso Zamora",
   "edition": "2025",
-  "run_id": 42940563499,
-  "artifact_name": "ddd-state-42940563499-M06",
-  "artifact_sha256": "1aba1197a5d16c4376b393a5dafbb0b9ebc48ab188017cfc96e0bf7d60f4c81a",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43034969907,
+  "artifact_name": "ddd-state-43034969907-M06",
+  "artifact_sha256": "641770946dd4083e458605ca260677fa6d6a3593f93042172b9321a633e8e8da",
+  "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_zamora/evidencia/generaciones_m06/42940563499.json"
+  "producer_manifest_path": "territorios/congreso_zamora/evidencia/generaciones_m06/43034969907.json"
 }
