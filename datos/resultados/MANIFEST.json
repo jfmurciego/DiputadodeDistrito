@@ -765,6 +765,22 @@
     "sha256": "d8312ee76855710af2ffaa6ce8546f8e693266d9ca6e889843382baa15746062"
    }
   },
+  "congreso_almeria/42952468083": {
+   "territorio": "congreso_almeria",
+   "run_id": "42952468083",
+   "run_territorial": "42940336572",
+   "sha256_composicion": "1a84aded90c6dc7de04ea19f9eaa382a6316cd058884a66a6da16f18551b4dcb",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ce182d57cbe2d72989f51a6819909e51ab0926a10cb0185df814eaf25994656b",
+   "ruta": "datos/resultados/runs/congreso_almeria_42952468083_partidos.csv",
+   "desajustes": {
+    "secciones": 3,
+    "pct_desajuste": 0.518,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_almeria_42952468083_desajustes.json",
+    "sha256": "22f8ce16ba29a475ec0a11e6373a838a1bfbe5e609f97de7a8a7ac02478e5b2a"
+   }
+  },
   "congreso_avila/42948760863": {
    "territorio": "congreso_avila",
    "run_id": "42948760863",

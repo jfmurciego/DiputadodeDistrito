@@ -1,0 +1,54 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_almeria",
+ "run_id": "42952468083",
+ "run_territorial": "42940336572",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 316006,
+ "votos_desajustados": 1637,
+ "pct_desajuste": 0.518,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "0402401003",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 571,
+   "secciones_m06": {
+    "0402401001": 1.0
+   },
+   "distritos": {
+    "4": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0402401001 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0410004002",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 388,
+   "secciones_m06": {
+    "0410004001": 1.0
+   },
+   "distritos": {
+    "3": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0410004001 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0490201051",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 678,
+   "secciones_m06": {
+    "0490201039": 1.0
+   },
+   "distritos": {
+    "1": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0490201039 con la tabla de T-85, fuera del tope D-17"
+  }
+ ]
+}
