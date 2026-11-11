@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T01:11:41.130206+00:00",
+  "generated_at": "2026-11-11T02:29:33.329151+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8090,11 +8090,11 @@
       "name": "Nacional Ávila",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 41241662219,
+      "run_id": 42940341213,
       "last_run": {
         "run_id": 41241662219,
         "status": "SUCCESS",
@@ -8103,7 +8103,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8120,13 +8120,13 @@
           "territory_id": "congreso_avila",
           "territory_name": "Congreso Ávila",
           "edition": "2025",
-          "run_id": 41235278274,
-          "artifact_name": "ddd-state-41235278274-M06",
-          "artifact_sha256": "0d523f17c5e271e1aebec3209b17f8aaa2fe60e12d6134a7f8e83ee2ca6843c9",
-          "source_commit": "4e8b3d596ae843b683fd954088a356bd3edd78ac",
+          "run_id": 42940341213,
+          "artifact_name": "ddd-state-42940341213-M06",
+          "artifact_sha256": "bcf1e75b5e3f1fa906bdc9680cb7285990bbd0652b0911a1aaeaa49f947487b9",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_avila/evidencia/generaciones_m06/41235278274.json"
+          "producer_manifest_path": "territorios/congreso_avila/evidencia/generaciones_m06/42940341213.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8144,7 +8144,7 @@
       },
       "autonomous_community_code_ine": "C05",
       "display_name": "Nacional Ávila",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_badajoz",
@@ -9371,20 +9371,20 @@
       "name": "Nacional La Rioja",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 42932144515,
+      "run_id": 42935762636,
       "last_run": {
-        "run_id": 42932144515,
+        "run_id": 42935762636,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9425,7 +9425,7 @@
       },
       "autonomous_community_code_ine": "C26",
       "display_name": "Nacional La Rioja",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_lugo",
@@ -12279,7 +12279,6 @@
       "Nacional Albacete",
       "Nacional Alicante",
       "Nacional Almería",
-      "Nacional Ávila",
       "Nacional Badajoz",
       "Nacional Baleares",
       "Nacional Barcelona",
@@ -12300,6 +12299,7 @@
       "Nacional Jaén",
       "Nacional León",
       "Nacional Lérida",
+      "Nacional La Rioja",
       "Nacional Lugo",
       "Nacional Madrid",
       "Nacional Málaga",
@@ -12539,13 +12539,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "la_rioja",
-    "name": "La Rioja",
-    "display_name": "17 La Rioja",
-    "autonomous_community_code_ine": "17",
-    "run_id": 42920452778,
+    "territory_id": "congreso_la_rioja",
+    "name": "Nacional La Rioja",
+    "display_name": "Nacional La Rioja",
+    "autonomous_community_code_ine": "C26",
+    "run_id": 42935762636,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
@@ -12562,9 +12562,9 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional La Rioja",
-      "territory_id": "congreso_la_rioja",
-      "autonomous_community_code_ine": "C26",
+      "territory": "Nacional Ávila",
+      "territory_id": "congreso_avila",
+      "autonomous_community_code_ine": "C05",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12612,9 +12612,9 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional La Rioja",
-      "territory_id": "congreso_la_rioja",
-      "autonomous_community_code_ine": "C26",
+      "territory": "Nacional Ávila",
+      "territory_id": "congreso_avila",
+      "autonomous_community_code_ine": "C05",
       "action": "preparar fuentes electorales"
     }
   ]
