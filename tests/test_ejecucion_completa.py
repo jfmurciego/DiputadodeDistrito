@@ -969,6 +969,18 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 )
 
 
+
+def m08_enlaza_m06_vigente(root, territory_id, territorial, electoral):
+    """T-247: el M08 del catálogo pertenece al M06 vigente si el manifiesto de SU run tiene la fase 02 apuntando al run
+    y al sha256 del M06 vigente (puede ser otro run: la 00 hija «Reutilizar» hace la 04 sobre el M06 de la 00 madre)."""
+    path = root / f"territorios/{territory_id}/evidencia/ejecuciones_completas/{electoral['run_id']}.json"
+    if not path.is_file():
+        return False
+    fases = json.loads(path.read_text(encoding="utf-8")).get("phases") or []
+    f02 = next((p for p in fases if str(p.get("name", "")).startswith("02 ·")), {})
+    return (int(f02.get("run_id") or 0) == int(territorial["run_id"])
+            and str(f02.get("artifact_digest") or "").removeprefix("sha256:") == territorial["artifact_sha256"])
+
 class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
     def test_current_complete_product_is_durable_and_reusable(self):
         data = load(ROOT / "configuracion/catalogo_preparacion.yaml")
@@ -986,7 +998,14 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         self.assertIsInstance(current_run, int)
         territorial = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text())
         electoral = json.loads((ROOT / state["evidence"]["electoral_product"]).read_text())
-        self.assertEqual(territorial["run_id"], current_run)
+        enlazado = m08_enlaza_m06_vigente(ROOT, "castilla_la_mancha", territorial, electoral)
+        # T-247: el checkpoint es el run del M06 (stage M06) o el del M08 enlazado a él (stage M08, puede ser la 00
+        # hija «Reutilizar»); antes exigía que fuera siempre el run del M06.
+        if checkpoint["stage"] == "M08":
+            self.assertTrue(enlazado)
+            self.assertEqual(electoral["run_id"], current_run)
+        else:
+            self.assertEqual(territorial["run_id"], current_run)
         plan = build_plan(
             territory="Castilla-La Mancha",
             edition="2025",
@@ -994,11 +1013,10 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
             catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
             root_dir=ROOT,
         )
-        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], current_run)
-        # Regla de linaje: el M08 sólo se reutiliza si procede del mismo run que el M06 vigente.
-        if electoral["run_id"] == current_run:
-            self.assertEqual(checkpoint["stage"], "M08")
-            self.assertEqual(plan["existing"]["electoral_product"]["run_id"], current_run)
+        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], territorial["run_id"])
+        # Regla de linaje: el M08 sólo se reutiliza si su run enlaza (fase 02) el M06 vigente.
+        if enlazado:
+            self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
         else:
             self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
             self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
