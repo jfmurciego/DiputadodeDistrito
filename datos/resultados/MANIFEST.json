@@ -765,6 +765,22 @@
     "sha256": "d8312ee76855710af2ffaa6ce8546f8e693266d9ca6e889843382baa15746062"
    }
   },
+  "congreso_avila/42948760863": {
+   "territorio": "congreso_avila",
+   "run_id": "42948760863",
+   "run_territorial": "42940341213",
+   "sha256_composicion": "7635b7d07db46817242f602c92069657205bf1df4c865a91b9911ba40fea8b71",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ddf53853be330cac8c961f495ed8372cc979d7cc6116cd3c477078c08c1340c9",
+   "ruta": "datos/resultados/runs/congreso_avila_42948760863_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_avila_42948760863_desajustes.json",
+    "sha256": "8056f076e12796875eb616a6d1a66f0cedcc0c98c4c00f0b03648775cf4f7be8"
+   }
+  },
   "congreso_badajoz/42519381013": {
    "territorio": "congreso_badajoz",
    "run_id": "42519381013",

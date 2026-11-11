@@ -1,0 +1,27 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_avila",
+ "run_id": "42948760863",
+ "run_territorial": "42940341213",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 96470,
+ "votos_desajustados": 0,
+ "pct_desajuste": 0.0,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "0501401002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "0501401002": 1.0
+   },
+   "distritos": {
+    "0": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}
