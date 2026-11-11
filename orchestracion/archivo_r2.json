@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T08:31:26Z",
+  "actualizado_en": "2026-11-11T09:25:07Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3435,6 +3435,20 @@
       "tamano_estado_original": 78074052,
       "territorio": "congreso_lugo",
       "url": "r2://ddd-research-archive/congreso_lugo/42940448596/ddd-minimo-42940448596-M06.zip"
+    },
+    "congreso_lugo/42991580539/ddd-minimo-42991580539-M06.zip": {
+      "archivado_en": "2026-11-11T09:25:07Z",
+      "artefacto": "ddd-minimo-42991580539-M06",
+      "artefacto_origen": "ddd-state-42991580539-M06",
+      "artifact_id": 13843103966,
+      "caducidad_original": "2026-11-25T09:22:11Z",
+      "run_id": "42991580539",
+      "sha256": "f80dec38b55f35d3d2b2380ee845b2cc0c3bd2112be932e83931ce003201d3a2",
+      "sha256_estado_original": "83603d2d31fd032ef415d49aa9940223e6ba231ffe75591b1765e817fe6e11b4",
+      "tamano_bytes": 150803,
+      "tamano_estado_original": 78074059,
+      "territorio": "congreso_lugo",
+      "url": "r2://ddd-research-archive/congreso_lugo/42991580539/ddd-minimo-42991580539-M06.zip"
     },
     "congreso_madrid/41611821388/ddd-audit-41611821388.zip": {
       "archivado_en": "2026-11-08T12:19:51Z",
