@@ -30,6 +30,7 @@
 | 12:27 | tanda 4: Orense 43012119307, Palencia 43012127687, Pontevedra 43012135258, Salamanca 43012143922, Santa Cruz de Tenerife 43012151677 | P00 Campaña motor2 | — | SUCCESS: las 5 cadenas completas | 20 / — | 0/1 |
 | 13:57 | tanda 5: Segovia 43024836898, Sevilla 43024845069, Soria 43024852774, Tarragona 43024860841, Teruel 43024869107 | P00 Campaña motor2 | — | SUCCESS: las 5 cadenas completas | 25 / — | 0/1 |
 | 15:04 | tanda 6 (última, 6 por cola libre a petición del propietario): Toledo 43034928684, Valencia 43034939625, Valladolid 43034949749, Vizcaya 43034959389, Zamora 43034969907, Zaragoza 43034979460 | P00 Campaña motor2 | — | EN_VUELO | 31 / — | 0/1 |
+| 15:59 | Lérida 43043776004 (omitida por error del Operador en el reparto de tandas; detectada por el Planificador) | P00 Campaña motor2 | — | EN_VUELO | 32 / — | 0/1 |
 
 ## Cierre
 Estado: `EN_CURSO` (tanda 6, última). Último uso: 2026-11-11.
