@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T15:53:36.839991+00:00",
+  "generated_at": "2026-11-11T15:55:07.168399+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7342,10 +7342,10 @@
           "territory_id": "extremadura",
           "territory_name": "Extremadura",
           "edition": "2025",
-          "run_id": 41042675119,
-          "artifact_name": "ddd-state-41042675119-M08",
-          "artifact_sha256": "35fec26cf60ceeaac3a5dabbaeccab3b434f759d985672816036ac2dd87727a7",
-          "source_commit": "04da88c4a3b0bf3a1fb8c40778090641bf9765a4",
+          "run_id": 43051488486,
+          "artifact_name": "ddd-state-43051488486-M08",
+          "artifact_sha256": "4e4ea2e1ab72afdba4ef67bb634992c78c5db7a2d18d0c12a08516f92149c4d4",
+          "source_commit": "267bdc2490d644740eb783563f7bcd6bcf13f895",
           "stage": "M08"
         }
       },
@@ -7486,11 +7486,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43045426513,
       "last_run": {
-        "run_id": 42504383790,
+        "run_id": 43045426513,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
