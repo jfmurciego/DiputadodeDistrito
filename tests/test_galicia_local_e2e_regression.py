@@ -68,7 +68,7 @@ class GaliciaLocalE2ERegressionTests(unittest.TestCase):
         self.assertNotIn("require_zero_outside_tolerance_after_m05", cfg["validation"])
 
     def test_m04_soporta_residuales_provinciales_desconectados(self):
-        source = (ROOT / "ddd_core/m04_seed_engine_v745.py").read_text(encoding="utf-8")
+        source = (ROOT / "ddd_core/m04_seed_engine_v7410.py").read_text(encoding="utf-8")
         self.assertIn("Los núcleos cerrados pueden separar legítimamente el residual provincial", source)
         self.assertIn("if need not in states:", source)
         self.assertNotIn("unidades abiertas desconectadas provincia", source)

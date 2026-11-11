@@ -41,6 +41,8 @@ class HuellaMotorActivoTests(unittest.TestCase):
         base = Path(mod.BASE_ENGINE).resolve().relative_to(ROOT).as_posix()
         self.assertIn(base, ENGINE_FILES)
         self.assertNotIn("ddd_core/m05_opt_engine_v740.py", ENGINE_FILES)
+        # T-263: el motor inactivo v740 está archivado en legacy y fuera de ddd_core.
+        self.assertFalse((ROOT / "ddd_core/m05_opt_engine_v740.py").exists())
 
 
 if __name__ == "__main__":
