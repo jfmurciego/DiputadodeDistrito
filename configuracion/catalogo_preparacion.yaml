@@ -228,8 +228,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 43025633460
-        stage: M06
+        run_id: 43033094596
+        stage: M08
       preparation_evidence:
         run_id: 42707820760
         artifact_name: ddd-source-package-cantabria-2025-42707820760
