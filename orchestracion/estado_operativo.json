@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T11:53:29.863147+00:00",
+  "generated_at": "2026-11-11T11:57:00.165158+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6748,11 +6748,11 @@
       "name": "Aragón",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42497101869,
+      "run_id": 43011616681,
       "last_run": {
         "run_id": 42497101869,
         "status": "SUCCESS",
@@ -6761,7 +6761,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6778,13 +6778,13 @@
           "territory_id": "aragon",
           "territory_name": "Aragón",
           "edition": "2025",
-          "run_id": 42497101869,
-          "artifact_name": "ddd-state-42497101869-M06",
-          "artifact_sha256": "a4150d42b0cf65784ef1c6ea1a461e2fd1729b881e805bf8fb73c14cc0ae09fa",
-          "source_commit": "526a0295cf388eea9955e4f3fb585cfffe664b9b",
+          "run_id": 43011616681,
+          "artifact_name": "ddd-state-43011616681-M06",
+          "artifact_sha256": "2854b87d060ac2acd769686306ce457f6c5aa1d3184dde7150986fa5d744088e",
+          "source_commit": "2d29dc4536e23c35ec9f2eb594fc5b8021b77cd1",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/42497101869.json"
+          "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/43011616681.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -6802,18 +6802,18 @@
       },
       "autonomous_community_code_ine": "02",
       "display_name": "02 Aragón",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "principado_de_asturias",
       "name": "Principado de Asturias",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40979477771,
+      "run_id": 43011625216,
       "last_run": {
         "run_id": 40979477771,
         "status": "SUCCESS",
@@ -6822,7 +6822,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6839,13 +6839,13 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 40979477771,
-          "artifact_name": "ddd-state-40979477771-M06",
-          "artifact_sha256": "9f460bf1894a406f4106818103d03e0108660ed43b437089d8cf7ea4bab06bd9",
-          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+          "run_id": 43011625216,
+          "artifact_name": "ddd-state-43011625216-M06",
+          "artifact_sha256": "1183add3081e0679e67a24b344559318cbc314906eb4e23415788434dac87198",
+          "source_commit": "2d29dc4536e23c35ec9f2eb594fc5b8021b77cd1",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/principado_de_asturias/evidencia/generaciones_m06/40979477771.json"
+          "producer_manifest_path": "territorios/principado_de_asturias/evidencia/generaciones_m06/43011625216.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -6863,7 +6863,7 @@
       },
       "autonomous_community_code_ine": "03",
       "display_name": "03 Principado de Asturias",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "illes_balears",
@@ -9743,12 +9743,12 @@
       "certification": "PASS",
       "run_id": 43012119307,
       "last_run": {
-        "run_id": 41295142111,
+        "run_id": 43012119307,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
-        "publication": "executed"
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
       },
       "stage": "M06",
       "edition": "2025",
@@ -9865,12 +9865,12 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43012127687,
       "last_run": {
-        "run_id": 41298660623,
+        "run_id": 43012127687,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
-        "publication": "executed"
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
       },
       "stage": "M06",
       "edition": "2025",
@@ -12256,11 +12256,9 @@
     }
   ],
   "kpis": {
-    "complete": 55,
+    "complete": 53,
     "complete_names": [
       "01 Andalucía",
-      "02 Aragón",
-      "03 Principado de Asturias",
       "04 Islas Baleares",
       "05 Canarias",
       "07 Castilla y León",
@@ -12534,6 +12532,18 @@
   },
   "alerts": [
     {
+      "territory": "02 Aragón",
+      "territory_id": "aragon",
+      "autonomous_community_code_ine": "02",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "03 Principado de Asturias",
+      "territory_id": "principado_de_asturias",
+      "autonomous_community_code_ine": "03",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "06 Cantabria",
       "territory_id": "cantabria",
       "autonomous_community_code_ine": "06",
@@ -12567,23 +12577,23 @@
       "territory": "Nacional Pontevedra",
       "territory_id": "congreso_pontevedra",
       "autonomous_community_code_ine": "C36",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Salamanca",
-      "territory_id": "congreso_salamanca",
-      "autonomous_community_code_ine": "C37",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Santa Cruz de Tenerife",
-      "territory_id": "congreso_santa_cruz_de_tenerife",
-      "autonomous_community_code_ine": "C38",
       "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
     {
+      "territory": "02 Aragón",
+      "territory_id": "aragon",
+      "autonomous_community_code_ine": "02",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "03 Principado de Asturias",
+      "territory_id": "principado_de_asturias",
+      "autonomous_community_code_ine": "03",
+      "action": "preparar fuentes electorales"
+    },
+    {
       "territory": "06 Cantabria",
       "territory_id": "cantabria",
       "autonomous_community_code_ine": "06",
@@ -12617,18 +12627,6 @@
       "territory": "Nacional Pontevedra",
       "territory_id": "congreso_pontevedra",
       "autonomous_community_code_ine": "C36",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Salamanca",
-      "territory_id": "congreso_salamanca",
-      "autonomous_community_code_ine": "C37",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Santa Cruz de Tenerife",
-      "territory_id": "congreso_santa_cruz_de_tenerife",
-      "autonomous_community_code_ine": "C38",
       "action": "preparar fuentes electorales"
     }
   ]
