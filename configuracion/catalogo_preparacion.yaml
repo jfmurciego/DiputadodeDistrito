@@ -852,8 +852,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940331557
-        stage: M06
+        run_id: 42953235024
+        stage: M08
       preparation_evidence:
         run_id: 42409605030
         artifact_name: ddd-source-package-congreso_alicante-2025-42409605030
