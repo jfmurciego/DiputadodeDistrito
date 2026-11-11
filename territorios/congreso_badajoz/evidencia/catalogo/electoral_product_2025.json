@@ -4,9 +4,9 @@
   "territory_id": "congreso_badajoz",
   "territory_name": "Congreso Badajoz",
   "edition": "2025",
-  "run_id": 42519381013,
-  "artifact_name": "ddd-state-42519381013-M08",
-  "artifact_sha256": "5523e84a48cf2f35971bc2fa8d1e2da258c8c11e0a47df9f73b07ca9a453fe95",
-  "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
+  "run_id": 42949289470,
+  "artifact_name": "ddd-state-42949289470-M08",
+  "artifact_sha256": "2c4e02319d54c3a99a0754808a4a7156bfeb483379f9e54719266eb11e3172c9",
+  "source_commit": "2b315a6950733795d24f4a9274556a3ee7a8050e",
   "stage": "M08"
 }
