@@ -1885,7 +1885,7 @@ territories:
         electoral_source: territorios/congreso_malaga/evidencia/fuentes_electorales/2025/6bfa6549044d57ab94011df2e33d58cd0d1dcb859a117dcf6cd59b818bc07905/42489981909/receipt.json
         generation_preflight: territorios/congreso_malaga/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_malaga/evidencia/catalogo/territorial_product_2025.json
-        prepared_source_pair: territorios/congreso_malaga/evidencia/pares_fuentes/2025/ffd60f7ceed7763841bb96ac9718b98cf2a133b925486f451405576f3bda614c.json
+        prepared_source_pair: territorios/congreso_malaga/evidencia/pares_fuentes/2025/118cccdb9a9afa72367051c0cfa4d92b41524e35ec8b8feb0327760bfc1fb1cd.json
         electoral_product: territorios/congreso_malaga/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_murcia
