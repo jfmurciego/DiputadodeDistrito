@@ -4,9 +4,9 @@
   "territory_id": "congreso_soria",
   "territory_name": "Congreso Soria",
   "edition": "2025",
-  "run_id": 41250310066,
-  "artifact_name": "ddd-state-41250310066-M08",
-  "artifact_sha256": "145cfa680ce7afcc14167699ee11ae7c0e63719f3aca33f4638bf30a8bd85f61",
-  "source_commit": "8e1ecdad578c2a39b30391b79fb10b59120241ad",
+  "run_id": 43029280043,
+  "artifact_name": "ddd-state-43029280043-M08",
+  "artifact_sha256": "f88663f8ffb4cb76f7ae548b3f2919fd9a249f2edfd3652425efbba1b5dc8bb0",
+  "source_commit": "777d1e29d0c205522b7bf83557b05bdc5c1b47df",
   "stage": "M08"
 }
