@@ -29,7 +29,8 @@
 | 15:42 | Cataluña (paso 2) | Legislatura prepare_one | 43041056183 | SUCCESS | 3 / — | 0/1 |
 | 16:06 | Cataluña (paso 3) | P00 Reutilizar progreso existente, motor2, sin publicar | 43045037822 | SUCCESS | 5 / — | 0/1 |
 | 15:42 | País Vasco (paso 2) | P00 Generar desde fuente, motor2, cadena_electoral, sin publicar | 43041060549 | SUCCESS; Activación 43046676726 y electoral 43047232024 en success | 4 / — | 0/1 |
-| 22:35 | Andalucía (paso 2; T-244 en main, paquete electoral vivo: sin paso 1) — reactivada por el propietario («Reactivo Andalucía: lánzala.») | Legislatura prepare_one | 43104415186 | EN_VUELO | 6 / — | 0/1 |
+| 22:35 | Andalucía (paso 2; T-244 en main, paquete electoral vivo: sin paso 1) — reactivada por el propietario («Reactivo Andalucía: lánzala.») | Legislatura prepare_one | 43104415186 | SUCCESS | 6 / — | 0/1 |
+| 22:53 | Andalucía (paso 3) | P00 Generar desde fuente, motor2, cadena_electoral, sin publicar | 43107035084 | EN_VUELO | 7 / — | 0/1 |
 
 ## Cierre
 Estado: `EN_CURSO`. Último uso: 2026-11-11.
