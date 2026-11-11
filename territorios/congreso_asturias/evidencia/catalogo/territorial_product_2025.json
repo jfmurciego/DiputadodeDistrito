@@ -4,11 +4,11 @@
   "territory_id": "congreso_asturias",
   "territory_name": "Congreso Asturias",
   "edition": "2025",
-  "run_id": 42940479208,
-  "artifact_name": "ddd-state-42940479208-M06",
-  "artifact_sha256": "abea6fd8144ee18a09462797083f6a817231979e2dadcbf90884a3f31c9b0448",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 42981406489,
+  "artifact_name": "ddd-state-42981406489-M06",
+  "artifact_sha256": "9a7ec2602f02a4809e420e974f382672ecd95611e9eda8dffa11752595ba46c7",
+  "source_commit": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_asturias/evidencia/generaciones_m06/42940479208.json"
+  "producer_manifest_path": "territorios/congreso_asturias/evidencia/generaciones_m06/42981406489.json"
 }
