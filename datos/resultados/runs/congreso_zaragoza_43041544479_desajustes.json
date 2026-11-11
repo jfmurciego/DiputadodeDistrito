@@ -1,0 +1,28 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_zaragoza",
+ "run_id": "43041544479",
+ "run_territorial": "43034979460",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 510009,
+ "votos_desajustados": 767,
+ "pct_desajuste": 0.1504,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "5006201002",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 767,
+   "secciones_m06": {
+    "5006201001": 1.0
+   },
+   "distritos": {
+    "6": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 5006201001 con la tabla de T-85, fuera del tope D-17"
+  }
+ ]
+}

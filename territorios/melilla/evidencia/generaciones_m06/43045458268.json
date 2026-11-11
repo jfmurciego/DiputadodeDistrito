@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13868902471,
+      "artifact_name": "ddd-audit-43045458268",
+      "artifact_sha256": "7f075f6eee3ea1c8b0e68e4980a2ecf1a39fc09114cb8af10087f23c20452233",
+      "run_id": 43045458268,
+      "size_in_bytes": 5027
+    },
+    "m04": {
+      "artifact_id": 13869065945,
+      "artifact_name": "ddd-state-43045458268-M04",
+      "artifact_sha256": "20cba738461eeeb9934bb5de35c4f9613198cf877ef760799f0ad7586498d865",
+      "run_id": 43045458268,
+      "size_in_bytes": 74810626
+    },
+    "m05": {
+      "artifact_id": 13867154811,
+      "artifact_name": "ddd-state-43045458268-M05",
+      "artifact_sha256": "db9e111f5b4664bd227a73fdcbb0c4ad5cb49a0f908aa1ca248b2cc16bf60faf",
+      "run_id": 43045458268,
+      "size_in_bytes": 74974023
+    },
+    "m06": {
+      "artifact_id": 13868387959,
+      "artifact_name": "ddd-state-43045458268-M06",
+      "artifact_sha256": "3dd783f1f0de3570a93f0002b32d0f4a646ef9e44c4d6e16bee0187f37c117e5",
+      "run_id": 43045458268,
+      "size_in_bytes": 75498805
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "3948e695b09a5472632ccb5df3f4571baff7420a980b7987d97aeab057b8ffd0",
+        "size_in_bytes": 369
+      },
+      "melilla_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "46e91af8a83b062c79819446feefd8c2415011842ef25b0c55f7dca9f227ad32",
+        "size_in_bytes": 20980
+      },
+      "optimization_execution.json": {
+        "sha256": "5a22fab03bcfa5493e36cca336d798637cdb088b0e3592ea797ebd910e701e3a",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "dbc0f4cb42f1fdd5425eba30a3832d137999b13c67b917da32e439da9fb6e068",
+        "size_in_bytes": 1413
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "dbc0f4cb42f1fdd5425eba30a3832d137999b13c67b917da32e439da9fb6e068",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/melilla/config/melilla_2025.yaml",
+    "sha256": "c0de74c6def9c9b660412b1e180e17aa5db2cfbbd0da1c431dccb5ec8e59da5c"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "4f2cbb482741fbc69986a2da8c76be98578516b73566a5f4a421363111b17d2b",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1315161356",
+      "generador": "ponderado",
+      "huella_resultado": "c49247ef276d9ecc63187664da0f2859a3d02ec7a72c014f8745e7b2f4b43e32",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.749850864983098,
+          "fuera_tolerancia": 6,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.749850864983098,
+          "fuera_tolerancia": 6,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "c65a15e453981ee39fcb595717143d3657d11c49857e2cf2f030cb465df96ed1",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+    "edition": "2025",
+    "territory_id": "melilla",
+    "territory_name": "Melilla",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43045458268,
+    "workflow_sha": "09ba9a2f38fc81b54348607e40b32d0a146e255b"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13869065945,
+      "artifact_name": "ddd-state-43045458268-M04",
+      "artifact_sha256": "20cba738461eeeb9934bb5de35c4f9613198cf877ef760799f0ad7586498d865",
+      "run_id": 43045458268,
+      "size_in_bytes": 74810626
+    },
+    "source_manifest_sha256": "785c91745062afe6b7390b4345d00707a8e16c6fe5324dbc17a05d0427032bac",
+    "source_package_artifact": {
+      "artifact_id": 12880482899,
+      "artifact_name": "ddd-source-package-melilla-2025-40832114779",
+      "artifact_sha256": "db0c191d868c248133c64d58f21706ccfb9686301c0d50270e09262b47fc8ccb",
+      "run_id": 40832114779,
+      "size_in_bytes": 74480353
+    }
+  },
+  "manifest_sha256": "fb5d277c9bd5a189f6277f24c0481670675b3ed8f57fbfbe8b9a67578805221e",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

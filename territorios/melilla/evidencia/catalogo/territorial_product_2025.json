@@ -4,11 +4,11 @@
   "territory_id": "melilla",
   "territory_name": "Melilla",
   "edition": "2025",
-  "run_id": 42504386196,
-  "artifact_name": "ddd-state-42504386196-M06",
-  "artifact_sha256": "a7e973b0bb1e66257f397a96fc91a5a8cacf5a427f8be98ee85641b5eddb57f6",
-  "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
+  "run_id": 43045458268,
+  "artifact_name": "ddd-state-43045458268-M06",
+  "artifact_sha256": "3dd783f1f0de3570a93f0002b32d0f4a646ef9e44c4d6e16bee0187f37c117e5",
+  "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/melilla/evidencia/generaciones_m06/42504386196.json"
+  "producer_manifest_path": "territorios/melilla/evidencia/generaciones_m06/43045458268.json"
 }

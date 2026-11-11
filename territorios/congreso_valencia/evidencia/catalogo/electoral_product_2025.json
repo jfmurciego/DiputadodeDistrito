@@ -4,9 +4,9 @@
   "territory_id": "congreso_valencia",
   "territory_name": "Congreso Valencia",
   "edition": "2025",
-  "run_id": 42525625044,
-  "artifact_name": "ddd-state-42525625044-M08",
-  "artifact_sha256": "72e8741e54dc29d653548f14498b2cbf5b81ec13da206aea4dacd7b8ab26d1ac",
-  "source_commit": "c0e9b47feb51339488dda14ef5616ad224cf5981",
+  "run_id": 43041144007,
+  "artifact_name": "ddd-state-43041144007-M08",
+  "artifact_sha256": "e6f094f090d5851fefb4879cc0d897502a19b84a0ae782c012d1a1ed6dd543c7",
+  "source_commit": "96e5e41379b7a4d4520314ce551335bf6137c52a",
   "stage": "M08"
 }

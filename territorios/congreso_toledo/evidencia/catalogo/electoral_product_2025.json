@@ -4,9 +4,9 @@
   "territory_id": "congreso_toledo",
   "territory_name": "Congreso Toledo",
   "edition": "2025",
-  "run_id": 41296268720,
-  "artifact_name": "ddd-state-41296268720-M08",
-  "artifact_sha256": "12d213b09e86d20b6cfdefd30c581555fa85de66f0ce5282579d983011f03bd9",
-  "source_commit": "ed297ab4b4d5820e0c93e07b840a35beb8e4f7f3",
+  "run_id": 43040968638,
+  "artifact_name": "ddd-state-43040968638-M08",
+  "artifact_sha256": "51ecd1b6183b6587bf0e4c5a1ec20ad7b90d8d4e21549a855484a79c0838fcb0",
+  "source_commit": "e2b213a508881c5d97fcda032ebe857fb90c211c",
   "stage": "M08"
 }

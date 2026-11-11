@@ -1412,6 +1412,22 @@
    "sha256_csv": "85e32b6168ce5a7b08a0f9654f7cd061727992b838183ccb9bf05814eb2ea593",
    "ruta": "datos/resultados/runs/congreso_teruel_43029189395_partidos.csv"
   },
+  "congreso_toledo/43040968638": {
+   "territorio": "congreso_toledo",
+   "run_id": "43040968638",
+   "run_territorial": "43034928684",
+   "sha256_composicion": "ecfc662b417eb3d154aa3895abfcb79215ed749e9db3054883df579d608e9d42",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "cdab532e6961f78dc3b5955f7fa6eb086cfa626bd3880e8454789ba7b6a2dcd4",
+   "ruta": "datos/resultados/runs/congreso_toledo_43040968638_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.2104,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_toledo_43040968638_desajustes.json",
+    "sha256": "bf0e4a2da3d0fa4b0d8ed50f24bb86d54314ab2842d7b2445f007b85ace84931"
+   }
+  },
   "congreso_valencia/42525625044": {
    "territorio": "congreso_valencia",
    "run_id": "42525625044",
@@ -1426,6 +1442,72 @@
     "tope_pct": 0.5,
     "ruta": "datos/resultados/runs/congreso_valencia_42525625044_desajustes.json",
     "sha256": "c508ce441f22e330e3455ec0f782e4ef2068848d3de00ec2097e220452d5a002"
+   }
+  },
+  "congreso_valencia/43041144007": {
+   "territorio": "congreso_valencia",
+   "run_id": "43041144007",
+   "run_territorial": "43034939625",
+   "sha256_composicion": "c0f2f2200a5d11c26d7925d5ccd0db28e157343d700d3c20a761e411bfd360a3",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "789e9f7310a8192c7358cd6c40ad53b79b19a5622378aa5d5903ea497457ce77",
+   "ruta": "datos/resultados/runs/congreso_valencia_43041144007_partidos.csv",
+   "desajustes": {
+    "secciones": 22,
+    "pct_desajuste": 0.7652,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_valencia_43041144007_desajustes.json",
+    "sha256": "ae949de4576a08552ce00ca3aa6738fa63ce8ec19bd8368e159edfa37d17c1df"
+   }
+  },
+  "congreso_valladolid/43040794081": {
+   "territorio": "congreso_valladolid",
+   "run_id": "43040794081",
+   "run_territorial": "43034949749",
+   "sha256_composicion": "fa9ecff7083ccd1fa4b78d7f690a165318c2ad68f500045e3328165b344604f3",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "caf0d30ccb757b5b9a28ea915f95e2cbc348cf83bbb204acba1008f90a355f09",
+   "ruta": "datos/resultados/runs/congreso_valladolid_43040794081_partidos.csv"
+  },
+  "congreso_vizcaya/43040430397": {
+   "territorio": "congreso_vizcaya",
+   "run_id": "43040430397",
+   "run_territorial": "43034959389",
+   "sha256_composicion": "41733a0bfbae1e1a1fde38c2e019526388a8256f1069decbb62af828e92e143c",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6e538e27f4b1066cf807a946d53affdffad8320976ee7caae7a13a34ac26fc98",
+   "ruta": "datos/resultados/runs/congreso_vizcaya_43040430397_partidos.csv",
+   "desajustes": {
+    "secciones": 4,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_vizcaya_43040430397_desajustes.json",
+    "sha256": "06e8ee509e1bfd1d66c36181df2bb3cd1124b449090e3f27dd676aa9b2d1fed5"
+   }
+  },
+  "congreso_zamora/43040878307": {
+   "territorio": "congreso_zamora",
+   "run_id": "43040878307",
+   "run_territorial": "43034969907",
+   "sha256_composicion": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6edb3fd88bddbe49dede7b6af11aeab7309ff00cd441c12755fa2fe0e4ae4f6c",
+   "ruta": "datos/resultados/runs/congreso_zamora_43040878307_partidos.csv"
+  },
+  "congreso_zaragoza/43041544479": {
+   "territorio": "congreso_zaragoza",
+   "run_id": "43041544479",
+   "run_territorial": "43034979460",
+   "sha256_composicion": "d5641387f11681c21e791140c98c0eb373aa1b50e6464e1bb9f0efd989d88ef9",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "2ed76472c067357adff8fe7634f49663e598b25a6e3bb53d06d56021ab39700f",
+   "ruta": "datos/resultados/runs/congreso_zaragoza_43041544479_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.1504,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_zaragoza_43041544479_desajustes.json",
+    "sha256": "b471741fc5ec0807b10b0d721fedf9451f8089f67142a755215aafd236e7ece3"
    }
   }
  }

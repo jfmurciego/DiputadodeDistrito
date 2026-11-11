@@ -1,0 +1,92 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "congreso_zamora",
+  "territory_name": "Congreso Zamora",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 43040878307,
+  "source_sha": "44b6e4f384aa9bb2b33474db5a3b76cb8c4cbb8d",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "COMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": 43034969907
+  },
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41236140669,
+      "artifact": "ddd-source-package-congreso_zamora-2025-41236140669",
+      "artifact_digest": "sha256:51e3dc4d4ef5befc784a9b30440dda19aa9cac35e93348bda74fb40946622c19",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 43034969907,
+      "artifact": "ddd-state-43034969907-M06",
+      "artifact_digest": "sha256:641770946dd4083e458605ca260677fa6d6a3593f93042172b9321a633e8e8da",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41236149824,
+      "artifact": "ddd-electoral-package-congreso_zamora-2025-41236149824",
+      "artifact_digest": "sha256:27147f8941e94d9ba4f5a6f2a4efc02a72fe50738e531c10d28e62c4b6e2b183",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 43040878307,
+      "artifact": "ddd-state-43040878307-M08",
+      "artifact_digest": "sha256:2d01aea7383622b3bbe596e0efd206724e0e0abd840c007dcc72c9bc50064bac",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-11T14:56:18.248486+00:00"
+}
