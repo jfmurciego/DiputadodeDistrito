@@ -4,9 +4,9 @@
   "territory_id": "congreso_ceuta",
   "territory_name": "Congreso Ceuta",
   "edition": "2025",
-  "run_id": 42496569312,
-  "artifact_name": "ddd-state-42496569312-M08",
-  "artifact_sha256": "454eeb5d1985c075122906e17e2e4848a274e448ec6804e4bbdcbeabb59d7f6a",
-  "source_commit": "526a0295cf388eea9955e4f3fb585cfffe664b9b",
+  "run_id": 42985728070,
+  "artifact_name": "ddd-state-42985728070-M08",
+  "artifact_sha256": "6342c39eed3d4f5ad06bb90c49966a3efa4ec77ca275850b959a0225cdf22643",
+  "source_commit": "b6a8c68a594eba519f0c83739829f3aba38bc623",
   "stage": "M08"
 }
