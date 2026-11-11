@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T14:28:43.554874+00:00",
+  "generated_at": "2026-11-11T14:30:54.731022+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -10534,7 +10534,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42940542275,
+      "run_id": 43034928684,
       "last_run": {
         "run_id": 41296268720,
         "status": "SUCCESS",
@@ -10560,13 +10560,13 @@
           "territory_id": "congreso_toledo",
           "territory_name": "Congreso Toledo",
           "edition": "2025",
-          "run_id": 42940542275,
-          "artifact_name": "ddd-state-42940542275-M06",
-          "artifact_sha256": "9fbc68284eccd7956093ec7161c640b045283a0ee56c1a1b9cac4caf7a7302f1",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43034928684,
+          "artifact_name": "ddd-state-43034928684-M06",
+          "artifact_sha256": "d90cd9d83926cb42989b36f133a30aa02472f655100b35befe2a321487f08898",
+          "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_toledo/evidencia/generaciones_m06/42940542275.json"
+          "producer_manifest_path": "territorios/congreso_toledo/evidencia/generaciones_m06/43034928684.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10778,7 +10778,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42940563499,
+      "run_id": 43034969907,
       "last_run": {
         "run_id": 41250479211,
         "status": "SUCCESS",
@@ -10804,13 +10804,13 @@
           "territory_id": "congreso_zamora",
           "territory_name": "Congreso Zamora",
           "edition": "2025",
-          "run_id": 42940563499,
-          "artifact_name": "ddd-state-42940563499-M06",
-          "artifact_sha256": "1aba1197a5d16c4376b393a5dafbb0b9ebc48ab188017cfc96e0bf7d60f4c81a",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43034969907,
+          "artifact_name": "ddd-state-43034969907-M06",
+          "artifact_sha256": "641770946dd4083e458605ca260677fa6d6a3593f93042172b9321a633e8e8da",
+          "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_zamora/evidencia/generaciones_m06/42940563499.json"
+          "producer_manifest_path": "territorios/congreso_zamora/evidencia/generaciones_m06/43034969907.json"
         },
         "electoral_source": null,
         "electoral_product": {
