@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T12:15:03Z",
+  "actualizado_en": "2026-11-11T12:29:58Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -5414,19 +5414,20 @@
       "territorio": "illes_balears",
       "url": "r2://ddd-research-archive/illes_balears/41033500476/ddd-state-41033500476-M08.zip"
     },
-    "illes_balears/43011633844/ddd-minimo-43011633844-M06.zip": {
-      "archivado_en": "2026-11-11T12:11:52Z",
-      "artefacto": "ddd-minimo-43011633844-M06",
-      "artefacto_origen": "ddd-state-43011633844-M06",
-      "artifact_id": 13852799157,
-      "caducidad_original": "2026-11-25T12:08:27Z",
-      "run_id": "43011633844",
-      "sha256": "0bfb5ea8d68084b08740c46fd5cb8959c43c16d9d898af03e032f700fadb4aa9",
-      "sha256_estado_original": "86629e2738b71e06fc020212ebf31c462fda137344073ea034659ecd5635cc44",
-      "tamano_bytes": 1867997,
-      "tamano_estado_original": 98268801,
+    "illes_balears/43019811578/ddd-minimo-43019811578-M08.zip": {
+      "archivado_en": "2026-11-11T12:29:58Z",
+      "artefacto": "ddd-minimo-43019811578-M08",
+      "artefacto_origen": "ddd-state-43019811578-M08",
+      "artifact_id": 13854139127,
+      "caducidad_original": "2026-11-25T12:29:18Z",
+      "incluye_m06_run": "43011633844",
+      "run_id": "43019811578",
+      "sha256": "4753d34375dc319f2a9195ab4a0b3c3644d304903b0909bc1498a0e24c25be37",
+      "sha256_estado_original": "a2154bc1f51ea2445fe61b91ecc2a65d0943a77da538c1b30c6b85b9eb9fa57c",
+      "tamano_bytes": 3553202,
+      "tamano_estado_original": 102416262,
       "territorio": "illes_balears",
-      "url": "r2://ddd-research-archive/illes_balears/43011633844/ddd-minimo-43011633844-M06.zip"
+      "url": "r2://ddd-research-archive/illes_balears/43019811578/ddd-minimo-43019811578-M08.zip"
     },
     "la_rioja/40867456776/ddd-audit-40867456776.zip": {
       "archivado_en": "2026-11-07T17:08:09Z",
