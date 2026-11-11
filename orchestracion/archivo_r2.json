@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:10:30Z",
+  "actualizado_en": "2026-11-11T03:11:58Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -4479,6 +4479,20 @@
       "tamano_estado_original": 87087427,
       "territorio": "congreso_valencia",
       "url": "r2://ddd-research-archive/congreso_valencia/42525625044/ddd-minimo-42525625044-M08.zip"
+    },
+    "congreso_valencia/42940547803/ddd-minimo-42940547803-M06.zip": {
+      "archivado_en": "2026-11-11T03:11:58Z",
+      "artefacto": "ddd-minimo-42940547803-M06",
+      "artefacto_origen": "ddd-state-42940547803-M06",
+      "artifact_id": 13822394968,
+      "caducidad_original": "2026-11-25T02:33:14Z",
+      "run_id": "42940547803",
+      "sha256": "748c23af2741bab4713b463548a99c396ec38fcf1cf7e51b9568ad000b5df558",
+      "sha256_estado_original": "482175d992cd92c072fd61bda0e6c655161d492e9ba4234a235e4e5e4bb16def",
+      "tamano_bytes": 642735,
+      "tamano_estado_original": 86898387,
+      "territorio": "congreso_valencia",
+      "url": "r2://ddd-research-archive/congreso_valencia/42940547803/ddd-minimo-42940547803-M06.zip"
     },
     "congreso_valladolid/41292964287/ddd-audit-41292964287.zip": {
       "archivado_en": "2026-11-08T12:15:41Z",
