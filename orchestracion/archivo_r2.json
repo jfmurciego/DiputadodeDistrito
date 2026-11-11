@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:12:55Z",
+  "actualizado_en": "2026-11-11T03:13:56Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -4306,6 +4306,20 @@
       "tamano_estado_original": 83247510,
       "territorio": "congreso_tarragona",
       "url": "r2://ddd-research-archive/congreso_tarragona/42514991952/ddd-minimo-42514991952-M08.zip"
+    },
+    "congreso_tarragona/42940531574/ddd-minimo-42940531574-M06.zip": {
+      "archivado_en": "2026-11-11T03:13:56Z",
+      "artefacto": "ddd-minimo-42940531574-M06",
+      "artefacto_origen": "ddd-state-42940531574-M06",
+      "artifact_id": 13823381561,
+      "caducidad_original": "2026-11-25T02:33:55Z",
+      "run_id": "42940531574",
+      "sha256": "7f014a75c79580c65761933ba80d6157859b98cc50cb0f93976221f35a4768d0",
+      "sha256_estado_original": "56e4b0f16a739a64a44b69407b1d923cd00d6c6027feeaabb65c989644f9da0c",
+      "tamano_bytes": 539354,
+      "tamano_estado_original": 82793728,
+      "territorio": "congreso_tarragona",
+      "url": "r2://ddd-research-archive/congreso_tarragona/42940531574/ddd-minimo-42940531574-M06.zip"
     },
     "congreso_teruel/41235966858/ddd-audit-41235966858.zip": {
       "archivado_en": "2026-11-08T12:06:32Z",
