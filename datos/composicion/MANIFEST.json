@@ -910,6 +910,13 @@
    "sha256_csv": "fd29a7ec11fb021bb509eea661c7415ae99814c8cffd70725a7b5c5ce3c4de02",
    "ruta": "datos/composicion/runs/congreso_badajoz_42519381013.csv"
   },
+  "congreso_badajoz/42940345930": {
+   "territorio": "congreso_badajoz",
+   "run_id": "42940345930",
+   "secciones": 553,
+   "sha256_csv": "9c1701f40cfc90b3ba6e5a97ad8a4cb4bd4fb4702b3a94333186c22e18214753",
+   "ruta": "datos/composicion/runs/congreso_badajoz_42940345930.csv"
+  },
   "congreso_barcelona/42490327657": {
    "territorio": "congreso_barcelona",
    "run_id": "42490327657",
