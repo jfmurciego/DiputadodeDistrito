@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T09:31:46.570902+00:00",
+  "generated_at": "2026-11-11T09:34:47.659238+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9133,11 +9133,11 @@
       "certification": "PASS",
       "run_id": 42991551418,
       "last_run": {
-        "run_id": 42519383275,
+        "run_id": 42991551418,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -9253,7 +9253,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42940437972,
+      "run_id": 42991571678,
       "last_run": {
         "run_id": 41629735636,
         "status": "SUCCESS",
@@ -9279,13 +9279,13 @@
           "territory_id": "congreso_leon",
           "territory_name": "Congreso León",
           "edition": "2025",
-          "run_id": 42940437972,
-          "artifact_name": "ddd-state-42940437972-M06",
-          "artifact_sha256": "43b082c53dfaf7707c73a46ff45141b82d4f1534e0de883fb327e92275f8ce3f",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 42991571678,
+          "artifact_name": "ddd-state-42991571678-M06",
+          "artifact_sha256": "f62d48ca81045ed065c167673ba1188a0504c1aa6adcd23eeddc9604a26a81be",
+          "source_commit": "48716f6314fe92973436599417e7be4886bbe0c2",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_leon/evidencia/generaciones_m06/42940437972.json"
+          "producer_manifest_path": "territorios/congreso_leon/evidencia/generaciones_m06/42991571678.json"
         },
         "electoral_source": null,
         "electoral_product": {
