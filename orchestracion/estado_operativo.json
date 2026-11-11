@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T13:39:17.199965+00:00",
+  "generated_at": "2026-11-11T13:42:39.047803+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6996,7 +6996,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42707820760,
+      "run_id": 43025633460,
       "last_run": {
         "run_id": 42707820760,
         "status": "SUCCESS",
@@ -7022,13 +7022,13 @@
           "territory_id": "cantabria",
           "territory_name": "Cantabria",
           "edition": "2025",
-          "run_id": 42707820760,
-          "artifact_name": "ddd-state-42707820760-M06",
-          "artifact_sha256": "55aff685d473e368690663d880b47ad36bbc3a1e862d04a2fe140fb6a5773e8a",
-          "source_commit": "f2436e9f826198ccf7e4e6dea38c40b5d1992178",
+          "run_id": 43025633460,
+          "artifact_name": "ddd-state-43025633460-M06",
+          "artifact_sha256": "fbdbf5ae7e1a9eaf9dc7e14ef058dc003c8d4612112cf3f73eb4e28c35495e7f",
+          "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/cantabria/evidencia/generaciones_m06/42707820760.json"
+          "producer_manifest_path": "territorios/cantabria/evidencia/generaciones_m06/43025633460.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7120,11 +7120,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43025652192,
       "last_run": {
-        "run_id": 40979540141,
+        "run_id": 43025652192,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -10331,10 +10331,10 @@
           "territory_id": "congreso_sevilla",
           "territory_name": "Congreso Sevilla",
           "edition": "2025",
-          "run_id": 41297168461,
-          "artifact_name": "ddd-state-41297168461-M08",
-          "artifact_sha256": "3b1995be0504d511fea547ca9d27b8956848bd5cd450854aeaca1606b18427c1",
-          "source_commit": "01b23ba1f4d097482d5ccc23379dbfe5158ef77a",
+          "run_id": 43029566265,
+          "artifact_name": "ddd-state-43029566265-M08",
+          "artifact_sha256": "6ea529315d010ede58f5520619405352a0cd154bc36d6f5ed814c0620215be3b",
+          "source_commit": "dd6321c52e5db795b29cbc9cc886664400cc0a99",
           "stage": "M08"
         }
       },
@@ -10453,10 +10453,10 @@
           "territory_id": "congreso_tarragona",
           "territory_name": "Congreso Tarragona",
           "edition": "2025",
-          "run_id": 42514991952,
-          "artifact_name": "ddd-state-42514991952-M08",
-          "artifact_sha256": "8b329a3a0fc49df16cb2a583c629290049a5329a18d366bcb970423621a5ace4",
-          "source_commit": "d9b783f30e7fa6d9f83d62b85ae3035f94f1858a",
+          "run_id": 43029795470,
+          "artifact_name": "ddd-state-43029795470-M08",
+          "artifact_sha256": "5d14226008ee9bdb6f22475efcbac89e0104b7235712cb1c265d6516e6026289",
+          "source_commit": "91a49a8ec66c5b59ecfbabd884258eb6c9db0a00",
           "stage": "M08"
         }
       },
