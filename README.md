@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T15:38:47.280376+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T15:40:44.992232+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -65,7 +65,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **16 País Vasco** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43047232024 · SUCCESS | — | — | — |
 | **17 La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43007066596 · SUCCESS | — | — | — |
 | **18 Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42503542766 · SUCCESS | — | — | — |
-| **19 Melilla** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42504386196 · SUCCESS | — | — | preparar fuentes electorales |
+| **19 Melilla** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43045458268 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Álava** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42983088643 · SUCCESS | — | — | — |
 | **Nacional Albacete** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42952791883 · SUCCESS | — | — | — |
 | **Nacional Alicante** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953235024 · SUCCESS | — | — | — |
