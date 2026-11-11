@@ -1022,6 +1022,13 @@
    "sha256_csv": "794de5d068f60172d1e3acfa9e173e015f84bf01e419f7d8240254998386d7a7",
    "ruta": "datos/composicion/runs/congreso_cuenca_42940397668.csv"
   },
+  "congreso_gerona/42940402050": {
+   "territorio": "congreso_gerona",
+   "run_id": "42940402050",
+   "secciones": 536,
+   "sha256_csv": "8cdc7e8ba935b1270bbfbf0ad931d008e9dd9f0d7a928fe6a5fe053c9aa7ea89",
+   "ruta": "datos/composicion/runs/congreso_gerona_42940402050.csv"
+  },
   "congreso_granada/42940407337": {
    "territorio": "congreso_granada",
    "run_id": "42940407337",
