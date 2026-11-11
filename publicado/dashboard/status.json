@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T03:53:44.110629+00:00",
+  "generated_at": "2026-11-11T03:55:48.823990+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8151,20 +8151,20 @@
       "name": "Nacional Badajoz",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 42940345930,
+      "run_id": 42949289470,
       "last_run": {
-        "run_id": 42940345930,
+        "run_id": 42949289470,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8205,7 +8205,7 @@
       },
       "autonomous_community_code_ine": "C06",
       "display_name": "Nacional Badajoz",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_baleares",
@@ -8623,10 +8623,10 @@
           "territory_id": "congreso_ciudad_real",
           "territory_name": "Congreso Ciudad Real",
           "edition": "2025",
-          "run_id": 41298749455,
-          "artifact_name": "ddd-state-41298749455-M08",
-          "artifact_sha256": "bbe2b61152ca2c50c7f7bc7261355fe42a5a823c028b1f3b80e2f63fec650e72",
-          "source_commit": "9280b238f188ecd1d6960fd8454b55ec80506a49",
+          "run_id": 42954776957,
+          "artifact_name": "ddd-state-42954776957-M08",
+          "artifact_sha256": "fec08258857eb907beae0555157844a11d129d845237ffe5a49c35b40e4ba2dc",
+          "source_commit": "973bc539a2660abb7c707ddef7f36a0cffb31f98",
           "stage": "M08"
         }
       },
@@ -8867,10 +8867,10 @@
           "territory_id": "congreso_gerona",
           "territory_name": "Congreso Gerona",
           "edition": "2025",
-          "run_id": 41298839274,
-          "artifact_name": "ddd-state-41298839274-M08",
-          "artifact_sha256": "2e4618fa71df3cd8b01be40dff7fa0771e200d229821cdfb025d26678d3bc606",
-          "source_commit": "49cad9db4805601c6fc1a485f8f415d85fa3f603",
+          "run_id": 42954957703,
+          "artifact_name": "ddd-state-42954957703-M08",
+          "artifact_sha256": "4bf0be89bf07c084ac74e390c452b464eb8b0857bdc660d78deadccdfdd5e0bd",
+          "source_commit": "2cc49ebdd991dcb434a95c3831d620449565c0a5",
           "stage": "M08"
         }
       },
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 22,
+    "complete": 23,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12276,6 +12276,7 @@
       "18 Ceuta",
       "19 Melilla",
       "Nacional Ávila",
+      "Nacional Badajoz",
       "Nacional La Rioja",
       "Nacional 350 Madrid",
       "Nacional 350 Soria",
@@ -12490,11 +12491,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_avila",
-    "name": "Nacional Ávila",
-    "display_name": "Nacional Ávila",
-    "autonomous_community_code_ine": "C05",
-    "run_id": 42948760863,
+    "territory_id": "congreso_badajoz",
+    "name": "Nacional Badajoz",
+    "display_name": "Nacional Badajoz",
+    "autonomous_community_code_ine": "C06",
+    "run_id": 42949289470,
     "stage": "M08",
     "certification": "PASS",
     "edition": "2025"
@@ -12537,15 +12538,15 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Badajoz",
-      "territory_id": "congreso_badajoz",
-      "autonomous_community_code_ine": "C06",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Baleares",
       "territory_id": "congreso_baleares",
       "autonomous_community_code_ine": "C07",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Barcelona",
+      "territory_id": "congreso_barcelona",
+      "autonomous_community_code_ine": "C08",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12587,15 +12588,15 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Badajoz",
-      "territory_id": "congreso_badajoz",
-      "autonomous_community_code_ine": "C06",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Baleares",
       "territory_id": "congreso_baleares",
       "autonomous_community_code_ine": "C07",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Barcelona",
+      "territory_id": "congreso_barcelona",
+      "autonomous_community_code_ine": "C08",
       "action": "preparar fuentes electorales"
     }
   ]
