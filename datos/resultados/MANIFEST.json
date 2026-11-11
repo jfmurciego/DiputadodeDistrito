@@ -945,6 +945,22 @@
    "sha256_csv": "1665fe8ce50499b9feb1d7b4e31c4745e631912f69b85cd1f58e460741b258b9",
    "ruta": "datos/resultados/runs/congreso_ceuta_42496569312_partidos.csv"
   },
+  "congreso_ciudad_real/42954776957": {
+   "territorio": "congreso_ciudad_real",
+   "run_id": "42954776957",
+   "run_territorial": "42940382446",
+   "sha256_composicion": "ee110fcebf7b6d41c4d0c02d1353283813b3e498f57c6d1983e96ebe2d7a4faa",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "91316af0d1b8447496c453f76d7dc9dc034aed1bf872ba307c87b66118a560ce",
+   "ruta": "datos/resultados/runs/congreso_ciudad_real_42954776957_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_ciudad_real_42954776957_desajustes.json",
+    "sha256": "37c00d2bf943f7c6deb767d2761853c839153107447fd2161012ee7ce977e315"
+   }
+  },
   "congreso_cordoba/42953300723": {
    "territorio": "congreso_cordoba",
    "run_id": "42953300723",
