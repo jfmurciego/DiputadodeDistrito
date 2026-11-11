@@ -1493,6 +1493,22 @@
    "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
    "sha256_csv": "6edb3fd88bddbe49dede7b6af11aeab7309ff00cd441c12755fa2fe0e4ae4f6c",
    "ruta": "datos/resultados/runs/congreso_zamora_43040878307_partidos.csv"
+  },
+  "congreso_zaragoza/43041544479": {
+   "territorio": "congreso_zaragoza",
+   "run_id": "43041544479",
+   "run_territorial": "43034979460",
+   "sha256_composicion": "d5641387f11681c21e791140c98c0eb373aa1b50e6464e1bb9f0efd989d88ef9",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "2ed76472c067357adff8fe7634f49663e598b25a6e3bb53d06d56021ab39700f",
+   "ruta": "datos/resultados/runs/congreso_zaragoza_43041544479_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.1504,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_zaragoza_43041544479_desajustes.json",
+    "sha256": "b471741fc5ec0807b10b0d721fedf9451f8089f67142a755215aafd236e7ece3"
+   }
   }
  }
 }
