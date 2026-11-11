@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T15:49:01Z",
+  "actualizado_en": "2026-11-11T15:52:43Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -7747,19 +7747,20 @@
       "territorio": "melilla",
       "url": "r2://ddd-research-archive/melilla/42504386196/ddd-minimo-42504386196-M08.zip"
     },
-    "melilla/43045458268/ddd-minimo-43045458268-M06.zip": {
-      "archivado_en": "2026-11-11T15:35:13Z",
-      "artefacto": "ddd-minimo-43045458268-M06",
-      "artefacto_origen": "ddd-state-43045458268-M06",
-      "artifact_id": 13868387959,
-      "caducidad_original": "2026-11-25T15:32:07Z",
-      "run_id": "43045458268",
-      "sha256": "4e67ec58c3b72e89c71efa7020125168aa976b570e98d30505ad65dcc061efee",
-      "sha256_estado_original": "3dd783f1f0de3570a93f0002b32d0f4a646ef9e44c4d6e16bee0187f37c117e5",
-      "tamano_bytes": 187539,
-      "tamano_estado_original": 75498805,
+    "melilla/43051007542/ddd-minimo-43051007542-M08.zip": {
+      "archivado_en": "2026-11-11T15:52:43Z",
+      "artefacto": "ddd-minimo-43051007542-M08",
+      "artefacto_origen": "ddd-state-43051007542-M08",
+      "artifact_id": 13869129607,
+      "caducidad_original": "2026-11-25T15:52:00Z",
+      "incluye_m06_run": "43045458268",
+      "run_id": "43051007542",
+      "sha256": "5a4a9464043c43426c857312a66cfe9c71decce24be4bd1f232c3e832fc105d8",
+      "sha256_estado_original": "ce746ed9c5bb7a9a7b35e997704428349561978c4bb8001306ddf93b817a7992",
+      "tamano_bytes": 343656,
+      "tamano_estado_original": 75817391,
       "territorio": "melilla",
-      "url": "r2://ddd-research-archive/melilla/43045458268/ddd-minimo-43045458268-M06.zip"
+      "url": "r2://ddd-research-archive/melilla/43051007542/ddd-minimo-43051007542-M08.zip"
     },
     "pais_vasco/40951146225/ddd-audit-40951146225.zip": {
       "archivado_en": "2026-11-07T17:10:17Z",
