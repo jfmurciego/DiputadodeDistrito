@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T10:55:33.893666+00:00",
+  "generated_at": "2026-11-11T10:58:05.659515+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9493,20 +9493,20 @@
       "name": "Nacional Madrid",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43001749134,
+      "run_id": 43006307734,
       "last_run": {
-        "run_id": 43001749134,
+        "run_id": 43006307734,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9547,7 +9547,7 @@
       },
       "autonomous_community_code_ine": "C28",
       "display_name": "Nacional Madrid",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_malaga",
@@ -9721,10 +9721,10 @@
           "territory_id": "congreso_navarra",
           "territory_name": "Congreso Navarra",
           "edition": "2025",
-          "run_id": 41299128213,
-          "artifact_name": "ddd-state-41299128213-M08",
-          "artifact_sha256": "33ff4f2922093e5aa9d959150b1f9a2e75be37dcdaca05fb01c2ec6f57576bfd",
-          "source_commit": "4ca61af3441e97a0c2984f8ac5496c9fdf9a470c",
+          "run_id": 43006653960,
+          "artifact_name": "ddd-state-43006653960-M08",
+          "artifact_sha256": "355c482489bcbd49003f1b440ee1f1240c55f5d3765c4f4659c0c04c7a7f9850",
+          "source_commit": "0f48f3dc5a565fbc64688ee31f23fe059bc112bf",
           "stage": "M08"
         }
       },
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 51,
+    "complete": 52,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12300,6 +12300,7 @@
       "Nacional León",
       "Nacional La Rioja",
       "Nacional Lugo",
+      "Nacional Madrid",
       "Nacional Murcia",
       "Nacional Asturias",
       "Nacional Las Palmas",
@@ -12519,13 +12520,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_melilla",
-    "name": "Nacional Melilla",
-    "display_name": "Nacional Melilla",
-    "autonomous_community_code_ine": "C52",
-    "run_id": 43006105644,
+    "territory_id": "congreso_madrid",
+    "name": "Nacional Madrid",
+    "display_name": "Nacional Madrid",
+    "autonomous_community_code_ine": "C28",
+    "run_id": 43006307734,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
@@ -12554,12 +12555,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Madrid",
-      "territory_id": "congreso_madrid",
-      "autonomous_community_code_ine": "C28",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Málaga",
       "territory_id": "congreso_malaga",
       "autonomous_community_code_ine": "C29",
@@ -12575,6 +12570,12 @@
       "territory": "Nacional Orense",
       "territory_id": "congreso_orense",
       "autonomous_community_code_ine": "C32",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Palencia",
+      "territory_id": "congreso_palencia",
+      "autonomous_community_code_ine": "C34",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12604,12 +12605,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Madrid",
-      "territory_id": "congreso_madrid",
-      "autonomous_community_code_ine": "C28",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Málaga",
       "territory_id": "congreso_malaga",
       "autonomous_community_code_ine": "C29",
@@ -12625,6 +12620,12 @@
       "territory": "Nacional Orense",
       "territory_id": "congreso_orense",
       "autonomous_community_code_ine": "C32",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Palencia",
+      "territory_id": "congreso_palencia",
+      "autonomous_community_code_ine": "C34",
       "action": "preparar fuentes electorales"
     }
   ]
