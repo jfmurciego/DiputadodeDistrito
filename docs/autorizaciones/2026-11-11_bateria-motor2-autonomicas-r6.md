@@ -22,9 +22,9 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
-| 08:42 | las 19 autonómicas | VER motor2 D8 N=10 | 42981399280 | EN_VUELO | 1 / — | 0/1 |
+| 08:42 | las 19 autonómicas | VER motor2 D8 N=10 | 42981399280 | FAILURE: aceptación NO. 7 adquirieron y están bien; 12 (Canarias, Cantabria, Castilla-La Mancha, Castilla y León, Cataluña, Comunidad Valenciana, Extremadura, Galicia, Baleares, Melilla, País Vasco, Murcia) acaban en FALLO_ADQUISICION tras ~490 s, sin error de red en el log (fuentes reconstruidas y verificadas antes): no consta como transitorio → sin reintento | 1 / — | 0/1 |
 
 ## Cierre
-Estado: `EN_CURSO`. Último uso: 2026-11-11.
+Estado: `PARADA` (FALLO_ADQUISICION sin causa de red visible; ante la duda, no transitorio). Decide el propietario. Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-11_bateria-motor2-autonomicas-r6 tal como figura en la ficha.»
