@@ -959,6 +959,13 @@
    "sha256_csv": "583f6b3f24aea9c4194fea505686172a5501e019a32ed7735b2b0516d55db590",
    "ruta": "datos/composicion/runs/congreso_barcelona_42495069270.csv"
   },
+  "congreso_barcelona/42940355981": {
+   "territorio": "congreso_barcelona",
+   "run_id": "42940355981",
+   "secciones": 3642,
+   "sha256_csv": "e4d8c2fa2f5643240c0ad3f5865726ecb7d58f83a00aa09dc5cadbaddb8cb0d9",
+   "ruta": "datos/composicion/runs/congreso_barcelona_42940355981.csv"
+  },
   "congreso_cadiz/42940371696": {
    "territorio": "congreso_cadiz",
    "run_id": "42940371696",
