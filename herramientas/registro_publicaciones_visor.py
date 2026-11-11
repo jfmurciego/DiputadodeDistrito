@@ -5,7 +5,13 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.7.0 · FECHA: 2026-11-11 · ESTADO: candidato
+VERSIÓN: 1.8.0 · FECHA: 2026-11-11 · ESTADO: candidato
+CAMBIOS 1.8.0 (T-249): publicar un territorio es registrar el PAR. `candidate` (CLI) rechaza, todo o nada, si en un
+  territorio tocado por las entradas canónicas el M08 vigente falta o no es del linaje del M06 vigente
+  (`linaje_m06_m08.pares_incompletos`: mismo run o manifiesto del run del M08 que acredita la 02 del M06). `make_candidate`
+  no cambia; `--evidence-root` (por defecto la raíz del repo) indica dónde están los manifiestos.
+MOTIVO 1.8.0: el lote P50 43030563528 registró solo los M06 de 34 territorios (mapa nuevo con resultados de otro linaje).
+ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.7.0_20261111.py
 CAMBIOS 1.7.0 (T-237): publicación por lotes. `parse_run_ids` (CLI `parse-run-ids`) lee `production_run_id` como lista
   separada por espacios o comas: cada id, solo cifras; un id repetido se RECHAZA (no se deduplica: suele ser una errata y
   el lote debe decir exactamente qué se publica); lista vacía = «solo sitio»; `--scenario-id` solo con un id.
@@ -342,6 +348,16 @@ def make_candidate(registry: dict, entries: list[dict]) -> dict:
     return _sorted_registry(candidate)
 
 
+def check_pairs(candidate: dict, entries: list[dict], evidence_root: Path | None = None) -> None:
+    """T-249: cada territorio tocado por una entrada canónica queda con el par M06/M08 del mismo linaje."""
+    from herramientas.linaje_m06_m08 import ROOT, pares_incompletos
+
+    claves = {(str(e.get("territory_id", "")), eleccion_de(e)) for e in entries if e.get("kind") in CANONICAL_KINDS}
+    err = pares_incompletos(_entries(candidate), claves, evidence_root or ROOT)
+    if err:
+        raise ValueError("PAR_INCOMPLETO (publica el M08 de la cadena; no se registra ninguno): " + "; ".join(err))
+
+
 def materialized_asset_path(materialized_root: Path, entry: dict) -> Path:
     return materialized_root / safe_id(entry["id"]) / "asset"
 
@@ -515,6 +531,7 @@ def main() -> None:
     candidate.add_argument("--registry", type=Path, required=True)
     candidate.add_argument("--entries", type=Path, required=True)
     candidate.add_argument("--output", type=Path, required=True)
+    candidate.add_argument("--evidence-root", type=Path, help="raíz con territorios/*/evidencia (por defecto, el repo)")
 
     args = parser.parse_args()
 
@@ -572,6 +589,7 @@ def main() -> None:
     if not isinstance(entries, list):
         raise ValueError("--entries debe contener una lista JSON")
     result = make_candidate(registry, entries)
+    check_pairs(result, entries, args.evidence_root)
     save_registry(args.output, result)
     print(json.dumps({"status": "PASS", "entries": len(_entries(result)), "output": str(args.output)}, ensure_ascii=False))
 

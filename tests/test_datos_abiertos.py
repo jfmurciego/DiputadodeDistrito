@@ -3,8 +3,10 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba de datos abiertos y fichas por distrito (T-60)
-VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-11 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_datos_abiertos_v1.0.0_20261111.py
+CAMBIOS 1.1.0 (T-249): un M06 nuevo sin M08 de su run no saca el territorio del paquete (par coherente); la guarda
+  DATOS_ABIERTOS_REDUCCION falla si el INDEX pierde territorios sin retirada explícita; la retirada sí los borra.
 FUNCIÓN: territorio sintético: paquete, huellas, fichas, nombres opcionales, idempotencia, sha256 erróneo,
   materialización con GeoJSON verificado, paquete real al día y enlace del publicador.
 """
@@ -146,6 +148,39 @@ class DatosAbiertos(Base):
         self.gen()
         (self.out / T / "resultados.csv").write_text("x")
         self.assertTrue(da.comprobar(self.out, self.reg))
+
+
+class ParCoherente(Base):
+    """T-249: el lote P50 43030563528 registró solo M06 nuevos y el paquete pasó de 51 a 17 territorios."""
+
+    def _registro(self, f):
+        r = json.loads(self.reg.read_text())
+        f(r["products"])
+        self.reg.write_text(json.dumps(r))
+
+    def test_m06_nuevo_sin_m08_conserva_el_par_anterior(self):
+        self.gen()
+        self._registro(lambda ps: ps.append(dict(ps[0], run_id="9", blob_sha="c" * 40)))
+        idx = self.gen()
+        self.assertEqual(idx["territorios"][T]["run_id"], "5")
+        self.assertTrue((self.out / T / "distrito-1.html").exists())
+        self.assertEqual(da.comprobar(self.out, self.reg), [])
+        da.materializar(self.d / "site", self.out, self.reg, m06_dir=self.m6)
+
+    def test_reduccion_sin_retirada_falla_sin_borrar(self):
+        self.gen()
+        antes = (self.out / "INDEX.json").read_bytes()
+        self._registro(lambda ps: ps[0].update(run_id="9"))  # el M08 vigente (run 5) se queda sin su M06
+        with self.assertRaisesRegex(ValueError, "DATOS_ABIERTOS_REDUCCION"):
+            self.gen()
+        self.assertEqual((self.out / "INDEX.json").read_bytes(), antes)
+        self.assertTrue((self.out / T / "index.html").exists())
+
+    def test_retirada_explicita_borra(self):
+        self.gen()
+        self._registro(lambda ps: ps.clear())
+        self.assertEqual(self.gen()["territorios"], {})
+        self.assertFalse((self.out / T).exists())
 
 
 class PaqueteReal(unittest.TestCase):
