@@ -586,6 +586,115 @@ class BateriaMotor2EnActions(unittest.TestCase):
         self.assertIn("--cadenas", self.wf["jobs"]["aceptacion"]["steps"][-2]["run"])
 
 
+class LectorVigenteT229(unittest.TestCase):
+    """T-229: casos de la fase 2 de r5 (run 42927322822) que quedaron «sin comparación» por el lector del vigente."""
+
+    COL = "CUSEC_KEY,district_id,section_pop,CUMUN,ddd_unit_id\n"
+
+    def _montar(self, out: Path, t: str, filas_can: list[tuple], pub_map: dict, *, ganador="canonico",
+                fino: list[tuple] | None = None, sha_ok=True):
+        """COMPETICION.json con canónico (con GeoJSON) y vigente (sin GeoJSON, como lo deja el generador)."""
+        import hashlib
+        carpeta = out / "competicion" / t
+        (carpeta / "canonico").mkdir(parents=True)
+        (carpeta / "vigente").mkdir(parents=True)
+        nombre = f"{t}_2025_m06_composicion_distritos.csv"
+        can = carpeta / "canonico" / nombre
+        can.write_text(self.COL + "".join(",".join(map(str, f)) + "\n" for f in filas_can), encoding="utf-8")
+        (carpeta / "canonico" / f"{t}_2025_m06_secciones.geojson.zip").write_bytes(b"x")
+        pub = out / f"{t}.csv"
+        pub.write_text("seccion,distrito,poblacion\n" + "".join(f"{s},{d},1\n" for s, d in pub_map.items()), encoding="utf-8")
+        vig = carpeta / "vigente" / nombre
+        vig.write_text(self.COL + "".join(",".join(map(str, f)) + "\n" for f in (fino or filas_can)), encoding="utf-8")
+        sha = hashlib.sha256(pub.read_bytes()).hexdigest() if sha_ok else "0" * 64
+        d = {"territorio": t, "canonico": "canonico", "ganador": ganador, "vigente": {"estado": "VALIDO", "sha256_origen": sha},
+             "candidatos": [{"id": "canonico", "composicion": str(can)}, {"id": "vigente", "composicion": str(vig)}]}
+        (carpeta / "COMPETICION.json").write_text(json.dumps(d), encoding="utf-8")
+        return pub, can, vig
+
+    def _indicadores(self, out, t, pub, falso):
+        from unittest import mock
+        cfg = {"validation": {"expected_districts": 2}}
+        with mock.patch.object(b, "_indicadores_plan", side_effect=falso):
+            return b.indicadores_territorio(t, out, cfg=cfg, grafo=out / "grafo.json", vigente=(pub, "1"))
+
+    @staticmethod
+    def _plan(ft=0):
+        return {"distritos": 2, "fuera_tolerancia": ft, "desvio_max": 0.1, "partidos_judiciales_partidos": 0,
+                "comarcas_partidas": 0, "frontera_cortada_km": 0.0, "valido_reglas_actuales": True}
+
+    def test_unidades_internas_ganador_vigente_usa_los_atributos_del_canonico(self):
+        # Extremadura (unidad «74») y Asturias («33:33044#P01:M»): el ganador es el vigente, sin GeoJSON propio;
+        # antes se evaluaba sin atributos y faltaba unidad_r012 (M04_PARTITION_UNIT).
+        from ddd_motor2.adaptadores import ErrorDatos
+        for t, u in (("extremadura", "74"), ("principado_de_asturias", "33:33044#P01:M")):
+            with tempfile.TemporaryDirectory() as d:
+                out = Path(d)
+                filas = [("0601801001", 0, 771, "06018", u), ("0601801002", 1, 700, "06018", "75")]
+                pub, can, vig = self._montar(out, t, filas, {"0601801001": "10", "0601801002": "11"}, ganador="vigente")
+                attrs_can = next((out / "competicion" / t / "canonico").glob("*_m06_secciones.geojson*"))
+
+                def falso(comp, cfg, grafo, ref, attrs):
+                    if attrs is None:
+                        raise ErrorDatos(f"faltan campos requeridos por las reglas activas: unidad_r012: 1 unidades (p. ej. {u})")
+                    self.assertEqual(attrs, attrs_can)
+                    return self._plan()
+                r = self._indicadores(out, t, pub, falso)
+                self.assertEqual(r["estado"], "OK", r["motivo"])
+                self.assertEqual(r["ganador"], "vigente")
+
+    def _partido(self, t, s1, s2, uid):
+        """Unidad M04 `uid` (dos secciones) que el vigente publicado reparte entre los distritos 1 y 2."""
+        filas = [(s1, 0, 500, s1[:5], uid), (s2, 0, 500, s1[:5], uid)]
+        fino = [(s1, 1, 500, s1[:5], f"{uid}~v1"), (s2, 2, 500, s1[:5], f"{uid}~v2")]
+        return filas, fino, {s1: "1", s2: "2"}
+
+    def _falso_atomico(self, can_vig_m04):
+        from ddd_motor2.adaptadores import ErrorDatos
+
+        def falso(comp, cfg, grafo, ref, attrs):
+            if Path(comp).name == "vigente_m06_composicion_distritos.csv":
+                raise ErrorDatos("unidades repartidas entre distritos (atomicidad): 1 (p. ej. " + can_vig_m04 + ")")
+            return self._plan()
+        return falso
+
+    def test_unidad_m04_repartida_usa_el_vigente_de_piezas_finas(self):
+        # Canarias (38-C01:38023:38-C01:R) y Cataluña (08:08200:U1): el vigente reparte una unidad M04 de un
+        # municipio divisible; el generador lo representa con piezas finas y esa composición es la que se compara.
+        for t, s1, s2, uid in (("canarias", "3802301001", "3802301002", "38-C01:38023:38-C01:R"),
+                               ("cataluna", "0820001001", "0820001002", "08:08200:U1")):
+            with tempfile.TemporaryDirectory() as d:
+                out = Path(d)
+                filas, fino, pub_map = self._partido(t, s1, s2, uid)
+                pub, _, vig = self._montar(out, t, filas, pub_map, fino=fino)
+                r = self._indicadores(out, t, pub, self._falso_atomico(uid))
+                self.assertEqual(r["estado"], "OK", r["motivo"])
+                self.assertIn("piezas finas", r["vigente_lectura"])
+
+    def test_sin_vigente_fino_fiel_sigue_sin_comparacion(self):
+        # nunca verde por omisión: si la composición de la competición no es la del publicado, «sin comparación»
+        t, s1, s2, uid = "canarias", "3802301001", "3802301002", "38-C01:38023:38-C01:R"
+        filas, fino, pub_map = self._partido(t, s1, s2, uid)
+        casos = {"otro sha256": dict(sha_ok=False, fino=fino),
+                 "otros distritos": dict(fino=[(s1, 1, 500, s1[:5], f"{uid}~v1"), (s2, 1, 500, s1[:5], f"{uid}~v1")])}
+        for caso, kw in casos.items():
+            with tempfile.TemporaryDirectory() as d:
+                out = Path(d)
+                pub, _, _ = self._montar(out, t, filas, pub_map, **kw)
+                r = self._indicadores(out, t, pub, self._falso_atomico(uid))
+                self.assertEqual(r["estado"], "NO_EVALUABLE", caso)
+                self.assertIn("atomicidad", r["motivo"], caso)
+
+    def test_vigente_fino_peor_sigue_siendo_peor(self):
+        # el criterio no cambia: si el vigente (piezas finas) tiene menos fuera de tolerancia, el ganador es PEOR
+        t, s1, s2, uid = "cataluna", "0820001001", "0820001002", "08:08200:U1"
+        filas, fino, pub_map = self._partido(t, s1, s2, uid)
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            pub, _, vig = self._montar(out, t, filas, pub_map, fino=fino)
+            base = self._falso_atomico(uid)
+            r = self._indicadores(out, t, pub, lambda c, *a: self._plan(0) if Path(c) == vig else (base(c, *a) and self._plan(3)))
+            self.assertEqual(r["estado"], "PEOR")
 class RecuentoDelContrato(unittest.TestCase):
     """T-228: la comprobación 2 cuenta como el contrato y la competición (objetivo regional), no por circunscripción.
     r5 fase 2 (run 42927322822): Castilla-La Mancha, ganador 5 del contrato (= vigente) y 6 por circunscripción: PEOR falso."""

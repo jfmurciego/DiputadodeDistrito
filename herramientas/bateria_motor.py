@@ -3,10 +3,17 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.2
+VERSIÓN: 1.2.3
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-11
 ESTADO: candidato
+CAMBIOS 1.2.3 (T-229): `indicadores` lee bien el vigente en los cuatro territorios que la fase 2 de r5 (run 42927322822)
+  dejó «sin comparación». (a) Canarias y Cataluña: el vigente publicado reparte unidades M04 de municipios divisibles; si al
+  montarlo sobre el canónico salen unidades repartidas, se usa la composición que escribió el generador `vigente` en la
+  competición (piezas finas, una unidad por distrito; la publicada, no la reparada), solo si reproduce sección a sección el
+  fichero publicado; si no, sigue «sin comparación» con el motivo. (b) Extremadura y Asturias (unidades internas): un
+  candidato sin GeoJSON propio (el vigente) se evaluaba sin atributos y faltaba unidad_r012; usa los del canónico, como el
+  generador. El criterio no cambia.
 CAMBIOS 1.2.2 (T-228): la comprobación 2 (y el desvío máximo de los indicadores) mide como el contrato y la competición
   (D-68, D-79, T-211): contra el objetivo REGIONAL (`Natural.fuera_regional`, el primer término de la clave D8 de la
   competición), no contra el objetivo de cada circunscripción. Las cifras por circunscripción siguen en el JSON
@@ -32,7 +39,7 @@ CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de 
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
-ANTERIOR: legacy/herramientas/bateria_motor_v1.2.1_20261111.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.2.2_20261111.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -820,6 +827,21 @@ def _vigente_sobre(canonico: Path, vigente: Path, destino: Path, col: dict) -> P
     return out
 
 
+def _vigente_de_la_competicion(carpeta: Path, d: dict, can: Path, pub: Path, col: dict) -> Path | None:
+    """T-229: composición que escribió el generador `vigente` (piezas finas; la publicada, no la reparada) si el bloque
+    «vigente» del COMPETICION.json viene del mismo fichero publicado (sha256) y reproduce su distrito en cada sección."""
+    import hashlib
+    bloque = d.get("vigente") or {}
+    f = carpeta / "vigente" / can.name
+    if not f.is_file() or bloque.get("sha256_origen") != hashlib.sha256(pub.read_bytes()).hexdigest():
+        return None
+    with open(pub, encoding="utf-8", newline="") as fh:
+        v = {str(r["seccion"]).strip(): str(r["distrito"]).strip() for r in csv.DictReader(fh)}
+    with open(f, encoding="utf-8", newline="") as fh:
+        m = {str(r[col["seccion"]]).strip(): str(r[col["distrito"]]).strip() for r in csv.DictReader(fh)}
+    return f if m == v else None
+
+
 def indicadores_territorio(t: str, out: Path, *, cfg: dict | None = None, grafo: Path | None = None,
                            vigente: tuple[Path | None, str | None] | None = None) -> dict:
     """Indicadores del vigente, el canónico y el ganador de `t` (lee <out>/competicion/<t>/COMPETICION.json). Estado:
@@ -844,8 +866,11 @@ def indicadores_territorio(t: str, out: Path, *, cfg: dict | None = None, grafo:
                 p = _composicion_de(carpeta / cid) or p
             if not p.is_file():
                 raise FileNotFoundError(f"sin composición del candidato {cid}")
-            return p, next(iter(sorted((carpeta / cid).glob("*_m06_secciones.geojson*"))), None)
+            # T-229: sin GeoJSON propio (el vigente se monta sobre las filas del canónico) valen los atributos del canónico
+            return p, next(iter(sorted((carpeta / cid).glob("*_m06_secciones.geojson*"))), attrs_canonico)
+        attrs_canonico = None
         can, attrs = donde(d["canonico"])
+        attrs_canonico = attrs
         res["ganador"], res["canonico_id"] = d["ganador"], d["canonico"]
         try:  # comprobación 1: clave de elección del ganador frente a la del canónico (la calcula la competición)
             res["clave_frente_canonico"] = json.loads((carpeta / "RESUMEN.json").read_text(encoding="utf-8"))["territorios"][0].get("frente_al_canonico")
@@ -863,8 +888,16 @@ def indicadores_territorio(t: str, out: Path, *, cfg: dict | None = None, grafo:
             res["estado"], res["motivo"] = ("UN_DISTRITO", "un solo distrito: el único plan posible; sin composición vigente") \
                 if k == 1 else ("SIN_VIGENTE", "sin composición vigente publicada (datos/composicion)")
             return res
+        from ddd_motor2.adaptadores import ErrorDatos
         vig = _vigente_sobre(can, pub, carpeta / "vigente", columnas_de_contrato(cfg))
-        res["vigente"] = _indicadores_plan(vig, cfg, grafo, can, attrs)
+        try:
+            res["vigente"] = _indicadores_plan(vig, cfg, grafo, can, attrs)
+        except ErrorDatos as exc:  # T-229: el vigente reparte unidades M04 → el de la competición, con piezas finas
+            fino = _vigente_de_la_competicion(carpeta, d, can, pub, columnas_de_contrato(cfg)) if "atomicidad" in str(exc) else None
+            if fino is None:
+                raise
+            res["vigente"] = _indicadores_plan(fino, cfg, grafo, can, attrs)
+            res["vigente_lectura"] = f"piezas finas de la competición ({exc})"
         causas = peor_que(gan, res["vigente"])
         res["estado"], res["motivo"] = ("PEOR", "; ".join(causas)) if causas else ("OK", "")
         res["aviso_desvio"] = aviso_desvio(gan, res["vigente"])
