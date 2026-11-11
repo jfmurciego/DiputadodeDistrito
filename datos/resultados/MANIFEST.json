@@ -1443,6 +1443,15 @@
     "ruta": "datos/resultados/runs/congreso_vizcaya_43040430397_desajustes.json",
     "sha256": "06e8ee509e1bfd1d66c36181df2bb3cd1124b449090e3f27dd676aa9b2d1fed5"
    }
+  },
+  "congreso_zamora/43040878307": {
+   "territorio": "congreso_zamora",
+   "run_id": "43040878307",
+   "run_territorial": "43034969907",
+   "sha256_composicion": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6edb3fd88bddbe49dede7b6af11aeab7309ff00cd441c12755fa2fe0e4ae4f6c",
+   "ruta": "datos/resultados/runs/congreso_zamora_43040878307_partidos.csv"
   }
  }
 }
