@@ -1,11 +1,11 @@
 # Estado operativo (mantiene el Coordinador)
 
-Fecha: 2026-11-10 (tarde) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
+Fecha: 2026-11-11 (madrugada) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
 
 ## Tablero por tema (prioridad 1: el motor)
 | Tema | Estado | Situación | Siguiente |
 |---|---|---|---|
-| 1. Motor nuevo (D-48) | amarillo | Competición «canónico + GerryChain» bajo el núcleo único de reglas; R-NUCLEO ya en el certificador y en la competición; enumeración exacta fusionada; aceptación del relevo escrita (huella real de Soria/Álava/Melilla pendiente de la batería). Naturalidad medida en las 52 y las 12 autonómicas, más Castilla y León, Extremadura y Asturias. D-68: función D8; D-67: N=10 provisional (curva: 172→126 con N=5, 125 con 10, 124 con 20) | T-205 D8 en la competición (generador ponderado, clave D8 compartida); T-196 batería local de los 71 con D8 y N=10 y comparación con lo medido; después relevo y corte 5.0.0 |
+| 1. Motor nuevo (D-48) | amarillo | Competición «canónico + generador ponderado + vigente» con función D8 y N=10 en el motor y en la 00 (el motor nuevo corre dentro de la 00 como P30, motor viejo por defecto); certificación y evidencia de población leen el plan ganador; aceptación «nunca peor que el vigente publicado» con el recuento del contrato. Batería de las 19 autonómicas (fase 2): NO, por medida (recuento regional) y lector del vigente, ya corregidos en main | Repetir la batería de las 19 con frase nueva del propietario; si cumple, relevo único y regeneración nocturna; La Rioja del Congreso ya dio el mismo ganador y huella que la referencia |
 | 1b. Certificador exacto | amarillo | Modelo ligero con unidades atómicas: Madrid minimax certificado 17.236 = publicado (hueco 3 hab.); Álava, Huesca y Cádiz ≤2 s. Cádiz con techo 115 % infactible (mínimo 1,15919×) | R-NUCLEO hecho; medir en Álava, Albacete, Burgos y Huesca en T-196 |
 | 2. Autonómica (19) | amarillo | Publicadas las 19. Cantabria y Extremadura: distritos nuevos certificados pero SIN resultados por distrito (la cadena electoral falló por linaje durable); el público ve el par anterior coherente | Arreglo del linaje (PR en revisión) y relanzado con frase del propietario; no publicar el distrito nuevo sin sus resultados |
 | 2b. Autonómica, alternativas 10/25 | rojo | 13 comunidades bloqueadas por puentes topológicos o exención por partición | Decisión de motor |
@@ -23,14 +23,16 @@ Fecha: 2026-11-10 (tarde) · Actualizar en cada PR de lecciones o de estado. Ver
 ## Tareas del motor y derivadas (10-11)
 | Tarea | Estado | Qué |
 |---|---|---|
-| T-132, T-136, T-137, T-160, T-163, T-164, T-172, T-175 | hecha | Batería de los 71, certificador exacto y ligero, núcleo único, competición v1.1, naturalidad, R-NUCLEO y enumeración exacta |
-| T-194, T-195 | hecha | Aceptación del relevo (T-194b: entradas reales de Melilla/Soria en CI si ≤2 MB y ≤60 s, para la próxima PR del motor); R-NUCLEO en la competición (falta medir qué territorios cambian, en T-196) |
-| T-179, T-202 | hecha | Naturalidad C y D8 en 52 + 12 autonómicas + CyL, Extremadura y Asturias (D-66: Ávila sin excepción, vigente reparado) |
-| T-180 | en curso (#670, borrador) | Curva de cadenas: 20 representativos entregados; faltan 51 |
-| T-205 | en curso | D8 en la competición del motor nuevo (opción b); chat de T-179 |
-| T-196 | preparada | Batería local de los 71 con D8 y N=10, tandas reanudables; chat de T-180; si la mejora real es <½ de la medida, parar y avisar |
-| T-197, T-199, T-200, T-201, T-201b | hecha | Ensayo de las generales de 2026 y sus huecos: registro con elección, fecha, homologación y equivalencia 2026 bloqueada hasta el ZIP de Interior |
-| T-203, T-206 | sin chat | Catálogo de procedencia por elección; texto público D-69 en web y visor (sin publicar), junto a la próxima PR del registro |
+| T-132 a T-203, T-206, T-207, T-212, T-213 | hecha | Batería de los 71, certificador, núcleo único, naturalidad, ensayo de las generales 2026, elección como dimensión del registro, histórico autonómico, aceptación contra el vigente, congelación del corte (paso 0) |
+| T-205, T-211, T-217, T-218 | hecha | D8 y el vigente (reparado, D-66) como candidato y semilla en la competición autonómica |
+| T-214, T-215 | hecha | Corte 5.0.0 pasos 1-2 (ids, resolver) y paso 4 (nombres v5 de workflows) fusionados |
+| T-216, T-221, T-223 | hecha | Motor nuevo como P30 en la 00, certificación con el plan ganador, P30 = misma competición que la batería |
+| T-222, T-228, T-229 | hecha | Aceptación: recuento del vigente que compite, recuento regional del contrato, lector del vigente (Canarias, Cataluña, Extremadura, Asturias) |
+| T-225 | en revisión (#698, no-automerge) | 52 contratos del Congreso 2026 con el par INE 2025/2025 y decisión tipo F10 (D-65, D-80); pendiente de anotar D-80 en el plan |
+| T-224 | cola | Comparación con un vigente de otro seccionado (indicadores agregados) |
+| T-226, T-227 | cola (mañana) | `modulos/01` decodificación incremental (Toledo, con plan de cachés); Madrid 2025 (resto de Leganés aislado) |
+| T-220 | cola | `git mv territorios/` (corte 5.0.0, paso 5) con prueba A de Melilla y Ceuta |
+| T-180, T-196 | en curso | Curva de cadenas y batería local de los 71 (ficha r5 y relevo condicionados a la aceptación de las 19) |
 
 ## Reglas vigentes
 - Lanzar y publicar solo con la frase del propietario en el chat del Operador; el «sí» en otro chat no cuenta.
@@ -39,10 +41,10 @@ Fecha: 2026-11-10 (tarde) · Actualizar en cada PR de lecciones o de estado. Ver
 - Revisión independiente (revisor) antes de fusionar PR de workflows, motor, resolutor de la 00 o muchos tests.
 
 ## Decisiones recientes (propietario)
-D-44 criterios del núcleo · D-45 corte único 5.0.0 · D-46 tope de gasto · D-47 notación · D-48 motor nuevo · D-49 ahorro de CI · D-50 semilla pública · D-51 versión 4.9.0 · D-52 autorización por campaña · D-53 revisión de fusión automática y forense · D-54 plan de ids AUT/NAC · D-58 respuestas del 10-11 · D-65 generales 2026 con mapas de padrón 2023 hasta el corte (par 2025/2025) · D-66 regla del núcleo sin infracciones heredadas, excepción explícita máx. 2 · D-67 N=10 provisional · D-68 función D8 · D-69 texto público de las generales 2026 · D-70 pérdida de votos 2011 aceptada · D-71 analítica sin cookies aplazada · D-61 corte 5.0.0: P20 visible y separado; batería del motor visible bajo demanda (VER, también automática si cambia el código del motor); archivado diario dentro de ARC; forense: cambio de una línea (nombre del flujo P00) solo en el corte con revisión independiente; ids internos en minúsculas (`nac01`) y a la vista «NAC01 · Álava»; semilla pública con el código de la tabla maestra; el mapa de 350 y el histórico NO entran en el corte; alias un ciclo completo con contador a cero antes del paso irreversible (frase del propietario); prueba explícita de la aprobación `produccion` con los nombres nuevos.
+D-44 criterios del núcleo · D-45 corte único 5.0.0 · D-46 tope de gasto · D-47 notación · D-48 motor nuevo · D-49 ahorro de CI · D-50 semilla pública · D-51 versión 4.9.0 · D-52 autorización por campaña · D-53 revisión de fusión automática y forense · D-54 plan de ids AUT/NAC · D-58 respuestas del 10-11 · D-65 generales 2026 con mapas de padrón 2023 hasta el corte (par 2025/2025) · D-66 regla del núcleo sin infracciones heredadas, excepción explícita máx. 2 · D-67 N=10 provisional · D-68 función D8 · D-69 texto público de las generales 2026 · D-70 pérdida de votos 2011 aceptada · D-71 analítica sin cookies aplazada · D-75 workflows v5 solo con la batería de las 19 cumplida (el propietario fusionó antes) · D-76 los gemelos de 350 quedan en 2023 · D-80 el Congreso no se regenera para 2023, se espera a la legislatura del 29-11 · D-61 corte 5.0.0: P20 visible y separado; batería del motor visible bajo demanda (VER, también automática si cambia el código del motor); archivado diario dentro de ARC; forense: cambio de una línea (nombre del flujo P00) solo en el corte con revisión independiente; ids internos en minúsculas (`nac01`) y a la vista «NAC01 · Álava»; semilla pública con el código de la tabla maestra; el mapa de 350 y el histórico NO entran en el corte; alias un ciclo completo con contador a cero antes del paso irreversible (frase del propietario); prueba explícita de la aprobación `produccion` con los nombres nuevos.
 
 ## Pendientes del propietario
-Nada que bloquee el motor: el motor nuevo depende de T-205 y T-196 (de nuestro lado). Sin urgencia: comprobar DOI, descargas manuales (municipales 2023, europeas 2024, Ecuador, fuentes de naturalidad), token de Cloudflare cuando se publique el visor v2, frase al Operador para el histórico autonómico (Andalucía, Baleares, Aragón) y relevo del motor/corte 5.0.0 al final de T-196.
+Decisión de techos y exenciones con el padrón 2025 (Las Palmas 1,424 y Málaga 1,37 frente al techo 1,40) y frase nueva para repetir la aceptación de las 19 autonómicas. Sin urgencia: comprobar DOI, descargas manuales (municipales 2023, europeas 2024, Ecuador), token de Cloudflare cuando se publique el visor v2, histórico autonómico.
 
 ## Relevo 10-11
-Coordinador nuevo desde las 11:15. Chats vivos: Planificador, Operador, T-179 (T-205) y T-180 (#670, luego T-196). Cerrados con lecciones guardadas: T-175, T-194, T-195, T-197, T-198, T-199, T-200, T-201, T-132. Lecciones de esta tanda en `.claude/rules/diagnostico-local.md` y `workflows.md`.
+Coordinador nuevo desde las 11:15 del 10-11. Chats vivos: Planificador, Operador y T-225. Cerrados con lecciones guardadas (≤6 líneas cada uno): todos los anteriores más T-211, T-214, T-215, T-216, T-221, T-222, T-223, T-228 y T-229. Lecciones del motor nuevo y de la batería en `.claude/rules/motor2.md`; las anteriores en `diagnostico-local.md` y `workflows.md`.
