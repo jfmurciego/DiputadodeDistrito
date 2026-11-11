@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T14:42:46.264856+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T14:50:05.251083+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -115,7 +115,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Valladolid** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43034949749 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Vizcaya** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43034959389 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Zamora** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43034969907 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
-| **Nacional Zaragoza** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41296815536 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Zaragoza** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43034979460 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42985728070 · SUCCESS | — | — | — |
 | **Nacional Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43006105644 · SUCCESS | — | — | — |
 | **Nacional 350 Álava** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
