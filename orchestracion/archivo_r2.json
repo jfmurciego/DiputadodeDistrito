@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T12:29:58Z",
+  "actualizado_en": "2026-11-11T12:33:07Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -4417,19 +4417,20 @@
       "territorio": "congreso_santa_cruz_de_tenerife",
       "url": "r2://ddd-research-archive/congreso_santa_cruz_de_tenerife/42940505848/ddd-minimo-42940505848-M06.zip"
     },
-    "congreso_santa_cruz_de_tenerife/43012151677/ddd-minimo-43012151677-M06.zip": {
-      "archivado_en": "2026-11-11T12:13:26Z",
-      "artefacto": "ddd-minimo-43012151677-M06",
-      "artefacto_origen": "ddd-state-43012151677-M06",
-      "artifact_id": 13852464888,
-      "caducidad_original": "2026-11-25T12:09:48Z",
-      "run_id": "43012151677",
-      "sha256": "5ddb73c07e7764b3e69e20a6faf750aea23bb9d2f7e8735dd4c935abdbece14c",
-      "sha256_estado_original": "e15c9fea0a834780388896683dfc0eabda6af191a413b346e4f9b9154bc624aa",
-      "tamano_bytes": 1240101,
-      "tamano_estado_original": 104029957,
+    "congreso_santa_cruz_de_tenerife/43020203637/ddd-minimo-43020203637-M08.zip": {
+      "archivado_en": "2026-11-11T12:33:07Z",
+      "artefacto": "ddd-minimo-43020203637-M08",
+      "artefacto_origen": "ddd-state-43020203637-M08",
+      "artifact_id": 13853949669,
+      "caducidad_original": "2026-11-25T12:32:20Z",
+      "incluye_m06_run": "43012151677",
+      "run_id": "43020203637",
+      "sha256": "246e7f62e4fea8a70b074b6b5a5b75f78cf84bf00fcd8ab4ae470721ee581b22",
+      "sha256_estado_original": "b33cd00659f100c41ee73f7b6ffef1beb4e4eb0ecc9aa162ec34e1f644badce9",
+      "tamano_bytes": 2378335,
+      "tamano_estado_original": 108364321,
       "territorio": "congreso_santa_cruz_de_tenerife",
-      "url": "r2://ddd-research-archive/congreso_santa_cruz_de_tenerife/43012151677/ddd-minimo-43012151677-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_santa_cruz_de_tenerife/43020203637/ddd-minimo-43020203637-M08.zip"
     },
     "congreso_segovia/41235620157/ddd-audit-41235620157.zip": {
       "archivado_en": "2026-11-08T12:06:46Z",
