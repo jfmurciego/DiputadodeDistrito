@@ -1308,6 +1308,22 @@
    "sha256_csv": "91cd3798124034c9646d58949acefce52d65e71e7ca1d08a3e8fa8a0cabcc86d",
    "ruta": "datos/resultados/runs/congreso_palencia_43016085888_partidos.csv"
   },
+  "congreso_pontevedra/43016524347": {
+   "territorio": "congreso_pontevedra",
+   "run_id": "43016524347",
+   "run_territorial": "43012135258",
+   "sha256_composicion": "eb496a634afda03bf011c9001ff1665b8e87c2ef94b6ac970c23410c0ba50fef",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "b43abf6a596c14719fdaa73bc2eea586b814132103b206bcf771a7b3e7736c90",
+   "ruta": "datos/resultados/runs/congreso_pontevedra_43016524347_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.1169,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_pontevedra_43016524347_desajustes.json",
+    "sha256": "85e61ea816df65d53966ab405c619d2f426b16dcc6d6576b03d7e938457bc4f6"
+   }
+  },
   "congreso_santa_cruz_de_tenerife/42519017008": {
    "territorio": "congreso_santa_cruz_de_tenerife",
    "run_id": "42519017008",
