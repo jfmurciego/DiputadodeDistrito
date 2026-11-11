@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13823785303,
+      "artifact_name": "ddd-audit-42940520877",
+      "artifact_sha256": "347ca3b9fb0ccb21ad68c430ba43a5059bcc294cbfdebcda645ad89c31cae401",
+      "run_id": 42940520877,
+      "size_in_bytes": 5115
+    },
+    "m04": {
+      "artifact_id": 13822756292,
+      "artifact_name": "ddd-state-42940520877-M04",
+      "artifact_sha256": "9b5e68c167e4e82dc6ec7c543b8e768cb709ce6c112b338ea4b85d9a0d098f73",
+      "run_id": 42940520877,
+      "size_in_bytes": 79523945
+    },
+    "m05": {
+      "artifact_id": 13823395453,
+      "artifact_name": "ddd-state-42940520877-M05",
+      "artifact_sha256": "38ab2f7bc7eb1ad7720db321a6473bba2439210a4f8df587790e822ceee88089",
+      "run_id": 42940520877,
+      "size_in_bytes": 80557516
+    },
+    "m06": {
+      "artifact_id": 13823685133,
+      "artifact_name": "ddd-state-42940520877-M06",
+      "artifact_sha256": "bddd485ac7202b8e91609804630ad6a2e5377c9a1e56eaab8eeb40461210f0ce",
+      "run_id": 42940520877,
+      "size_in_bytes": 83035702
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "af5dd8d3a89fc2eb57cd73fbe93bd8f560541f67a74abda629e2044711f847df",
+        "size_in_bytes": 406
+      },
+      "congreso_sevilla_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "4e6b266905491c947b12f9216239f1e0d6c66e19b1a441e32926f9c055ef7bf0",
+        "size_in_bytes": 17382
+      },
+      "optimization_execution.json": {
+        "sha256": "daa35d4bb6445fdd740581024fc974c1fbb85d94f1b57eeb28fc6927639a1929",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "0f9a405d12b593d07aafb8fc571d2e9482b7c84713b0a41bfcd91fd3600b7b06",
+        "size_in_bytes": 1499
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "0f9a405d12b593d07aafb8fc571d2e9482b7c84713b0a41bfcd91fd3600b7b06",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_sevilla/config/congreso_sevilla_2025.yaml",
+    "sha256": "2f27e5cc564eba7065332fb93ba088b25a1ed3faa3ef9cc88549f57c3c8040ad"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "d5ba93a3828034852fa8f733fb9c77886af580307f8dcfa72e1f6739d9e15098",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s2125803628",
+      "generador": "ponderado",
+      "huella_resultado": "d3eb940f8ebd2e402095babef1fa4307bc67cf21e7e94092ef7239b4051edaf2",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.13497132276612053,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.13497132276612053,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "579b1e7a273be3196623735c2250f051170da0476c73b28f13046277d46b8ec4",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_sevilla",
+    "territory_name": "Congreso Sevilla",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940520877,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13822756292,
+      "artifact_name": "ddd-state-42940520877-M04",
+      "artifact_sha256": "9b5e68c167e4e82dc6ec7c543b8e768cb709ce6c112b338ea4b85d9a0d098f73",
+      "run_id": 42940520877,
+      "size_in_bytes": 79523945
+    },
+    "source_manifest_sha256": "f2759c12572ae22214646a6f757b44397a95079e7fbf86768d87450100c91c97",
+    "source_package_artifact": {
+      "artifact_id": 13060060353,
+      "artifact_name": "ddd-source-package-congreso_sevilla-2025-41244347546",
+      "artifact_sha256": "6fd8bcb16093981d226efd2e99093d58a0f6b40812cc3479db9ce9131317ec5d",
+      "run_id": 41244347546,
+      "size_in_bytes": 77424537
+    }
+  },
+  "manifest_sha256": "e00f7c4b22673d9b5637b38e3136b95d40588e75176283f695f319c45b69c1ec",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

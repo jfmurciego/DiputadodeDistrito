@@ -4,11 +4,11 @@
   "territory_id": "congreso_sevilla",
   "territory_name": "Congreso Sevilla",
   "edition": "2025",
-  "run_id": 41244347546,
-  "artifact_name": "ddd-state-41244347546-M06",
-  "artifact_sha256": "757092fd4408ee1ffcfc72f106447d4420574cc9d62172782bea4886a3d8a793",
-  "source_commit": "959a9b0b591b4e2e0cdd79041ef020b4d23a5c13",
+  "run_id": 42940520877,
+  "artifact_name": "ddd-state-42940520877-M06",
+  "artifact_sha256": "bddd485ac7202b8e91609804630ad6a2e5377c9a1e56eaab8eeb40461210f0ce",
+  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_sevilla/evidencia/generaciones_m06/41244347546.json"
+  "producer_manifest_path": "territorios/congreso_sevilla/evidencia/generaciones_m06/42940520877.json"
 }
