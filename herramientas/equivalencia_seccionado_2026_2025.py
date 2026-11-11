@@ -10,11 +10,12 @@ MOTIVO: D-80 (propietario, vía Planificador): los mapas 2025/2025 del Congreso 
   El ZIP por mesa de Interior sale tras la jornada; el seccionado INE a 1-1-2026 es la base de esas secciones y ya está
   publicado, así que la tabla se prepara ahora y se rehará (o completará, como T-101) con el ZIP real.
 ANTERIOR: ninguna (fichero nuevo)
-QUÉ HACE: por provincia, las secciones de 2026 cuyo CUSEC no existe en 2025 se cruzan por geometría con las de 2025
+QUÉ HACE: por provincia, las secciones de 2026 cuyo CUSEC no existe en 2025, o que lo conservan con el límite cambiado
+  (diferencia simétrica > 5 % del área), se cruzan por geometría con las de 2025
   (herramientas/equivalencia_seccionados.equivalencia: 1:1 al 95 %, astillas < 1 %, peso de población del padrón
   65034 a 1-1-2025, D-13). Tipos: 1:1 (misma geometría), contenida (cae entera en una sección 2025: exacta) y partida
   (varias secciones 2025). La pérdida posible se mide en población 2025: la de las secciones 2025 que tocan las
-  partidas, proporcional al área compartida (cota superior: solo se pierde si la partida cruza distritos). Escribe:
+  partidas, proporcional al área compartida (solo se pierde si la partida cruza distritos; las «sin_vigente» se cuentan aparte). Escribe:
     configuracion/equivalencia_seccionado_ine_2026_a_2025.csv  seccion_2026, seccion_2025, tipo, peso_area, peso_poblacion
     configuracion/equivalencia_seccionado_ine_2026_a_2025.json fuentes con sha256, sha256 del CSV y, por provincia,
                                                               secciones nuevas, 1:1, contenidas, partidas y población afectada.
@@ -50,6 +51,8 @@ def medir(nuevas: dict, s2025: dict, pob: dict[str, int]) -> tuple[list[list], d
             filas.append([s, v, tipo, f"{e['area'][v]:.6f}", f"{e['poblacion'][v]:.6f}"])
             if tipo == "partida":
                 afectada += nuevas[s].intersection(s2025[v]).area / s2025[v].area * pob.get(v, 0)
+        if tipo == "sin_vigente":
+            afectada += 0  # sin solape con 2025: no hay población 2025 que repartir; se cuenta en tipo_sin_vigente
     total = sum(pob.get(v, 0) for v in s2025)
     return filas, {"secciones_2026_sin_2025": len(eq), **{f"tipo_{k}": n for k, n in tipos.items()},
                    "poblacion_2025": total, "poblacion_afectada_partidas": round(afectada),
@@ -66,9 +69,14 @@ def main(argv=None) -> int:
     s26, s25, pob = es.leer_seccionado(a.s2026), es.leer_seccionado(a.s2025), es.leer_padron(a.padron, "2025")
     filas, provincias = [], {}
     for cpro in sorted(set(s26) | set(s25)):
-        nuevas = {k: g for k, g in s26.get(cpro, {}).items() if k not in s25.get(cpro, {})}
+        a26, a25 = s26.get(cpro, {}), s25.get(cpro, {})
+        nuevas = {k: g for k, g in a26.items() if k not in a25}
+        # mismo CUSEC con el límite cambiado (diferencia simétrica > 5 % del área): también se cruza por geometría
+        cambiadas = {k: g for k, g in a26.items() if k in a25 and g.symmetric_difference(a25[k]).area > (1 - es.UMBRAL) * g.area}
+        nuevas.update(cambiadas)
         f, r = medir(nuevas, s25.get(cpro, {}), {k: v for k, v in pob.items() if k[:2] == cpro})
-        r["secciones_2025_sin_2026"] = len(set(s25.get(cpro, {})) - set(s26.get(cpro, {})))
+        r["secciones_2025_sin_2026"] = len(set(a25) - set(a26))
+        r["secciones_mismo_cusec_limite_cambiado"] = len(cambiadas)
         filas += f
         provincias[cpro] = r
         print(cpro, r["secciones_2026_sin_2025"], r["pct_poblacion_afectada"], flush=True)

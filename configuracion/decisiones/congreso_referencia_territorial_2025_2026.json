@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "decision_id": "CONGRESO-20261111-PAIR-2025",
   "decision_date": "2026-11-11",
-  "status": "OWNER_APPROVED_TERRITORIAL_REFERENCE_ONLY",
+  "status": "OWNER_DECISION_RELAYED_PENDING_PLAN_RECORD",
   "scope": "52 circunscripciones del Congreso: pareja territorial población/seccionado INE 2025/2025 para la legislatura de la elección general del 29-11-2026 (edición 2026 de sus contratos). No certifica correspondencia electoral.",
   "territory_ids": [
     "congreso_alava",
@@ -77,5 +77,6 @@
     "Verificar la fuente oficial INE 2025/2025 de cada territorio con recibo auténtico de una 01",
     "Preparar la correspondencia 2026→2025 con el ZIP real de Interior",
     "No habilitar generación con esta decisión"
-  ]
+  ],
+  "status_note": "D-65 consta en docs/PLAN.md; D-80 llegó del propietario vía Planificador (11-11-2026) y aún no está en el plan: pasa a OWNER_APPROVED_TERRITORIAL_REFERENCE_ONLY cuando el Planificador la anote."
 }

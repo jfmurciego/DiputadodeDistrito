@@ -4,6 +4,7 @@ Tests de T-225 (D-65, D-80): contratos de la edición 2026 de las 52 circunscrip
 2025/2025, su decisión, los inventarios insulares 2025 y la equivalencia seccionado INE 2026 → 2025."""
 import hashlib
 import json
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -64,24 +65,31 @@ class Contratos2026(unittest.TestCase):
         self.assertIs(d["generation_authorized_by_this_decision"], False)
         self.assertIn("D-65", d["approval_basis"])
         self.assertIn("D-80", d["approval_basis"])
+        self.assertEqual(d["status"], "OWNER_DECISION_RELAYED_PENDING_PLAN_RECORD")  # D-80 aún no está en el plan
 
     def test_inventario_insular_2025(self):
         p = json.loads((ROOT / "configuracion/particiones_insulares_2025.json").read_text(encoding="utf-8"))["territories"]
         inv = {t: [i for i in p[t]["inventories"] if i["section_year"] == 2025] for t in
                ("congreso_baleares", "congreso_las_palmas", "congreso_santa_cruz_de_tenerife", "illes_balears")}
         self.assertTrue(all(len(v) == 1 for v in inv.values()))
-        # el universo de Baleares coincide con el inventario 2025 acreditado de illes_balears (literal del JSON)
-        self.assertEqual(inv["congreso_baleares"][0]["universe_cusec_set_sha256"],
-                         "9840bcfa657cbd05b0e04fefa99316c7fb8f9d085d030eea6060796b22ef9f8c")
-        self.assertEqual(inv["congreso_las_palmas"][0]["component_sections"], {"35-C01": 589, "35-C02": 56, "35-G01": 78})
+        # cruce con los inventarios 2025 acreditados antes por las autonómicas (fuente independiente: run 36529385760 y
+        # 36529404391): mismo universo en Baleares y, en Las Palmas, mismas islas sueltas y grupo = suma de sus islas
+        aut, can = inv["illes_balears"][0], [i for i in p["canarias"]["inventories"] if i["section_year"] == 2025][0]
+        self.assertEqual(inv["congreso_baleares"][0]["universe_cusec_set_sha256"], aut["universe_cusec_set_sha256"])
+        lp = inv["congreso_las_palmas"][0]
+        for c in ("35-C01", "35-C02"):
+            self.assertEqual(lp["component_cusec_set_sha256"][c], can["component_cusec_set_sha256"][c])
+        self.assertEqual(lp["component_sections"]["35-G01"],
+                         can["component_sections"]["35-C03"] + can["component_sections"]["35-C04"])
 
 
 class Equivalencia2026(unittest.TestCase):
     def test_tabla_con_sha256_y_fuentes(self):
         meta = json.loads(TABLA.with_suffix(".json").read_text(encoding="utf-8"))
         self.assertEqual(hashlib.sha256(TABLA.read_bytes()).hexdigest(), meta["csv"]["sha256"])
-        self.assertEqual(meta["fuentes"]["seccionado_2025"]["sha256"],
-                         "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4")
+        # el seccionado 2025 es el del par nacional versionado (inputs/MANIFEST.sha256), no uno cualquiera
+        manifiesto = (ROOT / "inputs/MANIFEST.sha256").read_text(encoding="utf-8")
+        self.assertIn(f'{meta["fuentes"]["seccionado_2025"]["sha256"]}  inputs/seccionado_2025.zip', manifiesto)
         self.assertEqual(meta["fuentes"]["seccionado_2026"]["sha256"],
                          "3132a7ea07eaf6183b59f66bfbbf7d379662e9cf2759284358e88cedcc035ed2")
         self.assertEqual(len(meta["provincias"]), 52)
@@ -97,6 +105,40 @@ class Equivalencia2026(unittest.TestCase):
         _, r = eq.medir(nuevas, s2025, {"A": 100, "B": 50})
         self.assertEqual((r["tipo_contenida"], r["tipo_partida"]), (1, 1))
         self.assertEqual(r["poblacion_afectada_partidas"], 75)  # 0,5 × 100 + 0,5 × 50
+
+    def test_mismo_cusec_con_limite_cambiado_se_mide(self):
+        import tempfile
+        import geopandas as gpd
+        from shapely.geometry import box
+        sys.path.insert(0, str(ROOT / "herramientas"))
+        import equivalencia_seccionado_2026_2025 as eq
+        import equivalencia_seccionados as es
+        with tempfile.TemporaryDirectory() as td:
+            d = Path(td)
+            for nombre, geoms in (("s25", {"4200101001": box(0, 0, 2, 1), "4200101002": box(2, 0, 4, 1)}),
+                                  ("s26", {"4200101001": box(0, 0, 3, 1), "4200101002": box(3, 0, 4, 1)})):
+                gpd.GeoDataFrame({"CUSEC": list(geoms)}, geometry=list(geoms.values()), crs=25830).to_file(d / f"{nombre}.shp")
+                import zipfile
+                with zipfile.ZipFile(d / f"{nombre}.zip", "w") as z:
+                    for f in d.glob(f"{nombre}.*"):
+                        if f.suffix != ".zip":
+                            z.write(f, f.name)
+            (d / "x").write_bytes(b"")
+            orig = es.leer_padron
+            es.leer_padron = lambda *_: {"4200101001": 100, "4200101002": 100}
+            try:
+                eq.main(["--s2026", str(d / "s26.zip"), "--s2025", str(d / "s25.zip"), "--padron", str(d / "x"),
+                         "--salida", str(ROOT / "configuracion" / f"_t225_prueba_{os.getpid()}.csv")])
+            finally:
+                es.leer_padron = orig
+            salida = ROOT / "configuracion" / f"_t225_prueba_{os.getpid()}.csv"
+            meta = json.loads(salida.with_suffix(".json").read_text(encoding="utf-8"))
+            salida.unlink(); salida.with_suffix(".json").unlink()
+        r = meta["provincias"]["42"]
+        # 4200101001 crece medio cuadro hacia la 002: mismo CUSEC, límite cambiado, partida entre las dos de 2025
+        self.assertEqual(r["secciones_mismo_cusec_limite_cambiado"], 2)
+        self.assertEqual(r["tipo_partida"], 1)
+        self.assertEqual(r["poblacion_afectada_partidas"], 150)  # 1 × 100 + 0,5 × 100
 
 
 if __name__ == "__main__":
