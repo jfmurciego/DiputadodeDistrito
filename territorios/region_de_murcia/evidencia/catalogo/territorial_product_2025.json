@@ -4,11 +4,11 @@
   "territory_id": "region_de_murcia",
   "territory_name": "Región de Murcia",
   "edition": "2025",
-  "run_id": 42504383790,
-  "artifact_name": "ddd-state-42504383790-M06",
-  "artifact_sha256": "9e1a1e85596b29ef06262b9437376a4f7ff51c6e0db79a59399c6cacdfcd82ce",
-  "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
+  "run_id": 43045426513,
+  "artifact_name": "ddd-state-43045426513-M06",
+  "artifact_sha256": "4761f5ad30c183dd10f50bdce4b929a2ed179fbd340ccea87a8da846ece3e895",
+  "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/region_de_murcia/evidencia/generaciones_m06/42504383790.json"
+  "producer_manifest_path": "territorios/region_de_murcia/evidencia/generaciones_m06/43045426513.json"
 }

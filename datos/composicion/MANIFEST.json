@@ -889,6 +889,20 @@
    "sha256_csv": "7caceb283fc2a2f61bc4904eb363411459386c40fb80b5df44140871c89c2795",
    "ruta": "datos/composicion/runs/ceuta_42503542766.csv"
   },
+  "ceuta/43045447315": {
+   "territorio": "ceuta",
+   "run_id": "43045447315",
+   "secciones": 56,
+   "sha256_csv": "7caceb283fc2a2f61bc4904eb363411459386c40fb80b5df44140871c89c2795",
+   "ruta": "datos/composicion/runs/ceuta_43045447315.csv"
+  },
+  "comunidad_foral_de_navarra/43045437345": {
+   "territorio": "comunidad_foral_de_navarra",
+   "run_id": "43045437345",
+   "secciones": 578,
+   "sha256_csv": "8893c8a1eb9fd92456c902493ec4f3232b087f0c9e855d783e0e81f1696b3a48",
+   "ruta": "datos/composicion/runs/comunidad_foral_de_navarra_43045437345.csv"
+  },
   "comunidad_valenciana/43025671156": {
    "territorio": "comunidad_valenciana",
    "run_id": "43025671156",
@@ -1645,6 +1659,13 @@
    "sha256_csv": "059676242153b55c0e833a1b9b465ad14e5aced0e44a2ac04d68334d2cb3445f",
    "ruta": "datos/composicion/runs/la_rioja_43003614878.csv"
   },
+  "madrid/43045415140": {
+   "territorio": "madrid",
+   "run_id": "43045415140",
+   "secciones": 4479,
+   "sha256_csv": "fbc430c92ddae27b98ac46f411214a9b91697c415c0b665f8b05b175ee00ba21",
+   "ruta": "datos/composicion/runs/madrid_43045415140.csv"
+  },
   "melilla/42504386196": {
    "territorio": "melilla",
    "run_id": "42504386196",
@@ -1679,6 +1700,13 @@
    "secciones": 1223,
    "sha256_csv": "54411b654585273f9b3b8cef5ee8e01929999b7191a4a3d88ced7bf7b99ed260",
    "ruta": "datos/composicion/runs/region_de_murcia_42504383790.csv"
+  },
+  "region_de_murcia/43045426513": {
+   "territorio": "region_de_murcia",
+   "run_id": "43045426513",
+   "secciones": 1223,
+   "sha256_csv": "1b7d6d122fac0a4a9e4f061855be25bf1d4d3ebe0e94e2367ee87b67b79064db",
+   "ruta": "datos/composicion/runs/region_de_murcia_43045426513.csv"
   }
  }
 }
