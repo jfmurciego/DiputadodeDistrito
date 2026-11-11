@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.349
+Versión: 1.0.350
 Fecha: 2026-11-11
-Alcance: T-233 — La batería vuelca el final de log.txt cuando fallan las entradas
+Alcance: T-236 — Plan 1.0.42: decisiones D-80 a D-86 y cola T-220 a T-236
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-11_claude-t233-log-entradas.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.348_registro_20261111.md
+Cambios/motivo: entrada docs/registro/2026-11-11_claude-t236-plan-d80-d86.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.349_registro_20261111.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.348_registro_20261111.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.350 · [2026-11-11 — T-236 — Plan 1.0.42: decisiones D-80 a D-86 y cola T-220 a T-236](registro/2026-11-11_claude-t236-plan-d80-d86.md)
 - 1.0.349 · [2026-11-11 — T-233 — La batería vuelca el final de log.txt cuando fallan las entradas](registro/2026-11-11_claude-t233-log-entradas.md)
 - 1.0.348 · [2026-11-11 — T-225 — Contratos de la edición 2026 de las 52 circunscripciones con el par INE 2025/2025](registro/2026-11-11_t225-congreso-ine-2025.md)
 - 1.0.347 · [2026-11-11 — T-230b — Registro del par idempotente ante `territorial_product_reuse`](registro/2026-11-11_t230b-par-idempotente.md)
