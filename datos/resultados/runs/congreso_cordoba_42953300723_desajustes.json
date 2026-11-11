@@ -1,0 +1,27 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_cordoba",
+ "run_id": "42953300723",
+ "run_territorial": "42940387433",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 442151,
+ "votos_desajustados": 0,
+ "pct_desajuste": 0.0,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "1403701002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "1403701002": 1.0
+   },
+   "distritos": {
+    "5": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}

@@ -920,6 +920,22 @@
    "sha256_csv": "1665fe8ce50499b9feb1d7b4e31c4745e631912f69b85cd1f58e460741b258b9",
    "ruta": "datos/resultados/runs/congreso_ceuta_42496569312_partidos.csv"
   },
+  "congreso_cordoba/42953300723": {
+   "territorio": "congreso_cordoba",
+   "run_id": "42953300723",
+   "run_territorial": "42940387433",
+   "sha256_composicion": "c8b291b8a164be1700d2488364c8ddbaeddd5ec352664002bc10ad3e62fa7dbf",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "9698eb06fbb90befb68021a072e661a5f23f1a132ff0c6e0cbecb75f7f880a48",
+   "ruta": "datos/resultados/runs/congreso_cordoba_42953300723_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_cordoba_42953300723_desajustes.json",
+    "sha256": "9498e33f9a25114c950a57fe5844521524e5a67db054007792e97c872feab677"
+   }
+  },
   "congreso_huesca/42519383275": {
    "territorio": "congreso_huesca",
    "run_id": "42519383275",
