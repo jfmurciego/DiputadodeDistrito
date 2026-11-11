@@ -994,6 +994,13 @@
    "sha256_csv": "63102db409a4117ae00c087933223f28a0cfff7a676c860b56f76a52a4ca4724",
    "ruta": "datos/composicion/runs/congreso_burgos_42940361074.csv"
   },
+  "congreso_burgos/42981415070": {
+   "territorio": "congreso_burgos",
+   "run_id": "42981415070",
+   "secciones": 582,
+   "sha256_csv": "63102db409a4117ae00c087933223f28a0cfff7a676c860b56f76a52a4ca4724",
+   "ruta": "datos/composicion/runs/congreso_burgos_42981415070.csv"
+  },
   "congreso_caceres/42940366579": {
    "territorio": "congreso_caceres",
    "run_id": "42940366579",
