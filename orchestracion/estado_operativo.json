@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T02:33:35.408223+00:00",
+  "generated_at": "2026-11-11T02:38:58.859052+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7846,11 +7846,11 @@
       "name": "Nacional Álava",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 41346917857,
+      "run_id": 42940320710,
       "last_run": {
         "run_id": 41346917857,
         "status": "SUCCESS",
@@ -7859,7 +7859,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7876,13 +7876,13 @@
           "territory_id": "congreso_alava",
           "territory_name": "Congreso Álava",
           "edition": "2025",
-          "run_id": 41346917857,
-          "artifact_name": "ddd-state-41346917857-M06",
-          "artifact_sha256": "1cb2f5758fbf033b00e301bab7c0e7bdbb5e61d0fe367cdb5e2388ab13a99128",
-          "source_commit": "dc9f5c7a0f6ffd8695d65d39b0fd23c3a8c607fd",
+          "run_id": 42940320710,
+          "artifact_name": "ddd-state-42940320710-M06",
+          "artifact_sha256": "d1a4a72a3e1273c69266915c17ab103e21c90583beb4932137256f516e87de3c",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_alava/evidencia/generaciones_m06/41346917857.json"
+          "producer_manifest_path": "territorios/congreso_alava/evidencia/generaciones_m06/42940320710.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7900,18 +7900,18 @@
       },
       "autonomous_community_code_ine": "C01",
       "display_name": "Nacional Álava",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_albacete",
       "name": "Nacional Albacete",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
-      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42514994231,
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 42940326013,
       "last_run": {
         "run_id": 42514994231,
         "status": "SUCCESS",
@@ -7920,7 +7920,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7937,13 +7937,13 @@
           "territory_id": "congreso_albacete",
           "territory_name": "Congreso Albacete",
           "edition": "2025",
-          "run_id": 42514994231,
-          "artifact_name": "ddd-state-42514994231-M06",
-          "artifact_sha256": "f49c395d523a0a3c3fcc81dc3f209aacad478ddaeaff883c3a189bba31a884ff",
-          "source_commit": "d9b783f30e7fa6d9f83d62b85ae3035f94f1858a",
-          "decision": "PASS_WITH_EXCEPTIONS",
+          "run_id": 42940326013,
+          "artifact_name": "ddd-state-42940326013-M06",
+          "artifact_sha256": "f371866945ab7057dcafdaf4ec9214d8ed6e7c5756971dbe3e1cf16ea53fe661",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_albacete/evidencia/generaciones_m06/42514994231.json"
+          "producer_manifest_path": "territorios/congreso_albacete/evidencia/generaciones_m06/42940326013.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7961,7 +7961,7 @@
       },
       "autonomous_community_code_ine": "C02",
       "display_name": "Nacional Albacete",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_alicante",
@@ -8029,11 +8029,11 @@
       "name": "Nacional Almería",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42519378789,
+      "run_id": 42940336572,
       "last_run": {
         "run_id": 42519378789,
         "status": "SUCCESS",
@@ -8042,7 +8042,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8059,13 +8059,13 @@
           "territory_id": "congreso_almeria",
           "territory_name": "Congreso Almería",
           "edition": "2025",
-          "run_id": 42519378789,
-          "artifact_name": "ddd-state-42519378789-M06",
-          "artifact_sha256": "17745ac4c321897973ce4d058cb476fb8a78b1b762849bd84470657763a988e8",
-          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
+          "run_id": 42940336572,
+          "artifact_name": "ddd-state-42940336572-M06",
+          "artifact_sha256": "3d44ed84a6bad88c84905b342faef01cbef22916691aa0a4bece75d09103d076",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_almeria/evidencia/generaciones_m06/42519378789.json"
+          "producer_manifest_path": "territorios/congreso_almeria/evidencia/generaciones_m06/42940336572.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8083,7 +8083,7 @@
       },
       "autonomous_community_code_ine": "C04",
       "display_name": "Nacional Almería",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_avila",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 70,
+    "complete": 67,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12275,10 +12275,7 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
-      "Nacional Álava",
-      "Nacional Albacete",
       "Nacional Alicante",
-      "Nacional Almería",
       "Nacional Baleares",
       "Nacional Barcelona",
       "Nacional Burgos",
@@ -12561,6 +12558,24 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "Nacional Álava",
+      "territory_id": "congreso_alava",
+      "autonomous_community_code_ine": "C01",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Albacete",
+      "territory_id": "congreso_albacete",
+      "autonomous_community_code_ine": "C02",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Almería",
+      "territory_id": "congreso_almeria",
+      "autonomous_community_code_ine": "C04",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Nacional Ávila",
       "territory_id": "congreso_avila",
       "autonomous_community_code_ine": "C05",
@@ -12577,24 +12592,6 @@
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Albacete",
-      "territory_id": "congreso350_albacete",
-      "autonomous_community_code_ine": "R02",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Alicante",
-      "territory_id": "congreso350_alicante",
-      "autonomous_community_code_ine": "R03",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Almería",
-      "territory_id": "congreso350_almeria",
-      "autonomous_community_code_ine": "R04",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12608,6 +12605,24 @@
       "territory": "11 Extremadura",
       "territory_id": "extremadura",
       "autonomous_community_code_ine": "11",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Álava",
+      "territory_id": "congreso_alava",
+      "autonomous_community_code_ine": "C01",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Albacete",
+      "territory_id": "congreso_albacete",
+      "autonomous_community_code_ine": "C02",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Almería",
+      "territory_id": "congreso_almeria",
+      "autonomous_community_code_ine": "C04",
       "action": "preparar fuentes electorales"
     },
     {
