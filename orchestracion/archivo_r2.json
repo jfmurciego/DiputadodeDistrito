@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:18:16Z",
+  "actualizado_en": "2026-11-11T03:19:26Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3698,6 +3698,20 @@
       "tamano_estado_original": 112950515,
       "territorio": "congreso_navarra",
       "url": "r2://ddd-research-archive/congreso_navarra/41299128213/ddd-minimo-41299128213-M08.zip"
+    },
+    "congreso_navarra/42940468939/ddd-minimo-42940468939-M06.zip": {
+      "archivado_en": "2026-11-11T03:19:26Z",
+      "artefacto": "ddd-minimo-42940468939-M06",
+      "artefacto_origen": "ddd-state-42940468939-M06",
+      "artifact_id": 13822184364,
+      "caducidad_original": "2026-11-25T02:34:37Z",
+      "run_id": "42940468939",
+      "sha256": "9cbfee5ed4824a9b46ab214e1e9aa41a82746eb3768d772b1a2f1f849c3a0b51",
+      "sha256_estado_original": "9cc6d17ad3cada9b24eaa052d5902bff701c2a35d2e33769a7a8b5ebd2896f0f",
+      "tamano_bytes": 952877,
+      "tamano_estado_original": 111533230,
+      "territorio": "congreso_navarra",
+      "url": "r2://ddd-research-archive/congreso_navarra/42940468939/ddd-minimo-42940468939-M06.zip"
     },
     "congreso_orense/41240887712/ddd-audit-41240887712.zip": {
       "archivado_en": "2026-11-08T12:08:03Z",
