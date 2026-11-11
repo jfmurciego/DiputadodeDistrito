@@ -3378,10 +3378,23 @@
      "producto": "M06",
      "id": "m06-congreso_la_rioja-42504388624",
      "run_id": "42504388624",
-     "vigente": true,
+     "vigente": false,
      "sha256": "e955fa90ad03ba89552f6d925d262d9fa24e8e7e02700e1fe8a4e47e39cdf96d",
      "copia_git": {
       "blob_sha": "b89ec148d92075dacfc2f24667de95d066742397",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-congreso_la_rioja-42932144515",
+     "run_id": "42932144515",
+     "vigente": true,
+     "sha256": "f9b8d75a7c848d71ee4cc9206bdfd4fc82661a0ab83ddfe6cb40ac2c6a5eb677",
+     "copia_git": {
+      "blob_sha": "b524de809c234656f8d83d756fa38a744d7d32f2",
       "ruta": null
      },
      "copias_r2": [],
@@ -3426,20 +3439,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "79869857e151caa01d5c8e5b5d4818d61c2e84c36daf49bd2186c05ddc34c07a"
-    },
-    {
-     "producto": "datos_abiertos",
-     "id": "datos-abiertos-congreso_la_rioja",
-     "run_id": "42504388624",
-     "vigente": true,
-     "sha256": "d025da924014522a77e803708098d4a75c27587c26483b4fb92fda998393f31b",
-     "copia_git": {
-      "blob_sha": "b89ec148d92075dacfc2f24667de95d066742397",
-      "ruta": "datos_abiertos/congreso_la_rioja/distritos.geojson"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "e955fa90ad03ba89552f6d925d262d9fa24e8e7e02700e1fe8a4e47e39cdf96d"
     },
     {
      "producto": "ensemble",
@@ -7284,7 +7283,7 @@
    "territorio": "congreso_la_rioja",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42504388624: solo copia git"
+   "detalle": "run 42932144515: solo copia git"
   },
   {
    "nivel": "AVISO",
