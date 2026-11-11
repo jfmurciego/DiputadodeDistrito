@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T11:40:48.075231+00:00",
+  "generated_at": "2026-11-11T11:52:31.422081+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9741,7 +9741,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42940474219,
+      "run_id": 43012119307,
       "last_run": {
         "run_id": 41295142111,
         "status": "SUCCESS",
@@ -9767,13 +9767,13 @@
           "territory_id": "congreso_orense",
           "territory_name": "Congreso Orense",
           "edition": "2025",
-          "run_id": 42940474219,
-          "artifact_name": "ddd-state-42940474219-M06",
-          "artifact_sha256": "29c1dc0eee95fb0a23315769ab960e8cfa053eb4c15ce09d4f94125b00e38571",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43012119307,
+          "artifact_name": "ddd-state-43012119307-M06",
+          "artifact_sha256": "dfb11f40f0a3c01e379c40377f92e26ee812e4cf1459746c75f6855c6be24ba6",
+          "source_commit": "f20de146c410d46631286b7395bf52a191b7a0b0",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_orense/evidencia/generaciones_m06/42940474219.json"
+          "producer_manifest_path": "territorios/congreso_orense/evidencia/generaciones_m06/43012119307.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9863,7 +9863,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940484559,
+      "run_id": 43012127687,
       "last_run": {
         "run_id": 41298660623,
         "status": "SUCCESS",
@@ -9889,13 +9889,13 @@
           "territory_id": "congreso_palencia",
           "territory_name": "Congreso Palencia",
           "edition": "2025",
-          "run_id": 42940484559,
-          "artifact_name": "ddd-state-42940484559-M06",
-          "artifact_sha256": "79f0e7eaf034c2e7675b4cdf8455872c9255abcc671adce28e27eb5cd17fa50c",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43012127687,
+          "artifact_name": "ddd-state-43012127687-M06",
+          "artifact_sha256": "7a804725cd719836ffe7cc96848a3879af48cb49856f6ef496b1cdfd9861c38d",
+          "source_commit": "f20de146c410d46631286b7395bf52a191b7a0b0",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_palencia/evidencia/generaciones_m06/42940484559.json"
+          "producer_manifest_path": "territorios/congreso_palencia/evidencia/generaciones_m06/43012127687.json"
         },
         "electoral_source": null,
         "electoral_product": {
