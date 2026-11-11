@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:03:31Z",
+  "actualizado_en": "2026-11-11T03:04:19Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3450,6 +3450,20 @@
       "tamano_estado_original": 86687066,
       "territorio": "congreso_malaga",
       "url": "r2://ddd-research-archive/congreso_malaga/42495070976/ddd-minimo-42495070976-M08.zip"
+    },
+    "congreso_malaga/42940458916/ddd-minimo-42940458916-M06.zip": {
+      "archivado_en": "2026-11-11T03:04:19Z",
+      "artefacto": "ddd-minimo-42940458916-M06",
+      "artefacto_origen": "ddd-state-42940458916-M06",
+      "artifact_id": 13823535684,
+      "caducidad_original": "2026-11-25T02:31:40Z",
+      "run_id": "42940458916",
+      "sha256": "a33a77551719778066478304e87beffc3b5201bef42d100a7010ee6826132946",
+      "sha256_estado_original": "7976bd678c79b555fe4811875a244f9c688ba8e48026bb46904fa8233bffe8fc",
+      "tamano_bytes": 454857,
+      "tamano_estado_original": 86432834,
+      "territorio": "congreso_malaga",
+      "url": "r2://ddd-research-archive/congreso_malaga/42940458916/ddd-minimo-42940458916-M06.zip"
     },
     "congreso_melilla/41236482346/ddd-audit-41236482346.zip": {
       "archivado_en": "2026-11-08T12:07:16Z",
