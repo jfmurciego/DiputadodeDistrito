@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T01:09:41Z",
+  "actualizado_en": "2026-11-11T02:27:24Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -1409,6 +1409,20 @@
       "tamano_estado_original": 79285923,
       "territorio": "congreso_avila",
       "url": "r2://ddd-research-archive/congreso_avila/41241662219/ddd-minimo-41241662219-M08.zip"
+    },
+    "congreso_avila/42940341213/ddd-minimo-42940341213-M06.zip": {
+      "archivado_en": "2026-11-11T02:27:24Z",
+      "artefacto": "ddd-minimo-42940341213-M06",
+      "artefacto_origen": "ddd-state-42940341213-M06",
+      "artifact_id": 13822825779,
+      "caducidad_original": "2026-11-25T02:17:11Z",
+      "run_id": "42940341213",
+      "sha256": "41d93c0872abc7002cadff731da5b932194869136e0039570adfc45e6908221d",
+      "sha256_estado_original": "bcf1e75b5e3f1fa906bdc9680cb7285990bbd0652b0911a1aaeaa49f947487b9",
+      "tamano_bytes": 151872,
+      "tamano_estado_original": 79314370,
+      "territorio": "congreso_avila",
+      "url": "r2://ddd-research-archive/congreso_avila/42940341213/ddd-minimo-42940341213-M06.zip"
     },
     "congreso_badajoz/41293199718/ddd-audit-41293199718.zip": {
       "archivado_en": "2026-11-08T12:15:47Z",
