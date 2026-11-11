@@ -4,11 +4,11 @@
   "territory_id": "congreso_cantabria",
   "territory_name": "Congreso Cantabria",
   "edition": "2025",
-  "run_id": 42940510614,
-  "artifact_name": "ddd-state-42940510614-M06",
-  "artifact_sha256": "469d68c32e0fddd4c0779983940ad539a6ce07e6c1a2fc6e17876e01df91c0fc",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 42981422592,
+  "artifact_name": "ddd-state-42981422592-M06",
+  "artifact_sha256": "b5ebe83993d248788573f0c28a99ec06a91e7fbf452a37f34f83552f75e0188a",
+  "source_commit": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_cantabria/evidencia/generaciones_m06/42940510614.json"
+  "producer_manifest_path": "territorios/congreso_cantabria/evidencia/generaciones_m06/42981422592.json"
 }

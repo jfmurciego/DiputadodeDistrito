@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13838908298,
+      "artifact_name": "ddd-audit-42981422592",
+      "artifact_sha256": "06a4e0fb7c68889cf66f5666de153957b358608dd176302ca1b7467baacacecd",
+      "run_id": 42981422592,
+      "size_in_bytes": 4053
+    },
+    "m04": {
+      "artifact_id": 13838986576,
+      "artifact_name": "ddd-state-42981422592-M04",
+      "artifact_sha256": "6c602cbf2820c9e55774a7dde5fb18a48ca443df981165118a8d5b22183de120",
+      "run_id": 42981422592,
+      "size_in_bytes": 76680673
+    },
+    "m05": {
+      "artifact_id": 13839041980,
+      "artifact_name": "ddd-state-42981422592-M05",
+      "artifact_sha256": "d3b161c9e3cbf0496c8aec0fd611c97a91c3e95875f4c2a67251f0681dca3662",
+      "run_id": 42981422592,
+      "size_in_bytes": 77191459
+    },
+    "m06": {
+      "artifact_id": 13839625932,
+      "artifact_name": "ddd-state-42981422592-M06",
+      "artifact_sha256": "b5ebe83993d248788573f0c28a99ec06a91e7fbf452a37f34f83552f75e0188a",
+      "run_id": 42981422592,
+      "size_in_bytes": 78476178
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "ef8cb523582cb68964b89b6fe622ce1123601e2e34223a18691dd6c6667ff326",
+        "size_in_bytes": 408
+      },
+      "congreso_cantabria_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "f2a479fd49edc8a69764793b72149a21b43bdacb747cea438007fd02e4769f6b",
+        "size_in_bytes": 8760
+      },
+      "optimization_execution.json": {
+        "sha256": "722270a5004993da7436f809b340a138b9653a48dafd7ca49216926f77058148",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "a4f8ab0ab2634294842fb4be6abf5b3b9baa2ac9faed4f91c1bab09bf0b74f41",
+        "size_in_bytes": 1507
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "a4f8ab0ab2634294842fb4be6abf5b3b9baa2ac9faed4f91c1bab09bf0b74f41",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_cantabria/config/congreso_cantabria_2025.yaml",
+    "sha256": "f2fdf5894dda80ff32114d52668c0a9e250de2192d025ce6feb5c2949e59eb31"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "b29be84f0bcbd870831d475515baa0fce7f67a9212fd6c17733d3957f1d1ed31",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s199360181",
+      "generador": "ponderado",
+      "huella_resultado": "6f53f64376b1344837dac8b40eb1e041cf334c4078cf122dc8de92d7c9637287",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.009539639726914429,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.06702561409412512,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "2892f639505dfb1536469926c18fcdd813553333f06689f74787f9f6f7f76479",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
+    "edition": "2025",
+    "territory_id": "congreso_cantabria",
+    "territory_name": "Congreso Cantabria",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42981422592,
+    "workflow_sha": "d3b29437f7460641304d1cc0ad811b9cb5d599d1"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13838986576,
+      "artifact_name": "ddd-state-42981422592-M04",
+      "artifact_sha256": "6c602cbf2820c9e55774a7dde5fb18a48ca443df981165118a8d5b22183de120",
+      "run_id": 42981422592,
+      "size_in_bytes": 76680673
+    },
+    "source_manifest_sha256": "0f0dac9bf8b786f234df03db549b30f8219f724e31b728a680f88003ef6d378d",
+    "source_package_artifact": {
+      "artifact_id": 13078806193,
+      "artifact_name": "ddd-source-package-congreso_cantabria-2025-41292096436",
+      "artifact_sha256": "15cfb2b9e93cbea92b2b45a8f6dafdbd411d44cf8556fff7b221cf9f8cfbd84b",
+      "run_id": 41292096436,
+      "size_in_bytes": 75644966
+    }
+  },
+  "manifest_sha256": "560b65784044d3a3d3a328711e499e7a05becae6cd6c76df7f52ad6e261e0d45",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
