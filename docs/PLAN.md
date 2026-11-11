@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.42
+Versión: 1.0.43
 Fecha: 2026-11-11
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-80 a D-86 (legislatura del Congreso, regeneración con el motor nuevo, Las Palmas, nombre Deslinde, optimización y hoja de ruta) y T-220 a T-236
-Anterior: legacy/docs/PLAN_v1.0.41_20261111.md
+Cambios/motivo: D-87 a D-90 (Zenodo, veda del motor levantada, optimización antes del corte, semilla por código oficial) y T-237 a T-266
+Anterior: legacy/docs/PLAN_v1.0.42_20261111.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -121,6 +121,10 @@ con frase del propietario en su chat.
 - D-84. Nombre del algoritmo: «Deslinde» (delimitación reproducible de distritos uninominales). Deslinde 1.0 = trazado canónico + 10 cadenas ReCom + elección D8 + mapa vigente como candidato. No se renombra el código antes del corte.
 - D-85. Fase de optimización tras el corte y antes de la investigación: medir (tiempo, código muerto, duplicados), optimizar con mismos mapas bit a bit en la batería de los 71, objetivos medibles y retirada al archivo de las reparaciones del motor viejo.
 - D-86. Hoja de ruta de Deslinde para competir (tras la optimización): (1) paquete independiente instalable con documentación; (2) definición formal publicada (reglas, D8, semilla); (3) óptimo demostrado o cota con el resolutor exacto; (4) comparación en casos de referencia de la literatura (`redist`, GerryChain); (5) reglas generalizables a otros países; después, artículo (P60).
+- D-87. (Sustituida por D-88.) Zenodo solo con los mapas publicados y el DOI de software más adelante.
+- D-88. Zenodo: un único depósito «Deslinde 1.0.0 y mapas» cuando estén la optimización, el paquete independiente y la definición formal; hasta entonces no se deposita nada. El visor sí se publica.
+- D-89 (11-11). Se levanta la veda del motor de producción (M04, M05, `ddd_core`, GerryChain) para optimizar, con la condición de mapas (composiciones) idénticos bit a bit; puede cambiar la huella del código o del resultado si queda registrada. La optimización (D-85) se adelanta a antes del corte 5.0.0, que espera. Los distritos quedan aparcados mientras tanto: no se lanza nada nuevo sin frase del propietario.
+- D-90 (11-11). La semilla de Deslinde sale del código oficial del territorio en la tabla maestra (con su sha256), no del nombre de la carpeta. Cambio único y deliberado de los mapas: va tras las optimizaciones bit a bit y antes de regenerar las 71 y de renombrar las carpetas (T-220); su salida es la nueva referencia de «bit a bit».
 
 ### Cola vigente del motor y de las generales 2026 (10-11)
 | Id | Tarea | Estado |
@@ -165,12 +169,37 @@ con frase del propietario en su chat.
 | T-232 / T-233 | Diagnóstico de la adquisición de la batería y traza en el log | HECHA / PENDIENTE (P2) |
 | T-234 | Relevo formal (motor2 por defecto, canónico a legacy) | PENDIENTE (tras la regeneración) |
 | T-235 | Excepción insular de Las Palmas en el contrato 2026 | PENDIENTE (P2) |
-| T-236 | Actualización del plan (D-80 a D-86) | ESTA PR |
+| T-236 | Actualización del plan (D-80 a D-86) | HECHA |
+| T-237 / T-239 | Publicación por lotes en P50 y descarga solo de lo que consume | HECHAS |
+| T-238 | El informe de la 00 lee también `publicacion_visor_<run>.json` del lote | PENDIENTE (P3, con la próxima PR del informe) |
+| T-240 / T-241 / T-243 / T-245 / T-250 | Diagnósticos de la nocturna, paquetes autonómicos y electorales vivos o caducados, fuente de Andalucía | HECHOS |
+| T-242 | Discrepancia de huellas 057a/253f de Andalucía (solo lectura) | PENDIENTE (P3, tras el corte) |
+| T-244 | Catálogo de Andalucía sin el receipt independiente purgado (#713) | HECHA |
+| T-246 | «Planificar» comprueba al principio que el paquete electoral existe y falla pronto | EN_CURSO (P1) |
+| T-247 | Tests de estado vivo (dashboard por linaje, #718) | HECHA |
+| T-248 | README de la 5.0.0 | PENDIENTE (P2, se fusiona al final) |
+| T-249 | Datos abiertos por linaje M06/M08 y guardia del INDEX (#717) | HECHA |
+| T-251 | Puerta de descarga: 503 de cuota (reintento con espera) frente a caducado | EN_CURSO (P2) |
+| T-252 | Check «Estado vivo» tras commits de robot en `main` (#720) | HECHA |
+| T-253 | Tests que leen estado vivo a la raíz congelada | PENDIENTE (tras el corte) |
+| T-254 | Medición de Deslinde: tiempo por fase, código muerto, duplicados (#721) | HECHA |
+| T-255 | Definición formal de Deslinde 1.0 (#719) | HECHA |
+| T-256 | Optimización 1: poda con constantes precalculadas en el exhaustivo (#722, bit a bit) | HECHA |
+| T-257 | Paquete independiente instalable de Deslinde (D-86.1) | EN PAUSA (tras T-256 a T-265) |
+| T-258 | Un único vigente (el publicado en el visor) en competición y aceptación; canónico de referencia el del run (P30) | PENDIENTE (P2) |
+| T-259 | Campo para la excepción de D-66 (motivo, máx. 2) | PENDIENTE (P2) |
+| T-260 | El exhaustivo elige por la función A y no por D8: medir si cambia alguna selección | PENDIENTE (P3, solo si cambia alguna) |
+| T-261 | Optimización 2: no intentar el exhaustivo cuando una cota demuestra que no puede acabar | EN_CURSO |
+| T-262 | Optimización 3: árbol ponderado y núcleo de las cadenas más baratos (mismo orden del RNG) | PENDIENTE |
+| T-263 | Código muerto: M04 v745–v754 y M05 v740 a legacy (#723; cambia la huella M04 de checkpoints) | REVISIÓN |
+| T-264 / T-264b | Puentes del contrato que el motor no leía: diagnóstico y prueba (mismos mapas en 4 territorios); parche mínimo | EN_CURSO (parche tras T-261) |
+| T-265 | Semilla por código oficial (D-90) | PENDIENTE (tras T-261 a T-264) |
+| T-266 | Actualización del plan (D-87 a D-90) | ESTA PR |
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219 y T-236. El planificador ha dado T-194 a T-236 (10 y 11-11). Siguiente libre para el planificador: T-237.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236 y T-266. El planificador ha dado T-194 a T-266 (10 y 11-11). Siguiente libre para el planificador: T-267.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
