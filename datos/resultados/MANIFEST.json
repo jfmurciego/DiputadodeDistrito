@@ -1351,6 +1351,40 @@
    "sha256_csv": "b192b03a04030927927e8aa3ee408614cdfd018b077a2e8a7baa73d04e0682c1",
    "ruta": "datos/resultados/runs/congreso_santa_cruz_de_tenerife_43020203637_partidos.csv"
   },
+  "congreso_segovia/43029353804": {
+   "territorio": "congreso_segovia",
+   "run_id": "43029353804",
+   "run_territorial": "43024836898",
+   "sha256_composicion": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "0a2dc910af6815955a53414328a838ed62820eea545f686d43852e7fe1c7393c",
+   "ruta": "datos/resultados/runs/congreso_segovia_43029353804_partidos.csv"
+  },
+  "congreso_sevilla/43029566265": {
+   "territorio": "congreso_sevilla",
+   "run_id": "43029566265",
+   "run_territorial": "43024845069",
+   "sha256_composicion": "effc8421a6233cf0ee97453f49a1df5df45ddb9009c8882512de3f0fbbbbf8a5",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "33afc8b079558f64a144edb600dd168251f80d141b2fd55eeefc248c198abd97",
+   "ruta": "datos/resultados/runs/congreso_sevilla_43029566265_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0629,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_sevilla_43029566265_desajustes.json",
+    "sha256": "2935c77f15136288b81ab8e64606b3001a9b1be6de0d0e3d2f2eb65b4e59800b"
+   }
+  },
+  "congreso_soria/43029280043": {
+   "territorio": "congreso_soria",
+   "run_id": "43029280043",
+   "run_territorial": "43024852774",
+   "sha256_composicion": "1921c37db90159bfbd5df9a8a025df33688ea1221515ecf2607147406f78fcac",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "26e9bc78dec42bede08628d29e181d19135b116c9a8d1ea6e57c88851a3fcc65",
+   "ruta": "datos/resultados/runs/congreso_soria_43029280043_partidos.csv"
+  },
   "congreso_tarragona/42514991952": {
    "territorio": "congreso_tarragona",
    "run_id": "42514991952",
@@ -1359,6 +1393,24 @@
    "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
    "sha256_csv": "ab706bd92a2b153e45fcc2ab7690f1c32f3e6f7f717226cc5adc62907133cae8",
    "ruta": "datos/resultados/runs/congreso_tarragona_42514991952_partidos.csv"
+  },
+  "congreso_tarragona/43029795470": {
+   "territorio": "congreso_tarragona",
+   "run_id": "43029795470",
+   "run_territorial": "43024860841",
+   "sha256_composicion": "87969e4784e4074e705d02dda271345a61f681e48f7070706d14b66caa11f3cc",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "9a934f7f305662eba50d5116f5964252025b846685274aaf81168311a807321c",
+   "ruta": "datos/resultados/runs/congreso_tarragona_43029795470_partidos.csv"
+  },
+  "congreso_teruel/43029189395": {
+   "territorio": "congreso_teruel",
+   "run_id": "43029189395",
+   "run_territorial": "43024869107",
+   "sha256_composicion": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "85e32b6168ce5a7b08a0f9654f7cd061727992b838183ccb9bf05814eb2ea593",
+   "ruta": "datos/resultados/runs/congreso_teruel_43029189395_partidos.csv"
   },
   "congreso_valencia/42525625044": {
    "territorio": "congreso_valencia",

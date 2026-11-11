@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13860355098,
+      "artifact_name": "ddd-audit-43024852774",
+      "artifact_sha256": "d6778647cc939282424c32c3839db440569777d32e4dddf4ede89c92acb78895",
+      "run_id": 43024852774,
+      "size_in_bytes": 2487
+    },
+    "m04": {
+      "artifact_id": 13859255451,
+      "artifact_name": "ddd-state-43024852774-M04",
+      "artifact_sha256": "f783f98dfeeb8d4cd96b6c64fbabc9688e2c118a915ae010bcbb7ecc70f99a2f",
+      "run_id": 43024852774,
+      "size_in_bytes": 75638264
+    },
+    "m05": {
+      "artifact_id": 13857986989,
+      "artifact_name": "ddd-state-43024852774-M05",
+      "artifact_sha256": "0f434dc8a4f146b6cd3269772d1f04e0331e6b18aa8b4dbdcb0e298f5682ab8f",
+      "run_id": 43024852774,
+      "size_in_bytes": 75945508
+    },
+    "m06": {
+      "artifact_id": 13858161005,
+      "artifact_name": "ddd-state-43024852774-M06",
+      "artifact_sha256": "e81af842faf145dc1c257b54365f7afa12ace2beb76edfa04eef482f89984651",
+      "run_id": 43024852774,
+      "size_in_bytes": 76664480
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "f155498108d137241348f32c6cd6ecf82cf2dc3dd2c5e0bd2ba2885a298e82e0",
+        "size_in_bytes": 372
+      },
+      "congreso_soria_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "2a72ba7b5e28b082f0f4c3361fef2d43de8fcf2fe2754993979574f447f30c8f",
+        "size_in_bytes": 1665
+      },
+      "optimization_execution.json": {
+        "sha256": "e95a2d5001293ade93028d7145e399e375e2e49f68339125ca5cf3206edc6734",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "d0d3ad4875cb05dde43cfb717eeb36dc5ac839124b1cb5e9c9c006072079a10d",
+        "size_in_bytes": 1395
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "d0d3ad4875cb05dde43cfb717eeb36dc5ac839124b1cb5e9c9c006072079a10d",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_soria/config/congreso_soria_2025.yaml",
+    "sha256": "b5c3ed7c0873b93ee632b5698af94869b17d3ef90c94be61bf2aeff40ccee245"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "e9d97d30581170771567bb87a2cbf7819ad68f8a2b9c9563cb35905bdd7c4fec",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_CANONICO",
+      "funcion": "D8",
+      "ganador": "canonico",
+      "generador": "canonico",
+      "huella_resultado": "707b57f2b8d504e58c19d864762968e965f6d442a39bf88b39cae8b14b70f13b",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "4c5e4a3213421634bcdd7e4fa962b3d7a19991ea6e23e1e990800574076097f8",
+      "rehacer_m06": false
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+    "edition": "2025",
+    "territory_id": "congreso_soria",
+    "territory_name": "Congreso Soria",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43024852774,
+    "workflow_sha": "6ad5b525a72328c916f98ca06ee6c6035293e440"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13859255451,
+      "artifact_name": "ddd-state-43024852774-M04",
+      "artifact_sha256": "f783f98dfeeb8d4cd96b6c64fbabc9688e2c118a915ae010bcbb7ecc70f99a2f",
+      "run_id": 43024852774,
+      "size_in_bytes": 75638264
+    },
+    "source_manifest_sha256": "e3630af7d85cb1db5ed207171addbda6e7214edfe55eff7f7ec88af0f5ece8a2",
+    "source_package_artifact": {
+      "artifact_id": 13056576925,
+      "artifact_name": "ddd-source-package-congreso_soria-2025-41235794328",
+      "artifact_sha256": "ae9e6bf66087037801fab843bb193f22f08b11f5e56103ce824d10eb2815b9f8",
+      "run_id": 41235794328,
+      "size_in_bytes": 75014487
+    }
+  },
+  "manifest_sha256": "db903145a1624755790e44afdcc8891ab3e930419be9f80e6eb19173fbb7aeba",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

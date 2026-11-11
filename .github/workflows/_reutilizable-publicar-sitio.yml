@@ -1,6 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.13.0
+# VERSIÓN: 3.14.0
+# CAMBIOS 3.14.0: T-239, «Recuperar ejecución solicitada» baja SOLO lo que la publicación lee (ddd-audit, ddd-audit-electoral,
+#   ddd-decision, ddd-full-run-manifest y ddd-state M06/M08 del run; nunca M01-M05, paquete fuente ni cachés) y hasta 6 runs a
+#   la vez. Si la selección falla o no trae production_status, decision, manifest, contigüidad y producto M06/M08, ese run
+#   baja ddd-* completo (como 3.13.0).
+#   Todo o nada intacto: un run que no descarga rechaza el lote antes de escribir. Línea `DESCARGA run= modo= segundos= mb=`.
+# MOTIVO 3.14.0: la P50 43013776158 (30 runs) llevaba 40 min descargando ~640 MB por run en serie.
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.13.0_20261111.yml
 # CAMBIOS 3.13.0: T-237, publicación por lotes: `production_run_id` admite una lista (espacios o comas). Se normaliza con
 #   `registro_publicaciones_visor.py parse-run-ids` (ids numéricos, repetidos rechazados, scenario_id solo con uno) y TODOS
 #   los runs se descargan, acreditan y describen antes de crear ningún blob: si uno falla no se registra ninguno y el error
@@ -240,16 +247,44 @@ jobs:
         run: |
           set -euo pipefail
           source .ddd-publication/lote.sh
-          rm -rf /tmp/production && mkdir -p /tmp/production
-          for run in "${LOTE[@]}"; do
-            root="$(raiz_run "$run")"; mkdir -p "$root"
-            gh run download "$run" --pattern 'ddd-*' --dir "$root" || {
-              echo "::error::LOTE_RECHAZADO: el run $run no se pudo descargar; no se registra ninguno."; exit 43;
-            }
-            test -n "$(find "$root" -type f -print -quit)" || {
-              echo "::error::La ejecución solicitada $run no contiene artefactos DDD; no se registra ninguna."; exit 43;
-            }
+          rm -rf /tmp/production .ddd-publication/descargas && mkdir -p /tmp/production .ddd-publication/descargas
+          # T-239: solo los artefactos que leen la acreditación y describe-production; hasta 6 runs a la vez.
+          cat > .ddd-publication/descargar_run.sh <<'SH'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          source .ddd-publication/lote.sh
+          run="$1"; root="$(raiz_run "$run")"; inicio="$(date +%s)"; modo=selectiva
+          mkdir -p "$root"
+          pats=()
+          for p in "ddd-audit-$run*" "ddd-audit-electoral-$run*" "ddd-decision-$run*" "ddd-full-run-manifest-$run*" "ddd-state-$run-M06*" "ddd-state-$run-M08*"; do
+            pats+=(--pattern "$p")
           done
+          completa() { [[ -n "$(find "$root" -name "$1" -print -quit)" ]]; }
+          if ! gh run download "$run" "${pats[@]}" --dir "$root" || ! completa production_status.json || ! completa decision.json \
+            || ! completa manifest.json || ! completa '*_contiguedad_geometrica.json' \
+            || [[ -z "$(find "$root" \( -name '*_m06_distritos.geojson.zip' -o -name '*_m08_distritos_resultados.geojson.zip' \) -print -quit)" ]]; then
+            echo "::warning::$run: la descarga selectiva falló o no trae estado, decisión, manifiesto, auditoría y producto; descarga completa ddd-*"
+            modo=completa
+            rm -rf "$root"; mkdir -p "$root"
+            gh run download "$run" --pattern 'ddd-*' --dir "$root" || { echo "el run $run no se pudo descargar" > ".ddd-publication/descargas/$run.fallo"; exit 1; }
+          fi
+          if [[ -z "$(find "$root" -type f -print -quit)" ]]; then
+            echo "la ejecución $run no contiene artefactos DDD" > ".ddd-publication/descargas/$run.fallo"; exit 1
+          fi
+          echo "DESCARGA run=$run modo=$modo segundos=$(( $(date +%s) - inicio )) mb=$(du -sm "$root" | cut -f1)"
+          touch ".ddd-publication/descargas/$run.ok"
+          SH
+          chmod +x .ddd-publication/descargar_run.sh
+          printf '%s\n' "${LOTE[@]}" | xargs -P "${DDD_DESCARGAS_PARALELAS:-6}" -n 1 .ddd-publication/descargar_run.sh || true
+          fallos=()
+          for run in "${LOTE[@]}"; do
+            if [[ ! -f ".ddd-publication/descargas/$run.ok" ]]; then
+              if [[ -f ".ddd-publication/descargas/$run.fallo" ]]; then fallos+=("$(cat ".ddd-publication/descargas/$run.fallo")"); else fallos+=("el run $run no terminó la descarga"); fi
+            fi
+          done
+          if (( ${#fallos[@]} > 0 )); then
+            printf '::error::LOTE_RECHAZADO: %s; no se registra ninguno.\n' "${fallos[@]}"; exit 43
+          fi
 
       - name: Acreditar identidad de la ejecución descargada
         if: ${{ inputs.production_run_id != '' }}

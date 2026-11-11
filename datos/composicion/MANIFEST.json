@@ -840,6 +840,20 @@
    "sha256_csv": "30c46091c7e5d4ab8be266ed08c3ee33bb9c11cff7032cca6b354298d2f55ff2",
    "ruta": "datos/composicion/runs/cantabria_42707820760.csv"
   },
+  "cantabria/43025633460": {
+   "territorio": "cantabria",
+   "run_id": "43025633460",
+   "secciones": 460,
+   "sha256_csv": "bc206921da118aaea961c59a8f7998aef481068682abe495c571350481f927b4",
+   "ruta": "datos/composicion/runs/cantabria_43025633460.csv"
+  },
+  "castilla_la_mancha/43025652192": {
+   "territorio": "castilla_la_mancha",
+   "run_id": "43025652192",
+   "secciones": 1954,
+   "sha256_csv": "9d5be64bb18d52f743a082914b1bf14ce280f54b0b2d8494ca26bf559ac45842",
+   "ruta": "datos/composicion/runs/castilla_la_mancha_43025652192.csv"
+  },
   "castilla_y_leon/42497104110": {
    "territorio": "castilla_y_leon",
    "run_id": "42497104110",
@@ -854,12 +868,33 @@
    "sha256_csv": "ed986edc77d718456a2904d43aaddbdd380e969789e673758af5ba3deeb81dce",
    "ruta": "datos/composicion/runs/castilla_y_leon_42521090842.csv"
   },
+  "castilla_y_leon/43025642604": {
+   "territorio": "castilla_y_leon",
+   "run_id": "43025642604",
+   "secciones": 3506,
+   "sha256_csv": "4754914e4e5e55199c77a5f67705900927ebead6350c1c888ac799d05d423ea4",
+   "ruta": "datos/composicion/runs/castilla_y_leon_43025642604.csv"
+  },
+  "cataluna/43025661789": {
+   "territorio": "cataluna",
+   "run_id": "43025661789",
+   "secciones": 5117,
+   "sha256_csv": "9397a68ed753b8b11655efa6547236e10602f7b02ac9210e8ff62e39507c2cd9",
+   "ruta": "datos/composicion/runs/cataluna_43025661789.csv"
+  },
   "ceuta/42503542766": {
    "territorio": "ceuta",
    "run_id": "42503542766",
    "secciones": 56,
    "sha256_csv": "7caceb283fc2a2f61bc4904eb363411459386c40fb80b5df44140871c89c2795",
    "ruta": "datos/composicion/runs/ceuta_42503542766.csv"
+  },
+  "comunidad_valenciana/43025671156": {
+   "territorio": "comunidad_valenciana",
+   "run_id": "43025671156",
+   "secciones": 3503,
+   "sha256_csv": "dc9f70b5d2e63c1a2055c8bace703f13109b6bb500cc1a2720dc040da5ee580b",
+   "ruta": "datos/composicion/runs/comunidad_valenciana_43025671156.csv"
   },
   "congreso350_madrid/42588623702": {
    "territorio": "congreso350_madrid",
@@ -1407,6 +1442,13 @@
    "sha256_csv": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
    "ruta": "datos/composicion/runs/congreso_segovia_42940515676.csv"
   },
+  "congreso_segovia/43024836898": {
+   "territorio": "congreso_segovia",
+   "run_id": "43024836898",
+   "secciones": 276,
+   "sha256_csv": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
+   "ruta": "datos/composicion/runs/congreso_segovia_43024836898.csv"
+  },
   "congreso_sevilla/42940520877": {
    "territorio": "congreso_sevilla",
    "run_id": "42940520877",
@@ -1414,12 +1456,26 @@
    "sha256_csv": "effc8421a6233cf0ee97453f49a1df5df45ddb9009c8882512de3f0fbbbbf8a5",
    "ruta": "datos/composicion/runs/congreso_sevilla_42940520877.csv"
   },
+  "congreso_sevilla/43024845069": {
+   "territorio": "congreso_sevilla",
+   "run_id": "43024845069",
+   "secciones": 1364,
+   "sha256_csv": "effc8421a6233cf0ee97453f49a1df5df45ddb9009c8882512de3f0fbbbbf8a5",
+   "ruta": "datos/composicion/runs/congreso_sevilla_43024845069.csv"
+  },
   "congreso_soria/42940525976": {
    "territorio": "congreso_soria",
    "run_id": "42940525976",
    "secciones": 216,
    "sha256_csv": "1921c37db90159bfbd5df9a8a025df33688ea1221515ecf2607147406f78fcac",
    "ruta": "datos/composicion/runs/congreso_soria_42940525976.csv"
+  },
+  "congreso_soria/43024852774": {
+   "territorio": "congreso_soria",
+   "run_id": "43024852774",
+   "secciones": 216,
+   "sha256_csv": "1921c37db90159bfbd5df9a8a025df33688ea1221515ecf2607147406f78fcac",
+   "ruta": "datos/composicion/runs/congreso_soria_43024852774.csv"
   },
   "congreso_tarragona/42514991952": {
    "territorio": "congreso_tarragona",
@@ -1435,6 +1491,13 @@
    "sha256_csv": "87969e4784e4074e705d02dda271345a61f681e48f7070706d14b66caa11f3cc",
    "ruta": "datos/composicion/runs/congreso_tarragona_42940531574.csv"
   },
+  "congreso_tarragona/43024860841": {
+   "territorio": "congreso_tarragona",
+   "run_id": "43024860841",
+   "secciones": 542,
+   "sha256_csv": "87969e4784e4074e705d02dda271345a61f681e48f7070706d14b66caa11f3cc",
+   "ruta": "datos/composicion/runs/congreso_tarragona_43024860841.csv"
+  },
   "congreso_teruel/42940536681": {
    "territorio": "congreso_teruel",
    "run_id": "42940536681",
@@ -1442,12 +1505,26 @@
    "sha256_csv": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
    "ruta": "datos/composicion/runs/congreso_teruel_42940536681.csv"
   },
+  "congreso_teruel/43024869107": {
+   "territorio": "congreso_teruel",
+   "run_id": "43024869107",
+   "secciones": 284,
+   "sha256_csv": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
+   "ruta": "datos/composicion/runs/congreso_teruel_43024869107.csv"
+  },
   "congreso_toledo/42940542275": {
    "territorio": "congreso_toledo",
    "run_id": "42940542275",
    "secciones": 530,
    "sha256_csv": "ecfc662b417eb3d154aa3895abfcb79215ed749e9db3054883df579d608e9d42",
    "ruta": "datos/composicion/runs/congreso_toledo_42940542275.csv"
+  },
+  "congreso_toledo/43034928684": {
+   "territorio": "congreso_toledo",
+   "run_id": "43034928684",
+   "secciones": 530,
+   "sha256_csv": "ecfc662b417eb3d154aa3895abfcb79215ed749e9db3054883df579d608e9d42",
+   "ruta": "datos/composicion/runs/congreso_toledo_43034928684.csv"
   },
   "congreso_valencia/42525625044": {
    "territorio": "congreso_valencia",
@@ -1463,12 +1540,26 @@
    "sha256_csv": "c0f2f2200a5d11c26d7925d5ccd0db28e157343d700d3c20a761e411bfd360a3",
    "ruta": "datos/composicion/runs/congreso_valencia_42940547803.csv"
   },
+  "congreso_valencia/43034939625": {
+   "territorio": "congreso_valencia",
+   "run_id": "43034939625",
+   "secciones": 1823,
+   "sha256_csv": "c0f2f2200a5d11c26d7925d5ccd0db28e157343d700d3c20a761e411bfd360a3",
+   "ruta": "datos/composicion/runs/congreso_valencia_43034939625.csv"
+  },
   "congreso_valladolid/42940553251": {
    "territorio": "congreso_valladolid",
    "run_id": "42940553251",
    "secciones": 565,
    "sha256_csv": "fa9ecff7083ccd1fa4b78d7f690a165318c2ad68f500045e3328165b344604f3",
    "ruta": "datos/composicion/runs/congreso_valladolid_42940553251.csv"
+  },
+  "congreso_valladolid/43034949749": {
+   "territorio": "congreso_valladolid",
+   "run_id": "43034949749",
+   "secciones": 565,
+   "sha256_csv": "fa9ecff7083ccd1fa4b78d7f690a165318c2ad68f500045e3328165b344604f3",
+   "ruta": "datos/composicion/runs/congreso_valladolid_43034949749.csv"
   },
   "congreso_vizcaya/42940558507": {
    "territorio": "congreso_vizcaya",
@@ -1477,6 +1568,13 @@
    "sha256_csv": "41733a0bfbae1e1a1fde38c2e019526388a8256f1069decbb62af828e92e143c",
    "ruta": "datos/composicion/runs/congreso_vizcaya_42940558507.csv"
   },
+  "congreso_vizcaya/43034959389": {
+   "territorio": "congreso_vizcaya",
+   "run_id": "43034959389",
+   "secciones": 933,
+   "sha256_csv": "41733a0bfbae1e1a1fde38c2e019526388a8256f1069decbb62af828e92e143c",
+   "ruta": "datos/composicion/runs/congreso_vizcaya_43034959389.csv"
+  },
   "congreso_zamora/42940563499": {
    "territorio": "congreso_zamora",
    "run_id": "42940563499",
@@ -1484,12 +1582,26 @@
    "sha256_csv": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
    "ruta": "datos/composicion/runs/congreso_zamora_42940563499.csv"
   },
+  "congreso_zamora/43034969907": {
+   "territorio": "congreso_zamora",
+   "run_id": "43034969907",
+   "secciones": 319,
+   "sha256_csv": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
+   "ruta": "datos/composicion/runs/congreso_zamora_43034969907.csv"
+  },
   "congreso_zaragoza/42940568653": {
    "territorio": "congreso_zaragoza",
    "run_id": "42940568653",
    "secciones": 884,
    "sha256_csv": "d5641387f11681c21e791140c98c0eb373aa1b50e6464e1bb9f0efd989d88ef9",
    "ruta": "datos/composicion/runs/congreso_zaragoza_42940568653.csv"
+  },
+  "congreso_zaragoza/43034979460": {
+   "territorio": "congreso_zaragoza",
+   "run_id": "43034979460",
+   "secciones": 884,
+   "sha256_csv": "d5641387f11681c21e791140c98c0eb373aa1b50e6464e1bb9f0efd989d88ef9",
+   "ruta": "datos/composicion/runs/congreso_zaragoza_43034979460.csv"
   },
   "extremadura/42720735134": {
    "territorio": "extremadura",

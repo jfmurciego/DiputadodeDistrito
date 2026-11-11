@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13859243113,
+      "artifact_name": "ddd-audit-43025671156",
+      "artifact_sha256": "7b4affd181b7886a44d41ae9a373e6510c26edb1f2447751e361e1a4cb249dfb",
+      "run_id": 43025671156,
+      "size_in_bytes": 25709
+    },
+    "m04": {
+      "artifact_id": 13858811356,
+      "artifact_name": "ddd-state-43025671156-M04",
+      "artifact_sha256": "0ff5ce80c84603e1fb781591da4bc179659a87f570330c26eac5499f1a82ea3f",
+      "run_id": 43025671156,
+      "size_in_bytes": 90532047
+    },
+    "m05": {
+      "artifact_id": 13860810138,
+      "artifact_name": "ddd-state-43025671156-M05",
+      "artifact_sha256": "dc3eadea722852e4da3c147e439ada7b22d4a61d0933889e0de10edde9e4131e",
+      "run_id": 43025671156,
+      "size_in_bytes": 93582421
+    },
+    "m06": {
+      "artifact_id": 13860176315,
+      "artifact_name": "ddd-state-43025671156-M06",
+      "artifact_sha256": "fadd4fd51471e88dd62a31a53aacef7e735d2ab0dc74f5a8aad4ca73fc365c88",
+      "run_id": 43025671156,
+      "size_in_bytes": 101713766
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "2f2332ba1c9c297cc9bb4e463c68bc99ce91b51fc0d806a04c24cc614311a93b",
+        "size_in_bytes": 423
+      },
+      "comunidad_valenciana_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "fa0c4867a16029fc94531a7ddae2e5720d0f39f872e35764d60ea7b4bdc69e95",
+        "size_in_bytes": 221209
+      },
+      "optimization_execution.json": {
+        "sha256": "dd927597aaa522c815f97e74207065a3559449f14c739a153a388de0268e0afe",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "dc4424f872f0b60517f6d8ddd9d24de1dc68cbdb81f663d6ee92d5e27d5f3321",
+        "size_in_bytes": 1528
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "dc4424f872f0b60517f6d8ddd9d24de1dc68cbdb81f663d6ee92d5e27d5f3321",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/comunidad_valenciana/config/comunidad_valenciana_2025.yaml",
+    "sha256": "07f4ced463f2ce7ab9abf2f38a08e124433384b87f0607cf711316b0c63301eb"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "72846ff15dfbdf762bdd953d4a0c5af95a13d732c2e82d9486c1f97d7c04d539",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1283741415",
+      "generador": "ponderado",
+      "huella_resultado": "0ce019bf7c6c9195e07732b8fdaba0ed2f423d135b35ebd1fa33266578287738",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.7467836229282072,
+          "fuera_tolerancia": 41,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.7099067423668018,
+          "fuera_tolerancia": 19,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "6d5b77aac4d439a5d8ef12f1ab6e3202c968c3b23eea01e473501a8fa06d68cf",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+    "edition": "2025",
+    "territory_id": "comunidad_valenciana",
+    "territory_name": "Comunidad Valenciana",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43025671156,
+    "workflow_sha": "6ad5b525a72328c916f98ca06ee6c6035293e440"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13858811356,
+      "artifact_name": "ddd-state-43025671156-M04",
+      "artifact_sha256": "0ff5ce80c84603e1fb781591da4bc179659a87f570330c26eac5499f1a82ea3f",
+      "run_id": 43025671156,
+      "size_in_bytes": 90532047
+    },
+    "source_manifest_sha256": "07203c2ce63597230d43ae7a38fe281e1ab2d0a60ffe937bce6029982e5b1a4b",
+    "source_package_artifact": {
+      "artifact_id": 12936526235,
+      "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40956462986",
+      "artifact_sha256": "1aa62c171c5bb073a7941dd1c0b31f9f4c8155aa8153c027da9622690a0b2c2d",
+      "run_id": 40956462986,
+      "size_in_bytes": 84350164
+    }
+  },
+  "manifest_sha256": "ffb259adb347e2e33235238ac52540d53eba0df04163c554b14844ba77ccb450",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

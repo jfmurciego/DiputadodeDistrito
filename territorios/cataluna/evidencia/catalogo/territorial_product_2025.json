@@ -4,11 +4,11 @@
   "territory_id": "cataluna",
   "territory_name": "Cataluña",
   "edition": "2025",
-  "run_id": 41062562553,
-  "artifact_name": "ddd-state-41062562553-M06",
-  "artifact_sha256": "f8917865b064a2711b220b0a406f267d1cacb51d88e38cb69d6f734e68bf6ecb",
-  "source_commit": "46609e3774f1555a6d5f54da44e618bd45e29e80",
+  "run_id": 43025661789,
+  "artifact_name": "ddd-state-43025661789-M06",
+  "artifact_sha256": "60e97d14b98f8bee0aed208b90e6a484c31e19673a1f48155a3cf092c3250e7f",
+  "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/cataluna/evidencia/generaciones_m06/41062562553.json"
+  "producer_manifest_path": "territorios/cataluna/evidencia/generaciones_m06/43025661789.json"
 }

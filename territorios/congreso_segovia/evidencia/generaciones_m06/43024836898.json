@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13859046672,
+      "artifact_name": "ddd-audit-43024836898",
+      "artifact_sha256": "91f206b19d7881784d74d00d61787966df7211b715754682c79a3fb1594e6414",
+      "run_id": 43024836898,
+      "size_in_bytes": 2490
+    },
+    "m04": {
+      "artifact_id": 13857661664,
+      "artifact_name": "ddd-state-43024836898-M04",
+      "artifact_sha256": "a41927a545d56807ae5832f929dbfb086c50d0d8af3436e868f00cb7e00315b9",
+      "run_id": 43024836898,
+      "size_in_bytes": 76149960
+    },
+    "m05": {
+      "artifact_id": 13857374130,
+      "artifact_name": "ddd-state-43024836898-M05",
+      "artifact_sha256": "ab90c15e66d698a14dc68052c7741f4894e3a033eb6e551bb14a6e0b2c5c2625",
+      "run_id": 43024836898,
+      "size_in_bytes": 76556230
+    },
+    "m06": {
+      "artifact_id": 13857947023,
+      "artifact_name": "ddd-state-43024836898-M06",
+      "artifact_sha256": "6aa0980e4a2999b05eece351086a3bd5ee61cc849517036073d74e532788b09d",
+      "run_id": 43024836898,
+      "size_in_bytes": 77494380
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "4863161f2d2cfe9b0971239d96529729f8d0138c01870ed50f7fb6f4103e1c97",
+        "size_in_bytes": 374
+      },
+      "congreso_segovia_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "81cb27e4309ac32bed4f614b47c2c367b5e505ec66604d876e4e2908e35fb0fd",
+        "size_in_bytes": 1674
+      },
+      "optimization_execution.json": {
+        "sha256": "78bee04336b40880368beb2ac3d913e0977baba15e30af79211038d6c1453522",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "8d2962ca7d9096369b1227f82a4661e84c5fceb80f1216434c460e5e47d36aa6",
+        "size_in_bytes": 1403
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "8d2962ca7d9096369b1227f82a4661e84c5fceb80f1216434c460e5e47d36aa6",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_segovia/config/congreso_segovia_2025.yaml",
+    "sha256": "26f7e7a8868f3455c09d3f692f54a1a87798f3e38057eea7431479e2e587ed1e"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "2fba560ea6f8b5e994f6b2af2dfd53a4fcc6c46242ac4f5efd19c9c295506d3e",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_CANONICO",
+      "funcion": "D8",
+      "ganador": "canonico",
+      "generador": "canonico",
+      "huella_resultado": "9b79ba8c1714c71e7d00a1b5404ca52b436f387dcfded9348be2cd1186847e25",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "ddc243504ae38b6d973ea8b5b0f29e80c8cf49b7874c222bfadb96763a34dbe9",
+      "rehacer_m06": false
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+    "edition": "2025",
+    "territory_id": "congreso_segovia",
+    "territory_name": "Congreso Segovia",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43024836898,
+    "workflow_sha": "6ad5b525a72328c916f98ca06ee6c6035293e440"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13857661664,
+      "artifact_name": "ddd-state-43024836898-M04",
+      "artifact_sha256": "a41927a545d56807ae5832f929dbfb086c50d0d8af3436e868f00cb7e00315b9",
+      "run_id": 43024836898,
+      "size_in_bytes": 76149960
+    },
+    "source_manifest_sha256": "66415947dad64a7d5f948e2f157c7f965799d297d983dfe5d97474e29e1aa73d",
+    "source_package_artifact": {
+      "artifact_id": 13056651478,
+      "artifact_name": "ddd-source-package-congreso_segovia-2025-41235620157",
+      "artifact_sha256": "69095d26e3c0e80f7156162c014d97b8c7b99f5f60475c30d5caf9350359c40f",
+      "run_id": 41235620157,
+      "size_in_bytes": 75326136
+    }
+  },
+  "manifest_sha256": "c9ea2b378fe3acb38cf266bd112eb92174703f55fa36482d6e48335ba9076a42",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

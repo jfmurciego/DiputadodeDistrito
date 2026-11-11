@@ -4,9 +4,9 @@
   "territory_id": "congreso_teruel",
   "territory_name": "Congreso Teruel",
   "edition": "2025",
-  "run_id": 41250394074,
-  "artifact_name": "ddd-state-41250394074-M08",
-  "artifact_sha256": "dd6eaad399c3d363d6ef20d96536cb41afa8d0cbe9e2baacf283f98312b95c50",
-  "source_commit": "faf9a73a35108a802d39019d9d1554d4c731f462",
+  "run_id": 43029189395,
+  "artifact_name": "ddd-state-43029189395-M08",
+  "artifact_sha256": "1d98bf8cf8fa4f4d444242aef0a5aed1d6ce0cd8bed7bca6bbf4f1d04c93da07",
+  "source_commit": "64720a72b8ec0dcc84e355edf6664a6ef17936b8",
   "stage": "M08"
 }

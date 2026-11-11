@@ -4,9 +4,9 @@
   "territory_id": "congreso_tarragona",
   "territory_name": "Congreso Tarragona",
   "edition": "2025",
-  "run_id": 42514991952,
-  "artifact_name": "ddd-state-42514991952-M08",
-  "artifact_sha256": "8b329a3a0fc49df16cb2a583c629290049a5329a18d366bcb970423621a5ace4",
-  "source_commit": "d9b783f30e7fa6d9f83d62b85ae3035f94f1858a",
+  "run_id": 43029795470,
+  "artifact_name": "ddd-state-43029795470-M08",
+  "artifact_sha256": "5d14226008ee9bdb6f22475efcbac89e0104b7235712cb1c265d6516e6026289",
+  "source_commit": "91a49a8ec66c5b59ecfbabd884258eb6c9db0a00",
   "stage": "M08"
 }

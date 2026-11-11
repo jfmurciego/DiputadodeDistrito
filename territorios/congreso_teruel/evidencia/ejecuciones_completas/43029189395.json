@@ -1,0 +1,92 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "congreso_teruel",
+  "territory_name": "Congreso Teruel",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 43029189395,
+  "source_sha": "64720a72b8ec0dcc84e355edf6664a6ef17936b8",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "COMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": 43024869107
+  },
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41235966858,
+      "artifact": "ddd-source-package-congreso_teruel-2025-41235966858",
+      "artifact_digest": "sha256:bf78bc22524148b7cd586655cedc3e5550dbd2dcda4cd57ccfbb79f7427805af",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 43024869107,
+      "artifact": "ddd-state-43024869107-M06",
+      "artifact_digest": "sha256:0b0e529d55df5ff6993637368185dd08189e3be2d46c59db7035e8c49a1c5cba",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41235977145,
+      "artifact": "ddd-electoral-package-congreso_teruel-2025-41235977145",
+      "artifact_digest": "sha256:cdfb536ed4368d379dbf6374a0c92ea7468a87006710a51c69be2416fe8089dc",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 43029189395,
+      "artifact": "ddd-state-43029189395-M08",
+      "artifact_digest": "sha256:1d98bf8cf8fa4f4d444242aef0a5aed1d6ce0cd8bed7bca6bbf4f1d04c93da07",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-11T13:45:37.287169+00:00"
+}

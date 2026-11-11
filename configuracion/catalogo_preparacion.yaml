@@ -213,8 +213,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42707820760
-        stage: M06
+        run_id: 43033094596
+        stage: M08
       preparation_evidence:
         run_id: 42707820760
         artifact_name: ddd-source-package-cantabria-2025-42707820760
@@ -252,7 +252,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40979540141
+        run_id: 43031565452
         stage: M08
       preparation_evidence:
         run_id: 40690624792
@@ -297,7 +297,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42531122768
+        run_id: 43030986959
         stage: M08
       preparation_evidence:
         run_id: 42521090842
@@ -330,8 +330,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41062562553
-        stage: M08
+        run_id: 43025661789
+        stage: M06
       preparation_evidence:
         run_id: 40946901555
         artifact_name: ddd-source-package-cataluna-2025-40946901555
@@ -346,8 +346,8 @@ territories:
         section_year: 2024
         source_commit: 091d40cef648abcc9319af1f6dc3488a5abdc556
       evidence:
-        electoral_source: territorios/cataluna/evidencia/fuentes_electorales/2025/4339f10519a3a10cf22b99dfe1b3fd25565c97058333c1284234d760aee393b5/36789340482/receipt.json
-        prepared_source_pair: territorios/cataluna/evidencia/pares_fuentes/2025/78bebbc5beefd9680e8a58a0651924f6653627cd9186290af990895670b135ca.json
+        electoral_source: territorios/cataluna/evidencia/fuentes_electorales/2025/9512fde80f903cbe93eab4be4695612da01cd7a420d7840e4d04834985a46e18/43036592492/receipt.json
+        prepared_source_pair: territorios/cataluna/evidencia/pares_fuentes/2025/3090588ad0a3e96eb59dbfc5eb7260f1eda08a00b670c1287cebf36c48586087.json
         generation_preflight: territorios/cataluna/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/cataluna/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/cataluna/evidencia/catalogo/electoral_product_2025.json
@@ -369,7 +369,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41062567297
+        run_id: 43030421638
         stage: M08
       preparation_evidence:
         run_id: 40956462986
@@ -619,7 +619,7 @@ territories:
         section_year: 2024
         source_commit: 091d40cef648abcc9319af1f6dc3488a5abdc556
       evidence:
-        electoral_source: territorios/pais_vasco/evidencia/fuentes_electorales/2025/43ebf1a9f620544133e019e5a4b8cdf1914b986035d76ab8cb2933d3a7b6cef3/36882827791/receipt.json
+        electoral_source: territorios/pais_vasco/evidencia/fuentes_electorales/2025/32e2c695b91acc6bae9c8b0455b7678b814bf66dc374c741f94622693ff703ab/43036604667/receipt.json
         prepared_source_pair: territorios/pais_vasco/evidencia/pares_fuentes/2025/17eb947b3aa1af5f9703a54b05a41ec6d8e7b4feeec5ace3dcc830ebd8f3b5a1.json
         generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/pais_vasco/evidencia/catalogo/territorial_product_2025.json
@@ -2280,8 +2280,8 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940515676
-        stage: M06
+        run_id: 43029353804
+        stage: M08
       preparation_evidence:
         run_id: 41235620157
         artifact_name: ddd-source-package-congreso_segovia-2025-41235620157
@@ -2319,8 +2319,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940520877
-        stage: M06
+        run_id: 43029566265
+        stage: M08
       preparation_evidence:
         run_id: 41244347546
         artifact_name: ddd-source-package-congreso_sevilla-2025-41244347546
@@ -2358,8 +2358,8 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940525976
-        stage: M06
+        run_id: 43029280043
+        stage: M08
       preparation_evidence:
         run_id: 41235794328
         artifact_name: ddd-source-package-congreso_soria-2025-41235794328
@@ -2397,8 +2397,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940531574
-        stage: M06
+        run_id: 43029795470
+        stage: M08
       preparation_evidence:
         run_id: 41243062797
         artifact_name: ddd-source-package-congreso_tarragona-2025-41243062797
@@ -2436,8 +2436,8 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940536681
-        stage: M06
+        run_id: 43029189395
+        stage: M08
       preparation_evidence:
         run_id: 41235966858
         artifact_name: ddd-source-package-congreso_teruel-2025-41235966858
@@ -2475,7 +2475,7 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940542275
+        run_id: 43034928684
         stage: M06
       preparation_evidence:
         run_id: 41242809451
@@ -2514,7 +2514,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940547803
+        run_id: 43034939625
         stage: M06
       preparation_evidence:
         run_id: 41318119259
@@ -2553,7 +2553,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940553251
+        run_id: 43034949749
         stage: M06
       preparation_evidence:
         run_id: 41292964287
@@ -2592,7 +2592,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940558507
+        run_id: 43034959389
         stage: M06
       preparation_evidence:
         run_id: 41293083498
@@ -2631,7 +2631,7 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940563499
+        run_id: 43034969907
         stage: M06
       preparation_evidence:
         run_id: 41236140669
@@ -2670,7 +2670,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940568653
+        run_id: 43034979460
         stage: M06
       preparation_evidence:
         run_id: 41243577758

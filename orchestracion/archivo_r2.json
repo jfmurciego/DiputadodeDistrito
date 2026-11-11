@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T12:55:36Z",
+  "actualizado_en": "2026-11-11T14:38:17Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -450,6 +450,21 @@
       "territorio": "cantabria",
       "url": "r2://ddd-research-archive/cantabria/42707820760/ddd-minimo-42707820760-M06.zip"
     },
+    "cantabria/43033094596/ddd-minimo-43033094596-M08.zip": {
+      "archivado_en": "2026-11-11T14:00:42Z",
+      "artefacto": "ddd-minimo-43033094596-M08",
+      "artefacto_origen": "ddd-state-43033094596-M08",
+      "artifact_id": 13862292371,
+      "caducidad_original": "2026-11-25T13:59:54Z",
+      "incluye_m06_run": "43025633460",
+      "run_id": "43033094596",
+      "sha256": "529d347fab819e64600340be15dfd42aa68d2c84f94164941cae90e76b43f5b3",
+      "sha256_estado_original": "0be811c01088f183538159762fca157f5d97204c49f532ada6073ec12a68e276",
+      "tamano_bytes": 664619,
+      "tamano_estado_original": 79469914,
+      "territorio": "cantabria",
+      "url": "r2://ddd-research-archive/cantabria/43033094596/ddd-minimo-43033094596-M08.zip"
+    },
     "castilla_la_mancha/40241650464/ddd-audit-40241650464.zip": {
       "archivado_en": "2026-11-07T17:03:17Z",
       "artefacto": "ddd-audit-40241650464",
@@ -521,6 +536,21 @@
       "tamano_estado_original": 290180651,
       "territorio": "castilla_la_mancha",
       "url": "r2://ddd-research-archive/castilla_la_mancha/40979540141/ddd-minimo-40979540141-M08.zip"
+    },
+    "castilla_la_mancha/43031565452/ddd-minimo-43031565452-M08.zip": {
+      "archivado_en": "2026-11-11T13:51:50Z",
+      "artefacto": "ddd-minimo-43031565452-M08",
+      "artefacto_origen": "ddd-state-43031565452-M08",
+      "artifact_id": 13862625494,
+      "caducidad_original": "2026-11-25T13:50:53Z",
+      "incluye_m06_run": "43025652192",
+      "run_id": "43031565452",
+      "sha256": "c0b7852a9daaa0aa2a8b923819a219d7cb569499072bf871de93dfd4b4b52c73",
+      "sha256_estado_original": "7e0a890cfa5e51a516143950fc12187c075fbe775f6e7fdd74b28cb5fa441859",
+      "tamano_bytes": 2310617,
+      "tamano_estado_original": 111685819,
+      "territorio": "castilla_la_mancha",
+      "url": "r2://ddd-research-archive/castilla_la_mancha/43031565452/ddd-minimo-43031565452-M08.zip"
     },
     "castilla_y_leon/40969454399/ddd-audit-40969454399.zip": {
       "archivado_en": "2026-11-07T17:13:47Z",
@@ -648,6 +678,21 @@
       "territorio": "castilla_y_leon",
       "url": "r2://ddd-research-archive/castilla_y_leon/42531122768/ddd-minimo-42531122768-M08.zip"
     },
+    "castilla_y_leon/43030986959/ddd-minimo-43030986959-M08.zip": {
+      "archivado_en": "2026-11-11T13:47:07Z",
+      "artefacto": "ddd-minimo-43030986959-M08",
+      "artefacto_origen": "ddd-state-43030986959-M08",
+      "artifact_id": 13861940256,
+      "caducidad_original": "2026-11-25T13:46:06Z",
+      "incluye_m06_run": "43025642604",
+      "run_id": "43030986959",
+      "sha256": "61a234f821b76943e32968e0af95879c6b7c58aa174fb0aa7ededf6572e00971",
+      "sha256_estado_original": "1bef8fe0f2070bd1c632da8defbc16e075d5ecb5eb8043a486e0245542c57b21",
+      "tamano_bytes": 4150448,
+      "tamano_estado_original": 126741627,
+      "territorio": "castilla_y_leon",
+      "url": "r2://ddd-research-archive/castilla_y_leon/43030986959/ddd-minimo-43030986959-M08.zip"
+    },
     "cataluna/40952013601/ddd-audit-40952013601.zip": {
       "archivado_en": "2026-11-07T17:11:01Z",
       "artefacto": "ddd-audit-40952013601",
@@ -730,6 +775,20 @@
       "tamano_bytes": 356137868,
       "territorio": "cataluna",
       "url": "r2://ddd-research-archive/cataluna/41062562553/ddd-state-41062562553-M08.zip"
+    },
+    "cataluna/43025661789/ddd-minimo-43025661789-M06.zip": {
+      "archivado_en": "2026-11-11T13:35:17Z",
+      "artefacto": "ddd-minimo-43025661789-M06",
+      "artefacto_origen": "ddd-state-43025661789-M06",
+      "artifact_id": 13861186672,
+      "caducidad_original": "2026-11-25T13:30:53Z",
+      "run_id": "43025661789",
+      "sha256": "e312f3273a6aa827fa942715080cf01bceac2c2e317775df1c4b05d123b27398",
+      "sha256_estado_original": "60e97d14b98f8bee0aed208b90e6a484c31e19673a1f48155a3cf092c3250e7f",
+      "tamano_bytes": 2718601,
+      "tamano_estado_original": 117888952,
+      "territorio": "cataluna",
+      "url": "r2://ddd-research-archive/cataluna/43025661789/ddd-minimo-43025661789-M06.zip"
     },
     "ceuta/40784389253/ddd-audit-40784389253.zip": {
       "archivado_en": "2026-11-07T17:03:59Z",
@@ -958,6 +1017,21 @@
       "tamano_bytes": 253024625,
       "territorio": "comunidad_valenciana",
       "url": "r2://ddd-research-archive/comunidad_valenciana/41062567297/ddd-state-41062567297-M08.zip"
+    },
+    "comunidad_valenciana/43030421638/ddd-minimo-43030421638-M08.zip": {
+      "archivado_en": "2026-11-11T13:43:41Z",
+      "artefacto": "ddd-minimo-43030421638-M08",
+      "artefacto_origen": "ddd-state-43030421638-M08",
+      "artifact_id": 13861750042,
+      "caducidad_original": "2026-11-25T13:42:56Z",
+      "incluye_m06_run": "43025671156",
+      "run_id": "43030421638",
+      "sha256": "43328a1631a8de51fd6bb71cf8d83e0f18e2445d9e59592df9cebcbd981973d1",
+      "sha256_estado_original": "d7865a82cf0cdde9a6bbd1359e78845748227933177374624fe86f35b49c9273",
+      "tamano_bytes": 2620291,
+      "tamano_estado_original": 105839086,
+      "territorio": "comunidad_valenciana",
+      "url": "r2://ddd-research-archive/comunidad_valenciana/43030421638/ddd-minimo-43030421638-M08.zip"
     },
     "congreso350_madrid/42588623702/ddd-audit-42588623702.zip": {
       "archivado_en": "2026-11-09T14:00:07Z",
@@ -6042,6 +6116,21 @@
       "territorio": "congreso_segovia",
       "url": "r2://ddd-research-archive/congreso_segovia/42940515676/ddd-minimo-42940515676-M06.zip"
     },
+    "congreso_segovia/43029353804/ddd-minimo-43029353804-M08.zip": {
+      "archivado_en": "2026-11-11T13:38:05Z",
+      "artefacto": "ddd-minimo-43029353804-M08",
+      "artefacto_origen": "ddd-state-43029353804-M08",
+      "artifact_id": 13858753994,
+      "caducidad_original": "2026-11-25T13:34:52Z",
+      "incluye_m06_run": "43024836898",
+      "run_id": "43029353804",
+      "sha256": "829d995bd494ac87a87f5c3e004c63f06e81be68bc72c39e9d6cc894b255a745",
+      "sha256_estado_original": "2c4eaaa4ccf4f3df9c3ed0b22eb40fa05a6ba2e45e9f8a7cca9fc22a609f284b",
+      "tamano_bytes": 157643,
+      "tamano_estado_original": 77934328,
+      "territorio": "congreso_segovia",
+      "url": "r2://ddd-research-archive/congreso_segovia/43029353804/ddd-minimo-43029353804-M08.zip"
+    },
     "congreso_sevilla/41244347546/ddd-audit-41244347546.zip": {
       "archivado_en": "2026-11-08T12:10:58Z",
       "artefacto": "ddd-audit-41244347546",
@@ -6117,6 +6206,21 @@
       "territorio": "congreso_sevilla",
       "url": "r2://ddd-research-archive/congreso_sevilla/42940520877/ddd-minimo-42940520877-M06.zip"
     },
+    "congreso_sevilla/43029566265/ddd-minimo-43029566265-M08.zip": {
+      "archivado_en": "2026-11-11T13:41:30Z",
+      "artefacto": "ddd-minimo-43029566265-M08",
+      "artefacto_origen": "ddd-state-43029566265-M08",
+      "artifact_id": 13860853479,
+      "caducidad_original": "2026-11-25T13:40:36Z",
+      "incluye_m06_run": "43024845069",
+      "run_id": "43029566265",
+      "sha256": "246daf2fc3af26a76981d1cdbcb205f4b159bef7082cb3c391bb925e15187664",
+      "sha256_estado_original": "6ea529315d010ede58f5520619405352a0cd154bc36d6f5ed814c0620215be3b",
+      "tamano_bytes": 639212,
+      "tamano_estado_original": 84317012,
+      "territorio": "congreso_sevilla",
+      "url": "r2://ddd-research-archive/congreso_sevilla/43029566265/ddd-minimo-43029566265-M08.zip"
+    },
     "congreso_soria/41235794328/ddd-audit-41235794328.zip": {
       "archivado_en": "2026-11-08T12:07:03Z",
       "artefacto": "ddd-audit-41235794328",
@@ -6191,6 +6295,21 @@
       "tamano_estado_original": 76664491,
       "territorio": "congreso_soria",
       "url": "r2://ddd-research-archive/congreso_soria/42940525976/ddd-minimo-42940525976-M06.zip"
+    },
+    "congreso_soria/43029280043/ddd-minimo-43029280043-M08.zip": {
+      "archivado_en": "2026-11-11T13:37:19Z",
+      "artefacto": "ddd-minimo-43029280043-M08",
+      "artefacto_origen": "ddd-state-43029280043-M08",
+      "artifact_id": 13860208094,
+      "caducidad_original": "2026-11-25T13:34:39Z",
+      "incluye_m06_run": "43024852774",
+      "run_id": "43029280043",
+      "sha256": "4065ed96bcfab2b26b4b783ef44bdd3ca8fc0c5bcb65d52842b00287a27706df",
+      "sha256_estado_original": "f88663f8ffb4cb76f7ae548b3f2919fd9a249f2edfd3652425efbba1b5dc8bb0",
+      "tamano_bytes": 130546,
+      "tamano_estado_original": 76998495,
+      "territorio": "congreso_soria",
+      "url": "r2://ddd-research-archive/congreso_soria/43029280043/ddd-minimo-43029280043-M08.zip"
     },
     "congreso_tarragona/41243062797/ddd-audit-41243062797.zip": {
       "archivado_en": "2026-11-08T12:10:32Z",
@@ -6304,6 +6423,21 @@
       "territorio": "congreso_tarragona",
       "url": "r2://ddd-research-archive/congreso_tarragona/42940531574/ddd-minimo-42940531574-M06.zip"
     },
+    "congreso_tarragona/43029795470/ddd-minimo-43029795470-M08.zip": {
+      "archivado_en": "2026-11-11T13:40:20Z",
+      "artefacto": "ddd-minimo-43029795470-M08",
+      "artefacto_origen": "ddd-state-43029795470-M08",
+      "artifact_id": 13860752655,
+      "caducidad_original": "2026-11-25T13:37:52Z",
+      "incluye_m06_run": "43024860841",
+      "run_id": "43029795470",
+      "sha256": "c9f8ee47a5f005fdfcbc5cb60095253ae6f567d763aadffe1651c571601a715c",
+      "sha256_estado_original": "5d14226008ee9bdb6f22475efcbac89e0104b7235712cb1c265d6516e6026289",
+      "tamano_bytes": 966232,
+      "tamano_estado_original": 84212535,
+      "territorio": "congreso_tarragona",
+      "url": "r2://ddd-research-archive/congreso_tarragona/43029795470/ddd-minimo-43029795470-M08.zip"
+    },
     "congreso_teruel/41235966858/ddd-audit-41235966858.zip": {
       "archivado_en": "2026-11-08T12:06:32Z",
       "artefacto": "ddd-audit-41235966858",
@@ -6379,6 +6513,21 @@
       "territorio": "congreso_teruel",
       "url": "r2://ddd-research-archive/congreso_teruel/42940536681/ddd-minimo-42940536681-M06.zip"
     },
+    "congreso_teruel/43029189395/ddd-minimo-43029189395-M08.zip": {
+      "archivado_en": "2026-11-11T13:35:54Z",
+      "artefacto": "ddd-minimo-43029189395-M08",
+      "artefacto_origen": "ddd-state-43029189395-M08",
+      "artifact_id": 13860877460,
+      "caducidad_original": "2026-11-25T13:33:50Z",
+      "incluye_m06_run": "43024869107",
+      "run_id": "43029189395",
+      "sha256": "a3630ffc93c17fb44f75cfe377c54e29bcdb530dd0784b89197746f303938d5d",
+      "sha256_estado_original": "1d98bf8cf8fa4f4d444242aef0a5aed1d6ce0cd8bed7bca6bbf4f1d04c93da07",
+      "tamano_bytes": 201624,
+      "tamano_estado_original": 79667386,
+      "territorio": "congreso_teruel",
+      "url": "r2://ddd-research-archive/congreso_teruel/43029189395/ddd-minimo-43029189395-M08.zip"
+    },
     "congreso_toledo/41242809451/ddd-audit-41242809451.zip": {
       "archivado_en": "2026-11-08T12:08:43Z",
       "artefacto": "ddd-audit-41242809451",
@@ -6453,6 +6602,20 @@
       "tamano_estado_original": 82800491,
       "territorio": "congreso_toledo",
       "url": "r2://ddd-research-archive/congreso_toledo/42940542275/ddd-minimo-42940542275-M06.zip"
+    },
+    "congreso_toledo/43034928684/ddd-minimo-43034928684-M06.zip": {
+      "archivado_en": "2026-11-11T14:29:51Z",
+      "artefacto": "ddd-minimo-43034928684-M06",
+      "artefacto_origen": "ddd-state-43034928684-M06",
+      "artifact_id": 13864346607,
+      "caducidad_original": "2026-11-25T14:26:01Z",
+      "run_id": "43034928684",
+      "sha256": "8ac7c84ad803a5ee7e75c8cd442cc4a37cabacae4211bbe5653098329aed85a2",
+      "sha256_estado_original": "d90cd9d83926cb42989b36f133a30aa02472f655100b35befe2a321487f08898",
+      "tamano_bytes": 294036,
+      "tamano_estado_original": 82800516,
+      "territorio": "congreso_toledo",
+      "url": "r2://ddd-research-archive/congreso_toledo/43034928684/ddd-minimo-43034928684-M06.zip"
     },
     "congreso_valencia/41318119259/ddd-audit-41318119259.zip": {
       "archivado_en": "2026-11-08T12:17:02Z",
@@ -6566,6 +6729,20 @@
       "territorio": "congreso_valencia",
       "url": "r2://ddd-research-archive/congreso_valencia/42940547803/ddd-minimo-42940547803-M06.zip"
     },
+    "congreso_valencia/43034939625/ddd-minimo-43034939625-M06.zip": {
+      "archivado_en": "2026-11-11T14:37:16Z",
+      "artefacto": "ddd-minimo-43034939625-M06",
+      "artefacto_origen": "ddd-state-43034939625-M06",
+      "artifact_id": 13863882519,
+      "caducidad_original": "2026-11-25T14:27:11Z",
+      "run_id": "43034939625",
+      "sha256": "143ce9af2d81b40693f480c557ce8d0e62576fc202f13fd0dad6d24218e16d33",
+      "sha256_estado_original": "39c78fb0a600f19be8e72ebd30f961da5105e9da0547c0fa74388bb291e1fa3e",
+      "tamano_bytes": 642737,
+      "tamano_estado_original": 86898379,
+      "territorio": "congreso_valencia",
+      "url": "r2://ddd-research-archive/congreso_valencia/43034939625/ddd-minimo-43034939625-M06.zip"
+    },
     "congreso_valladolid/41292964287/ddd-audit-41292964287.zip": {
       "archivado_en": "2026-11-08T12:15:41Z",
       "artefacto": "ddd-audit-41292964287",
@@ -6640,6 +6817,20 @@
       "tamano_estado_original": 78638991,
       "territorio": "congreso_valladolid",
       "url": "r2://ddd-research-archive/congreso_valladolid/42940553251/ddd-minimo-42940553251-M06.zip"
+    },
+    "congreso_valladolid/43034949749/ddd-minimo-43034949749-M06.zip": {
+      "archivado_en": "2026-11-11T14:28:08Z",
+      "artefacto": "ddd-minimo-43034949749-M06",
+      "artefacto_origen": "ddd-state-43034949749-M06",
+      "artifact_id": 13864072015,
+      "caducidad_original": "2026-11-25T14:24:47Z",
+      "run_id": "43034949749",
+      "sha256": "c3df45d467badf7880b8130a05a4dd912e7677d3d18cc70ac26c17bc48953aee",
+      "sha256_estado_original": "f70bf7c19c8b9c1d7ad0506076abafd86138f4f50d7c75f638a1429a91719862",
+      "tamano_bytes": 204951,
+      "tamano_estado_original": 78639017,
+      "territorio": "congreso_valladolid",
+      "url": "r2://ddd-research-archive/congreso_valladolid/43034949749/ddd-minimo-43034949749-M06.zip"
     },
     "congreso_vizcaya/41293083498/ddd-audit-41293083498.zip": {
       "archivado_en": "2026-11-08T12:15:27Z",
@@ -6716,6 +6907,20 @@
       "territorio": "congreso_vizcaya",
       "url": "r2://ddd-research-archive/congreso_vizcaya/42940558507/ddd-minimo-42940558507-M06.zip"
     },
+    "congreso_vizcaya/43034959389/ddd-minimo-43034959389-M06.zip": {
+      "archivado_en": "2026-11-11T14:27:19Z",
+      "artefacto": "ddd-minimo-43034959389-M06",
+      "artefacto_origen": "ddd-state-43034959389-M06",
+      "artifact_id": 13863309361,
+      "caducidad_original": "2026-11-25T14:24:37Z",
+      "run_id": "43034959389",
+      "sha256": "86c55078fc436df9aec35f725ec32c71089f23b1584d566418b7e3488cfc0460",
+      "sha256_estado_original": "b7d87ed8658432a2061ee7f312ef98ad90a54120c992ab604b0de83cb7b4122c",
+      "tamano_bytes": 537730,
+      "tamano_estado_original": 84080181,
+      "territorio": "congreso_vizcaya",
+      "url": "r2://ddd-research-archive/congreso_vizcaya/43034959389/ddd-minimo-43034959389-M06.zip"
+    },
     "congreso_zamora/41236140669/ddd-audit-41236140669.zip": {
       "archivado_en": "2026-11-08T12:06:30Z",
       "artefacto": "ddd-audit-41236140669",
@@ -6791,6 +6996,20 @@
       "territorio": "congreso_zamora",
       "url": "r2://ddd-research-archive/congreso_zamora/42940563499/ddd-minimo-42940563499-M06.zip"
     },
+    "congreso_zamora/43034969907/ddd-minimo-43034969907-M06.zip": {
+      "archivado_en": "2026-11-11T14:29:02Z",
+      "artefacto": "ddd-minimo-43034969907-M06",
+      "artefacto_origen": "ddd-state-43034969907-M06",
+      "artifact_id": 13862954743,
+      "caducidad_original": "2026-11-25T14:25:28Z",
+      "run_id": "43034969907",
+      "sha256": "5143b88478dab32ad43d762dac930977c0d2100ba766f18938cf17bf421ee9e9",
+      "sha256_estado_original": "641770946dd4083e458605ca260677fa6d6a3593f93042172b9321a633e8e8da",
+      "tamano_bytes": 132841,
+      "tamano_estado_original": 77750303,
+      "territorio": "congreso_zamora",
+      "url": "r2://ddd-research-archive/congreso_zamora/43034969907/ddd-minimo-43034969907-M06.zip"
+    },
     "congreso_zaragoza/41243577758/ddd-audit-41243577758.zip": {
       "archivado_en": "2026-11-08T12:11:00Z",
       "artefacto": "ddd-audit-41243577758",
@@ -6865,6 +7084,20 @@
       "tamano_estado_original": 84003632,
       "territorio": "congreso_zaragoza",
       "url": "r2://ddd-research-archive/congreso_zaragoza/42940568653/ddd-minimo-42940568653-M06.zip"
+    },
+    "congreso_zaragoza/43034979460/ddd-minimo-43034979460-M06.zip": {
+      "archivado_en": "2026-11-11T14:38:17Z",
+      "artefacto": "ddd-minimo-43034979460-M06",
+      "artefacto_origen": "ddd-state-43034979460-M06",
+      "artifact_id": 13865190145,
+      "caducidad_original": "2026-11-25T14:29:16Z",
+      "run_id": "43034979460",
+      "sha256": "65f95ddf961618bccbcd981b5ffb52def25e754bb5d89ea9498e15fc20c612bb",
+      "sha256_estado_original": "b2b0cde543f066de9b9433f51a83bc4de34bcdb26e4e48e42d1e7f29408878e9",
+      "tamano_bytes": 508069,
+      "tamano_estado_original": 84003636,
+      "territorio": "congreso_zaragoza",
+      "url": "r2://ddd-research-archive/congreso_zaragoza/43034979460/ddd-minimo-43034979460-M06.zip"
     },
     "extremadura/40965231300/ddd-audit-electoral-40965231300.zip": {
       "archivado_en": "2026-11-07T17:12:18Z",

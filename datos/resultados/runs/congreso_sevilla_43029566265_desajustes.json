@@ -1,0 +1,28 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_sevilla",
+ "run_id": "43029566265",
+ "run_territorial": "43024845069",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 1043832,
+ "votos_desajustados": 657,
+ "pct_desajuste": 0.0629,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "4102406006",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 657,
+   "secciones_m06": {
+    "4102406002": 1.0
+   },
+   "distritos": {
+    "5": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 4102406002 con la tabla de T-85, fuera del tope D-17"
+  }
+ ]
+}

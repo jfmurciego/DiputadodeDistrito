@@ -4,9 +4,9 @@
   "territory_id": "congreso_segovia",
   "territory_name": "Congreso Segovia",
   "edition": "2025",
-  "run_id": 41241846017,
-  "artifact_name": "ddd-state-41241846017-M08",
-  "artifact_sha256": "03a0137ef76ac87e31192391914c1d2dc3fbc061cee7fec2f31fc22d8d514a35",
-  "source_commit": "f6ad35ad2b6da3c73f96b0f77c166663580eb8fb",
+  "run_id": 43029353804,
+  "artifact_name": "ddd-state-43029353804-M08",
+  "artifact_sha256": "2c4eaaa4ccf4f3df9c3ed0b22eb40fa05a6ba2e45e9f8a7cca9fc22a609f284b",
+  "source_commit": "777d1e29d0c205522b7bf83557b05bdc5c1b47df",
   "stage": "M08"
 }
