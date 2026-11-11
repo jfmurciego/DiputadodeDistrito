@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T08:05:11.745861+00:00",
+  "generated_at": "2026-11-11T08:12:21.001661+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7846,20 +7846,20 @@
       "name": "Nacional Álava",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 42940320710,
+      "run_id": 42983088643,
       "last_run": {
-        "run_id": 42981402781,
+        "run_id": 42983088643,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7900,7 +7900,7 @@
       },
       "autonomous_community_code_ine": "C01",
       "display_name": "Nacional Álava",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_albacete",
@@ -9802,7 +9802,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42940479208,
+      "run_id": 42981406489,
       "last_run": {
         "run_id": 41296638877,
         "status": "SUCCESS",
@@ -9828,13 +9828,13 @@
           "territory_id": "congreso_asturias",
           "territory_name": "Congreso Asturias",
           "edition": "2025",
-          "run_id": 42940479208,
-          "artifact_name": "ddd-state-42940479208-M06",
-          "artifact_sha256": "abea6fd8144ee18a09462797083f6a817231979e2dadcbf90884a3f31c9b0448",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 42981406489,
+          "artifact_name": "ddd-state-42981406489-M06",
+          "artifact_sha256": "9a7ec2602f02a4809e420e974f382672ecd95611e9eda8dffa11752595ba46c7",
+          "source_commit": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_asturias/evidencia/generaciones_m06/42940479208.json"
+          "producer_manifest_path": "territorios/congreso_asturias/evidencia/generaciones_m06/42981406489.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10900,7 +10900,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42940573533,
+      "run_id": 42981430591,
       "last_run": {
         "run_id": 42496569312,
         "status": "SUCCESS",
@@ -10926,13 +10926,13 @@
           "territory_id": "congreso_ceuta",
           "territory_name": "Congreso Ceuta",
           "edition": "2025",
-          "run_id": 42940573533,
-          "artifact_name": "ddd-state-42940573533-M06",
-          "artifact_sha256": "595ed7d076870021c89a5e8420d6fb9e98fa025c9c352c31bf06d61e4019edcd",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 42981430591,
+          "artifact_name": "ddd-state-42981430591-M06",
+          "artifact_sha256": "a768f530d720110755525c85891c8d24920b7abd7eebbd5678b57a282b15a7bc",
+          "source_commit": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_ceuta/evidencia/generaciones_m06/42940573533.json"
+          "producer_manifest_path": "territorios/congreso_ceuta/evidencia/generaciones_m06/42981430591.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 40,
+    "complete": 41,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12275,6 +12275,7 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
+      "Nacional Álava",
       "Nacional Albacete",
       "Nacional Alicante",
       "Nacional Almería",
@@ -12508,13 +12509,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_jaen",
-    "name": "Nacional Jaén",
-    "display_name": "Nacional Jaén",
-    "autonomous_community_code_ine": "C23",
-    "run_id": 42955644352,
+    "territory_id": "congreso_alava",
+    "name": "Nacional Álava",
+    "display_name": "Nacional Álava",
+    "autonomous_community_code_ine": "C01",
+    "run_id": 42983088643,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
@@ -12528,12 +12529,6 @@
       "territory": "11 Extremadura",
       "territory_id": "extremadura",
       "autonomous_community_code_ine": "11",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Álava",
-      "territory_id": "congreso_alava",
-      "autonomous_community_code_ine": "C01",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12564,6 +12559,12 @@
       "territory": "Nacional Lérida",
       "territory_id": "congreso_lerida",
       "autonomous_community_code_ine": "C25",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Lugo",
+      "territory_id": "congreso_lugo",
+      "autonomous_community_code_ine": "C27",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12581,12 +12582,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Álava",
-      "territory_id": "congreso_alava",
-      "autonomous_community_code_ine": "C01",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Burgos",
       "territory_id": "congreso_burgos",
       "autonomous_community_code_ine": "C09",
@@ -12614,6 +12609,12 @@
       "territory": "Nacional Lérida",
       "territory_id": "congreso_lerida",
       "autonomous_community_code_ine": "C25",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Lugo",
+      "territory_id": "congreso_lugo",
+      "autonomous_community_code_ine": "C27",
       "action": "preparar fuentes electorales"
     }
   ]
