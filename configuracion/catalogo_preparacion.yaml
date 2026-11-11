@@ -2235,7 +2235,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_santa_cruz_de_tenerife/evidencia/fuentes_electorales/2025/a990a414e34865c72ba8902ce6f691e48970933f793c8ab38796093676c6f536/41239515252/receipt.json
         territorial_product: territorios/congreso_santa_cruz_de_tenerife/evidencia/catalogo/territorial_product_2025.json
-        prepared_source_pair: territorios/congreso_santa_cruz_de_tenerife/evidencia/pares_fuentes/2025/021421efa924f643ed6a7da87c2a68c3d1adf67c3180eb2e1f4897b174e2ff1e.json
+        prepared_source_pair: territorios/congreso_santa_cruz_de_tenerife/evidencia/pares_fuentes/2025/281ded9a6026099c6240c646c234f20705a9aba68220e8a31ac15a039bc12e4b.json
         electoral_product: territorios/congreso_santa_cruz_de_tenerife/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/congreso_santa_cruz_de_tenerife/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: true
