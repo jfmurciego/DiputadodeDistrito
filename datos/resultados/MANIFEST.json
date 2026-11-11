@@ -970,6 +970,15 @@
    "sha256_csv": "c17df8d4258796f979bb4786c0108142e966f1398440fbc7e6b72d94ca12f048",
    "ruta": "datos/resultados/runs/congreso_cuenca_42954007732_partidos.csv"
   },
+  "congreso_granada/42954091088": {
+   "territorio": "congreso_granada",
+   "run_id": "42954091088",
+   "run_territorial": "42940407337",
+   "sha256_composicion": "b4ea86e03e92672664a3a627aeaff5a5d0444d750a452d4b35ba2c3b7056c44a",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "9770a6079c74d2579320a51f0c8dd314cecb40ad44aa5e232a81d48f753d2dd8",
+   "ruta": "datos/resultados/runs/congreso_granada_42954091088_partidos.csv"
+  },
   "congreso_huesca/42519383275": {
    "territorio": "congreso_huesca",
    "run_id": "42519383275",
