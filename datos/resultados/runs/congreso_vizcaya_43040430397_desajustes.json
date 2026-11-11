@@ -1,0 +1,63 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_vizcaya",
+ "run_id": "43040430397",
+ "run_territorial": "43034959389",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 602806,
+ "votos_desajustados": 0,
+ "pct_desajuste": 0.0,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "4802005013",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4802005013": 1.0
+   },
+   "distritos": {
+    "1": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "4802006032",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4802006032": 1.0
+   },
+   "distritos": {
+    "0": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "4802007007",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4802007007": 1.0
+   },
+   "distritos": {
+    "0": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "4802007031",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4802007031": 1.0
+   },
+   "distritos": {
+    "0": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}

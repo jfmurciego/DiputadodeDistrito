@@ -1427,6 +1427,22 @@
     "ruta": "datos/resultados/runs/congreso_valencia_42525625044_desajustes.json",
     "sha256": "c508ce441f22e330e3455ec0f782e4ef2068848d3de00ec2097e220452d5a002"
    }
+  },
+  "congreso_vizcaya/43040430397": {
+   "territorio": "congreso_vizcaya",
+   "run_id": "43040430397",
+   "run_territorial": "43034959389",
+   "sha256_composicion": "41733a0bfbae1e1a1fde38c2e019526388a8256f1069decbb62af828e92e143c",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6e538e27f4b1066cf807a946d53affdffad8320976ee7caae7a13a34ac26fc98",
+   "ruta": "datos/resultados/runs/congreso_vizcaya_43040430397_partidos.csv",
+   "desajustes": {
+    "secciones": 4,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_vizcaya_43040430397_desajustes.json",
+    "sha256": "06e8ee509e1bfd1d66c36181df2bb3cd1124b449090e3f27dd676aa9b2d1fed5"
+   }
   }
  }
 }
