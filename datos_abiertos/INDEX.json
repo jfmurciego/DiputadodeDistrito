@@ -2103,53 +2103,6 @@
     }
    ]
   },
-  "congreso_la_rioja": {
-   "provincia": "La Rioja",
-   "run_id": "42504388624",
-   "blob_sha": "b89ec148d92075dacfc2f24667de95d066742397",
-   "sha256_origen": "e955fa90ad03ba89552f6d925d262d9fa24e8e7e02700e1fe8a4e47e39cdf96d",
-   "n_distritos": 3,
-   "nombres": {},
-   "numeracion": "1..K",
-   "geojson": {
-    "ruta": "congreso_la_rioja/distritos.geojson",
-    "sha256": "d025da924014522a77e803708098d4a75c27587c26483b4fb92fda998393f31b",
-    "sha256_origen": "8e740ec2563cb526f69e685af77ad5635c14108dc729caf20f5b28e0f2e8c3bf"
-   },
-   "resultados": {
-    "ruta": "congreso_la_rioja/resultados.csv",
-    "sha256": "d2e6790b26d794f297ef315ba741d45f95a3ef1d2df96fa9cd2b2f8209db8ee0",
-    "fuente_sha256": "c694a53913ec76b8e3015c26e3aa3bd01a48a496e214f7b8116d13c9874213b7",
-    "blob_sha_m08": "154e3e045a1cbff4ca36261274fec53eedb52c0c",
-    "run_id": "42504388624"
-   },
-   "distritos": [
-    {
-     "distrito": 1,
-     "nombre": null,
-     "poblacion": 107262,
-     "municipios": 1,
-     "secciones": 79,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 2,
-     "nombre": null,
-     "poblacion": 107496,
-     "municipios": 76,
-     "secciones": 125,
-     "ganador": "PP"
-    },
-    {
-     "distrito": 3,
-     "nombre": null,
-     "poblacion": 107524,
-     "municipios": 98,
-     "secciones": 139,
-     "ganador": "PP"
-    }
-   ]
-  },
   "congreso_las_palmas": {
    "provincia": "Las Palmas",
    "run_id": "41442913288",
