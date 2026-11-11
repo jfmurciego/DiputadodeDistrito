@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T15:58:20.096342+00:00",
+  "generated_at": "2026-11-11T16:05:47.775567+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7358,20 +7358,20 @@
       "name": "Galicia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43045478748,
+      "run_id": 43051951192,
       "last_run": {
-        "run_id": 43045478748,
+        "run_id": 43051951192,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7412,7 +7412,7 @@
       },
       "autonomous_community_code_ine": "12",
       "display_name": "12 Galicia",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "madrid",
@@ -7525,10 +7525,10 @@
           "territory_id": "region_de_murcia",
           "territory_name": "Región de Murcia",
           "edition": "2025",
-          "run_id": 42504383790,
-          "artifact_name": "ddd-state-42504383790-M08",
-          "artifact_sha256": "bba840cce34a4ec971ec1286851c23ecc65d31b327f927b178eeb5ff1a15d9ec",
-          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
+          "run_id": 43053208175,
+          "artifact_name": "ddd-state-43053208175-M08",
+          "artifact_sha256": "e3ea2f63ebdf197537bd7d995175b953806f28d57297bcd2f0c665d230284f00",
+          "source_commit": "7aea1220986f37926599d0c8cb0f958e6475d2e8",
           "stage": "M08"
         }
       },
@@ -7586,10 +7586,10 @@
           "territory_id": "comunidad_foral_de_navarra",
           "territory_name": "Comunidad Foral de Navarra",
           "edition": "2025",
-          "run_id": 41049986588,
-          "artifact_name": "ddd-state-41049986588-M08",
-          "artifact_sha256": "8b59f36746496aa4b908c17863d0db7fe2613c3ce16cf8a8347fb9cf4f7fde68",
-          "source_commit": "dfb7a87ef682033de96bee75deb68925491cd01b",
+          "run_id": 43052874017,
+          "artifact_name": "ddd-state-43052874017-M08",
+          "artifact_sha256": "242662c51c998188d35cb327a5d630a761cacb6e8cc30c62123b2a0c96fd33f3",
+          "source_commit": "fa13e8b40c58db82a5d60944ea5945dee90b558d",
           "stage": "M08"
         }
       },
@@ -7769,10 +7769,10 @@
           "territory_id": "ceuta",
           "territory_name": "Ceuta",
           "edition": "2025",
-          "run_id": 42503542766,
-          "artifact_name": "ddd-state-42503542766-M08",
-          "artifact_sha256": "7c0d666c68462d84ea51f5b29dc49d5d1c7639a50045e6bb0c950de8f2119f32",
-          "source_commit": "901bee97ee99deb02c211c9cb1732f19bec759c6",
+          "run_id": 43052923691,
+          "artifact_name": "ddd-state-43052923691-M08",
+          "artifact_sha256": "9e5e1617835ed7dfbb7b61836ef4ecffe61ea3eac4bae37f1f38c78904433bf8",
+          "source_commit": "28906adab3c5d4d8fc8531228c6988ff817c2526",
           "stage": "M08"
         }
       },
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 67,
+    "complete": 68,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12268,6 +12268,7 @@
       "08 Castilla-La Mancha",
       "10 Comunidad Valenciana",
       "11 Extremadura",
+      "12 Galicia",
       "16 País Vasco",
       "17 La Rioja",
       "19 Melilla",
@@ -12535,11 +12536,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "extremadura",
-    "name": "Extremadura",
-    "display_name": "11 Extremadura",
-    "autonomous_community_code_ine": "11",
-    "run_id": 43051488486,
+    "territory_id": "galicia",
+    "name": "Galicia",
+    "display_name": "12 Galicia",
+    "autonomous_community_code_ine": "12",
+    "run_id": 43051951192,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12549,12 +12550,6 @@
       "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "12 Galicia",
-      "territory_id": "galicia",
-      "autonomous_community_code_ine": "12",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12592,6 +12587,12 @@
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Albacete",
+      "territory_id": "congreso350_albacete",
+      "autonomous_community_code_ine": "R02",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12599,12 +12600,6 @@
       "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "12 Galicia",
-      "territory_id": "galicia",
-      "autonomous_community_code_ine": "12",
       "action": "preparar fuentes electorales"
     },
     {
