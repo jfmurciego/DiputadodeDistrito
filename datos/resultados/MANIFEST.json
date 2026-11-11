@@ -920,6 +920,15 @@
     "sha256": "92153cc8e93609eb595057e36b9de9b876b224d40599c15567b5a4a4bfba6f54"
    }
   },
+  "congreso_burgos/42986581831": {
+   "territorio": "congreso_burgos",
+   "run_id": "42986581831",
+   "run_territorial": "42981415070",
+   "sha256_composicion": "63102db409a4117ae00c087933223f28a0cfff7a676c860b56f76a52a4ca4724",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "47c756e7be724277aa2288c93ec298b51ee7ad76273e7f47cb8324cb7bcf87a8",
+   "ruta": "datos/resultados/runs/congreso_burgos_42986581831_partidos.csv"
+  },
   "congreso_caceres/42953363103": {
    "territorio": "congreso_caceres",
    "run_id": "42953363103",
