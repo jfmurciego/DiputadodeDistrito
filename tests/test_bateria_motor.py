@@ -40,15 +40,32 @@ class BateriaMotor(unittest.TestCase):
                 self.assertTrue(p.is_file(), v)
 
     def test_comparacion_con_publicado_ignora_etiquetas(self):
+        # T-247: raíz sintética; antes leía datos/composicion/congreso_huesca.csv vivo, pero la función compara con
+        # la composición del run canonical_m06 del visor (runs/<t>_<run>.csv), que la campaña cambia sin tocar código.
+        from unittest import mock
         with tempfile.TemporaryDirectory() as td:
-            comp = Path(td) / "c.csv"
-            pub = Path(ROOT / "datos" / "composicion" / "congreso_huesca.csv")
-            filas = pub.read_text(encoding="utf-8").splitlines()[1:]
-            # mismas particiones con etiquetas intercambiadas
-            comp.write_text("CUSEC_KEY,district_id\n" + "\n".join(
-                f"{s},{1 - int(d)}" for s, d, _ in (x.split(",") for x in filas)) + "\n", encoding="utf-8")
-            r = b._comparar_publicado("congreso_huesca", comp)
-            self.assertTrue(r["igual"])
+            root = Path(td)
+            (root / "orchestracion").mkdir()
+            (root / "orchestracion/publicaciones_visor.json").write_text(json.dumps({"products": [
+                {"kind": "canonical_m06", "territory_id": "congreso_demo", "run_id": "7"},
+                {"kind": "canonical_m06", "territory_id": "congreso_demo", "run_id": "9"}]}), encoding="utf-8")
+            (root / "datos/composicion/runs").mkdir(parents=True)
+            cab = "seccion,distrito,poblacion\n"
+            (root / "datos/composicion/runs/congreso_demo_9.csv").write_text(
+                cab + "s1,0,10\ns2,0,10\ns3,1,10\ns4,1,10\n", encoding="utf-8")
+            # La canónica (de otro run) tiene otra partición: no debe usarse si existe la del run publicado.
+            (root / "datos/composicion/congreso_demo.csv").write_text(
+                cab + "s1,0,10\ns3,0,10\ns2,1,10\ns4,1,10\n", encoding="utf-8")
+            comp = root / "c.csv"
+            with mock.patch.object(b, "ROOT", root):
+                comp.write_text("CUSEC_KEY,district_id\ns1,1\ns2,1\ns3,0\ns4,0\n", encoding="utf-8")
+                r = b._comparar_publicado("congreso_demo", comp)
+                self.assertTrue(r["igual"], r)  # mismas particiones con etiquetas intercambiadas
+                self.assertEqual(r["run_publicado"], "9")
+                comp.write_text("CUSEC_KEY,district_id\ns1,0\ns3,0\ns2,1\ns4,1\n", encoding="utf-8")
+                r = b._comparar_publicado("congreso_demo", comp)
+                self.assertFalse(r["igual"], r)  # otra partición (la de la canónica) no es igual a la publicada
+                self.assertEqual(r["distritos_iguales"], 0)
 
     def test_declaracion_temporal_completa_anos_desde_contrato(self):
         nac = {n: {"sha256": "0" * 64} for n in ("65034_totales.csv.zip", "seccionado_2023.zip",
