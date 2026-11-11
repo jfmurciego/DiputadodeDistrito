@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T14:51:44Z",
+  "actualizado_en": "2026-11-11T14:52:43Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -6819,19 +6819,20 @@
       "territorio": "congreso_valladolid",
       "url": "r2://ddd-research-archive/congreso_valladolid/42940553251/ddd-minimo-42940553251-M06.zip"
     },
-    "congreso_valladolid/43034949749/ddd-minimo-43034949749-M06.zip": {
-      "archivado_en": "2026-11-11T14:28:08Z",
-      "artefacto": "ddd-minimo-43034949749-M06",
-      "artefacto_origen": "ddd-state-43034949749-M06",
-      "artifact_id": 13864072015,
-      "caducidad_original": "2026-11-25T14:24:47Z",
-      "run_id": "43034949749",
-      "sha256": "c3df45d467badf7880b8130a05a4dd912e7677d3d18cc70ac26c17bc48953aee",
-      "sha256_estado_original": "f70bf7c19c8b9c1d7ad0506076abafd86138f4f50d7c75f638a1429a91719862",
-      "tamano_bytes": 204951,
-      "tamano_estado_original": 78639017,
+    "congreso_valladolid/43040794081/ddd-minimo-43040794081-M08.zip": {
+      "archivado_en": "2026-11-11T14:52:43Z",
+      "artefacto": "ddd-minimo-43040794081-M08",
+      "artefacto_origen": "ddd-state-43040794081-M08",
+      "artifact_id": 13865786465,
+      "caducidad_original": "2026-11-25T14:50:13Z",
+      "incluye_m06_run": "43034949749",
+      "run_id": "43040794081",
+      "sha256": "d66b5820a616985e5b487a02817526e65531d875c346ccdfa21a3414adc8e000",
+      "sha256_estado_original": "911fe0a622e35ec51d0b750a5f65b802096c66c514b2d53dc8084b6071122547",
+      "tamano_bytes": 290309,
+      "tamano_estado_original": 79259275,
       "territorio": "congreso_valladolid",
-      "url": "r2://ddd-research-archive/congreso_valladolid/43034949749/ddd-minimo-43034949749-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_valladolid/43040794081/ddd-minimo-43040794081-M08.zip"
     },
     "congreso_vizcaya/41293083498/ddd-audit-41293083498.zip": {
       "archivado_en": "2026-11-08T12:15:27Z",

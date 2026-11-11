@@ -1444,6 +1444,15 @@
     "sha256": "c508ce441f22e330e3455ec0f782e4ef2068848d3de00ec2097e220452d5a002"
    }
   },
+  "congreso_valladolid/43040794081": {
+   "territorio": "congreso_valladolid",
+   "run_id": "43040794081",
+   "run_territorial": "43034949749",
+   "sha256_composicion": "fa9ecff7083ccd1fa4b78d7f690a165318c2ad68f500045e3328165b344604f3",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "caf0d30ccb757b5b9a28ea915f95e2cbc348cf83bbb204acba1008f90a355f09",
+   "ruta": "datos/resultados/runs/congreso_valladolid_43040794081_partidos.csv"
+  },
   "congreso_vizcaya/43040430397": {
    "territorio": "congreso_vizcaya",
    "run_id": "43040430397",
