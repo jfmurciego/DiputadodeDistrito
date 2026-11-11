@@ -1064,7 +1064,7 @@ territories:
         source_commit: 58805c689a759960187600c183a65c8f110c0fe5
       evidence:
         electoral_source: territorios/congreso_barcelona/evidencia/fuentes_electorales/2025/e8203257f78dee511e0b5e1592611d712f6ae45c76c443a84a164e3983b652af/42489980111/receipt.json
-        prepared_source_pair: territorios/congreso_barcelona/evidencia/pares_fuentes/2025/c8d0c4a520df2356b13f940ab9e0127eadd3b63adff1d8bf1ba1360255e0f75f.json
+        prepared_source_pair: territorios/congreso_barcelona/evidencia/pares_fuentes/2025/b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a.json
         generation_preflight: territorios/congreso_barcelona/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_barcelona/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/congreso_barcelona/evidencia/catalogo/electoral_product_2025.json
