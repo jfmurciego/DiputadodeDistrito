@@ -1,6 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.8.0
+# VERSIÓN: 1.9.0
+# CAMBIOS 1.9.0: T-234 (relevo formal, D-82/D-84): `motor` por defecto = motor2 («Deslinde 1.0»: canónico + 10 cadenas ReCom +
+#   elección D8 + vigente como candidato) en el botón, en workflow_call, en la 02 y en la 00 electoral encadenada. m05 (ruta
+#   autónoma del canónico, RETIRADA) solo con elección expresa: «Planificar» avisa (::warning::) y motor2 con un algoritmo
+#   GerryChain falla cerrado (exit 20) antes de gastar runners. Sin renombrar nada en el código.
 # CAMBIOS 1.8.0: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P00 Campaña» (antes 00 Ejecución Completa del Proyecto); run-name con el prefijo nuevo; la comprobación de duplicados acepta el nuevo y el viejo.
 # CAMBIOS 1.7.0: T-216 (corte 5.0.0, paso 3): entrada `motor` (m05 por defecto | motor2) en el botón y en workflow_call;
 #   pasa a la 02 (P30 del motor 2 en lugar de M04+M05 como decisor, con huella `motor2` en el checkpoint M06 y
@@ -31,14 +35,14 @@
 #   Sin duplicados: si el territorio ya tiene una activación o una 00 en cola o en curso, no se relanza
 #   (CHAIN_DUPLICATE_SKIPPED). Estado de cada eslabón en el artefacto ddd-cadena-<run> y en el resumen.
 #   run-name con el territorio y el modo para identificar los runs.
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.7.0_20261110b.yml
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.8.0_20261111.yml
 # CAMBIOS: 1.4.0: si 01–03 quedan válidas y la 04 se salta por falta de prepared_source_pair, el job
 #   encadenar_par_y_04 activa el par (preparacion-legislatura-vigente prepare_one) y relanza el 00 en
 #   modo reutilizar; una ejecución en modo reutilizar no vuelve a encadenar.
 #   1.4.1: el encadenado también se dispara en modo reutilizar (el modo por defecto); el bucle se
 #   evita porque el relanzamiento lo dispara github-actions[bot], que no vuelve a encadenar.
 # MOTIVO: un único "Ejecutar desde el principio" debe llegar a la 04 sin pasos manuales.
-# FECHA: 2026-11-10
+# FECHA: 2026-11-11
 name: P00 Campaña
 run-name: "${{ inputs.territory_id && format('P00 Campaña · {0} · {1}', inputs.territory_id, inputs.execution_mode) || 'P00 Campaña' }}"
 
@@ -49,7 +53,7 @@ on:
       data_edition: {required: true, type: string}
       execution_mode: {required: false, type: string, default: Reutilizar progreso existente}
       optimization_algorithm: {required: false, type: string, default: Canónico}
-      motor: {required: false, type: string, default: m05}
+      motor: {required: false, type: string, default: motor2}
       publish_result: {required: false, type: boolean, default: false}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
@@ -262,13 +266,13 @@ on:
           - GerryChain 25
           - GerryChain 50
       motor:
-        description: Motor de distritos (P30); m05 hasta el relevo
+        description: Motor de distritos (P30). motor2 = Deslinde 1.0; m05 = ruta retirada, solo por decisión expresa
         required: false
-        default: m05
+        default: motor2
         type: choice
         options:
-          - m05
           - motor2
+          - m05
       publication_mode:
         description: Alcance de la ejecución
         required: true
@@ -383,6 +387,7 @@ jobs:
           EDITION: ${{ github.event_name == 'pull_request' && '2025' || inputs.data_edition }}
           UI_MODE: ${{ github.event_name == 'pull_request' && 'Ejecutar desde el principio' || inputs.execution_mode }}
           UI_ALGORITHM: ${{ github.event_name == 'pull_request' && 'Canónico' || inputs.optimization_algorithm }}
+          UI_MOTOR: ${{ inputs.motor || 'motor2' }}
           PERSIST_INPUT: ${{ inputs.persist_state }}
           PUBLISH_INPUT: ${{ inputs.publish_result }}
           PUBLICATION_MODE: ${{ github.event_name == 'pull_request' && 'electoral' || inputs.publication_mode || 'electoral' }}
@@ -419,6 +424,15 @@ jobs:
           set -euo pipefail
           source_sha="$(git rev-parse HEAD)"
           [[ "$source_sha" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::SHA de origen inválido: $source_sha"; exit 57; }
+          # T-234 (D-82): motor2 (Deslinde 1.0) por defecto; m05 es la ruta autónoma retirada del canónico.
+          case "$UI_MOTOR" in
+            motor2)
+              if [[ "$UI_ALGORITHM" != "Canónico" ]]; then
+                echo "::error::motor2 (Deslinde 1.0) solo con el algoritmo Canónico (el canónico es un candidato de la competición): «$UI_ALGORITHM» es la ruta retirada; para usarla elija motor=m05 de forma expresa"; exit 20
+              fi ;;
+            m05) echo "::warning::motor=m05: ruta autónoma del canónico RETIRADA (T-234, D-82). Solo por decisión expresa del propietario; los mapas vigentes se generan con motor2 (Deslinde 1.0)." ;;
+            *) echo "::error::motor desconocido: $UI_MOTOR (motor2 | m05)"; exit 20 ;;
+          esac
           case "$UI_MODE" in
             "Reutilizar progreso existente"|"Continuar desde el último resultado válido") mode=reuse ;;
             "Reutilizar fuente explícita") mode=reuse ;;
@@ -1085,7 +1099,7 @@ jobs:
       data_edition: ${{ needs.planificar.outputs.edition }}
       execution_mode: ${{ needs.planificar.outputs.generation_execution_mode }}
       optimization_algorithm: ${{ needs.planificar.outputs.optimization_algorithm }}
-      motor: ${{ inputs.motor || 'm05' }}
+      motor: ${{ inputs.motor || 'motor2' }}
       source_package_run_id: ${{ needs.puerta_01.outputs.run_id }}
       source_package_artifact_name: ${{ needs.puerta_01.outputs.artifact_name }}
       source_ref: ${{ needs.acreditar_generacion.result == 'success' && needs.acreditar_generacion.outputs.enabled_source_ref || (needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.prepared_source_ref || needs.planificar.outputs.source_sha) }}
@@ -1614,7 +1628,7 @@ jobs:
       TERRITORY: ${{ inputs.territory_id }}
       EDITION: ${{ inputs.data_edition }}
       ALGORITHM: ${{ inputs.optimization_algorithm }}
-      MOTOR: ${{ inputs.motor || 'm05' }}
+      MOTOR: ${{ inputs.motor || 'motor2' }}
       ORIGEN: ${{ github.run_id }}
     steps:
       - name: Activar par de fuentes y relanzar en modo reutilizar

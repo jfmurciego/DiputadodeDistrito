@@ -2,7 +2,8 @@
 """Legislatura vigente: configuración, plan y lanzamiento por ámbito del Gestor de Campañas.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.3 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.3.0 · FECHA: 2026-11-11 · ESTADO: candidato
+CAMBIOS 1.3.0: T-234 (relevo formal, D-82): la 00 del Gestor se lanza con `motor=motor2` (Deslinde 1.0) de forma explícita (MOTOR_00).
 CAMBIOS 1.2.3: T-215 (corte 5.0.0, paso 4), la 00 se llama «P00 Campaña»: TITLE_00 nuevo; los runs en curso con el
   título viejo («00 Ejecución Completa del Proyecto · …») siguen contando como en curso y `Campaign.poll` los sigue.
 CAMBIOS 1.2.2: T-201, `territory_state(..., eleccion)`: el M08 publicado cuenta por (territorio, elección), por defecto 2023-07-23; un M08
@@ -16,7 +17,7 @@ CAMBIOS 1.2.0: T-105 (Gestor 2.0, D-22): `build_plan` admite inicio (reutilizar/
 CAMBIOS 1.1.0: T-102, ámbito «congreso 350» (49 gemelos `congreso350_*`, K = escaños reales de 2023);
   «legislatura completa» y «nacional» no los incluyen salvo que se pidan por territory_id (relevo `continuar`).
   Los gemelos nunca publican (D-18): 00 con publish_result=false y sin 05; «COMPLETO_SIN_PUBLICAR» → `nada`.
-ANTERIOR: legacy/herramientas/legislatura_vigente_v1.2.2_20261110.py
+ANTERIOR: legacy/herramientas/legislatura_vigente_v1.2.3_20261111.py
 QUÉ HACE: T-86.
   - `generar` escribe `configuracion/legislatura_vigente.yaml` desde los ficheros con fuente del repo
     (registro electoral, preparación de la legislatura y escaños oficiales del BOE), con su sha256; nada de memoria.
@@ -52,6 +53,7 @@ PREPARATION = Path("configuracion/preparacion_legislatura_vigente.yaml")
 SEATS_2023 = Path("configuracion/resultados_oficiales_congreso_2023.json")
 VIEWER = Path("orchestracion/publicaciones_visor.json")
 WF_00 = "ejecucion-completa-proyecto.yml"
+MOTOR_00 = "motor2"  # T-234: Deslinde 1.0; m05 (ruta retirada) nunca desde el Gestor
 WF_05 = "desplegar-visor-publico.yml"
 WF_GESTOR = "gestor-campanas.yml"
 WF_06 = "generar-alternativas-territoriales.yml"
@@ -322,7 +324,7 @@ class Territorio:
             self.fase = "00"
         else:
             dispatch(WF_00, {"territory_id": self.row["selector_00"], "data_edition": "2025",
-                             "execution_mode": MODES[acc], "optimization_algorithm": self.algorithm,
+                             "execution_mode": MODES[acc], "optimization_algorithm": self.algorithm, "motor": MOTOR_00,
                              "publication_mode": "electoral", "publish_result": self.publishes,
                              "lanzado_por_eleccion": True})
             self.fase = "00"

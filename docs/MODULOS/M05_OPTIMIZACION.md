@@ -1,14 +1,19 @@
 # M05 — Optimizar distritos
 
-**Versión documental:** 1.4.6
+**Versión documental:** 1.4.7
 **Nombre de versión:** Estrategia privada experimental v7.8.4
-**Fecha:** 2026-11-02
+**Fecha:** 2026-11-11
 **Código activo:** M05 v7.8.7
 **Lógica optimizadora validada:** M05 v7.4.0 — GitHub Run #9 `34599224954`
 **Baseline anterior:** M05 v7.3.0 — GitHub Run #8 `34592470470`
-**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.5.md`
-**Cambio:** 1.4.6 (T-24): wrapper v7.8.7; la exención municipal de la reparación se lee del campo de municipio de las secciones, no del formato del id de unidad (Cádiz). 1.4.5 (T-15): wrapper v7.8.6; la reparación no mueve unidades de municipios exentos de suelo (el suelo 0 va por distrito y debe seguir al municipio; Las Palmas, M08). 1.4.4: wrapper v7.8.5 con exención de suelo por municipio. 1.4.3: documenta el wrapper v7.8.4 y `private_annealing` como estrategia experimental privada, opt-in y desactivada por defecto. El camino de reparación previo y sus parámetros predeterminados se conservan; los resultados privados solo se promueven tras validación oficial atómica.
+**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.6.md`
+**Cambio:** 1.4.7 (T-234, D-82/D-84): relevo formal; M04+M05 dejan de ser la ruta autónoma que genera mapas y quedan solo como el candidato «canónico» de Deslinde 1.0 (sin cambio de código). 1.4.6 (T-24): wrapper v7.8.7; la exención municipal de la reparación se lee del campo de municipio de las secciones, no del formato del id de unidad (Cádiz). 1.4.5 (T-15): wrapper v7.8.6; la reparación no mueve unidades de municipios exentos de suelo (el suelo 0 va por distrito y debe seguir al municipio; Las Palmas, M08). 1.4.4: wrapper v7.8.5 con exención de suelo por municipio. 1.4.3: documenta el wrapper v7.8.4 y `private_annealing` como estrategia experimental privada, opt-in y desactivada por defecto. El camino de reparación previo y sus parámetros predeterminados se conservan; los resultados privados solo se promueven tras validación oficial atómica.
 **Motivo:** reflejar la implementación experimental aprobada sin modificar el motor base, los contratos territoriales, las tolerancias ni las cuotas.
+
+## Papel en Deslinde 1.0 (T-234)
+Desde el relevo formal (D-82, D-84) los mapas de distritos se generan con **Deslinde 1.0** — «delimitación reproducible de distritos uninominales» —, que en el código sigue llamándose `motor2` (P30, `ddd_motor2/produccion.py`): compiten el **canónico** (M04 + M05, este módulo), **10 cadenas ReCom** y el **mapa vigente** como candidato, y gana el plan elegido por la clave **D8**. M05 se ejecuta igual que antes, pero su salida ya no se publica por sí sola: es un candidato de la competición.
+
+**Ruta autónoma retirada.** La 00 con `motor=m05` (M04 + M05 como decisor, sin competición) queda retirada: no es el defecto de la 00, la 02, el reutilizable de generación ni el Gestor, y solo se usa por decisión expresa del propietario (la 00 lo avisa en «Planificar»). El código no se mueve a `legacy/` ni se renombra: `modulos/05_*` y `ddd_core/m05_*` están en las huellas M05/N08 y en los tests R015/R016, y el canónico sigue corriendo dentro de Deslinde 1.0. Ningún mapa del motor antiguo queda vigente tras la regeneración (D-82); sus productos se archivan, no se borran.
 
 ## Propósito
 M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional sin violar ninguna regla estructural en los productos aceptados. El camino predeterminado conserva el reparador existente. La opción experimental `private_annealing` explora exclusivamente copias privadas, incluso con infracciones poblacionales transitorias, y solo sustituye los productos tras superar la validación final completa.
