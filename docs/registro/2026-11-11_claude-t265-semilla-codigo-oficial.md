@@ -43,6 +43,8 @@
     en los 3, con los mismos fuera de tolerancia que el vigente publicado.
   - Reproducibilidad: en las dos ejecuciones salen la misma `huella_resultado` y los mismos sha256 de las 12
     composiciones de cada territorio.
+  - Repetida tras fusionar `main` 9f2483d (T-262, #730, cadenas más baratas): dos ejecuciones más, mismos ganadores y
+    mismas `huella_resultado` que antes de la fusión (T-262 es bit a bit), aceptación igual. Tiempos 25,1 / 21,8 / 33,8 s.
   - Nueva referencia «bit a bit» desde la fusión (D-90, e):
     - congreso_huesca `7085a317fbe1ef6be34c4a7c6141e4cc7df838be8915a2817637395dcbcd33f4`;
     - congreso_la_rioja `3deb5f2883830b08bedba4f276f5aae5abddc4a60975d698ae453fcfc151fa2b`;
