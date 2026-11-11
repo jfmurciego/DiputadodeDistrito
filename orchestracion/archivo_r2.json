@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T15:48:08Z",
+  "actualizado_en": "2026-11-11T15:49:01Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -7659,6 +7659,20 @@
       "tamano_estado_original": 251799287,
       "territorio": "madrid",
       "url": "r2://ddd-research-archive/madrid/41046373806/ddd-minimo-41046373806-M08.zip"
+    },
+    "madrid/43045415140/ddd-minimo-43045415140-M06.zip": {
+      "archivado_en": "2026-11-11T15:49:01Z",
+      "artefacto": "ddd-minimo-43045415140-M06",
+      "artefacto_origen": "ddd-state-43045415140-M06",
+      "artifact_id": 13869297310,
+      "caducidad_original": "2026-11-25T15:44:52Z",
+      "run_id": "43045415140",
+      "sha256": "0cc11767aad9244f213bdc90f7405d1e548821a4ddcbaa185dcaa17783b89b4b",
+      "sha256_estado_original": "d2c83e4c06391e977efff7f933f110856a74a454e8ae2c335ee4f09a15697896",
+      "tamano_bytes": 1958731,
+      "tamano_estado_original": 101698506,
+      "territorio": "madrid",
+      "url": "r2://ddd-research-archive/madrid/43045415140/ddd-minimo-43045415140-M06.zip"
     },
     "melilla/40840795932/ddd-audit-40840795932.zip": {
       "archivado_en": "2026-11-07T17:06:00Z",

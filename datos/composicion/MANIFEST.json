@@ -1659,6 +1659,13 @@
    "sha256_csv": "059676242153b55c0e833a1b9b465ad14e5aced0e44a2ac04d68334d2cb3445f",
    "ruta": "datos/composicion/runs/la_rioja_43003614878.csv"
   },
+  "madrid/43045415140": {
+   "territorio": "madrid",
+   "run_id": "43045415140",
+   "secciones": 4479,
+   "sha256_csv": "fbc430c92ddae27b98ac46f411214a9b91697c415c0b665f8b05b175ee00ba21",
+   "ruta": "datos/composicion/runs/madrid_43045415140.csv"
+  },
   "melilla/42504386196": {
    "territorio": "melilla",
    "run_id": "42504386196",
