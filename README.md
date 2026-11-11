@@ -29,13 +29,13 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T02:56:58.493778+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T03:11:39.756409+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
 | Indicador | Estado | Territorios |
 |---|---:|---|
-| **Cadena completa validada** | 🟢 **49** | 01 Andalucía · 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 07 Castilla y León · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Nacional Burgos · Nacional Huesca · Nacional León · Nacional Lérida · Nacional La Rioja · Nacional Lugo · Nacional Madrid · Nacional Málaga · Nacional Navarra · Nacional Orense · Nacional Asturias · Nacional Palencia · Nacional Las Palmas · Nacional Salamanca · Nacional Santa Cruz de Tenerife · Nacional Cantabria · Nacional Segovia · Nacional Sevilla · Nacional Soria · Nacional Tarragona · Nacional Teruel · Nacional Toledo · Nacional Valencia · Nacional Valladolid · Nacional Vizcaya · Nacional Zamora · Nacional Zaragoza · Nacional Ceuta · Nacional Melilla · Nacional 350 Madrid · Nacional 350 Soria · Nacional 350 Valladolid |
+| **Cadena completa validada** | 🟢 **34** | 01 Andalucía · 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 07 Castilla y León · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Nacional León · Nacional La Rioja · Nacional Navarra · Nacional Salamanca · Nacional Sevilla · Nacional Tarragona · Nacional Teruel · Nacional Toledo · Nacional Valencia · Nacional Valladolid · Nacional Zamora · Nacional Zaragoza · Nacional Ceuta · Nacional Melilla · Nacional 350 Madrid · Nacional 350 Soria · Nacional 350 Valladolid |
 | **Generación territorial validada** | 🟢 **74** | 01 Andalucía · 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 06 Cantabria · 07 Castilla y León · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 11 Extremadura · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Nacional Álava · Nacional Albacete · Nacional Alicante · Nacional Almería · Nacional Ávila · Nacional Badajoz · Nacional Baleares · Nacional Barcelona · Nacional Burgos · Nacional Cáceres · Nacional Cádiz · Nacional Castellón · Nacional Ciudad Real · Nacional Córdoba · Nacional La Coruña · Nacional Cuenca · Nacional Gerona · Nacional Granada · Nacional Guadalajara · Nacional Guipúzcoa · Nacional Huelva · Nacional Huesca · Nacional Jaén · Nacional León · Nacional Lérida · Nacional La Rioja · Nacional Lugo · Nacional Madrid · Nacional Málaga · Nacional Murcia · Nacional Navarra · Nacional Orense · Nacional Asturias · Nacional Palencia · Nacional Las Palmas · Nacional Pontevedra · Nacional Salamanca · Nacional Santa Cruz de Tenerife · Nacional Cantabria · Nacional Segovia · Nacional Sevilla · Nacional Soria · Nacional Tarragona · Nacional Teruel · Nacional Toledo · Nacional Valencia · Nacional Valladolid · Nacional Vizcaya · Nacional Zamora · Nacional Zaragoza · Nacional Ceuta · Nacional Melilla · Nacional 350 Madrid · Nacional 350 Soria · Nacional 350 Valladolid |
 | **Preparados para continuar** | 🔵 **0** | — |
 | **Validación pendiente** | 🟡 **46** | Nacional 350 Álava · Nacional 350 Albacete · Nacional 350 Alicante · Nacional 350 Almería · Nacional 350 Ávila · Nacional 350 Badajoz · Nacional 350 Barcelona · Nacional 350 Burgos · Nacional 350 Cáceres · Nacional 350 Cádiz · Nacional 350 Castellón · Nacional 350 Ciudad Real · Nacional 350 Córdoba · Nacional 350 La Coruña · Nacional 350 Cuenca · Nacional 350 Gerona · Nacional 350 Granada · Nacional 350 Guadalajara · Nacional 350 Guipúzcoa · Nacional 350 Huelva · Nacional 350 Huesca · Nacional 350 Jaén · Nacional 350 León · Nacional 350 Lérida · Nacional 350 La Rioja · Nacional 350 Lugo · Nacional 350 Málaga · Nacional 350 Murcia · Nacional 350 Navarra · Nacional 350 Orense · Nacional 350 Asturias · Nacional 350 Palencia · Nacional 350 Pontevedra · Nacional 350 Salamanca · Nacional 350 Cantabria · Nacional 350 Segovia · Nacional 350 Sevilla · Nacional 350 Tarragona · Nacional 350 Teruel · Nacional 350 Toledo · Nacional 350 Valencia · Nacional 350 Vizcaya · Nacional 350 Zamora · Nacional 350 Zaragoza · Nacional 350 Ceuta · Nacional 350 Melilla |
@@ -74,7 +74,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Badajoz** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940345930 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Baleares** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41481449507 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Barcelona** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42495069270 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional Burgos** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299221887 · SUCCESS | — | — | — |
+| **Nacional Burgos** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41299221887 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Cáceres** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41294658600 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Cádiz** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41500124775 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Castellón** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41295629673 · SUCCESS | — | — | preparar fuentes electorales |
@@ -87,33 +87,33 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Guadalajara** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41294169221 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Guipúzcoa** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41298935355 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Huelva** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41335929678 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional Huesca** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42519383275 · SUCCESS | — | — | — |
+| **Nacional Huesca** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42519383275 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Jaén** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41295799269 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional León** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41629735636 · SUCCESS | — | — | — |
-| **Nacional Lérida** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299033915 · SUCCESS | — | — | — |
+| **Nacional Lérida** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41299033915 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42935762636 · SUCCESS | — | — | — |
-| **Nacional Lugo** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42514986960 · SUCCESS | — | — | — |
-| **Nacional Madrid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41622703086 · SUCCESS | — | — | — |
-| **Nacional Málaga** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42495070976 · SUCCESS | — | — | — |
+| **Nacional Lugo** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42514986960 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Madrid** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41622703086 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Málaga** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42495070976 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Murcia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41622862185 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Navarra** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299128213 · SUCCESS | — | — | — |
-| **Nacional Orense** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295142111 · SUCCESS | — | — | — |
-| **Nacional Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296638877 · SUCCESS | — | — | — |
-| **Nacional Palencia** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41298660623 · SUCCESS | — | — | — |
-| **Nacional Las Palmas** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41442913288 · SUCCESS | — | — | — |
+| **Nacional Orense** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41295142111 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Asturias** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41296638877 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Palencia** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41298660623 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Las Palmas** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41442913288 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Pontevedra** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41353894475 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Salamanca** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295298674 · SUCCESS | — | — | — |
-| **Nacional Santa Cruz de Tenerife** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42519017008 · SUCCESS | — | — | — |
-| **Nacional Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41356175674 · SUCCESS | — | — | — |
-| **Nacional Segovia** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41241846017 · SUCCESS | — | — | — |
+| **Nacional Santa Cruz de Tenerife** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42519017008 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Cantabria** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41356175674 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Segovia** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41241846017 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Sevilla** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41297168461 · SUCCESS | — | — | — |
-| **Nacional Soria** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250310066 · SUCCESS | — | — | — |
+| **Nacional Soria** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41250310066 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Tarragona** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42514991952 · SUCCESS | — | — | — |
 | **Nacional Teruel** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250394074 · SUCCESS | — | — | — |
 | **Nacional Toledo** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296268720 · SUCCESS | — | — | — |
 | **Nacional Valencia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42525625044 · SUCCESS | — | — | — |
 | **Nacional Valladolid** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299313598 · SUCCESS | — | — | — |
-| **Nacional Vizcaya** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41356074013 · SUCCESS | — | — | — |
+| **Nacional Vizcaya** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41356074013 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Zamora** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250479211 · SUCCESS | — | — | — |
 | **Nacional Zaragoza** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296815536 · SUCCESS | — | — | — |
 | **Nacional Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42496569312 · SUCCESS | — | — | — |
