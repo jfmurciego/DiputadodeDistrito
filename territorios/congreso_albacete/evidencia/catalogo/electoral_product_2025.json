@@ -4,9 +4,9 @@
   "territory_id": "congreso_albacete",
   "territory_name": "Congreso Albacete",
   "edition": "2025",
-  "run_id": 42514994231,
-  "artifact_name": "ddd-state-42514994231-M08",
-  "artifact_sha256": "c75a3db7daefc56cc86f68803b5e8025469a115b2de914aa90a2ea3ba9ff17a3",
-  "source_commit": "d9b783f30e7fa6d9f83d62b85ae3035f94f1858a",
+  "run_id": 42952791883,
+  "artifact_name": "ddd-state-42952791883-M08",
+  "artifact_sha256": "358114a86bda9720e7026d899c33e34bf870435ea327992bc50acef27a0a3268",
+  "source_commit": "56d885ab860721509ae8422153780b6fc871a4de",
   "stage": "M08"
 }
