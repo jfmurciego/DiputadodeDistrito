@@ -1323,6 +1323,13 @@
    "sha256_csv": "3a6ce8ce35cdcef4f375975954a5f97a536515b1b6381c0aa69ba79a98128159",
    "ruta": "datos/composicion/runs/congreso_palencia_42940484559.csv"
   },
+  "congreso_palencia/43012127687": {
+   "territorio": "congreso_palencia",
+   "run_id": "43012127687",
+   "secciones": 275,
+   "sha256_csv": "3a6ce8ce35cdcef4f375975954a5f97a536515b1b6381c0aa69ba79a98128159",
+   "ruta": "datos/composicion/runs/congreso_palencia_43012127687.csv"
+  },
   "congreso_pontevedra/42940495323": {
    "territorio": "congreso_pontevedra",
    "run_id": "42940495323",
