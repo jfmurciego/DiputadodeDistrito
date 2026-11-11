@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T04:10:35.746868+00:00",
+  "generated_at": "2026-11-11T04:12:02.477112+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8700,20 +8700,20 @@
       "name": "Nacional La Coruña",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940392520,
+      "run_id": 42953518518,
       "last_run": {
-        "run_id": 42940392520,
+        "run_id": 42953518518,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8754,7 +8754,7 @@
       },
       "autonomous_community_code_ine": "C15",
       "display_name": "Nacional La Coruña",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_cuenca",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 31,
+    "complete": 32,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12285,6 +12285,7 @@
       "Nacional Cáceres",
       "Nacional Cádiz",
       "Nacional Córdoba",
+      "Nacional La Coruña",
       "Nacional La Rioja",
       "Nacional 350 Madrid",
       "Nacional 350 Soria",
@@ -12499,11 +12500,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_caceres",
-    "name": "Nacional Cáceres",
-    "display_name": "Nacional Cáceres",
-    "autonomous_community_code_ine": "C10",
-    "run_id": 42953363103,
+    "territory_id": "congreso_la_coruna",
+    "name": "Nacional La Coruña",
+    "display_name": "Nacional La Coruña",
+    "autonomous_community_code_ine": "C15",
+    "run_id": 42953518518,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12546,15 +12547,15 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional La Coruña",
-      "territory_id": "congreso_la_coruna",
-      "autonomous_community_code_ine": "C15",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Cuenca",
       "territory_id": "congreso_cuenca",
       "autonomous_community_code_ine": "C16",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Gerona",
+      "territory_id": "congreso_gerona",
+      "autonomous_community_code_ine": "C17",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12596,15 +12597,15 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional La Coruña",
-      "territory_id": "congreso_la_coruna",
-      "autonomous_community_code_ine": "C15",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Cuenca",
       "territory_id": "congreso_cuenca",
       "autonomous_community_code_ine": "C16",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Gerona",
+      "territory_id": "congreso_gerona",
+      "autonomous_community_code_ine": "C17",
       "action": "preparar fuentes electorales"
     }
   ]
