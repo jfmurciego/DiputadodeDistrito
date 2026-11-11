@@ -945,6 +945,15 @@
    "sha256_csv": "8738ce6bd52449b69126b2cbfbeeee180e5c6195219dcdba37bf0dceb48588ee",
    "ruta": "datos/resultados/runs/congreso_cadiz_42953019279_partidos.csv"
   },
+  "congreso_cantabria/42985965354": {
+   "territorio": "congreso_cantabria",
+   "run_id": "42985965354",
+   "run_territorial": "42981422592",
+   "sha256_composicion": "153a4e36368976c40d669923ea80ee9fb5c5e51c39e9c64e1b932840140faf52",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "7f53c3c2be8725843519cf5eb6a22c4a1a374fc09fe7bd0ff2768d2f994f9c00",
+   "ruta": "datos/resultados/runs/congreso_cantabria_42985965354_partidos.csv"
+  },
   "congreso_castellon/42953757677": {
    "territorio": "congreso_castellon",
    "run_id": "42953757677",

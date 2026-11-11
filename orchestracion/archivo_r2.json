@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T08:25:23Z",
+  "actualizado_en": "2026-11-11T08:26:45Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2069,19 +2069,20 @@
       "territorio": "congreso_cantabria",
       "url": "r2://ddd-research-archive/congreso_cantabria/42940510614/ddd-minimo-42940510614-M06.zip"
     },
-    "congreso_cantabria/42981422592/ddd-minimo-42981422592-M06.zip": {
-      "archivado_en": "2026-11-11T08:14:24Z",
-      "artefacto": "ddd-minimo-42981422592-M06",
-      "artefacto_origen": "ddd-state-42981422592-M06",
-      "artifact_id": 13839625932,
-      "caducidad_original": "2026-11-25T08:11:15Z",
-      "run_id": "42981422592",
-      "sha256": "d1ef5bdc1b68cdd05c8f744eecdcd9589dc097d6a48decc45c9aca1f45afc933",
-      "sha256_estado_original": "b5ebe83993d248788573f0c28a99ec06a91e7fbf452a37f34f83552f75e0188a",
-      "tamano_bytes": 260346,
-      "tamano_estado_original": 78476178,
+    "congreso_cantabria/42985965354/ddd-minimo-42985965354-M08.zip": {
+      "archivado_en": "2026-11-11T08:26:45Z",
+      "artefacto": "ddd-minimo-42985965354-M08",
+      "artefacto_origen": "ddd-state-42985965354-M08",
+      "artifact_id": 13839738013,
+      "caducidad_original": "2026-11-25T08:25:48Z",
+      "incluye_m06_run": "42981422592",
+      "run_id": "42985965354",
+      "sha256": "f05187f72d3b996e8fd1c135a0122996b19245f383a6eba8c70b14fa08d8ed9d",
+      "sha256_estado_original": "761a5bdb348b461248ff7a60f54aaae26270eb9bab53a05e1dbcdec2ef5c65ce",
+      "tamano_bytes": 435463,
+      "tamano_estado_original": 79164846,
       "territorio": "congreso_cantabria",
-      "url": "r2://ddd-research-archive/congreso_cantabria/42981422592/ddd-minimo-42981422592-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_cantabria/42985965354/ddd-minimo-42985965354-M08.zip"
     },
     "congreso_castellon/41241768943/ddd-audit-41241768943.zip": {
       "archivado_en": "2026-11-08T12:08:26Z",
