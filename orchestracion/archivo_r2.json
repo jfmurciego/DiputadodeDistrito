@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T13:32:08Z",
+  "actualizado_en": "2026-11-11T13:34:29Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -521,6 +521,20 @@
       "tamano_estado_original": 290180651,
       "territorio": "castilla_la_mancha",
       "url": "r2://ddd-research-archive/castilla_la_mancha/40979540141/ddd-minimo-40979540141-M08.zip"
+    },
+    "castilla_la_mancha/43025652192/ddd-minimo-43025652192-M06.zip": {
+      "archivado_en": "2026-11-11T13:34:29Z",
+      "artefacto": "ddd-minimo-43025652192-M06",
+      "artefacto_origen": "ddd-state-43025652192-M06",
+      "artifact_id": 13860207417,
+      "caducidad_original": "2026-11-25T13:31:01Z",
+      "run_id": "43025652192",
+      "sha256": "161d264f1e0076fe41791b3a293934bbdeab170964d5fb06e3347b4ba5d5479c",
+      "sha256_estado_original": "567903c55a99e47cf4d4d93dc72ee29a829989d41fa90dd928557d1ec4c695d6",
+      "tamano_bytes": 1359483,
+      "tamano_estado_original": 106935973,
+      "territorio": "castilla_la_mancha",
+      "url": "r2://ddd-research-archive/castilla_la_mancha/43025652192/ddd-minimo-43025652192-M06.zip"
     },
     "castilla_y_leon/40969454399/ddd-audit-40969454399.zip": {
       "archivado_en": "2026-11-07T17:13:47Z",

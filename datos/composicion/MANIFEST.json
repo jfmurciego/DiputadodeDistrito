@@ -840,6 +840,13 @@
    "sha256_csv": "30c46091c7e5d4ab8be266ed08c3ee33bb9c11cff7032cca6b354298d2f55ff2",
    "ruta": "datos/composicion/runs/cantabria_42707820760.csv"
   },
+  "castilla_la_mancha/43025652192": {
+   "territorio": "castilla_la_mancha",
+   "run_id": "43025652192",
+   "secciones": 1954,
+   "sha256_csv": "9d5be64bb18d52f743a082914b1bf14ce280f54b0b2d8494ca26bf559ac45842",
+   "ruta": "datos/composicion/runs/castilla_la_mancha_43025652192.csv"
+  },
   "castilla_y_leon/42497104110": {
    "territorio": "castilla_y_leon",
    "run_id": "42497104110",
