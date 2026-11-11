@@ -728,5 +728,58 @@ class RecuentoDelContrato(unittest.TestCase):
         self.assertEqual(len(b.peor_que(r, {**r, "fuera_tolerancia": 0})), 1)  # y uno peor del contrato sigue siendo NO
 
 
+class T233VolcadoDelLog(unittest.TestCase):
+    """T-233: si entradas_uno falla, la cola de log.txt y un ::error salen en la salida del paso."""
+
+    def _uno(self, rc_adq: int, rc_m: int = 0) -> tuple[dict, str]:
+        import contextlib
+        import io
+        from unittest import mock
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        decl = tmp / "decl.yaml"
+        decl.write_text("x: 1\n", encoding="utf-8")
+        cache = tmp / "cache"
+
+        def run(cmd, log, env):
+            with open(log, "a", encoding="utf-8") as fh:
+                fh.write("".join(f"linea {i}\n" for i in range(100)))
+                if "-c" in cmd:
+                    if rc_adq:
+                        fh.write("Traceback (most recent call last):\nRuntimeError: OGC no responde\n")
+                        return rc_adq, 1.0
+                    mat = tmp / "out" / "_trabajo" / "t" / "ev" / "materialized" / "inputs"
+                    mat.mkdir(parents=True, exist_ok=True)
+                    return 0, 1.0
+            cache.mkdir(exist_ok=True)
+            return rc_m, 1.0
+
+        buf = io.StringIO()
+        with mock.patch.object(b, "_run", run), mock.patch.object(b, "_declaracion_temporal", lambda *a: decl), \
+                mock.patch.object(b, "_huellas_contrato", lambda c: {}), mock.patch.object(b, "_cfg", lambda t: {}), \
+                mock.patch.object(b, "_cache", lambda t: cache), mock.patch.object(b, "contrato", lambda t: b.ROOT / "c.yaml"), \
+                mock.patch.object(b, "_guardar_minima", lambda *a: None), contextlib.redirect_stdout(buf):
+            r = b.entradas_uno("t", tmp / "out", {}, "ogc")
+        return r, buf.getvalue()
+
+    def test_fallo_de_adquisicion_vuelca_la_cola_y_el_motivo(self):
+        r, salida = self._uno(rc_adq=1)
+        self.assertEqual(r["estado"], "FALLO_ADQUISICION")
+        self.assertIn("RuntimeError: OGC no responde", salida)
+        self.assertIn("linea 99", salida)
+        self.assertNotIn("linea 41\n", salida)  # solo las últimas 60 líneas
+        self.assertIn("::error title=entradas t::FALLO_ADQUISICION rc=1: RuntimeError: OGC no responde", salida)
+
+    def test_fallo_de_m01_tambien_vuelca(self):
+        r, salida = self._uno(rc_adq=0, rc_m=2)
+        self.assertEqual(r["estado"], "FALLO_M01")
+        self.assertIn("::error title=entradas t::FALLO_M01 rc=2:", salida)
+
+    def test_exito_sin_ruido(self):
+        r, salida = self._uno(rc_adq=0)
+        self.assertEqual(r["estado"], "OK")
+        self.assertEqual(salida, "")
+
+
 if __name__ == "__main__":
     unittest.main()

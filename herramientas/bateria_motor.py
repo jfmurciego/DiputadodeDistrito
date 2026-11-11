@@ -3,10 +3,13 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.3
+VERSIÓN: 1.2.4
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-11
 ESTADO: candidato
+CAMBIOS 1.2.4 (T-233): si `entradas_uno` falla (adquisición o M01-M03), copia a la salida del paso las últimas 60 líneas
+  de log.txt y una línea `::error` con el estado, el rc y el motivo (última línea de error del log). Antes la traza solo
+  estaba en el artefacto (403 desde la nube). La adquisición, los reintentos y la salida de éxito no cambian.
 CAMBIOS 1.2.3 (T-229): `indicadores` lee bien el vigente en los cuatro territorios que la fase 2 de r5 (run 42927322822)
   dejó «sin comparación». (a) Canarias y Cataluña: el vigente publicado reparte unidades M04 de municipios divisibles; si al
   montarlo sobre el canónico salen unidades repartidas, se usa la composición que escribió el generador `vigente` en la
@@ -39,7 +42,7 @@ CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de 
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
-ANTERIOR: legacy/herramientas/bateria_motor_v1.2.2_20261111.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.2.3_20261111.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -258,6 +261,26 @@ ADQUISICION_OGC = (
 )
 
 
+LOG_COLA = 60
+
+
+def _volcar_log(t: str, log: Path, res: dict) -> None:
+    """Fallo: copia a la salida del paso la cola de log.txt y una línea ::error (T-233)."""
+    try:
+        lineas = log.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError:
+        lineas = []
+    cola = lineas[-LOG_COLA:]
+    errores = [x.strip() for x in cola if x.strip() and ("Error" in x or "Exception" in x or x.startswith("FALLO"))]
+    no_vacias = [x.strip() for x in cola if x.strip()]
+    motivo = (errores or no_vacias or ["sin log"])[-1].replace("::", ": ")
+    print(f"--- {t}: últimas {len(cola)} líneas de {log.name} ---", flush=True)
+    for x in cola:
+        print(x, flush=True)
+    print(f"--- fin de {log.name} ---", flush=True)
+    print(f"::error title=entradas {t}::{res.get('estado')} rc={res.get('rc')}: {motivo}", flush=True)
+
+
 def entradas_uno(t: str, out: Path, nac: dict, seccionado: str = "ogc") -> dict:
     dest = out / "entradas" / t
     shutil.rmtree(dest, ignore_errors=True)
@@ -283,6 +306,7 @@ def entradas_uno(t: str, out: Path, nac: dict, seccionado: str = "ogc") -> dict:
     mat = work / "ev" / "materialized" / "inputs"
     if rc != 0 or not mat.is_dir():
         res.update(estado="FALLO_ADQUISICION", rc=rc)
+        _volcar_log(t, log, res)
         return res
     contrato_sha = _huellas_contrato(_cfg(t))
     res["fuentes"] = {}
@@ -299,6 +323,7 @@ def entradas_uno(t: str, out: Path, nac: dict, seccionado: str = "ogc") -> dict:
         res["tiempos"][f"M0{n}"] = s
         if rc != 0:
             res.update(estado=f"FALLO_M0{n}", rc=rc)
+            _volcar_log(t, log, res)
             return res
     res["estado"] = "OK"
     res["origen"] = "fuente"
