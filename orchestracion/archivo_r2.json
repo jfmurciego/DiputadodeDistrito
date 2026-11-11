@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T15:56:50Z",
+  "actualizado_en": "2026-11-11T16:01:23Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -960,19 +960,20 @@
       "territorio": "comunidad_foral_de_navarra",
       "url": "r2://ddd-research-archive/comunidad_foral_de_navarra/41049986588/ddd-state-41049986588-M08.zip"
     },
-    "comunidad_foral_de_navarra/43045437345/ddd-minimo-43045437345-M06.zip": {
-      "archivado_en": "2026-11-11T15:44:58Z",
-      "artefacto": "ddd-minimo-43045437345-M06",
-      "artefacto_origen": "ddd-state-43045437345-M06",
-      "artifact_id": 13869256753,
-      "caducidad_original": "2026-11-25T15:39:10Z",
-      "run_id": "43045437345",
-      "sha256": "4d998674bef3447da0da02c9cd83cbd121aec37a6c26d6a538bce1cc49936751",
-      "sha256_estado_original": "0c821bd7fef79b68486861e689d55d4abf61e8c42f923d217750c606bee93dd2",
-      "tamano_bytes": 2079717,
-      "tamano_estado_original": 112775061,
+    "comunidad_foral_de_navarra/43052874017/ddd-minimo-43052874017-M08.zip": {
+      "archivado_en": "2026-11-11T16:01:23Z",
+      "artefacto": "ddd-minimo-43052874017-M08",
+      "artefacto_origen": "ddd-state-43052874017-M08",
+      "artifact_id": 13871261163,
+      "caducidad_original": "2026-11-25T16:00:33Z",
+      "incluye_m06_run": "43045437345",
+      "run_id": "43052874017",
+      "sha256": "236c989e9672e92c64f968d1a2692f63d825e11574f28f40673a68d60736de36",
+      "sha256_estado_original": "242662c51c998188d35cb327a5d630a761cacb6e8cc30c62123b2a0c96fd33f3",
+      "tamano_bytes": 3999702,
+      "tamano_estado_original": 119086916,
       "territorio": "comunidad_foral_de_navarra",
-      "url": "r2://ddd-research-archive/comunidad_foral_de_navarra/43045437345/ddd-minimo-43045437345-M06.zip"
+      "url": "r2://ddd-research-archive/comunidad_foral_de_navarra/43052874017/ddd-minimo-43052874017-M08.zip"
     },
     "comunidad_valenciana/40973760398/ddd-audit-electoral-40973760398.zip": {
       "archivado_en": "2026-11-07T17:12:52Z",
