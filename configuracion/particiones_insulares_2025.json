@@ -448,6 +448,22 @@
             "38-C01": "764660e1935a2bc50b71083baa054d3b18938c8476405fe5c749ebbda2b463ce",
             "38-G01": "11b7debcdd208866a45bbf77618c792dc617c1737f7c55cb73dc7b949f770fc6"
           }
+        },
+        {
+          "inventory_id": "secciones_2025",
+          "section_year": 2025,
+          "population_year": 2025,
+          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de canarias",
+          "universe_section_count": 684,
+          "universe_cusec_set_sha256": "8c92e0b3d7ff0aa2a5627e9820a9db7f1843f40268eb7b8a1d2a79279fc1256e",
+          "component_sections": {
+            "38-C01": 602,
+            "38-G01": 82
+          },
+          "component_cusec_set_sha256": {
+            "38-C01": "8b9c4001e19b457228b824aa41481d6beaa0e84de989d445e6fca66879ddc9f2",
+            "38-G01": "11b7debcdd208866a45bbf77618c792dc617c1737f7c55cb73dc7b949f770fc6"
+          }
         }
       ]
     },
@@ -566,6 +582,24 @@
             "07-C02": "7d0f1842fc102e74aa795ef8e0e6d7235bc3c2a218402988422706da088374a8",
             "07-G01": "da20518baae015853444a2f647a9fed6217f0e3ff32d0a178e5513cb4cb02426"
           }
+        },
+        {
+          "inventory_id": "secciones_2025",
+          "section_year": 2025,
+          "population_year": 2025,
+          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de illes_balears",
+          "universe_section_count": 674,
+          "universe_cusec_set_sha256": "9840bcfa657cbd05b0e04fefa99316c7fb8f9d085d030eea6060796b22ef9f8c",
+          "component_sections": {
+            "07-C01": 536,
+            "07-C02": 56,
+            "07-G01": 82
+          },
+          "component_cusec_set_sha256": {
+            "07-C01": "92d618a6b53523078fd6e6b2aa1beeb35068c0a428c47b286ca619028e6758b3",
+            "07-C02": "7d0f1842fc102e74aa795ef8e0e6d7235bc3c2a218402988422706da088374a8",
+            "07-G01": "da20518baae015853444a2f647a9fed6217f0e3ff32d0a178e5513cb4cb02426"
+          }
         }
       ]
     },
@@ -650,6 +684,24 @@
             "35-C01": "a4f61a58f817e95f8f64d6f91ef010d8e24b03647632de01be603e70c5fff4b9",
             "35-C02": "57378924a829dcb9b22f58f6ba32c2767b74e3a1a27cd036846d7b19e5cf2008",
             "35-G01": "a38af98ea54921a1fd4d4ee4eda95b2e8586b21cc14147087112f50742f8a3fa"
+          }
+        },
+        {
+          "inventory_id": "secciones_2025",
+          "section_year": 2025,
+          "population_year": 2025,
+          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de canarias",
+          "universe_section_count": 723,
+          "universe_cusec_set_sha256": "b482147f7240ee16eb96735e40879871ff91c54764a1570d2ee3ff633d8399a7",
+          "component_sections": {
+            "35-C01": 589,
+            "35-C02": 56,
+            "35-G01": 78
+          },
+          "component_cusec_set_sha256": {
+            "35-C01": "2436fc07a477a660d004210fabc006078b2db373692920a8bdf0c8846d972f5a",
+            "35-C02": "277c1ab0c60744986c3c21c9e32e534cfca4499e2de9f791d5fa3ab074ec1773",
+            "35-G01": "2ad9c24d2a4ef1e0e7fb1d38202a655519c82cbe0c2c9e0b601cd54a70cd91a0"
           }
         }
       ]
