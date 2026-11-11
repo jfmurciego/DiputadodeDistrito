@@ -4,9 +4,9 @@
   "territory_id": "congreso_cordoba",
   "territory_name": "Congreso Córdoba",
   "edition": "2025",
-  "run_id": 41296161083,
-  "artifact_name": "ddd-state-41296161083-M08",
-  "artifact_sha256": "d63b784edc0238bf7e96bfd0c81407da2c416088b4b4f36e20cc154c5d5a8f0d",
-  "source_commit": "350f7376b59e8e0a760cfdb3dde3ef37cbdd3169",
+  "run_id": 42953300723,
+  "artifact_name": "ddd-state-42953300723-M08",
+  "artifact_sha256": "269d54a55cac337b883991b7e144ca6e61cb36f50b2778688a0ea512569b88ef",
+  "source_commit": "23c8de11972392ad796a8dd604050377098791ba",
   "stage": "M08"
 }
