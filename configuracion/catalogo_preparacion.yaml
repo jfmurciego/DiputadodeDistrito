@@ -423,7 +423,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42720735134
+        run_id: 43045468808
         stage: M06
       preparation_evidence:
         run_id: 42720735134
@@ -462,8 +462,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41044499258
-        stage: M08
+        run_id: 43045478748
+        stage: M06
       preparation_evidence:
         run_id: 40690688352
         artifact_name: ddd-source-package-galicia-2025-40690688352
@@ -618,7 +618,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40979640315
+        run_id: 43047232024
         stage: M08
       preparation_evidence:
         run_id: 40946888676
@@ -635,7 +635,7 @@ territories:
         source_commit: 091d40cef648abcc9319af1f6dc3488a5abdc556
       evidence:
         electoral_source: territorios/pais_vasco/evidencia/fuentes_electorales/2025/32e2c695b91acc6bae9c8b0455b7678b814bf66dc374c741f94622693ff703ab/43036604667/receipt.json
-        prepared_source_pair: territorios/pais_vasco/evidencia/pares_fuentes/2025/17eb947b3aa1af5f9703a54b05a41ec6d8e7b4feeec5ace3dcc830ebd8f3b5a1.json
+        prepared_source_pair: territorios/pais_vasco/evidencia/pares_fuentes/2025/76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac.json
         generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/pais_vasco/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/pais_vasco/evidencia/catalogo/electoral_product_2025.json
@@ -735,8 +735,8 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42504386196
-        stage: M08
+        run_id: 43045458268
+        stage: M06
       preparation_evidence:
         run_id: 40832114779
         artifact_name: ddd-source-package-melilla-2025-40832114779

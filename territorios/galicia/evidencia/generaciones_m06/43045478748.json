@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13868822783,
+      "artifact_name": "ddd-audit-43045478748",
+      "artifact_sha256": "287883c60d985e94c6cd3491f03fd26aa8459ad09e717b5603c4457bbceaf615",
+      "run_id": 43045478748,
+      "size_in_bytes": 16880
+    },
+    "m04": {
+      "artifact_id": 13867382875,
+      "artifact_name": "ddd-state-43045478748-M04",
+      "artifact_sha256": "35fc936cf668c06af20285326056a91e32fe1d4e39d81dd3c8eead7380ea8878",
+      "run_id": 43045478748,
+      "size_in_bytes": 88709008
+    },
+    "m05": {
+      "artifact_id": 13867343312,
+      "artifact_name": "ddd-state-43045478748-M05",
+      "artifact_sha256": "ed2a2ff1b9669ac6f7c74fff304ccce22cb23cc8f89ec7aa8e8d13de991e3ca7",
+      "run_id": 43045478748,
+      "size_in_bytes": 91558521
+    },
+    "m06": {
+      "artifact_id": 13868507924,
+      "artifact_name": "ddd-state-43045478748-M06",
+      "artifact_sha256": "cfc8286d7448c7fb4a10c3a7c8a212cd04fff70099273d63e7cf7be08d1d459d",
+      "run_id": 43045478748,
+      "size_in_bytes": 98978633
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "57339f9b563ee90c2b77053f85a3de11841188e6f7a678291dd27854044f0495",
+        "size_in_bytes": 401
+      },
+      "galicia_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "e3356c6509b60642f260eea0dde6ef58df8450f66825b6ee0439990416f2a413",
+        "size_in_bytes": 108986
+      },
+      "optimization_execution.json": {
+        "sha256": "4ecd4208ae35ded56de91079aa339f48b8777805779fb00895c094cdb96e24ed",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "8a532d0fff60fdc9c47333cc5456146817802b02b5c52931e7edc4bd0a58a316",
+        "size_in_bytes": 1463
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "8a532d0fff60fdc9c47333cc5456146817802b02b5c52931e7edc4bd0a58a316",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/galicia/config/galicia_2025.yaml",
+    "sha256": "37865e1b17f9295cf7cb5e059ed32104d6e754120b90a19c2abe20dcb7375f3d"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "c69c7a09481a7f89728e3c0d8247ff70b58a2ae7121afc4e21ac2af4bfe72a7d",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1325857207",
+      "generador": "ponderado",
+      "huella_resultado": "a20c3ef2e0c8b11ce02c7a719deae35390eaaebcb3d6f982bd9d3350c8503ac8",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.5618480519677305,
+          "fuera_tolerancia": 6,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.5618480519677305,
+          "fuera_tolerancia": 6,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "2de32dcbba97a6225722c3492ffb1b1a11d5b0e8bf67e16a1bb3c3a4d9b878bc",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+    "edition": "2025",
+    "territory_id": "galicia",
+    "territory_name": "Galicia",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43045478748,
+    "workflow_sha": "09ba9a2f38fc81b54348607e40b32d0a146e255b"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13867382875,
+      "artifact_name": "ddd-state-43045478748-M04",
+      "artifact_sha256": "35fc936cf668c06af20285326056a91e32fe1d4e39d81dd3c8eead7380ea8878",
+      "run_id": 43045478748,
+      "size_in_bytes": 88709008
+    },
+    "source_manifest_sha256": "9b7277186ca8347b04998fe4d9f6f4b652092a97f482f2ffc3776a617319862c",
+    "source_package_artifact": {
+      "artifact_id": 12819127873,
+      "artifact_name": "ddd-source-package-galicia-2025-40690688352",
+      "artifact_sha256": "20d7850a31f2ae24fb25d4a58726589fa5938da8691bfb41e7b1f1722661622b",
+      "run_id": 40690688352,
+      "size_in_bytes": 82972798
+    }
+  },
+  "manifest_sha256": "e548227dbc613a788b59603e81c736301776be8474022f21592ef173f69a27f4",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T14:54:23Z",
+  "actualizado_en": "2026-11-11T15:37:13Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -7202,6 +7202,20 @@
       "territorio": "extremadura",
       "url": "r2://ddd-research-archive/extremadura/42720735134/ddd-minimo-42720735134-M06.zip"
     },
+    "extremadura/43045468808/ddd-minimo-43045468808-M06.zip": {
+      "archivado_en": "2026-11-11T15:36:14Z",
+      "artefacto": "ddd-minimo-43045468808-M06",
+      "artefacto_origen": "ddd-state-43045468808-M06",
+      "artifact_id": 13867423828,
+      "caducidad_original": "2026-11-25T15:32:28Z",
+      "run_id": "43045468808",
+      "sha256": "76a2b4e01439fe8db793063dd3095eff4a9b70a798be612af89fd51fc0ecabec",
+      "sha256_estado_original": "5bf779c702b38d67b2410a5c182a86bb1eedf2fc68b1915669b485ce1e8a3de3",
+      "tamano_bytes": 1079574,
+      "tamano_estado_original": 94916993,
+      "territorio": "extremadura",
+      "url": "r2://ddd-research-archive/extremadura/43045468808/ddd-minimo-43045468808-M06.zip"
+    },
     "galicia/40241719200/ddd-audit-40241719200.zip": {
       "archivado_en": "2026-11-07T17:02:38Z",
       "artefacto": "ddd-audit-40241719200",
@@ -7273,6 +7287,20 @@
       "tamano_estado_original": 240680388,
       "territorio": "galicia",
       "url": "r2://ddd-research-archive/galicia/41044499258/ddd-minimo-41044499258-M08.zip"
+    },
+    "galicia/43045478748/ddd-minimo-43045478748-M06.zip": {
+      "archivado_en": "2026-11-11T15:37:13Z",
+      "artefacto": "ddd-minimo-43045478748-M06",
+      "artefacto_origen": "ddd-state-43045478748-M06",
+      "artifact_id": 13868507924,
+      "caducidad_original": "2026-11-25T15:33:50Z",
+      "run_id": "43045478748",
+      "sha256": "a8c69272abbf309f1301f5ebc8aa7c13f4afac171d18a2a9b1b6c306903e23e5",
+      "sha256_estado_original": "cfc8286d7448c7fb4a10c3a7c8a212cd04fff70099273d63e7cf7be08d1d459d",
+      "tamano_bytes": 1477945,
+      "tamano_estado_original": 98978633,
+      "territorio": "galicia",
+      "url": "r2://ddd-research-archive/galicia/43045478748/ddd-minimo-43045478748-M06.zip"
     },
     "illes_balears/41033500476/ddd-audit-41033500476.zip": {
       "archivado_en": "2026-11-07T17:23:54Z",
@@ -7677,6 +7705,20 @@
       "territorio": "melilla",
       "url": "r2://ddd-research-archive/melilla/42504386196/ddd-minimo-42504386196-M08.zip"
     },
+    "melilla/43045458268/ddd-minimo-43045458268-M06.zip": {
+      "archivado_en": "2026-11-11T15:35:13Z",
+      "artefacto": "ddd-minimo-43045458268-M06",
+      "artefacto_origen": "ddd-state-43045458268-M06",
+      "artifact_id": 13868387959,
+      "caducidad_original": "2026-11-25T15:32:07Z",
+      "run_id": "43045458268",
+      "sha256": "4e67ec58c3b72e89c71efa7020125168aa976b570e98d30505ad65dcc061efee",
+      "sha256_estado_original": "3dd783f1f0de3570a93f0002b32d0f4a646ef9e44c4d6e16bee0187f37c117e5",
+      "tamano_bytes": 187539,
+      "tamano_estado_original": 75498805,
+      "territorio": "melilla",
+      "url": "r2://ddd-research-archive/melilla/43045458268/ddd-minimo-43045458268-M06.zip"
+    },
     "pais_vasco/40951146225/ddd-audit-40951146225.zip": {
       "archivado_en": "2026-11-07T17:10:17Z",
       "artefacto": "ddd-audit-40951146225",
@@ -7759,6 +7801,21 @@
       "tamano_estado_original": 313600460,
       "territorio": "pais_vasco",
       "url": "r2://ddd-research-archive/pais_vasco/40979640315/ddd-minimo-40979640315-M08.zip"
+    },
+    "pais_vasco/43047232024/ddd-minimo-43047232024-M08.zip": {
+      "archivado_en": "2026-11-11T15:28:44Z",
+      "artefacto": "ddd-minimo-43047232024-M08",
+      "artefacto_origen": "ddd-state-43047232024-M08",
+      "artifact_id": 13868557015,
+      "caducidad_original": "2026-11-25T15:27:49Z",
+      "incluye_m06_run": "43041060549",
+      "run_id": "43047232024",
+      "sha256": "4b925ef39ce2677929bd650b2feca04779bd710acad743f6a4fc09f2ee03b52f",
+      "sha256_estado_original": "5f03f8045db2cffdf7a47361087a2cb5207d72d6f2b430e89ef86704155fca48",
+      "tamano_bytes": 3873083,
+      "tamano_estado_original": 116934215,
+      "territorio": "pais_vasco",
+      "url": "r2://ddd-research-archive/pais_vasco/43047232024/ddd-minimo-43047232024-M08.zip"
     },
     "principado_de_asturias/40132061626/ddd-audit-40132061626.zip": {
       "archivado_en": "2026-11-07T17:01:00Z",

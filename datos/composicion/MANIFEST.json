@@ -1610,6 +1610,20 @@
    "sha256_csv": "19c73a7536f5ce796d70470d179f50851b4a698abd84657b168b080b5128623b",
    "ruta": "datos/composicion/runs/extremadura_42720735134.csv"
   },
+  "extremadura/43045468808": {
+   "territorio": "extremadura",
+   "run_id": "43045468808",
+   "secciones": 964,
+   "sha256_csv": "fc8d30e7271d4435e919cd91f9f83e057b71fb3d0a5e85027b5170ef11d7bc65",
+   "ruta": "datos/composicion/runs/extremadura_43045468808.csv"
+  },
+  "galicia/43045478748": {
+   "territorio": "galicia",
+   "run_id": "43045478748",
+   "secciones": 2141,
+   "sha256_csv": "683b86107392411331c13576c7c0179a09a826b4606f06df6b0cf89874bad60b",
+   "ruta": "datos/composicion/runs/galicia_43045478748.csv"
+  },
   "illes_balears/43011633844": {
    "territorio": "illes_balears",
    "run_id": "43011633844",
@@ -1637,6 +1651,20 @@
    "secciones": 44,
    "sha256_csv": "ff0230560101719270ddf9368eb284d552ee0343f444ddab2751182bcd889560",
    "ruta": "datos/composicion/runs/melilla_42504386196.csv"
+  },
+  "melilla/43045458268": {
+   "territorio": "melilla",
+   "run_id": "43045458268",
+   "secciones": 44,
+   "sha256_csv": "ff0230560101719270ddf9368eb284d552ee0343f444ddab2751182bcd889560",
+   "ruta": "datos/composicion/runs/melilla_43045458268.csv"
+  },
+  "pais_vasco/43041060549": {
+   "territorio": "pais_vasco",
+   "run_id": "43041060549",
+   "secciones": 1713,
+   "sha256_csv": "21035358982f9b647c40fbac2701b6150e819b6c72819ba379f411a06137403f",
+   "ruta": "datos/composicion/runs/pais_vasco_43041060549.csv"
   },
   "principado_de_asturias/43011625216": {
    "territorio": "principado_de_asturias",
