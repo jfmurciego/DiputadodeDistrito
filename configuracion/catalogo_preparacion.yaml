@@ -408,8 +408,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 43045468808
-        stage: M06
+        run_id: 43051488486
+        stage: M08
       preparation_evidence:
         run_id: 42720735134
         artifact_name: ddd-source-package-extremadura-2025-42720735134
@@ -447,8 +447,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 43045478748
-        stage: M06
+        run_id: 43051951192
+        stage: M08
       preparation_evidence:
         run_id: 40690688352
         artifact_name: ddd-source-package-galicia-2025-40690688352
@@ -486,7 +486,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41046373806
+        run_id: 43053498550
         stage: M08
       preparation_evidence:
         run_id: 40773465956
@@ -525,7 +525,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42504383790
+        run_id: 43053208175
         stage: M08
       preparation_evidence:
         run_id: 40773421805
@@ -564,7 +564,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41049986588
+        run_id: 43052874017
         stage: M08
       preparation_evidence:
         run_id: 40838170635
@@ -681,7 +681,7 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42503542766
+        run_id: 43052923691
         stage: M08
       preparation_evidence:
         run_id: 40773443591
@@ -720,8 +720,8 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 43045458268
-        stage: M06
+        run_id: 43051007542
+        stage: M08
       preparation_evidence:
         run_id: 40832114779
         artifact_name: ddd-source-package-melilla-2025-40832114779
