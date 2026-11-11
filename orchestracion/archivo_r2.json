@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T08:09:34Z",
+  "actualizado_en": "2026-11-11T08:10:55Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2233,6 +2233,20 @@
       "tamano_estado_original": 74524982,
       "territorio": "congreso_ceuta",
       "url": "r2://ddd-research-archive/congreso_ceuta/42940573533/ddd-minimo-42940573533-M06.zip"
+    },
+    "congreso_ceuta/42981430591/ddd-minimo-42981430591-M06.zip": {
+      "archivado_en": "2026-11-11T08:10:55Z",
+      "artefacto": "ddd-minimo-42981430591-M06",
+      "artefacto_origen": "ddd-state-42981430591-M06",
+      "artifact_id": 13839385686,
+      "caducidad_original": "2026-11-25T08:08:32Z",
+      "run_id": "42981430591",
+      "sha256": "f4b88813414acc2db32eab79736485a69284a1b29a022bf770523152a7903dd9",
+      "sha256_estado_original": "a768f530d720110755525c85891c8d24920b7abd7eebbd5678b57a282b15a7bc",
+      "tamano_bytes": 55674,
+      "tamano_estado_original": 74524978,
+      "territorio": "congreso_ceuta",
+      "url": "r2://ddd-research-archive/congreso_ceuta/42981430591/ddd-minimo-42981430591-M06.zip"
     },
     "congreso_ciudad_real/41291967967/ddd-audit-41291967967.zip": {
       "archivado_en": "2026-11-08T12:14:57Z",
