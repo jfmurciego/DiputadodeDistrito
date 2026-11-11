@@ -1232,6 +1232,13 @@
    "sha256_csv": "012274d09dcb71b4b87b9b8e0e74ae89b886b33b3109c0c3ec913a33b91bf5a3",
    "ruta": "datos/composicion/runs/congreso_valencia_42525625044.csv"
   },
+  "congreso_vizcaya/42940558507": {
+   "territorio": "congreso_vizcaya",
+   "run_id": "42940558507",
+   "secciones": 933,
+   "sha256_csv": "41733a0bfbae1e1a1fde38c2e019526388a8256f1069decbb62af828e92e143c",
+   "ruta": "datos/composicion/runs/congreso_vizcaya_42940558507.csv"
+  },
   "extremadura/42720735134": {
    "territorio": "extremadura",
    "run_id": "42720735134",
