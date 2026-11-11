@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T12:06:45.914232+00:00",
+  "generated_at": "2026-11-11T12:08:52.700915+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9737,20 +9737,20 @@
       "name": "Nacional Orense",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 43012119307,
+      "run_id": 43016113065,
       "last_run": {
-        "run_id": 43012119307,
+        "run_id": 43016113065,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9791,7 +9791,7 @@
       },
       "autonomous_community_code_ine": "C32",
       "display_name": "Nacional Orense",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_asturias",
@@ -10026,10 +10026,10 @@
           "territory_id": "congreso_pontevedra",
           "territory_name": "Congreso Pontevedra",
           "edition": "2025",
-          "run_id": 41353894475,
-          "artifact_name": "ddd-state-41353894475-M08",
-          "artifact_sha256": "70a4d9357128080f272e2fb4ded8c1b722b133b396da609fbbcf16934ce53bc7",
-          "source_commit": "1bce451601cb6e63ecb82553d4b3831c0b4215b1",
+          "run_id": 43016524347,
+          "artifact_name": "ddd-state-43016524347-M08",
+          "artifact_sha256": "9b7e7492f2bd8d34d5df6c408e6426495508d4d35edc9131f4bdaa598e06483f",
+          "source_commit": "1e60af6a4eb11885f76e5b0a92f00c8439b2ffdd",
           "stage": "M08"
         }
       },
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 53,
+    "complete": 54,
     "complete_names": [
       "01 Andalucía",
       "04 Islas Baleares",
@@ -12303,6 +12303,7 @@
       "Nacional Málaga",
       "Nacional Murcia",
       "Nacional Navarra",
+      "Nacional Orense",
       "Nacional Asturias",
       "Nacional Las Palmas",
       "Nacional Cantabria",
@@ -12521,13 +12522,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "la_rioja",
-    "name": "La Rioja",
-    "display_name": "17 La Rioja",
-    "autonomous_community_code_ine": "17",
-    "run_id": 43007066596,
+    "territory_id": "congreso_orense",
+    "name": "Nacional Orense",
+    "display_name": "Nacional Orense",
+    "autonomous_community_code_ine": "C32",
+    "run_id": 43016113065,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
@@ -12562,12 +12563,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Orense",
-      "territory_id": "congreso_orense",
-      "autonomous_community_code_ine": "C32",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Palencia",
       "territory_id": "congreso_palencia",
       "autonomous_community_code_ine": "C34",
@@ -12577,6 +12572,12 @@
       "territory": "Nacional Pontevedra",
       "territory_id": "congreso_pontevedra",
       "autonomous_community_code_ine": "C36",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Salamanca",
+      "territory_id": "congreso_salamanca",
+      "autonomous_community_code_ine": "C37",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12612,12 +12613,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Orense",
-      "territory_id": "congreso_orense",
-      "autonomous_community_code_ine": "C32",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Palencia",
       "territory_id": "congreso_palencia",
       "autonomous_community_code_ine": "C34",
@@ -12627,6 +12622,12 @@
       "territory": "Nacional Pontevedra",
       "territory_id": "congreso_pontevedra",
       "autonomous_community_code_ine": "C36",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Salamanca",
+      "territory_id": "congreso_salamanca",
+      "autonomous_community_code_ine": "C37",
       "action": "preparar fuentes electorales"
     }
   ]
