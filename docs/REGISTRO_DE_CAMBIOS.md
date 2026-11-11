@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.353
+Versión: 1.0.354
 Fecha: 2026-11-11
-Alcance: T-247 — Tests de `pruebas` independientes del estado que reescribe la campaña
+Alcance: T-247 — El test del dashboard sigue la regla de linaje del M08
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-11_t247-tests-estado-vivo.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.352_registro_20261111.md
+Cambios/motivo: entrada docs/registro/2026-11-11_t247b-dashboard-linaje.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.353_registro_20261111.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.352_registro_20261111.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.354 · [2026-11-11 — T-247 — El test del dashboard sigue la regla de linaje del M08](registro/2026-11-11_t247b-dashboard-linaje.md)
 - 1.0.353 · [2026-11-11 — T-247 — Tests de `pruebas` independientes del estado que reescribe la campaña](registro/2026-11-11_t247-tests-estado-vivo.md)
 - 1.0.352 · [2026-11-11 — T-239 — P50 en lote: descarga solo lo que publica, 6 runs a la vez](registro/2026-11-11_claude-t-239-descarga-selectiva.md)
 - 1.0.351 · [2026-11-11 — T-237 — P50 publica un lote de runs 00 con una sola aprobación](registro/2026-11-11_claude-t-237-publicacion-lotes.md)
