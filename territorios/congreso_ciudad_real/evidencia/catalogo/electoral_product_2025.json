@@ -4,9 +4,9 @@
   "territory_id": "congreso_ciudad_real",
   "territory_name": "Congreso Ciudad Real",
   "edition": "2025",
-  "run_id": 41298749455,
-  "artifact_name": "ddd-state-41298749455-M08",
-  "artifact_sha256": "bbe2b61152ca2c50c7f7bc7261355fe42a5a823c028b1f3b80e2f63fec650e72",
-  "source_commit": "9280b238f188ecd1d6960fd8454b55ec80506a49",
+  "run_id": 42954776957,
+  "artifact_name": "ddd-state-42954776957-M08",
+  "artifact_sha256": "fec08258857eb907beae0555157844a11d129d845237ffe5a49c35b40e4ba2dc",
+  "source_commit": "973bc539a2660abb7c707ddef7f36a0cffb31f98",
   "stage": "M08"
 }
