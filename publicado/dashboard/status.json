@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T02:38:58.859052+00:00",
+  "generated_at": "2026-11-11T02:56:58.493778+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7968,11 +7968,11 @@
       "name": "Nacional Alicante",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42495067503,
+      "run_id": 42940331557,
       "last_run": {
         "run_id": 42495067503,
         "status": "SUCCESS",
@@ -7981,7 +7981,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7998,13 +7998,13 @@
           "territory_id": "congreso_alicante",
           "territory_name": "Congreso Alicante",
           "edition": "2025",
-          "run_id": 42495067503,
-          "artifact_name": "ddd-state-42495067503-M06",
-          "artifact_sha256": "83265b190860f34988951b759581bd02bb8f80734430ff53805fa2b7105cea7a",
-          "source_commit": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8",
+          "run_id": 42940331557,
+          "artifact_name": "ddd-state-42940331557-M06",
+          "artifact_sha256": "99eb2d4993455ac5e3083c3a42d6755ad8bc845f46ca2230ea32e4121ba1d54d",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_alicante/evidencia/generaciones_m06/42495067503.json"
+          "producer_manifest_path": "territorios/congreso_alicante/evidencia/generaciones_m06/42940331557.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8022,7 +8022,7 @@
       },
       "autonomous_community_code_ine": "C03",
       "display_name": "Nacional Alicante",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_almeria",
@@ -8096,12 +8096,12 @@
       "certification": "PASS",
       "run_id": 42940341213,
       "last_run": {
-        "run_id": 41241662219,
+        "run_id": 42940341213,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
-        "publication": "executed"
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
       },
       "stage": "M06",
       "edition": "2025",
@@ -8157,11 +8157,11 @@
       "certification": "PASS",
       "run_id": 42940345930,
       "last_run": {
-        "run_id": 42519381013,
+        "run_id": 42940345930,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -8212,11 +8212,11 @@
       "name": "Nacional Baleares",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41481449507,
+      "run_id": 42940350970,
       "last_run": {
         "run_id": 41481449507,
         "status": "SUCCESS",
@@ -8225,7 +8225,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8242,13 +8242,13 @@
           "territory_id": "congreso_baleares",
           "territory_name": "Congreso Baleares",
           "edition": "2025",
-          "run_id": 41465837048,
-          "artifact_name": "ddd-state-41465837048-M06",
-          "artifact_sha256": "41a8b13f9f18a40a2efb52e015ba927e9a3632d8a83d8c4407c545136cf1053c",
-          "source_commit": "3cfa615e184fe46635c4d0294de129fed0d4dd03",
+          "run_id": 42940350970,
+          "artifact_name": "ddd-state-42940350970-M06",
+          "artifact_sha256": "a2c096d3602c3cc5f8b886ffb4354590f76a94ee4f0bc2f4af63b392bf46b882",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_baleares/evidencia/generaciones_m06/41465837048.json"
+          "producer_manifest_path": "territorios/congreso_baleares/evidencia/generaciones_m06/42940350970.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8266,18 +8266,18 @@
       },
       "autonomous_community_code_ine": "C07",
       "display_name": "Nacional Baleares",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_barcelona",
       "name": "Nacional Barcelona",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42495069270,
+      "run_id": 42940355981,
       "last_run": {
         "run_id": 42495069270,
         "status": "SUCCESS",
@@ -8286,7 +8286,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8303,13 +8303,13 @@
           "territory_id": "congreso_barcelona",
           "territory_name": "Congreso Barcelona",
           "edition": "2025",
-          "run_id": 42495069270,
-          "artifact_name": "ddd-state-42495069270-M06",
-          "artifact_sha256": "a3aceaf5da5ae8abc7c18ab682b6f378d61390e546cfd87bad1edc769ef43cb6",
-          "source_commit": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8",
+          "run_id": 42940355981,
+          "artifact_name": "ddd-state-42940355981-M06",
+          "artifact_sha256": "3d8f2cf07f01197deb49fb01f8db8e5671872253e25b8fded458837f8430b34f",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_barcelona/evidencia/generaciones_m06/42495069270.json"
+          "producer_manifest_path": "territorios/congreso_barcelona/evidencia/generaciones_m06/42940355981.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8327,7 +8327,7 @@
       },
       "autonomous_community_code_ine": "C08",
       "display_name": "Nacional Barcelona",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_burgos",
@@ -8395,11 +8395,11 @@
       "name": "Nacional Cáceres",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41294658600,
+      "run_id": 42940366579,
       "last_run": {
         "run_id": 41294658600,
         "status": "SUCCESS",
@@ -8408,7 +8408,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8425,13 +8425,13 @@
           "territory_id": "congreso_caceres",
           "territory_name": "Congreso Cáceres",
           "edition": "2025",
-          "run_id": 41240512324,
-          "artifact_name": "ddd-state-41240512324-M06",
-          "artifact_sha256": "07a03176fa980a93c9a39e2228d894c8cdc50349cb1ea003234f84ba0c687772",
-          "source_commit": "af8fccb278673aa95e96274a53bffd14b3dc0ad0",
+          "run_id": 42940366579,
+          "artifact_name": "ddd-state-42940366579-M06",
+          "artifact_sha256": "1970aa825fe71c0990ea5ea7ab18064d4adfc05211f2700898f43697e553f21f",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_caceres/evidencia/generaciones_m06/41240512324.json"
+          "producer_manifest_path": "territorios/congreso_caceres/evidencia/generaciones_m06/42940366579.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8449,18 +8449,18 @@
       },
       "autonomous_community_code_ine": "C10",
       "display_name": "Nacional Cáceres",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_cadiz",
       "name": "Nacional Cádiz",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41500124775,
+      "run_id": 42940371696,
       "last_run": {
         "run_id": 41500124775,
         "status": "SUCCESS",
@@ -8469,7 +8469,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8486,13 +8486,13 @@
           "territory_id": "congreso_cadiz",
           "territory_name": "Congreso Cádiz",
           "edition": "2025",
-          "run_id": 41465820761,
-          "artifact_name": "ddd-state-41465820761-M06",
-          "artifact_sha256": "d4b878f9b69668ea18f508aad674909a678fa51bb435e3d916d19c1312b4d6eb",
-          "source_commit": "7c44fdeb094a29a5b67aef23f5636c6fca6e7ed9",
+          "run_id": 42940371696,
+          "artifact_name": "ddd-state-42940371696-M06",
+          "artifact_sha256": "d98af9949bf015960113d54f693f6367c1b047ed9b6e676d8515f370e7333573",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_cadiz/evidencia/generaciones_m06/41465820761.json"
+          "producer_manifest_path": "territorios/congreso_cadiz/evidencia/generaciones_m06/42940371696.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8510,18 +8510,18 @@
       },
       "autonomous_community_code_ine": "C11",
       "display_name": "Nacional Cádiz",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_castellon",
       "name": "Nacional Castellón",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41295629673,
+      "run_id": 42940377493,
       "last_run": {
         "run_id": 41295629673,
         "status": "SUCCESS",
@@ -8530,7 +8530,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8547,13 +8547,13 @@
           "territory_id": "congreso_castellon",
           "territory_name": "Congreso Castellón",
           "edition": "2025",
-          "run_id": 41241768943,
-          "artifact_name": "ddd-state-41241768943-M06",
-          "artifact_sha256": "fd40a4ea8cae6a3f2e63b583926ba6f49e3b6500359b93beabc85e6d681bda6c",
-          "source_commit": "17a0d4e5ba5f6e37b7e89177fe4a27d53cb792fc",
+          "run_id": 42940377493,
+          "artifact_name": "ddd-state-42940377493-M06",
+          "artifact_sha256": "afed417a24fc661aa6195dcaa4f0b8e95fc8924e5328f831890c9f5d8b134f79",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_castellon/evidencia/generaciones_m06/41241768943.json"
+          "producer_manifest_path": "territorios/congreso_castellon/evidencia/generaciones_m06/42940377493.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8571,18 +8571,18 @@
       },
       "autonomous_community_code_ine": "C12",
       "display_name": "Nacional Castellón",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_ciudad_real",
       "name": "Nacional Ciudad Real",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41298749455,
+      "run_id": 42940382446,
       "last_run": {
         "run_id": 41298749455,
         "status": "SUCCESS",
@@ -8591,7 +8591,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8608,13 +8608,13 @@
           "territory_id": "congreso_ciudad_real",
           "territory_name": "Congreso Ciudad Real",
           "edition": "2025",
-          "run_id": 41291967967,
-          "artifact_name": "ddd-state-41291967967-M06",
-          "artifact_sha256": "e88160db8162166c0b92f3ba962f532abf30f5b7945cfaf14a5c869831a1ef3c",
-          "source_commit": "3eb5fecfa151eed489acfff55adcc2c0a70cee16",
+          "run_id": 42940382446,
+          "artifact_name": "ddd-state-42940382446-M06",
+          "artifact_sha256": "8bfee160e25481f7a2e3e8648c2cc84063cc149d5903e337caf204e4bb0813fd",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_ciudad_real/evidencia/generaciones_m06/41291967967.json"
+          "producer_manifest_path": "territorios/congreso_ciudad_real/evidencia/generaciones_m06/42940382446.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8632,18 +8632,18 @@
       },
       "autonomous_community_code_ine": "C13",
       "display_name": "Nacional Ciudad Real",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_cordoba",
       "name": "Nacional Córdoba",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
-      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41296161083,
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 42940387433,
       "last_run": {
         "run_id": 41296161083,
         "status": "SUCCESS",
@@ -8652,7 +8652,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8669,13 +8669,13 @@
           "territory_id": "congreso_cordoba",
           "territory_name": "Congreso Córdoba",
           "edition": "2025",
-          "run_id": 41242424551,
-          "artifact_name": "ddd-state-41242424551-M06",
-          "artifact_sha256": "4fe8eb92f31b09fb0e45b360d59e787606a508bd223edfb6fdbcccba4ce4b809",
-          "source_commit": "3f888590f7d18e072fb3c65ca7a4a5818aaa6d36",
-          "decision": "PASS_WITH_EXCEPTIONS",
+          "run_id": 42940387433,
+          "artifact_name": "ddd-state-42940387433-M06",
+          "artifact_sha256": "40dd5ac91e1484962d832c99587e521566f6a77d7e642a7a1099ae4d55f431d3",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_cordoba/evidencia/generaciones_m06/41242424551.json"
+          "producer_manifest_path": "territorios/congreso_cordoba/evidencia/generaciones_m06/42940387433.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8693,18 +8693,18 @@
       },
       "autonomous_community_code_ine": "C14",
       "display_name": "Nacional Córdoba",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_la_coruna",
       "name": "Nacional La Coruña",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41296991598,
+      "run_id": 42940392520,
       "last_run": {
         "run_id": 41296991598,
         "status": "SUCCESS",
@@ -8713,7 +8713,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8730,13 +8730,13 @@
           "territory_id": "congreso_la_coruna",
           "territory_name": "Congreso La Coruña",
           "edition": "2025",
-          "run_id": 41243697404,
-          "artifact_name": "ddd-state-41243697404-M06",
-          "artifact_sha256": "04aa79ca58db2fadd09204a7ce168163891558c7347243f7e274365728d26b4d",
-          "source_commit": "2c2fc2e4182f1c65d8d3e2d38187d0180e7bf36a",
+          "run_id": 42940392520,
+          "artifact_name": "ddd-state-42940392520-M06",
+          "artifact_sha256": "7875a036739089dcd86f99e6a11d29048a2746d290b13021cd5985f2c0a123e3",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_la_coruna/evidencia/generaciones_m06/41243697404.json"
+          "producer_manifest_path": "territorios/congreso_la_coruna/evidencia/generaciones_m06/42940392520.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8754,18 +8754,18 @@
       },
       "autonomous_community_code_ine": "C15",
       "display_name": "Nacional La Coruña",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_cuenca",
       "name": "Nacional Cuenca",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
-      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41294075778,
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 42940397668,
       "last_run": {
         "run_id": 41294075778,
         "status": "SUCCESS",
@@ -8774,7 +8774,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8791,13 +8791,13 @@
           "territory_id": "congreso_cuenca",
           "territory_name": "Congreso Cuenca",
           "edition": "2025",
-          "run_id": 41236647382,
-          "artifact_name": "ddd-state-41236647382-M06",
-          "artifact_sha256": "d3e40475499fc979a2aa454635827f737bd6b045ac73f4b9b33d119717403f85",
-          "source_commit": "9725346bacbd6fb9d7924cf44a62037a92eb7669",
-          "decision": "PASS_WITH_EXCEPTIONS",
+          "run_id": 42940397668,
+          "artifact_name": "ddd-state-42940397668-M06",
+          "artifact_sha256": "a61e3f75f8de520d528e20f4bd38e7591e8bedf534f24642e0ac5a517063134c",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_cuenca/evidencia/generaciones_m06/41236647382.json"
+          "producer_manifest_path": "territorios/congreso_cuenca/evidencia/generaciones_m06/42940397668.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8815,18 +8815,18 @@
       },
       "autonomous_community_code_ine": "C16",
       "display_name": "Nacional Cuenca",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_gerona",
       "name": "Nacional Gerona",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41298839274,
+      "run_id": 42940402050,
       "last_run": {
         "run_id": 41298839274,
         "status": "SUCCESS",
@@ -8835,7 +8835,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8852,13 +8852,13 @@
           "territory_id": "congreso_gerona",
           "territory_name": "Congreso Gerona",
           "edition": "2025",
-          "run_id": 41292216676,
-          "artifact_name": "ddd-state-41292216676-M06",
-          "artifact_sha256": "8882628212a85a18246da7a8665ef4c83137b0048571e9ea04c4358e9a72bd50",
-          "source_commit": "a12191afc1904c7f180b928c4fc4db9478c18d50",
+          "run_id": 42940402050,
+          "artifact_name": "ddd-state-42940402050-M06",
+          "artifact_sha256": "619741eda68fdd561942087f20e9b41bb7f5802306fe4b17057a2bd0803aa679",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_gerona/evidencia/generaciones_m06/41292216676.json"
+          "producer_manifest_path": "territorios/congreso_gerona/evidencia/generaciones_m06/42940402050.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8876,18 +8876,18 @@
       },
       "autonomous_community_code_ine": "C17",
       "display_name": "Nacional Gerona",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_granada",
       "name": "Nacional Granada",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41296546816,
+      "run_id": 42940407337,
       "last_run": {
         "run_id": 41296546816,
         "status": "SUCCESS",
@@ -8896,7 +8896,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8913,13 +8913,13 @@
           "territory_id": "congreso_granada",
           "territory_name": "Congreso Granada",
           "edition": "2025",
-          "run_id": 41243199582,
-          "artifact_name": "ddd-state-41243199582-M06",
-          "artifact_sha256": "3f806f9d18cc89cdb059e9efbaf0d8024aaee15d9ddce105296e1982983b0b90",
-          "source_commit": "558bbabfff67deac13d2eb1c849d7a47e0c8fc52",
+          "run_id": 42940407337,
+          "artifact_name": "ddd-state-42940407337-M06",
+          "artifact_sha256": "dd712ff635034971d6a11b6730e4619d12622fe319144fd236d6d373e60c4add",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_granada/evidencia/generaciones_m06/41243199582.json"
+          "producer_manifest_path": "territorios/congreso_granada/evidencia/generaciones_m06/42940407337.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8937,18 +8937,18 @@
       },
       "autonomous_community_code_ine": "C18",
       "display_name": "Nacional Granada",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_guadalajara",
       "name": "Nacional Guadalajara",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41294169221,
+      "run_id": 42940412378,
       "last_run": {
         "run_id": 41294169221,
         "status": "SUCCESS",
@@ -8957,7 +8957,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8974,13 +8974,13 @@
           "territory_id": "congreso_guadalajara",
           "territory_name": "Congreso Guadalajara",
           "edition": "2025",
-          "run_id": 41236816482,
-          "artifact_name": "ddd-state-41236816482-M06",
-          "artifact_sha256": "2ba55b2ac52125af032d7b85ae615d8a52bf574b15e45bf8c34f1c0d1676a858",
-          "source_commit": "79e943d21c6e1210b4390185ddd8b0245012209b",
+          "run_id": 42940412378,
+          "artifact_name": "ddd-state-42940412378-M06",
+          "artifact_sha256": "fc58f22c97f6f17fd9fbe8e348d482bc0c06a423bb83906f8fee2cf5a730f779",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_guadalajara/evidencia/generaciones_m06/41236816482.json"
+          "producer_manifest_path": "territorios/congreso_guadalajara/evidencia/generaciones_m06/42940412378.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8998,18 +8998,18 @@
       },
       "autonomous_community_code_ine": "C19",
       "display_name": "Nacional Guadalajara",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_guipuzcoa",
       "name": "Nacional Guipúzcoa",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41298935355,
+      "run_id": 42940417361,
       "last_run": {
         "run_id": 41298935355,
         "status": "SUCCESS",
@@ -9018,7 +9018,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9035,13 +9035,13 @@
           "territory_id": "congreso_guipuzcoa",
           "territory_name": "Congreso Guipúzcoa",
           "edition": "2025",
-          "run_id": 41292345223,
-          "artifact_name": "ddd-state-41292345223-M06",
-          "artifact_sha256": "fbad9de7d0e745ca1bb38acaf4d3bb3f45ae58fd0df32ecabd904e1623839368",
-          "source_commit": "c9406033181dad1a5a2ed2b0b5975ee6a514065d",
+          "run_id": 42940417361,
+          "artifact_name": "ddd-state-42940417361-M06",
+          "artifact_sha256": "cadf9ecf27c3e02e20d1d65d09a14901a9d931f54f3ea3760a235c2b509e6bd8",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_guipuzcoa/evidencia/generaciones_m06/41292345223.json"
+          "producer_manifest_path": "territorios/congreso_guipuzcoa/evidencia/generaciones_m06/42940417361.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9059,18 +9059,18 @@
       },
       "autonomous_community_code_ine": "C20",
       "display_name": "Nacional Guipúzcoa",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_huelva",
       "name": "Nacional Huelva",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41335929678,
+      "run_id": 42940422226,
       "last_run": {
         "run_id": 41335929678,
         "status": "SUCCESS",
@@ -9079,7 +9079,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9096,13 +9096,13 @@
           "territory_id": "congreso_huelva",
           "territory_name": "Congreso Huelva",
           "edition": "2025",
-          "run_id": 41318125504,
-          "artifact_name": "ddd-state-41318125504-M06",
-          "artifact_sha256": "990a7e135c59e1fe0d96e674b0d5006d30335d55d7c7f90e704abe3e86e8b28d",
-          "source_commit": "78cb29d391a037179be24c4fec3138ce6347ebff",
+          "run_id": 42940422226,
+          "artifact_name": "ddd-state-42940422226-M06",
+          "artifact_sha256": "2ab52038b36c837b3a9bad50e72d51921dd3479214a6a84f53f82f1d64f33768",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_huelva/evidencia/generaciones_m06/41318125504.json"
+          "producer_manifest_path": "territorios/congreso_huelva/evidencia/generaciones_m06/42940422226.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9120,7 +9120,7 @@
       },
       "autonomous_community_code_ine": "C21",
       "display_name": "Nacional Huelva",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_huesca",
@@ -9188,11 +9188,11 @@
       "name": "Nacional Jaén",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41295799269,
+      "run_id": 42940432935,
       "last_run": {
         "run_id": 41295799269,
         "status": "SUCCESS",
@@ -9201,7 +9201,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9218,13 +9218,13 @@
           "territory_id": "congreso_jaen",
           "territory_name": "Congreso Jaén",
           "edition": "2025",
-          "run_id": 41241896061,
-          "artifact_name": "ddd-state-41241896061-M06",
-          "artifact_sha256": "19affc80bcd06390e2b042b12c3740d29df960624e475740b61c924717ae49cd",
-          "source_commit": "82ffa564d4d0d243f6bef3464e61fa9e353aeb6f",
+          "run_id": 42940432935,
+          "artifact_name": "ddd-state-42940432935-M06",
+          "artifact_sha256": "0f60519e07769f5c7aac0cef5b9edb46e9066ec000c0a71b2f38646fd85c48e1",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_jaen/evidencia/generaciones_m06/41241896061.json"
+          "producer_manifest_path": "territorios/congreso_jaen/evidencia/generaciones_m06/42940432935.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9242,7 +9242,7 @@
       },
       "autonomous_community_code_ine": "C23",
       "display_name": "Nacional Jaén",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_leon",
@@ -9615,11 +9615,11 @@
       "name": "Nacional Murcia",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41622862185,
+      "run_id": 42940463842,
       "last_run": {
         "run_id": 41622862185,
         "status": "SUCCESS",
@@ -9628,7 +9628,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9645,13 +9645,13 @@
           "territory_id": "congreso_murcia",
           "territory_name": "Congreso Murcia",
           "edition": "2025",
-          "run_id": 41613691816,
-          "artifact_name": "ddd-state-41613691816-M06",
-          "artifact_sha256": "b7997dce55fc944f020470ba6f9ed11415adc9283b36b874e27f69cda40c8ed8",
-          "source_commit": "0aef0523e55674817219100f5fa6f1e7cdfdc1b5",
+          "run_id": 42940463842,
+          "artifact_name": "ddd-state-42940463842-M06",
+          "artifact_sha256": "245089dee1789e663148430002275b5b93a5693377573f85bbc9c4de55ec7dbb",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_murcia/evidencia/generaciones_m06/41613691816.json"
+          "producer_manifest_path": "territorios/congreso_murcia/evidencia/generaciones_m06/42940463842.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9669,7 +9669,7 @@
       },
       "autonomous_community_code_ine": "C30",
       "display_name": "Nacional Murcia",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_navarra",
@@ -9981,11 +9981,11 @@
       "name": "Nacional Pontevedra",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41353894475,
+      "run_id": 42940495323,
       "last_run": {
         "run_id": 41353894475,
         "status": "SUCCESS",
@@ -9994,7 +9994,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10011,13 +10011,13 @@
           "territory_id": "congreso_pontevedra",
           "territory_name": "Congreso Pontevedra",
           "edition": "2025",
-          "run_id": 41351964088,
-          "artifact_name": "ddd-state-41351964088-M06",
-          "artifact_sha256": "e5090f653f98261b4285e02501211f5db0a4208d956f688639790d8c95249969",
-          "source_commit": "7776b312e3413794f270c820598028ebc6b545da",
+          "run_id": 42940495323,
+          "artifact_name": "ddd-state-42940495323-M06",
+          "artifact_sha256": "25aacd90dd4fc6880c12737537cb0e1fb7ff48a37419c4e4b976c17f14d0d3fd",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_pontevedra/evidencia/generaciones_m06/41351964088.json"
+          "producer_manifest_path": "territorios/congreso_pontevedra/evidencia/generaciones_m06/42940495323.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10035,7 +10035,7 @@
       },
       "autonomous_community_code_ine": "C36",
       "display_name": "Nacional Pontevedra",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_salamanca",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 67,
+    "complete": 49,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12275,37 +12275,19 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
-      "Nacional Alicante",
-      "Nacional Baleares",
-      "Nacional Barcelona",
       "Nacional Burgos",
-      "Nacional Cáceres",
-      "Nacional Cádiz",
-      "Nacional Castellón",
-      "Nacional Ciudad Real",
-      "Nacional Córdoba",
-      "Nacional La Coruña",
-      "Nacional Cuenca",
-      "Nacional Gerona",
-      "Nacional Granada",
-      "Nacional Guadalajara",
-      "Nacional Guipúzcoa",
-      "Nacional Huelva",
       "Nacional Huesca",
-      "Nacional Jaén",
       "Nacional León",
       "Nacional Lérida",
       "Nacional La Rioja",
       "Nacional Lugo",
       "Nacional Madrid",
       "Nacional Málaga",
-      "Nacional Murcia",
       "Nacional Navarra",
       "Nacional Orense",
       "Nacional Asturias",
       "Nacional Palencia",
       "Nacional Las Palmas",
-      "Nacional Pontevedra",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
@@ -12570,6 +12552,12 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "Nacional Alicante",
+      "territory_id": "congreso_alicante",
+      "autonomous_community_code_ine": "C03",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Nacional Almería",
       "territory_id": "congreso_almeria",
       "autonomous_community_code_ine": "C04",
@@ -12586,12 +12574,6 @@
       "territory_id": "congreso_badajoz",
       "autonomous_community_code_ine": "C06",
       "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional 350 Álava",
-      "territory_id": "congreso350_alava",
-      "autonomous_community_code_ine": "R01",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12617,6 +12599,12 @@
       "territory": "Nacional Albacete",
       "territory_id": "congreso_albacete",
       "autonomous_community_code_ine": "C02",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Alicante",
+      "territory_id": "congreso_alicante",
+      "autonomous_community_code_ine": "C03",
       "action": "preparar fuentes electorales"
     },
     {
