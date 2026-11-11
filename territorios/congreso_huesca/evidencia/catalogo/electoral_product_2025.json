@@ -4,9 +4,9 @@
   "territory_id": "congreso_huesca",
   "territory_name": "Congreso Huesca",
   "edition": "2025",
-  "run_id": 42519383275,
-  "artifact_name": "ddd-state-42519383275-M08",
-  "artifact_sha256": "60fd20066df87d4ae51a3bb029210abecc11da3aeb6e43825de763e2d5497c88",
-  "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
+  "run_id": 42996217596,
+  "artifact_name": "ddd-state-42996217596-M08",
+  "artifact_sha256": "a6916bd9aeece67113a6e9c0b57b2af327d2b9575452b4d9ddc43a817e331af9",
+  "source_commit": "3bc6e81cbffd7fc07c6dcd6fe54523be90f7d67c",
   "stage": "M08"
 }
