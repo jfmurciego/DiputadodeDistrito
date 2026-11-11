@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13851898060,
+      "artifact_name": "ddd-audit-43012127687",
+      "artifact_sha256": "8fab105c3080fee69161594c70c339c189d9e48727af9c3debf35b46d3b5f78e",
+      "run_id": 43012127687,
+      "size_in_bytes": 3640
+    },
+    "m04": {
+      "artifact_id": 13852825064,
+      "artifact_name": "ddd-state-43012127687-M04",
+      "artifact_sha256": "45a51e63bd35929d441825099ff9d4061e514827019afbc80ae8e2380485e54d",
+      "run_id": 43012127687,
+      "size_in_bytes": 76122048
+    },
+    "m05": {
+      "artifact_id": 13851339568,
+      "artifact_name": "ddd-state-43012127687-M05",
+      "artifact_sha256": "ac6e89a4d99d05754c958ba9513c1cf6b6d593760754499ead6457094ce332db",
+      "run_id": 43012127687,
+      "size_in_bytes": 76521317
+    },
+    "m06": {
+      "artifact_id": 13852760777,
+      "artifact_name": "ddd-state-43012127687-M06",
+      "artifact_sha256": "7a804725cd719836ffe7cc96848a3879af48cb49856f6ef496b1cdfd9861c38d",
+      "run_id": 43012127687,
+      "size_in_bytes": 77443239
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "978ee34665deed537de751aa9d9cb559eefb4d88ca598dcd9f7f5bce6977a984",
+        "size_in_bytes": 407
+      },
+      "congreso_palencia_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "0afc2c5595b473fcfdf92e709526146a7d5e6a31bbeb8614a4a68851a00f6612",
+        "size_in_bytes": 9486
+      },
+      "optimization_execution.json": {
+        "sha256": "98a26eb5200210ce0e3c17e1f0e6a7a6f00f4a5963ef65bf4f03d6c9ec9b420e",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "84eb635ea2aa45abf6ac48c8c0057ce9e6dad4d577058dd640c6178e8b6cf3a5",
+        "size_in_bytes": 1455
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "84eb635ea2aa45abf6ac48c8c0057ce9e6dad4d577058dd640c6178e8b6cf3a5",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_palencia/config/congreso_palencia_2025.yaml",
+    "sha256": "9bfb18ffbf38ec32e821dcb2a9d454d900144ee0881d81d382d9e76cd4b70226"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "be79c8b4bd0447104d07ca186f6342683fb308cec06c067aba4aeb34fe53c6c9",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_CANONICO",
+      "funcion": "D8",
+      "ganador": "canonico",
+      "generador": "canonico",
+      "huella_resultado": "73dab009ea0c80ff3dac137d0b4dca73938347a72019a79aded0892b42caa5fe",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "0fa2d34f358fb77dfb1ce88e2f8516eb82ff0b16ae2614534f2da5aff1ce336a",
+      "rehacer_m06": false
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "f20de146c410d46631286b7395bf52a191b7a0b0",
+    "edition": "2025",
+    "territory_id": "congreso_palencia",
+    "territory_name": "Congreso Palencia",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43012127687,
+    "workflow_sha": "f20de146c410d46631286b7395bf52a191b7a0b0"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13852825064,
+      "artifact_name": "ddd-state-43012127687-M04",
+      "artifact_sha256": "45a51e63bd35929d441825099ff9d4061e514827019afbc80ae8e2380485e54d",
+      "run_id": 43012127687,
+      "size_in_bytes": 76122048
+    },
+    "source_manifest_sha256": "4a4e627f219afc57fc7be331d4ebe4718e16d633f0cf8b01cb5d08426f79adc3",
+    "source_package_artifact": {
+      "artifact_id": 13078099563,
+      "artifact_name": "ddd-source-package-congreso_palencia-2025-41291833956",
+      "artifact_sha256": "0e91e7936db7665b77d9ee5a75b93d550115adaffb3581193c259df02af5912d",
+      "run_id": 41291833956,
+      "size_in_bytes": 75311874
+    }
+  },
+  "manifest_sha256": "69836d588b7875738793761b78e2d42db20507dc56ed56c9800b4fc18e9e547f",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
