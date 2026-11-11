@@ -4,11 +4,11 @@
   "territory_id": "congreso_lerida",
   "territory_name": "Congreso Lérida",
   "edition": "2025",
-  "run_id": 41292591493,
-  "artifact_name": "ddd-state-41292591493-M06",
-  "artifact_sha256": "b0306f093dbd68d80e58ba20b4b8dda8ae36cee75cfa8e5c64ba7d9cbb928db4",
-  "source_commit": "b3899d1bda1519b147a0c34642eec79f074d8ff8",
+  "run_id": 42940443438,
+  "artifact_name": "ddd-state-42940443438-M06",
+  "artifact_sha256": "346c5563e7e7720d9938a9f8e1405ebd7e212b3722e9bbdd0e36a383fbc87b14",
+  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_lerida/evidencia/generaciones_m06/41292591493.json"
+  "producer_manifest_path": "territorios/congreso_lerida/evidencia/generaciones_m06/42940443438.json"
 }
