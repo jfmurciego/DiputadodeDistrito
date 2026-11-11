@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T04:12:02.477112+00:00",
+  "generated_at": "2026-11-11T04:13:50.559199+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8517,20 +8517,20 @@
       "name": "Nacional Castellón",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940377493,
+      "run_id": 42953757677,
       "last_run": {
-        "run_id": 42940377493,
+        "run_id": 42953757677,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8571,7 +8571,7 @@
       },
       "autonomous_community_code_ine": "C12",
       "display_name": "Nacional Castellón",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_ciudad_real",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 32,
+    "complete": 33,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12284,6 +12284,7 @@
       "Nacional Barcelona",
       "Nacional Cáceres",
       "Nacional Cádiz",
+      "Nacional Castellón",
       "Nacional Córdoba",
       "Nacional La Coruña",
       "Nacional La Rioja",
@@ -12500,11 +12501,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_la_coruna",
-    "name": "Nacional La Coruña",
-    "display_name": "Nacional La Coruña",
-    "autonomous_community_code_ine": "C15",
-    "run_id": 42953518518,
+    "territory_id": "congreso_castellon",
+    "name": "Nacional Castellón",
+    "display_name": "Nacional Castellón",
+    "autonomous_community_code_ine": "C12",
+    "run_id": 42953757677,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12535,12 +12536,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Castellón",
-      "territory_id": "congreso_castellon",
-      "autonomous_community_code_ine": "C12",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Ciudad Real",
       "territory_id": "congreso_ciudad_real",
       "autonomous_community_code_ine": "C13",
@@ -12556,6 +12551,12 @@
       "territory": "Nacional Gerona",
       "territory_id": "congreso_gerona",
       "autonomous_community_code_ine": "C17",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Granada",
+      "territory_id": "congreso_granada",
+      "autonomous_community_code_ine": "C18",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12585,12 +12586,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Castellón",
-      "territory_id": "congreso_castellon",
-      "autonomous_community_code_ine": "C12",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Ciudad Real",
       "territory_id": "congreso_ciudad_real",
       "autonomous_community_code_ine": "C13",
@@ -12606,6 +12601,12 @@
       "territory": "Nacional Gerona",
       "territory_id": "congreso_gerona",
       "autonomous_community_code_ine": "C17",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Granada",
+      "territory_id": "congreso_granada",
+      "autonomous_community_code_ine": "C18",
       "action": "preparar fuentes electorales"
     }
   ]
