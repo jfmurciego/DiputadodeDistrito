@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13853746650,
+      "artifact_name": "ddd-audit-43011633844",
+      "artifact_sha256": "f5b0f6d683368049072c5405efacb70e39e45bd690f9c201375f640066395e88",
+      "run_id": 43011633844,
+      "size_in_bytes": 30222
+    },
+    "m04": {
+      "artifact_id": 13852392852,
+      "artifact_name": "ddd-state-43011633844-M04",
+      "artifact_sha256": "00010a66f1e0a4ad995ed21e5d656b74dc7b4cab365d167322d2aa0f3fd36737",
+      "run_id": 43011633844,
+      "size_in_bytes": 89060659
+    },
+    "m05": {
+      "artifact_id": 13853825035,
+      "artifact_name": "ddd-state-43011633844-M05",
+      "artifact_sha256": "48860554b87b779485100ac5755a1c17b5253929e61235e1365f98c2f5e5ba9d",
+      "run_id": 43011633844,
+      "size_in_bytes": 91485298
+    },
+    "m06": {
+      "artifact_id": 13852799157,
+      "artifact_name": "ddd-state-43011633844-M06",
+      "artifact_sha256": "86629e2738b71e06fc020212ebf31c462fda137344073ea034659ecd5635cc44",
+      "run_id": 43011633844,
+      "size_in_bytes": 98268801
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "70c8a38bfe832ccfc0c9f6c24ba02eb01c3cc9a61044dd79ce8740218ce78db1",
+        "size_in_bytes": 416
+      },
+      "illes_balears_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "463e4115d1c53e066f896a5cd2b85ac93cf38acfa61996af05f2e60a6f36cc73",
+        "size_in_bytes": 425564
+      },
+      "optimization_execution.json": {
+        "sha256": "efe51549926790016ce5a2576377dbea904a8d12d29ce3afd0a855b1f6c6b499",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "421ce797f2b55811cffd27ae78130784e549ac13b615758597f2b8c22a06ed83",
+        "size_in_bytes": 1498
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "421ce797f2b55811cffd27ae78130784e549ac13b615758597f2b8c22a06ed83",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/illes_balears/config/illes_balears_2025.yaml",
+    "sha256": "9772aa3ae69bb170469f18fe771d352dcb37ed65601f57df5289cbc42af63fb2"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "cc3a955357bfdfc5a7e4b1203ee32a41079eef8980b9283cc8ac325f3ceb6f79",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s550364589",
+      "generador": "ponderado",
+      "huella_resultado": "2f638668c4ebc9931aa6aceadfca68a5ffae8766ac0402ca96147ce3a308069e",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.6803627719839392,
+          "fuera_tolerancia": 15,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.6803627719839392,
+          "fuera_tolerancia": 13,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "d5962b6598043f7767cd5b7db1ff876c5a6bb9f452dfbb9a1cbd4784e529eb04",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "766c9ea628bbdd6feba955791cdf915ed187b11c",
+    "edition": "2025",
+    "territory_id": "illes_balears",
+    "territory_name": "Islas Baleares",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43011633844,
+    "workflow_sha": "2d29dc4536e23c35ec9f2eb594fc5b8021b77cd1"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13852392852,
+      "artifact_name": "ddd-state-43011633844-M04",
+      "artifact_sha256": "00010a66f1e0a4ad995ed21e5d656b74dc7b4cab365d167322d2aa0f3fd36737",
+      "run_id": 43011633844,
+      "size_in_bytes": 89060659
+    },
+    "source_manifest_sha256": "df7d66d6579858ef7751955841c3ff7985f062323eb63fc88e18b1b938fd1078",
+    "source_package_artifact": {
+      "artifact_id": 13850568164,
+      "artifact_name": "ddd-source-package-illes_balears-2025-43011633844",
+      "artifact_sha256": "54ba0d0ec51f34e98e887b0e25a6a4f43934e3aa191e73dd083013e3dba1a109",
+      "run_id": 43011633844,
+      "size_in_bytes": 81801864
+    }
+  },
+  "manifest_sha256": "8739479d348c83ec23c026d3a6ebc4084dd4377d9ade8ab652291b0f888b4ca1",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
