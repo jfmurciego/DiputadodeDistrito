@@ -4,11 +4,11 @@
   "territory_id": "congreso_melilla",
   "territory_name": "Congreso Melilla",
   "edition": "2025",
-  "run_id": 42940578685,
-  "artifact_name": "ddd-state-42940578685-M06",
-  "artifact_sha256": "d5013dfc5597462edba99e5882f4d0319d748b035cf1e1cb8ee0791bd48321ca",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43001757563,
+  "artifact_name": "ddd-state-43001757563-M06",
+  "artifact_sha256": "3de55ac7b68af91e4a29c8c046155dfb5ed181cb0638744a36e14c7a5483e5b0",
+  "source_commit": "335ada5edc4938ad24ffb66b81f1107817351fd7",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_melilla/evidencia/generaciones_m06/42940578685.json"
+  "producer_manifest_path": "territorios/congreso_melilla/evidencia/generaciones_m06/43001757563.json"
 }
