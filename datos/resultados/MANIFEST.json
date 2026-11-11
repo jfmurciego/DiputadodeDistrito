@@ -1004,6 +1004,15 @@
    "sha256_csv": "9770a6079c74d2579320a51f0c8dd314cecb40ad44aa5e232a81d48f753d2dd8",
    "ruta": "datos/resultados/runs/congreso_granada_42954091088_partidos.csv"
   },
+  "congreso_guadalajara/42955217289": {
+   "territorio": "congreso_guadalajara",
+   "run_id": "42955217289",
+   "run_territorial": "42940412378",
+   "sha256_composicion": "171796dbb0f5f5e837d971a50a17042745d45282c1f56c04a565a029c9a4560a",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "0e059c483ac16ff25f5ef5286dd0b4d25ef71ea242836bbab090d7b425592319",
+   "ruta": "datos/resultados/runs/congreso_guadalajara_42955217289_partidos.csv"
+  },
   "congreso_huesca/42519383275": {
    "territorio": "congreso_huesca",
    "run_id": "42519383275",
