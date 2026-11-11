@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T12:26:05.868279+00:00",
+  "generated_at": "2026-11-11T12:31:51.748764+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 73,
-      "activable": 1,
+      "activated": 74,
+      "activable": 0,
       "territorial_pending": 46,
       "electoral_pending": 46,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 74,
-      "durable_pair": 73
+      "durable_pair": 74
     },
     "territories": [
       {
@@ -282,12 +282,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/4b8474c1c5fa2e73b2b4761b49f0f3e7dfba3e268f1fc305fe18be9fdf916e43.json",
-            "pair_sha256": "4b8474c1c5fa2e73b2b4761b49f0f3e7dfba3e268f1fc305fe18be9fdf916e43",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814.json",
+            "pair_sha256": "9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -6915,10 +6915,10 @@
           "territory_id": "illes_balears",
           "territory_name": "Islas Baleares",
           "edition": "2025",
-          "run_id": 41033500476,
-          "artifact_name": "ddd-state-41033500476-M08",
-          "artifact_sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3",
-          "source_commit": "b5a48e5d0c68d34a56bac423039af418ba04d2b0",
+          "run_id": 43019811578,
+          "artifact_name": "ddd-state-43019811578-M08",
+          "artifact_sha256": "a2154bc1f51ea2445fe61b91ecc2a65d0943a77da538c1b30c6b85b9eb9fa57c",
+          "source_commit": "bc7f18e6ca8ccf10a1190478b05ae5949f6719b8",
           "stage": "M08"
         }
       },
@@ -6937,11 +6937,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43011642069,
       "last_run": {
-        "run_id": 42523951377,
+        "run_id": 43011642069,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",

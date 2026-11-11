@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T12:26:05.868279+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T12:31:51.748764+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -51,7 +51,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **02 Aragón** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43016936483 · SUCCESS | — | — | — |
 | **03 Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43016768497 · SUCCESS | — | — | — |
 | **04 Islas Baleares** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43011633844 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
-| **05 Canarias** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42523951377 · SUCCESS | — | — | preparar fuentes electorales |
+| **05 Canarias** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43011642069 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **06 Cantabria** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42707820760 · SUCCESS | 03/04 · rama electoral omitida | 03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08 | activar par de fuentes (Activación de Legislatura Vigente) y reutilizar |
 | **07 Castilla y León** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42531122768 · SUCCESS | — | — | — |
 | **08 Castilla-La Mancha** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40979540141 · SUCCESS | — | — | — |
