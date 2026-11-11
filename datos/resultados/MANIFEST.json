@@ -1324,6 +1324,15 @@
     "sha256": "85e61ea816df65d53966ab405c619d2f426b16dcc6d6576b03d7e938457bc4f6"
    }
   },
+  "congreso_salamanca/43017179163": {
+   "territorio": "congreso_salamanca",
+   "run_id": "43017179163",
+   "run_territorial": "43012143922",
+   "sha256_composicion": "1835f116544c44e2fd17c4b92dec02c1101a850beb879165cdeabbab6a69c813",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "de4e7378ade7e180b081c3c6fd157ffa307e820367a2f5170505d8ef032aee6d",
+   "ruta": "datos/resultados/runs/congreso_salamanca_43017179163_partidos.csv"
+  },
   "congreso_santa_cruz_de_tenerife/42519017008": {
    "territorio": "congreso_santa_cruz_de_tenerife",
    "run_id": "42519017008",
