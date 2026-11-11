@@ -1,0 +1,133 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_barcelona",
+ "run_id": "42953127263",
+ "run_territorial": "42940355981",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 2625437,
+ "votos_desajustados": 6289,
+ "pct_desajuste": 0.2395,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "0801504017",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 884,
+   "secciones_m06": {
+    "0801504014": 1.0
+   },
+   "distritos": {
+    "0": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0801504014 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0801508014",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 421,
+   "secciones_m06": {
+    "0801508012": 1.0
+   },
+   "distritos": {
+    "0": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0801508012 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0811901003",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 1046,
+   "secciones_m06": {
+    "0811901001": 1.0
+   },
+   "distritos": {
+    "23": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0811901001 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0811901004",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 1279,
+   "secciones_m06": {
+    "0811901001": 0.970054,
+    "0811901002": 0.029946
+   },
+   "distritos": {
+    "23": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 23, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "0811901005",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 970,
+   "secciones_m06": {
+    "0811901002": 1.0
+   },
+   "distritos": {
+    "23": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0811901002 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0811901006",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 694,
+   "secciones_m06": {
+    "0811901002": 1.0
+   },
+   "distritos": {
+    "23": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0811901002 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0830101017",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 450,
+   "secciones_m06": {
+    "0830101002": 1.0
+   },
+   "distritos": {
+    "41": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0830101002 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0830101018",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 545,
+   "secciones_m06": {
+    "0830101003": 0.486622,
+    "0830102013": 0.513378
+   },
+   "distritos": {
+    "41": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 41, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "0809202001",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "0809202001": 1.0
+   },
+   "distritos": {
+    "37": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}
