@@ -32,7 +32,10 @@ NEW = {"available": True, "geometric_reuse_compatible": True, "reason": "SOURCE_
 class RegistroParIdempotente(unittest.TestCase):
     def _run(self, stored: dict | None, rebuilt: dict, *, verify_only: bool = False):
         tmp = Path(tempfile.mkdtemp())
-        path = tmp / "territorios/congreso_alava/evidencia/pares_fuentes/2023" / f"{SHA}.json"
+        path = (
+            tmp / "territorios" / rebuilt["territory_id"] / "evidencia/pares_fuentes"
+            / rebuilt["edition"] / f"{rebuilt['pair_sha256']}.json"
+        )
         if stored is not None:
             path.parent.mkdir(parents=True)
             path.write_text(json.dumps(stored, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
