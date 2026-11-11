@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13823140973,
+      "artifact_name": "ddd-audit-42940336572",
+      "artifact_sha256": "023fb6d352fbf2d3f74b3cce35470d58bbd1f772ffa344b95714fe3339d1dc1c",
+      "run_id": 42940336572,
+      "size_in_bytes": 4298
+    },
+    "m04": {
+      "artifact_id": 13820799471,
+      "artifact_name": "ddd-state-42940336572-M04",
+      "artifact_sha256": "cbe057d52d49e9f5303c8b1cc64c31047b50f183548d6d2e875a63e49804f096",
+      "run_id": 42940336572,
+      "size_in_bytes": 77807373
+    },
+    "m05": {
+      "artifact_id": 13822126522,
+      "artifact_name": "ddd-state-42940336572-M05",
+      "artifact_sha256": "2f939d359885c74cb4b22d81b778ca1239bace052297eb51cfca551807262fb4",
+      "run_id": 42940336572,
+      "size_in_bytes": 78550680
+    },
+    "m06": {
+      "artifact_id": 13822970576,
+      "artifact_name": "ddd-state-42940336572-M06",
+      "artifact_sha256": "3d44ed84a6bad88c84905b342faef01cbef22916691aa0a4bece75d09103d076",
+      "run_id": 42940336572,
+      "size_in_bytes": 80255873
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "cc4b4ac389e6612ebe7162725e973215b1695f53c898833b3e6bed1dbbc04810",
+        "size_in_bytes": 406
+      },
+      "congreso_almeria_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "df311de301f4cbf2f91ea612e8cd1e762b053b631cacab7fef4da95887d66b73",
+        "size_in_bytes": 15069
+      },
+      "optimization_execution.json": {
+        "sha256": "ed0c149d574f024fc2a5b31b648d175968436967d4b53629841b47bbe1ff223e",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "80c618d3eb9e5986cc0bd8b10ee8d47e1988f4c031d74227109a3a712392f66d",
+        "size_in_bytes": 1500
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "80c618d3eb9e5986cc0bd8b10ee8d47e1988f4c031d74227109a3a712392f66d",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_almeria/config/congreso_almeria_2025.yaml",
+    "sha256": "afea10cf430488275adf25417dc3ab25335c55c1c7fb2d4d8f90f4e6b0e67db5"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "d5b3701b13b6d07f6157c656f631ae72ceaf79f88b697d952b918d620d435373",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1605360650",
+      "generador": "ponderado",
+      "huella_resultado": "a8ec304163e96d1b28338f1486c49a53d4873845625f42cf61a888847da1fcfa",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.0043511503071556375,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.07662962392681359,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "8e40d8f7c81c784b81171d71e4fb2ae8269b615202634b9d3cb3972a3bf45715",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_almeria",
+    "territory_name": "Congreso Almería",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940336572,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13820799471,
+      "artifact_name": "ddd-state-42940336572-M04",
+      "artifact_sha256": "cbe057d52d49e9f5303c8b1cc64c31047b50f183548d6d2e875a63e49804f096",
+      "run_id": 42940336572,
+      "size_in_bytes": 77807373
+    },
+    "source_manifest_sha256": "0f08e6da2fcc255b232b4c5bb8b8707699d26023b935126d13cc5ea9c96ab649",
+    "source_package_artifact": {
+      "artifact_id": 13059137120,
+      "artifact_name": "ddd-source-package-congreso_almeria-2025-41242160179",
+      "artifact_sha256": "50605604d8979ecc8625a2cb92b30f76cffb8ec197642234c5a0bdd13c3dac2d",
+      "run_id": 41242160179,
+      "size_in_bytes": 76307452
+    }
+  },
+  "manifest_sha256": "a933ec5f07f4475d68759f2783537cdc932f415eb2e4fb67c8b491e74197ff21",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
