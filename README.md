@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T14:30:54.731022+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T14:32:45.909473+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -113,7 +113,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Toledo** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41296268720 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Valencia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42525625044 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Valladolid** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41299313598 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional Vizcaya** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41356074013 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Vizcaya** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43034959389 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Zamora** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41250479211 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Zaragoza** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41296815536 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42985728070 · SUCCESS | — | — | — |
