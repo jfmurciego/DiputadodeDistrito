@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T08:14:10.312077+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T08:16:17.053561+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -116,7 +116,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Vizcaya** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41356074013 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Zamora** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41250479211 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Zaragoza** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41296815536 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional Ceuta** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42496569312 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Ceuta** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42981430591 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Melilla** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41293988485 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional 350 Álava** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
 | **Nacional 350 Albacete** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
