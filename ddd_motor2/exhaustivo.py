@@ -3,16 +3,22 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — enumeración exacta para territorios pequeños, con elección por la regla de calidad
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Enumeración exacta · territorios pequeños
-FECHA: 2026-11-10
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Enumeración exacta · sin intento imposible
+FECHA: 2026-11-11
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.1.0 — enumerar_exacto(..., plan=None): con un plan de partida (el canónico), antes de enumerar calcula
+  reglas.cota.cota_nodos; si la cota inferior de nodos supera el presupuesto, la enumeración no podría completarse
+  y no se lanza: metodo=cadena, completo=False, intentada=False, motivo «cota…», cota_nodos (sin nodos, validos ni
+  huella). Si la cota no lo demuestra (o no hay plan, o el plan no es válido), todo igual que 1.0.0.
+  1.0.0 — fichero nuevo.
 MOTIVO: T-175: donde el espacio de planes cabe, el motor nuevo enumera TODOS los planes válidos y elige el mejor por
   la regla de calidad vigente (calidad.py), en vez de muestrear; el certificador usa la misma regla.
-ANTERIOR: ninguna (fichero nuevo)
+MOTIVO 1.1.0: T-261 (D-89): T-254 midió que el exhaustivo agota los 200 000 nodos sin aportar candidato y se lleva
+  el 60-87 % de la competición. Un intento que no puede acabar no cambia ningún mapa: se omite.
+ANTERIOR: legacy/ddd_motor2/exhaustivo_v1.0.0_20261110.py
 QUÉ HACE:
-  enumerar_exacto(problema, reglas, presupuesto=None) -> dict: decide con reglas.elegir_metodo (Criterio.metodo:
+  enumerar_exacto(problema, reglas, presupuesto=None, plan=None) -> dict: decide con reglas.elegir_metodo (Criterio.metodo:
     «presupuesto» intenta la enumeración con Criterio.presupuesto_nodos; «tamano» solo si K <= tamano_max_k o
     unidades <= tamano_max_unidades, y también con presupuesto) y, si enumera, recorre todos los planes válidos con
     reglas.enumerar y guarda el mejor por calidad. Campos: metodo, motivo, completo, nodos, presupuesto, validos,
@@ -36,9 +42,11 @@ from typing import Any, Mapping
 from .adaptadores import columnas_de_contrato
 from .calidad import huella_plan, legible, metricas
 from .reglas import Problema, Reglas, elegir_metodo, enumerar
+from .reglas.cota import cota_nodos
 
 
-def enumerar_exacto(problema: Problema, reglas: Reglas, presupuesto: int | None = None) -> dict:
+def enumerar_exacto(problema: Problema, reglas: Reglas, presupuesto: int | None = None,
+                    plan: Mapping[str, str] | None = None) -> dict:
     t0 = time.monotonic()
     c = reglas.criterio
     presupuesto = int(presupuesto or c.presupuesto_nodos)
@@ -52,6 +60,14 @@ def enumerar_exacto(problema: Problema, reglas: Reglas, presupuesto: int | None 
     elif c.metodo == "diagnostico":
         return {**base, "metodo": "cadena", "motivo": "criterio diagnóstico: decide la cadena", "completo": False,
                 "intentada": False, "tiempo_s": 0.0}
+    if plan is not None:
+        cota = cota_nodos(problema, reglas, plan, presupuesto)
+        if cota["supera"]:
+            return {**base, "metodo": "cadena", "intentada": False, "completo": False,
+                    "motivo": f"cota: el árbol de enumeración tiene al menos {cota['cota']} nodos > presupuesto "
+                              f"{presupuesto}; no se intenta",
+                    "cota_nodos": {k: cota[k] for k in ("cota", "planes_validos", "evaluaciones", "tiempo_s")},
+                    "tiempo_s": round(time.monotonic() - t0, 3)}
     r = enumerar(problema, reglas, presupuesto, max_planes=0,
                  clave=lambda plan: metricas(problema, reglas, plan)["clave"])
     if c.metodo == "presupuesto":
@@ -133,7 +149,7 @@ def main(argv=None) -> int:
     cfg = load_params_yaml(a.params)
     problema, plan, avisos = problema_y_plan(a.composicion, a.grafo, cfg, atributos_secciones=a.atributos)
     reglas = Reglas.desde_contrato(cfg, Criterio())
-    res = enumerar_exacto(problema, reglas, a.presupuesto)
+    res = enumerar_exacto(problema, reglas, a.presupuesto, plan=plan)
     mejor = res.pop("mejor", None)
     res["avisos"] = avisos
     res["entrada"] = legible(metricas(problema, reglas, plan))
