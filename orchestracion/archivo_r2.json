@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:44:27Z",
+  "actualizado_en": "2026-11-11T03:45:40Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2398,19 +2398,20 @@
       "territorio": "congreso_cuenca",
       "url": "r2://ddd-research-archive/congreso_cuenca/41294075778/ddd-minimo-41294075778-M08.zip"
     },
-    "congreso_cuenca/42940397668/ddd-minimo-42940397668-M06.zip": {
-      "archivado_en": "2026-11-11T02:46:52Z",
-      "artefacto": "ddd-minimo-42940397668-M06",
-      "artefacto_origen": "ddd-state-42940397668-M06",
-      "artifact_id": 13822019581,
-      "caducidad_original": "2026-11-25T02:22:54Z",
-      "run_id": "42940397668",
-      "sha256": "3d512189092bfcdfa77018e87ae4b44d7192584eff03812e8a45266a77d41b3d",
-      "sha256_estado_original": "a61e3f75f8de520d528e20f4bd38e7591e8bedf534f24642e0ac5a517063134c",
-      "tamano_bytes": 188135,
-      "tamano_estado_original": 79796283,
+    "congreso_cuenca/42954007732/ddd-minimo-42954007732-M08.zip": {
+      "archivado_en": "2026-11-11T03:45:40Z",
+      "artefacto": "ddd-minimo-42954007732-M08",
+      "artefacto_origen": "ddd-state-42954007732-M08",
+      "artifact_id": 13826318469,
+      "caducidad_original": "2026-11-25T03:44:46Z",
+      "incluye_m06_run": "42940397668",
+      "run_id": "42954007732",
+      "sha256": "a6a9242bd75ca41951873b8d8913f989f1991e6e374fec77da0dfae3e935a5f0",
+      "sha256_estado_original": "792e96cddd2a18feecda017d74231372d1bc049be81de5716df348593d0696ed",
+      "tamano_bytes": 285481,
+      "tamano_estado_original": 80564567,
       "territorio": "congreso_cuenca",
-      "url": "r2://ddd-research-archive/congreso_cuenca/42940397668/ddd-minimo-42940397668-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_cuenca/42954007732/ddd-minimo-42954007732-M08.zip"
     },
     "congreso_gerona/41292216676/ddd-audit-41292216676.zip": {
       "archivado_en": "2026-11-08T12:15:20Z",
