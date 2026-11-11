@@ -4,9 +4,9 @@
   "territory_id": "congreso_caceres",
   "territory_name": "Congreso Cáceres",
   "edition": "2025",
-  "run_id": 41294658600,
-  "artifact_name": "ddd-state-41294658600-M08",
-  "artifact_sha256": "85ffc45d83c90e217f3fee78af19f0b6f67972b56ce55029e9a69b068721d09e",
-  "source_commit": "d84c0c4235a5daae067d1876ec39b947f53bd81a",
+  "run_id": 42953363103,
+  "artifact_name": "ddd-state-42953363103-M08",
+  "artifact_sha256": "9615d0611f5d7123bf87de224204c481db9effc763761d0a6354699b3feb5d0c",
+  "source_commit": "23c8de11972392ad796a8dd604050377098791ba",
   "stage": "M08"
 }
