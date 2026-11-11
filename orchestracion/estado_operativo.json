@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T13:56:43.666244+00:00",
+  "generated_at": "2026-11-11T13:57:47.214462+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7236,20 +7236,20 @@
       "name": "Comunidad Valenciana",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43025671156,
+      "run_id": 43030421638,
       "last_run": {
-        "run_id": 43025671156,
+        "run_id": 43030421638,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7290,7 +7290,7 @@
       },
       "autonomous_community_code_ine": "10",
       "display_name": "10 Comunidad Valenciana",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "extremadura",
@@ -12256,13 +12256,14 @@
     }
   ],
   "kpis": {
-    "complete": 61,
+    "complete": 62,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
       "05 Canarias",
+      "10 Comunidad Valenciana",
       "12 Galicia",
       "13 Comunidad de Madrid",
       "14 Región de Murcia",
@@ -12529,11 +12530,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_tarragona",
-    "name": "Nacional Tarragona",
-    "display_name": "Nacional Tarragona",
-    "autonomous_community_code_ine": "C43",
-    "run_id": 43029795470,
+    "territory_id": "comunidad_valenciana",
+    "name": "Comunidad Valenciana",
+    "display_name": "10 Comunidad Valenciana",
+    "autonomous_community_code_ine": "10",
+    "run_id": 43030421638,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12564,12 +12565,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "10 Comunidad Valenciana",
-      "territory_id": "comunidad_valenciana",
-      "autonomous_community_code_ine": "10",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "11 Extremadura",
       "territory_id": "extremadura",
       "autonomous_community_code_ine": "11",
@@ -12585,6 +12580,12 @@
       "territory": "Nacional Toledo",
       "territory_id": "congreso_toledo",
       "autonomous_community_code_ine": "C45",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Valencia",
+      "territory_id": "congreso_valencia",
+      "autonomous_community_code_ine": "C46",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12614,12 +12615,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "10 Comunidad Valenciana",
-      "territory_id": "comunidad_valenciana",
-      "autonomous_community_code_ine": "10",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "11 Extremadura",
       "territory_id": "extremadura",
       "autonomous_community_code_ine": "11",
@@ -12635,6 +12630,12 @@
       "territory": "Nacional Toledo",
       "territory_id": "congreso_toledo",
       "autonomous_community_code_ine": "C45",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Valencia",
+      "territory_id": "congreso_valencia",
+      "autonomous_community_code_ine": "C46",
       "action": "preparar fuentes electorales"
     }
   ]
