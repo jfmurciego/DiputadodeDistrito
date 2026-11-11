@@ -4,11 +4,11 @@
   "territory_id": "congreso_leon",
   "territory_name": "Congreso León",
   "edition": "2025",
-  "run_id": 42940437972,
-  "artifact_name": "ddd-state-42940437972-M06",
-  "artifact_sha256": "43b082c53dfaf7707c73a46ff45141b82d4f1534e0de883fb327e92275f8ce3f",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 42991571678,
+  "artifact_name": "ddd-state-42991571678-M06",
+  "artifact_sha256": "f62d48ca81045ed065c167673ba1188a0504c1aa6adcd23eeddc9604a26a81be",
+  "source_commit": "48716f6314fe92973436599417e7be4886bbe0c2",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_leon/evidencia/generaciones_m06/42940437972.json"
+  "producer_manifest_path": "territorios/congreso_leon/evidencia/generaciones_m06/42991571678.json"
 }
