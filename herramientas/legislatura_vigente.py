@@ -3,7 +3,8 @@
 
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.3.0 · FECHA: 2026-11-11 · ESTADO: candidato
-CAMBIOS 1.3.0: T-234 (relevo formal, D-82): la 00 del Gestor se lanza con `motor=motor2` (Deslinde 1.0) de forma explícita (MOTOR_00).
+CAMBIOS 1.3.0: T-234 (relevo formal, D-82): la 00 del Gestor se lanza con `motor=motor2` (Deslinde 1.0) de forma explícita
+  (`motor_00`; con `--estrategia` GerryChain, la ruta retirada m05, como el modo matriz del Gestor).
 CAMBIOS 1.2.3: T-215 (corte 5.0.0, paso 4), la 00 se llama «P00 Campaña»: TITLE_00 nuevo; los runs en curso con el
   título viejo («00 Ejecución Completa del Proyecto · …») siguen contando como en curso y `Campaign.poll` los sigue.
 CAMBIOS 1.2.2: T-201, `territory_state(..., eleccion)`: el M08 publicado cuenta por (territorio, elección), por defecto 2023-07-23; un M08
@@ -53,7 +54,7 @@ PREPARATION = Path("configuracion/preparacion_legislatura_vigente.yaml")
 SEATS_2023 = Path("configuracion/resultados_oficiales_congreso_2023.json")
 VIEWER = Path("orchestracion/publicaciones_visor.json")
 WF_00 = "ejecucion-completa-proyecto.yml"
-MOTOR_00 = "motor2"  # T-234: Deslinde 1.0; m05 (ruta retirada) nunca desde el Gestor
+
 WF_05 = "desplegar-visor-publico.yml"
 WF_GESTOR = "gestor-campanas.yml"
 WF_06 = "generar-alternativas-territoriales.yml"
@@ -285,6 +286,10 @@ def running_00() -> dict[str, str]:
                 out.setdefault(parts[1], str(run["id"]))
     return out
 
+def motor_00(algorithm: str) -> str:
+    """T-234: Deslinde 1.0 (motor2) con el Canónico; una estrategia GerryChain es la ruta retirada m05 (elección expresa)."""
+    return "motor2" if algorithm == "Canónico" else "m05"
+
 
 def dispatch(workflow: str, inputs: dict) -> None:
     args = ["-X", "POST", f"repos/{_repo()}/actions/workflows/{workflow}/dispatches", "-f", "ref=main"]
@@ -324,7 +329,7 @@ class Territorio:
             self.fase = "00"
         else:
             dispatch(WF_00, {"territory_id": self.row["selector_00"], "data_edition": "2025",
-                             "execution_mode": MODES[acc], "optimization_algorithm": self.algorithm, "motor": MOTOR_00,
+                             "execution_mode": MODES[acc], "optimization_algorithm": self.algorithm, "motor": motor_00(self.algorithm),
                              "publication_mode": "electoral", "publish_result": self.publishes,
                              "lanzado_por_eleccion": True})
             self.fase = "00"

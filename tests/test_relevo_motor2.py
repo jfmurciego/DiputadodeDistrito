@@ -79,6 +79,7 @@ class DefectosYCallers(unittest.TestCase):
             lv.dispatch = orig
         self.assertEqual(enviados[0][0], "ejecucion-completa-proyecto.yml")
         self.assertEqual(enviados[0][1]["motor"], "motor2")
+        self.assertEqual([lv.motor_00(a) for a in ("Canónico", "GerryChain", "GerryChain 50")], ["motor2", "m05", "m05"])
 
 
 if __name__ == "__main__":
