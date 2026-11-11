@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13870475405,
+      "artifact_name": "ddd-audit-43045415140",
+      "artifact_sha256": "510994eab290b9e8f82c613e038fb9b77edce813e2bcba22e9b2faa78c61c6b9",
+      "run_id": 43045415140,
+      "size_in_bytes": 18623
+    },
+    "m04": {
+      "artifact_id": 13869240455,
+      "artifact_name": "ddd-state-43045415140-M04",
+      "artifact_sha256": "85ace7725162289f42f1ddd82f5e591ecc3a7144bbeff9fdf5fae816df8df7c6",
+      "run_id": 43045415140,
+      "size_in_bytes": 90132010
+    },
+    "m05": {
+      "artifact_id": 13867534738,
+      "artifact_name": "ddd-state-43045415140-M05",
+      "artifact_sha256": "1dd483ede0c1ea4a042e5c398b7b4556aa347a8d952e12784c0574c8d08935d0",
+      "run_id": 43045415140,
+      "size_in_bytes": 93160236
+    },
+    "m06": {
+      "artifact_id": 13869297310,
+      "artifact_name": "ddd-state-43045415140-M06",
+      "artifact_sha256": "d2c83e4c06391e977efff7f933f110856a74a454e8ae2c335ee4f09a15697896",
+      "run_id": 43045415140,
+      "size_in_bytes": 101698506
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "0d54fc3d4af72ecb8dd1ea05097c18634ab8f9733839b824800f6ec9759c26c5",
+        "size_in_bytes": 409
+      },
+      "madrid_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "2d651dab1166b0c9390488822a7234472d12e4b0ac685fb02bb3d8fa80246a9f",
+        "size_in_bytes": 119268
+      },
+      "optimization_execution.json": {
+        "sha256": "a1b9a4e8f28bf7d23662d4f9b48cae66908f320abefa78244f3bf7663316da71",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "bcc73745c0b5ba731fe35bcc8d1c9b80ffdd701ff91793024491cd454745b5fe",
+        "size_in_bytes": 1471
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "bcc73745c0b5ba731fe35bcc8d1c9b80ffdd701ff91793024491cd454745b5fe",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/madrid/config/madrid_2025.yaml",
+    "sha256": "aae8da373b17510e021da434fc55c442bba68a42d018a48104d5f9d35d3d6d10"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "0aa096d06fdb9c043fa9bb35826f6b13d16a0215cedb4df0b7f3d6924813a586",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s763731873",
+      "generador": "ponderado",
+      "huella_resultado": "9110736b5fc052e2d7cd98f4ce14af23672903d8ae453ff7434c64f6265dae46",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.7386799551739889,
+          "fuera_tolerancia": 26,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.7386799551739889,
+          "fuera_tolerancia": 14,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "c8085d9f5ea76b2453627672d8597b6a3794f7b23f44f96b0961b79605b19c1d",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+    "edition": "2025",
+    "territory_id": "madrid",
+    "territory_name": "Comunidad de Madrid",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43045415140,
+    "workflow_sha": "09ba9a2f38fc81b54348607e40b32d0a146e255b"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13869240455,
+      "artifact_name": "ddd-state-43045415140-M04",
+      "artifact_sha256": "85ace7725162289f42f1ddd82f5e591ecc3a7144bbeff9fdf5fae816df8df7c6",
+      "run_id": 43045415140,
+      "size_in_bytes": 90132010
+    },
+    "source_manifest_sha256": "50d90c16176607cc4f3964610a7202cd141601c61f37468fc33fd1d46ab4333d",
+    "source_package_artifact": {
+      "artifact_id": 12855666769,
+      "artifact_name": "ddd-source-package-madrid-2025-40773465956",
+      "artifact_sha256": "b1792fa2242ab38465fbf1a182a67d5966760d997f416c4216a52b20a480713f",
+      "run_id": 40773465956,
+      "size_in_bytes": 83988216
+    }
+  },
+  "manifest_sha256": "540d4a8867894ae9ba5a010355b566f28aa9371f60c5f708b261525ed6af1a75",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
