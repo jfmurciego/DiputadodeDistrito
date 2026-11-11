@@ -3,11 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — laboratorio de naturalidad: competición con cinco funciones de calidad y grafo ponderado
-VERSIÓN: 1.5.0
-NOMBRE DE VERSIÓN: Naturalidad · competición A/B/C + D5/D8
-FECHA: 2026-11-10
+VERSIÓN: 1.6.0
+NOMBRE DE VERSIÓN: Naturalidad · árbol ponderado sobre RX
+FECHA: 2026-11-11
 ESTADO: experimento (motor 2; producción no lo importa; no lanza nada; el criterio NO se fija aquí)
-CAMBIOS: 1.5.0 (T-205): la clave de calidad (A, B, D5, D8), los desvíos, la naturalidad y los recargos salen a
+CAMBIOS: 1.6.0 (T-262, D-89): `arbol_ponderado` sobre grafos RX lee extremos y datos de todas las aristas de una vez
+  (edge_index_map) en vez de get_edge_from_edge_id/node_data/edge_data por arista: mismo orden de aristas
+  (_ordered_edge_ids) y una llamada a rng.random() por arista, mismos pesos, mismo árbol y mismos mapas bit a bit.
+  1.5.0 (T-205): la clave de calidad (A, B, D5, D8), los desvíos, la naturalidad y los recargos salen a
   ddd_motor2/naturalidad_clave.py (Natural), que comparte la competición del motor nuevo; mismo orden y mismos valores
   (fracciones exactas también con objetivos por circunscripción). `cadena` admite cualquier Natural (el generador
   «ponderado» de la competición la usa sobre las unidades M04 y el grafo M03).
@@ -38,7 +41,7 @@ CAMBIOS: 1.5.0 (T-205): la clave de calidad (A, B, D5, D8), los desvíos, la nat
   arista y, con ella, las cadenas (Badajoz, Madrid y Barcelona no reprodujeron #651). 1.0.0: fichero nuevo.
 MOTIVO: T-172, pasos 3 y 4: ¿cuánta población «cuesta» un mapa más natural? Misma entrada, mismas reglas (núcleo
   ddd_motor2.reglas.evaluar), mismas semillas públicas (semilla.py); cambia solo cómo se elige y cómo se corta.
-ANTERIOR: 1.4.0 (T-202, #671) — legacy/ddd_motor2/naturalidad_competicion_v1.4.0_20261110.py
+ANTERIOR: 1.5.0 (T-205) — legacy/ddd_motor2/naturalidad_competicion_v1.5.0_20261110.py
 QUÉ HACE: por territorio,
   entrada   el mapa vigente (datos/composicion/<t>.csv: población por sección) y la geometría INE del contrato
             (naturalidad_mapas.Geometria). Unidades: cada municipio con población <= objetivo es una unidad (la regla
@@ -291,6 +294,17 @@ def arbol_ponderado(graph, region_surcharge=None, treat_unassigned_as_single_reg
     from gerrychain.tree.spanning_tree import _ordered_edge_ids  # noqa: PLC0415
     if not isinstance(rng, random.Random):
         rng = random.Random(rng)
+    if graph.is_rx_graph():
+        # mismo orden de aristas y una sola llamada a rng.random() por arista que la ruta general; los extremos y los
+        # datos salen de una vez del grafo RX (sin get_edge_from_edge_id/node_data/edge_data por arista)
+        rx = graph.get_rx_graph()
+        extremos = rx.edge_index_map()
+        get = recargo.get
+        for eid in _ordered_edge_ids(graph):
+            na, nb, datos = extremos[eid]
+            a, b = rx[na]["uid"], rx[nb]["uid"]
+            datos["random_weight"] = rng.random() + get((a, b) if a < b else (b, a), 0.0)
+        return graph.minimum_spanning_tree_from_edge_weight(edge_weight_attribute_name="random_weight")
     for eid in _ordered_edge_ids(graph):
         a, b = (graph.node_data(n)["uid"] for n in graph.get_edge_from_edge_id(eid))
         graph.edge_data(eid)["random_weight"] = rng.random() + recargo.get((a, b) if a < b else (b, a), 0.0)
