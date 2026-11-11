@@ -861,6 +861,15 @@
     "sha256": "84793df64c56f10c656c8fe2332baf5ea0f2eebf3ac4c288c2c4d7cac5f06812"
    }
   },
+  "congreso_cadiz/42953019279": {
+   "territorio": "congreso_cadiz",
+   "run_id": "42953019279",
+   "run_territorial": "42940371696",
+   "sha256_composicion": "19679be0e0eadcc4f689dff054c55c927d6ca0e374b442364cbf0ff99fb356d0",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "8738ce6bd52449b69126b2cbfbeeee180e5c6195219dcdba37bf0dceb48588ee",
+   "ruta": "datos/resultados/runs/congreso_cadiz_42953019279_partidos.csv"
+  },
   "congreso_ceuta/42496569312": {
    "territorio": "congreso_ceuta",
    "run_id": "42496569312",
