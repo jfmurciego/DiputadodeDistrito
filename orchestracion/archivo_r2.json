@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:53:37Z",
+  "actualizado_en": "2026-11-11T03:54:55Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2464,19 +2464,20 @@
       "territorio": "congreso_gerona",
       "url": "r2://ddd-research-archive/congreso_gerona/41298839274/ddd-minimo-41298839274-M08.zip"
     },
-    "congreso_gerona/42940402050/ddd-minimo-42940402050-M06.zip": {
-      "archivado_en": "2026-11-11T02:50:01Z",
-      "artefacto": "ddd-minimo-42940402050-M06",
-      "artefacto_origen": "ddd-state-42940402050-M06",
-      "artifact_id": 13822362687,
-      "caducidad_original": "2026-11-25T02:24:49Z",
-      "run_id": "42940402050",
-      "sha256": "ea6efdbafc3c67a0e3c4f4627eb5264b07164f2b4b84329250476f9dd8eba827",
-      "sha256_estado_original": "619741eda68fdd561942087f20e9b41bb7f5802306fe4b17057a2bd0803aa679",
-      "tamano_bytes": 354811,
-      "tamano_estado_original": 82689329,
+    "congreso_gerona/42954957703/ddd-minimo-42954957703-M08.zip": {
+      "archivado_en": "2026-11-11T03:54:55Z",
+      "artefacto": "ddd-minimo-42954957703-M08",
+      "artefacto_origen": "ddd-state-42954957703-M08",
+      "artifact_id": 13827260952,
+      "caducidad_original": "2026-11-25T03:54:11Z",
+      "incluye_m06_run": "42940402050",
+      "run_id": "42954957703",
+      "sha256": "db7a696d45f30f4e1cc1e585e30d9660cc6a93bbecae966fead11551b236d125",
+      "sha256_estado_original": "4bf0be89bf07c084ac74e390c452b464eb8b0857bdc660d78deadccdfdd5e0bd",
+      "tamano_bytes": 573881,
+      "tamano_estado_original": 83944757,
       "territorio": "congreso_gerona",
-      "url": "r2://ddd-research-archive/congreso_gerona/42940402050/ddd-minimo-42940402050-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_gerona/42954957703/ddd-minimo-42954957703-M08.zip"
     },
     "congreso_granada/41243199582/ddd-audit-41243199582.zip": {
       "archivado_en": "2026-11-08T12:08:50Z",
