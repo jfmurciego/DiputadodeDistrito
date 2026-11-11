@@ -25,9 +25,10 @@
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
 | 08:42 | tanda 1: Álava (Reutilizar) 42981402781, Asturias 42981406489, Burgos 42981415070, Cantabria 42981422592, Ceuta 42981430591 | P00 Campaña motor2 | — | SUCCESS: las 5 cadenas completas (territorial, Activación y electoral en success) | 5 / — | 0/1 |
-| 10:00 | tanda 2: Huelva 42991542477, Huesca 42991551418, Las Palmas 42991561887, León 42991571678, Lugo 42991580539 | P00 Campaña motor2 | — | EN_VUELO | 10 / — | 0/1 |
+| 10:00 | tanda 2: Huelva 42991542477, Huesca 42991551418, Las Palmas 42991561887, León 42991571678, Lugo 42991580539 | P00 Campaña motor2 | — | SUCCESS: las 5 cadenas completas | 10 / — | 0/1 |
+| 11:13 | tanda 3: Madrid 43001749134, Melilla 43001757563, Murcia 43001766635, Málaga 43001775134, Navarra 43001785293 | P00 Campaña motor2 | — | EN_VUELO | 15 / — | 0/1 |
 
 ## Cierre
-Estado: `EN_CURSO` (tanda 2). Último uso: 2026-11-11.
+Estado: `EN_CURSO` (tanda 3). Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-11_congreso-completar-31-motor2 tal como figura en la ficha.»
