@@ -4,9 +4,9 @@
   "territory_id": "pais_vasco",
   "territory_name": "País Vasco",
   "edition": "2025",
-  "run_id": 40979640315,
-  "artifact_name": "ddd-state-40979640315-M08",
-  "artifact_sha256": "9f0d871b475feb7ed9f52c4123ea15783b86b9f49a1b2d1dd7f7c8730430c5f2",
-  "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+  "run_id": 43047232024,
+  "artifact_name": "ddd-state-43047232024-M08",
+  "artifact_sha256": "5f03f8045db2cffdf7a47361087a2cb5207d72d6f2b430e89ef86704155fca48",
+  "source_commit": "306aa0aca8ea8195f3ac480274e8a75878146fc4",
   "stage": "M08"
 }
