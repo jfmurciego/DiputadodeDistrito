@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T09:39:41.951944+00:00",
+  "generated_at": "2026-11-11T09:42:59.165532+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9111,10 +9111,10 @@
           "territory_id": "congreso_huelva",
           "territory_name": "Congreso Huelva",
           "edition": "2025",
-          "run_id": 41335929678,
-          "artifact_name": "ddd-state-41335929678-M08",
-          "artifact_sha256": "571a1603f7e46bd6656b9763bc50f32183dce520372bd14098e5fda646af63e6",
-          "source_commit": "8a14e0e670e508f817c8a1976bed8738daac2dfe",
+          "run_id": 42996002594,
+          "artifact_name": "ddd-state-42996002594-M08",
+          "artifact_sha256": "e435883592b00c5afc7e7b21feb11e35a80ef6d3f1ee6200819c43ac1b83d582",
+          "source_commit": "cfe716fc438444c6d25634256d725122a3012c94",
           "stage": "M08"
         }
       },
@@ -9172,10 +9172,10 @@
           "territory_id": "congreso_huesca",
           "territory_name": "Congreso Huesca",
           "edition": "2025",
-          "run_id": 42519383275,
-          "artifact_name": "ddd-state-42519383275-M08",
-          "artifact_sha256": "60fd20066df87d4ae51a3bb029210abecc11da3aeb6e43825de763e2d5497c88",
-          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
+          "run_id": 42996217596,
+          "artifact_name": "ddd-state-42996217596-M08",
+          "artifact_sha256": "a6916bd9aeece67113a6e9c0b57b2af327d2b9575452b4d9ddc43a817e331af9",
+          "source_commit": "3bc6e81cbffd7fc07c6dcd6fe54523be90f7d67c",
           "stage": "M08"
         }
       },
@@ -9432,20 +9432,20 @@
       "name": "Nacional Lugo",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42991580539,
+      "run_id": 42995722473,
       "last_run": {
-        "run_id": 42991580539,
+        "run_id": 42995722473,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9486,7 +9486,7 @@
       },
       "autonomous_community_code_ine": "C27",
       "display_name": "Nacional Lugo",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_madrid",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 45,
+    "complete": 46,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12297,6 +12297,7 @@
       "Nacional Guipúzcoa",
       "Nacional Jaén",
       "Nacional La Rioja",
+      "Nacional Lugo",
       "Nacional Asturias",
       "Nacional Cantabria",
       "Nacional Ceuta",
@@ -12513,11 +12514,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_burgos",
-    "name": "Nacional Burgos",
-    "display_name": "Nacional Burgos",
-    "autonomous_community_code_ine": "C09",
-    "run_id": 42986581831,
+    "territory_id": "congreso_lugo",
+    "name": "Nacional Lugo",
+    "display_name": "Nacional Lugo",
+    "autonomous_community_code_ine": "C27",
+    "run_id": 42995722473,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12560,15 +12561,15 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Lugo",
-      "territory_id": "congreso_lugo",
-      "autonomous_community_code_ine": "C27",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Madrid",
       "territory_id": "congreso_madrid",
       "autonomous_community_code_ine": "C28",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Málaga",
+      "territory_id": "congreso_malaga",
+      "autonomous_community_code_ine": "C29",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12610,15 +12611,15 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Lugo",
-      "territory_id": "congreso_lugo",
-      "autonomous_community_code_ine": "C27",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Madrid",
       "territory_id": "congreso_madrid",
       "autonomous_community_code_ine": "C28",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Málaga",
+      "territory_id": "congreso_malaga",
+      "autonomous_community_code_ine": "C29",
       "action": "preparar fuentes electorales"
     }
   ]
