@@ -1176,6 +1176,13 @@
    "sha256_csv": "5f50662a1f66b0869ad182b0e3a600c7bc954a99ed7f4ac8b063df0f715cda5d",
    "ruta": "datos/composicion/runs/congreso_las_palmas_42940489856.csv"
   },
+  "congreso_las_palmas/42991561887": {
+   "territorio": "congreso_las_palmas",
+   "run_id": "42991561887",
+   "secciones": 715,
+   "sha256_csv": "5f50662a1f66b0869ad182b0e3a600c7bc954a99ed7f4ac8b063df0f715cda5d",
+   "ruta": "datos/composicion/runs/congreso_las_palmas_42991561887.csv"
+  },
   "congreso_leon/42940437972": {
    "territorio": "congreso_leon",
    "run_id": "42940437972",
