@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13822849809,
+      "artifact_name": "ddd-audit-42940568653",
+      "artifact_sha256": "bc3c749b4a6455930b8b1678504cbd5eb51ddb7c59613b252ec1419548e00d02",
+      "run_id": 42940568653,
+      "size_in_bytes": 3802
+    },
+    "m04": {
+      "artifact_id": 13822223128,
+      "artifact_name": "ddd-state-42940568653-M04",
+      "artifact_sha256": "a6fa86637eb7bae01705762ea9fdb63a03f83902ad50f393015d6a8563a631b1",
+      "run_id": 42940568653,
+      "size_in_bytes": 80091580
+    },
+    "m05": {
+      "artifact_id": 13822328594,
+      "artifact_name": "ddd-state-42940568653-M05",
+      "artifact_sha256": "55d5f25fd58b6def63556ba88489dc3b6484cd5fac6b0282b2132a6efe96c924",
+      "run_id": 42940568653,
+      "size_in_bytes": 81225927
+    },
+    "m06": {
+      "artifact_id": 13823357696,
+      "artifact_name": "ddd-state-42940568653-M06",
+      "artifact_sha256": "80f14166238eee5ced8a5cf5c6ecfcb1a34d84b501bc643a18e943c8cd134ab9",
+      "run_id": 42940568653,
+      "size_in_bytes": 84003632
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "695893a39dc86304c81cc666cb6bbf7fb37139d1d3149fa133abb7c87f6250b2",
+        "size_in_bytes": 407
+      },
+      "congreso_zaragoza_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "d762b3e3d025973aba00a89b1cd8bf8575194c8395bc12fb0db298e8ebc47b71",
+        "size_in_bytes": 9085
+      },
+      "optimization_execution.json": {
+        "sha256": "bb999b9d16fc9f23daff45c91b6cbd0ec80f690dc00b13d35f577a3aa9a38578",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "c2df2382936ba75df63b4b658976aa6fb929191bab8fc06b3ce2963ca80ab9a6",
+        "size_in_bytes": 1487
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "c2df2382936ba75df63b4b658976aa6fb929191bab8fc06b3ce2963ca80ab9a6",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_zaragoza/config/congreso_zaragoza_2025.yaml",
+    "sha256": "9556d3cd4d4f5da70b87432c9ee9724e29b386c3d09d58d41fd991a119e79b99"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "ee57547511cccf9e7aa6e41a8349804472bf9f1ae7ebc8b4bf620fa955569df8",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_CANONICO",
+      "funcion": "D8",
+      "ganador": "canonico",
+      "generador": "canonico",
+      "huella_resultado": "d8fabb1046c47999818801568b9563e3341c80fe366fd368de854193325b94fc",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.11437104654546569,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.11437104654546569,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "0a167fa51368d6b7bd41d24ec2087ad64d302f4b66680855e01a620a7a6745fc",
+      "rehacer_m06": false
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_zaragoza",
+    "territory_name": "Congreso Zaragoza",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940568653,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13822223128,
+      "artifact_name": "ddd-state-42940568653-M04",
+      "artifact_sha256": "a6fa86637eb7bae01705762ea9fdb63a03f83902ad50f393015d6a8563a631b1",
+      "run_id": 42940568653,
+      "size_in_bytes": 80091580
+    },
+    "source_manifest_sha256": "23a9820611bb2301eeae07bf25e0c8f04a3c26a5e6b0db0925d38302f3fb8800",
+    "source_package_artifact": {
+      "artifact_id": 13058534838,
+      "artifact_name": "ddd-source-package-congreso_zaragoza-2025-41243577758",
+      "artifact_sha256": "627977b4ba7a437b6badf0c84976f54525bb7a7634e79f7beb5291fe96af50d9",
+      "run_id": 41243577758,
+      "size_in_bytes": 77800150
+    }
+  },
+  "manifest_sha256": "ed43a9bd7f7488595bca2096ee590ad8b148389d64262cac8e5779c4c3b75e24",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

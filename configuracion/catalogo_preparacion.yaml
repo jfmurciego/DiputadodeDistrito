@@ -2685,8 +2685,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41296815536
-        stage: M08
+        run_id: 42940568653
+        stage: M06
       preparation_evidence:
         run_id: 41243577758
         artifact_name: ddd-source-package-congreso_zaragoza-2025-41243577758
