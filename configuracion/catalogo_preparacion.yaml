@@ -2238,7 +2238,7 @@ territories:
         prepared_source_pair: territorios/congreso_santa_cruz_de_tenerife/evidencia/pares_fuentes/2025/021421efa924f643ed6a7da87c2a68c3d1adf67c3180eb2e1f4897b174e2ff1e.json
         electoral_product: territorios/congreso_santa_cruz_de_tenerife/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/congreso_santa_cruz_de_tenerife/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_cantabria
   name: Congreso Cantabria
   editions:
