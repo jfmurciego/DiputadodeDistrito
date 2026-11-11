@@ -65,7 +65,7 @@ Un plan (unidad → distrito) es válido si y solo si `evaluar` no devuelve ning
 | R-K | Exactamente K distritos (`validation.expected_districts`) | `evaluar.py:160-161` |
 | R-POB-SUELO | Población del distrito ≥ `s·o`, salvo distrito exento | `evaluar.py:108-110` |
 | R-POB-TECHO | Población ≤ `c·o` (sin exenciones) | `evaluar.py:111-112` |
-| R-TOL | Solo con `Criterio.tolerancia="dura"`; el criterio aprobado es «métrica» (D-44), así que la tolerancia **no es regla**: es el primer término de la elección | `evaluar.py:113-115`; `modelo.py:173`; D-44 |
+| R-TOL | Solo con `Criterio.tolerancia="dura"` (y salvo distrito exento de suelo por debajo del objetivo); el criterio aprobado es «métrica» (D-44), así que la tolerancia **no es regla**: es el primer término de la elección | `evaluar.py:113-115`; `modelo.py:173`; D-44 |
 | R-CONTIG | Distrito conexo en el grafo de unidades, contando los puentes (`contiguidad_con_puentes=True`) si `require_graph_contiguity` (por defecto sí) | `evaluar.py:116-117`; `modelo.py:183, 293` |
 | R-PROV | Si `require_single_province_per_district`, una sola provincia por distrito; la clave es obligatoria en el contrato (`provincia_defecto="obligatoria"`, D-44) | `evaluar.py:118-121`; `modelo.py:255-261` |
 | R-CUOTA | Con provincia única, nº de distritos por provincia = `province_districts` | `evaluar.py:137-141` |
@@ -122,8 +122,8 @@ es un sha256 válido, `ErrorContrato` y no se ejecuta nada (nunca semilla fija; 
 → error explícito (l. 248-249). Hoy `<territorio>` es el nombre de carpeta del contrato (`produccion._territorio`,
 `produccion.py:91-95`); D-61/6 prevé el código de la tabla maestra: ver Puntos abiertos.
 
-**Huella del resultado** (`competicion.py:177-183`): sha256 de reglas, semillas, enumeración exacta y, por candidato,
-id, semilla, estado, huella del plan y sha256 de su composición. Misma entrada ⇒ misma huella (criterio (a) de
+**Huella del resultado** (`competicion.py:177-186`): sha256 de la huella de las reglas, la enumeración exacta, el id del
+ganador, la función (si no es A) y, por candidato, id, semilla, estado, huella del plan y sha256 de su composición. Misma entrada ⇒ misma huella (criterio (a) de
 `ACEPTACION_MOTOR2.md`).
 
 **Huella del motor `motor2`** (`produccion.py:79-87`): sha256 de `ddd_motor2/**/*.py`, de las tablas de
@@ -144,7 +144,7 @@ pines de `requirements-ensemble.lock` (`bateria-motor.yml:101-205`; T-181).
 | Orden | Candidato | Qué es |
 |---|---|---|
 | 0 | **canónico** | P30: el M06 del propio run (`CanonicoDelRun`); batería: M04 + M05 canónico 7.4.4 + M06 (`generadores.Canonico`) |
-| 1 | **vigente** | `datos/composicion/<t>.csv` sobre las filas del canónico (con piezas finas). Solo compite si es representable, tiene **exactamente** las secciones de la entrada (si no, `VIGENTE_OTRO_SECCIONADO`, 1.2.1) y es válido. Si incumple el núcleo (R-NUCLEO o R-MUN-MIXTOS), **vigente reparado** (D-66): reparación mínima y determinista, máx. 20 pasos, sin crear infracciones nuevas, y se juzga de nuevo (`generadores.py:194-269, 329-347`). No compite con la función A |
+| 1 | **vigente** | `datos/composicion/<t>.csv` sobre las filas del canónico (con piezas finas). Solo compite si es representable, tiene **exactamente** las secciones de la entrada (si no, `VIGENTE_OTRO_SECCIONADO`, 1.2.1) y es válido. Si incumple el núcleo, **vigente reparado** (D-66): `reparar` solo sabe arreglar R-NUCLEO y R-MUN-MIXTOS (con otra infracción no se repara y no compite): reparación mínima y determinista, máx. 20 pasos, sin crear infracciones nuevas, y se juzga de nuevo (`generadores.py:194-269, 329-347`). No compite con la función A |
 | 2..N+1 | **ponderado** ×N (N=10, D-67 provisional) | Cadena ReCom de GerryChain (`naturalidad_competicion.cadena`, l. 300-350): 300 pasos, `epsilon = t`, árbol de expansión ponderado con recargos 0,5 (partido judicial) / 0,3 (comarca agraria) / 0,2 (área de movilidad) / 0,3 (frontera corta) (`generadores.py:356-357`), el núcleo como restricción en cada paso y `rng = semilla_i`; devuelve el mejor estado por D8. Si el vigente compite, la mitad final de las semillas parte de él y el resto del canónico (`competicion.py:329-331`) |
 | último | **exhaustivo** (si aplica) | Enumeración exacta de todos los planes válidos sobre las unidades del canónico si termina dentro de `presupuesto_nodos=200 000` (`Criterio.metodo="presupuesto"`, `modelo.py:177-178`; `exhaustivo.py:41-70`) |
 
@@ -154,7 +154,7 @@ ganador nunca es peor que la suya (aserción `competicion.py:356`). Sin ningún 
 ## 6. Criterios de aceptación
 
 `docs/ARQUITECTURA/ACEPTACION_MOTOR2.md` 1.1.0 (T-194, T-212) y `herramientas/bateria_motor.py`
-(`criterio_aceptacion`, l. 1006-1041; `aceptacion`, l. 1044). Aceptación = todos a la vez:
+(`criterio_aceptacion`, l. 1007-1041; `aceptacion`, l. 1044). Aceptación = todos a la vez:
 - todos los territorios presentes y con ganador válido;
 - **comprobación 1**: clave de elección del ganador nunca peor que la del canónico (`frente_al_canonico != "empeora"`,
   `competir.comparar`, sin huella ni orden);
