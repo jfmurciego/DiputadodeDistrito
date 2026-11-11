@@ -987,6 +987,13 @@
    "sha256_csv": "19679be0e0eadcc4f689dff054c55c927d6ca0e374b442364cbf0ff99fb356d0",
    "ruta": "datos/composicion/runs/congreso_cadiz_42940371696.csv"
   },
+  "congreso_castellon/42940377493": {
+   "territorio": "congreso_castellon",
+   "run_id": "42940377493",
+   "secciones": 444,
+   "sha256_csv": "52289a941708ac01ddffb56c0031b985bcc955d3b8bf3dba1fda533202937126",
+   "ruta": "datos/composicion/runs/congreso_castellon_42940377493.csv"
+  },
   "congreso_ceuta/42488846588": {
    "territorio": "congreso_ceuta",
    "run_id": "42488846588",
