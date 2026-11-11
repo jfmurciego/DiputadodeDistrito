@@ -4,9 +4,9 @@
   "territory_id": "congreso_palencia",
   "territory_name": "Congreso Palencia",
   "edition": "2025",
-  "run_id": 41298660623,
-  "artifact_name": "ddd-state-41298660623-M08",
-  "artifact_sha256": "99e8224ea2be0fba141a6a88b32ba31cedda40c897dd84b4854694ff4e5d408e",
-  "source_commit": "45406b5aacaa62634b33124d468308d20cd2de0a",
+  "run_id": 43016085888,
+  "artifact_name": "ddd-state-43016085888-M08",
+  "artifact_sha256": "f3b6f957c70a27da6cfeda275b729aae0d6d40bec74556638a988dbd71a0af33",
+  "source_commit": "37f628b85b8e64083245b2e59c38d071ff4bf31a",
   "stage": "M08"
 }
