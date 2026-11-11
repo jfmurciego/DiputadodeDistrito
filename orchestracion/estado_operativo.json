@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T08:26:48.057518+00:00",
+  "generated_at": "2026-11-11T08:28:45.984100+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -10209,10 +10209,10 @@
           "territory_id": "congreso_cantabria",
           "territory_name": "Congreso Cantabria",
           "edition": "2025",
-          "run_id": 41356175674,
-          "artifact_name": "ddd-state-41356175674-M08",
-          "artifact_sha256": "08d9d06841987d4636f13e674ddeb38766da9ff949d06b631578d9b464c02efe",
-          "source_commit": "f62c2453c81eb8bb10657ecd25ccd17b956bae07",
+          "run_id": 42985965354,
+          "artifact_name": "ddd-state-42985965354-M08",
+          "artifact_sha256": "761a5bdb348b461248ff7a60f54aaae26270eb9bab53a05e1dbcdec2ef5c65ce",
+          "source_commit": "9a930bc02e736f451760f90ba4ffa6cd544352a6",
           "stage": "M08"
         }
       },
@@ -10896,20 +10896,20 @@
       "name": "Nacional Ceuta",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 42981430591,
+      "run_id": 42985728070,
       "last_run": {
-        "run_id": 42981430591,
+        "run_id": 42985728070,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10950,7 +10950,7 @@
       },
       "autonomous_community_code_ine": "C51",
       "display_name": "Nacional Ceuta",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_melilla",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 42,
+    "complete": 43,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12297,6 +12297,7 @@
       "Nacional Jaén",
       "Nacional La Rioja",
       "Nacional Asturias",
+      "Nacional Ceuta",
       "Nacional 350 Madrid",
       "Nacional 350 Soria",
       "Nacional 350 Valladolid"
@@ -12510,11 +12511,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_asturias",
-    "name": "Nacional Asturias",
-    "display_name": "Nacional Asturias",
-    "autonomous_community_code_ine": "C33",
-    "run_id": 42985447971,
+    "territory_id": "congreso_ceuta",
+    "name": "Nacional Ceuta",
+    "display_name": "Nacional Ceuta",
+    "autonomous_community_code_ine": "C51",
+    "run_id": 42985728070,
     "stage": "M08",
     "certification": "PASS",
     "edition": "2025"
