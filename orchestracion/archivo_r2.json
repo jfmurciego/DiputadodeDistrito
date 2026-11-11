@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:54:59Z",
+  "actualizado_en": "2026-11-11T02:55:57Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3480,6 +3480,20 @@
       "tamano_estado_original": 84893716,
       "territorio": "congreso_murcia",
       "url": "r2://ddd-research-archive/congreso_murcia/41622862185/ddd-minimo-41622862185-M08.zip"
+    },
+    "congreso_murcia/42940463842/ddd-minimo-42940463842-M06.zip": {
+      "archivado_en": "2026-11-11T02:55:57Z",
+      "artefacto": "ddd-minimo-42940463842-M06",
+      "artefacto_origen": "ddd-state-42940463842-M06",
+      "artifact_id": 13822259951,
+      "caducidad_original": "2026-11-25T02:29:21Z",
+      "run_id": "42940463842",
+      "sha256": "5ef237ed1e23527efba4a3aa01c97c3f948a76be0a8b80a4fb919aa439bd9fdc",
+      "sha256_estado_original": "245089dee1789e663148430002275b5b93a5693377573f85bbc9c4de55ec7dbb",
+      "tamano_bytes": 457101,
+      "tamano_estado_original": 84670889,
+      "territorio": "congreso_murcia",
+      "url": "r2://ddd-research-archive/congreso_murcia/42940463842/ddd-minimo-42940463842-M06.zip"
     },
     "congreso_navarra/41292721581/ddd-audit-41292721581.zip": {
       "archivado_en": "2026-11-08T12:14:59Z",
