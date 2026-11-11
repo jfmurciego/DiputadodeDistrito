@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T03:48:42.534696+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T03:50:11.881799+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -85,7 +85,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Gerona** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940402050 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Granada** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940407337 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Guadalajara** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940412378 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
-| **Nacional Guipúzcoa** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41298935355 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Guipúzcoa** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940417361 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Huelva** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41335929678 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Huesca** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42519383275 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Jaén** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41295799269 · SUCCESS | — | — | preparar fuentes electorales |
