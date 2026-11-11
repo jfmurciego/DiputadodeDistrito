@@ -3,11 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — P30 dentro de la cadena de producción (00 / 02, modo `motor: motor2`)
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: P30 en producción · la misma competición que la batería
-FECHA: 2026-11-10
+FECHA: 2026-11-11
 ESTADO: candidato (solo se ejecuta con la entrada `motor: motor2`; con `m05`, por defecto, nada lo llama)
-CAMBIOS: 1.1.0 — (T-223) el P30 compite como la batería desde T-217 (competir.competir_territorio): con D8 entra
+CAMBIOS: 1.1.1 — (T-265, D-90) la huella motor2 incluye la tabla maestra (configuracion/notacion_territorial.csv) y
+  su resolutor (ddd_core/territorio_ids.py): de ellos sale el código oficial de la semilla. El territorio de la
+  carpeta solo sirve para resolver ese código; P30.json publica `semilla_publica` con código, derivación y sha256.
+  1.1.0 — (T-223) el P30 compite como la batería desde T-217 (competir.competir_territorio): con D8 entra
   también el mapa vigente publicado (generadores.Vigente; si cumple el núcleo, la mitad de las cadenas parte de él).
   La huella motor2 incluye datos/composicion/*.csv (el vigente cambia el resultado). P30.json guarda el entorno
   (python, PYTHONHASHSEED, versiones de la comprobación de la batería, GEOS) y el vigente (estado, compite, detalle, sha256). Con otro
@@ -17,9 +20,9 @@ CAMBIOS: 1.1.0 — (T-223) el P30 compite como la batería desde T-217 (competir
     `composicion_m06_sha256` (la composición M06 canónica con la que compitió): la certificación (estado_produccion
     --motor motor2) los exige. Nada cambia en la competición ni en huella_resultado.
   1.0.0 — fichero nuevo.
-MOTIVO: T-216 (corte 5.0.0, paso 3; D-75): el motor nuevo como P30 en la cadena de producción detrás de un interruptor
+MOTIVO: 1.1.1 — T-265 / D-90 (semilla por código oficial). T-216 (corte 5.0.0, paso 3; D-75): el motor nuevo como P30 en la cadena de producción detrás de un interruptor
   `motor: m05|motor2` con `m05` por defecto hasta el relevo.
-ANTERIOR: legacy/ddd_motor2/produccion_v1.0.1_20261110.py
+ANTERIOR: legacy/ddd_motor2/produccion_v1.1.0_20261111.py
 QUÉ HACE (en el job M06 de la generación territorial, tras M04 + M05 canónico + M06 del propio run):
   competir   competición pública del motor 2 (competicion.competir_publico, la de la batería T-208): el canónico es el
              M06 que acaba de producir el run (mismas entradas M01-M03, M04, M05 canónico; no se recalcula), compite con
@@ -58,7 +61,7 @@ from pathlib import Path
 from typing import Mapping
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.1.0"
+VERSION = "1.1.1"
 ESQUEMA = "ddd.p30-motor2/1.0"
 FUNCION = "D8"  # única fuente de la función y N del P30: el flujo no los pasa y la huella motor2 los incluye
 CADENAS = 10
@@ -66,7 +69,9 @@ CADENAS = 10
 RESPALDO = ".m05_original"  # copia temporal de la salida M05 mientras se rehace M06 (se borra al restaurar)
 DATOS_NATURALIDAD = ("configuracion/partidos_judiciales.csv", "docs/ESTUDIOS/T64_*/comarcas_agrarias.csv",
                      "datos/movilidad/**/*",
-                     "datos/composicion/*.csv")  # T-223: el mapa vigente publicado compite (generadores.Vigente)
+                     "datos/composicion/*.csv",  # T-223: el mapa vigente publicado compite (generadores.Vigente)
+                     "configuracion/notacion_territorial.csv",  # T-265: código oficial de la semilla (tabla maestra)
+                     "ddd_core/territorio_ids.py")  # T-265: su resolutor (codigo_semilla)
 # Paquetes que fija la comprobación de dependencias del P30 y de la batería (requirements.lock + cadenas del laboratorio).
 PAQUETES_ENTORNO = ("numpy", "pandas", "shapely", "geopandas", "pyogrio", "pyproj", "gerrychain", "networkx",
                     "rustworkx", "scipy")

@@ -38,16 +38,17 @@ N_CADENAS = 5          # N de semillas públicas por territorio
 CRITERIO = Criterio()  # criterio del núcleo: el vigente
 FUNCION = "D8"         # función de calidad de la competición (T-205: D8 por defecto en competir.py)
 TERRITORIOS = {"soria": (4, 2), "alava": (6, 3), "melilla": (8, 2)}  # nombre: (unidades, K); 100 habitantes cada una
+ID_TABLA = {"soria": "congreso_soria", "alava": "congreso_alava", "melilla": "melilla"}  # T-265: id de la tabla maestra (semilla)
 CERRADAS = {"soria": ("U0", "U1")}  # núcleo cerrado de referencia (R-NUCLEO) en el plan canónico
-HUELLAS_FIJAS = {  # huella_resultado de la competición: reglas, semillas, planes y composiciones de todos los candidatos
-    "soria": "1c6c26778469db003897ad5ea3b5062275a105e400aa72f74ebd5a81c428dac7",
-    "alava": "82440ac2f1e0c5057690b7c7a0a8e3e51f03da2b58b68d6599009da6f13abc46",
-    "melilla": "68c31e6263da52a9635b19b53f285f72acc8578412e2b59b4393884350c9bc74",
+HUELLAS_FIJAS = {  # T-265 (D-90): regeneradas con la semilla del código oficial. huella_resultado de la competición: reglas, semillas, planes y composiciones de todos los candidatos
+    "soria": "6ed61e24880aa8ec1f709f5001379e2f92ff0f08f76012184ee4a254df332ba8",
+    "alava": "616f212889f202855eca0a58ba9dc93ed89fe090920e61e0ac44aeea73b8361a",
+    "melilla": "1dfa8476c5d724556762ae3e40a6688a95abebb0ab7ec7df1e5556d21543f89f",
 }
-HUELLAS_FIJAS_A = {  # las de la función A (antes de T-205): la competición con --funcion A no cambia
-    "soria": "a968322628dfdc308e613aa2461b412cc8dd15b394b56d4fe6913c1f3ce1b4c2",
-    "alava": "38d7b91d1969838fc32c310a06a3f7af2d3d927dcacdbc60c854e1a93f72d46d",
-    "melilla": "2e865182d50efa3ea769c6d35342ccf9f806987954a0118744b715c8d0c98e1b",
+HUELLAS_FIJAS_A = {  # las de la función A (antes de T-205; regeneradas en T-265 por la semilla): la competición con --funcion A no cambia
+    "soria": "115e61c5c35fd619121a9217087703e242c413859ac29dbab340b91758535cb6",
+    "alava": "28b4350290cea09f1150e4b97597309d1a326b36b6641dd02393a3c871a500f0",
+    "melilla": "5d464977e086fd71c359af9d0c444296660e9bfd55e65ea2ba5f486b37c3674e",
 }
 ESTUDIO = ROOT / "docs" / "ESTUDIOS" / "T132_BATERIA_MOTOR"
 
@@ -92,7 +93,7 @@ def entrada(t, tmp):
     g = tmp / f"grafo_{t}.json"
     g.write_text(json.dumps({"nodes": list(secc.values()), "edges": [
         {"u": secc[a], "v": secc[b], "edge_type": "geometric"} for a, b in zip(us, us[1:])]}))
-    return EntradaTerritorio(t, cfg_territorio(t), g)
+    return EntradaTerritorio(ID_TABLA[t], cfg_territorio(t), g)
 
 
 def competir_t(t, tmp, funcion=FUNCION):

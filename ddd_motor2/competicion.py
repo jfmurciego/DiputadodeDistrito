@@ -3,11 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — orquestador de la competición «canónico + GerryChain»
-VERSIÓN: 1.4.1
-NOMBRE DE VERSIÓN: Competición · el vigente compite
+VERSIÓN: 1.4.2
+NOMBRE DE VERSIÓN: Competición · semilla por código oficial en la huella
 FECHA: 2026-11-11
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.4.1 — (T-261) _exhaustivo pasa a enumerar_exacto el plan del canónico (`plan=`): si la cota de nodos
+CAMBIOS: 1.4.2 — (T-265, D-90) huella_resultado incluye la semilla pública registrada (esquema, código oficial de la
+  tabla maestra y sha256 de la tabla) cuando competir_publico la deriva (semilla.py 1.1.0). Competir con semillas
+  dadas (sin semilla_publica) no cambia.
+  1.4.1 — (T-261) _exhaustivo pasa a enumerar_exacto el plan del canónico (`plan=`): si la cota de nodos
   (reglas/cota.py) demuestra que la enumeración agotaría el presupuesto, no se lanza (metodo=cadena, intentada=False,
   cota_nodos). Mismos candidatos y mapas; cambia la parte «exhaustivo» de huella_resultado en esos territorios.
   1.4.0 — (T-217) `competir(..., vigente=<generador>)`: el mapa vigente publicado se juzga justo después del
@@ -38,7 +41,8 @@ CAMBIOS: 1.4.1 — (T-261) _exhaustivo pasa a enumerar_exacto el plan del canón
   1.1.0 — competir_publico (semillas públicas de semilla.py); Resultado.valido y Resultado.huella()
   (reproducibilidad bit a bit); sin referencia de núcleos y con unidades cerradas, ERROR_DATOS (indicador explícito:
   unidades con nucleo_cerrado, no el texto del aviso); pruebas de desempate por huella y de canónico fallido.
-MOTIVO: 1.4.1 — T-261 (D-89): no gastar el 60-87 % de la competición en un exhaustivo que no acaba.
+MOTIVO: 1.4.2 — T-265 / D-90: la semilla sale del código oficial y queda registrada en la huella.
+  1.4.1 — T-261 (D-89): no gastar el 60-87 % de la competición en un exhaustivo que no acaba.
   1.4.0 — T-217 (opción c de T-211): en las autonómicas el canónico M05 queda peor que el mapa publicado
   (Navarra: 24 fuera de tolerancia frente a 11) y las cadenas no lo alcanzan.
   1.3.2 — T-211: la clave D8 de la competición debe poner primero la población dentro de tolerancia como la
@@ -46,7 +50,7 @@ MOTIVO: 1.4.1 — T-261 (D-89): no gastar el 60-87 % de la competición en un ex
   1.3.0 — T-205: D8 en la competición del motor nuevo (decisión tras T-179). 1.2.0 — T-175: enumeración exacta para territorios pequeños en el competidor del motor nuevo.
   T-163 / D-48: la primera versión del motor nuevo es una competición entre el canónico y N cadenas de
   GerryChain bajo el núcleo único de reglas; gana el mejor plan válido, así que nunca es peor que el canónico.
-ANTERIOR: legacy/ddd_motor2/competicion_v1.4.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/competicion_v1.4.1_20261111.py
 QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador canónico (una vez) y la cadena con cada
   semilla, a través de adaptadores (protocolo Generador: devuelven una composición M06). Cada candidato se juzga con el
   núcleo (adaptadores.problema_y_plan + reglas.evaluar, Criterio D-44 por defecto) y se ordena con la función de
@@ -78,7 +82,7 @@ from .adaptadores import problema_y_plan
 from .calidad import metricas
 from .reglas import Criterio, ErrorContrato, ErrorDatos, Reglas, evaluar
 
-VERSION = "1.4.0"
+VERSION = "1.4.2"
 FUNCIONES = ("A", "C", "D5", "D8")
 ORDEN_A = ["evaluable", "violaciones_duras", "fuera_tolerancia", "desvio_max", "ecm", "huella_plan", "orden"]
 ORDEN_NATURAL = ["evaluable", "violaciones_duras", "fuera_tolerancia", "exceso_tope", "demarcaciones_partidas",
@@ -187,6 +191,9 @@ class Resultado:
                                 for c in sorted(self.candidatos, key=lambda c: c.orden)]}
         if self.funcion != "A":
             forma["funcion"] = self.funcion
+        sp = self.semilla_publica or {}
+        if sp.get("codigo"):  # T-265: la semilla y su derivación (código oficial y tabla maestra) entran en la huella
+            forma["semilla"] = [sp.get("esquema"), sp["codigo"], (sp.get("tabla_maestra") or {}).get("sha256")]
         return hashlib.sha256(json.dumps(forma, separators=(",", ":")).encode("utf-8")).hexdigest()
 
     def a_dict(self) -> dict:
