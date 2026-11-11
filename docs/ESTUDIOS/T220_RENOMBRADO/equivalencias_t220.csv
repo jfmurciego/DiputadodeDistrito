@@ -1,0 +1,81 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Equivalencias de carpetas T-220 (aparcada)
+# FECHA: 2026-11-11
+# ESTADO: aparcada — T-220
+# QUÉ HACE: id viejo de carpeta → id nuevo (código de la tabla maestra en minúsculas) y etiqueta visible.
+# FUENTE: generada desde configuracion/notacion_territorial.csv sha256 13299081885c5d2736af5cbb86251641e962f63b91ad38914c694de1c3e621ee (columnas id_interno, codigo, nombre_es); nada a mano.
+# FUERA: congreso350_* (D-76) y la carpeta congreso.
+# ANTERIOR: ninguna (fichero nuevo)
+antiguo,nuevo,etiqueta
+andalucia,aut01,AUT01 · Andalucía
+aragon,aut02,AUT02 · Aragón
+principado_de_asturias,aut03,AUT03 · Principado de Asturias
+illes_balears,aut04,AUT04 · Islas Baleares
+canarias,aut05,AUT05 · Canarias
+cantabria,aut06,AUT06 · Cantabria
+castilla_y_leon,aut07,AUT07 · Castilla y León
+castilla_la_mancha,aut08,AUT08 · Castilla-La Mancha
+cataluna,aut09,AUT09 · Cataluña
+comunidad_valenciana,aut10,AUT10 · Comunidad Valenciana
+extremadura,aut11,AUT11 · Extremadura
+galicia,aut12,AUT12 · Galicia
+madrid,aut13,AUT13 · Comunidad de Madrid
+region_de_murcia,aut14,AUT14 · Región de Murcia
+comunidad_foral_de_navarra,aut15,AUT15 · Comunidad Foral de Navarra
+pais_vasco,aut16,AUT16 · País Vasco
+la_rioja,aut17,AUT17 · La Rioja
+ceuta,aut18,AUT18 · Ceuta
+melilla,aut19,AUT19 · Melilla
+congreso_alava,nac01,NAC01 · Álava
+congreso_albacete,nac02,NAC02 · Albacete
+congreso_alicante,nac03,NAC03 · Alicante
+congreso_almeria,nac04,NAC04 · Almería
+congreso_avila,nac05,NAC05 · Ávila
+congreso_badajoz,nac06,NAC06 · Badajoz
+congreso_baleares,nac07,NAC07 · Baleares
+congreso_barcelona,nac08,NAC08 · Barcelona
+congreso_burgos,nac09,NAC09 · Burgos
+congreso_caceres,nac10,NAC10 · Cáceres
+congreso_cadiz,nac11,NAC11 · Cádiz
+congreso_castellon,nac12,NAC12 · Castellón
+congreso_ciudad_real,nac13,NAC13 · Ciudad Real
+congreso_cordoba,nac14,NAC14 · Córdoba
+congreso_la_coruna,nac15,NAC15 · La Coruña
+congreso_cuenca,nac16,NAC16 · Cuenca
+congreso_gerona,nac17,NAC17 · Gerona
+congreso_granada,nac18,NAC18 · Granada
+congreso_guadalajara,nac19,NAC19 · Guadalajara
+congreso_guipuzcoa,nac20,NAC20 · Guipúzcoa
+congreso_huelva,nac21,NAC21 · Huelva
+congreso_huesca,nac22,NAC22 · Huesca
+congreso_jaen,nac23,NAC23 · Jaén
+congreso_leon,nac24,NAC24 · León
+congreso_lerida,nac25,NAC25 · Lérida
+congreso_la_rioja,nac26,NAC26 · La Rioja
+congreso_lugo,nac27,NAC27 · Lugo
+congreso_madrid,nac28,NAC28 · Madrid
+congreso_malaga,nac29,NAC29 · Málaga
+congreso_murcia,nac30,NAC30 · Murcia
+congreso_navarra,nac31,NAC31 · Navarra
+congreso_orense,nac32,NAC32 · Orense
+congreso_asturias,nac33,NAC33 · Asturias
+congreso_palencia,nac34,NAC34 · Palencia
+congreso_las_palmas,nac35,NAC35 · Las Palmas
+congreso_pontevedra,nac36,NAC36 · Pontevedra
+congreso_salamanca,nac37,NAC37 · Salamanca
+congreso_santa_cruz_de_tenerife,nac38,NAC38 · Santa Cruz de Tenerife
+congreso_cantabria,nac39,NAC39 · Cantabria
+congreso_segovia,nac40,NAC40 · Segovia
+congreso_sevilla,nac41,NAC41 · Sevilla
+congreso_soria,nac42,NAC42 · Soria
+congreso_tarragona,nac43,NAC43 · Tarragona
+congreso_teruel,nac44,NAC44 · Teruel
+congreso_toledo,nac45,NAC45 · Toledo
+congreso_valencia,nac46,NAC46 · Valencia
+congreso_valladolid,nac47,NAC47 · Valladolid
+congreso_vizcaya,nac48,NAC48 · Vizcaya
+congreso_zamora,nac49,NAC49 · Zamora
+congreso_zaragoza,nac50,NAC50 · Zaragoza
+congreso_ceuta,nac51,NAC51 · Ceuta
+congreso_melilla,nac52,NAC52 · Melilla
