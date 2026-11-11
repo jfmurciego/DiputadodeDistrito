@@ -1,0 +1,41 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_toledo",
+ "run_id": "43040968638",
+ "run_territorial": "43034928684",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 383100,
+ "votos_desajustados": 806,
+ "pct_desajuste": 0.2104,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "4509901003",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 806,
+   "secciones_m06": {
+    "4509901001": 0.495079,
+    "4509901002": 0.504921
+   },
+   "distritos": {
+    "4": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 4, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "4516807017",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4516807017": 1.0
+   },
+   "distritos": {
+    "0": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}
