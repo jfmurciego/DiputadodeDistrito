@@ -1163,6 +1163,22 @@
     "sha256": "faee3f20312e1b2235fedd2ba506c1de274ecdc4eee31656146877d0fd23c373"
    }
   },
+  "congreso_lugo/42995722473": {
+   "territorio": "congreso_lugo",
+   "run_id": "42995722473",
+   "run_territorial": "42991580539",
+   "sha256_composicion": "cdf3336ac8f6b8bb5197d022fba021fb10219d49acd2e9853b79883bd6e493ee",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "c61a719a91121f32c8452c0b9ce5f6e9cbfaa2814abf2718dc10450409d0fa74",
+   "ruta": "datos/resultados/runs/congreso_lugo_42995722473_partidos.csv",
+   "desajustes": {
+    "secciones": 4,
+    "pct_desajuste": 0.207,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_lugo_42995722473_desajustes.json",
+    "sha256": "17c9cccc6d1dd0173d88bc1c46e150132d292bf352d50d09a83a31933585b09d"
+   }
+  },
   "congreso_malaga/42495070976": {
    "territorio": "congreso_malaga",
    "run_id": "42495070976",
