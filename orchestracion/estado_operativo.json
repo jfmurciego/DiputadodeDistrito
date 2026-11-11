@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T15:41:50.090465+00:00",
+  "generated_at": "2026-11-11T15:49:52.183633+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7303,11 +7303,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43045468808,
       "last_run": {
-        "run_id": 42720735134,
+        "run_id": 43045468808,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
+        "completion_status": "COMPLETE",
         "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7351,7 +7351,7 @@
       },
       "autonomous_community_code_ine": "11",
       "display_name": "11 Extremadura",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "galicia",
@@ -7364,11 +7364,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43045478748,
       "last_run": {
-        "run_id": 41044499258,
+        "run_id": 43045478748,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7419,11 +7419,11 @@
       "name": "Comunidad de Madrid",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41046373806,
+      "run_id": 43045415140,
       "last_run": {
         "run_id": 41046373806,
         "status": "SUCCESS",
@@ -7432,7 +7432,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7449,13 +7449,13 @@
           "territory_id": "madrid",
           "territory_name": "Comunidad de Madrid",
           "edition": "2025",
-          "run_id": 41046373806,
-          "artifact_name": "ddd-state-41046373806-M06",
-          "artifact_sha256": "d695e3be4e25105dcbfcd60df825f76f0335cd73931385115b8c7485e21d4943",
-          "source_commit": "a0c0f03c9baa9a49494fd55aba2c9be6b6124972",
+          "run_id": 43045415140,
+          "artifact_name": "ddd-state-43045415140-M06",
+          "artifact_sha256": "d2c83e4c06391e977efff7f933f110856a74a454e8ae2c335ee4f09a15697896",
+          "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/madrid/evidencia/generaciones_m06/41046373806.json"
+          "producer_manifest_path": "territorios/madrid/evidencia/generaciones_m06/43045415140.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7473,18 +7473,18 @@
       },
       "autonomous_community_code_ine": "13",
       "display_name": "13 Comunidad de Madrid",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "region_de_murcia",
       "name": "Región de Murcia",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42504383790,
+      "run_id": 43045426513,
       "last_run": {
         "run_id": 42504383790,
         "status": "SUCCESS",
@@ -7493,7 +7493,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7510,13 +7510,13 @@
           "territory_id": "region_de_murcia",
           "territory_name": "Región de Murcia",
           "edition": "2025",
-          "run_id": 42504383790,
-          "artifact_name": "ddd-state-42504383790-M06",
-          "artifact_sha256": "9e1a1e85596b29ef06262b9437376a4f7ff51c6e0db79a59399c6cacdfcd82ce",
-          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
+          "run_id": 43045426513,
+          "artifact_name": "ddd-state-43045426513-M06",
+          "artifact_sha256": "4761f5ad30c183dd10f50bdce4b929a2ed179fbd340ccea87a8da846ece3e895",
+          "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/region_de_murcia/evidencia/generaciones_m06/42504383790.json"
+          "producer_manifest_path": "territorios/region_de_murcia/evidencia/generaciones_m06/43045426513.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7534,18 +7534,18 @@
       },
       "autonomous_community_code_ine": "14",
       "display_name": "14 Región de Murcia",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "comunidad_foral_de_navarra",
       "name": "Comunidad Foral de Navarra",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41049986588,
+      "run_id": 43045437345,
       "last_run": {
         "run_id": 41049986588,
         "status": "SUCCESS",
@@ -7554,7 +7554,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7571,13 +7571,13 @@
           "territory_id": "comunidad_foral_de_navarra",
           "territory_name": "Comunidad Foral de Navarra",
           "edition": "2025",
-          "run_id": 41049986588,
-          "artifact_name": "ddd-state-41049986588-M06",
-          "artifact_sha256": "6f35b4daa7b839945bdd64a8d5b8fbbb48091f76760140fe411e17af5727e8dd",
-          "source_commit": "dfb7a87ef682033de96bee75deb68925491cd01b",
+          "run_id": 43045437345,
+          "artifact_name": "ddd-state-43045437345-M06",
+          "artifact_sha256": "0c821bd7fef79b68486861e689d55d4abf61e8c42f923d217750c606bee93dd2",
+          "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/comunidad_foral_de_navarra/evidencia/generaciones_m06/41049986588.json"
+          "producer_manifest_path": "territorios/comunidad_foral_de_navarra/evidencia/generaciones_m06/43045437345.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7595,7 +7595,7 @@
       },
       "autonomous_community_code_ine": "15",
       "display_name": "15 Comunidad Foral de Navarra",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "pais_vasco",
@@ -7724,11 +7724,11 @@
       "name": "Ceuta",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42503542766,
+      "run_id": 43045447315,
       "last_run": {
         "run_id": 42503542766,
         "status": "SUCCESS",
@@ -7737,7 +7737,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7754,13 +7754,13 @@
           "territory_id": "ceuta",
           "territory_name": "Ceuta",
           "edition": "2025",
-          "run_id": 42503542766,
-          "artifact_name": "ddd-state-42503542766-M06",
-          "artifact_sha256": "0361ee882860b1409c0f7890426ae7cbc1c6f32389dee80ca63788c5a533d9a8",
-          "source_commit": "901bee97ee99deb02c211c9cb1732f19bec759c6",
+          "run_id": 43045447315,
+          "artifact_name": "ddd-state-43045447315-M06",
+          "artifact_sha256": "2daa66a38c807b1ada088c0230cd56661f6b72a61782c6861c3b301c9d3ef80a",
+          "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/ceuta/evidencia/generaciones_m06/42503542766.json"
+          "producer_manifest_path": "territorios/ceuta/evidencia/generaciones_m06/43045447315.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7778,7 +7778,7 @@
       },
       "autonomous_community_code_ine": "18",
       "display_name": "18 Ceuta",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "melilla",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 69,
+    "complete": 65,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12267,12 +12267,8 @@
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "10 Comunidad Valenciana",
-      "13 Comunidad de Madrid",
-      "14 Región de Murcia",
-      "15 Comunidad Foral de Navarra",
       "16 País Vasco",
       "17 La Rioja",
-      "18 Ceuta",
       "Nacional Álava",
       "Nacional Albacete",
       "Nacional Alicante",
@@ -12566,34 +12562,34 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "13 Comunidad de Madrid",
+      "territory_id": "madrid",
+      "autonomous_community_code_ine": "13",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "14 Región de Murcia",
+      "territory_id": "region_de_murcia",
+      "autonomous_community_code_ine": "14",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "15 Comunidad Foral de Navarra",
+      "territory_id": "comunidad_foral_de_navarra",
+      "autonomous_community_code_ine": "15",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "18 Ceuta",
+      "territory_id": "ceuta",
+      "autonomous_community_code_ine": "18",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "19 Melilla",
       "territory_id": "melilla",
       "autonomous_community_code_ine": "19",
       "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Lérida",
-      "territory_id": "congreso_lerida",
-      "autonomous_community_code_ine": "C25",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional 350 Álava",
-      "territory_id": "congreso350_alava",
-      "autonomous_community_code_ine": "R01",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Albacete",
-      "territory_id": "congreso350_albacete",
-      "autonomous_community_code_ine": "R02",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Alicante",
-      "territory_id": "congreso350_alicante",
-      "autonomous_community_code_ine": "R03",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12616,15 +12612,33 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "19 Melilla",
-      "territory_id": "melilla",
-      "autonomous_community_code_ine": "19",
+      "territory": "13 Comunidad de Madrid",
+      "territory_id": "madrid",
+      "autonomous_community_code_ine": "13",
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Lérida",
-      "territory_id": "congreso_lerida",
-      "autonomous_community_code_ine": "C25",
+      "territory": "14 Región de Murcia",
+      "territory_id": "region_de_murcia",
+      "autonomous_community_code_ine": "14",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "15 Comunidad Foral de Navarra",
+      "territory_id": "comunidad_foral_de_navarra",
+      "autonomous_community_code_ine": "15",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "18 Ceuta",
+      "territory_id": "ceuta",
+      "autonomous_community_code_ine": "18",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "19 Melilla",
+      "territory_id": "melilla",
+      "autonomous_community_code_ine": "19",
       "action": "preparar fuentes electorales"
     }
   ]
