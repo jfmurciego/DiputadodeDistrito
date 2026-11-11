@@ -19,6 +19,6 @@
   reutilizar=false si el paquete electoral 42463442007 está purgado → `preparacion-legislatura-vigente` `prepare_one andalucia`
   → 00 «Generar desde fuente territorial acreditada» de Andalucía.
 - **Pruebas**: `catalogo_preparacion.py validate` OK; test nuevo `tests/test_t244_andalucia_receipt_vigente.py` (el resolver
-  elige 253f…/40946875467; ningún otro territorio pierde ni cambia su receipt independiente). Comparación completa del
-  catálogo antes/después: solo difiere la fila de Andalucía (120 filas). Suite de catálogo/preparación sin fallos nuevos
+  elige 253f…/40946875467; si `prepare_one` reescribe `preparation_evidence` con otro run, hay que actualizarlo).
+  Comparación completa del catálogo antes/después (fuera de la suite): solo difiere la fila de Andalucía (120 filas). Suite de catálogo/preparación sin fallos nuevos
   respecto a `main`.
