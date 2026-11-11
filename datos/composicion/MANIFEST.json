@@ -1337,6 +1337,13 @@
    "sha256_csv": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
    "ruta": "datos/composicion/runs/congreso_zamora_42940563499.csv"
   },
+  "congreso_zaragoza/42940568653": {
+   "territorio": "congreso_zaragoza",
+   "run_id": "42940568653",
+   "secciones": 884,
+   "sha256_csv": "d5641387f11681c21e791140c98c0eb373aa1b50e6464e1bb9f0efd989d88ef9",
+   "ruta": "datos/composicion/runs/congreso_zaragoza_42940568653.csv"
+  },
   "extremadura/42720735134": {
    "territorio": "extremadura",
    "run_id": "42720735134",

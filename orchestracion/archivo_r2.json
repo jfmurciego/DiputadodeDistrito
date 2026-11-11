@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:22:43Z",
+  "actualizado_en": "2026-11-11T03:23:44Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -4861,6 +4861,20 @@
       "tamano_estado_original": 84227585,
       "territorio": "congreso_zaragoza",
       "url": "r2://ddd-research-archive/congreso_zaragoza/41296815536/ddd-minimo-41296815536-M08.zip"
+    },
+    "congreso_zaragoza/42940568653/ddd-minimo-42940568653-M06.zip": {
+      "archivado_en": "2026-11-11T03:23:44Z",
+      "artefacto": "ddd-minimo-42940568653-M06",
+      "artefacto_origen": "ddd-state-42940568653-M06",
+      "artifact_id": 13823357696,
+      "caducidad_original": "2026-11-25T02:40:03Z",
+      "run_id": "42940568653",
+      "sha256": "382012191934942b1b2d7fc9de5c114e9679ea0c2659711d3661b4ca02af0c84",
+      "sha256_estado_original": "80f14166238eee5ced8a5cf5c6ecfcb1a34d84b501bc643a18e943c8cd134ab9",
+      "tamano_bytes": 508059,
+      "tamano_estado_original": 84003632,
+      "territorio": "congreso_zaragoza",
+      "url": "r2://ddd-research-archive/congreso_zaragoza/42940568653/ddd-minimo-42940568653-M06.zip"
     },
     "extremadura/40965231300/ddd-audit-electoral-40965231300.zip": {
       "archivado_en": "2026-11-07T17:12:18Z",
