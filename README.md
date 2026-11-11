@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T11:10:51.107465+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T11:40:48.075231+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -47,7 +47,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 
 | Territorio | FT | G | FE | RE | PUB | Estado | Última ejecución | Parada en | Motivo | Siguiente paso |
 |---|:---:|:---:|:---:|:---:|:---:|---|---|---|---|---|
-| **01 Andalucía** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42495072594 · SUCCESS | — | — | — |
+| **01 Andalucía** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43011608060 · FAILED | 01 · Preparación de Datos Territoriales | ver log del run | — |
 | **02 Aragón** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42497101869 · SUCCESS | — | — | — |
 | **03 Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40979477771 · SUCCESS | — | — | — |
 | **04 Islas Baleares** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41033500476 · SUCCESS | — | — | — |

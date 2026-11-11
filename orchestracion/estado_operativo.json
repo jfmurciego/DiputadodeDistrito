@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T11:10:51.107465+00:00",
+  "generated_at": "2026-11-11T11:40:48.075231+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 74,
-      "activable": 0,
+      "activated": 71,
+      "activable": 3,
       "territorial_pending": 46,
       "electoral_pending": 46,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 74,
-      "durable_pair": 74
+      "durable_pair": 71
     },
     "territories": [
       {
@@ -218,8 +218,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40946850006,
-            "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/40946850006/receipt.json"
+            "run_id": 43011633844,
+            "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/43011633844/receipt.json"
           }
         },
         "electoral": {
@@ -231,12 +231,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/illes_balears/evidencia/pares_fuentes/2025/14766c46e536bfcfb9a6461047f5d4cea0b20d4cdb479fc8493870381fbd1a1c.json",
             "pair_sha256": "14766c46e536bfcfb9a6461047f5d4cea0b20d4cdb479fc8493870381fbd1a1c",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -269,8 +269,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 42504381511,
-            "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/42504381511/receipt.json"
+            "run_id": 43011642069,
+            "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/43011642069/receipt.json"
           }
         },
         "electoral": {
@@ -282,12 +282,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/4b8474c1c5fa2e73b2b4761b49f0f3e7dfba3e268f1fc305fe18be9fdf916e43.json",
             "pair_sha256": "4b8474c1c5fa2e73b2b4761b49f0f3e7dfba3e268f1fc305fe18be9fdf916e43",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2921,8 +2921,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 42514989698,
-            "receipt_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/fuentes_territoriales/2025/6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53/42514989698/receipt.json"
+            "run_id": 43012151677,
+            "receipt_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/fuentes_territoriales/2025/6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53/43012151677/receipt.json"
           }
         },
         "electoral": {
@@ -2934,12 +2934,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/pares_fuentes/2025/021421efa924f643ed6a7da87c2a68c3d1adf67c3180eb2e1f4897b174e2ff1e.json",
             "pair_sha256": "021421efa924f643ed6a7da87c2a68c3d1adf67c3180eb2e1f4897b174e2ff1e",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -6693,11 +6693,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42495072594,
       "last_run": {
-        "run_id": 42495072594,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 43011608060,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "01 · Preparación de Datos Territoriales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -6889,9 +6889,9 @@
         "territorial_source": {
           "territory_id": "illes_balears",
           "edition": "2025",
-          "run_id": 40946850006,
-          "artifact_name": "ddd-source-package-illes_balears-2025-40946850006",
-          "artifact_sha256": "3f73fd53f8a6bc06f0b559e237959bf6f078589d7510f48eaee2d1fc347e1a03",
+          "run_id": 43011633844,
+          "artifact_name": "ddd-source-package-illes_balears-2025-43011633844",
+          "artifact_sha256": "54ba0d0ec51f34e98e887b0e25a6a4f43934e3aa191e73dd083013e3dba1a109",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -6950,9 +6950,9 @@
         "territorial_source": {
           "territory_id": "canarias",
           "edition": "2025",
-          "run_id": 42504381511,
-          "artifact_name": "ddd-source-package-canarias-2025-42504381511",
-          "artifact_sha256": "15d1741f9a9a20768a06ce34dbedf2a8988af703646a7931128fc9343c76b57f",
+          "run_id": 43011642069,
+          "artifact_name": "ddd-source-package-canarias-2025-43011642069",
+          "artifact_sha256": "b070824189e19022752db97dc9d3ea78f77a523aca054a7328ae7576370bb9c8",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10122,9 +10122,9 @@
         "territorial_source": {
           "territory_id": "congreso_santa_cruz_de_tenerife",
           "edition": "2025",
-          "run_id": 42514989698,
-          "artifact_name": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-42514989698",
-          "artifact_sha256": "0e28a4a3e78a35e5c8654af39ec909078de964678bc26073e24272627cbb1b12",
+          "run_id": 43012151677,
+          "artifact_name": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-43012151677",
+          "artifact_sha256": "43cfc4dd6edf4c68d048ee4797cd00a3dfb547bca852622eeb7837f5130b23bd",
           "decision": "VALIDADO"
         },
         "territorial_product": {
