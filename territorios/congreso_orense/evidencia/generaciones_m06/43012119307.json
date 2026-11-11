@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13853140218,
+      "artifact_name": "ddd-audit-43012119307",
+      "artifact_sha256": "9eae72d6e38c7e98ab96c63d7b127160ef48682c83cdf340131f19a14422cc42",
+      "run_id": 43012119307,
+      "size_in_bytes": 2752
+    },
+    "m04": {
+      "artifact_id": 13851358693,
+      "artifact_name": "ddd-state-43012119307-M04",
+      "artifact_sha256": "d8b4ac65dfd5a43b6e62b7bf675c4a00f73ed1579db2475338b7c3377e569381",
+      "run_id": 43012119307,
+      "size_in_bytes": 76114455
+    },
+    "m05": {
+      "artifact_id": 13851818092,
+      "artifact_name": "ddd-state-43012119307-M05",
+      "artifact_sha256": "7d77d97395cffda57bb6656973404e9a74d044cffe1b51fe3d295d00cc8b7d0d",
+      "run_id": 43012119307,
+      "size_in_bytes": 76528913
+    },
+    "m06": {
+      "artifact_id": 13852107613,
+      "artifact_name": "ddd-state-43012119307-M06",
+      "artifact_sha256": "dfb11f40f0a3c01e379c40377f92e26ee812e4cf1459746c75f6855c6be24ba6",
+      "run_id": 43012119307,
+      "size_in_bytes": 77472083
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "94bcb73512b2b8f139ca332866ba697b7044e7faa67acc9344cbc178b361e546",
+        "size_in_bytes": 373
+      },
+      "congreso_orense_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "b32a64568ece572aff86f8c767d6efcc472aa88e044357643b11c5855f306269",
+        "size_in_bytes": 3278
+      },
+      "optimization_execution.json": {
+        "sha256": "ec14580691cff352f10c3e5679c2f7a6d678e2ddee04918b7e84aa396281a485",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "ad8ddba88bd9ce63e67ed060ab1e7231599ff8f7da0bdbd79c530541c3f87706",
+        "size_in_bytes": 1447
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "ad8ddba88bd9ce63e67ed060ab1e7231599ff8f7da0bdbd79c530541c3f87706",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_orense/config/congreso_orense_2025.yaml",
+    "sha256": "12d0ef49588ccf4af605c6f3d30649641d6cde0972948210c614eabee0833415"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "b810f798b6cf857133cb9b8c8599c0dd0982e51fbe44da853640ad489931a3c7",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s265768697",
+      "generador": "ponderado",
+      "huella_resultado": "8dd2b8d768f977fcd62aa221c23931f552e88f194b6c425de086f042dd69648f",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.026260576629465824,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.026260576629465824,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "19be9c43d2777b6daf90e67a5dcc6e113a3763b92867269aa7785e364a297375",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "f20de146c410d46631286b7395bf52a191b7a0b0",
+    "edition": "2025",
+    "territory_id": "congreso_orense",
+    "territory_name": "Congreso Orense",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43012119307,
+    "workflow_sha": "f20de146c410d46631286b7395bf52a191b7a0b0"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13851358693,
+      "artifact_name": "ddd-state-43012119307-M04",
+      "artifact_sha256": "d8b4ac65dfd5a43b6e62b7bf675c4a00f73ed1579db2475338b7c3377e569381",
+      "run_id": 43012119307,
+      "size_in_bytes": 76114455
+    },
+    "source_manifest_sha256": "5cf9b644d29cb72b6cafe88c41e83626f41c84262d12187253be00f39164af86",
+    "source_package_artifact": {
+      "artifact_id": 13057929002,
+      "artifact_name": "ddd-source-package-congreso_orense-2025-41240887712",
+      "artifact_sha256": "6649836bde1fa498f0f10663bbf1cb723449810f009a272e7851bf47a42cd541",
+      "run_id": 41240887712,
+      "size_in_bytes": 75276184
+    }
+  },
+  "manifest_sha256": "64706332ef9c3065a8e67b50661d45ac375249d292499c8139f4b368503e12ba",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

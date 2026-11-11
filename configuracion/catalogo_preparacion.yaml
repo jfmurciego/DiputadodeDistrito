@@ -1983,7 +1983,7 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940474219
+        run_id: 43012119307
         stage: M06
       preparation_evidence:
         run_id: 41240887712
