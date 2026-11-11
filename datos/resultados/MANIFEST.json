@@ -1360,6 +1360,22 @@
    "sha256_csv": "0a2dc910af6815955a53414328a838ed62820eea545f686d43852e7fe1c7393c",
    "ruta": "datos/resultados/runs/congreso_segovia_43029353804_partidos.csv"
   },
+  "congreso_sevilla/43029566265": {
+   "territorio": "congreso_sevilla",
+   "run_id": "43029566265",
+   "run_territorial": "43024845069",
+   "sha256_composicion": "effc8421a6233cf0ee97453f49a1df5df45ddb9009c8882512de3f0fbbbbf8a5",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "33afc8b079558f64a144edb600dd168251f80d141b2fd55eeefc248c198abd97",
+   "ruta": "datos/resultados/runs/congreso_sevilla_43029566265_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0629,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_sevilla_43029566265_desajustes.json",
+    "sha256": "2935c77f15136288b81ab8e64606b3001a9b1be6de0d0e3d2f2eb65b4e59800b"
+   }
+  },
   "congreso_soria/43029280043": {
    "territorio": "congreso_soria",
    "run_id": "43029280043",
