@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13823466962,
+      "artifact_name": "ddd-audit-42940536681",
+      "artifact_sha256": "a8df11b735817338d5d4b6105062e196b61353a6a6781cea71f8c719103de082",
+      "run_id": 42940536681,
+      "size_in_bytes": 2489
+    },
+    "m04": {
+      "artifact_id": 13822636562,
+      "artifact_name": "ddd-state-42940536681-M04",
+      "artifact_sha256": "1083fab4ff0e24dc210d48aa5d98a50f289a1195fe2d41725c82419c231e26d4",
+      "run_id": 42940536681,
+      "size_in_bytes": 77138516
+    },
+    "m05": {
+      "artifact_id": 13822952664,
+      "artifact_name": "ddd-state-42940536681-M05",
+      "artifact_sha256": "3cbaea7f05abeed3f85709672cd75ec236c668fb478ab103fe3f90a3db836134",
+      "run_id": 42940536681,
+      "size_in_bytes": 77719851
+    },
+    "m06": {
+      "artifact_id": 13823232492,
+      "artifact_name": "ddd-state-42940536681-M06",
+      "artifact_sha256": "64300b43cf6764de7ff685ff2dba06db8594ad11f91ed41c6377ce0b9d56a372",
+      "run_id": 42940536681,
+      "size_in_bytes": 79031068
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "e65f01ada05fd8bd8f00d80e4c96cf92a61f14c367145944cf92fa6e3174dab3",
+        "size_in_bytes": 373
+      },
+      "congreso_teruel_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "37b06cbf312d9c25e07488b660d85544e7e4f5c60744e3738f26442902283028",
+        "size_in_bytes": 1672
+      },
+      "optimization_execution.json": {
+        "sha256": "c44c612dea7051f4c4f5a10aaaf0a7a9b0432fd81b04ef976940d74015ee46cc",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "a87db29928111e79b0b5fcb8642176c46f2396416a2ac8d8d931732e1d9a1c4d",
+        "size_in_bytes": 1399
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "a87db29928111e79b0b5fcb8642176c46f2396416a2ac8d8d931732e1d9a1c4d",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_teruel/config/congreso_teruel_2025.yaml",
+    "sha256": "0f9d1315b646168664d17373d80ddd214ee75380aeeefd5fc6d4da7d45ee7c51"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "01849ef6748eee0b5b5987d70d5c4010c7c94bc331e9bb6605197125f4260207",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_CANONICO",
+      "funcion": "D8",
+      "ganador": "canonico",
+      "generador": "canonico",
+      "huella_resultado": "874e6d8ff2c961450fd2ab33e25933834e3ee25f01146b318236192dbf450ed0",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "0ee00fc78610181d7521b5bb28f225002da71ef3eab555dc25aa5b5eae98ecfa",
+      "rehacer_m06": false
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_teruel",
+    "territory_name": "Congreso Teruel",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940536681,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13822636562,
+      "artifact_name": "ddd-state-42940536681-M04",
+      "artifact_sha256": "1083fab4ff0e24dc210d48aa5d98a50f289a1195fe2d41725c82419c231e26d4",
+      "run_id": 42940536681,
+      "size_in_bytes": 77138516
+    },
+    "source_manifest_sha256": "f3f9798f6a8b6573286e6186d58f33614109e01446c540f910af98b1b89dbb8c",
+    "source_package_artifact": {
+      "artifact_id": 13056721045,
+      "artifact_name": "ddd-source-package-congreso_teruel-2025-41235966858",
+      "artifact_sha256": "bf78bc22524148b7cd586655cedc3e5550dbd2dcda4cd57ccfbb79f7427805af",
+      "run_id": 41235966858,
+      "size_in_bytes": 75964880
+    }
+  },
+  "manifest_sha256": "84fb80897e1d9c18d7785f5f87aaaebeec48f2e61325f336b7de51fb9f316760",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

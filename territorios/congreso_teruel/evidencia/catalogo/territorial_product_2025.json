@@ -4,11 +4,11 @@
   "territory_id": "congreso_teruel",
   "territory_name": "Congreso Teruel",
   "edition": "2025",
-  "run_id": 41235966858,
-  "artifact_name": "ddd-state-41235966858-M06",
-  "artifact_sha256": "c4852368e9556592eeae609e5f0e533d312ecd168e289efc34b9b47cbea2f564",
-  "source_commit": "5218c0e9d47db27ed3ea8c937f8606c967225833",
+  "run_id": 42940536681,
+  "artifact_name": "ddd-state-42940536681-M06",
+  "artifact_sha256": "64300b43cf6764de7ff685ff2dba06db8594ad11f91ed41c6377ce0b9d56a372",
+  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_teruel/evidencia/generaciones_m06/41235966858.json"
+  "producer_manifest_path": "territorios/congreso_teruel/evidencia/generaciones_m06/42940536681.json"
 }
