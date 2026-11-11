@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13823116987,
+      "artifact_name": "ddd-audit-42940382446",
+      "artifact_sha256": "278307ed595a33777965d0fb0cd57cae77fda04501bf03fda107e591d31915ad",
+      "run_id": 42940382446,
+      "size_in_bytes": 3676
+    },
+    "m04": {
+      "artifact_id": 13821817702,
+      "artifact_name": "ddd-state-42940382446-M04",
+      "artifact_sha256": "601b918543eb9ce0d3c899f3cc901863f958b21094d00ed25b83f6b5a7671796",
+      "run_id": 42940382446,
+      "size_in_bytes": 78565215
+    },
+    "m05": {
+      "artifact_id": 13822650951,
+      "artifact_name": "ddd-state-42940382446-M05",
+      "artifact_sha256": "7e2b621113997fbf14d54b3ad5cdb12727f3b8506f07b54c4f9fdc0dc50c9d5a",
+      "run_id": 42940382446,
+      "size_in_bytes": 79464387
+    },
+    "m06": {
+      "artifact_id": 13822039435,
+      "artifact_name": "ddd-state-42940382446-M06",
+      "artifact_sha256": "8bfee160e25481f7a2e3e8648c2cc84063cc149d5903e337caf204e4bb0813fd",
+      "run_id": 42940382446,
+      "size_in_bytes": 81469563
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "ed63af01fd79ca9a24341c2fa8170b726f3d527c8e1dcae5be15ecae499bd50d",
+        "size_in_bytes": 410
+      },
+      "congreso_ciudad_real_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "ba99f4ffa81de8ba4ef498f30339bb524a2a1268f98b230678b45d22f18951c7",
+        "size_in_bytes": 6263
+      },
+      "optimization_execution.json": {
+        "sha256": "bdf84bf38dd84d40729f5f39bdf4680268d801cd7eddef869b75842a50c6e911",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "a2c92c615c62c9919cf4db25699b7f34e4a9b0e54ef9aad5157789eca90e6965",
+        "size_in_bytes": 1515
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "a2c92c615c62c9919cf4db25699b7f34e4a9b0e54ef9aad5157789eca90e6965",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_ciudad_real/config/congreso_ciudad_real_2025.yaml",
+    "sha256": "6925d4ed1a5c9f5e53d7b74dff9f920bac262e041cf79f0d2b0456cd416bbfab"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "cb81924547b8cefbf9861f0ce142f2db6316cff912ed243a8180b35a5f8aea64",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1696905621",
+      "generador": "ponderado",
+      "huella_resultado": "6912e19164aeaae2127e2b09cb22c6c06a3ad04ccee07aab44a88e5f031f3b2e",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.04856614904243922,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.05158692244987569,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "92b70c55b10f77c32f7f2bdd376497af5e3451e0919c3787c9cc667190ec0255",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_ciudad_real",
+    "territory_name": "Congreso Ciudad Real",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940382446,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13821817702,
+      "artifact_name": "ddd-state-42940382446-M04",
+      "artifact_sha256": "601b918543eb9ce0d3c899f3cc901863f958b21094d00ed25b83f6b5a7671796",
+      "run_id": 42940382446,
+      "size_in_bytes": 78565215
+    },
+    "source_manifest_sha256": "bf8a0c448e104ce511f962ee14ae213e790e6b4ce38658ebc18ea30dfdff8abb",
+    "source_package_artifact": {
+      "artifact_id": 13078932537,
+      "artifact_name": "ddd-source-package-congreso_ciudad_real-2025-41291967967",
+      "artifact_sha256": "9214781fd49abe2893797b721cf53f5b09de138a7fc327eb9f10086a22bca558",
+      "run_id": 41291967967,
+      "size_in_bytes": 76753560
+    }
+  },
+  "manifest_sha256": "e30d68d7b2606cf3c3bd8c0e6b99fb7ac1ce51c6d8078eab50dad842f9b69c5a",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
