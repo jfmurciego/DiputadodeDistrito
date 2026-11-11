@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13853023931,
+      "artifact_name": "ddd-audit-43012151677",
+      "artifact_sha256": "f3c80996294290cdd243e74930122e43169df87574462948b75c19265f3f0f3a",
+      "run_id": 43012151677,
+      "size_in_bytes": 4206
+    },
+    "m04": {
+      "artifact_id": 13852863397,
+      "artifact_name": "ddd-state-43012151677-M04",
+      "artifact_sha256": "a1403046e0991ebf49e88bca9926d631acd61c26b5e849f9300f663676d9bbb9",
+      "run_id": 43012151677,
+      "size_in_bytes": 93237703
+    },
+    "m05": {
+      "artifact_id": 13853601065,
+      "artifact_name": "ddd-state-43012151677-M05",
+      "artifact_sha256": "e8d5aadde5466cb41eca8789925f5ea950d64c81103809e4c1dbc7277b47d518",
+      "run_id": 43012151677,
+      "size_in_bytes": 96420658
+    },
+    "m06": {
+      "artifact_id": 13852464888,
+      "artifact_name": "ddd-state-43012151677-M06",
+      "artifact_sha256": "e15c9fea0a834780388896683dfc0eabda6af191a413b346e4f9b9154bc624aa",
+      "run_id": 43012151677,
+      "size_in_bytes": 104029957
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "631f4405b1aa030d64ab93a5427da65c413b823920ccda9e1bd29bc8c76924ee",
+        "size_in_bytes": 421
+      },
+      "congreso_santa_cruz_de_tenerife_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "a3c0dddc382c64a47311cfbc714b42ca4466795f0014d860d17d001397b282dd",
+        "size_in_bytes": 10744
+      },
+      "optimization_execution.json": {
+        "sha256": "7e6917c338cbd361c79e55629cea9dcee30685a8cc53ad3cb22d6e6e98fa3b3f",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "56cc9dd87a74f79759380a708dc2eb57e8ed5bb44c280d11cf268b985302d198",
+        "size_in_bytes": 1557
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "56cc9dd87a74f79759380a708dc2eb57e8ed5bb44c280d11cf268b985302d198",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_santa_cruz_de_tenerife/config/congreso_santa_cruz_de_tenerife_2025.yaml",
+    "sha256": "645ffc92ff270ae472fd606f0178a4b633532ca352fffb5ccdd6b19a3eb4df82"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "edd13dc405bb87447d7651ca1bbfa0c222ec21229c20ac8ff571c9f32ce1f743",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s733570162",
+      "generador": "ponderado",
+      "huella_resultado": "3590903808188c82787b429a8362e5c24afa30d46156b4ada5c5bbce4e6ae3e1",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.11735866630808688,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.11735866630808688,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "e9b6e24534e884ded103b9bfd7dcdc379e1f9321e346ba451fc78b502e66b9cd",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "8070510954aa301b56d38b1e832132c313b34286",
+    "edition": "2025",
+    "territory_id": "congreso_santa_cruz_de_tenerife",
+    "territory_name": "Congreso Santa Cruz de Tenerife",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43012151677,
+    "workflow_sha": "f20de146c410d46631286b7395bf52a191b7a0b0"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13852863397,
+      "artifact_name": "ddd-state-43012151677-M04",
+      "artifact_sha256": "a1403046e0991ebf49e88bca9926d631acd61c26b5e849f9300f663676d9bbb9",
+      "run_id": 43012151677,
+      "size_in_bytes": 93237703
+    },
+    "source_manifest_sha256": "ea1e3e0f59533d818f34875a7017fbade9019747027b2c086680a32dec2fc283",
+    "source_package_artifact": {
+      "artifact_id": 13850887970,
+      "artifact_name": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-43012151677",
+      "artifact_sha256": "43cfc4dd6edf4c68d048ee4797cd00a3dfb547bca852622eeb7837f5130b23bd",
+      "run_id": 43012151677,
+      "size_in_bytes": 83707502
+    }
+  },
+  "manifest_sha256": "a9f41b139323064a5bf27e34dd500ea3ee287a17c45b092378ae2d4ec35a06f5",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

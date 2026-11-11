@@ -4,11 +4,11 @@
   "territory_id": "congreso_santa_cruz_de_tenerife",
   "territory_name": "Congreso Santa Cruz de Tenerife",
   "edition": "2025",
-  "run_id": 42940505848,
-  "artifact_name": "ddd-state-42940505848-M06",
-  "artifact_sha256": "dd511cd7d92ad7dfe415deb9fcf8d9d5179f685a785e71930cce5992d0dac1aa",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43012151677,
+  "artifact_name": "ddd-state-43012151677-M06",
+  "artifact_sha256": "e15c9fea0a834780388896683dfc0eabda6af191a413b346e4f9b9154bc624aa",
+  "source_commit": "8070510954aa301b56d38b1e832132c313b34286",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/generaciones_m06/42940505848.json"
+  "producer_manifest_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/generaciones_m06/43012151677.json"
 }
