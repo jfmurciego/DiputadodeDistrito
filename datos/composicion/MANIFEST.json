@@ -1638,6 +1638,13 @@
    "sha256_csv": "ff0230560101719270ddf9368eb284d552ee0343f444ddab2751182bcd889560",
    "ruta": "datos/composicion/runs/melilla_42504386196.csv"
   },
+  "melilla/43045458268": {
+   "territorio": "melilla",
+   "run_id": "43045458268",
+   "secciones": 44,
+   "sha256_csv": "ff0230560101719270ddf9368eb284d552ee0343f444ddab2751182bcd889560",
+   "ruta": "datos/composicion/runs/melilla_43045458268.csv"
+  },
   "pais_vasco/43041060549": {
    "territorio": "pais_vasco",
    "run_id": "43041060549",
