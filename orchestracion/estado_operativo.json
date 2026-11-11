@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T13:57:47.214462+00:00",
+  "generated_at": "2026-11-11T13:59:04.881745+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7053,20 +7053,20 @@
       "name": "Castilla y León",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43025642604,
+      "run_id": 43030986959,
       "last_run": {
-        "run_id": 43025642604,
+        "run_id": 43030986959,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7107,7 +7107,7 @@
       },
       "autonomous_community_code_ine": "07",
       "display_name": "07 Castilla y León",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "castilla_la_mancha",
@@ -12256,13 +12256,14 @@
     }
   ],
   "kpis": {
-    "complete": 62,
+    "complete": 63,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
       "05 Canarias",
+      "07 Castilla y León",
       "10 Comunidad Valenciana",
       "12 Galicia",
       "13 Comunidad de Madrid",
@@ -12530,11 +12531,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "comunidad_valenciana",
-    "name": "Comunidad Valenciana",
-    "display_name": "10 Comunidad Valenciana",
-    "autonomous_community_code_ine": "10",
-    "run_id": 43030421638,
+    "territory_id": "castilla_y_leon",
+    "name": "Castilla y León",
+    "display_name": "07 Castilla y León",
+    "autonomous_community_code_ine": "07",
+    "run_id": 43030986959,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12547,12 +12548,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "07 Castilla y León",
-      "territory_id": "castilla_y_leon",
-      "autonomous_community_code_ine": "07",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "08 Castilla-La Mancha",
       "territory_id": "castilla_la_mancha",
       "autonomous_community_code_ine": "08",
@@ -12586,6 +12581,12 @@
       "territory": "Nacional Valencia",
       "territory_id": "congreso_valencia",
       "autonomous_community_code_ine": "C46",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Valladolid",
+      "territory_id": "congreso_valladolid",
+      "autonomous_community_code_ine": "C47",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12597,12 +12598,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "07 Castilla y León",
-      "territory_id": "castilla_y_leon",
-      "autonomous_community_code_ine": "07",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "08 Castilla-La Mancha",
       "territory_id": "castilla_la_mancha",
       "autonomous_community_code_ine": "08",
@@ -12636,6 +12631,12 @@
       "territory": "Nacional Valencia",
       "territory_id": "congreso_valencia",
       "autonomous_community_code_ine": "C46",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Valladolid",
+      "territory_id": "congreso_valladolid",
+      "autonomous_community_code_ine": "C47",
       "action": "preparar fuentes electorales"
     }
   ]
