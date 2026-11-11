@@ -129,9 +129,10 @@ while (( $# )); do case "$1" in --pattern) pats+=("$2"); shift 2;; --dir) dir="$
 echo "$run ${{pats[*]}}" >> {self.descargas}
 [[ "$run" == 999 ]] && {{ echo "HTTP 404" >&2; exit 1; }}
 declare -A arts=(
-  [ddd-audit-$run]=production_status.json [ddd-decision-$run]=decision.json
+  [ddd-audit-$run]=production_status.json [ddd-audit-$run/x]=t_m06_contiguedad_geometrica.json [ddd-decision-$run]=decision.json
   [ddd-full-run-manifest-$run]=manifest.json [ddd-state-$run-M01]=cache/m01.bin
   [ddd-source-package-$run]=fuentes.zip [ddd-estado-operativo-$run]=estado.json)
+[[ "$run" == 777 ]] && unset 'arts[ddd-decision-777]'
 if [[ "$run" == 555 ]]; then arts[ddd-state-$run-M07]=cache/t_m06_distritos.geojson.zip
 else arts[ddd-state-$run-M06]=cache/t_m06_distritos.geojson.zip; fi
 for name in "${{!arts[@]}}"; do
@@ -184,6 +185,11 @@ class PasosDelPublicador(_Entorno):
         self.assertIn("DESCARGA run=555 modo=completa", r.stdout)
         self.assertTrue((self.prod / "555/ddd-state-555-M07/cache/t_m06_distritos.geojson.zip").is_file())
         self.assertFalse((self.prod / "101/ddd-state-101-M01").exists())
+
+    def test_sin_decision_en_la_seleccion_baja_todo_ese_run(self):
+        r = self._normalizar_y_descargar("777")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("DESCARGA run=777 modo=completa", r.stdout)
 
     def test_paralelo_con_limite(self):
         # Seis runs a la vez por defecto; el límite se lee del entorno (DDD_DESCARGAS_PARALELAS).

@@ -3,7 +3,8 @@
 # VERSIÓN: 3.14.0
 # CAMBIOS 3.14.0: T-239, «Recuperar ejecución solicitada» baja SOLO lo que la publicación lee (ddd-audit, ddd-audit-electoral,
 #   ddd-decision, ddd-full-run-manifest y ddd-state M06/M08 del run; nunca M01-M05, paquete fuente ni cachés) y hasta 6 runs a
-#   la vez. Si la selección no trae production_status.json y un producto M06/M08, ese run baja ddd-* completo (como 3.13.0).
+#   la vez. Si la selección falla o no trae production_status, decision, manifest, contigüidad y producto M06/M08, ese run
+#   baja ddd-* completo (como 3.13.0).
 #   Todo o nada intacto: un run que no descarga rechaza el lote antes de escribir. Línea `DESCARGA run= modo= segundos= mb=`.
 # MOTIVO 3.14.0: la P50 43013776158 (30 runs) llevaba 40 min descargando ~640 MB por run en serie.
 # ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.13.0_20261111.yml
@@ -258,9 +259,11 @@ jobs:
           for p in "ddd-audit-$run*" "ddd-audit-electoral-$run*" "ddd-decision-$run*" "ddd-full-run-manifest-$run*" "ddd-state-$run-M06*" "ddd-state-$run-M08*"; do
             pats+=(--pattern "$p")
           done
-          gh run download "$run" "${pats[@]}" --dir "$root" || echo "::warning::$run: descarga selectiva incompleta"
-          if [[ -z "$(find "$root" -name production_status.json -print -quit)" || -z "$(find "$root" \( -name '*_m06_distritos.geojson.zip' -o -name '*_m08_distritos_resultados.geojson.zip' \) -print -quit)" ]]; then
-            echo "::warning::$run: la selección no trae production_status.json y producto M06/M08; descarga completa ddd-*"
+          completa() { [[ -n "$(find "$root" -name "$1" -print -quit)" ]]; }
+          if ! gh run download "$run" "${pats[@]}" --dir "$root" || ! completa production_status.json || ! completa decision.json \
+            || ! completa manifest.json || ! completa '*_contiguedad_geometrica.json' \
+            || [[ -z "$(find "$root" \( -name '*_m06_distritos.geojson.zip' -o -name '*_m08_distritos_resultados.geojson.zip' \) -print -quit)" ]]; then
+            echo "::warning::$run: la descarga selectiva falló o no trae estado, decisión, manifiesto, auditoría y producto; descarga completa ddd-*"
             modo=completa
             rm -rf "$root"; mkdir -p "$root"
             gh run download "$run" --pattern 'ddd-*' --dir "$root" || { echo "el run $run no se pudo descargar" > ".ddd-publication/descargas/$run.fallo"; exit 1; }
