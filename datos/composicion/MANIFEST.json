@@ -868,6 +868,13 @@
    "sha256_csv": "32f7c99872df480ac90187a34224059110006e068e8d453c0af63be5a7ccbafd",
    "ruta": "datos/composicion/runs/congreso350_valladolid_42601455862.csv"
   },
+  "congreso_alava/42940320710": {
+   "territorio": "congreso_alava",
+   "run_id": "42940320710",
+   "secciones": 240,
+   "sha256_csv": "a4507f48ddc8d95674949f533d9675cb1bb136b7125aca5c7c0f1a89d968f195",
+   "ruta": "datos/composicion/runs/congreso_alava_42940320710.csv"
+  },
   "congreso_albacete/42514994231": {
    "territorio": "congreso_albacete",
    "run_id": "42514994231",

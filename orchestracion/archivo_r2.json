@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:37:20Z",
+  "actualizado_en": "2026-11-11T02:38:21Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -1034,6 +1034,20 @@
       "tamano_estado_original": 90771557,
       "territorio": "congreso_alava",
       "url": "r2://ddd-research-archive/congreso_alava/41346917857/ddd-minimo-41346917857-M08.zip"
+    },
+    "congreso_alava/42940320710/ddd-minimo-42940320710-M06.zip": {
+      "archivado_en": "2026-11-11T02:38:21Z",
+      "artefacto": "ddd-minimo-42940320710-M06",
+      "artefacto_origen": "ddd-state-42940320710-M06",
+      "artifact_id": 13821618620,
+      "caducidad_original": "2026-11-25T02:18:49Z",
+      "run_id": "42940320710",
+      "sha256": "4677d69345c3e80a3441721cd700ea529c51ff897f9c50bb8c0f676e5ec504a8",
+      "sha256_estado_original": "d1a4a72a3e1273c69266915c17ab103e21c90583beb4932137256f516e87de3c",
+      "tamano_bytes": 341893,
+      "tamano_estado_original": 90525673,
+      "territorio": "congreso_alava",
+      "url": "r2://ddd-research-archive/congreso_alava/42940320710/ddd-minimo-42940320710-M06.zip"
     },
     "congreso_albacete/41240260992/ddd-audit-41240260992.zip": {
       "archivado_en": "2026-11-08T12:07:39Z",
