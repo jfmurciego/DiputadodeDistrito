@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T13:59:04.881745+00:00",
+  "generated_at": "2026-11-11T14:02:11.128114+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7037,10 +7037,10 @@
           "territory_id": "cantabria",
           "territory_name": "Cantabria",
           "edition": "2025",
-          "run_id": 41037133327,
-          "artifact_name": "ddd-state-41037133327-M08",
-          "artifact_sha256": "64b29150edf84166a23f2234fbd1bd5f54106bcfe1a3455bf7e8d8ff9a0791dd",
-          "source_commit": "b5a48e5d0c68d34a56bac423039af418ba04d2b0",
+          "run_id": 43033094596,
+          "artifact_name": "ddd-state-43033094596-M08",
+          "artifact_sha256": "0be811c01088f183538159762fca157f5d97204c49f532ada6073ec12a68e276",
+          "source_commit": "248bce79645ae6004ac000b1403d1454356d5304",
           "stage": "M08"
         }
       },
@@ -7114,20 +7114,20 @@
       "name": "Castilla-La Mancha",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43025652192,
+      "run_id": 43031565452,
       "last_run": {
-        "run_id": 43025652192,
+        "run_id": 43031565452,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7168,7 +7168,7 @@
       },
       "autonomous_community_code_ine": "08",
       "display_name": "08 Castilla-La Mancha",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "cataluna",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 63,
+    "complete": 64,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12264,6 +12264,7 @@
       "04 Islas Baleares",
       "05 Canarias",
       "07 Castilla y León",
+      "08 Castilla-La Mancha",
       "10 Comunidad Valenciana",
       "12 Galicia",
       "13 Comunidad de Madrid",
@@ -12531,11 +12532,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "castilla_y_leon",
-    "name": "Castilla y León",
-    "display_name": "07 Castilla y León",
-    "autonomous_community_code_ine": "07",
-    "run_id": 43030986959,
+    "territory_id": "castilla_la_mancha",
+    "name": "Castilla-La Mancha",
+    "display_name": "08 Castilla-La Mancha",
+    "autonomous_community_code_ine": "08",
+    "run_id": 43031565452,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12548,12 +12549,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "08 Castilla-La Mancha",
-      "territory_id": "castilla_la_mancha",
-      "autonomous_community_code_ine": "08",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
@@ -12587,6 +12582,12 @@
       "territory": "Nacional Valladolid",
       "territory_id": "congreso_valladolid",
       "autonomous_community_code_ine": "C47",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Vizcaya",
+      "territory_id": "congreso_vizcaya",
+      "autonomous_community_code_ine": "C48",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12598,12 +12599,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "08 Castilla-La Mancha",
-      "territory_id": "castilla_la_mancha",
-      "autonomous_community_code_ine": "08",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
@@ -12637,6 +12632,12 @@
       "territory": "Nacional Valladolid",
       "territory_id": "congreso_valladolid",
       "autonomous_community_code_ine": "C47",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Vizcaya",
+      "territory_id": "congreso_vizcaya",
+      "autonomous_community_code_ine": "C48",
       "action": "preparar fuentes electorales"
     }
   ]
