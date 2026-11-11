@@ -4,11 +4,11 @@
   "territory_id": "castilla_la_mancha",
   "territory_name": "Castilla-La Mancha",
   "edition": "2025",
-  "run_id": 40979540141,
-  "artifact_name": "ddd-state-40979540141-M06",
-  "artifact_sha256": "9a25063155237129ba0da8a90f02bd2e726aec9571cdb17ddd477679564266e2",
-  "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+  "run_id": 43025652192,
+  "artifact_name": "ddd-state-43025652192-M06",
+  "artifact_sha256": "567903c55a99e47cf4d4d93dc72ee29a829989d41fa90dd928557d1ec4c695d6",
+  "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/castilla_la_mancha/evidencia/generaciones_m06/40979540141.json"
+  "producer_manifest_path": "territorios/castilla_la_mancha/evidencia/generaciones_m06/43025652192.json"
 }

@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13860062555,
+      "artifact_name": "ddd-audit-43025652192",
+      "artifact_sha256": "5c27d61321abed59344ba386a18bcb96cd1e3b28a0984ca76ddae66d682f8251",
+      "run_id": 43025652192,
+      "size_in_bytes": 8204
+    },
+    "m04": {
+      "artifact_id": 13858966338,
+      "artifact_name": "ddd-state-43025652192-M04",
+      "artifact_sha256": "668025b1f86ea24bf93f55cb500394935e614b4a6b4ec32c3996a3e5abe29eff",
+      "run_id": 43025652192,
+      "size_in_bytes": 93944942
+    },
+    "m05": {
+      "artifact_id": 13859775648,
+      "artifact_name": "ddd-state-43025652192-M05",
+      "artifact_sha256": "621f945309164443139d6b9779c6cc16f3e7b1ab2a907569da4f571a7c1df729",
+      "run_id": 43025652192,
+      "size_in_bytes": 97716179
+    },
+    "m06": {
+      "artifact_id": 13860207417,
+      "artifact_name": "ddd-state-43025652192-M06",
+      "artifact_sha256": "567903c55a99e47cf4d4d93dc72ee29a829989d41fa90dd928557d1ec4c695d6",
+      "run_id": 43025652192,
+      "size_in_bytes": 106935973
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "4042e2adc33f149a09a69fb892377a7bf5b52085e87ef01584430c35662fb04c",
+        "size_in_bytes": 412
+      },
+      "castilla_la_mancha_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "46a50c42efa7a1e04a944dbe0aa87db7466e8226f9afc6288ba52687e638cd63",
+        "size_in_bytes": 36359
+      },
+      "optimization_execution.json": {
+        "sha256": "34890c7ce9e7bc131b07b33196acdb6a310083d2f0221866130fc2dca872f929",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "4b43da01d67bb6dfdc4b38c5c092f5b2373cc55a65873de3ce3c4d132e8b262d",
+        "size_in_bytes": 1509
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "4b43da01d67bb6dfdc4b38c5c092f5b2373cc55a65873de3ce3c4d132e8b262d",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/castilla_la_mancha/config/castilla_la_mancha_2025.yaml",
+    "sha256": "d53abdfd584a7719f3a255add82136a36804bd5356b3c93dadd757b049eb08af"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "79cd239c72c6806b1015ed28b0b5ffff8944c720a3b56d75f13e5efe78988230",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s185456421",
+      "generador": "ponderado",
+      "huella_resultado": "4ee46f73258ff6d28c82bcc28ec9c69da1e762e7bf34a3dfe9e1bf400ab02558",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.40744575799655103,
+          "fuera_tolerancia": 5,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.40744575799655103,
+          "fuera_tolerancia": 5,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "555021956d68db2529efd5ecc1d8a855b87e39bf8f5b3e669e2ba12c54be730a",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+    "edition": "2025",
+    "territory_id": "castilla_la_mancha",
+    "territory_name": "Castilla-La Mancha",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43025652192,
+    "workflow_sha": "6ad5b525a72328c916f98ca06ee6c6035293e440"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13858966338,
+      "artifact_name": "ddd-state-43025652192-M04",
+      "artifact_sha256": "668025b1f86ea24bf93f55cb500394935e614b4a6b4ec32c3996a3e5abe29eff",
+      "run_id": 43025652192,
+      "size_in_bytes": 93944942
+    },
+    "source_manifest_sha256": "18acc114d764e04358969a939da41334a903b2868d58da8ea8f94fe17365347b",
+    "source_package_artifact": {
+      "artifact_id": 12819061539,
+      "artifact_name": "ddd-source-package-castilla_la_mancha-2025-40690624792",
+      "artifact_sha256": "bdd316c89d209786b3050b3c1595af29ee5d5fd11098b1e628acf7861aecc288",
+      "run_id": 40690624792,
+      "size_in_bytes": 86350467
+    }
+  },
+  "manifest_sha256": "8a075029cefb2e34011c7edd3b156964233f83643086e29e540a8e090da921ba",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
