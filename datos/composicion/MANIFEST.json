@@ -1232,6 +1232,13 @@
    "sha256_csv": "eb496a634afda03bf011c9001ff1665b8e87c2ef94b6ac970c23410c0ba50fef",
    "ruta": "datos/composicion/runs/congreso_pontevedra_42940495323.csv"
   },
+  "congreso_salamanca/42940500600": {
+   "territorio": "congreso_salamanca",
+   "run_id": "42940500600",
+   "secciones": 532,
+   "sha256_csv": "1835f116544c44e2fd17c4b92dec02c1101a850beb879165cdeabbab6a69c813",
+   "ruta": "datos/composicion/runs/congreso_salamanca_42940500600.csv"
+  },
   "congreso_santa_cruz_de_tenerife/42514989698": {
    "territorio": "congreso_santa_cruz_de_tenerife",
    "run_id": "42514989698",

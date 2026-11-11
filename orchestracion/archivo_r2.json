@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:20:25Z",
+  "actualizado_en": "2026-11-11T03:21:13Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3968,6 +3968,20 @@
       "tamano_estado_original": 81524405,
       "territorio": "congreso_salamanca",
       "url": "r2://ddd-research-archive/congreso_salamanca/41295298674/ddd-minimo-41295298674-M08.zip"
+    },
+    "congreso_salamanca/42940500600/ddd-minimo-42940500600-M06.zip": {
+      "archivado_en": "2026-11-11T03:21:13Z",
+      "artefacto": "ddd-minimo-42940500600-M06",
+      "artefacto_origen": "ddd-state-42940500600-M06",
+      "artifact_id": 13823058480,
+      "caducidad_original": "2026-11-25T02:36:24Z",
+      "run_id": "42940500600",
+      "sha256": "169019a327da2899acd63587182358bfab8cd4a0697fc4b7013d88d38beacde2",
+      "sha256_estado_original": "25607a097a68d42853387f43e03b61443745a57716e632e741244f7b77ec6092",
+      "tamano_bytes": 258900,
+      "tamano_estado_original": 81456769,
+      "territorio": "congreso_salamanca",
+      "url": "r2://ddd-research-archive/congreso_salamanca/42940500600/ddd-minimo-42940500600-M06.zip"
     },
     "congreso_santa_cruz_de_tenerife/41239505387/ddd-audit-41239505387.zip": {
       "archivado_en": "2026-11-08T12:07:32Z",
