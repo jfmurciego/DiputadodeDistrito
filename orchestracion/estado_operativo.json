@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T08:32:59.007774+00:00",
+  "generated_at": "2026-11-11T09:28:22.274660+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 73,
-      "activable": 1,
+      "activated": 72,
+      "activable": 2,
       "territorial_pending": 46,
       "electoral_pending": 46,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 74,
-      "durable_pair": 73
+      "durable_pair": 72
     },
     "territories": [
       {
@@ -2768,8 +2768,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41432561787,
-            "receipt_path": "territorios/congreso_las_palmas/evidencia/fuentes_territoriales/2025/bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a/41432561787/receipt.json"
+            "run_id": 42991561887,
+            "receipt_path": "territorios/congreso_las_palmas/evidencia/fuentes_territoriales/2025/bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a/42991561887/receipt.json"
           }
         },
         "electoral": {
@@ -2781,12 +2781,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/congreso_las_palmas/evidencia/pares_fuentes/2025/edb3ada24e33cf8ac32756ad61bff42bcd8d822a8923e88467b67ca2f56942eb.json",
             "pair_sha256": "edb3ada24e33cf8ac32756ad61bff42bcd8d822a8923e88467b67ca2f56942eb",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -8334,20 +8334,20 @@
       "name": "Nacional Burgos",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42981415070,
+      "run_id": 42986581831,
       "last_run": {
-        "run_id": 42981415070,
+        "run_id": 42986581831,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8388,7 +8388,7 @@
       },
       "autonomous_community_code_ine": "C09",
       "display_name": "Nacional Burgos",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_caceres",
@@ -9070,7 +9070,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940422226,
+      "run_id": 42991542477,
       "last_run": {
         "run_id": 42940422226,
         "status": "SUCCESS",
@@ -9096,13 +9096,13 @@
           "territory_id": "congreso_huelva",
           "territory_name": "Congreso Huelva",
           "edition": "2025",
-          "run_id": 42940422226,
-          "artifact_name": "ddd-state-42940422226-M06",
-          "artifact_sha256": "2ab52038b36c837b3a9bad50e72d51921dd3479214a6a84f53f82f1d64f33768",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 42991542477,
+          "artifact_name": "ddd-state-42991542477-M06",
+          "artifact_sha256": "ef7aa7866c6488697c93e687b674f5135478856a6a96bbbe4e9f4268b1461eaa",
+          "source_commit": "48716f6314fe92973436599417e7be4886bbe0c2",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_huelva/evidencia/generaciones_m06/42940422226.json"
+          "producer_manifest_path": "territorios/congreso_huelva/evidencia/generaciones_m06/42991542477.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9131,7 +9131,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42940427352,
+      "run_id": 42991551418,
       "last_run": {
         "run_id": 42519383275,
         "status": "SUCCESS",
@@ -9157,13 +9157,13 @@
           "territory_id": "congreso_huesca",
           "territory_name": "Congreso Huesca",
           "edition": "2025",
-          "run_id": 42940427352,
-          "artifact_name": "ddd-state-42940427352-M06",
-          "artifact_sha256": "bbd81bf46123e114bc1a3c39c7d61b634d00b57e59c55c3a37ec08e58abc855a",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 42991551418,
+          "artifact_name": "ddd-state-42991551418-M06",
+          "artifact_sha256": "3e0ca0620b6e73b343acd4484ac7f147dbf8e86617836621d7161bf9e562c95a",
+          "source_commit": "48716f6314fe92973436599417e7be4886bbe0c2",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_huesca/evidencia/generaciones_m06/42940427352.json"
+          "producer_manifest_path": "territorios/congreso_huesca/evidencia/generaciones_m06/42991551418.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9436,7 +9436,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940448596,
+      "run_id": 42991580539,
       "last_run": {
         "run_id": 42514986960,
         "status": "SUCCESS",
@@ -9462,13 +9462,13 @@
           "territory_id": "congreso_lugo",
           "territory_name": "Congreso Lugo",
           "edition": "2025",
-          "run_id": 42940448596,
-          "artifact_name": "ddd-state-42940448596-M06",
-          "artifact_sha256": "0356c8bd6803f664e08541c9ccc9de6336ddb952457a858a7f08b8467892faf6",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 42991580539,
+          "artifact_name": "ddd-state-42991580539-M06",
+          "artifact_sha256": "83603d2d31fd032ef415d49aa9940223e6ba231ffe75591b1765e817fe6e11b4",
+          "source_commit": "48716f6314fe92973436599417e7be4886bbe0c2",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_lugo/evidencia/generaciones_m06/42940448596.json"
+          "producer_manifest_path": "territorios/congreso_lugo/evidencia/generaciones_m06/42991580539.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9939,9 +9939,9 @@
         "territorial_source": {
           "territory_id": "congreso_las_palmas",
           "edition": "2025",
-          "run_id": 41432561787,
-          "artifact_name": "ddd-source-package-congreso_las_palmas-2025-41432561787",
-          "artifact_sha256": "482b1e9c4ddb5ef7ef449ed2fef52747ef97b207cafa8eb3d17505ae25623d72",
+          "run_id": 42991561887,
+          "artifact_name": "ddd-source-package-congreso_las_palmas-2025-42991561887",
+          "artifact_sha256": "08b4bdec2a4f39a8583e5378dd498fd90b926a53c2037e8ed70b09a499d4dadf",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 44,
+    "complete": 45,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12283,6 +12283,7 @@
       "Nacional Badajoz",
       "Nacional Baleares",
       "Nacional Barcelona",
+      "Nacional Burgos",
       "Nacional Cáceres",
       "Nacional Cádiz",
       "Nacional Castellón",
@@ -12512,11 +12513,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_cantabria",
-    "name": "Nacional Cantabria",
-    "display_name": "Nacional Cantabria",
-    "autonomous_community_code_ine": "C39",
-    "run_id": 42985965354,
+    "territory_id": "congreso_burgos",
+    "name": "Nacional Burgos",
+    "display_name": "Nacional Burgos",
+    "autonomous_community_code_ine": "C09",
+    "run_id": 42986581831,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12535,12 +12536,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Burgos",
-      "territory_id": "congreso_burgos",
-      "autonomous_community_code_ine": "C09",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Huelva",
       "territory_id": "congreso_huelva",
       "autonomous_community_code_ine": "C21",
@@ -12568,6 +12563,12 @@
       "territory": "Nacional Lugo",
       "territory_id": "congreso_lugo",
       "autonomous_community_code_ine": "C27",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Madrid",
+      "territory_id": "congreso_madrid",
+      "autonomous_community_code_ine": "C28",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12585,12 +12586,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Burgos",
-      "territory_id": "congreso_burgos",
-      "autonomous_community_code_ine": "C09",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Huelva",
       "territory_id": "congreso_huelva",
       "autonomous_community_code_ine": "C21",
@@ -12618,6 +12613,12 @@
       "territory": "Nacional Lugo",
       "territory_id": "congreso_lugo",
       "autonomous_community_code_ine": "C27",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Madrid",
+      "territory_id": "congreso_madrid",
+      "autonomous_community_code_ine": "C28",
       "action": "preparar fuentes electorales"
     }
   ]
