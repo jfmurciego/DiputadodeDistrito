@@ -24,9 +24,9 @@
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
 | 11:26 | La Rioja (prueba) | P00 Campaña, Generar desde fuente, motor2, Canónico, territorial_only + cadena_electoral, sin publicar | 43003614878 | SUCCESS: mismo ganador (`ponderado-s662638790`) y huella que r6; Activación 43006886208 y electoral 43007066596 en success | 1 / — | 0/1 |
-| 12:23 | tanda 1: Andalucía 43011608060, Aragón 43011616681, Asturias 43011625216, Baleares 43011633844, Canarias 43011642069 | P00 Campaña motor2 | — | EN_VUELO | 6 / — | 0/1 |
+| 12:23 | tanda 1: Andalucía 43011608060, Aragón 43011616681, Asturias 43011625216, Baleares 43011633844, Canarias 43011642069 | P00 Campaña motor2 | — | Andalucía FAILURE no transitorio en «Verificar bytes de la fuente territorial acreditada»: «Artefacto territorial ausente o ambiguo» (exit 72); Aragón y Asturias cadena completa; Baleares electoral en curso; Canarias territorial en curso | 6 / — | 0/1 |
 
 ## Cierre
-Estado: `EN_CURSO` (referencia de La Rioja = r6 por frase del propietario; 11-11 11:26 prueba La Rioja 43003614878, debe dar `ponderado-s662638790` y huella `1d5d002c…00de`). Último uso: 2026-11-11.
+Estado: `PARADA` (13:26, Andalucía: artefacto territorial ausente o ambiguo). No se lanzan más tandas; los runs en curso siguen. Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_regeneracion-nocturna-corte-71-v2 tal como figura en la ficha.»
