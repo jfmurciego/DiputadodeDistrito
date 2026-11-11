@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.350
+Versión: 1.0.351
 Fecha: 2026-11-11
-Alcance: T-236 — Plan 1.0.42: decisiones D-80 a D-86 y cola T-220 a T-236
+Alcance: T-237 — P50 publica un lote de runs 00 con una sola aprobación
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-11_claude-t236-plan-d80-d86.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.349_registro_20261111.md
+Cambios/motivo: entrada docs/registro/2026-11-11_claude-t-237-publicacion-lotes.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.350_registro_20261111.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.349_registro_20261111.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.351 · [2026-11-11 — T-237 — P50 publica un lote de runs 00 con una sola aprobación](registro/2026-11-11_claude-t-237-publicacion-lotes.md)
 - 1.0.350 · [2026-11-11 — T-236 — Plan 1.0.42: decisiones D-80 a D-86 y cola T-220 a T-236](registro/2026-11-11_claude-t236-plan-d80-d86.md)
 - 1.0.349 · [2026-11-11 — T-233 — La batería vuelca el final de log.txt cuando fallan las entradas](registro/2026-11-11_claude-t233-log-entradas.md)
 - 1.0.348 · [2026-11-11 — T-225 — Contratos de la edición 2026 de las 52 circunscripciones con el par INE 2025/2025](registro/2026-11-11_t225-congreso-ine-2025.md)
