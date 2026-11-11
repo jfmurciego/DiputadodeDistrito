@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.362
+Versión: 1.0.365
 Fecha: 2026-11-11
-Alcance: T-261 — Exhaustivo motor2: no lanzarlo cuando una cota demuestra que no acaba
+Alcance: T-251 — La puerta distingue cuota de egress (503) de artefacto caducado
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-11_t261-cota-exhaustivo.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.361_registro_20261111.md
+Cambios/motivo: entrada docs/registro/2026-11-11_t251-descarga-artefactos-503.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.364_registro_20261111.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,9 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.361_registro_20261111.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.365 · [2026-11-11 — T-251 — La puerta distingue cuota de egress (503) de artefacto caducado](registro/2026-11-11_t251-descarga-artefactos-503.md)
+- 1.0.364 · [2026-11-11 — T-264 — motor2: los puentes del contrato llegan al adaptador](registro/2026-11-11_t264-puentes-adaptadores.md)
+- 1.0.363 · [2026-11-11 — T-266 — Plan 1.0.43: decisiones D-87 a D-90 y cola T-237 a T-266](registro/2026-11-11_claude-t266-plan-d87-d90.md)
 - 1.0.362 · [2026-11-11 — T-261 — Exhaustivo motor2: no lanzarlo cuando una cota demuestra que no acaba](registro/2026-11-11_t261-cota-exhaustivo.md)
 - 1.0.361 · [2026-11-11 — T-263 — Archivar a legacy el código muerto de M04 (v745–v754) y M05 (v740)](registro/2026-11-11_claude-t263-legacy-motor-viejo.md)
 - 1.0.360 · [2026-11-11 — T-252 — Check «Estado vivo» tras los commits de robot en main](registro/2026-11-11_work-t252-estado-vivo.md)
