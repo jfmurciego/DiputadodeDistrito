@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:52:44Z",
+  "actualizado_en": "2026-11-11T02:53:30Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2801,6 +2801,20 @@
       "tamano_estado_original": 82128546,
       "territorio": "congreso_jaen",
       "url": "r2://ddd-research-archive/congreso_jaen/41295799269/ddd-minimo-41295799269-M08.zip"
+    },
+    "congreso_jaen/42940432935/ddd-minimo-42940432935-M06.zip": {
+      "archivado_en": "2026-11-11T02:53:30Z",
+      "artefacto": "ddd-minimo-42940432935-M06",
+      "artefacto_origen": "ddd-state-42940432935-M06",
+      "artifact_id": 13822547377,
+      "caducidad_original": "2026-11-25T02:28:11Z",
+      "run_id": "42940432935",
+      "sha256": "9177a77677baa472babfe233715dc5dc39371b1cbd040e58cc934b66fefc79be",
+      "sha256_estado_original": "0f60519e07769f5c7aac0cef5b9edb46e9066ec000c0a71b2f38646fd85c48e1",
+      "tamano_bytes": 227599,
+      "tamano_estado_original": 81903058,
+      "territorio": "congreso_jaen",
+      "url": "r2://ddd-research-archive/congreso_jaen/42940432935/ddd-minimo-42940432935-M06.zip"
     },
     "congreso_la_coruna/41243697404/ddd-audit-41243697404.zip": {
       "archivado_en": "2026-11-08T12:10:47Z",
