@@ -71,9 +71,10 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             self.assertEqual(str(row["election_date"]), str(registered["election_date"]))
 
     def test_2023_and_2024_require_contemporary_population_and_sectioning(self):
+        congreso_2025 = set(json.loads((ROOT / "configuracion/decisiones/d65_congreso_par_2025.json").read_text(encoding="utf-8"))["territory_ids"])
         for row in validate_matrix(ROOT):
             election_year = int(str(row["election_date"])[:4])
-            if election_year not in {2023, 2024}:
+            if election_year not in {2023, 2024} or row["territory_id"] in congreso_2025:
                 continue
             territorial = row["territorial"]
             with self.subTest(territory=row["territory_id"]):
@@ -83,6 +84,31 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 self.assertEqual(territorial["section_selected_year"], election_year)
                 self.assertEqual(territorial["population_lag_years"], 0)
                 self.assertEqual(territorial["section_lag_years"], 0)
+
+    def test_congreso_uses_d65_2025_pair(self):
+        # T-225 (D-65): las 52 circunscripciones congreso_* pasan al par INE 2025/2025; los gemelos congreso350_* no.
+        rows = {r["territory_id"]: r for r in validate_matrix(ROOT)}
+        congreso = sorted(t for t in rows if t.startswith("congreso_"))
+        self.assertEqual(len(congreso), 52)
+        for tid in congreso:
+            territorial = rows[tid]["territorial"]
+            with self.subTest(territory=tid):
+                self.assertEqual(territorial["population_required_year"], 2023)
+                self.assertEqual(territorial["population_selected_year"], 2025)
+                self.assertEqual(territorial["section_selected_year"], 2025)
+                self.assertEqual(territorial["section_reference_label"], "Secciones_2025")
+                self.assertEqual(territorial["territorial_reference_decision"], "D65-T225-CONGRESO-PAIR-2025")
+        for tid in (t for t in rows if t.startswith("congreso350_")):
+            self.assertEqual(rows[tid]["territorial"]["population_selected_year"], 2023)
+
+    def test_congreso_2025_pair_rejected_without_decision(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            for rel in ("configuracion", "territorios"):
+                shutil.copytree(ROOT / rel, root / rel, ignore=shutil.ignore_patterns("*.zip", "*.geojson*", "evidencia", "resultados", "inputs", "partes"))
+            (root / "configuracion/decisiones/d65_congreso_par_2025.json").unlink()
+            with self.assertRaisesRegex(ValueError, "CONGRESO_PAIR_DECISION_MISSING_OR_INVALID"):
+                validate_matrix(root)
 
     def test_2026_uses_owner_approved_2025_territorial_pair(self):
         rows = [

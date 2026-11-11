@@ -26,6 +26,13 @@ import legislatura_vigente as lv  # noqa: E402
 M01_M03 = ("modulo_01_preparar_base_territorial", "modulo_02_construir_adyacencias", "modulo_03_construir_grafo")
 
 
+def _al_2023(texto: str) -> str:
+    """T-225 (D-65): el padre 407 pasó al par INE 2025/2025; el gemelo 350 queda fuera del corte (D-76) en 2023.
+    Solo se deshacen los campos que dependen del año de la fuente, para comparar el resto."""
+    return (texto.replace("POP_2025", "POP_2023").replace("inputs/seccionado_2025.zip", "inputs/seccionado_2023.zip")
+            .replace("year_value: 2025", "year_value: 2023"))
+
+
 def _load(rel: str) -> dict:
     return yaml.safe_load((ROOT / rel).read_text(encoding="utf-8")) or {}
 
@@ -91,8 +98,8 @@ class Congreso350Tests(unittest.TestCase):
             with self.subTest(territory=tid):
                 parent = p["source_id"]
                 twin = _load(f"territorios/{tid}/config/{tid}_2025.yaml")
-                ref = yaml.safe_load(g350._rename((ROOT / f"territorios/{parent}/config/{parent}_2025.yaml")
-                                                  .read_text(encoding="utf-8"), p))
+                ref = yaml.safe_load(_al_2023(g350._rename((ROOT / f"territorios/{parent}/config/{parent}_2025.yaml")
+                                                           .read_text(encoding="utf-8"), p)))
                 k = p["k"]
                 self.assertEqual(k, twin["territory_contract"]["k_districts"])
                 self.assertEqual(k, twin["modulos"]["modulo_04_generar_semillas"]["k_districts"])
@@ -102,7 +109,10 @@ class Congreso350Tests(unittest.TestCase):
                 self.assertIn(self.csv_sha, twin["territory_contract"]["k_reference_source"])
                 # Lo que gobierna M01–M03 es idéntico al 407: mismo grafo (prueba local de Soria: sha igual).
                 for mod in M01_M03:
-                    self.assertEqual(ref["modulos"][mod], twin["modulos"][mod], mod)
+                    a, b = dict(ref["modulos"][mod]), dict(twin["modulos"][mod])
+                    # T-225: los puentes del padre son los del seccionado 2025 (Lérida, Valladolid); el gemelo sigue en 2023.
+                    a.pop("topology_bridges", None), b.pop("topology_bridges", None)
+                    self.assertEqual(a, b, mod)
                 self.assertEqual(ref["io"]["input"], twin["io"]["input"])
                 for key in ("population_floor_ratio", "population_cap_ratio", "municipality_atomicity_limit_ratio",
                             "population_floor_exempt_partitions"):

@@ -7,6 +7,7 @@
 # CAMBIOS: fichero nuevo.
 # MOTIVO: D-61; corte 5.0.0 pasos 1-2.
 # ANTERIOR: ninguna (fichero nuevo)
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -143,7 +144,9 @@ class Gemelo350SinNotacion(unittest.TestCase):
             self.assertNotIn("notacion", linea)
             self.assertNotIn("id_legacy", linea)
             self.assertIn(f"parent_territory_id: {p['source_id']}}}", linea)
-            self.assertIn(linea, catalogo.splitlines())
+            # T-225: el padre pasó a source_prepared_pending_pre_m04 (par 2025/2025); el gemelo 350 conserva su estado.
+            gemelo = next(x for x in catalogo.splitlines() if f"territory_id: {p['territory_id']}," in x)
+            self.assertEqual(re.sub(r"status: \w+,", "", linea), re.sub(r"status: \w+,", "", gemelo))
 
 
 if __name__ == "__main__":

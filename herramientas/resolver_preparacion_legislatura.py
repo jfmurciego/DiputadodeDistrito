@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# CAMBIOS 2026-11-10: T-225 (D-65), las 52 circunscripciones del Congreso (elección del 23-07-2023) usan la pareja
+#   INE 2025/2025 cuando la matriz cita configuracion/decisiones/d65_congreso_par_2025.json y el territorio figura en
+#   ella (desfase -2, Secciones_2025); el resto conserva la regla del año contemporáneo.
+# ANTERIOR (c): legacy/herramientas/resolver_preparacion_legislatura_pre_congreso_2025_20261110.py
 # CAMBIOS 2026-10-30: territorios piloto (pilot_code, p. ej. Congreso Huesca) en matriz y registro; la
 #   invariante de 19 se aplica a las comunidades y ciudades autónomas.
 # ANTERIOR (b): legacy/herramientas/resolver_preparacion_legislatura_pre_pilotos_20261030.py
@@ -722,11 +726,41 @@ def _owner_approved_2025_pair(root: Path, matrix: dict) -> tuple[str, set[str]]:
     return str(decision["decision_id"]), expected_ids
 
 
+CONGRESO_PAIR_DECISION = "configuracion/decisiones/d65_congreso_par_2025.json"
+
+
+def _congreso_2025_pair(root: Path, matrix: dict) -> tuple[str | None, set[str]]:
+    """T-225 (D-65): las circunscripciones del Congreso 2023 usan el par INE 2025/2025; nada más."""
+    policy = matrix.get("population_section_policy") or {}
+    rel = policy.get("congreso_2025_pair_decision")
+    if rel in (None, ""):
+        return None, set()
+    if str(rel) != CONGRESO_PAIR_DECISION or not (root / CONGRESO_PAIR_DECISION).is_file():
+        raise ValueError("CONGRESO_PAIR_DECISION_MISSING_OR_INVALID")
+    decision = _json(root / CONGRESO_PAIR_DECISION)
+    ids = decision.get("territory_ids") or []
+    if (
+        decision.get("schema") != "ddd.congreso-territorial-pair-decision/1.0"
+        or decision.get("status") != "OWNER_APPROVED_TERRITORIAL_REFERENCE_ONLY"
+        or not ids
+        or len(set(ids)) != len(ids)
+        or any(not re.fullmatch(r"congreso_[a-z_]+", str(t)) for t in ids)
+        or decision.get("selected_population_year") != 2025
+        or decision.get("selected_section_year") != 2025
+        or str(decision.get("election_date")) != "2023-07-23"
+        or decision.get("generation_authorized_by_this_decision") is not False
+        or decision.get("source_promotion_authorized_by_this_decision") is not False
+    ):
+        raise ValueError("CONGRESO_PAIR_DECISION_INVALID")
+    return str(decision["decision_id"]), set(ids)
+
+
 def validate_matrix(root: Path) -> list[dict]:
     matrix = _yaml(root / MATRIX)
     registry = _yaml(root / REGISTRY)
     evidence = _temporal_evidence(root, matrix)
     fallback_decision_id, fallback_ids = _owner_approved_2025_pair(root, matrix)
+    congreso_decision_id, congreso_ids = _congreso_2025_pair(root, matrix)
     rows = matrix.get("territories") or []
     registered = registry.get("territories") or {}
     autonomous_rows = [r for r in rows if not r.get("pilot_code")]
@@ -758,6 +792,23 @@ def validate_matrix(root: Path) -> list[dict]:
             raise ValueError(f"{tid}: población y seccionado requeridos deben referir al año electoral")
         if str(terr.get("temporal_evidence") or "") != evidence["path"]:
             raise ValueError(f"{tid}: evidencia temporal no coincide con la fuente durable común")
+
+        if tid in congreso_ids:
+            if (
+                str(row["election_date"]) != "2023-07-23"
+                or pop_required != 2023 or section_required != 2023
+                or pop_selected != 2025 or section_selected != 2025
+                or int(terr.get("population_lag_years", 0)) != -2
+                or int(terr.get("section_lag_years", 0)) != -2
+                or str(terr.get("population_reference_date")) != "2025-01-01"
+                or terr.get("section_reference_label") != "Secciones_2025"
+                or terr.get("territorial_reference_decision") != congreso_decision_id
+                or terr.get("electoral_2026_crosswalk_status")
+                or 2025 not in pop_available or 2025 not in section_available
+                or not str(terr.get("reason") or "").strip()
+            ):
+                raise ValueError(f"{tid}: par territorial 2025/2025 del Congreso inconsistente o sin decisión")
+            continue
 
         if pop_required in pop_available:
             if pop_selected != pop_required or int(terr.get("population_lag_years", 0)) != 0:
