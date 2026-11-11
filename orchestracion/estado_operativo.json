@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T12:31:51.748764+00:00",
+  "generated_at": "2026-11-11T12:34:40.619694+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6870,20 +6870,20 @@
       "name": "Islas Baleares",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43011633844,
+      "run_id": 43019811578,
       "last_run": {
-        "run_id": 43011633844,
+        "run_id": 43019811578,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6924,7 +6924,7 @@
       },
       "autonomous_community_code_ine": "04",
       "display_name": "04 Islas Baleares",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "canarias",
@@ -10148,10 +10148,10 @@
           "territory_id": "congreso_santa_cruz_de_tenerife",
           "territory_name": "Congreso Santa Cruz de Tenerife",
           "edition": "2025",
-          "run_id": 42519017008,
-          "artifact_name": "ddd-state-42519017008-M08",
-          "artifact_sha256": "1d1c4230a0ed5d57993aba433b0784db8a835943cd7307d248978f9ffe3c7da7",
-          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
+          "run_id": 43020203637,
+          "artifact_name": "ddd-state-43020203637-M08",
+          "artifact_sha256": "b33cd00659f100c41ee73f7b6ffef1beb4e4eb0ecc9aa162ec34e1f644badce9",
+          "source_commit": "4ee681f2159b08da7fa2da3d860250b61042b855",
           "stage": "M08"
         }
       },
@@ -12256,11 +12256,12 @@
     }
   ],
   "kpis": {
-    "complete": 57,
+    "complete": 58,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
       "03 Principado de Asturias",
+      "04 Islas Baleares",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "09 Cataluña",
@@ -12525,23 +12526,17 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_salamanca",
-    "name": "Nacional Salamanca",
-    "display_name": "Nacional Salamanca",
-    "autonomous_community_code_ine": "C37",
-    "run_id": 43017179163,
+    "territory_id": "illes_balears",
+    "name": "Islas Baleares",
+    "display_name": "04 Islas Baleares",
+    "autonomous_community_code_ine": "04",
+    "run_id": 43019811578,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
     {
-      "territory": "04 Islas Baleares",
-      "territory_id": "illes_balears",
-      "autonomous_community_code_ine": "04",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "05 Canarias",
       "territory_id": "canarias",
       "autonomous_community_code_ine": "05",
@@ -12581,17 +12576,17 @@
       "territory": "Nacional Sevilla",
       "territory_id": "congreso_sevilla",
       "autonomous_community_code_ine": "C41",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Soria",
+      "territory_id": "congreso_soria",
+      "autonomous_community_code_ine": "C42",
       "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
     {
-      "territory": "04 Islas Baleares",
-      "territory_id": "illes_balears",
-      "autonomous_community_code_ine": "04",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "05 Canarias",
       "territory_id": "canarias",
       "autonomous_community_code_ine": "05",
@@ -12631,6 +12626,12 @@
       "territory": "Nacional Sevilla",
       "territory_id": "congreso_sevilla",
       "autonomous_community_code_ine": "C41",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Soria",
+      "territory_id": "congreso_soria",
+      "autonomous_community_code_ine": "C42",
       "action": "preparar fuentes electorales"
     }
   ]
