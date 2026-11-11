@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13822972581,
+      "artifact_name": "ddd-audit-42940412378",
+      "artifact_sha256": "082693e561047bd6fb7f2b622b13fd52af2cec8b6fd4eaeca5442e481960fcbf",
+      "run_id": 42940412378,
+      "size_in_bytes": 3021
+    },
+    "m04": {
+      "artifact_id": 13821389620,
+      "artifact_name": "ddd-state-42940412378-M04",
+      "artifact_sha256": "963fc0f4368aaad0d1ccdfb7781d8f27cf736eedc2c4af10d8e30ba7ff08bd57",
+      "run_id": 42940412378,
+      "size_in_bytes": 77670960
+    },
+    "m05": {
+      "artifact_id": 13821823565,
+      "artifact_name": "ddd-state-42940412378-M05",
+      "artifact_sha256": "ae1ac0a85149dd25206509b0c4d32065356786dce6435c7fbd3c60dbe7117ec5",
+      "run_id": 42940412378,
+      "size_in_bytes": 78353857
+    },
+    "m06": {
+      "artifact_id": 13821724031,
+      "artifact_name": "ddd-state-42940412378-M06",
+      "artifact_sha256": "fc58f22c97f6f17fd9fbe8e348d482bc0c06a423bb83906f8fee2cf5a730f779",
+      "run_id": 42940412378,
+      "size_in_bytes": 79945468
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "840cd08e9d395817c342a8fdf6bf1a17e3b906eebaedeb90a73b57e97666c956",
+        "size_in_bytes": 410
+      },
+      "congreso_guadalajara_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "9ef5f868c07659d72a4ada3a18375a743b72298d898880af470ee111754620d0",
+        "size_in_bytes": 3418
+      },
+      "optimization_execution.json": {
+        "sha256": "b73ed39de9ba3d059e5356f4db7b71fbb1bb94f878d8c18827273f056c283531",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "0e5510f17aa5f36605bc5e7d109f616ad80e9d13eaec86673c5895521306e0a0",
+        "size_in_bytes": 1518
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "0e5510f17aa5f36605bc5e7d109f616ad80e9d13eaec86673c5895521306e0a0",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_guadalajara/config/congreso_guadalajara_2025.yaml",
+    "sha256": "8d9b9de1b5444d158a86c4790fa83411a25f671d92ae8683f3de5a634d3d0358"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "378aee4d249f36ee7e567716b6b6712790ee4c6d1dcf5eb44b0c883519ba234f",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s308387975",
+      "generador": "ponderado",
+      "huella_resultado": "638b07cb7c33037e43bfef789a5f530222f810ad2ac497cd3c24aea10228c4ac",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 4.3623355944772835e-05,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.0005234802713372739,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "cc7b49bf4b1c9a603f622524f180e216d58c94433ee36a6051e7cac177b2653a",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_guadalajara",
+    "territory_name": "Congreso Guadalajara",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940412378,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13821389620,
+      "artifact_name": "ddd-state-42940412378-M04",
+      "artifact_sha256": "963fc0f4368aaad0d1ccdfb7781d8f27cf736eedc2c4af10d8e30ba7ff08bd57",
+      "run_id": 42940412378,
+      "size_in_bytes": 77670960
+    },
+    "source_manifest_sha256": "5134f397c26efa6e37285994b137954cdfc7eff37a476520486dc65d8bd385dd",
+    "source_package_artifact": {
+      "artifact_id": 13056975362,
+      "artifact_name": "ddd-source-package-congreso_guadalajara-2025-41236816482",
+      "artifact_sha256": "d5eccc8c9ef8f283fcdffd6f7bfaddbb032c9eed4a9438a880b10e187f64816f",
+      "run_id": 41236816482,
+      "size_in_bytes": 76290367
+    }
+  },
+  "manifest_sha256": "5630def615d208ec20d08f581c51db63f125134760cde7605ea6e1ef4956a14c",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
