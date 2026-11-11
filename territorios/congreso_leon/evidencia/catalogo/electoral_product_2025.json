@@ -4,9 +4,9 @@
   "territory_id": "congreso_leon",
   "territory_name": "Congreso León",
   "edition": "2025",
-  "run_id": 41629735636,
-  "artifact_name": "ddd-state-41629735636-M08",
-  "artifact_sha256": "104575863c280a1ce2e8d96e1ab5c95f33c5018e83be32fc87a29ef2c21ab7cf",
-  "source_commit": "4c63a0d5000e7f819b00779811ac66bd076246af",
+  "run_id": 42996717873,
+  "artifact_name": "ddd-state-42996717873-M08",
+  "artifact_sha256": "56684c425eb17e0b6d2ee739e55537a8f23a95da47ea1280a14f5f6b58b0fd66",
+  "source_commit": "a3bb8b3bbf068e226f0994fb2d5e6439c24f9798",
   "stage": "M08"
 }
