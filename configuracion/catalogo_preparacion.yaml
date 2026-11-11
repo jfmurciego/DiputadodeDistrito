@@ -891,8 +891,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940336572
-        stage: M06
+        run_id: 42952468083
+        stage: M08
       preparation_evidence:
         run_id: 41242160179
         artifact_name: ddd-source-package-congreso_almeria-2025-41242160179
