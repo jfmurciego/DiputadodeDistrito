@@ -3,10 +3,15 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.1
+VERSIÓN: 1.2.2
 NOMBRE DE VERSIÓN: Batería del motor
-FECHA: 2026-11-10
+FECHA: 2026-11-11
 ESTADO: candidato
+CAMBIOS 1.2.2 (T-228): la comprobación 2 (y el desvío máximo de los indicadores) mide como el contrato y la competición
+  (D-68, D-79, T-211): contra el objetivo REGIONAL (`Natural.fuera_regional`, el primer término de la clave D8 de la
+  competición), no contra el objetivo de cada circunscripción. Las cifras por circunscripción siguen en el JSON
+  (`fuera_tolerancia_circunscripcion`, `desvio_max_circunscripcion`), solo informan. Antes, r5 fase 2 (run 42927322822):
+  Castilla-La Mancha salía PEOR (6 > 5 por circunscripción) con el ganador en 5 del contrato, igual que el vigente (5 y 5).
 CAMBIOS 1.2.1 (T-222): el recuento de candidatos cuenta el vigente que compite (T-217): esperados = 1 + N (+1 exhaustivo)
   (+1 si el COMPETICION.json dice que el vigente compite y lo trae como candidato). El vigente no cuenta como cadena ni como
   cadena evaluable. Si no compite (no cumple el núcleo, no representable, fallo, o sin bloque «vigente»), consta en «vigente_excluido» con su motivo
@@ -27,7 +32,7 @@ CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de 
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
-ANTERIOR: legacy/herramientas/bateria_motor_v1.2.0_20261110.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.2.1_20261111.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -766,8 +771,18 @@ def _forma(comp: Path, plan: dict, col: dict, grafo_dir: Path) -> dict:
         return {"pp_error": f"{type(exc).__name__}: {exc}"}
 
 
-def _indicadores_plan(comp: Path, cfg: dict, grafo: Path, referencia: Path | None, atributos: Path | None) -> dict:
+def recuento_contrato(nat, plan: dict) -> dict:
+    """Fuera de tolerancia y desvío máximo como el contrato, el núcleo y el M04 (objetivo regional): el mismo recuento que
+    el primer término de la clave D8 de la competición (Natural.fuera_regional, T-211). Por circunscripción solo informa."""
     from fractions import Fraction
+    tol = nat.tol / nat.objetivo
+    circ = [abs(Fraction(p) - o) / o for p, o in nat.desvios(plan).values()]
+    reg = [abs(Fraction(p) - nat.objetivo) / nat.objetivo for p, _ in nat.desvios(plan).values()]
+    return {"distritos": len(reg), "fuera_tolerancia": nat.fuera_regional(plan), "desvio_max": float(max(reg)),
+            "fuera_tolerancia_circunscripcion": sum(1 for x in circ if x > tol), "desvio_max_circunscripcion": float(max(circ))}
+
+
+def _indicadores_plan(comp: Path, cfg: dict, grafo: Path, referencia: Path | None, atributos: Path | None) -> dict:
     from ddd_motor2.adaptadores import columnas_de_contrato, problema_y_plan
     from ddd_motor2.naturalidad_clave import corte_km, natural_desde_m06, partidas
     from ddd_motor2.reglas import Criterio, Reglas, evaluar
@@ -776,9 +791,7 @@ def _indicadores_plan(comp: Path, cfg: dict, grafo: Path, referencia: Path | Non
     problema, plan, _ = problema_y_plan(comp, grafo, cfg, referencia_nucleos=referencia, atributos_secciones=atributos,
                                         respaldo_municipio_cusec=crit.respaldo_municipio_cusec)
     nat = natural_desde_m06(problema, reglas, comp, grafo, cfg)
-    tol = nat.tol / nat.objetivo
-    rel = [abs(Fraction(p) - o) / o for p, o in nat.desvios(plan).values()]
-    r = {"distritos": len(rel), "fuera_tolerancia": sum(1 for x in rel if x > tol), "desvio_max": float(max(rel)),
+    r = {**recuento_contrato(nat, plan),
          "partidos_judiciales_partidos": partidas(plan, (nat.pj,)), "comarcas_partidas": partidas(plan, (nat.ca,)),
          "frontera_cortada_km": corte_km(plan, nat.largo), "valido_reglas_actuales": evaluar(problema, reglas, plan).valido}
     r.update(_forma(comp, plan, columnas_de_contrato(cfg), grafo.parent))
