@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -85,7 +85,7 @@ territory_contract:
   - 07-C03
   - 07-C04
   small_component_exception_policy: one_contiguous_district_floor_exception
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -215,21 +215,26 @@ validation:
   - 07-C03
   - 07-C04
   population_floor_exempt_partition_decisions:
-    '07-C02':
+    07-C02:
       decided_at: '2026-10-28'
       decided_by: propietario
-      reason: 'Menorca (5 distritos, 99.005 hab.) no admite partición sobre el suelo: Mahón y Ciudadela son indivisibles.'
+      reason: 'Menorca (5 distritos, 99.005 hab.) no admite partición sobre el suelo:
+        Mahón y Ciudadela son indivisibles.'
       evidence: 'PR #313; run 40847174556; configuracion/politica_generacion_territorial_2025.yaml#territories.illes_balears.structural_floor_exemptions'
-    '07-C03':
+    07-C03:
       decided_at: '2026-10-28'
       decided_by: 'regla: componente pequeño'
-      reason: 'Formentera: componente de un solo distrito bajo el suelo (regla de componente pequeño).'
-      evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-10-28 — M05 — bloqueos de población de Madrid y Baleares»'
-    '07-C04':
+      reason: 'Formentera: componente de un solo distrito bajo el suelo (regla de
+        componente pequeño).'
+      evidence: docs/REGISTRO_DE_CAMBIOS.md «2026-10-28 — M05 — bloqueos de población
+        de Madrid y Baleares»
+    07-C04:
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Ibiza (8 distritos, 159.180 hab.) no admite partición sobre el suelo con la disciplina municipal: Sant Josep y Sant Antoni son indivisibles (opción A).'
-      evidence: 'run 40891796781; configuracion/politica_generacion_territorial_2025.yaml#territories.illes_balears.structural_floor_exemptions'
+      reason: 'Ibiza (8 distritos, 159.180 hab.) no admite partición sobre el suelo
+        con la disciplina municipal: Sant Josep y Sant Antoni son indivisibles (opción
+        A).'
+      evidence: run 40891796781; configuracion/politica_generacion_territorial_2025.yaml#territories.illes_balears.structural_floor_exemptions
   partition_apportionment_audit:
     07-C01:
       population: 940332
@@ -352,7 +357,7 @@ resolved_source_contract:
   contract_sha256: 548f5293f98d2a525d7b844017905bc63403d73ab30c0904c3c320f0ced2169c
 generation_state:
   source_prepared: true
-  generation_enabled: true
+  generation_enabled: false
   package_sha256: 02ad2c8ef9f4716f907f8aa9cc9690a9bc721c26c29a4c7fd9fc662bd33de046
   compatibility_identity_sha256: 3a32c1d23d729e16095710a9eaf25912dcc939cfdae763d6fc21996b9e0888aa
   source_inputs:
@@ -404,6 +409,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40946850006
-  pre_m04_source_commit: 6ccad76a0144037f65e5004ec60193fc5f420aaa
-  pre_m04_artifact_sha256: db1abdd9c243ce8ce836ec3d94230725726d0b45346ca0cb23aac54a53602a16

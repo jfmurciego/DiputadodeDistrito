@@ -153,25 +153,24 @@ territories:
         run_id: 41033500476
         stage: M08
       preparation_evidence:
-        run_id: 40946850006
-        artifact_name: ddd-source-package-illes_balears-2025-40946850006
-        artifact_sha256: 3f73fd53f8a6bc06f0b559e237959bf6f078589d7510f48eaee2d1fc347e1a03
+        run_id: 43011633844
+        artifact_name: ddd-source-package-illes_balears-2025-43011633844
+        artifact_sha256: 54ba0d0ec51f34e98e887b0e25a6a4f43934e3aa191e73dd083013e3dba1a109
         package_sha256: 02ad2c8ef9f4716f907f8aa9cc9690a9bc721c26c29a4c7fd9fc662bd33de046
-        receipt_path: territorios/illes_balears/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/40946850006/receipt.json
+        receipt_path: territorios/illes_balears/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/43011633844/receipt.json
         territorial_identity_sha256: 4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f
         compatibility_report_sha256: 3024d4a552405401ce01a8c4be82afefab6a3613df53a44f7066096b566c054a
         compatibility_identity_sha256: 3a32c1d23d729e16095710a9eaf25912dcc939cfdae763d6fc21996b9e0888aa
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 091d40cef648abcc9319af1f6dc3488a5abdc556
+        source_commit: 2d29dc4536e23c35ec9f2eb594fc5b8021b77cd1
       evidence:
         electoral_source: territorios/illes_balears/evidencia/fuentes_electorales/2025/b66076b1a479a6ef255f0460de34adf8274e0b307bd9e18c350ef85d24292437/40955056606/receipt.json
         prepared_source_pair: territorios/illes_balears/evidencia/pares_fuentes/2025/14766c46e536bfcfb9a6461047f5d4cea0b20d4cdb479fc8493870381fbd1a1c.json
-        generation_preflight: territorios/illes_balears/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/illes_balears/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/illes_balears/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: canarias
   name: Canarias
   editions:
