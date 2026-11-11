@@ -875,6 +875,13 @@
    "sha256_csv": "e8f4c44ec891d4cc95a46fb15fd1c2f8cdf2edfccb6aa6adb04a48c26129a44c",
    "ruta": "datos/composicion/runs/congreso_albacete_42514994231.csv"
   },
+  "congreso_albacete/42940326013": {
+   "territorio": "congreso_albacete",
+   "run_id": "42940326013",
+   "secciones": 294,
+   "sha256_csv": "80a38ca5b914366f01de91679ac48fa1e88f96aea12307edddbefdada3ba4bbf",
+   "ruta": "datos/composicion/runs/congreso_albacete_42940326013.csv"
+  },
   "congreso_alicante/42490325518": {
    "territorio": "congreso_alicante",
    "run_id": "42490325518",
