@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T10:50:11.498638+00:00",
+  "generated_at": "2026-11-11T10:54:28.216963+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9538,10 +9538,10 @@
           "territory_id": "congreso_madrid",
           "territory_name": "Congreso Madrid",
           "edition": "2025",
-          "run_id": 41622703086,
-          "artifact_name": "ddd-state-41622703086-M08",
-          "artifact_sha256": "91a6403de439cbbf4fe2b4a4db1a4a93a615bdf815bc39d884979f325d6b84c8",
-          "source_commit": "b3f8dab26ed13474b9ebb9627023697464fe2b45",
+          "run_id": 43006307734,
+          "artifact_name": "ddd-state-43006307734-M08",
+          "artifact_sha256": "bf4b4ccfd6759e37481d8f91915e243165d446e6b51b9d020117c30b5206a712",
+          "source_commit": "a7f8c02a0a0f0f4b49d315925eda88214a901989",
           "stage": "M08"
         }
       },
@@ -9615,20 +9615,20 @@
       "name": "Nacional Murcia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43001766635,
+      "run_id": 43005676593,
       "last_run": {
-        "run_id": 43001766635,
+        "run_id": 43005676593,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9669,7 +9669,7 @@
       },
       "autonomous_community_code_ine": "C30",
       "display_name": "Nacional Murcia",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_navarra",
@@ -11002,10 +11002,10 @@
           "territory_id": "congreso_melilla",
           "territory_name": "Congreso Melilla",
           "edition": "2025",
-          "run_id": 41293988485,
-          "artifact_name": "ddd-state-41293988485-M08",
-          "artifact_sha256": "e3db81f5644711196102c6f404e2ca1425bccbaaa546ceee764fe57f64022324",
-          "source_commit": "ef2db7b883cadb5675ccd98429cbf1a4e1c781b8",
+          "run_id": 43006105644,
+          "artifact_name": "ddd-state-43006105644-M08",
+          "artifact_sha256": "2171296792f6783a4df122077bb7c93c8179f69935b297f48dcedcfca957f28a",
+          "source_commit": "92b6f2291054c45a258dac96c17ae362f7fc813c",
           "stage": "M08"
         }
       },
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 49,
+    "complete": 50,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12300,6 +12300,7 @@
       "Nacional León",
       "Nacional La Rioja",
       "Nacional Lugo",
+      "Nacional Murcia",
       "Nacional Asturias",
       "Nacional Las Palmas",
       "Nacional Cantabria",
@@ -12517,11 +12518,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_las_palmas",
-    "name": "Nacional Las Palmas",
-    "display_name": "Nacional Las Palmas",
-    "autonomous_community_code_ine": "C35",
-    "run_id": 42998268332,
+    "territory_id": "congreso_murcia",
+    "name": "Nacional Murcia",
+    "display_name": "Nacional Murcia",
+    "autonomous_community_code_ine": "C30",
+    "run_id": 43005676593,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12564,15 +12565,15 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Murcia",
-      "territory_id": "congreso_murcia",
-      "autonomous_community_code_ine": "C30",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Navarra",
       "territory_id": "congreso_navarra",
       "autonomous_community_code_ine": "C31",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Orense",
+      "territory_id": "congreso_orense",
+      "autonomous_community_code_ine": "C32",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12614,15 +12615,15 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Murcia",
-      "territory_id": "congreso_murcia",
-      "autonomous_community_code_ine": "C30",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Navarra",
       "territory_id": "congreso_navarra",
       "autonomous_community_code_ine": "C31",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Orense",
+      "territory_id": "congreso_orense",
+      "autonomous_community_code_ine": "C32",
       "action": "preparar fuentes electorales"
     }
   ]
