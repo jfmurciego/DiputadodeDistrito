@@ -1359,8 +1359,8 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940397668
-        stage: M06
+        run_id: 42954007732
+        stage: M08
       preparation_evidence:
         run_id: 41236647382
         artifact_name: ddd-source-package-congreso_cuenca-2025-41236647382

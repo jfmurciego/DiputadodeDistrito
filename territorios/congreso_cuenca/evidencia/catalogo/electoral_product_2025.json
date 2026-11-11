@@ -4,9 +4,9 @@
   "territory_id": "congreso_cuenca",
   "territory_name": "Congreso Cuenca",
   "edition": "2025",
-  "run_id": 41294075778,
-  "artifact_name": "ddd-state-41294075778-M08",
-  "artifact_sha256": "45b111cd3cf5e6af86c0ddd151742681f4a79930273e964b6e059510ec0bad64",
-  "source_commit": "5201250f03b365e59a8f0af38fbddd94ca0b0edc",
+  "run_id": 42954007732,
+  "artifact_name": "ddd-state-42954007732-M08",
+  "artifact_sha256": "792e96cddd2a18feecda017d74231372d1bc049be81de5716df348593d0696ed",
+  "source_commit": "35badd2eb8f3eeb35f863781e611205b6412c68a",
   "stage": "M08"
 }
