@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:57:00Z",
+  "actualizado_en": "2026-11-11T03:59:15Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2659,19 +2659,20 @@
       "territorio": "congreso_guipuzcoa",
       "url": "r2://ddd-research-archive/congreso_guipuzcoa/41298935355/ddd-minimo-41298935355-M08.zip"
     },
-    "congreso_guipuzcoa/42940417361/ddd-minimo-42940417361-M06.zip": {
-      "archivado_en": "2026-11-11T02:51:42Z",
-      "artefacto": "ddd-minimo-42940417361-M06",
-      "artefacto_origen": "ddd-state-42940417361-M06",
-      "artifact_id": 13822542272,
-      "caducidad_original": "2026-11-25T02:26:43Z",
-      "run_id": "42940417361",
-      "sha256": "181f166109b75a127110f79d285e00bb6537e33f2600c6cda5e79258dbd99a04",
-      "sha256_estado_original": "cadf9ecf27c3e02e20d1d65d09a14901a9d931f54f3ea3760a235c2b509e6bd8",
-      "tamano_bytes": 492954,
-      "tamano_estado_original": 83252386,
+    "congreso_guipuzcoa/42955375065/ddd-minimo-42955375065-M08.zip": {
+      "archivado_en": "2026-11-11T03:59:15Z",
+      "artefacto": "ddd-minimo-42955375065-M08",
+      "artefacto_origen": "ddd-state-42955375065-M08",
+      "artifact_id": 13826827999,
+      "caducidad_original": "2026-11-25T03:58:30Z",
+      "incluye_m06_run": "42940417361",
+      "run_id": "42955375065",
+      "sha256": "759fc76330cd9144e1209ed4616c2fcb32f1ec8876343510a7158c61b6e2ec3e",
+      "sha256_estado_original": "270c6fe0515d3bedf929343cdbe93f7b73cb16bc8d23296a619f4688c7a249d3",
+      "tamano_bytes": 896689,
+      "tamano_estado_original": 84707647,
       "territorio": "congreso_guipuzcoa",
-      "url": "r2://ddd-research-archive/congreso_guipuzcoa/42940417361/ddd-minimo-42940417361-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_guipuzcoa/42955375065/ddd-minimo-42955375065-M08.zip"
     },
     "congreso_huelva/41318125504/ddd-audit-41318125504.zip": {
       "archivado_en": "2026-11-08T12:16:55Z",
