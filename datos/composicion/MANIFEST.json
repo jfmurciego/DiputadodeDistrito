@@ -1148,6 +1148,13 @@
    "sha256_csv": "cdf3336ac8f6b8bb5197d022fba021fb10219d49acd2e9853b79883bd6e493ee",
    "ruta": "datos/composicion/runs/congreso_lugo_42940448596.csv"
   },
+  "congreso_madrid/42940454004": {
+   "territorio": "congreso_madrid",
+   "run_id": "42940454004",
+   "secciones": 4479,
+   "sha256_csv": "fc86747085490b06138423a3cc4c4e97bf2489dd1425e73933a844149465e6c6",
+   "ruta": "datos/composicion/runs/congreso_madrid_42940454004.csv"
+  },
   "congreso_malaga/42490329631": {
    "territorio": "congreso_malaga",
    "run_id": "42490329631",
