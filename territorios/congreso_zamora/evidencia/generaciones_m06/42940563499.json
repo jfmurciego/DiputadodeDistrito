@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13822933225,
+      "artifact_name": "ddd-audit-42940563499",
+      "artifact_sha256": "cc1726bfc840c62de7b9a0d4712fe8a3cba49a7319963661a4f95e574d4bb67f",
+      "run_id": 42940563499,
+      "size_in_bytes": 2491
+    },
+    "m04": {
+      "artifact_id": 13822946725,
+      "artifact_name": "ddd-state-42940563499-M04",
+      "artifact_sha256": "26a164f535af12bd5721a53068f2d84a93de118225f50f4bd39539a5d7dd77c7",
+      "run_id": 42940563499,
+      "size_in_bytes": 76315607
+    },
+    "m05": {
+      "artifact_id": 13822368056,
+      "artifact_name": "ddd-state-42940563499-M05",
+      "artifact_sha256": "27f6de8b803ab34d4db691f3fb0a803f3470d5ef64cd044d3beb21a6fccd03eb",
+      "run_id": 42940563499,
+      "size_in_bytes": 76748555
+    },
+    "m06": {
+      "artifact_id": 13822044779,
+      "artifact_name": "ddd-state-42940563499-M06",
+      "artifact_sha256": "1aba1197a5d16c4376b393a5dafbb0b9ebc48ab188017cfc96e0bf7d60f4c81a",
+      "run_id": 42940563499,
+      "size_in_bytes": 77750309
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "27acdaca8c1528013f5dd892453a8940938687e6348cacfc086de2ad174110e7",
+        "size_in_bytes": 373
+      },
+      "congreso_zamora_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "320e133eb4b7576b79b654550823d192f92e853623014c91790a78baba3f8e16",
+        "size_in_bytes": 1669
+      },
+      "optimization_execution.json": {
+        "sha256": "272ff9cefff97b501f63989b4d473cad05b1e8b58bf96ea4329bcb8d96b6f717",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "baaa274575f4bdf66d4a2d373814db1bb8338b1656376f5b599c2746d5bf7cf4",
+        "size_in_bytes": 1399
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "baaa274575f4bdf66d4a2d373814db1bb8338b1656376f5b599c2746d5bf7cf4",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_zamora/config/congreso_zamora_2025.yaml",
+    "sha256": "0a1cec97995f397de5816f9d47ffd98930d1b3a279ca2585daaf1b16802482b0"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "1ad4bcd7d3e313f12f5bd6f87e04935c15294fafa69d523f86dc204e3dec3014",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_CANONICO",
+      "funcion": "D8",
+      "ganador": "canonico",
+      "generador": "canonico",
+      "huella_resultado": "f334849db9820cd4114a4a460d0bb75cae198df1bfe760740f4e649383d6ffd8",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "36fd081c19f65b077e70bc4fd93939e6a8f7cb7f6cb628b3cfe884b85abc328e",
+      "rehacer_m06": false
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_zamora",
+    "territory_name": "Congreso Zamora",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940563499,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13822946725,
+      "artifact_name": "ddd-state-42940563499-M04",
+      "artifact_sha256": "26a164f535af12bd5721a53068f2d84a93de118225f50f4bd39539a5d7dd77c7",
+      "run_id": 42940563499,
+      "size_in_bytes": 76315607
+    },
+    "source_manifest_sha256": "8ba833335cb6b2d6e5e11c8efc5ea0feefb5dabceb163617312b4ef4b66b0d27",
+    "source_package_artifact": {
+      "artifact_id": 13056750307,
+      "artifact_name": "ddd-source-package-congreso_zamora-2025-41236140669",
+      "artifact_sha256": "51e3dc4d4ef5befc784a9b30440dda19aa9cac35e93348bda74fb40946622c19",
+      "run_id": 41236140669,
+      "size_in_bytes": 75437353
+    }
+  },
+  "manifest_sha256": "c2efa51eb8b5a21d2cfb7ddbcf9fc91af6b8eefb4f9ed9b7643b747cf63ea19f",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
