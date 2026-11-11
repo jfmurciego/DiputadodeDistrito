@@ -1302,6 +1302,13 @@
    "sha256_csv": "41733a0bfbae1e1a1fde38c2e019526388a8256f1069decbb62af828e92e143c",
    "ruta": "datos/composicion/runs/congreso_vizcaya_42940558507.csv"
   },
+  "congreso_zamora/42940563499": {
+   "territorio": "congreso_zamora",
+   "run_id": "42940563499",
+   "secciones": 319,
+   "sha256_csv": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
+   "ruta": "datos/composicion/runs/congreso_zamora_42940563499.csv"
+  },
   "extremadura/42720735134": {
    "territorio": "extremadura",
    "run_id": "42720735134",
