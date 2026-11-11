@@ -4,11 +4,11 @@
   "territory_id": "congreso_ceuta",
   "territory_name": "Congreso Ceuta",
   "edition": "2025",
-  "run_id": 42940573533,
-  "artifact_name": "ddd-state-42940573533-M06",
-  "artifact_sha256": "595ed7d076870021c89a5e8420d6fb9e98fa025c9c352c31bf06d61e4019edcd",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 42981430591,
+  "artifact_name": "ddd-state-42981430591-M06",
+  "artifact_sha256": "a768f530d720110755525c85891c8d24920b7abd7eebbd5678b57a282b15a7bc",
+  "source_commit": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_ceuta/evidencia/generaciones_m06/42940573533.json"
+  "producer_manifest_path": "territorios/congreso_ceuta/evidencia/generaciones_m06/42981430591.json"
 }
