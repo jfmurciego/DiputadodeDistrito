@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.344
+Versión: 1.0.345
 Fecha: 2026-11-11
-Alcance: T-228 — Aceptación del motor 2: la comprobación 2 cuenta como el contrato
+Alcance: T-229 — El lector del vigente compara Canarias, Cataluña, Extremadura y Asturias
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-11_claude-t228-aceptacion-recuento-contrato.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.343_registro_20261111.md
+Cambios/motivo: entrada docs/registro/2026-11-11_t229-lector-vigente.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.344_registro_20261111.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.343_registro_20261111.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.345 · [2026-11-11 — T-229 — El lector del vigente compara Canarias, Cataluña, Extremadura y Asturias](registro/2026-11-11_t229-lector-vigente.md)
 - 1.0.344 · [2026-11-11 — T-228 — Aceptación del motor 2: la comprobación 2 cuenta como el contrato](registro/2026-11-11_claude-t228-aceptacion-recuento-contrato.md)
 - 1.0.343 · [2026-11-10 — T-215 — Workflows v5: nombres P00-P60, ARC e «Interno ·» (corte 5.0.0, paso 4)](registro/2026-11-10_t215-workflows-v5.md)
 - 1.0.342 · [2026-11-10 — T-223 — Motor 2: La Rioja cambió de ganador por el código, no por el entorno; el P30 compite como la batería](registro/2026-11-10_claude-t223-determinismo-motor2.md)
