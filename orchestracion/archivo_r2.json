@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:58:17Z",
+  "actualizado_en": "2026-11-11T02:59:08Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -1415,6 +1415,20 @@
       "tamano_estado_original": 84744236,
       "territorio": "congreso_asturias",
       "url": "r2://ddd-research-archive/congreso_asturias/41296638877/ddd-minimo-41296638877-M08.zip"
+    },
+    "congreso_asturias/42940479208/ddd-minimo-42940479208-M06.zip": {
+      "archivado_en": "2026-11-11T02:59:08Z",
+      "artefacto": "ddd-minimo-42940479208-M06",
+      "artefacto_origen": "ddd-state-42940479208-M06",
+      "artifact_id": 13822977662,
+      "caducidad_original": "2026-11-25T02:29:50Z",
+      "run_id": "42940479208",
+      "sha256": "3e999efe2998894bef30baff16a925e28550cc80c435d703c6de8367d3829d05",
+      "sha256_estado_original": "abea6fd8144ee18a09462797083f6a817231979e2dadcbf90884a3f31c9b0448",
+      "tamano_bytes": 396320,
+      "tamano_estado_original": 84464416,
+      "territorio": "congreso_asturias",
+      "url": "r2://ddd-research-archive/congreso_asturias/42940479208/ddd-minimo-42940479208-M06.zip"
     },
     "congreso_avila/41235278274/ddd-audit-41235278274.zip": {
       "archivado_en": "2026-11-08T12:05:21Z",

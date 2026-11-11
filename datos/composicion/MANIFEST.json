@@ -924,6 +924,13 @@
    "sha256_csv": "1a84aded90c6dc7de04ea19f9eaa382a6316cd058884a66a6da16f18551b4dcb",
    "ruta": "datos/composicion/runs/congreso_almeria_42940336572.csv"
   },
+  "congreso_asturias/42940479208": {
+   "territorio": "congreso_asturias",
+   "run_id": "42940479208",
+   "secciones": 832,
+   "sha256_csv": "cf64864f98110e3bbdbfaea73cb89683fca0a151d3f417a5f48d6f0866640a4c",
+   "ruta": "datos/composicion/runs/congreso_asturias_42940479208.csv"
+  },
   "congreso_avila/42940341213": {
    "territorio": "congreso_avila",
    "run_id": "42940341213",
