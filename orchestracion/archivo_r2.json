@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T12:10:38Z",
+  "actualizado_en": "2026-11-11T12:11:52Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -5384,6 +5384,20 @@
       "tamano_bytes": 217453811,
       "territorio": "illes_balears",
       "url": "r2://ddd-research-archive/illes_balears/41033500476/ddd-state-41033500476-M08.zip"
+    },
+    "illes_balears/43011633844/ddd-minimo-43011633844-M06.zip": {
+      "archivado_en": "2026-11-11T12:11:52Z",
+      "artefacto": "ddd-minimo-43011633844-M06",
+      "artefacto_origen": "ddd-state-43011633844-M06",
+      "artifact_id": 13852799157,
+      "caducidad_original": "2026-11-25T12:08:27Z",
+      "run_id": "43011633844",
+      "sha256": "0bfb5ea8d68084b08740c46fd5cb8959c43c16d9d898af03e032f700fadb4aa9",
+      "sha256_estado_original": "86629e2738b71e06fc020212ebf31c462fda137344073ea034659ecd5635cc44",
+      "tamano_bytes": 1867997,
+      "tamano_estado_original": 98268801,
+      "territorio": "illes_balears",
+      "url": "r2://ddd-research-archive/illes_balears/43011633844/ddd-minimo-43011633844-M06.zip"
     },
     "la_rioja/40867456776/ddd-audit-40867456776.zip": {
       "archivado_en": "2026-11-07T17:08:09Z",

@@ -1484,6 +1484,13 @@
    "sha256_csv": "19c73a7536f5ce796d70470d179f50851b4a698abd84657b168b080b5128623b",
    "ruta": "datos/composicion/runs/extremadura_42720735134.csv"
   },
+  "illes_balears/43011633844": {
+   "territorio": "illes_balears",
+   "run_id": "43011633844",
+   "secciones": 670,
+   "sha256_csv": "4e4a052017ebb6799e89271dbd681094be098bcb4a2428fb7db589d4efda60a0",
+   "ruta": "datos/composicion/runs/illes_balears_43011633844.csv"
+  },
   "la_rioja/42916463221": {
    "territorio": "la_rioja",
    "run_id": "42916463221",
