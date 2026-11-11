@@ -845,6 +845,15 @@
     "sha256": "1f835e0ea64a2d9dea16791c32cf04f2d6f48c593712681d06094b65ca26c369"
    }
   },
+  "congreso_baleares/42953068884": {
+   "territorio": "congreso_baleares",
+   "run_id": "42953068884",
+   "run_territorial": "42940350970",
+   "sha256_composicion": "bcdca9175ecaead38582a2dfe32f61b60e71b717145968a1382d326f3d7cb0c4",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "c8ef884f544b05bdf02bfb0e5050b83ad80ca7e17b68c527988cce346acba065",
+   "ruta": "datos/resultados/runs/congreso_baleares_42953068884_partidos.csv"
+  },
   "congreso_barcelona/42495069270": {
    "territorio": "congreso_barcelona",
    "run_id": "42495069270",
