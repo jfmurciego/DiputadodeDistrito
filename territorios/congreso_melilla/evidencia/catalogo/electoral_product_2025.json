@@ -4,9 +4,9 @@
   "territory_id": "congreso_melilla",
   "territory_name": "Congreso Melilla",
   "edition": "2025",
-  "run_id": 41293988485,
-  "artifact_name": "ddd-state-41293988485-M08",
-  "artifact_sha256": "e3db81f5644711196102c6f404e2ca1425bccbaaa546ceee764fe57f64022324",
-  "source_commit": "ef2db7b883cadb5675ccd98429cbf1a4e1c781b8",
+  "run_id": 43006105644,
+  "artifact_name": "ddd-state-43006105644-M08",
+  "artifact_sha256": "2171296792f6783a4df122077bb7c93c8179f69935b297f48dcedcfca957f28a",
+  "source_commit": "92b6f2291054c45a258dac96c17ae362f7fc813c",
   "stage": "M08"
 }
