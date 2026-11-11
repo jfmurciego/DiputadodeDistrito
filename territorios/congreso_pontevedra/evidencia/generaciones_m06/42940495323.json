@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13823371601,
+      "artifact_name": "ddd-audit-42940495323",
+      "artifact_sha256": "16a9e92b55b0fe2c7299e89dfabcd9c91d8d37ba08bd18539cca19e9d1676c8d",
+      "run_id": 42940495323,
+      "size_in_bytes": 4892
+    },
+    "m04": {
+      "artifact_id": 13822302485,
+      "artifact_name": "ddd-state-42940495323-M04",
+      "artifact_sha256": "643fff1c7efe80529d86c258edeb9b6da6aa2a8c5068fa60806f5e65cacc665c",
+      "run_id": 42940495323,
+      "size_in_bytes": 77896151
+    },
+    "m05": {
+      "artifact_id": 13821749927,
+      "artifact_name": "ddd-state-42940495323-M05",
+      "artifact_sha256": "473cdb803b9a3fc48d6b6857157a5874c017aec9321aa512cdcc008687b97eca",
+      "run_id": 42940495323,
+      "size_in_bytes": 78654808
+    },
+    "m06": {
+      "artifact_id": 13822103689,
+      "artifact_name": "ddd-state-42940495323-M06",
+      "artifact_sha256": "25aacd90dd4fc6880c12737537cb0e1fb7ff48a37419c4e4b976c17f14d0d3fd",
+      "run_id": 42940495323,
+      "size_in_bytes": 80501255
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "ec958a0f444ad184d29aa183a4aeaf3529457519943d1a43e6ea1a2aca0938c4",
+        "size_in_bytes": 413
+      },
+      "congreso_pontevedra_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "0dd88557260383d3d8c12ec350e2f322f2b5e0dde3aa97089faa6fbef665ba28",
+        "size_in_bytes": 17143
+      },
+      "optimization_execution.json": {
+        "sha256": "4c4544ec07794563917fd3a55034e64d724b2d12834301507f1efaf01e2fbb46",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "bd10fc02b69a3b8fecd71f8eda34f1a085583cf06f532ce543caf5011a394378",
+        "size_in_bytes": 1511
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "bd10fc02b69a3b8fecd71f8eda34f1a085583cf06f532ce543caf5011a394378",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_pontevedra/config/congreso_pontevedra_2025.yaml",
+    "sha256": "0c9b7b6fac26eb2a5b521275a3315c2641859cb46a1da0b00e02ebc75b94ed1f"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "0ee149b1e740f832ae08b4b9d54ab3cf8232ded98019542d6270e5658233a7d5",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s921018006",
+      "generador": "ponderado",
+      "huella_resultado": "e5f63058ac7dca9fec43c9c12ef6a099dba8d9df9696125d882bff4daee63446",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.2547073549450201,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.2547073549450201,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "639c41bf9a3ad4d452d68c18396d5d28e234890e5d8b91373f4b9191a6f5accc",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_pontevedra",
+    "territory_name": "Congreso Pontevedra",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940495323,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13822302485,
+      "artifact_name": "ddd-state-42940495323-M04",
+      "artifact_sha256": "643fff1c7efe80529d86c258edeb9b6da6aa2a8c5068fa60806f5e65cacc665c",
+      "run_id": 42940495323,
+      "size_in_bytes": 77896151
+    },
+    "source_manifest_sha256": "e676a8d5c0e6f03750c5777f1c103919e51c7b4123c69d3bad522c288202d0db",
+    "source_package_artifact": {
+      "artifact_id": 13079108135,
+      "artifact_name": "ddd-source-package-congreso_pontevedra-2025-41293311168",
+      "artifact_sha256": "d46399f01897467aac660383677d13e2980443f5001311b53b35fb5b9972b91b",
+      "run_id": 41293311168,
+      "size_in_bytes": 76358962
+    }
+  },
+  "manifest_sha256": "4d3bd16430dddf82a37ea504cce4bc24983a3d8e5217fc251d419c835f62cd45",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
