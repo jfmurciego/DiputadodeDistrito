@@ -5,8 +5,8 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.3.0 · FECHA: 2026-11-11 · ESTADO: candidato
 ANTERIOR: legacy/herramientas/generar_datos_abiertos_v1.2.0_20261111.py
-CAMBIOS 1.3.0 (T-249): el paquete usa el par coherente de cada territorio: el M08 vigente y el M06 de su mismo run
-  (`pares_vigentes`), no el M06 más reciente. MOTIVO: el lote P50 43030563528 registró solo M06 nuevos de 34 territorios;
+CAMBIOS 1.3.0 (T-249): el paquete usa el par de cada territorio: el M08 vigente y el M06 de su linaje (mismo run o el
+  que acredita el manifiesto del run del M08, `linaje_m06_m08`; `pares_vigentes`), no el M06 más reciente. MOTIVO: el lote P50 43030563528 registró solo M06 nuevos de 34 territorios;
   su M06 vigente quedó sin M08 del mismo run, se omitieron en silencio y el paquete borró sus directorios (51 → 17).
   Guarda `DATOS_ABIERTOS_REDUCCION`: si el INDEX previo tenía un territorio que sigue en el registro y el nuevo no, falla
   antes de escribir INDEX.json o borrar directorios; solo es retirada explícita un territorio sin ningún M06 o M08 de la elección en el registro.
@@ -42,6 +42,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import resultados_ligeros as rl  # noqa: E402
+from linaje_m06_m08 import m06_del_m08  # noqa: E402
 from numeracion_publica import csv_publico, geojson_publico, numero_publico  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -71,14 +72,16 @@ def vigentes_m06(registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DEFE
                                    eleccion, "congreso_")
 
 
-def pares_vigentes(registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DEFECTO) -> dict[str, tuple[dict, dict]]:
-    """territorio → (M06, M08): el M08 vigente de la elección y el M06 de su mismo run (el de datos/resultados/)."""
+def pares_vigentes(registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DEFECTO,
+                   root: Path = ROOT) -> dict[str, tuple[dict, dict]]:
+    """territorio → (M06, M08): el M08 vigente de la elección (el de datos/resultados/) y el M06 de su linaje."""
     prods = json.loads(registro.read_text(encoding="utf-8"))["products"]
-    m6 = {(p["territory_id"], str(p["run_id"])): p for p in prods if p.get("kind") == "canonical_m06"
-          and rl.eleccion_de(p) == eleccion and str(p.get("territory_id", "")).startswith("congreso_")}
-    return {t: (m6[(t, str(p8["run_id"]))], p8)
-            for t, p8 in sorted(rl.vigente_por_eleccion(prods, "canonical_m08", eleccion, "congreso_").items())
-            if (t, str(p8["run_id"])) in m6}
+    pares = {}
+    for t, p8 in sorted(rl.vigente_por_eleccion(prods, "canonical_m08", eleccion, "congreso_").items()):
+        p6 = m06_del_m08(prods, p8, root)
+        if p6:
+            pares[t] = (p6, p8)
+    return pares
 
 
 def retirados(previos, registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DEFECTO) -> set[str]:
