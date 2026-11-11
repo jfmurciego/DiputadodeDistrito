@@ -33,21 +33,6 @@ territories:
         population_year: 2025
         section_year: 2025
         source_commit: 091d40cef648abcc9319af1f6dc3488a5abdc556
-      independent_source_evidence:
-        status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
-        promoted: false
-        receipt_path: territorios/andalucia/evidencia/fuentes_territoriales/2025/057a38a77a6e2163a962022d73387fe0588f3efda1b969b30c737538544ef1f2/38082966768/receipt.json
-        run_id: 38082966768
-        artifact_name: ddd-source-package-andalucia-2025-38082966768
-        artifact_sha256: cc70f801d5a26a522458da05a5fde15e1876071cf1738d07c90429ca2057a056
-        package_sha256: e02d05cfd87e85150ad160c9062ec0fea1d2b3d0a9411ab6e6ecffed76d76228
-        source_commit: d3a2238188d3f9acccfb8daf081157cf32be4c31
-        population_year: 2025
-        section_year: 2025
-        territorial_identity_sha256: 057a38a77a6e2163a962022d73387fe0588f3efda1b969b30c737538544ef1f2
-        compatibility_report_member: compatibilidad_poblacion_seccionado.json
-        compatibility_report_sha256: 19214dff89176b040ce75ba62fbf008d40ef02205cf96a6f053a60e5275cdab9
-        compatibility_identity_sha256: 5cca7fab7281f1175568e433247d113e953c30990fbe22468eae4569d25a0824
       evidence:
         electoral_source: territorios/andalucia/evidencia/fuentes_electorales/2025/995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395/42463442007/receipt.json
         generation_preflight: territorios/andalucia/evidencia/catalogo/generation_preflight_2025.json
