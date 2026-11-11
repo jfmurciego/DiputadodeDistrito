@@ -4,11 +4,11 @@
   "territory_id": "congreso_salamanca",
   "territory_name": "Congreso Salamanca",
   "edition": "2025",
-  "run_id": 42940500600,
-  "artifact_name": "ddd-state-42940500600-M06",
-  "artifact_sha256": "25607a097a68d42853387f43e03b61443745a57716e632e741244f7b77ec6092",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43012143922,
+  "artifact_name": "ddd-state-43012143922-M06",
+  "artifact_sha256": "08d40a8016bb1caecc74b3243ae168453c34188160983f8172de9d82012c076c",
+  "source_commit": "f20de146c410d46631286b7395bf52a191b7a0b0",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_salamanca/evidencia/generaciones_m06/42940500600.json"
+  "producer_manifest_path": "territorios/congreso_salamanca/evidencia/generaciones_m06/43012143922.json"
 }
