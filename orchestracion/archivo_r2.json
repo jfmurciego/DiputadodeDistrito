@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:38:21Z",
+  "actualizado_en": "2026-11-11T02:39:12Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -1867,6 +1867,20 @@
       "tamano_estado_original": 84403698,
       "territorio": "congreso_cadiz",
       "url": "r2://ddd-research-archive/congreso_cadiz/41500124775/ddd-minimo-41500124775-M08.zip"
+    },
+    "congreso_cadiz/42940371696/ddd-minimo-42940371696-M06.zip": {
+      "archivado_en": "2026-11-11T02:39:12Z",
+      "artefacto": "ddd-minimo-42940371696-M06",
+      "artefacto_origen": "ddd-state-42940371696-M06",
+      "artifact_id": 13822556234,
+      "caducidad_original": "2026-11-25T02:19:41Z",
+      "run_id": "42940371696",
+      "sha256": "ab3d6a37f80600a71923c58f70ec005bf2af43a6ddaf4911a1d009ff1410ba11",
+      "sha256_estado_original": "d98af9949bf015960113d54f693f6367c1b047ed9b6e676d8515f370e7333573",
+      "tamano_bytes": 333636,
+      "tamano_estado_original": 84287949,
+      "territorio": "congreso_cadiz",
+      "url": "r2://ddd-research-archive/congreso_cadiz/42940371696/ddd-minimo-42940371696-M06.zip"
     },
     "congreso_cantabria/41292096436/ddd-audit-41292096436.zip": {
       "archivado_en": "2026-11-08T12:14:05Z",

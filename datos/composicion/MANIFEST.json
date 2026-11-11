@@ -952,6 +952,13 @@
    "sha256_csv": "583f6b3f24aea9c4194fea505686172a5501e019a32ed7735b2b0516d55db590",
    "ruta": "datos/composicion/runs/congreso_barcelona_42495069270.csv"
   },
+  "congreso_cadiz/42940371696": {
+   "territorio": "congreso_cadiz",
+   "run_id": "42940371696",
+   "secciones": 926,
+   "sha256_csv": "19679be0e0eadcc4f689dff054c55c927d6ca0e374b442364cbf0ff99fb356d0",
+   "ruta": "datos/composicion/runs/congreso_cadiz_42940371696.csv"
+  },
   "congreso_ceuta/42488846588": {
    "territorio": "congreso_ceuta",
    "run_id": "42488846588",
