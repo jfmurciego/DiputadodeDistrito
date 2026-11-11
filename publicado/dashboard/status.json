@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T03:59:22.145012+00:00",
+  "generated_at": "2026-11-11T04:00:49.341002+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8456,20 +8456,20 @@
       "name": "Nacional Cádiz",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940371696,
+      "run_id": 42953019279,
       "last_run": {
-        "run_id": 42940371696,
+        "run_id": 42953019279,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8510,7 +8510,7 @@
       },
       "autonomous_community_code_ine": "C11",
       "display_name": "Nacional Cádiz",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_castellon",
@@ -9050,10 +9050,10 @@
           "territory_id": "congreso_guipuzcoa",
           "territory_name": "Congreso Guipúzcoa",
           "edition": "2025",
-          "run_id": 41298935355,
-          "artifact_name": "ddd-state-41298935355-M08",
-          "artifact_sha256": "407bc7f93288969c1864ed0d7860b201adc48971cb53f57317cb3f4daabff089",
-          "source_commit": "9d3658915ca68c5337d9dc73e6eef56214f2ebe2",
+          "run_id": 42955375065,
+          "artifact_name": "ddd-state-42955375065-M08",
+          "artifact_sha256": "270c6fe0515d3bedf929343cdbe93f7b73cb16bc8d23296a619f4688c7a249d3",
+          "source_commit": "8eacf7a707caade026d5db97af02e198d0a90820",
           "stage": "M08"
         }
       },
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 25,
+    "complete": 26,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12279,6 +12279,7 @@
       "Nacional Almería",
       "Nacional Ávila",
       "Nacional Badajoz",
+      "Nacional Cádiz",
       "Nacional La Rioja",
       "Nacional 350 Madrid",
       "Nacional 350 Soria",
@@ -12493,13 +12494,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_albacete",
-    "name": "Nacional Albacete",
-    "display_name": "Nacional Albacete",
-    "autonomous_community_code_ine": "C02",
-    "run_id": 42952791883,
+    "territory_id": "congreso_cadiz",
+    "name": "Nacional Cádiz",
+    "display_name": "Nacional Cádiz",
+    "autonomous_community_code_ine": "C11",
+    "run_id": 42953019279,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
