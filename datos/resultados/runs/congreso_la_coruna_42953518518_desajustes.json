@@ -1,0 +1,188 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_la_coruna",
+ "run_id": "42953518518",
+ "run_territorial": "42940392520",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 662459,
+ "votos_desajustados": 3118,
+ "pct_desajuste": 0.4707,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "1500401004",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 542,
+   "secciones_m06": {
+    "1500401003": 1.0
+   },
+   "distritos": {
+    "8": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 1500401003 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "1500501012",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 599,
+   "secciones_m06": {
+    "1500501001": 1.0
+   },
+   "distritos": {
+    "5": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 1500501001 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "1505802013",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 672,
+   "secciones_m06": {
+    "1505802001": 1.0
+   },
+   "distritos": {
+    "5": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 1505802001 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "1507501007",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 818,
+   "secciones_m06": {
+    "1507501003": 1.0
+   },
+   "distritos": {
+    "8": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 1507501003 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "1507805024",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 487,
+   "secciones_m06": {
+    "1507805020": 1.0
+   },
+   "distritos": {
+    "3": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 1507805020 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "1503501004",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "1503501004": 1.0
+   },
+   "distritos": {
+    "8": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "1503603002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "1503603002": 1.0
+   },
+   "distritos": {
+    "4": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "1503607009",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "1503607009": 1.0
+   },
+   "distritos": {
+    "4": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "1505501004",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "1505501004": 1.0
+   },
+   "distritos": {
+    "8": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "1506102003",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "1506102003": 1.0
+   },
+   "distritos": {
+    "4": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "1506503002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "1506503002": 1.0
+   },
+   "distritos": {
+    "6": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "1506803002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "1506803002": 1.0
+   },
+   "distritos": {
+    "1": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "1507601003",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "1507601003": 1.0
+   },
+   "distritos": {
+    "8": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "1508402002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "1508402002": 1.0
+   },
+   "distritos": {
+    "7": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}

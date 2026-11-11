@@ -961,6 +961,22 @@
    "sha256_csv": "558edd5c4eb6243d798e0301f0fb8f7770b070a03ed7134f288053e2e0ef9fa5",
    "ruta": "datos/resultados/runs/congreso_huesca_42519383275_partidos.csv"
   },
+  "congreso_la_coruna/42953518518": {
+   "territorio": "congreso_la_coruna",
+   "run_id": "42953518518",
+   "run_territorial": "42940392520",
+   "sha256_composicion": "f010d7db498c95bad5ccd1b2587fee3202a63b1cfaead4790aec7182d30df907",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "a6cc882ca490b430d2fc12e7f2b53507a5ec7e09b336928741f339f9420cd64c",
+   "ruta": "datos/resultados/runs/congreso_la_coruna_42953518518_partidos.csv",
+   "desajustes": {
+    "secciones": 14,
+    "pct_desajuste": 0.4707,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_la_coruna_42953518518_desajustes.json",
+    "sha256": "f0b80c8539c3731b2fd7634010581f049d1af9797896d53ab6cb0c50b858b012"
+   }
+  },
   "congreso_la_rioja/42504388624": {
    "territorio": "congreso_la_rioja",
    "run_id": "42504388624",
