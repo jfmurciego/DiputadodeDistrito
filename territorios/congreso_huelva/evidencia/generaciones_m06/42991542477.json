@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13843586633,
+      "artifact_name": "ddd-audit-42991542477",
+      "artifact_sha256": "1c827ef38203ffd9b39919996825ee591d0113b4019cb5646a8f39903821318e",
+      "run_id": 42991542477,
+      "size_in_bytes": 3245
+    },
+    "m04": {
+      "artifact_id": 13844005019,
+      "artifact_name": "ddd-state-42991542477-M04",
+      "artifact_sha256": "434ce1815c86c158977b71869ca7b6308eaf5c3bbb0d450e634a9dab05d527ab",
+      "run_id": 42991542477,
+      "size_in_bytes": 78012283
+    },
+    "m05": {
+      "artifact_id": 13842517894,
+      "artifact_name": "ddd-state-42991542477-M05",
+      "artifact_sha256": "651b47a53a8f81f365aa3421481f5a0a95fb0abb010e6212b928ae04f39dd146",
+      "run_id": 42991542477,
+      "size_in_bytes": 78794112
+    },
+    "m06": {
+      "artifact_id": 13843247182,
+      "artifact_name": "ddd-state-42991542477-M06",
+      "artifact_sha256": "ef7aa7866c6488697c93e687b674f5135478856a6a96bbbe4e9f4268b1461eaa",
+      "run_id": 42991542477,
+      "size_in_bytes": 80547038
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "5958949b44908ccf08c388186d20cc6aca9e07e3f4711176205451328792449a",
+        "size_in_bytes": 405
+      },
+      "congreso_huelva_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "48ba5b7b5a8f41ac78c678e9e489f9478a2967ac5cefe872f24960a558410669",
+        "size_in_bytes": 5461
+      },
+      "optimization_execution.json": {
+        "sha256": "265d4d1bbbafb6c047c8fd067ce2e7db1c592be64b6143459cb61fcb6fa46c3a",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "3d17d6b53ae28fde968f8545bbaab3ad10779010da5f0e4cb52c1ba6d1527b6e",
+        "size_in_bytes": 1495
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "3d17d6b53ae28fde968f8545bbaab3ad10779010da5f0e4cb52c1ba6d1527b6e",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_huelva/config/congreso_huelva_2025.yaml",
+    "sha256": "d90bc139452d7eedbdf1940c6b39e5af84dcda99abd51d36480ab4749ca10ad9"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "8da4b204548771d2c12d14fbed5b80dce0a4db581d75eb484f7f0302256c6cf9",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s2104096205",
+      "generador": "ponderado",
+      "huella_resultado": "84f4c1eee6feac26010b7063a8ba7ab556a9983a3ee6a350b7acf5fd089133b9",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.07075291527175501,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.07075291527175501,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "854c2a6b89bfb018fbfdf02c8451add05ee1267dec417b5cfa48d9376847d5ae",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "48716f6314fe92973436599417e7be4886bbe0c2",
+    "edition": "2025",
+    "territory_id": "congreso_huelva",
+    "territory_name": "Congreso Huelva",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42991542477,
+    "workflow_sha": "48716f6314fe92973436599417e7be4886bbe0c2"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13844005019,
+      "artifact_name": "ddd-state-42991542477-M04",
+      "artifact_sha256": "434ce1815c86c158977b71869ca7b6308eaf5c3bbb0d450e634a9dab05d527ab",
+      "run_id": 42991542477,
+      "size_in_bytes": 78012283
+    },
+    "source_manifest_sha256": "bab6a419389ac8bf5b8984d690461c800303da1fa00b5986a5f573bf4141dd4a",
+    "source_package_artifact": {
+      "artifact_id": 13089067127,
+      "artifact_name": "ddd-source-package-congreso_huelva-2025-41318125504",
+      "artifact_sha256": "af27ee7ec5b03e6ceda550072fa8d0a5e06d87708eed74fc20f584064a39340e",
+      "run_id": 41318125504,
+      "size_in_bytes": 76436649
+    }
+  },
+  "manifest_sha256": "a3b424886b3944f014efd80a7c8452752be753fd6f9a32d7096225e29753f11b",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
