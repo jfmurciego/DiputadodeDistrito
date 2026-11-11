@@ -4,9 +4,9 @@
   "territory_id": "congreso_castellon",
   "territory_name": "Congreso Castellón",
   "edition": "2025",
-  "run_id": 41295629673,
-  "artifact_name": "ddd-state-41295629673-M08",
-  "artifact_sha256": "a765d8861651de563bb8ebf3200d2666ef03357b6e7c37740285d7d10165c4f9",
-  "source_commit": "c9406033181dad1a5a2ed2b0b5975ee6a514065d",
+  "run_id": 42953757677,
+  "artifact_name": "ddd-state-42953757677-M08",
+  "artifact_sha256": "f10c10277318b5c54c0c2b0b0afcea3bb7c7afec44358250e0da2352020c1974",
+  "source_commit": "71fa121ff55a2d9c4d1ec277c7eff80f7ce4b276",
   "stage": "M08"
 }
