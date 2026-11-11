@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T11:52:31.422081+00:00",
+  "generated_at": "2026-11-11T11:53:29.863147+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9985,7 +9985,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940495323,
+      "run_id": 43012135258,
       "last_run": {
         "run_id": 41353894475,
         "status": "SUCCESS",
@@ -10011,13 +10011,13 @@
           "territory_id": "congreso_pontevedra",
           "territory_name": "Congreso Pontevedra",
           "edition": "2025",
-          "run_id": 42940495323,
-          "artifact_name": "ddd-state-42940495323-M06",
-          "artifact_sha256": "25aacd90dd4fc6880c12737537cb0e1fb7ff48a37419c4e4b976c17f14d0d3fd",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43012135258,
+          "artifact_name": "ddd-state-43012135258-M06",
+          "artifact_sha256": "9bdd22d195fb01add1dbcf365447b191cab23f090d53d8a5d822f71c05732686",
+          "source_commit": "f20de146c410d46631286b7395bf52a191b7a0b0",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_pontevedra/evidencia/generaciones_m06/42940495323.json"
+          "producer_manifest_path": "territorios/congreso_pontevedra/evidencia/generaciones_m06/43012135258.json"
         },
         "electoral_source": null,
         "electoral_product": {
