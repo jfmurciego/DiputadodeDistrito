@@ -4,9 +4,9 @@
   "territory_id": "congreso_cadiz",
   "territory_name": "Congreso Cádiz",
   "edition": "2025",
-  "run_id": 41500124775,
-  "artifact_name": "ddd-state-41500124775-M08",
-  "artifact_sha256": "036e0dc515372ddbb91e7e8ec93b3613105d8da6b2d4580dc3323b58a84a67c6",
-  "source_commit": "f732d8193dbff286650d4e859a6c992fd04d8c7d",
+  "run_id": 42953019279,
+  "artifact_name": "ddd-state-42953019279-M08",
+  "artifact_sha256": "eed4707fe0c31b5f54827b84c6eb886dea495810c627efeec146e887da8ad299",
+  "source_commit": "d0c58d7f84535e1c94ef0bd1ff1c7f1e5c3c282a",
   "stage": "M08"
 }
