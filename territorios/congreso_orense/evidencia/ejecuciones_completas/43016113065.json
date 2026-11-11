@@ -1,0 +1,92 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "congreso_orense",
+  "territory_name": "Congreso Orense",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 43016113065,
+  "source_sha": "37f628b85b8e64083245b2e59c38d071ff4bf31a",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "COMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": 43012119307
+  },
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41240887712,
+      "artifact": "ddd-source-package-congreso_orense-2025-41240887712",
+      "artifact_digest": "sha256:6649836bde1fa498f0f10663bbf1cb723449810f009a272e7851bf47a42cd541",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 43012119307,
+      "artifact": "ddd-state-43012119307-M06",
+      "artifact_digest": "sha256:dfb11f40f0a3c01e379c40377f92e26ee812e4cf1459746c75f6855c6be24ba6",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41239892753,
+      "artifact": "ddd-electoral-package-congreso_orense-2025-41239892753",
+      "artifact_digest": "sha256:4114b603c35f52511db749c9026e857e5eedae9b854e0ede0bf71a3491354244",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 43016113065,
+      "artifact": "ddd-state-43016113065-M08",
+      "artifact_digest": "sha256:9f13c6f20c40d7eec74aa08fefc206400ea412e865e6e33eb6db1bb4b025d66b",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-11T12:07:46.754744+00:00"
+}
