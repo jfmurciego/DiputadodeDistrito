@@ -733,6 +733,22 @@
     "sha256": "ebc174da2e6a5a671b410fe2de93d99633b28a5d05ae09033968058aa4e17ef1"
    }
   },
+  "congreso_albacete/42952791883": {
+   "territorio": "congreso_albacete",
+   "run_id": "42952791883",
+   "run_territorial": "42940326013",
+   "sha256_composicion": "80a38ca5b914366f01de91679ac48fa1e88f96aea12307edddbefdada3ba4bbf",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "7e4bee6af2dcce520760f0774ede17bfa21a01a0367a95cf53da885d46494a0b",
+   "ruta": "datos/resultados/runs/congreso_albacete_42952791883_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.6348,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_albacete_42952791883_desajustes.json",
+    "sha256": "aa248af5ffc0ddbf59b65d2ac42e4b28660d5e6f8c34370cf76cda39a7c79bfb"
+   }
+  },
   "congreso_alicante/42495067503": {
    "territorio": "congreso_alicante",
    "run_id": "42495067503",
