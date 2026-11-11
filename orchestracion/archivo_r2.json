@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T13:51:50Z",
+  "actualizado_en": "2026-11-11T14:00:42Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -450,19 +450,20 @@
       "territorio": "cantabria",
       "url": "r2://ddd-research-archive/cantabria/42707820760/ddd-minimo-42707820760-M06.zip"
     },
-    "cantabria/43025633460/ddd-minimo-43025633460-M06.zip": {
-      "archivado_en": "2026-11-11T13:39:46Z",
-      "artefacto": "ddd-minimo-43025633460-M06",
-      "artefacto_origen": "ddd-state-43025633460-M06",
-      "artifact_id": 13859433538,
-      "caducidad_original": "2026-11-25T13:34:10Z",
-      "run_id": "43025633460",
-      "sha256": "9133f88eb73803a0b188c6249d49308149332bb759f1d71818b9393a84588db6",
-      "sha256_estado_original": "fbdbf5ae7e1a9eaf9dc7e14ef058dc003c8d4612112cf3f73eb4e28c35495e7f",
-      "tamano_bytes": 385853,
-      "tamano_estado_original": 78673493,
+    "cantabria/43033094596/ddd-minimo-43033094596-M08.zip": {
+      "archivado_en": "2026-11-11T14:00:42Z",
+      "artefacto": "ddd-minimo-43033094596-M08",
+      "artefacto_origen": "ddd-state-43033094596-M08",
+      "artifact_id": 13862292371,
+      "caducidad_original": "2026-11-25T13:59:54Z",
+      "incluye_m06_run": "43025633460",
+      "run_id": "43033094596",
+      "sha256": "529d347fab819e64600340be15dfd42aa68d2c84f94164941cae90e76b43f5b3",
+      "sha256_estado_original": "0be811c01088f183538159762fca157f5d97204c49f532ada6073ec12a68e276",
+      "tamano_bytes": 664619,
+      "tamano_estado_original": 79469914,
       "territorio": "cantabria",
-      "url": "r2://ddd-research-archive/cantabria/43025633460/ddd-minimo-43025633460-M06.zip"
+      "url": "r2://ddd-research-archive/cantabria/43033094596/ddd-minimo-43033094596-M08.zip"
     },
     "castilla_la_mancha/40241650464/ddd-audit-40241650464.zip": {
       "archivado_en": "2026-11-07T17:03:17Z",
