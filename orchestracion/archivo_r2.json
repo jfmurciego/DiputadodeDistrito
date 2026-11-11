@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T15:36:14Z",
+  "actualizado_en": "2026-11-11T15:37:13Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -7287,6 +7287,20 @@
       "tamano_estado_original": 240680388,
       "territorio": "galicia",
       "url": "r2://ddd-research-archive/galicia/41044499258/ddd-minimo-41044499258-M08.zip"
+    },
+    "galicia/43045478748/ddd-minimo-43045478748-M06.zip": {
+      "archivado_en": "2026-11-11T15:37:13Z",
+      "artefacto": "ddd-minimo-43045478748-M06",
+      "artefacto_origen": "ddd-state-43045478748-M06",
+      "artifact_id": 13868507924,
+      "caducidad_original": "2026-11-25T15:33:50Z",
+      "run_id": "43045478748",
+      "sha256": "a8c69272abbf309f1301f5ebc8aa7c13f4afac171d18a2a9b1b6c306903e23e5",
+      "sha256_estado_original": "cfc8286d7448c7fb4a10c3a7c8a212cd04fff70099273d63e7cf7be08d1d459d",
+      "tamano_bytes": 1477945,
+      "tamano_estado_original": 98978633,
+      "territorio": "galicia",
+      "url": "r2://ddd-research-archive/galicia/43045478748/ddd-minimo-43045478748-M06.zip"
     },
     "illes_balears/41033500476/ddd-audit-41033500476.zip": {
       "archivado_en": "2026-11-07T17:23:54Z",

@@ -1617,6 +1617,13 @@
    "sha256_csv": "fc8d30e7271d4435e919cd91f9f83e057b71fb3d0a5e85027b5170ef11d7bc65",
    "ruta": "datos/composicion/runs/extremadura_43045468808.csv"
   },
+  "galicia/43045478748": {
+   "territorio": "galicia",
+   "run_id": "43045478748",
+   "secciones": 2141,
+   "sha256_csv": "683b86107392411331c13576c7c0179a09a826b4606f06df6b0cf89874bad60b",
+   "ruta": "datos/composicion/runs/galicia_43045478748.csv"
+  },
   "illes_balears/43011633844": {
    "territorio": "illes_balears",
    "run_id": "43011633844",
