@@ -1239,6 +1239,13 @@
    "sha256_csv": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
    "ruta": "datos/composicion/runs/congreso_segovia_42940515676.csv"
   },
+  "congreso_sevilla/42940520877": {
+   "territorio": "congreso_sevilla",
+   "run_id": "42940520877",
+   "secciones": 1364,
+   "sha256_csv": "effc8421a6233cf0ee97453f49a1df5df45ddb9009c8882512de3f0fbbbbf8a5",
+   "ruta": "datos/composicion/runs/congreso_sevilla_42940520877.csv"
+  },
   "congreso_soria/42940525976": {
    "territorio": "congreso_soria",
    "run_id": "42940525976",
