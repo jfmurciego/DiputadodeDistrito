@@ -4,11 +4,11 @@
   "territory_id": "congreso_segovia",
   "territory_name": "Congreso Segovia",
   "edition": "2025",
-  "run_id": 42940515676,
-  "artifact_name": "ddd-state-42940515676-M06",
-  "artifact_sha256": "5ad4e235f34ba88e1025bd3ea51f80674a850bcc5ade84c175d90faddfc3eb48",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43024836898,
+  "artifact_name": "ddd-state-43024836898-M06",
+  "artifact_sha256": "6aa0980e4a2999b05eece351086a3bd5ee61cc849517036073d74e532788b09d",
+  "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_segovia/evidencia/generaciones_m06/42940515676.json"
+  "producer_manifest_path": "territorios/congreso_segovia/evidencia/generaciones_m06/43024836898.json"
 }
