@@ -4,11 +4,11 @@
   "territory_id": "canarias",
   "territory_name": "Canarias",
   "edition": "2025",
-  "run_id": 42504381511,
-  "artifact_name": "ddd-state-42504381511-M06",
-  "artifact_sha256": "f38c0460a9be1c9022dbb71cd9de1bf8a19b55cf7863d17ce2ec0081d2ad9b9d",
-  "source_commit": "4b4f38179844835340f262d68c634155ce98140a",
+  "run_id": 43011642069,
+  "artifact_name": "ddd-state-43011642069-M06",
+  "artifact_sha256": "54183891c3b7955cc9cef5ad016e20b430138953de90437ee959eb4109ca09d2",
+  "source_commit": "9f8bcf4cc048f66f82ff78df42ef7ec4560f3c76",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/canarias/evidencia/generaciones_m06/42504381511.json"
+  "producer_manifest_path": "territorios/canarias/evidencia/generaciones_m06/43011642069.json"
 }
