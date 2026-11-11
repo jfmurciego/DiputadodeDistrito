@@ -1344,6 +1344,13 @@
    "sha256_csv": "eb496a634afda03bf011c9001ff1665b8e87c2ef94b6ac970c23410c0ba50fef",
    "ruta": "datos/composicion/runs/congreso_pontevedra_42940495323.csv"
   },
+  "congreso_pontevedra/43012135258": {
+   "territorio": "congreso_pontevedra",
+   "run_id": "43012135258",
+   "secciones": 727,
+   "sha256_csv": "eb496a634afda03bf011c9001ff1665b8e87c2ef94b6ac970c23410c0ba50fef",
+   "ruta": "datos/composicion/runs/congreso_pontevedra_43012135258.csv"
+  },
   "congreso_salamanca/42940500600": {
    "territorio": "congreso_salamanca",
    "run_id": "42940500600",
