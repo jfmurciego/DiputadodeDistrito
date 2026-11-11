@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.360
+Versión: 1.0.361
 Fecha: 2026-11-11
-Alcance: T-252 — Check «Estado vivo» tras los commits de robot en main
+Alcance: T-263 — Archivar a legacy el código muerto de M04 (v745–v754) y M05 (v740)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-11_work-t252-estado-vivo.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.359_registro_20261111.md
+Cambios/motivo: entrada docs/registro/2026-11-11_claude-t263-legacy-motor-viejo.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.360_registro_20261111.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.359_registro_20261111.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.361 · [2026-11-11 — T-263 — Archivar a legacy el código muerto de M04 (v745–v754) y M05 (v740)](registro/2026-11-11_claude-t263-legacy-motor-viejo.md)
 - 1.0.360 · [2026-11-11 — T-252 — Check «Estado vivo» tras los commits de robot en main](registro/2026-11-11_work-t252-estado-vivo.md)
 - 1.0.359 · [2026-11-11 — T-256 — Exhaustivo: `podar` con constantes precalculadas (bit a bit)](registro/2026-11-11_t256-podar-incremental.md)
 - 1.0.358 · [2026-11-11 — T-254 — Medición de Deslinde 1.0: tiempo por fase, código muerto, duplicados y reparaciones](registro/2026-11-11_t254-medicion-deslinde.md)
