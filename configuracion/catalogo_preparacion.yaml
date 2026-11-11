@@ -2490,8 +2490,8 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 43034928684
-        stage: M06
+        run_id: 43040968638
+        stage: M08
       preparation_evidence:
         run_id: 41242809451
         artifact_name: ddd-source-package-congreso_toledo-2025-41242809451
