@@ -1540,6 +1540,13 @@
    "sha256_csv": "fa9ecff7083ccd1fa4b78d7f690a165318c2ad68f500045e3328165b344604f3",
    "ruta": "datos/composicion/runs/congreso_valladolid_42940553251.csv"
   },
+  "congreso_valladolid/43034949749": {
+   "territorio": "congreso_valladolid",
+   "run_id": "43034949749",
+   "secciones": 565,
+   "sha256_csv": "fa9ecff7083ccd1fa4b78d7f690a165318c2ad68f500045e3328165b344604f3",
+   "ruta": "datos/composicion/runs/congreso_valladolid_43034949749.csv"
+  },
   "congreso_vizcaya/42940558507": {
    "territorio": "congreso_vizcaya",
    "run_id": "42940558507",
