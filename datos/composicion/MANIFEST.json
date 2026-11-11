@@ -1693,6 +1693,13 @@
    "secciones": 1223,
    "sha256_csv": "54411b654585273f9b3b8cef5ee8e01929999b7191a4a3d88ced7bf7b99ed260",
    "ruta": "datos/composicion/runs/region_de_murcia_42504383790.csv"
+  },
+  "region_de_murcia/43045426513": {
+   "territorio": "region_de_murcia",
+   "run_id": "43045426513",
+   "secciones": 1223,
+   "sha256_csv": "1b7d6d122fac0a4a9e4f061855be25bf1d4d3ebe0e94e2367ee87b67b79064db",
+   "ruta": "datos/composicion/runs/region_de_murcia_43045426513.csv"
   }
  }
 }
