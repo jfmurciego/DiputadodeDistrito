@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.368
+Versión: 1.0.369
 Fecha: 2026-11-11
-Alcance: T-262 — Cadenas ReCom ponderado más baratas, mismos mapas bit a bit (D-89)
+Alcance: T-265 — Deslinde: la semilla sale del código oficial de la tabla maestra (D-90)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-11_t262-cadenas-recom-baratas.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.367_registro_20261111.md
+Cambios/motivo: entrada docs/registro/2026-11-11_claude-t265-semilla-codigo-oficial.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.368_registro_20261111.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.367_registro_20261111.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.369 · [2026-11-11 — T-265 — Deslinde: la semilla sale del código oficial de la tabla maestra (D-90)](registro/2026-11-11_claude-t265-semilla-codigo-oficial.md)
 - 1.0.368 · [2026-11-11 — T-262 — Cadenas ReCom ponderado más baratas, mismos mapas bit a bit (D-89)](registro/2026-11-11_t262-cadenas-recom-baratas.md)
 - 1.0.367 · [2026-11-11 — T-267 (regresión de T-251) — La puerta de validación vuelve a funcionar bajo `bash -eo pipefail`](registro/2026-11-11_t251b-puerta-errexit.md)
 - 1.0.366 · [2026-11-11 — T-246 — La 00 comprueba al planificar que el paquete electoral sigue descargable](registro/2026-11-11_t246-preflight-paquete-electoral.md)
