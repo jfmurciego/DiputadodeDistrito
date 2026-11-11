@@ -1134,6 +1134,13 @@
    "sha256_csv": "4ce5454d88fc1d5e679be869e642cfcb88016b698f8607aceaa7edb6f8025f54",
    "ruta": "datos/composicion/runs/congreso_huesca_42940427352.csv"
   },
+  "congreso_huesca/42991551418": {
+   "territorio": "congreso_huesca",
+   "run_id": "42991551418",
+   "secciones": 286,
+   "sha256_csv": "4ce5454d88fc1d5e679be869e642cfcb88016b698f8607aceaa7edb6f8025f54",
+   "ruta": "datos/composicion/runs/congreso_huesca_42991551418.csv"
+  },
   "congreso_jaen/42940432935": {
    "territorio": "congreso_jaen",
    "run_id": "42940432935",
