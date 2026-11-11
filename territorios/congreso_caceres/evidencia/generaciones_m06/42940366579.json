@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13822164693,
+      "artifact_name": "ddd-audit-42940366579",
+      "artifact_sha256": "98fac5f27984fe16ddaca6d0e71261fad721bdd860e51488af97906ec061e39d",
+      "run_id": 42940366579,
+      "size_in_bytes": 3129
+    },
+    "m04": {
+      "artifact_id": 13821811727,
+      "artifact_name": "ddd-state-42940366579-M04",
+      "artifact_sha256": "9b6baf432606c2c8c7d698f7fb3acb0b0c616564682eab85d8cb1990c53c377f",
+      "run_id": 42940366579,
+      "size_in_bytes": 79909091
+    },
+    "m05": {
+      "artifact_id": 13822550459,
+      "artifact_name": "ddd-state-42940366579-M05",
+      "artifact_sha256": "1f9ae296f5e2c00b1a74f1733533f3bf14cf26f581f712d4ea13b0689d7c6e29",
+      "run_id": 42940366579,
+      "size_in_bytes": 81021744
+    },
+    "m06": {
+      "artifact_id": 13821699998,
+      "artifact_name": "ddd-state-42940366579-M06",
+      "artifact_sha256": "1970aa825fe71c0990ea5ea7ab18064d4adfc05211f2700898f43697e553f21f",
+      "run_id": 42940366579,
+      "size_in_bytes": 83509677
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "3d2664407672ecacf7440b4991cfc8422b11d7eef09fd8a1fc5e72411957e793",
+        "size_in_bytes": 406
+      },
+      "congreso_caceres_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "8b0867e5e7296a70b27b61c3a104e38a94e959d67ccb1044e5e20da599978880",
+        "size_in_bytes": 4197
+      },
+      "optimization_execution.json": {
+        "sha256": "1cb30ce4f0d63d67fdd6daf431fa2fb4635ebdf016486ad3ebf29f60c9b7b639",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "31ef74dd7703227b0396fed96c1ca8f30a1b086bb62cfd9916061e0256fce55a",
+        "size_in_bytes": 1498
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "31ef74dd7703227b0396fed96c1ca8f30a1b086bb62cfd9916061e0256fce55a",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_caceres/config/congreso_caceres_2025.yaml",
+    "sha256": "b22f7f7115444c964abc5685c0f41331c1bc5459153e14a82081a37dc342c3ce"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "2a910c6e1264e06ba8e68641837eb4ef63a0025cbff4c78380d1a9f33e3f05ba",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s325569649",
+      "generador": "ponderado",
+      "huella_resultado": "fbb96c597f3cf83fb0d5dd5adc5fbfe84352195efa5410aed4a657dcdf759108",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.000301346788338652,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.0765652647601975,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "d42be59e64179e325c960743e06d3a86adf409b964a14352db4d6b60707b1e44",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_caceres",
+    "territory_name": "Congreso Cáceres",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940366579,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13821811727,
+      "artifact_name": "ddd-state-42940366579-M04",
+      "artifact_sha256": "9b6baf432606c2c8c7d698f7fb3acb0b0c616564682eab85d8cb1990c53c377f",
+      "run_id": 42940366579,
+      "size_in_bytes": 79909091
+    },
+    "source_manifest_sha256": "f7b103b9744e7d14b53996aa1d92271cd47bbe75d17fe5066ac449985bb0426d",
+    "source_package_artifact": {
+      "artifact_id": 13058109203,
+      "artifact_name": "ddd-source-package-congreso_caceres-2025-41240512324",
+      "artifact_sha256": "c28a6c0c45bd071655deed566a7aa275e526c6cc3baec4287f3765c93d76a8bc",
+      "run_id": 41240512324,
+      "size_in_bytes": 77671126
+    }
+  },
+  "manifest_sha256": "02071366f63e4fa207c9b8e5a9670c69f14c8af2c0556545c6211f25068dbb34",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
