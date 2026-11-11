@@ -1456,6 +1456,13 @@
    "sha256_csv": "87969e4784e4074e705d02dda271345a61f681e48f7070706d14b66caa11f3cc",
    "ruta": "datos/composicion/runs/congreso_tarragona_42940531574.csv"
   },
+  "congreso_tarragona/43024860841": {
+   "territorio": "congreso_tarragona",
+   "run_id": "43024860841",
+   "secciones": 542,
+   "sha256_csv": "87969e4784e4074e705d02dda271345a61f681e48f7070706d14b66caa11f3cc",
+   "ruta": "datos/composicion/runs/congreso_tarragona_43024860841.csv"
+  },
   "congreso_teruel/42940536681": {
    "territorio": "congreso_teruel",
    "run_id": "42940536681",
