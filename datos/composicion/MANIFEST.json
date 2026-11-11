@@ -868,6 +868,13 @@
    "sha256_csv": "4754914e4e5e55199c77a5f67705900927ebead6350c1c888ac799d05d423ea4",
    "ruta": "datos/composicion/runs/castilla_y_leon_43025642604.csv"
   },
+  "cataluna/43025661789": {
+   "territorio": "cataluna",
+   "run_id": "43025661789",
+   "secciones": 5117,
+   "sha256_csv": "9397a68ed753b8b11655efa6547236e10602f7b02ac9210e8ff62e39507c2cd9",
+   "ruta": "datos/composicion/runs/cataluna_43025661789.csv"
+  },
   "ceuta/42503542766": {
    "territorio": "ceuta",
    "run_id": "42503542766",
