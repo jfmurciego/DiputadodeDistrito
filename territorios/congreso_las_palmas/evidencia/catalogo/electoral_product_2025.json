@@ -4,9 +4,9 @@
   "territory_id": "congreso_las_palmas",
   "territory_name": "Congreso Las Palmas",
   "edition": "2025",
-  "run_id": 41442913288,
-  "artifact_name": "ddd-state-41442913288-M08",
-  "artifact_sha256": "02aa077a57a11236bb8911838cb9f03ba74b7dc1b94c217ed4c4113fe8f7782c",
-  "source_commit": "9dcf48d16cf7bc23c34b40a6fd25244d25929f5c",
+  "run_id": 42998268332,
+  "artifact_name": "ddd-state-42998268332-M08",
+  "artifact_sha256": "9de2223d3cc73c1ad6b146b394fd6dde636d1ab56cdf9ab8e80ba901eef191b3",
+  "source_commit": "43e2ea704b877ff597511ae3592d82e2d3499c48",
   "stage": "M08"
 }
