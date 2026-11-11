@@ -3,12 +3,8 @@
 """Votos por partido y distrito en git (T-67).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.5.0 · FECHA: 2026-11-10 · ESTADO: candidato
-CAMBIOS: 1.5.0 (T-225, D-65): ``elegir_equivalencia(comp)`` devuelve la tabla cuyo seccionado M06 coincide con el de la
-  composición en su provincia (sha256_secciones_m06 del JSON): la del seccionado INE 2025
-  (equivalencia_secciones_congreso_2023_seccionado2025.csv) para los mapas regenerados con el par 2025/2025 y, si no
-  coincide, la de siempre (seccionado 2023). Sin otros cambios.
-  1.4.0 (T-199, hueco 3 del ensayo T-197): la fecha de la elección ya no es solo una constante. ``fecha_generales_2026``
+VERSIÓN: 1.4.0 · FECHA: 2026-11-10 · ESTADO: candidato
+CAMBIOS: 1.4.0 (T-199, hueco 3 del ensayo T-197): la fecha de la elección ya no es solo una constante. ``fecha_generales_2026``
   la lee de configuracion/elecciones_generales_2026.yaml; ``contratos(ruta, fecha)`` y ``generar(..., fecha)`` filtran por
   ella y ``--fecha`` acepta AAAA-MM-DD o «2026». El valor por defecto sigue siendo FECHA = 2023-07-23 (legislatura vigente):
   sin argumentos nada cambia.
@@ -31,7 +27,7 @@ CAMBIOS: 1.5.0 (T-225, D-65): ``elegir_equivalencia(comp)`` devuelve la tabla cu
 MOTIVO 1.4.0: con contratos de 2026 ``contratos()`` no habría encontrado ninguno.
 MOTIVO 1.1.0: Málaga, Alicante y Barcelona (T-101): el ZIP de Interior y el seccionado INE 2023 del M06 difieren en unas
   pocas secciones (recodificaciones) y el archivista fallaba con PARTIDOS_ORIGEN_FAILED.
-ANTERIOR: legacy/herramientas/resultados_partidos_v1.4.0_20261110.py
+ANTERIOR: legacy/herramientas/resultados_partidos_v1.3.0_20261110.py
 QUÉ HACE: por cada territorio con composición sección→distrito acreditada (datos/composicion, T-67) y M08 vigente
   (datos/resultados), agrega los votos por partido del ZIP nacional por mesa de Infoelectoral (release
   fuente-infoelectoral-02202307; huella y totales comprobados con herramientas/fuente_infoelectoral_mesas.convert)
@@ -73,7 +69,6 @@ FECHA = "2023-07-23"  # elección por defecto (legislatura vigente); ver fecha_g
 ELECCIONES_2026 = ROOT / "configuracion/elecciones_generales_2026.yaml"
 EQUIVALENCIA = ROOT / "configuracion/equivalencia_secciones_congreso_2023.csv"
 EQUIVALENCIA_META = ROOT / "configuracion/equivalencia_secciones_congreso_2023.json"
-EQUIVALENCIA_2025 = ROOT / "configuracion/equivalencia_secciones_congreso_2023_seccionado2025.csv"
 TOPE_DESAJUSTE = 0.005  # D-17: fracción de los votos a candidaturas de la provincia
 CONTENIDA_MIN = 0.95  # T-103: parte mínima del área de la sección del ZIP en una sola sección M06 (UMBRAL de T-85)
 CABECERA = ["distrito", "partido", "votos", "porcentaje", "blancos", "nulos", "censo"]
@@ -162,23 +157,6 @@ def leer_equivalencia(ruta: Path = EQUIVALENCIA) -> dict[str, list[dict]]:
         out[r["seccion_zip"]].append({"seccion_m06": r["seccion_m06"], "tipo": r["tipo"],
                                       "peso_area": float(r["peso_area"]), "frac_m06": float(r["frac_m06"])})
     return dict(out)
-
-
-def elegir_equivalencia(comp: dict[str, int], candidatas: tuple[Path, ...] | None = None) -> Path:
-    """T-225: la tabla cuyo seccionado M06 de la provincia es exactamente el de la composición; si ninguna, EQUIVALENCIA."""
-    secciones = sorted(comp)
-    if not secciones:
-        return EQUIVALENCIA
-    prov = secciones[0][:2]
-    huella = hashlib.sha256("\n".join(secciones).encode()).hexdigest()
-    for ruta in candidatas if candidatas is not None else (EQUIVALENCIA_2025,):
-        meta = ruta.with_suffix(".json")
-        if not (ruta.is_file() and meta.is_file()):
-            continue
-        provs = json.loads(meta.read_text(encoding="utf-8")).get("provincias") or {}
-        if any(d.get("provincia") == prov and d.get("sha256_secciones_m06") == huella for d in provs.values()):
-            return ruta
-    return EQUIVALENCIA
 
 
 def repartir(n: int, pesos: dict[int, float]) -> dict[int, int]:

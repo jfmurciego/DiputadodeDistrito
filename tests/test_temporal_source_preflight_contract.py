@@ -157,13 +157,9 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             ("la_rioja", 2023, 2023),
             ("ceuta", 2023, 2023),
             ("melilla", 2023, 2023),
-        ] + [
-            # T-225 (D-65): las 52 congreso_* con el par 2025/2025; los gemelos congreso350_* siguen en 2023.
-            (row["territory_id"], *((2025, 2025) if row["territory_id"].startswith("congreso_") else (2023, 2023)))
-            for row in load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")
-        ]
+        ] + [(row["territory_id"], 2023, 2023) for row in load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")]
         self.assertEqual(observed, expected)
-        self.assertEqual(sum(pair[1:] == (2025, 2025) for pair in observed), 4 + 52)
+        self.assertEqual(sum(pair[1:] == (2025, 2025) for pair in observed), 4)
 
     def test_config_separates_edition_population_and_section_years(self):
         with tempfile.TemporaryDirectory() as td:

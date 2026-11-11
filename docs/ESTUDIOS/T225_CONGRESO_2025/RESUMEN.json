@@ -1,7 +1,7 @@
 {
  "schema": "ddd.t225-resumen/1.0",
  "fecha": "2026-11-11",
- "nota": "Ejecución local en la sesión (no es un run de Actions): adquisición OGC INE Secciones_2025 + 65034 (inputs/partes), materialización del contrato, M01-M03; motor canónico M05 7.4.4 con herramientas/bateria_motor.py; competición ddd_motor2.competir D8 N=10.",
+ "nota": "Ejecución local en la sesión (no es un run de Actions) con el par INE 2025/2025 de los contratos de la edición 2026: adquisición OGC INE Secciones_2025 + 65034 (inputs/partes), materialización del contrato, M01-M03; motor canónico M05 7.4.4 con herramientas/bateria_motor.py; competición ddd_motor2.competir D8 N=10 (Soria, Madrid, Las Palmas).",
  "territorios": {
   "congreso_alava": {
    "m01_m03": "OK",
@@ -20,7 +20,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_albacete": {
    "m01_m03": "OK",
@@ -39,7 +39,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_alicante": {
    "m01_m03": "OK",
@@ -58,7 +58,7 @@
      "municipios_partidos": 2
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.1274
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_almeria": {
    "m01_m03": "OK",
@@ -77,7 +77,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.1225
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_asturias": {
    "m01_m03": "OK",
@@ -96,7 +96,7 @@
      "municipios_partidos": 2
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.5589
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_avila": {
    "m01_m03": "OK",
@@ -115,7 +115,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.9516
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_badajoz": {
    "m01_m03": "OK",
@@ -134,7 +134,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_baleares": {
    "m01_m03": "OK",
@@ -153,7 +153,7 @@
      "municipios_partidos": null
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0542
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.2381
   },
   "congreso_barcelona": {
    "m01_m03": "OK",
@@ -172,7 +172,7 @@
      "municipios_partidos": 5
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0202
   },
   "congreso_burgos": {
    "m01_m03": "OK",
@@ -191,7 +191,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 1.7023
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_caceres": {
    "m01_m03": "OK",
@@ -210,7 +210,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.1668
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_cadiz": {
    "m01_m03": "OK",
@@ -229,7 +229,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.2449
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_cantabria": {
    "m01_m03": "OK",
@@ -248,7 +248,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.2114
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_castellon": {
    "m01_m03": "OK",
@@ -267,7 +267,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_ceuta": {
    "m01_m03": "OK",
@@ -286,7 +286,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_ciudad_real": {
    "m01_m03": "OK",
@@ -305,7 +305,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.1477
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_cordoba": {
    "m01_m03": "OK",
@@ -324,7 +324,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_cuenca": {
    "m01_m03": "OK",
@@ -343,7 +343,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_gerona": {
    "m01_m03": "OK",
@@ -362,7 +362,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_granada": {
    "m01_m03": "OK",
@@ -381,7 +381,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_guadalajara": {
    "m01_m03": "OK",
@@ -400,7 +400,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_guipuzcoa": {
    "m01_m03": "OK",
@@ -419,7 +419,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.3421
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_huelva": {
    "m01_m03": "OK",
@@ -438,7 +438,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_huesca": {
    "m01_m03": "OK",
@@ -457,7 +457,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_jaen": {
    "m01_m03": "OK",
@@ -476,7 +476,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.6353
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_la_coruna": {
    "m01_m03": "OK",
@@ -495,7 +495,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.3087
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_la_rioja": {
    "m01_m03": "OK",
@@ -514,7 +514,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.1364
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_las_palmas": {
    "m01_m03": "OK",
@@ -532,7 +532,7 @@
     ],
     "metricas": {}
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_leon": {
    "m01_m03": "OK",
@@ -551,7 +551,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.5242
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_lerida": {
    "m01_m03": "OK",
@@ -570,7 +570,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.2954
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_lugo": {
    "m01_m03": "OK",
@@ -589,7 +589,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.7796
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_madrid": {
    "m01_m03": "OK",
@@ -607,7 +607,7 @@
     ],
     "metricas": {}
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0665
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0234
   },
   "congreso_malaga": {
    "m01_m03": "OK",
@@ -628,7 +628,7 @@
      "municipios_partidos": 2
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_melilla": {
    "m01_m03": "OK",
@@ -647,7 +647,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_murcia": {
    "m01_m03": "OK",
@@ -666,7 +666,7 @@
      "municipios_partidos": 2
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.107
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_navarra": {
    "m01_m03": "OK",
@@ -685,7 +685,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.2299
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.097
   },
   "congreso_orense": {
    "m01_m03": "OK",
@@ -704,7 +704,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.2207
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_palencia": {
    "m01_m03": "OK",
@@ -723,7 +723,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 1.6513
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_pontevedra": {
    "m01_m03": "OK",
@@ -742,7 +742,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.2018
   },
   "congreso_salamanca": {
    "m01_m03": "OK",
@@ -761,7 +761,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.8508
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_santa_cruz_de_tenerife": {
    "m01_m03": "OK",
@@ -780,7 +780,7 @@
      "municipios_partidos": null
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0662
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.1544
   },
   "congreso_segovia": {
    "m01_m03": "OK",
@@ -799,7 +799,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.7592
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_sevilla": {
    "m01_m03": "OK",
@@ -818,7 +818,7 @@
      "municipios_partidos": 2
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_soria": {
    "m01_m03": "OK",
@@ -837,7 +837,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_tarragona": {
    "m01_m03": "OK",
@@ -856,7 +856,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.172
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.1147
   },
   "congreso_teruel": {
    "m01_m03": "OK",
@@ -875,13 +875,13 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.0
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_toledo": {
    "m01_m03": "FALLO_M01",
    "m03": null,
    "canonico": null,
-   "votos_zip_sin_seccion_2025_pct": 0.1026
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.4139
   },
   "congreso_valencia": {
    "m01_m03": "OK",
@@ -900,7 +900,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.2903
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.1267
   },
   "congreso_valladolid": {
    "m01_m03": "OK",
@@ -919,7 +919,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.1299
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_vizcaya": {
    "m01_m03": "OK",
@@ -938,7 +938,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.7599
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_zamora": {
    "m01_m03": "OK",
@@ -957,7 +957,7 @@
      "municipios_partidos": 0
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 1.2316
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.0
   },
   "congreso_zaragoza": {
    "m01_m03": "OK",
@@ -976,7 +976,7 @@
      "municipios_partidos": 1
     }
    },
-   "votos_zip_sin_seccion_2025_pct": 0.1478
+   "secciones_2026_a_2025_pct_poblacion_partidas": 0.2968
   }
  },
  "competicion": {

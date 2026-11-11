@@ -6,9 +6,9 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
-  source_population_year: 2025
-  source_section_year: 2025
+  status: generation_ready
+  source_population_year: 2023
+  source_section_year: 2023
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -18,7 +18,7 @@ io:
     path: ../../..
   input:
     seccionado:
-      path: inputs/seccionado_2025.zip
+      path: inputs/seccionado_2023.zip
       layer: ''
       section_key_col: CUSEC
       container: zip
@@ -38,7 +38,7 @@ io:
         - Total
         edad_total_values:
         - Todas las edades
-        year_value: 2025
+        year_value: 2023
       container: zip
       materialized_format: csv
       archive_member: 65034.csv
@@ -77,7 +77,7 @@ territory_contract:
   - 07-C02
   - 07-G01
   small_component_exception_policy: one_contiguous_district_floor_exception
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   limits_profile: exception
   limits_exception_rationale: 'Decisión del propietario (02-11-2026): techo 128 %
     solo en Baleares (antes 127 %); suelo 85 % y municipios indivisibles bajo el techo
@@ -119,14 +119,14 @@ modulos:
     in_geojson: territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m02_adyacencias.jsonl
     id_field: CUSEC_KEY
-    pop_field: POP_2025
+    pop_field: POP_2023
     out_graph_json: territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m03_grafo.json
     out_report: territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m03_informe.json
   modulo_04_generar_semillas:
     in_graph_json: territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m03_grafo.json
     in_geojson: territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m03_particiones.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_2025
+    pop_field: POP_2023
     province_field: DDD_PARTITION
     municipality_field: DDD_MUNICIPALITY_PARTITION
     municipality_name_field: NMUN
@@ -151,7 +151,7 @@ modulos:
     in_graph_json: territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m03_grafo.json
     in_geojson: territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_2025
+    pop_field: POP_2023
     district_field: district_id
     province_field: DDD_PARTITION
     municipality_field: DDD_MUNICIPALITY_PARTITION
@@ -171,7 +171,7 @@ modulos:
     in_geojson: territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m05_distritos_optimizados.geojson.zip
     id_field: CUSEC_KEY
     district_field: district_id
-    pop_field: POP_2025
+    pop_field: POP_2023
     province_field: DDD_PARTITION
     province_name_field: NPRO
     municipality_field: DDD_MUNICIPALITY_PARTITION
@@ -198,9 +198,9 @@ validation:
   require_one_graph_component_per_province: false
   require_connected_municipalities: false
   partition_populations:
-    07-C01: 971068
-    07-C02: 102821
-    07-G01: 175955
+    07-C01: 940332
+    07-C02: 99005
+    07-G01: 170569
   expected_districts: 10
   population_floor_ratio: 0.85
   population_cap_ratio: 1.28
@@ -221,45 +221,42 @@ validation:
   - 07-C02
   - 07-G01
   population_floor_exempt_partition_decisions:
-    07-C02:
+    '07-C02':
       decided_at: '2026-10-31'
       decided_by: propietario
-      reason: Menorca forma un distrito propio con 0,82 de la media provincial.
-      evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_baleares.structural_floor_exemptions;
-        configuracion/particiones_insulares_2025.json#congreso_baleares
-    07-G01:
+      reason: 'Menorca forma un distrito propio con 0,82 de la media provincial.'
+      evidence: 'configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_baleares.structural_floor_exemptions; configuracion/particiones_insulares_2025.json#congreso_baleares'
+    '07-G01':
       decided_at: '2026-10-31'
       decided_by: propietario
-      reason: Ibiza y Formentera reciben 2 distritos (0,70 de la media) en lugar de
-        1 (1,41).
-      evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_baleares.structural_floor_exemptions;
-        configuracion/particiones_insulares_2025.json#congreso_baleares
+      reason: 'Ibiza y Formentera reciben 2 distritos (0,70 de la media) en lugar de 1 (1,41).'
+      evidence: 'configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_baleares.structural_floor_exemptions; configuracion/particiones_insulares_2025.json#congreso_baleares'
   partition_apportionment_audit:
     07-C01:
-      population: 971068
+      population: 940332
       districts: 7
-      target_population: 124984.4
-      average_population_per_district: 138724.0
-      relative_deviation_from_target: 0.109930519
-      population_floor: 106236.74
+      target_population: 120990.6
+      average_population_per_district: 134333.142857
+      relative_deviation_from_target: 0.110277516
+      population_floor: 102842.01
       floor_exception_required: false
       floor_exception_governed: true
     07-C02:
-      population: 102821
+      population: 99005
       districts: 1
-      target_population: 124984.4
-      average_population_per_district: 102821.0
-      relative_deviation_from_target: -0.177329331
-      population_floor: 106236.74
+      target_population: 120990.6
+      average_population_per_district: 99005.0
+      relative_deviation_from_target: -0.18171329
+      population_floor: 102842.01
       floor_exception_required: true
       floor_exception_governed: true
     07-G01:
-      population: 175955
+      population: 170569
       districts: 2
-      target_population: 124984.4
-      average_population_per_district: 87977.5
-      relative_deviation_from_target: -0.296092152
-      population_floor: 106236.74
+      target_population: 120990.6
+      average_population_per_district: 85284.5
+      relative_deviation_from_target: -0.295114662
+      population_floor: 102842.01
       floor_exception_required: true
       floor_exception_governed: true
   hard_partition_mode: physical_components
@@ -267,13 +264,13 @@ validation:
   source_baseline:
     schema: ddd.source-baseline/1.0
     edition: '2025'
-    population_year: 2025
-    section_year: 2025
-    population_total: 1249844
-    target_section_count: 674
-    package_sha256: ae89ca9844a8afe58694ac3d94119c93c1293e0d6936215604d701a828527c09
-    compatibility_report_sha256: 30f28ea47fe4fda5d2986167c3f0051ad0267025e43fbca3938a9516dd7d110c
-    compatibility_identity_sha256: d64866ff2a1b79b12686e703e7830188882d27051df7c93da55c1b4aaddfdc17
+    population_year: 2023
+    section_year: 2023
+    population_total: 1209906
+    target_section_count: 670
+    package_sha256: 415ce22a65db096f2a03b621489820ec63d9c2b126904dafb322af7b8d80a6cc
+    compatibility_report_sha256: 63430e58995cfa7e39a36789a50c934845cc0b344a93b51dd58d2fbfcaab5478
+    compatibility_identity_sha256: 5091dfa4b3204130ee132958f4521224257b52f495bd93085b2581d796784fc2
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -281,15 +278,15 @@ resolved_source_contract:
     territory_name: Congreso Baleares
     project_edition: '2025'
   temporal:
-    population_year: 2025
-    section_year: 2025
+    population_year: 2023
+    section_year: 2023
   sources:
     population:
       schema: ddd.resolved-source-binding/1.0
       source_id: poblacion_por_sexo_y_edad
       role: population
       path: inputs/65034.csv.zip
-      effective_year: 2025
+      effective_year: 2023
       source_kind: static_csv
       source_format: csv
       container: zip
@@ -304,21 +301,21 @@ resolved_source_contract:
         sex: Sexo
         age: Edad
       filters:
-        year_value: 2025
+        year_value: 2023
         sex_total_values:
         - Total
         age_total_values:
         - Todas las edades
       artifact:
         path: inputs/65034.csv.zip
-        sha256: b56ead872c6f0b056b2cfd9777f43893505bd6ef6c697e780240c20ecd19b568
-        bytes: 7745
+        sha256: fb105c27f3145280b4982de04638bf9b3205c3629c3a4edc1f91c17daf55f92b
+        bytes: 7651
     sectioning:
       schema: ddd.resolved-source-binding/1.0
       source_id: secciones_censales
       role: target_sectioning
-      path: inputs/seccionado_2025.zip
-      effective_year: 2025
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
       source_kind: ogc_features
       source_format: geojson
       container: zip
@@ -329,12 +326,12 @@ resolved_source_contract:
         section_id: CUSEC
         territorial_filter: CPRO
       artifact:
-        path: inputs/seccionado_2025.zip
-        sha256: 910872d264575c4b3d29c93df94bd02be21beb3b503de1b3cde3139fbc01bb58
-        bytes: 3456607
+        path: inputs/seccionado_2023.zip
+        sha256: b4045e119891a61d3b5d5a4500f4b7281d56fdbb47bc055ea10abfd21abc63ce
+        bytes: 3454670
   runtime:
     section_id_field: CUSEC_KEY
-    population_field: POP_2025
+    population_field: POP_2023
     province_field: DDD_PARTITION
     municipality_field: DDD_MUNICIPALITY_PARTITION
   transformations:
@@ -344,15 +341,15 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: c0ac26019e71e383d5a30e3baa34524e524353a8c96096ddc547150741842be8
+  contract_sha256: 7446e4192e92c9ad62cd3338de464cfd46d78f9c9acdfd4c2f99cd54fc0ec6e7
 generation_state:
   source_prepared: true
-  generation_enabled: false
-  package_sha256: ae89ca9844a8afe58694ac3d94119c93c1293e0d6936215604d701a828527c09
-  compatibility_identity_sha256: d64866ff2a1b79b12686e703e7830188882d27051df7c93da55c1b4aaddfdc17
+  generation_enabled: true
+  package_sha256: 415ce22a65db096f2a03b621489820ec63d9c2b126904dafb322af7b8d80a6cc
+  compatibility_identity_sha256: 5091dfa4b3204130ee132958f4521224257b52f495bd93085b2581d796784fc2
   source_inputs:
   - path: inputs/65034.csv.zip
-    sha256: b56ead872c6f0b056b2cfd9777f43893505bd6ef6c697e780240c20ecd19b568
+    sha256: fb105c27f3145280b4982de04638bf9b3205c3629c3a4edc1f91c17daf55f92b
     role: population
     source_id: poblacion_por_sexo_y_edad
     consumer_contract:
@@ -360,7 +357,7 @@ generation_state:
       source_id: poblacion_por_sexo_y_edad
       role: population
       path: inputs/65034.csv.zip
-      effective_year: 2025
+      effective_year: 2023
       source_kind: static_csv
       source_format: csv
       container: zip
@@ -375,21 +372,21 @@ generation_state:
         sex: Sexo
         age: Edad
       filters:
-        year_value: 2025
+        year_value: 2023
         sex_total_values:
         - Total
         age_total_values:
         - Todas las edades
-  - path: inputs/seccionado_2025.zip
-    sha256: 910872d264575c4b3d29c93df94bd02be21beb3b503de1b3cde3139fbc01bb58
+  - path: inputs/seccionado_2023.zip
+    sha256: b4045e119891a61d3b5d5a4500f4b7281d56fdbb47bc055ea10abfd21abc63ce
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
       schema: ddd.resolved-source-binding/1.0
       source_id: secciones_censales
       role: target_sectioning
-      path: inputs/seccionado_2025.zip
-      effective_year: 2025
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
       source_kind: ogc_features
       source_format: geojson
       container: zip
@@ -399,3 +396,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 41465837048
+  pre_m04_source_commit: 14f1d690541560996fff8ca22dae36bfc8bd4a7a
+  pre_m04_artifact_sha256: 6734d881f286435b4795a0c351a9e7416f72bc11356472d973e1bcd9ffc8002d

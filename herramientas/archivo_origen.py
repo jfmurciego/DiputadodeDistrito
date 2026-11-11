@@ -3,13 +3,11 @@
 """Archivo en origen: el propio run guarda en R2 su M06/M08 y en git la composición y los votos por partido (T-72).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.5
+VERSIÓN: 1.0.4
 NOMBRE DE VERSIÓN: Archivo en origen
-FECHA: 2026-11-10
+FECHA: 2026-11-09
 ESTADO: candidato
-CAMBIOS: 1.0.5 (T-225, D-65): partidos, sin --equivalencia, usa resultados_partidos.elegir_equivalencia: la tabla del
-  seccionado INE 2025 si la composición es de un mapa regenerado con el par 2025/2025; si no, la de 2023 como antes.
-  1.0.4 (T-119): si el run archivado es el del M06 vigente (orchestracion/publicaciones_visor.json) y no existe
+CAMBIOS: 1.0.4 (T-119): si el run archivado es el del M06 vigente (orchestracion/publicaciones_visor.json) y no existe
   datos/composicion/<territorio>.csv (o es de otro run), composicion lo promueve también a canónico con su entrada en
   ``territorios`` del MANIFEST (run_id, blob_sha, sha256_m06, secciones, sha256_csv); subcomando ``canonica`` para
   promover uno ya archivado. Antes solo lo escribía extraer-composicion-m06.yml desde artefactos no caducados y
@@ -23,7 +21,7 @@ CAMBIOS: 1.0.5 (T-225, D-65): partidos, sin --equivalencia, usa resultados_parti
   M06 y M08; antes solo veían *.geojson sueltos).
   1.0.1 (T-72b): r2 sube el paquete mínimo y no el ZIP de estado (R2 total ≤ 8 GB); --extra; --sustituye-m06-run (el M08 acumulativo retira su M06 de R2) y el check acepta el M08
   que contiene el M06 publicado.
-ANTERIOR: legacy/herramientas/archivo_origen_v1.0.4_20261110.py
+ANTERIOR: legacy/herramientas/archivo_origen_v1.0.3_20261109.py
 QUÉ HACE: cinco subcomandos (r2, composicion, canonica, partidos, comprobar).
   r2          sube a R2 el paquete mínimo (``ddd-minimo-<run>-M06``/M08: GeoJSON distritales, CSV/JSON de M06-M08,
               VALIDACION, manifiestos y ``--extra``; herramientas/archivar_artefactos_r2.empaquetar_minimo) del
@@ -285,9 +283,8 @@ def escribir_partidos(estado: Path, territorio: str, run_id: str, run_territoria
         raise ValueError(f"sha256 de {comp['ruta']} no coincide con el MANIFEST")
     with tempfile.TemporaryDirectory() as tmp:
         zp = zip_path or rp.bajar_zip(ctr, Path(tmp) / "mesa.zip")
-        composicion = rp.leer_composicion(rutac)
-        eq = rp.leer_equivalencia(equivalencia or rp.elegir_equivalencia(composicion))
-        cuerpo, informe = rp.agregar_informe(zp, ctr, composicion, ganadores_m08(estado),
+        eq = rp.leer_equivalencia(equivalencia) if equivalencia else rp.leer_equivalencia()
+        cuerpo, informe = rp.agregar_informe(zp, ctr, rp.leer_composicion(rutac), ganadores_m08(estado),
                                              equivalencia=eq, poblacion=rp.leer_poblacion(rutac))
     ruta = root / RESULTADOS / "runs" / f"{territorio}_{run_id}_partidos.csv"
     ruta.parent.mkdir(parents=True, exist_ok=True)

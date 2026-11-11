@@ -6,9 +6,9 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
-  source_population_year: 2025
-  source_section_year: 2025
+  status: generation_ready
+  source_population_year: 2023
+  source_section_year: 2023
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -18,7 +18,7 @@ io:
     path: ../../..
   input:
     seccionado:
-      path: inputs/seccionado_2025.zip
+      path: inputs/seccionado_2023.zip
       layer: ''
       section_key_col: CUSEC
       container: zip
@@ -38,7 +38,7 @@ io:
         - Total
         edad_total_values:
         - Todas las edades
-        year_value: 2025
+        year_value: 2023
       container: zip
       materialized_format: csv
       archive_member: 65034.csv
@@ -67,19 +67,19 @@ territory_contract:
   population_floor_ratio: 0.85
   population_cap_ratio: 1.15
   target_tolerance_ratio: 0.15
-  require_graph_contiguity: true
-  require_single_admin_level_1_per_district: true
-  require_municipality_discipline: true
-  oversized_municipality_rule: split_only_above_hard_cap
-  municipality_atomicity_limit_ratio: 1.15
-  require_auditable_district_catalogue: true
-  status: source_prepared_pending_pre_m04
   limits_profile: exception
   limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
     piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
     se divide.'
   limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
   limits_exception_decided_at: '2026-10-31'
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: split_only_above_hard_cap
+  municipality_atomicity_limit_ratio: 1.15
+  require_auditable_district_catalogue: true
+  status: generation_ready
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -103,14 +103,14 @@ modulos:
     in_geojson: territorios/congreso_castellon/.cache/ddd/preparacion/{run_name}/congreso_castellon_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso_castellon/.cache/ddd/preparacion/{run_name}/congreso_castellon_2025_m02_adyacencias.jsonl
     id_field: CUSEC_KEY
-    pop_field: POP_2025
+    pop_field: POP_2023
     out_graph_json: territorios/congreso_castellon/.cache/ddd/preparacion/{run_name}/congreso_castellon_2025_m03_grafo.json
     out_report: territorios/congreso_castellon/.cache/ddd/preparacion/{run_name}/congreso_castellon_2025_m03_informe.json
   modulo_04_generar_semillas:
     in_graph_json: territorios/congreso_castellon/.cache/ddd/preparacion/{run_name}/congreso_castellon_2025_m03_grafo.json
     in_geojson: territorios/congreso_castellon/.cache/ddd/preparacion/{run_name}/congreso_castellon_2025_m01_secciones_poblacion.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_2025
+    pop_field: POP_2023
     province_field: CPRO
     municipality_field: CUMUN
     municipality_name_field: NMUN
@@ -125,7 +125,7 @@ modulos:
     in_graph_json: territorios/congreso_castellon/.cache/ddd/preparacion/{run_name}/congreso_castellon_2025_m03_grafo.json
     in_geojson: territorios/congreso_castellon/.cache/ddd/preparacion/{run_name}/congreso_castellon_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_2025
+    pop_field: POP_2023
     district_field: district_id
     province_field: CPRO
     municipality_field: CUMUN
@@ -145,7 +145,7 @@ modulos:
     in_geojson: territorios/congreso_castellon/.cache/ddd/preparacion/{run_name}/congreso_castellon_2025_m05_distritos_optimizados.geojson.zip
     id_field: CUSEC_KEY
     district_field: district_id
-    pop_field: POP_2025
+    pop_field: POP_2023
     province_field: CPRO
     province_name_field: NPRO
     municipality_field: CUMUN
@@ -190,13 +190,13 @@ validation:
   source_baseline:
     schema: ddd.source-baseline/1.0
     edition: '2025'
-    population_year: 2025
-    section_year: 2025
-    population_total: 627620
-    target_section_count: 447
-    package_sha256: 6fdc4741474d66eb0bc22c5cffa6134bf9650c1b7fdd46dac8a341ad3082afb4
-    compatibility_report_sha256: e942cf8d6f32ef7fbcdca9dfc510bde40505477ca57879ff35f41161fa0f3ec0
-    compatibility_identity_sha256: dc3ce574cbd26f375539d4e289751b0b4f4c6bc1cc15f78821ca2919d5ef0e1a
+    population_year: 2023
+    section_year: 2023
+    population_total: 604086
+    target_section_count: 444
+    package_sha256: 2fb73fe7f4cd3909b739a94e2ca9d66bcfac872448f966e4db000a9431c36fa0
+    compatibility_report_sha256: 964e8886a176c85c38f933e8abf6ca5e63399490dd7caaf0cf955309ad3a8851
+    compatibility_identity_sha256: 96afbcc041a7e07087ae7e18017cacb90c15477876a74a67fee4acae903abfdd
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -204,15 +204,15 @@ resolved_source_contract:
     territory_name: Congreso Castellón
     project_edition: '2025'
   temporal:
-    population_year: 2025
-    section_year: 2025
+    population_year: 2023
+    section_year: 2023
   sources:
     population:
       schema: ddd.resolved-source-binding/1.0
       source_id: poblacion_por_sexo_y_edad
       role: population
       path: inputs/65034.csv.zip
-      effective_year: 2025
+      effective_year: 2023
       source_kind: static_csv
       source_format: csv
       container: zip
@@ -227,21 +227,21 @@ resolved_source_contract:
         sex: Sexo
         age: Edad
       filters:
-        year_value: 2025
+        year_value: 2023
         sex_total_values:
         - Total
         age_total_values:
         - Todas las edades
       artifact:
         path: inputs/65034.csv.zip
-        sha256: 06d135e3bbf6cc03d24d7122e8c3f70b412edb4e5ff18b0cf00cd1e0b0fd38a1
-        bytes: 6321
+        sha256: 2fda97be951a97d433da299230f5a25337c03f042c4f2a7ebde397ece21b382d
+        bytes: 6381
     sectioning:
       schema: ddd.resolved-source-binding/1.0
       source_id: secciones_censales
       role: target_sectioning
-      path: inputs/seccionado_2025.zip
-      effective_year: 2025
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
       source_kind: ogc_features
       source_format: geojson
       container: zip
@@ -252,12 +252,12 @@ resolved_source_contract:
         section_id: CUSEC
         territorial_filter: CPRO
       artifact:
-        path: inputs/seccionado_2025.zip
-        sha256: 28da7f34942b5199265fe786b0ee9cc240708b3afc7d0805039a3891f5d1eb4f
-        bytes: 780458
+        path: inputs/seccionado_2023.zip
+        sha256: 76726532afc89f96bfd8bdb15c9ea5cfe7a48f8583f192b5249c1dfa97d4f732
+        bytes: 775139
   runtime:
     section_id_field: CUSEC_KEY
-    population_field: POP_2025
+    population_field: POP_2023
     province_field: CPRO
     municipality_field: CUMUN
   transformations:
@@ -267,15 +267,15 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 8cdc6f242faaf4e17e0c43e08a95b396d57985b90c91e3f5b009801252b5f11e
+  contract_sha256: 216fd9ad07cba07495b61f6e63f4bd356f6921e002733f4c40f7bb159de95556
 generation_state:
   source_prepared: true
-  generation_enabled: false
-  package_sha256: 6fdc4741474d66eb0bc22c5cffa6134bf9650c1b7fdd46dac8a341ad3082afb4
-  compatibility_identity_sha256: dc3ce574cbd26f375539d4e289751b0b4f4c6bc1cc15f78821ca2919d5ef0e1a
+  generation_enabled: true
+  package_sha256: 2fb73fe7f4cd3909b739a94e2ca9d66bcfac872448f966e4db000a9431c36fa0
+  compatibility_identity_sha256: 96afbcc041a7e07087ae7e18017cacb90c15477876a74a67fee4acae903abfdd
   source_inputs:
   - path: inputs/65034.csv.zip
-    sha256: 06d135e3bbf6cc03d24d7122e8c3f70b412edb4e5ff18b0cf00cd1e0b0fd38a1
+    sha256: 2fda97be951a97d433da299230f5a25337c03f042c4f2a7ebde397ece21b382d
     role: population
     source_id: poblacion_por_sexo_y_edad
     consumer_contract:
@@ -283,7 +283,7 @@ generation_state:
       source_id: poblacion_por_sexo_y_edad
       role: population
       path: inputs/65034.csv.zip
-      effective_year: 2025
+      effective_year: 2023
       source_kind: static_csv
       source_format: csv
       container: zip
@@ -298,21 +298,21 @@ generation_state:
         sex: Sexo
         age: Edad
       filters:
-        year_value: 2025
+        year_value: 2023
         sex_total_values:
         - Total
         age_total_values:
         - Todas las edades
-  - path: inputs/seccionado_2025.zip
-    sha256: 28da7f34942b5199265fe786b0ee9cc240708b3afc7d0805039a3891f5d1eb4f
+  - path: inputs/seccionado_2023.zip
+    sha256: 76726532afc89f96bfd8bdb15c9ea5cfe7a48f8583f192b5249c1dfa97d4f732
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
       schema: ddd.resolved-source-binding/1.0
       source_id: secciones_censales
       role: target_sectioning
-      path: inputs/seccionado_2025.zip
-      effective_year: 2025
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
       source_kind: ogc_features
       source_format: geojson
       container: zip
@@ -322,3 +322,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 41241768943
+  pre_m04_source_commit: 14aa2878cd41d95f77161409afc3fa9886c226a1
+  pre_m04_artifact_sha256: d82e1da7fcabbcf60667ede241944b8f18d78078c52769b59df4d7f0e6588bda

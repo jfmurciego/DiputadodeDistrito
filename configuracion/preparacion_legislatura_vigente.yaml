@@ -1,8 +1,5 @@
-# VERSIÓN: 1.2.0 — Congreso con la pareja INE 2025/2025 (T-225, D-65)
-# FECHA: 2026-11-10; ESTADO: candidato para revisión y CI
-# CAMBIOS 1.2.0: las 52 circunscripciones del Congreso (congreso_*) seleccionan población y seccionado INE 2025/2025
-#   con la decisión configuracion/decisiones/d65_congreso_par_2025.json; los gemelos congreso350_* no cambian.
-# MOTIVO: D-65, las 52 se regeneran con el par 2025/2025 (RD 806/2026 reparte con padrón posterior a 2023).
+# VERSIÓN: 1.1.2 — Piloto Congreso Huesca (elección general 2023, referencia 2023/2023)
+# FECHA: 2026-10-30; ESTADO: candidato para revisión y CI
 # CAMBIOS 1.0.4: Andalucía y Castilla y León pasan a ACCEPTED_M07_RECONCILIATION (decisión del
 #   propietario 2026-10-29); ningún territorio queda con el crosswalk 2025→2026 bloqueante.
 # CAMBIOS 1.0.3: Extremadura pasa de BLOCKED_PROVISIONAL a ACQUIRE con la excepción de producción
@@ -16,8 +13,7 @@
 # CAMBIOS 1.1.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.1.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
 # CAMBIOS 1.1.2: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
-# ANTERIOR (1.1.2): legacy/configuracion/preparacion_legislatura_vigente_v1.1.2_20261110.yaml
-# ANTERIOR (1.1.1): legacy/configuracion/preparacion_legislatura_vigente_v1.1.1_islas_20261031.yaml
+# ANTERIOR: legacy/configuracion/preparacion_legislatura_vigente_v1.1.1_islas_20261031.yaml
 schema: ddd-current-legislature-preparation/1.0
 project_edition: '2025'
 as_of: '2026-09-30'
@@ -29,7 +25,6 @@ population_section_policy:
   current_section_collection: WMS_INE_SECCIONES_G01:SU.VectorStatisticalUnit
   rule: independent_population_and_section_years_with_verified_temporal_evidence
   territorial_2025_pair_decision: configuracion/decisiones/f10_referencia_territorial_2025_2026.json
-  congreso_2025_pair_decision: configuracion/decisiones/d65_congreso_par_2025.json
 territories:
   - territory_id: andalucia
     name: Andalucía
@@ -150,364 +145,364 @@ territories:
     name: Congreso Álava
     election_id: congreso_alava_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_albacete
     pilot_code: C02
     name: Congreso Albacete
     election_id: congreso_albacete_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_alicante
     pilot_code: C03
     name: Congreso Alicante
     election_id: congreso_alicante_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_almeria
     pilot_code: C04
     name: Congreso Almería
     election_id: congreso_almeria_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_avila
     pilot_code: C05
     name: Congreso Ávila
     election_id: congreso_avila_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_badajoz
     pilot_code: C06
     name: Congreso Badajoz
     election_id: congreso_badajoz_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_baleares
     pilot_code: C07
     name: Congreso Baleares
     election_id: congreso_baleares_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_barcelona
     pilot_code: C08
     name: Congreso Barcelona
     election_id: congreso_barcelona_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_burgos
     pilot_code: C09
     name: Congreso Burgos
     election_id: congreso_burgos_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_caceres
     pilot_code: C10
     name: Congreso Cáceres
     election_id: congreso_caceres_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_cadiz
     pilot_code: C11
     name: Congreso Cádiz
     election_id: congreso_cadiz_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_castellon
     pilot_code: C12
     name: Congreso Castellón
     election_id: congreso_castellon_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_ciudad_real
     pilot_code: C13
     name: Congreso Ciudad Real
     election_id: congreso_ciudad_real_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_cordoba
     pilot_code: C14
     name: Congreso Córdoba
     election_id: congreso_cordoba_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_la_coruna
     pilot_code: C15
     name: Congreso La Coruña
     election_id: congreso_la_coruna_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_cuenca
     pilot_code: C16
     name: Congreso Cuenca
     election_id: congreso_cuenca_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_gerona
     pilot_code: C17
     name: Congreso Gerona
     election_id: congreso_gerona_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_granada
     pilot_code: C18
     name: Congreso Granada
     election_id: congreso_granada_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_guadalajara
     pilot_code: C19
     name: Congreso Guadalajara
     election_id: congreso_guadalajara_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_guipuzcoa
     pilot_code: C20
     name: Congreso Guipúzcoa
     election_id: congreso_guipuzcoa_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_huelva
     pilot_code: C21
     name: Congreso Huelva
     election_id: congreso_huelva_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_huesca
     pilot_code: C22
     name: Congreso Huesca
     election_id: congreso_huesca_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Piloto Congreso: elección general del 23-07-2023; existen población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — resultados por mesa, Congreso 2023 (pendiente de declaración)', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_jaen
     pilot_code: C23
     name: Congreso Jaén
     election_id: congreso_jaen_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_leon
     pilot_code: C24
     name: Congreso León
     election_id: congreso_leon_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_lerida
     pilot_code: C25
     name: Congreso Lérida
     election_id: congreso_lerida_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_la_rioja
     pilot_code: C26
     name: Congreso La Rioja
     election_id: congreso_la_rioja_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_lugo
     pilot_code: C27
     name: Congreso Lugo
     election_id: congreso_lugo_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_madrid
     pilot_code: C28
     name: Congreso Madrid
     election_id: congreso_madrid_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_malaga
     pilot_code: C29
     name: Congreso Málaga
     election_id: congreso_malaga_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_murcia
     pilot_code: C30
     name: Congreso Murcia
     election_id: congreso_murcia_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_navarra
     pilot_code: C31
     name: Congreso Navarra
     election_id: congreso_navarra_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_orense
     pilot_code: C32
     name: Congreso Orense
     election_id: congreso_orense_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_asturias
     pilot_code: C33
     name: Congreso Asturias
     election_id: congreso_asturias_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_palencia
     pilot_code: C34
     name: Congreso Palencia
     election_id: congreso_palencia_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_las_palmas
     pilot_code: C35
     name: Congreso Las Palmas
     election_id: congreso_las_palmas_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_pontevedra
     pilot_code: C36
     name: Congreso Pontevedra
     election_id: congreso_pontevedra_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_salamanca
     pilot_code: C37
     name: Congreso Salamanca
     election_id: congreso_salamanca_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_santa_cruz_de_tenerife
     pilot_code: C38
     name: Congreso Santa Cruz de Tenerife
     election_id: congreso_santa_cruz_de_tenerife_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_cantabria
     pilot_code: C39
     name: Congreso Cantabria
     election_id: congreso_cantabria_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_segovia
     pilot_code: C40
     name: Congreso Segovia
     election_id: congreso_segovia_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_sevilla
     pilot_code: C41
     name: Congreso Sevilla
     election_id: congreso_sevilla_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_soria
     pilot_code: C42
     name: Congreso Soria
     election_id: congreso_soria_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_tarragona
     pilot_code: C43
     name: Congreso Tarragona
     election_id: congreso_tarragona_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_teruel
     pilot_code: C44
     name: Congreso Teruel
     election_id: congreso_teruel_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_toledo
     pilot_code: C45
     name: Congreso Toledo
     election_id: congreso_toledo_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_valencia
     pilot_code: C46
     name: Congreso Valencia
     election_id: congreso_valencia_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_valladolid
     pilot_code: C47
     name: Congreso Valladolid
     election_id: congreso_valladolid_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_vizcaya
     pilot_code: C48
     name: Congreso Vizcaya
     election_id: congreso_vizcaya_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_zamora
     pilot_code: C49
     name: Congreso Zamora
     election_id: congreso_zamora_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_zaragoza
     pilot_code: C50
     name: Congreso Zaragoza
     election_id: congreso_zaragoza_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_ceuta
     pilot_code: C51
     name: Congreso Ceuta
     election_id: congreso_ceuta_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso_melilla
     pilot_code: C52
     name: Congreso Melilla
     election_id: congreso_melilla_2023-07-23
     election_date: '2023-07-23'
-    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2025, population_lag_years: -2, population_reference_date: '2025-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2025, section_lag_years: -2, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'D65-T225-CONGRESO-PAIR-2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'D-65: las 52 circunscripciones se regeneran con población y seccionado INE 2025/2025; los votos del 23-07-2023 se llevan a las secciones 2025 por equivalencia.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: congreso350_alava
     pilot_code: R01

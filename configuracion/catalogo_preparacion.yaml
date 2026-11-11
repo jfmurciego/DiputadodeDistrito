@@ -791,10 +791,11 @@ territories:
         source_commit: 68ee5b1b2f4e2e87e70e20ab40fc2718d7b19c9a
       evidence:
         electoral_source: territorios/congreso_alava/evidencia/fuentes_electorales/2025/4f920eb6eba9ea922f3007b741ced4e85036efae35088e17836aadbb5b31e4ae/41239750223/receipt.json
+        generation_preflight: territorios/congreso_alava/evidencia/catalogo/generation_preflight_2025.json
         prepared_source_pair: territorios/congreso_alava/evidencia/pares_fuentes/2025/29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b.json
         territorial_product: territorios/congreso_alava/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/congreso_alava/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_albacete
   name: Congreso Albacete
   editions:
@@ -829,10 +830,11 @@ territories:
         source_commit: de37f79d61c0029c930e3c18e946d3661d5b17ae
       evidence:
         electoral_source: territorios/congreso_albacete/evidencia/fuentes_electorales/2025/024e50f3973fbd525d3a3bd3f2e0fb20d1f0edd510eea1af15b9b8b3811cfe02/41239755540/receipt.json
+        generation_preflight: territorios/congreso_albacete/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_albacete/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_albacete/evidencia/pares_fuentes/2025/cab052dbdcaf36b292acc9769ee1c419978d21d0fc0252cf73854bc251af7dc8.json
         electoral_product: territorios/congreso_albacete/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_alicante
   name: Congreso Alicante
   editions:
@@ -867,10 +869,11 @@ territories:
         source_commit: e802cb5939a7d729fce0a5ab2d4be23932883f37
       evidence:
         electoral_source: territorios/congreso_alicante/evidencia/fuentes_electorales/2025/b1de5f6a5a140f72c8fa242ae6dde459ad232165849a848477037f1871654c82/42463675548/receipt.json
+        generation_preflight: territorios/congreso_alicante/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_alicante/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_alicante/evidencia/pares_fuentes/2025/f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256.json
         electoral_product: territorios/congreso_alicante/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_almeria
   name: Congreso Almería
   editions:
@@ -905,10 +908,11 @@ territories:
         source_commit: b53dd1af35d21917f0218e3c9a04756b4da50292
       evidence:
         electoral_source: territorios/congreso_almeria/evidencia/fuentes_electorales/2025/4ec8ae00ed211a167735c2d8a9a21b56d8c4710c51c599b8fb2f5a9df35e680c/41239766467/receipt.json
+        generation_preflight: territorios/congreso_almeria/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_almeria/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_almeria/evidencia/pares_fuentes/2025/a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c.json
         electoral_product: territorios/congreso_almeria/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_avila
   name: Congreso Ávila
   editions:
@@ -943,10 +947,11 @@ territories:
         source_commit: f893b44ad3da0966cf862f9da0b1fee88a0e5454
       evidence:
         electoral_source: territorios/congreso_avila/evidencia/fuentes_electorales/2025/26cdfa3cc8b521adf3c49682e08a5b5db4469afe373d7030586082a5cc8b7dae/41235288504/receipt.json
+        generation_preflight: territorios/congreso_avila/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_avila/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_avila/evidencia/pares_fuentes/2025/0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b.json
         electoral_product: territorios/congreso_avila/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_badajoz
   name: Congreso Badajoz
   editions:
@@ -981,10 +986,11 @@ territories:
         source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
       evidence:
         electoral_source: territorios/congreso_badajoz/evidencia/fuentes_electorales/2025/cb1dfe01a462d120c8f9f8dd9d3139d2a4a726a1fefae57a5e2ff7dab6915183/41239771818/receipt.json
+        generation_preflight: territorios/congreso_badajoz/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_badajoz/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_badajoz/evidencia/pares_fuentes/2025/5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48.json
         electoral_product: territorios/congreso_badajoz/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_baleares
   name: Congreso Baleares
   editions:
@@ -1020,9 +1026,10 @@ territories:
       evidence:
         electoral_source: territorios/congreso_baleares/evidencia/fuentes_electorales/2025/595c78426252663b1a5358beea463781185a82f3f3433630d9882e73a88c2867/41465837048/receipt.json
         prepared_source_pair: territorios/congreso_baleares/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json
+        generation_preflight: territorios/congreso_baleares/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_baleares/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/congreso_baleares/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_barcelona
   name: Congreso Barcelona
   editions:
@@ -1058,9 +1065,10 @@ territories:
       evidence:
         electoral_source: territorios/congreso_barcelona/evidencia/fuentes_electorales/2025/e8203257f78dee511e0b5e1592611d712f6ae45c76c443a84a164e3983b652af/42489980111/receipt.json
         prepared_source_pair: territorios/congreso_barcelona/evidencia/pares_fuentes/2025/c8d0c4a520df2356b13f940ab9e0127eadd3b63adff1d8bf1ba1360255e0f75f.json
+        generation_preflight: territorios/congreso_barcelona/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_barcelona/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/congreso_barcelona/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_burgos
   name: Congreso Burgos
   editions:
@@ -1095,10 +1103,11 @@ territories:
         source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
       evidence:
         electoral_source: territorios/congreso_burgos/evidencia/fuentes_electorales/2025/3048f185c01af3e5a400066e7aba00671de47b42042b2471c2bebee097cb291a/41239782586/receipt.json
+        generation_preflight: territorios/congreso_burgos/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_burgos/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_burgos/evidencia/pares_fuentes/2025/5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a.json
         electoral_product: territorios/congreso_burgos/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_caceres
   name: Congreso Cáceres
   editions:
@@ -1133,10 +1142,11 @@ territories:
         source_commit: 7fd9e8487d16e65c589afa67f361bcf39e8f0558
       evidence:
         electoral_source: territorios/congreso_caceres/evidencia/fuentes_electorales/2025/fd390f036b51e5bb85fb619ce3b5d2b16827be5e74c8291995d0d41bb1dcbade/41239788468/receipt.json
+        generation_preflight: territorios/congreso_caceres/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_caceres/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_caceres/evidencia/pares_fuentes/2025/f8f3ff6511a15e7f73e802dfcc54dd45b8e5c296b6c408c88e6fc85504399b79.json
         electoral_product: territorios/congreso_caceres/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_cadiz
   name: Congreso Cádiz
   editions:
@@ -1172,9 +1182,10 @@ territories:
       evidence:
         electoral_source: territorios/congreso_cadiz/evidencia/fuentes_electorales/2025/e7bad8cb9552ba46cc1ce96c9b06c0021fb6848a5bf8e946c931b9cf3f4029d9/41465820761/receipt.json
         prepared_source_pair: territorios/congreso_cadiz/evidencia/pares_fuentes/2025/c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182.json
+        generation_preflight: territorios/congreso_cadiz/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_cadiz/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/congreso_cadiz/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_castellon
   name: Congreso Castellón
   editions:
@@ -1209,10 +1220,11 @@ territories:
         source_commit: a1e2f698a41d04dc9e34ddf640b8d8aaf804e0a2
       evidence:
         electoral_source: territorios/congreso_castellon/evidencia/fuentes_electorales/2025/edc1431446e17982e9143687d587d8ab6c7a468907295f7be0f207c812bce6d1/41239799217/receipt.json
+        generation_preflight: territorios/congreso_castellon/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_castellon/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_castellon/evidencia/pares_fuentes/2025/8bbe77deb9c92332e6b8b61310217afa1d5be4d24eb252319b98f2943a3406c6.json
         electoral_product: territorios/congreso_castellon/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_ciudad_real
   name: Congreso Ciudad Real
   editions:
@@ -1247,10 +1259,11 @@ territories:
         source_commit: d73703d1c87a46762a874f2b3e4a008649963349
       evidence:
         electoral_source: territorios/congreso_ciudad_real/evidencia/fuentes_electorales/2025/630a53d22aa8839036f217167de1fced81ae36f4aaca31cd8a1f3d2aadc1888d/41239804426/receipt.json
+        generation_preflight: territorios/congreso_ciudad_real/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_ciudad_real/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_ciudad_real/evidencia/pares_fuentes/2025/8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015.json
         electoral_product: territorios/congreso_ciudad_real/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_cordoba
   name: Congreso Córdoba
   editions:
@@ -1285,10 +1298,11 @@ territories:
         source_commit: 3c8987226976760910b7711b660979a7f5f84c78
       evidence:
         electoral_source: territorios/congreso_cordoba/evidencia/fuentes_electorales/2025/2c6b84f7b0ff5317d3c12aa8b7b195332e8b2d282a460a20241fbb4d6a3fa3bd/41239809492/receipt.json
+        generation_preflight: territorios/congreso_cordoba/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_cordoba/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_cordoba/evidencia/pares_fuentes/2025/96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e.json
         electoral_product: territorios/congreso_cordoba/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_la_coruna
   name: Congreso La Coruña
   editions:
@@ -1323,10 +1337,11 @@ territories:
         source_commit: 5e8d4478b2f5591c121e5e1e28307ac5b130dee5
       evidence:
         electoral_source: territorios/congreso_la_coruna/evidencia/fuentes_electorales/2025/1e07330a56680771cc6c920fad75cbfa0efd30938dfcd8ca4f15387b6a219091/41239814650/receipt.json
+        generation_preflight: territorios/congreso_la_coruna/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_la_coruna/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_la_coruna/evidencia/pares_fuentes/2025/0edcee83874afdffefd871bd37738611d53f1a4d8c98d794ace159926d78e2cc.json
         electoral_product: territorios/congreso_la_coruna/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_cuenca
   name: Congreso Cuenca
   editions:
@@ -1361,10 +1376,11 @@ territories:
         source_commit: 09a4aeb9f22ae68bb252ffad76303ebd8fd0f02e
       evidence:
         electoral_source: territorios/congreso_cuenca/evidencia/fuentes_electorales/2025/b0cbccd6e4ca463e8b42fe602e7b9eace43abd0b022971272ce293fb819c58f7/41236657374/receipt.json
+        generation_preflight: territorios/congreso_cuenca/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_cuenca/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_cuenca/evidencia/pares_fuentes/2025/26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0.json
         electoral_product: territorios/congreso_cuenca/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_gerona
   name: Congreso Gerona
   editions:
@@ -1399,10 +1415,11 @@ territories:
         source_commit: d73703d1c87a46762a874f2b3e4a008649963349
       evidence:
         electoral_source: territorios/congreso_gerona/evidencia/fuentes_electorales/2025/a03b34676e4217823ee656f307a84c832a305ab6db19461e28c043a60e80bc8f/41239820081/receipt.json
+        generation_preflight: territorios/congreso_gerona/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_gerona/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_gerona/evidencia/pares_fuentes/2025/9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc.json
         electoral_product: territorios/congreso_gerona/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_granada
   name: Congreso Granada
   editions:
@@ -1437,10 +1454,11 @@ territories:
         source_commit: 6ff6532547597b240f067c72fa651388868d1ca4
       evidence:
         electoral_source: territorios/congreso_granada/evidencia/fuentes_electorales/2025/dd0dd9e03aa8c8f9c39bb8dde4b95e3c2822a6e1491b91f3a0e99ee7b62de4d5/41239825488/receipt.json
+        generation_preflight: territorios/congreso_granada/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_granada/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_granada/evidencia/pares_fuentes/2025/94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e.json
         electoral_product: territorios/congreso_granada/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_guadalajara
   name: Congreso Guadalajara
   editions:
@@ -1475,10 +1493,11 @@ territories:
         source_commit: 2fa2d24ea024244737ae89e97380142a7c7cef14
       evidence:
         electoral_source: territorios/congreso_guadalajara/evidencia/fuentes_electorales/2025/f421d566485bcdc53d2c1f281efbb5210e1a5df8af79b7dc00a03cdfdf055d03/41236827273/receipt.json
+        generation_preflight: territorios/congreso_guadalajara/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_guadalajara/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_guadalajara/evidencia/pares_fuentes/2025/8e2ca58bb58ccfa32fd273ffc148de7417903eb55be4c99f088f26625449b5c1.json
         electoral_product: territorios/congreso_guadalajara/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_guipuzcoa
   name: Congreso Guipúzcoa
   editions:
@@ -1513,10 +1532,11 @@ territories:
         source_commit: d73703d1c87a46762a874f2b3e4a008649963349
       evidence:
         electoral_source: territorios/congreso_guipuzcoa/evidencia/fuentes_electorales/2025/d1051888a14ed29231c3a98cc0b7c5c77cfc90599ef0417b00fcb7336b114b88/41239830502/receipt.json
+        generation_preflight: territorios/congreso_guipuzcoa/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_guipuzcoa/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_guipuzcoa/evidencia/pares_fuentes/2025/9651126a3a22e99dd8d141cdc83ea292db8efd423747fd9739bcc78a505cda5e.json
         electoral_product: territorios/congreso_guipuzcoa/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_huelva
   name: Congreso Huelva
   editions:
@@ -1551,10 +1571,11 @@ territories:
         source_commit: 03b39710d99d8cce48c5a16d80c61f348fc9a514
       evidence:
         electoral_source: territorios/congreso_huelva/evidencia/fuentes_electorales/2025/deb0fbf1e626ccccc6a1e0f0420f93779e92be4da48d4f6e58e8dd1b9bd9d99a/41239835955/receipt.json
+        generation_preflight: territorios/congreso_huelva/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_huelva/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_huelva/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json
         electoral_product: territorios/congreso_huelva/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_huesca
   name: Congreso Huesca
   editions:
@@ -1587,8 +1608,9 @@ territories:
         population_year: 2023
         section_year: 2023
         source_commit: 664218ea4c6d22d421067f973125c7376d7c3e6d
-      generation_enabled: false
+      generation_enabled: true
       evidence:
+        generation_preflight: territorios/congreso_huesca/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_huesca/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/congreso_huesca/evidencia/fuentes_electorales/2025/155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422/41194293941/receipt.json
         prepared_source_pair: territorios/congreso_huesca/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json
@@ -1627,10 +1649,11 @@ territories:
         source_commit: 1ecd108edf90a8be4e688ccea3c1aaea65b6aefa
       evidence:
         electoral_source: territorios/congreso_jaen/evidencia/fuentes_electorales/2025/0a0920bcd99d4bb67e789d0996f800b0cbade5ff38d912ced9baeb5a8304438c/41239841417/receipt.json
+        generation_preflight: territorios/congreso_jaen/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_jaen/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_jaen/evidencia/pares_fuentes/2025/6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21.json
         electoral_product: territorios/congreso_jaen/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_leon
   name: Congreso León
   editions:
@@ -1665,10 +1688,11 @@ territories:
         source_commit: ac48851e6d0201a5b54356422aa0d73fec96eeef
       evidence:
         electoral_source: territorios/congreso_leon/evidencia/fuentes_electorales/2025/a57d170628ef34e459163cee84bbc310d5225cd1d586a8a771419bb3a66a5e35/41239847787/receipt.json
+        generation_preflight: territorios/congreso_leon/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_leon/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_leon/evidencia/pares_fuentes/2025/ec2b27c201a17fceca9b44d38785522c8676e1b0018c7aa2cbb6ce967b5f5f46.json
         electoral_product: territorios/congreso_leon/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_lerida
   name: Congreso Lérida
   editions:
@@ -1703,10 +1727,11 @@ territories:
         source_commit: d73703d1c87a46762a874f2b3e4a008649963349
       evidence:
         electoral_source: territorios/congreso_lerida/evidencia/fuentes_electorales/2025/613cb73be2446e2fc25ccddbc8ff56f4d3f02edc6600bb0c391f173398f57245/41239853848/receipt.json
+        generation_preflight: territorios/congreso_lerida/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_lerida/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_lerida/evidencia/pares_fuentes/2025/ce3113b33666b565750fee12fc6fdc256cb80fde01b3ed4dc5aadd65ae5b2df2.json
         electoral_product: territorios/congreso_lerida/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_la_rioja
   name: Congreso La Rioja
   editions:
@@ -1741,10 +1766,11 @@ territories:
         source_commit: 26387f9f17964a315e52ac3be299d6a8e4142b37
       evidence:
         electoral_source: territorios/congreso_la_rioja/evidencia/fuentes_electorales/2025/6e544aa5f7d7e5f16ffa23ff442d528a7948beb2bb2021526c16c8268b1c2886/41239859752/receipt.json
+        generation_preflight: territorios/congreso_la_rioja/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_la_rioja/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_la_rioja/evidencia/pares_fuentes/2025/d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc.json
         electoral_product: territorios/congreso_la_rioja/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_lugo
   name: Congreso Lugo
   editions:
@@ -1779,10 +1805,11 @@ territories:
         source_commit: 0f1d8e733f49ff6d6d711051a35e9f1706685ff7
       evidence:
         electoral_source: territorios/congreso_lugo/evidencia/fuentes_electorales/2025/339edf67d8e73c4feb82e4a93f4f054bcaff752740334909fad44b177aa43ef4/41239865976/receipt.json
+        generation_preflight: territorios/congreso_lugo/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_lugo/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_lugo/evidencia/pares_fuentes/2025/e4e97c5fbb0e722c00699a9b32d0cf800a90f57be45c5d570a0f4cf87d5b9422.json
         electoral_product: territorios/congreso_lugo/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_madrid
   name: Congreso Madrid
   editions:
@@ -1817,10 +1844,11 @@ territories:
         source_commit: c993d2286e020dcc0cded5328e410722bb5803e8
       evidence:
         electoral_source: territorios/congreso_madrid/evidencia/fuentes_electorales/2025/faa3ecb7c23a9be27c8e636b44e5a04d708f12e2ac9d40e235311a1bdbd72179/41611821388/receipt.json
+        generation_preflight: territorios/congreso_madrid/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_madrid/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_madrid/evidencia/pares_fuentes/2025/5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5.json
         electoral_product: territorios/congreso_madrid/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_malaga
   name: Congreso Málaga
   editions:
@@ -1855,10 +1883,11 @@ territories:
         source_commit: 0dd2df01eb8a60c4bc17243ca21197045c841951
       evidence:
         electoral_source: territorios/congreso_malaga/evidencia/fuentes_electorales/2025/6bfa6549044d57ab94011df2e33d58cd0d1dcb859a117dcf6cd59b818bc07905/42489981909/receipt.json
+        generation_preflight: territorios/congreso_malaga/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_malaga/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_malaga/evidencia/pares_fuentes/2025/ffd60f7ceed7763841bb96ac9718b98cf2a133b925486f451405576f3bda614c.json
         electoral_product: territorios/congreso_malaga/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_murcia
   name: Congreso Murcia
   editions:
@@ -1894,9 +1923,10 @@ territories:
       evidence:
         electoral_source: territorios/congreso_murcia/evidencia/fuentes_electorales/2025/da89a45a5d057341a6cdeedda30754bd23c97cc15397c1dbca88e6dac41f6ac7/41613691816/receipt.json
         prepared_source_pair: territorios/congreso_murcia/evidencia/pares_fuentes/2025/ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630.json
+        generation_preflight: territorios/congreso_murcia/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_murcia/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/congreso_murcia/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_navarra
   name: Congreso Navarra
   editions:
@@ -1931,10 +1961,11 @@ territories:
         source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
       evidence:
         electoral_source: territorios/congreso_navarra/evidencia/fuentes_electorales/2025/4394ab125b595f91a5d69069b0276e322ba6af2ca3bbd2acb16bc595bb13b9d3/41239887617/receipt.json
+        generation_preflight: territorios/congreso_navarra/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_navarra/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_navarra/evidencia/pares_fuentes/2025/a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d.json
         electoral_product: territorios/congreso_navarra/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_orense
   name: Congreso Orense
   editions:
@@ -1969,10 +2000,11 @@ territories:
         source_commit: 1ab4f4f74dc0f561a94b2b39223b12a0e30c0392
       evidence:
         electoral_source: territorios/congreso_orense/evidencia/fuentes_electorales/2025/e6d0f9c9083e2b30b604145d2f2e05adf93b1fff3c51244f45d136c9440ae829/41239892753/receipt.json
+        generation_preflight: territorios/congreso_orense/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_orense/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_orense/evidencia/pares_fuentes/2025/69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696.json
         electoral_product: territorios/congreso_orense/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_asturias
   name: Congreso Asturias
   editions:
@@ -2007,10 +2039,11 @@ territories:
         source_commit: 6ff6532547597b240f067c72fa651388868d1ca4
       evidence:
         electoral_source: territorios/congreso_asturias/evidencia/fuentes_electorales/2025/815921ec4064eeba680988044d82905e5cade7b6b7eda8eb6e4421234ae3a825/41239897911/receipt.json
+        generation_preflight: territorios/congreso_asturias/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_asturias/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_asturias/evidencia/pares_fuentes/2025/c37c091cfaa3abf417bfc1151a0f74b8eaa924fa5966bac616449d6b18e8901d.json
         electoral_product: territorios/congreso_asturias/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_palencia
   name: Congreso Palencia
   editions:
@@ -2045,10 +2078,11 @@ territories:
         source_commit: d73703d1c87a46762a874f2b3e4a008649963349
       evidence:
         electoral_source: territorios/congreso_palencia/evidencia/fuentes_electorales/2025/835619e9c7233e0ccc6c9cacd8f18bcaa5c26e73dc4013c30e2f555b6b628c9a/41235462609/receipt.json
+        generation_preflight: territorios/congreso_palencia/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_palencia/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_palencia/evidencia/pares_fuentes/2025/001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18.json
         electoral_product: territorios/congreso_palencia/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_las_palmas
   name: Congreso Las Palmas
   editions:
@@ -2085,8 +2119,9 @@ territories:
         electoral_source: territorios/congreso_las_palmas/evidencia/fuentes_electorales/2025/291e65f01ed409290cd8c685c8f80e14414edbd37e2ffa574a7862e9a2ecfd4b/41432561787/receipt.json
         territorial_product: territorios/congreso_las_palmas/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_las_palmas/evidencia/pares_fuentes/2025/edb3ada24e33cf8ac32756ad61bff42bcd8d822a8923e88467b67ca2f56942eb.json
+        generation_preflight: territorios/congreso_las_palmas/evidencia/catalogo/generation_preflight_2025.json
         electoral_product: territorios/congreso_las_palmas/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_pontevedra
   name: Congreso Pontevedra
   editions:
@@ -2121,10 +2156,11 @@ territories:
         source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
       evidence:
         electoral_source: territorios/congreso_pontevedra/evidencia/fuentes_electorales/2025/308c2da9a4d943a975a9bddfce3ab8c4548386719c447394ae6e827c4cc3f7db/41239903028/receipt.json
+        generation_preflight: territorios/congreso_pontevedra/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_pontevedra/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_pontevedra/evidencia/pares_fuentes/2025/da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388.json
         electoral_product: territorios/congreso_pontevedra/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_salamanca
   name: Congreso Salamanca
   editions:
@@ -2159,10 +2195,11 @@ territories:
         source_commit: 77f053655ac35e403dad362c023e12b872428256
       evidence:
         electoral_source: territorios/congreso_salamanca/evidencia/fuentes_electorales/2025/98bbcaab7ca5b91879fbdf67f680ac886b0ae774212430c06e071fa4e190faad/41239908359/receipt.json
+        generation_preflight: territorios/congreso_salamanca/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_salamanca/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_salamanca/evidencia/pares_fuentes/2025/a3f54f25701ef149d6df622f412ff511fb94a5ab5391bed84ce27db1dc6e4d9f.json
         electoral_product: territorios/congreso_salamanca/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_santa_cruz_de_tenerife
   name: Congreso Santa Cruz de Tenerife
   editions:
@@ -2200,7 +2237,8 @@ territories:
         territorial_product: territorios/congreso_santa_cruz_de_tenerife/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_santa_cruz_de_tenerife/evidencia/pares_fuentes/2025/021421efa924f643ed6a7da87c2a68c3d1adf67c3180eb2e1f4897b174e2ff1e.json
         electoral_product: territorios/congreso_santa_cruz_de_tenerife/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+        generation_preflight: territorios/congreso_santa_cruz_de_tenerife/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: true
 - territory_id: congreso_cantabria
   name: Congreso Cantabria
   editions:
@@ -2235,10 +2273,11 @@ territories:
         source_commit: d73703d1c87a46762a874f2b3e4a008649963349
       evidence:
         electoral_source: territorios/congreso_cantabria/evidencia/fuentes_electorales/2025/3f5b23bf3ad78e674bf020c29906afbbabd0706248dc410502069d8bb4acaf1b/41239913823/receipt.json
+        generation_preflight: territorios/congreso_cantabria/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_cantabria/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_cantabria/evidencia/pares_fuentes/2025/158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7.json
         electoral_product: territorios/congreso_cantabria/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_segovia
   name: Congreso Segovia
   editions:
@@ -2273,10 +2312,11 @@ territories:
         source_commit: d7ab47a933897447ac476f9825c92845b75a052c
       evidence:
         electoral_source: territorios/congreso_segovia/evidencia/fuentes_electorales/2025/4bca7fef1bff38a856c1be9861cb0096afeb8621c45de88bdf67eaa07e6cd04c/41235628457/receipt.json
+        generation_preflight: territorios/congreso_segovia/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_segovia/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_segovia/evidencia/pares_fuentes/2025/11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c.json
         electoral_product: territorios/congreso_segovia/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_sevilla
   name: Congreso Sevilla
   editions:
@@ -2311,10 +2351,11 @@ territories:
         source_commit: 29a950d4971e20d0fde57a6ff1b822fb9692d899
       evidence:
         electoral_source: territorios/congreso_sevilla/evidencia/fuentes_electorales/2025/e621f70cd455325efd4d5718605b3085764905e4a6549006aa6ec556534b3041/41239919571/receipt.json
+        generation_preflight: territorios/congreso_sevilla/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_sevilla/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_sevilla/evidencia/pares_fuentes/2025/cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d.json
         electoral_product: territorios/congreso_sevilla/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_soria
   name: Congreso Soria
   editions:
@@ -2349,10 +2390,11 @@ territories:
         source_commit: d0c752756c0c38c6e9803603f71d08aff1c8b6fb
       evidence:
         electoral_source: territorios/congreso_soria/evidencia/fuentes_electorales/2025/7a4b0bacfa1c54d0992d1947112cb6676d0edb1b48ea152d8fadce98b5cd7b3b/41235804865/receipt.json
+        generation_preflight: territorios/congreso_soria/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_soria/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_soria/evidencia/pares_fuentes/2025/b73e7070cb80f9db457a63722fa4bdfc0f6d6a4a369eba0588a25e0357c02ed6.json
         electoral_product: territorios/congreso_soria/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_tarragona
   name: Congreso Tarragona
   editions:
@@ -2387,10 +2429,11 @@ territories:
         source_commit: 2a6e0c9b3c2444e479314e49f0380ae50ce51eac
       evidence:
         electoral_source: territorios/congreso_tarragona/evidencia/fuentes_electorales/2025/05ee98c2e9f9e0e4d18c306351f5d35c701d2074bd7c0d061e5c07817e95d22b/41239925359/receipt.json
+        generation_preflight: territorios/congreso_tarragona/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_tarragona/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_tarragona/evidencia/pares_fuentes/2025/40740f8c1f08ee810e1b3efa102fb98d93a447732332f99f8e356db93322ea7e.json
         electoral_product: territorios/congreso_tarragona/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_teruel
   name: Congreso Teruel
   editions:
@@ -2425,10 +2468,11 @@ territories:
         source_commit: 0128b3027b80140267b4a4db312cf378a47c6e15
       evidence:
         electoral_source: territorios/congreso_teruel/evidencia/fuentes_electorales/2025/672246c160d11ced224250bfe9f0ad643360584d7226f127b8c8e8ad97b2f240/41235977145/receipt.json
+        generation_preflight: territorios/congreso_teruel/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_teruel/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_teruel/evidencia/pares_fuentes/2025/cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5.json
         electoral_product: territorios/congreso_teruel/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_toledo
   name: Congreso Toledo
   editions:
@@ -2463,10 +2507,11 @@ territories:
         source_commit: 9b09962dd870eb500567df49959e2f7d12f0caec
       evidence:
         electoral_source: territorios/congreso_toledo/evidencia/fuentes_electorales/2025/4dd57830c9af64008f2ab76d1c4e53e64902ba3ae3a1b7a8f7700c93d1876b7a/41239931236/receipt.json
+        generation_preflight: territorios/congreso_toledo/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_toledo/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_toledo/evidencia/pares_fuentes/2025/044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0.json
         electoral_product: territorios/congreso_toledo/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_valencia
   name: Congreso Valencia
   editions:
@@ -2501,10 +2546,11 @@ territories:
         source_commit: 03b39710d99d8cce48c5a16d80c61f348fc9a514
       evidence:
         electoral_source: territorios/congreso_valencia/evidencia/fuentes_electorales/2025/6bd17d9ab40a695c5a622d5fe90ca0e988c35b0221bd04f87509d9bb947aaacc/41239936932/receipt.json
+        generation_preflight: territorios/congreso_valencia/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_valencia/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_valencia/evidencia/pares_fuentes/2025/1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b.json
         electoral_product: territorios/congreso_valencia/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_valladolid
   name: Congreso Valladolid
   editions:
@@ -2539,10 +2585,11 @@ territories:
         source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
       evidence:
         electoral_source: territorios/congreso_valladolid/evidencia/fuentes_electorales/2025/bf1518a803f3c17f7a49bde54c860ef9818e66d31788de2135100b351bbbcefc/41239942087/receipt.json
+        generation_preflight: territorios/congreso_valladolid/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_valladolid/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_valladolid/evidencia/pares_fuentes/2025/7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837.json
         electoral_product: territorios/congreso_valladolid/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_vizcaya
   name: Congreso Vizcaya
   editions:
@@ -2577,10 +2624,11 @@ territories:
         source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
       evidence:
         electoral_source: territorios/congreso_vizcaya/evidencia/fuentes_electorales/2025/4011658bdfb867288263aab9cc7621a987b1b569a1e3bdfc71d60a733d8fea6b/41239947749/receipt.json
+        generation_preflight: territorios/congreso_vizcaya/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_vizcaya/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_vizcaya/evidencia/pares_fuentes/2025/a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939.json
         electoral_product: territorios/congreso_vizcaya/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_zamora
   name: Congreso Zamora
   editions:
@@ -2615,10 +2663,11 @@ territories:
         source_commit: 8c1d79a84a6425fb32e9332bbacd07adf3042c00
       evidence:
         electoral_source: territorios/congreso_zamora/evidencia/fuentes_electorales/2025/81aa6580b3fb902a0f3a54c85dd4a2745f2830cec119cc01e50c6722c85a04ff/41236149824/receipt.json
+        generation_preflight: territorios/congreso_zamora/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_zamora/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_zamora/evidencia/pares_fuentes/2025/9456a3656fd980295e4100f3e8ea2fd0d288d249938586a8cd3e189a089e6595.json
         electoral_product: territorios/congreso_zamora/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_zaragoza
   name: Congreso Zaragoza
   editions:
@@ -2653,10 +2702,11 @@ territories:
         source_commit: 49fdd57f0d89ae347d41a31257fa98a97971e3a4
       evidence:
         electoral_source: territorios/congreso_zaragoza/evidencia/fuentes_electorales/2025/c47b71a53a40450fd33bcb29d4a30190970e1b31806e26b4891b59db7b0943b6/41239953681/receipt.json
+        generation_preflight: territorios/congreso_zaragoza/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_zaragoza/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_zaragoza/evidencia/pares_fuentes/2025/1c7a2bca176538bb2bd05dc7c947f2e3beb817bf019718d8962d761ebdc9b631.json
         electoral_product: territorios/congreso_zaragoza/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_ceuta
   name: Congreso Ceuta
   editions:
@@ -2694,7 +2744,8 @@ territories:
         territorial_product: territorios/congreso_ceuta/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_ceuta/evidencia/pares_fuentes/2025/5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d.json
         electoral_product: territorios/congreso_ceuta/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+        generation_preflight: territorios/congreso_ceuta/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: true
 - territory_id: congreso_melilla
   name: Congreso Melilla
   editions:
@@ -2729,10 +2780,11 @@ territories:
         source_commit: e5904c8fc26e7ce4a80b14c7620cbde126579072
       evidence:
         electoral_source: territorios/congreso_melilla/evidencia/fuentes_electorales/2025/2cceadcf877ec84018cd247c26f0cc744e4e54e7829c243f4cd6af6b1bf1c3b4/41236491113/receipt.json
+        generation_preflight: territorios/congreso_melilla/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_melilla/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_melilla/evidencia/pares_fuentes/2025/c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220.json
         electoral_product: territorios/congreso_melilla/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso350_alava
   name: Congreso 350 Álava
   editions:
