@@ -5,7 +5,14 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.6.1 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.7.0 · FECHA: 2026-11-11 · ESTADO: candidato
+CAMBIOS 1.7.0 (T-237): publicación por lotes. `parse_run_ids` (CLI `parse-run-ids`) lee `production_run_id` como lista
+  separada por espacios o comas: cada id, solo cifras; un id repetido se RECHAZA (no se deduplica: suele ser una errata y
+  el lote debe decir exactamente qué se publica); lista vacía = «solo sitio»; `--scenario-id` solo con un id.
+  `merge_batch_descriptors` (CLI `merge-descriptors`) junta los descriptores de cada run y rechaza dos runs del mismo
+  territorio en un lote. Con un solo id la salida es la misma que en 1.6.1.
+MOTIVO 1.7.0: publicar N territorios exigía N despliegues y N aprobaciones de `produccion`.
+ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.6.1_20261111.py
 CAMBIOS 1.6.1 (T-203): ELECCION_POR_DEFECTO se importa de eleccion_por_defecto.py (módulo ligero, sin pyproj); mismo valor.
 ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.6.0_20261110.py
 CAMBIOS 1.6.0 (T-201): `identity_key` incluye la elección como 4.º elemento (`eleccion_de`) y `_already_registered_reused_m06`
@@ -290,6 +297,38 @@ def rechazar_mapa_350(territory_id: str) -> None:
         raise ValueError(f"El mapa 350 no se publica (D-18/D-19): territorio {territory_id} rechazado en el registro")
 
 
+RUN_ID_RE = re.compile(r"^[0-9]+$")
+
+
+def parse_run_ids(value: str | None, scenario_id: str | None = None) -> list[str]:
+    """Lista de runs 00 de `production_run_id` (T-237): separadores espacio o coma; todo o nada."""
+    tokens = [token for token in re.split(r"[\s,]+", str(value or "").strip()) if token]
+    invalid = [token for token in tokens if not RUN_ID_RE.fullmatch(token)]
+    if invalid:
+        raise ValueError(f"LOTE_RUN_ID_INVALIDO: {' '.join(invalid)} (cada id es un número de run 00)")
+    repeated = [token for index, token in enumerate(tokens) if token in tokens[:index]]
+    if repeated:
+        raise ValueError(f"LOTE_RUN_ID_DUPLICADO: {' '.join(dict.fromkeys(repeated))} (quita la repetición)")
+    if scenario_id and len(tokens) > 1:
+        raise ValueError("LOTE_CON_ESCENARIO: scenario_id solo admite un production_run_id")
+    return tokens
+
+
+def merge_batch_descriptors(per_run: list[list[dict]]) -> list[dict]:
+    """Une los descriptores de cada run del lote; rechaza dos runs del mismo territorio."""
+    owner: dict[str, str] = {}
+    merged: list[dict] = []
+    for descriptors in per_run:
+        for descriptor in descriptors:
+            territory, run = str(descriptor.get("territory_id", "")), str(descriptor.get("run_id", ""))
+            rechazar_mapa_350(territory)
+            if owner.setdefault(territory, run) != run:
+                raise ValueError(
+                    f"LOTE_TERRITORIO_REPETIDO: {territory} en los runs {owner[territory]} y {run}")
+            merged.append(descriptor)
+    return merged
+
+
 def make_candidate(registry: dict, entries: list[dict]) -> dict:
     validate_registry(registry)
     for entry in entries:
@@ -464,6 +503,14 @@ def main() -> None:
     describe_ens.add_argument("--release-tag", required=True)
     describe_ens.add_argument("--output", type=Path, required=True)
 
+    parse_ids = sub.add_parser("parse-run-ids")
+    parse_ids.add_argument("--value", default="")
+    parse_ids.add_argument("--scenario-id", default="")
+
+    merge = sub.add_parser("merge-descriptors")
+    merge.add_argument("--inputs", type=Path, nargs="+", required=True)
+    merge.add_argument("--output", type=Path, required=True)
+
     candidate = sub.add_parser("candidate")
     candidate.add_argument("--registry", type=Path, required=True)
     candidate.add_argument("--entries", type=Path, required=True)
@@ -493,6 +540,23 @@ def main() -> None:
             raise SystemExit("--scenario-id inválido (minúsculas, cifras, punto, guion)")
         payload = production_descriptors(
             args.production_root, args.run_id, args.scenario_id, args.strategy, args.election_date, args.election_id)
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        return
+
+    if args.command == "parse-run-ids":
+        try:
+            print(" ".join(parse_run_ids(args.value, args.scenario_id)))
+        except ValueError as error:
+            raise SystemExit(f"::error::{error}")
+        return
+
+    if args.command == "merge-descriptors":
+        try:
+            payload = merge_batch_descriptors(
+                [json.loads(path.read_text(encoding="utf-8")) for path in args.inputs])
+        except ValueError as error:
+            raise SystemExit(f"::error::{error}")
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         return

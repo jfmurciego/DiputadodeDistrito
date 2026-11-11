@@ -1,6 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.12.2
+# VERSIÓN: 3.13.0
+# CAMBIOS 3.13.0: T-237, publicación por lotes: `production_run_id` admite una lista (espacios o comas). Se normaliza con
+#   `registro_publicaciones_visor.py parse-run-ids` (ids numéricos, repetidos rechazados, scenario_id solo con uno) y TODOS
+#   los runs se descargan, acreditan y describen antes de crear ningún blob: si uno falla no se registra ninguno y el error
+#   dice cuál. Después, un solo candidato, un solo despliegue y un solo commit del registro. Con un id, mismas rutas
+#   (/tmp/production, .ddd-publication/publicacion_visor.json) y mismos pasos que 3.12.2.
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.12.2_20261111.yml
 # CAMBIOS 3.12.2: T-215 (corte 5.0.0, paso 4), nombre visible v5 «Interno · P50 Publicador del sitio» (antes Interno · Publicador del sitio).
 # ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.12.1_20261110.yml
 # CAMBIOS 3.12.1: T-149, solo el nombre visible (Interno · Publicador del sitio) para ordenar la lista de Actions.
@@ -40,7 +46,7 @@
 # ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.5.0_20261108.yml
 # CAMBIOS: añade exclusión por defecto del visor analítico Congreso y carga de procedencia al habilitarlo explícitamente.
 # MOTIVO: mantener candidatos no certificados fuera de Pages salvo selección explícita del caller.
-# FECHA: 2026-11-10
+# FECHA: 2026-11-11
 name: Interno · P50 Publicador del sitio
 
 on:
@@ -211,31 +217,78 @@ jobs:
           set -euo pipefail
           .ddd-publication/materializar_registro.sh "$PUBLICATION_REGISTRY" /tmp/publications-current
 
+      - name: Normalizar lote de ejecuciones solicitadas
+        if: ${{ inputs.production_run_id != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          ids="$(python herramientas/registro_publicaciones_visor.py parse-run-ids --value "$PRODUCTION_RUN_ID" --scenario-id "$SCENARIO_ID")"
+          read -r -a lote <<<"$ids"
+          (( ${#lote[@]} > 0 )) || { echo "::error::LOTE_VACIO: production_run_id sin ningún id"; exit 42; }
+          printf '%s\n' "${lote[@]}" > .ddd-publication/run-ids.txt
+          # Un id: rutas de siempre. Varios: una raíz y una evidencia por run.
+          cat > .ddd-publication/lote.sh <<'SH'
+          mapfile -t LOTE < .ddd-publication/run-ids.txt
+          raiz_run() { if (( ${#LOTE[@]} == 1 )); then echo /tmp/production; else echo "/tmp/production/$1"; fi; }
+          evidencia_run() { if (( ${#LOTE[@]} == 1 )); then echo .ddd-publication/publicacion_visor.json; else echo ".ddd-publication/publicacion_visor_$1.json"; fi; }
+          SH
+          echo "Lote de ${#lote[@]} run(s): ${lote[*]}"
+
       - name: Recuperar ejecución solicitada como fuente transitoria
         if: ${{ inputs.production_run_id != '' }}
         shell: bash
         run: |
           set -euo pipefail
+          source .ddd-publication/lote.sh
           rm -rf /tmp/production && mkdir -p /tmp/production
-          gh run download "$PRODUCTION_RUN_ID" --pattern 'ddd-*' --dir /tmp/production
-          test -n "$(find /tmp/production -type f -print -quit)" || {
-            echo '::error::La ejecución solicitada no contiene artefactos DDD.'; exit 43;
-          }
+          for run in "${LOTE[@]}"; do
+            root="$(raiz_run "$run")"; mkdir -p "$root"
+            gh run download "$run" --pattern 'ddd-*' --dir "$root" || {
+              echo "::error::LOTE_RECHAZADO: el run $run no se pudo descargar; no se registra ninguno."; exit 43;
+            }
+            test -n "$(find "$root" -type f -print -quit)" || {
+              echo "::error::La ejecución solicitada $run no contiene artefactos DDD; no se registra ninguna."; exit 43;
+            }
+          done
 
       - name: Acreditar identidad de la ejecución descargada
         if: ${{ inputs.production_run_id != '' }}
         shell: bash
         run: |
           set -euo pipefail
-          python herramientas/evaluar_publicacion_visor.py             --requested-run-id "$PRODUCTION_RUN_ID"             --production-root /tmp/production             --phase source             --output .ddd-publication/publicacion_visor.json             --strict-request
+          source .ddd-publication/lote.sh
+          fallos=()
+          for run in "${LOTE[@]}"; do
+            python herramientas/evaluar_publicacion_visor.py --requested-run-id "$run" --production-root "$(raiz_run "$run")" \
+              --phase source --output "$(evidencia_run "$run")" --strict-request || fallos+=("$run")
+          done
+          (( ${#fallos[@]} == 0 )) || {
+            echo "::error::LOTE_RECHAZADO: no acreditan ${fallos[*]} (motivo en las líneas anteriores); no se registra ninguno."; exit 1;
+          }
+
+      - name: Validar descriptores de todo el lote antes de escribir
+        if: ${{ inputs.production_run_id != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          source .ddd-publication/lote.sh
+          fallos=(); salidas=()
+          for run in "${LOTE[@]}"; do
+            out="/tmp/product-descriptors-$run.json"
+            python herramientas/registro_publicaciones_visor.py describe-production             --production-root "$(raiz_run "$run")"             --run-id "$run" ${SCENARIO_ID:+--scenario-id "$SCENARIO_ID" --strategy "$SCENARIO_STRATEGY"}             --output "$out" || fallos+=("$run")
+            salidas+=("$out")
+          done
+          (( ${#fallos[@]} == 0 )) || {
+            echo "::error::LOTE_RECHAZADO: sin producto publicable en ${fallos[*]} (motivo en las líneas anteriores); no se registra ninguno."; exit 1;
+          }
+          python herramientas/registro_publicaciones_visor.py merge-descriptors --inputs "${salidas[@]}" --output /tmp/product-descriptors.json
 
       - name: Promover productos a blob persistente verificable
         if: ${{ inputs.production_run_id != '' }}
         shell: bash
         run: |
           set -euo pipefail
-          python herramientas/registro_publicaciones_visor.py describe-production             --production-root /tmp/production             --run-id "$PRODUCTION_RUN_ID" ${SCENARIO_ID:+--scenario-id "$SCENARIO_ID" --strategy "$SCENARIO_STRATEGY"}             --output /tmp/product-descriptors.json
-
+          test -s /tmp/product-descriptors.json
           printf '[]\n' > /tmp/new-entries.json
           mkdir -p /tmp/promotion-verify
           while IFS= read -r row; do
@@ -454,9 +507,15 @@ jobs:
               if expected and observed != expected:
                   raise SystemExit(f"{row.get('id')}: distritos observados {observed} != {expected}")
           PY
-          args=(--requested-run-id "$PRODUCTION_RUN_ID" --registry /tmp/site-candidate/data/viewer-results.json --phase prepared --output .ddd-publication/publicacion_visor.json)
-          [[ -n "$PRODUCTION_RUN_ID" ]] && args+=(--production-root /tmp/production --strict-request)
-          python herramientas/evaluar_publicacion_visor.py "${args[@]}"
+          if [[ -z "$PRODUCTION_RUN_ID" ]]; then
+            python herramientas/evaluar_publicacion_visor.py --requested-run-id "" --registry /tmp/site-candidate/data/viewer-results.json --phase prepared --output .ddd-publication/publicacion_visor.json
+          else
+            source .ddd-publication/lote.sh
+            for run in "${LOTE[@]}"; do
+              python herramientas/evaluar_publicacion_visor.py --requested-run-id "$run" --registry /tmp/site-candidate/data/viewer-results.json \
+                --phase prepared --output "$(evidencia_run "$run")" --production-root "$(raiz_run "$run")" --strict-request
+            done
+          fi
 
       - name: Verificar Pages habilitado para GitHub Actions
         shell: bash
@@ -515,9 +574,19 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .ddd-publication
-          args=(--requested-run-id "$PRODUCTION_RUN_ID" --registry /tmp/site-candidate/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output .ddd-publication/publicacion_visor.json)
-          [[ -n "$PRODUCTION_RUN_ID" && -d /tmp/production ]] && args+=(--production-root /tmp/production)
-          python herramientas/evaluar_publicacion_visor.py "${args[@]}"
+          if [[ -n "$PRODUCTION_RUN_ID" && -f .ddd-publication/lote.sh ]]; then
+            source .ddd-publication/lote.sh
+            fallos=()
+            for run in "${LOTE[@]}"; do
+              args=(--requested-run-id "$run" --registry /tmp/site-candidate/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output "$(evidencia_run "$run")")
+              [[ -d "$(raiz_run "$run")" ]] && args+=(--production-root "$(raiz_run "$run")")
+              python herramientas/evaluar_publicacion_visor.py "${args[@]}" || fallos+=("$run")
+            done
+            (( ${#fallos[@]} == 0 )) || { echo "::error::Evidencia final fallida para ${fallos[*]}"; exit 1; }
+          else
+            args=(--requested-run-id "$PRODUCTION_RUN_ID" --registry /tmp/site-candidate/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output .ddd-publication/publicacion_visor.json)
+            python herramientas/evaluar_publicacion_visor.py "${args[@]}"
+          fi
           case "$TARGET_PAGE" in "Dashboard operativo") rel="dashboard/";; *) rel="";; esac
           jq -n --arg pagina "$TARGET_PAGE" --arg url "$PAGE_URL$rel" --arg pages_root "$PAGE_URL" --arg run_id "$GITHUB_RUN_ID"             '{pagina_solicitada:$pagina,url_objetivo:$url,pages_root:$pages_root,workflow_run_id:$run_id}'             > .ddd-publication/pagina_publicada.json
 

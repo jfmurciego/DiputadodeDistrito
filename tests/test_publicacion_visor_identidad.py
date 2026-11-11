@@ -137,7 +137,7 @@ class PublicationIdentityTests(unittest.TestCase):
 
     def test_workflow_cannot_silently_fall_back_for_requested_run(self):
         text = WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn('gh run download "$PRODUCTION_RUN_ID"', text)
+        self.assertIn('gh run download "$run"', text)  # T-237: un id o un lote
         self.assertNotIn("se publicará el registro estático", text)
         self.assertIn("Acreditar identidad de la ejecución descargada", text)
         self.assertIn("Validar sitio candidato completo", text)
