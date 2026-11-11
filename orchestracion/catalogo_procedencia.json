@@ -636,8 +636,8 @@
     "section_year": 2024
    },
    "fuente_electoral": {
-    "receipt_path": "territorios/cataluna/evidencia/fuentes_electorales/2025/4339f10519a3a10cf22b99dfe1b3fd25565c97058333c1284234d760aee393b5/36789340482/receipt.json",
-    "identity_sha256": "4339f10519a3a10cf22b99dfe1b3fd25565c97058333c1284234d760aee393b5"
+    "receipt_path": "territorios/cataluna/evidencia/fuentes_electorales/2025/9512fde80f903cbe93eab4be4695612da01cd7a420d7840e4d04834985a46e18/43036592492/receipt.json",
+    "identity_sha256": "9512fde80f903cbe93eab4be4695612da01cd7a420d7840e4d04834985a46e18"
    },
    "doi": null,
    "productos": [
@@ -6316,8 +6316,8 @@
     "section_year": 2024
    },
    "fuente_electoral": {
-    "receipt_path": "territorios/pais_vasco/evidencia/fuentes_electorales/2025/43ebf1a9f620544133e019e5a4b8cdf1914b986035d76ab8cb2933d3a7b6cef3/36882827791/receipt.json",
-    "identity_sha256": "43ebf1a9f620544133e019e5a4b8cdf1914b986035d76ab8cb2933d3a7b6cef3"
+    "receipt_path": "territorios/pais_vasco/evidencia/fuentes_electorales/2025/32e2c695b91acc6bae9c8b0455b7678b814bf66dc374c741f94622693ff703ab/43036604667/receipt.json",
+    "identity_sha256": "32e2c695b91acc6bae9c8b0455b7678b814bf66dc374c741f94622693ff703ab"
    },
    "doi": null,
    "productos": [
