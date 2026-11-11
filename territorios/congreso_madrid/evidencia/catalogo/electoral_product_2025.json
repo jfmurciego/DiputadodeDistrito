@@ -4,9 +4,9 @@
   "territory_id": "congreso_madrid",
   "territory_name": "Congreso Madrid",
   "edition": "2025",
-  "run_id": 41622703086,
-  "artifact_name": "ddd-state-41622703086-M08",
-  "artifact_sha256": "91a6403de439cbbf4fe2b4a4db1a4a93a615bdf815bc39d884979f325d6b84c8",
-  "source_commit": "b3f8dab26ed13474b9ebb9627023697464fe2b45",
+  "run_id": 43006307734,
+  "artifact_name": "ddd-state-43006307734-M08",
+  "artifact_sha256": "bf4b4ccfd6759e37481d8f91915e243165d446e6b51b9d020117c30b5206a712",
+  "source_commit": "a7f8c02a0a0f0f4b49d315925eda88214a901989",
   "stage": "M08"
 }
