@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T02:29:33.329151+00:00",
+  "generated_at": "2026-11-11T02:33:35.408223+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8151,11 +8151,11 @@
       "name": "Nacional Badajoz",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
-      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42519381013,
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 42940345930,
       "last_run": {
         "run_id": 42519381013,
         "status": "SUCCESS",
@@ -8164,7 +8164,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8181,13 +8181,13 @@
           "territory_id": "congreso_badajoz",
           "territory_name": "Congreso Badajoz",
           "edition": "2025",
-          "run_id": 42519381013,
-          "artifact_name": "ddd-state-42519381013-M06",
-          "artifact_sha256": "9ec87edf7f93d704534287962c5e7977beeafa3ae5be8fd79d8abd028959b7af",
-          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
-          "decision": "PASS_WITH_EXCEPTIONS",
+          "run_id": 42940345930,
+          "artifact_name": "ddd-state-42940345930-M06",
+          "artifact_sha256": "c1a72a38a8bc8c4ac54d2023495e6c0a17c681a7b46bcca4288d3672960d1869",
+          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_badajoz/evidencia/generaciones_m06/42519381013.json"
+          "producer_manifest_path": "territorios/congreso_badajoz/evidencia/generaciones_m06/42940345930.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8205,7 +8205,7 @@
       },
       "autonomous_community_code_ine": "C06",
       "display_name": "Nacional Badajoz",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_baleares",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 71,
+    "complete": 70,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12279,7 +12279,6 @@
       "Nacional Albacete",
       "Nacional Alicante",
       "Nacional Almería",
-      "Nacional Badajoz",
       "Nacional Baleares",
       "Nacional Barcelona",
       "Nacional Burgos",
@@ -12568,6 +12567,12 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "Nacional Badajoz",
+      "territory_id": "congreso_badajoz",
+      "autonomous_community_code_ine": "C06",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Nacional 350 Álava",
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
@@ -12590,12 +12595,6 @@
       "territory_id": "congreso350_almeria",
       "autonomous_community_code_ine": "R04",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Ávila",
-      "territory_id": "congreso350_avila",
-      "autonomous_community_code_ine": "R05",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12615,6 +12614,12 @@
       "territory": "Nacional Ávila",
       "territory_id": "congreso_avila",
       "autonomous_community_code_ine": "C05",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Badajoz",
+      "territory_id": "congreso_badajoz",
+      "autonomous_community_code_ine": "C06",
       "action": "preparar fuentes electorales"
     }
   ]
