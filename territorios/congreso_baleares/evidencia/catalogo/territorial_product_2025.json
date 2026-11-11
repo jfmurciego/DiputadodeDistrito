@@ -4,11 +4,11 @@
   "territory_id": "congreso_baleares",
   "territory_name": "Congreso Baleares",
   "edition": "2025",
-  "run_id": 41465837048,
-  "artifact_name": "ddd-state-41465837048-M06",
-  "artifact_sha256": "41a8b13f9f18a40a2efb52e015ba927e9a3632d8a83d8c4407c545136cf1053c",
-  "source_commit": "3cfa615e184fe46635c4d0294de129fed0d4dd03",
+  "run_id": 42940350970,
+  "artifact_name": "ddd-state-42940350970-M06",
+  "artifact_sha256": "a2c096d3602c3cc5f8b886ffb4354590f76a94ee4f0bc2f4af63b392bf46b882",
+  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_baleares/evidencia/generaciones_m06/41465837048.json"
+  "producer_manifest_path": "territorios/congreso_baleares/evidencia/generaciones_m06/42940350970.json"
 }

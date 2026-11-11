@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13822981359,
+      "artifact_name": "ddd-audit-42940350970",
+      "artifact_sha256": "f1a983f0d5a9e5dafe8482ccdca694e1e606237dcbf04d15ede7940fb40e9c46",
+      "run_id": 42940350970,
+      "size_in_bytes": 23990
+    },
+    "m04": {
+      "artifact_id": 13821159779,
+      "artifact_name": "ddd-state-42940350970-M04",
+      "artifact_sha256": "16db27895a452a8e12ddc73ead863c7b4f3dc0fc01717bba195cccbb59ae6980",
+      "run_id": 42940350970,
+      "size_in_bytes": 89059748
+    },
+    "m05": {
+      "artifact_id": 13821454902,
+      "artifact_name": "ddd-state-42940350970-M05",
+      "artifact_sha256": "7adda15a858ab8e20e00b15e2bde47f4c51b281e7217fe4973a3393ffd8679a3",
+      "run_id": 42940350970,
+      "size_in_bytes": 91482411
+    },
+    "m06": {
+      "artifact_id": 13823130539,
+      "artifact_name": "ddd-state-42940350970-M06",
+      "artifact_sha256": "a2c096d3602c3cc5f8b886ffb4354590f76a94ee4f0bc2f4af63b392bf46b882",
+      "run_id": 42940350970,
+      "size_in_bytes": 97949618
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "8c007291ef17a9800fae09f35e2514fa901598d42b77b4f61cdb44778be00574",
+        "size_in_bytes": 411
+      },
+      "congreso_baleares_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "5df6afe9eb9276dcdf4b1746e840852fc6b8be2365908ad9b1d1ea9013f52be9",
+        "size_in_bytes": 387039
+      },
+      "optimization_execution.json": {
+        "sha256": "35df31ec16cf8ae8f168bd2747f1efc434efaa65f7877f636760ae33f0ac01ed",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "3468c59bff76d0a982a6913eb5d13c943701ee376ff4969ad6058ef397870a8b",
+        "size_in_bytes": 1491
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "3468c59bff76d0a982a6913eb5d13c943701ee376ff4969ad6058ef397870a8b",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_baleares/config/congreso_baleares_2025.yaml",
+    "sha256": "bae35b3515409571dba75d9dd0ac6a4bfd000d34f6002093ad8ab972e7f18d95"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "6ded4d8c16a96abd6c48e28f71862aceb3a1aeb0c504fd6980515a03d137760f",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_CANONICO",
+      "funcion": "D8",
+      "ganador": "canonico",
+      "generador": "canonico",
+      "huella_resultado": "c9a5d4a8d47028a271ad53499c2e741c0124d3f0c27958e06d9dc768beb7faff",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.36385140663820165,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.36385140663820165,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "da6cd51ec885d13826694803088895d280c622509a5031a9eee7fc6c2f39adbd",
+      "rehacer_m06": false
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_baleares",
+    "territory_name": "Congreso Baleares",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940350970,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13821159779,
+      "artifact_name": "ddd-state-42940350970-M04",
+      "artifact_sha256": "16db27895a452a8e12ddc73ead863c7b4f3dc0fc01717bba195cccbb59ae6980",
+      "run_id": 42940350970,
+      "size_in_bytes": 89059748
+    },
+    "source_manifest_sha256": "3c85ed1b54e1dfc3fc8f3b4fc73c5a24307a83df53ca65a7153334fef5ca829c",
+    "source_package_artifact": {
+      "artifact_id": 13156885488,
+      "artifact_name": "ddd-source-package-congreso_baleares-2025-41465837048",
+      "artifact_sha256": "80f99d710a25f5d0b81496c3db929ee5c48a56e7422784e518702c90b020c5c1",
+      "run_id": 41465837048,
+      "size_in_bytes": 81801808
+    }
+  },
+  "manifest_sha256": "cf0cff4a8820e82a911fac4b7cbb31acaac9ede124a00d7078d76bec7cd2fde5",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
