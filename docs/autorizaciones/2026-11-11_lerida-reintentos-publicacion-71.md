@@ -16,4 +16,6 @@
 | Hora | Territorio | Workflow y modo | Run | Resultado |
 |---|---|---|---|---|
 | 16:39 | Congreso Lérida (1) | P10 Fuentes — P11 Territoriales | 43050510708 | CANCELADA por el Operador (innecesaria; estaba en cola) |
-| 17:30 | Congreso Lérida (2, reintento único tras 503 de cuota; las 7 autonómicas descargaron sin 503) | P00 Generar desde fuente, motor2, cadena | 43059014993 | EN_VUELO |
+| 17:30 | Congreso Lérida (2, reintento único tras 503 de cuota; las 7 autonómicas descargaron sin 503) | P00 Generar desde fuente, motor2, cadena | 43059014993 | SUCCESS: Activación 43063913076 y electoral 43064129984 en success |
+
+Estado: EN ESPERA (el propietario aparca los distritos, 17:51 vía Planificador): Andalucía y la P50 de las 71 no se lanzan hasta que reactive.

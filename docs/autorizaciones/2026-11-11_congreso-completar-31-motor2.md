@@ -33,6 +33,6 @@
 | 15:59 | Lérida 43043776004 (omitida por error del Operador en el reparto de tandas; detectada por el Planificador) | P00 Campaña motor2 | — | FAILURE transitorio: «HTTP 503: Egress is over the account limit» (cuota de la cuenta); reintento pendiente de reponer la cuota | 32 / — | 0/1 |
 
 ## Cierre
-Estado: `EN_CURSO` (tanda 6, última). Último uso: 2026-11-11.
+Estado: `COMPLETADA`: 52/52 del Congreso con cadena completa (Lérida tras reintento por cuota, 43059014993). Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-11_congreso-completar-31-motor2 tal como figura en la ficha.»
