@@ -16,4 +16,7 @@
   (fase 02 del run del M08 → M06 vigente) en vez de «mismo run». Legacy: `legacy/tests/test_t113_gestor_historico_v1.0.0_20261111.py`.
 - Mutaciones: Huesca fuera del INDEX congelado → falla; manifiesto con fase 02 rota + resolver sin la comprobación de
   linaje → fallan los dos de CLM.
-- Aparte (no se toca): el INDEX de datos abiertos con 17 territorios tras `9c0cab12` puede ser una regresión de la 05.
+- El INDEX de 17 territorios tras `9c0cab12` es una regresión real de la P50 por lotes (salen los 34 del lote): el rojo de
+  T-113 era una alarma verdadera. El fixture congelado es el INDEX bueno (52, con Huesca), no el de 17. T-113 deja de
+  vigilar el INDEX vivo: esa comprobación (no menos territorios que el registro del visor sin retirada explícita) la
+  hace T-249, en su propio test.
