@@ -4,11 +4,11 @@
   "territory_id": "congreso_valencia",
   "territory_name": "Congreso Valencia",
   "edition": "2025",
-  "run_id": 42940547803,
-  "artifact_name": "ddd-state-42940547803-M06",
-  "artifact_sha256": "482175d992cd92c072fd61bda0e6c655161d492e9ba4234a235e4e5e4bb16def",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43034939625,
+  "artifact_name": "ddd-state-43034939625-M06",
+  "artifact_sha256": "39c78fb0a600f19be8e72ebd30f961da5105e9da0547c0fa74388bb291e1fa3e",
+  "source_commit": "aca6cadcf8b3170f2053916f9cd7dc688e20a7d9",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_valencia/evidencia/generaciones_m06/42940547803.json"
+  "producer_manifest_path": "territorios/congreso_valencia/evidencia/generaciones_m06/43034939625.json"
 }
