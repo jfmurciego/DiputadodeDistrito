@@ -1247,6 +1247,22 @@
     "sha256": "97970fccaf40f4cfe56cb7080a9971e1d137e9ff9746ff649310bd0768f20736"
    }
   },
+  "congreso_malaga/43006442219": {
+   "territorio": "congreso_malaga",
+   "run_id": "43006442219",
+   "run_territorial": "43001775134",
+   "sha256_composicion": "3974817d1330914a9aa7ecfb519986915929b7d8eb88617555e559efeaf76329",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "48ef5ca69fb10a479a478a8425b86a417e62e7ea4091af37511ca76e397898e5",
+   "ruta": "datos/resultados/runs/congreso_malaga_43006442219_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.0641,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_malaga_43006442219_desajustes.json",
+    "sha256": "ce6b271d08198c7e45dd0b497c28cf4cc5cb08b8817f2cf7c768536d1da1588b"
+   }
+  },
   "congreso_melilla/43006105644": {
    "territorio": "congreso_melilla",
    "run_id": "43006105644",

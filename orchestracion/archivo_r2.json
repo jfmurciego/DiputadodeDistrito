@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T10:53:25Z",
+  "actualizado_en": "2026-11-11T10:54:24Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3705,19 +3705,20 @@
       "territorio": "congreso_malaga",
       "url": "r2://ddd-research-archive/congreso_malaga/42940458916/ddd-minimo-42940458916-M06.zip"
     },
-    "congreso_malaga/43001775134/ddd-minimo-43001775134-M06.zip": {
-      "archivado_en": "2026-11-11T10:40:26Z",
-      "artefacto": "ddd-minimo-43001775134-M06",
-      "artefacto_origen": "ddd-state-43001775134-M06",
-      "artifact_id": 13847927088,
-      "caducidad_original": "2026-11-25T10:37:27Z",
-      "run_id": "43001775134",
-      "sha256": "2a24ae62cd0b43c19c180a89c3ffd9a69142a199b2f7d5179304894a7ba23740",
-      "sha256_estado_original": "ea15893e27ab064c24d5147576ecaac9cd3ded072f967ad38dab7e4fbac03edd",
-      "tamano_bytes": 454857,
-      "tamano_estado_original": 86432832,
+    "congreso_malaga/43006442219/ddd-minimo-43006442219-M08.zip": {
+      "archivado_en": "2026-11-11T10:54:24Z",
+      "artefacto": "ddd-minimo-43006442219-M08",
+      "artefacto_origen": "ddd-state-43006442219-M08",
+      "artifact_id": 13849326580,
+      "caducidad_original": "2026-11-25T10:53:26Z",
+      "incluye_m06_run": "43001775134",
+      "run_id": "43006442219",
+      "sha256": "44914d75295705bce0de42878b0c130b5d9085b195d0c9c3a838c0c4fe37e826",
+      "sha256_estado_original": "686b8c45ab80515c15c813e0ad8c852a362fdb6ad146dfc9b2654f6c8c40c6a8",
+      "tamano_bytes": 766179,
+      "tamano_estado_original": 88256956,
       "territorio": "congreso_malaga",
-      "url": "r2://ddd-research-archive/congreso_malaga/43001775134/ddd-minimo-43001775134-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_malaga/43006442219/ddd-minimo-43006442219-M08.zip"
     },
     "congreso_melilla/41236482346/ddd-audit-41236482346.zip": {
       "archivado_en": "2026-11-08T12:07:16Z",
