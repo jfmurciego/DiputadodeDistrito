@@ -2,7 +2,7 @@
 
 - Chat del Operador: session_01KQDtFsAtHP9atzNnDthr9A.
 - Frase literal del propietario (2026-11-11 16:39 aprox.): «Autorizo, sin publicar hasta el punto 3: (1) preparar de nuevo las fuentes territoriales de Congreso Lérida y su ejecución completa con el motor nuevo; (2) reintentar una sola vez cualquier ejecución de la regeneración que falle por causa transitoria; (3) cuando las 71 estén completas y el arreglo de la publicación esté en main, publicar en el visor las 71 juntas en un solo lote, con su mapa y sus resultados.»
-- Causa del punto 1: la P00 de Lérida 43043776004 falló en la puerta 01 → 02: «No se pudo descargar ddd-source-package-congreso_lerida-2025-41292591493» (paquete caducado).
+- Causa del punto 1 (corregida, T-250): el paquete de Lérida está vivo (hasta 01-12); la P00 43043776004 cayó por «HTTP 503: Egress is over the account limit» (cuota de egress de la cuenta agotada) = transitorio. Se cancela la P10 y Lérida se reintenta con su P00 (punto 2) cuando se reponga la cuota.
 
 ## Límites
 | Punto | Contenido |
@@ -15,4 +15,4 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado |
 |---|---|---|---|---|
-| 16:39 | Congreso Lérida (1) | P10 Fuentes — P11 Territoriales | 43050510708 | EN_VUELO |
+| 16:39 | Congreso Lérida (1) | P10 Fuentes — P11 Territoriales | 43050510708 | CANCELADA por el Operador (innecesaria; estaba en cola) |
