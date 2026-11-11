@@ -1092,6 +1092,15 @@
    "sha256_csv": "558edd5c4eb6243d798e0301f0fb8f7770b070a03ed7134f288053e2e0ef9fa5",
    "ruta": "datos/resultados/runs/congreso_huesca_42519383275_partidos.csv"
   },
+  "congreso_huesca/42996217596": {
+   "territorio": "congreso_huesca",
+   "run_id": "42996217596",
+   "run_territorial": "42991551418",
+   "sha256_composicion": "4ce5454d88fc1d5e679be869e642cfcb88016b698f8607aceaa7edb6f8025f54",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "4c891f0d8fa45e43ae2afe47e0e00aa5431a04a43cbadeefc0284d2ce0c937fc",
+   "ruta": "datos/resultados/runs/congreso_huesca_42996217596_partidos.csv"
+  },
   "congreso_jaen/42955644352": {
    "territorio": "congreso_jaen",
    "run_id": "42955644352",
