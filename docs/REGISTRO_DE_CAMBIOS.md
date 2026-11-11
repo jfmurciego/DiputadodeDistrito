@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.356
+Versión: 1.0.357
 Fecha: 2026-11-11
-Alcance: T-249 — Par M06/M08 por linaje en la P50 y en datos abiertos, con guarda contra reducciones
+Alcance: T-255 — Definición formal de Deslinde 1.0
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-11_t249-datos-abiertos-par-coherente.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.355_registro_20261111.md
+Cambios/motivo: entrada docs/registro/2026-11-11_t255-deslinde-1-0.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.356_registro_20261111.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.355_registro_20261111.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.357 · [2026-11-11 — T-255 — Definición formal de Deslinde 1.0](registro/2026-11-11_t255-deslinde-1-0.md)
 - 1.0.356 · [2026-11-11 — T-249 — Par M06/M08 por linaje en la P50 y en datos abiertos, con guarda contra reducciones](registro/2026-11-11_t249-datos-abiertos-par-coherente.md)
 - 1.0.355 · [2026-11-11 — T-244 — Andalucía 2025 resuelve el receipt territorial vivo (253f…/40946875467)](registro/2026-11-11_t244-andalucia-sin-receipt-independiente.md)
 - 1.0.354 · [2026-11-11 — T-247 — El test del dashboard sigue la regla de linaje del M08](registro/2026-11-11_t247b-dashboard-linaje.md)
