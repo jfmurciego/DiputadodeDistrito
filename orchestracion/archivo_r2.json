@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T09:25:07Z",
+  "actualizado_en": "2026-11-11T09:26:12Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2798,6 +2798,20 @@
       "tamano_estado_original": 80547028,
       "territorio": "congreso_huelva",
       "url": "r2://ddd-research-archive/congreso_huelva/42940422226/ddd-minimo-42940422226-M06.zip"
+    },
+    "congreso_huelva/42991542477/ddd-minimo-42991542477-M06.zip": {
+      "archivado_en": "2026-11-11T09:26:12Z",
+      "artefacto": "ddd-minimo-42991542477-M06",
+      "artefacto_origen": "ddd-state-42991542477-M06",
+      "artifact_id": 13843247182,
+      "caducidad_original": "2026-11-25T09:22:50Z",
+      "run_id": "42991542477",
+      "sha256": "6bf3ab9166161ffabcb22fbdaf560b05f1b4087cad7a877752287b1932bf4c4a",
+      "sha256_estado_original": "ef7aa7866c6488697c93e687b674f5135478856a6a96bbbe4e9f4268b1461eaa",
+      "tamano_bytes": 185506,
+      "tamano_estado_original": 80547038,
+      "territorio": "congreso_huelva",
+      "url": "r2://ddd-research-archive/congreso_huelva/42991542477/ddd-minimo-42991542477-M06.zip"
     },
     "congreso_huesca/41057319037/ddd-audit-41057319037.zip": {
       "archivado_en": "2026-11-07T17:30:31Z",

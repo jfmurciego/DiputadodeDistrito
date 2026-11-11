@@ -1113,6 +1113,13 @@
    "sha256_csv": "806c47a3809743ce8e422de4facfc9c0954c9f2d50192eb4a1c323447a0f7e03",
    "ruta": "datos/composicion/runs/congreso_huelva_42940422226.csv"
   },
+  "congreso_huelva/42991542477": {
+   "territorio": "congreso_huelva",
+   "run_id": "42991542477",
+   "secciones": 371,
+   "sha256_csv": "806c47a3809743ce8e422de4facfc9c0954c9f2d50192eb4a1c323447a0f7e03",
+   "ruta": "datos/composicion/runs/congreso_huelva_42991542477.csv"
+  },
   "congreso_huesca/42519383275": {
    "territorio": "congreso_huesca",
    "run_id": "42519383275",
