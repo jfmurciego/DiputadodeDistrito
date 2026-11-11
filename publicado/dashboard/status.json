@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T12:11:29.669270+00:00",
+  "generated_at": "2026-11-11T12:16:36.333587+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6870,11 +6870,11 @@
       "name": "Islas Baleares",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41033500476,
+      "run_id": 43011633844,
       "last_run": {
         "run_id": 41033500476,
         "status": "SUCCESS",
@@ -6883,7 +6883,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6900,13 +6900,13 @@
           "territory_id": "illes_balears",
           "territory_name": "Islas Baleares",
           "edition": "2025",
-          "run_id": 41033500476,
-          "artifact_name": "ddd-state-41033500476-M06",
-          "artifact_sha256": "93bde6278f409dda6b4b25350979150263086991771d8fe9c0f63cbf4f6ec5c4",
-          "source_commit": "b5a48e5d0c68d34a56bac423039af418ba04d2b0",
+          "run_id": 43011633844,
+          "artifact_name": "ddd-state-43011633844-M06",
+          "artifact_sha256": "86629e2738b71e06fc020212ebf31c462fda137344073ea034659ecd5635cc44",
+          "source_commit": "766c9ea628bbdd6feba955791cdf915ed187b11c",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/illes_balears/evidencia/generaciones_m06/41033500476.json"
+          "producer_manifest_path": "territorios/illes_balears/evidencia/generaciones_m06/43011633844.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -6924,18 +6924,18 @@
       },
       "autonomous_community_code_ine": "04",
       "display_name": "04 Islas Baleares",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "canarias",
       "name": "Canarias",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42523951377,
+      "run_id": 43011642069,
       "last_run": {
         "run_id": 42523951377,
         "status": "SUCCESS",
@@ -6944,7 +6944,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6961,13 +6961,13 @@
           "territory_id": "canarias",
           "territory_name": "Canarias",
           "edition": "2025",
-          "run_id": 42504381511,
-          "artifact_name": "ddd-state-42504381511-M06",
-          "artifact_sha256": "f38c0460a9be1c9022dbb71cd9de1bf8a19b55cf7863d17ce2ec0081d2ad9b9d",
-          "source_commit": "4b4f38179844835340f262d68c634155ce98140a",
+          "run_id": 43011642069,
+          "artifact_name": "ddd-state-43011642069-M06",
+          "artifact_sha256": "54183891c3b7955cc9cef5ad016e20b430138953de90437ee959eb4109ca09d2",
+          "source_commit": "9f8bcf4cc048f66f82ff78df42ef7ec4560f3c76",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/canarias/evidencia/generaciones_m06/42504381511.json"
+          "producer_manifest_path": "territorios/canarias/evidencia/generaciones_m06/43011642069.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -6985,7 +6985,7 @@
       },
       "autonomous_community_code_ine": "05",
       "display_name": "05 Canarias",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "cantabria",
@@ -9981,20 +9981,20 @@
       "name": "Nacional Pontevedra",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43012135258,
+      "run_id": 43016524347,
       "last_run": {
-        "run_id": 43012135258,
+        "run_id": 43016524347,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10035,7 +10035,7 @@
       },
       "autonomous_community_code_ine": "C36",
       "display_name": "Nacional Pontevedra",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_salamanca",
@@ -10087,10 +10087,10 @@
           "territory_id": "congreso_salamanca",
           "territory_name": "Congreso Salamanca",
           "edition": "2025",
-          "run_id": 41295298674,
-          "artifact_name": "ddd-state-41295298674-M08",
-          "artifact_sha256": "556e20e7d494c487c4175f78cefcf4f254073480af10a24e4403818e80ea732f",
-          "source_commit": "2b1ca758149dbcdca12347b6556d1eea84f3147c",
+          "run_id": 43017179163,
+          "artifact_name": "ddd-state-43017179163-M08",
+          "artifact_sha256": "36261804471126395e80b393bb30fe17594d432d5e9f0344a2144a6ffd7e0020",
+          "source_commit": "859334e57812fa47b86fe34564bd4cfd355ee896",
           "stage": "M08"
         }
       },
@@ -10107,7 +10107,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940505848,
+      "run_id": 43012151677,
       "last_run": {
         "run_id": 42519017008,
         "status": "SUCCESS",
@@ -10133,13 +10133,13 @@
           "territory_id": "congreso_santa_cruz_de_tenerife",
           "territory_name": "Congreso Santa Cruz de Tenerife",
           "edition": "2025",
-          "run_id": 42940505848,
-          "artifact_name": "ddd-state-42940505848-M06",
-          "artifact_sha256": "dd511cd7d92ad7dfe415deb9fcf8d9d5179f685a785e71930cce5992d0dac1aa",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43012151677,
+          "artifact_name": "ddd-state-43012151677-M06",
+          "artifact_sha256": "e15c9fea0a834780388896683dfc0eabda6af191a413b346e4f9b9154bc624aa",
+          "source_commit": "8070510954aa301b56d38b1e832132c313b34286",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/generaciones_m06/42940505848.json"
+          "producer_manifest_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/generaciones_m06/43012151677.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -12256,11 +12256,9 @@
     }
   ],
   "kpis": {
-    "complete": 55,
+    "complete": 54,
     "complete_names": [
       "01 Andalucía",
-      "04 Islas Baleares",
-      "05 Canarias",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "09 Cataluña",
@@ -12307,6 +12305,7 @@
       "Nacional Asturias",
       "Nacional Palencia",
       "Nacional Las Palmas",
+      "Nacional Pontevedra",
       "Nacional Cantabria",
       "Nacional Ceuta",
       "Nacional Melilla",
@@ -12523,13 +12522,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_orense",
-    "name": "Nacional Orense",
-    "display_name": "Nacional Orense",
-    "autonomous_community_code_ine": "C32",
-    "run_id": 43016113065,
+    "territory_id": "congreso_pontevedra",
+    "name": "Nacional Pontevedra",
+    "display_name": "Nacional Pontevedra",
+    "autonomous_community_code_ine": "C36",
+    "run_id": 43016524347,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
@@ -12543,6 +12542,18 @@
       "territory": "03 Principado de Asturias",
       "territory_id": "principado_de_asturias",
       "autonomous_community_code_ine": "03",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "04 Islas Baleares",
+      "territory_id": "illes_balears",
+      "autonomous_community_code_ine": "04",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "05 Canarias",
+      "territory_id": "canarias",
+      "autonomous_community_code_ine": "05",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12564,21 +12575,9 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Pontevedra",
-      "territory_id": "congreso_pontevedra",
-      "autonomous_community_code_ine": "C36",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Salamanca",
       "territory_id": "congreso_salamanca",
       "autonomous_community_code_ine": "C37",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Santa Cruz de Tenerife",
-      "territory_id": "congreso_santa_cruz_de_tenerife",
-      "autonomous_community_code_ine": "C38",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12596,6 +12595,18 @@
       "action": "preparar fuentes electorales"
     },
     {
+      "territory": "04 Islas Baleares",
+      "territory_id": "illes_balears",
+      "autonomous_community_code_ine": "04",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "05 Canarias",
+      "territory_id": "canarias",
+      "autonomous_community_code_ine": "05",
+      "action": "preparar fuentes electorales"
+    },
+    {
       "territory": "06 Cantabria",
       "territory_id": "cantabria",
       "autonomous_community_code_ine": "06",
@@ -12614,21 +12625,9 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Pontevedra",
-      "territory_id": "congreso_pontevedra",
-      "autonomous_community_code_ine": "C36",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Salamanca",
       "territory_id": "congreso_salamanca",
       "autonomous_community_code_ine": "C37",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Santa Cruz de Tenerife",
-      "territory_id": "congreso_santa_cruz_de_tenerife",
-      "autonomous_community_code_ine": "C38",
       "action": "preparar fuentes electorales"
     }
   ]
