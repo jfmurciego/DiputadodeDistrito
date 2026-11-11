@@ -4,11 +4,11 @@
   "territory_id": "congreso_burgos",
   "territory_name": "Congreso Burgos",
   "edition": "2025",
-  "run_id": 42940361074,
-  "artifact_name": "ddd-state-42940361074-M06",
-  "artifact_sha256": "9c93fb4deb910079403af7d160ecd93092c0246a1e04b74abfbe6a63a7ce3ec6",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 42981415070,
+  "artifact_name": "ddd-state-42981415070-M06",
+  "artifact_sha256": "f2aff48f4aadd6e78a6b981ca3b5e81ae5d15dda0bcfea4e2aa5ab0f33ccf879",
+  "source_commit": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_burgos/evidencia/generaciones_m06/42940361074.json"
+  "producer_manifest_path": "territorios/congreso_burgos/evidencia/generaciones_m06/42981415070.json"
 }

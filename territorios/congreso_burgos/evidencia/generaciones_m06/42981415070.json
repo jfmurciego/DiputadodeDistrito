@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13839427283,
+      "artifact_name": "ddd-audit-42981415070",
+      "artifact_sha256": "5aad29a1114389fef42ad8a73a872ecd39208cd9a4cc28f9bc1d9440dac39907",
+      "run_id": 42981415070,
+      "size_in_bytes": 4897
+    },
+    "m04": {
+      "artifact_id": 13838582363,
+      "artifact_name": "ddd-state-42981415070-M04",
+      "artifact_sha256": "7f3e6508e6fd3d49753b27d4a9c051cc100c9604b13a03cf4b017a1e7201df08",
+      "run_id": 42981415070,
+      "size_in_bytes": 78475904
+    },
+    "m05": {
+      "artifact_id": 13838692433,
+      "artifact_name": "ddd-state-42981415070-M05",
+      "artifact_sha256": "fde2e43ead66a48fcbed48374930cf8fd6c30532f3c2d2efa444518e74cb588e",
+      "run_id": 42981415070,
+      "size_in_bytes": 79301510
+    },
+    "m06": {
+      "artifact_id": 13838538833,
+      "artifact_name": "ddd-state-42981415070-M06",
+      "artifact_sha256": "f2aff48f4aadd6e78a6b981ca3b5e81ae5d15dda0bcfea4e2aa5ab0f33ccf879",
+      "run_id": 42981415070,
+      "size_in_bytes": 81283926
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "64a0ab7910c062a9b0be9d8fe0f90eb419ee76b62ab17d757caa9e5fb024111f",
+        "size_in_bytes": 405
+      },
+      "congreso_burgos_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "947438ca01d9372e2da0f3a6ae65d4737cfa53404a106deb541370152416d6a0",
+        "size_in_bytes": 20043
+      },
+      "optimization_execution.json": {
+        "sha256": "e42bdfd01cfd2ea93f4e33dc25ba4cc5e1ec849d35864284de12dec9412bcd81",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "68aa9bb6f2e83eb19e93d19b14a008296f6469fc3c9841dc2c7b20200e24c987",
+        "size_in_bytes": 1497
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "68aa9bb6f2e83eb19e93d19b14a008296f6469fc3c9841dc2c7b20200e24c987",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_burgos/config/congreso_burgos_2025.yaml",
+    "sha256": "328a1408315ba79129a7c73cadc77a470765addbc3d9cea2ed182486fdc6f7f3"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "aa2e2fb55bc92535a39fed6623b60f55563d0f45af6be673223931a9091cca93",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s41078786",
+      "generador": "ponderado",
+      "huella_resultado": "5acb9baa4a1da4583fb0dd638984d3ed7cb56b5181bb01d2f7adc057f70f82db",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 8.95430506198058e-05,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.00021546296555390772,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "39fe9b0158a5aedbb06984ddd51a9eeb8e6e839e32a9cb364495687db05c5db8",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "d3b29437f7460641304d1cc0ad811b9cb5d599d1",
+    "edition": "2025",
+    "territory_id": "congreso_burgos",
+    "territory_name": "Congreso Burgos",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42981415070,
+    "workflow_sha": "d3b29437f7460641304d1cc0ad811b9cb5d599d1"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13838582363,
+      "artifact_name": "ddd-state-42981415070-M04",
+      "artifact_sha256": "7f3e6508e6fd3d49753b27d4a9c051cc100c9604b13a03cf4b017a1e7201df08",
+      "run_id": 42981415070,
+      "size_in_bytes": 78475904
+    },
+    "source_manifest_sha256": "643549f7096aead6a1c22a96799fe1371e072d2a19fdff161d3453d8fb7a0dc7",
+    "source_package_artifact": {
+      "artifact_id": 13078059500,
+      "artifact_name": "ddd-source-package-congreso_burgos-2025-41292846877",
+      "artifact_sha256": "e5d3c35b2797e0df1cf95fcc46f836ec52085873f53a4444b88c2231d57bbccb",
+      "run_id": 41292846877,
+      "size_in_bytes": 76804186
+    }
+  },
+  "manifest_sha256": "8b3ff32f35afe5147ffd1b4808dda3cb6b024f049bedbed2d3bb715f958a92c6",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
