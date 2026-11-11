@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T11:52:54Z",
+  "actualizado_en": "2026-11-11T11:53:51Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -5773,6 +5773,20 @@
       "tamano_estado_original": 146840317,
       "territorio": "principado_de_asturias",
       "url": "r2://ddd-research-archive/principado_de_asturias/40979477771/ddd-minimo-40979477771-M08.zip"
+    },
+    "principado_de_asturias/43011625216/ddd-minimo-43011625216-M06.zip": {
+      "archivado_en": "2026-11-11T11:53:51Z",
+      "artefacto": "ddd-minimo-43011625216-M06",
+      "artefacto_origen": "ddd-state-43011625216-M06",
+      "artifact_id": 13852975959,
+      "caducidad_original": "2026-11-25T11:49:51Z",
+      "run_id": "43011625216",
+      "sha256": "98417215d0ac52b486f5762c38b67f0ee92f37b2a0594edf8623c481d705b5fd",
+      "sha256_estado_original": "1183add3081e0679e67a24b344559318cbc314906eb4e23415788434dac87198",
+      "tamano_bytes": 690409,
+      "tamano_estado_original": 85987819,
+      "territorio": "principado_de_asturias",
+      "url": "r2://ddd-research-archive/principado_de_asturias/43011625216/ddd-minimo-43011625216-M06.zip"
     },
     "region_de_murcia/40945284725/ddd-audit-40945284725.zip": {
       "archivado_en": "2026-11-07T17:09:06Z",

@@ -1491,6 +1491,13 @@
    "sha256_csv": "ff0230560101719270ddf9368eb284d552ee0343f444ddab2751182bcd889560",
    "ruta": "datos/composicion/runs/melilla_42504386196.csv"
   },
+  "principado_de_asturias/43011625216": {
+   "territorio": "principado_de_asturias",
+   "run_id": "43011625216",
+   "secciones": 832,
+   "sha256_csv": "b9522f61d72d90bc5ab04dac9059c0845f8ae114fda9a309d5a3fd5c3093d9b5",
+   "ruta": "datos/composicion/runs/principado_de_asturias_43011625216.csv"
+  },
   "region_de_murcia/42504383790": {
    "territorio": "region_de_murcia",
    "run_id": "42504383790",
