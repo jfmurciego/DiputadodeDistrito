@@ -1444,6 +1444,22 @@
     "sha256": "c508ce441f22e330e3455ec0f782e4ef2068848d3de00ec2097e220452d5a002"
    }
   },
+  "congreso_valencia/43041144007": {
+   "territorio": "congreso_valencia",
+   "run_id": "43041144007",
+   "run_territorial": "43034939625",
+   "sha256_composicion": "c0f2f2200a5d11c26d7925d5ccd0db28e157343d700d3c20a761e411bfd360a3",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "789e9f7310a8192c7358cd6c40ad53b79b19a5622378aa5d5903ea497457ce77",
+   "ruta": "datos/resultados/runs/congreso_valencia_43041144007_partidos.csv",
+   "desajustes": {
+    "secciones": 22,
+    "pct_desajuste": 0.7652,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_valencia_43041144007_desajustes.json",
+    "sha256": "ae949de4576a08552ce00ca3aa6738fa63ce8ec19bd8368e159edfa37d17c1df"
+   }
+  },
   "congreso_valladolid/43040794081": {
    "territorio": "congreso_valladolid",
    "run_id": "43040794081",
