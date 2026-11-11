@@ -267,8 +267,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 43025652192
-        stage: M06
+        run_id: 43031565452
+        stage: M08
       preparation_evidence:
         run_id: 40690624792
         artifact_name: ddd-source-package-castilla_la_mancha-2025-40690624792
