@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# CAMBIOS (T-230b, 2026-11-11): register_pair es idempotente ante el campo derivado territorial_product_reuse.
+#   MOTIVO: Congreso Álava (activación 42952637226) dio PAIR_BLOCK porque el par guardado se registró antes del
+#   M06 (NO_TERRITORIAL_PRODUCT) y al rederivarlo el campo cambia aunque fuentes y pair_sha256 son los mismos.
+#   Si todo coincide salvo ese campo, se acepta el receipt existente SIN reescribirlo (registro histórico).
+#   ANTERIOR: legacy/herramientas/registrar_par_fuentes_legislatura_pre_t230b_20261111.py
 # CAMBIOS (T-214, 2026-11-10): validate_pair_receipt compara el territorio esperado por el resolutor único
 #   (ddd_core/territorio_ids.py): el par se admite con el id viejo o con el nuevo. ANTERIOR:
 #   legacy/herramientas/registrar_par_fuentes_legislatura_pre_t214_20261110.py
@@ -500,6 +505,34 @@ def _set_pair_pointer(catalog_path: Path, *, territory_id: str, edition: str, pa
     catalog_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+# Campos derivados del estado del catálogo en el momento del registro: no forman parte de la
+# identidad del par (no entran en pair_sha256) y pueden cambiar después (p. ej. al registrarse el M06).
+DERIVED_PAIR_FIELDS = frozenset({"territorial_product_reuse"})
+
+
+def _existing_equivalent_pair(pair_path: Path, pair: dict, rendered: str) -> dict | None:
+    """Devuelve el receipt existente si es equivalente al rederivado; None si falta o contradice.
+
+    Equivalente: texto idéntico, o mismo JSON salvo los campos derivados (DERIVED_PAIR_FIELDS).
+    Cualquier otra diferencia (fuentes, identidades, pair_sha256) sigue siendo contradicción.
+    """
+    if not pair_path.is_file():
+        return None
+    text = pair_path.read_text(encoding="utf-8")
+    if text == rendered:
+        return pair
+    try:
+        stored = json.loads(text)
+    except Exception:
+        return None
+    if not isinstance(stored, dict):
+        return None
+    strip = lambda d: {k: v for k, v in d.items() if k not in DERIVED_PAIR_FIELDS}  # noqa: E731
+    if strip(stored) != strip(pair) or stored.get("pair_sha256") != pair.get("pair_sha256"):
+        return None
+    return stored
+
+
 def register_pair(
     *,
     root_dir: Path,
@@ -520,15 +553,18 @@ def register_pair(
         / f"{pair['pair_sha256']}.json"
     )
     rendered = json.dumps(pair, ensure_ascii=False, indent=2) + "\n"
+    existing = _existing_equivalent_pair(pair_path, pair, rendered)
     if verify_only:
-        if not pair_path.is_file() or pair_path.read_text(encoding="utf-8") != rendered:
+        if existing is None:
             raise PreparedSourcePairBlock("PAIR_BLOCK: par durable efectivo ausente o contradictorio")
-        return {**pair, "receipt_path": pair_path.relative_to(root).as_posix()}
+        return {**existing, "receipt_path": pair_path.relative_to(root).as_posix()}
 
     pair_path.parent.mkdir(parents=True, exist_ok=True)
-    if pair_path.exists() and pair_path.read_text(encoding="utf-8") != rendered:
+    if pair_path.exists() and existing is None:
         raise PreparedSourcePairBlock("PAIR_BLOCK: hash de par existente con contenido contradictorio")
-    pair_path.write_text(rendered, encoding="utf-8")
+    if not pair_path.exists():
+        pair_path.write_text(rendered, encoding="utf-8")
+        existing = pair
     pair_rel = pair_path.relative_to(root).as_posix()
     _set_pair_pointer(
         root / "configuracion/catalogo_preparacion.yaml",
@@ -536,7 +572,7 @@ def register_pair(
         edition=pair["edition"],
         pair_rel=pair_rel,
     )
-    return {**pair, "receipt_path": pair_rel}
+    return {**existing, "receipt_path": pair_rel}
 
 
 
