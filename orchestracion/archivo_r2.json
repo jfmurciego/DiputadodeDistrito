@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:05:59Z",
+  "actualizado_en": "2026-11-11T03:06:52Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -4149,6 +4149,20 @@
       "tamano_estado_original": 76628543,
       "territorio": "congreso_soria",
       "url": "r2://ddd-research-archive/congreso_soria/41250310066/ddd-minimo-41250310066-M08.zip"
+    },
+    "congreso_soria/42940525976/ddd-minimo-42940525976-M06.zip": {
+      "archivado_en": "2026-11-11T03:06:52Z",
+      "artefacto": "ddd-minimo-42940525976-M06",
+      "artefacto_origen": "ddd-state-42940525976-M06",
+      "artifact_id": 13822368614,
+      "caducidad_original": "2026-11-25T02:33:06Z",
+      "run_id": "42940525976",
+      "sha256": "a1e811322a4a87f220480f8e347d45ed385c8eb15cddbe5dc65ef96968a0d231",
+      "sha256_estado_original": "b5646cea35c1c6bee1cadb87af6fda1e14d4594799969932ad66d22da42ba843",
+      "tamano_bytes": 101651,
+      "tamano_estado_original": 76664491,
+      "territorio": "congreso_soria",
+      "url": "r2://ddd-research-archive/congreso_soria/42940525976/ddd-minimo-42940525976-M06.zip"
     },
     "congreso_tarragona/41243062797/ddd-audit-41243062797.zip": {
       "archivado_en": "2026-11-08T12:10:32Z",

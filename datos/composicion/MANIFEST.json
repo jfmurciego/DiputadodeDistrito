@@ -1204,6 +1204,13 @@
    "sha256_csv": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
    "ruta": "datos/composicion/runs/congreso_segovia_42940515676.csv"
   },
+  "congreso_soria/42940525976": {
+   "territorio": "congreso_soria",
+   "run_id": "42940525976",
+   "secciones": 216,
+   "sha256_csv": "1921c37db90159bfbd5df9a8a025df33688ea1221515ecf2607147406f78fcac",
+   "ruta": "datos/composicion/runs/congreso_soria_42940525976.csv"
+  },
   "congreso_tarragona/42514991952": {
    "territorio": "congreso_tarragona",
    "run_id": "42514991952",
