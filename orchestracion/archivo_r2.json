@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T09:27:14Z",
+  "actualizado_en": "2026-11-11T09:33:13Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3298,6 +3298,20 @@
       "tamano_estado_original": 80057806,
       "territorio": "congreso_leon",
       "url": "r2://ddd-research-archive/congreso_leon/42940437972/ddd-minimo-42940437972-M06.zip"
+    },
+    "congreso_leon/42991571678/ddd-minimo-42991571678-M06.zip": {
+      "archivado_en": "2026-11-11T09:33:13Z",
+      "artefacto": "ddd-minimo-42991571678-M06",
+      "artefacto_origen": "ddd-state-42991571678-M06",
+      "artifact_id": 13843448422,
+      "caducidad_original": "2026-11-25T09:29:23Z",
+      "run_id": "42991571678",
+      "sha256": "96c07076dfbdb1b46545c949e09c2870498d0063b0263133df0abfa05640e391",
+      "sha256_estado_original": "f62d48ca81045ed065c167673ba1188a0504c1aa6adcd23eeddc9604a26a81be",
+      "tamano_bytes": 221538,
+      "tamano_estado_original": 80057814,
+      "territorio": "congreso_leon",
+      "url": "r2://ddd-research-archive/congreso_leon/42991571678/ddd-minimo-42991571678-M06.zip"
     },
     "congreso_lerida/41292591493/ddd-audit-41292591493.zip": {
       "archivado_en": "2026-11-08T12:15:18Z",

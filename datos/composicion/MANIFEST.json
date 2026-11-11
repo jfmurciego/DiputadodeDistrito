@@ -1183,6 +1183,13 @@
    "sha256_csv": "d7f4c500ca83bd70b99d42a1006cdbf56454a0d60f927b88a369502c2dce3869",
    "ruta": "datos/composicion/runs/congreso_leon_42940437972.csv"
   },
+  "congreso_leon/42991571678": {
+   "territorio": "congreso_leon",
+   "run_id": "42991571678",
+   "secciones": 447,
+   "sha256_csv": "d7f4c500ca83bd70b99d42a1006cdbf56454a0d60f927b88a369502c2dce3869",
+   "ruta": "datos/composicion/runs/congreso_leon_42991571678.csv"
+  },
   "congreso_lerida/42940443438": {
    "territorio": "congreso_lerida",
    "run_id": "42940443438",
