@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T14:00:42Z",
+  "actualizado_en": "2026-11-11T14:27:19Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -6864,6 +6864,20 @@
       "tamano_estado_original": 84080179,
       "territorio": "congreso_vizcaya",
       "url": "r2://ddd-research-archive/congreso_vizcaya/42940558507/ddd-minimo-42940558507-M06.zip"
+    },
+    "congreso_vizcaya/43034959389/ddd-minimo-43034959389-M06.zip": {
+      "archivado_en": "2026-11-11T14:27:19Z",
+      "artefacto": "ddd-minimo-43034959389-M06",
+      "artefacto_origen": "ddd-state-43034959389-M06",
+      "artifact_id": 13863309361,
+      "caducidad_original": "2026-11-25T14:24:37Z",
+      "run_id": "43034959389",
+      "sha256": "86c55078fc436df9aec35f725ec32c71089f23b1584d566418b7e3488cfc0460",
+      "sha256_estado_original": "b7d87ed8658432a2061ee7f312ef98ad90a54120c992ab604b0de83cb7b4122c",
+      "tamano_bytes": 537730,
+      "tamano_estado_original": 84080181,
+      "territorio": "congreso_vizcaya",
+      "url": "r2://ddd-research-archive/congreso_vizcaya/43034959389/ddd-minimo-43034959389-M06.zip"
     },
     "congreso_zamora/41236140669/ddd-audit-41236140669.zip": {
       "archivado_en": "2026-11-08T12:06:30Z",
