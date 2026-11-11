@@ -361,7 +361,7 @@ territories:
         section_year: 2024
         source_commit: 091d40cef648abcc9319af1f6dc3488a5abdc556
       evidence:
-        electoral_source: territorios/cataluna/evidencia/fuentes_electorales/2025/4339f10519a3a10cf22b99dfe1b3fd25565c97058333c1284234d760aee393b5/36789340482/receipt.json
+        electoral_source: territorios/cataluna/evidencia/fuentes_electorales/2025/9512fde80f903cbe93eab4be4695612da01cd7a420d7840e4d04834985a46e18/43036592492/receipt.json
         prepared_source_pair: territorios/cataluna/evidencia/pares_fuentes/2025/78bebbc5beefd9680e8a58a0651924f6653627cd9186290af990895670b135ca.json
         generation_preflight: territorios/cataluna/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/cataluna/evidencia/catalogo/territorial_product_2025.json
