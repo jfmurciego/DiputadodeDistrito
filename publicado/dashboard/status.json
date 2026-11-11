@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-10T23:16:05.279115+00:00",
+  "generated_at": "2026-11-11T01:11:41.130206+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7663,20 +7663,20 @@
       "name": "La Rioja",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42916463221,
+      "run_id": 42920452778,
       "last_run": {
-        "run_id": 42916463221,
+        "run_id": 42920452778,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7717,7 +7717,7 @@
       },
       "autonomous_community_code_ine": "17",
       "display_name": "17 La Rioja",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "ceuta",
@@ -9371,20 +9371,20 @@
       "name": "Nacional La Rioja",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
-      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42504388624,
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 42932144515,
       "last_run": {
-        "run_id": 42504388624,
+        "run_id": 42932144515,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9401,13 +9401,13 @@
           "territory_id": "congreso_la_rioja",
           "territory_name": "Congreso La Rioja",
           "edition": "2025",
-          "run_id": 42504388624,
-          "artifact_name": "ddd-state-42504388624-M06",
-          "artifact_sha256": "51330170423ceacd4301d78cff951c59cd392e3361bd38d85128bf55bf15533f",
-          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
-          "decision": "PASS_WITH_EXCEPTIONS",
+          "run_id": 42932144515,
+          "artifact_name": "ddd-state-42932144515-M06",
+          "artifact_sha256": "acc516ebc5867ddcbdbfb4c96acbef53252222a248f86e7d8ad28d70d9748d3b",
+          "source_commit": "83c4969db49f7d187ac136257c2b7ba9ac84893c",
+          "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_la_rioja/evidencia/generaciones_m06/42504388624.json"
+          "producer_manifest_path": "territorios/congreso_la_rioja/evidencia/generaciones_m06/42932144515.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9416,16 +9416,16 @@
           "territory_id": "congreso_la_rioja",
           "territory_name": "Congreso La Rioja",
           "edition": "2025",
-          "run_id": 42504388624,
-          "artifact_name": "ddd-state-42504388624-M08",
-          "artifact_sha256": "80536ba8a09571415d87652803927a0672ac61fad6a3efb3110904b88184421b",
-          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
+          "run_id": 42935762636,
+          "artifact_name": "ddd-state-42935762636-M08",
+          "artifact_sha256": "ce51d3a40afd708c54e223673a22a258a6385136c411b6a88d09a8c8900b69f9",
+          "source_commit": "1679ff298bb5b21856d40341dad1f3aa434a2a22",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "C26",
       "display_name": "Nacional La Rioja",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_lugo",
@@ -12272,6 +12272,7 @@
       "14 Región de Murcia",
       "15 Comunidad Foral de Navarra",
       "16 País Vasco",
+      "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
       "Nacional Álava",
@@ -12299,7 +12300,6 @@
       "Nacional Jaén",
       "Nacional León",
       "Nacional Lérida",
-      "Nacional La Rioja",
       "Nacional Lugo",
       "Nacional Madrid",
       "Nacional Málaga",
@@ -12539,11 +12539,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "castilla_y_leon",
-    "name": "Castilla y León",
-    "display_name": "07 Castilla y León",
-    "autonomous_community_code_ine": "07",
-    "run_id": 42531122768,
+    "territory_id": "la_rioja",
+    "name": "La Rioja",
+    "display_name": "17 La Rioja",
+    "autonomous_community_code_ine": "17",
+    "run_id": 42920452778,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12562,9 +12562,9 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "17 La Rioja",
-      "territory_id": "la_rioja",
-      "autonomous_community_code_ine": "17",
+      "territory": "Nacional La Rioja",
+      "territory_id": "congreso_la_rioja",
+      "autonomous_community_code_ine": "C26",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12612,9 +12612,9 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "17 La Rioja",
-      "territory_id": "la_rioja",
-      "autonomous_community_code_ine": "17",
+      "territory": "Nacional La Rioja",
+      "territory_id": "congreso_la_rioja",
+      "autonomous_community_code_ine": "C26",
       "action": "preparar fuentes electorales"
     }
   ]

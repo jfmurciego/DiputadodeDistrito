@@ -695,6 +695,37 @@ class LectorVigenteT229(unittest.TestCase):
             base = self._falso_atomico(uid)
             r = self._indicadores(out, t, pub, lambda c, *a: self._plan(0) if Path(c) == vig else (base(c, *a) and self._plan(3)))
             self.assertEqual(r["estado"], "PEOR")
+class RecuentoDelContrato(unittest.TestCase):
+    """T-228: la comprobación 2 cuenta como el contrato y la competición (objetivo regional), no por circunscripción.
+    r5 fase 2 (run 42927322822): Castilla-La Mancha, ganador 5 del contrato (= vigente) y 6 por circunscripción: PEOR falso."""
+
+    @staticmethod
+    def _natural():
+        from fractions import Fraction
+        from ddd_motor2.naturalidad_clave import Natural
+        n = Natural()
+        n.fuera_contrato = True
+        n.pob_u = {"a": 122, "b": 158, "c": 120, "d": 120}
+        n.circ_u = {"a": "01", "b": "01", "c": "02", "d": "02"}
+        n.objetivo, n.tol = Fraction(520, 4), Fraction(520, 4) * Fraction(12, 100)  # 130, tolerancia 12 %
+        n.obj_circ = {"01": Fraction(280, 2), "02": Fraction(240, 2)}  # 140 y 120
+        n.pj = n.ca = {u: None for u in n.pob_u}
+        n.largo = {}
+        return n
+
+    def test_t228_recuento_regional_igual_al_primer_termino_de_la_clave_d8(self):
+        n = self._natural()
+        plan = {u: u for u in n.pob_u}  # un distrito por unidad
+        r = b.recuento_contrato(n, plan)
+        # objetivo regional 130: solo 158 (21,5 %) fuera; por circunscripción, 122 y 158 (12,9 % de 140) fuera
+        self.assertEqual((r["fuera_tolerancia"], r["fuera_tolerancia_circunscripcion"]), (1, 2))
+        self.assertEqual(r["fuera_tolerancia"], n.clave(plan, "D8", "x")[0])  # la misma medida que elige la competición
+        self.assertAlmostEqual(r["desvio_max"], 28 / 130)
+        self.assertAlmostEqual(r["desvio_max_circunscripcion"], 18 / 140)
+        # un ganador igual que el vigente en el contrato no es PEOR aunque difiera por circunscripción
+        vig = {**r, "fuera_tolerancia_circunscripcion": 1}
+        self.assertEqual(b.peor_que(r, vig), [])
+        self.assertEqual(len(b.peor_que(r, {**r, "fuera_tolerancia": 0})), 1)  # y uno peor del contrato sigue siendo NO
 
 
 if __name__ == "__main__":

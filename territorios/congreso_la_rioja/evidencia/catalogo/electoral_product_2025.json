@@ -4,9 +4,9 @@
   "territory_id": "congreso_la_rioja",
   "territory_name": "Congreso La Rioja",
   "edition": "2025",
-  "run_id": 42504388624,
-  "artifact_name": "ddd-state-42504388624-M08",
-  "artifact_sha256": "80536ba8a09571415d87652803927a0672ac61fad6a3efb3110904b88184421b",
-  "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
+  "run_id": 42935762636,
+  "artifact_name": "ddd-state-42935762636-M08",
+  "artifact_sha256": "ce51d3a40afd708c54e223673a22a258a6385136c411b6a88d09a8c8900b69f9",
+  "source_commit": "1679ff298bb5b21856d40341dad1f3aa434a2a22",
   "stage": "M08"
 }
