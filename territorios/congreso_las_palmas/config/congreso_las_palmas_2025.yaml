@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -76,7 +76,7 @@ territory_contract:
   population_floor_exempt_partitions:
   - 35-C02
   small_component_exception_policy: one_contiguous_district_floor_exception
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   limits_profile: exception
   limits_exception_rationale: 'Decisión del propietario 31-10-2026: Lanzarote y La
     Graciosa forman un solo distrito (1,38 de la media), así que el techo provincial
@@ -338,7 +338,7 @@ resolved_source_contract:
   contract_sha256: 7383f0b1edf9a569244243a2a4b772d65ea3ccd2e23343cb86611c9b6fd419b4
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: 1a9afa6371abbff01b01921916e75bd95b0b75f97efd6b6471e5d31c4064344a
   compatibility_identity_sha256: 5e9fc62b1cda6a22f4a2d4656e269634f37a3cf8edba21463198d3928be7ec64
   source_inputs:
@@ -390,3 +390,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 42991561887
+  pre_m04_source_commit: 48cb84ff4472f0ef2745b4c275eb952b82088790
+  pre_m04_artifact_sha256: a8fb44464fa2ebf9c5401c3b377b890e26fa8b6059410b1bc6c878b18855eafc
