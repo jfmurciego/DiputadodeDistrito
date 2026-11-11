@@ -1260,6 +1260,13 @@
    "sha256_csv": "fdc1449d7dfc6cb385cb29aff9fb238724ec4566bd8b22e8b768abf47b436d0d",
    "ruta": "datos/composicion/runs/congreso_melilla_42940578685.csv"
   },
+  "congreso_melilla/43001757563": {
+   "territorio": "congreso_melilla",
+   "run_id": "43001757563",
+   "secciones": 44,
+   "sha256_csv": "fdc1449d7dfc6cb385cb29aff9fb238724ec4566bd8b22e8b768abf47b436d0d",
+   "ruta": "datos/composicion/runs/congreso_melilla_43001757563.csv"
+  },
   "congreso_murcia/42940463842": {
    "territorio": "congreso_murcia",
    "run_id": "42940463842",
