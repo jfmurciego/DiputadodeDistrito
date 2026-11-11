@@ -43,7 +43,7 @@ paths:
   batería (`pruebas` con la suite) sobre `main` está en success; anota su fecha. Un push de código la ejecuta; un push de robot que solo
   toca ficheros .json/.md/.csv de datos/registro (lista exacta `RUTAS_ROBOT`) pasa solo el guardián y lo cubre la batería nocturna (02:23
   UTC). Un push de código posterior cancela la comprobación superada del anterior: un push de código cancelado cuenta como NO verde hasta
-  que una batería completa sobre `main` termine en success; un push de robot nunca cancela nada. Si cae la nocturna, el job
+  que una batería completa sobre `main` termine en success; un push de robot nunca cancela nada salvo el job «Estado vivo» (T-252) del push de robot anterior. Si cae la nocturna, el job
   `aviso_nocturna` abre (o comenta) el issue «Batería nocturna de main en rojo» y `main` no está en verde hasta arreglarla.
   Cambios de código, en PR o en main, siempre con la batería completa.
 - Una espera de fusión que dispara sola puede adelantarse a la orden (#455 antes que #457): páralas (TaskStop) si cambia el orden.
