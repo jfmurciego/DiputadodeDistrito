@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:50:01Z",
+  "actualizado_en": "2026-11-11T02:50:56Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2522,6 +2522,20 @@
       "tamano_estado_original": 80034038,
       "territorio": "congreso_guadalajara",
       "url": "r2://ddd-research-archive/congreso_guadalajara/41294169221/ddd-minimo-41294169221-M08.zip"
+    },
+    "congreso_guadalajara/42940412378/ddd-minimo-42940412378-M06.zip": {
+      "archivado_en": "2026-11-11T02:50:56Z",
+      "artefacto": "ddd-minimo-42940412378-M06",
+      "artefacto_origen": "ddd-state-42940412378-M06",
+      "artifact_id": 13821724031,
+      "caducidad_original": "2026-11-25T02:24:54Z",
+      "run_id": "42940412378",
+      "sha256": "48240a124dd5bab763de50bb49481bd985321fca618f03e5caba6ef7fcce8e64",
+      "sha256_estado_original": "fc58f22c97f6f17fd9fbe8e348d482bc0c06a423bb83906f8fee2cf5a730f779",
+      "tamano_bytes": 221363,
+      "tamano_estado_original": 79945468,
+      "territorio": "congreso_guadalajara",
+      "url": "r2://ddd-research-archive/congreso_guadalajara/42940412378/ddd-minimo-42940412378-M06.zip"
     },
     "congreso_guipuzcoa/41292345223/ddd-audit-41292345223.zip": {
       "archivado_en": "2026-11-08T12:14:25Z",
