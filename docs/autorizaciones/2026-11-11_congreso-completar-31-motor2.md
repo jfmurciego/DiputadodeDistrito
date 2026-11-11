@@ -29,8 +29,8 @@
 | 11:13 | tanda 3: Madrid 43001749134, Melilla 43001757563, Murcia 43001766635, Málaga 43001775134, Navarra 43001785293 | P00 Campaña motor2 | — | SUCCESS: las 5 cadenas completas | 15 / — | 0/1 |
 | 12:27 | tanda 4: Orense 43012119307, Palencia 43012127687, Pontevedra 43012135258, Salamanca 43012143922, Santa Cruz de Tenerife 43012151677 | P00 Campaña motor2 | — | SUCCESS: las 5 cadenas completas | 20 / — | 0/1 |
 | 13:57 | tanda 5: Segovia 43024836898, Sevilla 43024845069, Soria 43024852774, Tarragona 43024860841, Teruel 43024869107 | P00 Campaña motor2 | — | SUCCESS: las 5 cadenas completas | 25 / — | 0/1 |
-| 15:04 | tanda 6 (última, 6 por cola libre a petición del propietario): Toledo 43034928684, Valencia 43034939625, Valladolid 43034949749, Vizcaya 43034959389, Zamora 43034969907, Zaragoza 43034979460 | P00 Campaña motor2 | — | EN_VUELO | 31 / — | 0/1 |
-| 15:59 | Lérida 43043776004 (omitida por error del Operador en el reparto de tandas; detectada por el Planificador) | P00 Campaña motor2 | — | EN_VUELO | 32 / — | 0/1 |
+| 15:04 | tanda 6 (última, 6 por cola libre a petición del propietario): Toledo 43034928684, Valencia 43034939625, Valladolid 43034949749, Vizcaya 43034959389, Zamora 43034969907, Zaragoza 43034979460 | P00 Campaña motor2 | — | SUCCESS: las 6 cadenas completas | 31 / — | 0/1 |
+| 15:59 | Lérida 43043776004 (omitida por error del Operador en el reparto de tandas; detectada por el Planificador) | P00 Campaña motor2 | — | FAILURE transitorio: «HTTP 503: Egress is over the account limit» (cuota de la cuenta); reintento pendiente de reponer la cuota | 32 / — | 0/1 |
 
 ## Cierre
 Estado: `EN_CURSO` (tanda 6, última). Último uso: 2026-11-11.
