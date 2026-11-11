@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T14:29:02Z",
+  "actualizado_en": "2026-11-11T14:29:51Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -6602,6 +6602,20 @@
       "tamano_estado_original": 82800491,
       "territorio": "congreso_toledo",
       "url": "r2://ddd-research-archive/congreso_toledo/42940542275/ddd-minimo-42940542275-M06.zip"
+    },
+    "congreso_toledo/43034928684/ddd-minimo-43034928684-M06.zip": {
+      "archivado_en": "2026-11-11T14:29:51Z",
+      "artefacto": "ddd-minimo-43034928684-M06",
+      "artefacto_origen": "ddd-state-43034928684-M06",
+      "artifact_id": 13864346607,
+      "caducidad_original": "2026-11-25T14:26:01Z",
+      "run_id": "43034928684",
+      "sha256": "8ac7c84ad803a5ee7e75c8cd442cc4a37cabacae4211bbe5653098329aed85a2",
+      "sha256_estado_original": "d90cd9d83926cb42989b36f133a30aa02472f655100b35befe2a321487f08898",
+      "tamano_bytes": 294036,
+      "tamano_estado_original": 82800516,
+      "territorio": "congreso_toledo",
+      "url": "r2://ddd-research-archive/congreso_toledo/43034928684/ddd-minimo-43034928684-M06.zip"
     },
     "congreso_valencia/41318119259/ddd-audit-41318119259.zip": {
       "archivado_en": "2026-11-08T12:17:02Z",
