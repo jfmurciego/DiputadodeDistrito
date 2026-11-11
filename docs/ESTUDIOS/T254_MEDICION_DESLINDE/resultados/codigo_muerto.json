@@ -1,0 +1,992 @@
+{
+ "modulos": [
+  {
+   "modulo": "ddd_core",
+   "lineas": 3,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 39,
+    "otros": 9,
+    "tests": 84,
+    "herramientas": 57,
+    "legacy": 189
+   }
+  },
+  {
+   "modulo": "ddd_core.comarcas",
+   "lineas": 40,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 1,
+    "herramientas": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.config",
+   "lineas": 85,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 30,
+    "tests": 6,
+    "herramientas": 24,
+    "legacy": 142,
+    "otros": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_bounded_tree_search",
+   "lineas": 242,
+   "estado": "solo herramientas",
+   "importadores": {
+    "tests": 2,
+    "herramientas": 3,
+    "legacy": 4
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_candidate_certifier",
+   "lineas": 645,
+   "estado": "solo tests",
+   "importadores": {
+    "tests": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_cnig_receipt",
+   "lineas": 187,
+   "estado": "solo tests",
+   "importadores": {
+    "tests": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_constructive_witness",
+   "lineas": 413,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "tests": 2,
+    "herramientas": 4,
+    "legacy": 4
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_contract",
+   "lineas": 471,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 6,
+    "tests": 8,
+    "herramientas": 4,
+    "legacy": 6,
+    "otros": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_exact_feasibility",
+   "lineas": 182,
+   "estado": "solo herramientas",
+   "importadores": {
+    "tests": 1,
+    "herramientas": 1,
+    "legacy": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_feasibility",
+   "lineas": 68,
+   "estado": "solo herramientas",
+   "importadores": {
+    "tests": 1,
+    "herramientas": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_ign_api_snapshot",
+   "lineas": 254,
+   "estado": "solo tests",
+   "importadores": {
+    "tests": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_ign_historical_wms",
+   "lineas": 147,
+   "estado": "solo tests",
+   "importadores": {
+    "tests": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_national_composer",
+   "lineas": 642,
+   "estado": "solo tests",
+   "importadores": {
+    "tests": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_pilot_adapter",
+   "lineas": 221,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "tests": 1,
+    "herramientas": 4,
+    "legacy": 2
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_preflight_adapter",
+   "lineas": 279,
+   "estado": "solo herramientas",
+   "importadores": {
+    "produccion": 1,
+    "tests": 5,
+    "herramientas": 2,
+    "legacy": 2,
+    "otros": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_product_manifest",
+   "lineas": 78,
+   "estado": "solo tests",
+   "importadores": {
+    "produccion": 1,
+    "tests": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_readiness",
+   "lineas": 198,
+   "estado": "solo herramientas",
+   "importadores": {
+    "tests": 2,
+    "herramientas": 3
+   }
+  },
+  {
+   "modulo": "ddd_core.congreso_topology",
+   "lineas": 179,
+   "estado": "solo herramientas",
+   "importadores": {
+    "tests": 1,
+    "herramientas": 2,
+    "legacy": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.electoral_contract",
+   "lineas": 714,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 10,
+    "herramientas": 6,
+    "legacy": 6
+   }
+  },
+  {
+   "modulo": "ddd_core.electoral_gap_filler",
+   "lineas": 711,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "tests": 2,
+    "herramientas": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.electoral_reconciliation",
+   "lineas": 272,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 1,
+    "legacy": 2
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_administrative_atomic_groups",
+   "lineas": 132,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 1,
+    "legacy": 4
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_closed_target_cores",
+   "lineas": 544,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 1,
+    "legacy": 3
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_overcap_residual_relief",
+   "lineas": 274,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 1,
+    "legacy": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_partition_contract",
+   "lineas": 113,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 2,
+    "tests": 1,
+    "legacy": 5
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine",
+   "lineas": 746,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 8,
+    "herramientas": 3,
+    "legacy": 8
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v7410",
+   "lineas": 493,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 2,
+    "tests": 2
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v7411",
+   "lineas": 341,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "herramientas": 1,
+    "legacy": 8
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v7412",
+   "lineas": 235,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 1,
+    "legacy": 4
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v745",
+   "lineas": 318,
+   "estado": "solo tests",
+   "importadores": {
+    "produccion": 9,
+    "tests": 2,
+    "legacy": 5
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v746",
+   "lineas": 117,
+   "estado": "sin referencias",
+   "importadores": {}
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v747",
+   "lineas": 290,
+   "estado": "solo legacy",
+   "importadores": {
+    "produccion": 3,
+    "legacy": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v748",
+   "lineas": 296,
+   "estado": "sin referencias",
+   "importadores": {
+    "produccion": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v749",
+   "lineas": 312,
+   "estado": "solo legacy",
+   "importadores": {
+    "produccion": 1,
+    "legacy": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v750",
+   "lineas": 69,
+   "estado": "solo legacy",
+   "importadores": {
+    "legacy": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v751",
+   "lineas": 92,
+   "estado": "solo legacy",
+   "importadores": {
+    "legacy": 2
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v752",
+   "lineas": 115,
+   "estado": "solo legacy",
+   "importadores": {
+    "legacy": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v753",
+   "lineas": 115,
+   "estado": "solo legacy",
+   "importadores": {
+    "legacy": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.m04_seed_engine_v754",
+   "lineas": 115,
+   "estado": "solo legacy",
+   "importadores": {
+    "legacy": 2
+   }
+  },
+  {
+   "modulo": "ddd_core.m05_atomic_output",
+   "lineas": 66,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 1,
+    "legacy": 6
+   }
+  },
+  {
+   "modulo": "ddd_core.m05_gerrychain_engine",
+   "lineas": 781,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "otros": 3,
+    "tests": 6,
+    "legacy": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.m05_gerrychain_strategy",
+   "lineas": 1371,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 3,
+    "herramientas": 3,
+    "legacy": 5
+   }
+  },
+  {
+   "modulo": "ddd_core.m05_opt_engine_v740",
+   "lineas": 444,
+   "estado": "solo tests",
+   "importadores": {
+    "tests": 1,
+    "legacy": 6
+   }
+  },
+  {
+   "modulo": "ddd_core.m05_opt_engine_v741",
+   "lineas": 573,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 3,
+    "herramientas": 1,
+    "legacy": 17
+   }
+  },
+  {
+   "modulo": "ddd_core.m05_population_repair",
+   "lineas": 921,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 4,
+    "tests": 5,
+    "herramientas": 3,
+    "legacy": 14,
+    "otros": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.m05_private_annealing",
+   "lineas": 140,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 1,
+    "legacy": 8
+   }
+  },
+  {
+   "modulo": "ddd_core.m05_swap_polish",
+   "lineas": 249,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 2,
+    "tests": 3,
+    "legacy": 14
+   }
+  },
+  {
+   "modulo": "ddd_core.m06_schema",
+   "lineas": 75,
+   "estado": "solo herramientas",
+   "importadores": {
+    "tests": 1,
+    "herramientas": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.national_campaign_planner",
+   "lineas": 129,
+   "estado": "solo tests",
+   "importadores": {
+    "tests": 2
+   }
+  },
+  {
+   "modulo": "ddd_core.official_geometry",
+   "lineas": 2076,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "tests": 2,
+    "herramientas": 1,
+    "legacy": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.population_floor_exemptions",
+   "lineas": 36,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 3,
+    "tests": 2,
+    "herramientas": 1,
+    "legacy": 7
+   }
+  },
+  {
+   "modulo": "ddd_core.territorial_validation",
+   "lineas": 173,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 3,
+    "tests": 1,
+    "herramientas": 4,
+    "legacy": 9,
+    "otros": 2
+   }
+  },
+  {
+   "modulo": "ddd_core.territorio_ids",
+   "lineas": 148,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 2,
+    "tests": 1,
+    "herramientas": 2,
+    "legacy": 1,
+    "otros": 1
+   }
+  },
+  {
+   "modulo": "ddd_core.territory_contract",
+   "lineas": 372,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "tests": 6,
+    "herramientas": 4,
+    "legacy": 16
+   }
+  },
+  {
+   "modulo": "ddd_core.topology_preflight",
+   "lineas": 487,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 4,
+    "tests": 1,
+    "herramientas": 2,
+    "legacy": 8
+   }
+  },
+  {
+   "modulo": "ddd_motor2",
+   "lineas": 1,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 13,
+    "tests": 17,
+    "herramientas": 4,
+    "legacy": 13,
+    "otros": 8
+   }
+  },
+  {
+   "modulo": "ddd_motor2.adaptadores",
+   "lineas": 310,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 6,
+    "tests": 6,
+    "herramientas": 2,
+    "legacy": 5,
+    "otros": 5
+   }
+  },
+  {
+   "modulo": "ddd_motor2.calidad",
+   "lineas": 63,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 2,
+    "tests": 2,
+    "herramientas": 1
+   }
+  },
+  {
+   "modulo": "ddd_motor2.competicion",
+   "lineas": 375,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 5,
+    "tests": 9,
+    "otros": 1
+   }
+  },
+  {
+   "modulo": "ddd_motor2.competidor",
+   "lineas": 242,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "tests": 4,
+    "herramientas": 1,
+    "legacy": 4
+   }
+  },
+  {
+   "modulo": "ddd_motor2.competir",
+   "lineas": 234,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "tests": 5,
+    "herramientas": 1,
+    "legacy": 6,
+    "otros": 2
+   }
+  },
+  {
+   "modulo": "ddd_motor2.exhaustivo",
+   "lineas": 150,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 2,
+    "tests": 1
+   }
+  },
+  {
+   "modulo": "ddd_motor2.generadores",
+   "lineas": 392,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 2,
+    "tests": 2,
+    "otros": 6
+   }
+  },
+  {
+   "modulo": "ddd_motor2.informe",
+   "lineas": 105,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 3,
+    "tests": 2
+   }
+  },
+  {
+   "modulo": "ddd_motor2.naturalidad",
+   "lineas": 123,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1,
+    "tests": 1,
+    "herramientas": 1,
+    "legacy": 4
+   }
+  },
+  {
+   "modulo": "ddd_motor2.naturalidad_clave",
+   "lineas": 187,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 3,
+    "tests": 2,
+    "herramientas": 1,
+    "legacy": 4,
+    "otros": 3
+   }
+  },
+  {
+   "modulo": "ddd_motor2.naturalidad_competicion",
+   "lineas": 488,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 2,
+    "tests": 3,
+    "otros": 1
+   }
+  },
+  {
+   "modulo": "ddd_motor2.naturalidad_informe",
+   "lineas": 261,
+   "estado": "solo tests",
+   "importadores": {
+    "tests": 1
+   }
+  },
+  {
+   "modulo": "ddd_motor2.naturalidad_mapas",
+   "lineas": 248,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 3,
+    "tests": 1,
+    "herramientas": 1,
+    "legacy": 4,
+    "otros": 1
+   }
+  },
+  {
+   "modulo": "ddd_motor2.produccion",
+   "lineas": 363,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "tests": 1,
+    "herramientas": 1,
+    "otros": 2
+   }
+  },
+  {
+   "modulo": "ddd_motor2.reglas",
+   "lineas": 22,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 15,
+    "tests": 13,
+    "herramientas": 2,
+    "legacy": 7,
+    "otros": 4
+   }
+  },
+  {
+   "modulo": "ddd_motor2.reglas.criterios",
+   "lineas": 79,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1
+   }
+  },
+  {
+   "modulo": "ddd_motor2.reglas.enumerar",
+   "lineas": 197,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 2,
+    "tests": 3
+   }
+  },
+  {
+   "modulo": "ddd_motor2.reglas.estado",
+   "lineas": 128,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1
+   }
+  },
+  {
+   "modulo": "ddd_motor2.reglas.evaluar",
+   "lineas": 225,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 9,
+    "tests": 8,
+    "herramientas": 2,
+    "legacy": 7,
+    "otros": 3
+   }
+  },
+  {
+   "modulo": "ddd_motor2.reglas.metodo",
+   "lineas": 62,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 1
+   }
+  },
+  {
+   "modulo": "ddd_motor2.reglas.modelo",
+   "lineas": 336,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 8,
+    "tests": 1
+   }
+  },
+  {
+   "modulo": "ddd_motor2.semilla",
+   "lineas": 71,
+   "estado": "vivo (producción)",
+   "importadores": {
+    "produccion": 3,
+    "tests": 3
+   }
+  }
+ ],
+ "simbolos": [
+  {
+   "fichero": "ddd_motor2/produccion.py",
+   "linea": 149,
+   "simbolo": "_grupos",
+   "lineas": 5,
+   "estado": "solo legacy",
+   "fuera": {
+    "legacy": 2
+   },
+   "modulo_vivo": true
+  },
+  {
+   "fichero": "ddd_core/m05_gerrychain_engine.py",
+   "linea": 105,
+   "simbolo": "load_comarca_lookup",
+   "lineas": 34,
+   "estado": "solo legacy/otros/tests",
+   "fuera": {
+    "otros": 1,
+    "tests": 1,
+    "legacy": 3
+   },
+   "modulo_vivo": true
+  },
+  {
+   "fichero": "ddd_core/m05_gerrychain_engine.py",
+   "linea": 378,
+   "simbolo": "adapt_files",
+   "lineas": 2,
+   "estado": "solo legacy/otros",
+   "fuera": {
+    "otros": 1,
+    "legacy": 3
+   },
+   "modulo_vivo": true
+  },
+  {
+   "fichero": "ddd_core/m05_gerrychain_engine.py",
+   "linea": 636,
+   "simbolo": "select_best_state",
+   "lineas": 20,
+   "estado": "solo legacy/tests",
+   "fuera": {
+    "tests": 1,
+    "legacy": 2
+   },
+   "modulo_vivo": true
+  },
+  {
+   "fichero": "ddd_core/m05_gerrychain_engine.py",
+   "linea": 681,
+   "simbolo": "run_gerrychain",
+   "lineas": 101,
+   "estado": "solo legacy/tests",
+   "fuera": {
+    "tests": 2,
+    "legacy": 3
+   },
+   "modulo_vivo": true
+  },
+  {
+   "fichero": "ddd_core/congreso_candidate_certifier.py",
+   "linea": 567,
+   "simbolo": "certify_candidate",
+   "lineas": 78,
+   "estado": "solo tests",
+   "fuera": {
+    "tests": 1
+   },
+   "modulo_vivo": false
+  },
+  {
+   "fichero": "ddd_core/congreso_contract.py",
+   "linea": 466,
+   "simbolo": "validate_production_admission",
+   "lineas": 6,
+   "estado": "solo legacy/tests",
+   "fuera": {
+    "tests": 3,
+    "legacy": 4
+   },
+   "modulo_vivo": true
+  },
+  {
+   "fichero": "ddd_core/congreso_ign_api_snapshot.py",
+   "linea": 99,
+   "simbolo": "audit_captured_pages",
+   "lineas": 156,
+   "estado": "solo legacy/tests",
+   "fuera": {
+    "tests": 1,
+    "legacy": 1
+   },
+   "modulo_vivo": false
+  },
+  {
+   "fichero": "ddd_core/m05_population_repair.py",
+   "linea": 477,
+   "simbolo": "_province_state_key",
+   "lineas": 2,
+   "estado": "solo legacy",
+   "fuera": {
+    "legacy": 2
+   },
+   "modulo_vivo": true
+  }
+ ],
+ "entradas": [
+  "ddd_core/m05_gerrychain_strategy.py",
+  "ddd_ensemble/__init__.py",
+  "ddd_ensemble/candidate_metrics.py",
+  "ddd_ensemble/ensemble_assembler.py",
+  "ddd_ensemble/ensemble_plan.py",
+  "ddd_ensemble/gallery.py",
+  "ddd_ensemble/graph_preparation.py",
+  "ddd_ensemble/prepared_bundle.py",
+  "ddd_ensemble/runner.py",
+  "ddd_ensemble/statistical_quality.py",
+  "ddd_motor2/competir.py",
+  "ddd_motor2/produccion.py",
+  "herramientas/adaptador_eleccionesdb.py",
+  "herramientas/adaptador_minsait_csv.py",
+  "herramientas/archivar_artefactos_r2.py",
+  "herramientas/archivo_origen.py",
+  "herramientas/auditar_componentes_geometricos.py",
+  "herramientas/auditar_topologia_geometrica.py",
+  "herramientas/bateria_motor.py",
+  "herramientas/calcular_clave_ensemble.py",
+  "herramientas/catalogo_preparacion.py",
+  "herramientas/catalogo_procedencia.py",
+  "herramientas/clave_eleccion.py",
+  "herramientas/compatibilidad_poblacion_seccionado.py",
+  "herramientas/composicion_m06.py",
+  "herramientas/comprobar_guardian_main.py",
+  "herramientas/consumir_par_fuentes_legislatura.py",
+  "herramientas/decidir_auto_merge.py",
+  "herramientas/derivar_checkpoint_acumulado.py",
+  "herramientas/detectar_producto_electoral_huerfano.py",
+  "herramientas/diagnosticar_poblacion_m05.py",
+  "herramientas/escribir_manifest_ejecucion_completa.py",
+  "herramientas/estado_produccion.py",
+  "herramientas/evaluar_persistencia_preparacion.py",
+  "herramientas/evaluar_preparacion_territorial.py",
+  "herramientas/evaluar_publicacion_visor.py",
+  "herramientas/exportar_matriz_ensemble.py",
+  "herramientas/fuente_infoelectoral_mesas.py",
+  "herramientas/g10_public_product_manifest.py",
+  "herramientas/generar_datos_abiertos.py",
+  "herramientas/generar_estado_operativo.py",
+  "herramientas/generar_hemiciclo.py",
+  "herramientas/generar_provincias_congreso.py",
+  "herramientas/generar_rotacion_visor.py",
+  "herramientas/generar_secciones_visor.py",
+  "herramientas/generar_territorial_visor.py",
+  "herramientas/gestor_campana.py",
+  "herramientas/gestor_campana_nacional.py",
+  "herramientas/gestor_campanas_2.py",
+  "herramientas/handoff_evidencia_pre_m04.py",
+  "herramientas/historico_autonomico.py",
+  "herramientas/historico_campana.py",
+  "herramientas/historico_m07m08.py",
+  "herramientas/huella_checkpoint_m05.py",
+  "herramientas/huella_checkpoint_motor.py",
+  "herramientas/leer_config_ensemble.py",
+  "herramientas/legislatura_vigente.py",
+  "herramientas/localizar_artefacto_durable.py",
+  "herramientas/manifest_generacion_territorial.py",
+  "herramientas/materializar_contrato_electoral_runtime.py",
+  "herramientas/materializar_evidencia_pre_m04.py",
+  "herramientas/metricas_proceso.py",
+  "herramientas/numerar_registro.py",
+  "herramientas/persistir_estado_operativo_compartido.py",
+  "herramientas/persistir_evidencia_pre_m04_operacional.py",
+  "herramientas/persistir_producto_electoral_operacional.py",
+  "herramientas/podar_r2.py",
+  "herramientas/preflight_preparacion_fuente.py",
+  "herramientas/preparar_fuente_electoral.py",
+  "herramientas/preparar_snapshot_electoral_oficial.py",
+  "herramientas/preparar_unidades_internas.py",
+  "herramientas/preparar_visor_congreso_leon.py",
+  "herramientas/preparar_visor_ejecucion.py",
+  "herramientas/promover_catalogo_operacional.py",
+  "herramientas/promover_catalogo_tras_preparacion.py",
+  "herramientas/publicar_diagnostico_auto.py",
+  "herramientas/reagregacion_historico.py",
+  "herramientas/registrar_ejecucion.py",
+  "herramientas/registrar_par_fuentes_legislatura.py",
+  "herramientas/registro_publicaciones_visor.py",
+  "herramientas/repartir_tests.py",
+  "herramientas/resolver_activos_durables.py",
+  "herramientas/resolver_adquisicion_electoral_especial.py",
+  "herramientas/resolver_cadena_publicacion.py",
+  "herramientas/resolver_contrato_minsait_provisional.py",
+  "herramientas/resolver_ejecucion_completa.py",
+  "herramientas/resolver_ejecucion_territorial.py",
+  "herramientas/resolver_eleccion_vigente.py",
+  "herramientas/resolver_fuentes_territorio.py",
+  "herramientas/resolver_preparacion_legislatura.py",
+  "herramientas/resolver_producto_produccion.py",
+  "herramientas/resolver_release_asset.py",
+  "herramientas/resultados_ligeros.py",
+  "herramientas/resultados_partidos.py",
+  "herramientas/seleccionar_checkpoint_productivo.py",
+  "herramientas/seleccionar_paquete_fuentes.py",
+  "herramientas/validar_contrato_territorial.py",
+  "herramientas/validar_ejecucion.py",
+  "herramientas/validar_elegibilidad_incorporacion_electoral.py",
+  "herramientas/validar_fuentes_reanudacion.py",
+  "herramientas/validar_paquete_electoral.py",
+  "herramientas/validar_portfolio_gerrychain50.py",
+  "herramientas/validar_puerta_ejecucion.py",
+  "herramientas/validar_republicacion_ensemble.py",
+  "herramientas/verificar_descubrimiento_tests.py",
+  "herramientas/verificar_puentes_congreso.py",
+  "modulos/01_preparar_base_territorial.py",
+  "modulos/02_construir_adyacencias.py",
+  "modulos/03_construir_grafo.py",
+  "modulos/04_generar_semillas.py",
+  "modulos/05_optimizar_distritos.py",
+  "modulos/06_consolidar_distritos.py",
+  "modulos/07_agregar_resultados_electorales.py",
+  "modulos/08_integrar_resultados.py"
+ ]
+}

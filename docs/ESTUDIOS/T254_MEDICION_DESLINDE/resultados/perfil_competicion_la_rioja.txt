@@ -1,0 +1,51 @@
+Wed Nov 11 17:03:35 2026    /tmp/claude-0/-home-user-DiputadodeDistrito/c0a3b4af-ebdd-53c8-bbc4-2c709115434a/scratchpad/lr.prof
+
+         854554560 function calls (853448295 primitive calls) in 311.765 seconds
+
+   Ordered by: cumulative time
+   List reduced from 4753 to 40 due to restriction <40>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    969/1    0.011    0.000  312.162  312.162 {built-in method builtins.exec}
+        1    0.000    0.000  312.162  312.162 <string>:1(<module>)
+        1    0.000    0.000  312.162  312.162 <frozen runpy>:206(run_module)
+        1    0.000    0.000  312.159  312.159 <frozen runpy>:65(_run_code)
+        1    0.000    0.000  312.159  312.159 competir.py:1(<module>)
+        1    0.000    0.000  312.112  312.112 competir.py:203(main)
+        1    0.000    0.000  312.110  312.110 competir.py:62(competir_territorio)
+        1    0.000    0.000  312.005  312.005 competicion.py:366(competir_publico)
+        1    0.001    0.001  312.004  312.004 competicion.py:291(competir)
+        1    0.000    0.000  203.498  203.498 competicion.py:266(_exhaustivo)
+        1    0.000    0.000  203.444  203.444 exhaustivo.py:41(enumerar_exacto)
+        1    0.000    0.000  203.444  203.444 enumerar.py:137(enumerar)
+ 200068/1    2.017    0.000  203.443  203.443 enumerar.py:159(rec)
+   200000   51.506    0.000  201.372    0.001 enumerar.py:52(podar)
+       12    0.001    0.000  107.153    8.929 competicion.py:254(_ejecutar)
+       10    0.008    0.001   97.882    9.788 generadores.py:359(generar)
+       10    0.033    0.003   96.531    9.653 naturalidad_competicion.py:300(cadena)
+     3010    0.033    0.000   90.841    0.030 chain.py:410(__run)
+  8717708   10.922    0.000   80.457    0.000 evaluar.py:97(rango_municipal)
+161245/4032    0.521    0.000   69.293    0.017 _deprecated.py:69(wrapped)
+     3994    0.060    0.000   69.200    0.017 tree_proposals.py:207(recom)
+     7124    0.021    0.000   64.575    0.009 _deprecated.py:282(wrapped)
+     4134    0.094    0.000   64.552    0.016 tree_proposals.py:53(epsilon_tree_bipartition)
+     4134    0.029    0.000   62.810    0.015 bipartition_tree.py:1144(bipartition_tree)
+     4134    0.060    0.000   62.778    0.015 bipartition_tree.py:915(_internal_bipartition_tree)
+     4134    0.637    0.000   61.498    0.015 bipartition_tree.py:1283(_get_possible_edge_cuts_and_populated_graph)
+ 17701198   13.829    0.000   61.248    0.000 fractions.py:680(reverse)
+   149075    8.596    0.000   40.664    0.000 naturalidad_competicion.py:289(arbol_ponderado)
+ 17542269   13.494    0.000   25.758    0.000 fractions.py:811(_div)
+     4014    0.012    0.000   21.649    0.005 validity.py:39(__call__)
+     4014    0.014    0.000   21.636    0.005 naturalidad_competicion.py:330(nucleo)
+     4014    0.205    0.000   20.879    0.005 naturalidad_clave.py:90(valido)
+     4027    2.336    0.001   20.743    0.005 evaluar.py:179(evaluar)
+ 58370470   12.794    0.000   17.708    0.000 modelo.py:98(piezas)
+  1601457   11.256    0.000   16.716    0.000 enumerar.py:36(_componentes)
+   148935    1.137    0.000   16.637    0.000 bipartition_tree.py:616(find_balanced_edge_cuts_memoization)
+28050522/28025599    6.905    0.000   15.167    0.000 {built-in method builtins.isinstance}
+ 12693818    7.403    0.000   14.813    0.000 {built-in method builtins.sum}
+   756433    2.486    0.000   13.481    0.000 evaluar.py:103(violaciones_distrito)
+ 11508402    3.968    0.000   12.281    0.000 naturalidad_competicion.py:295(<genexpr>)
+
+
+
