@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T08:28:45.984100+00:00",
+  "generated_at": "2026-11-11T08:32:59.007774+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8379,10 +8379,10 @@
           "territory_id": "congreso_burgos",
           "territory_name": "Congreso Burgos",
           "edition": "2025",
-          "run_id": 41299221887,
-          "artifact_name": "ddd-state-41299221887-M08",
-          "artifact_sha256": "ef2091c0a186232f93aa50e6eca6911ae1edc19a05205a447e7d077807089f46",
-          "source_commit": "71da6315254ea9d9849b93baffb08b147f88b49d",
+          "run_id": 42986581831,
+          "artifact_name": "ddd-state-42986581831-M08",
+          "artifact_sha256": "e3e916c74d62578dd98ba095fcb6756c3ede0820d619935053c204c5a518632a",
+          "source_commit": "06840be543025cf2efd875a73d0adee5a7bf33eb",
           "stage": "M08"
         }
       },
@@ -10164,20 +10164,20 @@
       "name": "Nacional Cantabria",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42981422592,
+      "run_id": 42985965354,
       "last_run": {
-        "run_id": 42981422592,
+        "run_id": 42985965354,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10218,7 +10218,7 @@
       },
       "autonomous_community_code_ine": "C39",
       "display_name": "Nacional Cantabria",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_segovia",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 43,
+    "complete": 44,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12297,6 +12297,7 @@
       "Nacional Jaén",
       "Nacional La Rioja",
       "Nacional Asturias",
+      "Nacional Cantabria",
       "Nacional Ceuta",
       "Nacional 350 Madrid",
       "Nacional 350 Soria",
@@ -12511,13 +12512,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_ceuta",
-    "name": "Nacional Ceuta",
-    "display_name": "Nacional Ceuta",
-    "autonomous_community_code_ine": "C51",
-    "run_id": 42985728070,
+    "territory_id": "congreso_cantabria",
+    "name": "Nacional Cantabria",
+    "display_name": "Nacional Cantabria",
+    "autonomous_community_code_ine": "C39",
+    "run_id": 42985965354,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
