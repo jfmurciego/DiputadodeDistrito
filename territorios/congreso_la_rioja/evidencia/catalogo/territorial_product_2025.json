@@ -4,11 +4,11 @@
   "territory_id": "congreso_la_rioja",
   "territory_name": "Congreso La Rioja",
   "edition": "2025",
-  "run_id": 42504388624,
-  "artifact_name": "ddd-state-42504388624-M06",
-  "artifact_sha256": "51330170423ceacd4301d78cff951c59cd392e3361bd38d85128bf55bf15533f",
-  "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
-  "decision": "PASS_WITH_EXCEPTIONS",
+  "run_id": 42932144515,
+  "artifact_name": "ddd-state-42932144515-M06",
+  "artifact_sha256": "acc516ebc5867ddcbdbfb4c96acbef53252222a248f86e7d8ad28d70d9748d3b",
+  "source_commit": "83c4969db49f7d187ac136257c2b7ba9ac84893c",
+  "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_la_rioja/evidencia/generaciones_m06/42504388624.json"
+  "producer_manifest_path": "territorios/congreso_la_rioja/evidencia/generaciones_m06/42932144515.json"
 }

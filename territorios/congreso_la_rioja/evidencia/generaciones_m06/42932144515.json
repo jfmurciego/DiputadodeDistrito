@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13818346166,
+      "artifact_name": "ddd-audit-42932144515",
+      "artifact_sha256": "62d408aa468ee0d7ea6f5ef84f3476767181d9dce035a9189d3cc0ff1d284c76",
+      "run_id": 42932144515,
+      "size_in_bytes": 2796
+    },
+    "m04": {
+      "artifact_id": 13818020696,
+      "artifact_name": "ddd-state-42932144515-M04",
+      "artifact_sha256": "34c93f1388632cfabea9ad4c14211c89451d8263a3ef30db67b4ad7252aeb16c",
+      "run_id": 42932144515,
+      "size_in_bytes": 76524713
+    },
+    "m05": {
+      "artifact_id": 13818126113,
+      "artifact_name": "ddd-state-42932144515-M05",
+      "artifact_sha256": "a8098a3d7ccedc2ae237a8707d74996cdac788e0f8b08fd59a5b029c004ee8d7",
+      "run_id": 42932144515,
+      "size_in_bytes": 77006240
+    },
+    "m06": {
+      "artifact_id": 13816784416,
+      "artifact_name": "ddd-state-42932144515-M06",
+      "artifact_sha256": "acc516ebc5867ddcbdbfb4c96acbef53252222a248f86e7d8ad28d70d9748d3b",
+      "run_id": 42932144515,
+      "size_in_bytes": 78160653
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "ed48d368b5ec5c82253a0358ecfc3b031d7fdf07fb2e5902d245ffb1188286b2",
+        "size_in_bytes": 375
+      },
+      "congreso_la_rioja_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "334fb5eedc1bd42feb9bfa96f15fef9f0fd88dfa01908433e7a03fededdfb1d0",
+        "size_in_bytes": 3294
+      },
+      "optimization_execution.json": {
+        "sha256": "16f79576344476271c4d9df782c8fb0e41bc9d62db372fd19f957a960fe3e626",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "2d4677f46bbb4295f8b0b1dab9b5c7328a2e9b42d0990470abc175ed0f8e654b",
+        "size_in_bytes": 1457
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "2d4677f46bbb4295f8b0b1dab9b5c7328a2e9b42d0990470abc175ed0f8e654b",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_la_rioja/config/congreso_la_rioja_2025.yaml",
+    "sha256": "b1cb69655fe716b5ceb185dcf7607ef83dd18d198775bf514a8642b4637a19e8"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "90c747955e399bdec36687d95350c2297f266a3a5cdcd89400d881307f4ec083",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1629856150",
+      "generador": "ponderado",
+      "huella_resultado": "5f2a151e600b87e3a1e12552eb6f2c9e3c26ab1fbcdc87283cd854a35ce6892f",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.0015390248291868613,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.003375925431764728,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "b094d15f179c9184e43dcce3e45d3a55db9c48273e08ac386970146839ce97a7",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "83c4969db49f7d187ac136257c2b7ba9ac84893c",
+    "edition": "2025",
+    "territory_id": "congreso_la_rioja",
+    "territory_name": "Congreso La Rioja",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42932144515,
+    "workflow_sha": "83c4969db49f7d187ac136257c2b7ba9ac84893c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13818020696,
+      "artifact_name": "ddd-state-42932144515-M04",
+      "artifact_sha256": "34c93f1388632cfabea9ad4c14211c89451d8263a3ef30db67b4ad7252aeb16c",
+      "run_id": 42932144515,
+      "size_in_bytes": 76524713
+    },
+    "source_manifest_sha256": "8c15c2e9274d94c6eda633befe91c26a24932a2b794c01e805489fd076ab9e2d",
+    "source_package_artifact": {
+      "artifact_id": 13057489526,
+      "artifact_name": "ddd-source-package-congreso_la_rioja-2025-41240637295",
+      "artifact_sha256": "cbb9e9fbfba6bfbf5b3e5502712e14e6f11a6e54ecc3ca228b3d32199af882f0",
+      "run_id": 41240637295,
+      "size_in_bytes": 75549630
+    }
+  },
+  "manifest_sha256": "0b1df421ff4bcdab1e1af697e160c172ef93a93b0440efec9e6935b663aac80d",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
