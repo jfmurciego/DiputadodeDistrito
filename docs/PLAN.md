@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.41
-Fecha: 2026-11-10
+Versión: 1.0.42
+Fecha: 2026-11-11
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-74 a D-79 (Zenodo, plan del corte, 350 y histórico fuera, línea del forense, piezas finas en autonómicas) y T-210 a T-219
-Anterior: legacy/docs/PLAN_v1.0.40_20261110.md
+Cambios/motivo: D-80 a D-86 (legislatura del Congreso, regeneración con el motor nuevo, Las Palmas, nombre Deslinde, optimización y hoja de ruta) y T-220 a T-236
+Anterior: legacy/docs/PLAN_v1.0.41_20261111.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -114,6 +114,13 @@ con frase del propietario en su chat.
 - D-77. En el corte se regenera solo la legislatura vigente; el histórico después, como una elección más.
 - D-78. Autorizado el cambio de una línea de `forense-00.yml` (nombre «P00 Campaña») dentro de la PR de workflows v5, con revisión independiente; la fusiona el propietario.
 - D-79. Autonómicas «listas aunque haya que pasar a piezas pequeñas»: la competición usa la atomicidad municipal que declara cada contrato (como el laboratorio) y el mapa vigente publicado entra como candidato y punto de partida; no cambian suelo, techo, K, tolerancia ni la regla de un distrito mixto por municipio. La clave D8 implementada debe contar primero los distritos fuera de tolerancia (D-68); la aceptación exige clave nunca peor que el canónico y fuera de tolerancia nunca peor que el vigente.
+- D-80. Los mapas van por legislatura: la del Congreso de 2023 termina y la nueva empieza tras el 29-11-2026. Los contratos de la edición 2026 de las 52 usan el par INE 2025/2025 (decisión tipo F10 en `configuracion/decisiones/`, con D-65); no se trasladan los resultados de 2023 al seccionado 2025.
+- D-81. Regenerar las 52 del Congreso con el motor nuevo y sus contratos actuales (datos 2023) para publicarlas, por campaña en tandas de 5 (lección del 11-11: 51 a la vez saturan el estado operativo).
+- D-82. Con el motor nuevo se regeneran todos los mapas; ningún mapa del motor antiguo queda vigente. Lo antiguo se archiva (no se borra). Relevo formal tras la regeneración: `motor` por defecto = motor2; el canónico solo como candidato dentro de la competición; su ruta autónoma pasa a legacy. Al publicar, el visor solo muestra productos del motor nuevo.
+- D-83. Las Palmas (contrato 2026): excepción explícita para Lanzarote con La Graciosa (unidad insular atómica, 1,424 de la media frente al techo 1,40), con su motivo; el techo general sigue en 1,40.
+- D-84. Nombre del algoritmo: «Deslinde» (delimitación reproducible de distritos uninominales). Deslinde 1.0 = trazado canónico + 10 cadenas ReCom + elección D8 + mapa vigente como candidato. No se renombra el código antes del corte.
+- D-85. Fase de optimización tras el corte y antes de la investigación: medir (tiempo, código muerto, duplicados), optimizar con mismos mapas bit a bit en la batería de los 71, objetivos medibles y retirada al archivo de las reparaciones del motor viejo.
+- D-86. Hoja de ruta de Deslinde para competir (tras la optimización): (1) paquete independiente instalable con documentación; (2) definición formal publicada (reglas, D8, semilla); (3) óptimo demostrado o cota con el resolutor exacto; (4) comparación en casos de referencia de la literatura (`redist`, GerryChain); (5) reglas generalizables a otros países; después, artículo (P60).
 
 ### Cola vigente del motor y de las generales 2026 (10-11)
 | Id | Tarea | Estado |
@@ -147,12 +154,23 @@ con frase del propietario en su chat.
 | T-216 | Corte, paso 3: motor nuevo como P30 en producción | EN_CURSO |
 | T-217 | Vigente publicado como candidato y punto de partida | EN_CURSO |
 | T-218 | Atomicidad del contrato en la competición autonómica | EN_CURSO |
-| T-219 | Actualización del plan (D-74 a D-79) | ESTA PR |
+| T-219 | Actualización del plan (D-74 a D-79) | HECHA |
+| T-220 | Carpetas de territorios con los nombres nuevos | PENDIENTE (tras la regeneración; lo decide el propietario) |
+| T-221 a T-223 | Certificación con el ganador, recuento del vigente y misma competición en P30 y batería | HECHAS |
+| T-225 | Contratos 2026 del Congreso con el par 2025/2025 | HECHA |
+| T-226 | Decodificación incremental en M01 (Toledo) | PENDIENTE (P2) |
+| T-227 | Diagnóstico de motor: Madrid (Leganés) y Málaga 2025 | PENDIENTE (P2) |
+| T-228 a T-230b | Recuento regional, lector del vigente y registro del par idempotente | HECHAS |
+| T-231 | Estado operativo con muchas ejecuciones a la vez | PENDIENTE (P2) |
+| T-232 / T-233 | Diagnóstico de la adquisición de la batería y traza en el log | HECHA / PENDIENTE (P2) |
+| T-234 | Relevo formal (motor2 por defecto, canónico a legacy) | PENDIENTE (tras la regeneración) |
+| T-235 | Excepción insular de Las Palmas en el contrato 2026 | PENDIENTE (P2) |
+| T-236 | Actualización del plan (D-80 a D-86) | ESTA PR |
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209 y T-219. El planificador ha dado T-194 a T-219 (10-11). Siguiente libre para el planificador: T-220.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219 y T-236. El planificador ha dado T-194 a T-236 (10 y 11-11). Siguiente libre para el planificador: T-237.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
