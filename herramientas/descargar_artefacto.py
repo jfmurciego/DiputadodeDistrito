@@ -36,8 +36,7 @@ ESPERAS_S = (30, 60, 120, 240, 480)  # 5 reintentos, ~15,5 min como máximo
 
 _EGRESS = re.compile(r"egress\s+is\s+over\s+the\s+account\s+limit", re.I)
 _MISSING = re.compile(
-    r"HTTP\s+(404|410)\b|no\s+(valid\s+)?artifacts?\s+(found|matches)|artifact\s+(has\s+)?expired|"
-    r"\bexpired\b|not\s+found",
+    r"HTTP\s+(404|410)\b|no\s+valid\s+artifacts\s+found|no\s+artifact\s+matches|artifact\s+has\s+expired",
     re.I,
 )
 

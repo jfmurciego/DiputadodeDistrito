@@ -63,6 +63,16 @@ class DescargarArtefacto(unittest.TestCase):
         self.assertEqual((r.rc, r.clase), (42, "other"))
         self.assertEqual(dormidas, [])
 
+    def test_falsos_positivos_son_otro_fallo_sin_reintento(self):
+        for err in ("HTTP 500: Internal Server Error", "HTTP 502: Bad Gateway",
+                    "HTTP 503: Service Unavailable", "HTTP 403: Forbidden",
+                    "gh: command not found", "error: token expired, run gh auth login"):
+            with self.subTest(err=err):
+                guion = Guion((1, err))
+                r, dormidas = self._run(guion)
+                self.assertEqual((r.rc, r.clase, r.intentos), (42, "other", 1))
+                self.assertEqual(dormidas, [])
+
     def test_remediacion_por_tipo_de_artefacto(self):
         self.assertIn("preparacion-resultados-electorales.yml", d.remediacion("ddd-audit-electoral-9", "9"))
         self.assertIn("Reutilizar progreso existente", d.remediacion("ddd-state-9-M08", "9"))
