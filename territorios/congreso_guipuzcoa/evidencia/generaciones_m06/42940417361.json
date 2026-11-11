@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13822359912,
+      "artifact_name": "ddd-audit-42940417361",
+      "artifact_sha256": "e187b7d0aa1613ef5322bc9329e1c5e5ccc0fd725bc5deaca4f40d499d1c771a",
+      "run_id": 42940417361,
+      "size_in_bytes": 5109
+    },
+    "m04": {
+      "artifact_id": 13822028083,
+      "artifact_name": "ddd-state-42940417361-M04",
+      "artifact_sha256": "a4f61ef7677fc90d38785e4db6c42af82530dbe2e04e01b402762fbfd854b0bc",
+      "run_id": 42940417361,
+      "size_in_bytes": 79628548
+    },
+    "m05": {
+      "artifact_id": 13822019048,
+      "artifact_name": "ddd-state-42940417361-M05",
+      "artifact_sha256": "3efa1f48d85e7788c1d26b2305901b4740c3df0341d75e1560977ebae60863cd",
+      "run_id": 42940417361,
+      "size_in_bytes": 80671470
+    },
+    "m06": {
+      "artifact_id": 13822542272,
+      "artifact_name": "ddd-state-42940417361-M06",
+      "artifact_sha256": "cadf9ecf27c3e02e20d1d65d09a14901a9d931f54f3ea3760a235c2b509e6bd8",
+      "run_id": 42940417361,
+      "size_in_bytes": 83252386
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "1dec7931cbd78300db4d6b9fc5678d280cdeba6bb17fa96e38250dccc82f2ff8",
+        "size_in_bytes": 408
+      },
+      "congreso_guipuzcoa_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "5799ad08baeddb3d8069f2eff14fd2d260408c887ee014f706f286a2e99a83ca",
+        "size_in_bytes": 17480
+      },
+      "optimization_execution.json": {
+        "sha256": "51766856fa07233bb54b743c6c43d0a3f3577e13b2d0e0283219884140d254c4",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "524459080fb41bbe2fc023050dcf97de5b857534b7cdf5dad5b83233c7c0f364",
+        "size_in_bytes": 1506
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "524459080fb41bbe2fc023050dcf97de5b857534b7cdf5dad5b83233c7c0f364",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_guipuzcoa/config/congreso_guipuzcoa_2025.yaml",
+    "sha256": "631c3396d04d68ab6e53d22a99c40d86dab27f72dcfc25dbba75b0d3221bc518"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "a8260f7d9f07a321c2d8ba1e9b71c1766c4a1ed1145f928f7aa0317ffe5a0876",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1832580622",
+      "generador": "ponderado",
+      "huella_resultado": "c5846e3210760b612ab07cbd4ab8c3bb0e15a3209a8315a3cfedbbbb721c4976",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.10541177247657944,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.07415592421757175,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "4c05501196f87c293be79ed9d9c33c72afdcd30065540831dd31b241725e67b7",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_guipuzcoa",
+    "territory_name": "Congreso Guipúzcoa",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940417361,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13822028083,
+      "artifact_name": "ddd-state-42940417361-M04",
+      "artifact_sha256": "a4f61ef7677fc90d38785e4db6c42af82530dbe2e04e01b402762fbfd854b0bc",
+      "run_id": 42940417361,
+      "size_in_bytes": 79628548
+    },
+    "source_manifest_sha256": "6512cf3833ec4397979815d61b1ef581b4068c3839f002170f00a6d566c99988",
+    "source_package_artifact": {
+      "artifact_id": 13079046130,
+      "artifact_name": "ddd-source-package-congreso_guipuzcoa-2025-41292345223",
+      "artifact_sha256": "a976165325eab1d3c50f8679127478846dd4d974d87cd51b49ac27361cdfa39e",
+      "run_id": 41292345223,
+      "size_in_bytes": 77526801
+    }
+  },
+  "manifest_sha256": "3f2cd1d8e001bfcadf97ca34246cb4472309d859868a9755eb4feb30d853ef68",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
