@@ -1113,6 +1113,13 @@
    "sha256_csv": "b93198a523386b186a1548afea871a8a5026109ca31744eafee7520fd9e5f959",
    "ruta": "datos/composicion/runs/congreso_la_rioja_42932144515.csv"
   },
+  "congreso_las_palmas/42940489856": {
+   "territorio": "congreso_las_palmas",
+   "run_id": "42940489856",
+   "secciones": 715,
+   "sha256_csv": "5f50662a1f66b0869ad182b0e3a600c7bc954a99ed7f4ac8b063df0f715cda5d",
+   "ruta": "datos/composicion/runs/congreso_las_palmas_42940489856.csv"
+  },
   "congreso_lerida/42940443438": {
    "territorio": "congreso_lerida",
    "run_id": "42940443438",

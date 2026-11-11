@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T03:06:52Z",
+  "actualizado_en": "2026-11-11T03:07:48Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3073,6 +3073,20 @@
       "tamano_estado_original": 104823259,
       "territorio": "congreso_las_palmas",
       "url": "r2://ddd-research-archive/congreso_las_palmas/41442913288/ddd-minimo-41442913288-M08.zip"
+    },
+    "congreso_las_palmas/42940489856/ddd-minimo-42940489856-M06.zip": {
+      "archivado_en": "2026-11-11T03:07:48Z",
+      "artefacto": "ddd-minimo-42940489856-M06",
+      "artefacto_origen": "ddd-state-42940489856-M06",
+      "artifact_id": 13823491052,
+      "caducidad_original": "2026-11-25T02:32:31Z",
+      "run_id": "42940489856",
+      "sha256": "66e6947cb208d7b986ae068d4d6e7a60ddc0496f0ca0a70c1836c95ebb4caaa0",
+      "sha256_estado_original": "b0f830b934071e391255dadb24ec6347dfaa0d46b109f0b1c8c120e10cb54177",
+      "tamano_bytes": 1519062,
+      "tamano_estado_original": 103446619,
+      "territorio": "congreso_las_palmas",
+      "url": "r2://ddd-research-archive/congreso_las_palmas/42940489856/ddd-minimo-42940489856-M06.zip"
     },
     "congreso_leon/41295452035/ddd-audit-electoral-41295452035.zip": {
       "archivado_en": "2026-11-08T12:13:17Z",
