@@ -30,9 +30,9 @@
 | 16:06 | Cataluña (paso 3) | P00 Reutilizar progreso existente, motor2, sin publicar | 43045037822 | SUCCESS | 5 / — | 0/1 |
 | 15:42 | País Vasco (paso 2) | P00 Generar desde fuente, motor2, cadena_electoral, sin publicar | 43041060549 | SUCCESS; Activación 43046676726 y electoral 43047232024 en success | 4 / — | 0/1 |
 | 22:35 | Andalucía (paso 2; T-244 en main, paquete electoral vivo: sin paso 1) — reactivada por el propietario («Reactivo Andalucía: lánzala.») | Legislatura prepare_one | 43104415186 | SUCCESS | 6 / — | 0/1 |
-| 22:53 | Andalucía (paso 3) | P00 Generar desde fuente, motor2, cadena_electoral, sin publicar | 43107035084 | EN_VUELO | 7 / — | 0/1 |
+| 22:53 | Andalucía (paso 3) | P00 Generar desde fuente, motor2, cadena_electoral, sin publicar | 43107035084 | SUCCESS territorial; Activación 43112953604 SUCCESS; P00 electoral del bot 43113205292 FAILURE en «Puerta de validación 01 → 02 / Validar evidencia consumible»: descarga bien el paquete 40946875467 y sale con exit 1 sin escribir puerta.json (sin error de cuota) → no transitorio | 7 / — | 0/1 |
 
 ## Cierre
-Estado: `EN_CURSO`. Último uso: 2026-11-11.
+Estado: `PARADA` (Andalucía: puerta 01→02 de la P00 electoral sale con exit 1 sin decisión). Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-11_reparar-cataluna-paisvasco-andalucia tal como figura en la ficha.»
