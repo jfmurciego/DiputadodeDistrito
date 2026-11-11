@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T04:03:28.167367+00:00",
+  "generated_at": "2026-11-11T04:05:03.723079+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8273,20 +8273,20 @@
       "name": "Nacional Barcelona",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940355981,
+      "run_id": 42953127263,
       "last_run": {
-        "run_id": 42940355981,
+        "run_id": 42953127263,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8327,7 +8327,7 @@
       },
       "autonomous_community_code_ine": "C08",
       "display_name": "Nacional Barcelona",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_burgos",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 27,
+    "complete": 28,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12280,6 +12280,7 @@
       "Nacional Ávila",
       "Nacional Badajoz",
       "Nacional Baleares",
+      "Nacional Barcelona",
       "Nacional Cádiz",
       "Nacional La Rioja",
       "Nacional 350 Madrid",
@@ -12495,11 +12496,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_baleares",
-    "name": "Nacional Baleares",
-    "display_name": "Nacional Baleares",
-    "autonomous_community_code_ine": "C07",
-    "run_id": 42953068884,
+    "territory_id": "congreso_barcelona",
+    "name": "Nacional Barcelona",
+    "display_name": "Nacional Barcelona",
+    "autonomous_community_code_ine": "C08",
+    "run_id": 42953127263,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12530,12 +12531,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Barcelona",
-      "territory_id": "congreso_barcelona",
-      "autonomous_community_code_ine": "C08",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Burgos",
       "territory_id": "congreso_burgos",
       "autonomous_community_code_ine": "C09",
@@ -12551,6 +12546,12 @@
       "territory": "Nacional Castellón",
       "territory_id": "congreso_castellon",
       "autonomous_community_code_ine": "C12",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Ciudad Real",
+      "territory_id": "congreso_ciudad_real",
+      "autonomous_community_code_ine": "C13",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12580,12 +12581,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Barcelona",
-      "territory_id": "congreso_barcelona",
-      "autonomous_community_code_ine": "C08",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Burgos",
       "territory_id": "congreso_burgos",
       "autonomous_community_code_ine": "C09",
@@ -12601,6 +12596,12 @@
       "territory": "Nacional Castellón",
       "territory_id": "congreso_castellon",
       "autonomous_community_code_ine": "C12",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Ciudad Real",
+      "territory_id": "congreso_ciudad_real",
+      "autonomous_community_code_ine": "C13",
       "action": "preparar fuentes electorales"
     }
   ]
