@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13822909103,
+      "artifact_name": "ddd-audit-42940437972",
+      "artifact_sha256": "f32f422c3cb2c575de0e04a7a1eb4868267824d41d5ee7a12cbdd24fc3f93c54",
+      "run_id": 42940437972,
+      "size_in_bytes": 2884
+    },
+    "m04": {
+      "artifact_id": 13823050337,
+      "artifact_name": "ddd-state-42940437972-M04",
+      "artifact_sha256": "10f0c8d357502f544d2f7cacf4bc1abce543a22614b6798f421c55eb36ce5b9f",
+      "run_id": 42940437972,
+      "size_in_bytes": 77724390
+    },
+    "m05": {
+      "artifact_id": 13822896717,
+      "artifact_name": "ddd-state-42940437972-M05",
+      "artifact_sha256": "10790a7dee984862a49748519d141e5769ea27b5d0a4907f203964fbf0fc85fd",
+      "run_id": 42940437972,
+      "size_in_bytes": 78426975
+    },
+    "m06": {
+      "artifact_id": 13823625531,
+      "artifact_name": "ddd-state-42940437972-M06",
+      "artifact_sha256": "43b082c53dfaf7707c73a46ff45141b82d4f1534e0de883fb327e92275f8ce3f",
+      "run_id": 42940437972,
+      "size_in_bytes": 80057806
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "670acb2653b9e6dac318f96745751086198fc4bb28a9bd5b4c538247387d2da8",
+        "size_in_bytes": 371
+      },
+      "congreso_leon_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "88840b32bf5e9cd2d6a82bee5f6c198cccbe5611b092d15c4bd2294bb7da2a29",
+        "size_in_bytes": 4080
+      },
+      "optimization_execution.json": {
+        "sha256": "11a03f538f6aefc8d3fc3f96154a0ae86b4ebc892b8bbcc68f4a0d3d21eceef1",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "f8de702a4b0f817c4b26f6ffef79de43402090d47518c517d381bda27fec2caf",
+        "size_in_bytes": 1438
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "f8de702a4b0f817c4b26f6ffef79de43402090d47518c517d381bda27fec2caf",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_leon/config/congreso_leon_2025.yaml",
+    "sha256": "eb956efff0cc7d680e9b4f06ffc38e7eb44f6cfd882bda2d78892e23a1202f83"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "cf1c5d042e4d60a5878c0d03262458f1e82f22f3edfc168542e4c9ca2383eaea",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s134990558",
+      "generador": "ponderado",
+      "huella_resultado": "b8e39c3938f763b01aca2b070e858c0817e1f77b17c27a49b47a7af91e4f516d",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.08578090968471129,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.08578090968471129,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "f1d9610d873c669b344aa455694f58d76a7574d70570ad4b35225709b9d80e7d",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_leon",
+    "territory_name": "Congreso León",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940437972,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13823050337,
+      "artifact_name": "ddd-state-42940437972-M04",
+      "artifact_sha256": "10f0c8d357502f544d2f7cacf4bc1abce543a22614b6798f421c55eb36ce5b9f",
+      "run_id": 42940437972,
+      "size_in_bytes": 77724390
+    },
+    "source_manifest_sha256": "c8614bce89e1728099a129c13c0b79c56acac8e1f2d97943f2a27c365063ab7f",
+    "source_package_artifact": {
+      "artifact_id": 13057834839,
+      "artifact_name": "ddd-source-package-congreso_leon-2025-41241377284",
+      "artifact_sha256": "e576851afca31bc07379759546812488a830c35634ac15c2fc91361d31fd13ad",
+      "run_id": 41241377284,
+      "size_in_bytes": 76304582
+    }
+  },
+  "manifest_sha256": "56aa64abc93b52f5b37f5d5e5c7530b49dec1bc5f78b2ff505e9de6824cc0dec",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
