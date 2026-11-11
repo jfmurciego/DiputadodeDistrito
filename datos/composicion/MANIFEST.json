@@ -938,6 +938,13 @@
    "sha256_csv": "9c1701f40cfc90b3ba6e5a97ad8a4cb4bd4fb4702b3a94333186c22e18214753",
    "ruta": "datos/composicion/runs/congreso_badajoz_42940345930.csv"
   },
+  "congreso_baleares/42940350970": {
+   "territorio": "congreso_baleares",
+   "run_id": "42940350970",
+   "secciones": 670,
+   "sha256_csv": "bcdca9175ecaead38582a2dfe32f61b60e71b717145968a1382d326f3d7cb0c4",
+   "ruta": "datos/composicion/runs/congreso_baleares_42940350970.csv"
+  },
   "congreso_barcelona/42490327657": {
    "territorio": "congreso_barcelona",
    "run_id": "42490327657",
