@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:43:56Z",
+  "actualizado_en": "2026-11-11T02:44:52Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2739,6 +2739,20 @@
       "tamano_estado_original": 84420724,
       "territorio": "congreso_la_coruna",
       "url": "r2://ddd-research-archive/congreso_la_coruna/41296991598/ddd-minimo-41296991598-M08.zip"
+    },
+    "congreso_la_coruna/42940392520/ddd-minimo-42940392520-M06.zip": {
+      "archivado_en": "2026-11-11T02:44:52Z",
+      "artefacto": "ddd-minimo-42940392520-M06",
+      "artefacto_origen": "ddd-state-42940392520-M06",
+      "artifact_id": 13822771091,
+      "caducidad_original": "2026-11-25T02:21:26Z",
+      "run_id": "42940392520",
+      "sha256": "ae7fc2af524a51cfa266d3575092eb8d9480463be7b314e182482765819d02f9",
+      "sha256_estado_original": "7875a036739089dcd86f99e6a11d29048a2746d290b13021cd5985f2c0a123e3",
+      "tamano_bytes": 448210,
+      "tamano_estado_original": 84146094,
+      "territorio": "congreso_la_coruna",
+      "url": "r2://ddd-research-archive/congreso_la_coruna/42940392520/ddd-minimo-42940392520-M06.zip"
     },
     "congreso_la_rioja/41240637295/ddd-audit-41240637295.zip": {
       "archivado_en": "2026-11-08T12:07:52Z",

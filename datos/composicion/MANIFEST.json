@@ -1008,6 +1008,13 @@
    "sha256_csv": "e80ec32b04d6bcdb46de5f29b8064ab9ca26555f8c352f7b937fe5a02893b939",
    "ruta": "datos/composicion/runs/congreso_huesca_42519383275.csv"
   },
+  "congreso_la_coruna/42940392520": {
+   "territorio": "congreso_la_coruna",
+   "run_id": "42940392520",
+   "secciones": 886,
+   "sha256_csv": "f010d7db498c95bad5ccd1b2587fee3202a63b1cfaead4790aec7182d30df907",
+   "ruta": "datos/composicion/runs/congreso_la_coruna_42940392520.csv"
+  },
   "congreso_la_rioja/42504388624": {
    "territorio": "congreso_la_rioja",
    "run_id": "42504388624",
