@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T15:44:58Z",
+  "actualizado_en": "2026-11-11T15:46:38Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -862,6 +862,20 @@
       "tamano_estado_original": 74586373,
       "territorio": "ceuta",
       "url": "r2://ddd-research-archive/ceuta/42503542766/ddd-minimo-42503542766-M08.zip"
+    },
+    "ceuta/43045447315/ddd-minimo-43045447315-M06.zip": {
+      "archivado_en": "2026-11-11T15:46:38Z",
+      "artefacto": "ddd-minimo-43045447315-M06",
+      "artefacto_origen": "ddd-state-43045447315-M06",
+      "artifact_id": 13869606419,
+      "caducidad_original": "2026-11-25T15:40:50Z",
+      "run_id": "43045447315",
+      "sha256": "5dc2709bfc3a7b5830f9ec60eebbd948f44bd781f8f21c53fc05d149efaaae91",
+      "sha256_estado_original": "2daa66a38c807b1ada088c0230cd56661f6b72a61782c6861c3b301c9d3ef80a",
+      "tamano_bytes": 85240,
+      "tamano_estado_original": 74563317,
+      "territorio": "ceuta",
+      "url": "r2://ddd-research-archive/ceuta/43045447315/ddd-minimo-43045447315-M06.zip"
     },
     "comunidad_foral_de_navarra/40847881909/ddd-audit-40847881909.zip": {
       "archivado_en": "2026-11-07T17:07:05Z",

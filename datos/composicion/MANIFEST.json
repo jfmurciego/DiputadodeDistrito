@@ -889,6 +889,13 @@
    "sha256_csv": "7caceb283fc2a2f61bc4904eb363411459386c40fb80b5df44140871c89c2795",
    "ruta": "datos/composicion/runs/ceuta_42503542766.csv"
   },
+  "ceuta/43045447315": {
+   "territorio": "ceuta",
+   "run_id": "43045447315",
+   "secciones": 56,
+   "sha256_csv": "7caceb283fc2a2f61bc4904eb363411459386c40fb80b5df44140871c89c2795",
+   "ruta": "datos/composicion/runs/ceuta_43045447315.csv"
+  },
   "comunidad_foral_de_navarra/43045437345": {
    "territorio": "comunidad_foral_de_navarra",
    "run_id": "43045437345",
