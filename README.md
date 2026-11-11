@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T03:24:24.772230+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T03:30:46.191146+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -66,20 +66,20 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **17 La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42920452778 · SUCCESS | — | — | — |
 | **18 Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42503542766 · SUCCESS | — | — | — |
 | **19 Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42504386196 · SUCCESS | — | — | — |
-| **Nacional Álava** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41346917857 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional Albacete** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42514994231 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional Alicante** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42495067503 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Álava** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940320710 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
+| **Nacional Albacete** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940326013 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
+| **Nacional Alicante** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940331557 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Almería** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940336572 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Ávila** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940341213 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Badajoz** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940345930 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
-| **Nacional Baleares** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41481449507 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional Barcelona** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42495069270 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Baleares** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940350970 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
+| **Nacional Barcelona** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940355981 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Burgos** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41299221887 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional Cáceres** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41294658600 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional Cádiz** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41500124775 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Cáceres** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940366579 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
+| **Nacional Cádiz** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940371696 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Castellón** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41295629673 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Ciudad Real** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41298749455 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional Córdoba** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41296161083 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Córdoba** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42940387433 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional La Coruña** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41296991598 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Cuenca** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41294075778 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Gerona** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41298839274 · SUCCESS | — | — | preparar fuentes electorales |

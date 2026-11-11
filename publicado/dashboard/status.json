@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T03:24:24.772230+00:00",
+  "generated_at": "2026-11-11T03:30:46.191146+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 72,
-      "activable": 2,
+      "activated": 73,
+      "activable": 1,
       "territorial_pending": 46,
       "electoral_pending": 46,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 74,
-      "durable_pair": 72
+      "durable_pair": 73
     },
     "territories": [
       {
@@ -1404,12 +1404,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/congreso_barcelona/evidencia/pares_fuentes/2025/c8d0c4a520df2356b13f940ab9e0127eadd3b63adff1d8bf1ba1360255e0f75f.json",
-            "pair_sha256": "c8d0c4a520df2356b13f940ab9e0127eadd3b63adff1d8bf1ba1360255e0f75f",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/congreso_barcelona/evidencia/pares_fuentes/2025/b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a.json",
+            "pair_sha256": "b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -7852,11 +7852,11 @@
       "certification": "PASS",
       "run_id": 42940320710,
       "last_run": {
-        "run_id": 41346917857,
+        "run_id": 42940320710,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7913,11 +7913,11 @@
       "certification": "PASS",
       "run_id": 42940326013,
       "last_run": {
-        "run_id": 42514994231,
+        "run_id": 42940326013,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7974,11 +7974,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42940331557,
       "last_run": {
-        "run_id": 42495067503,
+        "run_id": 42940331557,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -8135,10 +8135,10 @@
           "territory_id": "congreso_avila",
           "territory_name": "Congreso Ávila",
           "edition": "2025",
-          "run_id": 41241662219,
-          "artifact_name": "ddd-state-41241662219-M08",
-          "artifact_sha256": "65d669aa04fb38668d8727daa3ce2da892152642400cdd7b76255a261c206613",
-          "source_commit": "a1e2f698a41d04dc9e34ddf640b8d8aaf804e0a2",
+          "run_id": 42948760863,
+          "artifact_name": "ddd-state-42948760863-M08",
+          "artifact_sha256": "04140cf4ca843ec5c0b261c63c81f816b69604a40f68753b0b606ffd29927117",
+          "source_commit": "29fbd3b77c14aa3cef36d639bb0170cc82601ffb",
           "stage": "M08"
         }
       },
@@ -8196,10 +8196,10 @@
           "territory_id": "congreso_badajoz",
           "territory_name": "Congreso Badajoz",
           "edition": "2025",
-          "run_id": 42519381013,
-          "artifact_name": "ddd-state-42519381013-M08",
-          "artifact_sha256": "5523e84a48cf2f35971bc2fa8d1e2da258c8c11e0a47df9f73b07ca9a453fe95",
-          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
+          "run_id": 42949289470,
+          "artifact_name": "ddd-state-42949289470-M08",
+          "artifact_sha256": "2c4e02319d54c3a99a0754808a4a7156bfeb483379f9e54719266eb11e3172c9",
+          "source_commit": "2b315a6950733795d24f4a9274556a3ee7a8050e",
           "stage": "M08"
         }
       },
@@ -8218,11 +8218,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42940350970,
       "last_run": {
-        "run_id": 41481449507,
+        "run_id": 42940350970,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -8279,11 +8279,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42940355981,
       "last_run": {
-        "run_id": 42495069270,
+        "run_id": 42940355981,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -8401,12 +8401,12 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42940366579,
       "last_run": {
-        "run_id": 41294658600,
+        "run_id": 42940366579,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
-        "publication": "executed"
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
       },
       "stage": "M06",
       "edition": "2025",
@@ -8462,11 +8462,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42940371696,
       "last_run": {
-        "run_id": 41500124775,
+        "run_id": 42940371696,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -8645,12 +8645,12 @@
       "certification": "PASS",
       "run_id": 42940387433,
       "last_run": {
-        "run_id": 41296161083,
+        "run_id": 42940387433,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
-        "publication": "executed"
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
       },
       "stage": "M06",
       "edition": "2025",
