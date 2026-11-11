@@ -1,9 +1,10 @@
 """T-86: legislatura vigente (71 territorios con fuente) y plan/lanzamiento del Gestor de Campañas.
 
-VERSIÓN: 1.2.0 · FECHA: 2026-11-08
+VERSIÓN: 1.2.1 · FECHA: 2026-11-10
+CAMBIOS 1.2.1: T-215, títulos simulados de la 05 y la 06 con los nombres v5; un run en curso con el título viejo de la 00 cuenta.
 CAMBIOS 1.2.0: T-105, relevo con «@auto» para los iniciados, ensemble tras publicar y formulario 2.0 (D-22).
 CAMBIOS 1.1.0: T-102, los 49 gemelos Congreso 350 van aparte (ámbito congreso_350); siguen 71 de la legislatura.
-ANTERIOR: legacy/tests/test_legislatura_vigente_v1.1.0_20261108.py
+ANTERIOR: legacy/tests/test_legislatura_vigente_v1.2.0_20261110.py
 """
 import json
 import sys
@@ -130,7 +131,7 @@ class Lanzar(unittest.TestCase):
             return
         self.n += 1
         title = (f"{lv.TITLE_00} · {inputs['territory_id']} · {inputs['execution_mode']}" if wf == lv.WF_00
-                 else "05 Publicación del Visor" if wf == lv.WF_05 else "06 Escenarios y Ensembles")
+                 else "P50 Publicación" if wf == lv.WF_05 else "P30 Distritos — P33 Alternativas")
         self.runs[wf].append({"id": self.n, "display_title": title, "status": "queued", "conclusion": None,
                               "created_at": "2026-11-07T10:00:%02dZ" % (self.n % 60)})
 
@@ -158,6 +159,20 @@ class Lanzar(unittest.TestCase):
     @staticmethod
     def row(name, accion="reutilizar", run_id=""):
         return {"territory_id": name.lower(), "selector_00": name, "accion": accion, "run_id": run_id}
+
+    def test_running_00_acepta_titulo_viejo_y_p00(self):  # T-215
+        runs = [{"id": 7, "display_title": "P00 Campaña · cantabria · Reutilizar"},
+                {"id": 8, "display_title": "00 Ejecución Completa del Proyecto · ceuta · Reutilizar"},
+                {"id": 9, "display_title": "P00 Campaña"}]
+        with mock.patch.object(lv, "list_runs", side_effect=lambda wf, status="": runs if status == "queued" else []):
+            self.assertEqual(lv.running_00(), {"cantabria": "7", "ceuta": "8"})
+
+    def test_esperar_sigue_una_00_en_curso_con_titulo_viejo(self):  # T-215: cruce del corte
+        self.runs[lv.WF_00].append({"id": 5, "display_title": "00 Ejecución Completa del Proyecto · A · Reutilizar",
+                                    "status": "in_progress", "conclusion": None, "created_at": "2026-11-07T08:00:00Z"})
+        report = self.campaign([{**self.row("A", "esperar", "5"), "publicar": False}], test_first=False, deadline=10 ** 5)
+        self.assertTrue(report[0]["resultado"].startswith("OK"), report)
+        self.assertEqual([d for d in self.dispatched if d[0] == lv.WF_00], [])
 
     def test_prueba_primero_y_salta_publicados(self):
         rows = [self.row("A"), self.row("B", "desde_el_principio"), self.row("C", "nada"), self.row("D", "publicar", "77")]

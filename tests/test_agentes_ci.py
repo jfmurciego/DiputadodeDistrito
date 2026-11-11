@@ -30,7 +30,7 @@ class AgentesEnCI(unittest.TestCase):
     def test_sin_boton_manual_y_disparador_esperado(self):
         self.assertIn("pull_request", disparadores(cargar("revisor-pr.yml")))
         run = disparadores(cargar("forense-00.yml"))["workflow_run"]
-        self.assertEqual(run["workflows"], ["00 Ejecución Completa del Proyecto"])
+        self.assertEqual(run["workflows"], ["P00 Campaña"])  # T-215, D-78
         self.assertEqual(run["types"], ["completed"])
         self.assertIn("conclusion == 'failure'", cargar("forense-00.yml")["jobs"]["comprobar"]["if"])
         for nombre in self.CASOS:

@@ -1,7 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable
-# VERSIÓN: 2.5.0
-# FECHA: 2026-11-09
+# VERSIÓN: 2.6.0
+# CAMBIOS 2.6.0: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P30 Distritos — P33 Alternativas» (antes 06 Escenarios y Ensembles); la puerta `produccion` sigue atada a github.workflow == el nombre nuevo.
+# FECHA: 2026-11-10
 # QUÉ HACE: produce ensembles reanudables o republica una galería desde artefactos de un run previo sin recalcular GerryChain.
 # CAMBIOS 2.3.0: T-36, la validación de la republicación sale a herramientas/validar_republicacion_ensemble.py y admite candidatos ya en WGS84 (la web debe coincidir con la analítica) además de proyectados.
 # CAMBIOS 2.2.0: T-35, `publish` y `republish` exponen `ensemble_sha256` (hash del zip del release) y se lo pasan al publicador único, que lo exige
@@ -12,9 +13,9 @@
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
 # CAMBIOS 2.4.0: T-41, el job de entrada declara environment produccion (revisor humano) solo en disparo manual de una persona; bots y app ddd-registro no esperan. Puerta en config (ruta de cálculo) y republish; la 05 que llama no pide un segundo clic.
 # CAMBIOS 2.5.0: T-128, fase ensemble_25 (25 candidatas, territorios) en el gate; antes el 25 no existía y fallaba (exit 20 «Fase no admitida»).
-# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v2.4.0_20261109.yml
+# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v2.5.0_20261110.yml
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
-name: 06 Escenarios y Ensembles
+name: P30 Distritos — P33 Alternativas
 
 on:
   workflow_call:
@@ -66,7 +67,7 @@ jobs:
 
   config:
     name: Resolver configuración del ensemble
-    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == '06 Escenarios y Ensembles') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P30 Distritos — P33 Alternativas') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
     if: ${{ inputs.republish_source_run_id == '' && inputs.stage != 'synthetic' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -401,7 +402,7 @@ jobs:
 
   republish:
     name: Republicar ensemble-10 sin recalcular
-    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == '06 Escenarios y Ensembles') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == 'P30 Distritos — P33 Alternativas') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
     if: ${{ inputs.republish_source_run_id != '' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30

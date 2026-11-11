@@ -1,6 +1,6 @@
 ---
 name: publicar-visor
-description: Procedimiento para publicar territorios o escenarios en el visor público (05 Publicación del Visor, desplegar-visor-publico.yml). Úsala solo en el chat operador y con permiso explícito del propietario en ese mensaje.
+description: Procedimiento para publicar territorios o escenarios en el visor público (05, «P50 Publicación» desde el corte 5.0.0, desplegar-visor-publico.yml). Úsala solo en el chat operador y con permiso explícito del propietario en ese mensaje.
 ---
 
 # Publicar en el visor

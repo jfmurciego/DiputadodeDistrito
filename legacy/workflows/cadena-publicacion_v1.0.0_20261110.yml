@@ -1,0 +1,130 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz humana de publicación
+# VERSIÓN: 1.0.0
+# NOMBRE: Cadena de publicación con un solo lanzamiento (T-87, D-14)
+# ESTADO: candidato
+# FECHA: 2026-11-08
+# QUÉ HACE: dada una 00 con la puerta 04 cerrada, resuelve desde su registro durable el run que generó el M08
+#   (el origen si fue «Reutilizar»), el M06 y el territorio, y dispara juntos la 05 del visor y la versión del
+#   mapa (Release, Zenodo) con el mismo run y el mismo sha. Por defecto solo simula: no publica nada.
+# CAMBIOS: fichero nuevo.
+# MOTIVO: D-14, la puerta humana es el permiso del propietario en el chat del Operador; una sola orden por lanzamiento.
+# ANTERIOR: ninguna (fichero nuevo)
+name: 05 Cadena de Publicación
+
+on:
+  workflow_dispatch:
+    inputs:
+      production_run_id:
+        description: Run de la 00 con la puerta 04 cerrada
+        required: true
+        type: string
+      version:
+        description: Versión semántica del mapa (p. ej. 1.0.0)
+        required: true
+        type: string
+      modo:
+        description: simulacion resuelve y comprueba sin publicar; publicar exige permiso del propietario
+        required: true
+        default: simulacion
+        type: choice
+        options:
+          - simulacion
+          - publicar
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ddd-cadena-publicacion-${{ inputs.production_run_id }}
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  resolver:
+    name: Resolver run origen y comprobar artefactos
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      publish_run_id: ${{ steps.r.outputs.publish_run_id }}
+      territory_id: ${{ steps.r.outputs.territory_id }}
+      m06_run_id: ${{ steps.r.outputs.m06_run_id }}
+      m06_artifact: ${{ steps.r.outputs.m06_artifact }}
+      source_sha: ${{ steps.r.outputs.source_sha }}
+      publicar: ${{ steps.r.outputs.publicar }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - id: r
+        name: Resolver y comprobar
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN: ${{ inputs.production_run_id }}
+          V: ${{ inputs.version }}
+          MODO: ${{ inputs.modo }}
+        run: |
+          set -euo pipefail
+          [[ "$V" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "::error::VERSION_NO_SEMVER=$V"; exit 1; }
+          if ! out="$(python3 herramientas/resolver_cadena_publicacion.py --root . --run-id "$RUN")"; then
+            echo "::error::CADENA_BLOQUEADA: $(jq -r '.reasons | join(", ")' <<<"$out")"; exit 1
+          fi
+          echo "$out" | jq .
+          pub="$(jq -r .publish_run_id <<<"$out")"; terr="$(jq -r .territory_id <<<"$out")"
+          m06r="$(jq -r .m06_run_id <<<"$out")"; m06a="$(jq -r .m06_artifact <<<"$out")"; m08a="$(jq -r .m08_artifact <<<"$out")"
+          [[ "$pub" == "$RUN" ]] || echo "::notice::00 «Reutilizar»: se publica el run origen $pub (EJECUCION_REUTILIZADA_PUBLICAR_CON_PRODUCTION_RUN_ID=$pub)."
+          vivo() { gh api "repos/$GITHUB_REPOSITORY/actions/runs/$1/artifacts?per_page=100" \
+            --jq "[.artifacts[] | select(.expired == false and .name == \"$2\")] | length" 2>/dev/null || echo 0; }
+          [[ "$(vivo "$pub" "$m08a")" != 0 ]] || { echo "::error::M08_ARTEFACTO_CADUCADO=$m08a (run $pub): regenerar con la 00"; exit 1; }
+          [[ "$(vivo "$m06r" "$m06a")" != 0 ]] || { echo "::error::M06_ARTEFACTO_CADUCADO=$m06a (run $m06r): regenerar con la 00"; exit 1; }
+          tag="mapa-${terr}-v${V}"
+          if gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag" >/dev/null 2>&1; then
+            echo "::error::RELEASE_YA_EXISTE=$tag"; exit 1
+          fi
+          sha="$(git rev-parse HEAD)"
+          {
+            echo "publish_run_id=$pub"; echo "territory_id=$terr"; echo "m06_run_id=$m06r"
+            echo "m06_artifact=$m06a"; echo "source_sha=$sha"
+            echo "publicar=$([[ "$MODO" == publicar ]] && echo true || echo false)"
+          } >> "$GITHUB_OUTPUT"
+          {
+            echo "### Cadena de publicación ($MODO)"
+            echo "- 00 solicitada: $RUN · run publicado: $pub · territorio: $terr"
+            echo "- M06: $m06a (run $m06r) · Release: $tag · sha: $sha"
+            [[ "$MODO" == publicar ]] || echo "- Simulación: no se publica nada."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  visor:
+    name: Publicar en el visor
+    needs: resolver
+    if: ${{ needs.resolver.outputs.publicar == 'true' }}
+    permissions:
+      contents: write
+      actions: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/desplegar-visor-publico.yml
+    secrets: inherit
+    with:
+      pagina_publicar: Sitio completo
+      production_run_id: ${{ needs.resolver.outputs.publish_run_id }}
+      source_sha: ${{ needs.resolver.outputs.source_sha }}
+
+  version_mapa:
+    name: Publicar versión del mapa
+    needs: resolver
+    if: ${{ needs.resolver.outputs.publicar == 'true' }}
+    permissions:
+      contents: write
+      actions: read
+      id-token: write
+      attestations: write
+    uses: ./.github/workflows/publicar-version-mapa.yml
+    with:
+      territory_id: ${{ needs.resolver.outputs.territory_id }}
+      source_run_id: ${{ needs.resolver.outputs.m06_run_id }}
+      artifact_name: ${{ needs.resolver.outputs.m06_artifact }}
+      version: ${{ inputs.version }}
+      production_run_id: ${{ needs.resolver.outputs.publish_run_id }}
+      source_sha: ${{ needs.resolver.outputs.source_sha }}

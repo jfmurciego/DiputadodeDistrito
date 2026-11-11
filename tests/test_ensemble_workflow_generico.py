@@ -94,7 +94,7 @@ class EnsembleWorkflowGenericoTests(unittest.TestCase):
 
     def test_tiene_disparador_manual_visible_con_las_mismas_entradas(self):
         on = DOC.get("on") or DOC.get(True)
-        self.assertEqual(DOC["name"], "06 Escenarios y Ensembles")
+        self.assertEqual(DOC["name"], "P30 Distritos — P33 Alternativas")
         self.assertEqual(set(on["workflow_dispatch"]["inputs"]), set(on["workflow_call"]["inputs"]))
         self.assertIs(on["workflow_dispatch"]["inputs"]["deploy_pages"]["default"], False)
 
