@@ -1008,6 +1008,13 @@
    "sha256_csv": "c8b291b8a164be1700d2488364c8ddbaeddd5ec352664002bc10ad3e62fa7dbf",
    "ruta": "datos/composicion/runs/congreso_cordoba_42940387433.csv"
   },
+  "congreso_cuenca/42940397668": {
+   "territorio": "congreso_cuenca",
+   "run_id": "42940397668",
+   "secciones": 310,
+   "sha256_csv": "794de5d068f60172d1e3acfa9e173e015f84bf01e419f7d8240254998386d7a7",
+   "ruta": "datos/composicion/runs/congreso_cuenca_42940397668.csv"
+  },
   "congreso_huesca/42519383275": {
    "territorio": "congreso_huesca",
    "run_id": "42519383275",
