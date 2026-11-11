@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T13:22:24Z",
+  "actualizado_en": "2026-11-11T13:23:29Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -6130,6 +6130,20 @@
       "tamano_estado_original": 83035702,
       "territorio": "congreso_sevilla",
       "url": "r2://ddd-research-archive/congreso_sevilla/42940520877/ddd-minimo-42940520877-M06.zip"
+    },
+    "congreso_sevilla/43024845069/ddd-minimo-43024845069-M06.zip": {
+      "archivado_en": "2026-11-11T13:23:29Z",
+      "artefacto": "ddd-minimo-43024845069-M06",
+      "artefacto_origen": "ddd-state-43024845069-M06",
+      "artifact_id": 13857184898,
+      "caducidad_original": "2026-11-25T13:19:28Z",
+      "run_id": "43024845069",
+      "sha256": "585566c06408c9edd53fad290b2dc4de7934678692feb0dd521936c95e530ac8",
+      "sha256_estado_original": "0a2a1711e681024cf3c7fecb4ed4d6165e06b5a870a64e6905b95ae380394ab0",
+      "tamano_bytes": 407406,
+      "tamano_estado_original": 83035731,
+      "territorio": "congreso_sevilla",
+      "url": "r2://ddd-research-archive/congreso_sevilla/43024845069/ddd-minimo-43024845069-M06.zip"
     },
     "congreso_soria/41235794328/ddd-audit-41235794328.zip": {
       "archivado_en": "2026-11-08T12:07:03Z",
