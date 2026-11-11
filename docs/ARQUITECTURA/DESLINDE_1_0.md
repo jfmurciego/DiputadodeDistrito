@@ -13,7 +13,7 @@ ANTERIOR: ninguna (fichero nuevo)
 # Deslinde 1.0 — delimitación reproducible de distritos uninominales
 
 **Qué es (D-84, `docs/PLAN.md:121`).** Deslinde 1.0 = trazado canónico + 10 cadenas ReCom + elección D8 + mapa vigente
-como candidato. Hoy está implementado como «motor 2» en `ddd_motor2/` (motor nuevo de D-48); el código **no se
+como candidato. En el código, las «10 cadenas ReCom» son 10 cadenas ReCom **ponderado** de GerryChain (§5). Hoy está implementado como «motor 2» en `ddd_motor2/` (motor nuevo de D-48); el código **no se
 renombra antes del corte 5.0.0** (D-84). Tras el corte vienen la optimización (D-85) y el paquete independiente (D-86).
 
 Todas las citas son a `main` en `ee8e776`. Versiones de los ficheros citados: `reglas/modelo.py` 1.0.0,
@@ -120,7 +120,8 @@ Ganador: `min(candidatos, key=Candidato.clave)` (`competicion.py:355`).
 Ancla: sha256 de los roles `population` y `target_sectioning` de `generation_state.source_inputs`; si falta alguno o no
 es un sha256 válido, `ErrorContrato` y no se ejecuta nada (nunca semilla fija; `semilla.py:222-236`). Semillas repetidas
 → error explícito (l. 248-249). Hoy `<territorio>` es el nombre de carpeta del contrato (`produccion._territorio`,
-`produccion.py:91-95`); D-61/6 prevé el código de la tabla maestra: ver Puntos abiertos.
+`produccion.py:91-95`), y así queda en Deslinde 1.0; el código de la tabla maestra (D-61/6) es candidato a 1.1
+(punto abierto 2).
 
 **Huella del resultado** (`competicion.py:177-186`): sha256 de la huella de las reglas, la enumeración exacta, el id del
 ganador, la función (si no es A) y, por candidato, id, semilla, estado, huella del plan y sha256 de su composición. Misma entrada ⇒ misma huella (criterio (a) de
@@ -145,8 +146,13 @@ pines de `requirements-ensemble.lock` (`bateria-motor.yml:101-205`; T-181).
 |---|---|---|
 | 0 | **canónico** | P30: el M06 del propio run (`CanonicoDelRun`); batería: M04 + M05 canónico 7.4.4 + M06 (`generadores.Canonico`) |
 | 1 | **vigente** | `datos/composicion/<t>.csv` sobre las filas del canónico (con piezas finas). Solo compite si es representable, tiene **exactamente** las secciones de la entrada (si no, `VIGENTE_OTRO_SECCIONADO`, 1.2.1) y es válido. Si incumple el núcleo, **vigente reparado** (D-66): `reparar` solo sabe arreglar R-NUCLEO y R-MUN-MIXTOS (con otra infracción no se repara y no compite): reparación mínima y determinista, máx. 20 pasos, sin crear infracciones nuevas, y se juzga de nuevo (`generadores.py:194-269, 329-347`). No compite con la función A |
-| 2..N+1 | **ponderado** ×N (N=10, D-67 provisional) | Cadena ReCom de GerryChain (`naturalidad_competicion.cadena`, l. 300-350): 300 pasos, `epsilon = t`, árbol de expansión ponderado con recargos 0,5 (partido judicial) / 0,3 (comarca agraria) / 0,2 (área de movilidad) / 0,3 (frontera corta) (`generadores.py:356-357`), el núcleo como restricción en cada paso y `rng = semilla_i`; devuelve el mejor estado por D8. Si el vigente compite, la mitad final de las semillas parte de él y el resto del canónico (`competicion.py:329-331`) |
+| 2..N+1 | **ponderado** ×N (N=10, D-67) | Cadena ReCom ponderado de GerryChain (`naturalidad_competicion.cadena`, l. 300-350): 300 pasos, `epsilon = t`, árbol de expansión ponderado con recargos 0,5 (partido judicial) / 0,3 (comarca agraria) / 0,2 (área de movilidad) / 0,3 (frontera corta) (`generadores.py:356-357`), el núcleo como restricción en cada paso y `rng = semilla_i`; devuelve el mejor estado por D8. Si el vigente compite, la mitad final de las semillas parte de él y el resto del canónico (`competicion.py:329-331`) |
 | último | **exhaustivo** (si aplica) | Enumeración exacta de todos los planes válidos sobre las unidades del canónico si termina dentro de `presupuesto_nodos=200 000` (`Criterio.metodo="presupuesto"`, `modelo.py:177-178`; `exhaustivo.py:41-70`) |
+
+Diferencia con el ReCom de producción (`ddd_core/m05_gerrychain_strategy.py`, generador `GerryChain`, que solo compite
+con la función A): el ponderado usa un árbol de expansión con recargos por demarcación y frontera, juzga cada paso con el
+núcleo de `ddd_motor2/reglas`, trabaja con piezas finas fuera del Congreso, parte del canónico o del vigente y devuelve
+el mejor estado por D8; el de producción parte del M04/M05 y optimiza con la función A. El código no cambia en 1.0.
 
 Ganador: el primero por la clave D8 (§3) entre todos. Como el canónico (y el vigente válido) compiten, la clave del
 ganador nunca es peor que la suya (aserción `competicion.py:356`). Sin ningún candidato válido, `P30_SIN_GANADOR_VALIDO`.
@@ -160,9 +166,11 @@ ganador nunca es peor que la suya (aserción `competicion.py:356`). Sin ningún 
   `competir.comparar`, sin huella ni orden);
 - **comprobación 2**: recuento bruto de distritos fuera de tolerancia del ganador (el del contrato) nunca mayor que el del
   vigente publicado (`peor_que`, l. 759-765; T-212, T-228/T-229). Desvío máximo mayor que el del vigente = aviso, no
-  bloquea. `SIN_VIGENTE` y `NO_EVALUABLE` constan por nombre y **no hay aceptación**; `UN_DISTRITO` vale;
+  bloquea. HOY (código): `SIN_VIGENTE` y `NO_EVALUABLE` constan por nombre y **no hay aceptación**; `UN_DISTRITO` vale.
+  OBJETIVO (decisión, punto abierto 5): sin vigente comparable la comprobación 2 no se aplica y no bloquea;
 - cadenas evaluables, sin `FALLO_GENERADOR`, y nº de candidatos = 1 + N (+1 exhaustivo) (+1 si el vigente compite)
   (T-222);
+- N=10 es la definición (D-67); el N=5 de `tests/test_motor2_aceptacion.py:37` es solo un atajo de CI, no una regla;
 - huella real igual en dos ejecuciones en `congreso_soria`, `congreso_alava` y `melilla` (`HUELLA_REAL`, l. 726);
 - en CI (`tests/test_motor2_aceptacion.py`): huellas fijas (a), ganador certificado por
   `herramientas/certificador_exacto` (b), `COMPETIDOR.csv` sin empeoras (c) y casos adversos rechazados (d).
@@ -174,6 +182,12 @@ ganador nunca es peor que la suya (aserción `competicion.py:356`). Sin ningún 
   lo sitúa en Deslinde 1.1/2.0 (D-87/D-88, no registradas: Puntos abiertos).
 - **El exhaustivo no es el óptimo D8**: la enumeración guarda el mejor plan por la regla de calidad A (`calidad.py`:
   duras → fuera → desvío → ECM → huella; `exhaustivo.py:55-56`), no por D8; ese plan compite después con la clave D8.
+  Medido en la batería r3 (`docs/ESTUDIOS/T196_BATERIA_D8/datos/`, run 42886114842): 11 territorios con exhaustivo; en
+  los 11 gana el canónico y el plan exhaustivo es el mismo que el canónico (misma `huella_plan` en `CANDIDATOS.csv`).
+  En 8 hay un solo distrito (Congreso: Ávila, Ceuta, Melilla, Palencia, Segovia, Soria, Teruel y Zamora) y en
+  Álava (Congreso) hay 1 solo plan válido (`T136_CERTIFICADOR_EXACTO.md:62`): ahí elegir por A o por D8 da lo mismo.
+  En Ceuta y Melilla (autonómicas, K=25) los datos versionados no dicen cuántos planes válidos hay (el recuento está en
+  `COMPETICION.json`, artefacto no versionado): no se puede afirmar ni descartar que D8 eligiera otro.
 - **La tolerancia no es regla** (D-44): un mapa válido puede tener distritos fuera de tolerancia; Deslinde solo los
   minimiza en la elección.
 - **Óptimo local respecto a la atomicidad del contrato**: no parte municipios que el contrato declara atómicos ni
@@ -186,31 +200,35 @@ ganador nunca es peor que la suya (aserción `competicion.py:356`). Sin ningún 
 - Con la función A el vigente no compite (`produccion.generadores_por_defecto`, l. 236-243).
 - El criterio (e) «mismo mapa con id viejo y nuevo» (D-60) está en `skip` hasta el corte.
 
-## Puntos abiertos (no resueltos aquí)
+## Puntos abiertos
 
-1. **D-87, D-88 y D-89 no están registradas** en `docs/PLAN.md` ni en ningún fichero de `main` (`ee8e776`); en `PLAN.md`
-   la última es D-86. Las referencias a «Deslinde 1.1/2.0» y a «paquete independiente después del corte» vienen solo
-   del encargo de T-255; D-86 (`PLAN.md:123`) dice «paquete independiente … tras la optimización».
-2. **Territorio en la semilla**: D-61 (`PLAN.md:98`) y `CORTE_5_0_0.md:291` fijan «el código de la tabla maestra vía
-   resolutor»; el código usa el nombre de carpeta del contrato (`produccion.py:91-95`). `T180_CADENAS/README.md` ya lo
-   señala («no está aplicada»). Cambiarlo cambiará todas las semillas y huellas.
-3. **N en la aceptación de CI frente a producción**: `ACEPTACION_MOTOR2.md` y `tests/test_motor2_aceptacion.py:37` usan
-   `N_CADENAS = 5`; producción y D-84 usan 10 (`produccion.py:64`, `competir.py` por defecto 10) y
-   `competir_publico` tiene 5 por defecto (`competicion.py:367`). D-67 dice que N=10 es provisional «hasta que lo
-   confirme la batería de los 71 con la función elegida».
-4. **Dos «vigentes» distintos**: el candidato vigente de la competición lee `datos/composicion/<t>.csv`
-   (`generadores.py:279, 286`); la comprobación 2 de la aceptación lee `composicion_publicada` = `datos/composicion/runs/<t>_<run>.csv`
-   del `canonical_m06` del visor si existe y, si no, el mismo `<t>.csv` (`bateria_motor.py:473-476`). Si difieren, la
-   garantía «nunca peor que el vigente por construcción» (`competicion.py` 1.4.0) no cubre la vara de la aceptación.
-5. **Vigente sin comparación**: `competir.py` 1.2.0 dice que el territorio «sin_comparacion_vigente … la aceptación no lo
-   esconde ni lo bloquea»; `bateria_motor.criterio_aceptacion` (l. 1018, 1041) y `ACEPTACION_MOTOR2.md` (c2) dicen que
-   `SIN_VIGENTE`/`NO_EVALUABLE` deja el territorio **sin aceptación**. Consecuencia: con vigente de otro seccionado
-   (las 52 del Congreso con el par 2025/2025, D-65/D-80) la aceptación de la batería no puede salir SÍ.
-6. **Excepción de D-66** («excepción explícita en su contrato con su motivo (máximo 2)»): el código solo tiene
-   `max_mixed_districts_per_split_municipality` por contrato (todos los contratos versionados lo declaran = 1); no hay un
-   campo de excepción por municipio con motivo ni tope de 2.
-7. **Canónico distinto en batería y P30**: la batería usa M05 canónico 7.4.4 con semilla fija (`generadores.Canonico`);
-   el P30 usa el M06 del run (la versión de M05 activa en el run). Las cifras de la batería no son por tanto las de la 00.
-8. **«10 cadenas ReCom» (D-84)**: lo que corre son 10 cadenas «ponderado» (ReCom con árbol de expansión ponderado y
-   restricción del núcleo), no el ReCom de producción `m05_gerrychain_strategy` (generador `GerryChain`, solo con la
-   función A). D-84 no distingue.
+Decisiones del Planificador (vía Coordinador, 11-11) sobre lo que esta definición encontró. En cada punto, HOY = lo que
+hace el código en `ee8e776`; OBJETIVO = la decisión, todavía no implementada.
+
+1. **D-87 a D-89.** HOY: no están en `docs/PLAN.md` ni en ningún fichero de `main` (la última es D-86). OBJETIVO: D-87 a
+   D-89 (en el plan 1.0.43), pendientes de registro; aquí no se cita su texto. Las menciones a «Deslinde 1.1/2.0» de §7
+   dependen de ellas.
+2. **Territorio en la semilla.** HOY: el nombre de carpeta del contrato (`produccion.py:91-95`); es la semilla de
+   Deslinde 1.0. OBJETIVO: el código de la tabla maestra vía resolutor (D-61, `CORTE_5_0_0.md:291`; `T180_CADENAS/README.md`
+   ya lo señala), candidato a 1.1. Cambiarlo cambia todas las semillas y huellas.
+3. **N.** HOY: `produccion.py:64` y `competir.py` usan 10; `tests/test_motor2_aceptacion.py:37` usa 5 y
+   `competir_publico` tiene 5 por defecto (`competicion.py:367`). OBJETIVO: la definición es N=10 (D-67); el 5 es solo
+   un atajo de CI.
+4. **Un único vigente.** HOY: el candidato vigente de la competición lee `datos/composicion/<t>.csv`
+   (`generadores.py:279, 286`); la comprobación 2 lee `composicion_publicada`: `datos/composicion/runs/<t>_<run>.csv`
+   del `canonical_m06` del visor si existe y, si no, el mismo `<t>.csv` (`bateria_motor.py:473-476`). Pueden diferir.
+   OBJETIVO: un solo vigente, el mapa publicado en el visor (registro de publicaciones, `runs/<t>_<run>.csv`), también
+   en la competición: tarea T-258 (convergencia).
+5. **Sin vigente comparable** (otro seccionado, p. ej. las 52 del Congreso con el par 2025/2025, D-65/D-80). HOY:
+   `competir.py` 1.2.0 dice que no bloquea, pero `bateria_motor.criterio_aceptacion` (l. 1018, 1041) y
+   `ACEPTACION_MOTOR2.md` (c2) dejan el territorio sin aceptación. OBJETIVO: «fuera de tolerancia nunca peor que el
+   vigente» no se aplica; se registra «sin vigente comparable», la aceptación queda en «clave nunca peor que el
+   canónico» y la batería deja de bloquear en ese caso (T-224, sube de prioridad).
+6. **Excepción de D-66** (motivo, máximo 2). HOY: solo `max_mixed_districts_per_split_municipality` por contrato
+   (todos los contratos versionados declaran 1); no hay campo de excepción con motivo ni tope de 2. OBJETIVO: ese campo,
+   tarea T-259.
+7. **Canónico de referencia.** HOY: la batería usa M05 canónico 7.4.4 con semilla fija (`generadores.Canonico`); el P30
+   usa el M06 del run (`CanonicoDelRun`). OBJETIVO: el canónico de referencia es el del run de producción (P30); la
+   batería se alinea (T-258).
+8. **«10 cadenas ReCom» (D-84).** HOY: 10 cadenas ReCom ponderado de GerryChain (`generadores.Ponderado`), no el ReCom de
+   producción (§5). OBJETIVO: la definición dice exactamente eso; el código no cambia.
