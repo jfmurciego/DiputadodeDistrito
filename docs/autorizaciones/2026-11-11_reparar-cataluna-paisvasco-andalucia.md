@@ -1,10 +1,10 @@
 # Autorización de campaña 2026-11-11_reparar-cataluna-paisvasco-andalucia
 
 - Decisión: D-52 (autorización por campaña). Chat del Operador: session_01KQDtFsAtHP9atzNnDthr9A.
-- Frase literal del propietario: (pendiente)
-- Fecha y hora de la frase (Europe/Madrid): (pendiente)
+- Frase literal del propietario: «Autorizo la campaña 2026-11-11_reparar-cataluna-paisvasco-andalucia tal como figura en la ficha.»
+- Fecha y hora de la frase (Europe/Madrid): 2026-11-11 15:14 (aprox.)
 - Estado de la ficha: BORRADOR.
-- Caducidad: 24 h desde la frase del propietario.
+- Caducidad: 2026-11-12 15:14 (24 h).
 - Gasto semanal al autorizar: se mide al recibir la frase y se anota aquí; tope 15.000 min/semana, aviso al 70 %.
 
 ## Límites
@@ -24,8 +24,10 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
+| 15:14 | Cataluña (paso 1) | P12 Electorales, reutilizar=false | 43036592492 (por orden de despacho; verificar territorio en el log) | EN_VUELO | 1 / — | 0/1 |
+| 15:14 | País Vasco (paso 1) | P12 Electorales, reutilizar=false | 43036604667 (ídem) | EN_VUELO | 2 / — | 0/1 |
 
 ## Cierre
-Estado: `BORRADOR`. Último uso: —.
+Estado: `EN_CURSO`. Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-11_reparar-cataluna-paisvasco-andalucia tal como figura en la ficha.»
