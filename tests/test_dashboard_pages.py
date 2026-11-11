@@ -47,7 +47,20 @@ class DashboardPages(unittest.TestCase):
             state.get("territorial_product_available")
             or state.get("production_authorization") in {"AUTHORIZED","PREFLIGHT"}
         ) else "gray"
-        expected_re="green" if state.get("electoral_product_available") and electoral else "yellow"
+        # T-247b: regla de linaje (#354). El M08 cuenta solo si es del run del M06 vigente o si el manifiesto de SU run
+        # acredita la 02 con ese M06 y la 04 en success; si no (p. ej. M06 nuevo con la 04 de la cadena aún pendiente),
+        # el dashboard debe dar «yellow». Antes bastaba con electoral_product_available, y la campaña lo rompía.
+        def m08_del_m06_vigente():
+            if str(electoral["run_id"])==str(territorial["run_id"]):
+                return True
+            path=ROOT/f"territorios/galicia/evidencia/ejecuciones_completas/{electoral['run_id']}.json"
+            if not path.is_file():
+                return False
+            fases={str(p.get("name",""))[:2]:p for p in json.loads(path.read_text(encoding="utf-8")).get("phases") or []}
+            f02,f04=fases.get("02") or {},fases.get("04") or {}
+            return (str(f02.get("run_id"))==str(territorial["run_id"]) and str(f04.get("run_id"))==str(electoral["run_id"])
+                    and f04.get("result")=="success")
+        expected_re="green" if state.get("electoral_product_available") and m08_del_m06_vigente() else "yellow"
 
         self.assertEqual(galicia["g"],expected_g)
         self.assertEqual(galicia["re"],expected_re)
