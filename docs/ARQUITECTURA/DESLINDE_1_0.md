@@ -1,13 +1,17 @@
 <!--
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Definición formal de Deslinde 1.0
+VERSIÓN: 1.0.1
+NOMBRE DE VERSIÓN: Definición formal de Deslinde 1.0 · semilla por código oficial (definición 1.0.1)
 FECHA: 2026-11-11
-ESTADO: candidato (documento; describe el código de main ee8e776, no lo cambia)
-CAMBIOS: fichero nuevo (T-255).
+ESTADO: candidato (documento; describe el código de main ee8e776 más T-265)
+CAMBIOS: 1.0.1 (T-265, D-90) — la semilla pública sale del código oficial del territorio en la tabla maestra
+  (`configuracion/notacion_territorial.csv`, con su sha256), no del nombre de la carpeta: deja de ser «candidato a
+  1.1» y entra en la definición 1.0.1 (§4, punto abierto 2 cerrado). Cambio único y deliberado de los mapas; su
+  salida es la nueva referencia de «bit a bit». Reglas, elección D8 y candidatos no cambian.
+  1.0.0 — fichero nuevo (T-255).
 MOTIVO: D-84 (nombre y composición de Deslinde 1.0) y D-86 (2): definición formal publicada de las reglas, la elección
   D8 y la semilla, sacada solo del código y de las decisiones registradas.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/docs/ARQUITECTURA/DESLINDE_1_0_v1.0.0_20261111.md
 -->
 
 # Deslinde 1.0 — delimitación reproducible de distritos uninominales
@@ -17,7 +21,7 @@ como candidato. En el código, las «10 cadenas ReCom» son 10 cadenas ReCom **p
 renombra antes del corte 5.0.0** (D-84). Tras el corte vienen la optimización (D-85) y el paquete independiente (D-86).
 
 Todas las citas son a `main` en `ee8e776`. Versiones de los ficheros citados: `reglas/modelo.py` 1.0.0,
-`reglas/evaluar.py` 1.0.0, `reglas/metodo.py` 1.0.0, `naturalidad_clave.py` 1.1.0, `semilla.py` 1.0.1,
+`reglas/evaluar.py` 1.0.0, `reglas/metodo.py` 1.0.0, `naturalidad_clave.py` 1.1.0, `semilla.py` 1.1.0 (T-265),
 `competicion.py` 1.4.0, `competir.py` 1.2.0, `generadores.py` 1.2.1, `produccion.py` 1.1.0, `adaptadores.py` 1.2.0,
 `exhaustivo.py` y `calidad.py` 1.0.0, `herramientas/bateria_motor.py` 1.2.4, `docs/ARQUITECTURA/ACEPTACION_MOTOR2.md`
 1.1.0, `configuracion/politica_generacion_territorial_2025.yaml` 1.7.4.
@@ -113,22 +117,29 @@ Ganador: `min(candidatos, key=Candidato.clave)` (`competicion.py:355`).
 
 ## 4. Semilla pública y reproducibilidad
 
-**Semilla** (D-50, `docs/PLAN.md:87`; `ddd_motor2/semilla.py`, esquema `ddd-semilla-publica/1`):
+**Semilla** (D-50, `docs/PLAN.md:87`; D-61/6 y D-90; `ddd_motor2/semilla.py` 1.1.0, esquema `ddd-semilla-publica/2`):
 
-    semilla_i = int(sha256("ddd-semilla-publica/1|<sha padrón>|<sha seccionado>|<territorio>|<i>")[:16], 16) mod (2^31 − 2) + 1,  i = 1..N
+    código    = codigo_semilla(<territorio>)   (ddd_core/territorio_ids.py sobre configuracion/notacion_territorial.csv)
+    semilla_i = int(sha256("ddd-semilla-publica/2|<sha padrón>|<sha seccionado>|<código>|<i>")[:16], 16) mod (2^31 − 2) + 1,  i = 1..N
 
 Ancla: sha256 de los roles `population` y `target_sectioning` de `generation_state.source_inputs`; si falta alguno o no
 es un sha256 válido, `ErrorContrato` y no se ejecuta nada (nunca semilla fija; `semilla.py:222-236`). Semillas repetidas
-→ error explícito (l. 248-249). Hoy `<territorio>` es el nombre de carpeta del contrato (`produccion._territorio`,
-`produccion.py:91-95`), y así queda en Deslinde 1.0; el código de la tabla maestra (D-61/6) es candidato a 1.1
-(punto abierto 2).
+→ error explícito. **Código oficial (definición 1.0.1, T-265):** `<código>` es el de la tabla maestra (AUTnn =
+CODAUTO, NACnn = CPRO del INE; p. ej. `NAC01` Álava, `AUT17` La Rioja), resuelto por el resolutor único desde el id de
+la carpeta, viejo (`congreso_alava`) o nuevo (`nac01`): renombrar la carpeta (T-220) no cambia la semilla (test
+`tests/test_motor2_semilla.py`, `CodigoOficial`). Un territorio fuera de la tabla (incluidos `congreso350_*` y el
+sufijo reservado `-350`) da `ErrorContrato`: nunca se cae al nombre. `semilla_publica` (en `COMPETICION.json` y
+`P30.json`) registra código, derivación y ruta y sha256 de la tabla maestra; esquema, código y sha256 de la tabla entran
+en la huella del resultado, y la tabla y su resolutor, en la huella `motor2`. En la definición 1.0.0 el territorio era
+el nombre de la carpeta (esquema `ddd-semilla-publica/1`); desde la fusión de T-265 la salida con el esquema 2 es la
+referencia de «bit a bit».
 
 **Huella del resultado** (`competicion.py:177-186`): sha256 de la huella de las reglas, la enumeración exacta, el id del
-ganador, la función (si no es A) y, por candidato, id, semilla, estado, huella del plan y sha256 de su composición. Misma entrada ⇒ misma huella (criterio (a) de
+ganador, la función (si no es A), la semilla (esquema, código y sha256 de la tabla maestra, 1.0.1) y, por candidato, id, semilla, estado, huella del plan y sha256 de su composición. Misma entrada ⇒ misma huella (criterio (a) de
 `ACEPTACION_MOTOR2.md`).
 
 **Huella del motor `motor2`** (`produccion.py:79-87`): sha256 de `ddd_motor2/**/*.py`, de las tablas de
-`DATOS_NATURALIDAD` (incluido `datos/composicion/*.csv`, T-223), de la función (`FUNCION="D8"`) y de N
+`DATOS_NATURALIDAD` (incluido `datos/composicion/*.csv`, T-223, y la tabla maestra con `ddd_core/territorio_ids.py`, T-265), de la función (`FUNCION="D8"`) y de N
 (`CADENAS=10`), fijados en el código sin opción en la línea de órdenes (`produccion.py:63-64`). Va a la capa `motor2` de
 `compatibility/motor.json`: un M06 de otra configuración no se reutiliza.
 
@@ -208,9 +219,8 @@ hace el código en `ee8e776`; OBJETIVO = la decisión, todavía no implementada.
 1. **D-87 a D-89.** HOY: no están en `docs/PLAN.md` ni en ningún fichero de `main` (la última es D-86). OBJETIVO: D-87 a
    D-89 (en el plan 1.0.43), pendientes de registro; aquí no se cita su texto. Las menciones a «Deslinde 1.1/2.0» de §7
    dependen de ellas.
-2. **Territorio en la semilla.** HOY: el nombre de carpeta del contrato (`produccion.py:91-95`); es la semilla de
-   Deslinde 1.0. OBJETIVO: el código de la tabla maestra vía resolutor (D-61, `CORTE_5_0_0.md:291`; `T180_CADENAS/README.md`
-   ya lo señala), candidato a 1.1. Cambiarlo cambia todas las semillas y huellas.
+2. **Territorio en la semilla.** CERRADO en la definición 1.0.1 (T-265, D-90): el código oficial de la tabla maestra
+   vía resolutor (§4). Cambió todas las semillas y huellas una sola vez; la salida desde esa fusión es la referencia.
 3. **N.** HOY: `produccion.py:64` y `competir.py` usan 10; `tests/test_motor2_aceptacion.py:37` usa 5 y
    `competir_publico` tiene 5 por defecto (`competicion.py:367`). OBJETIVO: la definición es N=10 (D-67); el 5 es solo
    un atajo de CI.

@@ -80,16 +80,16 @@ class Interfaz(unittest.TestCase):
         from tests.test_motor2_semilla import cfg as cfg_con_ancla
         tmp = Path(tempfile.mkdtemp())
         e = entrada(tmp)
-        e = EntradaTerritorio("sintetico", cfg_con_ancla(), e.grafo_m03)
+        e = EntradaTerritorio("ceuta", cfg_con_ancla(), e.grafo_m03)
         e.cfg["validation"] = dict(CFG["validation"])
         planes = {None: plan_corte(2)}
         gen = (Fijo("canonico", planes), type("F", (), {"nombre": "cadena", "generar": lambda s, en, se, d: Salida(
             escribir_comp(Path(d) / "comp.csv", plan_corte(3), POB))})())
-        f = competir_territorio("sintetico", tmp, 3, generadores=gen, entrada=e)
+        f = competir_territorio("ceuta", tmp, 3, generadores=gen, entrada=e)
         self.assertEqual((f["funcion"], f["frente_al_canonico"]), ("D8", "mejora"), f)
-        g = fila_guardada("sintetico", tmp, 3, cfg=e.cfg, funcion="D8")
+        g = fila_guardada("ceuta", tmp, 3, cfg=e.cfg, funcion="D8")
         self.assertEqual((g["frente_al_canonico"], g["ganador"]), ("mejora", f["ganador"]))
-        self.assertIsNone(fila_guardada("sintetico", tmp, 3, cfg=e.cfg, funcion="A"))  # otra función: se recalcula
+        self.assertIsNone(fila_guardada("ceuta", tmp, 3, cfg=e.cfg, funcion="A"))  # otra función: se recalcula
 
 
 class FueraDelContrato(unittest.TestCase):
