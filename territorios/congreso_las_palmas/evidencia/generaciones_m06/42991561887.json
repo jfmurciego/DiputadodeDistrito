@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13844531376,
+      "artifact_name": "ddd-audit-42991561887",
+      "artifact_sha256": "814119174e5679e8f5660bbd615c841a2c68848f05865741485e4b6780c97b66",
+      "run_id": 42991561887,
+      "size_in_bytes": 4373
+    },
+    "m04": {
+      "artifact_id": 13844241429,
+      "artifact_name": "ddd-state-42991561887-M04",
+      "artifact_sha256": "699629ec29d1026ac4b81fd1bbe2c28b5c46aaab4e5b565eee1899c3634ba5a9",
+      "run_id": 42991561887,
+      "size_in_bytes": 92655133
+    },
+    "m05": {
+      "artifact_id": 13844107281,
+      "artifact_name": "ddd-state-42991561887-M05",
+      "artifact_sha256": "1df838fd70c5478916d77379c0c28cf9f255e7720e7a131543e47dc73b236329",
+      "run_id": 42991561887,
+      "size_in_bytes": 95747108
+    },
+    "m06": {
+      "artifact_id": 13845020614,
+      "artifact_name": "ddd-state-42991561887-M06",
+      "artifact_sha256": "4c53637c1257961c6b4ee671ea1da44d29a9d84d1ddbdbaa52dc0574b7de25e9",
+      "run_id": 42991561887,
+      "size_in_bytes": 103446649
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "67b2271b76d7c5abec9bd953e467db8e9e34f6aea3a31a904eccd7afc882608d",
+        "size_in_bytes": 422
+      },
+      "congreso_las_palmas_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "e94ba735b28ce313a72229a1941d095f94f855859e8052d276008ac08d594e64",
+        "size_in_bytes": 11094
+      },
+      "optimization_execution.json": {
+        "sha256": "b4ddb4eea1fa7fff2fd39920c63eb7a6d2dafd6add474947bfc0916637adb1a0",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "81aca6626eccfb269258b10f500082d2d52c77e94d658f30fb67c24e63dae22c",
+        "size_in_bytes": 1519
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "81aca6626eccfb269258b10f500082d2d52c77e94d658f30fb67c24e63dae22c",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_las_palmas/config/congreso_las_palmas_2025.yaml",
+    "sha256": "a27ff35558e70d94e87406044d3238a827ae6248e33982db21df0f14bcc2fb1b"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "ad3a86841a5c4a0722bacdc2242c220f7d7395be6fa64f91b544e63fb4a0f72a",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s326162553",
+      "generador": "ponderado",
+      "huella_resultado": "96f017ef082c14b8ee675fccb8eb09f1168914b4137f8f2c1b3a89c0740abce1",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.658522153558559,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.4618459946083364,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "23b21967f7400ddbd37f8a0b118acdff8d7ec056e51a6cdb612a652f31ddfd4b",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "e2b935f5d09b947fb3595488e5e2a10eabc49cf7",
+    "edition": "2025",
+    "territory_id": "congreso_las_palmas",
+    "territory_name": "Congreso Las Palmas",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42991561887,
+    "workflow_sha": "48716f6314fe92973436599417e7be4886bbe0c2"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13844241429,
+      "artifact_name": "ddd-state-42991561887-M04",
+      "artifact_sha256": "699629ec29d1026ac4b81fd1bbe2c28b5c46aaab4e5b565eee1899c3634ba5a9",
+      "run_id": 42991561887,
+      "size_in_bytes": 92655133
+    },
+    "source_manifest_sha256": "5f316a0bd2c91c2e4f750dab3fee8df771edd587562564d4a0a1067b3a140b34",
+    "source_package_artifact": {
+      "artifact_id": 13841159084,
+      "artifact_name": "ddd-source-package-congreso_las_palmas-2025-42991561887",
+      "artifact_sha256": "08b4bdec2a4f39a8583e5378dd498fd90b926a53c2037e8ed70b09a499d4dadf",
+      "run_id": 42991561887,
+      "size_in_bytes": 83407036
+    }
+  },
+  "manifest_sha256": "90fe26e8b4862074483664d446dc3e70cb367fa7b293c1431c4d6810c2b14346",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
