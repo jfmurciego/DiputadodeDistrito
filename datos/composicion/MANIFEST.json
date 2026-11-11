@@ -1267,6 +1267,13 @@
    "sha256_csv": "43ee2295826ea2f2d23dd7fcbea8e2efb3bb84b15d703d827661283483a33914",
    "ruta": "datos/composicion/runs/congreso_murcia_42940463842.csv"
   },
+  "congreso_murcia/43001766635": {
+   "territorio": "congreso_murcia",
+   "run_id": "43001766635",
+   "secciones": 1223,
+   "sha256_csv": "43ee2295826ea2f2d23dd7fcbea8e2efb3bb84b15d703d827661283483a33914",
+   "ruta": "datos/composicion/runs/congreso_murcia_43001766635.csv"
+  },
   "congreso_navarra/42940468939": {
    "territorio": "congreso_navarra",
    "run_id": "42940468939",
