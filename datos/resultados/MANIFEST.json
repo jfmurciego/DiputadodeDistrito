@@ -927,6 +927,15 @@
    "sha256_csv": "8738ce6bd52449b69126b2cbfbeeee180e5c6195219dcdba37bf0dceb48588ee",
    "ruta": "datos/resultados/runs/congreso_cadiz_42953019279_partidos.csv"
   },
+  "congreso_castellon/42953757677": {
+   "territorio": "congreso_castellon",
+   "run_id": "42953757677",
+   "run_territorial": "42940377493",
+   "sha256_composicion": "52289a941708ac01ddffb56c0031b985bcc955d3b8bf3dba1fda533202937126",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "12782c83721b01dfafd9d2831e89ed80ec3120f928983134c08a74d7a80f59ff",
+   "ruta": "datos/resultados/runs/congreso_castellon_42953757677_partidos.csv"
+  },
   "congreso_ceuta/42496569312": {
    "territorio": "congreso_ceuta",
    "run_id": "42496569312",
