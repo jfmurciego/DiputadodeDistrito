@@ -1,0 +1,92 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "comunidad_valenciana",
+  "territory_name": "Comunidad Valenciana",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 43030421638,
+  "source_sha": "fc8e51213e8c4c7a2873af67a0faa309633b6a73",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "COMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": 43025671156
+  },
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 40956462986,
+      "artifact": "ddd-source-package-comunidad_valenciana-2025-40956462986",
+      "artifact_digest": "sha256:1aa62c171c5bb073a7941dd1c0b31f9f4c8155aa8153c027da9622690a0b2c2d",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 43025671156,
+      "artifact": "ddd-state-43025671156-M06",
+      "artifact_digest": "sha256:fadd4fd51471e88dd62a31a53aacef7e735d2ab0dc74f5a8aad4ca73fc365c88",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 40956462986,
+      "artifact": "ddd-electoral-package-comunidad_valenciana-2025-40956462986",
+      "artifact_digest": "sha256:97306fac45ac40b9699513bdffe365075bc76bbc46ea185f14f1218611752c96",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 43030421638,
+      "artifact": "ddd-state-43030421638-M08",
+      "artifact_digest": "sha256:d7865a82cf0cdde9a6bbd1359e78845748227933177374624fe86f35b49c9273",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-11T13:57:04.101971+00:00"
+}
