@@ -2217,8 +2217,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42519017008
-        stage: M08
+        run_id: 42940505848
+        stage: M06
       preparation_evidence:
         run_id: 42514989698
         artifact_name: ddd-source-package-congreso_santa_cruz_de_tenerife-2025-42514989698
