@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T10:42:50.512203+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T10:44:40.216112+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -93,7 +93,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Lérida** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41299033915 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42935762636 · SUCCESS | — | — | — |
 | **Nacional Lugo** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42995722473 · SUCCESS | — | — | — |
-| **Nacional Madrid** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41622703086 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Madrid** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43001749134 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Málaga** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42495070976 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Murcia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43001766635 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Navarra** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41299128213 · SUCCESS | — | — | preparar fuentes electorales |
