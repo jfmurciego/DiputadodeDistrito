@@ -2763,8 +2763,8 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41293988485
-        stage: M08
+        run_id: 42940578685
+        stage: M06
       preparation_evidence:
         run_id: 41236482346
         artifact_name: ddd-source-package-congreso_melilla-2025-41236482346
