@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13822263972,
+      "artifact_name": "ddd-audit-42940371696",
+      "artifact_sha256": "af4e21180647dc65d2b2a2a0c15a09221d3cbd8027945d25ea4bec40073a2a2a",
+      "run_id": 42940371696,
+      "size_in_bytes": 4909
+    },
+    "m04": {
+      "artifact_id": 13821807366,
+      "artifact_name": "ddd-state-42940371696-M04",
+      "artifact_sha256": "97eb701672e8e525223c62611a9dbc3750871fc2d97db022482c0b85dc0bc659",
+      "run_id": 42940371696,
+      "size_in_bytes": 80213741
+    },
+    "m05": {
+      "artifact_id": 13821554263,
+      "artifact_name": "ddd-state-42940371696-M05",
+      "artifact_sha256": "3af8f143d0d2e4cdf504b8906a2687677ef2ed32ece40d9e3e4fccbbafac2c77",
+      "run_id": 42940371696,
+      "size_in_bytes": 81459784
+    },
+    "m06": {
+      "artifact_id": 13822556234,
+      "artifact_name": "ddd-state-42940371696-M06",
+      "artifact_sha256": "d98af9949bf015960113d54f693f6367c1b047ed9b6e676d8515f370e7333573",
+      "run_id": 42940371696,
+      "size_in_bytes": 84287949
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "ed656822a6b8c6566fe36faff254a1f25f9adeb827e3c8f4686162915b370374",
+        "size_in_bytes": 408
+      },
+      "congreso_cadiz_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "56f5b5ec6cc4c5f6fe3685a7d0710eb243d0f40a4ee039ec4137cdc5b4e766a9",
+        "size_in_bytes": 19137
+      },
+      "optimization_execution.json": {
+        "sha256": "6be73d729730798c6e089c6b445d1177cf12bbee725e89b536b230d86d7f3b43",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "63c7e5aa2fb9cdd49e47919be781e19acaa7601e7ecfb80e5e6109864313dca7",
+        "size_in_bytes": 1492
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "63c7e5aa2fb9cdd49e47919be781e19acaa7601e7ecfb80e5e6109864313dca7",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_cadiz/config/congreso_cadiz_2025.yaml",
+    "sha256": "03c9ddfcd27006f7a431c619c6e7310c3e316b119ece406dbeebf355abd7c029"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "9ad620611648b929e9f94e1fa3f0f52a35d86f253610138a7ba8c3e0fda4424d",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s866122040",
+      "generador": "ponderado",
+      "huella_resultado": "410bf2c8398a92b9c5e84e0fc930e4b56e170f762b12e9bdc18b9f35acdaf22e",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.17537649438266714,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.17537649438266714,
+          "fuera_tolerancia": 1,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "338f4dc8a0bf0608c1c41f733b3c6de2699450cd51bd93802bd9defc2dbb9e9d",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_cadiz",
+    "territory_name": "Congreso Cádiz",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940371696,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13821807366,
+      "artifact_name": "ddd-state-42940371696-M04",
+      "artifact_sha256": "97eb701672e8e525223c62611a9dbc3750871fc2d97db022482c0b85dc0bc659",
+      "run_id": 42940371696,
+      "size_in_bytes": 80213741
+    },
+    "source_manifest_sha256": "51c247e7bb532d1e18c09351854514c0afba5e51c0552cfc36fa8df604954c64",
+    "source_package_artifact": {
+      "artifact_id": 13154219798,
+      "artifact_name": "ddd-source-package-congreso_cadiz-2025-41465820761",
+      "artifact_sha256": "39e612f105e899cfff0b4a89b3692a1097f595fdc385806e27b91389660cd875",
+      "run_id": 41465820761,
+      "size_in_bytes": 77700676
+    }
+  },
+  "manifest_sha256": "36338cd9eecc64af62882381f095d972f6b77c3d73e51bc247992876d05ee353",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
