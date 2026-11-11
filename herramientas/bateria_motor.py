@@ -880,8 +880,8 @@ def indicadores_territorio(t: str, out: Path, *, cfg: dict | None = None, grafo:
         try:
             res["vigente"] = _indicadores_plan(vig, cfg, grafo, can, attrs)
         except ErrorDatos as exc:  # T-229: el vigente reparte unidades M04 → el de la competición, con piezas finas
-            fino = _vigente_de_la_competicion(carpeta, d, can, pub, columnas_de_contrato(cfg))
-            if fino is None or "atomicidad" not in str(exc):
+            fino = _vigente_de_la_competicion(carpeta, d, can, pub, columnas_de_contrato(cfg)) if "atomicidad" in str(exc) else None
+            if fino is None:
                 raise
             res["vigente"] = _indicadores_plan(fino, cfg, grafo, can, attrs)
             res["vigente_lectura"] = f"piezas finas de la competición ({exc})"
