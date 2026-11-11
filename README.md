@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T16:05:47.775567+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T16:06:29.918806+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
