@@ -28,6 +28,6 @@
 | 14:03 | tanda 2 (continuación sin Andalucía, confirmada por el propietario: «Confirmo seguir la regeneración nocturna v2 de las autonomías sin Andalucía, en tandas de 5.», 14:02): Cantabria 43025633460, Castilla y León 43025642604, Castilla-La Mancha 43025652192, Cataluña 43025661789, Comunidad Valenciana 43025671156 | P00 Campaña motor2 | — | 4 cadenas completas; Cataluña: territorial hecho, Activación 43031681945 FAILURE no transitorio «Identidad remota no única para electoral» (exit 63) y «sin un par durable válido» (exit 54) | 11 / — | 0/1 |
 
 ## Cierre
-Estado: `PARADA` (15:04, Cataluña: par electoral con identidad remota no única). Faltan Extremadura, Galicia, Madrid, Murcia, Navarra, País Vasco, Ceuta, Melilla. Caduca 22:30. Último uso: 2026-11-11.
+Estado: `PARADA` (15:04, Cataluña: par electoral con identidad remota no única). Faltan Extremadura, Galicia, Madrid, Murcia, Navarra, Ceuta, Melilla (País Vasco pasa a `2026-11-11_reparar-cataluna-paisvasco-andalucia`). Caduca 22:30. Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_regeneracion-nocturna-corte-71-v2 tal como figura en la ficha.»
