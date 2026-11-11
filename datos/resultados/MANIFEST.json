@@ -1165,6 +1165,15 @@
     "sha256": "d8b144db6c4876a0a7c3d6a59b152ebc0415f2964b61bb5834875e9f7a3cd858"
    }
   },
+  "congreso_las_palmas/42998268332": {
+   "territorio": "congreso_las_palmas",
+   "run_id": "42998268332",
+   "run_territorial": "42991561887",
+   "sha256_composicion": "5f50662a1f66b0869ad182b0e3a600c7bc954a99ed7f4ac8b063df0f715cda5d",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "78a42ee28b73227ce6da3f9a18205ab3190e921f31b43269ead2846b741aa545",
+   "ruta": "datos/resultados/runs/congreso_las_palmas_42998268332_partidos.csv"
+  },
   "congreso_leon/42996717873": {
    "territorio": "congreso_leon",
    "run_id": "42996717873",
