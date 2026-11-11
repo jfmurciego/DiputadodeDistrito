@@ -1,0 +1,92 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "congreso_melilla",
+  "territory_name": "Congreso Melilla",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 43006105644,
+  "source_sha": "92b6f2291054c45a258dac96c17ae362f7fc813c",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "COMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": 43001757563
+  },
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41236482346,
+      "artifact": "ddd-source-package-congreso_melilla-2025-41236482346",
+      "artifact_digest": "sha256:24dddfcf1da318e310e2128223720a597b4e1e97a50780e64ce0d076a8ab4857",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 43001757563,
+      "artifact": "ddd-state-43001757563-M06",
+      "artifact_digest": "sha256:3de55ac7b68af91e4a29c8c046155dfb5ed181cb0638744a36e14c7a5483e5b0",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41236491113,
+      "artifact": "ddd-electoral-package-congreso_melilla-2025-41236491113",
+      "artifact_digest": "sha256:56cff668513aa99a806a8c042ae130cd27379ad970cc582813737216d37ecb60",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 43006105644,
+      "artifact": "ddd-state-43006105644-M08",
+      "artifact_digest": "sha256:2171296792f6783a4df122077bb7c93c8179f69935b297f48dcedcfca957f28a",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-11T10:54:56.347742+00:00"
+}
