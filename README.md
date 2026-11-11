@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T08:12:21.001661+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T08:14:10.312077+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -98,7 +98,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Murcia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41622862185 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Navarra** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41299128213 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Orense** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41295142111 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional Asturias** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41296638877 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Asturias** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42981406489 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Palencia** | 🟢 | 🟢 | 🟡 | 🟡 | 🟢 | Generación territorial validada | 41298660623 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Las Palmas** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41442913288 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Pontevedra** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41353894475 · SUCCESS | — | — | preparar fuentes electorales |
