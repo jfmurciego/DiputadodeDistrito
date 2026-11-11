@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-11T02:42:52Z",
+  "actualizado_en": "2026-11-11T02:43:56Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -1859,6 +1859,20 @@
       "tamano_estado_original": 83752140,
       "territorio": "congreso_caceres",
       "url": "r2://ddd-research-archive/congreso_caceres/41294658600/ddd-minimo-41294658600-M08.zip"
+    },
+    "congreso_caceres/42940366579/ddd-minimo-42940366579-M06.zip": {
+      "archivado_en": "2026-11-11T02:43:56Z",
+      "artefacto": "ddd-minimo-42940366579-M06",
+      "artefacto_origen": "ddd-state-42940366579-M06",
+      "artifact_id": 13821699998,
+      "caducidad_original": "2026-11-25T02:21:39Z",
+      "run_id": "42940366579",
+      "sha256": "cac540e7fdee6bfc4d903915e254884628cbc54d7c895ad06eff73adc066643b",
+      "sha256_estado_original": "1970aa825fe71c0990ea5ea7ab18064d4adfc05211f2700898f43697e553f21f",
+      "tamano_bytes": 258584,
+      "tamano_estado_original": 83509677,
+      "territorio": "congreso_caceres",
+      "url": "r2://ddd-research-archive/congreso_caceres/42940366579/ddd-minimo-42940366579-M06.zip"
     },
     "congreso_cadiz/41465820761/ddd-audit-41465820761.zip": {
       "archivado_en": "2026-11-08T12:19:22Z",
