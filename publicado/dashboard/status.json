@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T13:34:04.460892+00:00",
+  "generated_at": "2026-11-11T13:38:18.093283+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7059,11 +7059,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43025642604,
       "last_run": {
-        "run_id": 42531122768,
+        "run_id": 43025642604,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7114,11 +7114,11 @@
       "name": "Castilla-La Mancha",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40979540141,
+      "run_id": 43025652192,
       "last_run": {
         "run_id": 40979540141,
         "status": "SUCCESS",
@@ -7127,7 +7127,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7144,13 +7144,13 @@
           "territory_id": "castilla_la_mancha",
           "territory_name": "Castilla-La Mancha",
           "edition": "2025",
-          "run_id": 40979540141,
-          "artifact_name": "ddd-state-40979540141-M06",
-          "artifact_sha256": "9a25063155237129ba0da8a90f02bd2e726aec9571cdb17ddd477679564266e2",
-          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+          "run_id": 43025652192,
+          "artifact_name": "ddd-state-43025652192-M06",
+          "artifact_sha256": "567903c55a99e47cf4d4d93dc72ee29a829989d41fa90dd928557d1ec4c695d6",
+          "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/castilla_la_mancha/evidencia/generaciones_m06/40979540141.json"
+          "producer_manifest_path": "territorios/castilla_la_mancha/evidencia/generaciones_m06/43025652192.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7168,18 +7168,18 @@
       },
       "autonomous_community_code_ine": "08",
       "display_name": "08 Castilla-La Mancha",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "cataluna",
       "name": "Cataluña",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41062562553,
+      "run_id": 43025661789,
       "last_run": {
         "run_id": 41062562553,
         "status": "SUCCESS",
@@ -7188,7 +7188,7 @@
         "reason": null,
         "publication": "executed"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7205,13 +7205,13 @@
           "territory_id": "cataluna",
           "territory_name": "Cataluña",
           "edition": "2025",
-          "run_id": 41062562553,
-          "artifact_name": "ddd-state-41062562553-M06",
-          "artifact_sha256": "f8917865b064a2711b220b0a406f267d1cacb51d88e38cb69d6f734e68bf6ecb",
-          "source_commit": "46609e3774f1555a6d5f54da44e618bd45e29e80",
+          "run_id": 43025661789,
+          "artifact_name": "ddd-state-43025661789-M06",
+          "artifact_sha256": "60e97d14b98f8bee0aed208b90e6a484c31e19673a1f48155a3cf092c3250e7f",
+          "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/cataluna/evidencia/generaciones_m06/41062562553.json"
+          "producer_manifest_path": "territorios/cataluna/evidencia/generaciones_m06/43025661789.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7229,7 +7229,7 @@
       },
       "autonomous_community_code_ine": "09",
       "display_name": "09 Cataluña",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "comunidad_valenciana",
@@ -10392,10 +10392,10 @@
           "territory_id": "congreso_soria",
           "territory_name": "Congreso Soria",
           "edition": "2025",
-          "run_id": 41250310066,
-          "artifact_name": "ddd-state-41250310066-M08",
-          "artifact_sha256": "145cfa680ce7afcc14167699ee11ae7c0e63719f3aca33f4638bf30a8bd85f61",
-          "source_commit": "8e1ecdad578c2a39b30391b79fb10b59120241ad",
+          "run_id": 43029280043,
+          "artifact_name": "ddd-state-43029280043-M08",
+          "artifact_sha256": "f88663f8ffb4cb76f7ae548b3f2919fd9a249f2edfd3652425efbba1b5dc8bb0",
+          "source_commit": "777d1e29d0c205522b7bf83557b05bdc5c1b47df",
           "stage": "M08"
         }
       },
@@ -10514,10 +10514,10 @@
           "territory_id": "congreso_teruel",
           "territory_name": "Congreso Teruel",
           "edition": "2025",
-          "run_id": 41250394074,
-          "artifact_name": "ddd-state-41250394074-M08",
-          "artifact_sha256": "dd6eaad399c3d363d6ef20d96536cb41afa8d0cbe9e2baacf283f98312b95c50",
-          "source_commit": "faf9a73a35108a802d39019d9d1554d4c731f462",
+          "run_id": 43029189395,
+          "artifact_name": "ddd-state-43029189395-M08",
+          "artifact_sha256": "1d98bf8cf8fa4f4d444242aef0a5aed1d6ce0cd8bed7bca6bbf4f1d04c93da07",
+          "source_commit": "64720a72b8ec0dcc84e355edf6664a6ef17936b8",
           "stage": "M08"
         }
       },
@@ -12256,15 +12256,13 @@
     }
   ],
   "kpis": {
-    "complete": 58,
+    "complete": 56,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
       "05 Canarias",
-      "08 Castilla-La Mancha",
-      "09 Cataluña",
       "12 Galicia",
       "13 Comunidad de Madrid",
       "14 Región de Murcia",
@@ -12549,6 +12547,18 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "08 Castilla-La Mancha",
+      "territory_id": "castilla_la_mancha",
+      "autonomous_community_code_ine": "08",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "09 Cataluña",
+      "territory_id": "cataluna",
+      "autonomous_community_code_ine": "09",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "10 Comunidad Valenciana",
       "territory_id": "comunidad_valenciana",
       "autonomous_community_code_ine": "10",
@@ -12570,18 +12580,6 @@
       "territory": "Nacional Segovia",
       "territory_id": "congreso_segovia",
       "autonomous_community_code_ine": "C40",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Sevilla",
-      "territory_id": "congreso_sevilla",
-      "autonomous_community_code_ine": "C41",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Soria",
-      "territory_id": "congreso_soria",
-      "autonomous_community_code_ine": "C42",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12599,6 +12597,18 @@
       "action": "preparar fuentes electorales"
     },
     {
+      "territory": "08 Castilla-La Mancha",
+      "territory_id": "castilla_la_mancha",
+      "autonomous_community_code_ine": "08",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "09 Cataluña",
+      "territory_id": "cataluna",
+      "autonomous_community_code_ine": "09",
+      "action": "preparar fuentes electorales"
+    },
+    {
       "territory": "10 Comunidad Valenciana",
       "territory_id": "comunidad_valenciana",
       "autonomous_community_code_ine": "10",
@@ -12620,18 +12630,6 @@
       "territory": "Nacional Segovia",
       "territory_id": "congreso_segovia",
       "autonomous_community_code_ine": "C40",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Sevilla",
-      "territory_id": "congreso_sevilla",
-      "autonomous_community_code_ine": "C41",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Soria",
-      "territory_id": "congreso_soria",
-      "autonomous_community_code_ine": "C42",
       "action": "preparar fuentes electorales"
     }
   ]
