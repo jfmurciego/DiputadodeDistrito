@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T04:05:03.723079+00:00",
+  "generated_at": "2026-11-11T04:06:51.864410+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7968,20 +7968,20 @@
       "name": "Nacional Alicante",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42940331557,
+      "run_id": 42953235024,
       "last_run": {
-        "run_id": 42940331557,
+        "run_id": 42953235024,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8022,7 +8022,7 @@
       },
       "autonomous_community_code_ine": "C03",
       "display_name": "Nacional Alicante",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_almeria",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 28,
+    "complete": 29,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12276,6 +12276,7 @@
       "18 Ceuta",
       "19 Melilla",
       "Nacional Albacete",
+      "Nacional Alicante",
       "Nacional Almería",
       "Nacional Ávila",
       "Nacional Badajoz",
@@ -12496,11 +12497,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_barcelona",
-    "name": "Nacional Barcelona",
-    "display_name": "Nacional Barcelona",
-    "autonomous_community_code_ine": "C08",
-    "run_id": 42953127263,
+    "territory_id": "congreso_alicante",
+    "name": "Nacional Alicante",
+    "display_name": "Nacional Alicante",
+    "autonomous_community_code_ine": "C03",
+    "run_id": 42953235024,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12525,12 +12526,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Alicante",
-      "territory_id": "congreso_alicante",
-      "autonomous_community_code_ine": "C03",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Burgos",
       "territory_id": "congreso_burgos",
       "autonomous_community_code_ine": "C09",
@@ -12552,6 +12547,12 @@
       "territory": "Nacional Ciudad Real",
       "territory_id": "congreso_ciudad_real",
       "autonomous_community_code_ine": "C13",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Córdoba",
+      "territory_id": "congreso_cordoba",
+      "autonomous_community_code_ine": "C14",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12575,12 +12576,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Alicante",
-      "territory_id": "congreso_alicante",
-      "autonomous_community_code_ine": "C03",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Burgos",
       "territory_id": "congreso_burgos",
       "autonomous_community_code_ine": "C09",
@@ -12602,6 +12597,12 @@
       "territory": "Nacional Ciudad Real",
       "territory_id": "congreso_ciudad_real",
       "autonomous_community_code_ine": "C13",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Córdoba",
+      "territory_id": "congreso_cordoba",
+      "autonomous_community_code_ine": "C14",
       "action": "preparar fuentes electorales"
     }
   ]
