@@ -1632,8 +1632,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42940432935
-        stage: M06
+        run_id: 42955644352
+        stage: M08
       preparation_evidence:
         run_id: 41241896061
         artifact_name: ddd-source-package-congreso_jaen-2025-41241896061
