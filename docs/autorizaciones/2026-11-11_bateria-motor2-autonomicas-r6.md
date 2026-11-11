@@ -23,7 +23,8 @@
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
 | 08:42 | las 19 autonómicas | VER motor2 D8 N=10 | 42981399280 | FAILURE: aceptación NO. 7 adquirieron y están bien; 12 (Canarias, Cantabria, Castilla-La Mancha, Castilla y León, Cataluña, Comunidad Valenciana, Extremadura, Galicia, Baleares, Melilla, País Vasco, Murcia) acaban en FALLO_ADQUISICION tras ~490 s, sin error de red en el log (fuentes reconstruidas y verificadas antes): no consta como transitorio → sin reintento | 1 / — | 0/1 |
-| 09:28 | relanzamiento A (6): Canarias, Cantabria, Castilla-La Mancha, Castilla y León, Cataluña, Comunidad Valenciana | VER motor2 D8 N=10 | 42987249909 | EN_VUELO | 2 / — | 1/1 |
+| 09:28 | relanzamiento A (6): Canarias, Cantabria, Castilla-La Mancha, Castilla y León, Cataluña, Comunidad Valenciana | VER motor2 D8 N=10 | 42987249909 | SUCCESS: las 6 adquirieron; aceptación PARCIAL por huellas; único aviso: Canarias con el vigente excluido (vigente INVALIDO) | 2 / — | 1/1 |
+| 09:50 | relanzamiento B (6): Extremadura, Galicia, Baleares, Melilla, País Vasco, Murcia | VER motor2 D8 N=10 | 42990237660 | EN_VUELO (autorizada por el propietario: «autoriza la tanda b», 09:50) | 3 / — | 1/1 |
 
 ## Cierre
 Estado: `EN_CURSO`: relanzamiento autorizado por el propietario («Autorizo relanzar la batería r6 solo en las 12 autonomías que fallaron por descarga, en dos tandas de 6.», 11-11 09:27); tanda B (Extremadura, Galicia, Baleares, Melilla, País Vasco, Murcia) tras terminar la A. Último uso: 2026-11-11.
