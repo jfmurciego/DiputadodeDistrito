@@ -831,6 +831,22 @@
     "sha256": "444a34463f717cfe6a0f94d91c9103809249ff88c0d27d84a849e0ec8b951ff4"
    }
   },
+  "congreso_la_rioja/42935762636": {
+   "territorio": "congreso_la_rioja",
+   "run_id": "42935762636",
+   "run_territorial": "42932144515",
+   "sha256_composicion": "b93198a523386b186a1548afea871a8a5026109ca31744eafee7520fd9e5f959",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6db67cdb9327dfda4b97b6e092f491ee730738cb7de29991ca3e8857e6d2a4db",
+   "ruta": "datos/resultados/runs/congreso_la_rioja_42935762636_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.3374,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_la_rioja_42935762636_desajustes.json",
+    "sha256": "d8b144db6c4876a0a7c3d6a59b152ebc0415f2964b61bb5834875e9f7a3cd858"
+   }
+  },
   "congreso_lugo/42514986960": {
    "territorio": "congreso_lugo",
    "run_id": "42514986960",
