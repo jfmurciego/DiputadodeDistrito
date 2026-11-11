@@ -27,6 +27,6 @@
 | 09:50 | relanzamiento B (6): Extremadura, Galicia, Baleares, Melilla, País Vasco, Murcia | VER motor2 D8 N=10 | 42990237660 | SUCCESS: las 6 adquirieron; aceptación PARCIAL solo por huellas (Melilla correcta), resto en verde | 3 / — | 1/1 |
 
 ## Cierre
-Estado: `COMPLETADA` con observación: 19/19 adquiridas y en verde salvo Canarias (vigente INVALIDO, excluido de la competición): ¿cuenta como «sin vigente comparable»? Decide el propietario antes de usarla como referencia. Último uso: 2026-11-11.
+Estado: `COMPLETADA` y aceptada: el propietario admite también la situación de Canarias («admite tambien la situacion de canarias», 11-11 11:25). Referencia de La Rioja: `ponderado-s662638790`, huella `1d5d002c0aacfe2d265cd326df18c866333f4ceb5ad1f193c561c8cb4add00de` (run 42981399280). Último uso: 2026-11-11.
 
 Frase propuesta: «Autorizo la campaña 2026-11-11_bateria-motor2-autonomicas-r6 tal como figura en la ficha.»
