@@ -29,7 +29,7 @@ El detalle por territorio es el bloque siguiente, que genera el sistema:
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-11T15:49:52.183633+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-11T15:51:24.549603+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -61,7 +61,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **12 Galicia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43045478748 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **13 Comunidad de Madrid** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41046373806 · SUCCESS | — | — | preparar fuentes electorales |
 | **14 Región de Murcia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42504383790 · SUCCESS | — | — | preparar fuentes electorales |
-| **15 Comunidad Foral de Navarra** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41049986588 · SUCCESS | — | — | preparar fuentes electorales |
+| **15 Comunidad Foral de Navarra** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43045437345 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **16 País Vasco** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43047232024 · SUCCESS | — | — | — |
 | **17 La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43007066596 · SUCCESS | — | — | — |
 | **18 Ceuta** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42503542766 · SUCCESS | — | — | preparar fuentes electorales |
