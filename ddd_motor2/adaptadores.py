@@ -150,11 +150,12 @@ def _puentes_contrato(cfg: Mapping) -> set[tuple[str, str]]:
                 if k == "topology_bridges" and isinstance(v, list):
                     for b in v:
                         if isinstance(b, Mapping) and b.get("u") is not None and b.get("v") is not None:
-                            out.add(tuple(sorted((str(b["u"]), str(b["v"])))))
+                            out.add(tuple(sorted((str(b["u"]).zfill(10), str(b["v"]).zfill(10)))))
                 else:
                     buscar(v)
 
-    buscar((cfg or {}).get("modulo_02_construir_adyacencias") or {})
+    cfg = cfg or {}
+    buscar(((cfg.get("modulos") or {}).get("modulo_02_construir_adyacencias")) or cfg.get("modulo_02_construir_adyacencias") or {})
     return out
 
 
