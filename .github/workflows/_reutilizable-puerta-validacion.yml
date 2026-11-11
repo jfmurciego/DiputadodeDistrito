@@ -1,12 +1,17 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — puerta de validación
-# VERSIÓN: 1.2.3
+# VERSIÓN: 1.3.0
+# CAMBIOS 1.3.0: T-251, las descargas pasan por herramientas.descargar_artefacto: HTTP 503 «Egress is over the account limit» es
+#   transitorio (reintento con espera; si se agota, ARTIFACT_EGRESS_QUOTA = cuota de Actions, Settings → Billing, código 75) y el
+#   artefacto caducado/inexistente es definitivo (ARTIFACT_MISSING con el workflow que lo regenera, código 44).
+# MOTIVO 1.3.0: «No se pudo descargar» confundía la cuota de egress con un artefacto perdido.
+# ANTERIOR: legacy/workflows/_reutilizable-puerta-validacion_v1.2.3_20261111.yml
 # CAMBIOS 1.2.3: T-215 (corte 5.0.0, paso 4), nombre visible v5 «Interno · P40 Puerta de validación» (antes Interno · Puerta de validación de fase).
 # ANTERIOR: legacy/workflows/_reutilizable-puerta-validacion_v1.2.2_20261110.yml
 # CAMBIOS 1.2.2: T-149, solo el nombre visible («Interno · Puerta de validación de fase») para quitar el «_» de la lista de Actions (excepción temporal workflow_call).
 # CAMBIOS 1.2.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # QUÉ HACE: acredita identidad, digest y aptitud semántica del artefacto que alimentará la siguiente fase.
-# FECHA: 2026-11-10
+# FECHA: 2026-11-11
 # CAMBIOS: si el artefacto acreditado caducó en Actions, lo toma de su release draft almacen-m06-* con el mismo SHA-256.
 # MOTIVO: los M06 certificados dejaban de poder reutilizarse a los 14 días aunque sus bytes estuvieran conservados.
 # ANTERIOR: legacy/workflows/_reutilizable-puerta-validacion_v1.1.0.yml
@@ -85,6 +90,12 @@ jobs:
             echo "::error::$reason"
             exit "$code"
           }
+          descargar() {  # $1 nombre, $2 dir, $3 run → dl_rc, dl_msg (T-251)
+            python -m herramientas.descargar_artefacto --repo "$GITHUB_REPOSITORY" --run-id "$3" --name "$1" --dir "$2" 2> .ddd-gate/descarga.err
+            dl_rc=$?
+            grep -v '^::error::' .ddd-gate/descarga.err >&2 || true
+            dl_msg="$(grep '^::error::' .ddd-gate/descarga.err | tail -1 | sed 's/^::error:://')"
+          }
           expected="${EXPECTED_DIGEST#sha256:}"
           row=""
           resolved_run_id="$SOURCE_RUN_ID"
@@ -115,7 +126,12 @@ jobs:
           else
             digest="$(jq -r '.digest // empty' <<<"$row")"
             [[ -n "$digest" ]] || emit_blocked "Artefacto sin digest GitHub: $ARTIFACT_NAME" 42
-            gh run download "$resolved_run_id" --repo "$GITHUB_REPOSITORY" --name "$ARTIFACT_NAME" --dir .ddd-gate/artifact || emit_blocked "No se pudo descargar $ARTIFACT_NAME" 42
+            descargar "$ARTIFACT_NAME" .ddd-gate/artifact "$resolved_run_id"
+            case "$dl_rc" in
+              0) ;;
+              75|44) emit_blocked "$dl_msg" "$dl_rc" ;;  # ARTIFACT_EGRESS_QUOTA (transitorio agotado) | ARTIFACT_MISSING (definitivo)
+              *) emit_blocked "No se pudo descargar $ARTIFACT_NAME: $dl_msg" 42 ;;
+            esac
           fi
           audit_args=()
           if [[ "$PHASE" == territorial_product || "$PHASE" == electoral_product ]]; then
@@ -132,7 +148,9 @@ jobs:
               audit_count="$(jq --arg n "$audit_name" '[.artifacts[]|select(.name==$n and (.expired|not))]|length' <<<"$audit_metadata")"
               [[ "$audit_count" == "1" ]] || emit_blocked "La evidencia electoral final debe ser única: $audit_name ($audit_count artefactos)" 43
             fi
-            if ! gh run download "$resolved_run_id" --repo "$GITHUB_REPOSITORY" --name "$audit_name" --dir .ddd-gate/audit; then
+            descargar "$audit_name" .ddd-gate/audit "$resolved_run_id"
+            if (( dl_rc != 0 )); then
+              (( dl_rc != 75 )) || emit_blocked "$dl_msg" 75  # ARTIFACT_EGRESS_QUOTA: cuota de Actions, no certificación perdida
               [[ "$from_release" == true ]] || emit_blocked "Falta certificación $audit_name" 43
               python -m herramientas.localizar_artefacto_durable --repo "$GITHUB_REPOSITORY" --run-id "$resolved_run_id" \
                 --name "$audit_name" --out-dir .ddd-gate/audit --extract >/dev/null || emit_blocked "Falta certificación $audit_name" 43
