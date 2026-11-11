@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-11T09:47:25.039909+00:00",
+  "generated_at": "2026-11-11T09:58:05.783173+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 72,
-      "activable": 2,
+      "activated": 73,
+      "activable": 1,
       "territorial_pending": 46,
       "electoral_pending": 46,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 74,
-      "durable_pair": 72
+      "durable_pair": 73
     },
     "territories": [
       {
@@ -2781,12 +2781,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/congreso_las_palmas/evidencia/pares_fuentes/2025/edb3ada24e33cf8ac32756ad61bff42bcd8d822a8923e88467b67ca2f56942eb.json",
-            "pair_sha256": "edb3ada24e33cf8ac32756ad61bff42bcd8d822a8923e88467b67ca2f56942eb",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/congreso_las_palmas/evidencia/pares_fuentes/2025/a3f2cf94231c6215b6cb5eeac73d577d04c5f828533d7db365456f441c6a9035.json",
+            "pair_sha256": "a3f2cf94231c6215b6cb5eeac73d577d04c5f828533d7db365456f441c6a9035",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -9249,20 +9249,20 @@
       "name": "Nacional León",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 42991571678,
+      "run_id": 42996717873,
       "last_run": {
-        "run_id": 42991571678,
+        "run_id": 42996717873,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9303,7 +9303,7 @@
       },
       "autonomous_community_code_ine": "C24",
       "display_name": "Nacional León",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_lerida",
@@ -9965,10 +9965,10 @@
           "territory_id": "congreso_las_palmas",
           "territory_name": "Congreso Las Palmas",
           "edition": "2025",
-          "run_id": 41442913288,
-          "artifact_name": "ddd-state-41442913288-M08",
-          "artifact_sha256": "02aa077a57a11236bb8911838cb9f03ba74b7dc1b94c217ed4c4113fe8f7782c",
-          "source_commit": "9dcf48d16cf7bc23c34b40a6fd25244d25929f5c",
+          "run_id": 42998268332,
+          "artifact_name": "ddd-state-42998268332-M08",
+          "artifact_sha256": "9de2223d3cc73c1ad6b146b394fd6dde636d1ab56cdf9ab8e80ba901eef191b3",
+          "source_commit": "43e2ea704b877ff597511ae3592d82e2d3499c48",
           "stage": "M08"
         }
       },
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 48,
+    "complete": 49,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12298,6 +12298,7 @@
       "Nacional Huelva",
       "Nacional Huesca",
       "Nacional Jaén",
+      "Nacional León",
       "Nacional La Rioja",
       "Nacional Lugo",
       "Nacional Asturias",
@@ -12516,11 +12517,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_huesca",
-    "name": "Nacional Huesca",
-    "display_name": "Nacional Huesca",
-    "autonomous_community_code_ine": "C22",
-    "run_id": 42996217596,
+    "territory_id": "congreso_leon",
+    "name": "Nacional León",
+    "display_name": "Nacional León",
+    "autonomous_community_code_ine": "C24",
+    "run_id": 42996717873,
     "stage": "M08",
     "certification": "PASS",
     "edition": "2025"
@@ -12539,12 +12540,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional León",
-      "territory_id": "congreso_leon",
-      "autonomous_community_code_ine": "C24",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Lérida",
       "territory_id": "congreso_lerida",
       "autonomous_community_code_ine": "C25",
@@ -12572,6 +12567,12 @@
       "territory": "Nacional Navarra",
       "territory_id": "congreso_navarra",
       "autonomous_community_code_ine": "C31",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Orense",
+      "territory_id": "congreso_orense",
+      "autonomous_community_code_ine": "C32",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12589,12 +12590,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional León",
-      "territory_id": "congreso_leon",
-      "autonomous_community_code_ine": "C24",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Lérida",
       "territory_id": "congreso_lerida",
       "autonomous_community_code_ine": "C25",
@@ -12622,6 +12617,12 @@
       "territory": "Nacional Navarra",
       "territory_id": "congreso_navarra",
       "autonomous_community_code_ine": "C31",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Orense",
+      "territory_id": "congreso_orense",
+      "autonomous_community_code_ine": "C32",
       "action": "preparar fuentes electorales"
     }
   ]
