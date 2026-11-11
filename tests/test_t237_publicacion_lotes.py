@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """T-237: publicación por lotes en la P50 (`production_run_id` con varios runs 00, todo o nada).
 
-PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-11 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
+PROYECTO: Diputado de Distrito · VERSIÓN: 1.1.0 · FECHA: 2026-11-11 · ESTADO: candidato
+CAMBIOS 1.1.0 (T-239): descarga selectiva y en paralelo; el `gh` falso simula los artefactos de una 00 y respeta --pattern.
+ANTERIOR: legacy/tests/test_t237_publicacion_lotes_v1.0.0_20261111.py
 Repetidos: se RECHAZAN (no se deduplican). Lista vacía: «solo sitio» (como T-125).
 """
 import json
@@ -119,11 +121,25 @@ class _Entorno(unittest.TestCase):
         self.bin.mkdir()
         self.descargas = self.tmp / "descargas.log"
         gh = self.bin / "gh"
-        # gh run download <id> --pattern p --dir D: escribe un artefacto salvo para el id 999.
+        # gh run download RUN --pattern P... --dir D con los artefactos de una 00 (respeta los patrones).
+        # 999: falla siempre. 555: su producto M06 está en un artefacto fuera de la selección (fuerza la completa).
         gh.write_text(f"""#!/usr/bin/env bash
-echo "$3 $7" >> {self.descargas}
-[[ "$3" == 999 ]] && {{ echo "HTTP 404" >&2; exit 1; }}
-mkdir -p "$7/ddd-x" && echo ok > "$7/ddd-x/f"
+run="$3"; shift 3; pats=(); dir=""
+while (( $# )); do case "$1" in --pattern) pats+=("$2"); shift 2;; --dir) dir="$2"; shift 2;; *) shift;; esac; done
+echo "$run ${{pats[*]}}" >> {self.descargas}
+[[ "$run" == 999 ]] && {{ echo "HTTP 404" >&2; exit 1; }}
+declare -A arts=(
+  [ddd-audit-$run]=production_status.json [ddd-audit-$run/x]=t_m06_contiguedad_geometrica.json [ddd-decision-$run]=decision.json
+  [ddd-full-run-manifest-$run]=manifest.json [ddd-state-$run-M01]=cache/m01.bin
+  [ddd-source-package-$run]=fuentes.zip [ddd-estado-operativo-$run]=estado.json)
+[[ "$run" == 777 ]] && unset 'arts[ddd-decision-777]'
+if [[ "$run" == 555 ]]; then arts[ddd-state-$run-M07]=cache/t_m06_distritos.geojson.zip
+else arts[ddd-state-$run-M06]=cache/t_m06_distritos.geojson.zip; fi
+for name in "${{!arts[@]}}"; do
+  for p in "${{pats[@]}}"; do
+    if [[ "$name" == $p ]]; then mkdir -p "$(dirname "$dir/$name/${{arts[$name]}}")"; echo x > "$dir/$name/${{arts[$name]}}"; break; fi
+  done
+done
 """, encoding="utf-8")
         gh.chmod(gh.stat().st_mode | stat.S_IEXEC)
         self.prod = self.tmp / "production"
@@ -150,7 +166,35 @@ class PasosDelPublicador(_Entorno):
         r = self._normalizar_y_descargar("42531122768")
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertEqual(self._rutas(""), [f"42531122768 {self.prod} .ddd-publication/publicacion_visor.json"])
-        self.assertTrue((self.prod / "ddd-x/f").is_file())
+        self.assertTrue((self.prod / "ddd-audit-42531122768/production_status.json").is_file())
+        self.assertTrue((self.prod / "ddd-state-42531122768-M06/cache/t_m06_distritos.geojson.zip").is_file())
+
+    def test_solo_baja_lo_que_lee_la_publicacion(self):
+        r = self._normalizar_y_descargar("101 202")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        for run in ("101", "202"):
+            bajados = sorted(p.name for p in (self.prod / run).iterdir())
+            self.assertEqual(bajados, [f"ddd-audit-{run}", f"ddd-decision-{run}", f"ddd-full-run-manifest-{run}",
+                                       f"ddd-state-{run}-M06"])
+        self.assertNotIn("ddd-*", self.descargas.read_text(encoding="utf-8"))
+        self.assertIn("DESCARGA run=101 modo=selectiva", r.stdout)
+
+    def test_sin_producto_en_la_seleccion_baja_todo_ese_run(self):
+        r = self._normalizar_y_descargar("101 555")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("DESCARGA run=555 modo=completa", r.stdout)
+        self.assertTrue((self.prod / "555/ddd-state-555-M07/cache/t_m06_distritos.geojson.zip").is_file())
+        self.assertFalse((self.prod / "101/ddd-state-101-M01").exists())
+
+    def test_sin_decision_en_la_seleccion_baja_todo_ese_run(self):
+        r = self._normalizar_y_descargar("777")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("DESCARGA run=777 modo=completa", r.stdout)
+
+    def test_paralelo_con_limite(self):
+        # Seis runs a la vez por defecto; el límite se lee del entorno (DDD_DESCARGAS_PARALELAS).
+        texto = _step("Recuperar ejecución solicitada como fuente transitoria")
+        self.assertIn('xargs -P "${DDD_DESCARGAS_PARALELAS:-6}" -n 1', texto)
 
     def test_lote_con_comas_y_espacios_una_raiz_por_run(self):
         r = self._normalizar_y_descargar("101, 202 303")
@@ -161,8 +205,8 @@ class PasosDelPublicador(_Entorno):
     def test_run_que_no_descarga_para_el_lote_y_lo_nombra(self):
         r = self._normalizar_y_descargar("101 999 303")
         self.assertNotEqual(r.returncode, 0)
-        self.assertIn("LOTE_RECHAZADO: el run 999", r.stdout)
-        self.assertNotIn("303", self.descargas.read_text(encoding="utf-8"))
+        self.assertIn("LOTE_RECHAZADO: el run 999 no se pudo descargar", r.stdout)
+        self.assertNotIn("LOTE_RECHAZADO: el run 303", r.stdout)
 
     def test_lista_invalida_o_duplicada_no_descarga_nada(self):
         for ids in ("101 abc", "101,101"):
