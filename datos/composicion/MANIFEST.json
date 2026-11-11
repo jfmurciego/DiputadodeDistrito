@@ -1001,6 +1001,13 @@
    "sha256_csv": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
    "ruta": "datos/composicion/runs/congreso_ceuta_42488846588.csv"
   },
+  "congreso_ciudad_real/42940382446": {
+   "territorio": "congreso_ciudad_real",
+   "run_id": "42940382446",
+   "secciones": 420,
+   "sha256_csv": "ee110fcebf7b6d41c4d0c02d1353283813b3e498f57c6d1983e96ebe2d7a4faa",
+   "ruta": "datos/composicion/runs/congreso_ciudad_real_42940382446.csv"
+  },
   "congreso_cordoba/42940387433": {
    "territorio": "congreso_cordoba",
    "run_id": "42940387433",
