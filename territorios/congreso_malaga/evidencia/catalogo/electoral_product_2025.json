@@ -4,9 +4,9 @@
   "territory_id": "congreso_malaga",
   "territory_name": "Congreso Málaga",
   "edition": "2025",
-  "run_id": 42495070976,
-  "artifact_name": "ddd-state-42495070976-M08",
-  "artifact_sha256": "018897daed82958d42024fd08a3a608fd6726528dfc2f6b855b12a14d1672904",
-  "source_commit": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8",
+  "run_id": 43006442219,
+  "artifact_name": "ddd-state-43006442219-M08",
+  "artifact_sha256": "686b8c45ab80515c15c813e0ad8c852a362fdb6ad146dfc9b2654f6c8c40c6a8",
+  "source_commit": "b5746d4d10e28fd87c65c52b0f767374fe7aa46c",
   "stage": "M08"
 }
