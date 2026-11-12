@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: herramienta auxiliar de publicación
 # VERSIÓN: 1.0.0
 # NOMBRE DE VERSIÓN: Portada V2 sin alterar el visor técnico V1
 # FECHA: 2026-11-12
