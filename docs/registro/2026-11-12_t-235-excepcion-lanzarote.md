@@ -17,10 +17,13 @@ partición posible: M04 paraba con `INCOMPATIBLE_ATOMIC_POPULATION` (T-225). Sol
 - M06 7.2.4: `within_hard_bounds` y `population_status` con el techo efectivo (columna `population_cap_exempt`).
 - `validar_ejecucion.py` 1.3.6: `above_cap` recalcula sobre las secciones qué distritos están exentos.
 - `comprobar_exenciones_gobernadas.py` 1.1.0: aplica la misma regla a todos los contratos.
-- Pendiente en esta PR, después de T-258: la parte de motor2 (`ddd_motor2/reglas`, R-POB-TECHO) con la misma función.
+- motor2 (`ddd_motor2/reglas`): `modelo` 1.1.0 añade `Reglas.exentas_techo`, leída con la misma función. Si el
+  contrato no es admisible, da `ErrorContrato`; sin exención, la forma canónica y la huella de las reglas no cambian.
+  `evaluar` 1.2.0 añade `exento_de_techo`: el distrito exento no da R-POB-TECHO ni R-TOL por exceso. `enumerar` 1.3.0
+  aplica la misma regla en la poda.
 
 **Pruebas.**
-- `tests/test_exencion_techo_particion.py` (11). Casos: sin la clave no cambia nada; K>1 se rechaza; también una
+- `tests/test_exencion_techo_particion.py` (14, tres de ellos de motor2). Casos: sin la clave no cambia nada; K>1 se rechaza; también una
   partición desconocida o una decisión que falta, está incompleta o no es del propietario; la exención vale solo para
   el distrito de la partición; en el contrato de Las Palmas 2026 solo está exenta 35-G01, con el techo en 1,40; el
   validador y el comprobador de exenciones.
@@ -29,8 +32,10 @@ partición posible: M04 paraba con `INCOMPATIBLE_ATOMIC_POPULATION` (T-225). Sol
     reparación en `NOT_NEEDED`.
   - Composición M06 idéntica bit a bit (sha256) antes y después del cambio en `congreso_huesca`,
     `congreso_la_rioja`, `la_rioja`, `congreso_santa_cruz_de_tenerife` (2025 y 2026) y `congreso_las_palmas` 2025.
-- Tests de gobernanza, huellas, N08, exenciones, M04/M05/M06, validador y T-225: OK.
+- motor2: competición D8 con `--cadenas 1` y las mismas entradas en `main` y en la rama. `huella_resultado` es idéntica
+  en los cinco territorios anteriores. Las Palmas 2026 queda VÁLIDO.
+- Tests de gobernanza, motor2, huellas, N08, exenciones, M04/M05/M06, validador y T-225: OK.
 
-**Efectos.** Cambian las huellas M04 y M05 (`ddd_core/config` no cambia). Cambiará también la huella de motor2 cuando
-entre su parte. Los checkpoints M04/M05 previos quedan invalidados. Las Palmas 2026 se genera con la 00 «Generar desde
+**Efectos.** Cambian las huellas M04, M05, M06 y motor2 (`ddd_core/config` no cambia). La huella de reglas de motor2
+solo cambia con exención declarada. Los checkpoints M04/M05 previos quedan invalidados. Las Palmas 2026 se genera con la 00 «Generar desde
 fuente territorial acreditada». Los demás territorios no cambian de mapa.

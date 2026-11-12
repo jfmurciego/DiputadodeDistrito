@@ -121,5 +121,54 @@ class Validador(unittest.TestCase):
         self.assertEqual(cap_exempt_districts(_cfg(), {"province_field": "DDD_PARTITION"}, {}, sec, "district_id"), set())
 
 
+class Motor2(unittest.TestCase):
+    """motor2 (ddd_motor2.reglas) lee la misma regla común que M04-M06 y el validador."""
+
+    @staticmethod
+    def _caso(exentas=None, cuotas=None):
+        from ddd_motor2.reglas.modelo import Problema, Unidad
+        val = {"expected_districts": 2, "population_floor_ratio": 0.85, "population_cap_ratio": 1.15,
+               "target_tolerance_ratio": 0.15, "require_single_province_per_district": False,
+               "require_municipality_discipline": False,
+               "province_districts": cuotas or {"35-G01": 1, "35-C01": 1}}
+        if exentas is not None:
+            val["population_cap_exempt_partitions"] = exentas
+            val["population_cap_exempt_partition_decisions"] = {p: DECISION for p in exentas}
+        us = (Unidad("isla", 150, municipio="35024", provincia="35", particion="35-G01"),
+              Unidad("a", 60, municipio="35001", provincia="35", particion="35-C01"),
+              Unidad("b", 40, municipio="35002", provincia="35", particion="35-C01"))
+        return Problema(us, (("a", "b"),)), {"validation": val}
+
+    def test_sin_clave_viola_techo_y_huella_igual(self):
+        from ddd_motor2.reglas import Reglas
+        from ddd_motor2.reglas.evaluar import evaluar
+        problema, cfg = self._caso()
+        reglas = Reglas.desde_contrato(cfg)
+        self.assertEqual(reglas.exentas_techo, frozenset())
+        self.assertNotIn("exentas_techo", reglas.forma_canonica())
+        inf = evaluar(problema, reglas, {"isla": "D0", "a": "D1", "b": "D1"})
+        self.assertIn("R-POB-TECHO", inf.codigos())
+
+    def test_con_exencion_solo_el_distrito_de_la_isla(self):
+        from ddd_motor2.reglas import Reglas
+        from ddd_motor2.reglas.evaluar import evaluar
+        problema, cfg = self._caso(["35-G01"])
+        reglas = Reglas.desde_contrato(cfg)
+        self.assertEqual(reglas.exentas_techo, frozenset({"35-G01"}))
+        self.assertNotEqual(reglas.huella(), Reglas.desde_contrato(self._caso()[1]).huella())
+        inf = evaluar(problema, reglas, {"isla": "D0", "a": "D1", "b": "D1"})
+        self.assertNotIn("R-POB-TECHO", inf.codigos())
+        # Un distrito que mezcla la isla con otra partición no está exento.
+        inf = evaluar(problema, reglas, {"isla": "D0", "a": "D0", "b": "D1"})
+        self.assertIn("R-POB-TECHO", inf.codigos())
+
+    def test_k_mayor_que_uno_es_error_de_contrato(self):
+        from ddd_motor2.reglas import Reglas
+        from ddd_motor2.reglas.modelo import ErrorContrato
+        _, cfg = self._caso(["35-C01"], cuotas={"35-G01": 0, "35-C01": 2})
+        with self.assertRaisesRegex(ErrorContrato, "K=2"):
+            Reglas.desde_contrato(cfg)
+
+
 if __name__ == "__main__":
     unittest.main()
