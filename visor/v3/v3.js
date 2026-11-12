@@ -53,6 +53,7 @@
   const S={scope:"nacional",system:"proporcional",view:"electoral",layer:"ganador",level:"provincia",election:"202307",region:"",panel:"territorio",province:null,unit:null,selected:null};
   const D={prov:null,communities:null,index:null,sectionsIndex:null,territorial:null,products:null,calendar:{},
     districtCache:new Map(),sectionCache:new Map(),regionCache:new Map(),allDistricts:new Map(),allSections:new Map()};
+  let districtBulkPromise=null;
   let map=null,bootstrap=false,loading=false;
   const empty=()=>({type:"FeatureCollection",features:[]});
   async function getJson(path){const r=await fetch(path,{cache:"default"});if(!r.ok)throw Error(path+": HTTP "+r.status);return r.json();}
@@ -103,7 +104,11 @@
       const p=x.properties,ent=getProvinceEntry(x),winner=ent?.data?.distritos?.length?
         Object.entries(ent.data.distritos.reduce((a,d)=>(a[family(d.ganador)]=(a[family(d.ganador)]||0)+1,a),{}))
         .sort((a,b)=>b[1]-a[1])[0]?.[0]||"":""; // ganador dominante entre los distritos de la provincia
-      return {...x,properties:{...p,party:family(S.system==="mayoritario"?winner:p.ganador),dominant:winner}};
+      const ds=ent?.data?.distritos||[],pop=ds.reduce((a,d)=>a+(Number(d.poblacion)||0),0);
+      const target=ds.length?pop/ds.length:0;
+      const deviation=target?Math.max(...ds.map(d=>Math.abs((Number(d.poblacion)-target)/target))):null;
+      return {...x,properties:{...p,party:family(S.system==="mayoritario"?winner:p.ganador),
+        population:pop||null,deviation:deviation,dominant:winner}};
     });
   }
   function styleInit(){return{version:8,sources:{},layers:[{id:"water",type:"background",paint:{"background-color":"#eef3f7"}}]};}
@@ -116,6 +121,9 @@
     map.addLayer({id:"ccaa-line",type:"line",source:"ccaa",paint:{"line-color":"#687b8a","line-width":1.3}});
     map.addLayer({id:"prov-fill",type:"fill",source:"prov",paint:{"fill-color":paletteExpression(),"fill-opacity":.84}});
     map.addLayer({id:"prov-line",type:"line",source:"prov",paint:{"line-color":"#fff","line-width":1}});
+    map.addLayer({id:"prov-label",type:"symbol",source:"prov",
+      layout:{"text-field":["get","nombre"],"text-size":11,"visibility":"none","text-allow-overlap":false},
+      paint:{"text-color":"#283746","text-halo-color":"#ffffff","text-halo-width":1.6}});
     map.addLayer({id:"dist-fill",type:"fill",source:"distritos",paint:{"fill-color":paletteExpression(),"fill-opacity":.88}});
     map.addLayer({id:"dist-line",type:"line",source:"distritos",paint:{"line-color":"#fff","line-width":.8}});
     map.addLayer({id:"sec-fill",type:"fill",source:"secciones",paint:{"fill-color":paletteExpression(),"fill-opacity":.82}});
@@ -126,7 +134,10 @@
       if(!hits.length)return;
       const f=hits[0],p=f.properties;
       if(f.layer.id==="sec-fill"){S.unit={kind:"seccion",properties:p};S.selected=p.s;renderDetail();return;}
-      if(f.layer.id==="dist-fill"){S.unit={kind:"distrito",properties:p};S.selected=p.distrito||p.id;renderDetail();return;}
+      if(f.layer.id==="dist-fill"){
+        if(p.province)S.province=p.province;
+        S.unit={kind:"distrito",properties:p};S.selected=p.distrito||p.id;
+        S.level="distrito";$("level").value="distrito";focus(f.geometry);renderDetail();return;}
       if(f.layer.id==="prov-fill"){openProvince(p.cod,true);return;}
       if(f.layer.id==="ccaa-fill"){S.region=regionId(p.nombre);$("election-region").value=S.region;
         S.unit={kind:"comunidad",properties:p};S.selected=p.cod;syncElection();focus(f.geometry);refresh();return;}
@@ -144,11 +155,38 @@
     const raw=await getJson("../datos/"+e.data.geojson.ruta);
     const features=raw.features.map(g=>{
       const d=Number(g.properties?.distrito??g.properties?.district_id??g.properties?.district),m=metaOfDistrict(f,d);
+      const target=e.data.distritos?.length?e.data.distritos.reduce((a,x)=>a+(Number(x.poblacion)||0),0)/e.data.distritos.length:0;
       return {...g,properties:{...g.properties,province:cod,provinceName:f.properties.nombre,distrito:d,party:m?family(m.ganador):"OTROS",ganador:m?.ganador||"",population:m?.poblacion??g.properties?.district_pop??null,
+        deviation:target?((Number(m?.poblacion)-target)/target):null,neutralColor:randomNeutral(d),
         sections:m?.secciones??null,municipios:m?.municipios??null,run_id:e.data.run_id,identity:e.key}};
     });
     const fc={type:"FeatureCollection",features};
     D.districtCache.set(cod,fc);return fc;
+  }
+  async function loadNationalDistricts(){
+    if(D.allDistricts.size>=provinceFeatures().length){
+      installSource("distritos",{type:"FeatureCollection",features:Array.from(D.allDistricts.values()).flatMap(x=>x.features)});return;
+    }
+    if(districtBulkPromise)return districtBulkPromise;
+    districtBulkPromise=(async()=>{
+      const provs=provinceFeatures(),pending=provs.filter(p=>!D.allDistricts.has(p.properties.cod));
+      let next=0,done=0;const errors=[];
+      async function worker(){
+        while(next<pending.length){
+          const p=pending[next++];
+          try{const layer=await loadDistricts(p);D.allDistricts.set(p.properties.cod,layer);}
+          catch(e){errors.push(p.properties.nombre);}
+          done++;
+          if(done%5===0||done===pending.length){
+            installSource("distritos",{type:"FeatureCollection",features:Array.from(D.allDistricts.values()).flatMap(x=>x.features)});
+            $("map-caption").textContent="Cargando distritos DDD: "+done+"/"+pending.length+" provincias";
+          }
+        }
+      }
+      await Promise.all(Array.from({length:Math.min(5,pending.length)},worker));
+      if(errors.length)note("Distritos no disponibles para: "+errors.join(", ")+".");
+    })().finally(()=>{districtBulkPromise=null;});
+    return districtBulkPromise;
   }
   function secGroupColor(d){return randomNeutral("DDD-"+d);}
   async function loadSections(f){
@@ -169,7 +207,8 @@
   function newest(items,kind){return items.filter(x=>x.kind===kind&&x.viewer_path&&x.publication_status==="PUBLICABLE").sort((a,b)=>Number(b.run_id)-Number(a.run_id))[0]||null;}
   async function loadAutonomic(){
     if(!S.region)return;
-    if(D.regionCache.has(S.region)){installSource("distritos",D.regionCache.get(S.region));return;}
+    const cacheKey=S.region+":"+S.view;
+    if(D.regionCache.has(cacheKey)){installSource("distritos",D.regionCache.get(cacheKey));return;}
     const items=D.products?.results||[];
     const kind=S.view==="electoral"?"canonical_m08":"canonical_m06";
     let product=newest(items.filter(x=>x.territory_id===S.region),kind);
@@ -179,7 +218,7 @@
     const mapped={type:"FeatureCollection",features:raw.features.map((x,i)=>{const p=x.properties||{},winner=p.winner_party||p.ganador||p.winner||"";
       return {...x,properties:{...p,distrito:p.distrito??p.district_id??i+1,party:family(winner),ganador:winner,
         population:p.population??p.district_pop??p.poblacion??null,region:S.region,run_id:product.run_id}};})};
-    D.regionCache.set(S.region,mapped);installSource("distritos",mapped);
+    D.regionCache.set(cacheKey,mapped);installSource("distritos",mapped);
     $("source-label").textContent=product.label+" · "+product.certification_status+" · ejecución "+product.run_id;
   }
   async function prepareArea(){
@@ -187,6 +226,8 @@
     const ticket=Date.now();loading=true;
     if(S.scope==="autonomico"&&S.system==="mayoritario"&&S.region){
       try{await loadAutonomic();}catch(e){note("No se ha podido cargar el producto autonómico: "+e.message);}
+    }else if(S.scope==="nacional"&&S.system==="mayoritario"&&!S.province){
+      try{await loadNationalDistricts();}catch(e){note("Error al recuperar el mapa nacional: "+e.message);}
     }else if(S.scope==="nacional"&&S.province&&(S.level==="distrito"||S.level==="seccion"||S.level==="municipio"||S.system==="mayoritario")){
       const f=selectedProvince();
       try{installSource("distritos",await loadDistricts(f));}catch(e){installSource("distritos",empty());note(e.message);}
@@ -202,22 +243,26 @@
     const isN=S.scope==="nacional",isElect=S.view==="electoral",good=validElection();
     const showC=!isN||S.level==="comunidad";
     const showS=isN&&S.province&&(S.level==="seccion"||S.level==="municipio")&&D.sectionsIndex?.provincias?.[S.province];
-    const showD=(isN&&S.province&&(S.level==="distrito"||S.level==="seccion"||S.level==="municipio"||S.system==="mayoritario"))
-     ||(!isN&&S.system==="mayoritario"&&S.region);
+    const showD=(isN&&S.system==="mayoritario"&&(!!S.province||D.allDistricts.size>0))
+     ||(!isN&&S.system==="mayoritario"&&!!S.region);
     showLayer("ccaa-fill",showC);showLayer("ccaa-line",true);
     showLayer("prov-fill",isN&&!showC&&!showD&&!showS);showLayer("prov-line",isN&&!showC&&!showS);
     showLayer("dist-fill",!!showD&&!showS);showLayer("dist-line",!!showD&&!showS);
     showLayer("sec-fill",!!showS);showLayer("sec-line",!!showS);
     // Nunca usar colores de una elección distinta para un resultado.
-    const permitColors=isElect&&(isN?good: S.system==="mayoritario"&&!!S.region&&!!D.regionCache.get(S.region));
+    const permitColors=isElect&&(isN?good:S.system==="mayoritario"&&!!S.region&&!!D.regionCache.get(S.region+":electoral"));
     const neutral="#a8bac7";
     const party=paletteExpression();
     const territorial=["get","neutralColor"];
     paintWith("ccaa-fill",neutral);
-    paintWith("prov-fill",permitColors?party:neutral);
-    paintWith("dist-fill",permitColors?party:S.view==="territorial"?["coalesce",["get","neutralColor"],neutral]:neutral);
-    paintWith("sec-fill",S.view==="territorial"?["get","territorialColor"]:
-      (permitColors&&isN&&S.system==="mayoritario"?party:neutral));
+    const popColor=["interpolate",["linear"],["to-number",["get","population"],0],0,"#e9f0f3",100000,"#9cc5d2",1000000,"#4c819f",4000000,"#244e73"];
+    const devColor=["interpolate",["linear"],["abs",["to-number",["get","deviation"],0]],0,"#dcebdc",.12,"#c2d4b4",.25,"#f3cb84",.6,"#b64c53"];
+    function thematic(base){if(S.layer==="poblacion")return popColor;if(S.layer==="desviacion")return devColor;
+      if(S.layer==="unidades")return ["coalesce",["get","neutralColor"],neutral];return base;}
+    paintWith("prov-fill",thematic(permitColors?party:neutral));
+    paintWith("dist-fill",thematic(permitColors?party:S.view==="territorial"?["coalesce",["get","neutralColor"],neutral]:neutral));
+    paintWith("sec-fill",S.view==="territorial"||S.layer==="poblacion"||S.layer==="desviacion"?
+      ["coalesce",["get","territorialColor"],neutral]:(permitColors&&isN&&S.system==="mayoritario"?party:neutral));
     if(map.getLayer("sec-fill")&&showS&&S.view==="territorial"){
       // Colorea por distrito o municipio, nunca atribuye voto propio a una sección.
       let fc=D.sectionCache.get(S.province);
@@ -226,11 +271,15 @@
         installSource("secciones",newFc);}
     }
     ["prov-line","dist-line","sec-line"].forEach(id=>map.setPaintProperty(id,"line-opacity",$("boundaries").checked?1:0));
+    showLayer("prov-label",$("labels").checked&&S.scope==="nacional"&&!showS);
     map.setPaintProperty("prov-fill","fill-opacity",S.view==="electoral"?.88:.68);
     map.setPaintProperty("dist-fill","fill-opacity",.82);map.setPaintProperty("sec-fill","fill-opacity",.86);
     // Resalta mediante trazo de selección en la ficha contextual, sin crear resultados de ejemplo.
     const s=availability();if(s)note(s);
     rows();
+    if(S.layer==="poblacion"||S.layer==="desviacion"){
+      legend("<h3>"+(S.layer==="poblacion"?"Población":"Desviación de población")+"</h3><div style='height:12px;background:linear-gradient(90deg,#dcebdc,#f3cb84,#b64c53);border-radius:6px'></div><small>Capa basada en población M06, donde está publicada; no representa partidos.</small>");
+    }
     if(showS)legend($("legend").innerHTML+"<small><b>Importante:</b> la geometría es de la sección censal INE; el color electoral, cuando exista, es heredado del distrito DDD, no de un escrutinio propio de la sección.</small>");
     const caption=S.scope==="nacional"?
       (S.view==="territorial"?"Geometrías territoriales DDD / INE":
@@ -312,7 +361,7 @@
     if(!bootstrap)return;renderTimeline();
     note("");S.unit=S.unit||{kind:"pais",properties:{}};
     installSource("prov",{type:"FeatureCollection",features:overviewProps()});
-    if(S.scope!=="nacional"){S.province=null;S.level="comunidad";$("level").value="comunidad";}
+    if(S.scope!=="nacional"){S.province=null;if(S.level!=="comunidad"){S.level="comunidad";$("level").value="comunidad";}}
     else if(S.level==="comunidad"&&!S.province){/* conservar nivel elegido */}
     paint();renderDetail();prepareArea();
   }
