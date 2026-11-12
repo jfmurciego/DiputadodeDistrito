@@ -58,6 +58,20 @@ class PrepararPortadaV2Tests(unittest.TestCase):
         self.assertIn('href="congreso/"', v1)
         self.assertNotIn('href="congreso/"', (self.site / "index.html").read_text(encoding="utf-8"))
 
+    def test_flujo_p50_promueve_v2_despues_del_opt_in_y_antes_de_validar(self):
+        workflow = (ROOT / ".github" / "workflows" / "_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        congreso = workflow.index("- name: Preparar visor analítico Congreso opt-in")
+        promocion = workflow.index("- name: Portada pública V2 y conservación V1")
+        validacion = workflow.index("- name: Validar sitio candidato completo")
+        self.assertLess(congreso, promocion)
+        self.assertLess(promocion, validacion)
+        self.assertEqual(workflow.count("python herramientas/preparar_portada_v2.py"), 1)
+        self.assertIn("python herramientas/preparar_portada_v2.py --site=/tmp/site-candidate", workflow)
+        self.assertEqual(workflow.count("--site /tmp/site-candidate"), 1)
+        self.assertIn("grep -q 'url=v2/' /tmp/site-candidate/index.html", workflow)
+        self.assertIn('test -s /tmp/site-candidate/v1/index.html', workflow)
+        self.assertIn("grep -q 'href=\"congreso/\"' /tmp/site-candidate/v1/index.html", workflow)
+
     def test_no_cambiar_sitio_incompleto(self):
         (self.site / "v2" / "index.html").unlink()
         with self.assertRaises(FileNotFoundError):
