@@ -54,6 +54,8 @@ class PortadaV3Tests(unittest.TestCase):
         self.assertEqual((self.site / "index.html").read_bytes(), before)
 
     def test_falla_cerrado_si_la_portada_no_es_v2(self):
+        preparar_portada(self.site)
+        (self.site / "index.html").write_text("<html>portada inesperada</html>", encoding="utf-8")
         before = (self.site / "index.html").read_bytes()
         with self.assertRaisesRegex(ValueError, "V2"):
             preparar_portada_v3(self.site)
