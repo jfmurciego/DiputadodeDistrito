@@ -1,6 +1,7 @@
 # PROYECTO: Diputado de Distrito
+# CAMBIOS 3.14.1: portada /v2/ y conservación de V1 en /v1/; prueba aislada antes de desplegar.
 # CLASE: reutilizable interno
-# VERSIÓN: 3.14.0
+# VERSIÓN: 3.14.1
 # CAMBIOS 3.14.0: T-239, «Recuperar ejecución solicitada» baja SOLO lo que la publicación lee (ddd-audit, ddd-audit-electoral,
 #   ddd-decision, ddd-full-run-manifest y ddd-state M06/M08 del run; nunca M01-M05, paquete fuente ni cachés) y hasta 6 runs a
 #   la vez. Si la selección falla o no trae production_status, decision, manifest, contigüidad y producto M06/M08, ese run
@@ -489,6 +490,13 @@ jobs:
           path.write_text(page.replace(marker, marker + " " + link, 1), encoding="utf-8")
           PY
 
+      - name: Portada pública V2 y conservación V1
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/preparar_portada_v2.py --site /tmp/site-candidate
+          python -m unittest discover -s tests -p test_preparar_portada_v2.py
+
       - name: Validar sitio candidato completo
         shell: bash
         run: |
@@ -499,6 +507,10 @@ jobs:
           test ! -e /tmp/site-candidate/docs/plan.html
           test -s /tmp/site-candidate/nacional/index.html
           node --check /tmp/site-candidate/nacional/nacional.js
+          test -s /tmp/site-candidate/index.html
+          grep -q 'url=v2/' /tmp/site-candidate/index.html
+          test -s /tmp/site-candidate/v1/index.html
+          grep -q '<base href="../">' /tmp/site-candidate/v1/index.html
           test -s /tmp/site-candidate/v2/index.html
           test -s /tmp/site-candidate/v2/datos/provincias.json
           grep -q 'data-textos="textos.md"' /tmp/site-candidate/v2/index.html
@@ -507,11 +519,11 @@ jobs:
             test -s /tmp/site-candidate/congreso/data/24.geojson
             test -s /tmp/site-candidate/congreso/data/10.geojson
             test -s /tmp/site-candidate/congreso/data/10-municipios-divididos.geojson
-            grep -q 'href="congreso/"' /tmp/site-candidate/index.html
+            grep -q 'href="congreso/"' /tmp/site-candidate/v1/index.html
             node --check /tmp/site-candidate/congreso/congreso.js
           else
             test ! -e /tmp/site-candidate/congreso
-            if grep -q 'href="congreso/"' /tmp/site-candidate/index.html; then echo "::error::Enlace Congreso presente sin opt-in"; exit 1; fi
+            if grep -q 'href="congreso/"' /tmp/site-candidate/v1/index.html; then echo "::error::Enlace Congreso presente sin opt-in"; exit 1; fi
           fi
           python - <<'PY'
           import json
