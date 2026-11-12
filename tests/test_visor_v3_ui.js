@@ -39,7 +39,8 @@ const group={},el={};
 function element(id){return el[id]||(el[id]={id,value:"",hidden:false,checked:true,
   innerHTML:"",textContent:"",dataset:{},style:{},
   setAttribute(k,v){this[k]=v;},addEventListener(k,fn){this[k]=fn;},
-  replaceChildren(...children){this.children=children;}});}
+  replaceChildren(...children){this.children=children;},
+  appendChild(child){(this.children??=[]).push(child);return child;}});}
 for(const [id,opts] of [["scope",["nacional","autonomico"]],
   ["system",["proporcional","mayoritario"]],["view",["territorial","electoral"]]]){
   group["#"+id+" button"]=opts.map(value=>({dataset:{value},setAttribute(k,v){this[k]=v;}}));
