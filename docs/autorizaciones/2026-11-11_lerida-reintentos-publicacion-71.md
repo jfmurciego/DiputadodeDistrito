@@ -29,3 +29,6 @@ Estado: EN ESPERA (el propietario aparca los distritos, 17:51 vía Planificador)
 ## Andalucía y Cataluña (2026-11-12)
 - Frase del propietario (09:51 aprox.): «Autorizo relanzar la ejecución completa de Andalucía y de Cataluña reutilizando el progreso existente, con el motor nuevo y sin publicar, un intento cada una; y, si las dos dejan su mapa y sus resultados, publicarlas en el visor en un solo lote»
 - 09:51 · P00 Reutilizar motor2: Andalucía 43186369510, Cataluña 43186377473 · EN_VUELO.
+- 09:51 (resultado): las dos en success pero con 03/04 omitidos (sin M08): error del Operador al lanzar en `territorial_only` sin cadena.
+- Frase nueva del propietario (11:55 aprox.): «Autorizo relanzar Andalucía y Cataluña reutilizando el progreso existente en modo electoral, con el motor nuevo y sin publicar, un intento cada una; y, si las dos dejan su mapa y sus resultados, publicarlas en el visor en un solo lote.»
+- 11:55 · P00 Reutilizar motor2 `publication_mode=electoral`, `publish_result=false`: Andalucía 43204696160, Cataluña 43204706233 · EN_VUELO.
