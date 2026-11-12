@@ -3,11 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — interfaz de la competición para la batería T-132
-VERSIÓN: 1.2.0
-NOMBRE DE VERSIÓN: Competición · interfaz con el vigente
-FECHA: 2026-11-10
+VERSIÓN: 1.2.1
+NOMBRE DE VERSIÓN: Competición · interfaz con el vigente publicado
+FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa; no lanza nada en Actions)
-CAMBIOS: 1.2.0 (T-217) — con C/D5/D8 compite también el mapa vigente publicado (generadores.Vigente), si cumple el
+CAMBIOS: 1.2.1 (T-258) — --reanudar compara el sha256 del vigente publicado en el visor (vigente.vigente_publicado, el
+  mismo fichero que lee generadores.Vigente y mide la aceptación), no el de datos/composicion/<t>.csv.
+  1.2.0 (T-217) — con C/D5/D8 compite también el mapa vigente publicado (generadores.Vigente), si cumple el
   núcleo, y la mitad de las cadenas parte de él; la fila del resumen añade «vigente» (estado; «compite»: sí/no) y
   «frente_al_vigente» (mejora / empata / empeora; vacío si no compite), «vigente_reparado» y
   «fuera_vigente_publicado», también al reanudar; la aceptación exige no tener más fuera de tolerancia que el vigente
@@ -25,7 +27,7 @@ CAMBIOS: 1.2.0 (T-217) — con C/D5/D8 compite también el mapa vigente publicad
   1.0.0 — fichero nuevo.
 MOTIVO: T-163 / D-48: que la batería T-132 corra la competición en los 71 con una orden y lea el criterio de
   aceptación (71/71 válidos, ninguno peor que el canónico, tiempos) de un solo fichero.
-ANTERIOR: legacy/ddd_motor2/competir_v1.1.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/competir_v1.2.0_20261110.py
 USO (en local, con las entradas de la batería en <out>/entradas/<t> y el entorno GerryChain de producción):
     PYTHONHASHSEED=0 python -m ddd_motor2.competir --out bateria --todos            # D8, 10 cadenas
     PYTHONHASHSEED=0 python -m ddd_motor2.competir --out bateria --funcion A --cadenas 5 --todos
@@ -94,13 +96,14 @@ def _fila_vigente(r) -> dict:
 
 
 def _mismo_vigente(t: str, d: dict, funcion: str, carpeta: Path | None = None) -> bool:
-    """Reanudar solo si el vigente con el que se juzgó es el publicado ahora (sha256 de datos/composicion/<t>.csv)."""
+    """Reanudar solo si el vigente con el que se juzgó es el publicado ahora (sha256 de la composición que da
+    generadores.Vigente: la del visor, T-258; con `carpeta`, <carpeta>/<t>.csv)."""
     if funcion == "A":
         return True
     import hashlib
-    from .generadores import ROOT
-    ruta = (carpeta or ROOT / "datos" / "composicion") / f"{t}.csv"
-    ahora = hashlib.sha256(ruta.read_bytes()).hexdigest() if ruta.is_file() else None
+    from .generadores import Vigente
+    ruta = Vigente(carpeta).ruta(t)[0]
+    ahora = hashlib.sha256(ruta.read_bytes()).hexdigest() if ruta is not None and ruta.is_file() else None
     antes = (d.get("vigente") or {}).get("sha256_origen")
     return antes == ahora
 
