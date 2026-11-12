@@ -3,15 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: núcleo de reglas del motor 2 — modelo declarativo (Unidad, Problema, Criterio, Reglas)
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Núcleo único de reglas · F1
-FECHA: 2026-11-10
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Núcleo único de reglas · F1 · exención de techo
+FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.1.0 (T-235, D-83) — Reglas.exentas_techo: particiones exentas del techo leídas con la regla común de
+  producción (ddd_core.population_cap_exemptions: solo K=1 y decisión del propietario; si no, ErrorContrato). Vacía
+  sin la clave; entonces la forma canónica y la huella de las reglas no cambian.
+  1.0.0 — fichero nuevo.
 MOTIVO: T-160 (F1 de docs/ARQUITECTURA/NUCLEO_REGLAS.md): una sola definición de «plan válido» con las decisiones
   de criterio como parámetros (Criterio), para que la batería T-132 cuente cuántos territorios cambian de veredicto
   con cada opción.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/ddd_motor2/reglas/modelo_v1.0.0_20261112.py
 REGLAS DE DISEÑO:
   - Solo stdlib. Poblaciones enteras; límites como fracciones exactas (sin márgenes 1e-9: divergencia 7).
   - El municipio, la provincia y la partición son CAMPOS de la unidad; nunca se interpreta ddd_unit_id (divergencia 4).
@@ -234,6 +237,7 @@ class Reglas:
     nucleos_cerrados: bool
     contiguidad: bool
     criterio: Criterio = Criterio()
+    exentas_techo: frozenset[str] = frozenset()
 
     @classmethod
     def desde_contrato(cls, cfg: Mapping[str, Any], criterio: Criterio | None = None) -> "Reglas":
@@ -274,6 +278,12 @@ class Reglas:
         if max_mixtos < 1:
             raise ErrorContrato(f"max_mixed_districts_per_split_municipality={max_mixtos} < 1")
 
+        from ddd_core.population_cap_exemptions import CapExemptionError, cap_exempt_partitions  # noqa: PLC0415
+        try:
+            exentas_techo = cap_exempt_partitions(cfg)
+        except CapExemptionError as exc:
+            raise ErrorContrato(str(exc)) from exc
+
         part = (cfg or {}).get("partitioning") or {}
         campo_r012 = ("unidad_r012" if bool(part.get("enabled"))
                       and str(part.get("strategy") or "") == "connected_internal_units" else "municipio")
@@ -292,6 +302,7 @@ class Reglas:
             nucleos_cerrados=_booleano(val, "preserve_closed_urban", True),
             contiguidad=_booleano(val, "require_graph_contiguity", True),
             criterio=criterio,
+            exentas_techo=frozenset(norm_codigo(x, 2) for x in exentas_techo),
         )
 
     def limites(self, poblacion_total: int) -> tuple[Fraction, Fraction, Fraction, Fraction]:
@@ -306,6 +317,10 @@ class Reglas:
         d["exentos_municipio"] = sorted(self.exentos_municipio)
         d["exentas_particion"] = sorted(self.exentas_particion)
         d["cuotas"] = [list(x) for x in self.cuotas]
+        if self.exentas_techo:
+            d["exentas_techo"] = sorted(self.exentas_techo)
+        else:  # sin exención, la huella de las reglas es la de 1.0.0
+            del d["exentas_techo"]
         return d
 
     def huella(self) -> str:

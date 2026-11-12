@@ -3,11 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: núcleo de reglas del motor 2 — poda monótona y enumeración exacta con presupuesto de nodos
-VERSIÓN: 1.2.0
+VERSIÓN: 1.3.0
 NOMBRE DE VERSIÓN: Poda con constantes precalculadas
-FECHA: 2026-11-11
+FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.2.0 — podar(..., pre=None): las constantes del problema (ids, piezas por unidad, población y nº de unidades
+CAMBIOS: 1.3.0 (T-235, D-83) — la poda no corta por techo ni por tolerancia un distrito de una partición exenta
+  (evaluar.exento_de_techo, la misma regla que el evaluador). Sin exención, nada cambia.
+  1.2.0 — podar(..., pre=None): las constantes del problema (ids, piezas por unidad, población y nº de unidades
   por municipio, rango_municipal de cada municipio, núcleos cerrados) se calculan una vez por enumeración
   (_Constantes) en vez de en cada nodo. Mismas violaciones, en el mismo orden (test de equivalencia con la 1.1.0).
   1.1.0 — enumerar(..., clave=f): guarda el plan válido de menor f(plan) («mejor», «mejor_clave»), recorriendo
@@ -18,7 +20,7 @@ MOTIVO: T-160: donde el espacio de planes cabe, enumerar todos en vez de muestre
 MOTIVO 1.1.0: T-175: enumeración exacta integrada en el competidor y el certificador.
 MOTIVO 1.2.0: T-256 (D-89): T-254 midió que podar es casi todo el exhaustivo (recalcula constantes y llama 8,7 M veces
   a rango_municipal con divisiones de Fraction). Optimización bit a bit: mismos nodos, podas y planes.
-ANTERIOR: legacy/ddd_motor2/reglas/enumerar_v1.1.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/reglas/enumerar_v1.2.0_20261112.py
 QUÉ HACE:
   podar(problema, reglas, parcial) -> violaciones SEGURAS de un plan parcial: monótonas, es decir, toda extensión del
     parcial a un plan completo las tiene también (test por fuerza bruta). Techo, provincia única, K, R012 máx y
@@ -34,7 +36,7 @@ import hashlib
 from collections import defaultdict, deque
 from typing import Mapping
 
-from .evaluar import Contexto, Violacion, evaluar, violaciones_distrito
+from .evaluar import Contexto, Violacion, evaluar, exento_de_techo, violaciones_distrito
 from .modelo import Problema, Reglas
 
 
@@ -91,9 +93,10 @@ def podar(problema: Problema, reglas: Reglas, parcial: Mapping[str, object],
     for d, ms in miembros.items():
         us = [por[x] for x in ms]
         p = sum(u.poblacion for u in us)
-        if p > ctx.techo:
+        sin_techo = exento_de_techo(reglas, us)
+        if p > ctx.techo and not sin_techo:
             out.append(Violacion("R-POB-TECHO", d))
-        if reglas.criterio.tolerancia == "dura" and p > ctx.objetivo + ctx.tol:
+        if reglas.criterio.tolerancia == "dura" and p > ctx.objetivo + ctx.tol and not sin_techo:
             out.append(Violacion("R-TOL", d))
         if reglas.provincia_unica and len({u.provincia for u in us}) > 1:
             out.append(Violacion("R-PROV", d))

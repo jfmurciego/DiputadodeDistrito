@@ -1,10 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0 · FECHA: 2026-11-11 · ESTADO: candidato (sin generación)
+# VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato (sin generación)
 # QUÉ ES: contrato M01-M06 de la edición 2026 (legislatura de la elección general del 29-11-2026) con la pareja
 #   INE 2025/2025 (configuracion/decisiones/congreso_referencia_territorial_2025_2026.json; D-65, D-80).
 #   Materializado en local por la ruta de producción (adquisición OGC Secciones_2025 + 65034 de inputs/partes y
 #   herramientas/materializar_contrato_generacion.py); package_sha256 es el del paquete local: lo sustituye la 01.
-# ANTERIOR: ninguna (fichero nuevo)
+# CAMBIOS 1.0.1 (T-235, D-83): validation.population_cap_exempt_partitions = [35-G01] con su decisión: Lanzarote y
+#   La Graciosa (un distrito, 1,424 de la media) quedan exentos del techo; el techo general sigue en 1,40.
+# ANTERIOR: legacy/territorios/congreso_las_palmas/congreso_las_palmas_2026_v1.0.0.yaml
 meta:
   procedure_name: Diputado de Distrito
   territory_id: congreso_las_palmas
@@ -224,6 +226,18 @@ validation:
         de toda Gran Canaria (35-C01).'
       evidence: 'PR #384 (6466afc6) y #405; docs/REGISTRO_DE_CAMBIOS.md «2026-11-02 — T-24»
         y «2026-11-02 — T-13»; docs/PLAN.md T-02b'
+  population_cap_exempt_partitions:
+  - 35-G01
+  population_cap_exempt_partition_decisions:
+    35-G01:
+      decided_at: '2026-11-11'
+      decided_by: propietario
+      decision: D-83
+      reason: 'Lanzarote y La Graciosa (166.878 hab. con el padrón 2025) son una unidad insular atómica con un
+        solo distrito: 1,424 de la media (117.154,7) frente al techo 1,40. El distrito es la isla entera; solo
+        él queda exento del techo y el techo general sigue en 1,40.'
+      evidence: 'docs/PLAN.md D-83 (T-235); configuracion/particiones_insulares_2025.json#congreso_las_palmas;
+        INE 65034 padrón 2025 (inputs/partes/MANIFEST_PARTES.sha256); docs/registro/2026-11-11_t225-congreso-ine-2025.md'
   population_floor_exempt_partition_decisions:
     35-C02:
       decided_at: '2026-10-31'

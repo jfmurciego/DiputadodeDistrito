@@ -3,16 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 06 — Consolidar y describir distritos
-VERSIÓN: 7.2.3
+VERSIÓN: 7.2.4
 NOMBRE DE VERSIÓN: Exportación GeoJSON con precisión geométrica conservada
-FECHA: 2026-10-10
+FECHA: 2026-11-12
 QUÉ HACE: transforma la asignación M05 en productos territoriales finales de sección y distrito, catálogo distrital auditable y composición exacta por sección.
 POR QUÉ ES SEPARADO: M05 optimiza la partición; M06 no puede cambiarla. Su responsabilidad es materializar, medir, describir y validar la solución antes de incorporar datos electorales u otros atributos posteriores.
 ESTADO: candidato multi-territorio — CYL-05.
 CAMBIOS: evita la pérdida de vértices al exportar geometrías GeoJSON usando 17 cifras significativas; mantiene la consolidación y composición territorial de v7.2.1.
 MOTIVO: impedir que el redondeo de coordenadas genere anillos inválidos durante la serialización, sin alterar asignaciones, geometrías internas ni población.
-ANTERIOR: legacy/modulo06/06_consolidar_distritos_v7.2.2.py
+ANTERIOR: legacy/modulo06/06_consolidar_distritos_v7.2.3.py
 CAMBIO 7.2.3: suelo 0 para el distrito que contiene un municipio de validation.population_floor_exempt_municipalities.
+CAMBIO 7.2.4 (T-235, D-83): techo por distrito con ddd_core.population_cap_exemptions: el distrito de una partición exenta
+con K=1 queda dentro de límites duros (population_cap_exempt=True); sin la clave nada cambia.
 """
 from __future__ import annotations
 
@@ -33,6 +35,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
 from ddd_core.population_floor_exemptions import exempt_municipalities, municipalities_touch_exempt
+from ddd_core.population_cap_exemptions import CapExemptionError, cap_exempt_partitions, district_cap
 from ddd_core.territorial_validation import strict_population_series, validate_geodataframe
 
 
@@ -178,12 +181,19 @@ def main():
         for p, d in zip(summary["hard_partition"], summary["district_id"])
     ]
     summary["population_cap"] = cap
-    summary["within_hard_bounds"] = (summary["district_pop"] >= summary["population_floor"]) & (summary["district_pop"] <= cap)
+    try:
+        cap_exempt = cap_exempt_partitions(cfg)
+    except CapExemptionError as exc:
+        raise SystemExit(f"[Módulo 6] ERROR: {exc}") from exc
+    effective_cap = summary["hard_partition"].map(lambda p: district_cap(cap, [p], cap_exempt) if p else cap)
+    if cap_exempt:
+        summary["population_cap_exempt"] = effective_cap != cap
+    summary["within_hard_bounds"] = (summary["district_pop"] >= summary["population_floor"]) & (summary["district_pop"] <= effective_cap)
     summary["within_target_tolerance"] = summary["relative_deviation"].abs() <= tol_ratio + 1e-12
 
     summary["population_status"] = "PASS"
     summary.loc[summary["district_pop"] < summary["population_floor"], "population_status"] = "BELOW_FLOOR"
-    summary.loc[summary["district_pop"] > summary["population_cap"], "population_status"] = "ABOVE_CEILING"
+    summary.loc[summary["district_pop"] > effective_cap, "population_status"] = "ABOVE_CEILING"
     hard_rows = summary.loc[
         ~summary["within_hard_bounds"],
         ["district_id", "district_pop", "population_floor", "population_cap", "population_status"],
@@ -280,7 +290,7 @@ def main():
     diagnostic = {
         "schema": "ddd.m06-population-diagnostic/1.0",
         "module": "06",
-        "version": "7.2.3",
+        "version": "7.2.4",
         "structural_status": "PASS",
         "population_conformance": "PASS" if hard_count == 0 else "NON_CONFORMING",
         "hard_population_violations": hard_count,

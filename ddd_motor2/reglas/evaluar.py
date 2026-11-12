@@ -3,18 +3,20 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: núcleo de reglas del motor 2 — evaluador completo de un plan
-VERSIÓN: 1.1.0
+VERSIÓN: 1.2.0
 NOMBRE DE VERSIÓN: Núcleo único de reglas · validez sin métricas
-FECHA: 2026-11-11
+FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.1.0 — `valido(problema, reglas, asig, ctx=None)` (== evaluar(...).valido) sin métricas ni huella y con un
+CAMBIOS: 1.2.0 (T-235, D-83) — exento_de_techo: el distrito cuyas unidades son todas de una partición de
+  Reglas.exentas_techo (K=1, la partición entera) no da R-POB-TECHO ni R-TOL por exceso. Sin exención, nada cambia.
+  1.1.0 — `valido(problema, reglas, asig, ctx=None)` (== evaluar(...).valido) sin métricas ni huella y con un
   Contexto reutilizable; evaluar() y valido() comparten _violaciones (misma lista de violaciones). Contexto memoriza
   rango_municipal por población (función pura de p, techo y objetivo). Mismos veredictos.
   1.0.0 — fichero nuevo.
 MOTIVO: T-160: una sola definición ejecutable de «plan válido» para batería (T-132), certificador (T-136) y motor 2.
 MOTIVO 1.1.0: T-262 (D-89): la restricción `nucleo` de las cadenas ReCom llama a evaluar() en cada paso y rehacía el
   Contexto (adyacencia), las métricas y la huella de las reglas. Optimización bit a bit.
-ANTERIOR: legacy/ddd_motor2/reglas/evaluar_v1.0.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/reglas/evaluar_v1.1.0_20261112.py
 QUÉ HACE: evaluar(problema, reglas, asignacion) -> Informe con violaciones de códigos estables (modelo.CODIGOS) y
   métricas no duras (desviación, distritos fuera de tolerancia). Comparaciones exactas (enteros contra fracciones).
   Las reglas se calculan por ÁMBITO (distrito, municipio, cuotas, núcleo, plan) con las mismas funciones que usa el
@@ -82,6 +84,15 @@ def exento_de_suelo(reglas: Reglas, unidades: Iterable[Unidad]) -> bool:
     return partes[0] in reglas.exentas_particion  # "primera", como VAL 1.3.5
 
 
+def exento_de_techo(reglas: Reglas, unidades: Iterable[Unidad]) -> bool:
+    """Regla común de producción (ddd_core.population_cap_exemptions.district_cap): todas las unidades en una
+    única partición exenta."""
+    if not reglas.exentas_techo:
+        return False
+    partes = {u.particion for u in unidades}
+    return len(partes) == 1 and next(iter(partes)) in reglas.exentas_techo
+
+
 @dataclass(frozen=True)
 class Contexto:
     """Lo que no depende del plan: límites exactos y adyacencia."""
@@ -116,10 +127,11 @@ def violaciones_distrito(ctx: Contexto, d: str, us: list[Unidad]) -> list[Violac
     exento = exento_de_suelo(r, us)
     if not exento and p < ctx.suelo:
         out.append(Violacion("R-POB-SUELO", d, f"{p} < {float(ctx.suelo):.1f}"))
-    if p > ctx.techo:
+    sin_techo = exento_de_techo(r, us)
+    if p > ctx.techo and not sin_techo:
         out.append(Violacion("R-POB-TECHO", d, f"{p} > {float(ctx.techo):.1f}"))
     if (r.criterio.tolerancia == "dura" and abs(p - ctx.objetivo) > ctx.tol
-            and not (exento and p < ctx.objetivo)):
+            and not (exento and p < ctx.objetivo) and not (sin_techo and p > ctx.objetivo)):
         out.append(Violacion("R-TOL", d, f"|{p} - {float(ctx.objetivo):.1f}| > {float(ctx.tol):.1f}"))
     if r.contiguidad and not conexo({u.id for u in us}, ctx.adj):
         out.append(Violacion("R-CONTIG", d))
