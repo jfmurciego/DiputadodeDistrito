@@ -32,7 +32,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, variantes  # noqa: E402  (T-220: id viejo o nuevo)
 
 PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
 FIRST_GENERATION_EVIDENCE_SCHEMA = "ddd.catalog-evidence/1.0"
@@ -187,7 +187,7 @@ def _effective_physical_source_identity(contract: dict) -> dict:
         json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
     ).hexdigest()
     declared_identity = str(state.get("territorial_identity_sha256") or "").lower()
-    if declared_identity and declared_identity != territorial_identity_sha256:
+    if declared_identity and declared_identity not in _identidades_por_variante(payload):
         raise ValueError("SOURCE_IDENTITY_MISMATCH: identidad territorial declarada contradice la fuente efectiva")
 
     return {
@@ -195,6 +195,18 @@ def _effective_physical_source_identity(contract: dict) -> dict:
         "sectioning_sha256": sectioning_sha256,
         "territorial_identity_sha256": territorial_identity_sha256,
     }
+
+
+def _identidades_por_variante(payload: dict) -> set[str]:
+    """T-220: huellas de identidad territorial con cada variante del id (nuevo/viejo). Los inventarios físicos y
+    receipts ya acreditados se sellaron con el id viejo; los nuevos se sellan con el nuevo."""
+    out = set()
+    for variante in variantes(str(payload.get("territory_id") or "")):
+        p = {**payload, "territory_id": variante}
+        out.add(hashlib.sha256(
+            json.dumps(p, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        ).hexdigest())
+    return out
 
 
 def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
@@ -266,7 +278,8 @@ def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
         and int(row.get("section_year") or 0) == source_identity["section_year"]
         and str(row.get("sectioning_sha256") or "").lower() == source_identity["sectioning_sha256"]
         and str(row.get("territorial_identity_sha256") or "").lower()
-            == source_identity["territorial_identity_sha256"]
+            in _identidades_por_variante({k: source_identity[k] for k in source_identity
+                                          if k not in ("sectioning_sha256", "territorial_identity_sha256")})
     ]
     inventory_binding = "EXACT_SOURCE_IDENTITY"
     if not matches:

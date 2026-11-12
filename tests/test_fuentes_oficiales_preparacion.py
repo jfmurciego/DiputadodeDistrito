@@ -28,6 +28,7 @@ import yaml
 
 from herramientas.adquirir_fuentes_oficiales import acquire, _filter_population, _write_shapefile_zip, _zip_single
 from herramientas.evaluar_preparacion_territorial import evaluate, readable_report
+from ddd_core.territorio_ids import ruta_existente  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = yaml.safe_load((ROOT / "fuentes/catalogo_oficial.yaml").read_text(encoding="utf-8"))
@@ -39,7 +40,7 @@ SYNTHETIC_EXPECTED_SECTIONS = {
 
 
 def declaration(territory: str) -> dict:
-    return yaml.safe_load((ROOT / "territorios" / territory / "config" / "fuentes_oficiales.yaml").read_text(encoding="utf-8"))
+    return yaml.safe_load(ruta_existente(ROOT, f"territorios/{territory}/config/fuentes_oficiales.yaml").read_text(encoding="utf-8"))  # T-220
 
 
 def sha256(path: Path) -> str:

@@ -877,8 +877,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
         )
         rows = {row["territory_id"]: row for row in catalog["territories"]}
         expected = {
-            "aut04": {"k": 59, "sections": 670, "components": 4},
-            "aut05": {"k": 70, "sections": 1396, "components": 8},
+            "illes_balears": {"k": 59, "sections": 670, "components": 4},
+            "canarias": {"k": 70, "sections": 1396, "components": 8},
         }
         for territory_id, target in expected.items():
             state = rows[territory_id]["editions"]["2025"]
@@ -944,7 +944,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             (ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
         )
         rows = {row["territory_id"]: row for row in catalog["territories"]}
-        for territory_id in ("aut04", "aut05"):
+        for territory_id in ("illes_balears", "canarias"):
             state = rows[territory_id]["editions"]["2025"]
             contract = yaml.safe_load((ROOT/state["contract_path"]).read_text(encoding="utf-8"))
             hard = _hard_partition_spec(contract, ROOT)

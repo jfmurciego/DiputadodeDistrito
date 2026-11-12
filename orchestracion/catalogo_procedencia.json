@@ -50,23 +50,12 @@
   "territorios": 71,
   "productos": 428,
   "errores": 0,
-  "avisos": 146
+  "avisos": 288
  },
  "territorios": {
   "andalucia": {
-   "fuente_territorial": {
-    "run_id": "40946875467",
-    "package_sha256": "2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37",
-    "artifact_sha256": "f2694b451830d4a699a4aaa959834edab2e1a7dc5fd83eaa4589ba9d5d196c52",
-    "territorial_identity_sha256": "253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09",
-    "receipt_path": "territorios/andalucia/evidencia/fuentes_territoriales/2025/253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09/40946875467/receipt.json",
-    "population_year": 2025,
-    "section_year": 2025
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/andalucia/evidencia/fuentes_electorales/2025/995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395/42463442007/receipt.json",
-    "identity_sha256": "995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -126,19 +115,8 @@
    ]
   },
   "aragon": {
-   "fuente_territorial": {
-    "run_id": "40691712762",
-    "package_sha256": "2b0a7e7f00cfc12d60c84ab0818e2ece6106bdb48684abfd603f3bc2fd59de34",
-    "artifact_sha256": "47a7ab0da32e99c006d925787df3fbdf7032c2b3737ff6effe6cd57321aa390a",
-    "territorial_identity_sha256": "2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f",
-    "receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f/40691712762/receipt.json",
-    "population_year": 2025,
-    "section_year": 2025
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/aragon/evidencia/fuentes_electorales/2025/9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af/40896686254/receipt.json",
-    "identity_sha256": "9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -211,19 +189,8 @@
    ]
   },
   "canarias": {
-   "fuente_territorial": {
-    "run_id": "43011642069",
-    "package_sha256": "ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836",
-    "artifact_sha256": "b070824189e19022752db97dc9d3ea78f77a523aca054a7328ae7576370bb9c8",
-    "territorial_identity_sha256": "148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393",
-    "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/43011642069/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/canarias/evidencia/fuentes_electorales/2025/3d6ea40b409231569f1f6240b06660f73c2cab44984296754f5ca4eda023da34/42521092889/receipt.json",
-    "identity_sha256": "3d6ea40b409231569f1f6240b06660f73c2cab44984296754f5ca4eda023da34"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -309,19 +276,8 @@
    ]
   },
   "cantabria": {
-   "fuente_territorial": {
-    "run_id": "42707820760",
-    "package_sha256": "c9b81def38f3eaed2db7d2cc16ba1f4dd06f114cc412113f4ca1d807c746c570",
-    "artifact_sha256": "9078db6b7e0fe91151126dc111e355d5fbc769ba697f33f6f45f87eafe73de19",
-    "territorial_identity_sha256": "838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028",
-    "receipt_path": "territorios/cantabria/evidencia/fuentes_territoriales/2025/838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028/42707820760/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/cantabria/evidencia/fuentes_electorales/2025/2ad5283d539ec817bb68b8e9862ced3fafa0168ad8e658f48e1b623a6aed45b2/42707820760/receipt.json",
-    "identity_sha256": "2ad5283d539ec817bb68b8e9862ced3fafa0168ad8e658f48e1b623a6aed45b2"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -399,19 +355,8 @@
    ]
   },
   "castilla_la_mancha": {
-   "fuente_territorial": {
-    "run_id": "40690624792",
-    "package_sha256": "d601e87101c28fab18fc48778854617e20f354ae8bc353265f5e195fdebf56fc",
-    "artifact_sha256": "bdd316c89d209786b3050b3c1595af29ee5d5fd11098b1e628acf7861aecc288",
-    "territorial_identity_sha256": "62d83ef5f8a589ce47a7db753c506f9b8606e6a16774c69cc17a7d9e714c0a7b",
-    "receipt_path": "territorios/castilla_la_mancha/evidencia/fuentes_territoriales/2025/62d83ef5f8a589ce47a7db753c506f9b8606e6a16774c69cc17a7d9e714c0a7b/40690624792/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/castilla_la_mancha/evidencia/fuentes_electorales/2025/c4a03521682f6b68d6648fdd6ad72a37a697df36d410675a9414746b90359bcf/40690624792/receipt.json",
-    "identity_sha256": "c4a03521682f6b68d6648fdd6ad72a37a697df36d410675a9414746b90359bcf"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -528,19 +473,8 @@
    ]
   },
   "castilla_y_leon": {
-   "fuente_territorial": {
-    "run_id": "42521090842",
-    "package_sha256": "c0ab5947c911e815bb2b0657c9a256020916d8c3f9293bb379b1bfb6e6cd0215",
-    "artifact_sha256": "3a710cff73dca6a5048e28f1eea5f1e5454404324538b66b7ae9c3b0b229c168",
-    "territorial_identity_sha256": "e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60",
-    "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60/42521090842/receipt.json",
-    "population_year": 2025,
-    "section_year": 2025
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea/42521090842/receipt.json",
-    "identity_sha256": "988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -626,19 +560,8 @@
    ]
   },
   "cataluna": {
-   "fuente_territorial": {
-    "run_id": "40946901555",
-    "package_sha256": "045cbc8f075163bc60451b5a49fffe86563baf9d2a48be8aa89c0480cd61abce",
-    "artifact_sha256": "48f48f116aa80838cc5a9c1a6b3794c807c52b65a3217b0c7a821016b65404f8",
-    "territorial_identity_sha256": "3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25",
-    "receipt_path": "territorios/cataluna/evidencia/fuentes_territoriales/2025/3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25/40946901555/receipt.json",
-    "population_year": 2024,
-    "section_year": 2024
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/cataluna/evidencia/fuentes_electorales/2025/9512fde80f903cbe93eab4be4695612da01cd7a420d7840e4d04834985a46e18/43036592492/receipt.json",
-    "identity_sha256": "9512fde80f903cbe93eab4be4695612da01cd7a420d7840e4d04834985a46e18"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -729,19 +652,8 @@
    ]
   },
   "ceuta": {
-   "fuente_territorial": {
-    "run_id": "40773443591",
-    "package_sha256": "21511daa229d9497f142ad9032d317595cf1cef0b56d1f2ae125a8f0eff107fe",
-    "artifact_sha256": "9de48295eec36c7e5e4ad16cb1ed929f128e3325ef2e18d2b53bc10f7a6be374",
-    "territorial_identity_sha256": "e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4",
-    "receipt_path": "territorios/ceuta/evidencia/fuentes_territoriales/2025/e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4/40773443591/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/ceuta/evidencia/fuentes_electorales/2025/a030a3e1892b4fd6943caef31f04f339ec7f31414e7e9baf51a361c1e068cd5e/40773443591/receipt.json",
-    "identity_sha256": "a030a3e1892b4fd6943caef31f04f339ec7f31414e7e9baf51a361c1e068cd5e"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -800,19 +712,8 @@
    ]
   },
   "comunidad_foral_de_navarra": {
-   "fuente_territorial": {
-    "run_id": "40838170635",
-    "package_sha256": "208c559a716b904fd9f2bf778feaacd8d976b77bba78b0fd9dc3c06904bf644a",
-    "artifact_sha256": "fa14b233a4b81efd56234916f6637a00e73087e79f20d711d8b7fe5113fb5d98",
-    "territorial_identity_sha256": "4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1",
-    "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1/40838170635/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/fuentes_electorales/2025/ac4fd5f21ab07fe8db6d056bdb71454d9a6ecdb69fa12e4f72983e6356ca141f/40838170635/receipt.json",
-    "identity_sha256": "ac4fd5f21ab07fe8db6d056bdb71454d9a6ecdb69fa12e4f72983e6356ca141f"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -903,19 +804,8 @@
    ]
   },
   "comunidad_valenciana": {
-   "fuente_territorial": {
-    "run_id": "40956462986",
-    "package_sha256": "b8b20dfe69371a0e995b2f0d7c1b09224cd8477a0c1fa6d1d9b65e2d257f33b5",
-    "artifact_sha256": "1aa62c171c5bb073a7941dd1c0b31f9f4c8155aa8153c027da9622690a0b2c2d",
-    "territorial_identity_sha256": "8be18d02817391c77e1150ba4151facec286df79330c13b368d7e859f2cffef0",
-    "receipt_path": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/8be18d02817391c77e1150ba4151facec286df79330c13b368d7e859f2cffef0/40956462986/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/comunidad_valenciana/evidencia/fuentes_electorales/2025/d57a97ef4e9ce51736a9fb0239591fe4cb1bce023d3fecba0b2f48734af757a4/40956462986/receipt.json",
-    "identity_sha256": "d57a97ef4e9ce51736a9fb0239591fe4cb1bce023d3fecba0b2f48734af757a4"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -1006,19 +896,8 @@
    ]
   },
   "congreso_alava": {
-   "fuente_territorial": {
-    "run_id": "41240137880",
-    "package_sha256": "cad80db926a5783f220748226415da98777ed5f4d912e56164961ee8c1d3f7d9",
-    "artifact_sha256": "7d101c7cd9dee73eeb7b7a09936c7e41456b58c3daab81532f02c5823fbe9448",
-    "territorial_identity_sha256": "8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16",
-    "receipt_path": "territorios/congreso_alava/evidencia/fuentes_territoriales/2025/8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16/41240137880/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_alava/evidencia/fuentes_electorales/2025/4f920eb6eba9ea922f3007b741ced4e85036efae35088e17836aadbb5b31e4ae/41239750223/receipt.json",
-    "identity_sha256": "4f920eb6eba9ea922f3007b741ced4e85036efae35088e17836aadbb5b31e4ae"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -1092,19 +971,8 @@
    ]
   },
   "congreso_albacete": {
-   "fuente_territorial": {
-    "run_id": "41240260992",
-    "package_sha256": "210769bb39ea986b620a6c81551a2b9c9b81c2624f4660c574d73f6d4470c06d",
-    "artifact_sha256": "2f45f2c0f403a2628ec2127e09a05f19dacf22ab9e3ccec9cf7104d7e0c5af02",
-    "territorial_identity_sha256": "70020652c0d9c32d03c1ef5c3cf5738ebc1e4ec539a362de24c1ab934b96ffa0",
-    "receipt_path": "territorios/congreso_albacete/evidencia/fuentes_territoriales/2025/70020652c0d9c32d03c1ef5c3cf5738ebc1e4ec539a362de24c1ab934b96ffa0/41240260992/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_albacete/evidencia/fuentes_electorales/2025/024e50f3973fbd525d3a3bd3f2e0fb20d1f0edd510eea1af15b9b8b3811cfe02/41239755540/receipt.json",
-    "identity_sha256": "024e50f3973fbd525d3a3bd3f2e0fb20d1f0edd510eea1af15b9b8b3811cfe02"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -1204,19 +1072,8 @@
    ]
   },
   "congreso_alicante": {
-   "fuente_territorial": {
-    "run_id": "42409605030",
-    "package_sha256": "89012683d93b6426a51dbe26181f264e2e4c173bcfe90da44505634a79040eda",
-    "artifact_sha256": "03fcb111cf36f97db49f60be1fd9c6731465263f07c520d14ca57cd8cafb52e0",
-    "territorial_identity_sha256": "5069521dc815a565b263910a381dbd4cd4fe072a236d204569c151c74a978cf2",
-    "receipt_path": "territorios/congreso_alicante/evidencia/fuentes_territoriales/2025/5069521dc815a565b263910a381dbd4cd4fe072a236d204569c151c74a978cf2/42409605030/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_alicante/evidencia/fuentes_electorales/2025/b1de5f6a5a140f72c8fa242ae6dde459ad232165849a848477037f1871654c82/42463675548/receipt.json",
-    "identity_sha256": "b1de5f6a5a140f72c8fa242ae6dde459ad232165849a848477037f1871654c82"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -1303,19 +1160,8 @@
    ]
   },
   "congreso_almeria": {
-   "fuente_territorial": {
-    "run_id": "41242160179",
-    "package_sha256": "b360a877b4e64184ecf5002e30cf39a3d52a493cac09cbab79e4c7e5b8720121",
-    "artifact_sha256": "50605604d8979ecc8625a2cb92b30f76cffb8ec197642234c5a0bdd13c3dac2d",
-    "territorial_identity_sha256": "ce84679b4ae3c362cf8c561ef8b1fb60823719eb603c96f6d4fa0b49f2336183",
-    "receipt_path": "territorios/congreso_almeria/evidencia/fuentes_territoriales/2025/ce84679b4ae3c362cf8c561ef8b1fb60823719eb603c96f6d4fa0b49f2336183/41242160179/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_almeria/evidencia/fuentes_electorales/2025/4ec8ae00ed211a167735c2d8a9a21b56d8c4710c51c599b8fb2f5a9df35e680c/41239766467/receipt.json",
-    "identity_sha256": "4ec8ae00ed211a167735c2d8a9a21b56d8c4710c51c599b8fb2f5a9df35e680c"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -1428,19 +1274,8 @@
    ]
   },
   "congreso_asturias": {
-   "fuente_territorial": {
-    "run_id": "41243326722",
-    "package_sha256": "4231edec418d4bbef046bd4205100a0d08de6a73dce3c65ff9bef82669ad9fc6",
-    "artifact_sha256": "74451f158552e71551faed7025cfa418b75de54ba526f666aa6d1e8c26c1ab98",
-    "territorial_identity_sha256": "f2128ce43af3b17095403543a65e5d7c85854a5cf1d5c8370f9a08015dbaa104",
-    "receipt_path": "territorios/congreso_asturias/evidencia/fuentes_territoriales/2025/f2128ce43af3b17095403543a65e5d7c85854a5cf1d5c8370f9a08015dbaa104/41243326722/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_asturias/evidencia/fuentes_electorales/2025/815921ec4064eeba680988044d82905e5cade7b6b7eda8eb6e4421234ae3a825/41239897911/receipt.json",
-    "identity_sha256": "815921ec4064eeba680988044d82905e5cade7b6b7eda8eb6e4421234ae3a825"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -1527,19 +1362,8 @@
    ]
   },
   "congreso_avila": {
-   "fuente_territorial": {
-    "run_id": "41235278274",
-    "package_sha256": "376536b60057625e599290c8b5173c1157eed276f0afed65062f2791c9f8dfef",
-    "artifact_sha256": "64e0326c45cda0e0f8ca06b547eb479cbdcd9129af1fbe6f0c3eb38351cc3f3b",
-    "territorial_identity_sha256": "a0b9ab3437a6af111dba6feb60b106d14ac82880b8281d50f155766ef5dc66d5",
-    "receipt_path": "territorios/congreso_avila/evidencia/fuentes_territoriales/2025/a0b9ab3437a6af111dba6feb60b106d14ac82880b8281d50f155766ef5dc66d5/41235278274/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_avila/evidencia/fuentes_electorales/2025/26cdfa3cc8b521adf3c49682e08a5b5db4469afe373d7030586082a5cc8b7dae/41235288504/receipt.json",
-    "identity_sha256": "26cdfa3cc8b521adf3c49682e08a5b5db4469afe373d7030586082a5cc8b7dae"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -1626,19 +1450,8 @@
    ]
   },
   "congreso_badajoz": {
-   "fuente_territorial": {
-    "run_id": "41293199718",
-    "package_sha256": "5af705a4eab716266cafaadf48800e0cc1ad056d64f3f22d18683bbb24785ff9",
-    "artifact_sha256": "c50556594ac26817c48ec99121976fd46f0149812e5399dae465f996457c4509",
-    "territorial_identity_sha256": "d799e5a446392a54654b45d84a13669e067fb3ea330bbeda46f4ae96590606a1",
-    "receipt_path": "territorios/congreso_badajoz/evidencia/fuentes_territoriales/2025/d799e5a446392a54654b45d84a13669e067fb3ea330bbeda46f4ae96590606a1/41293199718/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_badajoz/evidencia/fuentes_electorales/2025/cb1dfe01a462d120c8f9f8dd9d3139d2a4a726a1fefae57a5e2ff7dab6915183/41239771818/receipt.json",
-    "identity_sha256": "cb1dfe01a462d120c8f9f8dd9d3139d2a4a726a1fefae57a5e2ff7dab6915183"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -1751,19 +1564,8 @@
    ]
   },
   "congreso_baleares": {
-   "fuente_territorial": {
-    "run_id": "41465837048",
-    "package_sha256": "415ce22a65db096f2a03b621489820ec63d9c2b126904dafb322af7b8d80a6cc",
-    "artifact_sha256": "80f99d710a25f5d0b81496c3db929ee5c48a56e7422784e518702c90b020c5c1",
-    "territorial_identity_sha256": "e28eb8bb058052cc4af599d41d91927b8c6bfc66d91e8ebb0720a227607d5d30",
-    "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_territoriales/2025/e28eb8bb058052cc4af599d41d91927b8c6bfc66d91e8ebb0720a227607d5d30/41465837048/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_electorales/2025/595c78426252663b1a5358beea463781185a82f3f3433630d9882e73a88c2867/41465837048/receipt.json",
-    "identity_sha256": "595c78426252663b1a5358beea463781185a82f3f3433630d9882e73a88c2867"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -1850,19 +1652,8 @@
    ]
   },
   "congreso_barcelona": {
-   "fuente_territorial": {
-    "run_id": "42409499602",
-    "package_sha256": "968f68fd67d6b74ba5b1fb9c5eb76031f5a0deb3cadb38a2d672461db40177e7",
-    "artifact_sha256": "37cc86abd67e4a2552cc48ad8149f645f1d46d7904aade8301d7957b2adcd270",
-    "territorial_identity_sha256": "07dec029d20b7b9394a7d5a78965b5d176288ae2d13537b4792a426a97b0f95a",
-    "receipt_path": "territorios/congreso_barcelona/evidencia/fuentes_territoriales/2025/07dec029d20b7b9394a7d5a78965b5d176288ae2d13537b4792a426a97b0f95a/42409499602/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_barcelona/evidencia/fuentes_electorales/2025/e8203257f78dee511e0b5e1592611d712f6ae45c76c443a84a164e3983b652af/42489980111/receipt.json",
-    "identity_sha256": "e8203257f78dee511e0b5e1592611d712f6ae45c76c443a84a164e3983b652af"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -1936,19 +1727,8 @@
    ]
   },
   "congreso_burgos": {
-   "fuente_territorial": {
-    "run_id": "41292846877",
-    "package_sha256": "fc4dce453d673054e5d7d74fdaa3b8f4d59fbec3496b3c150fbfa28809d5278a",
-    "artifact_sha256": "e5d3c35b2797e0df1cf95fcc46f836ec52085873f53a4444b88c2231d57bbccb",
-    "territorial_identity_sha256": "55262e61bfc140b4e4fe289374c2e1c065b823515feff5a554406717175974f5",
-    "receipt_path": "territorios/congreso_burgos/evidencia/fuentes_territoriales/2025/55262e61bfc140b4e4fe289374c2e1c065b823515feff5a554406717175974f5/41292846877/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_burgos/evidencia/fuentes_electorales/2025/3048f185c01af3e5a400066e7aba00671de47b42042b2471c2bebee097cb291a/41239782586/receipt.json",
-    "identity_sha256": "3048f185c01af3e5a400066e7aba00671de47b42042b2471c2bebee097cb291a"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -2035,19 +1815,8 @@
    ]
   },
   "congreso_caceres": {
-   "fuente_territorial": {
-    "run_id": "41240512324",
-    "package_sha256": "151415ae76db981e300e716465611f5f6abb6691226f1543cfb1478b934f3eea",
-    "artifact_sha256": "c28a6c0c45bd071655deed566a7aa275e526c6cc3baec4287f3765c93d76a8bc",
-    "territorial_identity_sha256": "7070e632f7a02bde0fa84ce844403dd095444994462161bd1f405f4015ddb79e",
-    "receipt_path": "territorios/congreso_caceres/evidencia/fuentes_territoriales/2025/7070e632f7a02bde0fa84ce844403dd095444994462161bd1f405f4015ddb79e/41240512324/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_caceres/evidencia/fuentes_electorales/2025/fd390f036b51e5bb85fb619ce3b5d2b16827be5e74c8291995d0d41bb1dcbade/41239788468/receipt.json",
-    "identity_sha256": "fd390f036b51e5bb85fb619ce3b5d2b16827be5e74c8291995d0d41bb1dcbade"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -2134,19 +1903,8 @@
    ]
   },
   "congreso_cadiz": {
-   "fuente_territorial": {
-    "run_id": "41465820761",
-    "package_sha256": "29b9604d8a617e6a0dff74e0a67d738211bd0771a525c954d9fa214eaf6709cb",
-    "artifact_sha256": "39e612f105e899cfff0b4a89b3692a1097f595fdc385806e27b91389660cd875",
-    "territorial_identity_sha256": "3729f923549f454621c4bc7a8564aee79d8961c502779e1cfb32666f81fd0e25",
-    "receipt_path": "territorios/congreso_cadiz/evidencia/fuentes_territoriales/2025/3729f923549f454621c4bc7a8564aee79d8961c502779e1cfb32666f81fd0e25/41465820761/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_cadiz/evidencia/fuentes_electorales/2025/e7bad8cb9552ba46cc1ce96c9b06c0021fb6848a5bf8e946c931b9cf3f4029d9/41465820761/receipt.json",
-    "identity_sha256": "e7bad8cb9552ba46cc1ce96c9b06c0021fb6848a5bf8e946c931b9cf3f4029d9"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -2220,19 +1978,8 @@
    ]
   },
   "congreso_cantabria": {
-   "fuente_territorial": {
-    "run_id": "41292096436",
-    "package_sha256": "5c407f04024738615754b0ddce90a7607e3bb068916e327ceee1df12f97c4abc",
-    "artifact_sha256": "15cfb2b9e93cbea92b2b45a8f6dafdbd411d44cf8556fff7b221cf9f8cfbd84b",
-    "territorial_identity_sha256": "c8fced560af34ec53d3ace309ad57edf2ab96592a873ae915fcfe966045e2290",
-    "receipt_path": "territorios/congreso_cantabria/evidencia/fuentes_territoriales/2025/c8fced560af34ec53d3ace309ad57edf2ab96592a873ae915fcfe966045e2290/41292096436/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_cantabria/evidencia/fuentes_electorales/2025/3f5b23bf3ad78e674bf020c29906afbbabd0706248dc410502069d8bb4acaf1b/41239913823/receipt.json",
-    "identity_sha256": "3f5b23bf3ad78e674bf020c29906afbbabd0706248dc410502069d8bb4acaf1b"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -2319,19 +2066,8 @@
    ]
   },
   "congreso_castellon": {
-   "fuente_territorial": {
-    "run_id": "41241768943",
-    "package_sha256": "2fb73fe7f4cd3909b739a94e2ca9d66bcfac872448f966e4db000a9431c36fa0",
-    "artifact_sha256": "a6af0b7655a6a5e72d00d2c6a2cf575999cffb03ef8f2ebd4de8f75f1946368b",
-    "territorial_identity_sha256": "521843ff70d449199d943dedad2f09b1cfe0274e5b1a57534021247b0048bcd8",
-    "receipt_path": "territorios/congreso_castellon/evidencia/fuentes_territoriales/2025/521843ff70d449199d943dedad2f09b1cfe0274e5b1a57534021247b0048bcd8/41241768943/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_castellon/evidencia/fuentes_electorales/2025/edc1431446e17982e9143687d587d8ab6c7a468907295f7be0f207c812bce6d1/41239799217/receipt.json",
-    "identity_sha256": "edc1431446e17982e9143687d587d8ab6c7a468907295f7be0f207c812bce6d1"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -2418,19 +2154,8 @@
    ]
   },
   "congreso_ceuta": {
-   "fuente_territorial": {
-    "run_id": "42488846588",
-    "package_sha256": "92dc13573e8b1bceeff58a5d05cd91934f202e74815b5220c49d2119042f969f",
-    "artifact_sha256": "9808a974cef7018ae2f8b1c9eba200ac8f1b11de6c63853c0838a0651ead8b4e",
-    "territorial_identity_sha256": "ccab1909b10228fdbd73b382cb3ae31da143df32481d7a54cd516e1e824c9317",
-    "receipt_path": "territorios/congreso_ceuta/evidencia/fuentes_territoriales/2025/ccab1909b10228fdbd73b382cb3ae31da143df32481d7a54cd516e1e824c9317/42488846588/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_ceuta/evidencia/fuentes_electorales/2025/23293ea2c8ee1151c5fd94cd64b472867a304efd32f75ef2b9ae9e0dcf373b4f/42488846588/receipt.json",
-    "identity_sha256": "23293ea2c8ee1151c5fd94cd64b472867a304efd32f75ef2b9ae9e0dcf373b4f"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -2517,19 +2242,8 @@
    ]
   },
   "congreso_ciudad_real": {
-   "fuente_territorial": {
-    "run_id": "41291967967",
-    "package_sha256": "15481287c881a0987fbd9442af2d5caf63a4f151fa6e4ce02fb26b81c697403f",
-    "artifact_sha256": "9214781fd49abe2893797b721cf53f5b09de138a7fc327eb9f10086a22bca558",
-    "territorial_identity_sha256": "386ebde0e1022c0d9422c22b18559e5548dd8c117d92115088e96455e3c00163",
-    "receipt_path": "territorios/congreso_ciudad_real/evidencia/fuentes_territoriales/2025/386ebde0e1022c0d9422c22b18559e5548dd8c117d92115088e96455e3c00163/41291967967/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_ciudad_real/evidencia/fuentes_electorales/2025/630a53d22aa8839036f217167de1fced81ae36f4aaca31cd8a1f3d2aadc1888d/41239804426/receipt.json",
-    "identity_sha256": "630a53d22aa8839036f217167de1fced81ae36f4aaca31cd8a1f3d2aadc1888d"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -2616,19 +2330,8 @@
    ]
   },
   "congreso_cordoba": {
-   "fuente_territorial": {
-    "run_id": "41242424551",
-    "package_sha256": "ec7faa59e58c97237304ebdcd482ae6f79c89373a9a5dc4c105b0036bfc850ad",
-    "artifact_sha256": "e5d35701bc33a7dd3dd81ae3dd5a5b3f990ba1882eb322595d86a85940d542e6",
-    "territorial_identity_sha256": "1cc0c1c99ea2414f971682afd838add438493bf11d16e3ed3080f71f9bd8435a",
-    "receipt_path": "territorios/congreso_cordoba/evidencia/fuentes_territoriales/2025/1cc0c1c99ea2414f971682afd838add438493bf11d16e3ed3080f71f9bd8435a/41242424551/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_cordoba/evidencia/fuentes_electorales/2025/2c6b84f7b0ff5317d3c12aa8b7b195332e8b2d282a460a20241fbb4d6a3fa3bd/41239809492/receipt.json",
-    "identity_sha256": "2c6b84f7b0ff5317d3c12aa8b7b195332e8b2d282a460a20241fbb4d6a3fa3bd"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -2715,19 +2418,8 @@
    ]
   },
   "congreso_cuenca": {
-   "fuente_territorial": {
-    "run_id": "41236647382",
-    "package_sha256": "8325bca5fc3bc8170e644e6aea14fecc5325d19de22e0b48b268624e3f47a38d",
-    "artifact_sha256": "c5a7b2b573565cced64673bbf1e95a701570c9e739a2184a594e076eb9105dc6",
-    "territorial_identity_sha256": "9e9512f89d9d3c0e56571f9cca0f8aadcf3e58f00d84a482527ad2eb42bee75b",
-    "receipt_path": "territorios/congreso_cuenca/evidencia/fuentes_territoriales/2025/9e9512f89d9d3c0e56571f9cca0f8aadcf3e58f00d84a482527ad2eb42bee75b/41236647382/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_cuenca/evidencia/fuentes_electorales/2025/b0cbccd6e4ca463e8b42fe602e7b9eace43abd0b022971272ce293fb819c58f7/41236657374/receipt.json",
-    "identity_sha256": "b0cbccd6e4ca463e8b42fe602e7b9eace43abd0b022971272ce293fb819c58f7"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -2814,19 +2506,8 @@
    ]
   },
   "congreso_gerona": {
-   "fuente_territorial": {
-    "run_id": "41292216676",
-    "package_sha256": "cffe40478cfeec3bd2bf3eb8b3bfe47391ee9c6a95d945d89276cdd0c9df9cde",
-    "artifact_sha256": "ca048f3a17c35e0bd7c58b57957eee38d9a58b9df34fc7f868cd15523c7915e6",
-    "territorial_identity_sha256": "d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688",
-    "receipt_path": "territorios/congreso_gerona/evidencia/fuentes_territoriales/2025/d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688/41292216676/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_gerona/evidencia/fuentes_electorales/2025/a03b34676e4217823ee656f307a84c832a305ab6db19461e28c043a60e80bc8f/41239820081/receipt.json",
-    "identity_sha256": "a03b34676e4217823ee656f307a84c832a305ab6db19461e28c043a60e80bc8f"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -2913,19 +2594,8 @@
    ]
   },
   "congreso_granada": {
-   "fuente_territorial": {
-    "run_id": "41243199582",
-    "package_sha256": "f070e55093e12331f96971fc1cf739d192d36cbeff619f8772f5feb3e2fd8daf",
-    "artifact_sha256": "094fb840cd04e2e88639ee37848937610b5a530fb8d27f7a19bcae9b0d12d881",
-    "territorial_identity_sha256": "6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f",
-    "receipt_path": "territorios/congreso_granada/evidencia/fuentes_territoriales/2025/6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f/41243199582/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_granada/evidencia/fuentes_electorales/2025/dd0dd9e03aa8c8f9c39bb8dde4b95e3c2822a6e1491b91f3a0e99ee7b62de4d5/41239825488/receipt.json",
-    "identity_sha256": "dd0dd9e03aa8c8f9c39bb8dde4b95e3c2822a6e1491b91f3a0e99ee7b62de4d5"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -3012,19 +2682,8 @@
    ]
   },
   "congreso_guadalajara": {
-   "fuente_territorial": {
-    "run_id": "41236816482",
-    "package_sha256": "999307e568f21491c3698c3ab5e29d82a645bec12462879ec2741f692eb0adab",
-    "artifact_sha256": "d5eccc8c9ef8f283fcdffd6f7bfaddbb032c9eed4a9438a880b10e187f64816f",
-    "territorial_identity_sha256": "f69b4153c5b745f7e7902dd918fccbd0aa165a70f8f91107da8c7335c4a3846c",
-    "receipt_path": "territorios/congreso_guadalajara/evidencia/fuentes_territoriales/2025/f69b4153c5b745f7e7902dd918fccbd0aa165a70f8f91107da8c7335c4a3846c/41236816482/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_guadalajara/evidencia/fuentes_electorales/2025/f421d566485bcdc53d2c1f281efbb5210e1a5df8af79b7dc00a03cdfdf055d03/41236827273/receipt.json",
-    "identity_sha256": "f421d566485bcdc53d2c1f281efbb5210e1a5df8af79b7dc00a03cdfdf055d03"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -3111,19 +2770,8 @@
    ]
   },
   "congreso_guipuzcoa": {
-   "fuente_territorial": {
-    "run_id": "41292345223",
-    "package_sha256": "781031884f53f03ea9f122edbf318cea09165e1c0fca12884d448efb5e5248fd",
-    "artifact_sha256": "a976165325eab1d3c50f8679127478846dd4d974d87cd51b49ac27361cdfa39e",
-    "territorial_identity_sha256": "024bb644bea5445a91424c09beb9991303c4ee4b6329927751b87565cac870c3",
-    "receipt_path": "territorios/congreso_guipuzcoa/evidencia/fuentes_territoriales/2025/024bb644bea5445a91424c09beb9991303c4ee4b6329927751b87565cac870c3/41292345223/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_guipuzcoa/evidencia/fuentes_electorales/2025/d1051888a14ed29231c3a98cc0b7c5c77cfc90599ef0417b00fcb7336b114b88/41239830502/receipt.json",
-    "identity_sha256": "d1051888a14ed29231c3a98cc0b7c5c77cfc90599ef0417b00fcb7336b114b88"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -3210,19 +2858,8 @@
    ]
   },
   "congreso_huelva": {
-   "fuente_territorial": {
-    "run_id": "41318125504",
-    "package_sha256": "da4daaccb0afc09768c583e23b634cba5affbd7eb039be46bb52e938acbe90d9",
-    "artifact_sha256": "af27ee7ec5b03e6ceda550072fa8d0a5e06d87708eed74fc20f584064a39340e",
-    "territorial_identity_sha256": "2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42",
-    "receipt_path": "territorios/congreso_huelva/evidencia/fuentes_territoriales/2025/2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42/41318125504/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_huelva/evidencia/fuentes_electorales/2025/deb0fbf1e626ccccc6a1e0f0420f93779e92be4da48d4f6e58e8dd1b9bd9d99a/41239835955/receipt.json",
-    "identity_sha256": "deb0fbf1e626ccccc6a1e0f0420f93779e92be4da48d4f6e58e8dd1b9bd9d99a"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -3309,19 +2946,8 @@
    ]
   },
   "congreso_huesca": {
-   "fuente_territorial": {
-    "run_id": "41057319037",
-    "package_sha256": "4912eea85523c456f7297e406b76b184b23fc3b46b2cd4aca0c48d908a168330",
-    "artifact_sha256": "e22527ea7a1ea54d8af41f3ab5446f35c316c31310e4e8f5a8ef000910b4c211",
-    "territorial_identity_sha256": "67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f",
-    "receipt_path": "territorios/congreso_huesca/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41057319037/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_huesca/evidencia/fuentes_electorales/2025/155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422/41194293941/receipt.json",
-    "identity_sha256": "155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -3434,19 +3060,8 @@
    ]
   },
   "congreso_jaen": {
-   "fuente_territorial": {
-    "run_id": "41241896061",
-    "package_sha256": "0bba04d35fc1b9665cce27c8abc99d55b429f4fe8dc1edfc115cf7eaa26646d1",
-    "artifact_sha256": "2f845f1bcd9e796bcd02a86005a55547f656d15f90be05cff7dd4a72aa2bce5e",
-    "territorial_identity_sha256": "28881a56e4bbf2301048f901cbb1c89853b7a62c91b65f3138517bfb40ce77ad",
-    "receipt_path": "territorios/congreso_jaen/evidencia/fuentes_territoriales/2025/28881a56e4bbf2301048f901cbb1c89853b7a62c91b65f3138517bfb40ce77ad/41241896061/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_jaen/evidencia/fuentes_electorales/2025/0a0920bcd99d4bb67e789d0996f800b0cbade5ff38d912ced9baeb5a8304438c/41239841417/receipt.json",
-    "identity_sha256": "0a0920bcd99d4bb67e789d0996f800b0cbade5ff38d912ced9baeb5a8304438c"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -3520,19 +3135,8 @@
    ]
   },
   "congreso_la_coruna": {
-   "fuente_territorial": {
-    "run_id": "41243697404",
-    "package_sha256": "5489cd34367f4f5b7824c46708c178b88e734b8edb8233a15a73107120476df1",
-    "artifact_sha256": "c3e29f26b8c080248e37f94449ab610d6bec2423f02b77f3256de09080bef3a3",
-    "territorial_identity_sha256": "42f736f44a6b2656526202250d93615598a879813270bcb25280f0c478b6058b",
-    "receipt_path": "territorios/congreso_la_coruna/evidencia/fuentes_territoriales/2025/42f736f44a6b2656526202250d93615598a879813270bcb25280f0c478b6058b/41243697404/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_la_coruna/evidencia/fuentes_electorales/2025/1e07330a56680771cc6c920fad75cbfa0efd30938dfcd8ca4f15387b6a219091/41239814650/receipt.json",
-    "identity_sha256": "1e07330a56680771cc6c920fad75cbfa0efd30938dfcd8ca4f15387b6a219091"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -3619,19 +3223,8 @@
    ]
   },
   "congreso_la_rioja": {
-   "fuente_territorial": {
-    "run_id": "41240637295",
-    "package_sha256": "7cc86a540e97a496c86b8747b935f028b8702817abee7637c61bc361043e5dea",
-    "artifact_sha256": "cbb9e9fbfba6bfbf5b3e5502712e14e6f11a6e54ecc3ca228b3d32199af882f0",
-    "territorial_identity_sha256": "fd93e7ca00c87e765ff70d80551e3e9e8610149c0db46da42a6337acd6543826",
-    "receipt_path": "territorios/congreso_la_rioja/evidencia/fuentes_territoriales/2025/fd93e7ca00c87e765ff70d80551e3e9e8610149c0db46da42a6337acd6543826/41240637295/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_la_rioja/evidencia/fuentes_electorales/2025/6e544aa5f7d7e5f16ffa23ff442d528a7948beb2bb2021526c16c8268b1c2886/41239859752/receipt.json",
-    "identity_sha256": "6e544aa5f7d7e5f16ffa23ff442d528a7948beb2bb2021526c16c8268b1c2886"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -3758,19 +3351,8 @@
    ]
   },
   "congreso_las_palmas": {
-   "fuente_territorial": {
-    "run_id": "42991561887",
-    "package_sha256": "1a9afa6371abbff01b01921916e75bd95b0b75f97efd6b6471e5d31c4064344a",
-    "artifact_sha256": "08b4bdec2a4f39a8583e5378dd498fd90b926a53c2037e8ed70b09a499d4dadf",
-    "territorial_identity_sha256": "bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a",
-    "receipt_path": "territorios/congreso_las_palmas/evidencia/fuentes_territoriales/2025/bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a/42991561887/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_las_palmas/evidencia/fuentes_electorales/2025/291e65f01ed409290cd8c685c8f80e14414edbd37e2ffa574a7862e9a2ecfd4b/41432561787/receipt.json",
-    "identity_sha256": "291e65f01ed409290cd8c685c8f80e14414edbd37e2ffa574a7862e9a2ecfd4b"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -3857,19 +3439,8 @@
    ]
   },
   "congreso_leon": {
-   "fuente_territorial": {
-    "run_id": "41241377284",
-    "package_sha256": "ad4c13561666a914ad5f187a4eb74b11d44cabef38dfbd2317221abdf1dc0c8b",
-    "artifact_sha256": "e576851afca31bc07379759546812488a830c35634ac15c2fc91361d31fd13ad",
-    "territorial_identity_sha256": "efb0cce4516bba1965435d97b91171794fa757967fbf573a329ff44c15e5a024",
-    "receipt_path": "territorios/congreso_leon/evidencia/fuentes_territoriales/2025/efb0cce4516bba1965435d97b91171794fa757967fbf573a329ff44c15e5a024/41241377284/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_leon/evidencia/fuentes_electorales/2025/a57d170628ef34e459163cee84bbc310d5225cd1d586a8a771419bb3a66a5e35/41239847787/receipt.json",
-    "identity_sha256": "a57d170628ef34e459163cee84bbc310d5225cd1d586a8a771419bb3a66a5e35"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -3982,19 +3553,8 @@
    ]
   },
   "congreso_lerida": {
-   "fuente_territorial": {
-    "run_id": "41292591493",
-    "package_sha256": "a0631d2459fe65c441770adcb7a9e9eb88806d3aafa5b68321c88069930e9b96",
-    "artifact_sha256": "f8985da3a5cb1c33d05f464d09a19fe849b2426725914c570239be701db2b705",
-    "territorial_identity_sha256": "8a9e4d81a7c6a489b6cab098e79a2e55bc8b35ff25c0d0c1fc12c55ef46cee3f",
-    "receipt_path": "territorios/congreso_lerida/evidencia/fuentes_territoriales/2025/8a9e4d81a7c6a489b6cab098e79a2e55bc8b35ff25c0d0c1fc12c55ef46cee3f/41292591493/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_lerida/evidencia/fuentes_electorales/2025/613cb73be2446e2fc25ccddbc8ff56f4d3f02edc6600bb0c391f173398f57245/41239853848/receipt.json",
-    "identity_sha256": "613cb73be2446e2fc25ccddbc8ff56f4d3f02edc6600bb0c391f173398f57245"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -4068,19 +3628,8 @@
    ]
   },
   "congreso_lugo": {
-   "fuente_territorial": {
-    "run_id": "41240766116",
-    "package_sha256": "cf1f5b954273e80d7ad1a6078bc3752fff3757cd53498784e73a2e80be7c1bd6",
-    "artifact_sha256": "e28b6ebf05ebae54196f3f44e8eb2d0d10c0efb7ed035cedc4f559bb83f6ea65",
-    "territorial_identity_sha256": "bc60630570e46c2b31ace8e29a3e9a2dd2e091cb9c13f284b912ba1fdcf08003",
-    "receipt_path": "territorios/congreso_lugo/evidencia/fuentes_territoriales/2025/bc60630570e46c2b31ace8e29a3e9a2dd2e091cb9c13f284b912ba1fdcf08003/41240766116/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_lugo/evidencia/fuentes_electorales/2025/339edf67d8e73c4feb82e4a93f4f054bcaff752740334909fad44b177aa43ef4/41239865976/receipt.json",
-    "identity_sha256": "339edf67d8e73c4feb82e4a93f4f054bcaff752740334909fad44b177aa43ef4"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -4193,19 +3742,8 @@
    ]
   },
   "congreso_madrid": {
-   "fuente_territorial": {
-    "run_id": "41611821388",
-    "package_sha256": "d6d75f5700c2ccef64103a4d434bf938f9bd6de6fff4dd248e3175e0b405cccd",
-    "artifact_sha256": "a141e422444585aaeb6127a6a9a651add60034e04cf1f75f4ea20287caee08a0",
-    "territorial_identity_sha256": "90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99",
-    "receipt_path": "territorios/congreso_madrid/evidencia/fuentes_territoriales/2025/90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99/41611821388/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_madrid/evidencia/fuentes_electorales/2025/faa3ecb7c23a9be27c8e636b44e5a04d708f12e2ac9d40e235311a1bdbd72179/41611821388/receipt.json",
-    "identity_sha256": "faa3ecb7c23a9be27c8e636b44e5a04d708f12e2ac9d40e235311a1bdbd72179"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -4292,19 +3830,8 @@
    ]
   },
   "congreso_malaga": {
-   "fuente_territorial": {
-    "run_id": "42409615215",
-    "package_sha256": "37e059f70c8e42da32c2a99a8a5c1211175d290abb1b7e12e8ce72fd3819b8f0",
-    "artifact_sha256": "ee2301bea2c6cd972e433c1816e914bd900c09ecc3096756573d3fc9e975e5d3",
-    "territorial_identity_sha256": "8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3",
-    "receipt_path": "territorios/congreso_malaga/evidencia/fuentes_territoriales/2025/8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3/42409615215/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_malaga/evidencia/fuentes_electorales/2025/6bfa6549044d57ab94011df2e33d58cd0d1dcb859a117dcf6cd59b818bc07905/42489981909/receipt.json",
-    "identity_sha256": "6bfa6549044d57ab94011df2e33d58cd0d1dcb859a117dcf6cd59b818bc07905"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -4391,19 +3918,8 @@
    ]
   },
   "congreso_melilla": {
-   "fuente_territorial": {
-    "run_id": "41236482346",
-    "package_sha256": "16e40982b89410ff605c19763c963a5c26edb1d240c2b57d449084be77b6bb63",
-    "artifact_sha256": "24dddfcf1da318e310e2128223720a597b4e1e97a50780e64ce0d076a8ab4857",
-    "territorial_identity_sha256": "3b064d541fae902c734746e3fb7c9d1d0c2b5e5b6aa439475d34b1f1aed4e67e",
-    "receipt_path": "territorios/congreso_melilla/evidencia/fuentes_territoriales/2025/3b064d541fae902c734746e3fb7c9d1d0c2b5e5b6aa439475d34b1f1aed4e67e/41236482346/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_melilla/evidencia/fuentes_electorales/2025/2cceadcf877ec84018cd247c26f0cc744e4e54e7829c243f4cd6af6b1bf1c3b4/41236491113/receipt.json",
-    "identity_sha256": "2cceadcf877ec84018cd247c26f0cc744e4e54e7829c243f4cd6af6b1bf1c3b4"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -4490,19 +4006,8 @@
    ]
   },
   "congreso_murcia": {
-   "fuente_territorial": {
-    "run_id": "41613691816",
-    "package_sha256": "55f457c9486913ac56078a2ffe99d2bc1010e81e2683d4b76095b6b2b5768224",
-    "artifact_sha256": "ff7c08e78d611563cad03de2f46ab3a02b69656d20796fbab14468026e720cfb",
-    "territorial_identity_sha256": "1af735c25b69fb0992d25d5406fc622b3347a1a73c14176998a216ddb5fb545a",
-    "receipt_path": "territorios/congreso_murcia/evidencia/fuentes_territoriales/2025/1af735c25b69fb0992d25d5406fc622b3347a1a73c14176998a216ddb5fb545a/41613691816/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_murcia/evidencia/fuentes_electorales/2025/da89a45a5d057341a6cdeedda30754bd23c97cc15397c1dbca88e6dac41f6ac7/41613691816/receipt.json",
-    "identity_sha256": "da89a45a5d057341a6cdeedda30754bd23c97cc15397c1dbca88e6dac41f6ac7"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -4589,19 +4094,8 @@
    ]
   },
   "congreso_navarra": {
-   "fuente_territorial": {
-    "run_id": "41292721581",
-    "package_sha256": "6b6e064e3771a6e329fe6f0c184c6d657c04f1e15f89d9c18b55cef6d8a350d8",
-    "artifact_sha256": "ed6564695ea6f9ba3c2c7f1e0b177608c2704fe2a1d4b5b58ab95fdfaed3d9ac",
-    "territorial_identity_sha256": "ad986b5497eb8a08c295e831f2e2c94bfdc82b25102373da12f83eceaae5bd6e",
-    "receipt_path": "territorios/congreso_navarra/evidencia/fuentes_territoriales/2025/ad986b5497eb8a08c295e831f2e2c94bfdc82b25102373da12f83eceaae5bd6e/41292721581/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_navarra/evidencia/fuentes_electorales/2025/4394ab125b595f91a5d69069b0276e322ba6af2ca3bbd2acb16bc595bb13b9d3/41239887617/receipt.json",
-    "identity_sha256": "4394ab125b595f91a5d69069b0276e322ba6af2ca3bbd2acb16bc595bb13b9d3"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -4688,19 +4182,8 @@
    ]
   },
   "congreso_orense": {
-   "fuente_territorial": {
-    "run_id": "41240887712",
-    "package_sha256": "29f140b521f9a4b66d6602b58d886e767192ea51135309eac1c25dca33ffb716",
-    "artifact_sha256": "6649836bde1fa498f0f10663bbf1cb723449810f009a272e7851bf47a42cd541",
-    "territorial_identity_sha256": "b576d91998274f9664dd3f48f3c270031efe5ccff3f2eb2c958904baec001c31",
-    "receipt_path": "territorios/congreso_orense/evidencia/fuentes_territoriales/2025/b576d91998274f9664dd3f48f3c270031efe5ccff3f2eb2c958904baec001c31/41240887712/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_orense/evidencia/fuentes_electorales/2025/e6d0f9c9083e2b30b604145d2f2e05adf93b1fff3c51244f45d136c9440ae829/41239892753/receipt.json",
-    "identity_sha256": "e6d0f9c9083e2b30b604145d2f2e05adf93b1fff3c51244f45d136c9440ae829"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -4787,19 +4270,8 @@
    ]
   },
   "congreso_palencia": {
-   "fuente_territorial": {
-    "run_id": "41291833956",
-    "package_sha256": "23bee297123bdc1bc7753f0cea66a6278da9598c0c6b23f21a6854aeff322210",
-    "artifact_sha256": "0e91e7936db7665b77d9ee5a75b93d550115adaffb3581193c259df02af5912d",
-    "territorial_identity_sha256": "45c88d0f94d0ba8e0aab081102ba295ebf74122e203016ced7d47ddb0a5aabe0",
-    "receipt_path": "territorios/congreso_palencia/evidencia/fuentes_territoriales/2025/45c88d0f94d0ba8e0aab081102ba295ebf74122e203016ced7d47ddb0a5aabe0/41291833956/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_palencia/evidencia/fuentes_electorales/2025/835619e9c7233e0ccc6c9cacd8f18bcaa5c26e73dc4013c30e2f555b6b628c9a/41235462609/receipt.json",
-    "identity_sha256": "835619e9c7233e0ccc6c9cacd8f18bcaa5c26e73dc4013c30e2f555b6b628c9a"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -4886,19 +4358,8 @@
    ]
   },
   "congreso_pontevedra": {
-   "fuente_territorial": {
-    "run_id": "41293311168",
-    "package_sha256": "4e13f876c3f05ab4ec56cb108e5584c0e12bf70bcded26d0a1f167a11a41bc20",
-    "artifact_sha256": "d46399f01897467aac660383677d13e2980443f5001311b53b35fb5b9972b91b",
-    "territorial_identity_sha256": "de7f566b987acc70e29452af77aeb1504a934991c6c4c028dc41a7013512e9ca",
-    "receipt_path": "territorios/congreso_pontevedra/evidencia/fuentes_territoriales/2025/de7f566b987acc70e29452af77aeb1504a934991c6c4c028dc41a7013512e9ca/41293311168/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_pontevedra/evidencia/fuentes_electorales/2025/308c2da9a4d943a975a9bddfce3ab8c4548386719c447394ae6e827c4cc3f7db/41239903028/receipt.json",
-    "identity_sha256": "308c2da9a4d943a975a9bddfce3ab8c4548386719c447394ae6e827c4cc3f7db"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -4985,19 +4446,8 @@
    ]
   },
   "congreso_salamanca": {
-   "fuente_territorial": {
-    "run_id": "41241010241",
-    "package_sha256": "60529b9ee0bc74c5bb5b7b935721eb5063f59fa2d1541e866e3cc1ab93adfa2c",
-    "artifact_sha256": "da869071df48034b3734bd864ee837ec428131b51154aa0f40d5cf880cb40ebe",
-    "territorial_identity_sha256": "e9391f959ab85e7ef3fbd52e4a680cc7cc8fdae3585a4c80b762ecaaceacaaa3",
-    "receipt_path": "territorios/congreso_salamanca/evidencia/fuentes_territoriales/2025/e9391f959ab85e7ef3fbd52e4a680cc7cc8fdae3585a4c80b762ecaaceacaaa3/41241010241/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_salamanca/evidencia/fuentes_electorales/2025/98bbcaab7ca5b91879fbdf67f680ac886b0ae774212430c06e071fa4e190faad/41239908359/receipt.json",
-    "identity_sha256": "98bbcaab7ca5b91879fbdf67f680ac886b0ae774212430c06e071fa4e190faad"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -5098,19 +4548,8 @@
    ]
   },
   "congreso_santa_cruz_de_tenerife": {
-   "fuente_territorial": {
-    "run_id": "43012151677",
-    "package_sha256": "b4e48cee202a01d82099f916ab0b0d8e5c0ae15f34b649e07e2de0f9ae5e0c7f",
-    "artifact_sha256": "43cfc4dd6edf4c68d048ee4797cd00a3dfb547bca852622eeb7837f5130b23bd",
-    "territorial_identity_sha256": "6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53",
-    "receipt_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/fuentes_territoriales/2025/6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53/43012151677/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/fuentes_electorales/2025/a990a414e34865c72ba8902ce6f691e48970933f793c8ab38796093676c6f536/41239515252/receipt.json",
-    "identity_sha256": "a990a414e34865c72ba8902ce6f691e48970933f793c8ab38796093676c6f536"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -5223,19 +4662,8 @@
    ]
   },
   "congreso_segovia": {
-   "fuente_territorial": {
-    "run_id": "41235620157",
-    "package_sha256": "eca15937f80c9222c45599aaf9cc52862f0246c259c558c025185f02a3911361",
-    "artifact_sha256": "69095d26e3c0e80f7156162c014d97b8c7b99f5f60475c30d5caf9350359c40f",
-    "territorial_identity_sha256": "7bd7603c459589d31414402f7398ecda942da3bb6094cca3f45b37e8a8c34a5a",
-    "receipt_path": "territorios/congreso_segovia/evidencia/fuentes_territoriales/2025/7bd7603c459589d31414402f7398ecda942da3bb6094cca3f45b37e8a8c34a5a/41235620157/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_segovia/evidencia/fuentes_electorales/2025/4bca7fef1bff38a856c1be9861cb0096afeb8621c45de88bdf67eaa07e6cd04c/41235628457/receipt.json",
-    "identity_sha256": "4bca7fef1bff38a856c1be9861cb0096afeb8621c45de88bdf67eaa07e6cd04c"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -5309,19 +4737,8 @@
    ]
   },
   "congreso_sevilla": {
-   "fuente_territorial": {
-    "run_id": "41244347546",
-    "package_sha256": "eeba098cfec6ff30d4819eecd360c9d5970f0a0e1716eba841dc6b2a2dbc2059",
-    "artifact_sha256": "6fd8bcb16093981d226efd2e99093d58a0f6b40812cc3479db9ce9131317ec5d",
-    "territorial_identity_sha256": "2c2e556fef696b19f0d228f3008e198a71358b4c09997648777274cfedc0175d",
-    "receipt_path": "territorios/congreso_sevilla/evidencia/fuentes_territoriales/2025/2c2e556fef696b19f0d228f3008e198a71358b4c09997648777274cfedc0175d/41244347546/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_sevilla/evidencia/fuentes_electorales/2025/e621f70cd455325efd4d5718605b3085764905e4a6549006aa6ec556534b3041/41239919571/receipt.json",
-    "identity_sha256": "e621f70cd455325efd4d5718605b3085764905e4a6549006aa6ec556534b3041"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -5409,19 +4826,8 @@
    ]
   },
   "congreso_soria": {
-   "fuente_territorial": {
-    "run_id": "41235794328",
-    "package_sha256": "69ec473593919d945d5b92d6271319dcad50f2e24c5306cb0813878e4eee2102",
-    "artifact_sha256": "ae9e6bf66087037801fab843bb193f22f08b11f5e56103ce824d10eb2815b9f8",
-    "territorial_identity_sha256": "ff1040e1b797d0e726a53f27ccc57fd62a38e19a20aa85a136dc50fe133dd536",
-    "receipt_path": "territorios/congreso_soria/evidencia/fuentes_territoriales/2025/ff1040e1b797d0e726a53f27ccc57fd62a38e19a20aa85a136dc50fe133dd536/41235794328/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_soria/evidencia/fuentes_electorales/2025/7a4b0bacfa1c54d0992d1947112cb6676d0edb1b48ea152d8fadce98b5cd7b3b/41235804865/receipt.json",
-    "identity_sha256": "7a4b0bacfa1c54d0992d1947112cb6676d0edb1b48ea152d8fadce98b5cd7b3b"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -5495,19 +4901,8 @@
    ]
   },
   "congreso_tarragona": {
-   "fuente_territorial": {
-    "run_id": "41243062797",
-    "package_sha256": "5610fbd5e43d083a9cd220dbedbf2ffe2e5b0d09a5e69044397f01c764fefc44",
-    "artifact_sha256": "52587a94ffe47e234d57e062bfb78e1b30d2d653b7af23ef534ba0c2ef03e964",
-    "territorial_identity_sha256": "163a77990bfeb183b9b123fbdeda14b823e1c8a01bb6b8ebaf6ebfbed2fe5a26",
-    "receipt_path": "territorios/congreso_tarragona/evidencia/fuentes_territoriales/2025/163a77990bfeb183b9b123fbdeda14b823e1c8a01bb6b8ebaf6ebfbed2fe5a26/41243062797/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_tarragona/evidencia/fuentes_electorales/2025/05ee98c2e9f9e0e4d18c306351f5d35c701d2074bd7c0d061e5c07817e95d22b/41239925359/receipt.json",
-    "identity_sha256": "05ee98c2e9f9e0e4d18c306351f5d35c701d2074bd7c0d061e5c07817e95d22b"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -5607,19 +5002,8 @@
    ]
   },
   "congreso_teruel": {
-   "fuente_territorial": {
-    "run_id": "41235966858",
-    "package_sha256": "4591f4d0469002e5a529466dbb69270e8cd1e3ebcd8595f2f3f8063e8c874243",
-    "artifact_sha256": "bf78bc22524148b7cd586655cedc3e5550dbd2dcda4cd57ccfbb79f7427805af",
-    "territorial_identity_sha256": "6c57be66bbebad6e6dd53561a12ba0e313081566511acd3b0f9bb370db898edc",
-    "receipt_path": "territorios/congreso_teruel/evidencia/fuentes_territoriales/2025/6c57be66bbebad6e6dd53561a12ba0e313081566511acd3b0f9bb370db898edc/41235966858/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_teruel/evidencia/fuentes_electorales/2025/672246c160d11ced224250bfe9f0ad643360584d7226f127b8c8e8ad97b2f240/41235977145/receipt.json",
-    "identity_sha256": "672246c160d11ced224250bfe9f0ad643360584d7226f127b8c8e8ad97b2f240"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -5693,19 +5077,8 @@
    ]
   },
   "congreso_toledo": {
-   "fuente_territorial": {
-    "run_id": "41242809451",
-    "package_sha256": "fd2fa7a4c735b1ccd07b09f9a80b893af0c777a1e6589645703fff43efd73c20",
-    "artifact_sha256": "71f31e9845cf1cc6d6072b0ed5d3248502320699c6665548ebde86604e3db465",
-    "territorial_identity_sha256": "44e0ffd995e8c26c58961c48dfb2ee31c76eaa577439e67964098d7995ee4a37",
-    "receipt_path": "territorios/congreso_toledo/evidencia/fuentes_territoriales/2025/44e0ffd995e8c26c58961c48dfb2ee31c76eaa577439e67964098d7995ee4a37/41242809451/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_toledo/evidencia/fuentes_electorales/2025/4dd57830c9af64008f2ab76d1c4e53e64902ba3ae3a1b7a8f7700c93d1876b7a/41239931236/receipt.json",
-    "identity_sha256": "4dd57830c9af64008f2ab76d1c4e53e64902ba3ae3a1b7a8f7700c93d1876b7a"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -5779,19 +5152,8 @@
    ]
   },
   "congreso_valencia": {
-   "fuente_territorial": {
-    "run_id": "41318119259",
-    "package_sha256": "f4e8cbac64633ffda5221e09a54723e06e5eba406c550034a46421e1b836ff6f",
-    "artifact_sha256": "5315962cbf6c6db3e683cebf71dd01802d657f561d4277340910cf83412b04c2",
-    "territorial_identity_sha256": "4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f",
-    "receipt_path": "territorios/congreso_valencia/evidencia/fuentes_territoriales/2025/4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f/41318119259/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_valencia/evidencia/fuentes_electorales/2025/6bd17d9ab40a695c5a622d5fe90ca0e988c35b0221bd04f87509d9bb947aaacc/41239936932/receipt.json",
-    "identity_sha256": "6bd17d9ab40a695c5a622d5fe90ca0e988c35b0221bd04f87509d9bb947aaacc"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -5891,19 +5253,8 @@
    ]
   },
   "congreso_valladolid": {
-   "fuente_territorial": {
-    "run_id": "41292964287",
-    "package_sha256": "0192eb0046a947d131012375e7d0d5585af948102a3b1f07188b4bfdc650d38e",
-    "artifact_sha256": "5339f65d92d46db779652724e1689d5ff51830896eca9295fcd8a3ce30688ff4",
-    "territorial_identity_sha256": "b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47",
-    "receipt_path": "territorios/congreso_valladolid/evidencia/fuentes_territoriales/2025/b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47/41292964287/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_valladolid/evidencia/fuentes_electorales/2025/bf1518a803f3c17f7a49bde54c860ef9818e66d31788de2135100b351bbbcefc/41239942087/receipt.json",
-    "identity_sha256": "bf1518a803f3c17f7a49bde54c860ef9818e66d31788de2135100b351bbbcefc"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -5977,19 +5328,8 @@
    ]
   },
   "congreso_vizcaya": {
-   "fuente_territorial": {
-    "run_id": "41293083498",
-    "package_sha256": "f2735556ec3e819fcf833dd36f5111d4f8f1a4a3ef39ce3119f702a526f170da",
-    "artifact_sha256": "d62c95ac6b4adf8e15b569cfb0a4d779c08bd94e3c2474c04d4a31f9b5c1878f",
-    "territorial_identity_sha256": "19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68",
-    "receipt_path": "territorios/congreso_vizcaya/evidencia/fuentes_territoriales/2025/19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68/41293083498/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_vizcaya/evidencia/fuentes_electorales/2025/4011658bdfb867288263aab9cc7621a987b1b569a1e3bdfc71d60a733d8fea6b/41239947749/receipt.json",
-    "identity_sha256": "4011658bdfb867288263aab9cc7621a987b1b569a1e3bdfc71d60a733d8fea6b"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -6063,19 +5403,8 @@
    ]
   },
   "congreso_zamora": {
-   "fuente_territorial": {
-    "run_id": "41236140669",
-    "package_sha256": "5dc537854661b06ad33fdcbd2de17913bac942417ea2f2fab7557cf257b23745",
-    "artifact_sha256": "51e3dc4d4ef5befc784a9b30440dda19aa9cac35e93348bda74fb40946622c19",
-    "territorial_identity_sha256": "9a336472a131bfa3b4692ddb391f80f6edcc997221ac9d801677c3fdb7344c01",
-    "receipt_path": "territorios/congreso_zamora/evidencia/fuentes_territoriales/2025/9a336472a131bfa3b4692ddb391f80f6edcc997221ac9d801677c3fdb7344c01/41236140669/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_zamora/evidencia/fuentes_electorales/2025/81aa6580b3fb902a0f3a54c85dd4a2745f2830cec119cc01e50c6722c85a04ff/41236149824/receipt.json",
-    "identity_sha256": "81aa6580b3fb902a0f3a54c85dd4a2745f2830cec119cc01e50c6722c85a04ff"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -6149,19 +5478,8 @@
    ]
   },
   "congreso_zaragoza": {
-   "fuente_territorial": {
-    "run_id": "41243577758",
-    "package_sha256": "164b80ccbdc6dc82f1ceb1fe496d185b555dd461d64b2173447fca3adde21b46",
-    "artifact_sha256": "627977b4ba7a437b6badf0c84976f54525bb7a7634e79f7beb5291fe96af50d9",
-    "territorial_identity_sha256": "335734b5fd47607e09d41dd6c8c04472041e69d892adebe00e05e75a7c5b1744",
-    "receipt_path": "territorios/congreso_zaragoza/evidencia/fuentes_territoriales/2025/335734b5fd47607e09d41dd6c8c04472041e69d892adebe00e05e75a7c5b1744/41243577758/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso_zaragoza/evidencia/fuentes_electorales/2025/c47b71a53a40450fd33bcb29d4a30190970e1b31806e26b4891b59db7b0943b6/41239953681/receipt.json",
-    "identity_sha256": "c47b71a53a40450fd33bcb29d4a30190970e1b31806e26b4891b59db7b0943b6"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -6235,19 +5553,8 @@
    ]
   },
   "extremadura": {
-   "fuente_territorial": {
-    "run_id": "42720735134",
-    "package_sha256": "14abaecb2364af56af8ca827e2f65b8a8212842f88b1fd2e9394ab15bb33381d",
-    "artifact_sha256": "9d50ad9459baa8c275927668e553c3fd09285dc28b8027d2c7746fd7c0c68158",
-    "territorial_identity_sha256": "c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6",
-    "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6/42720735134/receipt.json",
-    "population_year": 2025,
-    "section_year": 2025
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/extremadura/evidencia/fuentes_electorales/2025/e3963afbdaaefc34551d19d08eb4819e66266697dc33b6469b5b5aca318e3350/42720735134/receipt.json",
-    "identity_sha256": "e3963afbdaaefc34551d19d08eb4819e66266697dc33b6469b5b5aca318e3350"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -6364,19 +5671,8 @@
    ]
   },
   "galicia": {
-   "fuente_territorial": {
-    "run_id": "40690688352",
-    "package_sha256": "891470ada7696896661e9987cd5bf47c6a7332886bbb0669d4d6e3a6ae49b04d",
-    "artifact_sha256": "20d7850a31f2ae24fb25d4a58726589fa5938da8691bfb41e7b1f1722661622b",
-    "territorial_identity_sha256": "a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894",
-    "receipt_path": "territorios/galicia/evidencia/fuentes_territoriales/2025/a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894/40690688352/receipt.json",
-    "population_year": 2024,
-    "section_year": 2024
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/galicia/evidencia/fuentes_electorales/2025/af07c8d3bce5a45f63afd1c5d5eca0423a7713f71b4fbbb6c812f2509f51f230/40389705458/receipt.json",
-    "identity_sha256": "af07c8d3bce5a45f63afd1c5d5eca0423a7713f71b4fbbb6c812f2509f51f230"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -6467,19 +5763,8 @@
    ]
   },
   "illes_balears": {
-   "fuente_territorial": {
-    "run_id": "43011633844",
-    "package_sha256": "02ad2c8ef9f4716f907f8aa9cc9690a9bc721c26c29a4c7fd9fc662bd33de046",
-    "artifact_sha256": "54ba0d0ec51f34e98e887b0e25a6a4f43934e3aa191e73dd083013e3dba1a109",
-    "territorial_identity_sha256": "4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f",
-    "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/43011633844/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/illes_balears/evidencia/fuentes_electorales/2025/b66076b1a479a6ef255f0460de34adf8274e0b307bd9e18c350ef85d24292437/40955056606/receipt.json",
-    "identity_sha256": "b66076b1a479a6ef255f0460de34adf8274e0b307bd9e18c350ef85d24292437"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -6544,19 +5829,8 @@
    ]
   },
   "la_rioja": {
-   "fuente_territorial": {
-    "run_id": "40850322464",
-    "package_sha256": "18d6198245386da78d425674a0fc2bbd379811c428507602eac96dbfbbb63888",
-    "artifact_sha256": "c8ace5e7af65516e115f9c0b34eab695168ba13363786b21b55643fffbfef9ca",
-    "territorial_identity_sha256": "fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853",
-    "receipt_path": "territorios/la_rioja/evidencia/fuentes_territoriales/2025/fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853/40850322464/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/la_rioja/evidencia/fuentes_electorales/2025/35a5a19b40d7d19c48d53eadfdcc2f045be0cc239ba3266c18389c1b0d09e951/40850322464/receipt.json",
-    "identity_sha256": "35a5a19b40d7d19c48d53eadfdcc2f045be0cc239ba3266c18389c1b0d09e951"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -6621,19 +5895,8 @@
    ]
   },
   "madrid": {
-   "fuente_territorial": {
-    "run_id": "40773465956",
-    "package_sha256": "45171fc1fd60d4ffa731f3bf41f3fa2f889e6f6c167227afc154262310c2940a",
-    "artifact_sha256": "b1792fa2242ab38465fbf1a182a67d5966760d997f416c4216a52b20a480713f",
-    "territorial_identity_sha256": "940bca48df854c294916fee6a812778c262b117340aab0a36d972a26a29da895",
-    "receipt_path": "territorios/madrid/evidencia/fuentes_territoriales/2025/940bca48df854c294916fee6a812778c262b117340aab0a36d972a26a29da895/40773465956/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/madrid/evidencia/fuentes_electorales/2025/66b8d0cd823a4a29607a1553595c2a79c2d6ddbae51d432f5cd158dfec29d9ba/40773465956/receipt.json",
-    "identity_sha256": "66b8d0cd823a4a29607a1553595c2a79c2d6ddbae51d432f5cd158dfec29d9ba"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -6698,19 +5961,8 @@
    ]
   },
   "melilla": {
-   "fuente_territorial": {
-    "run_id": "40832114779",
-    "package_sha256": "1aa62cb7c0ff47a6037322ace1e2ed5c6f36b11bc34f6f19aa0dcdcd36722aa9",
-    "artifact_sha256": "db0c191d868c248133c64d58f21706ccfb9686301c0d50270e09262b47fc8ccb",
-    "territorial_identity_sha256": "abe81cc501292049c35658321fc51f672334e1cada123889d0ec287b42f1e4ec",
-    "receipt_path": "territorios/melilla/evidencia/fuentes_territoriales/2025/abe81cc501292049c35658321fc51f672334e1cada123889d0ec287b42f1e4ec/40832114779/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/melilla/evidencia/fuentes_electorales/2025/8ac3f49c633f1be8ba441bf1290dc79c1a4b30b2bac0033f9c2699e73c1fd019/40832114779/receipt.json",
-    "identity_sha256": "8ac3f49c633f1be8ba441bf1290dc79c1a4b30b2bac0033f9c2699e73c1fd019"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -6796,19 +6048,8 @@
    ]
   },
   "pais_vasco": {
-   "fuente_territorial": {
-    "run_id": "40946888676",
-    "package_sha256": "b47721cbd4aa28cae80b185814b0a002f903ce7a7b5e07aab372cafdd6cef874",
-    "artifact_sha256": "c9175d33370e3a9eaf1e32b5b671efb5dc46462ddba7c8db9a6d6ae6d43dd90c",
-    "territorial_identity_sha256": "ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288",
-    "receipt_path": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288/40946888676/receipt.json",
-    "population_year": 2024,
-    "section_year": 2024
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/pais_vasco/evidencia/fuentes_electorales/2025/32e2c695b91acc6bae9c8b0455b7678b814bf66dc374c741f94622693ff703ab/43036604667/receipt.json",
-    "identity_sha256": "32e2c695b91acc6bae9c8b0455b7678b814bf66dc374c741f94622693ff703ab"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -6873,19 +6114,8 @@
    ]
   },
   "principado_de_asturias": {
-   "fuente_territorial": {
-    "run_id": "40693720831",
-    "package_sha256": "b3e10ec48bb9879d9614bed5ddd0760b90d49cfb3008b4c2b933b916f10a0b2a",
-    "artifact_sha256": "60bacfb549404fed841f2ceda6666376fb16852f05ac1ffba5223dc104e3fec6",
-    "territorial_identity_sha256": "c7318c4524f8378c37e9a7352ba3ada506ae31e7dc5daa2e7996660d8f6c5cab",
-    "receipt_path": "territorios/principado_de_asturias/evidencia/fuentes_territoriales/2025/c7318c4524f8378c37e9a7352ba3ada506ae31e7dc5daa2e7996660d8f6c5cab/40693720831/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/principado_de_asturias/evidencia/fuentes_electorales/2025/b76fa3a26064246b9f90edd7d378b73250c5304dc25e60380245a402cb930be8/40693720831/receipt.json",
-    "identity_sha256": "b76fa3a26064246b9f90edd7d378b73250c5304dc25e60380245a402cb930be8"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -7054,19 +6284,8 @@
    ]
   },
   "region_de_murcia": {
-   "fuente_territorial": {
-    "run_id": "40773421805",
-    "package_sha256": "3cfc6aafeeb09273ca63b59f916ad2aaace11274e0304fd7e6183cda9957c58b",
-    "artifact_sha256": "c372f56285f705141729d9a63dedf5c0d2b94c1dcd3e7485c2d77932d1497ef5",
-    "territorial_identity_sha256": "3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a",
-    "receipt_path": "territorios/region_de_murcia/evidencia/fuentes_territoriales/2025/3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a/40773421805/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/region_de_murcia/evidencia/fuentes_electorales/2025/bb4afc30bfd7530f7ea02f4a879b3eb7f029ed851899b925935a80c98e3add6a/40954443883/receipt.json",
-    "identity_sha256": "bb4afc30bfd7530f7ea02f4a879b3eb7f029ed851899b925935a80c98e3add6a"
-   },
+   "fuente_territorial": null,
+   "fuente_electoral": null,
    "doi": null,
    "productos": [
     {
@@ -8174,6 +7393,1000 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 42504383790: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "andalucia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aragon",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "canarias",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "cantabria",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "castilla_la_mancha",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "castilla_y_leon",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "cataluna",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "ceuta",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "comunidad_foral_de_navarra",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "comunidad_valenciana",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_alava",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_albacete",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_alicante",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_almeria",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_asturias",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_avila",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_badajoz",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_baleares",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_barcelona",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_burgos",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_caceres",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_cadiz",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_cantabria",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_castellon",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_ceuta",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_ciudad_real",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_cordoba",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_cuenca",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_gerona",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_granada",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_guadalajara",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_guipuzcoa",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_huelva",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_huesca",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_jaen",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_la_coruna",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_la_rioja",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_las_palmas",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_leon",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_lerida",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_lugo",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_madrid",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_melilla",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_murcia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_navarra",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_orense",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_palencia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_pontevedra",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_salamanca",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_santa_cruz_de_tenerife",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_segovia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_sevilla",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_soria",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_tarragona",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_teruel",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_toledo",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_valencia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_valladolid",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_vizcaya",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_zamora",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_zaragoza",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "extremadura",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "galicia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "illes_balears",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "la_rioja",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "madrid",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "melilla",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "pais_vasco",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "principado_de_asturias",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "region_de_murcia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_ELECTORAL",
+   "detalle": "M08 publicado sin recibo electoral en catálogo"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "andalucia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aragon",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "canarias",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "cantabria",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "castilla_la_mancha",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "castilla_y_leon",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "cataluna",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "ceuta",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "comunidad_foral_de_navarra",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "comunidad_valenciana",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_alava",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_albacete",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_alicante",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_almeria",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_asturias",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_avila",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_badajoz",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_baleares",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_barcelona",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_burgos",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_caceres",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_cadiz",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_cantabria",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_castellon",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_ceuta",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_ciudad_real",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_cordoba",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_cuenca",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_gerona",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_granada",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_guadalajara",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_guipuzcoa",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_huelva",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_huesca",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_jaen",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_la_coruna",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_la_rioja",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_las_palmas",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_leon",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_lerida",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_lugo",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_madrid",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_melilla",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_murcia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_navarra",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_orense",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_palencia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_pontevedra",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_salamanca",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_santa_cruz_de_tenerife",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_segovia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_sevilla",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_soria",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_tarragona",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_teruel",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_toledo",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_valencia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_valladolid",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_vizcaya",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_zamora",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_zaragoza",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "extremadura",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "galicia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "illes_balears",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "la_rioja",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "madrid",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "melilla",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "pais_vasco",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "principado_de_asturias",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "region_de_murcia",
+   "producto": "fuente",
+   "codigo": "SIN_FUENTE_TERRITORIAL",
+   "detalle": "sin preparation_evidence en catalogo_preparacion"
   }
  ]
 }

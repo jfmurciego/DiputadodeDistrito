@@ -314,7 +314,11 @@ class PhysicalComponentsSourceIdentityTests(unittest.TestCase):
                     self.assertEqual(f"secciones_{year}", hard["inventory_id"])
                     self.assertEqual(year, hard["source_identity"]["section_year"])
                     self.assertEqual(expected["sectioning_sha256"], hard["source_identity"]["sectioning_sha256"])
-                    self.assertEqual(expected["territorial_identity_sha256"], hard["source_identity"]["territorial_identity_sha256"])
+                    # T-220: el inventario se selló con el id viejo; el contrato renombrado lo reconoce como su variante.
+                    from herramientas._resolver_ejecucion_completa_core import _identidades_por_variante
+                    ident = {k: v for k, v in hard["source_identity"].items()
+                             if k not in ("sectioning_sha256", "territorial_identity_sha256")}
+                    self.assertIn(expected["territorial_identity_sha256"], _identidades_por_variante(ident))
                     self.assertEqual(expected["universe"], hard["expected_graph_nodes"])
                     self.assertEqual(expected["universe_hash"], hard["universe_cusec_set_sha256"])
                     self.assertEqual(expected["components"], hard["component_sections"])
