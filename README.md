@@ -90,6 +90,6 @@ Las fuentes oficiales conservan sus propias condiciones de reutilización.
 
 ## Cómo citar
 
-Jesus Murciego (Independent researcher). *Diputado de Distrito: motor reproducible de distritos uninominales*. Software, versión 5.0.0. <https://github.com/jfmurciego/DiputadodeDistrito>.
+Jesus Murciego (Independent researcher). *Diputado de Distrito: motor reproducible de distritos uninominales*. Software, versión 4.9.0 (la versión citada sigue a `CITATION.cff`; se actualiza en el corte 5.0.0). <https://github.com/jfmurciego/DiputadodeDistrito>.
 
-Metadatos en `CITATION.cff` y `.zenodo.json`. Serie de versiones de mapa en Zenodo: DOI de concepto [10.5281/zenodo.24093967](https://doi.org/10.5281/zenodo.24093967) (resuelve a la última; para citar un mapa concreto, usa su DOI de versión).
+Metadatos en `CITATION.cff` y `.zenodo.json`. Serie de versiones de mapa en Zenodo: DOI de concepto (resuelve a la última; no es la cita del proyecto entero) [10.5281/zenodo.24093967](https://doi.org/10.5281/zenodo.24093967). Para citar un mapa concreto, usa su DOI de versión; el depósito vigente es [10.5281/zenodo.24093968](https://doi.org/10.5281/zenodo.24093968). El depósito contiene el código fuente de esa versión; el paquete firmado y su manifiesto están en la Release de GitHub.
