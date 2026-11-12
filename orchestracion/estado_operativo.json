@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-12T11:07:59.348745+00:00",
+  "generated_at": "2026-11-12T11:09:54.461906+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6687,20 +6687,20 @@
       "name": "Andalucía",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43107035084,
+      "run_id": 43204696160,
       "last_run": {
-        "run_id": 43186369510,
+        "run_id": 43204696160,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6741,7 +6741,7 @@
       },
       "autonomous_community_code_ine": "01",
       "display_name": "01 Andalucía",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "aragon",
@@ -12256,8 +12256,9 @@
     }
   ],
   "kpis": {
-    "complete": 73,
+    "complete": 74,
     "complete_names": [
+      "01 Andalucía",
       "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
@@ -12552,12 +12553,6 @@
   },
   "alerts": [
     {
-      "territory": "01 Andalucía",
-      "territory_id": "andalucia",
-      "autonomous_community_code_ine": "01",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional 350 Álava",
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
@@ -12598,14 +12593,13 @@
       "territory_id": "congreso350_barcelona",
       "autonomous_community_code_ine": "R08",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Burgos",
+      "territory_id": "congreso350_burgos",
+      "autonomous_community_code_ine": "R09",
+      "action": "completar puerta de validación territorial"
     }
   ],
-  "next_actions": [
-    {
-      "territory": "01 Andalucía",
-      "territory_id": "andalucia",
-      "autonomous_community_code_ine": "01",
-      "action": "preparar fuentes electorales"
-    }
-  ]
+  "next_actions": []
 }
