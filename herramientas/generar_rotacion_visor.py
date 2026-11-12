@@ -3,8 +3,9 @@
 """Rotación 2011-2023 por distrito para el visor v2 (T-119).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/generar_rotacion_visor_v1.0.0_20261109b.py
+VERSIÓN: 1.1.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_rotacion_visor_v1.1.0_20261112.py
 CAMBIOS 1.1.0 (T-135): el número de distrito sale en numeración pública 1..K (no existe el 0).
 QUÉ HACE: lee datos/resultados/historico/rotacion/<circunscripción NAC>.csv (T-110: ganador homologado por distrito y elección) y
   datos/composicion/<circunscripción NAC>.csv (para el código de provincia, 2 primeras cifras de la sección) y escribe un único JSON

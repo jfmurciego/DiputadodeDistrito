@@ -3,11 +3,12 @@
 """Histórico de generales 2011-2023 por la cadena M07/M08 sobre los distritos vigentes (T-83, paso A).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: D-10 y D-12 del propietario: los resultados históricos pasan por el mismo agregado electoral que 2023
   (M07/M08); la puerta 04 queda solo para publicar.
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/historico_m07m08_v1.0.0_20261112.py
 QUÉ HACE: fuera de línea (no lanza ni publica; no toca M01-M06). Por territorio y elección: (1) secciones M06 desde la
   composición publicada (`datos/composicion/<t>.csv`, sección→distrito exacto del M06) y la geometría del seccionado
   INE 2025 (las secciones 2025 recodificadas frente al M06, p. ej. 6 en Badajoz, van al distrito de mayor solape); (2) params temporal con el contrato del paquete de `reagregacion_historico.py --paquete`; (3) ejecuta

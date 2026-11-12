@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — adaptadores de generador para la competición (canónico y GerryChain)
-VERSIÓN: 1.2.2
+VERSIÓN: 1.2.3
 NOMBRE DE VERSIÓN: Competición · el vigente es el publicado en el visor
 FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa)
@@ -38,7 +38,8 @@ CAMBIOS: 1.2.2 — (T-258) «Vigente» lee el mapa publicado en el visor (vigent
 MOTIVO: T-163: que el orquestador (competicion.py) llame a los generadores reales sin tocarlos, con las mismas
   entradas y pasos que la batería T-132 (herramientas/bateria_motor.py y banco_generadores.py), que se importan en
   diferido y no se modifican.
-ANTERIOR: legacy/ddd_motor2/generadores_v1.2.1_20261110.py
+CAMBIOS 1.2.3 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/ddd_motor2/generadores_v1.2.2_20261112.py
 GENERADORES:
   Canonico    M04 + M05 canónico vigente (7.4.4, semilla fija) + M06 = bateria_motor.motor_uno(t, out, "7.4.4").
   GerryChain  M04 + M05 GerryChain de producción ddd_core/m05_gerrychain_strategy.py (ReCom, --seed-count 1

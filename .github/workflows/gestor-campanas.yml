@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de campaña
-# VERSIÓN: 1.10.0 · FECHA: 2026-11-10 · ESTADO: candidato
+# VERSIÓN: 1.10.1 · FECHA: 2026-11-12 · ESTADO: candidato
 # CAMBIOS 1.10.0: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P00 Campaña — Gestor» (antes 0 Gestor de Campañas); nombres de jobs con el prefijo P00.
 # CAMBIOS 1.9.0: T-133, el histórico autonómico (herramientas/historico_autonomico.py, paso A por comunidad con su calendario)
 #   corre en los mismos jobs: cada fila lleva `tipo` (general | autonomico) y la prueba incluye una de cada tipo.
@@ -25,7 +25,8 @@
 # CAMBIOS 1.2.0: campaña «Nacional 2023» con las 52 provincias (INE, matrícula o nombre); T-06.
 # CAMBIOS 1.1.0: actions: write (el 00 llamado tiene un job con actions: write; con read, GitHub no arranca:
 #   startup_failure); selección por «todos», números o nombres en lugar de CODAUTO con ceros.
-# ANTERIOR: legacy/workflows/gestor-campanas_v1.9.0_20261110.yml
+# CAMBIOS 1.10.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/workflows/gestor-campanas_v1.10.0_20261112.yml
 # QUÉ HACE: selecciona 1–19 territorios por CODAUTO, fija un manifiesto inmutable y orquesta desde el mismo commit.
 # NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
 name: P00 Campaña — Gestor

@@ -3,9 +3,10 @@
 """Resultados electorales ligeros por territorio, versionados en git (T-53).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.1 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.4.2 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.4.1: T-203, la constante viene de eleccion_por_defecto (ligero), no del registro (pyproj).
-ANTERIOR: legacy/herramientas/resultados_ligeros_v1.4.0_20261110.py
+CAMBIOS 1.4.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/resultados_ligeros_v1.4.1_20261112.py
 CAMBIOS: 1.4.0: T-203, ELECCION_POR_DEFECTO se importa de registro_publicaciones_visor en vez de repetir el literal.
 ANTERIOR: legacy/herramientas/resultados_ligeros_v1.3.0_20261110.py
 CAMBIOS: 1.3.0: T-201, `vigentes(registro, eleccion)` y `vigente_por_eleccion`: la vigente es la de (territorio, elección), nunca solo el run_id

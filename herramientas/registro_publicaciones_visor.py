@@ -5,13 +5,14 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.8.0 · FECHA: 2026-11-11 · ESTADO: candidato
+VERSIÓN: 1.8.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS 1.8.0 (T-249): publicar un territorio es registrar el PAR. `candidate` (CLI) rechaza, todo o nada, si en un
   territorio tocado por las entradas canónicas el M08 vigente falta o no es del linaje del M06 vigente
   (`linaje_m06_m08.pares_incompletos`: mismo run o manifiesto del run del M08 que acredita la 02 del M06). `make_candidate`
   no cambia; `--evidence-root` (por defecto la raíz del repo) indica dónde están los manifiestos.
 MOTIVO 1.8.0: el lote P50 43030563528 registró solo los M06 de 34 territorios (mapa nuevo con resultados de otro linaje).
-ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.7.0_20261111.py
+CAMBIOS 1.8.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.8.0_20261112.py
 CAMBIOS 1.7.0 (T-237): publicación por lotes. `parse_run_ids` (CLI `parse-run-ids`) lee `production_run_id` como lista
   separada por espacios o comas: cada id, solo cifras; un id repetido se RECHAZA (no se deduplica: suele ser una errata y
   el lote debe decir exactamente qué se publica); lista vacía = «solo sitio»; `--scenario-id` solo con un id.
@@ -56,6 +57,7 @@ import re
 import zipfile
 from pathlib import Path
 
+from ddd_core import territorio_ids
 from herramientas.preparar_visor_ejecucion import (
     certification_status,
     first,
@@ -298,6 +300,18 @@ def _already_registered_reused_m06(registry: dict, entry: dict) -> bool:
     return False
 
 
+def alias_de(territory_id: str) -> str | None:
+    """T-220: id viejo del mismo territorio para una entrada nueva (`nac01` → `congreso_alava`); None si no cambia.
+
+    El registro es de solo adición: las entradas viejas quedan intactas y las nuevas llevan `alias_de`.
+    """
+    try:
+        viejo = territorio_ids.id_legacy(territory_id)
+    except (territorio_ids.IdTerritorioDesconocido, territorio_ids.IdReservado):
+        return None
+    return viejo if viejo != str(territory_id) else None
+
+
 def rechazar_mapa_350(territory_id: str) -> None:
     if str(territory_id).startswith(PREFIJO_MAPA_350):
         raise ValueError(f"El mapa 350 no se publica (D-18/D-19): territorio {territory_id} rechazado en el registro")
@@ -452,6 +466,8 @@ def production_descriptors(
         }
         if scenario_id:
             descriptor.update(scenario_id=scenario_id, strategy=strategy, scenario_kind="alternative", canonical=False)
+        if alias_de(metadata["territory_id"]):
+            descriptor["alias_de"] = alias_de(metadata["territory_id"])
         if election_date:
             descriptor["election_date"] = election_date
             if election_id:
@@ -486,6 +502,7 @@ def ensemble_descriptor(ensemble_root: Path, release_tag: str) -> dict:
         "kind": "ensemble",
         "territory_id": territory_id,
         "territory_label": summary.get("territory_label") or territory_id,
+        **({"alias_de": alias_de(territory_id)} if alias_de(territory_id) else {}),
         "ensemble_id": ensemble_id,
         "candidate_count_expected": int(summary.get("candidate_count_expected", 0)),
         "candidate_count_valid": int(summary.get("candidate_count_valid", 0)),

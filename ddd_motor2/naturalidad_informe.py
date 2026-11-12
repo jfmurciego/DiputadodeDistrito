@@ -3,9 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — entregable del laboratorio de naturalidad: mapas A/D5/D8/C/B lado a lado y tablas
-VERSIÓN: 1.3.0
+VERSIÓN: 1.3.1
 NOMBRE DE VERSIÓN: Naturalidad · informe nacional
-FECHA: 2026-11-10
+FECHA: 2026-11-12
 ESTADO: experimento (motor 2; producción no lo importa; nada se publica)
 CAMBIOS: 1.3.0 (T-202): columna «valido» (el mapa cumple el núcleo); en TABLA.md, un mapa que no lo cumple (el
   vigente de Castilla y León, D-66) se marca «A (incumple el núcleo)». EMPEORA cuenta también la suma de desvíos
@@ -18,7 +18,8 @@ CAMBIOS: 1.3.0 (T-202): columna «valido» (el mapa cumple el núcleo); en TABLA
   superficie, población, municipio principal y si es un núcleo cerrado dentro de un solo municipio), para explicar los
   distritos urbanos minúsculos en superficie. 1.0.0: fichero nuevo.
 MOTIVO: T-172, paso 5: que el propietario decida con los mapas delante; el criterio no se fija en código.
-ANTERIOR: 1.2.0 (T-179, #662) — legacy/ddd_motor2/naturalidad_informe_v1.2.0_20261110.py
+CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/ddd_motor2/naturalidad_informe_v1.3.0_20261112.py
 USO: python -m ddd_motor2.naturalidad_informe --seccionado-dir <dir> --resultados <out del laboratorio> --salida <dir>
        [--png t1,t2,...]
 QUÉ HACE: por territorio, un PNG con los cinco ganadores (misma escala y mismos colores: cada distrito de B y C toma el

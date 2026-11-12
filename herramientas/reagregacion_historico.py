@@ -3,7 +3,7 @@
 """Reagregación del histórico de generales 2011-2023 a los distritos vigentes (T-83, paso B).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-08 · ESTADO: candidato
+VERSIÓN: 1.3.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.3.0 (T-113): `--elecciones CLAVE…` limita las elecciones procesadas (Gestor 2.0, histórico por elección);
   sin él, todas las del espejo. Las geometrías de los seccionados de todos los años se siguen cargando
   (completar_geometrias), así que el resultado de una elección es idéntico al de la pasada completa. 1.2.0 (T-110): `--lote DIR` procesa las provincias con M06 (zip del blob, sha256 de datos_abiertos/INDEX.json o de DIR/EXTRA.json) cargando
@@ -13,7 +13,8 @@ CAMBIOS: 1.3.0 (T-113): `--elecciones CLAVE…` limita las elecciones procesadas
   oficial parcial queda como referencia), que consume herramientas/historico_m07m08.py. 1.0.0: fichero nuevo.
 MOTIVO: decisiones D-9, D-10, D-12 y D-13 del propietario: los votos de cada general 2011-2023 se trasladan a los
   distritos vigentes (sin redibujar por elección) con la equivalencia de seccionados de T-85 (peso = población).
-ANTERIOR: legacy/herramientas/reagregacion_historico_v1.2.0_20261108.py
+CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/reagregacion_historico_v1.3.0_20261112.py
 QUÉ HACE: fuera de línea (no lanza ni publica). Por territorio (provincia) y elección: (1) asigna cada sección del
   seccionado INE 2025 al distrito M06 de mayor solape; (2) lleva los votos, censo y votantes de cada sección histórica
   del espejo T-89 a las secciones vigentes con `equivalencia_seccionados.equivalencia` y el peso de población (D-13);

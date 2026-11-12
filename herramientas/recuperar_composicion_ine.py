@@ -3,8 +3,9 @@
 """Recupera la composición sección→distrito de un M06 publicado por geometría (T-71).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/recuperar_composicion_ine_v1.0.0_20261112.py
 QUÉ HACE: cuando el CSV ``*_m06_composicion_distritos.csv`` del run ya caducó (T-67), reconstruye la asignación con la
   fuente de M01: un punto interior de cada sección del seccionado INE (colección Secciones_<año>, OGC) se asigna al
   polígono de distrito del M06 publicado (blob de git, sha256 del registro del visor) y la población por sección sale

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Prepara el registro verificable y los GeoJSON que consume el visor DDD.
 
-VERSIÓN: 1.6.0
+VERSIÓN: 1.6.1
 CAMBIOS 1.6.0 (T-27 fase a): productos registrados `scenario_m06`/`scenario_m08` (escenarios de otro algoritmo) se materializan en data/results/<territorio>/<scenario_id>/ y se ordenan tras los canónicos.
 ANTERIOR 1.5.2: legacy/herramientas/preparar_visor_ejecucion_v1.5.2_20261102.py
 CAMBIOS 1.5.2: nombres públicos «Nacional …» en el visor (T-05); territory_id no cambia.
 CAMBIOS 1.5.1: las provincias del Congreso (pilot_territories) no tienen CODAUTO; se ordenan por su
   pilot_code (C22) detrás de las 19 autonómicas. Run 41194447427 (Huesca): KeyError en _decorate_and_sort.
-ANTERIOR: legacy/herramientas/preparar_visor_ejecucion_v1.5.1_20261101.py
+CAMBIOS 1.6.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/preparar_visor_ejecucion_v1.6.0_20261112.py
 La identidad, K y estado de una ejecución proceden de su contrato y de
 ``production_status.json``; nunca se infiere PASS porque exista un ZIP.
 Las copias destinadas al visor se publican en WGS84 sin alterar los artefactos analíticos.

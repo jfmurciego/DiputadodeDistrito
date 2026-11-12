@@ -3,11 +3,12 @@
 """Hemiciclo nacional: suma de escaños por partido de tres maneras.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.3.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.3.0 (T-201): `cargar_m08(cache, m08_dir, eleccion)` elige el M08 por (territorio, elección), por defecto 2023-07-23; interfaz
   pública intacta (parámetro opcional al final).
 CAMBIOS: (b) se rellena con el oficial de 2019-11 (BOE-A-2019-18147, T-55) y una tabla explícita de homologación de siglas; lee los ganadores de datos/resultados/*.csv (T-53) cuando el manifiesto acredita el blob vigente; blobs como respaldo.
-ANTERIOR: legacy/herramientas/generar_hemiciclo_v1.2.0_20261110.py
+CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_hemiciclo_v1.3.0_20261112.py
 QUÉ HACE: lee los M08 registrados (distritos_resultados.csv) de las provincias nacionales completas y suma:
   (a) reparto real 2023 (D'Hondt, umbral 3 %), calculado desde los votos y contrastado escaño a escaño con el oficial;
   (b) elección anterior (generales 2019-11): escaños oficiales del BOE (configuracion/resultados_oficiales_congreso_2019_11.csv),

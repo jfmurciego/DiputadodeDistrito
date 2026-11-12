@@ -2,8 +2,9 @@
 """Genera configuracion/ensemble/<territorio>.json de las provincias del Congreso que el ensemble admite.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/generar_config_ensemble_v1.2.0_20261109.py
+VERSIÓN: 1.3.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_config_ensemble_v1.3.0_20261112.py
 CAMBIOS 1.3.0 (T-128): molde autonómico. Ceuta, Melilla, Madrid, La Rioja y Asturias (comunidades de una provincia, sin puentes ni
   exenciones) entran con los límites de su contrato de producción (0,80/1,75/0,12; Melilla, su excepción gobernada), copiados sin cambio;
   el resto de comunidades sigue fuera (puentes, exención por partición o varias provincias). Orden del Planificador, 09-11.

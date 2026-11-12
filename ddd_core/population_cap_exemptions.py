@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 Componente: exenciones de techo poblacional por partición atómica de un solo distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 FECHA: 2026-11-12
 FUNCIÓN: leer y validar validation.population_cap_exempt_partitions y decidir el techo efectivo de un
 distrito. Es la única regla común que leen M04, M05, M06, el validador de ejecución y motor2.
@@ -13,7 +13,8 @@ entera: no hay partición alternativa. Se exime solo ese distrito; el techo gene
 REGLAS: la exención solo vale para una partición con K=1 en validation.province_districts y con su decisión
 gobernada en validation.population_cap_exempt_partition_decisions (decided_at, decided_by=propietario, decision,
 reason, evidence). Cualquier otro uso es un error del contrato. Sin la clave, nada cambia.
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/ddd_core/population_cap_exemptions_v1.0.0_20261112.py
 """
 from __future__ import annotations
 

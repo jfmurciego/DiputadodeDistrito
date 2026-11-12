@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Estado operativo del proyecto (README y JSON compartido).
 
-VERSIÓN: 2.3.6 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 2.3.7 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 2.3.6: T-125, `latest_validated` ignora los territorios `congreso350_*` (mapa 350, D-18/D-19: nunca se publican); la 05 sin
   run explícito ya no promueve el último run de un gemelo 350 (`elegir_latest`).
   2.3.5: T-11, un fallo solo en la 05 (o en pasos posteriores sin fase) no cuenta como «parada» si la
@@ -15,7 +15,8 @@ CAMBIOS: 2.3.6: T-125, `latest_validated` ignora los territorios `congreso350_*`
   cada territorio informa de su última ejecución completa (run, fase donde se paró, motivo) y de la 05.
 MOTIVO: el README marcaba completo a Aragón con un M08 de otro linaje, dejaba en amarillo territorios
   con la 04 hecha y no decía dónde ni por qué se paró cada territorio.
-ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.5_20261109.py
+CAMBIOS 2.3.7 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.6_20261112.py
 """
 from __future__ import annotations
 

@@ -3,10 +3,11 @@
 """Calendario de elecciones autonómicas por comunidad (T-121, paso 1).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: orden del propietario (09-11): histórico autonómico desde 2011; cada comunidad tiene legislaturas de duración propia.
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/calendario_autonomicas_v1.0.0_20261112.py
 QUÉ HACE: lee dos instantáneas con sha256 del Observatorio Electoral de las Naciones (fuentes/observatorio_autonomicas/):
   index.json (calendario por comunidad, código INE 01-17, mes AAAAMM) e iturriak.html (proveedor, URL, granularidad,
   completitud y verificación oficial de cada elección). Escribe configuracion/calendario_autonomicas.csv.

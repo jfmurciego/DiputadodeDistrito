@@ -3,14 +3,15 @@
 """Histórico de generales en el Gestor 2.0: plan y ejecución del paso A por provincia y elección (T-113).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.1.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.1.0 (T-123): soporta las cinco generales 2011-2023 (2011, 2015, 2016, 2019-04 y 2019-11) con el mismo paso A y
   la misma puerta; `plan` añade `prueba` (primer territorio, lote de prueba antes del resto).
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: D-10, D-12 y D-22 del propietario: la opción «histórico» del «0 Gestor de Campañas» ejecuta el paso A de T-83
   (reagregacion_historico.py --paquete + historico_m07m08.py) en las 52 provincias, una elección por campaña,
   empezando por 2019-11. Motor repetible: cada ejecución regenera desde fuentes con huella, nada se reutiliza.
-ANTERIOR: legacy/herramientas/historico_campana_v1.0.0_20261109.py
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/historico_campana_v1.1.0_20261112.py
 QUÉ HACE: `plan(ids, eleccion)` comprueba por territorio lo que el paso A necesita (elección soportada, M06 publicado en
   datos_abiertos/INDEX.json, composición en datos/composicion/, fichero del espejo T-89 en su manifiesto) y devuelve la
   matriz; lo pedido y no soportado falla con NoDisponible; con «todos» se omite y se informa.

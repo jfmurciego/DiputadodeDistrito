@@ -3,7 +3,7 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.5
+VERSIÓN: 1.2.6
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-12
 ESTADO: candidato
@@ -49,7 +49,8 @@ CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de 
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
-ANTERIOR: legacy/herramientas/bateria_motor_v1.2.4_20261111.py
+CAMBIOS 1.2.6 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/bateria_motor_v1.2.5_20261112.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como

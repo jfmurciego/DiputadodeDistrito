@@ -3,8 +3,9 @@
 """Datos abiertos y fichas por distrito de las provincias nacionales completas (T-60).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-11 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/generar_datos_abiertos_v1.2.0_20261111.py
+VERSIÓN: 1.3.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_datos_abiertos_v1.3.0_20261112.py
 CAMBIOS 1.3.0 (T-249): el paquete usa el par de cada territorio: el M08 vigente y el M06 de su linaje (mismo run o el
   que acredita el manifiesto del run del M08, `linaje_m06_m08`; `pares_vigentes`), no el M06 más reciente. MOTIVO: el lote P50 43030563528 registró solo M06 nuevos de 34 territorios;
   su M06 vigente quedó sin M08 del mismo run, se omitieron en silencio y el paquete borró sus directorios (51 → 17).

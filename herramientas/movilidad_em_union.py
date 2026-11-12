@@ -3,8 +3,9 @@
 """Movilidad INE (EM-1, telefonía móvil): conversión a CSV, unión flujos↔áreas y estadísticas por provincia (T-139, paso 1).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-10 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/movilidad_em_union_v1.1.0.py (1.1.0: indicador; 1.0.0: convertir, verificar, candidatas)
+VERSIÓN: 1.2.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.2.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/movilidad_em_union_v1.2.0_20261112.py
 QUÉ HACE: (1) `convertir`: xlsx del INE -> CSV en `datos/movilidad/` + MANIFEST con sha256 de origen y de salida;
   (2) `verificar`: unión código de flujo (`001A`) -> `ID_GRUPO` (`01VI`) por nombre normalizado, exige biyección;
   (3) `candidatas`: por provincia, población en áreas que el plan vigente parte entre distritos;

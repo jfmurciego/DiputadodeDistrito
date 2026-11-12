@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """Nombres de distrito (C12) y comarcas partidas (C13) de los distritos nacionales.
 
-VERSIÓN: 1.1.1
+VERSIÓN: 1.1.2
 NOMBRE DE VERSIÓN: Nombres, comarcas y partidos judiciales
-FECHA: 2026-11-10
+FECHA: 2026-11-12
 ESTADO: activo T-64
 CAMBIOS 1.1.1 (T-201): `descargar` toma el M06 de la elección por defecto (2023-07-23), no el run_id mayor entre elecciones.
 CAMBIOS: C13 usa también los partidos judiciales (configuracion/partidos_judiciales.csv, Ley 38/1988) en toda España; los nombres de distrito no cambian.
 MOTIVO: un nombre legible y estable por distrito nacional y la medida de comarcas partidas.
-ANTERIOR: legacy/herramientas/generar_nombres_comunidades_nacional_v1.1.0_20261110.py
+CAMBIOS 1.1.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_nombres_comunidades_nacional_v1.1.1_20261112.py
 
 Reglas de nombre (toponimia solo en español, tabla datos/distritos/toponimos_es.csv):
   1. distrito de un único municipio: «<municipio>»; si ese municipio está repartido entre k>1 distritos

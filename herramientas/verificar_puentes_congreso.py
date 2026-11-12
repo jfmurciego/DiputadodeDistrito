@@ -2,7 +2,7 @@
 """Huella de puentes topológicos antes de M02 (T-09).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-01 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
 QUÉ HACE: comprueba los `topology_bridges` de M02 de cada contrato contra el inventario de secciones que
   consumirá M02 y clasifica cada puente:
     VALIDO · CAMPOS_INCOMPLETOS · EXTREMOS_IGUALES · MUNICIPIO_INEXISTENTE · CODIGO_SECCION_CAMBIADO
@@ -12,7 +12,8 @@ QUÉ HACE: comprueba los `topology_bridges` de M02 de cada contrato contra el in
   (`--sections-geojson`, el que lee M02).
 NO HACE: medir colindancia ni si el puente reduce componentes; eso exige las aristas de M02 y lo valida
   `ddd_core.topology_preflight.validate_topology_bridges` dentro del módulo.
-ANTERIOR: —
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/verificar_puentes_congreso_v1.0.0_20261112.py
 """
 from __future__ import annotations
 

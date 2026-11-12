@@ -3,11 +3,12 @@
 """Reagregación del histórico AUTONÓMICO a los distritos autonómicos vigentes (T-121, paso 3).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.1.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.1.0 (T-131): excluye el voto CERA que La Rioja trae como pseudo-sección; secciones sin censo (Canarias 2011) cuentan 0 y se declaran. 1.0.0: fichero nuevo.
 MOTIVO: orden del propietario (09-11): reproducir para las comunidades el paso B de las generales (T-83): votos de cada
   autonómica → distritos vigentes con la equivalencia de seccionados de T-85 y peso por población (D-13).
-ANTERIOR: legacy/herramientas/reagregacion_autonomicas_v1.0.0_20261109.py
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/reagregacion_autonomicas_v1.1.0_20261112.py
 QUÉ HACE: fuera de línea (no lanza ni publica). Por comunidad y elección en alcance de configuracion/calendario_autonomicas.csv:
   (1) descarga del Observatorio data/autonomikoak/sekzioa/<cca>-<AAAAMM>/<provincia>.json y data/autonomikoak/hauteskundea/
   <cca>-<AAAAMM>.json (sha256 en el MANIFEST; la fuente no publica huellas previas); (2) lleva las secciones históricas

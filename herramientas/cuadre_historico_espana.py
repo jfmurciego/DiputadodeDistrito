@@ -3,10 +3,11 @@
 """Cuadre del histórico reagregado de España (T-110) con Infoelectoral y con el espejo del Observatorio.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: T-110 (orden del propietario): cuadrar la salida de `reagregacion_historico.py --lote` en las 52 provincias.
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/cuadre_historico_espana_v1.0.0_20261112.py
 QUÉ HACE: fuera de línea. Por provincia (52) y elección: (1) total de candidaturas del espejo T-89 (Observatorio)
   frente al de Infoelectoral (2023-07, ZIP nacional por mesa, ficheros 08 por provincia y 10 por mesa sin CERA) y frente
   a los CSV oficiales versionados (BOE, 2019-11 y 2023); (2) lo reagregado a distritos (MANIFEST.json) frente al espejo;

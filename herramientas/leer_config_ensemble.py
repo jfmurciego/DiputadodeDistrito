@@ -2,8 +2,9 @@
 """Resuelve la configuración de ensemble de un territorio para el workflow «06 Escenarios y Ensembles».
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/leer_config_ensemble_v1.0.0_20261109.py
+VERSIÓN: 1.1.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/leer_config_ensemble_v1.1.0_20261112.py
 CAMBIOS 1.1.0 (T-128): admite la fase ensemble_25 (25 candidatas) además de ensemble_10; el Gestor la sigue rechazando hasta que haya una corrida válida.
 QUÉ HACE: lee configuracion/ensemble/<territorio>.json y emite líneas clave=valor para GITHUB_OUTPUT.
   Aragón conserva su circuito propio (kind=aut02). Cualquier otro territorio es kind=territorial: su bloque

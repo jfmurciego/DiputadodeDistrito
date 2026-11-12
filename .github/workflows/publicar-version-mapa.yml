@@ -1,12 +1,13 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.1
+# VERSIÓN: 1.1.2
 # CAMBIOS 1.1.1: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P60 Publicación académica» (antes Publicar versión de mapa).
-# FECHA: 2026-11-10
+# FECHA: 2026-11-12
 # ESTADO: candidato
 # CAMBIOS 1.1.0: T-87, también workflow_call desde «05 Cadena de Publicación»: recibe el mismo production_run_id
 #   y el mismo source_sha que la 05; hace checkout de ese sha, lo firma en LINAJE.json y crea la Release sobre él.
 # MOTIVO: un solo lanzamiento del Operador publica visor y versión del mapa del mismo run y commit (D-14).
-# ANTERIOR: legacy/workflows/publicar-version-mapa_v1.1.0_20261110.yml
+# CAMBIOS 1.1.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/workflows/publicar-version-mapa_v1.1.1_20261112.yml
 # Publica un mapa como versión inmutable: manifiesto SHA-256, atestación SLSA
 # firmada con Sigstore y GitHub Release. La integración Zenodo–GitHub archiva
 # automáticamente cada Release publicada y le asigna DOI.

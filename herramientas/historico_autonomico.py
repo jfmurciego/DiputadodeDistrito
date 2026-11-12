@@ -3,7 +3,7 @@
 """Histórico AUTONÓMICO en el Gestor 2.0: plan y paso A (M07/M08) por comunidad y elección, con puerta (T-133).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.0.2 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.0.1 (T-134): el plan (`elecciones`, `requisitos`, `plan`) solo usa la biblioteca estándar: el job «Legislatura
   vigente» del Gestor solo instala PyYAML y fallaba con `No module named 'shapely'` (run 42705439861) al importar este
   módulo. `reagregacion_autonomicas` (shapely, geopandas) se importa de forma perezosa solo en `ejecutar`.
@@ -11,7 +11,8 @@ CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: orden del propietario (09-11): el Gestor lanza TODO el histórico, también las autonómicas desde 2011, cada
   comunidad con sus propias fechas (configuracion/calendario_autonomicas.csv, sin calendario común). Reproduce para
   las comunidades el paso A de las generales (historico_campana.py + historico_m07m08.py).
-ANTERIOR: legacy/herramientas/historico_autonomico_v1.0.0_20261109.py (1.0.0 reutiliza funciones de reagregacion_autonomicas.py, reagregacion_historico.py y
+CAMBIOS 1.0.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/historico_autonomico_v1.0.1_20261112.py
   historico_m07m08.py sin modificarlas)
 QUÉ HACE: `plan(comunidades, explicito)` devuelve, por comunidad, las elecciones del calendario (en alcance, no vigentes,
   con dato por sección en el Observatorio) y lo que falta (M06 publicado en orchestracion/publicaciones_visor.json con
