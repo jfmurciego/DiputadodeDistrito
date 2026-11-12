@@ -23,6 +23,11 @@ from ddd_core.electoral_contract import (
 from herramientas.preparar_fuente_electoral import (
     _validate_raw_sources_against_structural,
 )
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 
 def sha256(path: Path) -> str:
@@ -378,7 +383,7 @@ def _materialize_embedded_contract(
     contract = json.loads(contract_src.read_text(encoding="utf-8"))
     if contract.get("schema_family") != "ddd-election" or contract.get("schema_version") != "1.0.0":
         raise ValueError("contrato electoral embebido con schema inválido")
-    if str(contract.get("territory_id") or "") != territory_id:
+    if not mismo_territorio(str(contract.get("territory_id") or ""), str(territory_id)):
         raise ValueError("contrato electoral embebido pertenece a otro territorio")
     if str(contract.get("election_id") or "") != str(manifest.get("election_id") or ""):
         raise ValueError("election_id del contrato electoral embebido no coincide con el paquete")
@@ -483,7 +488,7 @@ def validate_package(
 
     cfg = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
     meta = cfg.get("meta") or {}
-    if str(meta.get("territory_id") or "") != territory_id or str(meta.get("year") or "") != str(edition):
+    if not mismo_territorio(str(meta.get("territory_id") or ""), str(territory_id)) or str(meta.get("year") or "") != str(edition):
         raise ValueError("contrato territorial no corresponde al paquete electoral")
     m07 = (cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
     contract_raw = m07.get("election_contract")
@@ -493,7 +498,7 @@ def validate_package(
         contract = json.loads(contract_path.read_text(encoding="utf-8"))
         if contract.get("schema_family") != "ddd-election" or contract.get("schema_version") != "1.0.0":
             raise ValueError("contrato electoral estático con schema inválido")
-        if str(contract.get("territory_id") or "") != territory_id:
+        if not mismo_territorio(str(contract.get("territory_id") or ""), str(territory_id)):
             raise ValueError("contrato electoral estático pertenece a otro territorio")
         election_identity_mode = _static_election_identity_mode(contract, manifest)
         matches = [s for s in (contract.get("sources") or []) if str(s.get("sha256") or "").lower() == actual]

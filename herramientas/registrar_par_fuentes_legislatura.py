@@ -87,7 +87,7 @@ def _historical_product_reuse(root: Path, *, plan: dict, current_identity: str) 
     import yaml
     catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}
     row = next(
-        (r for r in catalog.get("territories") or [] if r.get("territory_id") == plan["territory_id"]),
+        (r for r in catalog.get("territories") or [] if mismo_territorio(str(r.get("territory_id") or ""), str(plan["territory_id"]))),
         None,
     )
     state = ((row or {}).get("editions") or {}).get(str(plan["project_edition"])) or {}
@@ -109,7 +109,7 @@ def _historical_product_reuse(root: Path, *, plan: dict, current_identity: str) 
     lineage = _json(root / lineage_rel)
     if (
         lineage.get("schema") != "ddd.territorial-product-source-lineage/1.0"
-        or str(lineage.get("territory_id") or "") != str(plan["territory_id"])
+        or not mismo_territorio(str(lineage.get("territory_id") or ""), str(str(plan["territory_id"])))
     ):
         return {
             "available": True,
@@ -386,7 +386,7 @@ def validate_pair_receipt(
             raise PreparedSourcePairBlock(f"PAIR_BLOCK: falta receipt durable de {label}")
         side_path = root / rel
         receipt = _json(side_path)
-        if str(receipt.get("territory_id") or "") != territory_id:
+        if not mismo_territorio(str(receipt.get("territory_id") or ""), str(territory_id)):
             raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice territory_id")
         if str(receipt.get("edition") or "") != edition:
             raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice edition")

@@ -31,6 +31,16 @@ EXENTOS = (
     "configuracion/notacion_territorial.csv", "configuracion/equivalencias_territorios.csv",
     "ddd_core/territorio_ids.py", "tests/test_t220_renombrado.py", "tests/test_resolver_territorio.py",
     "tests/test_notacion_territorial.py", "tests/test_motor2_semilla.py", "tests/generar_equivalencias_5_0_0.py",
+    # Regresiones sobre la raíz congelada de aee8215e o sobre evidencias históricas: sus ids son los de entonces.
+    "tests/test_f10_asturias_galicia_receipt_candidates.py", "tests/test_f10_preparacion_aislada.py",
+    "tests/test_f10_receipt_contract.py", "tests/test_source_preparation_generation_decoupling.py",
+    "tests/test_electoral_gap_filler_real_evidence.py", "tests/_raiz_congelada.py",
+    "tests/test_f10_2025_independent_territorial_receipts.py",
+    "tests/test_f10_valencia_2023_universe.py",
+    "tests/test_f10_electoral_three_territories.py",
+    "tests/test_f10_derived_doors.py",
+    "tests/test_f10_valencia_2023_durable_receipt.py",
+    "tests/test_f10_interannual_correspondence.py",
 )
 # Ficheros donde la palabra es otra cosa (slug de provincia, clave de un informe de población, zona del mapa).
 NO_ES_ID = {

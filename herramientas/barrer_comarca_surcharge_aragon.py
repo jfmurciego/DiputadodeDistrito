@@ -27,6 +27,11 @@ from ddd_core.m05_gerrychain_strategy import (
     run_portfolio,
     strategy_config_from_yaml,
 )
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 SCHEMA = "ddd.gerrychain-comarca-sweep/1.2"
 
@@ -163,7 +168,7 @@ def rows_from_portfolio(problem, contract, surcharge: float, portfolio: dict) ->
 
 def execute(config_path: Path, graph: Path, initial: Path, comarca_csv: Path, output_dir: Path) -> dict:
     spec = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
-    if spec.get("territory_id") != "aut02":
+    if not mismo_territorio(str(spec.get("territory_id") or ""), str("aut02")):
         raise ValueError("El barrido está limitado a Aragón")
     if spec.get("promotion") != "forbidden":
         raise ValueError("El experimento debe prohibir promoción")

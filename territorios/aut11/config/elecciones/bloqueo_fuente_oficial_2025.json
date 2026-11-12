@@ -1,7 +1,7 @@
 {
   "schema_family": "ddd-election-source-readiness",
   "schema_version": "1.0.0",
-  "territory_id": "aut11",
+  "territory_id": "extremadura",
   "election_id": "extremadura_asamblea_2025-12-21",
   "election_date": "2025-12-21",
   "status": "BLOCKED_FINAL_GRANULAR_SOURCE",

@@ -13,6 +13,11 @@ from datetime import date
 from pathlib import Path
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 try:
     from herramientas.catalogo_territorios import normalize_territory_input
@@ -86,7 +91,7 @@ def resolve(territory:str,path:Path=DEFAULT,root_dir:Path=Path("."),edition:str|
         if any(row.get(k) in (None,"") for k in ("territory_id","name","territorial_edition","election_id","election_date","declaration")) or not declaration.is_file():
             raise SystemExit("Elección vigente incompleta")
         declared=_load_yaml(declaration)
-        if declared.get("territory_id")!=row["territory_id"]:
+        if not mismo_territorio(str(declared.get("territory_id") or ""), str(row["territory_id"])):
             raise SystemExit("territory_id de declaración vigente no coincide")
         if declared.get("election_id")!=row["election_id"]:
             raise SystemExit("election_id de declaración vigente no coincide")

@@ -2,7 +2,7 @@
 # TERRITORIO: Cataluña
 # COMPONENTE: fuente electoral 12-M 2024 con mirror auditable y reconciliación exacta
 schema: ddd-election-official-source-declaration/1.0
-territory_id: aut09
+territory_id: cataluna
 title: Elecciones al Parlament de Catalunya 2024
 election_id: cataluna_parlament_2024
 election_date: '2024-05-12'

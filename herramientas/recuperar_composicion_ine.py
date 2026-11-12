@@ -33,6 +33,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import composicion_m06 as cm  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 URL_SECCIONES = ("https://www.ine.es/geoserver/ogc/features/v1/collections/"
                  "WMS_INE_SECCIONES_G01%3ASecciones_{anio}/items")
@@ -50,7 +55,7 @@ def provincia_de(territorio: str) -> str:
         return PROVINCIAS_EXTRA[territorio]
     import yaml
     for r in yaml.safe_load(CONTRATOS.read_text(encoding="utf-8"))["contracts"].values():
-        if r["territory_id"] == territorio:
+        if mismo_territorio(str(r["territory_id"] or ""), str(territorio)):
             return str(r["province"]).zfill(2)
     raise KeyError(f"sin provincia para {territorio}")
 

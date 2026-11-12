@@ -14,6 +14,11 @@ import argparse, hashlib, json
 from pathlib import Path
 from typing import Any
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 try:
     from herramientas.catalogo_territorios import load_master, load_pilot_territories, visible_name
 except ModuleNotFoundError:
@@ -81,7 +86,7 @@ def validate_campaign_child(*,manifest:dict[str,Any],plan:dict[str,Any],root:Pat
         if manifest.get(key)!=value:
             raise ValueError(f"CAMPAIGN_MANIFEST_MISMATCH: {key}")
     matches=[r for r in manifest["territories"]
-             if r["territory_id"]==plan.get("territory_id") and r["slot"]==slot]
+             if mismo_territorio(str(r["territory_id"] or ""), str(plan.get("territory_id"))) and r["slot"]==slot]
     if len(matches)!=1:
         raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: territory/slot")
     row=matches[0]
@@ -413,7 +418,7 @@ def aggregate(manifest:dict[str,Any],reports:list[dict[str,Any]])->dict[str,Any]
     by_id={str(r.get("territory_id")):r for r in reports if r.get("territory_id")}
     selected={r["territory_id"] for r in manifest["territories"]}
     unexpected=sorted(set(by_id)-selected)
-    duplicates=sorted(tid for tid in by_id if sum(r.get("territory_id")==tid for r in reports)>1)
+    duplicates=sorted(tid for tid in by_id if sum(mismo_territorio(str(r.get("territory_id") or ""), str(tid)) for r in reports)>1)
     rows=[]; failed=list(dict.fromkeys(unexpected+duplicates))
     integrity_errors=[*(f"UNEXPECTED_TERRITORY:{t}" for t in unexpected),
                       *(f"DUPLICATE_REPORT:{t}" for t in duplicates)]

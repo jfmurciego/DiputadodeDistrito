@@ -35,8 +35,8 @@ from ddd_core.m05_gerrychain_strategy import (
 )
 
 GALICIA = Path(os.environ.get("DDD_GALICIA_M06_DIR", "/mnt/data/galicia_m06/cache"))
-GRAPH = GALICIA / "galicia_2025_m03_grafo.json"
-M04 = GALICIA / "galicia_2025_m04_semillas.geojson.zip"
+GRAPH = GALICIA / "aut12_2025_m03_grafo.json"
+M04 = GALICIA / "aut12_2025_m04_semillas.geojson.zip"
 ENGINE = ROOT / "ddd_core/m05_gerrychain_strategy.py"
 
 

@@ -11,6 +11,7 @@ from __future__ import annotations
 import re
 from decimal import Decimal
 from typing import Any, Mapping
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 VERSION = "1.2.1"
 CONGRESS_CODES = tuple(f"{number:02d}" for number in range(1, 53))
@@ -285,7 +286,7 @@ def validate_congress_identity(payload: Mapping[str, Any]) -> dict[str, Any]:
         errors.append("AUTONOMOUS_INPUT_FORBIDDEN:" + ",".join(contaminated))
     if payload.get("execution_identity") != "congreso":
         errors.append("EXECUTION_IDENTITY_MUST_BE_CONGRESO")
-    if payload.get("territory_id") != "espana_congreso":
+    if not mismo_territorio(str(payload.get("territory_id") or ""), str("espana_congreso")):
         errors.append("TERRITORY_ID_MUST_BE_ESPANA_CONGRESO")
     if payload.get("scope") != "congreso":
         errors.append("SCOPE_MUST_BE_CONGRESO")

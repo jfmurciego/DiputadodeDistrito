@@ -3,7 +3,7 @@
   "schema_family": "ddd-election",
   "schema_version": "1.0.0",
   "election_id": "castilla_y_leon_cortes_2026-03-15",
-  "territory_id": "aut07",
+  "territory_id": "castilla_y_leon",
   "title": "Elecciones a las Cortes de Castilla y León 2026",
   "election_date": "2026-03-15",
   "input_mode": "verifiable_file",
@@ -25,7 +25,7 @@
     }
   ],
   "party_dictionary": {
-    "path": "territorios/aut07/config/elecciones/diccionario_partidos_cyl_2026.json",
+    "path": "territorios/castilla_y_leon/config/elecciones/diccionario_partidos_cyl_2026.json",
     "sha256": "c7198a0bf8d45722c8110f81ef731cd4be857caa56eb767686c9dbaf5d1db675"
   },
   "reconciliation": {

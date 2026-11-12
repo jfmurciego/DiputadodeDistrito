@@ -17,6 +17,11 @@ from ddd_core.territory_contract import validate_production_contract
 from herramientas.materializar_contrato_generacion import materialize as materialize_generation_contract
 from herramientas.catalogo_preparacion import validate_repository
 from herramientas.persistir_estado_operativo_compartido import persist_rederived_tree
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
@@ -285,7 +290,7 @@ def _assert_territorial_product_guard(
     if guard is None:
         return
     catalog = _yaml(catalog_path)
-    row = next(r for r in catalog.get("territories") or [] if r.get("territory_id") == territory_id)
+    row = next(r for r in catalog.get("territories") or [] if mismo_territorio(str(r.get("territory_id") or ""), str(territory_id)))
     state = (row.get("editions") or {}).get(str(edition)) or {}
     if not state.get("territorial_product_available"):
         raise ValueError("La promoción de fuente eliminó la disponibilidad del producto territorial histórico")
@@ -335,7 +340,7 @@ def promote(
     catalog = root / CATALOG
 
     catalog_data = _yaml(catalog)
-    row = next((r for r in catalog_data.get("territories") or [] if r.get("territory_id") == territory_id), None)
+    row = next((r for r in catalog_data.get("territories") or [] if mismo_territorio(str(r.get("territory_id") or ""), str(territory_id))), None)
     if row is None:
         raise ValueError(f"Territorio no registrado: {territory_id}")
     state = (row.get("editions") or {}).get(str(edition))

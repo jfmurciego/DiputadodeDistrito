@@ -25,7 +25,7 @@ from tests._raiz_congelada import frozen_root  # noqa: E402
 # completas posteriores, que reescriben catálogo y productos en main.
 ROOT = frozen_root()
 PATH = ROOT / 'legacy/workflows/retirados_20261031/f10-preparacion-territorial-aislada.yml'
-TERRITORIES = {'aut01', 'aut02', 'aut07', 'aut10', 'aut11'}
+TERRITORIES = {'andalucia', 'aragon', 'castilla_y_leon', 'comunidad_valenciana', 'extremadura'}
 CHOICES = ['01 Andalucía', '02 Aragón', '07 Castilla y León', '10 Comunidad Valenciana', '11 Extremadura']
 
 
@@ -74,7 +74,7 @@ class F10PreparacionAisladaTests(unittest.TestCase):
                     population_year=population, section_year=section))
 
     def test_matrix_unknown_or_injected_territory_blocks_before_production(self):
-        for territory in ('Todos', 'aut13', '', 'andalucia; exit 0', '$(echo andalucia)'):
+        for territory in ('Todos', 'madrid', '', 'andalucia; exit 0', '$(echo andalucia)'):
             with self.subTest(territory=territory):
                 self.assertEqual(40, self.run_guard(territory, 'a' * 40))
 
@@ -132,14 +132,14 @@ class F10PreparacionAisladaTests(unittest.TestCase):
         # Valencia 2023 es una evidencia independiente no promovida; no sustituye
         # la preparación histórica ni el estado de producto/generación.
         valenciana, valenciana_receipt = validate_territorial_receipt(
-            root_dir=ROOT, territory='aut10', edition='2025')
+            root_dir=ROOT, territory='comunidad_valenciana', edition='2025')
         self.assertEqual((2023, 2023), (valenciana_receipt['population_year'], valenciana_receipt['section_year']))
         self.assertEqual(39315133646, valenciana_receipt['run_id'])
         self.assertEqual(36273981926, valenciana['preparation_evidence']['run_id'])
         self.assertFalse(valenciana['independent_source_evidence']['promoted'])
         self.assertFalse(valenciana['territorial_product_available'])
         self.assertIsNone(valenciana['last_valid_checkpoint'])
-        for territory in ('aut01', 'aut02', 'aut07'):
+        for territory in ('andalucia', 'aragon', 'castilla_y_leon'):
             with self.subTest(territory=territory):
                 state, receipt = validate_territorial_receipt(
                     root_dir=ROOT, territory=territory, edition='2025')
@@ -148,17 +148,17 @@ class F10PreparacionAisladaTests(unittest.TestCase):
                 self.assertNotEqual(state['preparation_evidence']['run_id'], receipt['run_id'])
 
         _, independent_receipt = validate_territorial_receipt(
-            root_dir=ROOT, territory='aut11', edition='2025')
+            root_dir=ROOT, territory='extremadura', edition='2025')
         self.assertEqual(38091144559, independent_receipt['run_id'])
         extremadura = next(item for item in
                            yaml.safe_load((ROOT / 'configuracion/catalogo_preparacion.yaml').read_text())['territories']
-                           if item['territory_id'] == 'aut11')['editions']['2025']
+                           if item['territory_id'] == 'extremadura')['editions']['2025']
         self.assertEqual(40656175842, extremadura['preparation_evidence']['run_id'])
         self.assertEqual(40656175842, extremadura['last_valid_checkpoint']['run_id'])
         self.assertFalse(extremadura['independent_source_evidence']['promoted'])
 
         receipt_rel = (
-            'territorios/aut11/evidencia/fuentes_territoriales/2025/'
+            'territorios/extremadura/evidencia/fuentes_territoriales/2025/'
             '70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/'
             '38091144559/receipt.json'
         )
@@ -167,7 +167,7 @@ class F10PreparacionAisladaTests(unittest.TestCase):
             (ROOT / 'docs/AUDITORIAS/CIERRE_REAL_FUENTES_20261011/registro-autenticos.json')
             .read_text(encoding='utf-8')
         )
-        row = next(item for item in registry['rows'] if item['territory_id'] == 'aut11')
+        row = next(item for item in registry['rows'] if item['territory_id'] == 'extremadura')
         self.assertEqual(receipt_rel, row['receipt_path'])
         self.assertFalse(row['promoted'])
         self.assertEqual(38091144559, receipt['run_id'])

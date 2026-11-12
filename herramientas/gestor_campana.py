@@ -16,6 +16,11 @@ except ModuleNotFoundError:  # ejecución directa como script
 from typing import Any
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 CONFIRMATION = "EXECUTE_CAMPAIGN_CONFIRMED"
 ENTRYPOINT = "gerrychain_50"
@@ -257,7 +262,7 @@ def _catalog_entry(root: Path, territory_id: str, edition: str) -> dict[str, Any
         (root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
     ) or {}
     for territory in catalog.get("territories", []):
-        if territory.get("territory_id") == territory_id:
+        if mismo_territorio(str(territory.get("territory_id") or ""), str(territory_id)):
             edition_data = (territory.get("editions") or {}).get(str(edition))
             if not isinstance(edition_data, dict):
                 break
@@ -347,7 +352,7 @@ def validate_materialized_reuse(
 ) -> dict[str, Any]:
     expected = validate_repository_binding(manifest_path, slot=slot, root_dir=root_dir)
     source = _find_source_manifest(source_dir)
-    if source.get("territory_id") != expected["territory_id"]:
+    if not mismo_territorio(str(source.get("territory_id") or ""), str(expected["territory_id"])):
         raise ValueError("El artefacto reutilizado pertenece a otro territorio")
     if str(source.get("edition")) != expected["edition"]:
         raise ValueError("El artefacto reutilizado pertenece a otra edición")

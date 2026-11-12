@@ -21,6 +21,20 @@ import sys
 from typing import Any
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core import territorio_ids as _ti  # noqa: E402
+
+
+def _id(x) -> str:
+    """Id nuevo si está en la tabla maestra; si no, tal cual (T-220: evidencias con el id viejo)."""
+    try:
+        return _ti.resolver_id(str(x))
+    except (_ti.IdTerritorioDesconocido, _ti.IdReservado):
+        return str(x)
 
 
 def sha256(path: Path) -> str:
@@ -109,7 +123,7 @@ def check_territorial_evidence(receipt: dict[str, Any], *, territory_id: str,
                                receipt_path: str, receipt_sha256: str,
                                dossier_row: dict[str, Any]) -> None:
     """Reject receipt/hash/identity/temporal contradictions with the tracking record."""
-    if receipt.get("territory_id") != territory_id or str(receipt.get("edition")) != "2025":
+    if not mismo_territorio(str(receipt.get("territory_id") or ""), str(territory_id)) or str(receipt.get("edition")) != "2025":
         raise ValueError("receipt territorial con identidad/edición errónea")
     if type(receipt.get("population_year")) is not int or type(receipt.get("section_year")) is not int:
         raise ValueError("receipt territorial sin años poblacionales/seccionales íntegros")
@@ -186,13 +200,13 @@ def work_items_for(rows: list[dict[str, Any]], activity_authorizations: dict[str
          "required_actions": ["investigation"], "task_spec_registered": False}
         for item_id, territory_id, action, required_state in DEFAULT_ACTIVITIES
     ]
-    by_id = {row["territory_id"]: row for row in rows}
+    by_id = {_id(row["territory_id"]): row for row in rows}
     work_items = []
     for activity in definitions:
         territory_id = str(activity["territory_id"])
         requirements = activity.get("requires") or []
         door_states = {str(req["door"]): str(req["state"]) for req in requirements}
-        actual_states = {"territorial_acquisition": by_id[territory_id]["territorial_acquisition"]}
+        actual_states = {"territorial_acquisition": by_id[_id(territory_id)]["territorial_acquisition"]}
         dependencies_met = bool(door_states) and all(actual_states.get(door) == state for door, state in door_states.items())
         permitted = set(activity.get("required_actions") or []) <= authorized
         # Valencia's already-exhausted local research remains parked until genuinely new evidence arrives.
@@ -364,7 +378,7 @@ def derive_f10(root_dir: Path, *, activity_authorizations: dict[str, list[str]] 
                 electoral_receipt = _json(root / electoral_receipt_path)
                 if electoral_receipt.get("schema") != "ddd.catalog-evidence/1.0" or electoral_receipt.get("kind") != "electoral_source":
                     raise ValueError("receipt electoral no satisface ddd.catalog-evidence/1.0")
-                if electoral_receipt.get("territory_id") != territory_id or electoral_receipt.get("edition") != "2025":
+                if not mismo_territorio(str(electoral_receipt.get("territory_id") or ""), str(territory_id)) or electoral_receipt.get("edition") != "2025":
                     raise ValueError("receipt electoral con identidad territorial/edición errónea")
                 election = prep.get("election_id")
                 election_date = str(prep.get("election_date") or "")
@@ -506,7 +520,7 @@ def _validate_activity_cards(root: Path, activities: list[dict[str, Any]]) -> li
             if catalog.get("schema") != "ddd.f10-auto-task-cards/1.0":
                 raise ValueError("schema de fichas desconocido")
             matches = [card for card in catalog.get("cards", []) if card.get("id") == task_id]
-            if len(matches) != 1 or matches[0].get("territory_id") != activity.get("territory_id"):
+            if len(matches) != 1 or not mismo_territorio(str(matches[0].get("territory_id") or ""), str(activity.get("territory_id"))):
                 raise ValueError("identidad de tarea/territorio distinta")
             spec = matches[0].get("spec") or {}
             task = matches[0].get("task") or {}

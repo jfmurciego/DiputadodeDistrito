@@ -98,7 +98,7 @@ class ProductionContractAdmission(unittest.TestCase):
         self.assertEqual(report["production_authorization"], "AUTHORIZED")
 
     def mutated(self, mutate):
-        source = ROOT / "territorios" / "aut02" / "config" / "aragon_2025.yaml"
+        source = ROOT / "territorios" / "aut02" / "config" / "aut02_2025.yaml"
         data = yaml.safe_load(source.read_text(encoding="utf-8"))
         mutate(data)
         with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", suffix=".yaml", dir=source.parent, delete=False) as handle:

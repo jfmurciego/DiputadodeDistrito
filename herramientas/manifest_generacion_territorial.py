@@ -27,6 +27,11 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 SCHEMA = "ddd.territorial-generation-manifest/1.0"
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
@@ -145,7 +150,7 @@ def resolve_checkpoint_source_package(
         raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: manifiesto/catálogo ilegible") from exc
     if not isinstance(source_manifest, dict) or not isinstance(catalog, dict):
         raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: manifiesto/catálogo inválido")
-    rows = [row for row in (catalog.get("territories") or []) if row.get("territory_id") == territory_id]
+    rows = [row for row in (catalog.get("territories") or []) if mismo_territorio(str(row.get("territory_id") or ""), str(territory_id))]
     if len(rows) != 1:
         raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: territorio no único en catálogo")
     registered = ((rows[0].get("editions") or {}).get(str(edition)) or {}).get("preparation_evidence") or {}
@@ -161,7 +166,7 @@ def resolve_checkpoint_source_package(
         raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: evidencia fuente incompleta") from exc
     if (
         run_id <= 0 or not name or
-        str(source_manifest.get("territory_id") or "") != territory_id or
+        not mismo_territorio(str(source_manifest.get("territory_id") or ""), str(territory_id)) or
         str(source_manifest.get("edition") or "") != str(edition) or
         observed_package_sha != package_sha
     ):
@@ -277,7 +282,7 @@ def build_manifest(
         raise GenerationManifestError("Tipo de constancia M06 inválido")
     cfg = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
     meta = cfg.get("meta") or {}
-    if str(meta.get("territory_id") or "") != territory_id or str(meta.get("year") or "") != str(edition):
+    if not mismo_territorio(str(meta.get("territory_id") or ""), str(territory_id)) or str(meta.get("year") or "") != str(edition):
         raise GenerationManifestError("El contrato no coincide con territorio/edición")
     contract_digest = _sha(params)
     artifact_index = json.loads(artifact_index_path.read_text(encoding="utf-8"))

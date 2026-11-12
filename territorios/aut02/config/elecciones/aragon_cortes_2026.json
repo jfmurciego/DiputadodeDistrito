@@ -3,7 +3,7 @@
   "schema_family": "ddd-election",
   "schema_version": "1.0.0",
   "election_id": "aragon_cortes_2026-02-08",
-  "territory_id": "aut02",
+  "territory_id": "aragon",
   "title": "Elecciones a las Cortes de Aragón 2026",
   "election_date": "2026-02-08",
   "input_mode": "verifiable_file",
@@ -26,7 +26,7 @@
     }
   ],
   "party_dictionary": {
-    "path": "territorios/aut02/config/elecciones/diccionario_partidos_aragon_2026.json",
+    "path": "territorios/aragon/config/elecciones/diccionario_partidos_aragon_2026.json",
     "sha256": "ca39b99f3adf347fb50c98c24aaa77aa0445260a126948047ab6bf834d28d997"
   },
   "reconciliation": {

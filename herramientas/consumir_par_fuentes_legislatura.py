@@ -16,6 +16,7 @@ import argparse
 import json
 from pathlib import Path
 
+from ddd_core.territorio_ids import mismo_territorio  # T-220
 from herramientas import catalogo_preparacion
 from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, validate_compatibility_package
 from herramientas.identidad_fuentes_legislatura import (
@@ -116,7 +117,7 @@ def validate_territorial_receipt(
             "PREPARED_TERRITORIAL_BLOCK: kind de receipt territorial no reconocido"
         )
     if (
-        str(receipt.get("territory_id") or "") != str(row["territory_id"])
+        not mismo_territorio(str(receipt.get("territory_id") or ""), str(row["territory_id"]))
         or str(receipt.get("edition") or "") != str(edition)
     ):
         raise PreparedPairExecutionBlock(
@@ -330,7 +331,7 @@ def resolve_geometric_reuse(
     product = _json(root / product_rel, label="receipt de producto territorial")
     if (
         lineage.get("schema") != "ddd.territorial-product-source-lineage/1.0"
-        or str(lineage.get("territory_id") or "") != territory_id
+        or not mismo_territorio(str(lineage.get("territory_id") or ""), str(territory_id))
         or str(lineage.get("edition") or "") != str(edition)
     ):
         raise PreparedPairExecutionBlock(

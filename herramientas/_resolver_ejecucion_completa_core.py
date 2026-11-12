@@ -28,6 +28,11 @@ import yaml
 
 from herramientas.catalogo_preparacion import lookup
 from ddd_core.topology_preflight import validate_topology_accreditation_binding
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
 FIRST_GENERATION_EVIDENCE_SCHEMA = "ddd.catalog-evidence/1.0"
@@ -581,7 +586,7 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
         return blocked("kind no reconocido")
     if evidence.get("decision") != FIRST_GENERATION_DECISION or evidence.get("stage") != "M03U":
         return blocked("decisión/etapa no habilitan primera generación")
-    if evidence.get("territory_id") != territory_id:
+    if not mismo_territorio(str(evidence.get("territory_id") or ""), str(territory_id)):
         return blocked("territorio no coincide")
     run_id = evidence.get("run_id")
     if not isinstance(run_id, int) or isinstance(run_id, bool) or run_id <= 0:
@@ -759,7 +764,7 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
         contract = yaml.safe_load(path.read_text(encoding="utf-8"))
     except (OSError, yaml.YAMLError):
         return _blocked("CAP_CONTRACT", "contrato territorial efectivo ilegible")
-    if not isinstance(contract, dict) or (contract.get("meta") or {}).get("territory_id") != territory_id:
+    if not isinstance(contract, dict) or not mismo_territorio(str((contract.get("meta") or {}).get("territory_id") or ""), str(territory_id)):
         return _blocked("CAP_CONTRACT", "identidad del contrato territorial no coincide")
     capability_gate = _generation_capabilities(contract, root_dir=root_dir)
     if not capability_gate["allowed"]:

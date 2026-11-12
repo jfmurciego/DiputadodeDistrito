@@ -17,6 +17,11 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 def main():
     ap=argparse.ArgumentParser()
@@ -28,7 +33,7 @@ def main():
     ap.add_argument("--out",required=True)
     a=ap.parse_args()
     cat=yaml.safe_load(Path(a.catalog).read_text(encoding="utf-8"))
-    matches=[x for x in cat["territories"] if x["territory_id"]==a.territory]
+    matches=[x for x in cat["territories"] if mismo_territorio(str(x["territory_id"] or ""), str(a.territory))]
     if len(matches)!=1: raise SystemExit(f"Territorio no único/no encontrado: {a.territory}")
     t=matches[0];tid=t["territory_id"];edition=int(a.edition);population_year=int(a.population_year);section_year=int(a.section_year);run=f"{tid}_{edition}";base=f"territorios/{tid}/.cache/ddd/preparacion/{{run_name}}"
     cfg={

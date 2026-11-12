@@ -21,6 +21,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import resultados_ligeros as rl  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 
 def m06_run_acreditado(m08_run: object, territorio: str, root: Path = ROOT) -> str | None:
@@ -41,7 +46,7 @@ def m06_del_m08(products: list[dict], p8: dict, root: Path = ROOT) -> dict | Non
     """canonical_m06 del linaje de `p8` (mismo territorio y elección): el de su run o el acreditado por su manifiesto."""
     t, elec = p8["territory_id"], rl.eleccion_de(p8)
     m6 = {str(p["run_id"]): p for p in products
-          if p.get("kind") == "canonical_m06" and p.get("territory_id") == t and rl.eleccion_de(p) == elec}
+          if p.get("kind") == "canonical_m06" and mismo_territorio(str(p.get("territory_id") or ""), str(t)) and rl.eleccion_de(p) == elec}
     run = str(p8["run_id"])
     if run in m6:
         return m6[run]

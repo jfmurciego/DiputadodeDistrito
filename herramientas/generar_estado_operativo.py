@@ -32,6 +32,11 @@ if _RAIZ not in _sys.path:
 from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito por el resolutor, nunca por prefijo)
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 try:
     from herramientas.catalogo_territorios import (
@@ -88,7 +93,7 @@ def _load_receipt(root: Path, state: dict, territory_id: str, edition: str, key:
         return {}
     if not isinstance(payload, dict):
         return {}
-    if str(payload.get("territory_id") or "") != territory_id or str(payload.get("edition") or "") != str(edition):
+    if not mismo_territorio(str(payload.get("territory_id") or ""), str(territory_id)) or str(payload.get("edition") or "") != str(edition):
         return {}
     digest = str(payload.get("artifact_sha256") or "").removeprefix("sha256:").lower()
     if not re.fullmatch(r"[0-9a-f]{64}", digest):

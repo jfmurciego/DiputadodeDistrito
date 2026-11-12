@@ -6,6 +6,11 @@ import hashlib
 import json
 import re
 from pathlib import Path
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
@@ -56,7 +61,7 @@ def validate_identity(
         raise PreM04HandoffError("PRE_M04_HANDOFF_IDENTITY: schema inválido")
     if payload.get("kind") != "generation_preflight":
         raise PreM04HandoffError("PRE_M04_HANDOFF_IDENTITY: kind inválido")
-    if str(payload.get("territory_id") or "") != territory_id:
+    if not mismo_territorio(str(payload.get("territory_id") or ""), str(territory_id)):
         raise PreM04HandoffError("PRE_M04_HANDOFF_IDENTITY: territorio no coincide")
     if str(payload.get("edition") or "") != str(edition):
         raise PreM04HandoffError("PRE_M04_HANDOFF_IDENTITY: edición no coincide")
@@ -144,7 +149,7 @@ def verify_handoff(
     if meta.get("schema") != "ddd.pre-m04-handoff/1.0":
         raise PreM04HandoffError("PRE_M04_HANDOFF_META: schema inválido")
     if (
-        str(meta.get("territory_id") or "") != territory_id
+        not mismo_territorio(str(meta.get("territory_id") or ""), str(territory_id))
         or str(meta.get("edition") or "") != str(edition)
         or meta.get("run_id") != run_id
         or str(meta.get("source_commit") or "").lower() != source_commit.lower()

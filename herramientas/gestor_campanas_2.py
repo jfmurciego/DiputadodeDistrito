@@ -39,6 +39,11 @@ import clave_eleccion as ce  # noqa: E402
 import historico_autonomico as ha  # noqa: E402
 import historico_campana as hc  # noqa: E402
 import legislatura_vigente as lv  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 VIGENTE = "legislatura vigente"
 COMPLETA = "campaña completa"
@@ -94,7 +99,7 @@ def _resolve_tokens(cfg: dict, tipo: str, mapa: str, tokens: list[str], root: Pa
         out, unknown = [], []
         for t in tokens:
             hits = [r["territory_id"] for r in aut if ce._matches_filter(units[r["territory_id"]], t)
-                    or any(_is_community(c, t) and c["territory_id"] == r["territory_id"] for c in _communities(root))]
+                    or any(_is_community(c, t) and mismo_territorio(str(c["territory_id"] or ""), str(r["territory_id"])) for c in _communities(root))]
             (out.extend(hits) if hits else unknown.append(t))
         if unknown:
             raise lv.GestorError(f"Comunidades desconocidas: {', '.join(unknown)} (nombre o código INE de comunidad, 01-19)")

@@ -23,6 +23,11 @@ from herramientas import _resolver_ejecucion_completa_core as _core
 from herramientas._resolver_ejecucion_completa_core import *  # noqa: F401,F403
 from herramientas.resolver_activos_durables import DurableAssetBlock, validate_durable_assets
 from herramientas.resolver_preparacion_legislatura import resolve as resolve_current_legislature
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import variantes, mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 _run_from_artifact = _core._run_from_artifact
 
@@ -287,7 +292,7 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
         )
     artifact_name = str(prep.get("artifact_name") or "")
     expected_name = f"ddd-source-package-{territory_id}-{edition}-{run_id}"
-    if artifact_name != expected_name:
+    if artifact_name not in {f"ddd-source-package-{v}-{edition}-{run_id}" for v in variantes(territory_id)}:
         raise ValueError(
             f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
             f"artefacto territorial no coincide con run/territorio/edición: {artifact_name!r}"
@@ -335,7 +340,7 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
     territory = declaration.get("territory") or {}
     if (
         not str(declaration.get("schema") or "").startswith("ddd-territory-sources/")
-        or str(territory.get("id") or "") != territory_id
+        or not mismo_territorio(str(territory.get("id") or ""), str(territory_id))
         or str(territory.get("edition") or "") != str(edition)
     ):
         raise ValueError(

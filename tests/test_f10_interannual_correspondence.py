@@ -140,8 +140,8 @@ class F10RealEvidenceTests(unittest.TestCase):
         import json
         from pathlib import Path
         from shapely.geometry import shape
-        for territory, deficit in (("aut02", 31024), ("aut01", 319989),
-                                   ("aut07", 84197)):
+        for territory, deficit in (("aragon", 31024), ("andalucia", 319989),
+                                   ("castilla_y_leon", 84197)):
             with self.subTest(territory=territory):
                 fixture = json.loads(gzip.decompress((Path(__file__).parent /
                     "fixtures" / "f10_interannual" / f"{territory}.json.gz").read_bytes()))
@@ -162,7 +162,7 @@ class F10RealEvidenceTests(unittest.TestCase):
                 self.assertTrue(all(c["population_assignment"] == "NOT_ACCREDITED"
                     for c in report["unresolved_components"]))
                 self.assertIn("UNACCREDITED_SECTIONING_CHANGE", report["causes"])
-                if territory == "aut02":
+                if territory == "aragon":
                     fusion = next(row for row in report["correspondences"]
                         if row["kind"] == "FUSION")
                     self.assertEqual(fusion["source_keys"], ["2221301002", "2221301003"])
@@ -180,7 +180,7 @@ class PopulationInputPreservationTests(unittest.TestCase):
         from pathlib import Path
         from herramientas.adquirir_fuentes_oficiales import acquire
         from tests.test_fuentes_oficiales_preparacion import CATALOG, SimulatedINE, declaration
-        dec = copy.deepcopy(declaration("aut10"))
+        dec = copy.deepcopy(declaration("comunidad_valenciana"))
         dec["territory"]["population_year"] = dec["territory"]["section_year"] = 2023
         dec["environment_policy"]["test"] = ["simulated"]
         fetcher = SimulatedINE(dec, expected_sections=3, edition=2023,
@@ -235,7 +235,7 @@ class ValenciaHistoricalSnapshotTests(unittest.TestCase):
         writer.writeheader()
         writer.writerows(fixture["sample_rows"])
         filtered, checks = _filter_population(stream.getvalue().encode(),
-            declaration("aut10"), 2023, ["03", "12", "46"])
+            declaration("comunidad_valenciana"), 2023, ["03", "12", "46"])
         self.assertEqual(checks["provinces"], ["03", "12", "46"])
         self.assertEqual(checks["rows"], 3)
         self.assertIn(b"4600101001", filtered)

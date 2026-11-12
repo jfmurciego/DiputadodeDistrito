@@ -1,6 +1,6 @@
 {
   "schema": "ddd-election-special-row-crosswalk/1.0",
-  "territory_id": "aut03",
+  "territory_id": "principado_de_asturias",
   "election_id": "asturias_jgpa_2023",
   "evidence": {
     "diagnostic_run_id": "35589567098",

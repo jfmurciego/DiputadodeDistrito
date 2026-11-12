@@ -9,6 +9,11 @@ from pathlib import Path
 import yaml
 
 from herramientas import catalogo_preparacion
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio, variantes  # noqa: E402  (T-220: id viejo o nuevo)
 
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
@@ -110,7 +115,7 @@ def resolve_eligibility(
     cfg = yaml.safe_load(params_path.read_text(encoding="utf-8")) or {}
     meta = cfg.get("meta") or {}
     if (
-        str(meta.get("territory_id") or "") != territory_id
+        not mismo_territorio(str(meta.get("territory_id") or ""), str(territory_id))
         or str(meta.get("year") or "") != str(edition)
     ):
         raise ValueError("ELECTORAL_GATE_BLOCK: identidad del contrato territorial no coincide")
@@ -118,7 +123,7 @@ def resolve_eligibility(
     gate = _read_json(gate_evidence)
     if gate.get("decision") != "VALIDADO" or gate.get("phase") != "electoral_source":
         raise ValueError("ELECTORAL_GATE_BLOCK: puerta 03→04 no validada")
-    if str(gate.get("territory_id") or "") != territory_id:
+    if not mismo_territorio(str(gate.get("territory_id") or ""), str(territory_id)):
         raise ValueError("ELECTORAL_GATE_BLOCK: territorio de la puerta no coincide")
     if str(gate.get("edition") or "") != str(edition):
         raise ValueError("ELECTORAL_GATE_BLOCK: edición de la puerta no coincide")
@@ -127,7 +132,7 @@ def resolve_eligibility(
     if str(gate.get("artifact_name") or "") != str(expected_artifact_name):
         raise ValueError("ELECTORAL_GATE_BLOCK: artefacto electoral de la puerta no coincide")
     canonical_name = f"ddd-electoral-package-{territory_id}-{edition}-{expected_run_id}"
-    if expected_artifact_name != canonical_name:
+    if expected_artifact_name not in {f"ddd-electoral-package-{v}-{edition}-{expected_run_id}" for v in variantes(territory_id)}:
         raise ValueError("ELECTORAL_GATE_BLOCK: nombre de artefacto electoral no canónico")
 
     expected_digest = _normalise_digest(expected_artifact_digest)
@@ -138,7 +143,7 @@ def resolve_eligibility(
     manifest = _read_json(package_manifest)
     if manifest.get("schema") != "ddd-electoral-package/1.0":
         raise ValueError("ELECTORAL_GATE_BLOCK: schema del paquete electoral inválido")
-    if str(manifest.get("territory_id") or "") != territory_id:
+    if not mismo_territorio(str(manifest.get("territory_id") or ""), str(territory_id)):
         raise ValueError("ELECTORAL_GATE_BLOCK: territorio del paquete electoral no coincide")
     if str(manifest.get("edition") or "") != str(edition):
         raise ValueError("ELECTORAL_GATE_BLOCK: edición del paquete electoral no coincide")

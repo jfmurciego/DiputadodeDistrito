@@ -60,10 +60,10 @@ class ValenciaUniverseEvidenceTests(unittest.TestCase):
         self.assertEqual(19, len(matrix["rows"]))
         self.assertEqual(14, sum(row["source_accreditation"] == "PASS_HISTORICAL_RECEIPT" for row in matrix["rows"]))
         indexed = {row["territory_id"]: row for row in matrix["rows"]}
-        for tid in ("aut11", "aut02", "aut07", "aut01"):
+        for tid in ("extremadura", "aragon", "castilla_y_leon", "andalucia"):
             self.assertEqual("PASS_INDEPENDENT_RECEIPT", indexed[tid]["source_accreditation"])
             self.assertEqual("NOT_RUN_BY_MANDATE", indexed[tid]["production"])
-        self.assertEqual("BLOCKED_TWO_OVERLAPS_EXCEED_1M2", indexed["aut10"]["territorial_consumption"])
+        self.assertEqual("BLOCKED_TWO_OVERLAPS_EXCEED_1M2", indexed["comunidad_valenciana"]["territorial_consumption"])
         self.assertEqual("BLOCKED", matrix["overall_f10"])
 
 

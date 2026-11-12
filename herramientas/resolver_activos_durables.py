@@ -22,6 +22,7 @@ import re
 from pathlib import Path
 from typing import Any
 
+from ddd_core.territorio_ids import mismo_territorio  # T-220: evidencia con id viejo o nuevo
 from herramientas.acreditar_producto_territorial_historico import (
     HistoricalTerritorialAccreditationBlock,
     derive_historical_territorial_producer,
@@ -88,7 +89,7 @@ def _receipt(
     payload = _load_json(root, rel, label=kind)
     if payload.get("schema") != "ddd.catalog-evidence/1.0" or payload.get("kind") != kind:
         _block("DURABLE_ASSET_IDENTITY_INVALID", f"{kind}: schema/kind no coincide")
-    if str(payload.get("territory_id") or "") != territory_id or str(payload.get("edition") or "") != str(edition):
+    if not mismo_territorio(str(payload.get("territory_id") or ""), str(territory_id)) or str(payload.get("edition") or "") != str(edition):
         _block("DURABLE_ASSET_IDENTITY_INVALID", f"{kind}: territorio/edición no coincide")
     run_id = _run_id(payload.get("run_id"), label=kind)
     artifact = str(payload.get("artifact_name") or "")
@@ -133,7 +134,7 @@ def _validate_m06_manifest(
     except (TypeError, ValueError):
         manifest_run = manifest_attempt = 0
     if (
-        str(identity.get("territory_id") or "") != territory_id
+        not mismo_territorio(str(identity.get("territory_id") or ""), str(territory_id))
         or str(identity.get("edition") or "") != str(edition)
         or manifest_run != run_id
         or manifest_attempt <= 0
@@ -334,7 +335,7 @@ def _manifest(
         )
     if (
         payload.get("schema") != "ddd.full-run-manifest/2.1"
-        or str(payload.get("territory_id") or "") != territory_id
+        or not mismo_territorio(str(payload.get("territory_id") or ""), str(territory_id))
         or str(payload.get("edition") or "") != str(edition)
         or int(payload.get("workflow_run_id") or 0) != run_id
     ):

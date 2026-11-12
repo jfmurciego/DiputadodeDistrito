@@ -14,7 +14,7 @@ class ElectoralGapFillerRealEvidenceTests(unittest.TestCase):
         self.cac = json.loads((EVIDENCE / "extremadura_caceres_gap_fill_report.json").read_text(encoding="utf-8"))
 
     def test_extremadura_gap_is_exactly_decomposed_without_overwriting_zeroes(self):
-        gap = self.real["aut11"]["gap_decomposition"]
+        gap = self.real["extremadura"]["gap_decomposition"]
         self.assertEqual(gap["badajoz_external"], 891)
         self.assertEqual(gap["caceres_external"], 994)
         self.assertEqual(gap["caceres_explicit_zero_conflicts"], 534)
@@ -27,7 +27,7 @@ class ElectoralGapFillerRealEvidenceTests(unittest.TestCase):
         self.assertFalse(self.full["production_eligible"])
 
     def test_badajoz_reconciles_candidate_total_but_remains_inadmissible(self):
-        src = self.real["aut11"]["badajoz_fragment"]
+        src = self.real["extremadura"]["badajoz_fragment"]
         self.assertEqual(src["geographic_section_party_differences_vs_primary"], [])
         self.assertEqual(src["geographic_candidate_votes"], 325305)
         self.assertEqual(src["external_candidate_votes"], 891)
@@ -40,7 +40,7 @@ class ElectoralGapFillerRealEvidenceTests(unittest.TestCase):
         self.assertEqual(self.bad["status"], "BLOCK_ADMISSIBILITY")
 
     def test_caceres_definitive_copy_reconciles_but_conflicts_with_explicit_zeroes(self):
-        src = self.real["aut11"]["caceres_fragment"]
+        src = self.real["extremadura"]["caceres_fragment"]
         self.assertEqual(src["accounting_bad_rows"], 0)
         self.assertEqual(src["total_candidate_votes"], 198641)
         self.assertEqual(src["official_totals"]["candidate_votes"], 198641)
@@ -55,7 +55,7 @@ class ElectoralGapFillerRealEvidenceTests(unittest.TestCase):
         self.assertEqual(self.cac["special_candidate_votes"], 994)
 
     def test_andalucia_does_not_claim_complete_from_unaccredited_opte_capacity(self):
-        row = self.real["aut01"]
+        row = self.real["andalucia"]
         self.assertEqual(row["primary"]["sections"], 6044)
         self.assertEqual(row["primary"]["candidate_votes"], 4128575)
         self.assertEqual(row["official_candidate_votes"], 4157539)
@@ -71,7 +71,7 @@ class ElectoralGapFillerRealEvidenceTests(unittest.TestCase):
         self.assertTrue((ROOT / siel["manual"]).is_file())
 
     def test_cuenca_is_no_longer_a_current_gap_and_europe_2024_is_excluded(self):
-        row = self.real["aut08"]
+        row = self.real["castilla_la_mancha"]
         self.assertEqual(row["election_id"], "castilla_la_mancha_cortes_2023")
         self.assertEqual(row["status"], "NO_CURRENT_GAP")
         self.assertEqual(row["cuenca_sections"], 196)

@@ -3,7 +3,7 @@
   "schema_family": "ddd-election",
   "schema_version": "1.0.0",
   "election_id": "galicia_parlamento_2024",
-  "territory_id": "aut12",
+  "territory_id": "galicia",
   "title": "Elecciones al Parlamento de Galicia 2024",
   "election_date": "2024-02-18",
   "input_mode": "verifiable_file",
@@ -72,14 +72,14 @@
           }
         },
         "structural_provenance": {
-          "path": "territorios/aut12/config/elecciones/galicia_parlamento_2024.structural_provenance.json",
+          "path": "territorios/galicia/config/elecciones/galicia_parlamento_2024.structural_provenance.json",
           "sha256": "9839cd45ed28404d31010bcb4ff0a79cb40efc640540dfdee6f13ceedf53ca68"
         }
       }
     }
   ],
   "party_dictionary": {
-    "path": "territorios/aut12/config/elecciones/diccionario_partidos_galicia_2024.json",
+    "path": "territorios/galicia/config/elecciones/diccionario_partidos_galicia_2024.json",
     "sha256": "5951b129e683d892909a167bea3e1f23b987723409967704028e60114b3646cb"
   },
   "reconciliation": {

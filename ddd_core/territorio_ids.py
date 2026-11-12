@@ -178,6 +178,58 @@ def mismo_territorio(a: str, b: str) -> bool:
         return False
 
 
+def variantes(x: str) -> tuple[str, ...]:
+    """Ids con los que puede aparecer un territorio en nombres ya emitidos (artefactos, claves): el dado, el nuevo
+    y el viejo, sin repetir. Un id fuera de la tabla maestra solo se tiene a sí mismo."""
+    s = str(x)
+    try:
+        t = territorio(s)
+    except (IdTerritorioDesconocido, IdReservado):
+        return (s,)
+    return tuple(dict.fromkeys((s, t.id, t.id_legacy)))
+
+
+def ruta_nueva(rel: str) -> str:
+    """`territorios/<viejo>/…` (y `config/<viejo>_AAAA.yaml`) → la ruta con el id nuevo; el resto, igual."""
+    partes = str(rel).replace("\\", "/").split("/")
+    if len(partes) < 2 or partes[0] != "territorios":
+        return str(rel)
+    try:
+        t = territorio(partes[1])
+    except (IdTerritorioDesconocido, IdReservado):
+        return str(rel)
+    viejo, partes[1] = partes[1], t.id
+    if len(partes) == 4 and partes[2] == "config" and re.fullmatch(re.escape(viejo) + r"_\d{4}\.yaml", partes[3]):
+        partes[3] = t.id + partes[3][len(viejo):]
+    return "/".join(partes)
+
+
+def misma_ruta(a: str, b: str) -> bool:
+    """Dos rutas del repositorio iguales salvo por el id (viejo o nuevo) de su carpeta de territorio."""
+    return str(a) == str(b) or ruta_nueva(str(a)) == ruta_nueva(str(b))
+
+
+def ruta_existente(root, rel: str):
+    """`root/rel` con la carpeta `territorios/<id>/` que exista: la del id nuevo o, en raíces históricas, la del viejo
+    (también `config/<id>_AAAA.yaml`). Si no existe ninguna, la del id nuevo. Para leer evidencias y fixtures viejas."""
+    root = Path(root)
+    partes = str(rel).split("/")
+    if len(partes) < 2 or partes[0] != "territorios":
+        return root / rel
+    try:
+        t = territorio(partes[1])
+    except (IdTerritorioDesconocido, IdReservado):
+        return root / rel
+    candidatas = []
+    for carpeta in (t.id, t.id_legacy):
+        p = list(partes)
+        viejo, p[1] = p[1], carpeta
+        if len(p) == 4 and p[2] == "config" and re.fullmatch(re.escape(viejo) + r"_\d{4}\.yaml", p[3]):
+            p[3] = carpeta + p[3][len(viejo):]
+        candidatas.append(root / "/".join(p))
+    return next((c for c in candidatas if c.exists()), candidatas[0])
+
+
 def _main(argv: list[str]) -> int:
     """CLI mínima para workflows: `ambito <id>` | `resolver <id>` (imprime el valor; código 2 si es desconocido)."""
     import sys

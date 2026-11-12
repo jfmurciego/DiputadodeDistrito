@@ -112,7 +112,7 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         joined = " ".join(command)
         self.assertIn("construir_unidades_internas_m04.py", joined)
         self.assertIn("M04_PARTITION_UNIT", joined)
-        self.assertIn("extremadura_2025_m03_unidades_internas.geojson", joined)
+        self.assertIn("aut11_2025_m03_unidades_internas.geojson", joined)
         self.assertIn("POP_2025", command)
         self.assertNotIn("POP_{year}", command)
         active = self.params_path.read_text(encoding="utf-8").lower()

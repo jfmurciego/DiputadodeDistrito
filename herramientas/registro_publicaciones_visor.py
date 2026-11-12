@@ -73,6 +73,11 @@ CANONICAL_KINDS = {"canonical_m06", "canonical_m08"}
 PRODUCT_KINDS = {"static"} | CANONICAL_KINDS | SCENARIO_KINDS
 PREFIJO_MAPA_350 = "congreso350_"
 from herramientas.eleccion_por_defecto import ELECCION_POR_DEFECTO  # noqa: E402,F401
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 STRATEGIES = {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}
 
 
@@ -290,7 +295,7 @@ def _already_registered_reused_m06(registry: dict, entry: dict) -> bool:
     key = identity_key(entry)
     for current in registry.get("products", []):
         if (
-            current.get("territory_id") == entry.get("territory_id")
+            mismo_territorio(str(current.get("territory_id") or ""), str(entry.get("territory_id")))
             and current.get("kind") == "canonical_m06"
             and current.get("immutable_location") == entry.get("immutable_location")
             and eleccion_de(current) == eleccion_de(entry)

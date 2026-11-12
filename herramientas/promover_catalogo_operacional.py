@@ -19,6 +19,11 @@ import re
 from pathlib import Path
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 try:
     from herramientas.catalogo_preparacion import validate_repository
@@ -47,7 +52,7 @@ def _save_yaml(path: Path, data: dict) -> None:
 
 def _state(catalog: dict, territory_id: str, edition: str) -> tuple[dict, str]:
     for row in catalog.get("territories") or []:
-        if row.get("territory_id") != territory_id:
+        if not mismo_territorio(str(row.get("territory_id") or ""), str(territory_id)):
             continue
         state = (row.get("editions") or {}).get(str(edition))
         if not isinstance(state, dict):
@@ -104,7 +109,7 @@ def promote(
             if (
                 manifest.get("schema") != "ddd.territorial-generation-manifest/1.0"
                 or manifest_sha256(manifest) != manifest.get("manifest_sha256")
-                or str(identity.get("territory_id") or "") != territory_id
+                or not mismo_territorio(str(identity.get("territory_id") or ""), str(territory_id))
                 or str(identity.get("edition") or "") != str(edition)
                 or int(identity.get("workflow_run_id") or 0) != int(run_id)
                 or str(product.get("artifact_name") or "") != artifact_name
@@ -137,7 +142,7 @@ def promote(
             declaration_path = root / declaration
             if not declaration_path.is_file(): raise ValueError(f"Declaración electoral inexistente: {declaration}")
             declared = _load_yaml(declaration_path)
-            if str(declared.get("territory_id") or "") != territory_id:
+            if not mismo_territorio(str(declared.get("territory_id") or ""), str(territory_id)):
                 raise ValueError("Declaración electoral pertenece a otro territorio")
             declared_election_id = str(declared.get("election_id") or "")
             if not declared_election_id or (election_id and declared_election_id != election_id):
@@ -162,7 +167,7 @@ def promote(
                 if not election_contract_path.is_file():
                     raise ValueError(f"Contrato electoral inexistente: {election_contract_raw}")
                 election_contract = json.loads(election_contract_path.read_text(encoding="utf-8"))
-                if str(election_contract.get("territory_id") or "") != territory_id:
+                if not mismo_territorio(str(election_contract.get("territory_id") or ""), str(territory_id)):
                     raise ValueError("Contrato electoral pertenece a otro territorio")
                 contract_election_id = str(election_contract.get("election_id") or "")
                 if not contract_election_id or (election_id and contract_election_id != election_id):

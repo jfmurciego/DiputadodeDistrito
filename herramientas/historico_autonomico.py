@@ -34,6 +34,11 @@ import json
 import shutil
 import sys
 from pathlib import Path
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
@@ -88,7 +93,7 @@ def requisitos(comunidad: str, root: Path = ROOT) -> list[str]:
     comp = _json(root, COMPOSICION_MANIFEST)["territorios"].get(comunidad)
     if comp is None or not (root / f"datos/composicion/{comunidad}.csv").is_file():
         falta.append("sin composición (datos/composicion/)")
-    elif not any(p.get("kind") == "canonical_m06" and p.get("territory_id") == comunidad
+    elif not any(p.get("kind") == "canonical_m06" and mismo_territorio(str(p.get("territory_id") or ""), str(comunidad))
                  and p.get("blob_sha") == comp["blob_sha"] and p.get("sha256") == comp["sha256_m06"]
                  for p in _json(root, PUBLICACIONES)["products"]):
         falta.append("sin M06 publicado con la huella de la composición")

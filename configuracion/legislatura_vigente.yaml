@@ -6,8 +6,8 @@
 schema: ddd-legislatura-vigente/1.0
 generado_por: herramientas/legislatura_vigente.py generar
 fuentes:
-  configuracion/registro_electoral.yaml: 8f0a5f8261e730584c68019f21bab553031e9e89af8489157fb7ce8f45e35e87
-  configuracion/preparacion_legislatura_vigente.yaml: 094edd222d6f38a6cc62c79f0489c3f92fa2c092dc0f936c7d7a8bc85ddafa77
+  configuracion/registro_electoral.yaml: bc48c0a6f6daaed33e00ae6795f89a1f210ca21ba2f5a64fa09edbef43166094
+  configuracion/preparacion_legislatura_vigente.yaml: d67837d5af719275a1e30d220105f1c7f9a2b5efc79a3941b0b50992e1071a8e
   configuracion/resultados_oficiales_congreso_2023.json: f273a250d75f95bc53c3441045cd624f93304d024170f7771c3dcd9e7292bec5
 nacional:
   fechas:

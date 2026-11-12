@@ -252,8 +252,8 @@ class Entrega(unittest.TestCase):
 
 class NombreV5(unittest.TestCase):
     def test_run_name_de_la_00_viejo_y_p00(self):  # T-215: corte 5.0.0, paso 4
-        self.assertEqual(mp.RUN_NAME.match("P00 Campaña · cantabria · Reutilizar").group(1), "cantabria")  # t220: no es id (título histórico)
-        self.assertEqual(mp.RUN_NAME.match("00 Ejecución Completa del Proyecto · ceuta · Reutilizar").group(1), "ceuta")  # t220: no es id (título histórico)
+        self.assertEqual(mp.RUN_NAME.match("P00 Campaña · cantabria · Reutilizar").group(1), "aut06")  # t220: no es id (título histórico)
+        self.assertEqual(mp.RUN_NAME.match("00 Ejecución Completa del Proyecto · ceuta · Reutilizar").group(1), "aut18")  # t220: no es id (título histórico)
         self.assertIsNone(mp.RUN_NAME.match("P00 Campaña — Gestor"))
 
 

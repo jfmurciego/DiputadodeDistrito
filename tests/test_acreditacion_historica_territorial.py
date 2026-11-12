@@ -110,6 +110,8 @@ def _accreditation_rel(territory_id: str, run_id: int) -> str:
 
 
 def _copy_file(root: Path, rel: str) -> None:
+    from herramientas.acreditar_producto_territorial_historico import _ruta_viva  # T-220: rutas selladas viejas
+    rel = _ruta_viva(rel)
     src = ROOT / rel
     dst = root / rel
     dst.parent.mkdir(parents=True, exist_ok=True)
@@ -132,7 +134,8 @@ def _reseal_record(path: Path, record: dict) -> None:
 
 
 def _sealed_path(root: Path, record: dict, name: str) -> Path:
-    return root / record["sealed_evidence"][name]["path"]
+    from herramientas.acreditar_producto_territorial_historico import _ruta_viva  # T-220
+    return root / _ruta_viva(record["sealed_evidence"][name]["path"])
 
 
 def _mutate_sealed_json(
@@ -214,8 +217,8 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
                 record = json.loads(
                     (ROOT / _accreditation_rel(territory_id, run_id)).read_text(encoding="utf-8")
                 )
-                gate_path = ROOT / record["sealed_evidence"]["gate"]["path"]
-                audit_path = ROOT / record["sealed_evidence"]["audit"]["path"]
+                gate_path = _sealed_path(ROOT, record, "gate")
+                audit_path = _sealed_path(ROOT, record, "audit")
                 self.assertEqual(expected["gate_sha"], _sha256(gate_path))
                 self.assertEqual(expected["audit_sha"], _sha256(audit_path))
                 self.assertEqual(

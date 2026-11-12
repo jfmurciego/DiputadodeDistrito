@@ -105,7 +105,7 @@ def _catalogue_entry(root: Path, territory_id: Any, errors: list[str]) -> Mappin
     entries = (
         list(data.get("territories") or []) + list(data.get("pilot_territories") or [])
     ) if isinstance(data, Mapping) else []
-    matches = [item for item in entries if isinstance(item, Mapping) and item.get("territory_id") == territory_id]
+    matches = [item for item in entries if isinstance(item, Mapping) and mismo_territorio(str(item.get("territory_id") or ""), str(territory_id))]
     if len(matches) != 1:
         errors.append(f"el catálogo debe contener exactamente una entrada para {territory_id!r}")
         return {}

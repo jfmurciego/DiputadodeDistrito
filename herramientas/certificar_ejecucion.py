@@ -6,6 +6,11 @@ import argparse
 import json
 import re
 from pathlib import Path
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 
 PASS_STATUSES = {"PASS", "PASS_WITH_EXCEPTIONS"}
@@ -109,7 +114,7 @@ def certify(
 
     if decision.get("decision") != "ADMITTED" or decision.get("production_authorization") != "AUTHORIZED":
         errors.append("CONTRACT_NOT_AUTHORIZED")
-    if not territory or decision.get("territory_id") != territory:
+    if not territory or not mismo_territorio(str(decision.get("territory_id") or ""), str(territory)):
         errors.append("TERRITORY_ID_MISMATCH")
     if not run_id or manifest.get("run_id") != run_id or validation.get("run_id") != run_id:
         errors.append("RUN_ID_MISMATCH")

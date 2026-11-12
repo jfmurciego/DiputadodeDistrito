@@ -41,6 +41,11 @@ if _RAIZ not in _sys.path:
 from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito e ids por el resolutor, nunca por prefijo)
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 ROOT = Path(__file__).resolve().parents[1]
 REPARTO = Path("docs/ESTUDIOS/N06_DECISION_K_20261012/resultados/reparto_ddd_52.csv")
@@ -414,7 +419,7 @@ def generate(root: Path, zip_path: Path) -> list[str]:
         added.append(tid)
     sort_by_province_code(root)
     for tid in added:
-        _bootstrap_contract(root, next(p for p in provinces(root) if p["territory_id"] == tid))
+        _bootstrap_contract(root, next(p for p in provinces(root) if mismo_territorio(str(p["territory_id"] or ""), str(tid))))
     return added
 
 

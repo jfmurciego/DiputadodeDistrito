@@ -45,6 +45,11 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import clave_eleccion as ce  # noqa: E402
 import resultados_ligeros as rl  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 CONFIG = Path("configuracion/legislatura_vigente.yaml")
 REGISTRY = Path("configuracion/registro_electoral.yaml")
@@ -176,7 +181,7 @@ def select(cfg: dict, ambito: str, tokens: list[str]) -> list[dict]:
 
 def territory_state(root: Path, tid: str, viewer: dict, today, eleccion: str = rl.ELECCION_POR_DEFECTO) -> dict:
     """Estado según el repo: M08 publicado, 00 completa sin publicar, producto territorial o nada."""
-    m08 = [p for p in viewer.get("products") or [] if p.get("territory_id") == tid and p.get("kind") == "canonical_m08"
+    m08 = [p for p in viewer.get("products") or [] if mismo_territorio(str(p.get("territory_id") or ""), str(tid)) and p.get("kind") == "canonical_m08"
            and rl.eleccion_de(p) == eleccion]
     if m08:
         return {"estado": "PUBLICADO", "run_id": str(max(m08, key=lambda p: int(p.get("run_id") or 0)).get("run_id"))}
@@ -197,7 +202,7 @@ def territory_state(root: Path, tid: str, viewer: dict, today, eleccion: str = r
         # Con los artefactos de la 00 caducados, la 05 no puede promover el run: se rehace con «Reutilizar».
         return {"estado": "COMPLETO_SIN_PUBLICAR" if age <= ARTIFACT_DAYS else "COMPLETO_CADUCADO",
                 "run_id": str(last["workflow_run_id"])}
-    m06 = any(p.get("territory_id") == tid and p.get("kind") == "canonical_m06"
+    m06 = any(mismo_territorio(str(p.get("territory_id") or ""), str(tid)) and p.get("kind") == "canonical_m06"
                 and rl.eleccion_de(p) == eleccion for p in viewer.get("products") or [])
     if m06 or any(str(m.get("territorial_status") or "").startswith("CERTIFIED") for m in manifests):
         return {"estado": "TERRITORIAL_CERTIFICADO", "run_id": ""}

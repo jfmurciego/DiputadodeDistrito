@@ -27,7 +27,7 @@ from tests._raiz_congelada import frozen_root  # noqa: E402
 # completas posteriores, que reescriben catálogo y productos en main.
 ROOT = frozen_root()
 EVIDENCE = ROOT / 'docs/AUDITORIAS/F04_F10_20261009'
-TERRITORIES = ('aut01', 'aut10', 'aut11', 'aut02', 'aut07')
+TERRITORIES = ('andalucia', 'comunidad_valenciana', 'extremadura', 'aragon', 'castilla_y_leon')
 
 # Sólo para demostrar la regresión con el contenido exacto de la base preservada.
 if os.environ.get('DDD_F10_BASELINE') == '1':
@@ -40,7 +40,7 @@ if os.environ.get('DDD_F10_BASELINE') == '1':
 class F10ReceiptContractTests(unittest.TestCase):
     def test_extremadura_f10_receipt_is_authentic_evidence_without_replacing_product_lineage(self):
         receipt_rel = (
-            'territorios/aut11/evidencia/fuentes_territoriales/2025/'
+            'territorios/extremadura/evidencia/fuentes_territoriales/2025/'
             '70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/'
             '38091144559/receipt.json'
         )
@@ -49,7 +49,7 @@ class F10ReceiptContractTests(unittest.TestCase):
             (ROOT / 'docs/AUDITORIAS/CIERRE_REAL_FUENTES_20261011/registro-autenticos.json')
             .read_text(encoding='utf-8')
         )
-        entry = next(row for row in registry['rows'] if row['territory_id'] == 'aut11')
+        entry = next(row for row in registry['rows'] if row['territory_id'] == 'extremadura')
         self.assertEqual(entry['receipt_path'], receipt_rel)
         self.assertFalse(entry['promoted'])
         self.assertEqual(entry['promotion_status'],
@@ -71,7 +71,7 @@ class F10ReceiptContractTests(unittest.TestCase):
             {
                 'schema': 'ddd.territorial-source-receipt/1.0',
                 'kind': 'territorial_source',
-                'territory_id': 'aut11',
+                'territory_id': 'extremadura',
                 'edition': '2025',
                 'run_id': 38091144559,
                 'artifact_name': 'ddd-source-package-extremadura-2025-38091144559',
@@ -105,14 +105,14 @@ class F10ReceiptContractTests(unittest.TestCase):
 
     def test_extremadura_independent_receipt_consumes_without_replacing_product_source(self):
         row, receipt = consumer.validate_territorial_receipt(
-            root_dir=ROOT, territory='aut11', edition='2025')
+            root_dir=ROOT, territory='extremadura', edition='2025')
         self.assertEqual(38091144559, receipt['run_id'])
         self.assertEqual(40656175842, row['preparation_evidence']['run_id'])
         self.assertEqual(
             'AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED',
             row['independent_source_evidence']['status'])
         self.assertFalse(row['independent_source_evidence']['promoted'])
-        product = json.loads((ROOT / 'territorios/aut11/evidencia/catalogo/territorial_product_2025.json').read_text())
+        product = json.loads((ROOT / 'territorios/extremadura/evidencia/catalogo/territorial_product_2025.json').read_text())
         self.assertEqual(40656175842, product['run_id'])
 
     def test_retagging_and_borrowing_historical_run_cannot_accredit_candidate(self):

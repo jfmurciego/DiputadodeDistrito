@@ -31,11 +31,11 @@
         },
         {
           "path": "configuracion/adquisiciones_electorales_especiales.yaml",
-          "sha256": "4bb2e7532d43cb688f5b7dfea09e48bc9d64a11d0d18e26fd497d16b48c4e87a"
+          "sha256": "a93d727ef8e956649ae872325060026e3e8ca02ced2c2e06aa0de282a9f2dfb0"
         },
         {
           "path": "configuracion/decisiones/f10_referencia_territorial_2025_2026.json",
-          "sha256": "f9b8e9c0887318c2caae72234eeb321afd94e7de756a679e68d7566dbb373caa",
+          "sha256": "f800fe9a534c7a209134ad087c777233e2deb781d705e7c14f6bb8582c42363c",
           "json_equals": {
             "decision_id": "F10-20261012-PAIR-2025"
           }
@@ -123,7 +123,7 @@
         },
         {
           "path": "configuracion/decisiones/f10_referencia_territorial_2025_2026.json",
-          "sha256": "f9b8e9c0887318c2caae72234eeb321afd94e7de756a679e68d7566dbb373caa",
+          "sha256": "f800fe9a534c7a209134ad087c777233e2deb781d705e7c14f6bb8582c42363c",
           "json_equals": {
             "decision_id": "F10-20261012-PAIR-2025"
           }
@@ -218,7 +218,7 @@
         },
         {
           "path": "configuracion/decisiones/f10_referencia_territorial_2025_2026.json",
-          "sha256": "f9b8e9c0887318c2caae72234eeb321afd94e7de756a679e68d7566dbb373caa",
+          "sha256": "f800fe9a534c7a209134ad087c777233e2deb781d705e7c14f6bb8582c42363c",
           "json_equals": {
             "decision_id": "F10-20261012-PAIR-2025"
           }
@@ -308,7 +308,7 @@
         },
         {
           "path": "configuracion/contratos_minsait_provisionales.yaml",
-          "sha256": "a10bfca6a1cd29f9adf7f90fe15b1e0b3f15a86ff66f577bda9d349fa555fbe8"
+          "sha256": "55d7e83a9e897512077c0c33dedac238176074fd71820b247d0bf974bdce7da2"
         }
       ],
       "task": {

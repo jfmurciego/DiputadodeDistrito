@@ -19,6 +19,11 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 ARAGON_STAGES = {"aragon_10": 10, "aragon_50": 50}
 TERRITORIAL_STAGES = {"ensemble_10": 10, "ensemble_25": 25}
@@ -30,7 +35,7 @@ def describe(territory_id: str, stage: str, root: Path = Path("."), resolve_sour
     if not config_path.is_file():
         raise SystemExit(f"Sin configuración de ensemble para {territory_id}: {config_path}")
     config = json.loads(config_path.read_text(encoding="utf-8"))
-    if config.get("territory_id") != territory_id:
+    if not mismo_territorio(str(config.get("territory_id") or ""), str(territory_id)):
         raise SystemExit(f"{config_path}: territory_id no coincide")
     if territory_id == "aut02":
         if stage not in ARAGON_STAGES and stage != "synthetic":

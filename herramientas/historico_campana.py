@@ -33,6 +33,11 @@ import subprocess
 import sys
 import urllib.request
 from pathlib import Path
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 ROOT = Path(__file__).resolve().parents[1]
 SOPORTADAS = ("201111", "201512", "201606", "201904", "201911")
@@ -193,7 +198,7 @@ def main(argv=None) -> int:
     if not prov:
         import yaml
         cfg = yaml.safe_load((ROOT / "configuracion/legislatura_vigente.yaml").read_text(encoding="utf-8"))
-        prov = next(r["codigo"] for r in cfg["territorios"] if r["territory_id"] == a.territorio)
+        prov = next(r["codigo"] for r in cfg["territorios"] if mismo_territorio(str(r["territory_id"] or ""), str(a.territorio)))
     a.salida.mkdir(parents=True, exist_ok=True)
     return ejecutar(a.territorio, prov, a.eleccion, a.trabajo / a.territorio, a.salida)
 

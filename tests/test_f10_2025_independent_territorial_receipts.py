@@ -24,7 +24,7 @@ CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 
 # Preparaciones históricas sustituidas por una ejecución de producción posterior (no por el
 # receipt independiente F10, que sigue sin promoverse).
-PRODUCTION_SUPERSEDED_PREPARATION = {"aut02": 40656036271}
+PRODUCTION_SUPERSEDED_PREPARATION = {"aragon": 40656036271}
 
 class F10Receipts2025Tests(unittest.TestCase):
     def test_real_receipts_match_catalogue_and_preserve_historical_preparation(self):
@@ -46,7 +46,7 @@ class F10Receipts2025Tests(unittest.TestCase):
                 self.assertEqual("AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED", state["independent_source_evidence"]["status"])
 
     def test_2026_electoral_compatibility_is_not_certified_by_2025_receipt(self):
-        for tid in ("aut01", "aut02", "aut07"):
+        for tid in ("andalucia", "aragon", "castilla_y_leon"):
             with self.subTest(territory=tid):
                 plan = resolve(ROOT, tid)["plans"][0]
                 self.assertEqual(plan["population_year_selected"], 2025)
@@ -62,13 +62,13 @@ class F10Receipts2025Tests(unittest.TestCase):
         from unittest import mock
         from herramientas import resolver_preparacion_legislatura as planner
         for promoted, status in ((True, "AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED"), (False, "READY")):
-            state = next(r for r in yaml.safe_load(CATALOG.read_text())["territories"] if r["territory_id"] == "aut02")["editions"]["2025"]
+            state = next(r for r in yaml.safe_load(CATALOG.read_text())["territories"] if r["territory_id"] == "aragon")["editions"]["2025"]
             import copy
             mutated = copy.deepcopy(state)
             mutated["independent_source_evidence"]["promoted"] = promoted
             mutated["independent_source_evidence"]["status"] = status
             with self.subTest(promoted=promoted, status=status), mock.patch.object(
-                planner, "_catalog_state", return_value=({"territory_id":"aut02"}, mutated)
+                planner, "_catalog_state", return_value=({"territory_id":"aragon"}, mutated)
             ):
                 plan = resolve(ROOT, "Aragón")["plans"][0]
                 self.assertEqual(plan["territorial_action"], "ACQUIRE")
@@ -77,9 +77,9 @@ class F10Receipts2025Tests(unittest.TestCase):
     def test_original_product_source_runs_remain_unchanged(self):
         records = yaml.safe_load(CATALOG.read_text(encoding="utf-8"))["territories"]
         indexed = {x["territory_id"]:x["editions"]["2025"] for x in records}
-        self.assertEqual(indexed["aut02"]["last_valid_checkpoint"]["run_id"], 40656036271)
-        self.assertEqual(indexed["aut07"]["last_valid_checkpoint"]["run_id"], 35889595424)
-        self.assertIsNone(indexed["aut01"]["last_valid_checkpoint"])
-        self.assertEqual(39315133646, indexed["aut10"]["independent_source_evidence"]["run_id"])
-        self.assertEqual(36273981926, indexed["aut10"]["preparation_evidence"]["run_id"])
-        self.assertIs(indexed["aut10"]["independent_source_evidence"]["promoted"], False)
+        self.assertEqual(indexed["aragon"]["last_valid_checkpoint"]["run_id"], 40656036271)
+        self.assertEqual(indexed["castilla_y_leon"]["last_valid_checkpoint"]["run_id"], 35889595424)
+        self.assertIsNone(indexed["andalucia"]["last_valid_checkpoint"])
+        self.assertEqual(39315133646, indexed["comunidad_valenciana"]["independent_source_evidence"]["run_id"])
+        self.assertEqual(36273981926, indexed["comunidad_valenciana"]["preparation_evidence"]["run_id"])
+        self.assertIs(indexed["comunidad_valenciana"]["independent_source_evidence"]["promoted"], False)

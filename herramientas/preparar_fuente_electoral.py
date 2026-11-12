@@ -18,6 +18,11 @@ from ddd_core.electoral_contract import (
     STRUCTURAL_PROVENANCE_SCHEMA,
     validate_structural_provenance_document,
 )
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 
 def _clean_header(value: object) -> str:
@@ -778,7 +783,7 @@ def validate_previous(package:Path,territory_id:str,edition:str,expected_electio
     try:
         m=json.loads((package/"manifest.json").read_text(encoding="utf-8"))
         if m.get("schema")!="ddd-electoral-package/1.0" or m.get("decision") not in {"REUSE","ACQUIRE"}: return None
-        if m.get("territory_id")!=territory_id or str(m.get("edition"))!=str(edition): return None
+        if not mismo_territorio(str(m.get("territory_id") or ""), str(territory_id)) or str(m.get("edition"))!=str(edition): return None
         if expected_election_id is not None and str(m.get("election_id") or "")!=str(expected_election_id): return None
         if expected_election_date is not None and str(m.get("election_date") or "")!=str(expected_election_date): return None
         s=m.get("selected_source") or {}; p=package/str(s.get("path") or "")
