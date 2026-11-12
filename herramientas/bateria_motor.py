@@ -3,10 +3,17 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.4
+VERSIÓN: 1.2.5
 NOMBRE DE VERSIÓN: Batería del motor
-FECHA: 2026-11-11
+FECHA: 2026-11-12
 ESTADO: candidato
+CAMBIOS 1.2.5 (T-258): un único vigente. `composicion_publicada` delega en ddd_motor2.vigente.vigente_publicado, el
+  mismo que usa la competición (generadores 1.2.2); si el run publicado no tiene composición versionada ya no cae en
+  datos/composicion/<t>.csv de otro run (Canarias). `indicadores`: si el bloque «vigente» del COMPETICION.json no es
+  del fichero publicado (sha256) → NO_EVALUABLE «vigente distinto del publicado»; si es VIGENTE_OTRO_SECCIONADO →
+  SIN_VIGENTE con su motivo. `aceptacion` (T-224): SIN_VIGENTE (sin vigente comparable) consta en
+  «vigente_no_comparable» y no bloquea; NO_EVALUABLE y sin INDICADORES.json siguen bloqueando. El canónico de la
+  comparación es el del COMPETICION.json (el del run en el P30). La clave y el resto de comprobaciones no cambian.
 CAMBIOS 1.2.4 (T-233): si `entradas_uno` falla (adquisición o M01-M03), copia a la salida del paso las últimas 60 líneas
   de log.txt y una línea `::error` con el estado, el rc y el motivo (última línea de error del log). Antes la traza solo
   estaba en el artefacto (403 desde la nube). La adquisición, los reintentos y la salida de éxito no cambian.
@@ -42,7 +49,7 @@ CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de 
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
-ANTERIOR: legacy/herramientas/bateria_motor_v1.2.3_20261111.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.2.4_20261111.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -472,25 +479,11 @@ def _reglas(val: dict) -> dict:
 
 
 def composicion_publicada(t: str) -> tuple[Path | None, str | None]:
-    """Composición del M06 vigente en el visor (canonical_m06 más reciente de orchestracion/publicaciones_visor.json):
-    datos/composicion/runs/<t>_<run>.csv si existe; si no, la canónica datos/composicion/<t>.csv (puede ser de otro run)."""
-    runs = []
-    pv = ROOT / "orchestracion" / "publicaciones_visor.json"
-    if pv.is_file():
-        for p in json.loads(pv.read_text(encoding="utf-8")).get("products") or []:
-            if p.get("kind") == "canonical_m06" and p.get("territory_id") == t and str(p.get("run_id") or "").isdigit() \
-                    and str(p.get("election_date") or "2023-07-23") == "2023-07-23":
-                runs.append(int(p["run_id"]))
-    if runs:
-        f = ROOT / "datos" / "composicion" / "runs" / f"{t}_{max(runs)}.csv"
-        if f.is_file():
-            return f, str(max(runs))
-    canon = ROOT / "datos" / "composicion" / f"{t}.csv"
-    if not canon.is_file():
-        return None, None
-    man = ROOT / "datos" / "composicion" / "MANIFEST.json"
-    run = ((json.loads(man.read_text(encoding="utf-8")).get("territorios") or {}).get(t) or {}).get("run_id") if man.is_file() else None
-    return canon, str(run) if run else None
+    """Composición del M06 vigente en el visor: la misma que compite (ddd_motor2.vigente.vigente_publicado, T-258).
+    (None, run) si el run publicado no tiene composición versionada: nunca otro mapa en su lugar."""
+    from ddd_motor2.vigente import vigente_publicado
+    v = vigente_publicado(t, ROOT)
+    return v.ruta, v.run
 
 
 def _comparar_publicado(t: str, comp: Path) -> dict:
@@ -879,7 +872,12 @@ def indicadores_territorio(t: str, out: Path, *, cfg: dict | None = None, grafo:
     try:
         cfg = cfg if cfg is not None else _cfg(t)
         grafo = grafo or next((out / "entradas" / t).glob("*_m03_grafo.json"))
-        pub, run = vigente if vigente is not None else composicion_publicada(t)
+        if vigente is not None:
+            (pub, run), motivo_sin = vigente, "sin composición vigente publicada (datos/composicion)"
+        else:
+            from ddd_motor2.vigente import vigente_publicado
+            v = vigente_publicado(t, ROOT)
+            pub, run, motivo_sin = v.ruta, v.run, f"sin composición vigente publicada: {v.motivo}"
         res.update(run_vigente=run, fichero_vigente=str(pub.relative_to(ROOT)) if pub and pub.is_relative_to(ROOT) else (str(pub) if pub else None))
         d = json.loads((carpeta / "COMPETICION.json").read_text(encoding="utf-8"))
         cands = {c["id"]: c for c in d["candidatos"]}
@@ -908,11 +906,24 @@ def indicadores_territorio(t: str, out: Path, *, cfg: dict | None = None, grafo:
             comp_g, attrs_g = donde(d["ganador"])
             gan = _indicadores_plan(comp_g, cfg, grafo, can, attrs_g)
         res["ganador_indicadores"] = gan
+        bloque = d.get("vigente") or {}
         if pub is None:
             k = int(((cfg.get("validation") or {}).get("expected_districts")) or 0)
             res["estado"], res["motivo"] = ("UN_DISTRITO", "un solo distrito: el único plan posible; sin composición vigente") \
-                if k == 1 else ("SIN_VIGENTE", "sin composición vigente publicada (datos/composicion)")
+                if k == 1 else ("SIN_VIGENTE", motivo_sin)
+            if bloque.get("sha256_origen"):  # T-258: la competición juzgó un vigente que no es el publicado
+                res["estado"], res["motivo"] = "NO_EVALUABLE", "la competición juzgó un vigente y no hay mapa publicado"
             return res
+        if bloque:  # T-258: un único vigente; la competición y la comprobación 2 miden el mismo fichero publicado
+            import hashlib
+            if bloque.get("estado") == "VIGENTE_OTRO_SECCIONADO":  # T-224: sin vigente comparable, consta y no bloquea
+                res["estado"], res["motivo"] = "SIN_VIGENTE", bloque.get("detalle") or "vigente excluido: otro seccionado"
+                return res
+            if bloque.get("sha256_origen") != hashlib.sha256(pub.read_bytes()).hexdigest():
+                res["estado"], res["motivo"] = "NO_EVALUABLE", (
+                    f"vigente distinto del publicado: la competición juzgó {bloque.get('origen') or bloque.get('estado')} "
+                    f"(sha256 {str(bloque.get('sha256_origen'))[:12]}) y el visor publica {res['fichero_vigente']}")
+                return res
         from ddd_motor2.adaptadores import ErrorDatos
         vig = _vigente_sobre(can, pub, carpeta / "vigente", columnas_de_contrato(cfg))
         try:
@@ -1009,13 +1020,16 @@ def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str], 
     """Criterio T-194 sobre los resultados reales: sin red ni motor. `huellas` = {territorio: HUELLA_REAL.json};
     `cadenas` = {territorio: cadenas_de(...)}. T-181: sin cadena evaluable, con FALLO_GENERADOR, con candidatos sin evaluar,
     con un número de candidatos distinto de 1 + N (+1 si hay exhaustivo, +1 si compite el vigente, T-222) o con una cadena inválida sin motivo, no hay aceptación.
-    T-212: `vigentes` = {territorio: INDICADORES.json}; PEOR que el vigente = NO; sin indicadores, SIN_VIGENTE o NO_EVALUABLE
-    = sin aceptación y constan por nombre (nunca verde por omisión); UN_DISTRITO sin vigente consta aparte y vale."""
+    T-212: `vigentes` = {territorio: INDICADORES.json}; PEOR que el vigente = NO; sin indicadores o NO_EVALUABLE
+    = sin aceptación y constan por nombre (nunca verde por omisión); UN_DISTRITO sin vigente consta aparte y vale.
+    T-224/T-258: SIN_VIGENTE (sin vigente comparable: otro seccionado o sin mapa publicado) consta con su motivo en
+    «vigente_no_comparable» y no bloquea; un vigente de la competición distinto del publicado es NO_EVALUABLE."""
     cadenas = cadenas or {}
     vigentes = vigentes or {}
     est = {t: (vigentes.get(t) or {}).get("estado") for t in esperados}
     vig_peor = sorted(t for t in esperados if est[t] == "PEOR")
-    vig_sin = sorted(t for t in esperados if est[t] not in ("OK", "PEOR", "UN_DISTRITO"))
+    vig_sin = sorted(t for t in esperados if est[t] not in ("OK", "PEOR", "UN_DISTRITO", "SIN_VIGENTE"))
+    vig_no_comp = sorted(t for t in esperados if est[t] == "SIN_VIGENTE")  # T-224: consta con su motivo, no bloquea
     vig_un = sorted(t for t in esperados if est[t] == "UN_DISTRITO")
     vig_aviso = sorted(t for t in esperados if (vigentes.get(t) or {}).get("aviso_desvio"))
     por_t = {f["territorio"]: f for f in filas}
@@ -1035,6 +1049,7 @@ def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str], 
             "sin_cadenas": sin_cadenas, "fallo_generador": fallo_gen, "candidatos_incompletos": incompletos,
             "vigente_excluido": {t: c["vigente_excluido"] for t in esperados if (c := cadenas.get(t)) and c.get("vigente_excluido")},
             "vigente_peor": vig_peor, "vigente_sin": vig_sin, "vigente_un_distrito": vig_un, "vigente_aviso_desvio": vig_aviso,
+            "vigente_no_comparable": {t: (vigentes.get(t) or {}).get("motivo") or "" for t in vig_no_comp},
             "vigente_motivos": {t: (vigentes.get(t) or {}).get("motivo") or "sin INDICADORES.json" for t in vig_peor + vig_sin},
             "huella_real": {t: (huellas.get(t) or {}).get("huella_1") for t in h_pedidas}, "huella_real_mal": h_mal,
             "parcial": len(h_pedidas) < len(HUELLA_REAL),
@@ -1077,6 +1092,8 @@ def aceptacion(args) -> int:
           f"- Comprobación 1 · clave de elección peor que la del canónico: {res['empeoran'] or 'ninguno'}.",
           f"- Comprobación 2 · más distritos fuera de tolerancia (recuento bruto) que el mapa vigente publicado: {res['vigente_peor'] or 'ninguno'}; sin vigente comparable (no cuentan como verde): "
           f"{res['vigente_sin'] or 'ninguno'}; un distrito sin composición vigente (único plan posible): {res['vigente_un_distrito'] or 'ninguno'}.",
+          f"- Sin vigente comparable (T-224: otro seccionado o sin mapa publicado; consta y no bloquea): {', '.join(res['vigente_no_comparable']) or 'ninguno'}.",
+          *[f"  - {t}: {m}" for t, m in res["vigente_no_comparable"].items()],
           f"- Aviso (no bloquea) · desvío máximo mayor que el del vigente: {res['vigente_aviso_desvio'] or 'ninguno'}.",
           *[f"  - {t}: {m}" for t, m in res["vigente_motivos"].items()],
           f"- Huella real (Soria, Álava, Melilla; dos ejecuciones iguales): "

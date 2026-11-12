@@ -474,8 +474,12 @@ class BateriaMotor2EnActions(unittest.TestCase):
         # Canarias (campo de partición DDD_PARTITION: el vigente solo se evalúa en el job, con los atributos del canónico): el
         # laboratorio da 22 y el ganador r3 21 → OK aunque el canónico recalculado (20) sea mejor que el ganador.
         self.assertEqual(b.peor_que({"fuera_tolerancia": 21, "desvio_max": 0}, {"fuera_tolerancia": 22, "desvio_max": 0}), [])
-        for t in b.territorios():  # ningún territorio queda sin vigente publicado: ninguno sale SIN_VIGENTE por omisión
-            self.assertIsNotNone(b.composicion_publicada(t)[0], t)
+        from ddd_motor2.generadores import Vigente
+        from ddd_motor2.vigente import vigente_publicado
+        for t in b.territorios():  # T-258: un único vigente (el del visor) o el motivo explícito, nunca otro mapa
+            v = vigente_publicado(t)
+            self.assertTrue(v.ruta is not None or "no tiene composición versionada" in v.motivo, (t, v))
+            self.assertEqual((b.composicion_publicada(t)[0], Vigente().ruta(t)[0]), (v.ruta, v.ruta), t)
 
     def test_t212_forma_con_la_m01_de_las_entradas(self):
         import zipfile
@@ -503,14 +507,50 @@ class BateriaMotor2EnActions(unittest.TestCase):
         self.assertIn("mayor desvío máximo", b.aviso_desvio(g, {"fuera_tolerancia": 1, "desvio_max": 0.2})[0])
         self.assertEqual(b.aviso_desvio(g, {"fuera_tolerancia": 1, "desvio_max": 0.3}), [])
 
-    def test_t212_sin_vigente_consta_y_no_es_verde(self):
+    def test_t224_sin_vigente_comparable_consta_y_no_bloquea(self):
         with tempfile.TemporaryDirectory() as d:
             out = Path(d)
             self._competir_real(out, "madrid", cadena_ok=True, vigente=None)
             self.assertEqual(json.loads((out / "competicion" / "madrid" / "INDICADORES.json").read_text())["estado"], "SIN_VIGENTE")
-            r = self._aceptar(out, "madrid")
-            self.assertEqual((r["rc"], r["vigente_sin"], r["aceptacion"]), (1, ["madrid"], False))
-            self.assertIn("sin composición vigente", r["vigente_motivos"]["madrid"])
+            r = self._aceptar(out, "madrid")  # T-224/T-258: consta con su motivo y no bloquea (PARCIAL solo por las huellas)
+            self.assertEqual((r["rc"], r["vigente_sin"], r["aceptacion"]), (0, [], False))
+            self.assertIn("sin composición vigente", r["vigente_no_comparable"]["madrid"])
+            self.assertIn("Sin vigente comparable", (out / "ACEPTACION.md").read_text())
+
+    def _con_bloque_vigente(self, out: Path, t: str, bloque: dict) -> dict:
+        """T-258: reescribe el bloque «vigente» del COMPETICION.json y vuelve a medir con el vigente publicado."""
+        f = out / "competicion" / t / "COMPETICION.json"
+        d = json.loads(f.read_text())
+        d["vigente"] = bloque
+        f.write_text(json.dumps(d))
+        from tests.test_motor2_semilla import cfg as cfg_con_ancla
+        r = b.indicadores_territorio(t, out, cfg=cfg_con_ancla(), grafo=out / "grafo.json", vigente=(out / "vigente.csv", "123"))
+        b.escribir_indicadores(r, out)
+        return r
+
+    def test_t258_la_aceptacion_mide_el_mismo_vigente_que_la_competicion(self):
+        import hashlib
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            self._competir_real(out, "madrid", cadena_ok=True)
+            h = hashlib.sha256((out / "vigente.csv").read_bytes()).hexdigest()
+            self.assertEqual(self._con_bloque_vigente(out, "madrid", {"estado": "VALIDO", "sha256_origen": h})["estado"], "OK")
+            r = self._con_bloque_vigente(out, "madrid", {"estado": "VALIDO", "sha256_origen": "f" * 64,
+                                                          "origen": "datos/composicion/madrid.csv"})
+            self.assertEqual(r["estado"], "NO_EVALUABLE")  # otro vigente en la competición: nunca se compara en silencio
+            self.assertIn("vigente distinto del publicado", r["motivo"])
+            self.assertEqual((self._aceptar(out, "madrid")["rc"], self._aceptar(out, "madrid")["vigente_sin"]), (1, ["madrid"]))
+
+    def test_t258_otro_seccionado_es_sin_vigente_comparable_y_no_bloquea(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)
+            self._competir_real(out, "madrid", cadena_ok=True)
+            motivo = "vigente excluido: otro seccionado (madrid.csv): 3 secciones de la entrada sin distrito vigente"
+            r = self._con_bloque_vigente(out, "madrid", {"estado": "VIGENTE_OTRO_SECCIONADO", "compite": False,
+                                                          "detalle": motivo})
+            self.assertEqual((r["estado"], r["motivo"]), ("SIN_VIGENTE", motivo))
+            a = self._aceptar(out, "madrid")
+            self.assertEqual((a["rc"], a["vigente_sin"], a["vigente_no_comparable"]), (0, [], {"madrid": motivo}))
 
     def test_t212_sin_indicadores_o_no_evaluable_no_es_verde_por_omision(self):
         with tempfile.TemporaryDirectory() as d:
@@ -699,8 +739,8 @@ class LectorVigenteT229(unittest.TestCase):
                 out = Path(d)
                 pub, _, _ = self._montar(out, t, filas, pub_map, **kw)
                 r = self._indicadores(out, t, pub, self._falso_atomico(uid))
-                self.assertEqual(r["estado"], "NO_EVALUABLE", caso)
-                self.assertIn("atomicidad", r["motivo"], caso)
+                self.assertEqual(r["estado"], "NO_EVALUABLE", caso)  # T-258: otro sha256 = vigente distinto del publicado
+                self.assertIn("distinto del publicado" if caso == "otro sha256" else "atomicidad", r["motivo"], caso)
 
     def test_vigente_fino_peor_sigue_siendo_peor(self):
         # el criterio no cambia: si el vigente (piezas finas) tiene menos fuera de tolerancia, el ganador es PEOR
