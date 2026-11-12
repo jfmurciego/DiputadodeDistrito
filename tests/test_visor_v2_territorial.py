@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """T-119 PR-C: vista territorial del visor v2 (generador + navegador) y repaso completo del v2 en móvil y escritorio.
 
-PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato · CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v2_territorial_v1.0.0_20261112.py
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 El fixture reproduce propiedades reales del M06 de Baleares (distrito 9 de nac07, Baleares: 76.968 hab., −36,39 %, suelo 0).
 """
 import functools, hashlib, http.server, json, os, shutil, sys, tempfile, threading, unittest

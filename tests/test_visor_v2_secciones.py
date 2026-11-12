@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """T-119: capa de secciones del visor v2 (generador + navegador, móvil 390 px).
 
-PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato · CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v2_secciones_v1.0.0_20261112.py
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 Los valores esperados son literales del fixture (no se recalculan con el código bajo prueba).
 El navegador necesita playwright y MapLibre: con MAPLIBRE_DIR (carpeta con maplibre-gl.js/css) no usa la red.
 """

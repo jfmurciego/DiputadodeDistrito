@@ -4,8 +4,8 @@
 
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
-VERSIÓN: 1.0.1 · CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 VERSIÓN: 1.0.1 · ANTERIOR: legacy/herramientas/medir_historico_autonomico_v1.0.0_20261112.py
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: medir qué elecciones autonómicas existen por comunidad, cuáles tienen dato en el repositorio y cuáles cuadran
   (D-17: ≤0,5 % de voto), y la causa de cada hueco.

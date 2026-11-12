@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """T-125: el mapa 350 (congreso350_*) nunca entra en latest_validated ni en el registro de publicaciones.
 
-PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato · CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato · ANTERIOR: legacy/tests/test_t125_mapa_350_no_publica_v1.0.0_20261112.py
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 Causa real: la 05 42642161355 registró m06/m08 de congreso350_valladolid (run 42613899978) como canonical.
 """
 import json
