@@ -11,6 +11,7 @@ import pandas as pd
 import yaml
 
 from ddd_core.electoral_contract import PartyDictionary
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente, ruta_nueva  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "territorios/aut12/config/aut12_2025.yaml"
@@ -36,7 +37,7 @@ class GaliciaElectoralApplication(unittest.TestCase):
         self.assertIn("out_districts_with_results_geojson", m08)
 
         contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
-        self.assertEqual(contract["territory_id"], "aut12")
+        self.assertTrue(mismo_territorio(contract["territory_id"], "aut12"))  # T-220: el contrato conserva el id viejo
         self.assertEqual(contract["sources"][0]["sha256"], "7f9db16181962a1ef543fe0768c6822d19166e91b97e0a9d48b7c449c24aba96")
         adapter = contract["sources"][0]["adapter"]
         self.assertEqual(adapter["kind"], "wide_polling_station_csv")
@@ -69,8 +70,8 @@ class GaliciaElectoralApplication(unittest.TestCase):
         self.assertEqual(applicability["DO"]["equals"], ["32"])
         self.assertTrue(str(applicability["DO"]["reason"]).strip())
         provenance = adapter["structural_provenance"]
-        self.assertEqual(
-            provenance["path"],
+        self.assertEqual(  # T-220: el contrato (sha256 anclado) conserva la ruta con el id viejo; se lee con el resolutor
+            ruta_nueva(provenance["path"]),
             "territorios/aut12/config/elecciones/galicia_parlamento_2024.structural_provenance.json",
         )
         self.assertEqual(
@@ -89,7 +90,7 @@ class GaliciaElectoralApplication(unittest.TestCase):
         contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
         source = contract["sources"][0]
         declaration = source["adapter"]["structural_provenance"]
-        sidecar = ROOT / declaration["path"]
+        sidecar = ruta_existente(ROOT, declaration["path"])  # T-220
         self.assertTrue(sidecar.is_file())
         self.assertEqual(
             hashlib.sha256(sidecar.read_bytes()).hexdigest(),

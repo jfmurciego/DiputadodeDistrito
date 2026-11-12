@@ -27,7 +27,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220: id viejo o nuevo)
 
 
 def sha256(path: Path) -> str:
@@ -292,7 +292,7 @@ def _validate_static_structural_provenance(
     expected = str(contract_decl.get("sha256") or "").lower()
     if not path_raw or not _hex64(expected):
         raise ValueError("structural_provenance contractual incompleto")
-    sidecar = root / path_raw
+    sidecar = ruta_existente(root, path_raw)
     if not sidecar.is_file() or sha256(sidecar).lower() != expected:
         raise ValueError("sidecar estructural contractual ausente o alterado")
     document = json.loads(sidecar.read_text(encoding="utf-8"))
@@ -394,7 +394,7 @@ def _materialize_embedded_contract(
         raise ValueError("contrato electoral embebido no referencia la fuente congelada")
 
     runtime_rel = Path(".ddd-electoral-runtime") / territory_id / str(edition)
-    runtime_dir = root / runtime_rel
+    runtime_dir = ruta_existente(root, runtime_rel)
     runtime_contract = runtime_dir / "election_contract.json"
     runtime_dictionary = runtime_dir / "party_dictionary.json"
     runtime_source = runtime_dir / "data" / source.name
@@ -494,7 +494,7 @@ def validate_package(
     contract_raw = m07.get("election_contract")
 
     if contract_raw:
-        contract_path = root / str(contract_raw)
+        contract_path = ruta_existente(root, str(contract_raw))
         contract = json.loads(contract_path.read_text(encoding="utf-8"))
         if contract.get("schema_family") != "ddd-election" or contract.get("schema_version") != "1.0.0":
             raise ValueError("contrato electoral estático con schema inválido")
@@ -507,7 +507,7 @@ def validate_package(
         target_raw = matches[0].get("path")
         if not target_raw:
             raise ValueError("fuente contractual sin path")
-        target = root / str(target_raw)
+        target = ruta_existente(root, str(target_raw))
         static_structural_sha = _validate_static_structural_provenance(
             root=root,
             package=package,

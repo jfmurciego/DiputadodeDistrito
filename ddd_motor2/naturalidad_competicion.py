@@ -83,6 +83,7 @@ from functools import partial
 from pathlib import Path
 
 from . import naturalidad_mapas as nm
+from .semilla import territorio_ids  # noqa: E402  (T-220)
 from .naturalidad_clave import TOPES, Natural
 from .reglas import Reglas, evaluar
 from .reglas.modelo import Problema, Unidad
@@ -106,7 +107,7 @@ class Laboratorio(Natural):
         self.t, self.tablas, self.mov = t, tablas, mov
         self.cfg = cargar_cfg(t)
         self.reglas = Reglas.desde_contrato(self.cfg)
-        self.asig0, self.pob_s = nm.leer_composicion(nm.COMPOSICION / f"{t}.csv")
+        self.asig0, self.pob_s = nm.leer_composicion(territorio_ids.fichero_por_id(nm.COMPOSICION, "{}.csv", t))
         self.geo = nm.Geometria(nm.shp_de(seccionado_dir, nm.anio_seccionado(t)), set(self.asig0))
         total = sum(self.pob_s.values())
         self.objetivo, self.suelo, self.techo, self.tol = self.reglas.limites(total)

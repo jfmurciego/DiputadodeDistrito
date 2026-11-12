@@ -23,6 +23,7 @@ TABLA = ROOT / "configuracion" / "notacion_territorial.csv"
 EQUIV = ROOT / "configuracion" / "equivalencias_territorios.csv"
 SHA_TABLA = "13299081885c5d2736af5cbb86251641e962f63b91ad38914c694de1c3e621ee"  # literal: sha256 de la tabla maestra
 
+# config/elecciones: contratos electorales con sha256 anclado en evidencias electorales (no cambian de contenido).
 # Rutas donde un id viejo es histórico o trazabilidad (se leen vía ddd_core.territorio_ids.resolver_id).
 EXENTOS = (
     "legacy/", "docs/", "tests/fixtures/", "tests/legacy/", "orchestracion/", "datos/", "datos_abiertos/",
@@ -35,6 +36,26 @@ EXENTOS = (
     "tests/test_f10_asturias_galicia_receipt_candidates.py", "tests/test_f10_preparacion_aislada.py",
     "tests/test_f10_receipt_contract.py", "tests/test_source_preparation_generation_decoupling.py",
     "tests/test_electoral_gap_filler_real_evidence.py", "tests/_raiz_congelada.py",
+    # Operan sobre datos derivados, registro del visor, claves R2 o títulos de runs históricos (D-61: no se renombran).
+    "tests/test_visor_wgs84.py",
+    "tests/test_dashboard_activation_alternative.py",
+    "tests/test_homologacion_siglas_autonomicas.py",
+    "tests/test_resultados_partidos.py",
+    "tests/test_resolver_cadena_publicacion.py",
+    "tests/test_archivar_artefactos_r2.py",
+    "tests/test_escenarios_fase_c.py",
+    "tests/test_materializar_fuentes_nacionales_ine.py",
+    "tests/test_t201_vigente_por_eleccion.py",
+    "tests/test_t126_registro_sin_mapa_350.py",
+    "tests/test_resultados_ligeros.py",
+    "tests/test_crosswalk_nacional.py",
+    "tests/test_t83a_historico_m07.py",
+    "tests/test_congreso_politica_propuesta.py",
+    "tests/test_t166_cadena_m08_linaje.py",
+    "tests/test_movilidad_em_union.py",
+    "tests/test_registro_escenarios.py",
+    "tests/test_visor_v2_botones.py",
+    "tests/test_metricas_proceso.py",
     "tests/test_f10_2025_independent_territorial_receipts.py",
     "tests/test_f10_valencia_2023_universe.py",
     "tests/test_f10_electoral_three_territories.py",
@@ -52,7 +73,7 @@ NO_ES_ID = {
     "herramientas/procesar_f10_resultados_aragon_cyl.py": "variables y carpetas de originales F10 (evidencia histórica)",
     "visor/nacional/nacional.js": "zona del mapa", "visor/nacional/index.html": "zona del mapa",
 }
-EXENTOS_RE = re.compile(r"^territorios/[^/]+/(evidencia|resultados|inputs|docs)/|^territorios/[^/]+/[^/]+\.md$"
+EXENTOS_RE = re.compile(r"^territorios/[^/]+/(evidencia|resultados|inputs|docs|config/elecciones)/|^territorios/[^/]+/[^/]+\.md$"
                         r"|^territorios/congreso350_|^territorios/congreso/")
 CODIGO = ("herramientas/", "ddd_core/", "ddd_motor2/", "ddd_ensemble/", "modulos/", ".github/", "procedimiento.sh",
           "visor/")

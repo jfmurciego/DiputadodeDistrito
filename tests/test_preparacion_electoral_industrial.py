@@ -24,6 +24,7 @@ from herramientas.preparar_fuente_electoral import (
     validate_previous,
 )
 from ddd_core.electoral_contract import load_election_contract
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -82,7 +83,7 @@ class ResolverIndustrialTests(unittest.TestCase):
         self.assertFalse((cfg.get("meta") or {}).get("electoral_sources_declaration"))
         contract_path = ROOT / m07["election_contract"]
         contract = json.loads(contract_path.read_text(encoding="utf-8"))
-        self.assertEqual(contract["territory_id"], "aut02")
+        self.assertTrue(mismo_territorio(contract["territory_id"], "aut02"))  # T-220: el contrato conserva el id viejo
         self.assertEqual(contract["election_id"], "aragon_cortes_2026-02-08")
         self.assertEqual(contract["election_date"], "2026-02-08")
         source = contract["sources"][0]

@@ -31,6 +31,11 @@ import sys
 import zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = "ddd.historico-m07m08/1.0"
@@ -195,7 +200,7 @@ def main(argv=None) -> int:
     indice = json.loads((ROOT / "datos_abiertos/INDEX.json").read_text(encoding="utf-8"))["territorios"][t]
     if sha256(a.distritos) != indice["sha256_origen"]:
         raise SystemExit(f"HUELLA_M06_DISTINTA {a.distritos}")
-    comp_path = a.composicion or ROOT / f"datos/composicion/{t}.csv"
+    comp_path = a.composicion or fichero_por_id(ROOT / "datos/composicion", "{}.csv", t)
     comp = leer_composicion(comp_path)
     trabajo = a.trabajo or ROOT / f".cache/ddd/historico/{t}"
     pad = None

@@ -22,7 +22,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220: id viejo o nuevo)
 
 
 def _clean_header(value: object) -> str:
@@ -59,7 +59,7 @@ def _load_special_crosswalk(root:Path, transform:dict)->list[dict]:
     raw=str(transform.get("special_row_crosswalk") or "").strip()
     if not raw:
         return []
-    path=(root/raw).resolve()
+    path=(ruta_existente(root, raw)).resolve()
     data=json.loads(path.read_text(encoding="utf-8"))
     if data.get("schema")!="ddd-election-special-row-crosswalk/1.0":
         raise ValueError(f"Crosswalk especial con schema inválido: {path}")
@@ -178,7 +178,7 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
                         f"esperado={expected.get('expected_autonomic_census')} observado={census_value}"
                     )
                 cusec=str(expected["target_cusec"])
-                evidence=(json.loads((root/str(transform.get("special_row_crosswalk"))).read_text(encoding="utf-8")).get("evidence") or {})
+                evidence=(json.loads(ruta_existente(root,str(transform.get("special_row_crosswalk"))).read_text(encoding="utf-8")).get("evidence") or {})
                 source_identity=evidence.get("source_identity") or {}
                 if (
                     str(source_identity.get("province") or "") != prov
@@ -670,7 +670,7 @@ def _expected_election_identity(root:Path,cfg:dict,declaration:Path|None)->tuple
     if decl is None:
         raw=(cfg.get("meta") or {}).get("electoral_sources_declaration")
         if raw:
-            decl=root/str(raw)
+            decl=ruta_existente(root, str(raw))
     if decl and decl.is_file():
         data=load_declaration(decl)
         return (
@@ -680,7 +680,7 @@ def _expected_election_identity(root:Path,cfg:dict,declaration:Path|None)->tuple
     m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
     contract_raw=m07.get("election_contract")
     if contract_raw:
-        contract_path=root/str(contract_raw)
+        contract_path=ruta_existente(root, str(contract_raw))
         if contract_path.is_file():
             data=json.loads(contract_path.read_text(encoding="utf-8"))
             return (
@@ -705,7 +705,7 @@ def _materialize_embedded_contract(*,root:Path,package_out:Path,source_contract:
     if not dictionary_raw:
         return None
     dictionary_expected=str(dictionary_decl.get("sha256") or "").lower()
-    dictionary_src=(root/dictionary_raw).resolve()
+    dictionary_src=ruta_existente(root,dictionary_raw).resolve()
     if not dictionary_src.is_file():
         raise ValueError("Contrato electoral materializado perdió su diccionario de partidos")
     if not dictionary_expected or sha(dictionary_src).lower()!=dictionary_expected:
@@ -724,7 +724,7 @@ def _materialize_embedded_contract(*,root:Path,package_out:Path,source_contract:
         structural_expected=str(
             structural_decl.get("sha256") or ""
         ).lower()
-        structural_src=(root/structural_raw).resolve()
+        structural_src=ruta_existente(root,structural_raw).resolve()
         structural_doc=_load_structural_provenance(
             structural_src,
             expected_sha256=structural_expected,
@@ -926,14 +926,14 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
     m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
     contract_raw=m07.get("election_contract")
     if contract_raw:
-        contract_path=root/str(contract_raw)
+        contract_path=ruta_existente(root, str(contract_raw))
         if contract_path.is_file():
             contract=json.loads(contract_path.read_text(encoding="utf-8"))
             contract_tid=str(contract.get("territory_id") or "")
             contract_election_id=str(contract.get("election_id") or "")
             contract_election_date=str(contract.get("election_date") or "")
             identity_matches=(
-                contract_tid == territory_id
+                mismo_territorio(contract_tid, territory_id)
                 and bool(contract_election_id)
                 and bool(contract_election_date)
                 and (expected_election_id is None or contract_election_id == expected_election_id)
@@ -941,7 +941,7 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
             )
             sources=contract.get("sources") or []
             if identity_matches and len(sources)==1:
-                s=sources[0]; src=root/str(s.get("path") or "")
+                s=sources[0]; src=ruta_existente(root,str(s.get("path") or ""))
                 expected=str(s.get("sha256") or "").lower()
                 if src.is_file() and expected and sha(src).lower()==expected:
                     meta={"origin_url":s.get("source_url"),"publisher":s.get("publisher"),"acquired_at":s.get("retrieved_at"),"source_mode":"existing_contract","contract":str(contract_raw)}
@@ -964,7 +964,7 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
     decl=declaration
     if decl is None:
         raw=(cfg.get("meta") or {}).get("electoral_sources_declaration")
-        if raw: decl=root/str(raw)
+        if raw: decl=ruta_existente(root, str(raw))
     if decl and decl.is_file():
         tmp=package_out.parent/(package_out.name+"-acquire")
         if tmp.exists(): shutil.rmtree(tmp)
@@ -1116,7 +1116,7 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                     shutil.copy2(evidence_src,evidence_target)
                     universe_meta=merge_info.get("expected_universe") or {}
                     universe_rel=Path(str(universe_meta.get("path") or ""))
-                    universe_src=(root/universe_rel).resolve()
+                    universe_src=(ruta_existente(root, universe_rel)).resolve()
                     if not universe_src.is_file() or sha(universe_src)!=str(universe_meta.get("sha256") or ""):
                         raise ValueError("Expected universe perdió su artefacto gobernado antes de empaquetar evidencia")
                     universe_target=evidence_dir/("expected_universe"+universe_src.suffix)

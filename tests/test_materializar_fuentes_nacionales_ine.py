@@ -46,7 +46,7 @@ class PopulationPairValidationTests(unittest.TestCase):
         self.assertEqual(populations, {"0100101001": 100, "0100201001": 200, "5100101001": 300})
         self.assertEqual(audit["section_count"], 3)
         self.assertEqual(audit["national_official_total"], 600)
-        self.assertEqual(audit["aut18"], {"sections": 1, "population": 300})
+        self.assertEqual(audit["ceuta"], {"sections": 1, "population": 300})
 
     def test_historical_unobserved_section_is_not_zero(self):
         rows = self.rows.copy()
@@ -91,8 +91,8 @@ class MaterializedPackageTests(unittest.TestCase):
                          ["CUSEC", "CUMUN", "CPRO", "CMUN", "CDIS", "CSEC"])
         self.assertEqual(manifest["input_contract"]["population"]["filter"],
                          {"Periodo": "2025", "Sexo": "Total", "Edad": "Todas las edades"})
-        self.assertEqual(manifest["population"]["aut18"], {"sections": 56, "population": 83567})
-        self.assertEqual(manifest["population"]["aut19"], {"sections": 44, "population": 87067})
+        self.assertEqual(manifest["population"]["ceuta"], {"sections": 56, "population": 83567})
+        self.assertEqual(manifest["population"]["melilla"], {"sections": 44, "population": 87067})
         self.assertNotIn("by_cusec", manifest["geometry"])
         self.assertEqual(
             manifest["geometry"]["geometry_identity_sha256"],

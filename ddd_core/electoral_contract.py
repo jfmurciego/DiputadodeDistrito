@@ -22,7 +22,7 @@ import unicodedata
 from pathlib import Path
 from typing import Any, Mapping
 
-from ddd_core.territorio_ids import mismo_territorio
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente
 
 
 SCHEMA_FAMILY = "ddd-election"
@@ -105,7 +105,8 @@ def _load_json(path: Path, context: str) -> dict[str, Any]:
 
 def _resolve(project_root: Path, raw_path: Any) -> Path:
     path = Path(str(raw_path)).expanduser()
-    return path.resolve() if path.is_absolute() else (project_root / path).resolve()
+    # T-220: un contrato electoral conserva rutas `territorios/<id viejo>/…` (su sha256 está anclado en evidencias).
+    return path.resolve() if path.is_absolute() else ruta_existente(project_root, path.as_posix()).resolve()
 
 
 def _verify_file(record: Mapping[str, Any], project_root: Path, context: str) -> Path:

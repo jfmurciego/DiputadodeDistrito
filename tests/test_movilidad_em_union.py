@@ -113,7 +113,7 @@ class Correlacion(unittest.TestCase):
 class CompacidadM06(unittest.TestCase):
     def test_poblacion_m06_igual_a_composicion(self):
         # poblaciones por distrito del M06 == suma de la composición vigente (comprobado a mano para Cádiz: 1.254.866)
-        filas = [r for r in m.leer_csv(m.COMPACIDAD_CSV) if r["territorio"] == "nac11"]
+        filas = [r for r in m.leer_csv(m.COMPACIDAD_CSV) if r["territorio"] == "congreso_cadiz"]
         self.assertEqual(len(filas), 11)
         self.assertEqual(sum(int(r["poblacion_m06"]) for r in filas), 1254866)
         self.assertTrue(all(0 < float(r["polsby_popper_m06"]) <= 1 for r in m.leer_csv(m.COMPACIDAD_CSV)))

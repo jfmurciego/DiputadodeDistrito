@@ -14,7 +14,7 @@ meta:
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
   product_variant: congreso_350
-  parent_territory_id: congreso_cadiz
+  parent_territory_id: nac11
 io:
   project_root:
     path: ../../..

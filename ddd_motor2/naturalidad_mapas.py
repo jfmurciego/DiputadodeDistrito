@@ -35,6 +35,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from . import naturalidad as nat
+from .semilla import territorio_ids  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 COMPOSICION = ROOT / "datos" / "composicion"
@@ -208,7 +209,7 @@ def cmd_vigentes(a) -> int:
             anio = anio_seccionado(t)
             shp = shp_de(Path(a.seccionado_dir), anio)
             shps[anio] = shp
-            asig, pob = leer_composicion(COMPOSICION / f"{t}.csv")
+            asig, pob = leer_composicion(territorio_ids.fichero_por_id(COMPOSICION, "{}.csv", t))
             geo = Geometria(shp, set(asig))
             filas.append(fila(t, anio, asig, pob, indicadores(asig, pob, geo, tablas, mov)))
             print(f"{t}: ok", flush=True)

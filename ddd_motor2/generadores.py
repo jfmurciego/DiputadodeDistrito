@@ -290,7 +290,7 @@ class Vigente:
     def ruta(self, t: str) -> tuple[Path | None, str | None, str]:
         """(composición, run, motivo si no hay): la del visor o, con `carpeta`, <carpeta>/<t>.csv."""
         if self.carpeta is not None:
-            f = self.carpeta / f"{t}.csv"
+            f = territorio_ids.fichero_por_id(self.carpeta, "{}.csv", t)
             return (f, None, "") if f.is_file() else (None, None, f"no hay mapa publicado ({f.name})")
         from .vigente import vigente_publicado
         v = vigente_publicado(t, self.root)

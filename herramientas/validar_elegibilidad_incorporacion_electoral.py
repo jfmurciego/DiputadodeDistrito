@@ -13,7 +13,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio, variantes  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, variantes, ruta_existente  # noqa: E402  (T-220: id viejo o nuevo)
 
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 

@@ -3,6 +3,7 @@ import json
 import unittest
 
 import yaml
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 PARAMS = ROOT / "territorios/aut07/config/aut07_2025.yaml"
@@ -26,7 +27,7 @@ class CastillaLeonElectoral2026(unittest.TestCase):
         self.assertEqual(contract["schema_family"], "ddd-election")
         self.assertEqual(contract["schema_version"], "1.0.0")
         self.assertEqual(contract["election_id"], "castilla_y_leon_cortes_2026-03-15")
-        self.assertEqual(contract["territory_id"], "aut07")
+        self.assertTrue(mismo_territorio(contract["territory_id"], "aut07"))  # T-220: el contrato conserva el id viejo
         self.assertTrue(contract["boundary_independence"])
         self.assertEqual(len(contract["sources"]), 1)
         source = contract["sources"][0]

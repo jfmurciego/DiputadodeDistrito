@@ -36,13 +36,13 @@ class Ligeros(unittest.TestCase):
         self.zips = self.d / "zips"
         self.zips.mkdir()
         prods = []
-        for t, run, gan in (("nac42", "10", ["PP", "PSOE"]), ("nac42", "20", ["PP", "PP"]),
-                            ("nac44", "5", ["PSOE"])):
+        for t, run, gan in (("congreso_soria", "10", ["PP", "PSOE"]), ("congreso_soria", "20", ["PP", "PP"]),
+                            ("congreso_teruel", "5", ["PSOE"])):
             datos = m08(gan)
             (self.zips / f"{t}_{run}.zip").write_bytes(datos)
             prods.append({"kind": "canonical_m08", "territory_id": t, "run_id": run, "blob_sha": f"b{run}",
                           "sha256": rl.sha256(datos)})
-        prods.append({"kind": "canonical_m06", "territory_id": "nac42", "run_id": "99"})
+        prods.append({"kind": "canonical_m06", "territory_id": "congreso_soria", "run_id": "99"})
         self.reg = self.d / "reg.json"
         self.reg.write_text(json.dumps({"products": prods}))
         self.out = self.d / "out"
@@ -52,8 +52,8 @@ class Ligeros(unittest.TestCase):
 
     def test_csv_y_manifiesto(self):
         man = self.gen()
-        self.assertEqual(sorted(man["territorios"]), ["nac42", "nac44"])
-        self.assertEqual(man["territorios"]["nac42"]["run_id"], "20")
+        self.assertEqual(sorted(man["territorios"]), ["congreso_soria", "congreso_teruel"])
+        self.assertEqual(man["territorios"]["congreso_soria"]["run_id"], "20")
         lineas = (self.out / "congreso_soria.csv").read_text().splitlines()
         self.assertEqual(lineas[0], ",".join(rl.CABECERA))
         self.assertEqual(lineas[1], "0,1000,500,PP,200,40.0000")
@@ -70,16 +70,16 @@ class Ligeros(unittest.TestCase):
         # T-114: «partidos_runs» y contraste_2023.csv los escriben otras herramientas; no se pierden al regenerar.
         self.gen()
         man = json.loads((self.out / "MANIFEST.json").read_text())
-        man["partidos"] = {"nac42": {"x": 1}}
+        man["partidos"] = {"congreso_soria": {"x": 1}}
         man["partidos_runs"] = {"congreso_soria/10": {"run_territorial": "7"}}
         (self.out / "MANIFEST.json").write_text(json.dumps(man))
         (self.out / "contraste_2023.csv").write_text("a\n")
         (self.out / "congreso_soria_partidos.csv").write_text("b\n")
         reg = json.loads(self.reg.read_text())
-        reg["products"] = [p for p in reg["products"] if p.get("territory_id") != "nac44"]
+        reg["products"] = [p for p in reg["products"] if p.get("territory_id") != "congreso_teruel"]
         self.reg.write_text(json.dumps(reg))
         nuevo = self.gen()
-        self.assertEqual({"nac42": {"x": 1}}, nuevo["partidos"])
+        self.assertEqual({"congreso_soria": {"x": 1}}, nuevo["partidos"])
         self.assertEqual({"congreso_soria/10": {"run_territorial": "7"}}, nuevo["partidos_runs"])
         self.assertTrue((self.out / "contraste_2023.csv").exists())
         self.assertTrue((self.out / "congreso_soria_partidos.csv").exists())
@@ -92,11 +92,11 @@ class Ligeros(unittest.TestCase):
 
     def test_ganadores_desde_csv(self):
         self.gen()
-        p = rl.vigentes(self.reg)["nac42"]
-        self.assertEqual(rl.ganadores(self.out, "nac42", p), ["PP", "PP"])
-        self.assertIsNone(rl.ganadores(self.out, "nac42", {**p, "blob_sha": "otro"}))
+        p = rl.vigentes(self.reg)["congreso_soria"]
+        self.assertEqual(rl.ganadores(self.out, "congreso_soria", p), ["PP", "PP"])
+        self.assertIsNone(rl.ganadores(self.out, "congreso_soria", {**p, "blob_sha": "otro"}))
         (self.out / "congreso_soria.csv").write_text("alterado")
-        self.assertIsNone(rl.ganadores(self.out, "nac42", p))
+        self.assertIsNone(rl.ganadores(self.out, "congreso_soria", p))
 
 
 if __name__ == "__main__":

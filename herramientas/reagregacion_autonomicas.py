@@ -40,6 +40,11 @@ sys.path.insert(0, str(ROOT))
 import equivalencia_seccionados as eqs  # noqa: E402
 import fuente_nazioenbehatokia as fnb  # noqa: E402
 import reagregacion_historico as rh  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 SCHEMA = "ddd.reagregacion-autonomicas/1.0"
 BASE = "https://nazioenbehatokia.eus/data/autonomikoak/"
@@ -85,7 +90,7 @@ def leer_calendario(raiz: Path = ROOT) -> dict[str, list[dict]]:
 
 def leer_composicion(comunidad: str, raiz: Path = ROOT) -> dict[str, str]:
     """{cusec vigente: distrito} de datos/composicion/<comunidad>.csv."""
-    with open(raiz / f"datos/composicion/{comunidad}.csv", encoding="utf-8", newline="") as f:
+    with open(fichero_por_id(raiz / "datos/composicion", "{}.csv", comunidad), encoding="utf-8", newline="") as f:
         return {r["seccion"]: r["distrito"] for r in csv.DictReader(f)}
 
 
@@ -227,7 +232,7 @@ def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: d
         (salida_c / ele / "MANIFEST.json").write_text(json.dumps({
             "schema": SCHEMA, "comunidad": com, "eleccion": ele, "seccionado_historico": año, "peso": "poblacion (D-13)",
             "fuentes": {"observatorio": huellas, "seccionado_2025": eqs.sha256(a.seccionado), "padron_65034": eqs.sha256(a.padron),
-                        "composicion": eqs.sha256(ROOT / f"datos/composicion/{com}.csv"),
+                        "composicion": eqs.sha256(fichero_por_id(ROOT / "datos/composicion", "{}.csv", com)),
                         "asignacion_por_geometria": {
                             "secciones": len(geom_asignadas), "habitantes": sum(pob.get(s, 0) for s, _ in geom_asignadas),
                             "metodo": "sección vigente ausente de la composición M06 → distrito de la unión de secciones conocidas más próxima; empate: mayor contacto"},

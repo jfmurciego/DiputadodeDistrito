@@ -10,6 +10,8 @@ from pathlib import Path
 
 import yaml
 
+from ddd_core.territorio_ids import id_legacy  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -53,7 +55,7 @@ class CongressProvincesTests(unittest.TestCase):
         for tid, pilot in self.pilots.items():
             with self.subTest(territory=tid):
                 k = self.reparto[tid]["k"]
-                election_id = f"{tid}_2023-07-23"
+                election_id = f"{id_legacy(tid)}_2023-07-23"  # T-220: los election_id no se renombran
                 self.assertEqual(k, pilot["k_districts"])
                 self.assertEqual(k, policy[tid]["k"])
                 self.assertEqual(election_id, matrix[tid]["election_id"])

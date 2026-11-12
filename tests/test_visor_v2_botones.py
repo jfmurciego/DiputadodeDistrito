@@ -26,7 +26,7 @@ class Generador(unittest.TestCase):
             self.assertEqual(gr.generar(out, RAIZ / "datos/resultados/historico/rotacion", RAIZ / "datos/composicion"), 0)
             d = json.loads(out.read_text("utf-8"))
             a = d["provincias"]["01"]
-            self.assertEqual(a["territorio"], "nac01")
+            self.assertEqual(a["territorio"], "congreso_alava")
             self.assertEqual(a["distritos"][2], {"d": 3, "g": ALAVA_D2, "c": 3})
             self.assertEqual(len(a["sha256"]), 64)
             self.assertEqual(d["elecciones"][-1], "202307")
@@ -121,7 +121,7 @@ class Botones(unittest.TestCase):
             try:
                 pg.wait_for_function("document.querySelector('#c-rotacion').getAttribute('aria-disabled')!=='true'", timeout=10000)
                 pg.click("#c-rotacion")
-                for nombre, t, lonlat in (("Álava", "nac01", (-2.69, 42.85)), ("Madrid", "nac28", (-3.70, 40.42))):
+                for nombre, t, lonlat in (("Álava", "congreso_alava", (-2.69, 42.85)), ("Madrid", "congreso_madrid", (-3.70, 40.42))):
                     pg.evaluate(f"map.jumpTo({{center:[{lonlat[0]},{lonlat[1]}],zoom:7}})")
                     for _ in range(5):
                         pg.wait_for_function("map.loaded()&&!map.isMoving()", timeout=10000)

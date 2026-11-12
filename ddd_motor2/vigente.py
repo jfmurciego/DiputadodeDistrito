@@ -25,6 +25,8 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
+from .semilla import territorio_ids  # noqa: E402  (T-220: el registro del visor guarda el id viejo)
+
 ROOT = Path(__file__).resolve().parents[1]
 ELECCION = "2023-07-23"
 
@@ -41,7 +43,7 @@ def run_publicado(t: str, root: Path = ROOT) -> str | None:
     if not pv.is_file():
         return None
     runs = [int(p["run_id"]) for p in json.loads(pv.read_text(encoding="utf-8")).get("products") or []
-            if p.get("kind") == "canonical_m06" and p.get("territory_id") == t and str(p.get("run_id") or "").isdigit()
+            if p.get("kind") == "canonical_m06" and territorio_ids.mismo_territorio(str(p.get("territory_id") or ""), str(t)) and str(p.get("run_id") or "").isdigit()
             and str(p.get("election_date") or ELECCION) == ELECCION]
     return str(max(runs)) if runs else None
 
@@ -51,13 +53,14 @@ def vigente_publicado(t: str, root: Path = ROOT) -> VigentePublicado:
     run = run_publicado(t, root)
     if run is None:
         return VigentePublicado(None, None, "sin mapa publicado en el visor (publicaciones_visor.json)")
-    f = root / "datos" / "composicion" / "runs" / f"{t}_{run}.csv"
+    # T-220: la composición publicada puede llevar el id viejo en el nombre (productos derivados, D-61).
+    f = territorio_ids.fichero_por_id(root / "datos" / "composicion" / "runs", "{}_" + str(run) + ".csv", t)
     if f.is_file():
         return VigentePublicado(f, run)
-    canon = root / "datos" / "composicion" / f"{t}.csv"
+    canon = territorio_ids.fichero_por_id(root / "datos" / "composicion", "{}.csv", t)
     man = root / "datos" / "composicion" / "MANIFEST.json"
-    run_canon = ((json.loads(man.read_text(encoding="utf-8")).get("territorios") or {}).get(t) or {}).get("run_id") \
-        if man.is_file() else None
+    run_canon = (territorio_ids.en_mapa(json.loads(man.read_text(encoding="utf-8")).get("territorios") or {}, t)
+                 or {}).get("run_id") if man.is_file() else None
     if canon.is_file() and str(run_canon) == run:
         return VigentePublicado(canon, run)
     return VigentePublicado(None, run, f"el mapa publicado (run {run}) no tiene composición versionada en "

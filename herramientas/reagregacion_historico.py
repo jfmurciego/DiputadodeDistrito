@@ -43,6 +43,11 @@ sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(ROOT))
 import equivalencia_seccionados as eqs  # noqa: E402
 import fuente_nazioenbehatokia as fnb  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 SCHEMA = "ddd.reagregacion-historico/1.0"
 TOLERANCIA = fnb.UMBRAL_DEFECTO
@@ -390,7 +395,7 @@ def main(argv=None) -> int:
         if c is None and a.lote and len(str(indice[t].get("provincia", ""))) == 2:  # EXTRA.json trae el código
             c = indice[t]["provincia"]
         if c is None:  # provincia = las dos primeras cifras de la composición vigente
-            with open(ROOT / f"datos/composicion/{t}.csv", encoding="utf-8", newline="") as f:
+            with open(fichero_por_id(ROOT / "datos/composicion", "{}.csv", t), encoding="utf-8", newline="") as f:
                 c = next(csv.DictReader(f))["seccion"][:2]
         entrada, ganadores = procesar(t, c, ruta, a, espejo, vig_all[c], pob, todos, hom, sin_hom)
         man["territorios"][t] = entrada

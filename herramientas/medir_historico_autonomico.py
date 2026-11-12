@@ -17,6 +17,11 @@ import argparse
 import csv
 import json
 from pathlib import Path
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 ROOT = Path(__file__).resolve().parents[1]
 CAL = "configuracion/calendario_autonomicas.csv"
@@ -40,7 +45,7 @@ def medir(raiz: Path = ROOT) -> list[dict]:
         if c not in mans:
             p = raiz / DATOS / c / "MANIFEST.json"
             mans[c] = json.loads(p.read_text(encoding="utf-8")).get("elecciones", {}) if p.exists() else {}
-        comp = (raiz / "datos/composicion" / f"{c}.csv").exists()
+        comp = fichero_por_id(raiz / "datos/composicion", "{}.csv", c).exists()
         hay_secc = f"{r['cod_ine']}-{aaaamm}" in secc
         m = mans[c].get(aaaamm)
         f_ = {"comunidad": c, "eleccion": aaaamm, "fecha_mes": r["mes"], "granularidad_calendario": r["granularidad"],

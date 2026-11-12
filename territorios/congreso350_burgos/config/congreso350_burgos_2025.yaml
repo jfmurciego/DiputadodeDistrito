@@ -14,7 +14,7 @@ meta:
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
   product_variant: congreso_350
-  parent_territory_id: congreso_burgos
+  parent_territory_id: nac09
 io:
   project_root:
     path: ../../..
@@ -71,7 +71,7 @@ territory_contract:
   limits_profile: exception
   limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 %
     y un municipio que cabe bajo el techo no se divide.'
-  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits
   limits_exception_decided_at: '2026-10-31'
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
@@ -104,19 +104,19 @@ modulos:
       admin_scope: province:09
       edge_type: administrative_enclave
       reason: Enclave de Treviño enlazado al cuerpo principal de Burgos por la sección burgalesa más próxima (Miranda de Ebro).
-      source: CYL-02 audit; heredado de territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+      source: CYL-02 audit; heredado de territorios/aut07/config/aut07_2025.yaml
     - u: 0922301001
       v: 0941401001
       admin_scope: province:09
       edge_type: cartographic_gap
       reason: 'Monasterio de la Sierra: hueco de 758 m en el seccionado hasta Valle de Valdelaguna.'
-      source: CYL-02 geometry audit; heredado de territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+      source: CYL-02 geometry audit; heredado de territorios/aut07/config/aut07_2025.yaml
     - u: 0915401001
       v: 0933001001
       admin_scope: province:09
       edge_type: cartographic_gap
       reason: 'Hacinas: hueco de 622 m en el seccionado hasta Salas de los Infantes.'
-      source: CYL-02 audit; heredado de territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+      source: CYL-02 audit; heredado de territorios/aut07/config/aut07_2025.yaml
   modulo_03_construir_grafo:
     in_geojson: territorios/congreso350_burgos/.cache/ddd/preparacion/{run_name}/congreso350_burgos_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso350_burgos/.cache/ddd/preparacion/{run_name}/congreso350_burgos_2025_m02_adyacencias.jsonl

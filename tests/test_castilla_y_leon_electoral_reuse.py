@@ -9,6 +9,7 @@ from unittest.mock import patch
 
 from herramientas.preparar_fuente_electoral import prepare
 from herramientas.resolver_eleccion_vigente import resolve_for_preparation
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 PARAMS = ROOT / "territorios/aut07/config/aut07_2025.yaml"
@@ -27,7 +28,7 @@ class CastillaYLeonMaterializedElectionTests(unittest.TestCase):
     def test_prepares_from_materialized_contract_without_external_acquisition(self):
         contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
         self.assertEqual(contract["election_id"], "castilla_y_leon_cortes_2026-03-15")
-        self.assertEqual(contract["territory_id"], "aut07")
+        self.assertTrue(mismo_territorio(contract["territory_id"], "aut07"))  # T-220: el contrato conserva el id viejo
         self.assertEqual(contract["sources"][0]["publisher"], "Junta de Castilla y León — Datos Abiertos")
         with tempfile.TemporaryDirectory() as td:
             out = Path(td) / "package"
@@ -72,7 +73,7 @@ class CastillaYLeonMaterializedElectionTests(unittest.TestCase):
             )
 
             portable = json.loads(contract_path.read_text(encoding="utf-8"))
-            self.assertEqual(portable["territory_id"], "aut07")
+            self.assertTrue(mismo_territorio(portable["territory_id"], "aut07"))  # T-220
             self.assertEqual(portable["election_id"], "castilla_y_leon_cortes_2026-03-15")
             self.assertEqual(portable["election_date"], "2026-03-15")
             self.assertEqual(

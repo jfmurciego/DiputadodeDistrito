@@ -43,13 +43,13 @@ class Archivista(unittest.TestCase):
         self.td = tempfile.TemporaryDirectory()
         self.root = Path(self.td.name)
         (self.root / "orchestracion").mkdir()
-        (self.root / arc.CATALOGO).write_text(json.dumps({"t": {"aut06": {
-            "territory_id": "aut06",
+        (self.root / arc.CATALOGO).write_text(json.dumps({"t": {"cantabria": {
+            "territory_id": "cantabria",
             "x": {"artifact_name": "ddd-state-41037133327-M06"},
             "y": {"artifact_name": "ddd-audit-41037133327"}}}}))
         (self.root / arc.VISOR).write_text(json.dumps({"products": [
-            {"id": "m", "run_id": "41037133327", "territory_id": "aut06"},
-            {"id": "s", "territory_id": "aut02"}]}))
+            {"id": "m", "run_id": "41037133327", "territory_id": "cantabria"},
+            {"id": "s", "territory_id": "aragon"}]}))
         self.vivos = [
             art(2, "ddd-state-41037133327-M06", "2026-11-20T00:00:00Z"),
             art(1, "ddd-state-41037133327-M05", "2026-11-13T00:00:00Z"),
@@ -107,8 +107,8 @@ class Archivista(unittest.TestCase):
 
     def test_error_no_registra_y_perdidos(self):
         n, r = arc.referencias(self.root)
-        n["ddd-state-41037133327-M04"] = "aut06"
-        n["ddd-state-41037133328-M06"] = "aut06"
+        n["ddd-state-41037133327-M04"] = "cantabria"
+        n["ddd-state-41037133328-M06"] = "cantabria"
 
         def falla(a, p):
             raise RuntimeError("red")
@@ -222,7 +222,7 @@ class PaqueteMinimo(unittest.TestCase):
         r2 = R2Falso()
         man = {"artefactos": {}}
         viv = [{**art(7, "ddd-state-41037133327-M06", "2026-11-20T00:00:00Z")}]
-        res = arc.archivar(viv, {"ddd-state-41037133327-M06": "aut06"}, {}, man,
+        res = arc.archivar(viv, {"ddd-state-41037133327-M06": "cantabria"}, {}, man,
                            lambda a, p: p.write_bytes((self.d / "e.zip").read_bytes()), r2.sha, r2.subir, "bkt",
                            empaquetar=arc.empaquetar_minimo())
         k = "cantabria/41037133327/ddd-minimo-41037133327-M06.zip"

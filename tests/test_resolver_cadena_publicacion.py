@@ -21,7 +21,7 @@ class ResolverCadenaPublicacionTests(unittest.TestCase):
         # Registro durable versionado: 00 «Reutilizar» 42421655965 de Huesca (M08 de 41194447427).
         r = resolver(ROOT, "42421655965")
         self.assertEqual(r["status"], "READY")
-        self.assertEqual(r["territory_id"], "nac22")
+        self.assertEqual(r["territory_id"], "congreso_huesca")
         self.assertEqual(r["publish_run_id"], "41194447427")
         self.assertEqual(r["m06_run_id"], "41057319037")
         self.assertEqual(r["m06_artifact"], "ddd-state-41057319037-M06")

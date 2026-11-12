@@ -20,7 +20,7 @@ def entry(kind, ident, **extra):
     blob = hashlib.sha1(ident.encode()).hexdigest()
     base = {"id": ident, "asset_type": "territorial_product", "source_type": "repository_blob", "repository": REPO,
             "blob_sha": blob, "immutable_location": f"github-git-blob://{REPO}/{blob}",
-            "territory_id": "nac37", "sha256": hashlib.sha256(ident.encode()).hexdigest(), "kind": kind,
+            "territory_id": "congreso_salamanca", "sha256": hashlib.sha256(ident.encode()).hexdigest(), "kind": kind,
             "run_id": 111, "expected_districts": 1, "label": ident}
     base.update(extra)
     return base

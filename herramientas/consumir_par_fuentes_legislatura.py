@@ -16,7 +16,7 @@ import argparse
 import json
 from pathlib import Path
 
-from ddd_core.territorio_ids import mismo_territorio  # T-220
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # T-220
 from herramientas import catalogo_preparacion
 from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, validate_compatibility_package
 from herramientas.identidad_fuentes_legislatura import (
@@ -102,7 +102,7 @@ def validate_territorial_receipt(
         raise PreparedPairExecutionBlock(
             "PREPARED_TERRITORIAL_BLOCK: falta receipt territorial versionado de #179"
         )
-    receipt_path = root / receipt_rel
+    receipt_path = ruta_existente(root, receipt_rel)
     if not receipt_path.is_file():
         raise PreparedPairExecutionBlock(
             f"PREPARED_TERRITORIAL_BLOCK: receipt territorial no disponible: {receipt_rel}"
@@ -209,7 +209,7 @@ def resolve_pair(
             f"PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para "
             f"{row['name']} edición {edition}; complete la preparación conjunta antes de ejecutar"
         )
-    pair_path = root / pair_rel
+    pair_path = ruta_existente(root, pair_rel)
     if not pair_path.is_file():
         raise PreparedPairExecutionBlock(
             f"PREPARED_PAIR_BLOCK: receipt durable del par no disponible: {pair_rel}"
@@ -248,13 +248,13 @@ def _producer_manifest_reuse(
     ``inputs.source_package_artifact`` coincide byte a byte (run, nombre y SHA-256)
     con el receipt territorial vigente; en otro caso se mantiene el bloqueo.
     """
-    if not current_source or not product_rel or not (root / product_rel).is_file():
+    if not current_source or not product_rel or not (ruta_existente(root, product_rel)).is_file():
         return None
-    product = _json(root / product_rel, label="receipt de producto territorial")
+    product = _json(ruta_existente(root, product_rel), label="receipt de producto territorial")
     manifest_rel = str(product.get("producer_manifest_path") or "")
-    if not manifest_rel or not (root / manifest_rel).is_file():
+    if not manifest_rel or not (ruta_existente(root, manifest_rel)).is_file():
         return None
-    manifest = _json(root / manifest_rel, label="manifiesto del productor M06")
+    manifest = _json(ruta_existente(root, manifest_rel), label="manifiesto del productor M06")
     identity = manifest.get("identity") or {}
     source = (manifest.get("inputs") or {}).get("source_package_artifact") or {}
     m06 = (manifest.get("artifacts") or {}).get("m06") or {}
@@ -308,7 +308,7 @@ def resolve_geometric_reuse(
     evidence = row.get("evidence") or {}
     lineage_rel = str(evidence.get("territorial_product_source_lineage") or "")
     product_rel = str(evidence.get("territorial_product") or "")
-    if not lineage_rel or not (root / lineage_rel).is_file():
+    if not lineage_rel or not (ruta_existente(root, lineage_rel)).is_file():
         from_manifest = _producer_manifest_reuse(
             root, product_rel, current_source=current_source, current_identity=current_identity,
         )
@@ -320,15 +320,15 @@ def resolve_geometric_reuse(
             "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
             "current_territorial_identity_sha256": current_identity,
         }
-    if not product_rel or not (root / product_rel).is_file():
+    if not product_rel or not (ruta_existente(root, product_rel)).is_file():
         return {
             "available": True,
             "compatible": False,
             "reason": "PRODUCT_RECEIPT_MISSING",
             "current_territorial_identity_sha256": current_identity,
         }
-    lineage = _json(root / lineage_rel, label="linaje producto→fuente")
-    product = _json(root / product_rel, label="receipt de producto territorial")
+    lineage = _json(ruta_existente(root, lineage_rel), label="linaje producto→fuente")
+    product = _json(ruta_existente(root, product_rel), label="receipt de producto territorial")
     if (
         lineage.get("schema") != "ddd.territorial-product-source-lineage/1.0"
         or not mismo_territorio(str(lineage.get("territory_id") or ""), str(territory_id))

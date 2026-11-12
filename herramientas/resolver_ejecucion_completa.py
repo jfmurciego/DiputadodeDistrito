@@ -27,7 +27,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import variantes, mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import variantes, mismo_territorio, ruta_existente  # noqa: E402  (T-220: id viejo o nuevo)
 
 _run_from_artifact = _core._run_from_artifact
 
@@ -324,7 +324,7 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
             "population_year/section_year ausentes o inválidos"
         ) from exc
     declaration_rel = str(state.get("territorial_source_declaration") or "")
-    declaration_path = root_dir / declaration_rel if declaration_rel else None
+    declaration_path = ruta_existente(root_dir, declaration_rel) if declaration_rel else None
     if declaration_path is None or not declaration_path.is_file():
         raise ValueError(
             f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "

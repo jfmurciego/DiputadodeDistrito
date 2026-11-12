@@ -189,6 +189,24 @@ def variantes(x: str) -> tuple[str, ...]:
     return tuple(dict.fromkeys((s, t.id, t.id_legacy)))
 
 
+def fichero_por_id(carpeta, plantilla: str, x: str):
+    """Fichero de datos derivados nombrado por id (`datos/composicion/<id>.csv`): el que exista con el id dado, el
+    nuevo o el viejo (los productos ya publicados conservan el id viejo, D-61). Si ninguno existe, el del id dado."""
+    carpeta = Path(carpeta)
+    candidatas = [carpeta / plantilla.format(v) for v in variantes(x)]
+    return next((c for c in candidatas if c.exists()), candidatas[0])
+
+
+def en_mapa(d, x: str, defecto=None):
+    """Valor de un dict indexado por id de territorio con cualquiera de sus variantes (dado, nuevo, viejo)."""
+    if not isinstance(d, dict):
+        return defecto
+    for v in variantes(x):
+        if v in d:
+            return d[v]
+    return defecto
+
+
 def ruta_nueva(rel: str) -> str:
     """`territorios/<viejo>/…` (y `config/<viejo>_AAAA.yaml`) → la ruta con el id nuevo; el resto, igual."""
     partes = str(rel).replace("\\", "/").split("/")

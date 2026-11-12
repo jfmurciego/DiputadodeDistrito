@@ -36,6 +36,11 @@ from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito e ids por el 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 from numeracion_publica import numero_publico  # noqa: E402  (distritos 1..K en lo que sale del módulo)
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 DIR = ROOT / "datos" / "movilidad"
 AREAS_CSV = DIR / "areas_movilidad_2019.csv"
 FLUJOS_CSV = DIR / "flujos_em1_origen_destino.csv"
@@ -215,10 +220,10 @@ def cmd_indicador(areas: list[dict]) -> None:
     w = csv.writer(sys.stdout, lineterminator="\n")
     w.writerow(["territorio", "capital", "ambito", "distrito", "cohesion", "flujo_salida"])
     for t, nombre in CAPITALES.items():
-        cpro = leer_csv(COMPOSICION / f"{t}.csv")[0]["seccion"][:2]
+        cpro = leer_csv(fichero_por_id(COMPOSICION, "{}.csv", t))[0]["seccion"][:2]
         cap = codigo_capital(areas, nombre, cpro)
         for etiqueta, c in (("con", None), ("sin", cap)):
-            r = indicador_plan(COMPOSICION / f"{t}.csv", areas, flujos, mapa, c)
+            r = indicador_plan(fichero_por_id(COMPOSICION, "{}.csv", t), areas, flujos, mapa, c)
             for d, (v, n) in r["distritos"].items():
                 w.writerow([t, etiqueta, "distrito", numero_publico(int(d)), f"{v:.4f}" if v is not None else "", n])
             w.writerow([t, etiqueta, "plan", "", f"{r['plan']:.4f}", r["flujo_en_territorio"]])

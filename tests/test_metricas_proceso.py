@@ -112,7 +112,7 @@ class Generacion(unittest.TestCase):
     def test_generar_resuelve_territorio_por_nombre_y_por_log_y_cachea(self):
         ahora = datetime(2026, 11, 8, tzinfo=timezone.utc)
         pr = dict(event="pull_request")
-        runs = [run(10, "2026-11-02T10:00:00Z", "2026-11-02T10:30:00Z", "failure", titulo=rn("nac22")),
+        runs = [run(10, "2026-11-02T10:00:00Z", "2026-11-02T10:30:00Z", "failure", titulo=rn("congreso_huesca")),
                 run(11, "2026-11-03T10:00:00Z", "2026-11-03T10:30:00Z", "success"),  # sin título: sale del log
                 run(12, "2026-11-03T12:00:00Z", "2026-11-03T12:05:00Z", "failure", name="Pruebas de la Plataforma", titulo="PR", path="x.yml", **pr)]
         jobs = {"11": [{"id": 99, "name": "Planificar ejecución completa", "started_at": "2026-11-03T10:00:00Z", "completed_at": "2026-11-03T10:01:00Z"}],
@@ -121,21 +121,21 @@ class Generacion(unittest.TestCase):
         api = ApiFalsa(runs, [{"created_at": "2026-11-03T08:00:00Z", "merged_at": "2026-11-03T09:00:00Z", "updated_at": "2026-11-03T09:00:00Z"}],
                        jobs, {"actions/jobs/99/logs": "2026-11-03 TERRITORY: Congreso Huesca\n"})
         with tempfile.TemporaryDirectory() as d:
-            e = Path(d) / "territorios/nac22/evidencia/ejecuciones_completas"
+            e = Path(d) / "territorios/congreso_huesca/evidencia/ejecuciones_completas"
             e.mkdir(parents=True)
-            (e / "1.json").write_text(json.dumps({"territory_id": "nac22", "territory_name": "Congreso Huesca", "workflow_run_id": 1}))
+            (e / "1.json").write_text(json.dumps({"territory_id": "congreso_huesca", "territory_name": "Congreso Huesca", "workflow_run_id": 1}))
             r = mp.generar(api, Path(d), 30, 5, 5, ahora=ahora)
         p = r["ejecuciones_00"]
-        self.assertEqual([f["territorio"] for f in p["por_territorio"]], ["nac22"])
+        self.assertEqual([f["territorio"] for f in p["por_territorio"]], ["congreso_huesca"])
         self.assertEqual(p["por_territorio"][0]["intentos_hasta_exito"], 2)
-        self.assertEqual(r["cache"]["territorio_por_run"], {"11": "nac22"})
-        self.assertEqual(r["minutos_actions"]["por_territorio_00"][0]["territorio"], "nac22")
+        self.assertEqual(r["cache"]["territorio_por_run"], {"11": "congreso_huesca"})
+        self.assertEqual(r["minutos_actions"]["por_territorio_00"][0]["territorio"], "congreso_huesca")
         self.assertEqual(r["fallos_ci_pr"]["por_causa"], {"Pruebas de la Plataforma / pruebas · Ejecutar suite": 1})
         self.assertEqual(r["pr"]["fusionadas"], 1)
         # segunda pasada con la caché: no se vuelven a pedir ni logs ni jobs
         api2 = ApiFalsa(runs, [], {}, {})
         r2 = mp.generar(api2, Path(d) if False else ROOT / "tests", 30, 0, 0, ahora=ahora, previo=r)
-        self.assertEqual(r2["cache"]["territorio_por_run"], {"11": "nac22"})
+        self.assertEqual(r2["cache"]["territorio_por_run"], {"11": "congreso_huesca"})
         self.assertFalse([x for x in api2.llamadas if x.endswith("/jobs")])
 
     def test_eventos_de_pr_no_cuentan_como_00(self):
@@ -252,8 +252,8 @@ class Entrega(unittest.TestCase):
 
 class NombreV5(unittest.TestCase):
     def test_run_name_de_la_00_viejo_y_p00(self):  # T-215: corte 5.0.0, paso 4
-        self.assertEqual(mp.RUN_NAME.match("P00 Campaña · cantabria · Reutilizar").group(1), "aut06")  # t220: no es id (título histórico)
-        self.assertEqual(mp.RUN_NAME.match("00 Ejecución Completa del Proyecto · ceuta · Reutilizar").group(1), "aut18")  # t220: no es id (título histórico)
+        self.assertEqual(mp.RUN_NAME.match("P00 Campaña · cantabria · Reutilizar").group(1), "cantabria")
+        self.assertEqual(mp.RUN_NAME.match("00 Ejecución Completa del Proyecto · ceuta · Reutilizar").group(1), "ceuta")
         self.assertIsNone(mp.RUN_NAME.match("P00 Campaña — Gestor"))
 
 

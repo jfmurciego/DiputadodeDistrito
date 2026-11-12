@@ -27,7 +27,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio, variantes  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, variantes, ruta_existente  # noqa: E402  (T-220: id viejo o nuevo)
 from ddd_core import territorio_ids as _ti  # noqa: E402
 
 
@@ -108,7 +108,7 @@ def _temporal_evidence(root: Path, matrix: dict) -> dict:
     rel = str(policy.get("availability_evidence") or "")
     if not rel:
         raise ValueError("TEMPORAL_EVIDENCE_MISSING: falta availability_evidence")
-    path = root / rel
+    path = ruta_existente(root, rel)
     if not path.is_file():
         raise ValueError(f"TEMPORAL_EVIDENCE_MISSING: no existe {rel}")
     data = _json(path)
@@ -285,7 +285,7 @@ def _territorial_candidate(
     declaration_rel = state.get("territorial_source_declaration")
     if not state.get("territorial_sources_prepared") or not isinstance(prep, dict) or not declaration_rel:
         return {"reusable": False, "reason": "TERRITORIAL_PACKAGE_MISSING"}
-    declaration_path = root / str(declaration_rel)
+    declaration_path = ruta_existente(root, str(declaration_rel))
     if not declaration_path.is_file():
         return {"reusable": False, "reason": "TERRITORIAL_DECLARATION_MISSING"}
     declaration = _yaml(declaration_path)
@@ -351,7 +351,7 @@ def _territorial_candidate(
     )
     receipt_rel = str(prep.get("receipt_path") or "")
     if receipt_rel:
-        receipt_path = root / receipt_rel
+        receipt_path = ruta_existente(root, receipt_rel)
         if not receipt_path.is_file():
             return {"reusable": False, "reason": "TERRITORIAL_RECEIPT_MISSING"}
         receipt = _json(receipt_path)
@@ -436,7 +436,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
     rel = evidence.get("electoral_source") if isinstance(evidence, dict) else None
     if not state.get("electoral_source_prepared") or not rel:
         return {"reusable": False, "reason": "ELECTORAL_PACKAGE_MISSING"}
-    path = root / str(rel)
+    path = ruta_existente(root, str(rel))
     if not path.is_file():
         return {"reusable": False, "reason": "ELECTORAL_RECEIPT_MISSING"}
     data = _json(path)
@@ -468,7 +468,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
         registry_rel = str(data.get("election_registry") or "").strip()
         contract_rel = str(data.get("election_contract") or "").strip()
         if declaration_rel:
-            ref_path = root / declaration_rel
+            ref_path = ruta_existente(root, declaration_rel)
             if not ref_path.is_file():
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_REFERENCE_MISSING"}
             ref = _document(ref_path)
@@ -486,7 +486,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             provenance_reference = registry_rel
             provenance_election_date = str(registered.get("election_date") or "")
         elif contract_rel:
-            ref_path = root / contract_rel
+            ref_path = ruta_existente(root, contract_rel)
             if not ref_path.is_file():
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_REFERENCE_MISSING"}
             ref = _document(ref_path)
@@ -714,7 +714,7 @@ def _owner_approved_2025_pair(root: Path, matrix: dict) -> tuple[str, set[str]]:
     expected_path = "configuracion/decisiones/f10_referencia_territorial_2025_2026.json"
     if rel != expected_path:
         raise ValueError("TERRITORIAL_REFERENCE_DECISION_PATH_MISSING_OR_INVALID")
-    path = root / rel
+    path = ruta_existente(root, rel)
     if not path.is_file():
         raise ValueError("TERRITORIAL_REFERENCE_DECISION_MISSING")
     decision = _json(path)

@@ -60,6 +60,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import archivar_artefactos_r2 as ar  # noqa: E402
 import composicion_m06 as cm  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 COMPOSICION = Path("datos/composicion")
 RESULTADOS = Path("datos/resultados")
@@ -342,7 +347,7 @@ def comprobar(root: Path) -> dict:
             if e.get("incluye_m06_run"):
                 r2.add((e.get("territorio"), str(e["incluye_m06_run"])))
     man = _json(root / COMPOSICION / "MANIFEST.json", {})
-    git = {(t, str(e.get("run_id"))) for t, e in man.get("territorios", {}).items() if (root / COMPOSICION / f"{t}.csv").is_file()}
+    git = {(t, str(e.get("run_id"))) for t, e in man.get("territorios", {}).items() if fichero_por_id(root / COMPOSICION, "{}.csv", t).is_file()}
     git |= {(e["territorio"], str(e["run_id"])) for e in man.get("runs", {}).values() if (root / e["ruta"]).is_file()}
     exc = set(_json(root / EXCEPCIONES, {}).get("territorios", []))
     sin = sorted(t for t, p in vig.items() if (ar._slug(t), str(p["run_id"])) not in r2 and (t, str(p["run_id"])) not in git)

@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402
 
 try:
     from herramientas.catalogo_preparacion import validate_repository
@@ -96,17 +96,17 @@ def _historical_product_reuse(root: Path, *, plan: dict, current_identity: str) 
     evidence = state.get("evidence") or {}
     product_rel = str(evidence.get("territorial_product") or "")
     lineage_rel = str(evidence.get("territorial_product_source_lineage") or "")
-    if not product_rel or not (root / product_rel).is_file():
+    if not product_rel or not (ruta_existente(root, product_rel)).is_file():
         return {"available": True, "geometric_reuse_compatible": False, "reason": "PRODUCT_RECEIPT_MISSING"}
-    product = _json(root / product_rel)
-    if not lineage_rel or not (root / lineage_rel).is_file():
+    product = _json(ruta_existente(root, product_rel))
+    if not lineage_rel or not (ruta_existente(root, lineage_rel)).is_file():
         return {
             "available": True,
             "geometric_reuse_compatible": False,
             "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
             "product_receipt_path": product_rel,
         }
-    lineage = _json(root / lineage_rel)
+    lineage = _json(ruta_existente(root, lineage_rel))
     if (
         lineage.get("schema") != "ddd.territorial-product-source-lineage/1.0"
         or not mismo_territorio(str(lineage.get("territory_id") or ""), str(str(plan["territory_id"])))
@@ -192,7 +192,7 @@ def build_pair(
     )
 
     temporal = plan.get("temporal_evidence") or {}
-    temporal_path = root / str(temporal.get("path") or "")
+    temporal_path = ruta_existente(root, str(temporal.get("path") or ""))
     if not temporal_path.is_file():
         raise PreparedSourcePairBlock("PAIR_BLOCK: evidencia temporal durable ausente")
     temporal_sha = digest(temporal.get("sha256"), label="temporal_evidence.sha256")
@@ -347,7 +347,7 @@ def validate_pair_receipt(
     electoral = pair.get("electoral_source") or {}
 
     temporal_rel = str(temporal.get("path") or "")
-    temporal_path = root / temporal_rel if temporal_rel else None
+    temporal_path = ruta_existente(root, temporal_rel) if temporal_rel else None
     if temporal_path is None or not temporal_path.is_file():
         raise PreparedSourcePairBlock("PAIR_BLOCK: evidencia temporal durable ausente")
     temporal_sha = digest(temporal.get("sha256"), label="temporal_evidence.sha256")
@@ -384,7 +384,7 @@ def validate_pair_receipt(
         rel = str(side.get("receipt_path") or "")
         if not rel:
             raise PreparedSourcePairBlock(f"PAIR_BLOCK: falta receipt durable de {label}")
-        side_path = root / rel
+        side_path = ruta_existente(root, rel)
         receipt = _json(side_path)
         if not mismo_territorio(str(receipt.get("territory_id") or ""), str(territory_id)):
             raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice territory_id")

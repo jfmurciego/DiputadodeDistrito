@@ -30,6 +30,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).parent))
 import equivalencia_seccionados as eqs  # noqa: E402
 import fuente_nazioenbehatokia as fnb  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 TOLERANCIA = 0.10  # defecto máximo admitido del espejo frente a la oficial (CERA + redondeos)
 
@@ -71,7 +76,7 @@ def leer_oficial_csv(ruta: Path) -> dict:
 
 
 def ganadores_m08(t: str) -> dict:
-    p = ROOT / f"datos/resultados/{t}.csv"
+    p = fichero_por_id(ROOT / "datos/resultados", "{}.csv", t)
     if not p.exists():
         return {}
     with open(p, encoding="utf-8", newline="") as f:
@@ -79,7 +84,7 @@ def ganadores_m08(t: str) -> dict:
 
 
 def ganadores_b(t: str, clave: str) -> dict:
-    p = ROOT / f"datos/resultados/historico/{clave}/{t}.csv"
+    p = fichero_por_id(ROOT / f"datos/resultados/historico/{clave}", "{}.csv", t)
     with open(p, encoding="utf-8", newline="") as f:
         return {r["distrito"]: r["ganador"] for r in csv.DictReader(f)}
 

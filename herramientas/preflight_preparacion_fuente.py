@@ -11,7 +11,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio, variantes  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, variantes, ruta_existente  # noqa: E402  (T-220: id viejo o nuevo)
 
 try:
     from herramientas.catalogo_territorios import normalize_territory_input
@@ -110,7 +110,7 @@ def preflight(root: Path, kind: str, territory: str, edition: str) -> dict:
         population_year = int(edition)
         section_year = int(edition)
         if declaration_rel:
-            declaration_path = root / str(declaration_rel)
+            declaration_path = ruta_existente(root, str(declaration_rel))
             if not declaration_path.is_file():
                 raise ValueError(f"{tid}/{edition}: declaración territorial inexistente: {declaration_rel}")
             declaration = _load_yaml(declaration_path)
@@ -147,7 +147,7 @@ def preflight(root: Path, kind: str, territory: str, edition: str) -> dict:
             raise ValueError(
                 f"{tid}/{edition}: fuente electoral marcada preparada sin evidence.electoral_source"
             )
-        receipt = root / str(evidence_rel)
+        receipt = ruta_existente(root, str(evidence_rel))
         if not receipt.is_file():
             raise ValueError(f"{tid}/{edition}: registro electoral inexistente: {evidence_rel}")
         try:

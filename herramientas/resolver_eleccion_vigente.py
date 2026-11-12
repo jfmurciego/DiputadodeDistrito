@@ -17,7 +17,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220: id viejo o nuevo)
 
 try:
     from herramientas.catalogo_territorios import normalize_territory_input
@@ -54,7 +54,7 @@ def _catalog_preparation_row(root_dir: Path, territory: str, edition: str | None
 
 def _declaration_candidates(root_dir, territory_id, state):
     result=[]; explicit=state.get("electoral_source_declaration")
-    if explicit and (root_dir/str(explicit)).is_file(): result.append(root_dir/str(explicit))
+    if explicit and (ruta_existente(root_dir, str(explicit))).is_file(): result.append(ruta_existente(root_dir, str(explicit)))
     folder=root_dir/"territorios"/territory_id/"config"/"elecciones"
     if folder.is_dir():
         for p in sorted(folder.glob("*.yaml")):
@@ -64,13 +64,13 @@ def _declaration_candidates(root_dir, territory_id, state):
 
 def _row_from_materialized_contract(*,territory_id,name,territorial_edition,state,root_dir):
     raw=state.get("contract_path")
-    if not raw or not (root_dir/str(raw)).is_file(): return None
-    params=_load_yaml(root_dir/str(raw)); eraw=((params.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}).get("election_contract")
-    if not eraw or not (root_dir/str(eraw)).is_file(): return None
-    try: data=json.loads((root_dir/str(eraw)).read_text(encoding="utf-8"))
+    if not raw or not (ruta_existente(root_dir, str(raw))).is_file(): return None
+    params=_load_yaml(ruta_existente(root_dir, str(raw))); eraw=((params.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}).get("election_contract")
+    if not eraw or not (ruta_existente(root_dir, str(eraw))).is_file(): return None
+    try: data=json.loads((ruta_existente(root_dir, str(eraw))).read_text(encoding="utf-8"))
     except Exception: return None
     if any(data.get(k) in (None,"") for k in ("territory_id","election_id","election_date")): return None
-    if str(data["territory_id"])!=territory_id: raise SystemExit(f"Contrato electoral de otro territorio: {eraw}")
+    if not mismo_territorio(str(data["territory_id"]), str(territory_id)): raise SystemExit(f"Contrato electoral de otro territorio: {eraw}")
     return {"territory_id":territory_id,"name":name,"territorial_edition":territorial_edition,"election_id":str(data["election_id"]),"election_date":str(data["election_date"]),"declaration":"","election_contract":str(eraw),"resolution_mode":"materialized_election_contract"}
 
 
@@ -78,7 +78,7 @@ def _row_from_declaration(*,territory_id,name,territorial_edition,declaration,ro
     data=_load_yaml(declaration)
     for k in ("territory_id","election_id","election_date"):
         if data.get(k) in (None,""): raise SystemExit(f"Declaración electoral incompleta: {declaration}; falta {k}")
-    if str(data["territory_id"])!=territory_id: raise SystemExit(f"Declaración electoral de otro territorio: {declaration}")
+    if not mismo_territorio(str(data["territory_id"]), str(territory_id)): raise SystemExit(f"Declaración electoral de otro territorio: {declaration}")
     return {"territory_id":territory_id,"name":name,"territorial_edition":territorial_edition,"election_id":str(data["election_id"]),"election_date":str(data["election_date"]),"declaration":declaration.relative_to(root_dir).as_posix(),"resolution_mode":"auto_discovered_declaration"}
 
 
@@ -87,7 +87,7 @@ def resolve(territory:str,path:Path=DEFAULT,root_dir:Path=Path("."),edition:str|
     rows=[r for r in load_catalog(override)["territories"] if token in {str(r.get("territory_id") or ""),str(r.get("name") or "")}]
     if len(rows)>1: raise SystemExit(f"Elección vigente ambigua para territorio={territory!r}")
     if len(rows)==1:
-        row=dict(rows[0]); declaration=root/str(row.get("declaration") or "")
+        row=dict(rows[0]); declaration=ruta_existente(root, str(row.get("declaration") or ""))
         if any(row.get(k) in (None,"") for k in ("territory_id","name","territorial_edition","election_id","election_date","declaration")) or not declaration.is_file():
             raise SystemExit("Elección vigente incompleta")
         declared=_load_yaml(declaration)

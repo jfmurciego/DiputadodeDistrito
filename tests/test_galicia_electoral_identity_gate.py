@@ -15,6 +15,7 @@ from herramientas.detectar_producto_electoral_huerfano import (
 )
 from herramientas.resolver_ejecucion_completa import build_plan
 from herramientas.validar_puerta_ejecucion import validate_gate
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -45,7 +46,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
         path = ROOT / rel
         self.assertTrue(path.is_file(), f"receipt ausente: {path}")
         payload = json.loads(path.read_text(encoding="utf-8"))
-        self.assertEqual(payload["territory_id"], "aut12")
+        self.assertTrue(mismo_territorio(payload["territory_id"], "aut12"))  # T-220: evidencia con el id viejo
         self.assertEqual(str(payload["edition"]), "2025")
         digest = str(payload["artifact_sha256"]).removeprefix("sha256:").lower()
         self.assertRegex(digest, r"^[0-9a-f]{64}$")

@@ -114,7 +114,7 @@ class Base(unittest.TestCase):
         self.m06 = m06_zip({0: (2, 500), 1: (2, 400)})
         self.m08 = m08_zip(["PP", "PSOE"])
         self.reg = self.d / "reg.json"
-        t = "nac22"
+        t = "congreso_huesca"
         prods = [{"kind": "canonical_m06", "territory_id": t, "run_id": "7", "blob_sha": "m6", "sha256": cm.sha256(self.m06)},
                  {"kind": "canonical_m08", "territory_id": t, "run_id": "7", "blob_sha": "m8", "sha256": rl.sha256(self.m08)}]
         self.reg.write_text(json.dumps({"products": prods}))
@@ -137,7 +137,7 @@ class Base(unittest.TestCase):
         cand = 175 if cand is None else cand
         self.contratos.write_text(f"""contracts:
   congreso_huesca_2023-07-23:
-    territory_id: nac22
+    territory_id: congreso_huesca
     election_date: '2023-07-23'
     source_sha256: {sha}
     election_prefix: '{PRE}'
@@ -157,11 +157,11 @@ class Base(unittest.TestCase):
 class Composicion(Base):
     def test_extrae_y_valida(self):
         r = self.extraer()
-        self.assertEqual(r["hechos"], ["nac22"])
+        self.assertEqual(r["hechos"], ["congreso_huesca"])
         lineas = (self.comp / "congreso_huesca.csv").read_text().splitlines()
         self.assertEqual(lineas[0], "seccion,distrito,poblacion")
         self.assertEqual(lineas[1], "2200101001,0,300")
-        man = json.loads((self.comp / "MANIFEST.json").read_text())["territorios"]["nac22"]
+        man = json.loads((self.comp / "MANIFEST.json").read_text())["territorios"]["congreso_huesca"]
         self.assertEqual(man["secciones"], 4)
 
     def test_no_cuadra_con_m06(self):
@@ -171,7 +171,7 @@ class Composicion(Base):
         (self.m06dir / "congreso_huesca_7.zip").write_bytes(mal)
         reg["products"][0]["sha256"] = cm.sha256(mal)
         self.reg.write_text(json.dumps(reg))
-        self.assertEqual(self.extraer()["no_recuperados"], ["nac22"])
+        self.assertEqual(self.extraer()["no_recuperados"], ["congreso_huesca"])
         self.assertFalse((self.comp / "congreso_huesca.csv").exists())
 
     def test_sha_m06_erroneo(self):
@@ -189,15 +189,15 @@ class Partidos(Base):
 
     def test_csv_y_manifiesto(self):
         r = self.partidos()
-        self.assertEqual(r["hechos"], ["nac22"])
+        self.assertEqual(r["hechos"], ["congreso_huesca"])
         lineas = (self.out / "congreso_huesca_partidos.csv").read_text().splitlines()
         self.assertEqual(lineas[0], "distrito,partido,votos,porcentaje,blancos,nulos,censo")
         self.assertEqual(lineas[1], "0,PP,60,54.5455,3,1,160")
         self.assertEqual(lineas[2], "0,PSOE,50,45.4545,3,1,160")
         self.assertEqual(lineas[3], "1,PSOE,45,69.2308,1,4,130")
         man = json.loads((self.out / "MANIFEST.json").read_text())
-        self.assertIn("nac22", man["partidos"])
-        self.assertIn("nac22", man["territorios"])
+        self.assertIn("congreso_huesca", man["partidos"])
+        self.assertIn("congreso_huesca", man["territorios"])
 
     def test_idempotente_y_ligeros_conserva(self):
         self.partidos()
@@ -221,7 +221,7 @@ class Partidos(Base):
         (self.comp / "congreso_huesca.csv").write_text(
             "seccion,distrito,poblacion\n2200101001,0,300\n2200101002,0,200\n2200201001,1,250\n")
         man = json.loads((self.comp / "MANIFEST.json").read_text())
-        man["territorios"]["nac22"]["sha256_csv"] = rp.sha256((self.comp / "congreso_huesca.csv").read_bytes())
+        man["territorios"]["congreso_huesca"]["sha256_csv"] = rp.sha256((self.comp / "congreso_huesca.csv").read_bytes())
         (self.comp / "MANIFEST.json").write_text(json.dumps(man))
         with self.assertRaisesRegex(ValueError, "sin distrito"):
             self.partidos()
@@ -238,7 +238,7 @@ class Partidos(Base):
 
     def test_sin_composicion_se_omite(self):
         (self.comp / "MANIFEST.json").write_text(json.dumps({"territorios": {}}))
-        self.assertEqual(self.partidos()["omitidos"], ["nac22"])
+        self.assertEqual(self.partidos()["omitidos"], ["congreso_huesca"])
 
 
 if __name__ == "__main__":

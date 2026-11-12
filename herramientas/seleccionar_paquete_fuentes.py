@@ -11,6 +11,11 @@ from pathlib import Path
 
 from herramientas.compatibilidad_poblacion_seccionado import validate_compatibility_package
 from herramientas.politica_reutilizacion_fuentes import validate_frozen_copy
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 REQUIRED_BUNDLE_FILES = {
     "declaracion_materializacion.json",
@@ -96,7 +101,7 @@ def validate_prepared_package(
     reasons.extend(copy_reasons)
 
     declared_territory = str(manifest.get("territory_id") or "").strip()
-    if declared_territory and declared_territory != territory_id:
+    if declared_territory and not mismo_territorio(str(declared_territory), str(territory_id)):
         reasons.append(f"territorio de manifiesto distinto: {declared_territory} != {territory_id}")
 
     bundle = package / str(manifest.get("path") or "")
@@ -124,7 +129,7 @@ def validate_prepared_package(
                 ("decisión", decision),
             ):
                 actual_territory = str(document.get("territory_id") or "").strip()
-                if actual_territory != territory_id:
+                if not mismo_territorio(str(actual_territory), str(territory_id)):
                     reasons.append(f"territorio en {label} distinto: {actual_territory or 'vacío'} != {territory_id}")
                 if str(document.get("edition")) != str(edition):
                     reasons.append(f"edición en {label} distinta: {document.get('edition')} != {edition}")

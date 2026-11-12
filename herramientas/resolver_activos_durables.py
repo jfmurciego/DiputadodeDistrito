@@ -22,7 +22,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from ddd_core.territorio_ids import mismo_territorio  # T-220: evidencia con id viejo o nuevo
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # T-220: evidencia con id viejo o nuevo
 from herramientas.acreditar_producto_territorial_historico import (
     HistoricalTerritorialAccreditationBlock,
     derive_historical_territorial_producer,
@@ -64,7 +64,7 @@ def _run_id(value: Any, *, label: str) -> int:
 def _load_json(root: Path, rel: str | None, *, label: str) -> dict:
     if not rel:
         _block("DURABLE_ASSET_MISSING", f"{label}: receipt durable no declarado")
-    path = root / str(rel)
+    path = ruta_existente(root, str(rel))
     if not path.is_file():
         _block("DURABLE_ASSET_MISSING", f"{label}: receipt durable inexistente: {rel}")
     try:
@@ -158,7 +158,7 @@ def _validate_m06_manifest(
         )
     if not contract_path or str(contract.get("path") or "") != str(contract_path):
         _block("DURABLE_LINEAGE_UNPROVEN", f"run {run_id}: ruta del contrato no coincide")
-    params = root / str(contract_path)
+    params = ruta_existente(root, str(contract_path))
     if not params.is_file():
         _block("DURABLE_LINEAGE_UNPROVEN", f"run {run_id}: contrato materializado ausente")
     expected_contract_sha = hashlib.sha256(params.read_bytes()).hexdigest()
@@ -310,7 +310,7 @@ def _manifest(
     *, receipt: dict | None = None, contract_path: str | None = None,
 ) -> dict:
     rel = Path("territorios") / territory_id / "evidencia" / "ejecuciones_completas" / f"{run_id}.json"
-    path = root / rel
+    path = ruta_existente(root, rel)
     standalone = False
     if not path.is_file():
         explicit = str((receipt or {}).get("producer_manifest_path") or "")
