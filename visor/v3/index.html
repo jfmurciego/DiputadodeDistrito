@@ -10,7 +10,7 @@
 <body>
 <header class="top">
   <div class="identity"><div class="logo" aria-hidden="true"><i></i><i></i><i></i></div><a class="wordmark" href="./">Diputado de Distrito</a><span class="strap">Territorio, sistema electoral y representación</span></div>
-  <nav class="site-nav" aria-label="Menú principal"><a class="current" href="./">Explorar</a><a href="../datos/">Datos</a><a href="../docs/">Metodología</a><a href="../docs/citar.html">Fuentes</a></nav>
+  <nav class="site-nav" aria-label="Menú principal"><a class="current" href="./">Explorar</a><a href="../docs/datos-abiertos.html">Datos</a><a href="../docs/metodo.html">Metodología</a><a href="../docs/fuentes.html">Fuentes</a></nav>
   <button class="icon-button" id="help" aria-label="Ayuda">?</button>
 </header>
 <div class="app">
@@ -46,7 +46,7 @@
     </main>
     <aside class="insights" aria-live="polite">
       <div class="insights-hero"><span class="overline" id="selection-type">España</span><h1 id="selection-name">Diputado de Distrito</h1><p id="selection-path">Selecciona una provincia o comunidad en el mapa</p></div>
-      <div class="model-cards"><div><small>Propuesta DDD</small><strong id="ddd-count">407</strong><span>distritos nacionales</span></div><div><small>Congreso actual</small><strong id="current-count">350</strong><span>escaños</span></div></div>
+      <div class="model-cards"><div><small id="ddd-label">Propuesta DDD</small><strong id="ddd-count">407</strong><span id="ddd-unit">distritos nacionales</span></div><div><small id="current-label">Congreso actual</small><strong id="current-count">350</strong><span id="current-unit">escaños</span></div></div>
       <div id="context" class="context"><p class="hint">El mapa y las fichas mostrarán únicamente datos disponibles en el registro de publicación.</p></div>
       <div class="source-label" id="source-label"></div>
       <section class="detail-mode" id="detail-mode"><h2 id="detail-heading">Resultados y territorio</h2><div id="detail-content"></div></section>
@@ -54,7 +54,7 @@
   </div>
   <footer class="timeline">
     <div class="timeline-title"><span aria-hidden="true">▣</span><div><b>Navegador electoral</b><small id="timeline-subtitle">Elecciones generales</small></div></div>
-    <div class="timeline-controls"><label for="election-region">Ámbito</label><select id="election-region" aria-label="Comunidad para el calendario autonómico"><option value="">Todas las comunidades</option></select><div class="years" id="elections" role="group" aria-label="Elecciones disponibles"></div></div>
+    <div class="timeline-controls"><label id="election-region-label" for="election-region" hidden>Parlamento</label><select id="election-region" aria-label="Comunidad para el calendario autonómico"><option value="">Todas las comunidades</option></select><div class="years" id="elections" role="group" aria-label="Elecciones disponibles"></div></div>
     <p id="election-note" class="election-note">Solo se dibujan resultados certificados para la elección seleccionada.</p>
   </footer>
 </div>
