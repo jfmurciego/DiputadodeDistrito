@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-12T08:56:34.213082+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-12T11:06:33.612715+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -44,7 +44,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **06 Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43033094596 · SUCCESS | — | — | — |
 | **07 Castilla y León** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43030986959 · SUCCESS | — | — | — |
 | **08 Castilla-La Mancha** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43031565452 · SUCCESS | — | — | — |
-| **09 Cataluña** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43045037822 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
+| **09 Cataluña** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43186377473 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **10 Comunidad Valenciana** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43030421638 · SUCCESS | — | — | — |
 | **11 Extremadura** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43051488486 · SUCCESS | — | — | — |
 | **12 Galicia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43051951192 · SUCCESS | — | — | — |

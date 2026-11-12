@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-12T08:56:34.213082+00:00",
+  "generated_at": "2026-11-12T11:06:33.612715+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6732,10 +6732,10 @@
           "territory_id": "andalucia",
           "territory_name": "Andalucía",
           "edition": "2025",
-          "run_id": 42495072594,
-          "artifact_name": "ddd-state-42495072594-M08",
-          "artifact_sha256": "7836955a1722d7e15858003e181841503d5d48ae15bdca587f5296aebb2eeafb",
-          "source_commit": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8",
+          "run_id": 43204696160,
+          "artifact_name": "ddd-state-43204696160-M08",
+          "artifact_sha256": "b39312c1562c5f58a761fd91375b5b1e227eea1e482a8b9faee53690e7b0a023",
+          "source_commit": "ec10120c07f1a359b3d9944dda92b0f04be649f5",
           "stage": "M08"
         }
       },
@@ -7181,7 +7181,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43025661789,
       "last_run": {
-        "run_id": 43045037822,
+        "run_id": 43186377473,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": "03/04 · rama electoral omitida",
@@ -7220,10 +7220,10 @@
           "territory_id": "cataluna",
           "territory_name": "Cataluña",
           "edition": "2025",
-          "run_id": 41062562553,
-          "artifact_name": "ddd-state-41062562553-M08",
-          "artifact_sha256": "ec8df377f8d933a16c5878fa15b9dd9c15be96b591f6943e0bff110f8c7f3ba9",
-          "source_commit": "46609e3774f1555a6d5f54da44e618bd45e29e80",
+          "run_id": 43204706233,
+          "artifact_name": "ddd-state-43204706233-M08",
+          "artifact_sha256": "ad1c430e81079e87ecb970c840b09833514033d01b62a1763f5688f2c635143d",
+          "source_commit": "ec10120c07f1a359b3d9944dda92b0f04be649f5",
           "stage": "M08"
         }
       },
