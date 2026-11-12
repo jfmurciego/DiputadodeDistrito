@@ -1,7 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.2
-# ANTERIOR: legacy/workflows/revisor-pr_v1.0.1_20261110.yml
+# VERSIÓN: 1.0.3
+# ANTERIOR: legacy/workflows/revisor-pr_v1.0.2_20261112.yml
+# CAMBIOS 1.0.3: diagnosticar sesiones is_error:true sin respuesta (0 tokens), admitir API Key como
+#   alternativa a OAuth, evitar parseo defectuoso de allowedTools, y validar veredicto+SHA de forma fail-closed.
+#   Ninguna incidencia externa se convierte en PASS.
 # CAMBIOS 1.0.2: T-149, solo el nombre visible («Revisor de PR», sin «_Interno — »). Jobs y check `veredicto` intactos.
 # CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Revisor independiente en cada PR
@@ -34,11 +37,15 @@ jobs:
         shell: bash
         env:
           TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DRAFT: ${{ github.event.pull_request.draft }}
           HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
         run: |
           set -euo pipefail
-          if [[ -z "${TOKEN:-}" ]]; then echo "::notice::Sin CLAUDE_CODE_OAUTH_TOKEN: revisor omitido."; echo "listo=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [[ -z "${TOKEN:-}" && -z "${API_KEY:-}" ]]; then
+            echo "::error::No hay credenciales Anthropic. Configura ANTHROPIC_API_KEY (preferida) o CLAUDE_CODE_OAUTH_TOKEN."
+            exit 1
+          fi
           if [[ "$DRAFT" == "true" || "$HEAD_REPO" != "$GITHUB_REPOSITORY" ]]; then echo "::notice::PR en borrador o de un fork: revisor omitido."; echo "listo=false" >> "$GITHUB_OUTPUT"; exit 0; fi
           echo "listo=true" >> "$GITHUB_OUTPUT"
 
@@ -55,27 +62,51 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
+          persist-credentials: false
+      - name: Materializar diff inmutable para revisión en solo lectura
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          git cat-file -e "${BASE_SHA}^{commit}"
+          test "$(git rev-parse HEAD)" = "$HEAD_SHA"
+          mkdir -p .ddd-review
+          git diff --no-ext-diff "$BASE_SHA...$HEAD_SHA" > .ddd-review/pr.diff
+          test -s .ddd-review/pr.diff || { echo "::error::Diff vacío para PR."; exit 1; }
       - id: revisor
+        continue-on-error: true
         uses: anthropics/claude-code-action@61a9c274fa7110a66dfafc1bbbced03833eb25fe # v1
         env:
           GH_TOKEN: ${{ github.token }}
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.ANTHROPIC_API_KEY == '' && secrets.CLAUDE_CODE_OAUTH_TOKEN || '' }}
           github_token: ${{ github.token }}
           prompt: |
             Actúa como el subagente definido en .claude/agents/revisor.md (léelo primero) y revisa la PR
             #${{ github.event.pull_request.number }} de ${{ github.repository }}.
             HEAD: ${{ github.event.pull_request.head.sha }} · base: ${{ github.event.pull_request.base.sha }}.
-            Diff: `gh pr diff ${{ github.event.pull_request.number }}` o `git diff <base>...<HEAD>`.
+            Diff inmutable: .ddd-review/pr.diff (ya extraído mediante git, no necesitas ejecutar shell).
             Solo lectura: no edites, no hagas commit ni push, no comentes en GitHub. La CI corre en paralelo:
             no esperes a ella ni bloquees por ella (ci = "no_aplica"); juzga el diff con CLAUDE.md y .claude/rules/.
             Devuelve el JSON de la definición; "caso" = "PR-${{ github.event.pull_request.number }}" y "sha" = el HEAD.
           claude_args: |
             --model sonnet
             --max-turns 30
-            --allowedTools Read,Grep,Glob,Bash(git diff:*),Bash(git show:*),Bash(git log:*),Bash(gh pr diff:*),Bash(gh pr view:*)
+            --allowedTools Read,Grep,Glob
             --json-schema '{"type":"object","properties":{"caso":{"type":"string"},"sha":{"type":"string"},"veredicto":{"type":"string","enum":["PASS","PASS_WITH_EXCEPTIONS","FAIL","BLOCKED"]},"defectos":{"type":"array","items":{"type":"object","properties":{"gravedad":{"type":"string"},"clase":{"type":"string"},"fichero":{"type":"string"},"linea":{"type":"integer"},"detalle":{"type":"string"}},"required":["gravedad","clase","fichero","detalle"]}},"ci":{"type":"string"},"siguiente":{"type":"string"}},"required":["caso","sha","veredicto","defectos","siguiente"]}'
+      - name: Verificar veredicto o diagnosticar rechazo del proveedor
+        if: ${{ always() && steps.revisor.outcome != 'skipped' }}
+        shell: bash
+        env:
+          CLAUDE_STRUCTURED_OUTPUT: ${{ steps.revisor.outputs.structured_output }}
+          CLAUDE_EXECUTION_FILE: ${{ steps.revisor.outputs.execution_file }}
+          EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: python herramientas/diagnosticar_revisor_pr.py
 
   veredicto:
     needs: revisar
@@ -95,7 +126,7 @@ jobs:
           set -euo pipefail
           printf '%s' "$VEREDICTO" | jq -e . > veredicto.json || { echo "::error::El revisor no devolvió JSON."; exit 1; }
           v="$(jq -r .veredicto veredicto.json)"; sha="$(jq -r .sha veredicto.json)"
-          [[ "$HEAD_SHA" == "$sha"* ]] || echo "::warning::El veredicto es de $sha y el HEAD es $HEAD_SHA: no vale para este HEAD."
+          [[ "$HEAD_SHA" == "$sha" ]] || { echo "::error::Veredicto de SHA diferente al HEAD: inválido."; exit 1; }
           marca="<!-- ddd-revisor -->"
           {
             echo "$marca"
@@ -119,4 +150,4 @@ jobs:
           else
             gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -F body=@cuerpo.md >/dev/null
           fi
-          if [[ "$v" == "FAIL" ]]; then echo "::error::Revisor: FAIL en ${HEAD_SHA:0:10}."; exit 1; fi
+          if [[ "$v" == "FAIL" || "$v" == "BLOCKED" ]]; then echo "::error::Revisor: $v en ${HEAD_SHA:0:10}."; exit 1; fi
