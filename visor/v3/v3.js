@@ -26,6 +26,12 @@
     "Comunidad Foral de Navarra":"comunidad_foral_de_navarra","País Vasco":"pais_vasco",
     "La Rioja":"la_rioja","Ceuta":"ceuta","Melilla":"melilla"
   };
+  const REGION_ALIAS={"Asturias":"principado_de_asturias","Baleares":"illes_balears","Navarra":"comunidad_foral_de_navarra"};
+  const SEATS={"andalucia":109,"aragon":67,"principado_de_asturias":45,"illes_balears":59,
+    "canarias":70,"cantabria":35,"castilla_y_leon":82,"castilla_la_mancha":33,
+    "cataluna":135,"comunidad_valenciana":99,"extremadura":65,"galicia":75,
+    "madrid":135,"region_de_murcia":45,"comunidad_foral_de_navarra":50,
+    "pais_vasco":75,"la_rioja":33,"ceuta":25,"melilla":25};
   const $=id=>document.getElementById(id);
   const normal=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
     .replace(/[^a-z0-9]/g,"");
@@ -148,7 +154,8 @@
     document.body.dataset.ready="1";
     refresh();
   }
-  function regionId(name){return REGION[name]||Object.entries(REGION).find(([k,v])=>normal(k)===normal(name))?.[1]||"";}
+  function regionId(name){return REGION[name]||REGION_ALIAS[name]||
+    Object.entries({...REGION,...REGION_ALIAS}).find(([k,v])=>normal(k)===normal(name))?.[1]||"";}
   function regionName(id){return Object.entries(REGION).find(([k,v])=>v===id)?.[0]||id;}
   async function loadDistricts(f){
     const cod=f.properties.cod;if(D.districtCache.has(cod))return D.districtCache.get(cod);
@@ -324,16 +331,19 @@
       "España › "+(selectedProvince()?.properties.nombre||"") +" › distrito "+obj.d+" › CUSEC "+obj.s:
       kind==="distrito"?"España › "+(selectedProvince()?.properties.nombre||"") +" › "+name:
       kind==="provincia"?"España › "+name:"Selección territorial actual";
-    $("ddd-count").textContent=S.scope==="nacional"?"407":(S.region?regionName(S.region):"19");
-    $("current-count").textContent=S.scope==="nacional"?"350":"17";
+    $("ddd-count").textContent=S.scope==="nacional"?"407":(SEATS[S.region]??"—");
+    $("current-count").textContent=S.scope==="nacional"?"350":(SEATS[S.region]??"—");
     const records=[];
     if(kind==="provincia"){
       const pr=selectedProvince()?.properties||obj,ent=getProvinceEntry(selectedProvince());
-      records.push(["Escaños proporcionales 2023",fmt(pr.escanos)],["Distritos propuestos DDD",fmt(pr.k407)],
-        ["Ganador provincial, 2023",pr.ganador||"—"],["Porcentaje del ganador",pct(pr.pct)]);
+      records.push(["Escaños proporcionales 2023",fmt(pr.escanos)],["Distritos propuestos DDD",fmt(pr.k407)]);
+      if(validElection())records.push(["Ganador provincial, 2023",pr.ganador||"—"],["Porcentaje del ganador",pct(pr.pct)]);
+      else records.push(["Resultados de "+S.election,"Sin capa electoral certificada para esta fecha"]);
       if(ent)records.push(["Producto territorial",ent.data.run_id||"—"]);
     }else if(kind==="distrito"){
-      records.push(["Población",fmt(obj.population)],["Partido ganador del distrito",obj.ganador||"Sin datos electorales"],
+      records.push(["Población",fmt(obj.population)],
+        ["Partido ganador del distrito",S.scope==="nacional"&&validElection()&&S.view==="electoral"?
+          (obj.ganador||"Sin datos electorales"):"No disponible para la elección/vista"],
         ["Secciones",fmt(obj.sections)],["Identificador",obj.distrito],["Ejecución",obj.run_id||"—"]);
     }else if(kind==="seccion"){
       records.push(["CUSEC",obj.s],["Municipio",obj.m||"—"],["Población de sección",fmt(obj.p)],
@@ -343,14 +353,15 @@
     }else records.push(["Ámbito",S.scope==="nacional"?"Congreso":"Parlamentos autonómicos"],["Sistema",S.system==="mayoritario"?"Mayoritario DDD":"Proporcional actual"],["Vista",S.view]);
     $("context").innerHTML="<dl>"+records.map(([a,b])=>"<div><dt>"+esc(a)+"</dt><dd>"+esc(b)+"</dd></div>").join("")+"</dl>";
     const source=kind==="seccion"?"INE · seccionado 2025 / composición DDD (no resultado de mesa)":
-      kind==="distrito"?"M06/M08 publicado · "+(obj.run_id||"identidad de producto no disponible"):
-      kind==="provincia"?"Resultados oficiales generales 2023 / catálogo DDD":"Productos del registro durable de DDD";
+      kind==="distrito"?"M06 publicado; resultado M08 solo para elección acreditada · "+(obj.run_id||"sin identidad de producto"):
+      kind==="provincia"?(validElection()?"Resultados oficiales generales 2023 / catálogo DDD":"Cartografía DDD · capa electoral histórica no disponible"):
+        "Productos del registro durable de DDD";
     $("source-label").textContent=source;
     let content="";
     if(S.panel==="territorio")content="<p class='small-note'>Selecciona cualquier territorio en el mapa. El zoom abre distritos y, donde existen, secciones censales con su geometría real.</p>";
     if(S.panel==="resultados"){
       const data=kind==="provincia"&&validElection()&&S.scope==="nacional"?selectedProvince()?.properties.esc:null;
-      const winner=kind==="distrito"&&validElection()&&obj.ganador?obj.ganador:null;
+      const winner=kind==="distrito"&&S.scope==="nacional"&&S.view==="electoral"&&validElection()&&obj.ganador?obj.ganador:null;
       if(data){const entries=Object.entries(data).sort((a,b)=>b[1]-a[1]);const max=Math.max(1,...entries.map(x=>x[1]));
         content=entries.map(([p,n])=>"<div class='party-row'><b>"+esc(p)+"</b><div class='track'><b style='width:"+(n/max*100)+"%;background:"+color(p)+"'></b></div><strong>"+fmt(n)+"</strong></div>").join("")+
           "<p class='small-note'>Escaños oficiales de esta provincia en el Congreso de 2023.</p>";}
