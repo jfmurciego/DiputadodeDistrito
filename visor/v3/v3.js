@@ -359,6 +359,33 @@
     });
     helpText(auto?"Calendario derivado de las ediciones históricas almacenadas; el mapa solo usa el producto acreditado disponible.":"Histórico documentado en el repositorio. Mapa electoral detallado disponible para 2023.");
   }
+  function compareModels(){
+    if(S.scope!=="nacional"||!validElection()||!D.index?.territorios)
+      return "<p class='small-note'>Comparación electoral no disponible para este parlamento o elección. No se mezclan convocatorias.</p>";
+    const selected=S.province?provinceByCode(S.province):null;
+    const subset=selected?[selected]:provinceFeatures();
+    const official={},proposed={};
+    for(const f of subset){
+      const p=f.properties;
+      for(const [name,seats]of Object.entries(p.esc||{})){
+        const party=family(name);official[party]=(official[party]||0)+Number(seats);
+      }
+      for(const district of (getProvinceEntry(f)?.data.distritos||[])){
+        const party=family(district.ganador);proposed[party]=(proposed[party]||0)+1;
+      }
+    }
+    const parties=[...new Set([...Object.keys(official),...Object.keys(proposed)])]
+      .sort((a,b)=>(proposed[b]||0)-(proposed[a]||0)||(official[b]||0)-(official[a]||0));
+    const actual=Object.values(official).reduce((a,b)=>a+b,0);
+    const ddd=Object.values(proposed).reduce((a,b)=>a+b,0);
+    return "<p class='small-note'>"+esc(selected?selected.properties.nombre:"España")+
+      " · Elecciones generales de julio de 2023 · reparto proporcional oficial frente a ganadores por distrito DDD.</p>"+
+      "<table class='comparison-table'><thead><tr><th>Partido</th><th>Actual</th><th>DDD</th></tr></thead><tbody>"+
+      parties.map(p=>"<tr><td><i style='background:"+PALETA[p]+"'></i>"+esc(p)+"</td><td>"+
+        fmt(official[p]||0)+"</td><td><strong>"+fmt(proposed[p]||0)+"</strong></td></tr>").join("")+
+      "<tr class='total'><td>Total</td><td>"+fmt(actual)+"</td><td>"+fmt(ddd)+"</td></tr></tbody></table>"+
+      "<p class='small-note'>DDD: un escaño para el partido más votado en cada distrito M08. No es el reparto proporcional oficial.</p>";
+  }
   function renderDetail(){
     const obj=S.unit?.properties||{},kind=S.unit?.kind||"pais";
     $("selection-type").textContent={pais:"España",comunidad:"Comunidad autónoma",provincia:"Provincia",distrito:"Distrito uninominal",seccion:"Sección censal INE"}[kind];
@@ -411,7 +438,7 @@
       else content=winner?"<p>Ganador acreditado M08: <b style='color:"+color(winner)+"'>"+esc(winner)+"</b></p>":
           "<p class='small-note'>No existe aquí un desglose electoral detallado acreditado para esta selección y fecha.</p>";
     }
-    if(S.panel==="comparar")content="<div class='comparison'><div><small>Sistema actual</small><strong>"+(S.scope==="nacional"?"350":"Proporcional")+"</strong><small>Reparto por circunscripción</small></div><div><small>DDD mayoritario</small><strong>"+(S.scope==="nacional"?"407":"Distrito")+"</strong><small>Un diputado por distrito</small></div></div><p class='small-note'>La comparación de resultados se muestra solo con productos electorales de la misma elección y ámbito.</p>";
+    if(S.panel==="comparar")content=compareModels();
     if(S.panel==="evolucion")content="<p class='small-note'>Elige elecciones en el navegador inferior. La comparación temporal de una sección exige acreditar la identidad y geometría equivalentes; no se dibujan series ficticias.</p>";
     const headings={territorio:"Perfil territorial",resultados:"Resultados electorales",comparar:"Comparar sistemas",evolucion:"Evolución temporal"};
     $("detail-heading").textContent=headings[S.panel];$("detail-content").innerHTML=content;
