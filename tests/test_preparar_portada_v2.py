@@ -1,10 +1,13 @@
-"""Pruebas aisladas de la portada V2 y conservación de V1."""
+"""Regresiones de la portada V2 y las rutas relativas de V1."""
 import tempfile
 import unittest
 from pathlib import Path
 from urllib.parse import urljoin
 
 from herramientas.preparar_portada_v2 import preparar_portada
+
+ROOT = Path(__file__).resolve().parents[1]
+ORIGEN_V1 = ROOT / "visor" / "index.html"
 
 
 class PrepararPortadaV2Tests(unittest.TestCase):
@@ -14,35 +17,58 @@ class PrepararPortadaV2Tests(unittest.TestCase):
         self.site = Path(self.temp.name)
         (self.site / "v2").mkdir()
         (self.site / "v2" / "index.html").write_text("<!doctype html>V2", encoding="utf-8")
-        (self.site / "index.html").write_text(
-            '<!doctype html><html><head><link rel="stylesheet" href="styles.css"></head>'
-            '<body><a href="dashboard/">Dashboard operativo</a>'
-            '<script src="app.js"></script></body></html>', encoding="utf-8")
+        self.original = ORIGEN_V1.read_text(encoding="utf-8")
+        (self.site / "index.html").write_text(self.original, encoding="utf-8")
 
-    def test_v2_portada_y_v1_conservada(self):
+    def test_v2_portada_y_v1_original_con_base(self):
         preparar_portada(self.site)
-        self.assertIn('url=v2/', (self.site / 'index.html').read_text())
-        v1 = (self.site / 'v1' / 'index.html').read_text()
+        portada = (self.site / "index.html").read_text(encoding="utf-8")
+        self.assertIn('url=v2/', portada)
+        self.assertIn('window.location.replace(', portada)
+        self.assertIn('window.location.search + window.location.hash', portada)
+        self.assertIn('<a href="v2/">', portada)
+        v1 = (self.site / "v1" / "index.html").read_text(encoding="utf-8")
+        self.assertEqual(v1.replace('<head>\n  <base href="../">', '<head>', 1), self.original)
+        self.assertEqual((self.site / "v2" / "index.html").read_text(), "<!doctype html>V2")
+        self.assertTrue((self.site / "v1" / "index.html").is_file())
+
+    def test_rutas_de_v1_funcionan_en_dominio_y_pages(self):
+        preparar_portada(self.site)
+        v1 = (self.site / "v1" / "index.html").read_text(encoding="utf-8")
         self.assertIn('<base href="../">', v1)
-        self.assertIn('src="app.js"', v1)
-        self.assertIn('href="dashboard/"', v1)
-        self.assertEqual((self.site / 'v2' / 'index.html').read_text(), '<!doctype html>V2')
-        for base in ['https://diputadodedistrito.es/v1/',
-                     'https://jfmurciego.github.io/DiputadodeDistrito/v1/']:
-            self.assertTrue(urljoin(urljoin(base, '../'), 'app.js').endswith('/app.js'))
+        for relative in ['styles.css', 'app.js', 'escenarios.js', 'dashboard/']:
+            self.assertIn(relative, v1)
+            for site_root in [
+                "https://diputadodedistrito.es/",
+                "https://jfmurciego.github.io/DiputadodeDistrito/",
+            ]:
+                v1_url = urljoin(site_root, "v1/")
+                effective_base = urljoin(v1_url, "../")
+                self.assertEqual(urljoin(effective_base, relative), urljoin(site_root, relative))
+
+    def test_congreso_opt_in_sigue_accesible_desde_v1(self):
+        orig = self.original.replace(
+            '<a class="dashboard-link" href="dashboard/">Dashboard operativo</a>',
+            '<a class="dashboard-link" href="dashboard/">Dashboard operativo</a>'
+            ' <a class="dashboard-link" href="congreso/">Congreso piloto</a>', 1
+        )
+        (self.site / "index.html").write_text(orig, encoding="utf-8")
+        preparar_portada(self.site)
+        v1 = (self.site / "v1" / "index.html").read_text(encoding="utf-8")
+        self.assertIn('href="congreso/"', v1)
+        self.assertNotIn('href="congreso/"', (self.site / "index.html").read_text(encoding="utf-8"))
 
     def test_no_cambiar_sitio_incompleto(self):
-        (self.site / 'v2' / 'index.html').unlink()
-        original = (self.site / 'index.html').read_text()
+        (self.site / "v2" / "index.html").unlink()
         with self.assertRaises(FileNotFoundError):
             preparar_portada(self.site)
-        self.assertEqual((self.site / 'index.html').read_text(), original)
+        self.assertEqual((self.site / "index.html").read_text(encoding="utf-8"), self.original)
 
     def test_rechazar_portada_inesperada(self):
-        (self.site / 'index.html').write_text('<html><head></head></html>')
+        (self.site / "index.html").write_text("<html><head></head></html>", encoding="utf-8")
         with self.assertRaises(ValueError):
             preparar_portada(self.site)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
