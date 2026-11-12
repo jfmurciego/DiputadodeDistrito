@@ -25,3 +25,7 @@ Estado: EN ESPERA (el propietario aparca los distritos, 17:51 vía Planificador)
 - Antes: registro 232 productos; datos_abiertos/INDEX.json 52 territorios.
 - Inventario: `docs/autorizaciones/inventario_publicacion_2026-11-12.tsv` (territorio, run electoral, artefactos M06/M08 vivos). Publicables 69. No publicables: Andalucía (sin electoral: la P00 del bot cayó por la avería de la puerta 01→02, ya arreglada; no se relanza) y Cataluña (su P00 Reutilizar 43045037822 no tiene artefacto M08).
 - 09:30 · P50 por lotes «Visor territorial» con los 69 runs electorales · 43183569340 · SUCCESS (aprobada por el propietario). Después: registro 335 productos (+103), los 69 runs del lote registrados, INDEX 52 territorios (sin pérdidas). Visor no comprobable por HTTP desde la nube (github.io da 000).
+
+## Andalucía y Cataluña (2026-11-12)
+- Frase del propietario (09:51 aprox.): «Autorizo relanzar la ejecución completa de Andalucía y de Cataluña reutilizando el progreso existente, con el motor nuevo y sin publicar, un intento cada una; y, si las dos dejan su mapa y sus resultados, publicarlas en el visor en un solo lote»
+- 09:51 · P00 Reutilizar motor2: Andalucía 43186369510, Cataluña 43186377473 · EN_VUELO.
