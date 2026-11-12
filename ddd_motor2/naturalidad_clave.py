@@ -3,11 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — funciones de calidad con naturalidad (A, B/C, D5, D8): una sola definición
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Naturalidad · fuera de tolerancia del contrato en la competición
-FECHA: 2026-11-10
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: Naturalidad · validez con contexto reutilizado
+FECHA: 2026-11-11
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.1.0 (T-211, D-68) — `clave(..., fuera=)` y `Natural.fuera_contrato`: en la competición
+CAMBIOS: 1.2.0 (T-262, D-89) — `Natural.valido` usa reglas.evaluar.valido con el Contexto calculado una vez por
+  (problema, reglas) del objeto: mismo veredicto que evaluar(...).valido, sin rehacer adyacencia, métricas ni huella.
+  1.1.0 (T-211, D-68) — `clave(..., fuera=)` y `Natural.fuera_contrato`: en la competición
   (natural_desde_m06) el primer término es el recuento del contrato y del núcleo (reglas.evaluar, M04
   outside_target_tolerance): distritos con |p − objetivo regional| > tolerancia, también con cuotas de varias
   circunscripciones; el resto de la clave (tope, demarcaciones, frontera, desvío) sigue midiéndose contra el objetivo de
@@ -16,7 +18,7 @@ CAMBIOS: 1.1.0 (T-211, D-68) — `clave(..., fuera=)` y `Natural.fuera_contrato`
   1.0.0 — fichero nuevo (sale de naturalidad_competicion.Laboratorio 1.4.0 sin cambiar el orden).
 MOTIVO: T-205: la competición del motor nuevo elige con D8 y debe usar la misma clave que el laboratorio de
   naturalidad (T-172/T-179): un mismo plan da la misma clave en los dos.
-ANTERIOR: legacy/ddd_motor2/naturalidad_clave_v1.0.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/naturalidad_clave_v1.1.0_20261110.py
 QUÉ HACE:
   clave(funcion, pob_obj, tol_ratio, huella, natural) — lexicográfica, menor es mejor; rel = |p − o| / o por distrito
   (o = objetivo de su circunscripción, o el único), fracciones exactas:
@@ -39,6 +41,7 @@ from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping
 
 from .reglas import evaluar
+from .reglas.evaluar import Contexto, valido
 
 TOPES = {"D5": 0.05, "D8": 0.08}
 FUNCIONES_CLAVE = ("A", "B", "C", "D5", "D8")  # C elige con la clave de B (lo que cambia son sus cadenas)
@@ -88,7 +91,12 @@ class Natural:
     fuera_contrato: bool = False  # primer término de la clave = recuento del contrato (objetivo regional)
 
     def valido(self, asig: dict[str, str]) -> bool:
-        return evaluar(self.problema, self.reglas, asig).valido
+        """== evaluar(...).valido; el Contexto (límites, adyacencia) se calcula una vez por (problema, reglas)."""
+        cache = self.__dict__.get("_ctx")
+        if cache is None or cache[0] is not self.problema or cache[1] is not self.reglas:
+            cache = (self.problema, self.reglas, Contexto.de(self.problema, self.reglas))
+            self._ctx = cache
+        return valido(self.problema, self.reglas, asig, cache[2])
 
     def desvios(self, asig: dict[str, str]) -> dict[str, tuple[int, Fraction]]:
         """Por distrito: (población, objetivo de su circunscripción, o el único si no hay cuotas múltiples)."""

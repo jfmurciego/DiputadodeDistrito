@@ -1183,6 +1183,15 @@
    "sha256_csv": "e2901b733f30f9262fb9697c704a2f166257348b0438d039470d8318e2ac1e6b",
    "ruta": "datos/resultados/runs/congreso_leon_42996717873_partidos.csv"
   },
+  "congreso_lerida/43064129984": {
+   "territorio": "congreso_lerida",
+   "run_id": "43064129984",
+   "run_territorial": "43059014993",
+   "sha256_composicion": "3357882f436af28e53505fb078eb3df44fe40511d1160f6b2c7d652a2c0eac91",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "02da2cb32a80d67015f41b717de5459053836644bece1009d3b86fa1ce15ecfd",
+   "ruta": "datos/resultados/runs/congreso_lerida_43064129984_partidos.csv"
+  },
   "congreso_lugo/42514986960": {
    "territorio": "congreso_lugo",
    "run_id": "42514986960",

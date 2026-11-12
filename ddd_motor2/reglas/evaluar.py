@@ -3,13 +3,20 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: núcleo de reglas del motor 2 — evaluador completo de un plan
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Núcleo único de reglas · F1
-FECHA: 2026-11-10
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: Núcleo único de reglas · validez sin métricas
+FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: fichero nuevo.
+CAMBIOS: 1.2.0 (T-235, D-83) — exento_de_techo: el distrito cuyas unidades son todas de una partición de
+  Reglas.exentas_techo (K=1, la partición entera) no da R-POB-TECHO ni R-TOL por exceso. Sin exención, nada cambia.
+  1.1.0 — `valido(problema, reglas, asig, ctx=None)` (== evaluar(...).valido) sin métricas ni huella y con un
+  Contexto reutilizable; evaluar() y valido() comparten _violaciones (misma lista de violaciones). Contexto memoriza
+  rango_municipal por población (función pura de p, techo y objetivo). Mismos veredictos.
+  1.0.0 — fichero nuevo.
 MOTIVO: T-160: una sola definición ejecutable de «plan válido» para batería (T-132), certificador (T-136) y motor 2.
-ANTERIOR: ninguna (fichero nuevo)
+MOTIVO 1.1.0: T-262 (D-89): la restricción `nucleo` de las cadenas ReCom llama a evaluar() en cada paso y rehacía el
+  Contexto (adyacencia), las métricas y la huella de las reglas. Optimización bit a bit.
+ANTERIOR: legacy/ddd_motor2/reglas/evaluar_v1.1.0_20261112.py
 QUÉ HACE: evaluar(problema, reglas, asignacion) -> Informe con violaciones de códigos estables (modelo.CODIGOS) y
   métricas no duras (desviación, distritos fuera de tolerancia). Comparaciones exactas (enteros contra fracciones).
   Las reglas se calculan por ÁMBITO (distrito, municipio, cuotas, núcleo, plan) con las mismas funciones que usa el
@@ -77,6 +84,15 @@ def exento_de_suelo(reglas: Reglas, unidades: Iterable[Unidad]) -> bool:
     return partes[0] in reglas.exentas_particion  # "primera", como VAL 1.3.5
 
 
+def exento_de_techo(reglas: Reglas, unidades: Iterable[Unidad]) -> bool:
+    """Regla común de producción (ddd_core.population_cap_exemptions.district_cap): todas las unidades en una
+    única partición exenta."""
+    if not reglas.exentas_techo:
+        return False
+    partes = {u.particion for u in unidades}
+    return len(partes) == 1 and next(iter(partes)) in reglas.exentas_techo
+
+
 @dataclass(frozen=True)
 class Contexto:
     """Lo que no depende del plan: límites exactos y adyacencia."""
@@ -87,6 +103,7 @@ class Contexto:
     techo: Fraction
     tol: Fraction
     adj: Mapping[str, set[str]]
+    _rangos: dict = field(default_factory=dict, compare=False, hash=False, repr=False)  # p -> rango (función pura)
 
     @classmethod
     def de(cls, problema: Problema, reglas: Reglas) -> "Contexto":
@@ -95,9 +112,11 @@ class Contexto:
         return cls(reglas, objetivo, suelo, techo, tol, problema.adyacencia(reglas.criterio.contiguidad_con_puentes))
 
     def rango_municipal(self, p: int) -> tuple[int, int]:
-        if p <= 0:
-            return 1, 1
-        return max(1, math.ceil(p / self.techo)), max(1, math.ceil(p / self.objetivo))
+        r = self._rangos.get(p)
+        if r is None:
+            r = (1, 1) if p <= 0 else (max(1, math.ceil(p / self.techo)), max(1, math.ceil(p / self.objetivo)))
+            self._rangos[p] = r
+        return r
 
 
 def violaciones_distrito(ctx: Contexto, d: str, us: list[Unidad]) -> list[Violacion]:
@@ -108,10 +127,11 @@ def violaciones_distrito(ctx: Contexto, d: str, us: list[Unidad]) -> list[Violac
     exento = exento_de_suelo(r, us)
     if not exento and p < ctx.suelo:
         out.append(Violacion("R-POB-SUELO", d, f"{p} < {float(ctx.suelo):.1f}"))
-    if p > ctx.techo:
+    sin_techo = exento_de_techo(r, us)
+    if p > ctx.techo and not sin_techo:
         out.append(Violacion("R-POB-TECHO", d, f"{p} > {float(ctx.techo):.1f}"))
     if (r.criterio.tolerancia == "dura" and abs(p - ctx.objetivo) > ctx.tol
-            and not (exento and p < ctx.objetivo)):
+            and not (exento and p < ctx.objetivo) and not (sin_techo and p > ctx.objetivo)):
         out.append(Violacion("R-TOL", d, f"|{p} - {float(ctx.objetivo):.1f}| > {float(ctx.tol):.1f}"))
     if r.contiguidad and not conexo({u.id for u in us}, ctx.adj):
         out.append(Violacion("R-CONTIG", d))
@@ -176,9 +196,8 @@ def provincia_de(reglas: Reglas, us: list[Unidad]) -> str | None:
     return next(iter(provs)) if reglas.provincia_unica and len(provs) == 1 else None
 
 
-def evaluar(problema: Problema, reglas: Reglas, asignacion: Mapping[str, object]) -> Informe:
-    """Veredicto completo de un plan (unidad -> distrito). Lanza ErrorDatos si faltan campos que una regla exige."""
-    ctx = Contexto.de(problema, reglas)
+def _violaciones(problema: Problema, reglas: Reglas, ctx: Contexto, asignacion: Mapping[str, object]):
+    """Violaciones del plan (sin ordenar ni deduplicar), el plan normalizado y sus distritos."""
     asig = {str(u): str(d) for u, d in asignacion.items()}
     distritos: dict[str, list[Unidad]] = defaultdict(list)
     for uid, d in asig.items():
@@ -211,7 +230,18 @@ def evaluar(problema: Problema, reglas: Reglas, asignacion: Mapping[str, object]
         miembros_de = {d: {u.id for u in us} for d, us in distritos.items()}
         for n, miembros in grupos_nucleo(problema).items():
             viol += violaciones_nucleo(n, miembros, asig, miembros_de)
+    return viol, distritos
 
+
+def valido(problema: Problema, reglas: Reglas, asignacion: Mapping[str, object], ctx: Contexto | None = None) -> bool:
+    """== evaluar(problema, reglas, asignacion).valido, sin métricas ni huella; `ctx` (Contexto.de) se puede reutilizar."""
+    return not _violaciones(problema, reglas, ctx or Contexto.de(problema, reglas), asignacion)[0]
+
+
+def evaluar(problema: Problema, reglas: Reglas, asignacion: Mapping[str, object]) -> Informe:
+    """Veredicto completo de un plan (unidad -> distrito). Lanza ErrorDatos si faltan campos que una regla exige."""
+    ctx = Contexto.de(problema, reglas)
+    viol, distritos = _violaciones(problema, reglas, ctx, asignacion)
     pob = {d: sum(u.poblacion for u in us) for d, us in distritos.items()}
     dev = max((abs(p - ctx.objetivo) for p in pob.values()), default=Fraction(0))
     metricas = {

@@ -60,6 +60,22 @@ class EstructuraAhorro(unittest.TestCase):
         self.assertEqual(d["jobs"]["guardian"]["needs"], "cambios")  # la integridad corre siempre, aunque falle `cambios`
         self.assertEqual(d["jobs"]["guardian"]["if"], "${{ !cancelled() }}")
 
+    def test_estado_vivo_solo_en_push_de_robot_y_no_bloquea(self):
+        jobs = cargar()["jobs"]
+        j = jobs["estado_vivo"]
+        self.assertEqual(j["name"], "Estado vivo")
+        self.assertEqual(j["needs"], "cambios")
+        self.assertIn("github.event_name == 'push' && needs.cambios.outputs.robot == 'true'", j["if"])
+        self.assertTrue(j["continue-on-error"])
+        self.assertEqual(j["concurrency"], {"group": "ddd-estado-vivo", "cancel-in-progress": True})
+        self.assertNotIn("estado_vivo", jobs["pruebas"]["needs"])  # no entra en el check requerido
+        for modulo in j["env"]["MODULOS"].split():
+            with self.subTest(modulo=modulo):
+                self.assertTrue((ROOT / (modulo.replace(".", "/") + ".py")).is_file())
+        for paso in j["steps"]:
+            if "run" in paso:
+                subprocess.run(["bash", "-n"], input=paso["run"], text=True, check=True)
+
     def test_aviso_si_cae_la_nocturna(self):
         j = cargar()["jobs"]["aviso_nocturna"]
         self.assertIn("github.event_name == 'schedule'", j["if"])

@@ -1,6 +1,6 @@
 # Datos abiertos de Diputado de Distrito
 
-Paquete por provincia (17 provincias nacionales completas) con:
+Paquete por provincia (52 provincias nacionales completas) con:
 
 - `<territorio>/distritos.geojson`: distritos del producto territorial M06 publicado (EPSG:4326 / CRS84), con la propiedad `distrito` (1..K) en lugar
   del `district_id` interno del motor; `INDEX.json` lleva su sha256 (`geojson.sha256`) y el del GeoJSON M06 de origen (`sha256_origen`).

@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.354
-Fecha: 2026-11-11
-Alcance: T-247 — El test del dashboard sigue la regla de linaje del M08
+Versión: 1.0.374
+Fecha: 2026-11-12
+Alcance: T-128 — Coordinador: lecciones de plataforma y motor (5.ª tanda) y estado operativo
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-11_t247b-dashboard-linaje.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.353_registro_20261111.md
+Cambios/motivo: entrada docs/registro/2026-11-12_coordinador-lecciones-5.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.373_registro_20261112.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,26 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.353_registro_20261111.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.374 · [2026-11-12 — T-128 — Coordinador: lecciones de plataforma y motor (5.ª tanda) y estado operativo](registro/2026-11-12_coordinador-lecciones-5.md)
+- 1.0.373 · [2026-11-12 — T-235 — Exención de techo de Lanzarote y La Graciosa en el contrato 2026 de Las Palmas (D-83)](registro/2026-11-12_t-235-excepcion-lanzarote.md)
+- 1.0.372 · [2026-11-12 — T-268 — La 00 rechaza al principio los territorios del mapa de 350 (D-76)](registro/2026-11-12_t268-guarda-congreso350.md)
+- 1.0.371 · [2026-11-12 — T-258 — Un único vigente: el publicado en el visor (competición, P30 y aceptación)](registro/2026-11-12_t258-vigente-unico.md)
+- 1.0.370 · [2026-11-12 — T-259 — Campo de la excepción D-66 en el contrato (motivo, máx. 2)](registro/2026-11-12_claude-t259-excepcion-d66.md)
+- 1.0.369 · [2026-11-11 — T-265 — Deslinde: la semilla sale del código oficial de la tabla maestra (D-90)](registro/2026-11-11_claude-t265-semilla-codigo-oficial.md)
+- 1.0.368 · [2026-11-11 — T-262 — Cadenas ReCom ponderado más baratas, mismos mapas bit a bit (D-89)](registro/2026-11-11_t262-cadenas-recom-baratas.md)
+- 1.0.367 · [2026-11-11 — T-267 (regresión de T-251) — La puerta de validación vuelve a funcionar bajo `bash -eo pipefail`](registro/2026-11-11_t251b-puerta-errexit.md)
+- 1.0.366 · [2026-11-11 — T-246 — La 00 comprueba al planificar que el paquete electoral sigue descargable](registro/2026-11-11_t246-preflight-paquete-electoral.md)
+- 1.0.365 · [2026-11-11 — T-251 — La puerta distingue cuota de egress (503) de artefacto caducado](registro/2026-11-11_t251-descarga-artefactos-503.md)
+- 1.0.364 · [2026-11-11 — T-264 — motor2: los puentes del contrato llegan al adaptador](registro/2026-11-11_t264-puentes-adaptadores.md)
+- 1.0.363 · [2026-11-11 — T-266 — Plan 1.0.43: decisiones D-87 a D-90 y cola T-237 a T-266](registro/2026-11-11_claude-t266-plan-d87-d90.md)
+- 1.0.362 · [2026-11-11 — T-261 — Exhaustivo motor2: no lanzarlo cuando una cota demuestra que no acaba](registro/2026-11-11_t261-cota-exhaustivo.md)
+- 1.0.361 · [2026-11-11 — T-263 — Archivar a legacy el código muerto de M04 (v745–v754) y M05 (v740)](registro/2026-11-11_claude-t263-legacy-motor-viejo.md)
+- 1.0.360 · [2026-11-11 — T-252 — Check «Estado vivo» tras los commits de robot en main](registro/2026-11-11_work-t252-estado-vivo.md)
+- 1.0.359 · [2026-11-11 — T-256 — Exhaustivo: `podar` con constantes precalculadas (bit a bit)](registro/2026-11-11_t256-podar-incremental.md)
+- 1.0.358 · [2026-11-11 — T-254 — Medición de Deslinde 1.0: tiempo por fase, código muerto, duplicados y reparaciones](registro/2026-11-11_t254-medicion-deslinde.md)
+- 1.0.357 · [2026-11-11 — T-255 — Definición formal de Deslinde 1.0](registro/2026-11-11_t255-deslinde-1-0.md)
+- 1.0.356 · [2026-11-11 — T-249 — Par M06/M08 por linaje en la P50 y en datos abiertos, con guarda contra reducciones](registro/2026-11-11_t249-datos-abiertos-par-coherente.md)
+- 1.0.355 · [2026-11-11 — T-244 — Andalucía 2025 resuelve el receipt territorial vivo (253f…/40946875467)](registro/2026-11-11_t244-andalucia-sin-receipt-independiente.md)
 - 1.0.354 · [2026-11-11 — T-247 — El test del dashboard sigue la regla de linaje del M08](registro/2026-11-11_t247b-dashboard-linaje.md)
 - 1.0.353 · [2026-11-11 — T-247 — Tests de `pruebas` independientes del estado que reescribe la campaña](registro/2026-11-11_t247-tests-estado-vivo.md)
 - 1.0.352 · [2026-11-11 — T-239 — P50 en lote: descarga solo lo que publica, 6 runs a la vez](registro/2026-11-11_claude-t-239-descarga-selectiva.md)

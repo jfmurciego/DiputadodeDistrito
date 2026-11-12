@@ -3,9 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.4.4
+VERSIÓN: 7.4.5
 NOMBRE DE VERSIÓN: Refinamiento canónico con baseline poblacional imperfecto
-FECHA: 2026-11-08
+FECHA: 2026-11-12
 FUNCIÓN: optimizar población sin cruzar provincias ni romper las unidades municipales/urbanas construidas por M04.
 ENTRADAS: grafo M03 y solución M04 v7.3.1 con ddd_unit_id y ddd_closed_urban.
 SALIDAS: asignación optimizada y reporte.
@@ -14,7 +14,11 @@ OBJETIVO CANÓNICO: primero eliminar violaciones duras; después minimizar distr
 ESTADO: candidato R016 — pendiente de ejecución territorial GitHub.
 CAMBIOS: continúa la búsqueda después de la primera solución con fuera_12=0; conserva como ámbito las provincias que eran problemáticas al inicio y registra primera factibilidad frente al óptimo final encontrado.
 MOTIVO: el código v7.3.x interrumpía el recocido al primer fuera_12=0 aunque el objetivo canónico todavía ordena minimizar máximo desvío y error cuadrático.
-ANTERIOR: legacy/ddd_core/m05_opt_engine_v7.4.3_20261108.py
+ANTERIOR: legacy/ddd_core/m05_opt_engine_v7.4.4_20261112.py
+CAMBIO 7.4.5 (T-235, D-83): techo por distrito con ddd_core.population_cap_exemptions (la misma regla que M04, M06,
+el validador y motor2). Sin validation.population_cap_exempt_partitions el techo es el general y nada cambia; el
+distrito de una partición exenta con K=1 no cuenta como violación de techo («cap_exempt» en su estado).
+ANTERIOR 7.4.4: legacy/ddd_core/m05_opt_engine_v7.4.3_20261108.py
 CAMBIO 7.4.4 (T-115): voraz y recocido aceptan el movimiento que reduce la violación dura de un distrito que ya
 está fuera de [suelo, techo] (antes se exigía que donante y receptor quedaran dentro en un solo paso, y un distrito
 sobre el techo no podía ceder unidades). Un distrito dentro de límites sigue sin poder salir de ellos.
@@ -50,6 +54,7 @@ if str(ROOT) not in sys.path:
 
 from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
 from ddd_core.population_floor_exemptions import exempt_municipalities, units_touch_exempt
+from ddd_core.population_cap_exemptions import CapExemptionError, cap_exempt_partitions, district_cap
 
 
 def load_geo(path):
@@ -228,6 +233,10 @@ def main():
     total = sum(pop.values())
     target, floor, cap, tol = hard_limits(cfg, k=K, total_pop=total)
     floor_exempt = {str(x) for x in ((cfg.get("validation") or {}).get("population_floor_exempt_partitions") or [])}
+    try:
+        cap_exempt = cap_exempt_partitions(cfg)
+    except CapExemptionError as exc:
+        raise SystemExit(f"M05: {exc}") from exc
 
     d_units = {d: set() for d in sorted(g[did].unique())}
     d_nodes = {d: set() for d in d_units}
@@ -264,13 +273,16 @@ def main():
             return 0.0
         return floor
 
+    def district_ceiling(d):
+        return district_cap(cap, [d_prov.get(d, "")], cap_exempt)
+
     def bounds_ok(d, old, new):
-        return bounds_move_ok(old, new, district_floor(d), cap)
+        return bounds_move_ok(old, new, district_floor(d), district_ceiling(d))
 
     def obj(values):
         items = list(values.items())
-        hard = sum(p < district_floor(d) or p > cap for d, p in items)
-        hard_mag = sum(max(0, district_floor(d) - p, p - cap) for d, p in items)
+        hard = sum(p < district_floor(d) or p > district_ceiling(d) for d, p in items)
+        hard_mag = sum(max(0, district_floor(d) - p, p - district_ceiling(d)) for d, p in items)
         outside = sum(abs(p - target) > tol for _, p in items)
         maxdev = max(abs(p - target) / target for _, p in items)
         sq = sum(((p - target) / target) ** 2 for _, p in items)
@@ -484,7 +496,7 @@ def main():
     final = obj(d_pop)
     population_status_by_district = {}
     for d, p in sorted(d_pop.items()):
-        if p > cap:
+        if p > district_ceiling(d):
             status = "ABOVE_CEILING"
         elif p < district_floor(d):
             status = "BELOW_FLOOR"
@@ -496,6 +508,8 @@ def main():
             "cap": float(cap),
             "population_status": status,
         }
+        if district_ceiling(d) != cap:
+            population_status_by_district[str(d)]["cap_exempt"] = True
     g["ddd_population_status"] = g[did].map(
         {int(d): row["population_status"] for d, row in population_status_by_district.items()}
     )
@@ -518,7 +532,7 @@ def main():
         "population_status_by_district": population_status_by_district,
         "districts_below_floor": sum(p < district_floor(d) for d, p in d_pop.items()),
         "population_floor_exempt_partitions": sorted(floor_exempt),
-        "districts_above_cap": sum(p > cap for p in d_pop.values()),
+        "districts_above_cap": sum(p > district_ceiling(d) for d, p in d_pop.items()),
         "districts_outside_tolerance": sum(abs(p - target) > tol for p in d_pop.values()),
         "best_max_rel_dev": final[3],
         "accepted_unit_moves": greedy_accepted + anneal_accepted,

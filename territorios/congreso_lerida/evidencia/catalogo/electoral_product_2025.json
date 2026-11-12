@@ -4,9 +4,9 @@
   "territory_id": "congreso_lerida",
   "territory_name": "Congreso Lérida",
   "edition": "2025",
-  "run_id": 41299033915,
-  "artifact_name": "ddd-state-41299033915-M08",
-  "artifact_sha256": "53168bf36bad82ff3709137bc7761f37b6cb4a0707404d546126c723ba6260bb",
-  "source_commit": "0566d8b4bbf3a4a46c42fa6cb4c4a521e0b8d97e",
+  "run_id": 43064129984,
+  "artifact_name": "ddd-state-43064129984-M08",
+  "artifact_sha256": "cd7827464ad5fbcec8941237380a435974956b2ba0286183673ec63b25546b04",
+  "source_commit": "e04f8055d40a71425f921d49a491c1c83a3d6ee7",
   "stage": "M08"
 }

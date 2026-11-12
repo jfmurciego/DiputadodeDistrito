@@ -1,10 +1,16 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.9.0
-# CAMBIOS 1.9.0: T-234 (relevo formal, D-82/D-84): `motor` por defecto = motor2 («Deslinde 1.0»: canónico + 10 cadenas ReCom +
+# VERSIÓN: 1.10.0
+# CAMBIOS 1.10.0: T-234 (relevo formal, D-82/D-84): `motor` por defecto = motor2 («Deslinde 1.0»: canónico + 10 cadenas ReCom +
 #   elección D8 + vigente como candidato) en el botón, en workflow_call, en la 02 y en la 00 electoral encadenada. m05 (ruta
 #   autónoma del canónico, RETIRADA) solo con elección expresa: «Planificar» avisa (::warning::) y motor2 con un algoritmo
 #   GerryChain falla cerrado (exit 20) antes de gastar runners. Sin renombrar nada en el código.
+# CAMBIOS 1.9.1: T-268, primer paso de «Planificar» rechaza los «Congreso 350 <provincia>» (congreso350_*): D-76,
+#   fuera del motor y del registro (herramientas/guarda_territorio_350.py); el selector no cambia.
+# CAMBIOS 1.9.0: T-246, «Planificar» comprueba al principio que el paquete electoral del par (sin 03) sigue
+#   descargable (Actions vivo, mismo digest en otro run o copia durable); solo con evidencia de que falta o caducó
+#   falla con la causa y el workflow que lo regenera; lo no determinable avisa y decide la puerta 03
+#   (herramientas/comprobar_paquete_electoral_remoto.py).
 # CAMBIOS 1.8.0: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P00 Campaña» (antes 00 Ejecución Completa del Proyecto); run-name con el prefijo nuevo; la comprobación de duplicados acepta el nuevo y el viejo.
 # CAMBIOS 1.7.0: T-216 (corte 5.0.0, paso 3): entrada `motor` (m05 por defecto | motor2) en el botón y en workflow_call;
 #   pasa a la 02 (P30 del motor 2 en lugar de M04+M05 como decisor, con huella `motor2` en el checkpoint M06 y
@@ -35,7 +41,7 @@
 #   Sin duplicados: si el territorio ya tiene una activación o una 00 en cola o en curso, no se relanza
 #   (CHAIN_DUPLICATE_SKIPPED). Estado de cada eslabón en el artefacto ddd-cadena-<run> y en el resumen.
 #   run-name con el territorio y el modo para identificar los runs.
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.8.0_20261111.yml
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.9.1_20261112.yml
 # CAMBIOS: 1.4.0: si 01–03 quedan válidas y la 04 se salta por falta de prepared_source_pair, el job
 #   encadenar_par_y_04 activa el par (preparacion-legislatura-vigente prepare_one) y relanza el 00 en
 #   modo reutilizar; una ejecución en modo reutilizar no vuelve a encadenar.
@@ -369,6 +375,12 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.source_ref || github.sha }}
+      - name: Rechazar territorios del mapa de 350
+        # T-268: D-76, congreso350_* fuera del motor y del registro; se rechaza antes de cualquier fase cara.
+        shell: bash
+        env:
+          TERRITORY: ${{ github.event_name == 'pull_request' && 'Castilla-La Mancha' || inputs.territory_id }}
+        run: python -m herramientas.guarda_territorio_350 "$TERRITORY"
       - name: Instalar runtime fijado de planificación
         run: python -m pip install --disable-pip-version-check -r requirements.lock
       - name: Verificar runtime geoespacial de planificación
@@ -794,6 +806,27 @@ jobs:
             echo "publish_result=$publish"
             echo "artifact_suffix=$([[ -n "$ARTIFACT_NAMESPACE" ]] && printf -- "-%s" "$ARTIFACT_NAMESPACE" || true)"
           } >> "$GITHUB_OUTPUT"
+      - id: electoral_package
+        name: Comprobar que el paquete electoral sigue descargable
+        # T-246: si la 00 consume el par sin ejecutar 03, falla aquí y no en la puerta 03 tras M04-M06.
+        if: ${{ github.event_name != 'pull_request' && steps.plan.outputs.run_prepare_electoral == 'false' && steps.plan.outputs.electoral_execution == 'EXECUTE' && steps.plan.outputs.prepared_source_pair_sha256 != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          set +e
+          python -m herramientas.comprobar_paquete_electoral_remoto --plan .ddd-full-run/plan.json \
+            --repo "$GITHUB_REPOSITORY" --root-dir . --output .ddd-full-run/paquete_electoral.json
+          code=$?
+          set -e
+          if [[ -s .ddd-full-run/paquete_electoral.json ]]; then
+            {
+              echo "### Paquete electoral del par"
+              echo
+              jq -r '"- Decisión: \(.decision) \(.code // "")", (.message // .warning // empty | "- \(.)")' .ddd-full-run/paquete_electoral.json
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit "$code"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-full-run-plan-${{ github.run_id }}${{ steps.plan.outputs.artifact_suffix }}

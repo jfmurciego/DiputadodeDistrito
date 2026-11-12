@@ -3,14 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — informe por territorio de la competición
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Competición · informe con función de calidad
-FECHA: 2026-11-10
+VERSIÓN: 1.1.2
+NOMBRE DE VERSIÓN: Competición · informe con excepción D-66
+FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.1.0 (T-205) — el motivo usa los criterios de la función de la competición (A o naturalidad C/D5/D8);
+CAMBIOS: 1.1.2 (T-259) — el resumen legible dice las excepciones D-66 del contrato («ninguna» si no hay).
+  1.1.1 (T-265) — el resumen legible dice el código oficial de la semilla y el sha256 de la tabla maestra.
+  1.1.0 (T-205) — el motivo usa los criterios de la función de la competición (A o naturalidad C/D5/D8);
   «mejora al canónico» compara la clave sin huella ni orden. 1.0.0 — fichero nuevo.
-MOTIVO: T-163 / D-48: decir qué candidato ganó, por qué, y la tabla de todos (germen del «universo de mapas»).
-ANTERIOR: legacy/ddd_motor2/informe_v1.0.0_20261110.py
+MOTIVO: 1.1.2 — T-259 / D-66. 1.1.1 — T-265 / D-90. T-163 / D-48: decir qué candidato ganó, por qué, y la tabla de todos (germen del «universo de mapas»).
+ANTERIOR: legacy/ddd_motor2/informe_v1.1.1_20261111.py
 SALIDA: escribir(resultado, carpeta) -> (COMPETICION.json, COMPETICION.md). El JSON es Resultado.a_dict() más
   «motivo»; el resumen legible repite ganador, motivo, semillas públicas y la tabla ordenada por calidad.
 """
@@ -84,6 +86,13 @@ def escribir(resultado: Resultado, carpeta: Path) -> tuple[Path, Path]:
     if sp:
         lineas.append(f"- Semillas públicas ({sp.get('esquema')}): {', '.join(map(str, sp.get('semillas', [])))}; "
                       f"ancla: " + ", ".join(f"{k} `{v[:12]}…`" for k, v in sp.get("ancla", {}).items()) + ".")
+        if sp.get("codigo"):
+            lineas.append(f"- Código oficial de la semilla: `{sp['codigo']}` (tabla maestra "
+                          f"`{(sp.get('tabla_maestra') or {}).get('sha256', '')[:12]}…`).")
+    exc = d.get("excepciones_d66") or []
+    lineas.append("- Excepciones D-66: " + ("; ".join(
+        f"{x['municipio']} hasta {x['max_mixtos']} mixtos ({x['aprobacion']}: {x['motivo']})" for x in exc)
+        if exc else "ninguna") + ".")
     lineas.append(f"- Tiempo total: {resultado.tiempo_total_s:.1f} s.")
     lineas += ["", "| # | Candidato | Semilla | Estado | Duras | Fuera tol. | Desvío máx. | ECM | Plan | Tiempo (s) |",
                "|---|---|---|---|---|---|---|---|---|---|"]

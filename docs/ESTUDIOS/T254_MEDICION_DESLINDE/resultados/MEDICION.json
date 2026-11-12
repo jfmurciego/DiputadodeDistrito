@@ -1,0 +1,975 @@
+{
+ "python": "3.13.18",
+ "maquina": "x86_64",
+ "cpus": 4,
+ "commit": "ee8e776705048cb676b7e9df644d10d9ed4915d7",
+ "cadenas": 10,
+ "territorios": {
+  "congreso_huesca": {
+   "repeticiones": [
+    {
+     "total_s": 115.656,
+     "fases_s": {
+      "cadenas": 14.844,
+      "cadenas.clave_D8": 0.549,
+      "cadenas.natural_desde_m06": 0.022,
+      "cadenas.piezas_finas": 0.0,
+      "canonico": 6.003,
+      "exhaustivo": 93.902,
+      "juzgar": 0.782,
+      "juzgar.clave_D8": 0.003,
+      "juzgar.natural_desde_m06": 0.197,
+      "vigente": 0.11,
+      "vigente.piezas_finas": 0.0
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 2.4,
+      "M05": 1.9,
+      "M06": 0.9,
+      "validacion": 0.5
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s1379505751",
+      "huella_resultado": "0233c9252fdd07c3958d1dd0b9d76d96df143532af936ed38a52c42b084111f4",
+      "candidatos": {
+       "ponderado-s1379505751": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1387057101": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s2104594254": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1805883527": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1417755764": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s2113482729": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1664087847": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1184371343": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s2022712355": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1184565056": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "canonico": "524b8c681bf79e6f82f3547b14eda4c082355a2fc8ad09d8b1aebea798e865e3",
+       "vigente": "18ebdcb62768af9901ae3f52291c09df64c440401c3178a36817f8bc134a7d6b"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "enumeración incompleta en 200000 nodos",
+       "nodos": 200000,
+       "tiempo_s": 93.854
+      }
+     }
+    },
+    {
+     "total_s": 114.915,
+     "fases_s": {
+      "cadenas": 14.443,
+      "cadenas.clave_D8": 0.539,
+      "cadenas.natural_desde_m06": 0.02,
+      "cadenas.piezas_finas": 0.0,
+      "canonico": 6.102,
+      "exhaustivo": 93.548,
+      "juzgar": 0.702,
+      "juzgar.clave_D8": 0.003,
+      "juzgar.natural_desde_m06": 0.03,
+      "vigente": 0.106,
+      "vigente.piezas_finas": 0.0
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 2.4,
+      "M05": 2.0,
+      "M06": 1.0,
+      "validacion": 0.6
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s1379505751",
+      "huella_resultado": "0233c9252fdd07c3958d1dd0b9d76d96df143532af936ed38a52c42b084111f4",
+      "candidatos": {
+       "ponderado-s1379505751": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1387057101": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s2104594254": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1805883527": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1417755764": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s2113482729": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1664087847": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1184371343": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s2022712355": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1184565056": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "canonico": "524b8c681bf79e6f82f3547b14eda4c082355a2fc8ad09d8b1aebea798e865e3",
+       "vigente": "18ebdcb62768af9901ae3f52291c09df64c440401c3178a36817f8bc134a7d6b"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "enumeración incompleta en 200000 nodos",
+       "nodos": 200000,
+       "tiempo_s": 93.498
+      }
+     }
+    },
+    {
+     "total_s": 111.772,
+     "fases_s": {
+      "cadenas": 14.562,
+      "cadenas.clave_D8": 0.556,
+      "cadenas.natural_desde_m06": 0.022,
+      "cadenas.piezas_finas": 0.0,
+      "canonico": 6.057,
+      "exhaustivo": 90.383,
+      "juzgar": 0.64,
+      "juzgar.clave_D8": 0.002,
+      "juzgar.natural_desde_m06": 0.025,
+      "vigente": 0.113,
+      "vigente.piezas_finas": 0.0
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 2.4,
+      "M05": 1.9,
+      "M06": 1.0,
+      "validacion": 0.6
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s1379505751",
+      "huella_resultado": "0233c9252fdd07c3958d1dd0b9d76d96df143532af936ed38a52c42b084111f4",
+      "candidatos": {
+       "ponderado-s1379505751": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1387057101": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s2104594254": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1805883527": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1417755764": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s2113482729": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1664087847": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1184371343": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s2022712355": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "ponderado-s1184565056": "e8554b8e359fb80b07d6f88e14b2b6e509ad53248b8d5fe0017f55a62eda5cca",
+       "canonico": "524b8c681bf79e6f82f3547b14eda4c082355a2fc8ad09d8b1aebea798e865e3",
+       "vigente": "18ebdcb62768af9901ae3f52291c09df64c440401c3178a36817f8bc134a7d6b"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "enumeración incompleta en 200000 nodos",
+       "nodos": 200000,
+       "tiempo_s": 90.329
+      }
+     }
+    }
+   ],
+   "estadistica": {
+    "cadenas": {
+     "media": 14.616,
+     "sd": 0.206,
+     "min": 14.443,
+     "max": 14.844,
+     "n": 3
+    },
+    "cadenas.clave_D8": {
+     "media": 0.548,
+     "sd": 0.009,
+     "min": 0.539,
+     "max": 0.556,
+     "n": 3
+    },
+    "cadenas.natural_desde_m06": {
+     "media": 0.021,
+     "sd": 0.001,
+     "min": 0.02,
+     "max": 0.022,
+     "n": 3
+    },
+    "cadenas.piezas_finas": {
+     "media": 0.0,
+     "sd": 0.0,
+     "min": 0.0,
+     "max": 0.0,
+     "n": 3
+    },
+    "canonico": {
+     "media": 6.054,
+     "sd": 0.05,
+     "min": 6.003,
+     "max": 6.102,
+     "n": 3
+    },
+    "canonico.M04": {
+     "media": 2.4,
+     "sd": 0.0,
+     "min": 2.4,
+     "max": 2.4,
+     "n": 3
+    },
+    "canonico.M05": {
+     "media": 1.933,
+     "sd": 0.058,
+     "min": 1.9,
+     "max": 2.0,
+     "n": 3
+    },
+    "canonico.M06": {
+     "media": 0.967,
+     "sd": 0.058,
+     "min": 0.9,
+     "max": 1.0,
+     "n": 3
+    },
+    "canonico.unidades": {
+     "media": 0.1,
+     "sd": 0.0,
+     "min": 0.1,
+     "max": 0.1,
+     "n": 3
+    },
+    "canonico.validacion": {
+     "media": 0.567,
+     "sd": 0.058,
+     "min": 0.5,
+     "max": 0.6,
+     "n": 3
+    },
+    "exhaustivo": {
+     "media": 92.611,
+     "sd": 1.938,
+     "min": 90.383,
+     "max": 93.902,
+     "n": 3
+    },
+    "juzgar": {
+     "media": 0.708,
+     "sd": 0.071,
+     "min": 0.64,
+     "max": 0.782,
+     "n": 3
+    },
+    "juzgar.clave_D8": {
+     "media": 0.003,
+     "sd": 0.001,
+     "min": 0.002,
+     "max": 0.003,
+     "n": 3
+    },
+    "juzgar.natural_desde_m06": {
+     "media": 0.084,
+     "sd": 0.098,
+     "min": 0.025,
+     "max": 0.197,
+     "n": 3
+    },
+    "vigente": {
+     "media": 0.11,
+     "sd": 0.004,
+     "min": 0.106,
+     "max": 0.113,
+     "n": 3
+    },
+    "vigente.piezas_finas": {
+     "media": 0.0,
+     "sd": 0.0,
+     "min": 0.0,
+     "max": 0.0,
+     "n": 3
+    },
+    "total": {
+     "media": 114.114,
+     "sd": 2.062,
+     "min": 111.772,
+     "max": 115.656,
+     "n": 3
+    }
+   },
+   "huellas_iguales_entre_repeticiones": true,
+   "p30": {
+    "p30_competir_s": 108.027,
+    "p30_rc": 0,
+    "p30_estado": "P30_GANA_OTRO_PLAN",
+    "p30_ganador": "ponderado-s1379505751",
+    "p30_huella": "0233c9252fdd07c3958d1dd0b9d76d96df143532af936ed38a52c42b084111f4",
+    "p30_m06_s": 0.973,
+    "p30_m06_rc": 0,
+    "p30_verificar_s": 0.104,
+    "p30_verificar_rc": 0,
+    "certificacion_auditoria_geometrica_s": 2.832,
+    "certificacion_auditoria_rc": 0
+   }
+  },
+  "congreso_la_rioja": {
+   "repeticiones": [
+    {
+     "total_s": 145.536,
+     "fases_s": {
+      "cadenas": 13.384,
+      "cadenas.clave_D8": 0.463,
+      "cadenas.natural_desde_m06": 0.02,
+      "cadenas.piezas_finas": 0.0,
+      "canonico": 4.776,
+      "exhaustivo": 126.698,
+      "juzgar": 0.564,
+      "juzgar.clave_D8": 0.002,
+      "juzgar.natural_desde_m06": 0.03,
+      "vigente": 0.1,
+      "vigente.piezas_finas": 0.0
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 2.0,
+      "M05": 1.3,
+      "M06": 0.8,
+      "validacion": 0.5
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s1629856150",
+      "huella_resultado": "5f2a151e600b87e3a1e12552eb6f2c9e3c26ab1fbcdc87283cd854a35ce6892f",
+      "candidatos": {
+       "ponderado-s1629856150": "8e32a9704d266d2f879302120014e1297db90ca0c78b9451890e2a18f7e3e45f",
+       "ponderado-s1767199422": "8e32a9704d266d2f879302120014e1297db90ca0c78b9451890e2a18f7e3e45f",
+       "ponderado-s485847332": "8e32a9704d266d2f879302120014e1297db90ca0c78b9451890e2a18f7e3e45f",
+       "ponderado-s1161058359": "8e32a9704d266d2f879302120014e1297db90ca0c78b9451890e2a18f7e3e45f",
+       "ponderado-s1951178076": "cb30025bf67af0b560da426929e095fe16327d3645f6284141ea1583916af159",
+       "ponderado-s641818066": "2450b4105918f54ad38c4fc3c68046ec35f759b3a41fbab54427828b10d1ee01",
+       "ponderado-s1371559338": "3faa3dadc34945e26bacf44b9f386b493fea05f18bda1c889c8e1d8d8ef12b0f",
+       "ponderado-s733651188": "8f7c0b69a4cccf518fb0d9551f090c963f2e84277838f7f9b1f9066c56d20421",
+       "ponderado-s1858944975": "2c59a8e3c6dddc27e88623abbfcc3be188b07737ebe1c336abefc1ab327e8fe2",
+       "ponderado-s1382759812": "b393872ee081a85f9feb5346a64ed540ed3102acbc84790c30008d42d8f5def2",
+       "canonico": "8270eee168c76b55474200b56ef1182818c069cbd6f5214e449eecaf45ac0abc",
+       "vigente": "55a5cb475330f30d62bf36bfb282108c9d05bfc6c348dc7467016716cbb64f20"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "enumeración incompleta en 200000 nodos",
+       "nodos": 200000,
+       "tiempo_s": 126.656
+      }
+     }
+    },
+    {
+     "total_s": 142.187,
+     "fases_s": {
+      "cadenas": 14.255,
+      "cadenas.clave_D8": 0.508,
+      "cadenas.natural_desde_m06": 0.021,
+      "cadenas.piezas_finas": 0.0,
+      "canonico": 5.046,
+      "exhaustivo": 122.271,
+      "juzgar": 0.481,
+      "juzgar.clave_D8": 0.002,
+      "juzgar.natural_desde_m06": 0.023,
+      "vigente": 0.117,
+      "vigente.piezas_finas": 0.0
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 2.1,
+      "M05": 1.4,
+      "M06": 0.9,
+      "validacion": 0.6
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s1629856150",
+      "huella_resultado": "5f2a151e600b87e3a1e12552eb6f2c9e3c26ab1fbcdc87283cd854a35ce6892f",
+      "candidatos": {
+       "ponderado-s1629856150": "8e32a9704d266d2f879302120014e1297db90ca0c78b9451890e2a18f7e3e45f",
+       "ponderado-s1767199422": "8e32a9704d266d2f879302120014e1297db90ca0c78b9451890e2a18f7e3e45f",
+       "ponderado-s485847332": "8e32a9704d266d2f879302120014e1297db90ca0c78b9451890e2a18f7e3e45f",
+       "ponderado-s1161058359": "8e32a9704d266d2f879302120014e1297db90ca0c78b9451890e2a18f7e3e45f",
+       "ponderado-s1951178076": "cb30025bf67af0b560da426929e095fe16327d3645f6284141ea1583916af159",
+       "ponderado-s641818066": "2450b4105918f54ad38c4fc3c68046ec35f759b3a41fbab54427828b10d1ee01",
+       "ponderado-s1371559338": "3faa3dadc34945e26bacf44b9f386b493fea05f18bda1c889c8e1d8d8ef12b0f",
+       "ponderado-s733651188": "8f7c0b69a4cccf518fb0d9551f090c963f2e84277838f7f9b1f9066c56d20421",
+       "ponderado-s1858944975": "2c59a8e3c6dddc27e88623abbfcc3be188b07737ebe1c336abefc1ab327e8fe2",
+       "ponderado-s1382759812": "b393872ee081a85f9feb5346a64ed540ed3102acbc84790c30008d42d8f5def2",
+       "canonico": "8270eee168c76b55474200b56ef1182818c069cbd6f5214e449eecaf45ac0abc",
+       "vigente": "55a5cb475330f30d62bf36bfb282108c9d05bfc6c348dc7467016716cbb64f20"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "enumeración incompleta en 200000 nodos",
+       "nodos": 200000,
+       "tiempo_s": 122.233
+      }
+     }
+    },
+    {
+     "total_s": 143.978,
+     "fases_s": {
+      "cadenas": 13.422,
+      "cadenas.clave_D8": 0.489,
+      "cadenas.natural_desde_m06": 0.022,
+      "cadenas.piezas_finas": 0.0,
+      "canonico": 4.888,
+      "exhaustivo": 125.071,
+      "juzgar": 0.491,
+      "juzgar.clave_D8": 0.002,
+      "juzgar.natural_desde_m06": 0.025,
+      "vigente": 0.093,
+      "vigente.piezas_finas": 0.0
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 2.0,
+      "M05": 1.4,
+      "M06": 0.8,
+      "validacion": 0.5
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s1629856150",
+      "huella_resultado": "5f2a151e600b87e3a1e12552eb6f2c9e3c26ab1fbcdc87283cd854a35ce6892f",
+      "candidatos": {
+       "ponderado-s1629856150": "8e32a9704d266d2f879302120014e1297db90ca0c78b9451890e2a18f7e3e45f",
+       "ponderado-s1767199422": "8e32a9704d266d2f879302120014e1297db90ca0c78b9451890e2a18f7e3e45f",
+       "ponderado-s485847332": "8e32a9704d266d2f879302120014e1297db90ca0c78b9451890e2a18f7e3e45f",
+       "ponderado-s1161058359": "8e32a9704d266d2f879302120014e1297db90ca0c78b9451890e2a18f7e3e45f",
+       "ponderado-s1951178076": "cb30025bf67af0b560da426929e095fe16327d3645f6284141ea1583916af159",
+       "ponderado-s641818066": "2450b4105918f54ad38c4fc3c68046ec35f759b3a41fbab54427828b10d1ee01",
+       "ponderado-s1371559338": "3faa3dadc34945e26bacf44b9f386b493fea05f18bda1c889c8e1d8d8ef12b0f",
+       "ponderado-s733651188": "8f7c0b69a4cccf518fb0d9551f090c963f2e84277838f7f9b1f9066c56d20421",
+       "ponderado-s1858944975": "2c59a8e3c6dddc27e88623abbfcc3be188b07737ebe1c336abefc1ab327e8fe2",
+       "ponderado-s1382759812": "b393872ee081a85f9feb5346a64ed540ed3102acbc84790c30008d42d8f5def2",
+       "canonico": "8270eee168c76b55474200b56ef1182818c069cbd6f5214e449eecaf45ac0abc",
+       "vigente": "55a5cb475330f30d62bf36bfb282108c9d05bfc6c348dc7467016716cbb64f20"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "enumeración incompleta en 200000 nodos",
+       "nodos": 200000,
+       "tiempo_s": 125.033
+      }
+     }
+    }
+   ],
+   "estadistica": {
+    "cadenas": {
+     "media": 13.687,
+     "sd": 0.492,
+     "min": 13.384,
+     "max": 14.255,
+     "n": 3
+    },
+    "cadenas.clave_D8": {
+     "media": 0.487,
+     "sd": 0.023,
+     "min": 0.463,
+     "max": 0.508,
+     "n": 3
+    },
+    "cadenas.natural_desde_m06": {
+     "media": 0.021,
+     "sd": 0.001,
+     "min": 0.02,
+     "max": 0.022,
+     "n": 3
+    },
+    "cadenas.piezas_finas": {
+     "media": 0.0,
+     "sd": 0.0,
+     "min": 0.0,
+     "max": 0.0,
+     "n": 3
+    },
+    "canonico": {
+     "media": 4.903,
+     "sd": 0.136,
+     "min": 4.776,
+     "max": 5.046,
+     "n": 3
+    },
+    "canonico.M04": {
+     "media": 2.033,
+     "sd": 0.058,
+     "min": 2.0,
+     "max": 2.1,
+     "n": 3
+    },
+    "canonico.M05": {
+     "media": 1.367,
+     "sd": 0.058,
+     "min": 1.3,
+     "max": 1.4,
+     "n": 3
+    },
+    "canonico.M06": {
+     "media": 0.833,
+     "sd": 0.058,
+     "min": 0.8,
+     "max": 0.9,
+     "n": 3
+    },
+    "canonico.unidades": {
+     "media": 0.1,
+     "sd": 0.0,
+     "min": 0.1,
+     "max": 0.1,
+     "n": 3
+    },
+    "canonico.validacion": {
+     "media": 0.533,
+     "sd": 0.058,
+     "min": 0.5,
+     "max": 0.6,
+     "n": 3
+    },
+    "exhaustivo": {
+     "media": 124.68,
+     "sd": 2.239,
+     "min": 122.271,
+     "max": 126.698,
+     "n": 3
+    },
+    "juzgar": {
+     "media": 0.512,
+     "sd": 0.045,
+     "min": 0.481,
+     "max": 0.564,
+     "n": 3
+    },
+    "juzgar.clave_D8": {
+     "media": 0.002,
+     "sd": 0.0,
+     "min": 0.002,
+     "max": 0.002,
+     "n": 3
+    },
+    "juzgar.natural_desde_m06": {
+     "media": 0.026,
+     "sd": 0.004,
+     "min": 0.023,
+     "max": 0.03,
+     "n": 3
+    },
+    "vigente": {
+     "media": 0.103,
+     "sd": 0.012,
+     "min": 0.093,
+     "max": 0.117,
+     "n": 3
+    },
+    "vigente.piezas_finas": {
+     "media": 0.0,
+     "sd": 0.0,
+     "min": 0.0,
+     "max": 0.0,
+     "n": 3
+    },
+    "total": {
+     "media": 143.9,
+     "sd": 1.676,
+     "min": 142.187,
+     "max": 145.536,
+     "n": 3
+    }
+   },
+   "huellas_iguales_entre_repeticiones": true,
+   "p30": {
+    "p30_competir_s": 136.947,
+    "p30_rc": 0,
+    "p30_estado": "P30_GANA_OTRO_PLAN",
+    "p30_ganador": "ponderado-s1629856150",
+    "p30_huella": "5f2a151e600b87e3a1e12552eb6f2c9e3c26ab1fbcdc87283cd854a35ce6892f",
+    "p30_m06_s": 0.855,
+    "p30_m06_rc": 0,
+    "p30_verificar_s": 0.131,
+    "p30_verificar_rc": 0,
+    "certificacion_auditoria_geometrica_s": 2.898,
+    "certificacion_auditoria_rc": 0
+   }
+  },
+  "la_rioja": {
+   "repeticiones": [
+    {
+     "total_s": 83.775,
+     "fases_s": {
+      "cadenas": 23.58,
+      "cadenas.clave_D8": 1.11,
+      "cadenas.natural_desde_m06": 0.027,
+      "cadenas.piezas_finas": 0.412,
+      "canonico": 8.505,
+      "exhaustivo": 50.948,
+      "juzgar": 0.563,
+      "juzgar.clave_D8": 0.004,
+      "juzgar.natural_desde_m06": 0.03,
+      "vigente": 0.164,
+      "vigente.piezas_finas": 0.061
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 2.9,
+      "M05": 4.0,
+      "M06": 0.9,
+      "validacion": 0.5
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s662638790",
+      "huella_resultado": "1d5d002c0aacfe2d265cd326df18c866333f4ceb5ad1f193c561c8cb4add00de",
+      "candidatos": {
+       "ponderado-s662638790": "2b196807964aa0d67a46f7229ab3d970f310b6dad18af9df3ebf3d7bc367ea64",
+       "ponderado-s887350603": "42ae4fbee1cfe760e3a9b7b3629049769c1db1b71a82d038e6436e2c2032efb6",
+       "ponderado-s1651375911": "f19f1e09e6f33929ab7fc3397cd78bb1fc543bc658c1a5b7672afdaa7abbf65a",
+       "ponderado-s1026968934": "538466004bfbc39fa9fdb5f48b919fa1797bd8bef6e5de9cc3aa595568a1fa3f",
+       "ponderado-s1030395302": "29ba2f719786f80a0bd3b9713bafad005603aac27931263fcb8f79a1e379f21c",
+       "ponderado-s117919649": "0f028c99df2efc6fe0bc295030f48ae1b1529f93e538fcdc159d84a581eebb32",
+       "ponderado-s793290004": "f005d9d2c9c0800b9c9559eba47b131786e0cc25e8387ffc523479fc1f8d931b",
+       "ponderado-s864893462": "f862aaf280846c4e75a91ff40906b9ecf101c3865a46d42be9b4cb19f13e965f",
+       "ponderado-s2009387672": "c3a3bb4d6a91ee66f2d93db6b1c7247fd75d9257c2dd318c5710961d672c490f",
+       "ponderado-s916144214": "9c1c7f8446ae584bab02ccb6328f753cc6674b510215541b97cfaf9cfcfb3555",
+       "vigente": "1e0050b121889040cf21e820676f4e98f0b7dfde4340c660b9ef67968394dd6e",
+       "canonico": "faa44f88c7b869b69bbe7589dceb994dd7ed24325867739dff55b700d59d92db"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "enumeración incompleta en 200000 nodos",
+       "nodos": 200000,
+       "tiempo_s": 50.908
+      }
+     }
+    },
+    {
+     "total_s": 84.364,
+     "fases_s": {
+      "cadenas": 23.969,
+      "cadenas.clave_D8": 1.137,
+      "cadenas.natural_desde_m06": 0.026,
+      "cadenas.piezas_finas": 0.412,
+      "canonico": 8.271,
+      "exhaustivo": 51.443,
+      "juzgar": 0.543,
+      "juzgar.clave_D8": 0.004,
+      "juzgar.natural_desde_m06": 0.032,
+      "vigente": 0.124,
+      "vigente.piezas_finas": 0.04
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 2.8,
+      "M05": 3.8,
+      "M06": 0.9,
+      "validacion": 0.6
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s662638790",
+      "huella_resultado": "1d5d002c0aacfe2d265cd326df18c866333f4ceb5ad1f193c561c8cb4add00de",
+      "candidatos": {
+       "ponderado-s662638790": "2b196807964aa0d67a46f7229ab3d970f310b6dad18af9df3ebf3d7bc367ea64",
+       "ponderado-s887350603": "42ae4fbee1cfe760e3a9b7b3629049769c1db1b71a82d038e6436e2c2032efb6",
+       "ponderado-s1651375911": "f19f1e09e6f33929ab7fc3397cd78bb1fc543bc658c1a5b7672afdaa7abbf65a",
+       "ponderado-s1026968934": "538466004bfbc39fa9fdb5f48b919fa1797bd8bef6e5de9cc3aa595568a1fa3f",
+       "ponderado-s1030395302": "29ba2f719786f80a0bd3b9713bafad005603aac27931263fcb8f79a1e379f21c",
+       "ponderado-s117919649": "0f028c99df2efc6fe0bc295030f48ae1b1529f93e538fcdc159d84a581eebb32",
+       "ponderado-s793290004": "f005d9d2c9c0800b9c9559eba47b131786e0cc25e8387ffc523479fc1f8d931b",
+       "ponderado-s864893462": "f862aaf280846c4e75a91ff40906b9ecf101c3865a46d42be9b4cb19f13e965f",
+       "ponderado-s2009387672": "c3a3bb4d6a91ee66f2d93db6b1c7247fd75d9257c2dd318c5710961d672c490f",
+       "ponderado-s916144214": "9c1c7f8446ae584bab02ccb6328f753cc6674b510215541b97cfaf9cfcfb3555",
+       "vigente": "1e0050b121889040cf21e820676f4e98f0b7dfde4340c660b9ef67968394dd6e",
+       "canonico": "faa44f88c7b869b69bbe7589dceb994dd7ed24325867739dff55b700d59d92db"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "enumeración incompleta en 200000 nodos",
+       "nodos": 200000,
+       "tiempo_s": 51.405
+      }
+     }
+    },
+    {
+     "total_s": 84.107,
+     "fases_s": {
+      "cadenas": 24.85,
+      "cadenas.clave_D8": 1.193,
+      "cadenas.natural_desde_m06": 0.029,
+      "cadenas.piezas_finas": 0.437,
+      "canonico": 8.292,
+      "exhaustivo": 50.306,
+      "juzgar": 0.524,
+      "juzgar.clave_D8": 0.004,
+      "juzgar.natural_desde_m06": 0.032,
+      "vigente": 0.122,
+      "vigente.piezas_finas": 0.04
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 2.8,
+      "M05": 3.9,
+      "M06": 0.9,
+      "validacion": 0.6
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s662638790",
+      "huella_resultado": "1d5d002c0aacfe2d265cd326df18c866333f4ceb5ad1f193c561c8cb4add00de",
+      "candidatos": {
+       "ponderado-s662638790": "2b196807964aa0d67a46f7229ab3d970f310b6dad18af9df3ebf3d7bc367ea64",
+       "ponderado-s887350603": "42ae4fbee1cfe760e3a9b7b3629049769c1db1b71a82d038e6436e2c2032efb6",
+       "ponderado-s1651375911": "f19f1e09e6f33929ab7fc3397cd78bb1fc543bc658c1a5b7672afdaa7abbf65a",
+       "ponderado-s1026968934": "538466004bfbc39fa9fdb5f48b919fa1797bd8bef6e5de9cc3aa595568a1fa3f",
+       "ponderado-s1030395302": "29ba2f719786f80a0bd3b9713bafad005603aac27931263fcb8f79a1e379f21c",
+       "ponderado-s117919649": "0f028c99df2efc6fe0bc295030f48ae1b1529f93e538fcdc159d84a581eebb32",
+       "ponderado-s793290004": "f005d9d2c9c0800b9c9559eba47b131786e0cc25e8387ffc523479fc1f8d931b",
+       "ponderado-s864893462": "f862aaf280846c4e75a91ff40906b9ecf101c3865a46d42be9b4cb19f13e965f",
+       "ponderado-s2009387672": "c3a3bb4d6a91ee66f2d93db6b1c7247fd75d9257c2dd318c5710961d672c490f",
+       "ponderado-s916144214": "9c1c7f8446ae584bab02ccb6328f753cc6674b510215541b97cfaf9cfcfb3555",
+       "vigente": "1e0050b121889040cf21e820676f4e98f0b7dfde4340c660b9ef67968394dd6e",
+       "canonico": "faa44f88c7b869b69bbe7589dceb994dd7ed24325867739dff55b700d59d92db"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "enumeración incompleta en 200000 nodos",
+       "nodos": 200000,
+       "tiempo_s": 50.264
+      }
+     }
+    }
+   ],
+   "estadistica": {
+    "cadenas": {
+     "media": 24.133,
+     "sd": 0.651,
+     "min": 23.58,
+     "max": 24.85,
+     "n": 3
+    },
+    "cadenas.clave_D8": {
+     "media": 1.147,
+     "sd": 0.042,
+     "min": 1.11,
+     "max": 1.193,
+     "n": 3
+    },
+    "cadenas.natural_desde_m06": {
+     "media": 0.027,
+     "sd": 0.002,
+     "min": 0.026,
+     "max": 0.029,
+     "n": 3
+    },
+    "cadenas.piezas_finas": {
+     "media": 0.42,
+     "sd": 0.014,
+     "min": 0.412,
+     "max": 0.437,
+     "n": 3
+    },
+    "canonico": {
+     "media": 8.356,
+     "sd": 0.129,
+     "min": 8.271,
+     "max": 8.505,
+     "n": 3
+    },
+    "canonico.M04": {
+     "media": 2.833,
+     "sd": 0.058,
+     "min": 2.8,
+     "max": 2.9,
+     "n": 3
+    },
+    "canonico.M05": {
+     "media": 3.9,
+     "sd": 0.1,
+     "min": 3.8,
+     "max": 4.0,
+     "n": 3
+    },
+    "canonico.M06": {
+     "media": 0.9,
+     "sd": 0.0,
+     "min": 0.9,
+     "max": 0.9,
+     "n": 3
+    },
+    "canonico.unidades": {
+     "media": 0.1,
+     "sd": 0.0,
+     "min": 0.1,
+     "max": 0.1,
+     "n": 3
+    },
+    "canonico.validacion": {
+     "media": 0.567,
+     "sd": 0.058,
+     "min": 0.5,
+     "max": 0.6,
+     "n": 3
+    },
+    "exhaustivo": {
+     "media": 50.899,
+     "sd": 0.57,
+     "min": 50.306,
+     "max": 51.443,
+     "n": 3
+    },
+    "juzgar": {
+     "media": 0.543,
+     "sd": 0.02,
+     "min": 0.524,
+     "max": 0.563,
+     "n": 3
+    },
+    "juzgar.clave_D8": {
+     "media": 0.004,
+     "sd": 0.0,
+     "min": 0.004,
+     "max": 0.004,
+     "n": 3
+    },
+    "juzgar.natural_desde_m06": {
+     "media": 0.031,
+     "sd": 0.001,
+     "min": 0.03,
+     "max": 0.032,
+     "n": 3
+    },
+    "vigente": {
+     "media": 0.137,
+     "sd": 0.024,
+     "min": 0.122,
+     "max": 0.164,
+     "n": 3
+    },
+    "vigente.piezas_finas": {
+     "media": 0.047,
+     "sd": 0.012,
+     "min": 0.04,
+     "max": 0.061,
+     "n": 3
+    },
+    "total": {
+     "media": 84.082,
+     "sd": 0.295,
+     "min": 83.775,
+     "max": 84.364,
+     "n": 3
+    }
+   },
+   "huellas_iguales_entre_repeticiones": true,
+   "p30": {
+    "p30_competir_s": 76.084,
+    "p30_rc": 0,
+    "p30_estado": "P30_GANA_OTRO_PLAN",
+    "p30_ganador": "ponderado-s662638790",
+    "p30_huella": "1d5d002c0aacfe2d265cd326df18c866333f4ceb5ad1f193c561c8cb4add00de",
+    "p30_m06_s": 0.904,
+    "p30_m06_rc": 0,
+    "p30_verificar_s": 0.095,
+    "p30_verificar_rc": 0,
+    "certificacion_auditoria_geometrica_s": 2.845,
+    "certificacion_auditoria_rc": 0
+   }
+  }
+ }
+}

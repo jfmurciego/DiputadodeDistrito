@@ -101,7 +101,7 @@ class Main(unittest.TestCase):
         with mock.patch.object(m, "rutas", return_value=(cfg, s5, {})), \
                 mock.patch.object(m, "CanonicoM05", fabrica("canonico", planes_can)), \
                 mock.patch.object(m, "GerryChainM05", fabrica("gerrychain", planes_gc)):
-            return m.main(["--params", "territorios/prueba/config/prueba_2025.yaml", "--run-id", "r", "--semilla", "1",
+            return m.main(["--params", "territorios/la_rioja/config/la_rioja_2025.yaml", "--run-id", "r", "--semilla", "1",
                            "--cadenas", "2"])
 
     def test_sin_ancla_rc3(self):

@@ -1,0 +1,80 @@
+{
+ "congreso_huesca": {
+  "total_s": 88.375,
+  "fases_s": {
+   "cadenas": 14.012,
+   "cadenas.clave_D8": 0.529,
+   "cadenas.natural_desde_m06": 0.02,
+   "cadenas.piezas_finas": 0.0,
+   "canonico": 5.98,
+   "exhaustivo": 67.491,
+   "juzgar": 0.768,
+   "juzgar.clave_D8": 0.002,
+   "juzgar.natural_desde_m06": 0.182,
+   "vigente": 0.109,
+   "vigente.piezas_finas": 0.0
+  },
+  "total_s_sin_cache": 115.656,
+  "fases_s_sin_cache": {
+   "exhaustivo": 93.902,
+   "cadenas": 14.844,
+   "juzgar": 0.782
+  },
+  "misma_huella_resultado": true,
+  "mismas_composiciones": true,
+  "mismo_ganador": true,
+  "entradas_cache": 180
+ },
+ "congreso_la_rioja": {
+  "total_s": 108.756,
+  "fases_s": {
+   "cadenas": 12.985,
+   "cadenas.clave_D8": 0.455,
+   "cadenas.natural_desde_m06": 0.021,
+   "cadenas.piezas_finas": 0.0,
+   "canonico": 4.933,
+   "exhaustivo": 90.225,
+   "juzgar": 0.498,
+   "juzgar.clave_D8": 0.002,
+   "juzgar.natural_desde_m06": 0.025,
+   "vigente": 0.1,
+   "vigente.piezas_finas": 0.0
+  },
+  "total_s_sin_cache": 145.536,
+  "fases_s_sin_cache": {
+   "exhaustivo": 126.698,
+   "cadenas": 13.384,
+   "juzgar": 0.564
+  },
+  "misma_huella_resultado": true,
+  "mismas_composiciones": true,
+  "mismo_ganador": true,
+  "entradas_cache": 151
+ },
+ "la_rioja": {
+  "total_s": 77.181,
+  "fases_s": {
+   "cadenas": 25.333,
+   "cadenas.clave_D8": 1.186,
+   "cadenas.natural_desde_m06": 0.03,
+   "cadenas.piezas_finas": 0.436,
+   "canonico": 8.802,
+   "exhaustivo": 42.397,
+   "juzgar": 0.515,
+   "juzgar.clave_D8": 0.004,
+   "juzgar.natural_desde_m06": 0.03,
+   "vigente": 0.118,
+   "vigente.piezas_finas": 0.039
+  },
+  "total_s_sin_cache": 83.775,
+  "fases_s_sin_cache": {
+   "exhaustivo": 50.948,
+   "cadenas": 23.58,
+   "juzgar": 0.563
+  },
+  "misma_huella_resultado": true,
+  "mismas_composiciones": true,
+  "mismo_ganador": true,
+  "entradas_cache": 151
+ }
+}

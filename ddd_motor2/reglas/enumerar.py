@@ -3,17 +3,24 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: núcleo de reglas del motor 2 — poda monótona y enumeración exacta con presupuesto de nodos
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Enumeración con elección por calidad
-FECHA: 2026-11-10
+VERSIÓN: 1.3.0
+NOMBRE DE VERSIÓN: Poda con constantes precalculadas
+FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.1.0 — enumerar(..., clave=f): guarda el plan válido de menor f(plan) («mejor», «mejor_clave»), recorriendo
+CAMBIOS: 1.3.0 (T-235, D-83) — la poda no corta por techo ni por tolerancia un distrito de una partición exenta
+  (evaluar.exento_de_techo, la misma regla que el evaluador). Sin exención, nada cambia.
+  1.2.0 — podar(..., pre=None): las constantes del problema (ids, piezas por unidad, población y nº de unidades
+  por municipio, rango_municipal de cada municipio, núcleos cerrados) se calculan una vez por enumeración
+  (_Constantes) en vez de en cada nodo. Mismas violaciones, en el mismo orden (test de equivalencia con la 1.1.0).
+  1.1.0 — enumerar(..., clave=f): guarda el plan válido de menor f(plan) («mejor», «mejor_clave»), recorriendo
   TODOS los válidos (no solo los max_planes guardados); «segundo_clave» y «empatados» (planes con la mejor clave).
   1.0.0 — fichero nuevo.
 MOTIVO: T-160: donde el espacio de planes cabe, enumerar todos en vez de muestrear (criterio del propietario: cadena
   solo donde el espacio es grande). El veredicto de cada plan enumerado es evaluar() del núcleo.
 MOTIVO 1.1.0: T-175: enumeración exacta integrada en el competidor y el certificador.
-ANTERIOR: legacy/ddd_motor2/reglas/enumerar_v1.0.0_20261110.py
+MOTIVO 1.2.0: T-256 (D-89): T-254 midió que podar es casi todo el exhaustivo (recalcula constantes y llama 8,7 M veces
+  a rango_municipal con divisiones de Fraction). Optimización bit a bit: mismos nodos, podas y planes.
+ANTERIOR: legacy/ddd_motor2/reglas/enumerar_v1.2.0_20261112.py
 QUÉ HACE:
   podar(problema, reglas, parcial) -> violaciones SEGURAS de un plan parcial: monótonas, es decir, toda extensión del
     parcial a un plan completo las tiene también (test por fuerza bruta). Techo, provincia única, K, R012 máx y
@@ -29,7 +36,7 @@ import hashlib
 from collections import defaultdict, deque
 from typing import Mapping
 
-from .evaluar import Contexto, Violacion, evaluar, violaciones_distrito
+from .evaluar import Contexto, Violacion, evaluar, exento_de_techo, violaciones_distrito
 from .modelo import Problema, Reglas
 
 
@@ -49,11 +56,31 @@ def _componentes(miembros: set[str], adj) -> list[set[str]]:
     return out
 
 
+class _Constantes:
+    """Lo que podar() necesita del problema y no depende del plan parcial."""
+
+    def __init__(self, problema: Problema, reglas: Reglas, ctx: Contexto):
+        self.ids = frozenset(u.id for u in problema.unidades)
+        self.claves: dict[str, tuple] = {}
+        m_tot: dict[str, int] = defaultdict(int)
+        self.m_n: dict[str, int] = defaultdict(int)
+        if reglas.disciplina_municipal:
+            campo = reglas.campo_r012
+            self.claves = {u.id: tuple(m for m, _ in u.piezas(campo)) for u in problema.unidades}
+            for u in problema.unidades:
+                for m, pm in u.piezas(campo):
+                    m_tot[m] += pm
+                    self.m_n[m] += 1
+        self.rango = {m: ctx.rango_municipal(p) for m, p in m_tot.items()}
+        self.nucleo = {u.id: u.nucleo_cerrado for u in problema.unidades if u.nucleo_cerrado is not None}
+
+
 def podar(problema: Problema, reglas: Reglas, parcial: Mapping[str, object],
-          ctx: Contexto | None = None) -> list[Violacion]:
+          ctx: Contexto | None = None, pre: _Constantes | None = None) -> list[Violacion]:
     ctx = ctx or Contexto.de(problema, reglas)
+    pre = pre or _Constantes(problema, reglas, ctx)
     asig = {str(u): str(d) for u, d in parcial.items()}
-    libres = {u.id for u in problema.unidades} - set(asig)
+    libres = pre.ids - set(asig)
     miembros: dict[str, set[str]] = defaultdict(set)
     for uid, d in asig.items():
         miembros[d].add(uid)
@@ -66,9 +93,10 @@ def podar(problema: Problema, reglas: Reglas, parcial: Mapping[str, object],
     for d, ms in miembros.items():
         us = [por[x] for x in ms]
         p = sum(u.poblacion for u in us)
-        if p > ctx.techo:
+        sin_techo = exento_de_techo(reglas, us)
+        if p > ctx.techo and not sin_techo:
             out.append(Violacion("R-POB-TECHO", d))
-        if reglas.criterio.tolerancia == "dura" and p > ctx.objetivo + ctx.tol:
+        if reglas.criterio.tolerancia == "dura" and p > ctx.objetivo + ctx.tol and not sin_techo:
             out.append(Violacion("R-TOL", d))
         if reglas.provincia_unica and len({u.provincia for u in us}) > 1:
             out.append(Violacion("R-PROV", d))
@@ -80,31 +108,25 @@ def podar(problema: Problema, reglas: Reglas, parcial: Mapping[str, object],
             elif cerradas:  # distrito entero cerrado: ya es definitivo
                 out += violaciones_distrito(ctx, d, us)
     if reglas.disciplina_municipal:
-        campo = reglas.campo_r012
-        m_tot: dict[str, int] = defaultdict(int)
-        m_n: dict[str, int] = defaultdict(int)
-        for u in problema.unidades:
-            for m, pm in u.piezas(campo):
-                m_tot[m] += pm
-                m_n[m] += 1
-        claves_d = {d: {m for x in ms for m, _ in por[x].piezas(campo)} for d, ms in miembros.items()}
+        claves = pre.claves
+        claves_d = {d: {m for x in ms for m in claves[x]} for d, ms in miembros.items()}
         m_d: dict[str, set[str]] = defaultdict(set)
         m_asig: dict[str, int] = defaultdict(int)
         for uid, d in asig.items():
-            for m, _ in por[uid].piezas(campo):
+            for m in claves[uid]:
                 m_d[m].add(d)
                 m_asig[m] += 1
         for m, ds in m_d.items():
-            minimo, maximo = ctx.rango_municipal(m_tot[m])
+            minimo, maximo = pre.rango[m]
             if len(ds) > maximo:
                 out.append(Violacion("R-MUN-MAX", m))
             mixtos = sum(1 for d in ds if len(claves_d[d]) > 1)
             if len(ds) > 1 and mixtos > reglas.max_mixtos:
                 out.append(Violacion("R-MUN-MIXTOS", m))
-            if m_asig[m] == m_n[m] and len(ds) < minimo:
+            if m_asig[m] == pre.m_n[m] and len(ds) < minimo:
                 out.append(Violacion("R-MUN-MIN", m))
     if reglas.nucleos_cerrados:
-        nucleo = {u.id: u.nucleo_cerrado for u in problema.unidades if u.nucleo_cerrado is not None}
+        nucleo = pre.nucleo
         for d, ms in miembros.items():
             ns = {nucleo.get(x) for x in ms}
             if len(ns) > 1 and any(n is not None for n in ns):
@@ -139,6 +161,7 @@ def enumerar(problema: Problema, reglas: Reglas, presupuesto: int | None = None,
     """Recuento exacto de planes válidos si cabe en el presupuesto de nodos. Con `clave` (plan -> valor ordenable),
     además el mejor plan válido (menor clave) entre TODOS los recorridos."""
     ctx = Contexto.de(problema, reglas)
+    pre = _Constantes(problema, reglas, ctx)
     if presupuesto is None:
         presupuesto = reglas.criterio.presupuesto_nodos
     if presupuesto < 1:
@@ -163,7 +186,7 @@ def enumerar(problema: Problema, reglas: Reglas, presupuesto: int | None = None,
         if estado["nodos"] > presupuesto:
             estado["agotado"] = True
             return
-        if podar(problema, reglas, asig, ctx):
+        if podar(problema, reglas, asig, ctx, pre):
             return
         if i == len(orden):
             if evaluar(problema, reglas, asig).valido:
