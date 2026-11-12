@@ -3,11 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — adaptadores de generador para la competición (canónico y GerryChain)
-VERSIÓN: 1.2.1
-NOMBRE DE VERSIÓN: Competición · vigente solo con el mismo seccionado
-FECHA: 2026-11-10
+VERSIÓN: 1.2.2
+NOMBRE DE VERSIÓN: Competición · el vigente es el publicado en el visor
+FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.2.1 — (T-223, Planificador) el vigente solo compite si sus secciones son exactamente las de la entrada
+CAMBIOS: 1.2.2 — (T-258) «Vigente» lee el mapa publicado en el visor (vigente.vigente_publicado: canonical_m06 de
+  mayor run en publicaciones_visor.json → datos/composicion/runs/<t>_<run>.csv, o <t>.csv si MANIFEST dice que es ese
+  run), el mismo que mide la aceptación; antes leía siempre datos/composicion/<t>.csv, que en Castilla y León y 30
+  del Congreso es otro mapa. Sin composición del run publicado (Canarias) no compite: «SIN_VIGENTE» con el motivo,
+  nunca otro mapa. extra añade «run». Con `carpeta` (pruebas), como 1.2.1. Ponderado, Canonico y GerryChain intactos.
+  1.2.1 — (T-223, Planificador) el vigente solo compite si sus secciones son exactamente las de la entrada
   (el seccionado de la edición del contrato que se genera); si no, «VIGENTE_OTRO_SECCIONADO» con el motivo
   («vigente excluido: otro seccionado», p. ej. las 52 del Congreso al pasar al par 2025/2025, D-65), sin reproyectarlo.
   1.2.0 — (T-217) generador «Vigente»: el mapa publicado (datos/composicion/<t>.csv) como composición M06 sobre
@@ -33,7 +38,7 @@ CAMBIOS: 1.2.1 — (T-223, Planificador) el vigente solo compite si sus seccione
 MOTIVO: T-163: que el orquestador (competicion.py) llame a los generadores reales sin tocarlos, con las mismas
   entradas y pasos que la batería T-132 (herramientas/bateria_motor.py y banco_generadores.py), que se importan en
   diferido y no se modifican.
-ANTERIOR: legacy/ddd_motor2/generadores_v1.2.0_20261110.py
+ANTERIOR: legacy/ddd_motor2/generadores_v1.2.1_20261110.py
 GENERADORES:
   Canonico    M04 + M05 canónico vigente (7.4.4, semilla fija) + M06 = bateria_motor.motor_uno(t, out, "7.4.4").
   GerryChain  M04 + M05 GerryChain de producción ddd_core/m05_gerrychain_strategy.py (ReCom, --seed-count 1
@@ -271,21 +276,32 @@ def reparar(problema, reglas, plan: dict[str, str], max_pasos: int = 20) -> tupl
 
 
 class Vigente:
-    """T-217: el mapa vigente publicado (datos/composicion/<t>.csv) como candidato, sobre las filas del canónico."""
+    """T-217: el mapa vigente publicado como candidato, sobre las filas del canónico. T-258: el publicado en el visor
+    (vigente.vigente_publicado, el mismo que mide la aceptación); `carpeta` (pruebas) fija <carpeta>/<t>.csv."""
 
     nombre = "vigente"
 
-    def __init__(self, carpeta: Path | None = None):
-        self.carpeta = Path(carpeta) if carpeta else ROOT / "datos" / "composicion"
+    def __init__(self, carpeta: Path | None = None, root: Path | None = None):
+        self.carpeta = Path(carpeta) if carpeta else None
+        self.root = Path(root) if root else ROOT
+
+    def ruta(self, t: str) -> tuple[Path | None, str | None, str]:
+        """(composición, run, motivo si no hay): la del visor o, con `carpeta`, <carpeta>/<t>.csv."""
+        if self.carpeta is not None:
+            f = self.carpeta / f"{t}.csv"
+            return (f, None, "") if f.is_file() else (None, None, f"no hay mapa publicado ({f.name})")
+        from .vigente import vigente_publicado
+        v = vigente_publicado(t, self.root)
+        return v.ruta, v.run, v.motivo
 
     def generar(self, entrada: EntradaTerritorio, semilla: int | None, destino: Path) -> Salida:
         from .adaptadores import columnas_de_contrato, problema_y_plan
         from .reglas import Criterio, Reglas
         ctx = entrada.contexto
         comp = ctx.get("composicion_canonica")
-        ruta = self.carpeta / f"{entrada.territorio}.csv"
-        if not ruta.is_file():
-            return Salida(None, "SIN_VIGENTE", f"no hay mapa publicado ({ruta.name})")
+        ruta, run, motivo = self.ruta(entrada.territorio)
+        if ruta is None:
+            return Salida(None, "SIN_VIGENTE", motivo)
         if comp is None or not Path(comp).is_file():
             return Salida(None, "SIN_CANONICO", "el vigente se monta sobre las filas del canónico y no las hay")
         with open(ruta, encoding="utf-8", newline="") as fh:
@@ -324,7 +340,8 @@ class Vigente:
                 f[col["unidad"]] = f"{uid(f)}~v{d}"
             f[col["distrito"]] = d
         salida = _escribir(campos, filas, destino / Path(comp).name)
-        extra = {"origen": f"datos/composicion/{ruta.name}", "sha256_origen": hashlib.sha256(ruta.read_bytes()).hexdigest(),
+        origen = ruta.relative_to(self.root).as_posix() if ruta.is_relative_to(self.root) else f"datos/composicion/{ruta.name}"
+        extra = {"origen": origen, "run": run, "sha256_origen": hashlib.sha256(ruta.read_bytes()).hexdigest(),
                  "unidades_divididas": len(partidas), "piezas_finas": info}
         # D-66: si el publicado incumple el núcleo (otro M04), vigente reparado; lo publicado queda en «publicado»
         from .exhaustivo import escribir_composicion

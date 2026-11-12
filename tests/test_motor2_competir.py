@@ -6,6 +6,7 @@ from __future__ import annotations
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -90,7 +91,8 @@ class Territorio(unittest.TestCase):
         self.assertEqual(f["candidatos"], 5)  # canónico + 3 cadenas + exhaustivo (territorio pequeño)
         self.assertTrue((tmp / "competicion" / "ceuta" / "COMPETICION.json").is_file())
         from ddd_motor2.competir import fila_guardada
-        g = fila_guardada("ceuta", tmp, 3, cfg=e.cfg)
+        with mock.patch("ddd_motor2.generadores.ROOT", tmp):  # T-258: sin mapa publicado (aquí no compite el vigente)
+            g = fila_guardada("ceuta", tmp, 3, cfg=e.cfg)
         self.assertTrue(g.pop("reanudado"))
         self.assertEqual({k: g[k] for k in f if k != "tiempo_s"}, {k: f[k] for k in f if k != "tiempo_s"})
         self.assertIsNone(fila_guardada("otro", tmp, 3, cfg=e.cfg))
