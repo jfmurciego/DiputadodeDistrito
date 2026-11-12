@@ -68,11 +68,11 @@ def campaign_strategy(value: str) -> dict[str, Any]:
 
 
 EXPECTED_TERRITORIES = [
-    ("01", "aragon", "Aragón", "electoral"),
-    ("02", "principado_de_asturias", "Principado de Asturias", "electoral"),
-    ("03", "galicia", "Galicia", "electoral"),
-    ("04", "castilla_y_leon", "Castilla y León", "electoral"),
-    ("05", "extremadura", "Extremadura", "territorial_only"),
+    ("01", "aut02", "Aragón", "electoral"),
+    ("02", "aut03", "Principado de Asturias", "electoral"),
+    ("03", "aut12", "Galicia", "electoral"),
+    ("04", "aut07", "Castilla y León", "electoral"),
+    ("05", "aut11", "Extremadura", "territorial_only"),
 ]
 REUSE_FIELDS = (
     "run_id",

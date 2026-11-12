@@ -26,6 +26,11 @@ import sys
 import unicodedata
 from collections import defaultdict
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito e ids por el resolutor, nunca por prefijo)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
@@ -151,8 +156,8 @@ def estadisticas_provincia(csv_composicion: Path, ind: dict) -> dict:
             "pob_en_areas_partidas_por_el_plan": partida, "n_areas": len(grupos)}
 
 
-CAPITALES = {"congreso_cadiz": "Cádiz", "congreso_granada": "Granada", "congreso_leon": "León",
-             "congreso_gerona": "Girona", "congreso_tarragona": "Tarragona"}  # nombre oficial en el xlsx del INE
+CAPITALES = {"nac11": "Cádiz", "nac18": "Granada", "nac24": "León",
+             "nac17": "Girona", "nac43": "Tarragona"}  # nombre oficial en el xlsx del INE
 
 
 def codigo_capital(areas: list[dict], nombre: str, cpro: str) -> str:
@@ -336,7 +341,7 @@ def main(argv=None) -> int:
     ind = indice_secciones(areas)
     w = csv.writer(sys.stdout, lineterminator="\n")
     cols = None
-    for p in sorted(COMPOSICION.glob("congreso_*.csv")):
+    for p in sorted(p for p in COMPOSICION.glob("*.csv") if territorio_ids.es_nacional(p.stem)):
         e = estadisticas_provincia(p, ind)
         if cols is None:
             cols = ["territorio"] + list(e)

@@ -23,7 +23,7 @@ QUÉ HACE: `plan(comunidades, explicito)` devuelve, por comunidad, las eleccione
   Puerta: código 0 solo si el cuadre del paso B es exacto (`ok`), M07 da PASS y el ganador coincide con B en cada
   distrito.
 NO HACE: publicar, ni escribir en datos/resultados/historico/ del repositorio (el resultado va al artefacto del run).
-Uso: python herramientas/historico_autonomico.py ejecutar --comunidad galicia --salida DIR [--trabajo DIR]
+Uso: python herramientas/historico_autonomico.py ejecutar --comunidad aut12 --salida DIR [--trabajo DIR]
 """
 from __future__ import annotations
 

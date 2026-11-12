@@ -20,7 +20,7 @@ QUÉ HACE: `plan(ids, eleccion)` comprueba por territorio lo que el paso A neces
   Puerta: código 0 solo si el cuadre del paso B es exacto, M07 da PASS y el ganador coincide con B en cada distrito.
 NO HACE: publicar (la 04 del histórico no está adaptada: publicar = «sí» falla al planificar), ni escribir en
   datos/resultados/historico/ del repositorio (el resultado va al artefacto del run).
-Uso: python herramientas/historico_campana.py ejecutar --territorio congreso_huesca --eleccion 201911 --salida DIR
+Uso: python herramientas/historico_campana.py ejecutar --territorio nac22 --eleccion 201911 --salida DIR
 """
 from __future__ import annotations
 

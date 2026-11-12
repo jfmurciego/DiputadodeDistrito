@@ -138,7 +138,7 @@ modulos:
     out_report: territorios/aut05/.cache/ddd/preparacion/{run_name}/aut05_2025_m04_informe.json
     source_geojson: territorios/aut05/.cache/ddd/preparacion/{run_name}/aut05_2025_m01_secciones_poblacion.geojson.zip
     hard_partition_lookup: configuracion/particiones_insulares_2025.json
-    hard_partition_territory_id: canarias
+    hard_partition_territory_id: aut05
   modulo_05_optimizar_distritos:
     population_repair:
       enabled: true

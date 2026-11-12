@@ -242,7 +242,7 @@ jobs:
           python herramientas/bateria_motor.py indicadores "$T" --out bateria | tee -a "$GITHUB_STEP_SUMMARY"
           exit "${PIPESTATUS[0]}"
       - name: Huella real (Soria, Álava y Melilla)
-        if: ${{ matrix.t == 'congreso_soria' || matrix.t == 'congreso_alava' || matrix.t == 'melilla' }}
+        if: ${{ matrix.t == 'nac42' || matrix.t == 'nac01' || matrix.t == 'aut19' }}
         run: python herramientas/bateria_motor.py huella "$T" --out bateria --funcion "$FUNCION" --cadenas "$CADENAS"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()

@@ -163,7 +163,7 @@ def rows_from_portfolio(problem, contract, surcharge: float, portfolio: dict) ->
 
 def execute(config_path: Path, graph: Path, initial: Path, comarca_csv: Path, output_dir: Path) -> dict:
     spec = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
-    if spec.get("territory_id") != "aragon":
+    if spec.get("territory_id") != "aut02":
         raise ValueError("El barrido está limitado a Aragón")
     if spec.get("promotion") != "forbidden":
         raise ValueError("El experimento debe prohibir promoción")
@@ -193,7 +193,7 @@ def execute(config_path: Path, graph: Path, initial: Path, comarca_csv: Path, ou
 
     payload = {
         "schema": SCHEMA,
-        "territory_id": "aragon",
+        "territory_id": "aut02",
         "promotion": "forbidden",
         "metrics_only": True,
         "population_band": base.population_band,

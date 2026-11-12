@@ -31,7 +31,7 @@ ANTERIOR: legacy/ddd_motor2/competir_v1.2.0_20261110.py
 USO (en local, con las entradas de la batería en <out>/entradas/<t> y el entorno GerryChain de producción):
     PYTHONHASHSEED=0 python -m ddd_motor2.competir --out bateria --todos            # D8, 10 cadenas
     PYTHONHASHSEED=0 python -m ddd_motor2.competir --out bateria --funcion A --cadenas 5 --todos
-    python -m ddd_motor2.competir --out bateria aragon murcia
+    python -m ddd_motor2.competir --out bateria aut02 aut14
     python -m ddd_motor2.competir --out bateria --todos --reanudar   # salta los COMPETICION.json ya escritos
   Por territorio: <out>/competicion/<t>/COMPETICION.{json,md} (+ composición de cada candidato).
   Agregado: <out>/competicion/RESUMEN.json y RESUMEN.md: por territorio, ganador, estado, si mejora / empata / empeora

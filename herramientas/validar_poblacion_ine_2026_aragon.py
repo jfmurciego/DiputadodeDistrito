@@ -24,7 +24,7 @@ EXPECTED_SECTIONS = 1463
 TARGET_CUSEC = "5002501003"
 OLD_ONLY_EXPECTED = "2221301003"
 BASELINE_2025 = Path(
-    "territorios/aragon/resultados/ejecuciones/"
+    "territorios/aut02/resultados/ejecuciones/"
     "gh-34599224954-1/M01/secciones.csv"
 )
 

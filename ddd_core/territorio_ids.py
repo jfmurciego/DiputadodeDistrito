@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Resolutor único de ids de territorio (T-214, corte 5.0.0 paso 1)
-# FECHA: 2026-11-10
+# VERSIÓN: 1.1.0
+# NOMBRE DE VERSIÓN: Resolutor único de ids de territorio (T-214) con ámbito (T-220)
+# FECHA: 2026-11-12
 # ESTADO: vigente — T-214
 # QUÉ HACE: núcleo del resolutor (CLI en herramientas/resolver_territorio.py). resolver_id(x) acepta el id viejo (`congreso_alava`), el nuevo (`nac01`) o el código de la tabla maestra
 #   (`NAC01`) y devuelve el id nuevo; da también el id viejo, la notación, la etiqueta visible («NAC01 · Álava») y el
@@ -11,7 +11,10 @@
 #   T-170 §2 (un solo resolutor; prohibido comparar ids con literales fuera de él; contador de lecturas por id viejo).
 #   Variante de 350: el sufijo `-350` queda RESERVADO y sin uso (D-76: el mapa de 350 queda fuera del corte); los
 #   ids `congreso350_*` no se migran y se devuelven tal cual.
-# ANTERIOR: ninguna (fichero nuevo)
+# CAMBIOS 1.1.0 (T-220): las carpetas ya usan el id nuevo; `ambito(x)` (AUT | NAC | NAC350 | CONGRESO) sustituye
+#   a la detección por prefijo `congreso_` en código y workflows (test_t220_renombrado lo vigila); `es_nacional(x)`.
+#   CLI: `python -m ddd_core.territorio_ids ambito <id>` para los workflows.
+# ANTERIOR: legacy/ddd_core/territorio_ids_v1.0.0_20261112.py
 """Resolutor único de identificadores de territorio (id viejo ↔ id nuevo ↔ código AUT/NAC)."""
 from __future__ import annotations
 
@@ -121,6 +124,33 @@ def id_legacy(x: str) -> str:
     return territorio(x).id_legacy
 
 
+AMBITO_AGREGADO = "congreso"  # carpeta agregada del Congreso (fuera del renombrado)
+
+
+def ambito(x: str) -> str:
+    """Ámbito de un id: `AUT` (comunidad), `NAC` (circunscripción del Congreso), `NAC350` (variante `congreso350_*`,
+    D-76) o `CONGRESO` (la carpeta agregada). Sustituye a `startswith("congreso_")` (T-220). Id desconocido: error."""
+    s = str(x).strip()
+    if s == AMBITO_AGREGADO:
+        return "CONGRESO"
+    if s.startswith(PREFIJO_350_LEGACY):
+        return "NAC350"
+    return territorio(s).ambito
+
+
+def es_nacional(x: str) -> bool:
+    """Circunscripción del Congreso (NAC); un id que no está en la tabla maestra no lo es."""
+    try:
+        return ambito(x) == "NAC"
+    except (IdTerritorioDesconocido, IdReservado):
+        return False
+
+
+def ids_nuevos(ambito_: str | None = None) -> list[str]:
+    """Ids nuevos de la tabla maestra (orden de código), opcionalmente de un ámbito (`AUT` | `NAC`)."""
+    return [t.id for t in sorted(tabla().values(), key=lambda t: t.codigo) if ambito_ in (None, t.ambito)]
+
+
 def notacion(x: str) -> str:
     return territorio(x).codigo
 
@@ -146,3 +176,22 @@ def mismo_territorio(a: str, b: str) -> bool:
         return resolver_id(a) == resolver_id(b)
     except (IdTerritorioDesconocido, IdReservado):
         return False
+
+
+def _main(argv: list[str]) -> int:
+    """CLI mínima para workflows: `ambito <id>` | `resolver <id>` (imprime el valor; código 2 si es desconocido)."""
+    import sys
+    if len(argv) != 2 or argv[0] not in ("ambito", "resolver"):
+        print("uso: python -m ddd_core.territorio_ids ambito|resolver <id>", file=sys.stderr)
+        return 64
+    try:
+        print(ambito(argv[1]) if argv[0] == "ambito" else resolver_id(argv[1]))
+    except (IdTerritorioDesconocido, IdReservado) as exc:
+        print(exc, file=sys.stderr)
+        return 2
+    return 0
+
+
+if __name__ == "__main__":
+    import sys
+    raise SystemExit(_main(sys.argv[1:]))

@@ -36,8 +36,8 @@ import composicion_m06 as cm  # noqa: E402
 URL_SECCIONES = ("https://www.ine.es/geoserver/ogc/features/v1/collections/"
                  "WMS_INE_SECCIONES_G01%3ASecciones_{anio}/items")
 CONTRATOS = ROOT / "configuracion/contratos_infoelectoral.yaml"
-# Territorios cuyo id no es congreso_<provincia> y no están en el contrato Infoelectoral.
-PROVINCIAS_EXTRA = {"ceuta": "51", "region_de_murcia": "30", "melilla": "52"}
+# Territorios que no son circunscripción NAC y no están en el contrato Infoelectoral.
+PROVINCIAS_EXTRA = {"aut18": "51", "aut14": "30", "aut19": "52"}
 
 
 def sha256(b: bytes) -> str:

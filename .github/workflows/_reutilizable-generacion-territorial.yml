@@ -469,7 +469,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          case "$PARAMS" in territorios/congreso_*) ;; *) echo "Sin huella de puentes: no es un ámbito nacional."; exit 0 ;; esac
+          tid="${PARAMS#territorios/}"; tid="${tid%%/*}"
+          ambito="$(python3 -m ddd_core.territorio_ids ambito "$tid" 2>/dev/null || true)"
+          [[ "$ambito" == NAC ]] || { echo "Sin huella de puentes: no es un ámbito nacional."; exit 0; }
           m01="$(find "$CACHE_DIR" -maxdepth 1 -name '*_m01_secciones_poblacion.geojson.zip' | head -1)"
           [[ -n "$m01" ]] || { echo "::warning::Sin M01 en $CACHE_DIR; la huella de puentes no se comprueba."; exit 0; }
           docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \

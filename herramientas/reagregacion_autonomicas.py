@@ -18,7 +18,7 @@ QUÉ HACE: fuera de línea (no lanza ni publica). Por comunidad y elección en a
   `<salida>/<comunidad>/rotacion.csv` (ganador por distrito y elección; homologado si existe
   datos/homologacion_siglas/homologacion_siglas_autonomicas.csv, D-20; si no, la sigla de la fuente).
   Elecciones sin dato por sección (solo municipio) se listan en `huecos` del MANIFEST de la comunidad, no se inventan.
-Uso: python herramientas/reagregacion_autonomicas.py --comunidad galicia madrid --trabajo DIR [--salida datos/resultados/historico/autonomicas]
+Uso: python herramientas/reagregacion_autonomicas.py --comunidad aut12 aut13 --trabajo DIR [--salida datos/resultados/historico/autonomicas]
        (DIR cacheará seccionados históricos y ficheros del Observatorio; --seccionado/--padron por defecto inputs/…zip)
 """
 from __future__ import annotations

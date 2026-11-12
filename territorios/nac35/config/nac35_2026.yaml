@@ -145,7 +145,7 @@ modulos:
     out_report: territorios/nac35/.cache/ddd/preparacion/{run_name}/nac35_2026_m04_informe.json
     source_geojson: territorios/nac35/.cache/ddd/preparacion/{run_name}/nac35_2026_m01_secciones_poblacion.geojson.zip
     hard_partition_lookup: configuracion/particiones_insulares_2025.json
-    hard_partition_territory_id: congreso_las_palmas
+    hard_partition_territory_id: nac35
   modulo_05_optimizar_distritos:
     in_graph_json: territorios/nac35/.cache/ddd/preparacion/{run_name}/nac35_2026_m03_grafo.json
     in_geojson: territorios/nac35/.cache/ddd/preparacion/{run_name}/nac35_2026_m04_semillas.geojson.zip

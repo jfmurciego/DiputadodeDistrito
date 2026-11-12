@@ -14,7 +14,7 @@ QUÉ HACE: `construir` lee data/autonomikoak/sekzioa/<cca>-<AAAAMM>/<cpro>.json 
   fuente, en datos/homologacion_siglas/homologacion_siglas_autonomicas.csv. Sigla de una familia sin regla: se
   deja tal cual con nivel BAJA (no se inventa). `comprobar` revalida sin red: claves únicas y reaplicación de las reglas.
   `dudosas` lista las BAJA y MEDIA agrupadas por partido homologado.
-Uso: python herramientas/homologacion_siglas_autonomicas.py construir --obs-dir DIR [--comunidad galicia …]
+Uso: python herramientas/homologacion_siglas_autonomicas.py construir --obs-dir DIR [--comunidad aut12 …]
      python herramientas/homologacion_siglas_autonomicas.py comprobar | dudosas
 """
 from __future__ import annotations

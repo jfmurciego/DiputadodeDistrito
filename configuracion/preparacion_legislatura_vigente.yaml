@@ -9,7 +9,7 @@
 #   pérdida en M07, acotada por su margen.
 # CAMBIOS: Andalucía, Aragón y Castilla y León usan pareja INE 2025/2025 para referencia territorial.
 # MOTIVO: población 2026 no publicada y crosswalk 2025→2026 incompleto; electoral 2026 sigue pendiente.
-# CAMBIOS 1.0.5: territorio piloto congreso_huesca (pilot_code C22).
+# CAMBIOS 1.0.5: territorio piloto nac22, antes congreso_huesca (pilot_code C22).
 # CAMBIOS 1.1.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.1.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
 # CAMBIOS 1.1.2: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.

@@ -33,6 +33,11 @@ import unicodedata
 import zipfile
 from collections import defaultdict
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito e ids por el resolutor, nunca por prefijo)
 
 import yaml
 
@@ -47,7 +52,7 @@ PARTITIONS = Path("configuracion/particiones_insulares_2025.json")
 def _partition(root: Path, territory_id: str) -> dict:
     data = json.loads((root / PARTITIONS).read_text(encoding="utf-8"))
     return (data.get("territories") or {}).get(territory_id) or {}
-TEMPLATE = "congreso_huesca"
+TEMPLATE = "nac22"
 
 # Nombre en español y letras de la matrícula provincial (último sistema provincial).
 PROVINCES = {
@@ -85,7 +90,7 @@ def provinces(root: Path) -> list[dict]:
             name, plate = PROVINCES[code]
             rows.append({"code": code, "name": name, "plate": plate, "k": int(row["k_province"]),
                          "population_2025": int(row["population_2025"]),
-                         "territory_id": f"congreso_{slug(name)}", "label": f"Congreso {name}",
+                         "territory_id": f"nac{code}", "label": f"Congreso {name}",
                          "pilot_code": f"C{code}"})
     if len(rows) != 52 or sum(r["k"] for r in rows) != 407:
         raise ValueError("El reparto N06 debe tener 52 provincias y 407 escaños")
@@ -218,11 +223,11 @@ def sort_by_province_code(root: Path) -> None:
     ids.update({f"{p['territory_id']}\n": p["code"] for p in rows})
     labels = {f"{p['label']}\n": p["code"] for p in rows}
     _sort_lines(root / "configuracion/catalogo_territorios_espana_2025.yaml",
-                lambda l: l.startswith("  - {territory_id: congreso_"), ids)
-    _sort_lines(root / "fuentes/territorios_espana.yaml", lambda l: l.startswith("  - {id: congreso_"), ids)
-    _sort_lines(root / "configuracion/registro_electoral.yaml", lambda l: l.startswith("  congreso_"), ids)
-    _sort_blocks(root / "configuracion/preparacion_legislatura_vigente.yaml", "  - territory_id: congreso_", ids)
-    _sort_blocks(root / "configuracion/catalogo_preparacion.yaml", "- territory_id: congreso_", ids)
+                lambda l: l.startswith("  - {territory_id: nac"), ids)
+    _sort_lines(root / "fuentes/territorios_espana.yaml", lambda l: l.startswith("  - {id: nac"), ids)
+    _sort_lines(root / "configuracion/registro_electoral.yaml", lambda l: l.startswith("  nac"), ids)
+    _sort_blocks(root / "configuracion/preparacion_legislatura_vigente.yaml", "  - territory_id: nac", ids)
+    _sort_blocks(root / "configuracion/catalogo_preparacion.yaml", "- territory_id: nac", ids)
     for workflow in WORKFLOWS:
         path = root / ".github/workflows" / workflow
         _sort_lines(path, lambda l: l.startswith("          - Congreso ") and not l.startswith("          - Congreso 350 "),
@@ -309,7 +314,7 @@ def generate(root: Path, zip_path: Path) -> list[str]:
     existing = {row["territory_id"] for row in yaml.safe_load(master_path.read_text(encoding="utf-8")).get("pilot_territories") or []}
     zip_sha = hashlib.sha256(zip_path.read_bytes()).hexdigest()
     template = (yaml.safe_load((root / "configuracion/contratos_infoelectoral.yaml").read_text(encoding="utf-8"))
-                ["contracts"][f"{TEMPLATE}_{ELECTION_DATE}"])
+                ["contracts"][f"{territorio_ids.id_legacy(TEMPLATE)}_{ELECTION_DATE}"])
     if zip_sha != template["source_sha256"]:
         raise ValueError("El ZIP no es el oficial declarado en el contrato de Huesca")
     stats = electoral_stats(zip_path)
@@ -319,7 +324,7 @@ def generate(root: Path, zip_path: Path) -> list[str]:
         if p["territory_id"] in existing or (p["code"] in INSULAR and not _partition(root, p["territory_id"])):
             continue
         tid, label, code, k = p["territory_id"], p["label"], p["code"], p["k"]
-        election_id = f"{tid}_{ELECTION_DATE}"
+        election_id = f"{territorio_ids.id_legacy(tid)}_{ELECTION_DATE}"  # T-220: los election_id no se renombran
         e = stats[code]
         _append(master_path,
                 f"  - {{territory_id: {tid}, pilot_code: '{p['pilot_code']}', plate_code: '{p['plate']}', scope: congreso, "

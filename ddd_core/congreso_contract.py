@@ -31,11 +31,11 @@ ALLOWED_CONTRACT_FIELDS = frozenset({
 })
 AUTONOMOUS_TERRITORY_IDS = frozenset(
     {
-        "andalucia", "aragon", "principado_de_asturias", "illes_balears",
-        "canarias", "cantabria", "castilla_y_leon", "castilla_la_mancha",
-        "cataluna", "comunidad_valenciana", "extremadura", "galicia",
-        "comunidad_de_madrid", "region_de_murcia", "comunidad_foral_de_navarra",
-        "pais_vasco", "la_rioja", "ceuta", "melilla",
+        "aut01", "aut02", "aut03", "aut04",
+        "aut05", "aut06", "aut07", "aut08",
+        "aut09", "aut10", "aut11", "aut12",
+        "comunidad_de_madrid", "aut14", "aut15",
+        "aut16", "aut17", "aut18", "aut19",
     }
 )
 

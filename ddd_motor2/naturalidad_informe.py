@@ -36,6 +36,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from . import naturalidad_mapas as nm
+from .semilla import territorio_ids  # noqa: E402  (T-220: ámbito por el resolutor)
 
 NOMBRES = {"A": "A · solo población (función vigente)", "B": "B · población y luego naturalidad",
            "C": "C · como B con grafo ponderado", "D5": "D5 · como C, desvío máx. ≤ 5 %",
@@ -44,24 +45,23 @@ ORDEN = ("A", "D5", "D8", "C", "B")
 PALETA = ["#4e79a7", "#f28e2b", "#e15759", "#76b7b2", "#59a14f", "#edc948", "#b07aa1", "#ff9da7", "#9c755f",
           "#bab0ac", "#86bcb6", "#d37295", "#a0cbe8", "#ffbe7d", "#8cd17d", "#b6992d", "#f1ce63", "#499894",
           "#d4a6c8", "#fabfd2"]
-NOMBRE_TERRITORIO = {
-    "canarias": "Canarias", "cantabria": "Cantabria", "castilla_la_mancha": "Castilla-La Mancha",
-    "castilla_y_leon": "Castilla y León", "cataluna": "Cataluña", "comunidad_foral_de_navarra": "Navarra",
-    "comunidad_valenciana": "Comunidad Valenciana", "extremadura": "Extremadura", "galicia": "Galicia",
-    "la_rioja": "La Rioja", "madrid": "Comunidad de Madrid", "melilla": "Melilla", "pais_vasco": "País Vasco",
-    "principado_de_asturias": "Principado de Asturias", "region_de_murcia": "Región de Murcia"}
+NOMBRE_TERRITORIO = {  # T-220: id nuevo de la tabla maestra (el viejo se resuelve en nombre())
+    "aut05": "Canarias", "aut06": "Cantabria", "aut08": "Castilla-La Mancha",
+    "aut07": "Castilla y León", "aut09": "Cataluña", "aut15": "Navarra",
+    "aut10": "Comunidad Valenciana", "aut11": "Extremadura", "aut12": "Galicia",
+    "aut17": "La Rioja", "aut13": "Comunidad de Madrid", "aut19": "Melilla", "aut16": "País Vasco",
+    "aut03": "Principado de Asturias", "aut14": "Región de Murcia"}
 
 
 def nombre(t: str) -> str:
+    try:
+        t = territorio_ids.resolver_id(t)
+    except (territorio_ids.IdTerritorioDesconocido, territorio_ids.IdReservado):
+        pass
     if t in NOMBRE_TERRITORIO:
         return f"{NOMBRE_TERRITORIO[t]} (autonómicas)"
-    if t.startswith("congreso_"):
-        import sys  # noqa: PLC0415
-        if str(nm.ROOT) not in sys.path:
-            sys.path.insert(0, str(nm.ROOT))
-        from herramientas.generar_hemiciclo import PROVINCIAS  # noqa: PLC0415
-        prov = {i: n for i, n in PROVINCIAS.values()}
-        return prov.get(t[9:], t)
+    if territorio_ids.es_nacional(t):
+        return territorio_ids.territorio(t).nombre_es
     return t
 COLUMNAS = ["territorio", "funcion", "k", "valido", "candidato", "fuera_tolerancia", "desvio_max_pct", "max_desvio_personas",
             "suma_desvio_personas", "coste_suma_desvio_vs_A", "pp_medio", "pp_min", "convexidad_media",

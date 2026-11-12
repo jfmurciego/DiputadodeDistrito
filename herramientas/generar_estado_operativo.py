@@ -24,6 +24,11 @@ import json
 import re
 from datetime import datetime, timezone
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito por el resolutor, nunca por prefijo)
 
 import yaml
 
@@ -210,7 +215,7 @@ def _source_readiness_row(
     activation = activation or _activation_snapshot(plan)
     return {
         "territory_id": plan["territory_id"],
-        "name": display_name if plan["territory_id"].startswith("congreso_") else plan["name"],
+        "name": display_name if territorio_ids.es_nacional(plan["territory_id"]) else plan["name"],
         "display_name": display_name,
         "election": {
             "election_id": plan["election_id"],

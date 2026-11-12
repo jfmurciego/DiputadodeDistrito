@@ -128,7 +128,7 @@ def validate(root: Path, task_id: str, cards_path: Path = CARDS,
 
     computed = []
     if task_id == "F10-ARA-CROSSWALK-2025-2026":
-        contract = json.loads((root / "territorios/aragon/config/elecciones/aragon_cortes_2026.json").read_text())
+        contract = json.loads((root / "territorios/aut02/config/elecciones/aragon_cortes_2026.json").read_text())
         reconc = contract["reconciliation"]
         result_only = reconc["allowed_result_only_sections"]
         map_only = reconc["allowed_map_only_sections"]
@@ -140,7 +140,7 @@ def validate(root: Path, task_id: str, cards_path: Path = CARDS,
             raise ValueError("Excepciones Aragón no reconcilian con el contrato fijado")
         computed.append(actual)
     elif task_id == "F10-CYL-CROSSWALK-2025-2026":
-        reconc = json.loads((root / "territorios/castilla_y_leon/evidencia/reconciliacion_secciones_2025_2026.json").read_text())
+        reconc = json.loads((root / "territorios/aut07/evidencia/reconciliacion_secciones_2025_2026.json").read_text())
         actual = {"electoral_only_count": len(reconc["electoral_only"]), "map_only_count": len(reconc["m06_only"]),
                   "electoral_only_votes_sum": sum(reconc["electoral_only_votes"].values()),
                   "declared_electoral_only_votes": reconc["electoral_only_total_votes"],
@@ -152,7 +152,7 @@ def validate(root: Path, task_id: str, cards_path: Path = CARDS,
             raise ValueError("Recuentos Castilla y León no concilian")
         computed.append(actual)
     elif task_id == "F10-EXT-ELECTORAL-SOURCE":
-        blocked = json.loads((root / "territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json").read_text())
+        blocked = json.loads((root / "territorios/aut11/config/elecciones/bloqueo_fuente_oficial_2025.json").read_text())
         definite = blocked["definitive_reconciliation_reference"]["candidate_votes"]
         provisional = blocked["provisional_granular_evidence"]["candidate_votes"]
         actual = {"definitive_votes": definite, "provisional_votes": provisional,

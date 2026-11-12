@@ -29,7 +29,7 @@ def main() -> None:
     parser.add_argument("--acquisition-mode", choices=["official_live", "verified_snapshot"], default=None)
     args = parser.parse_args()
     catalog = load_yaml(ROOT / "fuentes/catalogo_oficial.yaml")
-    declaration = load_yaml(ROOT / "territorios/aragon/config/fuentes_oficiales.yaml")
+    declaration = load_yaml(ROOT / "territorios/aut02/config/fuentes_oficiales.yaml")
     _, inventory, _, decision = acquire(
         catalog=catalog,
         declaration=declaration,

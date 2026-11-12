@@ -139,7 +139,7 @@ modulos:
     out_report: territorios/nac07/.cache/ddd/preparacion/{run_name}/nac07_2025_m04_informe.json
     source_geojson: territorios/nac07/.cache/ddd/preparacion/{run_name}/nac07_2025_m01_secciones_poblacion.geojson.zip
     hard_partition_lookup: configuracion/particiones_insulares_2025.json
-    hard_partition_territory_id: congreso_baleares
+    hard_partition_territory_id: nac07
   modulo_05_optimizar_distritos:
     population_repair:
       enabled: true

@@ -15,7 +15,7 @@ CAMBIOS 1.2.0 (T-201): `vigentes_m06(registro, eleccion)` elige por (territorio,
   elección no desplaza a la vigente. Salida idéntica si el registro no trae elecciones.
 CAMBIOS 1.1.0 (T-135): distritos numerados de 1 a K en CSV, fichas, INDEX.json, README y GeoJSON público (derivado del blob M06
   con propiedad `distrito`; su sha256 va en geojson.sha256 y el del GeoJSON M06 de origen en geojson.sha256_origen). El blob M06 no cambia.
-QUÉ HACE: por cada territorio congreso_* con M08 vigente y el M06 de su linaje en orchestracion/publicaciones_visor.json:
+QUÉ HACE: por cada circunscripción del Congreso (ámbito NAC del resolutor) con M08 vigente y el M06 de su linaje en orchestracion/publicaciones_visor.json:
   - lee el M06 (blob inmutable, verificado con su sha256) y toma población, secciones y municipios de cada distrito;
   - copia el CSV de resultados de datos/resultados/ (T-53) comprobando que su manifiesto acredita ese M08;
   - escribe datos_abiertos/<territorio>/resultados.csv, una ficha estática distrito-<n>.html por distrito y un
@@ -70,7 +70,7 @@ def escribir(ruta: Path, datos: bytes) -> None:
 
 def vigentes_m06(registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DEFECTO) -> dict[str, dict]:
     return rl.vigente_por_eleccion(json.loads(registro.read_text(encoding="utf-8"))["products"], "canonical_m06",
-                                   eleccion, "congreso_")
+                                   eleccion, ambito="NAC")
 
 
 def pares_vigentes(registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DEFECTO,
@@ -78,7 +78,7 @@ def pares_vigentes(registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DE
     """territorio → (M06, M08): el M08 vigente de la elección (el de datos/resultados/) y el M06 de su linaje."""
     prods = json.loads(registro.read_text(encoding="utf-8"))["products"]
     pares = {}
-    for t, p8 in sorted(rl.vigente_por_eleccion(prods, "canonical_m08", eleccion, "congreso_").items()):
+    for t, p8 in sorted(rl.vigente_por_eleccion(prods, "canonical_m08", eleccion, ambito="NAC").items()):
         p6 = m06_del_m08(prods, p8, root)
         if p6:
             pares[t] = (p6, p8)
@@ -88,8 +88,8 @@ def pares_vigentes(registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DE
 def retirados(previos, registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DEFECTO) -> set[str]:
     """Territorios del INDEX previo sin ningún M06 o M08 de la elección en el registro (retirada explícita)."""
     prods = json.loads(registro.read_text(encoding="utf-8"))["products"]
-    m6 = rl.vigente_por_eleccion(prods, "canonical_m06", eleccion, "congreso_")
-    m8 = rl.vigente_por_eleccion(prods, "canonical_m08", eleccion, "congreso_")
+    m6 = rl.vigente_por_eleccion(prods, "canonical_m06", eleccion, ambito="NAC")
+    m8 = rl.vigente_por_eleccion(prods, "canonical_m08", eleccion, ambito="NAC")
     return {t for t in previos if t not in m6 or t not in m8}
 
 

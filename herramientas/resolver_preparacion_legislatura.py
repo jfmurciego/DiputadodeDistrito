@@ -704,7 +704,7 @@ def _owner_approved_2025_pair(root: Path, matrix: dict) -> tuple[str, set[str]]:
     if not path.is_file():
         raise ValueError("TERRITORIAL_REFERENCE_DECISION_MISSING")
     decision = _json(path)
-    expected_ids = {"andalucia", "aragon", "castilla_y_leon"}
+    expected_ids = {"aut01", "aut02", "aut07"}
     if (
         decision.get("schema") != "ddd.territorial-reference-owner-decision/1.0"
         or decision.get("decision_id") != "F10-20261012-PAIR-2025"

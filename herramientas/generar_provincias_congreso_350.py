@@ -7,7 +7,7 @@ CAMBIOS 1.0.1 (T-214): la fila del gemelo se deriva sin `notacion` ni `id_legacy
   el gemelo 350 queda fuera del corte (D-76) y el `k_rationale` final vuelve a casar.
 ANTERIOR: legacy/herramientas/generar_provincias_congreso_350_v1.0.0.py
 QUÉ HACE: T-102 (decisión D-19 del propietario). Para cada provincia del Congreso ya dada de alta
-  (`congreso_<prov>`, K de N06, 407 distritos) crea su gemelo `congreso350_<prov>` con
+  (`nacNN`, K de N06, 407 distritos) crea su gemelo `congreso350_<prov>` con
   K = escaños de la circunscripción en las generales del 23-07-2023, leídos del CSV oficial
   `configuracion/resultados_oficiales_congreso_2023.csv` (BOE-A-2023-18907; su sha256 queda en el contrato).
   Copia del gemelo 407 todo lo demás (fuentes, CRS, puentes, límites de población, exenciones, contrato
@@ -24,6 +24,11 @@ import csv
 import hashlib
 import re
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito e ids por el resolutor, nunca por prefijo)
 
 import yaml
 
@@ -59,7 +64,7 @@ def seats_2023(root: Path = ROOT) -> dict[str, int]:
 
 
 def twin_id(tid: str) -> str:
-    return PREFIX + tid.removeprefix("congreso_")
+    return PREFIX + territorio_ids.id_legacy(tid).split("_", 1)[1]  # T-220: nac01 → congreso350_alava
 
 
 def twin_label(label: str) -> str:

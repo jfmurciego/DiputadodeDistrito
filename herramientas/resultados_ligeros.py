@@ -49,23 +49,39 @@ def sha256(b: bytes) -> str:
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from herramientas.eleccion_por_defecto import ELECCION_POR_DEFECTO  # noqa: E402,F401
+from ddd_core import territorio_ids  # noqa: E402  (T-220: lectura con id viejo o nuevo)
 
 
 def eleccion_de(p: dict) -> str:
     return str(p.get("election_date") or ELECCION_POR_DEFECTO)
 
 
+def _ambito(territorio: str) -> str | None:
+    try:
+        return territorio_ids.ambito(territorio)
+    except (territorio_ids.IdTerritorioDesconocido, territorio_ids.IdReservado):
+        return None
+
+
 def vigente_por_eleccion(products: list[dict], kind: str, eleccion: str = ELECCION_POR_DEFECTO,
-                         prefijo: str = "") -> dict[str, dict]:
-    """territorio → producto `kind` de la elección dada con el run_id mayor (T-201: nunca el mayor entre elecciones)."""
+                         ambito: str | None = None) -> dict[str, dict]:
+    """territorio → producto `kind` de la elección dada con el run_id mayor (T-201: nunca el mayor entre elecciones).
+
+    T-220: el id viejo y el nuevo son el mismo territorio (ddd_core.territorio_ids.resolver_id); la clave es el
+    territory_id del producto vigente. `ambito` (AUT | NAC) filtra por el resolutor, nunca por prefijo.
+    """
     prods: dict[str, dict] = {}
     for p in products:
-        if p.get("kind") != kind or eleccion_de(p) != eleccion or not str(p.get("territory_id", "")).startswith(prefijo):
+        tid = str(p.get("territory_id", ""))
+        if p.get("kind") != kind or eleccion_de(p) != eleccion or (ambito is not None and _ambito(tid) != ambito):
             continue
-        t = p["territory_id"]
+        try:
+            t = territorio_ids.resolver_id(tid)
+        except (territorio_ids.IdTerritorioDesconocido, territorio_ids.IdReservado):
+            t = tid
         if t not in prods or int(p["run_id"]) > int(prods[t]["run_id"]):
             prods[t] = p
-    return prods
+    return {p["territory_id"]: p for p in prods.values()}
 
 
 def vigentes(registro: Path = REGISTRO_VISOR, eleccion: str = ELECCION_POR_DEFECTO) -> dict[str, dict]:

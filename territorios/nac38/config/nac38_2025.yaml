@@ -139,7 +139,7 @@ modulos:
     out_report: territorios/nac38/.cache/ddd/preparacion/{run_name}/nac38_2025_m04_informe.json
     source_geojson: territorios/nac38/.cache/ddd/preparacion/{run_name}/nac38_2025_m01_secciones_poblacion.geojson.zip
     hard_partition_lookup: configuracion/particiones_insulares_2025.json
-    hard_partition_territory_id: congreso_santa_cruz_de_tenerife
+    hard_partition_territory_id: nac38
   modulo_05_optimizar_distritos:
     in_graph_json: territorios/nac38/.cache/ddd/preparacion/{run_name}/nac38_2025_m03_grafo.json
     in_geojson: territorios/nac38/.cache/ddd/preparacion/{run_name}/nac38_2025_m04_semillas.geojson.zip

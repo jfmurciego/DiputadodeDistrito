@@ -6,7 +6,7 @@ VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
 ANTERIOR: legacy/herramientas/leer_config_ensemble_v1.0.0_20261109.py
 CAMBIOS 1.1.0 (T-128): admite la fase ensemble_25 (25 candidatas) además de ensemble_10; el Gestor la sigue rechazando hasta que haya una corrida válida.
 QUÉ HACE: lee configuracion/ensemble/<territorio>.json y emite líneas clave=valor para GITHUB_OUTPUT.
-  Aragón conserva su circuito propio (kind=aragon). Cualquier otro territorio es kind=territorial: su bloque
+  Aragón conserva su circuito propio (kind=aut02). Cualquier otro territorio es kind=territorial: su bloque
   «workflow» declara contrato, caché, distritos y CRS, y el paquete de fuentes sale del catálogo de preparación.
   Las fases admitidas son ensemble_10 y ensemble_25; el lote de 50 sigue bloqueado.
 MOTIVO: T-26, el ensemble no debe depender de rutas ni de 67 distritos fijos fuera de la rama de Aragón.
@@ -31,10 +31,10 @@ def describe(territory_id: str, stage: str, root: Path = Path("."), resolve_sour
     config = json.loads(config_path.read_text(encoding="utf-8"))
     if config.get("territory_id") != territory_id:
         raise SystemExit(f"{config_path}: territory_id no coincide")
-    if territory_id == "aragon":
+    if territory_id == "aut02":
         if stage not in ARAGON_STAGES and stage != "synthetic":
             raise SystemExit(f"Fase no admitida para Aragón: {stage}")
-        return {"kind": "aragon", "config": str(config_path)}
+        return {"kind": "aut02", "config": str(config_path)}
     if stage not in TERRITORIAL_STAGES and stage != "synthetic":
         raise SystemExit(f"Fase no admitida para {territory_id}: {stage} (solo ensemble_10 y ensemble_25; el lote de 50 sigue bloqueado)")
     block = config.get("workflow") or {}

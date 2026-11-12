@@ -25,7 +25,7 @@ QUÉ HACE: fuera de línea (no lanza ni publica). Por territorio (provincia) y e
   oficial y su defecto es el CERA. Votos perdidos (sin geometría, sin sección vigente o fuera de los distritos) se
   informan, nunca se reparten.
 Uso: python herramientas/reagregacion_historico.py --espejo DIR --historicos DIR --seccionado ZIP --padron ZIP
-       (--lote DIR [--solo T ...] | --territorio congreso_huesca --provincia 22 --distritos M06.geojson) [--salida datos/resultados/historico]
+       (--lote DIR [--solo T ...] | --territorio nac22 --provincia 22 --distritos M06.geojson) [--salida datos/resultados/historico]
        [--tolerancia 0.10] [--paquete DIR] [--elecciones 201911 …]
 """
 from __future__ import annotations
@@ -350,7 +350,7 @@ def main(argv=None) -> int:
     ap.add_argument("--historicos", type=Path, required=True)
     ap.add_argument("--seccionado", type=Path, required=True)
     ap.add_argument("--padron", type=Path, required=True)
-    ap.add_argument("--territorio", help="p. ej. congreso_huesca (con --provincia y --distritos)")
+    ap.add_argument("--territorio", help="p. ej. nac22 (con --provincia y --distritos)")
     ap.add_argument("--provincia", help="código INE de dos cifras")
     ap.add_argument("--distritos", type=Path, help="GeoJSON M06 del territorio")
     ap.add_argument("--lote", type=Path, help="carpeta con <territorio>.zip (blob M06, sha256 de datos_abiertos/INDEX.json): "

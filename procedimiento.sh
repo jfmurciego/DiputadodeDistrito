@@ -14,7 +14,7 @@
 # ANTERIOR: legacy/procedimiento/procedimiento_v2.9.2.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
-PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"
+PARAMS="${DDD_PARAMS:-territorios/aut02/config/aut02_2025.yaml}"
 MODO="${DDD_MODO:-completo}"
 RUN_ID="${DDD_RUN_ID:-${GITHUB_RUN_ID:-local-$(date -u +%Y%m%dT%H%M%SZ)}}"
 FROM_STAGE="${DDD_FROM_STAGE:-TERRITORY_PREPARATION}"

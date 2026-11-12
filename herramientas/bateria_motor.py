@@ -716,7 +716,7 @@ def archivar(args) -> int:
 
 
 # --------------------------------------------------------------------------- motor 2 en Actions (T-208)
-HUELLA_REAL = ("congreso_soria", "congreso_alava", "melilla")  # criterio a de T-194 (nombres de territorio de la batería)
+HUELLA_REAL = ("nac42", "nac01", "aut19")  # criterio a de T-194 (nombres de territorio de la batería)
 
 
 def lista(args) -> int:

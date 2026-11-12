@@ -19,7 +19,7 @@ _PRODUCTION_RUN = re.compile(r"^production-(?P<run_id>[1-9][0-9]*)-(?P<attempt>[
 # Planning never queries Actions; it requires the durable bytes and provenance
 # to match these exact, reviewable materialization results.
 _TRUSTED_MATERIALIZATIONS = {
-    ("aragon", 36321736287): {
+    ("aut02", 36321736287): {
         "source_commit": "2d4ab0f40e6461f9455155246a3238922179146f",
         "product": {
             "name": "ddd-state-36321736287-M06",
@@ -41,7 +41,7 @@ _TRUSTED_MATERIALIZATIONS = {
             "content_sha256": "849a15644bae4cd7b3137b2ee96874cbd1a289c8187b3b40709709a28d8af163",
         },
     },
-    ("castilla_y_leon", 35889595424): {
+    ("aut07", 35889595424): {
         "source_commit": "a041e5bd154c3bf2b01c0accf999771d17127644",
         "product": {
             "name": "ddd-state-35889595424-M06-campaign-35889595424-1--04--castilla_y_leon",

@@ -78,7 +78,7 @@ def _geometric_admissibility(
         return "BLOCKED", ["GEOMETRY_ASSESSMENT_UNREADABLE"], rel
     expected = {
         "schema": "ddd.f10-valencia-2023-m02-contract-applicability/1.0",
-        "territory_id": "comunidad_valenciana",
+        "territory_id": "aut10",
         "population_year": receipt.get("population_year"),
         "section_year": receipt.get("section_year"),
         "package_sha256": receipt.get("package_sha256"),
@@ -168,11 +168,11 @@ def _status_counts(rows: list[dict[str, Any]], key: str) -> dict[str, int]:
 
 
 DEFAULT_ACTIVITIES = (
-    ("F10-AND-CROSSWALK-2025-2026", "andalucia", "research_official_2025_2026_crosswalk", "CLOSED"),
-    ("F10-ARA-CROSSWALK-2025-2026", "aragon", "research_official_2025_2026_crosswalk", "CLOSED"),
-    ("F10-CYL-CROSSWALK-2025-2026", "castilla_y_leon", "research_official_2025_2026_crosswalk", "CLOSED"),
-    ("F10-EXT-ELECTORAL-SOURCE", "extremadura", "research_definitive_granular_election_source", "CLOSED"),
-    ("F10-CV-2023-SOURCE-RESOLUTION", "comunidad_valenciana", "resolve_2023_population_geometry_blocker", "BLOCKED"),
+    ("F10-AND-CROSSWALK-2025-2026", "aut01", "research_official_2025_2026_crosswalk", "CLOSED"),
+    ("F10-ARA-CROSSWALK-2025-2026", "aut02", "research_official_2025_2026_crosswalk", "CLOSED"),
+    ("F10-CYL-CROSSWALK-2025-2026", "aut07", "research_official_2025_2026_crosswalk", "CLOSED"),
+    ("F10-EXT-ELECTORAL-SOURCE", "aut11", "research_definitive_granular_election_source", "CLOSED"),
+    ("F10-CV-2023-SOURCE-RESOLUTION", "aut10", "resolve_2023_population_geometry_blocker", "BLOCKED"),
 )
 
 

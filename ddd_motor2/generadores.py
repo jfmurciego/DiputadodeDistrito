@@ -62,6 +62,7 @@ from fractions import Fraction
 from pathlib import Path
 
 from .competicion import EntradaTerritorio, Salida
+from .semilla import territorio_ids  # noqa: E402  (T-220: ámbito por el resolutor)
 
 ROOT = Path(__file__).resolve().parents[1]
 M05_CANONICO = "7.4.4"
@@ -170,7 +171,7 @@ def piezas_finas(comp: Path, entrada: EntradaTerritorio, destino: Path, atributo
     from .reglas import Criterio, Reglas
     cfg = entrada.cfg
     part = cfg.get("partitioning") or {}
-    if entrada.territorio.startswith("congreso_"):
+    if territorio_ids.es_nacional(entrada.territorio):
         return Path(comp), {"aplicadas": False, "motivo": "Congreso: unidades M04"}
     if part.get("enabled") and part.get("strategy") == "connected_internal_units":
         return Path(comp), {"aplicadas": False, "motivo": "unidades internas del contrato (connected_internal_units)"}

@@ -17,7 +17,7 @@ Reglas de nombre (toponimia solo en español, tabla datos/distritos/toponimos_es
      fuente del repo; si no, «<municipio principal> y entorno» (principal = el más poblado, INE 2025).
   3. colisión de un mismo nombre: « <n>» por posición; último recurso, «(<district_id>)».
 Sin votos, partidos ni resultados. Uso:
-  python herramientas/generar_nombres_comunidades_nacional.py --m06-dir <dir con congreso_*.zip> [--descargar]
+  python herramientas/generar_nombres_comunidades_nacional.py --m06-dir <dir con los M06 NAC .zip> [--descargar]
   python herramientas/generar_nombres_comunidades_nacional.py --reconstruir-municipios 65034.csv.zip
 """
 from __future__ import annotations
@@ -33,6 +33,9 @@ import sys
 import zipfile
 from collections import defaultdict
 from pathlib import Path
+if str(Path(__file__).resolve().parents[1]) not in sys.path:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from ddd_core import territorio_ids  # noqa: E402  (T-220)
 
 VERSION = "1.1.1"
 RAIZ = Path(__file__).resolve().parents[1]
@@ -365,7 +368,7 @@ def descargar(destino):
     registro = json.loads((RAIZ / REGISTRO).read_text(encoding="utf-8"))
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     import resultados_ligeros as rl
-    mejores = rl.vigente_por_eleccion(registro["products"], "canonical_m06", prefijo="congreso_")
+    mejores = rl.vigente_por_eleccion(registro["products"], "canonical_m06", ambito="NAC")
     for t, p in sorted(mejores.items()):
         crudo = subprocess.run(
             ["gh", "api", f"repos/{REPO}/git/blobs/{p['blob_sha']}", "-H", "Accept: application/vnd.github.raw"],
@@ -398,7 +401,7 @@ def main(argv=None):
     partido_de = cargar_partidos()
     salida = RAIZ / a.salida
     resumen, todos_pend = {}, {}
-    for z in sorted(Path(a.m06_dir).glob("congreso_*.zip")):
+    for z in sorted(z for z in Path(a.m06_dir).glob("*.zip") if territorio_ids.es_nacional(z.stem)):
         t = z.stem
         filas, metrica, pend, _, m_part = procesar_territorio(t, z, pob, nombre_ine, tabla, comarca_de, cubiertas, salida, partido_de)
         resumen[t] = {"distritos": len(filas), "sha256_m06": sha256(z),

@@ -1,6 +1,6 @@
 {
  "schema": "ddd.excepciones-archivo-origen/1.0",
- "motivo": "T-71: M06 sin copia en R2 ni composición en git. Ceuta (ceuta): la población INE 2023 por sección (3826) no cuadra con la del M06 (3723); la recupera una 00.",
+ "motivo": "T-71: M06 sin copia en R2 ni composición en git. Ceuta (aut18): la población INE 2023 por sección (3826) no cuadra con la del M06 (3723); la recupera una 00.",
  "territorios": [
   "aut18"
  ]

@@ -21,6 +21,11 @@ import json
 import sys
 import zipfile
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito e ids por el resolutor, nunca por prefijo)
 
 import yaml
 
@@ -93,14 +98,15 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Comprueba los puentes de M02 contra el inventario de secciones.")
     ap.add_argument("--root-dir", type=Path, default=Path("."))
     ap.add_argument("--params", type=Path, action="append", default=[],
-                    help="Contrato(s); por defecto todos los territorios/congreso_*/config/*_2025.yaml")
+                    help="Contrato(s); por defecto los contratos 2025 de todas las circunscripciones NAC")
     src = ap.add_mutually_exclusive_group(required=True)
     src.add_argument("--zip", type=Path, help="ZIP oficial de Interior por mesa (secciones 2023)")
     src.add_argument("--sections-geojson", type=Path, help="GeoJSON M01 que consume M02")
     ap.add_argument("--json-output", type=Path)
     a = ap.parse_args(argv)
     sections = sections_from_zip(a.zip) if a.zip else sections_from_geojson(a.sections_geojson)
-    contracts = a.params or sorted((a.root_dir / "territorios").glob("congreso_*/config/congreso_*_2025.yaml"))
+    contracts = a.params or [p for t in territorio_ids.ids_nuevos("NAC")
+                              if (p := a.root_dir / "territorios" / t / "config" / f"{t}_2025.yaml").exists()]
     reports = [check_contract(p, sections) for p in contracts]
     summary = {"schema": "ddd.bridge-fingerprint/1.0", "sections": len(sections),
                "status": "PASS" if all(r["status"] == "PASS" for r in reports) else "BLOCK", "contracts": reports}

@@ -15,7 +15,7 @@ QUÉ HACE: fuera de línea (no lanza ni publica; no toca M01-M06). Por territori
   `<salida>/<elección>/<t>/` el resumen y los votos por partido de M07, la participación por distrito y la
   reconciliación; (5) `rotacion/<t>.csv` (ganador por elección y cambios) y `MANIFEST_M07.json` con huellas y el
   contraste con el paso B (misma provincia: votos idénticos; por distrito solo difiere el redondeo).
-Uso: python herramientas/historico_m07m08.py --paquete DIR --territorio congreso_huesca --seccionado ZIP
+Uso: python herramientas/historico_m07m08.py --paquete DIR --territorio nac22 --seccionado ZIP
        --distritos M06.zip [--padron ZIP] [--trabajo DIR] [--salida datos/resultados/historico]
 """
 from __future__ import annotations

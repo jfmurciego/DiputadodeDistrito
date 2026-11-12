@@ -25,8 +25,8 @@ Uso:
   ./ddd-local.sh ejecutar <territorio|ruta-yaml> [desde] [hasta] --autorizar
 
 Ejemplos:
-  ./ddd-local.sh admitir aragon
-  ./ddd-local.sh ejecutar aragon M01 M08 --autorizar
+  ./ddd-local.sh admitir aut02
+  ./ddd-local.sh ejecutar aut02 M01 M08 --autorizar
 EOF
 }
 

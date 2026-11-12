@@ -12,6 +12,11 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito por el resolutor, nunca por prefijo)
 
 import yaml
 
@@ -100,7 +105,7 @@ def visible_name(row: dict) -> str:
     """Nombre público: los ámbitos del Congreso se muestran como «nacional»; el interno no cambia."""
     name = str(row["name"])
     tid = str(row.get("territory_id") or "")
-    if row.get("scope") in ("congreso", "congreso_350") or tid.startswith(("congreso_", "congreso350_")):
+    if row.get("scope") in ("congreso", "congreso_350") or territorio_ids.es_nacional(tid) or territorio_ids.es_variante_350(tid):
         return "Nacional " + name.removeprefix("Congreso ").strip()
     return name
 

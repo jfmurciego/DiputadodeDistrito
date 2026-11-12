@@ -28,7 +28,7 @@ on:
       republish_source_run_id: {required: false, type: string, default: ''}
   workflow_dispatch:
     inputs:
-      territory_id: {description: 'Territorio con configuracion/ensemble/<territorio>.json (piloto: congreso_salamanca)', required: true, type: string}
+      territory_id: {description: 'Territorio con configuracion/ensemble/<territorio>.json (piloto: nac37, Salamanca)', required: true, type: string}
       stage: {description: 'ensemble_10 o ensemble_25 (territorios), aragon_10/aragon_50 (Aragón) o synthetic', required: true, type: string, default: synthetic}
       execution_confirmed: {description: 'Confirma la ejecución (coste de Actions)', required: false, type: boolean, default: false}
       promotion_confirmed: {description: 'Solo Aragón-50', required: false, type: boolean, default: false}
@@ -104,7 +104,7 @@ jobs:
       artifact_namespace: ensemble-${{ inputs.territory_id }}
 
   base:
-    if: ${{ always() && inputs.republish_source_run_id == '' && inputs.stage != 'synthetic' && needs.synthetic.result == 'success' && needs.config.result == 'success' && (needs.config.outputs.kind == 'aragon' || needs.base_territorial.result == 'success') }}
+    if: ${{ always() && inputs.republish_source_run_id == '' && inputs.stage != 'synthetic' && needs.synthetic.result == 'success' && needs.config.result == 'success' && (needs.config.outputs.kind == 'aut02' || needs.base_territorial.result == 'success') }}
     needs: [synthetic, config, base_territorial]
     runs-on: ubuntu-24.04
     timeout-minutes: 240
@@ -130,9 +130,9 @@ jobs:
           case "${{ inputs.stage }}" in
             ensemble_10) test "$KIND" = territorial; count=10 ;;
             ensemble_25) test "$KIND" = territorial; count=25 ;;
-            aragon_10) test "$KIND" = aragon; count=10 ;;
+            aragon_10) test "$KIND" = aut02; count=10 ;;
             aragon_50)
-              test "$KIND" = aragon
+              test "$KIND" = aut02
               test "${{ inputs.promotion_confirmed }}" = true || {
                 echo 'El lote de 50 exige confirmación expresa de coste.' >&2
                 exit 21
@@ -143,7 +143,7 @@ jobs:
           import sys
           from pathlib import Path
           payload = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-          assert payload["territory_id"] == "aragon"
+          assert payload["territory_id"] == "aut02"
           assert payload["ensemble"] == "aragon-10"
           assert payload["promotion"]["next_stage"] == "ARAGON_50"
           assert payload["promotion"]["authorized"] is True
@@ -156,15 +156,15 @@ jobs:
           esac
           echo "candidate_count=$count" >> "$GITHUB_OUTPUT"
       - name: Reconstruir fuentes canónicas
-        if: ${{ env.KIND == 'aragon' }}
+        if: ${{ env.KIND == 'aut02' }}
         run: bash inputs/partes/reconstruir_fuentes.sh
       - name: Preparar M01–M05 una sola vez con topología métrica
-        if: ${{ env.KIND == 'aragon' }}
+        if: ${{ env.KIND == 'aut02' }}
         run: |
           set -euo pipefail
           docker build --pull -t ddd-ensemble-base:${GITHUB_SHA} .
           docker run --rm -v "$PWD:/app" -w /app \
-            -e DDD_PARAMS=territorios/aragon/config/aragon_2025.yaml \
+            -e DDD_PARAMS=territorios/aut02/config/aut02_2025.yaml \
             -e DDD_RUN_ID=ensemble-aragon-base \
             -e DDD_FROM_STAGE=M01 -e DDD_TO_STAGE=M05 \
             --entrypoint /bin/bash ddd-ensemble-base:${GITHUB_SHA} /app/procedimiento.sh
@@ -204,22 +204,22 @@ jobs:
             --contract "$CONTRACT" \
             --output work/ensemble/base-geometric-components-preflight.json
       - name: Bloquear topología o partición inicial no defendibles
-        if: ${{ env.KIND == 'aragon' }}
+        if: ${{ env.KIND == 'aut02' }}
         run: |
           set -euo pipefail
           python herramientas/auditar_topologia_geometrica.py \
-            --sections .cache/ddd/preparacion/aragon_2025/aragon_2025_m01_secciones_poblacion.geojson.zip \
-            --graph .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json \
-            --assignment ejecuciones/ensemble-aragon-base/aragon_2025_m05_distritos_optimizados.geojson.zip \
+            --sections .cache/ddd/preparacion/aut02_2025/aut02_2025_m01_secciones_poblacion.geojson.zip \
+            --graph .cache/ddd/preparacion/aut02_2025/aut02_2025_m03_grafo.json \
+            --assignment ejecuciones/ensemble-aragon-base/aut02_2025_m05_distritos_optimizados.geojson.zip \
             --output work/ensemble/base-topology-preflight.json \
             --min-shared-border-m 1 --working-crs EPSG:25830
           python herramientas/auditar_componentes_geometricos.py \
-            --sections ejecuciones/ensemble-aragon-base/aragon_2025_m05_distritos_optimizados.geojson.zip \
+            --sections ejecuciones/ensemble-aragon-base/aut02_2025_m05_distritos_optimizados.geojson.zip \
             --section-field CUSEC_KEY \
             --district-field district_id \
             --working-crs EPSG:3035 \
             --expected-districts 67 \
-            --policy territorios/aragon/config/continuidad_geometrica_2025.json \
+            --policy territorios/aut02/config/continuidad_geometrica_2025.json \
             --output work/ensemble/base-geometric-components-preflight.json
       - name: Crear plan determinista
         run: |
@@ -241,12 +241,12 @@ jobs:
             unzip -qo "work/prior/$tag.zip" -d work/ensemble
           fi
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        if: ${{ env.KIND == 'aragon' }}
+        if: ${{ env.KIND == 'aut02' }}
         with:
           name: ensemble-base-${{ steps.key.outputs.value }}
           retention-days: 7
           path: |
-            .cache/ddd/preparacion/aragon_2025
+            .cache/ddd/preparacion/aut02_2025
             ejecuciones/ensemble-aragon-base
             inputs/COMARCAS.csv
             work/ensemble
@@ -428,8 +428,8 @@ jobs:
           [[ "$SOURCE_RUN_ID" =~ ^[0-9]+$ ]] || { echo '::error::El run fuente debe ser numérico.'; exit 30; }
           test -f "configuracion/ensemble/${{ inputs.territory_id }}.json" || { echo '::error::Sin configuración de ensemble para el territorio.'; exit 31; }
           case "${{ inputs.territory_id }}:${{ inputs.stage }}" in
-            aragon:aragon_10) ;;
-            aragon:*) echo '::error::Sólo se permite republicar Aragón-10; Aragón-50 sigue bloqueado.'; exit 32 ;;
+            aut02:aragon_10) ;;
+            aut02:*) echo '::error::Sólo se permite republicar Aragón-10; Aragón-50 sigue bloqueado.'; exit 32 ;;
             *:ensemble_10) ;;
             *) echo '::error::Sólo se permite republicar ensemble_10 (el lote de 50 sigue bloqueado).'; exit 32 ;;
           esac

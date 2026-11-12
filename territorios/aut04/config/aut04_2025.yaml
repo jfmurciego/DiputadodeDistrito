@@ -131,7 +131,7 @@ modulos:
     out_report: territorios/aut04/.cache/ddd/preparacion/{run_name}/aut04_2025_m04_informe.json
     source_geojson: territorios/aut04/.cache/ddd/preparacion/{run_name}/aut04_2025_m01_secciones_poblacion.geojson.zip
     hard_partition_lookup: configuracion/particiones_insulares_2025.json
-    hard_partition_territory_id: illes_balears
+    hard_partition_territory_id: aut04
   modulo_05_optimizar_distritos:
     population_repair:
       enabled: true

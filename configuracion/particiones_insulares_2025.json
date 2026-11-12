@@ -437,7 +437,7 @@
           "inventory_id": "secciones_2023",
           "section_year": 2023,
           "population_year": 2023,
-          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 38; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de canarias",
+          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 38; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de aut05 (Canarias)",
           "universe_section_count": 681,
           "universe_cusec_set_sha256": "589b1a0ab71efdc4212afffda98699060e2749008038d1c194f0300a0941cb66",
           "component_sections": {
@@ -453,7 +453,7 @@
           "inventory_id": "secciones_2025",
           "section_year": 2025,
           "population_year": 2025,
-          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de canarias",
+          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de aut05 (Canarias)",
           "universe_section_count": 684,
           "universe_cusec_set_sha256": "8c92e0b3d7ff0aa2a5627e9820a9db7f1843f40268eb7b8a1d2a79279fc1256e",
           "component_sections": {
@@ -569,7 +569,7 @@
           "inventory_id": "secciones_2023",
           "section_year": 2023,
           "population_year": 2023,
-          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 07; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de illes_balears",
+          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 07; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de aut04 (Islas Baleares)",
           "universe_section_count": 670,
           "universe_cusec_set_sha256": "9360343a8c2a5d7b1e6fa167155d001a652bbab42df66c70be405052f52bbd2a",
           "component_sections": {
@@ -587,7 +587,7 @@
           "inventory_id": "secciones_2025",
           "section_year": 2025,
           "population_year": 2025,
-          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de illes_balears",
+          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de aut04 (Islas Baleares)",
           "universe_section_count": 674,
           "universe_cusec_set_sha256": "9840bcfa657cbd05b0e04fefa99316c7fb8f9d085d030eea6060796b22ef9f8c",
           "component_sections": {
@@ -672,7 +672,7 @@
           "inventory_id": "secciones_2023",
           "section_year": 2023,
           "population_year": 2023,
-          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 35; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de canarias",
+          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 35; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de aut05 (Canarias)",
           "universe_section_count": 715,
           "universe_cusec_set_sha256": "a5b7dd13da9f10241a9370a0034896b3a7fc365062e56f898990acff959620a0",
           "component_sections": {
@@ -690,7 +690,7 @@
           "inventory_id": "secciones_2025",
           "section_year": 2025,
           "population_year": 2025,
-          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de canarias",
+          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de aut05 (Canarias)",
           "universe_section_count": 723,
           "universe_cusec_set_sha256": "b482147f7240ee16eb96735e40879871ff91c54764a1570d2ee3ff633d8399a7",
           "component_sections": {

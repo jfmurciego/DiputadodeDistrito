@@ -24,15 +24,20 @@ import argparse
 import copy
 import json
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito por el resolutor, nunca por prefijo)
 
 import yaml
 
-MOLDE = "congreso_la_rioja"
+MOLDE = "nac26"
 EXCLUIDOS_POR_ORDEN: dict[str, str] = {}
 EXENCION = "population_floor_exempt_municipalities"
 # Lo que el propietario ha aprobado para el ensemble y difiere del molde. La exención se toma del contrato (con su decisión).
 APROBADOS_PROPIETARIO = {
-    "congreso_cadiz": {
+    "nac11": {
         "admite": {"population_cap_ratio", "target_tolerance_ratio", EXENCION},
         "decisions": {
             "population_cap_ratio": {
@@ -43,7 +48,7 @@ APROBADOS_PROPIETARIO = {
             },
         },
     },
-    "congreso_barcelona": {
+    "nac08": {
         "admite": {EXENCION},
         "decisions": {},
     },
@@ -59,7 +64,7 @@ _AUTONOMICA = {
         },
     },
 }
-for _tid in ("ceuta", "melilla", "madrid", "la_rioja", "principado_de_asturias"):
+for _tid in ("aut18", "aut19", "aut13", "aut17", "aut03"):
     APROBADOS_PROPIETARIO[_tid] = _AUTONOMICA
 LIMITES = ("population_floor_ratio", "population_cap_ratio", "target_tolerance_ratio", "municipality_atomicity_limit_ratio")
 
@@ -124,8 +129,10 @@ def main() -> int:
     args = ap.parse_args()
     root = args.root_dir
     molde = json.loads((root / "configuracion/ensemble" / f"{MOLDE}.json").read_text(encoding="utf-8"))
-    rutas = sorted((root / "territorios").glob("congreso_*/config/congreso_*_2025.yaml"))
-    rutas += [root / "territorios" / t / "config" / f"{t}_2025.yaml" for t in sorted(APROBADOS_PROPIETARIO) if not t.startswith("congreso_")]
+    rutas = [root / "territorios" / t / "config" / f"{t}_2025.yaml" for t in territorio_ids.ids_nuevos("NAC")]
+    rutas = [r for r in rutas if r.exists()]
+    rutas += [root / "territorios" / t / "config" / f"{t}_2025.yaml" for t in sorted(APROBADOS_PROPIETARIO)
+              if not territorio_ids.es_nacional(t)]
     for path in rutas:
         contract = yaml.safe_load(path.read_text(encoding="utf-8"))
         tid = contract["meta"]["territory_id"]

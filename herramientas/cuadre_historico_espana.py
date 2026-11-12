@@ -10,7 +10,7 @@ ANTERIOR: ninguna (fichero nuevo)
 QUÉ HACE: fuera de línea. Por provincia (52) y elección: (1) total de candidaturas del espejo T-89 (Observatorio)
   frente al de Infoelectoral (2023-07, ZIP nacional por mesa, ficheros 08 por provincia y 10 por mesa sin CERA) y frente
   a los CSV oficiales versionados (BOE, 2019-11 y 2023); (2) lo reagregado a distritos (MANIFEST.json) frente al espejo;
-  (3) el ganador de 2023 por distrito frente al M08 versionado en `datos/resultados/congreso_<t>.csv`.
+  (3) el ganador de 2023 por distrito frente al M08 versionado en `datos/resultados/<circunscripción NAC>.csv`.
   El espejo suma secciones y no incluye el voto CERA: nunca debe superar a la oficial. Escribe un JSON con el cuadre y
   la lista de lo que no cuadra con su motivo.
 Uso: python herramientas/cuadre_historico_espana.py --espejo DIR --mesas ZIP --salida JSON
