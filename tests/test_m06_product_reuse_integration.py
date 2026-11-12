@@ -23,8 +23,8 @@ CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 # Territorios con M06 registrado. Los run_id no se fijan: cada ejecución completa registra uno
 # nuevo; la regla es que el resolver durable devuelva exactamente el producto del catálogo.
 PRODUCTS = (
-    "aut02", "aut03", "aut06", "aut07",
-    "aut08", "aut11", "aut12",
+    "aragon", "principado_de_asturias", "cantabria", "castilla_y_leon",
+    "castilla_la_mancha", "extremadura", "galicia",
 )
 
 
@@ -65,7 +65,7 @@ class M06ProductReuseIntegrationTests(unittest.TestCase):
     def test_reuse_plans_skip_generation_and_unaccredited_m08_stays_blocked(self):
         for territory_id in PRODUCTS:
             with self.subTest(territory=territory_id):
-                if territory_id == "aut07":
+                if territory_id == "castilla_y_leon":
                     with self.assertRaisesRegex(
                         ValueError,
                         "DURABLE_ASSET_INVALID: electoral_product: receipt durable ilegible",
@@ -90,13 +90,13 @@ class M06ProductReuseIntegrationTests(unittest.TestCase):
                 self.assertTrue(plan["existing"]["territorial_product"]["artifact_name"])
 
     def test_invalid_m08_receipt_is_not_swallowed_by_m06_reuse(self):
-        row = self.rows["aut07"]["editions"]["2025"]
+        row = self.rows["castilla_y_leon"]["editions"]["2025"]
         state = dict(row)
         with self.assertRaisesRegex(DurableAssetBlock, "DURABLE_ASSET_INVALID: electoral_product"):
             validate_durable_assets(
                 root_dir=ROOT,
                 state=state,
-                territory_id="aut07",
+                territory_id="castilla_y_leon",
                 edition="2025",
                 territorial_source=state.get("preparation_evidence"),
                 expected_election_id=None,

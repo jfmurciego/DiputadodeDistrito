@@ -13,7 +13,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente, carpeta_de, misma_ruta  # noqa: E402  (T-220: id viejo o nuevo)
 from ddd_core import territorio_ids  # noqa: E402
 
 
@@ -303,7 +303,7 @@ def _sealed_evidence(
             f"{evidence_name}: procedencia no coincide con la materialización original",
         )
 
-    path = root / _ruta_viva(rel.as_posix())
+    path = ruta_existente(root, rel.as_posix())  # T-220: carpeta nueva o, en raíces históricas, vieja
     if not path.is_file():
         _block("HISTORICAL_ACCREDITATION_MISSING", f"{evidence_name}: evidencia original durable ausente")
     try:
@@ -399,7 +399,8 @@ def derive_historical_territorial_producer(
 ) -> dict | None:
     root = root_dir.resolve()
     run_id = _run_id(asset.get("run_id"), label="territorial_product")
-    territory_id, carpeta = _historico_y_carpeta(territory_id)  # identidad sellada con el id de entonces
+    carpeta = carpeta_de(root, territory_id)  # carpeta viva (o la vieja en raíces históricas)
+    territory_id = _historico_y_carpeta(territory_id)[0]  # identidad sellada con el id de entonces
     path = (
         root
         / "territorios"
@@ -422,7 +423,7 @@ def derive_historical_territorial_producer(
         or str(record.get("edition") or "") != edition
         or _run_id(record.get("run_id"), label="record.run_id") != run_id
         or str(record.get("source_commit") or "") != source_commit
-        or _ruta_viva(str(record.get("receipt_path") or "")) != _ruta_viva(str(receipt_rel))
+        or not misma_ruta(str(record.get("receipt_path") or ""), str(receipt_rel))
     ):
         _block("HISTORICAL_ACCREDITATION_IDENTITY_INVALID", "identidad base de la acreditación no coincide con el receipt")
     _verify_materialization_seal(record)

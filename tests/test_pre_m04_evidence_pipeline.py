@@ -33,6 +33,7 @@ COMMIT = "1" * 40
 from herramientas.catalogo_territorios import load_pilot_territories  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 from tests._raiz_congelada import frozen_root  # noqa: E402
+from ddd_core.territorio_ids import id_legacy  # noqa: E402  (T-220)
 # Madrid, Ceuta y Cataluña cuentan con preflight vigente en el catálogo; sólo
 # estos dos territorios aún necesitan reacreditación para el caso cubierto.
 REAL_TARGETS = ("aut10", "aut14")
@@ -506,7 +507,7 @@ class PreM04EvidenceHandoffRegressionTests(unittest.TestCase):
             / "tests"
             / "fixtures"
             / "pre_m04_handoff"
-            / f"{territory_id}_run_{expected['run_id']}.json"
+            / f"{id_legacy(territory_id)}_run_{expected['run_id']}.json"  # T-220: fixture con el id de entonces
         )
 
     def test_real_archipelago_handoff_survives_workspace_evidence_disappearance(self):
@@ -707,10 +708,13 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             with self.subTest(territory=territory_id):
                 state, contract_path, _ = self._state_and_contract(territory_id)
                 prep = state.get("preparation_evidence") or {}
+                # T-220: la raíz congelada conserva la carpeta y el contrato con el id de entonces.
+                viejo = id_legacy(territory_id)
+                contract_path = f"territorios/{viejo}/config/{viejo}_2025.yaml"
                 gate = generation_enablement(
                     root_dir=ROOT,
                     contract_path=contract_path,
-                    territory_id=territory_id,
+                    territory_id=viejo,
                     certified_product_ready=False,
                     first_generation_evidence=None,
                     preparation_evidence=prep,
@@ -1095,7 +1099,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
 
         reuse = build_plan(
-            territory="aut04",
+            territory="illes_balears",
             edition="2025",
             execution_mode="reuse",
             catalog=catalog,
@@ -1113,7 +1117,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         )
 
         catalog_source = build_plan(
-            territory="aut04",
+            territory="illes_balears",
             edition="2025",
             execution_mode="catalog_source",
             catalog=catalog,
@@ -1133,7 +1137,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         )
 
         continental = build_plan(
-            territory="aut01",
+            territory="andalucia",
             edition="2025",
             execution_mode="from_start",
             catalog=catalog,
@@ -1371,7 +1375,7 @@ class AccreditedMunicipalDiscontinuityGateTests(unittest.TestCase):
         ROOT = frozen_root()  # caso real congelado en aee8215e
         from herramientas._resolver_ejecucion_completa_core import _accredited_municipal_disconnections_match
 
-        contract_path = ROOT / "territorios/aut09/config/aut09_2025.yaml"
+        contract_path = ROOT / "territorios/cataluna/config/cataluna_2025.yaml"
         cfg = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
         declarations = cfg["validation"]["topology_accreditation"]["administrative_components"]
         self.assertEqual(["municipality:25234"], [row["admin_scope"] for row in declarations])
