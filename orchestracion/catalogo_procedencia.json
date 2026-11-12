@@ -48,9 +48,9 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 531,
+  "productos": 535,
   "errores": 0,
-  "avisos": 157
+  "avisos": 158
  },
  "territorios": {
   "andalucia": {
@@ -73,7 +73,7 @@
      "producto": "M06",
      "id": "m06-andalucia-42495072594",
      "run_id": "42495072594",
-     "vigente": true,
+     "vigente": false,
      "sha256": "c46a253a0db0896b5e58fd97c5a7681fa246bcf3853d6df20be573152b194541",
      "copia_git": {
       "blob_sha": "d90d9e047cdaca7e0f15e88b3528b9ab2c4bac3e",
@@ -83,13 +83,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-andalucia-43204696160",
+     "run_id": "43204696160",
+     "vigente": true,
+     "sha256": "414b9a013f86ca633cdefdefc7fb4eb834612d92e0e70708763c690575a827eb",
+     "copia_git": {
+      "blob_sha": "b981d42e163e26b94465712cfb772af4a8f558cf",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-andalucia-42495072594",
      "run_id": "42495072594",
-     "vigente": true,
+     "vigente": false,
      "sha256": "20e898e8c031c9609cee70a1cc9dbe191ebb5d312c754ef250fbf47cb0925610",
      "copia_git": {
       "blob_sha": "3810296b91756fbfad65bdd38ec6380dda9535aa",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-andalucia-43204696160",
+     "run_id": "43204696160",
+     "vigente": true,
+     "sha256": "afbb5bed0cce9bd11fdb5584f66e3889123489526f3a4719722ffa7bf185191c",
+     "copia_git": {
+      "blob_sha": "425807487142128ef44f9eec4f08e080722b4ef0",
       "ruta": null
      },
      "copias_r2": [],
@@ -112,16 +138,16 @@
     {
      "producto": "resultados",
      "id": "resultados-andalucia",
-     "run_id": "42495072594",
+     "run_id": "43204696160",
      "vigente": true,
-     "sha256": "ec6a647db97e18a625f1840f93c8bdcc8c9063fc53b3e86d4874285679a368f2",
+     "sha256": "c135101931259d762a9ae4a5861e54f700677ffeb78f629a8c664e3ca7809a62",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/andalucia.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "20e898e8c031c9609cee70a1cc9dbe191ebb5d312c754ef250fbf47cb0925610"
+     "origen_sha256": "afbb5bed0cce9bd11fdb5584f66e3889123489526f3a4719722ffa7bf185191c"
     }
    ]
   },
@@ -788,10 +814,23 @@
      "producto": "M06",
      "id": "m06-cataluna-41062562553",
      "run_id": "41062562553",
-     "vigente": true,
+     "vigente": false,
      "sha256": "b9fd1d56ca88b8c05a67a2f54a24e58bdafb7a439c9bdd1aaa62d68ecc01ec41",
      "copia_git": {
       "blob_sha": "caa21b4f1a10b38ab80ecbd9b397eebc56381ae5",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-cataluna-43204706233",
+     "run_id": "43204706233",
+     "vigente": true,
+     "sha256": "83e6dacc516eb77f176107d9537c358c5ee8bcb0c3d68f37e3479002ea383a3c",
+     "copia_git": {
+      "blob_sha": "ae4230329db503074687142bac20d3db1b585dfd",
       "ruta": null
      },
      "copias_r2": [],
@@ -814,7 +853,7 @@
      "producto": "M08",
      "id": "m08-cataluna-41062562553",
      "run_id": "41062562553",
-     "vigente": true,
+     "vigente": false,
      "sha256": "ad9acdc8bbbac221746f9601884f96d7c1dd8ec0cd7a4fdba2a72f3995015f49",
      "copia_git": {
       "blob_sha": "e048919647fd04bb7e99c61b1cb0417428613ba1",
@@ -826,6 +865,19 @@
        "sha256": "ec8df377f8d933a16c5878fa15b9dd9c15be96b591f6943e0bff110f8c7f3ba9"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-cataluna-43204706233",
+     "run_id": "43204706233",
+     "vigente": true,
+     "sha256": "10420d3a193ae5d4fedae58982ba5a55e2f73af93d868ce9015f1329290f03c5",
+     "copia_git": {
+      "blob_sha": "b7f9e8ef972a2a23918d2722ae6573dae9251255",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -845,16 +897,16 @@
     {
      "producto": "resultados",
      "id": "resultados-cataluna",
-     "run_id": "41062562553",
+     "run_id": "43204706233",
      "vigente": true,
-     "sha256": "452c06234199362f09cfc2004a80b01a7d3df8522ee99700bee0eaec31b8fa68",
+     "sha256": "f4d5c9c03c297f2365f3d2c7ea5d8cd79a9687877df21e119a72e8605176dd8d",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/cataluna.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "ad9acdc8bbbac221746f9601884f96d7c1dd8ec0cd7a4fdba2a72f3995015f49"
+     "origen_sha256": "10420d3a193ae5d4fedae58982ba5a55e2f73af93d868ce9015f1329290f03c5"
     }
    ]
   },
@@ -8609,14 +8661,14 @@
    "territorio": "andalucia",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42495072594: solo copia git"
+   "detalle": "run 43204696160: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "andalucia",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42495072594: solo copia git"
+   "detalle": "run 43204696160: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -8693,7 +8745,14 @@
    "territorio": "cataluna",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41062562553: solo copia git"
+   "detalle": "run 43204706233: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "cataluna",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43204706233: solo copia git"
   },
   {
    "nivel": "AVISO",
