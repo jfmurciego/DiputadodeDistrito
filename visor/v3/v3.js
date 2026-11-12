@@ -59,7 +59,8 @@
   const S={scope:"nacional",system:"proporcional",view:"electoral",layer:"ganador",level:"provincia",election:"202307",region:"",panel:"territorio",province:null,unit:null,selected:null};
   const D={prov:null,communities:null,index:null,sectionsIndex:null,territorial:null,products:null,calendar:{},
     districtCache:new Map(),sectionCache:new Map(),regionCache:new Map(),allDistricts:new Map(),allSections:new Map()};
-  let districtBulkPromise=null;
+  let districtBulkPromise=null, renderRevision=0;
+  D.districtFailures=new Map();
   let map=null,bootstrap=false,loading=false;
   const empty=()=>({type:"FeatureCollection",features:[]});
   async function getJson(path){const r=await fetch(path,{cache:"default"});if(!r.ok)throw Error(path+": HTTP "+r.status);return r.json();}
@@ -164,39 +165,42 @@
     const raw=await getJson("../datos/"+e.data.geojson.ruta);
     const features=raw.features.map(g=>{
       const d=Number(g.properties?.distrito??g.properties?.district_id??g.properties?.district),m=metaOfDistrict(f,d);
-      const target=e.data.distritos?.length?e.data.distritos.reduce((a,x)=>a+(Number(x.poblacion)||0),0)/e.data.distritos.length:0;
-      return {...g,properties:{...g.properties,province:cod,provinceName:f.properties.nombre,distrito:d,party:m?family(m.ganador):"OTROS",ganador:m?.ganador||"",population:m?.poblacion??g.properties?.district_pop??null,
-        deviation:target?((Number(m?.poblacion)-target)/target):null,neutralColor:randomNeutral(d),
-        sections:m?.secciones??null,municipios:m?.municipios??null,run_id:e.data.run_id,identity:e.key}};
+      const gp=g.properties||{};
+      return {...g,properties:{...gp,province:cod,provinceName:f.properties.nombre,distrito:d,
+        party:m?family(m.ganador):"OTROS",ganador:m?.ganador||"",
+        population:gp.district_pop??m?.poblacion??null,
+        deviation:gp.relative_deviation??null,
+        neutralColor:randomNeutral(cod+":"+d),
+        sections:gp.section_count??m?.secciones??null,
+        municipios:gp.municipality_count??m?.municipios??null,
+        run_id:e.data.run_id,identity:e.key}};
     });
     const fc={type:"FeatureCollection",features};
     D.districtCache.set(cod,fc);return fc;
   }
   async function loadNationalDistricts(){
-    if(D.allDistricts.size>=provinceFeatures().length){
-      installSource("distritos",{type:"FeatureCollection",features:Array.from(D.allDistricts.values()).flatMap(x=>x.features)});return;
-    }
-    if(districtBulkPromise)return districtBulkPromise;
-    districtBulkPromise=(async()=>{
-      const provs=provinceFeatures(),pending=provs.filter(p=>!D.allDistricts.has(p.properties.cod));
-      let next=0,done=0;const errors=[];
-      async function worker(){
-        while(next<pending.length){
-          const p=pending[next++];
-          try{const layer=await loadDistricts(p);D.allDistricts.set(p.properties.cod,layer);}
-          catch(e){errors.push(p.properties.nombre);}
-          done++;
-          if(done%5===0||done===pending.length){
-            installSource("distritos",{type:"FeatureCollection",features:Array.from(D.allDistricts.values()).flatMap(x=>x.features)});
-            $("map-caption").textContent="Cargando distritos DDD: "+done+"/"+pending.length+" provincias";
+    if(!districtBulkPromise){
+      districtBulkPromise=(async()=>{
+        const pending=provinceFeatures().filter(p=>
+          !D.allDistricts.has(p.properties.cod)&&!D.districtFailures.has(p.properties.cod));
+        let next=0,done=0;
+        async function worker(){
+          while(next<pending.length){
+            const p=pending[next++];
+            try{D.allDistricts.set(p.properties.cod,await loadDistricts(p));}
+            catch(e){D.districtFailures.set(p.properties.cod,String(e.message||e));}
+            done++;
+            if(S.scope==="nacional"&&S.system==="mayoritario"&&!S.province&&pending.length)
+              $("map-caption").textContent="Cargando distritos DDD: "+done+"/"+pending.length+" provincias";
           }
         }
-      }
-      await Promise.all(Array.from({length:Math.min(5,pending.length)},worker));
-      if(errors.length)note("Distritos no disponibles para: "+errors.join(", ")+".");
-    })().finally(()=>{districtBulkPromise=null;});
-    return districtBulkPromise;
+        await Promise.all(Array.from({length:Math.min(5,pending.length)},worker));
+      })().finally(()=>{districtBulkPromise=null;});
+    }
+    await districtBulkPromise;
+    return {type:"FeatureCollection",features:Array.from(D.allDistricts.values()).flatMap(fc=>fc.features)};
   }
+
   function secGroupColor(d){return randomNeutral("DDD-"+d);}
   async function loadSections(f){
     const cod=f.properties.cod;if(D.sectionCache.has(cod))return D.sectionCache.get(cod);
@@ -214,40 +218,64 @@
     const fc={type:"FeatureCollection",features};D.sectionCache.set(cod,fc);return fc;
   }
   function newest(items,kind){return items.filter(x=>x.kind===kind&&x.viewer_path&&x.publication_status==="PUBLICABLE").sort((a,b)=>Number(b.run_id)-Number(a.run_id))[0]||null;}
-  async function loadAutonomic(){
-    if(!S.region)return;
-    const cacheKey=S.region+":"+S.view;
-    if(D.regionCache.has(cacheKey)){installSource("distritos",D.regionCache.get(cacheKey));return;}
+  async function loadAutonomic(region,view){
+    if(!region)return {collection:empty(),product:null};
+    const cacheKey=region+":"+view;
+    if(D.regionCache.has(cacheKey))return D.regionCache.get(cacheKey);
     const items=D.products?.results||[];
-    const kind=S.view==="electoral"?"canonical_m08":"canonical_m06";
-    let product=newest(items.filter(x=>x.territory_id===S.region),kind);
-    if(!product&&kind==="canonical_m08")product=newest(items.filter(x=>x.territory_id===S.region),"canonical_m06");
-    if(!product){note("No hay un producto "+kind+" publicable para "+regionName(S.region)+".");installSource("distritos",empty());return;}
+    const kind=view==="electoral"?"canonical_m08":"canonical_m06";
+    let product=newest(items.filter(x=>x.territory_id===region),kind);
+    if(!product&&kind==="canonical_m08")product=newest(items.filter(x=>x.territory_id===region),"canonical_m06");
+    if(!product)return {collection:empty(),product:null};
     const raw=await getJson("../"+product.viewer_path);
-    const mapped={type:"FeatureCollection",features:raw.features.map((x,i)=>{const p=x.properties||{},winner=p.winner_party||p.ganador||p.winner||"";
-      return {...x,properties:{...p,distrito:p.distrito??p.district_id??i+1,party:family(winner),ganador:winner,
-        population:p.population??p.district_pop??p.poblacion??null,region:S.region,run_id:product.run_id,
-        neutralColor:randomNeutral(S.region+":"+(p.distrito??p.district_id??i+1))}};})};
-    D.regionCache.set(cacheKey,mapped);installSource("distritos",mapped);
-    $("source-label").textContent=product.label+" · "+product.certification_status+" · ejecución "+product.run_id;
+    if(raw.type!=="FeatureCollection"||!Array.isArray(raw.features))
+      throw Error("Producto territorial inválido "+product.id);
+    const collection={type:"FeatureCollection",features:raw.features.map((x,i)=>{
+      const p=x.properties||{},winner=p.winner_party||p.ganador||p.winner||"";
+      const id=p.distrito??p.district_id??i+1;
+      return {...x,properties:{...p,distrito:id,party:family(winner),ganador:winner,
+        population:p.population??p.district_pop??p.poblacion??null,region,run_id:product.run_id,
+        neutralColor:randomNeutral(region+":"+id)}};
+    })};
+    const result={collection,product};
+    D.regionCache.set(cacheKey,result);
+    return result;
   }
   async function prepareArea(){
     if(!map||!bootstrap)return;
-    const ticket=Date.now();loading=true;
-    if(S.scope==="autonomico"&&S.system==="mayoritario"&&S.region){
-      try{await loadAutonomic();}catch(e){note("No se ha podido cargar el producto autonómico: "+e.message);}
-    }else if(S.scope==="nacional"&&S.system==="mayoritario"&&!S.province){
-      try{await loadNationalDistricts();}catch(e){note("Error al recuperar el mapa nacional: "+e.message);}
-    }else if(S.scope==="nacional"&&S.province&&(S.level==="distrito"||S.level==="seccion"||S.level==="municipio"||S.system==="mayoritario")){
-      const f=selectedProvince();
-      try{installSource("distritos",await loadDistricts(f));}catch(e){installSource("distritos",empty());note(e.message);}
-    }else installSource("distritos",empty());
-    if(S.province&&(S.level==="seccion"||S.level==="municipio")){
-      try{installSource("secciones",await loadSections(selectedProvince()));}
-      catch(e){installSource("secciones",empty());note(e.message);}
-    }else installSource("secciones",empty());
-    loading=false;paint();renderDetail();
+    // Solo la última selección puede mutar las fuentes del mapa.
+    const revision=++renderRevision;
+    const {scope,system,view,region,province,level}=S;
+    let districts=empty(),sections=empty(),product=null;
+    const faults=[];
+    if(scope==="autonomico"&&system==="mayoritario"&&region){
+      try{({collection:districts,product}=await loadAutonomic(region,view));}
+      catch(e){faults.push("No se ha podido cargar el territorio autonómico: "+e.message);}
+    }else if(scope==="nacional"&&system==="mayoritario"&&!province){
+      try{districts=await loadNationalDistricts();}
+      catch(e){faults.push("No se ha podido cargar el mapa nacional: "+e.message);}
+      if(D.districtFailures.size)faults.push("Provincias sin distrito certificado: "+
+        [...D.districtFailures.keys()].map(code=>provinceByCode(code)?.properties.nombre||code).join(", "));
+    }else if(scope==="nacional"&&province&&
+        (level==="distrito"||level==="seccion"||level==="municipio"||system==="mayoritario")){
+      const f=provinceByCode(province);
+      try{districts=await loadDistricts(f);}
+      catch(e){faults.push("Sin distritos acreditados para esta provincia: "+e.message);}
+    }
+    if(scope==="nacional"&&province&&(level==="seccion"||level==="municipio")){
+      try{sections=await loadSections(provinceByCode(province));}
+      catch(e){faults.push("Sin secciones INE publicadas: "+e.message);}
+    }
+    if(revision!==renderRevision)return;
+    installSource("distritos",districts);
+    installSource("secciones",sections);
+    if(product)$("source-label").textContent=(product.label||"Producto M06/M08")+
+      " · "+(product.certification_status||"sin certificación")+
+      " · ejecución "+product.run_id;
+    paint();renderDetail();
+    if(faults.length)note(faults.join(" "));
   }
+
   function paint(){
     if(!bootstrap)return;
     const isN=S.scope==="nacional",isElect=S.view==="electoral",good=validElection();
