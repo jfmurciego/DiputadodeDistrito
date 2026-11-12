@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-12T08:54:41.658312+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-12T08:56:34.213082+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -36,7 +36,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 
 | Territorio | FT | G | FE | RE | PUB | Estado | Última ejecución | Parada en | Motivo | Siguiente paso |
 |---|:---:|:---:|:---:|:---:|:---:|---|---|---|---|---|
-| **01 Andalucía** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43113205292 · FAILED | 01 · Preparación de Datos Territoriales | ver log del run | preparar fuentes electorales |
+| **01 Andalucía** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43186369510 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **02 Aragón** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43016936483 · SUCCESS | — | — | — |
 | **03 Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43016768497 · SUCCESS | — | — | — |
 | **04 Islas Baleares** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43019811578 · SUCCESS | — | — | — |
