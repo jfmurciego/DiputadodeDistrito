@@ -1,3 +1,12 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Portada V2 sin alterar el visor técnico V1
+# FECHA: 2026-11-12
+# ESTADO: candidato
+# CAMBIOS: redirige la portada a V2 y conserva V1 en /v1/ con base relativa al raíz del sitio.
+# MOTIVO: habilitar la web pública V2 manteniendo las rutas y datos de V1.
+# ANTERIOR: ninguna (fichero nuevo)
+
 """Promueve V2 a portada del sitio construido sin modificar los visores de origen.
 
 Uso: python herramientas/preparar_portada_v2.py --site /tmp/site-candidate
