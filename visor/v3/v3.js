@@ -226,7 +226,8 @@
     const raw=await getJson("../"+product.viewer_path);
     const mapped={type:"FeatureCollection",features:raw.features.map((x,i)=>{const p=x.properties||{},winner=p.winner_party||p.ganador||p.winner||"";
       return {...x,properties:{...p,distrito:p.distrito??p.district_id??i+1,party:family(winner),ganador:winner,
-        population:p.population??p.district_pop??p.poblacion??null,region:S.region,run_id:product.run_id}};})};
+        population:p.population??p.district_pop??p.poblacion??null,region:S.region,run_id:product.run_id,
+        neutralColor:randomNeutral(S.region+":"+(p.distrito??p.district_id??i+1))}};})};
     D.regionCache.set(cacheKey,mapped);installSource("distritos",mapped);
     $("source-label").textContent=product.label+" · "+product.certification_status+" · ejecución "+product.run_id;
   }
@@ -309,6 +310,7 @@
   }
   function renderTimeline(){
     const auto=S.scope==="autonomico";$("election-region").hidden=!auto;
+    $("election-region-label").hidden=!auto;
     $("election-region").value=S.region;
     $("timeline-subtitle").textContent=auto?"Elecciones autonómicas · "+(S.region?regionName(S.region):"elige comunidad"):"Elecciones generales";
     const rows=auto?(D.calendar[S.region]||[]):NATIONAL;
@@ -333,6 +335,12 @@
       kind==="provincia"?"España › "+name:"Selección territorial actual";
     $("ddd-count").textContent=S.scope==="nacional"?"407":(SEATS[S.region]??"—");
     $("current-count").textContent=S.scope==="nacional"?"350":(SEATS[S.region]??"—");
+    $("ddd-label").textContent=S.scope==="nacional"?"Propuesta DDD":"DDD mayoritario";
+    $("current-label").textContent=S.scope==="nacional"?"Congreso actual":"Parlamento autonómico";
+    $("ddd-unit").textContent=S.scope==="nacional"?"distritos nacionales":
+      (S.region?"distritos previstos":"elige una comunidad");
+    $("current-unit").textContent=S.scope==="nacional"?"escaños":
+      (S.region?"escaños actuales":"elige un parlamento");
     const records=[];
     if(kind==="provincia"){
       const pr=selectedProvince()?.properties||obj,ent=getProvinceEntry(selectedProvince());
@@ -413,7 +421,13 @@
       if(S.layer==="ganador"&&S.view!=="electoral"){S.view="electoral";updateSegments("view","electoral");}
       note("");refresh();};
     $("level").onchange=e=>{S.level=e.target.value;note("");prepareArea();paint();};
-    $("election-region").onchange=e=>{S.region=e.target.value;S.unit={kind:"pais",properties:{}};syncElection();refresh();};
+    $("election-region").onchange=e=>{
+      S.region=e.target.value;
+      const community=D.communities?.features.find(f=>regionId(f.properties.nombre)===S.region);
+      S.unit=community?{kind:"comunidad",properties:community.properties}:{kind:"pais",properties:{}};
+      syncElection();refresh();
+      if(community)focus(community.geometry);
+    };
     $("search").addEventListener("keydown",e=>{if(e.key==="Enter")search(e.target.value);});
     ["boundaries","labels","auto-sections"].forEach(id=>$(id).onchange=()=>paint());
     document.querySelectorAll("[data-panel]").forEach(b=>b.onclick=()=>{
