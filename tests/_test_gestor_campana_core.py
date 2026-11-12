@@ -551,6 +551,10 @@ class CampaignManagerTests(unittest.TestCase):
                 "package_sha256": prep["package_sha256"],
                 "compatibility_identity_sha256": prep["compatibility_identity_sha256"],
             }
+            # T-220: la evidencia viva se selló con las rutas de caché del id viejo (los checkpoints M04 quedan
+            # invalidados por el renombrado); la prueba estructural usa la entrada de M04 del contrato vivo.
+            evidence.setdefault("partitioning", {})["contract_output_geojson"] = (
+                contract["modulos"]["modulo_04_generar_semillas"]["in_geojson"])
             evidence["implementation"] = _pre_m04_implementation_binding(ROOT, contract)
             evidence["contract_binding"] = _contract_generation_binding(contract)
             (root / "contract.yaml").write_text(

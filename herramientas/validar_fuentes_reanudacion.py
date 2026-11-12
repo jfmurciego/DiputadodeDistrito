@@ -14,11 +14,30 @@ import json
 from pathlib import Path
 
 import yaml
-import sys as _sys_t220  # noqa: E402
-from pathlib import Path as _Path_t220  # noqa: E402
-if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
-    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
+def _territorio_ids_t220():
+    """T-220: resolutor sin tocar sys.path (la herramienta se ejecuta también por ruta y en árboles mínimos)."""
+    import importlib.util
+    import sys
+    from pathlib import Path
+    if "ddd_core.territorio_ids" in sys.modules:
+        return sys.modules["ddd_core.territorio_ids"]
+    ruta = Path(__file__).resolve().parents[1] / "ddd_core" / "territorio_ids.py"
+    if not ruta.is_file():
+        return None
+    spec = importlib.util.spec_from_file_location("_t220_territorio_ids", ruta)
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    return modulo
+
+
+def mismo_territorio(a, b):  # noqa: E302
+    ti = _territorio_ids_t220()
+    return str(a) == str(b) if ti is None else ti.mismo_territorio(a, b)
+
+
+def carpeta_de(root, x):  # noqa: E302
+    ti = _territorio_ids_t220()
+    return str(x) if ti is None else ti.carpeta_de(root, x)
 
 try:
     from herramientas.politica_reutilizacion_fuentes import resolve_source_action

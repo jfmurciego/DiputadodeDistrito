@@ -57,6 +57,7 @@ EXENTOS = (
     "tests/test_registro_escenarios.py",
     "tests/test_visor_v2_botones.py",
     "tests/test_metricas_proceso.py",
+    "tests/test_archivo_origen.py", "tests/test_desajuste_d17.py", "tests/test_materializacion_contratos_nacionales.py",
     "tests/test_gestor_campana_nacional.py", "tests/test_pre_m04_evidence_pipeline.py",  # métodos sobre la raíz congelada
     "tests/test_m06_product_reuse_integration.py",
     "tests/test_visor_v2_secciones.py",
