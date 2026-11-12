@@ -24,6 +24,7 @@ from herramientas.identidad_fuentes_legislatura import (
     electoral_identity,
     territorial_identity,
 )
+from ddd_core.territorio_ids import ruta_existente  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -399,7 +400,7 @@ class GeometricReuseTests(unittest.TestCase):
         from tests._raiz_congelada import frozen_root
         root = frozen_root()
         for territory_id, (receipt_rel, product_run) in cases.items():
-            receipt = json.loads((root / receipt_rel).read_text(encoding="utf-8"))
+            receipt = json.loads(ruta_existente(root, receipt_rel).read_text(encoding="utf-8"))  # T-220: raíz de aee8215e
             current = receipt["territorial_identity_sha256"]
             with self.subTest(territory=territory_id, source="compatible"):
                 reuse = resolve_geometric_reuse(

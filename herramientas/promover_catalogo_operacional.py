@@ -23,7 +23,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 try:
     from herramientas.catalogo_preparacion import validate_repository
@@ -62,7 +62,7 @@ def _state(catalog: dict, territory_id: str, edition: str) -> tuple[dict, str]:
 
 
 def _receipt_path(root: Path, territory_id: str, kind: str, edition: str) -> Path:
-    return root / "territorios" / territory_id / "evidencia" / "catalogo" / f"{kind}_{edition}.json"
+    return root / "territorios" / carpeta_de(root, territory_id) / "evidencia" / "catalogo" / f"{kind}_{edition}.json"
 
 
 def _write_receipt(path: Path, payload: dict) -> str:
@@ -210,7 +210,7 @@ def promote(
         receipt_payload["election_date"] = election_date
         receipt_payload["electoral_identity_sha256"] = identity["electoral_identity_sha256"]
         receipt = (
-            root / "territorios" / territory_id / "evidencia" / "fuentes_electorales"
+            root / "territorios" / carpeta_de(root, territory_id) / "evidencia" / "fuentes_electorales"
             / str(edition) / identity["electoral_identity_sha256"] / str(run_id) / "receipt.json"
         )
         rendered = json.dumps(receipt_payload, ensure_ascii=False, indent=2) + "\n"

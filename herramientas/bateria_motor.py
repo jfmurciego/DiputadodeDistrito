@@ -104,6 +104,11 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 import yaml  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 NACIONAL = ROOT / "inputs" / "_nacional"
 OUT = ROOT / "bateria"
@@ -143,7 +148,7 @@ def territorios() -> list[str]:
 
 
 def contrato(t: str) -> Path:
-    return ROOT / "territorios" / t / "config" / f"{t}_2025.yaml"
+    return ROOT / "territorios" / carpeta_de(ROOT, t) / "config" / f"{t}_2025.yaml"
 
 
 # --------------------------------------------------------------------------- nacionales
@@ -187,7 +192,7 @@ def nacionales(args) -> int:
 
 # --------------------------------------------------------------------------- entradas
 def _declaracion_temporal(t: str, nac: dict, seccionado: str) -> Path:
-    base = ROOT / "territorios" / t / "config"
+    base = ROOT / "territorios" / carpeta_de(ROOT, t) / "config"
     d = yaml.safe_load((base / "fuentes_oficiales.yaml").read_text(encoding="utf-8"))
     terr = d.setdefault("territory", {})
     if not terr.get("section_year") or not terr.get("population_year"):

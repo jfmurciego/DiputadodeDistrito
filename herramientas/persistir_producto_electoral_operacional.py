@@ -18,7 +18,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 
 ABSENT_FINGERPRINT = "ABSENT"
@@ -128,7 +128,7 @@ def recovery_context_fingerprint(
     edition: str,
 ) -> str:
     root = root_dir.resolve()
-    base = root / "territorios" / territory_id / "evidencia" / "catalogo"
+    base = root / "territorios" / carpeta_de(root, territory_id) / "evidencia" / "catalogo"
     payload = {
         "territorial_product": _read_json(base / f"territorial_product_{edition}.json"),
         "electoral_source": _read_json(base / f"electoral_source_{edition}.json"),

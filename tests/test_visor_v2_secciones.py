@@ -51,7 +51,7 @@ class GeneradorSecciones(unittest.TestCase):
             raw = (out / "01.geojson").read_bytes()
             self.assertEqual(idx["provincias"]["01"]["sha256"], g.sha(raw))
             props = {f["properties"]["s"]: f["properties"] for f in json.loads(raw)["features"]}
-            self.assertEqual(props["0100101001"], {"s": "0100101001", "m": "Alegría-Dulantzi", "p": 1390, "d": 3, "t": "nac01"})
+            self.assertEqual(props["0100101001"], {"s": "0100101001", "m": "Alegría-Dulantzi", "p": 1390, "d": 3, "t": "congreso_alava"})
             self.assertEqual(props["0100101002"]["d"], 1)
             x = json.loads(raw)["features"][0]["geometry"]["coordinates"][0][0]
             self.assertTrue(-3.0 < x[0] < -2.0 and 42.0 < x[1] < 43.5, x)  # WGS84 en Álava
@@ -64,14 +64,14 @@ class GeneradorSecciones(unittest.TestCase):
             c = Path(t); (c / "runs").mkdir()
             for run, fila in (("111", "0100101001,0,5"), ("222", "0100101001,1,7")):
                 b = f"seccion,distrito,poblacion\n{fila}\n".encode()
-                (c / "runs" / f"congreso_y_{run}.csv").write_bytes(b)
-            man = {"runs": {f"congreso_y/{r}": {"territorio": "congreso_y", "run_id": r, "ruta": str(c / "runs" / f"congreso_y_{r}.csv"),
-                   "sha256_csv": hashlib.sha256((c / "runs" / f"congreso_y_{r}.csv").read_bytes()).hexdigest()} for r in ("111", "222")}}
+                (c / "runs" / f"nac44_{run}.csv").write_bytes(b)
+            man = {"runs": {f"nac44/{r}": {"territorio": "nac44", "run_id": r, "ruta": str(c / "runs" / f"nac44_{r}.csv"),
+                   "sha256_csv": hashlib.sha256((c / "runs" / f"nac44_{r}.csv").read_bytes()).hexdigest()} for r in ("111", "222")}}
             (c / "MANIFEST.json").write_text(json.dumps(man), "utf-8")
-            idx = c / "INDEX.json"; idx.write_text(json.dumps({"territorios": {"congreso_y": {"run_id": 111}}}), "utf-8")
+            idx = c / "INDEX.json"; idx.write_text(json.dumps({"territorios": {"nac44": {"run_id": 111}}}), "utf-8")
             sec, h = g.leer_composicion(c, indice=idx)
-            self.assertEqual(sec["0100101001"], {"d": 1, "p": 5, "t": "congreso_y"})  # el run publicado (111), no el más reciente
-            self.assertEqual(list(h), ["congreso_y"])
+            self.assertEqual(sec["0100101001"], {"d": 1, "p": 5, "t": "nac44"})  # el run publicado (111), no el más reciente
+            self.assertEqual(list(h), ["nac44"])
 
     def test_sin_seccionado_no_falla(self):
         import sys
@@ -87,14 +87,14 @@ class GeneradorSecciones(unittest.TestCase):
         import generar_secciones_visor as g
         with tempfile.TemporaryDirectory() as t:
             c = Path(t)
-            (c / "congreso_x.csv").write_text("seccion,distrito,poblacion\n0100101001,0,1\n", "utf-8")
-            (c / "MANIFEST.json").write_text(json.dumps({"territorios": {"congreso_x": {"sha256_csv": MANIFEST_SHA}}}), "utf-8")
+            (c / "nac45.csv").write_text("seccion,distrito,poblacion\n0100101001,0,1\n", "utf-8")
+            (c / "MANIFEST.json").write_text(json.dumps({"territorios": {"nac45": {"sha256_csv": MANIFEST_SHA}}}), "utf-8")
             with self.assertRaises(SystemExit):
                 g.leer_composicion(c)
 
 
 def _feat(s, d, p, x0):
-    return {"type": "Feature", "properties": {"s": s, "m": "Vitoria-Gasteiz", "p": p, "d": d, "t": "nac01"},
+    return {"type": "Feature", "properties": {"s": s, "m": "Vitoria-Gasteiz", "p": p, "d": d, "t": "congreso_alava"},
             "geometry": {"type": "Polygon", "coordinates": [[[x0, 42.80], [x0 + .06, 42.80], [x0 + .06, 42.90], [x0, 42.90], [x0, 42.80]]]}}
 
 

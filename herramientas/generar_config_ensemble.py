@@ -32,6 +32,11 @@ if _RAIZ not in _sys.path:
 from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito por el resolutor, nunca por prefijo)
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 MOLDE = "nac26"
 EXCLUIDOS_POR_ORDEN: dict[str, str] = {}
@@ -130,9 +135,9 @@ def main() -> int:
     args = ap.parse_args()
     root = args.root_dir
     molde = json.loads((root / "configuracion/ensemble" / f"{MOLDE}.json").read_text(encoding="utf-8"))
-    rutas = [root / "territorios" / t / "config" / f"{t}_2025.yaml" for t in territorio_ids.ids_nuevos("NAC")]
+    rutas = [root / "territorios" / carpeta_de(root, t) / "config" / f"{t}_2025.yaml" for t in territorio_ids.ids_nuevos("NAC")]
     rutas = [r for r in rutas if r.exists()]
-    rutas += [root / "territorios" / t / "config" / f"{t}_2025.yaml" for t in sorted(APROBADOS_PROPIETARIO)
+    rutas += [root / "territorios" / carpeta_de(root, t) / "config" / f"{t}_2025.yaml" for t in sorted(APROBADOS_PROPIETARIO)
               if not territorio_ids.es_nacional(t)]
     for path in rutas:
         contract = yaml.safe_load(path.read_text(encoding="utf-8"))

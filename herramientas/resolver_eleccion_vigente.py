@@ -17,7 +17,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 try:
     from herramientas.catalogo_territorios import normalize_territory_input
@@ -55,7 +55,7 @@ def _catalog_preparation_row(root_dir: Path, territory: str, edition: str | None
 def _declaration_candidates(root_dir, territory_id, state):
     result=[]; explicit=state.get("electoral_source_declaration")
     if explicit and (ruta_existente(root_dir, str(explicit))).is_file(): result.append(ruta_existente(root_dir, str(explicit)))
-    folder=root_dir/"territorios"/territory_id/"config"/"elecciones"
+    folder=root_dir/"territorios"/carpeta_de(root_dir, territory_id)/"config"/"elecciones"
     if folder.is_dir():
         for p in sorted(folder.glob("*.yaml")):
             if p not in result and _load_yaml(p).get("schema")==DECLARATION_SCHEMA: result.append(p)

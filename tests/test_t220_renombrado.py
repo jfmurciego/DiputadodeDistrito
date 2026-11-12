@@ -57,6 +57,8 @@ EXENTOS = (
     "tests/test_registro_escenarios.py",
     "tests/test_visor_v2_botones.py",
     "tests/test_metricas_proceso.py",
+    "tests/test_visor_v2_secciones.py",
+    "tests/test_publicabilidad_policy.py",
     "tests/test_f10_2025_independent_territorial_receipts.py",
     "tests/test_f10_valencia_2023_universe.py",
     "tests/test_f10_electoral_three_territories.py",

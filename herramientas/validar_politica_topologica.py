@@ -16,6 +16,11 @@ import argparse, json
 from pathlib import Path
 from typing import Any
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import resolver_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 LAND_DECISIONS={"BLOCKED_PENDING_REVIEW","ADMITTED_NO_ANOMALIES","ADMITTED_WITH_DECLARED_REPAIRS"}
 
@@ -37,12 +42,12 @@ def validate(policy_path: str|Path, root: str|Path|None=None)->dict[str,Any]:
     if len(ids)!=len(set(ids)): errors.append("territory_id duplicado")
     summary_path=project/(data.get("evidence") or {}).get("r023","")
     summary=json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.is_file() else {"territories":[]}
-    observed={x["territory_id"]:x for x in summary.get("territories",[])}
+    observed={resolver_id(x["territory_id"]):x for x in summary.get("territories",[])}  # T-220: evidencia R023 con ids viejos
     for item in records:
         tid=item.get("territory_id"); mode=item.get("mode"); decision=item.get("decision")
         if mode=="land_connected":
             if decision not in LAND_DECISIONS: errors.append(f"{tid}: decisión continental inválida")
-            source=observed.get(tid)
+            source=observed.get(resolver_id(tid))
             if not source: errors.append(f"{tid}: falta evidencia R023"); continue
             expected=(source.get("isolated"),source.get("province_disconnected"),source.get("municipality_disconnected"))
             declared=(item.get("isolated"),item.get("admin_level_1_disconnected"),item.get("admin_level_2_disconnected"))

@@ -36,7 +36,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 try:
     from herramientas.catalogo_territorios import (
@@ -413,7 +413,7 @@ def _build_source_readiness(root: Path, master: dict) -> dict:
 
 def _latest_run(root: Path, tid: str, edition: str) -> dict:
     """Última ejecución completa registrada: dónde se paró y por qué, sin leer logs."""
-    folder = root / "territorios" / tid / "evidencia" / "ejecuciones_completas"
+    folder = root / "territorios" / carpeta_de(root, tid) / "evidencia" / "ejecuciones_completas"
     runs = sorted((int(p.stem), p) for p in folder.glob("*.json") if p.stem.isdigit()) if folder.is_dir() else []
     if not runs:
         return {}
@@ -430,7 +430,7 @@ def _latest_run(root: Path, tid: str, edition: str) -> dict:
     stopped = failed[0] if failed else None
     reason = None
     if stopped and stopped.startswith("02"):
-        preflight = root / "territorios" / tid / "evidencia" / "catalogo" / f"generation_preflight_{edition}.json"
+        preflight = root / "territorios" / carpeta_de(root, tid) / "evidencia" / "catalogo" / f"generation_preflight_{edition}.json"
         try:
             gate = (json.loads(preflight.read_text(encoding="utf-8")).get("effective_gate") or {})
         except (OSError, json.JSONDecodeError):
@@ -479,7 +479,7 @@ def _clear_publication_only_stop(last_run: dict, complete: bool, published: bool
 
 def _m08_consumed_current_m06(root: Path, tid: str, electoral_run: object, territorial_run: object) -> bool:
     """El manifiesto del run M08 acredita que su 04 terminó consumiendo el M06 vigente."""
-    path = root / "territorios" / tid / "evidencia" / "ejecuciones_completas" / f"{electoral_run}.json"
+    path = root / "territorios" / carpeta_de(root, tid) / "evidencia" / "ejecuciones_completas" / f"{electoral_run}.json"
     try:
         manifest = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):

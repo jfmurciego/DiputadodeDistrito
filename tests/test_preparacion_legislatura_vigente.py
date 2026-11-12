@@ -27,6 +27,7 @@ from herramientas.resolver_fuentes_territorio import build_declaration
 from herramientas.resolver_preparacion_legislatura import _electoral_plan, resolve, validate_matrix
 
 from herramientas.catalogo_territorios import load_pilot_territories  # noqa: E402
+from ddd_core.territorio_ids import ruta_existente  # noqa: E402  (T-220)
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github/workflows/preparacion-legislatura-vigente.yml"
 MATRIX = ROOT / "configuracion/preparacion_legislatura_vigente.yaml"
@@ -264,10 +265,10 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         # cual sea la última ejecución completa registrada (el checkpoint avanza a M08 con la 04).
         checkpoint = state["last_valid_checkpoint"]
         self.assertIn(checkpoint["stage"], {"M06", "M08"})
-        product = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text(encoding="utf-8"))
+        product = json.loads(ruta_existente(ROOT, state["evidence"]["territorial_product"]).read_text(encoding="utf-8"))
         # El M06 puede salir de un run posterior que reutiliza la fuente (p. ej. GerryChain 50):
         # su manifiesto productor debe declarar como paquete fuente la preparación vigente.
-        producer = json.loads((ROOT / product["producer_manifest_path"]).read_text(encoding="utf-8"))
+        producer = json.loads(ruta_existente(ROOT, product["producer_manifest_path"]).read_text(encoding="utf-8"))  # T-220
         source = producer["inputs"]["source_package_artifact"]
         self.assertEqual(state["preparation_evidence"]["run_id"], source["run_id"])
         self.assertEqual(state["preparation_evidence"]["artifact_sha256"], source["artifact_sha256"])

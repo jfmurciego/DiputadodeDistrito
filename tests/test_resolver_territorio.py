@@ -98,7 +98,7 @@ class CatalogoConNotacion(unittest.TestCase):
         for r in con:
             t = tabla[r["notacion"].lower()]
             self.assertEqual(r["id_legacy"], t.id_legacy)
-            self.assertEqual(r["territory_id"], t.id_legacy)  # hasta el git mv
+            self.assertEqual(r["territory_id"], t.id)  # T-220: tras el git mv, el id nuevo
             if t.ambito == "AUT":
                 self.assertEqual(r["autonomous_community_code_ine"], t.codigo[3:])
             else:
@@ -115,14 +115,14 @@ class ContratosLeenAmbosIds(unittest.TestCase):
     def test_contrato_territorial(self):
         from ddd_core.territory_contract import validate_production_contract
 
-        path = ROOT / "territorios/congreso_huesca/config/congreso_huesca_2025.yaml"
+        path = ROOT / "territorios/nac22/config/nac22_2025.yaml"  # T-220: tras el git mv
         viejo = validate_production_contract(path, expected_territory="congreso_huesca")
         nuevo = validate_production_contract(path, expected_territory="nac22")
         self.assertEqual(viejo["status"], nuevo["status"])
         self.assertEqual(viejo["errors"], nuevo["errors"])
         otro = validate_production_contract(path, expected_territory="nac50")
         self.assertTrue(any("no coincide" in e for e in otro["errors"]))
-        path = ROOT / "territorios/madrid/config/madrid_2025.yaml"
+        path = ROOT / "territorios/aut13/config/aut13_2025.yaml"
         cruce = validate_production_contract(path, expected_territory="nac28")
         self.assertTrue(any("no coincide" in e for e in cruce["errors"]))
 

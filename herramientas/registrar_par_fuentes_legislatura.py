@@ -362,6 +362,7 @@ def validate_pair_receipt(
         section_year=int(sectioning.get("year")),
         package_sha256=str(territorial.get("package_sha256") or ""),
         compatibility_identity_sha256=str(territorial.get("compatibility_identity_sha256") or ""),
+        esperado=str(territorial.get("territorial_identity_sha256") or ""),
     )
     if territorial_id["territorial_identity_sha256"] != str(territorial.get("territorial_identity_sha256") or ""):
         raise PreparedSourcePairBlock("PAIR_BLOCK: identidad territorial del receipt no reconcilia")

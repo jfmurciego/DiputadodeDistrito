@@ -35,6 +35,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from . import naturalidad as nat
+from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220)
 from .semilla import territorio_ids  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -98,7 +99,7 @@ def grupo_area(sec: str, ind: dict) -> str | None:
 
 
 def anio_seccionado(territorio: str) -> str:
-    txt = (ROOT / "territorios" / territorio / "config" / f"{territorio}_2025.yaml").read_text(encoding="utf-8")
+    txt = (ROOT / "territorios" / carpeta_de(ROOT, territorio) / "config" / f"{territorio}_2025.yaml").read_text(encoding="utf-8")
     m = re.search(r"source_section_year:\s*(\d{4})", txt)
     if not m:
         raise ValueError(f"{territorio}: el contrato no declara source_section_year")

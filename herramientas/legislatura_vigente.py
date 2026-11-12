@@ -49,7 +49,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 CONFIG = Path("configuracion/legislatura_vigente.yaml")
 REGISTRY = Path("configuracion/registro_electoral.yaml")
@@ -186,7 +186,7 @@ def territory_state(root: Path, tid: str, viewer: dict, today, eleccion: str = r
     if m08:
         return {"estado": "PUBLICADO", "run_id": str(max(m08, key=lambda p: int(p.get("run_id") or 0)).get("run_id"))}
     manifests = []
-    for f in (root / "territorios" / tid / "evidencia" / "ejecuciones_completas").glob("*.json"):
+    for f in (root / "territorios" / carpeta_de(root, tid) / "evidencia" / "ejecuciones_completas").glob("*.json"):
         try:
             manifests.append(json.loads(f.read_text(encoding="utf-8")))
         except (OSError, ValueError):

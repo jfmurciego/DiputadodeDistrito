@@ -28,8 +28,8 @@ class R016EvidenciaPublicada(unittest.TestCase):
     """No reejecuta el pipeline. La regresión real vive en GitHub Actions."""
     @classmethod
     def setUpClass(cls):
-        cls.r8 = json.loads((RUN8 / "M05" / "aut02_2025_m05_informe.json").read_text(encoding="utf-8"))
-        cls.r9 = json.loads((RUN9 / "M05" / "aut02_2025_m05_informe.json").read_text(encoding="utf-8"))
+        cls.r8 = json.loads((RUN8 / "M05" / "aragon_2025_m05_informe.json").read_text(encoding="utf-8"))
+        cls.r9 = json.loads((RUN9 / "M05" / "aragon_2025_m05_informe.json").read_text(encoding="utf-8"))
         cls.val = json.loads((RUN9 / "VALIDACION.json").read_text(encoding="utf-8"))
 
     def test_run9_es_pass_territorial(self):

@@ -160,6 +160,7 @@ def validate_territorial_receipt(
         section_year=int(receipt["section_year"]),
         package_sha256=str(receipt["package_sha256"]),
         compatibility_identity_sha256=str(receipt["compatibility_identity_sha256"]),
+        esperado=str(receipt["territorial_identity_sha256"]),
     )
     if identity["territorial_identity_sha256"] != str(receipt["territorial_identity_sha256"]):
         raise PreparedPairExecutionBlock(
@@ -436,6 +437,7 @@ def validate_effective_territorial_package(
         section_year=section_year,
         package_sha256=str(receipt["package_sha256"]),
         compatibility_identity_sha256=compatibility_identity,
+        esperado=str(receipt.get("territorial_identity_sha256") or ""),
     )["territorial_identity_sha256"]
     if identity != str(receipt.get("territorial_identity_sha256") or ""):
         raise PreparedPairExecutionBlock(

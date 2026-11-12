@@ -207,6 +207,20 @@ def en_mapa(d, x: str, defecto=None):
     return defecto
 
 
+def carpeta_de(root, x: str) -> str:
+    """Nombre de la carpeta `territorios/<…>` de un territorio bajo `root`: la que exista entre el id dado, el nuevo
+    y el viejo (raíces históricas y fixtures conservan el viejo). Si no existe ninguna, el id nuevo (o el dado)."""
+    vs = variantes(x)
+    base = Path(root) / "territorios"
+    existente = next((v for v in vs if (base / v).is_dir()), None)
+    if existente:
+        return existente
+    try:
+        return resolver_id(x)
+    except (IdTerritorioDesconocido, IdReservado):
+        return str(x)
+
+
 def ruta_nueva(rel: str) -> str:
     """`territorios/<viejo>/…` (y `config/<viejo>_AAAA.yaml`) → la ruta con el id nuevo; el resto, igual."""
     partes = str(rel).replace("\\", "/").split("/")

@@ -29,6 +29,11 @@ if _RAIZ not in _sys.path:
 from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito e ids por el resolutor, nunca por prefijo)
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 REQUIRED = ("u", "v", "admin_scope", "edge_type", "reason", "source")
 
@@ -107,7 +112,7 @@ def main(argv: list[str] | None = None) -> int:
     a = ap.parse_args(argv)
     sections = sections_from_zip(a.zip) if a.zip else sections_from_geojson(a.sections_geojson)
     contracts = a.params or [p for t in territorio_ids.ids_nuevos("NAC")
-                              if (p := a.root_dir / "territorios" / t / "config" / f"{t}_2025.yaml").exists()]
+                              if (p := a.root_dir / "territorios" / carpeta_de(a.root_dir, t) / "config" / f"{t}_2025.yaml").exists()]
     reports = [check_contract(p, sections) for p in contracts]
     summary = {"schema": "ddd.bridge-fingerprint/1.0", "sections": len(sections),
                "status": "PASS" if all(r["status"] == "PASS" for r in reports) else "BLOCK", "contracts": reports}

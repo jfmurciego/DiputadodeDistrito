@@ -291,14 +291,14 @@ class PiezasFinas(unittest.TestCase):
 
     def test_congreso_y_sin_ratio_no_cambian(self):
         from ddd_motor2.generadores import piezas_finas
-        tmp, e, comp = self.preparar(0.45, "congreso_x")
+        tmp, e, comp = self.preparar(0.45, "nac22")
         self.assertEqual(piezas_finas(comp, e, tmp / "f.csv")[0], comp)
         tmp, e, comp = self.preparar(None)
         self.assertEqual(piezas_finas(comp, e, tmp / "f.csv")[0], comp)
 
     def test_congreso_no_parte_unidades_m04(self):
         from ddd_motor2.generadores import Vigente
-        for territorio, ratio, esperado in (("congreso_x", 0.45, "VIGENTE_NO_REPRESENTABLE"), ("sintetico", 0.45, "OK"),
+        for territorio, ratio, esperado in (("nac22", 0.45, "VIGENTE_NO_REPRESENTABLE"), ("sintetico", 0.45, "OK"),
                                             ("sintetico", 1.15, "VIGENTE_NO_REPRESENTABLE")):
             tmp = Path(tempfile.mkdtemp())
             e = entrada(tmp)

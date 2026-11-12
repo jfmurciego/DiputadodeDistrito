@@ -22,7 +22,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # T-220: evidencia con id viejo o nuevo
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente, carpeta_de  # T-220: evidencia con id viejo o nuevo
 from herramientas.acreditar_producto_territorial_historico import (
     HistoricalTerritorialAccreditationBlock,
     derive_historical_territorial_producer,
@@ -320,7 +320,7 @@ def _manifest(
                 _block("DURABLE_LINEAGE_UNPROVEN", f"run {run_id}: ruta de manifiesto fuera del repositorio")
             path = candidate
         else:
-            path = root / "territorios" / territory_id / "evidencia" / "generaciones_m06" / f"{run_id}.json"
+            path = root / "territorios" / carpeta_de(root, territory_id) / "evidencia" / "generaciones_m06" / f"{run_id}.json"
         standalone = True
     if not path.is_file():
         _block("DURABLE_LINEAGE_UNPROVEN", f"run {run_id}: manifiesto durable ausente")

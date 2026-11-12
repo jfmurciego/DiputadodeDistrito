@@ -11,7 +11,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
@@ -55,7 +55,7 @@ def _receipt(root: Path, territory_id: str, edition: str, kind: str) -> dict:
     path = (
         root
         / "territorios"
-        / territory_id
+        / carpeta_de(root, territory_id)
         / "evidencia"
         / "catalogo"
         / f"{kind}_{edition}.json"
@@ -170,7 +170,7 @@ def _candidate_state(
     manifest_dir = (
         root
         / "territorios"
-        / territory_id
+        / carpeta_de(root, territory_id)
         / "evidencia"
         / "ejecuciones_completas"
     )

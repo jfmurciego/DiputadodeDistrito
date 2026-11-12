@@ -341,6 +341,10 @@ def _territorial_candidate(
             "source_commit": prep.get("source_commit"),
         }
 
+    receipt_rel = str(prep.get("receipt_path") or "")
+    esperado = None  # T-220: un receipt ya emitido fija con qué id se selló su identidad
+    if receipt_rel and ruta_existente(root, receipt_rel).is_file():
+        esperado = str(_json(ruta_existente(root, receipt_rel)).get("territorial_identity_sha256") or "") or None
     identity = territorial_identity(
         territory_id=territory_id,
         edition=edition,
@@ -348,8 +352,8 @@ def _territorial_candidate(
         section_year=observed_section_year,
         package_sha256=package_sha256,
         compatibility_identity_sha256=compatibility_identity_sha256,
+        esperado=esperado,
     )
-    receipt_rel = str(prep.get("receipt_path") or "")
     if receipt_rel:
         receipt_path = ruta_existente(root, receipt_rel)
         if not receipt_path.is_file():

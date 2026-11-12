@@ -38,6 +38,11 @@ from ddd_core.official_geometry import (
     validate_materialization_roundtrip,
 )
 from ddd_core.territorial_validation import parse_population_value, validate_geodataframe
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 FetchBytes = Callable[[str], bytes]
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -1321,7 +1326,7 @@ def resolve_runtime_bindings(
     contract_path = (
         root_dir
         / "territorios"
-        / territory_id
+        / carpeta_de(root_dir, territory_id)
         / "config"
         / f"{territory_id}_{edition}.yaml"
     )

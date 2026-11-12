@@ -25,12 +25,12 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 
 def m06_run_acreditado(m08_run: object, territorio: str, root: Path = ROOT) -> str | None:
     """Run del M06 que consumió la 04 del run `m08_run`, según su manifiesto; None si no lo acredita."""
-    ruta = root / "territorios" / territorio / "evidencia" / "ejecuciones_completas" / f"{m08_run}.json"
+    ruta = root / "territorios" / carpeta_de(root, territorio) / "evidencia" / "ejecuciones_completas" / f"{m08_run}.json"
     try:
         man = json.loads(ruta.read_text(encoding="utf-8"))
     except (OSError, ValueError):

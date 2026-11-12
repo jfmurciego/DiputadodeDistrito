@@ -21,7 +21,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
@@ -401,7 +401,7 @@ def promote(
     version_root = (
         root
         / "territorios"
-        / territory_id
+        / carpeta_de(root, territory_id)
         / "evidencia"
         / "fuentes_territoriales"
         / str(edition)
@@ -440,7 +440,7 @@ def promote(
     receipt_path.write_text(rendered_receipt, encoding="utf-8")
 
     src_raw = state.get("territorial_source_declaration")
-    durable_declaration = root / str(src_raw) if src_raw else root / "territorios" / territory_id / "config" / "fuentes_oficiales.yaml"
+    durable_declaration = root / str(src_raw) if src_raw else root / "territorios" / carpeta_de(root, territory_id) / "config" / "fuentes_oficiales.yaml"
     durable_declaration.parent.mkdir(parents=True, exist_ok=True)
     if source_declaration_abs.resolve() != durable_declaration.resolve():
         shutil.copy2(source_declaration_abs, durable_declaration)

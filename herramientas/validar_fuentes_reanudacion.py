@@ -14,6 +14,11 @@ import json
 from pathlib import Path
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 try:
     from herramientas.politica_reutilizacion_fuentes import resolve_source_action
@@ -38,7 +43,7 @@ def validate_resume_sources(*, params: Path, package: Path, root_dir: Path = Pat
     if not territory_id:
         raise RuntimeError("Fuentes BLOQUEADAS: el contrato no declara meta.territory_id")
 
-    declaration = root_dir / "territorios" / territory_id / "config" / "fuentes_oficiales.yaml"
+    declaration = root_dir / "territorios" / carpeta_de(root_dir, territory_id) / "config" / "fuentes_oficiales.yaml"
     if not declaration.is_file():
         raise RuntimeError(f"Fuentes BLOQUEADAS: no existe declaración de fuentes: {declaration}")
     source_cfg = _read_yaml(declaration)

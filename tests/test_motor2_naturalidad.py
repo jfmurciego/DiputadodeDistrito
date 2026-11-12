@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from ddd_motor2 import naturalidad as nat  # noqa: E402
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220)
 
 ASIG = {"a": "1", "b": "1", "c": "2", "d": "2"}
 POB = {"a": 10, "b": 30, "c": 20, "d": 40}
@@ -214,7 +215,7 @@ class Vigentes(unittest.TestCase):
         filas = list(csv.DictReader(open(d / "vigentes.csv", encoding="utf-8")))
         comp = json.loads((ROOT / "datos" / "composicion" / "MANIFEST.json").read_text(encoding="utf-8"))["territorios"]
         self.assertEqual(sorted(r["territorio"] for r in filas), sorted(comp))
-        bad = next(r for r in filas if r["territorio"] == "nac06")
+        bad = next(r for r in filas if mismo_territorio(r["territorio"], "nac06"))  # T-220: datos derivados con el id viejo
         self.assertEqual((bad["pj_n"], bad["pj_partidos"]), ("14", "13"))  # dato conocido del indicador C13
         for r in filas:
             self.assertGreater(float(r["pp_medio"]), 0)

@@ -83,6 +83,7 @@ from functools import partial
 from pathlib import Path
 
 from . import naturalidad_mapas as nm
+from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220)
 from .semilla import territorio_ids  # noqa: E402  (T-220)
 from .naturalidad_clave import TOPES, Natural
 from .reglas import Reglas, evaluar
@@ -99,7 +100,7 @@ def cargar_cfg(t: str) -> dict:
     if str(ROOT) not in sys.path:
         sys.path.insert(0, str(ROOT))
     from ddd_core.config import load_params_yaml  # noqa: PLC0415
-    return load_params_yaml(str(ROOT / "territorios" / t / "config" / f"{t}_2025.yaml"))
+    return load_params_yaml(str(ROOT / "territorios" / carpeta_de(ROOT, t) / "config" / f"{t}_2025.yaml"))
 
 
 class Laboratorio(Natural):
