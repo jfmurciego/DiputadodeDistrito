@@ -4,9 +4,9 @@
   "territory_id": "cataluna",
   "territory_name": "Cataluña",
   "edition": "2025",
-  "run_id": 41062562553,
-  "artifact_name": "ddd-state-41062562553-M08",
-  "artifact_sha256": "ec8df377f8d933a16c5878fa15b9dd9c15be96b591f6943e0bff110f8c7f3ba9",
-  "source_commit": "46609e3774f1555a6d5f54da44e618bd45e29e80",
+  "run_id": 43204706233,
+  "artifact_name": "ddd-state-43204706233-M08",
+  "artifact_sha256": "ad1c430e81079e87ecb970c840b09833514033d01b62a1763f5688f2c635143d",
+  "source_commit": "ec10120c07f1a359b3d9944dda92b0f04be649f5",
   "stage": "M08"
 }
