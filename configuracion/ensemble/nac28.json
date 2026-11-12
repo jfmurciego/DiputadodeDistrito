@@ -1,10 +1,10 @@
 {
   "schema": "ddd.ensemble-runner/1.0",
-  "territory_id": "congreso_madrid",
+  "territory_id": "nac28",
   "prepared_bundle_id": "AUTO",
   "inputs": {
-    "m03_graph": "../../territorios/congreso_madrid/.cache/ddd/preparacion/congreso_madrid_2025/congreso_madrid_2025_m03_grafo.json",
-    "initial_geojson": "../../territorios/congreso_madrid/.cache/ddd/preparacion/congreso_madrid_2025/congreso_madrid_2025_m05_distritos_optimizados.geojson.zip"
+    "m03_graph": "../../territorios/nac28/.cache/ddd/preparacion/nac28_2025/nac28_2025_m03_grafo.json",
+    "initial_geojson": "../../territorios/nac28/.cache/ddd/preparacion/nac28_2025/nac28_2025_m05_distritos_optimizados.geojson.zip"
   },
   "fields": {
     "section": "CUSEC_KEY",
@@ -51,8 +51,8 @@
     "shortlist_size": 10
   },
   "workflow": {
-    "contract": "territorios/congreso_madrid/config/congreso_madrid_2025.yaml",
-    "cache_dir": "territorios/congreso_madrid/.cache/ddd/preparacion/congreso_madrid_2025",
+    "contract": "territorios/nac28/config/nac28_2025.yaml",
+    "cache_dir": "territorios/nac28/.cache/ddd/preparacion/nac28_2025",
     "expected_districts": 59,
     "working_crs": "EPSG:3035",
     "edition": "2025"

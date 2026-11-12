@@ -1,10 +1,10 @@
 {
   "schema": "ddd.ensemble-runner/1.0",
-  "territory_id": "la_rioja",
+  "territory_id": "aut17",
   "prepared_bundle_id": "AUTO",
   "inputs": {
-    "m03_graph": "../../territorios/la_rioja/.cache/ddd/preparacion/la_rioja_2025/la_rioja_2025_m03_grafo.json",
-    "initial_geojson": "../../territorios/la_rioja/.cache/ddd/preparacion/la_rioja_2025/la_rioja_2025_m05_distritos_optimizados.geojson.zip"
+    "m03_graph": "../../territorios/aut17/.cache/ddd/preparacion/aut17_2025/aut17_2025_m03_grafo.json",
+    "initial_geojson": "../../territorios/aut17/.cache/ddd/preparacion/aut17_2025/aut17_2025_m05_distritos_optimizados.geojson.zip"
   },
   "fields": {
     "section": "CUSEC_KEY",
@@ -51,8 +51,8 @@
     "shortlist_size": 10
   },
   "workflow": {
-    "contract": "territorios/la_rioja/config/la_rioja_2025.yaml",
-    "cache_dir": "territorios/la_rioja/.cache/ddd/preparacion/la_rioja_2025",
+    "contract": "territorios/aut17/config/aut17_2025.yaml",
+    "cache_dir": "territorios/aut17/.cache/ddd/preparacion/aut17_2025",
     "expected_districts": 33,
     "working_crs": "EPSG:3035",
     "edition": "2025"

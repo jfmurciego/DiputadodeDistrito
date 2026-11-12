@@ -1,10 +1,10 @@
 {
   "schema": "ddd.ensemble-runner/1.0",
-  "territory_id": "melilla",
+  "territory_id": "aut19",
   "prepared_bundle_id": "AUTO",
   "inputs": {
-    "m03_graph": "../../territorios/melilla/.cache/ddd/preparacion/melilla_2025/melilla_2025_m03_grafo.json",
-    "initial_geojson": "../../territorios/melilla/.cache/ddd/preparacion/melilla_2025/melilla_2025_m05_distritos_optimizados.geojson.zip"
+    "m03_graph": "../../territorios/aut19/.cache/ddd/preparacion/aut19_2025/aut19_2025_m03_grafo.json",
+    "initial_geojson": "../../territorios/aut19/.cache/ddd/preparacion/aut19_2025/aut19_2025_m05_distritos_optimizados.geojson.zip"
   },
   "fields": {
     "section": "CUSEC_KEY",
@@ -51,8 +51,8 @@
     "shortlist_size": 10
   },
   "workflow": {
-    "contract": "territorios/melilla/config/melilla_2025.yaml",
-    "cache_dir": "territorios/melilla/.cache/ddd/preparacion/melilla_2025",
+    "contract": "territorios/aut19/config/aut19_2025.yaml",
+    "cache_dir": "territorios/aut19/.cache/ddd/preparacion/aut19_2025",
     "expected_districts": 25,
     "working_crs": "EPSG:3035",
     "edition": "2025"

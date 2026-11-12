@@ -1,10 +1,10 @@
 {
   "schema": "ddd.ensemble-runner/1.0",
-  "territory_id": "congreso_leon",
+  "territory_id": "nac24",
   "prepared_bundle_id": "AUTO",
   "inputs": {
-    "m03_graph": "../../territorios/congreso_leon/.cache/ddd/preparacion/congreso_leon_2025/congreso_leon_2025_m03_grafo.json",
-    "initial_geojson": "../../territorios/congreso_leon/.cache/ddd/preparacion/congreso_leon_2025/congreso_leon_2025_m05_distritos_optimizados.geojson.zip"
+    "m03_graph": "../../territorios/nac24/.cache/ddd/preparacion/nac24_2025/nac24_2025_m03_grafo.json",
+    "initial_geojson": "../../territorios/nac24/.cache/ddd/preparacion/nac24_2025/nac24_2025_m05_distritos_optimizados.geojson.zip"
   },
   "fields": {
     "section": "CUSEC_KEY",
@@ -51,8 +51,8 @@
     "shortlist_size": 10
   },
   "workflow": {
-    "contract": "territorios/congreso_leon/config/congreso_leon_2025.yaml",
-    "cache_dir": "territorios/congreso_leon/.cache/ddd/preparacion/congreso_leon_2025",
+    "contract": "territorios/nac24/config/nac24_2025.yaml",
+    "cache_dir": "territorios/nac24/.cache/ddd/preparacion/nac24_2025",
     "expected_districts": 4,
     "working_crs": "EPSG:3035",
     "edition": "2025"

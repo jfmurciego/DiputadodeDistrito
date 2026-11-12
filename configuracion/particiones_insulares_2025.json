@@ -1,7 +1,7 @@
 {
   "schema": "ddd-archipelago-partitions/1.4",
   "territories": {
-    "illes_balears": {
+    "aut04": {
       "partition_mode": "physical_components",
       "components": {
         "07-C01": {
@@ -145,7 +145,7 @@
         }
       ]
     },
-    "canarias": {
+    "aut05": {
       "partition_mode": "physical_components",
       "components": {
         "35-C01": {
@@ -344,7 +344,7 @@
         }
       ]
     },
-    "congreso_santa_cruz_de_tenerife": {
+    "nac38": {
       "partition_mode": "physical_components",
       "components": {
         "38-C01": {
@@ -421,7 +421,7 @@
           "admin_scope": "province:38",
           "edge_type": "maritime_group",
           "reason": "Grupo de islas occidentales (La Gomera y La Palma) en un mismo distrito del Congreso; decisión del propietario 31-10-2026 (opción B)",
-          "source": "configuracion/particiones_insulares_2025.json#congreso_santa_cruz_de_tenerife"
+          "source": "configuracion/particiones_insulares_2025.json#nac38"
         },
         {
           "u": "3803601001",
@@ -429,7 +429,7 @@
           "admin_scope": "province:38",
           "edge_type": "maritime_group",
           "reason": "Grupo de islas occidentales (La Gomera y El Hierro) en un mismo distrito del Congreso; decisión del propietario 31-10-2026 (opción B)",
-          "source": "configuracion/particiones_insulares_2025.json#congreso_santa_cruz_de_tenerife"
+          "source": "configuracion/particiones_insulares_2025.json#nac38"
         }
       ],
       "inventories": [
@@ -467,7 +467,7 @@
         }
       ]
     },
-    "congreso_baleares": {
+    "nac07": {
       "partition_mode": "physical_components",
       "components": {
         "07-C01": {
@@ -561,7 +561,7 @@
           "admin_scope": "province:07",
           "edge_type": "maritime_group",
           "reason": "Formentera e Ibiza en un mismo distrito del Congreso; decisión del propietario 31-10-2026",
-          "source": "configuracion/particiones_insulares_2025.json#congreso_baleares"
+          "source": "configuracion/particiones_insulares_2025.json#nac07"
         }
       ],
       "inventories": [
@@ -603,7 +603,7 @@
         }
       ]
     },
-    "congreso_las_palmas": {
+    "nac35": {
       "partition_mode": "physical_components",
       "components": {
         "35-C01": {
@@ -664,7 +664,7 @@
           "admin_scope": "province:35",
           "edge_type": "maritime_group",
           "reason": "La Graciosa y Lanzarote (municipio de Teguise) en un mismo distrito del Congreso; decisión del propietario 31-10-2026",
-          "source": "configuracion/particiones_insulares_2025.json#congreso_las_palmas"
+          "source": "configuracion/particiones_insulares_2025.json#nac35"
         }
       ],
       "inventories": [

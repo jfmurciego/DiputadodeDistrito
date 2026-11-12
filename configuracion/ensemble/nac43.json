@@ -1,10 +1,10 @@
 {
   "schema": "ddd.ensemble-runner/1.0",
-  "territory_id": "congreso_tarragona",
+  "territory_id": "nac43",
   "prepared_bundle_id": "AUTO",
   "inputs": {
-    "m03_graph": "../../territorios/congreso_tarragona/.cache/ddd/preparacion/congreso_tarragona_2025/congreso_tarragona_2025_m03_grafo.json",
-    "initial_geojson": "../../territorios/congreso_tarragona/.cache/ddd/preparacion/congreso_tarragona_2025/congreso_tarragona_2025_m05_distritos_optimizados.geojson.zip"
+    "m03_graph": "../../territorios/nac43/.cache/ddd/preparacion/nac43_2025/nac43_2025_m03_grafo.json",
+    "initial_geojson": "../../territorios/nac43/.cache/ddd/preparacion/nac43_2025/nac43_2025_m05_distritos_optimizados.geojson.zip"
   },
   "fields": {
     "section": "CUSEC_KEY",
@@ -51,8 +51,8 @@
     "shortlist_size": 10
   },
   "workflow": {
-    "contract": "territorios/congreso_tarragona/config/congreso_tarragona_2025.yaml",
-    "cache_dir": "territorios/congreso_tarragona/.cache/ddd/preparacion/congreso_tarragona_2025",
+    "contract": "territorios/nac43/config/nac43_2025.yaml",
+    "cache_dir": "territorios/nac43/.cache/ddd/preparacion/nac43_2025",
     "expected_districts": 7,
     "working_crs": "EPSG:3035",
     "edition": "2025"

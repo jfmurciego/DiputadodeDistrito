@@ -24,7 +24,7 @@ totales:
   congreso_350: 49
   total: 120
 territorios:
-- territory_id: congreso_alava
+- territory_id: nac01
   ambito: nacional
   codigo: '01'
   nombre: Congreso Álava
@@ -33,7 +33,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-01-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_albacete
+- territory_id: nac02
   ambito: nacional
   codigo: '02'
   nombre: Congreso Albacete
@@ -42,7 +42,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-02-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_alicante
+- territory_id: nac03
   ambito: nacional
   codigo: '03'
   nombre: Congreso Alicante
@@ -51,7 +51,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-03-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_almeria
+- territory_id: nac04
   ambito: nacional
   codigo: '04'
   nombre: Congreso Almería
@@ -60,7 +60,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-04-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_avila
+- territory_id: nac05
   ambito: nacional
   codigo: '05'
   nombre: Congreso Ávila
@@ -69,7 +69,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-05-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_badajoz
+- territory_id: nac06
   ambito: nacional
   codigo: '06'
   nombre: Congreso Badajoz
@@ -78,7 +78,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-06-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_baleares
+- territory_id: nac07
   ambito: nacional
   codigo: '07'
   nombre: Congreso Baleares
@@ -87,7 +87,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-07-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_barcelona
+- territory_id: nac08
   ambito: nacional
   codigo: 08
   nombre: Congreso Barcelona
@@ -96,7 +96,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-08-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_burgos
+- territory_id: nac09
   ambito: nacional
   codigo: 09
   nombre: Congreso Burgos
@@ -105,7 +105,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-09-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_caceres
+- territory_id: nac10
   ambito: nacional
   codigo: '10'
   nombre: Congreso Cáceres
@@ -114,7 +114,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-10-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_cadiz
+- territory_id: nac11
   ambito: nacional
   codigo: '11'
   nombre: Congreso Cádiz
@@ -123,7 +123,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-11-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_castellon
+- territory_id: nac12
   ambito: nacional
   codigo: '12'
   nombre: Congreso Castellón
@@ -132,7 +132,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-12-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_ciudad_real
+- territory_id: nac13
   ambito: nacional
   codigo: '13'
   nombre: Congreso Ciudad Real
@@ -141,7 +141,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-13-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_cordoba
+- territory_id: nac14
   ambito: nacional
   codigo: '14'
   nombre: Congreso Córdoba
@@ -150,7 +150,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-14-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_la_coruna
+- territory_id: nac15
   ambito: nacional
   codigo: '15'
   nombre: Congreso La Coruña
@@ -159,7 +159,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-15-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_cuenca
+- territory_id: nac16
   ambito: nacional
   codigo: '16'
   nombre: Congreso Cuenca
@@ -168,7 +168,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-16-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_gerona
+- territory_id: nac17
   ambito: nacional
   codigo: '17'
   nombre: Congreso Gerona
@@ -177,7 +177,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-17-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_granada
+- territory_id: nac18
   ambito: nacional
   codigo: '18'
   nombre: Congreso Granada
@@ -186,7 +186,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-18-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_guadalajara
+- territory_id: nac19
   ambito: nacional
   codigo: '19'
   nombre: Congreso Guadalajara
@@ -195,7 +195,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-19-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_guipuzcoa
+- territory_id: nac20
   ambito: nacional
   codigo: '20'
   nombre: Congreso Guipúzcoa
@@ -204,7 +204,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-20-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_huelva
+- territory_id: nac21
   ambito: nacional
   codigo: '21'
   nombre: Congreso Huelva
@@ -213,7 +213,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-21-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_huesca
+- territory_id: nac22
   ambito: nacional
   codigo: '22'
   nombre: Congreso Huesca
@@ -222,7 +222,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-22-20230723
   fuente_resultados: Ministerio del Interior — resultados por mesa, Congreso 2023 (pendiente de declaración)
-- territory_id: congreso_jaen
+- territory_id: nac23
   ambito: nacional
   codigo: '23'
   nombre: Congreso Jaén
@@ -231,7 +231,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-23-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_leon
+- territory_id: nac24
   ambito: nacional
   codigo: '24'
   nombre: Congreso León
@@ -240,7 +240,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-24-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_lerida
+- territory_id: nac25
   ambito: nacional
   codigo: '25'
   nombre: Congreso Lérida
@@ -249,7 +249,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-25-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_la_rioja
+- territory_id: nac26
   ambito: nacional
   codigo: '26'
   nombre: Congreso La Rioja
@@ -258,7 +258,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-26-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_lugo
+- territory_id: nac27
   ambito: nacional
   codigo: '27'
   nombre: Congreso Lugo
@@ -267,7 +267,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-27-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_madrid
+- territory_id: nac28
   ambito: nacional
   codigo: '28'
   nombre: Congreso Madrid
@@ -276,7 +276,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-28-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_malaga
+- territory_id: nac29
   ambito: nacional
   codigo: '29'
   nombre: Congreso Málaga
@@ -285,7 +285,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-29-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_murcia
+- territory_id: nac30
   ambito: nacional
   codigo: '30'
   nombre: Congreso Murcia
@@ -294,7 +294,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-30-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_navarra
+- territory_id: nac31
   ambito: nacional
   codigo: '31'
   nombre: Congreso Navarra
@@ -303,7 +303,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-31-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_orense
+- territory_id: nac32
   ambito: nacional
   codigo: '32'
   nombre: Congreso Orense
@@ -312,7 +312,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-32-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_asturias
+- territory_id: nac33
   ambito: nacional
   codigo: '33'
   nombre: Congreso Asturias
@@ -321,7 +321,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-33-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_palencia
+- territory_id: nac34
   ambito: nacional
   codigo: '34'
   nombre: Congreso Palencia
@@ -330,7 +330,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-34-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_las_palmas
+- territory_id: nac35
   ambito: nacional
   codigo: '35'
   nombre: Congreso Las Palmas
@@ -339,7 +339,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-35-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_pontevedra
+- territory_id: nac36
   ambito: nacional
   codigo: '36'
   nombre: Congreso Pontevedra
@@ -348,7 +348,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-36-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_salamanca
+- territory_id: nac37
   ambito: nacional
   codigo: '37'
   nombre: Congreso Salamanca
@@ -357,7 +357,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-37-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_santa_cruz_de_tenerife
+- territory_id: nac38
   ambito: nacional
   codigo: '38'
   nombre: Congreso Santa Cruz de Tenerife
@@ -366,7 +366,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-38-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_cantabria
+- territory_id: nac39
   ambito: nacional
   codigo: '39'
   nombre: Congreso Cantabria
@@ -375,7 +375,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-39-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_segovia
+- territory_id: nac40
   ambito: nacional
   codigo: '40'
   nombre: Congreso Segovia
@@ -384,7 +384,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-40-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_sevilla
+- territory_id: nac41
   ambito: nacional
   codigo: '41'
   nombre: Congreso Sevilla
@@ -393,7 +393,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-41-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_soria
+- territory_id: nac42
   ambito: nacional
   codigo: '42'
   nombre: Congreso Soria
@@ -402,7 +402,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-42-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_tarragona
+- territory_id: nac43
   ambito: nacional
   codigo: '43'
   nombre: Congreso Tarragona
@@ -411,7 +411,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-43-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_teruel
+- territory_id: nac44
   ambito: nacional
   codigo: '44'
   nombre: Congreso Teruel
@@ -420,7 +420,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-44-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_toledo
+- territory_id: nac45
   ambito: nacional
   codigo: '45'
   nombre: Congreso Toledo
@@ -429,7 +429,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-45-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_valencia
+- territory_id: nac46
   ambito: nacional
   codigo: '46'
   nombre: Congreso Valencia
@@ -438,7 +438,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-46-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_valladolid
+- territory_id: nac47
   ambito: nacional
   codigo: '47'
   nombre: Congreso Valladolid
@@ -447,7 +447,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-47-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_vizcaya
+- territory_id: nac48
   ambito: nacional
   codigo: '48'
   nombre: Congreso Vizcaya
@@ -456,7 +456,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-48-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_zamora
+- territory_id: nac49
   ambito: nacional
   codigo: '49'
   nombre: Congreso Zamora
@@ -465,7 +465,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-49-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_zaragoza
+- territory_id: nac50
   ambito: nacional
   codigo: '50'
   nombre: Congreso Zaragoza
@@ -474,7 +474,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-50-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_ceuta
+- territory_id: nac51
   ambito: nacional
   codigo: '51'
   nombre: Congreso Ceuta
@@ -483,7 +483,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-51-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: congreso_melilla
+- territory_id: nac52
   ambito: nacional
   codigo: '52'
   nombre: Congreso Melilla
@@ -933,7 +933,7 @@ territorios:
   fecha: '2023-07-23'
   clave: ES-NAC-R52-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
-- territory_id: andalucia
+- territory_id: aut01
   ambito: autonómica
   codigo: '01'
   nombre: Andalucía
@@ -942,7 +942,7 @@ territorios:
   fecha: '2026-05-17'
   clave: ES-AUT-01-20260517
   fuente_resultados: Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)
-- territory_id: aragon
+- territory_id: aut02
   ambito: autonómica
   codigo: '02'
   nombre: Aragón
@@ -951,7 +951,7 @@ territorios:
   fecha: '2026-02-08'
   clave: ES-AUT-02-20260208
   fuente_resultados: Corporación RTVE — resultados 2026
-- territory_id: principado_de_asturias
+- territory_id: aut03
   ambito: autonómica
   codigo: '03'
   nombre: Principado de Asturias
@@ -960,7 +960,7 @@ territorios:
   fecha: '2023-05-28'
   clave: ES-AUT-03-20230528
   fuente_resultados: GIPEYOP / Spain Electoral Project mirror verificado
-- territory_id: illes_balears
+- territory_id: aut04
   ambito: autonómica
   codigo: '04'
   nombre: Islas Baleares
@@ -969,7 +969,7 @@ territorios:
   fecha: '2023-05-28'
   clave: ES-AUT-04-20230528
   fuente_resultados: EleccionesDB
-- territory_id: canarias
+- territory_id: aut05
   ambito: autonómica
   codigo: '05'
   nombre: Canarias
@@ -978,7 +978,7 @@ territorios:
   fecha: '2023-05-28'
   clave: ES-AUT-05-20230528
   fuente_resultados: EleccionesDB
-- territory_id: cantabria
+- territory_id: aut06
   ambito: autonómica
   codigo: '06'
   nombre: Cantabria
@@ -987,7 +987,7 @@ territorios:
   fecha: '2023-05-28'
   clave: ES-AUT-06-20230528
   fuente_resultados: EleccionesDB
-- territory_id: castilla_y_leon
+- territory_id: aut07
   ambito: autonómica
   codigo: '07'
   nombre: Castilla y León
@@ -996,7 +996,7 @@ territorios:
   fecha: '2026-03-15'
   clave: ES-AUT-07-20260315
   fuente_resultados: Junta de Castilla y León — Datos Abiertos
-- territory_id: castilla_la_mancha
+- territory_id: aut08
   ambito: autonómica
   codigo: 08
   nombre: Castilla-La Mancha
@@ -1005,7 +1005,7 @@ territorios:
   fecha: '2023-05-28'
   clave: ES-AUT-08-20230528
   fuente_resultados: EleccionesDB
-- territory_id: cataluna
+- territory_id: aut09
   ambito: autonómica
   codigo: 09
   nombre: Cataluña
@@ -1014,7 +1014,7 @@ territorios:
   fecha: '2024-05-12'
   clave: ES-AUT-09-20240512
   fuente_resultados: Generalitat de Catalunya / mirror auditable verificado
-- territory_id: comunidad_valenciana
+- territory_id: aut10
   ambito: autonómica
   codigo: '10'
   nombre: Comunidad Valenciana
@@ -1023,7 +1023,7 @@ territorios:
   fecha: '2023-05-28'
   clave: ES-AUT-10-20230528
   fuente_resultados: EleccionesDB
-- territory_id: extremadura
+- territory_id: aut11
   ambito: autonómica
   codigo: '11'
   nombre: Extremadura
@@ -1032,7 +1032,7 @@ territorios:
   fecha: '2025-12-21'
   clave: ES-AUT-11-20251221
   fuente_resultados: Minsait / EleccionesDB mirror provisional (excepción del propietario 2026-10-29)
-- territory_id: galicia
+- territory_id: aut12
   ambito: autonómica
   codigo: '12'
   nombre: Galicia
@@ -1041,7 +1041,7 @@ territorios:
   fecha: '2024-02-18'
   clave: ES-AUT-12-20240218
   fuente_resultados: Xunta de Galicia — Datos Abiertos
-- territory_id: madrid
+- territory_id: aut13
   ambito: autonómica
   codigo: '13'
   nombre: Comunidad de Madrid
@@ -1050,7 +1050,7 @@ territorios:
   fecha: '2023-05-28'
   clave: ES-AUT-13-20230528
   fuente_resultados: EleccionesDB
-- territory_id: region_de_murcia
+- territory_id: aut14
   ambito: autonómica
   codigo: '14'
   nombre: Región de Murcia
@@ -1059,7 +1059,7 @@ territorios:
   fecha: '2023-05-28'
   clave: ES-AUT-14-20230528
   fuente_resultados: EleccionesDB
-- territory_id: comunidad_foral_de_navarra
+- territory_id: aut15
   ambito: autonómica
   codigo: '15'
   nombre: Comunidad Foral de Navarra
@@ -1068,7 +1068,7 @@ territorios:
   fecha: '2023-05-28'
   clave: ES-AUT-15-20230528
   fuente_resultados: EleccionesDB
-- territory_id: pais_vasco
+- territory_id: aut16
   ambito: autonómica
   codigo: '16'
   nombre: País Vasco
@@ -1077,7 +1077,7 @@ territorios:
   fecha: '2024-04-21'
   clave: ES-AUT-16-20240421
   fuente_resultados: EleccionesDB
-- territory_id: la_rioja
+- territory_id: aut17
   ambito: autonómica
   codigo: '17'
   nombre: La Rioja
@@ -1086,7 +1086,7 @@ territorios:
   fecha: '2023-05-28'
   clave: ES-AUT-17-20230528
   fuente_resultados: EleccionesDB
-- territory_id: ceuta
+- territory_id: aut18
   ambito: autonómica
   codigo: '18'
   nombre: Ceuta
@@ -1095,7 +1095,7 @@ territorios:
   fecha: '2023-05-28'
   clave: ES-AUT-18-20230528
   fuente_resultados: EleccionesDB
-- territory_id: melilla
+- territory_id: aut19
   ambito: autonómica
   codigo: '19'
   nombre: Melilla

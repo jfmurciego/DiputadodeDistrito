@@ -1,10 +1,10 @@
 {
   "schema": "ddd.ensemble-runner/1.0",
-  "territory_id": "congreso_lugo",
+  "territory_id": "nac27",
   "prepared_bundle_id": "AUTO",
   "inputs": {
-    "m03_graph": "../../territorios/congreso_lugo/.cache/ddd/preparacion/congreso_lugo_2025/congreso_lugo_2025_m03_grafo.json",
-    "initial_geojson": "../../territorios/congreso_lugo/.cache/ddd/preparacion/congreso_lugo_2025/congreso_lugo_2025_m05_distritos_optimizados.geojson.zip"
+    "m03_graph": "../../territorios/nac27/.cache/ddd/preparacion/nac27_2025/nac27_2025_m03_grafo.json",
+    "initial_geojson": "../../territorios/nac27/.cache/ddd/preparacion/nac27_2025/nac27_2025_m05_distritos_optimizados.geojson.zip"
   },
   "fields": {
     "section": "CUSEC_KEY",
@@ -51,8 +51,8 @@
     "shortlist_size": 10
   },
   "workflow": {
-    "contract": "territorios/congreso_lugo/config/congreso_lugo_2025.yaml",
-    "cache_dir": "territorios/congreso_lugo/.cache/ddd/preparacion/congreso_lugo_2025",
+    "contract": "territorios/nac27/config/nac27_2025.yaml",
+    "cache_dir": "territorios/nac27/.cache/ddd/preparacion/nac27_2025",
     "expected_districts": 3,
     "working_crs": "EPSG:3035",
     "edition": "2025"

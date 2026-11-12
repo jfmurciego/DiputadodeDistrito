@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: política nacional de generación territorial
-# VERSIÓN: 1.7.4
-# FECHA: 2026-11-02
+# VERSIÓN: 1.7.5
+# FECHA: 2026-11-12
 # CAMBIOS 1.7.4: Baleares techo 1,28 (decisión del propietario 02-11-2026; distrito 5 de Mallorca = 154.049 hab., hace falta ≥1,2736).
 # CAMBIOS: 1.6.0: piloto Congreso Huesca (K=2, límites ±15 %, municipios indivisibles hasta el techo).
 #   1.5.2: umbral de atomicidad municipal 1,5 en la Comunidad Valenciana (antes solo en su contrato, #336).
@@ -14,7 +14,8 @@
 # CAMBIOS 1.7.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
 # CAMBIOS 1.7.2: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
 # CAMBIOS 1.7.3: techo 116 % en Congreso Cádiz y 127 % en Congreso Baleares (decisión del propietario, 01-11-2026).
-# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.7.2_cadiz_20261101.yaml
+# CAMBIOS 1.7.5 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.7.4_20261112.yaml
 # ESTADO: candidato
 # FUNCIÓN: materializar de forma uniforme contratos ejecutables y distinguir tamaño institucional de K de la política DDD de reparto.
 schema: ddd-generation-policy/1.0
@@ -31,7 +32,7 @@ defaults:
   oversized_municipality_rule: split_only_above_hard_cap
   require_auditable_district_catalogue: true
 territories:
-  andalucia:
+  aut01:
     k: 109
     k_source: norma
     partition_mode: province_hamilton
@@ -41,9 +42,9 @@ territories:
       decided_at: "2026-10-29"
       evidence: "run 40891753503: M05 NO_FEASIBLE_REPAIR_FOUND; 4 distritos bajo suelo en Cádiz (11) y Sevilla (41), ratios 0,25-0,70"
       rationale: "Decisión del propietario (opción B, 29-10-2026): con 1,75 los municipios medianos son indivisibles y M05 no puede reabsorber los distritos residuales bajo el suelo; con 1,25 puede dividirlos."
-  aragon: {k: 67, k_source: historico_no_registrado, partition_mode: province_hamilton, rationale: "K=67 conserva el baseline institucional heredado y ya gobernado por el contrato de Aragón."}
-  principado_de_asturias: {k: 45, k_source: norma, partition_mode: province_hamilton, rationale: "K=45 conserva el tamaño vigente de la Junta General del Principado de Asturias como regla institucional ex ante."}
-  illes_balears:
+  aut02: {k: 67, k_source: historico_no_registrado, partition_mode: province_hamilton, rationale: "K=67 conserva el baseline institucional heredado y ya gobernado por el contrato de Aragón."}
+  aut03: {k: 45, k_source: norma, partition_mode: province_hamilton, rationale: "K=45 conserva el tamaño vigente de la Junta General del Principado de Asturias como regla institucional ex ante."}
+  aut04:
     k: 59
     k_source: norma
     k_reference_scope: institutional_chamber_size_only
@@ -64,7 +65,7 @@ territories:
         decided_at: "2026-10-29"
         evidence: "run 40891796781: M05 NO_FEASIBLE_REPAIR_FOUND; DIAG_DISTRITO 56 = Sant Joan de Labritja (07050) sola, 6.809 hab., ratio 0,33"
         rationale: "Decisión del propietario (opción A, 29-10-2026). Ibiza (8 distritos, 159.180 hab.) no admite partición sobre el suelo con la disciplina municipal: Sant Josep y Sant Antoni son indivisibles y Sant Joan no completa distrito sin dejar por debajo del suelo a los de Eivissa y Santa Eulària."
-  canarias:
+  aut05:
     k: 70
     k_source: norma
     k_reference_scope: institutional_chamber_size_only
@@ -86,10 +87,10 @@ territories:
         decided_at: "2026-10-29"
         evidence: "run 40891782899: M05 NO_FEASIBLE_REPAIR_FOUND; DIAG_DISTRITO 48, 49 y 50 (38019, 38046, 38035/38052), ratios 0,71, 0,36 y 0,79"
         rationale: "Decisión del propietario (opción A, 29-10-2026): Tenerife deja tres distritos residuales bajo el suelo que M05 no puede reparar con la disciplina municipal vigente."
-  cantabria: {k: 35, k_source: norma, partition_mode: province_hamilton, rationale: "K=35 conserva el tamaño vigente del Parlamento de Cantabria como regla institucional ex ante."}
-  castilla_la_mancha: {k: 33, k_source: norma, partition_mode: province_hamilton, rationale: "K=33 conserva el tamaño vigente de las Cortes de Castilla-La Mancha como regla institucional ex ante."}
-  castilla_y_leon: {k: 82, k_source: norma, partition_mode: province_hamilton, rationale: "K=82 conserva el tamaño vigente de las Cortes de Castilla y León como regla institucional ex ante."}
-  cataluna:
+  aut06: {k: 35, k_source: norma, partition_mode: province_hamilton, rationale: "K=35 conserva el tamaño vigente del Parlamento de Cantabria como regla institucional ex ante."}
+  aut08: {k: 33, k_source: norma, partition_mode: province_hamilton, rationale: "K=33 conserva el tamaño vigente de las Cortes de Castilla-La Mancha como regla institucional ex ante."}
+  aut07: {k: 82, k_source: norma, partition_mode: province_hamilton, rationale: "K=82 conserva el tamaño vigente de las Cortes de Castilla y León como regla institucional ex ante."}
+  aut09:
     k: 135
     k_source: norma
     partition_mode: province_hamilton
@@ -99,7 +100,7 @@ territories:
       decided_at: "2026-10-29"
       evidence: "run 40891810589: M05 NO_FEASIBLE_REPAIR_FOUND; 3 distritos de un solo municipio bajo suelo en Barcelona (08238, 08270, 08194)"
       rationale: "Decisión del propietario (opción B, 29-10-2026): con 1,75 los municipios medianos son indivisibles y M05 no puede reabsorber los distritos residuales bajo el suelo; con 1,25 puede dividirlos."
-  comunidad_valenciana:
+  aut10:
     k: 99
     k_source: norma
     partition_mode: province_hamilton
@@ -109,12 +110,12 @@ territories:
       decided_at: "2026-10-29"
       evidence: "#336; run 40857312179 (M05 NO_FEASIBLE_REPAIR_FOUND con 1,75); run 40896263473 en verde con 1,5"
       rationale: "Con 1,75 Torrevieja (89.729) es indivisible y Pilar de la Horadada (23.522) queda bajo el suelo sin vecino que la complete; con 1,5 pasan a divisibles Orihuela, Torrent y Torrevieja."
-  extremadura: {k: 65, k_source: norma, partition_mode: province_hamilton, rationale: "K=65 conserva el tamaño vigente de la Asamblea de Extremadura como regla institucional ex ante."}
-  galicia: {k: 75, k_source: norma, partition_mode: province_hamilton, rationale: "K=75 conserva el tamaño vigente del Parlamento de Galicia como regla institucional ex ante."}
-  madrid: {k: 135, k_source: norma, partition_mode: province_hamilton, rationale: "K=135 conserva el tamaño vigente de la Asamblea de Madrid en la edición 2025 del proyecto."}
-  region_de_murcia: {k: 45, k_source: norma, partition_mode: province_hamilton, rationale: "K=45 conserva el tamaño vigente de la Asamblea Regional de Murcia como regla institucional ex ante."}
-  comunidad_foral_de_navarra: {k: 50, k_source: norma, partition_mode: province_hamilton, rationale: "K=50 conserva el tamaño vigente del Parlamento de Navarra como regla institucional ex ante."}
-  pais_vasco:
+  aut11: {k: 65, k_source: norma, partition_mode: province_hamilton, rationale: "K=65 conserva el tamaño vigente de la Asamblea de Extremadura como regla institucional ex ante."}
+  aut12: {k: 75, k_source: norma, partition_mode: province_hamilton, rationale: "K=75 conserva el tamaño vigente del Parlamento de Galicia como regla institucional ex ante."}
+  aut13: {k: 135, k_source: norma, partition_mode: province_hamilton, rationale: "K=135 conserva el tamaño vigente de la Asamblea de Madrid en la edición 2025 del proyecto."}
+  aut14: {k: 45, k_source: norma, partition_mode: province_hamilton, rationale: "K=45 conserva el tamaño vigente de la Asamblea Regional de Murcia como regla institucional ex ante."}
+  aut15: {k: 50, k_source: norma, partition_mode: province_hamilton, rationale: "K=50 conserva el tamaño vigente del Parlamento de Navarra como regla institucional ex ante."}
+  aut16:
     k: 75
     k_source: norma
     partition_mode: province_hamilton
@@ -124,9 +125,9 @@ territories:
       decided_at: "2026-10-29"
       evidence: "run 40891768209: M05 NO_FEASIBLE_REPAIR_FOUND; 2 distritos bajo suelo (48029 0,40; 20055 0,74)"
       rationale: "Decisión del propietario (opción B, 29-10-2026): con 1,75 los municipios medianos son indivisibles y M05 no puede reabsorber los distritos residuales bajo el suelo; con 1,25 puede dividirlos."
-  la_rioja: {k: 33, k_source: norma, partition_mode: province_hamilton, rationale: "K=33 conserva el tamaño vigente del Parlamento de La Rioja como regla institucional ex ante."}
-  ceuta: {k: 25, k_source: norma, partition_mode: province_hamilton, rationale: "K=25 conserva el tamaño de la Asamblea de Ceuta como regla institucional ex ante."}
-  melilla:
+  aut17: {k: 33, k_source: norma, partition_mode: province_hamilton, rationale: "K=33 conserva el tamaño vigente del Parlamento de La Rioja como regla institucional ex ante."}
+  aut18: {k: 25, k_source: norma, partition_mode: province_hamilton, rationale: "K=25 conserva el tamaño de la Asamblea de Ceuta como regla institucional ex ante."}
+  aut19:
     k: 25
     k_source: norma
     partition_mode: province_hamilton
@@ -135,9 +136,9 @@ territories:
       population_floor_ratio: 0.50
       target_tolerance_ratio: 0.50
       decided_at: "2026-10-28"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.melilla.population_limits; población INE 65034 (2023), 44 secciones, 85.493 habitantes"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.aut19.population_limits; población INE 65034 (2023), 44 secciones, 85.493 habitantes"
       rationale: "Territorio excepcional (decisión del propietario, 28-10-2026): 44 secciones indivisibles para K=25 obligan a al menos 6 distritos de una sola sección; con población 2023 la 6.ª mayor es el 72,8 % del objetivo, por lo que con el suelo nacional del 80 % no existe partición. En la M04 (run 40773487000) el suelo del 70 % tampoco admite partición conexa exacta (NO_EXACT_CONNECTED_HARD_PARTITION); el propietario fija el suelo en el 50 % (28-10-2026)."
-  congreso_huesca:
+  nac22:
     k: 2
     k_source: formula
     partition_mode: province_hamilton
@@ -150,7 +151,7 @@ territories:
       decided_at: "2026-10-30"
       evidence: "territorios/congreso/contrato_congreso_2026.json (K=407, decisión N08-OWNER-20261013-7RULES: límites ±15 % e indivisibilidad municipal bajo el techo); docs/ESTUDIOS/N08_CIERRE_NACIONAL_20261013/MATRIZ_FACTIBILIDAD_52.csv (Huesca: 1 componente, 0 solapes); referencia temporal 2023 contemporánea de la elección general de 2023"
       rationale: "Reglas del Congreso aprobadas por el propietario: suelo 85 %, techo 115 %, y un municipio que cabe bajo el techo no se divide. Piloto autorizado el 30-10-2026."
-  congreso_alava:
+  nac01:
     k: 3
     k_source: formula
     partition_mode: province_hamilton
@@ -161,10 +162,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_albacete:
+  nac02:
     k: 3
     k_source: formula
     partition_mode: province_hamilton
@@ -175,10 +176,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_alicante:
+  nac03:
     k: 17
     k_source: formula
     partition_mode: province_hamilton
@@ -189,10 +190,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_almeria:
+  nac04:
     k: 6
     k_source: formula
     partition_mode: province_hamilton
@@ -203,10 +204,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_avila:
+  nac05:
     k: 1
     k_source: formula
     partition_mode: province_hamilton
@@ -217,10 +218,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_badajoz:
+  nac06:
     k: 6
     k_source: formula
     partition_mode: province_hamilton
@@ -231,10 +232,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_barcelona:
+  nac08:
     k: 50
     k_source: formula
     partition_mode: province_hamilton
@@ -245,10 +246,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_burgos:
+  nac09:
     k: 3
     k_source: formula
     partition_mode: province_hamilton
@@ -259,10 +260,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_caceres:
+  nac10:
     k: 3
     k_source: formula
     partition_mode: province_hamilton
@@ -273,10 +274,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_cadiz:
+  nac11:
     k: 11
     k_source: formula
     partition_mode: province_hamilton
@@ -290,7 +291,7 @@ territories:
       evidence: "run 00 41327505480: M05 distrito 8 = 132.239 hab. (El Puerto de Santa María 11027 y Puerto Real 11028 enteros) frente a un techo de 131.190; la reparación profunda no lo mejoró"
       rationale: "Decisión del propietario (01-11-2026): techo 116 % solo en Cádiz, porque dos municipios enteros dan un distrito 1,159 veces la media; suelo 85 % y municipios indivisibles bajo el techo como en el resto."
 
-  congreso_castellon:
+  nac12:
     k: 5
     k_source: formula
     partition_mode: province_hamilton
@@ -301,10 +302,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_ciudad_real:
+  nac13:
     k: 4
     k_source: formula
     partition_mode: province_hamilton
@@ -315,10 +316,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_cordoba:
+  nac14:
     k: 6
     k_source: formula
     partition_mode: province_hamilton
@@ -329,10 +330,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_la_coruna:
+  nac15:
     k: 9
     k_source: formula
     partition_mode: province_hamilton
@@ -343,10 +344,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_cuenca:
+  nac16:
     k: 2
     k_source: formula
     partition_mode: province_hamilton
@@ -357,10 +358,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_gerona:
+  nac17:
     k: 7
     k_source: formula
     partition_mode: province_hamilton
@@ -371,10 +372,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_granada:
+  nac18:
     k: 8
     k_source: formula
     partition_mode: province_hamilton
@@ -385,10 +386,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_guadalajara:
+  nac19:
     k: 2
     k_source: formula
     partition_mode: province_hamilton
@@ -399,10 +400,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_guipuzcoa:
+  nac20:
     k: 6
     k_source: formula
     partition_mode: province_hamilton
@@ -413,10 +414,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_huelva:
+  nac21:
     k: 4
     k_source: formula
     partition_mode: province_hamilton
@@ -427,10 +428,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_jaen:
+  nac23:
     k: 5
     k_source: formula
     partition_mode: province_hamilton
@@ -441,10 +442,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_leon:
+  nac24:
     k: 4
     k_source: formula
     partition_mode: province_hamilton
@@ -455,10 +456,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_lerida:
+  nac25:
     k: 4
     k_source: formula
     partition_mode: province_hamilton
@@ -469,10 +470,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_la_rioja:
+  nac26:
     k: 3
     k_source: formula
     partition_mode: province_hamilton
@@ -483,10 +484,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_lugo:
+  nac27:
     k: 3
     k_source: formula
     partition_mode: province_hamilton
@@ -497,10 +498,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_madrid:
+  nac28:
     k: 59
     k_source: formula
     partition_mode: province_hamilton
@@ -511,10 +512,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_malaga:
+  nac29:
     k: 15
     k_source: formula
     partition_mode: province_hamilton
@@ -525,10 +526,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_murcia:
+  nac30:
     k: 13
     k_source: formula
     partition_mode: province_hamilton
@@ -539,10 +540,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_navarra:
+  nac31:
     k: 6
     k_source: formula
     partition_mode: province_hamilton
@@ -553,10 +554,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_orense:
+  nac32:
     k: 3
     k_source: formula
     partition_mode: province_hamilton
@@ -567,10 +568,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_asturias:
+  nac33:
     k: 8
     k_source: formula
     partition_mode: province_hamilton
@@ -581,10 +582,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_palencia:
+  nac34:
     k: 1
     k_source: formula
     partition_mode: province_hamilton
@@ -595,10 +596,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_pontevedra:
+  nac36:
     k: 8
     k_source: formula
     partition_mode: province_hamilton
@@ -609,10 +610,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_salamanca:
+  nac37:
     k: 3
     k_source: formula
     partition_mode: province_hamilton
@@ -623,10 +624,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_cantabria:
+  nac39:
     k: 5
     k_source: formula
     partition_mode: province_hamilton
@@ -637,10 +638,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_segovia:
+  nac40:
     k: 1
     k_source: formula
     partition_mode: province_hamilton
@@ -651,10 +652,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_sevilla:
+  nac41:
     k: 16
     k_source: formula
     partition_mode: province_hamilton
@@ -665,10 +666,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_soria:
+  nac42:
     k: 1
     k_source: formula
     partition_mode: province_hamilton
@@ -679,10 +680,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_tarragona:
+  nac43:
     k: 7
     k_source: formula
     partition_mode: province_hamilton
@@ -693,10 +694,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_teruel:
+  nac44:
     k: 1
     k_source: formula
     partition_mode: province_hamilton
@@ -707,10 +708,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_toledo:
+  nac45:
     k: 6
     k_source: formula
     partition_mode: province_hamilton
@@ -721,10 +722,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_valencia:
+  nac46:
     k: 23
     k_source: formula
     partition_mode: province_hamilton
@@ -735,10 +736,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_valladolid:
+  nac47:
     k: 4
     k_source: formula
     partition_mode: province_hamilton
@@ -749,10 +750,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_vizcaya:
+  nac48:
     k: 10
     k_source: formula
     partition_mode: province_hamilton
@@ -763,10 +764,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_zamora:
+  nac49:
     k: 1
     k_source: formula
     partition_mode: province_hamilton
@@ -777,10 +778,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_zaragoza:
+  nac50:
     k: 8
     k_source: formula
     partition_mode: province_hamilton
@@ -791,10 +792,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_ceuta:
+  nac51:
     k: 1
     k_source: formula
     partition_mode: province_hamilton
@@ -805,10 +806,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_melilla:
+  nac52:
     k: 1
     k_source: formula
     partition_mode: province_hamilton
@@ -819,10 +820,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_santa_cruz_de_tenerife:
+  nac38:
     k: 9
     k_source: formula
     partition_mode: physical_components_hamilton
@@ -833,10 +834,10 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
-  congreso_baleares:
+  nac07:
     k: 10
     k_source: formula
     partition_mode: physical_components_hamilton
@@ -844,11 +845,11 @@ territories:
     structural_floor_exemptions:
       07-C02:
         decided_at: "2026-10-31"
-        evidence: "configuracion/particiones_insulares_2025.json#congreso_baleares"
+        evidence: "configuracion/particiones_insulares_2025.json#nac07"
         rationale: "Menorca forma un distrito propio con 0,82 de la media provincial; decisión del propietario 31-10-2026."
       07-G01:
         decided_at: "2026-10-31"
-        evidence: "configuracion/particiones_insulares_2025.json#congreso_baleares"
+        evidence: "configuracion/particiones_insulares_2025.json#nac07"
         rationale: "Ibiza y Formentera reciben 2 distritos (0,70 de la media) en lugar de 1 (1,41); decisión del propietario 31-10-2026."
     rationale: "Congreso: K=10 es la cuota de Baleares (CPRO 07) en N06-OWNER-20261012-K, con K_i igual al mayor entre 1 y la parte entera de (P_i + 60.000) entre 120.000, y K2025 = 407."
     population_limits:
@@ -860,7 +861,7 @@ territories:
       evidence: "run 00 41444676996: M05 distrito 5 de Mallorca = 154.049 hab. frente a un techo de 153.658 con 1,27 (excede por 391 hab.); con 1,28 el M05 local sobre el grafo de diagnostico/auto/congreso_baleares/41444676996 da 0 violaciones duras"
       rationale: "Decisión del propietario (02-11-2026): techo 128 % solo en Baleares (antes 127 %); suelo 85 % y municipios indivisibles bajo el techo como en el resto."
 
-  congreso_las_palmas:
+  nac35:
     k: 10
     k_source: formula
     partition_mode: physical_components_hamilton
@@ -872,7 +873,7 @@ territories:
       target_tolerance_ratio: 0.40
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Decisión del propietario 31-10-2026: Lanzarote y La Graciosa forman un solo distrito (1,38 de la media), así que el techo provincial sube a 1,40; suelo 85 % y municipios indivisibles bajo el techo como en el resto."
 
   congreso350_alava:
@@ -891,7 +892,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_albacete:
@@ -910,7 +911,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_alicante:
@@ -929,7 +930,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_almeria:
@@ -948,7 +949,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_avila:
@@ -967,7 +968,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_badajoz:
@@ -986,7 +987,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_barcelona:
@@ -1005,7 +1006,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_burgos:
@@ -1024,7 +1025,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_caceres:
@@ -1043,7 +1044,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_cadiz:
@@ -1081,7 +1082,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_ciudad_real:
@@ -1100,7 +1101,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_cordoba:
@@ -1119,7 +1120,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_la_coruna:
@@ -1138,7 +1139,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_cuenca:
@@ -1157,7 +1158,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_gerona:
@@ -1176,7 +1177,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_granada:
@@ -1195,7 +1196,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_guadalajara:
@@ -1214,7 +1215,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_guipuzcoa:
@@ -1233,7 +1234,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_huelva:
@@ -1252,7 +1253,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_huesca:
@@ -1290,7 +1291,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_leon:
@@ -1309,7 +1310,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_lerida:
@@ -1328,7 +1329,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_la_rioja:
@@ -1347,7 +1348,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_lugo:
@@ -1366,7 +1367,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_madrid:
@@ -1385,7 +1386,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_malaga:
@@ -1404,7 +1405,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_murcia:
@@ -1423,7 +1424,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_navarra:
@@ -1442,7 +1443,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_orense:
@@ -1461,7 +1462,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_asturias:
@@ -1480,7 +1481,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_palencia:
@@ -1499,7 +1500,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_pontevedra:
@@ -1518,7 +1519,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_salamanca:
@@ -1537,7 +1538,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_cantabria:
@@ -1556,7 +1557,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_segovia:
@@ -1575,7 +1576,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_sevilla:
@@ -1594,7 +1595,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_soria:
@@ -1613,7 +1614,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_tarragona:
@@ -1632,7 +1633,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_teruel:
@@ -1651,7 +1652,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_toledo:
@@ -1670,7 +1671,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_valencia:
@@ -1689,7 +1690,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_valladolid:
@@ -1708,7 +1709,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_vizcaya:
@@ -1727,7 +1728,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_zamora:
@@ -1746,7 +1747,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_zaragoza:
@@ -1765,7 +1766,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_ceuta:
@@ -1784,7 +1785,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
   congreso350_melilla:
@@ -1803,7 +1804,7 @@ territories:
       target_tolerance_ratio: 0.15
       municipality_atomicity_limit_ratio: 1.15
       decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
 
 archipelago:

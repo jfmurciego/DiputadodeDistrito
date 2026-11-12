@@ -1,10 +1,10 @@
 {
   "schema": "ddd.ensemble-runner/1.0",
-  "territory_id": "madrid",
+  "territory_id": "aut13",
   "prepared_bundle_id": "AUTO",
   "inputs": {
-    "m03_graph": "../../territorios/madrid/.cache/ddd/preparacion/madrid_2025/madrid_2025_m03_grafo.json",
-    "initial_geojson": "../../territorios/madrid/.cache/ddd/preparacion/madrid_2025/madrid_2025_m05_distritos_optimizados.geojson.zip"
+    "m03_graph": "../../territorios/aut13/.cache/ddd/preparacion/aut13_2025/aut13_2025_m03_grafo.json",
+    "initial_geojson": "../../territorios/aut13/.cache/ddd/preparacion/aut13_2025/aut13_2025_m05_distritos_optimizados.geojson.zip"
   },
   "fields": {
     "section": "CUSEC_KEY",
@@ -51,8 +51,8 @@
     "shortlist_size": 10
   },
   "workflow": {
-    "contract": "territorios/madrid/config/madrid_2025.yaml",
-    "cache_dir": "territorios/madrid/.cache/ddd/preparacion/madrid_2025",
+    "contract": "territorios/aut13/config/aut13_2025.yaml",
+    "cache_dir": "territorios/aut13/.cache/ddd/preparacion/aut13_2025",
     "expected_districts": 135,
     "working_crs": "EPSG:3035",
     "edition": "2025"

@@ -1,10 +1,10 @@
 {
   "schema": "ddd.ensemble-runner/1.0",
-  "territory_id": "ceuta",
+  "territory_id": "aut18",
   "prepared_bundle_id": "AUTO",
   "inputs": {
-    "m03_graph": "../../territorios/ceuta/.cache/ddd/preparacion/ceuta_2025/ceuta_2025_m03_grafo.json",
-    "initial_geojson": "../../territorios/ceuta/.cache/ddd/preparacion/ceuta_2025/ceuta_2025_m05_distritos_optimizados.geojson.zip"
+    "m03_graph": "../../territorios/aut18/.cache/ddd/preparacion/aut18_2025/aut18_2025_m03_grafo.json",
+    "initial_geojson": "../../territorios/aut18/.cache/ddd/preparacion/aut18_2025/aut18_2025_m05_distritos_optimizados.geojson.zip"
   },
   "fields": {
     "section": "CUSEC_KEY",
@@ -51,8 +51,8 @@
     "shortlist_size": 10
   },
   "workflow": {
-    "contract": "territorios/ceuta/config/ceuta_2025.yaml",
-    "cache_dir": "territorios/ceuta/.cache/ddd/preparacion/ceuta_2025",
+    "contract": "territorios/aut18/config/aut18_2025.yaml",
+    "cache_dir": "territorios/aut18/.cache/ddd/preparacion/aut18_2025",
     "expected_districts": 25,
     "working_crs": "EPSG:3035",
     "edition": "2025"

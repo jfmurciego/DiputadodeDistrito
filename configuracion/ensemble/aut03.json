@@ -1,10 +1,10 @@
 {
   "schema": "ddd.ensemble-runner/1.0",
-  "territory_id": "principado_de_asturias",
+  "territory_id": "aut03",
   "prepared_bundle_id": "AUTO",
   "inputs": {
-    "m03_graph": "../../territorios/principado_de_asturias/.cache/ddd/preparacion/principado_de_asturias_2025/principado_de_asturias_2025_m03_grafo.json",
-    "initial_geojson": "../../territorios/principado_de_asturias/.cache/ddd/preparacion/principado_de_asturias_2025/principado_de_asturias_2025_m05_distritos_optimizados.geojson.zip"
+    "m03_graph": "../../territorios/aut03/.cache/ddd/preparacion/aut03_2025/aut03_2025_m03_grafo.json",
+    "initial_geojson": "../../territorios/aut03/.cache/ddd/preparacion/aut03_2025/aut03_2025_m05_distritos_optimizados.geojson.zip"
   },
   "fields": {
     "section": "CUSEC_KEY",
@@ -51,8 +51,8 @@
     "shortlist_size": 10
   },
   "workflow": {
-    "contract": "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml",
-    "cache_dir": "territorios/principado_de_asturias/.cache/ddd/preparacion/principado_de_asturias_2025",
+    "contract": "territorios/aut03/config/aut03_2025.yaml",
+    "cache_dir": "territorios/aut03/.cache/ddd/preparacion/aut03_2025",
     "expected_districts": 45,
     "working_crs": "EPSG:3035",
     "edition": "2025"
