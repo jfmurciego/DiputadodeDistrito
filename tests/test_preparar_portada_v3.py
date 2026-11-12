@@ -89,8 +89,8 @@ class PortadaV3Tests(unittest.TestCase):
 
     def test_paleta_electoral_inequivoca_y_capas_sin_inventos(self):
         js = (V3 / "v3.js").read_text(encoding="utf-8")
-        for p, color in (('PP', '#1d84ce'), ('PSOE', '#d62728'),
-                         ('VOX', '#4c9a2a'), ('SUMAR', '#d9469c'),
+        for p, color in (('PP', '#1d6fb8'), ('PSOE', '#d32b2b'),
+                         ('VOX', '#5fa335'), ('SUMAR', '#cf2a7b'),
                          ('PODEMOS', '#8750b5')):
             self.assertIn(p + ':"' + color + '"', js)
         self.assertIn('winnerOfDistrict', js)
@@ -103,6 +103,14 @@ class PortadaV3Tests(unittest.TestCase):
         calendar = json.loads((V3 / "calendario.json").read_text(encoding="utf-8"))
         self.assertIn("madrid", calendar)
         self.assertIn("galicia", calendar)
+        # Nombres provinciales del INE simplificados (Asturias/Baleares/Navarra).
+        js = (V3 / "v3.js").read_text(encoding="utf-8")
+        for alias, territory in (
+            ("Asturias", "principado_de_asturias"),
+            ("Baleares", "illes_balears"),
+            ("Navarra", "comunidad_foral_de_navarra"),
+        ):
+            self.assertIn(f'"{alias}":"{territory}"', js)
         for region, dates in calendar.items():
             for code, label in dates:
                 self.assertRegex(code, r"^\d{6}$")
