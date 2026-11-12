@@ -12,9 +12,9 @@
   const BASE={provincias:"../v2/datos/provincias.json",comunidades:"../v2/datos/comunidades.json",
     indices:"../datos/INDEX.json",secciones:"../v2/datos/secciones/",territorial:"../v2/datos/territorial.json",
     productos:"../data/viewer-results.json",calendario:"calendario.json"};
-  const PALETA={PP:"#1d84ce",PSOE:"#d62728",VOX:"#4c9a2a",SUMAR:"#d9469c",PODEMOS:"#8750b5",
-    "EAJ-PNV":"#18845f","EH BILDU":"#90b92e",ERC:"#deb21c",JUNTS:"#3aa9bd",BNG:"#6c97d1",CC:"#e9a13b",
-    UPN:"#659bce",OTROS:"#939aa7"};
+  const PALETA={PP:"#1d6fb8",PSOE:"#d32b2b",VOX:"#5fa335",SUMAR:"#cf2a7b",PODEMOS:"#8750b5",
+    "EAJ-PNV":"#2c5e36","EH BILDU":"#0f7a52",ERC:"#f0ac00",JUNTS:"#18a99b",BNG:"#7cb2d8",CC:"#e8c400",
+    UPN:"#3a55a2",OTROS:"#9aa3ad"};
   const NATIONAL=[["201111","nov. 2011"],["201512","dic. 2015"],["201606","jun. 2016"],
     ["201904","abr. 2019"],["201911","nov. 2019"],["202307","jul. 2023"]];
   const REGION={
