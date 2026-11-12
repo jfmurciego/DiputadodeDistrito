@@ -81,6 +81,8 @@
       return "Elección histórica elegida. La serie existe en el repositorio, pero no está materializada aquí como capa electoral de sección/distrito V3. No se reutilizan los colores de 2023.";
     if(S.scope==="autonomico"&&S.view==="electoral"&&!S.region)
       return "Selecciona una comunidad para consultar sus productos M08 publicados; no se mezclan resultados de parlamentos distintos.";
+    if(S.scope==="autonomico"&&S.view==="electoral"&&S.region)
+      return "Los productos M08 autonómicos no acreditan en este visor la identidad de la elección seleccionada: la cartografía se muestra neutra hasta disponer de esa correspondencia.";
     return "";
   }
   function provinceFeatures(){return D.prov?.features||[];}
@@ -250,7 +252,7 @@
     showLayer("dist-fill",!!showD&&!showS);showLayer("dist-line",!!showD&&!showS);
     showLayer("sec-fill",!!showS);showLayer("sec-line",!!showS);
     // Nunca usar colores de una elección distinta para un resultado.
-    const permitColors=isElect&&(isN?good:S.system==="mayoritario"&&!!S.region&&!!D.regionCache.get(S.region+":electoral"));
+    const permitColors=isElect&&isN&&good; // Sin correspondencia electoral autonómica acreditada, nunca pintar ganadores de otra elección.
     const neutral="#a8bac7";
     const party=paletteExpression();
     const territorial=["get","neutralColor"];
@@ -261,9 +263,12 @@
       if(S.layer==="unidades")return ["coalesce",["get","neutralColor"],neutral];return base;}
     paintWith("prov-fill",thematic(permitColors?party:neutral));
     paintWith("dist-fill",thematic(permitColors?party:S.view==="territorial"?["coalesce",["get","neutralColor"],neutral]:neutral));
-    paintWith("sec-fill",S.view==="territorial"||S.layer==="poblacion"||S.layer==="desviacion"?
-      ["coalesce",["get","territorialColor"],neutral]:(permitColors&&isN&&S.system==="mayoritario"?party:neutral));
-    if(map.getLayer("sec-fill")&&showS&&S.view==="territorial"){
+    const secPop=["interpolate",["linear"],["to-number",["get","p"],0],0,"#eff6f9",500,"#bbd6df",2000,"#497e9b",5000,"#193f61"];
+    const secTerr=["coalesce",["get","territorialColor"],neutral];
+    paintWith("sec-fill",S.layer==="poblacion"?secPop:
+      (S.layer==="desviacion"?neutral:S.view==="territorial"?secTerr:
+      (permitColors&&isN&&S.system==="mayoritario"?party:neutral)));
+    if(map.getLayer("sec-fill")&&showS&&(S.view==="territorial"||S.layer==="unidades")){
       // Colorea por distrito o municipio, nunca atribuye voto propio a una sección.
       let fc=D.sectionCache.get(S.province);
       if(fc){const newFc={type:"FeatureCollection",features:fc.features.map(f=>({...f,properties:{...f.properties,
