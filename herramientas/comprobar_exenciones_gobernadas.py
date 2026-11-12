@@ -3,13 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Comprobador de exenciones de suelo gobernadas
-VERSIÓN: 1.0.0
-FECHA: 2026-11-07
+VERSIÓN: 1.1.0
+FECHA: 2026-11-12
 ESTADO: vigente — T-49
 QUÉ HACE: toda exención de suelo (municipal o de partición) de los contratos y toda `structural_floor_exemptions` de la
           política debe llevar decided_at (AAAA-MM-DD), decided_by (propietario), reason y evidence. Sale 1 si falta alguna.
 MOTIVO: las exenciones eran listas de códigos sin fecha ni evidencia ligada (T-21).
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIO 1.1.0 (T-235, D-83): comprueba también las exenciones de techo (population_cap_exempt_partitions) con la
+          misma regla que leen los motores (ddd_core.population_cap_exemptions: K=1 y decisión del propietario).
+ANTERIOR: legacy/herramientas/comprobar_exenciones_gobernadas_v1.0.0.py
 """
 from __future__ import annotations
 
@@ -18,6 +20,9 @@ import sys
 from pathlib import Path
 
 import yaml
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from ddd_core.population_cap_exemptions import CapExemptionError, cap_exempt_partitions  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 POLITICA = ROOT / "configuracion" / "politica_generacion_territorial_2025.yaml"
@@ -65,6 +70,10 @@ def check_contract(name: str, cfg: dict) -> list[str]:
                 errs += _entry_errors(f"{name}: {dec_key}[{code}]", decisions[code])
         for code in sorted(set(decisions) - declared):
             errs.append(f"{name}: {dec_key}[{code}] no corresponde a ninguna exención declarada")
+    try:
+        cap_exempt_partitions(cfg)
+    except CapExemptionError as exc:
+        errs.append(f"{name}: {exc}")
     return errs
 
 

@@ -3,9 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.8.7
+VERSIÓN: 7.8.8
 NOMBRE DE VERSIÓN: Estados poblacionales finales y staging completo de M06
-FECHA: 2026-11-02
+FECHA: 2026-11-12
 ESTADO: candidato; reparación focal por defecto y estrategia privada experimental optativa con validación oficial obligatoria.
 FUNCIÓN: ejecutar el motor base M05 v7.4.1, aplicar pulido determinista y reparar violaciones duras; la estrategia
 private_annealing explora copias privadas y solo promueve una candidata tras validación final oficial.
@@ -15,7 +15,10 @@ REGLAS DURAS: no modifica contratos, tolerancias ni cuotas; una desactivación e
 automática solo ocurre ante violaciones duras sobre una partición estructuralmente válida.
 CAMBIOS: reconstruye estados poblacionales y reporte desde asignaciones finales; dirige todas las salidas M06 de la puerta privada a staging y limpia el informe operativo temporal del validador.
 MOTIVO: impedir atributos y diagnósticos obsoletos y proteger productos duraderos mientras se valida una candidata privada.
-ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.8.6_2026-11-02.py
+ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.8.7_2026-11-12.py
+CAMBIO 7.8.8 (T-235, D-83): techo por distrito con ddd_core.population_cap_exemptions en el estado poblacional final y
+en la reparación: el distrito de una partición exenta con K=1 es fijo (la isla entera) y queda fuera de la reparación.
+Sin validation.population_cap_exempt_partitions nada cambia.
 CAMBIO 7.8.5: un distrito que contiene un municipio de validation.population_floor_exempt_municipalities queda exento del suelo (Beniel, Murcia).
 CAMBIO 7.8.7 (T-24): la exención municipal de la reparación se detecta por el campo de municipio de las secciones, no por el formato del id de unidad (Cádiz: distrito 7 contado como violación dura).
 CAMBIO 7.8.6 (T-15): las unidades de esos municipios quedan ancladas a su distrito en la reparación (floor_exempt_anchor y frozen_units).
@@ -34,6 +37,7 @@ from ddd_core.m05_population_repair import repair, SearchLimits, verify_partitio
 from ddd_core.m05_private_annealing import repair_private
 from ddd_core.m05_atomic_output import run_staged_output
 from ddd_core.population_floor_exemptions import exempt_municipalities, municipalities_touch_exempt, units_touch_exempt
+from ddd_core.population_cap_exemptions import CapExemptionError, cap_exempt_partitions, district_cap
 
 BASE_ENGINE = ROOT / "ddd_core" / "m05_opt_engine_v741.py"
 WRAPPER_VERSION = "7.8.4"
@@ -156,7 +160,7 @@ def _protect_closed_urban_districts(g,did,assignments,adj):
     return protected,frozen_districts,frozen_units,{u:assignments[u] for u in frozen_units}
 
 def _refresh_population_report(
-    report_path,g,did,pop_by_section,idf,target,floor,cap,tol,district_floors=None,pop_field=None
+    report_path,g,did,pop_by_section,idf,target,floor,cap,tol,district_floors=None,pop_field=None,district_caps=None
 ):
     section_ids=g[idf].astype(str)
     sec_pop=section_ids.map(pop_by_section)
@@ -180,17 +184,20 @@ def _refresh_population_report(
     pops={str(d):int(p) for d,p in sec_pop.groupby(g[did].astype(str)).sum().items()}
     floors={str(d):float(v) for d,v in (district_floors or {}).items()}
     effective_floor=lambda d: floors.get(str(d),float(floor))
+    caps={str(d):float(v) for d,v in (district_caps or {}).items()}
+    effective_cap=lambda d: caps.get(str(d),float(cap))
     status_by_district={}
     for district,population in pops.items():
         district_floor=effective_floor(district)
-        status="ABOVE_CEILING" if population>cap else "BELOW_FLOOR" if population<district_floor else "PASS"
+        status="ABOVE_CEILING" if population>effective_cap(district) else "BELOW_FLOOR" if population<district_floor else "PASS"
         status_by_district[district]={"population":population,"floor":district_floor,"cap":float(cap),"population_status":status}
+        if effective_cap(district)!=float(cap):status_by_district[district]["cap_exempt"]=True
     g["ddd_population_status"]=g[did].astype(str).map({d:row["population_status"] for d,row in status_by_district.items()})
     if g["ddd_population_status"].isna().any():
         raise SystemExit("M05: no se pudo asignar estado poblacional a todas las secciones")
     vals=list(pops.values())
     hard=sum(row["population_status"]!="PASS" for row in status_by_district.values())
-    hard_mag=sum(max(0,row["floor"]-row["population"],row["population"]-row["cap"]) for row in status_by_district.values())
+    hard_mag=sum(max(0,row["floor"]-row["population"],row["population"]-effective_cap(d)) for d,row in status_by_district.items())
     outside=sum(abs(p-target)>tol for p in vals)
     maxdev=max((abs(p-target)/target for p in vals),default=0.0)
     sq=sum(((p-target)/target)**2 for p in vals)
@@ -207,6 +214,16 @@ def _refresh_population_report(
         )
     return g
 
+def _cap_exempt(cfg):
+    try:return cap_exempt_partitions(cfg)
+    except CapExemptionError as exc:raise SystemExit(f"M05: {exc}") from exc
+
+def _district_caps(cfg,partitions_by_district,cap):
+    """Techos que difieren del general (solo distritos de una partición exenta); vacío sin exención."""
+    exempt=_cap_exempt(cfg)
+    return {str(d):district_cap(cap,ps,exempt) for d,ps in partitions_by_district.items()
+            if district_cap(cap,ps,exempt)!=cap}
+
 def _refresh_final_population_products(cfg,s5,out_path,report_path):
     graph=json.loads(Path(str(s5["in_graph_json"])).read_text(encoding="utf-8"))
     g=load_geo(out_path)
@@ -216,13 +233,14 @@ def _refresh_final_population_products(cfg,s5,out_path,report_path):
     floor_exempt={str(value).zfill(2) for value in ((cfg.get("validation") or {}).get("population_floor_exempt_partitions") or [])}
     provf=s5.get("province_field","CPRO"); munf=s5.get("municipality_field","CUMUN"); districts={}
     exempt_muns=exempt_municipalities(cfg)
+    caps=_district_caps(cfg,{str(d):set(frame[provf]) for d,frame in g.groupby(did)},cap)
     for district,frame in g.groupby(did):
         provinces={str(value).zfill(2) for value in frame[provf]}
         if len(provinces)==1:
             province=next(iter(provinces))
             muns=frame[munf] if munf in frame.columns else ()
             districts[str(district)]=0.0 if province in floor_exempt or municipalities_touch_exempt(muns,exempt_muns) else floor
-    g=_refresh_population_report(report_path,g,did,pop,idf,target,floor,cap,tol,districts,popf)
+    g=_refresh_population_report(report_path,g,did,pop,idf,target,floor,cap,tol,districts,popf,caps)
     write_geo(g,out_path)
 
 def _apply_swap(cfg,s5,out_path,report_path):
@@ -276,6 +294,16 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
     adj,frozen_districts,frozen_units,baseline_frozen=_protect_closed_urban_districts(g,did,assignments,adj)
     frozen_units=set(frozen_units)|{u for u,row in units.items() if row.get("floor_exempt_anchor")}
     total=sum(pop.values()); target,floor,cap,tol=hard_limits(cfg,k=len(set(assignments.values())),total_pop=total)
+    cap_fixed=_cap_exempt(cfg)
+    if cap_fixed:
+        # Partición exenta con K=1: su distrito es la partición entera y no participa en la reparación.
+        fixed={u for u,row in units.items() if row["province"] in cap_fixed}
+        units={u:row for u,row in units.items() if u not in fixed}
+        assignments={u:d for u,d in assignments.items() if u not in fixed}
+        adj={u:{v for v in vs if v not in fixed} for u,vs in adj.items() if u not in fixed}
+        frozen_units=set(frozen_units)-fixed; baseline_frozen={u:d for u,d in baseline_frozen.items() if u not in fixed}
+        frozen_districts={d for d in frozen_districts if d in set(assignments.values())}
+    district_caps=_district_caps(cfg,{str(d):set(x[provf]) for d,x in g.groupby(did)},cap)
     floor_exempt={
         str(value).zfill(2)
         for value in ((cfg.get("validation") or {}).get("population_floor_exempt_partitions") or [])
@@ -334,13 +362,13 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
             else:
                 candidate_geo=g.copy()
                 for u,d in candidate.items(): candidate_geo.loc[candidate_geo["ddd_unit_id"]==u,did]=d
-                candidate_geo=_refresh_population_report(None,candidate_geo,did,pop,idf,target,floor,cap,tol,district_floors,s5.get("pop_field","POP_2023"))
+                candidate_geo=_refresh_population_report(None,candidate_geo,did,pop,idf,target,floor,cap,tol,district_floors,s5.get("pop_field","POP_2023"),district_caps)
                 gate=_official_private_candidate_gate(cfg,candidate_geo,out_path,meta.get("seed",0))
                 meta["official_atomic_gate"]=gate
                 if not gate.get("passed"):
                     meta.update(accepted=False,result="ATOMIC_REJECTION_OFFICIAL_VALIDATION",assignments=assignments)
                 else:
-                    _refresh_population_report(report_path,candidate_geo,did,pop,idf,target,floor,cap,tol,district_floors,s5.get("pop_field","POP_2023"))
+                    _refresh_population_report(report_path,candidate_geo,did,pop,idf,target,floor,cap,tol,district_floors,s5.get("pop_field","POP_2023"),district_caps)
         _merge_report_metadata(report_path,population_repair=meta)
         return meta
 
@@ -384,10 +412,10 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
     if moved_frozen: raise SystemExit(f"M05 repair: distrito urbano cerrado modificado: {moved_frozen}")
     meta["frozen_districts"]=sorted(frozen_districts,key=str); meta["frozen_units"]=len(frozen_units)
     for u,d in meta["assignments"].items(): g.loc[g["ddd_unit_id"]==u,did]=d
-    g=_refresh_population_report(None,g,did,pop,idf,target,floor,cap,tol,district_floors,s5.get("pop_field","POP_2023"))
+    g=_refresh_population_report(None,g,did,pop,idf,target,floor,cap,tol,district_floors,s5.get("pop_field","POP_2023"),district_caps)
     write_geo(g,out_path)
     _merge_report_metadata(report_path,population_repair=meta)
-    _refresh_population_report(report_path,g,did,pop,idf,target,floor,cap,tol,district_floors,s5.get("pop_field","POP_2023"))
+    _refresh_population_report(report_path,g,did,pop,idf,target,floor,cap,tol,district_floors,s5.get("pop_field","POP_2023"),district_caps)
     return meta
 
 def _post(cfg,s5,out_path,report_path):

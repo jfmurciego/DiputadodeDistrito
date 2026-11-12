@@ -4,16 +4,18 @@
 
 PROYECTO: Diputado de Distrito
 Módulo 04 — Motor canónico de semillas
-VERSIÓN: 7.6.7
-NOMBRE DE VERSIÓN: Núcleo adicional por enclaves dependientes
-FECHA: 2026-11-07
+VERSIÓN: 7.6.8
+NOMBRE DE VERSIÓN: Exención de techo de una partición atómica de un distrito
+FECHA: 2026-11-12
 FUNCIÓN: ejecutar el núcleo 7.4.13 con preflight atómico fail-closed, puertas de componentes y reparación genérica de closed target cores.
 CAMBIOS: para closed_target_cores_plus_open_residual exige que todo core inmutable quede dentro de la tolerancia objetivo; permite residual provisional bajo floor, conserva cap/gateways y bloquea explícitamente si no encuentra una partición conforme.
 MOTIVO: evitar que M04 congele outliers que M05 no puede reparar, sin relajar K, provincia, contigüidad, disciplina municipal, tolerancia ni límites duros.
-ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.6.6.py
+ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.6.7.py
 CAMBIO 7.6.5: reutiliza la solución conexa hard demostrada en preflight para Formación inicial monomunicipal y preserva cardinalidad residual.
 CAMBIO 7.6.6: si el residuo R de un municipio dividido deja su distrito sobre el techo (enclaves que solo lindan con él), cede secciones fronterizas de R a los núcleos U del mismo municipio con margen; M05 no puede hacerlo porque mueve unidades enteras (T-22, Murcia).
 CAMBIO 7.6.7: si el residual de un municipio dividido más los municipios vecinos que solo lindan con él (enclaves dependientes) supera el techo, reintenta la partición con un núcleo cerrado más; solo fuera de closed_target_cores (T-44, Elche + Santa Pola). El alivio de residuos (1.1.0) añade la cadena de dos saltos (T-44, Málaga).
+CAMBIO 7.6.8 (T-235, D-83): el preflight usa el techo efectivo de cada partición (ddd_core.population_cap_exemptions):
+  sin validation.population_cap_exempt_partitions nada cambia; con ella, solo una partición con K=1 queda sin techo.
 """
 from __future__ import annotations
 
@@ -25,11 +27,12 @@ from pathlib import Path
 from ddd_core import m04_seed_engine_v7412 as core
 from ddd_core import m04_seed_engine_v7411 as postprocess_engine
 from ddd_core.config import hard_limits, load_params_yaml, module_cfg, require
+from ddd_core.population_cap_exemptions import CapExemptionError, cap_exempt_partitions, district_cap
 from ddd_core.m04_closed_target_cores import repair_closed_target_cores
 from ddd_core.m04_overcap_residual_relief import relieve_overcap_residuals
 
 ENGINE_ID = "ddd_core.m04_seed_engine"
-ENGINE_VERSION = "7.6.7"
+ENGINE_VERSION = "7.6.8"
 partition_oversized_municipality = core.partition_oversized_municipality
 _BASE_PARTITION_OVERSIZED_MUNICIPALITY = partition_oversized_municipality
 
@@ -352,6 +355,11 @@ def _preflight_atomic_population_connectivity(cfg, step):
         str(value).zfill(2)
         for value in (validation.get("population_floor_exempt_partitions") or [])
     }
+    try:
+        cap_exempt = cap_exempt_partitions(cfg)
+    except CapExemptionError as exc:
+        raise SystemExit(f"M04: {exc}") from exc
+    general_cap = cap
 
     diagnostics = []
     for province, province_k in sorted(quota.items()):
@@ -362,6 +370,7 @@ def _preflight_atomic_population_connectivity(cfg, step):
             continue
         nodes = set(rows[id_field].astype(str))
         province_floor = 0.0 if province in floor_exempt else floor
+        cap = district_cap(general_cap, [province], cap_exempt)
         necessary_ok, necessary_reason, necessary_detail = (
             _atomic_population_necessary_conditions(
                 nodes,
