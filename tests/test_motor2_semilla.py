@@ -132,6 +132,25 @@ class Reproducibilidad(unittest.TestCase):
         d = r1.a_dict()
         self.assertEqual(d["semilla_publica"]["semillas"], semillas(cfg(), "la_rioja", 5))
         self.assertEqual([c.semilla for c in r1.candidatos if c.generador == "gerrychain"], d["semilla_publica"]["semillas"])
+        self.assertEqual(d["excepciones_d66"], [])  # T-259: campo en COMPETICION.json
+        from ddd_motor2.informe import escribir
+        fj, fm = escribir(r1, Path(tempfile.mkdtemp()))
+        self.assertEqual(json.loads(fj.read_text(encoding="utf-8"))["excepciones_d66"], [])
+        self.assertIn("- Excepciones D-66: ninguna.", fm.read_text(encoding="utf-8"))
+
+    def test_excepcion_d66_declarada_no_se_ejecuta(self):
+        """T-259: el núcleo aún no aplica la excepción (T-269): competir_publico falla antes de generar."""
+        from ddd_motor2.excepcion_d66 import PENDIENTE
+        from ddd_motor2.reglas import ErrorContrato
+        tmp = Path(tempfile.mkdtemp())
+        c = cfg()
+        c["validation"] = dict(c["validation"], max_mixed_districts_exceptions=[
+            {"municipio": "22001", "max_mixtos": 2, "motivo": "infactible", "prueba_infactibilidad": "p.json",
+             "aprobacion": "D-66"}])
+        e = EntradaTerritorio("la_rioja", c, tmp / "grafo.json")
+        with self.assertRaisesRegex(ErrorContrato, PENDIENTE):
+            competir_publico(e, Aleatorio("canonico"), Aleatorio("gerrychain"), tmp / "out", n_cadenas=5)
+        self.assertFalse((tmp / "out").exists())
 
 
 if __name__ == "__main__":
