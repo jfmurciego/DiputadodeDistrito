@@ -36,7 +36,12 @@ const fixtures={
 };
 for(const v of Object.values(index.territorios))fixtures["../datos/"+v.geojson.ruta]=districtFC;
 const group={},el={};
-function element(id){return el[id]||(el[id]={id,value:"",hidden:false,checked:true,
+function element(id){
+  if(id==="level"&&!el[id]){
+    el[id]={id,options:["comunidad","provincia","distrito","municipio","seccion"].map(value=>
+      ({value,disabled:false,removeAttribute(k){delete this[k];}}))};
+  }
+  return el[id]||(el[id]={id,value:"",hidden:false,checked:true,
   innerHTML:"",textContent:"",dataset:{},style:{},
   setAttribute(k,v){this[k]=v;},addEventListener(k,fn){this[k]=fn;},
   replaceChildren(...children){this.children=children;},
@@ -89,6 +94,8 @@ async function main(){
     "Navarra":"comunidad_foral_de_navarra"};
   for(const [name,id] of Object.entries(names))assert.equal(t.regionId(name),id);
   group["#scope button"][1].onclick();await flush();
+  assert.equal(element("level").options.find(x=>x.value==="seccion").disabled,true,
+    "sin geometrías autonómicas seccionadas no debe ofrecerse el nivel");
   for(const name of Object.keys(names)){
     const f=comunidades.features.find(x=>x.properties.nombre===name);
     assert.ok(f);
@@ -101,6 +108,7 @@ async function main(){
       ({Asturias:45,Baleares:59,Navarra:50})[name]);
   }
   group["#scope button"][0].onclick();
+  assert.equal(element("level").options.find(x=>x.value==="seccion").disabled,false);
   group["#system button"][1].onclick();
   await flush();
   assert.equal(t.S.scope,"nacional");
