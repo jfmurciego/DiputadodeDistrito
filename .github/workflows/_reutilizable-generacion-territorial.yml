@@ -1,8 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.4.3
-# CAMBIOS 1.4.3 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.4.2_20261112.yml
+# VERSIÓN: 1.5.1
+# CAMBIOS 1.5.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.5.0_20261112.yml
+# CAMBIOS 1.5.0: T-234 (relevo formal, D-82): `motor` por defecto = motor2 (Deslinde 1.0); m05 (ruta autónoma del canónico,
+#   retirada) solo si el caller lo pasa de forma expresa. Los callers que paran antes de M06 (06, acreditación previa) no cambian:
+#   los pasos P30 y la capa motor2 de la huella solo actúan en M06.
 # CAMBIOS 1.4.2: T-215 (corte 5.0.0, paso 4), nombre visible v5 «Interno · P30 Generación territorial» (antes Interno · Generación territorial).
 # CAMBIOS 1.4.1: T-221: la certificación (estado_produccion) recibe `--motor` y `--runs-dir`; con motor2 lee la
 #   evidencia de población del plan ganador (p30_motor2/P30.json), no la del informe M05 canónico. Con m05, idéntica.
@@ -66,7 +69,7 @@ on:
       gerrychain_entrypoint: {required: false, type: string, default: ''}
       require_unique_hashes: {required: false, type: boolean, default: false}
       preflight_only: {required: false, type: boolean, default: false}
-      motor: {required: false, type: string, default: m05}
+      motor: {required: false, type: string, default: motor2}
       source_evidence_run_id: {required: false, type: string, default: ''}
       source_evidence_artifact_name: {required: false, type: string, default: ''}
       source_evidence_artifact_sha256: {required: false, type: string, default: ''}

@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.374
+Versión: 1.0.376
 Fecha: 2026-11-12
-Alcance: T-128 — Coordinador: lecciones de plataforma y motor (5.ª tanda) y estado operativo
+Alcance: T-248 — Borrador del README para la 5.0.0
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-12_coordinador-lecciones-5.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.373_registro_20261112.md
+Cambios/motivo: entrada docs/registro/2026-11-12_claude-t248-readme-5-0-0.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.375_registro_20261112.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.373_registro_20261112.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.376 · [2026-11-12 — T-248 — Borrador del README para la 5.0.0](registro/2026-11-12_claude-t248-readme-5-0-0.md)
+- 1.0.375 · [2026-11-11 — T-234 — Relevo formal: Deslinde 1.0 (motor2) por defecto; ruta autónoma m05 retirada](registro/2026-11-11_claude-t234-relevo-motor2.md)
 - 1.0.374 · [2026-11-12 — T-128 — Coordinador: lecciones de plataforma y motor (5.ª tanda) y estado operativo](registro/2026-11-12_coordinador-lecciones-5.md)
 - 1.0.373 · [2026-11-12 — T-235 — Exención de techo de Lanzarote y La Graciosa en el contrato 2026 de Las Palmas (D-83)](registro/2026-11-12_t-235-excepcion-lanzarote.md)
 - 1.0.372 · [2026-11-12 — T-268 — La 00 rechaza al principio los territorios del mapa de 350 (D-76)](registro/2026-11-12_t268-guarda-congreso350.md)
