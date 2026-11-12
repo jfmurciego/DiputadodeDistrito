@@ -1092,7 +1092,7 @@ def aceptacion(args) -> int:
           f"- Comprobación 1 · clave de elección peor que la del canónico: {res['empeoran'] or 'ninguno'}.",
           f"- Comprobación 2 · más distritos fuera de tolerancia (recuento bruto) que el mapa vigente publicado: {res['vigente_peor'] or 'ninguno'}; sin vigente comparable (no cuentan como verde): "
           f"{res['vigente_sin'] or 'ninguno'}; un distrito sin composición vigente (único plan posible): {res['vigente_un_distrito'] or 'ninguno'}.",
-          f"- Sin vigente comparable (T-224: otro seccionado o sin mapa publicado; consta y no bloquea): {', '.join(res['vigente_no_comparable']) or 'ninguno'}.",
+          f"- Sin vigente comparable (T-224: otro seccionado, sin mapa publicado en el visor o el run publicado sin composición versionada; SIN_VIGENTE consta y NO bloquea la aceptación): {', '.join(res['vigente_no_comparable']) or 'ninguno'}.",
           *[f"  - {t}: {m}" for t, m in res["vigente_no_comparable"].items()],
           f"- Aviso (no bloquea) · desvío máximo mayor que el del vigente: {res['vigente_aviso_desvio'] or 'ninguno'}.",
           *[f"  - {t}: {m}" for t, m in res["vigente_motivos"].items()],

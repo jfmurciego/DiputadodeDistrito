@@ -90,13 +90,21 @@ class VigenteUnico(unittest.TestCase):
             self.assertTrue(_mismo_vigente("t", {"vigente": {"sha256_origen": h_pub}}, "D8"))
             self.assertFalse(_mismo_vigente("t", {"vigente": {"sha256_origen": h_viejo}}, "D8"))
 
-    def test_lo_que_elige_el_vigente_entra_en_la_huella_motor2(self):
-        files = p30.huella_motor()["engine_files"]
-        self.assertIn("orchestracion/publicaciones_visor.json", files)
-        self.assertIn("datos/composicion/MANIFEST.json", files)
-        self.assertTrue(any(f.startswith("datos/composicion/runs/") for f in files))
-        self.assertIn("ddd_motor2/vigente.py", files)
-
+    def test_la_huella_lleva_el_vigente_resuelto_y_no_el_registro_global(self):
+        global_ = p30.huella_motor()["engine_files"]
+        self.assertIn("ddd_motor2/vigente.py", global_)
+        self.assertNotIn("orchestracion/publicaciones_visor.json", global_)  # cambia con cualquier publicación
+        repo(self.d, {"t": [(20, None)], "otro": [(5, None)]}, {"datos/composicion/runs/t_20.csv": NUEVO})
+        h = lambda: p30.huella_vigente("t", self.d)  # noqa: E731
+        antes = h()
+        self.assertEqual((antes["run"], antes["ruta"], antes["sha256"]),
+                         ("20", "datos/composicion/runs/t_20.csv", hashlib.sha256(NUEVO.encode()).hexdigest()))
+        repo(self.d, {"t": [(20, None)], "otro": [(5, None), (6, None)]}, {"datos/composicion/runs/otro_6.csv": VIEJO})
+        self.assertEqual(h(), antes)  # publicar otro territorio no cambia la huella de t
+        repo(self.d, {"t": [(20, None), (30, None)]}, {"datos/composicion/runs/t_30.csv": VIEJO})
+        self.assertNotEqual(h(), antes)  # publicar otro mapa de t, sí
+        with mock.patch.object(p30, "ROOT", self.d):
+            self.assertEqual(p30.huella_motor(root=self.d, territorio="t")["vigente"], h())
 
 if __name__ == "__main__":
     unittest.main()

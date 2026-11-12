@@ -5,10 +5,12 @@
   MANIFEST dice que es ese run; si no, sin vigente comparable con el motivo (nunca otro mapa).
 - Antes: la competición (generadores.Vigente, P30, `--reanudar`) leía `datos/composicion/<t>.csv` y la aceptación el run del
   visor: 31 territorios con mapas distintos (Castilla y León y 30 del Congreso); Canarias medía un `<t>.csv` de otro run.
-- `generadores` 1.2.2, `competir` 1.2.1, `produccion` 1.1.2 (huella motor2 + `runs/*.csv`, MANIFEST y
-  `publicaciones_visor.json`; P30.json guarda run y origen del vigente), `bateria_motor` 1.2.5: indicadores exige que el
+- `generadores` 1.2.2, `competir` 1.2.1, `produccion` 1.1.2 (la huella motor2 del P30 añade el vigente resuelto del
+  territorio: run, ruta y sha256; no el registro global del visor; P30.json guarda run y origen del vigente), `bateria_motor` 1.2.5: indicadores exige que el
   vigente de COMPETICION.json sea el publicado (sha256; si no, NO_EVALUABLE); otro seccionado → SIN_VIGENTE; la aceptación
   lista SIN_VIGENTE en «vigente_no_comparable» y no bloquea (T-224). Canónico de referencia: el del run (sin cambios).
 - Semilla D-90 y generadores Canonico/GerryChain/Ponderado intactos: HUELLAS_FIJAS sin cambios. Cambia el vigente que compite
-  (y con él el resultado) solo donde el publicado ≠ `<t>.csv`. Tests: `tests/test_t258_vigente_unico.py` y T-258 en
+  (y con él el resultado) solo donde el publicado ≠ `<t>.csv` (31) y en Canarias (sin composición del run publicado:
+  SIN_VIGENTE, no bloquea) y Ceuta (antes sin vigente en la competición). Ningún territorio tiene `<t>.csv` sin
+  entrada canonical_m06 en el visor (comprobado: 0). Tests: `tests/test_t258_vigente_unico.py` y T-258 en
   `test_bateria_motor`.
