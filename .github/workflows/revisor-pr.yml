@@ -63,7 +63,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0
+          fetch-depth: 1
           persist-credentials: false
       - name: Materializar diff inmutable para revisión en solo lectura
         shell: bash
@@ -72,10 +72,12 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
-          git cat-file -e "${BASE_SHA}^{commit}"
           test "$(git rev-parse HEAD)" = "$HEAD_SHA"
+          # La base se descarga superficialmente: no hace falta clonar todo el historial.
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          git cat-file -e "${BASE_SHA}^{commit}"
           mkdir -p .ddd-review
-          git diff --no-ext-diff "$BASE_SHA...$HEAD_SHA" > .ddd-review/pr.diff
+          git diff --no-ext-diff "$BASE_SHA" "$HEAD_SHA" > .ddd-review/pr.diff
           test -s .ddd-review/pr.diff || { echo "::error::Diff vacío para PR."; exit 1; }
       - id: revisor
         continue-on-error: true
