@@ -3,11 +3,11 @@
  "origen": "orchestracion/publicaciones_visor.json (canonical_m08)",
  "territorios": {
   "andalucia": {
-   "run_id": "42495072594",
-   "blob_sha": "3810296b91756fbfad65bdd38ec6380dda9535aa",
-   "sha256_origen": "20e898e8c031c9609cee70a1cc9dbe191ebb5d312c754ef250fbf47cb0925610",
+   "run_id": "43204696160",
+   "blob_sha": "425807487142128ef44f9eec4f08e080722b4ef0",
+   "sha256_origen": "afbb5bed0cce9bd11fdb5584f66e3889123489526f3a4719722ffa7bf185191c",
    "distritos": 109,
-   "sha256_csv": "ec6a647db97e18a625f1840f93c8bdcc8c9063fc53b3e86d4874285679a368f2"
+   "sha256_csv": "c135101931259d762a9ae4a5861e54f700677ffeb78f629a8c664e3ca7809a62"
   },
   "aragon": {
    "run_id": "43016936483",
@@ -45,11 +45,11 @@
    "sha256_csv": "9fad307449d6855a099f141900b293c92717827bb54f955846b3195d71adebd6"
   },
   "cataluna": {
-   "run_id": "41062562553",
-   "blob_sha": "e048919647fd04bb7e99c61b1cb0417428613ba1",
-   "sha256_origen": "ad9acdc8bbbac221746f9601884f96d7c1dd8ec0cd7a4fdba2a72f3995015f49",
+   "run_id": "43204706233",
+   "blob_sha": "b7f9e8ef972a2a23918d2722ae6573dae9251255",
+   "sha256_origen": "10420d3a193ae5d4fedae58982ba5a55e2f73af93d868ce9015f1329290f03c5",
    "distritos": 135,
-   "sha256_csv": "452c06234199362f09cfc2004a80b01a7d3df8522ee99700bee0eaec31b8fa68"
+   "sha256_csv": "f4d5c9c03c297f2365f3d2c7ea5d8cd79a9687877df21e119a72e8605176dd8d"
   },
   "ceuta": {
    "run_id": "43052923691",
