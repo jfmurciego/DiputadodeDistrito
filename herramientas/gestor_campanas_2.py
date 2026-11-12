@@ -2,7 +2,7 @@
 """Gestor de Campañas 2.0 (T-105, D-22): seis entradas en español → plan en seco o campaña sin chats.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.3.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.3.0 (T-133): la campaña completa con tipo autonómico planifica también el histórico autonómico desde 2011
   (herramientas/historico_autonomico.py: paso A por comunidad, cada una con su calendario); filas con `tipo`
   («general» o «autonomico») y una prueba de cada tipo. Las comunidades sin paso B se omiten con su motivo.
@@ -14,7 +14,8 @@ CAMBIOS: 1.1.0 (T-113): «histórico: generales 2019-11» planifica el paso A de
   (herramientas/historico_campana.py; matriz `historico` del plan, la ejecutan los jobs del workflow); el resto de
   elecciones históricas, el tipo autonómico, el mapa 350, el ensemble y publicar siguen fallando con mensaje claro.
   1.0.0: fichero nuevo.
-ANTERIOR: legacy/herramientas/gestor_campanas_2_v1.2.0_20261109.py
+CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/gestor_campanas_2_v1.3.0_20261112.py
 QUÉ HACE: traduce las entradas del formulario «0 Gestor de Campañas», en el orden de D-22, a un plan de
   `legislatura_vigente.py` y, si «solo plan» está desactivado, lo lanza: 00 (con su cadena par → 00 electoral)
   → 05 si «publicar» = sí → 06 `ensemble_10` si «ensemble» = 10.

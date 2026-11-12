@@ -1,8 +1,8 @@
 """PROYECTO: Diputado de Distrito
 HERRAMIENTA: Core del resolver de ejecución completa
-VERSIÓN: 1.0.3
+VERSIÓN: 1.0.4
 NOMBRE DE VERSIÓN: Inventario físico por año con CUSEC verificado al materializar
-FECHA: 2026-10-28
+FECHA: 2026-11-12
 ESTADO: candidato de integración; pendiente de CI y revisión.
 QUÉ HACE: aplica las puertas de compatibilidad y generación territorial.
 CAMBIOS: 1.0.2: sin inventario físico de huella exacta, admite el único del mismo año de secciones y
@@ -13,7 +13,8 @@ MOTIVO: la re-descarga del INE del 28-10 dio otra huella para las secciones 2023
 CAMBIOS 1.0.3: un contrato de componentes físicos admite los puentes declarados en el lookup para su
   territorio (grupo de islas en un distrito del Congreso), sólo si coinciden exactamente y cada puente une
   secciones de la misma componente.
-ANTERIOR: legacy/herramientas/_resolver_ejecucion_completa_core_v1.0.2_20261031.py
+CAMBIOS 1.0.4 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/_resolver_ejecucion_completa_core_v1.0.3_20261112.py
 PREDECESOR: copia exacta del archivo de main antes de la primera versión integrada.
 """
 from __future__ import annotations

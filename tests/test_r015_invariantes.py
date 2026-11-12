@@ -3,14 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: suite de regresión R015
-VERSIÓN: 1.2.2
+VERSIÓN: 1.2.3
 NOMBRE DE VERSIÓN: Contrato de Aragón gobernado por su manifiesto M06
-FECHA: 2026-10-28
+FECHA: 2026-11-12
 ESTADO: candidato
 FUNCIÓN: proteger las invariantes territoriales R012/R014, el determinismo de M05 y la trazabilidad activa hacia legacy.
 CAMBIOS: retira territorios/aut02/config/aut02_2025.yaml de las cabeceras obligatorias; no cambia invariantes.
 MOTIVO: el contrato lo materializa 01 y el M06 durable del run 40656036271 fija su SHA-256; una cabecera añadida invalidaría ese producto. Su trazabilidad la acreditan el manifiesto M06 y test_m06_product_reuse_integration.
-ANTERIOR: legacy/tests/test_r015_invariantes_v1.2.1.py
+CAMBIOS 1.2.3 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_r015_invariantes_v1.2.2_20261112.py
 """
 from __future__ import annotations
 

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-11 · ANTERIOR: ninguna (fichero nuevo)
+"""PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+"""PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ANTERIOR: legacy/tests/test_t225_congreso_2025_v1.0.0_20261112.py
 Tests de T-225 (D-65, D-80): contratos de la edición 2026 de las 52 circunscripciones del Congreso con el par INE
 2025/2025, su decisión, los inventarios insulares 2025 y la equivalencia seccionado INE 2026 → 2025."""
 import hashlib

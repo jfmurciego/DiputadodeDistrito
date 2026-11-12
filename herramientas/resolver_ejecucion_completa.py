@@ -1,14 +1,15 @@
 """Planificador de ejecución 00 con separación entre M06 y M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: Reutilización territorial con linaje M06 independiente
-FECHA: 2026-10-26
+FECHA: 2026-11-12
 ESTADO: candidato
 QUÉ HACE: resuelve continuidad con evidencia durable de productos.
 CAMBIOS: descarta M08 con linaje territorial incompatible y conserva reutilización M06.
 MOTIVO: evitar que un producto electoral histórico bloquee un M06 territorial certificado.
-ANTERIOR: legacy/herramientas/resolver_ejecucion_completa_pre_m06_manifest_20261026.py
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/resolver_ejecucion_completa_v1.1.0_20261112.py
 """
 from __future__ import annotations
 

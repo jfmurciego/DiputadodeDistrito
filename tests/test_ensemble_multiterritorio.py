@@ -1,8 +1,10 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: contrato estructural GerryChain 50 multi-territorio
-VERSIÓN: 1.0.0
-FECHA: 2026-09-23
+VERSIÓN: 1.0.1
+FECHA: 2026-11-12
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_ensemble_multiterritorio_v1.0.0_20261112.py
 FUNCIÓN: demostrar que el motor ensemble no contiene excepciones territoriales y que
 los contratos de Aragón, Principado de Asturias, Galicia, Castilla y León y
 Extremadura exponen los campos necesarios para un binding externo genérico.

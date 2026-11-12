@@ -3,9 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Puerta de admisión de contrato territorial
-VERSIÓN: 1.4.0
+VERSIÓN: 1.4.1
 NOMBRE DE VERSIÓN: Admisión con id viejo o nuevo
-FECHA: 2026-11-10
+FECHA: 2026-11-12
 ESTADO: vigente — R036
 QUÉ HACE: valida el contrato M01-M06 y comunica por separado si está autorizado, bloqueado o limitado a preflight.
 CAMBIOS: añade production_authorization coherente entre catálogo y contrato sin confundir validez estructural con permiso de ejecución.
@@ -14,7 +14,8 @@ CAMBIOS 1.3.0: la entrada del catálogo maestro se busca también en pilot_terri
 CAMBIOS 1.4.0 (T-214): el territorio solicitado se compara con meta.territory_id por el resolutor único
   (ddd_core/territorio_ids.py): `congreso_alava` y `nac01` admiten el mismo contrato; `madrid` y `nac28`, no.
 MOTIVO 1.4.0: corte 5.0.0 paso 1-2 (D-61): leer ambos ids durante la convivencia de alias.
-ANTERIOR: legacy/core/territory_contract_v1.3.0.py
+CAMBIOS 1.4.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/ddd_core/territory_contract_v1.4.0_20261112.py
 """
 from __future__ import annotations
 

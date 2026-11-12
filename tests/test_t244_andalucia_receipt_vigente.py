@@ -1,5 +1,5 @@
-"""VERSIÓN: 1.0.0
-FECHA: 2026-11-11
+"""VERSIÓN: 1.0.1
+FECHA: 2026-11-12
 CAMBIOS: T-244 — con el catálogo vivo, Andalucía 2025 resuelve el receipt territorial
 253f…/40946875467 (preparation_evidence) y no el independiente 057a…/38082966768, cuyo
 paquete está purgado. La comparación completa del catálogo antes/después (solo difiere
@@ -7,7 +7,8 @@ Andalucía) se hizo en la PR y consta en el registro: un test contra un commit f
 salta en clon superficial y falla con cualquier cambio legítimo posterior.
 MOTIVO: la 00 de Andalucía (run 43011608060) falló con exit 72 «Artefacto territorial
 ausente o ambiguo» porque el resolver prefería el receipt independiente purgado.
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_t244_andalucia_receipt_vigente_v1.0.0_20261112.py
 """
 from __future__ import annotations
 

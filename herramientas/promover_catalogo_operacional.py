@@ -2,14 +2,15 @@
 """Promueve evidencia operacional sin perder el enlace productor M06.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.2
+VERSIÓN: 1.1.3
 NOMBRE DE VERSIÓN: Linaje histórico retirado al registrar un M06 nuevo
-FECHA: 2026-10-28
+FECHA: 2026-11-12
 ESTADO: candidato
 QUÉ HACE: registra recibos operativos y rederiva su persistencia desde el HEAD destino.
 CAMBIOS: al registrar territorial_product retira territorial_product_source_lineage si pertenece a otro run.
 MOTIVO: Aragón registró el M06 40656036271 conservando el linaje del producto 36321736287, y la reutilización geométrica atribuía el producto nuevo a la fuente antigua.
-ANTERIOR: legacy/herramientas/promover_catalogo_operacional_v1.1.1_20261028.py
+CAMBIOS 1.1.3 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/promover_catalogo_operacional_v1.1.2_20261112.py
 """
 from __future__ import annotations
 

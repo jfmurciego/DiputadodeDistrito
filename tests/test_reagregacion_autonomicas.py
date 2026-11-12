@@ -3,8 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba de la reagregación autonómica (T-121)
-VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_reagregacion_autonomicas_v1.0.0_20261112.py
 FUNCIÓN: casos sintéticos con valores a mano y comprobación del resultado real contra literales de la fuente del Observatorio.
 """
 import csv

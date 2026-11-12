@@ -3,14 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: pruebas de fuentes oficiales y preparación territorial
-VERSIÓN: 1.2.0
+VERSIÓN: 1.2.1
 NOMBRE DE VERSIÓN: Inmutabilidad nacional y aislamiento territorial
-FECHA: 2026-09-17
+FECHA: 2026-11-12
 ESTADO: candidato
 FUNCIÓN: demostrar que las copias oficiales nacionales son inmutables y los recortes territoriales quedan aislados y consumibles.
 CAMBIOS: añade regresiones origen/destino, huellas nacionales, preparación consecutiva Aragón-Extremadura y consumo desde ddd-official-inputs.
 MOTIVO: impedir que preparar un territorio mutile la fuente nacional compartida o contamine la preparación del siguiente.
-ANTERIOR: legacy/tests/test_fuentes_oficiales_preparacion_v1.1.0.py
+CAMBIOS 1.2.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_fuentes_oficiales_preparacion_v1.2.0_20261112.py
 """
 from __future__ import annotations
 

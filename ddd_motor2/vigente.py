@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — el único mapa vigente: el publicado en el visor
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Vigente único · el publicado en el visor
 FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa)
@@ -13,7 +13,8 @@ CAMBIOS: 1.0.0 — (T-258) fichero nuevo. Un solo resolvedor del vigente para la
   territorios eran mapas distintos (Castilla y León y 30 del Congreso) y en Canarias la aceptación caía en el
   <t>.csv de otro run, así que la clave de la competición y la comprobación 2 medían vigentes distintos.
 MOTIVO: T-258: que competición y aceptación comparen siempre contra el mismo vigente, el publicado en el visor.
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/ddd_motor2/vigente_v1.0.0_20261112.py
 REGLA: el vigente de `t` es el canonical_m06 de mayor run de orchestracion/publicaciones_visor.json (elección
   2023-07-23; sin fecha cuenta como 2023-07-23). Su composición es datos/composicion/runs/<t>_<run>.csv; si no
   existe, datos/composicion/<t>.csv solo si MANIFEST.json dice que es de ese mismo run. Si no, no hay vigente

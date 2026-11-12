@@ -1,7 +1,8 @@
 """T-105: Gestor de Campañas 2.0 (D-22), entradas en español → plan en seco; lo no disponible falla al planificar.
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-08
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_gestor_campanas_2_v1.0.0_20261112.py
 Valores esperados de fuentes independientes: provincias por comunidad del INE (Aragón 22, 44, 50) y los 49 gemelos
 del mapa de 350 de T-102 (sin Baleares, Las Palmas ni Santa Cruz de Tenerife).
 """

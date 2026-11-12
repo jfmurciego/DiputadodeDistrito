@@ -3,9 +3,9 @@
 """Archivo en origen: el propio run guarda en R2 su M06/M08 y en git la composición y los votos por partido (T-72).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.4
+VERSIÓN: 1.0.5
 NOMBRE DE VERSIÓN: Archivo en origen
-FECHA: 2026-11-09
+FECHA: 2026-11-12
 ESTADO: candidato
 CAMBIOS: 1.0.4 (T-119): si el run archivado es el del M06 vigente (orchestracion/publicaciones_visor.json) y no existe
   datos/composicion/<territorio>.csv (o es de otro run), composicion lo promueve también a canónico con su entrada en
@@ -21,7 +21,8 @@ CAMBIOS: 1.0.4 (T-119): si el run archivado es el del M06 vigente (orchestracion
   M06 y M08; antes solo veían *.geojson sueltos).
   1.0.1 (T-72b): r2 sube el paquete mínimo y no el ZIP de estado (R2 total ≤ 8 GB); --extra; --sustituye-m06-run (el M08 acumulativo retira su M06 de R2) y el check acepta el M08
   que contiene el M06 publicado.
-ANTERIOR: legacy/herramientas/archivo_origen_v1.0.3_20261109.py
+CAMBIOS 1.0.5 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/archivo_origen_v1.0.4_20261112.py
 QUÉ HACE: cinco subcomandos (r2, composicion, canonica, partidos, comprobar).
   r2          sube a R2 el paquete mínimo (``ddd-minimo-<run>-M06``/M08: GeoJSON distritales, CSV/JSON de M06-M08,
               VALIDACION, manifiestos y ``--extra``; herramientas/archivar_artefactos_r2.empaquetar_minimo) del

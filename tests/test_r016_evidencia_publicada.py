@@ -3,15 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: integridad de evidencia publicada R016
-VERSIÓN: 1.0.1
+VERSIÓN: 1.0.2
 NOMBRE DE VERSIÓN: Baseline Run #9
-FECHA: 2026-09-11
+FECHA: 2026-11-12
 ESTADO: vigente
 FUNCIÓN: proteger la evidencia publicada R016 comparando Run #9 con Run #8.
 CAMBIOS: migra las comparaciones R016 a la evidencia territorial canónica única.
 MOTIVO: convertir la mejora de R016 en una regresión automática y evitar volver al máximo desvío de Run #8.
 ORIGEN: R016 / GitHub Run #9 34599224954
-ANTERIOR: legacy/tests/test_r016_evidencia_publicada_v1.0.0.py
+CAMBIOS 1.0.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_r016_evidencia_publicada_v1.0.1_20261112.py
 """
 from __future__ import annotations
 

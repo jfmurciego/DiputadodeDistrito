@@ -2,9 +2,9 @@
 """Serializa y verifica linaje durable de un M06 emitido por el workflow 02.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: Manifiesto durable M06 independiente · P30 del motor 2
-FECHA: 2026-11-10
+FECHA: 2026-11-12
 ESTADO: candidato
 QUÉ HACE: enlaza contrato, ejecución, inputs, M05, certificación M06 y referencias de artefactos.
 CAMBIOS: 1.1.0 (T-216): si el estado M06 trae p30_motor2/P30.json (modo `motor: motor2`), el manifiesto añade
@@ -14,7 +14,8 @@ CAMBIOS: 1.1.0 (T-216): si el estado M06 trae p30_motor2/P30.json (modo `motor: 
   «checkpoint» y como «m04» (Congreso Álava, run 41335088773). Ids distintos con el mismo nombre siguen fallando.
   1.0.0: añade un manifiesto M06 posterior al empaquetado, sin incluirlo en el artefacto que acredita.
 MOTIVO: conservar linaje durable cuando la generación se ejecuta por 02 y no por 00. 1.1.0: T-216, huella del P30.
-ANTERIOR: legacy/herramientas/manifest_generacion_territorial_v1.0.1_20261101.py
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/manifest_generacion_territorial_v1.1.0_20261112.py
 """
 from __future__ import annotations
 

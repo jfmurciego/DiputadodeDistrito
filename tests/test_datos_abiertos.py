@@ -3,8 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba de datos abiertos y fichas por distrito (T-60)
-VERSIÓN: 1.1.0 · FECHA: 2026-11-11 · ESTADO: candidato
-ANTERIOR: legacy/tests/test_datos_abiertos_v1.0.0_20261111.py
+VERSIÓN: 1.1.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_datos_abiertos_v1.1.0_20261112.py
 CAMBIOS 1.1.0 (T-249): un M06 nuevo sin M08 de su run no saca el territorio del paquete (par coherente); la guarda
   DATOS_ABIERTOS_REDUCCION falla si el INDEX pierde territorios sin retirada explícita; la retirada sí los borra.
 FUNCIÓN: territorio sintético: paquete, huellas, fichas, nombres opcionales, idempotencia, sha256 erróneo,

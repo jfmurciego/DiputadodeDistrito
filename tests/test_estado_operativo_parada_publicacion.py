@@ -2,8 +2,10 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: test T-11 de generar_estado_operativo 2.3.5
-VERSIÓN: 1.0.0
-FECHA: 2026-11-01
+VERSIÓN: 1.0.1
+FECHA: 2026-11-12
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_estado_operativo_parada_publicacion_v1.0.0_20261112.py
 FUNCIÓN: un fallo solo en la 05 no marca «parada» si la cadena está completa y publicada.
 """
 import importlib.util

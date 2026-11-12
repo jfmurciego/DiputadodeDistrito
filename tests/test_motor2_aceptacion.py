@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 """T-194 · criterio escrito y automatizado de «el motor nuevo puede relevar» (docs/ARQUITECTURA/ACEPTACION_MOTOR2.md).
 
-VERSIÓN: 1.0.0
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_motor2_aceptacion_v1.0.0_20261112.py
 (a) huella bit a bit fija en Soria, Álava y Melilla (semilla pública D-50, N fijo); (b) todo ganador pasa el
 certificador (núcleo único, R-NUCLEO y atomicidad M04); (c) nunca peor que el canónico en los 71, leído del informe de
 la batería ya generado (no recalcula); (d) casos adversos: el certificador rechaza; (e) mismo mapa con id viejo y nuevo

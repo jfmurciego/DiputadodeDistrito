@@ -1,12 +1,13 @@
 """
 PRUEBAS: Contrato electoral común R039
-VERSIÓN: 1.0.2
+VERSIÓN: 1.0.3
 NOMBRE DE VERSIÓN: Verificación coherente y normalización de district_id
-FECHA: 2026-09-15
+FECHA: 2026-11-12
 ESTADO: vigente — R039
 CAMBIOS: añade regresión para IDs de distrito leídos por pandas como float entero (1.0) frente a IDs geométricos textuales ("1").
 MOTIVO: impedir que una representación de tipo convierta una cobertura electoral completa en un falso faltante 67/67.
-ANTERIOR: legacy/tests/test_r039_electoral_contract_v1.0.1.py
+CAMBIOS 1.0.3 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_r039_electoral_contract_v1.0.2_20261112.py
 """
 from __future__ import annotations
 

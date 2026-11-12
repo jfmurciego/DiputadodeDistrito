@@ -3,9 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — laboratorio de naturalidad: competición con cinco funciones de calidad y grafo ponderado
-VERSIÓN: 1.6.0
+VERSIÓN: 1.6.1
 NOMBRE DE VERSIÓN: Naturalidad · árbol ponderado sobre RX
-FECHA: 2026-11-11
+FECHA: 2026-11-12
 ESTADO: experimento (motor 2; producción no lo importa; no lanza nada; el criterio NO se fija aquí)
 CAMBIOS: 1.6.0 (T-262, D-89): `arbol_ponderado` sobre grafos RX lee extremos y datos de todas las aristas de una vez
   (edge_index_map) en vez de get_edge_from_edge_id/node_data/edge_data por arista: mismo orden de aristas
@@ -41,7 +41,8 @@ CAMBIOS: 1.6.0 (T-262, D-89): `arbol_ponderado` sobre grafos RX lee extremos y d
   arista y, con ella, las cadenas (Badajoz, Madrid y Barcelona no reprodujeron #651). 1.0.0: fichero nuevo.
 MOTIVO: T-172, pasos 3 y 4: ¿cuánta población «cuesta» un mapa más natural? Misma entrada, mismas reglas (núcleo
   ddd_motor2.reglas.evaluar), mismas semillas públicas (semilla.py); cambia solo cómo se elige y cómo se corta.
-ANTERIOR: 1.5.0 (T-205) — legacy/ddd_motor2/naturalidad_competicion_v1.5.0_20261110.py
+CAMBIOS 1.6.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/ddd_motor2/naturalidad_competicion_v1.6.0_20261112.py
 QUÉ HACE: por territorio,
   entrada   el mapa vigente (datos/composicion/<t>.csv: población por sección) y la geometría INE del contrato
             (naturalidad_mapas.Geometria). Unidades: cada municipio con población <= objetivo es una unidad (la regla

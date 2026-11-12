@@ -1,13 +1,14 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: integración ensemble / GerryChain
-VERSIÓN: 1.2.0
-FECHA: 2026-09-17
+VERSIÓN: 1.2.1
+FECHA: 2026-11-12
 CAMBIO: mantiene GerryChain como capacidad reutilizable interna y comprueba que
 no reaparece como control en la interfaz productiva de cuatro campos.
 MOTIVO: separar producción territorial de la generación de alternativas sin
 modificar el contrato ni la ejecución interna de GerryChain.
-ANTERIOR: versión 1.1.1 en historial Git.
+CAMBIOS 1.2.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_ensemble_integration_v1.2.0_20261112.py
 """
 from __future__ import annotations
 

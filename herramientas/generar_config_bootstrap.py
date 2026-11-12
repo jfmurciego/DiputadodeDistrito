@@ -3,15 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Generador de configuración bootstrap territorial
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Bootstrap M01-M03 observable
-FECHA: 2026-09-12
+FECHA: 2026-11-12
 ESTADO: vigente — R022
 QUÉ HACE: genera un YAML efímero M01-M03 para un territorio del catálogo nacional, con auditorías topológicas activas y enforcement desactivado.
 POR QUÉ ES SEPARADA: el catálogo planifica territorios; esta herramienta transforma esa declaración en un contrato ejecutable sin duplicar YAML ni lógica en Actions.
 CAMBIOS: primera versión.
 MOTIVO: ejecutar Madrid y el resto de España con el mismo motor y medir antes de fijar cardinalidades, puentes, K o tolerancias.
-ANTERIOR: ninguno — herramienta nueva.
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_config_bootstrap_v1.0.0_20261112.py
 """
 from __future__ import annotations
 import argparse

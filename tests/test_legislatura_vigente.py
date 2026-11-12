@@ -1,10 +1,11 @@
 """T-86: legislatura vigente (71 territorios con fuente) y plan/lanzamiento del Gestor de Campañas.
 
-VERSIÓN: 1.2.1 · FECHA: 2026-11-10
+VERSIÓN: 1.2.2 · FECHA: 2026-11-12
 CAMBIOS 1.2.1: T-215, títulos simulados de la 05 y la 06 con los nombres v5; un run en curso con el título viejo de la 00 cuenta.
 CAMBIOS 1.2.0: T-105, relevo con «@auto» para los iniciados, ensemble tras publicar y formulario 2.0 (D-22).
 CAMBIOS 1.1.0: T-102, los 49 gemelos Congreso 350 van aparte (ámbito congreso_350); siguen 71 de la legislatura.
-ANTERIOR: legacy/tests/test_legislatura_vigente_v1.2.0_20261110.py
+CAMBIOS 1.2.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_legislatura_vigente_v1.2.1_20261112.py
 """
 import json
 import sys

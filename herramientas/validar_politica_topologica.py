@@ -3,13 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Validador de política topológica
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Admisión topológica previa a M04
-FECHA: 2026-09-13
+FECHA: 2026-11-12
 ESTADO: vigente — R037
 QUÉ HACE: contrasta el registro topológico con R023 y rechaza admisiones o puentes insuficientemente documentados.
 MOTIVO: convertir anomalías observadas y archipiélagos en decisiones reproducibles sin ejecutar módulos territoriales.
-ANTERIOR: ninguno — componente nuevo.
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/validar_politica_topologica_v1.0.0_20261112.py
 """
 from __future__ import annotations
 import argparse, json

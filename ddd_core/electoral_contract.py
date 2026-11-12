@@ -1,9 +1,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Contrato electoral común
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: Entrada electoral con id viejo o nuevo
-FECHA: 2026-11-10
+FECHA: 2026-11-12
 QUÉ HACE: valida convocatoria, fuentes, adaptadores y diccionario de partidos de M07.
 ESTADO: vigente — R039
 CAMBIOS: componente nuevo independiente de cualquier territorio.
@@ -11,7 +11,8 @@ MOTIVO: impedir entradas electorales artesanales, no trazadas o normalizadas en 
 CAMBIOS 1.1.0 (T-214): expected_territory_id se compara por el resolutor único (ddd_core/territorio_ids.py):
   el contrato electoral se admite con el id viejo o con el nuevo del mismo territorio.
 MOTIVO 1.1.0: corte 5.0.0 paso 1-2 (D-61).
-ANTERIOR: legacy/core/electoral_contract_v1.0.0.py
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/ddd_core/electoral_contract_v1.1.0_20261112.py
 """
 from __future__ import annotations
 

@@ -3,14 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: adquisición genérica de fuentes oficiales
-VERSIÓN: 1.4.1
+VERSIÓN: 1.4.2
 NOMBRE DE VERSIÓN: Evidencia poblacional antes del filtro
-FECHA: 2026-10-12
+FECHA: 2026-11-12
 ESTADO: candidato
 FUNCIÓN: materializar fuentes territoriales por declaración, preservando inmutables las copias oficiales nacionales.
 CAMBIOS: conserva bytes, huella y procedencia poblacional antes de filtrar, incluso si la adquisición queda bloqueada.
 MOTIVO: permitir reproducir los déficits de cobertura sin repetir descargas ni sustituir evidencias.
-ANTERIOR: legacy/herramientas/adquirir_fuentes_oficiales_pre_F10_raw_population_20261012.py
+CAMBIOS 1.4.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/adquirir_fuentes_oficiales_v1.4.1_20261112.py
 """
 from __future__ import annotations
 

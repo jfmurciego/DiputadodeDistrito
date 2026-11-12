@@ -3,8 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba del calendario de autonómicas (T-121)
-VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_calendario_autonomicas_v1.0.0_20261112.py
 FUNCIÓN: valores escritos a mano desde la tabla pública del Observatorio (iturriak.html); el CSV real debe estar al día.
 """
 import csv

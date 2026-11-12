@@ -1,9 +1,9 @@
 """Resolver de activos durables M06/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0
+VERSIÓN: 1.2.1
 NOMBRE DE VERSIÓN: M08 sin linaje productor se rechaza, no bloquea
-FECHA: 2026-11-10
+FECHA: 2026-11-12
 ESTADO: candidato
 QUÉ HACE: valida activos territoriales/electorales y sus manifiestos de productor.
 CAMBIOS 1.2.0: T-166, si la fase 04 del manifiesto no enlaza el M08 del catálogo (04 en failure, digest vacío) o no es
@@ -12,7 +12,8 @@ CAMBIOS 1.2.0: T-166, si la fase 04 del manifiesto no enlaza el M08 del catálog
 CAMBIOS 1.1.1: compara la fuente M06 standalone con el artefacto territorial declarado en sus inputs.
 MOTIVO: la 00 hija «Reutilizar» encadenada fallaba siempre en Planificar (DURABLE_LINEAGE_INCOMPATIBLE: electoral_product)
   y dejaba el eslabón electoral sin hacer; un receipt auténtico cuyo manifiesto no prueba la 04 no es reutilizable.
-ANTERIOR: legacy/herramientas/resolver_activos_durables_v1.1.1_20261110.py
+CAMBIOS 1.2.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/resolver_activos_durables_v1.2.0_20261112.py
 """
 from __future__ import annotations
 

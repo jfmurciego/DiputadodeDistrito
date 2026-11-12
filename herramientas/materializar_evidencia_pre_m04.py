@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """PROYECTO: Diputado de Distrito
 HERRAMIENTA: Materializador de evidencia pre-M04
-VERSIÓN: 1.0.1
+VERSIÓN: 1.0.2
 NOMBRE DE VERSIÓN: Acreditación fuente-vinculada con contadores verificables
-FECHA: 2026-10-19
+FECHA: 2026-11-12
 ESTADO: candidato de integración; pendiente de CI y revisión.
 QUÉ HACE: materializa evidencia durable para la puerta pre-M04.
 CAMBIOS: conserva contadores municipales y solo normaliza a cero los subcontadores ausentes cuando M03 acredita exactamente cero desconexiones.
 MOTIVO: transportar evidencia verificable para discontinuidades admitidas y rechazar tipos o sumas inválidos.
-ANTERIOR: legacy/herramientas/materializar_evidencia_pre_m04_pre_cat_pre_m04_20261019.py
+CAMBIOS 1.0.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/materializar_evidencia_pre_m04_v1.0.1_20261112.py
 PREDECESOR: copia exacta del archivo de main antes de la primera versión integrada.
 """
 from __future__ import annotations

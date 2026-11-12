@@ -3,8 +3,9 @@
 """Linaje M06/M08 de un territorio publicado (T-249).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-11 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/linaje_m06_m08_v1.0.0_20261112.py
 QUÉ HACE: publicar un territorio es registrar el PAR: canonical_m06 (00 territorial) y canonical_m08 (00 electoral de la
   misma cadena, a menudo «Reutilizar» del bot con otro run_id). Un M08 es del linaje de un M06 si comparten run o si el
   manifiesto del run del M08 (territorios/<t>/evidencia/ejecuciones_completas/<run>.json) acredita que su 02 es el run del

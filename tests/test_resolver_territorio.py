@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# FECHA: 2026-11-10
+# VERSIÓN: 1.0.1
+# FECHA: 2026-11-12
 # QUÉ HACE: pruebas D y E de T-170 §4 (T-214): resolutor único, catálogo con notacion/id_legacy biyectivo con la tabla
 #   maestra y admisión de contratos con el id viejo o el nuevo.
 # CAMBIOS: fichero nuevo.
 # MOTIVO: D-61; corte 5.0.0 pasos 1-2.
-# ANTERIOR: ninguna (fichero nuevo)
+# CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/tests/test_resolver_territorio_v1.0.0_20261112.py
 import sys
 import unittest
 from pathlib import Path

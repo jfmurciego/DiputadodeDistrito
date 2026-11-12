@@ -1,7 +1,8 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# FECHA: 2026-11-10
-# ANTERIOR: ninguna (fichero nuevo)
+# VERSIÓN: 1.0.1
+# FECHA: 2026-11-12
+# CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/tests/test_notacion_territorial_v1.0.0_20261112.py
 """T-148: la tabla maestra AUT/NAC cuadra con el INE (fuente con sha256), el catálogo y territorios/."""
 import csv, hashlib, html, re, unittest
 from pathlib import Path

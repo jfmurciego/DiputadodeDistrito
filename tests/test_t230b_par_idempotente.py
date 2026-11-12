@@ -1,5 +1,6 @@
-# VERSIÓN: 1.0.0 · FECHA: 2026-11-11 · CAMBIOS: T-230b, idempotencia del registro del par ante campos derivados.
-# ANTERIOR: ninguna (fichero nuevo)
+# VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · CAMBIOS: T-230b, idempotencia del registro del par ante campos derivados.
+# CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/tests/test_t230b_par_idempotente_v1.0.0_20261112.py
 from __future__ import annotations
 
 import json

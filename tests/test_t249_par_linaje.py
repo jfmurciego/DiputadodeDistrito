@@ -3,8 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba del par M06/M08 por linaje (T-249)
-VERSIÓN: 1.0.0 · FECHA: 2026-11-11 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_t249_par_linaje_v1.0.0_20261112.py
 FUNCIÓN: linaje por mismo run o por manifiesto del run del M08 (02 = run del M06, 04 = propio run en success); la P50
   (`candidate`) rechaza un M06 sin su M08 o con un M08 de otro linaje; datos abiertos empareja por linaje.
 """

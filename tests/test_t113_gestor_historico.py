@@ -1,10 +1,11 @@
 """T-113: «histórico: generales 2019-11» del Gestor 2.0 planifica el paso A de T-83 por provincia.
 
-VERSIÓN: 1.1.0 · FECHA: 2026-11-11
+VERSIÓN: 1.1.1 · FECHA: 2026-11-12
 CAMBIOS: 1.1.0 (T-247): el plan se evalúa sobre una raíz con el INDEX de M06 publicados congelado (52 circunscripciones,
   tests/fixtures/t247_m06_publicados_52.json) y composiciones presentes; antes leía datos_abiertos/INDEX.json vivo, que
   reescribe la 05 del bot (9c0cab12 lo dejó en 17 territorios, sin Huesca) y ponía main en rojo sin tocar este código.
-ANTERIOR: legacy/tests/test_t113_gestor_historico_v1.0.0_20261111.py
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_t113_gestor_historico_v1.1.0_20261112.py
 Valores esperados de fuentes independientes: códigos INE de provincia (Huesca 22, Teruel 44, Zaragoza 50) y las 52
 circunscripciones del Congreso. No se fija cuántas tienen M06 publicado (cambia con cada 00): lo no soportado se prueba
 con un territorio inexistente.

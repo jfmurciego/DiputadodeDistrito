@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """T-237: publicación por lotes en la P50 (`production_run_id` con varios runs 00, todo o nada).
 
-PROYECTO: Diputado de Distrito · VERSIÓN: 1.1.0 · FECHA: 2026-11-11 · ESTADO: candidato
+PROYECTO: Diputado de Distrito · VERSIÓN: 1.1.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS 1.1.0 (T-239): descarga selectiva y en paralelo; el `gh` falso simula los artefactos de una 00 y respeta --pattern.
-ANTERIOR: legacy/tests/test_t237_publicacion_lotes_v1.0.0_20261111.py
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_t237_publicacion_lotes_v1.1.0_20261112.py
 Repetidos: se RECHAZAN (no se deduplican). Lista vacía: «solo sitio» (como T-125).
 """
 import json

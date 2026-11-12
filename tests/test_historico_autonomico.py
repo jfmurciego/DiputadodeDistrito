@@ -1,7 +1,8 @@
 """T-133: paso A del histórico autonómico del Gestor 2.0 (plan por comunidad con su propio calendario).
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-09
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_historico_autonomico_v1.0.0_20261112.py
 Valores esperados de fuentes independientes: fechas de las autonómicas de cada comunidad (calendario con fuente y
 sha256: CyL 2011-05, 2015-05, 2019-05, 2022-02 y 2026-03 vigente; Galicia 2012-10, 2016-09, 2020-07 y 2024-02 vigente;
 Madrid 2011-05, 2015-05, 2019-05, 2021-05 y 2023-05 vigente). No se fija qué comunidades están soportadas (cambia con
