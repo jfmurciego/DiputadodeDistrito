@@ -32,3 +32,5 @@ Estado: EN ESPERA (el propietario aparca los distritos, 17:51 vía Planificador)
 - 09:51 (resultado): las dos en success pero con 03/04 omitidos (sin M08): error del Operador al lanzar en `territorial_only` sin cadena.
 - Frase nueva del propietario (11:55 aprox.): «Autorizo relanzar Andalucía y Cataluña reutilizando el progreso existente en modo electoral, con el motor nuevo y sin publicar, un intento cada una; y, si las dos dejan su mapa y sus resultados, publicarlas en el visor en un solo lote.»
 - 11:55 · P00 Reutilizar motor2 `publication_mode=electoral`, `publish_result=false`: Andalucía 43204696160, Cataluña 43204706233 · EN_VUELO.
+- 12:08: las dos en success con M08 (03 omitido por reutilización, 04 y puertas en success): Andalucía ddd-state-43204696160-M08, Cataluña ddd-state-43204706233-M08.
+- 12:09 · P50 por lotes «Visor territorial» con 43204696160 y 43204706233 · 43206627505 · EN_VUELO (antes: registro 335, INDEX 52).
