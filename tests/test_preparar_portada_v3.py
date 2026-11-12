@@ -8,6 +8,7 @@ MOTIVO: impedir falsas promesas de datos al incorporar el explorador V3.
 ANTERIOR: ninguna (fichero nuevo)
 """
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -73,6 +74,15 @@ class PortadaV3Tests(unittest.TestCase):
         self.assertIn("cp visor/v3/index.html visor/v3/v3.css visor/v3/v3.js visor/v3/calendario.json", wf)
         self.assertIn("node --check /tmp/site-candidate/v3/v3.js", wf)
         self.assertEqual(wf.count("--site /tmp/site-candidate"), 1)
+
+    def test_interacciones_ui_v3_en_node(self):
+        # Prueba estados y clicks reales del controlador, no solo el HTML estático.
+        result = subprocess.run(
+            ["node", str(ROOT / "tests/test_visor_v3_ui.js")],
+            cwd=ROOT, capture_output=True, text=True, timeout=30, check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + "\\n" + result.stderr)
+        self.assertIn("V3 UI smoke: PASS", result.stdout)
 
     def test_paneles_y_selectores_completos(self):
         html = (V3 / "index.html").read_text(encoding="utf-8")
