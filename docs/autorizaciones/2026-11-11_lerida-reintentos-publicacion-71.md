@@ -19,3 +19,9 @@
 | 17:30 | Congreso Lérida (2, reintento único tras 503 de cuota; las 7 autonómicas descargaron sin 503) | P00 Generar desde fuente, motor2, cadena | 43059014993 | SUCCESS: Activación 43063913076 y electoral 43064129984 en success |
 
 Estado: EN ESPERA (el propietario aparca los distritos, 17:51 vía Planificador): Andalucía y la P50 de las 71 no se lanzan hasta que reactive.
+
+## Reactivación y publicación (2026-11-12)
+- Frase del propietario (09:30 aprox.): «Reactivo la ficha de Lérida y publicación: autorizo una P50 por lotes con todos los territorios publicables del inventario del Planificador, con la guarda del INDEX; un reintento si falla por cuota, después parar e informar.»
+- Antes: registro 232 productos; datos_abiertos/INDEX.json 52 territorios.
+- Inventario: `docs/autorizaciones/inventario_publicacion_2026-11-12.tsv` (territorio, run electoral, artefactos M06/M08 vivos). Publicables 69. No publicables: Andalucía (sin electoral: la P00 del bot cayó por la avería de la puerta 01→02, ya arreglada; no se relanza) y Cataluña (su P00 Reutilizar 43045037822 no tiene artefacto M08).
+- 09:30 · P50 por lotes «Visor territorial» con los 69 runs electorales · 43183569340 · EN_VUELO (espera aprobación de `produccion`).
