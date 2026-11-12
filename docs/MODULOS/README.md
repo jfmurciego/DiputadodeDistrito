@@ -13,6 +13,9 @@ Esta carpeta documenta cada módulo como una unidad de transformación auditable
 | M07 | agregación electoral | CSV por partido + resumen | GeoJSON de secciones electorales |
 | M08 | producto electoral territorial | `distritos_resultados.csv` | GeoJSON final de distritos |
 
+## Generación de distritos: Deslinde 1.0 (T-234)
+Los distritos vigentes los produce **Deslinde 1.0** («delimitación reproducible de distritos uninominales»; `motor2` en el código, P30): canónico (M04 + M05) + 10 cadenas ReCom + el mapa vigente como candidato, y elección por la clave D8; M06 consolida el plan ganador. M04 y M05 son solo el candidato canónico de esa competición. La ruta autónoma M04 + M05 sin competición (`motor=m05`) está **retirada**: se conserva el código (huellas M05/N08, tests R015/R016) y solo se usa por decisión expresa. Nada se renombra en el código antes del corte (D-84). Copia anterior: `legacy/docs/MODULOS/README_pre_T-234_20261111.md`.
+
 ## Regla de completud
 Un informe responde «¿cómo fue el módulo?». Un producto responde «¿qué entidades produjo?». Ambos son necesarios. Nunca se considerará auditable una ejecución que conserve el primero y descarte el segundo.
 
