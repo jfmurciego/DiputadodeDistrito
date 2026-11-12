@@ -3,11 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — orquestador de la competición «canónico + GerryChain»
-VERSIÓN: 1.4.2
-NOMBRE DE VERSIÓN: Competición · semilla por código oficial en la huella
-FECHA: 2026-11-11
+VERSIÓN: 1.4.3
+NOMBRE DE VERSIÓN: Competición · excepción D-66 del contrato
+FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.4.2 — (T-265, D-90) huella_resultado incluye la semilla pública registrada (esquema, código oficial de la
+CAMBIOS: 1.4.3 — (T-259, D-66) competir_publico valida antes validation.max_mixed_districts_exceptions
+  (excepcion_d66.py): si el contrato declara alguna, ErrorContrato y no se ejecuta (el núcleo aún no la aplica: T-269).
+  Resultado.excepciones_d66 (lista normalizada; hoy siempre []) va a COMPETICION.json. La huella no cambia.
+  1.4.2 — (T-265, D-90) huella_resultado incluye la semilla pública registrada (esquema, código oficial de la
   tabla maestra y sha256 de la tabla) cuando competir_publico la deriva (semilla.py 1.1.0). Competir con semillas
   dadas (sin semilla_publica) no cambia.
   1.4.1 — (T-261) _exhaustivo pasa a enumerar_exacto el plan del canónico (`plan=`): si la cota de nodos
@@ -41,7 +44,7 @@ CAMBIOS: 1.4.2 — (T-265, D-90) huella_resultado incluye la semilla pública re
   1.1.0 — competir_publico (semillas públicas de semilla.py); Resultado.valido y Resultado.huella()
   (reproducibilidad bit a bit); sin referencia de núcleos y con unidades cerradas, ERROR_DATOS (indicador explícito:
   unidades con nucleo_cerrado, no el texto del aviso); pruebas de desempate por huella y de canónico fallido.
-MOTIVO: 1.4.2 — T-265 / D-90: la semilla sale del código oficial y queda registrada en la huella.
+MOTIVO: 1.4.3 — T-259 / D-66: la excepción explícita del contrato queda validada y anotada. 1.4.2 — T-265 / D-90: la semilla sale del código oficial y queda registrada en la huella.
   1.4.1 — T-261 (D-89): no gastar el 60-87 % de la competición en un exhaustivo que no acaba.
   1.4.0 — T-217 (opción c de T-211): en las autonómicas el canónico M05 queda peor que el mapa publicado
   (Navarra: 24 fuera de tolerancia frente a 11) y las cadenas no lo alcanzan.
@@ -50,7 +53,7 @@ MOTIVO: 1.4.2 — T-265 / D-90: la semilla sale del código oficial y queda regi
   1.3.0 — T-205: D8 en la competición del motor nuevo (decisión tras T-179). 1.2.0 — T-175: enumeración exacta para territorios pequeños en el competidor del motor nuevo.
   T-163 / D-48: la primera versión del motor nuevo es una competición entre el canónico y N cadenas de
   GerryChain bajo el núcleo único de reglas; gana el mejor plan válido, así que nunca es peor que el canónico.
-ANTERIOR: legacy/ddd_motor2/competicion_v1.4.1_20261111.py
+ANTERIOR: legacy/ddd_motor2/competicion_v1.4.2_20261111.py
 QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador canónico (una vez) y la cadena con cada
   semilla, a través de adaptadores (protocolo Generador: devuelven una composición M06). Cada candidato se juzga con el
   núcleo (adaptadores.problema_y_plan + reglas.evaluar, Criterio D-44 por defecto) y se ordena con la función de
@@ -82,7 +85,7 @@ from .adaptadores import problema_y_plan
 from .calidad import metricas
 from .reglas import Criterio, ErrorContrato, ErrorDatos, Reglas, evaluar
 
-VERSION = "1.4.2"
+VERSION = "1.4.3"
 FUNCIONES = ("A", "C", "D5", "D8")
 ORDEN_A = ["evaluable", "violaciones_duras", "fuera_tolerancia", "desvio_max", "ecm", "huella_plan", "orden"]
 ORDEN_NATURAL = ["evaluable", "violaciones_duras", "fuera_tolerancia", "exceso_tope", "demarcaciones_partidas",
@@ -177,6 +180,7 @@ class Resultado:
     exhaustivo: dict = field(default_factory=dict)  # decisión y recuento de la enumeración exacta (sin el plan)
     funcion: str = "A"
     vigente: dict = field(default_factory=dict)  # T-217: si compitió y, si no, por qué
+    excepciones_d66: list = field(default_factory=list)  # T-259: excepciones D-66 del contrato (validadas)
 
     @property
     def valido(self) -> bool:
@@ -202,6 +206,7 @@ class Resultado:
             "valido": self.valido, "huella_resultado": self.huella(), "semilla_publica": self.semilla_publica,
             "canonico": self.canonico.id, "exhaustivo": self.exhaustivo, "huella_reglas": self.huella_reglas, "criterio": self.criterio,
             **({"vigente": self.vigente} if self.vigente else {}),
+            "excepciones_d66": self.excepciones_d66,
             "funcion": self.funcion, "orden_calidad": ORDEN_A if self.funcion == "A" else ORDEN_NATURAL,
             "tiempo_total_s": round(self.tiempo_total_s, 3),
             "candidatos": [c.a_dict() for c in sorted(self.candidatos, key=Candidato.clave)],
@@ -378,9 +383,12 @@ def competir_publico(entrada: EntradaTerritorio, canonico: Generador, cadena: Ge
                      n_cadenas: int = 5, criterio: Criterio | None = None, exhaustivo: bool = True,
                      funcion: str = "A", vigente: Generador | None = None) -> Resultado:
     """La competición con las N semillas públicas del territorio (semilla.py): misma entrada ⇒ mismo resultado."""
+    from .excepcion_d66 import validar
     from .semilla import descripcion
+    excepciones = validar(entrada.cfg)  # T-259: falla si declara alguna (T-269 la aplicará en el núcleo)
     desc = descripcion(entrada.cfg, entrada.territorio, n_cadenas)
     r = competir(entrada, canonico, cadena, desc["semillas"], destino, criterio=criterio, exhaustivo=exhaustivo,
                  funcion=funcion, vigente=vigente)
     r.semilla_publica = desc
+    r.excepciones_d66 = excepciones
     return r

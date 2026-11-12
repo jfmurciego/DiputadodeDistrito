@@ -12,6 +12,7 @@ import os
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -87,7 +88,8 @@ class Interfaz(unittest.TestCase):
             escribir_comp(Path(d) / "comp.csv", plan_corte(3), POB))})())
         f = competir_territorio("ceuta", tmp, 3, generadores=gen, entrada=e)
         self.assertEqual((f["funcion"], f["frente_al_canonico"]), ("D8", "mejora"), f)
-        g = fila_guardada("ceuta", tmp, 3, cfg=e.cfg, funcion="D8")
+        with mock.patch("ddd_motor2.generadores.ROOT", tmp):  # T-258: sin mapa publicado (aquí no compite el vigente)
+            g = fila_guardada("ceuta", tmp, 3, cfg=e.cfg, funcion="D8")
         self.assertEqual((g["frente_al_canonico"], g["ganador"]), ("mejora", f["ganador"]))
         self.assertIsNone(fila_guardada("ceuta", tmp, 3, cfg=e.cfg, funcion="A"))  # otra función: se recalcula
 

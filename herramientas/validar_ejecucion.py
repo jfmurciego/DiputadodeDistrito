@@ -3,14 +3,17 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Validación de ejecución
-VERSIÓN: 1.3.5
+VERSIÓN: 1.3.6
 NOMBRE DE VERSIÓN: Provincia dura y disciplina municipal — Gobernanza R015
-FECHA: 2026-09-11
+FECHA: 2026-11-12
 QUÉ HACE: valida cardinalidad, unicidad, población, contigüidad, integridad provincial y disciplina de división municipal.
 ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
 CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
 MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
 ANTERIOR: legacy/herramientas/validar_ejecucion_v1.3.1.py
+CAMBIO 1.3.6 (T-235, D-83): techo por distrito con ddd_core.population_cap_exemptions, recalculado sobre las secciones:
+  solo el distrito de una partición exenta con K=1 queda sin techo; sin la clave nada cambia.
+ANTERIOR 1.3.5: legacy/herramientas/validar_ejecucion_v1.3.5_20261112.py
 CAMBIO 1.3.5 (T-24): districts_below_floor extrae la comprobación de suelo por distrito (sin cambiar el criterio) para probarla con exención y sin ella.
 ANTERIOR 1.3.4: legacy/herramientas/validar_ejecucion_v1.3.4_20261102.py
 CAMBIO 1.3.4 (T-13): si las secciones M06 no traen el campo municipal del contrato (Las Palmas: sin
@@ -32,6 +35,7 @@ import pandas as pd
 from ddd_core.config import load_params_yaml,module_cfg, hard_limits
 from ddd_core.territorial_validation import strict_population_series, validate_geodataframe
 from ddd_core.population_floor_exemptions import exempt_municipalities, municipalities_touch_exempt
+from ddd_core.population_cap_exemptions import CapExemptionError, cap_exempt_partitions, district_cap
 
 def read_geo(path:Path):
     return gpd.read_file(f"zip://{path}" if path.suffix==".zip" else path)
@@ -65,6 +69,20 @@ def floor_exempt_districts(cfg,s6,val,sec,did):
             parts=sorted({str(v).zfill(2) for v in g[prov_field].dropna()})
             if parts and parts[0] in exempt_parts:out.add(str(district_id))
     return out
+
+def cap_exempt_districts(cfg,s6,val,sec,did):
+    """Distritos sin techo por el contrato: todas sus secciones en una partición exenta (K=1), recalculado sobre las secciones."""
+    exempt=cap_exempt_partitions(cfg)
+    prov_field=s6.get('province_field',val.get('province_field','CPRO'))
+    if not exempt or prov_field not in sec.columns:return set()
+    return {str(d) for d,g in sec.groupby(did) if math.isinf(district_cap(0.0,g[prov_field].dropna().astype(str),exempt))}
+
+def districts_above_cap(summ,pop_col,cap,exempt_ids):
+    """Distritos del resumen M06 sobre el techo, salvo los exentos del contrato."""
+    pops=pd.to_numeric(summ[pop_col],errors='coerce')
+    over=summ.loc[pops>cap,['district_id',pop_col]]
+    if exempt_ids:over=over[~over['district_id'].astype(str).isin(exempt_ids)]
+    return over.to_dict('records')
 
 def districts_below_floor(summ,pop_col,floor,exempt_ids):
     """Distritos del resumen M06 bajo su suelo; los exentos (municipio o partición del contrato) tienen suelo 0."""
@@ -137,7 +155,9 @@ def main():
     pops=pd.to_numeric(summ[pop_col],errors='coerce') if pop_col else pd.Series(dtype=float)
     exempt_ids=floor_exempt_districts(cfg,s6,val,sec,did)
     below=districts_below_floor(summ,pop_col,floor,exempt_ids) if pop_col else []
-    above=summ.loc[pops>cap,['district_id',pop_col]].to_dict('records') if pop_col else []
+    try:cap_exempt_ids=cap_exempt_districts(cfg,s6,val,sec,did)
+    except CapExemptionError as exc:fails.append(str(exc));cap_exempt_ids=set()
+    above=districts_above_cap(summ,pop_col,cap,cap_exempt_ids) if pop_col else []
     if below:fails.append(f'distritos bajo límite poblacional={len(below)}')
     if above:fails.append(f'distritos sobre límite poblacional={len(above)}')
 
@@ -196,7 +216,7 @@ def main():
     report={
         'run_id':a.run_id,'estado':'PASS' if not fails else 'FAIL','expected_districts':expected,'districts_found':k,
         'sections':len(sec),'total_population':section_pop,'target_population':target,'population_floor':floor,'population_cap':cap,
-        'below_floor':below,'above_cap':above,'graph_disconnected':disconnected,
+        'below_floor':below,'above_cap':above,**({'cap_exempt_districts':sorted(cap_exempt_ids)} if cap_exempt_ids else {}),'graph_disconnected':disconnected,
         'province_crossings':province_crossings,'province_district_counts':province_counts,
         'municipality_discipline_field':municipality_discipline_field,
         'municipality_discipline_strategy':str(partitioning.get('strategy') or 'municipality'),

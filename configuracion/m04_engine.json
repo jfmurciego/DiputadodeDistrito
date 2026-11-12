@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "status": "ACTIVE",
   "engine_id": "ddd_core.m04_seed_engine",
-  "engine_version": "7.6.7",
+  "engine_version": "7.6.8",
   "active_entrypoint": "ddd_core/m04_seed_engine.py",
   "cli_entrypoint": "modulos/04_generar_semillas.py",
   "dynamic_loading_allowed": false,
@@ -12,8 +12,8 @@
     "ddd_core/m04_seed_engine_v7412.py"
   ],
   "historical_snapshots_not_entrypoints": [],
-  "previous": "legacy/ddd_core/m04_engine_pre_t263.json",
-  "date": "2026-11-11",
-  "changes": "T-263: v745-v754 archived to legacy (dead code, not imported); internal_components lists the live chain. Engine unchanged.",
+  "previous": "legacy/ddd_core/m04_engine_pre_t235.json",
+  "date": "2026-11-12",
+  "changes": "T-235: preflight with per-partition ceiling from ddd_core/population_cap_exemptions.py (K=1 owner-governed exemption only); unchanged without the key.",
   "archived_snapshots": "legacy/ddd_core/t263_codigo_muerto/"
 }

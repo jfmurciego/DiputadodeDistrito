@@ -3,11 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — P30 dentro de la cadena de producción (00 / 02, modo `motor: motor2`)
-VERSIÓN: 1.1.1
+VERSIÓN: 1.1.2
 NOMBRE DE VERSIÓN: P30 en producción · la misma competición que la batería
-FECHA: 2026-11-11
+FECHA: 2026-11-12
 ESTADO: candidato (solo se ejecuta con la entrada `motor: motor2`; con `m05`, por defecto, nada lo llama)
-CAMBIOS: 1.1.1 — (T-265, D-90) la huella motor2 incluye la tabla maestra (configuracion/notacion_territorial.csv) y
+CAMBIOS: 1.1.2 — (T-258) el vigente del P30 es el publicado en el visor (generadores 1.2.2, vigente.py): la huella
+  motor2 del P30 (P30.json «motor2») añade el vigente RESUELTO del territorio (huella_vigente: run, ruta, sha256),
+  no el registro global del visor: publicar otro territorio no la cambia. La huella global (`huella`, sin
+  territorio) solo cambia por ddd_motor2/vigente.py. P30.json guarda también «run» y «origen» del vigente. El
+  canónico sigue siendo el del run (CanonicoDelRun).
+  1.1.1 — (T-265, D-90) la huella motor2 incluye la tabla maestra (configuracion/notacion_territorial.csv) y
   su resolutor (ddd_core/territorio_ids.py): de ellos sale el código oficial de la semilla. El territorio de la
   carpeta solo sirve para resolver ese código; P30.json publica `semilla_publica` con código, derivación y sha256.
   1.1.0 — (T-223) el P30 compite como la batería desde T-217 (competir.competir_territorio): con D8 entra
@@ -22,7 +27,7 @@ CAMBIOS: 1.1.1 — (T-265, D-90) la huella motor2 incluye la tabla maestra (conf
   1.0.0 — fichero nuevo.
 MOTIVO: 1.1.1 — T-265 / D-90 (semilla por código oficial). T-216 (corte 5.0.0, paso 3; D-75): el motor nuevo como P30 en la cadena de producción detrás de un interruptor
   `motor: m05|motor2` con `m05` por defecto hasta el relevo.
-ANTERIOR: legacy/ddd_motor2/produccion_v1.1.0_20261111.py
+ANTERIOR: legacy/ddd_motor2/produccion_v1.1.1_20261111.py
 QUÉ HACE (en el job M06 de la generación territorial, tras M04 + M05 canónico + M06 del propio run):
   competir   competición pública del motor 2 (competicion.competir_publico, la de la batería T-208): el canónico es el
              M06 que acaba de producir el run (mismas entradas M01-M03, M04, M05 canónico; no se recalcula), compite con
@@ -61,7 +66,7 @@ from pathlib import Path
 from typing import Mapping
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.1.1"
+VERSION = "1.1.2"
 ESQUEMA = "ddd.p30-motor2/1.0"
 FUNCION = "D8"  # única fuente de la función y N del P30: el flujo no los pasa y la huella motor2 los incluye
 CADENAS = 10
@@ -81,13 +86,25 @@ def _sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def huella_motor(funcion: str = FUNCION, cadenas: int = CADENAS, root: Path = ROOT) -> dict:
-    """Huella del motor 2 para la capa `motor2` de compatibility/motor.json (solo en el modo motor2)."""
+def huella_vigente(t: str, root: Path = ROOT) -> dict:
+    """T-258: el vigente RESUELTO de `t` (vigente.vigente_publicado: run, ruta y sha256), no el registro global del
+    visor: publicar otro territorio no cambia la huella de `t`; cambiar el mapa publicado de `t`, sí."""
+    from .vigente import vigente_publicado
+    v = vigente_publicado(t, root)
+    return {"territorio": t, "run": v.run, "ruta": v.ruta.relative_to(root).as_posix() if v.ruta else None,
+            "sha256": _sha(v.ruta.read_bytes()) if v.ruta else None, **({"motivo": v.motivo} if v.motivo else {})}
+
+
+def huella_motor(funcion: str = FUNCION, cadenas: int = CADENAS, root: Path = ROOT, territorio: str | None = None) -> dict:
+    """Huella del motor 2 para la capa `motor2` de compatibility/motor.json (solo en el modo motor2). Con `territorio`
+    (el P30), añade el vigente publicado que compite en ese territorio (huella_vigente)."""
     ficheros = sorted(p for p in (root / "ddd_motor2").rglob("*.py") if "__pycache__" not in p.parts)
     for patron in DATOS_NATURALIDAD:
         ficheros += sorted(p for p in root.glob(patron) if p.is_file())
     engine = {p.relative_to(root).as_posix(): _sha(p.read_bytes()) for p in ficheros}
     payload = {"motor": "motor2", "funcion": funcion, "cadenas": int(cadenas), "engine_files": engine}
+    if territorio:
+        payload["vigente"] = huella_vigente(territorio, root)
     payload["fingerprint"] = _sha(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8"))
     return payload
 
@@ -272,11 +289,11 @@ def competir(params: Path, n_cadenas: int = CADENAS, funcion: str = FUNCION, *, 
     salida = {"schema": ESQUEMA, "version": VERSION, "territorio": t, "params": str(params), "funcion": funcion,
               "cadenas": int(n_cadenas), "ganador": g.id, "generador": g.generador, "valido": bool(res.valido),
               "estado_ganador": g.estado, "huella_resultado": res.huella(), "semilla_publica": res.semilla_publica,
-              "motor2": huella_motor(funcion, n_cadenas), "candidatos": len(res.candidatos),
+              "motor2": huella_motor(funcion, n_cadenas, territorio=t), "candidatos": len(res.candidatos),
               "candidatos_validos": sum(c.estado == "VALIDO" for c in res.candidatos), "rehacer_m06": False,
               "secciones_cambiadas": 0, "run_id": os.environ.get("DDD_RUN_ID"), "entorno": entorno(),
               "vigente": {k: (res.vigente or {}).get(k) for k in ("estado", "compite", "detalle", "sha256_origen",
-                                                                 "reparado")},
+                                                                 "reparado", "run", "origen")},
               "composicion_m06_sha256": _sha(r["composicion"].read_bytes()) if r["composicion"].is_file() else None,
               "metricas": {k: {"fuera_tolerancia": c.fuera_tolerancia, "violaciones_duras": c.duras,
                                "desvio_max": None if c.desvio_max is None else float(c.desvio_max)}
