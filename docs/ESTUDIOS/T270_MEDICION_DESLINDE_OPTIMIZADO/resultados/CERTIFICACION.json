@@ -1,0 +1,56 @@
+{
+ "congreso_sevilla": {
+  "estado_produccion_s": 0.104,
+  "rc": 0,
+  "salida": "PASS_WITH_EXCEPTIONS",
+  "auditoria_decision": "PASS_WITH_EXCEPTIONS",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "block_cause": null,
+  "population_status": null
+ },
+ "congreso_valencia": {
+  "estado_produccion_s": 0.128,
+  "rc": 0,
+  "salida": "PASS_WITH_EXCEPTIONS",
+  "auditoria_decision": "PASS_WITH_EXCEPTIONS",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "block_cause": null,
+  "population_status": null
+ },
+ "congreso_madrid": {
+  "estado_produccion_s": 0.098,
+  "rc": 0,
+  "salida": "PASS_WITH_EXCEPTIONS",
+  "auditoria_decision": "PASS_WITH_EXCEPTIONS",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "block_cause": null,
+  "population_status": null
+ },
+ "andalucia": {
+  "estado_produccion_s": 0.131,
+  "rc": 0,
+  "salida": "PASS_WITH_EXCEPTIONS",
+  "auditoria_decision": "PASS_WITH_EXCEPTIONS",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "block_cause": null,
+  "population_status": null
+ },
+ "madrid": {
+  "estado_produccion_s": 0.119,
+  "rc": 0,
+  "salida": "PASS_WITH_EXCEPTIONS",
+  "auditoria_decision": "PASS_WITH_EXCEPTIONS",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "block_cause": null,
+  "population_status": null
+ },
+ "congreso_barcelona": {
+  "estado_produccion_s": 0.138,
+  "rc": 0,
+  "salida": "PASS_WITH_EXCEPTIONS",
+  "auditoria_decision": "PASS_WITH_EXCEPTIONS",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "block_cause": null,
+  "population_status": null
+ }
+}

@@ -1,0 +1,209 @@
+{
+ "python": "3.13.18",
+ "maquina": "x86_64",
+ "cpus": 4,
+ "commit": "478e89af18211fdd0530d509bff0920d3beea517",
+ "cadenas": 10,
+ "territorios": {
+  "madrid": {
+   "repeticiones": [
+    {
+     "total_s": 661.865,
+     "fases_s": {
+      "cadenas": 337.768,
+      "cadenas.clave_D8": 16.883,
+      "cadenas.natural_desde_m06": 0.413,
+      "cadenas.piezas_finas": 3.958,
+      "canonico": 316.822,
+      "exhaustivo": 0.53,
+      "juzgar": 5.702,
+      "juzgar.clave_D8": 0.045,
+      "juzgar.natural_desde_m06": 0.892,
+      "vigente": 1.026,
+      "vigente.piezas_finas": 0.32
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 283.3,
+      "M05": 27.2,
+      "M06": 4.0,
+      "validacion": 1.9
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s1490686947",
+      "huella_resultado": "e58e0da4673af858f6d99e571f212c6b5054a7d92a535b90ac5fa7dea4f9fe4b",
+      "candidatos": {
+       "ponderado-s1490686947": "dd4744922acbad6598e2fdb212ff205f9a89b32ac401e6775b62109b396f7bdd",
+       "ponderado-s900440029": "8ebc2ebb610753b75fa42de7123de380e295d6ebe0e34b917657e9cdd094a0fd",
+       "ponderado-s230935122": "05eba4a587fac24017ee11028db2c9ee901b0e669fc984bee9b467729de17952",
+       "ponderado-s1927695744": "57385796be7dd4c8e7416e06dc56b335f0e183672e5e9fba4bb2e665bb95d169",
+       "ponderado-s864287814": "230cc6f81d128e0db798a215b15826bf7a6a50fac98f089253e89d38c5870d41",
+       "ponderado-s1525118710": "97838bfef2cea6cc0cb672b0d95c75f276a3a430b97e5d39109a9fb4eeaafd22",
+       "ponderado-s385950902": "fb3dc88962f39a30a152b21f4e51abd04b79fc16e2c3cf5d9f15e32587c101dc",
+       "ponderado-s439096432": "9a88d995d72213d10037727beabc781d9da8219a7f82e6ecd057f2bfae5f928f",
+       "ponderado-s683108341": "3c25f347e3c42bb7043dae6c60e7f2917bb63e973c1de855a1521e95062aebcc",
+       "ponderado-s1920404271": "228e2bb3aba3fe8c0c17e0cb810df2f9eab8439c7d835be6df3935d581c5a126",
+       "canonico": "87a504f401cbb58e59fe4f7dcc27e8d173063ca9533d71dc66ab93d8c68de87f",
+       "vigente": "3dd2e716badad37cf45d41bbd6325b7855dde59b1ac11874425ad5ed3a5caa3e"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "cota: el árbol de enumeración tiene al menos 214070 nodos > presupuesto 200000; no se intenta",
+       "nodos": null,
+       "tiempo_s": 0.24
+      }
+     }
+    }
+   ],
+   "estadistica": {
+    "cadenas": {
+     "media": 337.768,
+     "sd": 0.0,
+     "min": 337.768,
+     "max": 337.768,
+     "n": 1
+    },
+    "cadenas.clave_D8": {
+     "media": 16.883,
+     "sd": 0.0,
+     "min": 16.883,
+     "max": 16.883,
+     "n": 1
+    },
+    "cadenas.natural_desde_m06": {
+     "media": 0.413,
+     "sd": 0.0,
+     "min": 0.413,
+     "max": 0.413,
+     "n": 1
+    },
+    "cadenas.piezas_finas": {
+     "media": 3.958,
+     "sd": 0.0,
+     "min": 3.958,
+     "max": 3.958,
+     "n": 1
+    },
+    "canonico": {
+     "media": 316.822,
+     "sd": 0.0,
+     "min": 316.822,
+     "max": 316.822,
+     "n": 1
+    },
+    "canonico.M04": {
+     "media": 283.3,
+     "sd": 0.0,
+     "min": 283.3,
+     "max": 283.3,
+     "n": 1
+    },
+    "canonico.M05": {
+     "media": 27.2,
+     "sd": 0.0,
+     "min": 27.2,
+     "max": 27.2,
+     "n": 1
+    },
+    "canonico.M06": {
+     "media": 4.0,
+     "sd": 0.0,
+     "min": 4.0,
+     "max": 4.0,
+     "n": 1
+    },
+    "canonico.unidades": {
+     "media": 0.1,
+     "sd": 0.0,
+     "min": 0.1,
+     "max": 0.1,
+     "n": 1
+    },
+    "canonico.validacion": {
+     "media": 1.9,
+     "sd": 0.0,
+     "min": 1.9,
+     "max": 1.9,
+     "n": 1
+    },
+    "exhaustivo": {
+     "media": 0.53,
+     "sd": 0.0,
+     "min": 0.53,
+     "max": 0.53,
+     "n": 1
+    },
+    "juzgar": {
+     "media": 5.702,
+     "sd": 0.0,
+     "min": 5.702,
+     "max": 5.702,
+     "n": 1
+    },
+    "juzgar.clave_D8": {
+     "media": 0.045,
+     "sd": 0.0,
+     "min": 0.045,
+     "max": 0.045,
+     "n": 1
+    },
+    "juzgar.natural_desde_m06": {
+     "media": 0.892,
+     "sd": 0.0,
+     "min": 0.892,
+     "max": 0.892,
+     "n": 1
+    },
+    "vigente": {
+     "media": 1.026,
+     "sd": 0.0,
+     "min": 1.026,
+     "max": 1.026,
+     "n": 1
+    },
+    "vigente.piezas_finas": {
+     "media": 0.32,
+     "sd": 0.0,
+     "min": 0.32,
+     "max": 0.32,
+     "n": 1
+    },
+    "total": {
+     "media": 661.865,
+     "sd": 0.0,
+     "min": 661.865,
+     "max": 661.865,
+     "n": 1
+    }
+   },
+   "huellas_iguales_entre_repeticiones": true,
+   "p30": {
+    "p30_competir_s": 345.687,
+    "p30_rc": 0,
+    "p30_estado": "P30_GANA_OTRO_PLAN",
+    "p30_ganador": "ponderado-s1490686947",
+    "p30_huella": "e58e0da4673af858f6d99e571f212c6b5054a7d92a535b90ac5fa7dea4f9fe4b",
+    "p30_m06_s": 3.703,
+    "p30_m06_rc": 0,
+    "p30_verificar_s": 0.162,
+    "p30_verificar_rc": 0,
+    "certificacion_auditoria_geometrica_s": 4.755,
+    "certificacion_auditoria_rc": 0
+   }
+  }
+ }
+}

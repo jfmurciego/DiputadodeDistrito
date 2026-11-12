@@ -1,0 +1,209 @@
+{
+ "python": "3.13.18",
+ "maquina": "x86_64",
+ "cpus": 4,
+ "commit": "478e89af18211fdd0530d509bff0920d3beea517",
+ "cadenas": 10,
+ "territorios": {
+  "congreso_sevilla": {
+   "repeticiones": [
+    {
+     "total_s": 29.293,
+     "fases_s": {
+      "cadenas": 8.864,
+      "cadenas.clave_D8": 0.601,
+      "cadenas.natural_desde_m06": 0.07,
+      "cadenas.piezas_finas": 0.0,
+      "canonico": 17.039,
+      "exhaustivo": 1.036,
+      "juzgar": 1.978,
+      "juzgar.clave_D8": 0.013,
+      "juzgar.natural_desde_m06": 0.297,
+      "vigente": 0.355,
+      "vigente.piezas_finas": 0.0
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 10.4,
+      "M05": 2.9,
+      "M06": 2.5,
+      "validacion": 0.8
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s312792617",
+      "huella_resultado": "36ad1f9d1499a6f3a52997b6d4b763e09072492b18276e7b309f22f69ebe7a85",
+      "candidatos": {
+       "ponderado-s312792617": "eb686e7fa6a03995cb8436ab0dfe7152ecd26f42da21521b6325cf2353cb3e4f",
+       "ponderado-s948461041": "98ad1786a13434f475dc2d6466884fbc23bf917d49e1fc2431d412233583c1d8",
+       "ponderado-s1680675319": "cc44f2219011e50dfc9f1788b8f15be0560c2ee5e94c5c3e89b88c20772cf2c7",
+       "ponderado-s198638701": "4ce12f209661c8543892d87ebf51f0bdf9d3058866b28ed2008642c7680c06c2",
+       "ponderado-s230578287": "9c317f20f4998e4ec79ccee36b6641fdaa402be1e815545f0dc778dd1657ae10",
+       "ponderado-s2133922909": "d9cbf23972a3f634fd0fdb3586e94869f2463b0d3781c7d15da8050487f89a82",
+       "ponderado-s133647763": "e5c2f4ad767084dc1c34c268d9a5329bc8e97d6512fd6069c08898ba00d8eadd",
+       "ponderado-s200622164": "626de40d5357b8848aeb567c23c7cc5d725a20981e34cba6bab862e774657518",
+       "ponderado-s1040346673": "bb15b933e0fadb198f560a1d1aff3608db5364954256cedd131976a6ddb408a5",
+       "ponderado-s830572991": "04ee5387013a419c86c57f8e2b4cd31647e1ff23827f685739fa367bef80f7e8",
+       "canonico": "ac2441f603ddcbb40407120d56e0cb7e59699eb58195fe4ad11e61ecf3309b74",
+       "vigente": "1ede79af579b42b3c882f2a8ecf0267989f2aa2450909b7c806fc3e81384b28b"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "cota: el árbol de enumeración tiene al menos 200160 nodos > presupuesto 200000; no se intenta",
+       "nodos": null,
+       "tiempo_s": 0.916
+      }
+     }
+    }
+   ],
+   "estadistica": {
+    "cadenas": {
+     "media": 8.864,
+     "sd": 0.0,
+     "min": 8.864,
+     "max": 8.864,
+     "n": 1
+    },
+    "cadenas.clave_D8": {
+     "media": 0.601,
+     "sd": 0.0,
+     "min": 0.601,
+     "max": 0.601,
+     "n": 1
+    },
+    "cadenas.natural_desde_m06": {
+     "media": 0.07,
+     "sd": 0.0,
+     "min": 0.07,
+     "max": 0.07,
+     "n": 1
+    },
+    "cadenas.piezas_finas": {
+     "media": 0.0,
+     "sd": 0.0,
+     "min": 0.0,
+     "max": 0.0,
+     "n": 1
+    },
+    "canonico": {
+     "media": 17.039,
+     "sd": 0.0,
+     "min": 17.039,
+     "max": 17.039,
+     "n": 1
+    },
+    "canonico.M04": {
+     "media": 10.4,
+     "sd": 0.0,
+     "min": 10.4,
+     "max": 10.4,
+     "n": 1
+    },
+    "canonico.M05": {
+     "media": 2.9,
+     "sd": 0.0,
+     "min": 2.9,
+     "max": 2.9,
+     "n": 1
+    },
+    "canonico.M06": {
+     "media": 2.5,
+     "sd": 0.0,
+     "min": 2.5,
+     "max": 2.5,
+     "n": 1
+    },
+    "canonico.unidades": {
+     "media": 0.1,
+     "sd": 0.0,
+     "min": 0.1,
+     "max": 0.1,
+     "n": 1
+    },
+    "canonico.validacion": {
+     "media": 0.8,
+     "sd": 0.0,
+     "min": 0.8,
+     "max": 0.8,
+     "n": 1
+    },
+    "exhaustivo": {
+     "media": 1.036,
+     "sd": 0.0,
+     "min": 1.036,
+     "max": 1.036,
+     "n": 1
+    },
+    "juzgar": {
+     "media": 1.978,
+     "sd": 0.0,
+     "min": 1.978,
+     "max": 1.978,
+     "n": 1
+    },
+    "juzgar.clave_D8": {
+     "media": 0.013,
+     "sd": 0.0,
+     "min": 0.013,
+     "max": 0.013,
+     "n": 1
+    },
+    "juzgar.natural_desde_m06": {
+     "media": 0.297,
+     "sd": 0.0,
+     "min": 0.297,
+     "max": 0.297,
+     "n": 1
+    },
+    "vigente": {
+     "media": 0.355,
+     "sd": 0.0,
+     "min": 0.355,
+     "max": 0.355,
+     "n": 1
+    },
+    "vigente.piezas_finas": {
+     "media": 0.0,
+     "sd": 0.0,
+     "min": 0.0,
+     "max": 0.0,
+     "n": 1
+    },
+    "total": {
+     "media": 29.293,
+     "sd": 0.0,
+     "min": 29.293,
+     "max": 29.293,
+     "n": 1
+    }
+   },
+   "huellas_iguales_entre_repeticiones": true,
+   "p30": {
+    "p30_competir_s": 10.382,
+    "p30_rc": 0,
+    "p30_estado": "P30_GANA_OTRO_PLAN",
+    "p30_ganador": "ponderado-s312792617",
+    "p30_huella": "36ad1f9d1499a6f3a52997b6d4b763e09072492b18276e7b309f22f69ebe7a85",
+    "p30_m06_s": 1.763,
+    "p30_m06_rc": 0,
+    "p30_verificar_s": 0.12,
+    "p30_verificar_rc": 0,
+    "certificacion_auditoria_geometrica_s": 4.176,
+    "certificacion_auditoria_rc": 0
+   }
+  }
+ }
+}

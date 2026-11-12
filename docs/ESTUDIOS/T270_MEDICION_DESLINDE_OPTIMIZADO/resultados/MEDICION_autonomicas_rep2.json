@@ -1,0 +1,505 @@
+{
+ "python": "3.13.18",
+ "maquina": "x86_64",
+ "cpus": 4,
+ "commit": "8bf3a038270bfc80f245250cb71401764216151c",
+ "cadenas": 10,
+ "territorios": {
+  "andalucia": {
+   "repeticiones": [
+    {
+     "total_s": 524.323,
+     "fases_s": {
+      "cadenas": 168.372,
+      "cadenas.clave_D8": 15.673,
+      "cadenas.natural_desde_m06": 0.516,
+      "cadenas.piezas_finas": 10.321,
+      "canonico": 337.752,
+      "exhaustivo": 1.228,
+      "juzgar": 13.551,
+      "juzgar.clave_D8": 0.04,
+      "juzgar.natural_desde_m06": 0.904,
+      "vigente": 3.387,
+      "vigente.piezas_finas": 1.021
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 49.3,
+      "M05": 274.5,
+      "M06": 10.2,
+      "validacion": 3.2
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s2095891840",
+      "huella_resultado": "4cc91c3e421666e0f14116d3581ee786f70bae15c4899dd44358c69ee1c70de1",
+      "candidatos": {
+       "ponderado-s2095891840": "f080c5a9f5ceed0f7ad3fd31c54d9e5c091dd3b30f2a55a5449783606a067d60",
+       "ponderado-s641299796": "7360186263cd5608007f0c4f1e12687b3c416cd21ba57babde42986d9f133943",
+       "ponderado-s678998456": "22c5ab18ca58415e9ca882126cc4708f0d2f6d3ac7374d61a7e363e11172a183",
+       "ponderado-s2070442076": "22c5ab18ca58415e9ca882126cc4708f0d2f6d3ac7374d61a7e363e11172a183",
+       "ponderado-s1496378224": "22c5ab18ca58415e9ca882126cc4708f0d2f6d3ac7374d61a7e363e11172a183",
+       "canonico": "3807676cf2bb2bb8127e44e4c37636ccb97fed55d443bec7a356c6e8c0bbfd66",
+       "ponderado-s805682328": "88a1e212fcd406cbf65e3c04d7d0bec98cf82b3afd0a6fd5785634dd85829a78",
+       "ponderado-s2023261972": "d11c5b17dc5c573bca83f670dd74031d5cc241a5630579796cf6c8d7c84b63c4",
+       "ponderado-s2073771672": "ba7ff25e401632fa94c23c6c7764e22d3c0e5a42c07ce78a129c791fb6cbb8bc",
+       "ponderado-s567794017": "bca608d7888f9da7cfcc7c4660403089de790c04a0f239c6e56d6aba453661c3",
+       "ponderado-s940700831": "8baed8764cbec943581ec58a2c8d82d64d5919a432b8b2ea33145ca1554aab67",
+       "vigente": "fbe434e1238daea8961470e66a14a6be1e40e31035986336f0a1d1b134281e55"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "cota: el árbol de enumeración tiene al menos 231152 nodos > presupuesto 200000; no se intenta",
+       "nodos": null,
+       "tiempo_s": 0.221
+      }
+     }
+    },
+    {
+     "total_s": 548.774,
+     "fases_s": {
+      "cadenas": 184.601,
+      "cadenas.clave_D8": 17.917,
+      "cadenas.natural_desde_m06": 0.887,
+      "cadenas.piezas_finas": 11.576,
+      "canonico": 345.045,
+      "exhaustivo": 1.4,
+      "juzgar": 14.407,
+      "juzgar.clave_D8": 0.048,
+      "juzgar.natural_desde_m06": 0.813,
+      "vigente": 3.297,
+      "vigente.piezas_finas": 1.075
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 48.8,
+      "M05": 282.4,
+      "M06": 10.4,
+      "validacion": 3.1
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s2095891840",
+      "huella_resultado": "4cc91c3e421666e0f14116d3581ee786f70bae15c4899dd44358c69ee1c70de1",
+      "candidatos": {
+       "ponderado-s2095891840": "f080c5a9f5ceed0f7ad3fd31c54d9e5c091dd3b30f2a55a5449783606a067d60",
+       "ponderado-s641299796": "7360186263cd5608007f0c4f1e12687b3c416cd21ba57babde42986d9f133943",
+       "ponderado-s678998456": "22c5ab18ca58415e9ca882126cc4708f0d2f6d3ac7374d61a7e363e11172a183",
+       "ponderado-s2070442076": "22c5ab18ca58415e9ca882126cc4708f0d2f6d3ac7374d61a7e363e11172a183",
+       "ponderado-s1496378224": "22c5ab18ca58415e9ca882126cc4708f0d2f6d3ac7374d61a7e363e11172a183",
+       "canonico": "3807676cf2bb2bb8127e44e4c37636ccb97fed55d443bec7a356c6e8c0bbfd66",
+       "ponderado-s805682328": "88a1e212fcd406cbf65e3c04d7d0bec98cf82b3afd0a6fd5785634dd85829a78",
+       "ponderado-s2023261972": "d11c5b17dc5c573bca83f670dd74031d5cc241a5630579796cf6c8d7c84b63c4",
+       "ponderado-s2073771672": "ba7ff25e401632fa94c23c6c7764e22d3c0e5a42c07ce78a129c791fb6cbb8bc",
+       "ponderado-s567794017": "bca608d7888f9da7cfcc7c4660403089de790c04a0f239c6e56d6aba453661c3",
+       "ponderado-s940700831": "8baed8764cbec943581ec58a2c8d82d64d5919a432b8b2ea33145ca1554aab67",
+       "vigente": "fbe434e1238daea8961470e66a14a6be1e40e31035986336f0a1d1b134281e55"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "cota: el árbol de enumeración tiene al menos 231152 nodos > presupuesto 200000; no se intenta",
+       "nodos": null,
+       "tiempo_s": 0.233
+      }
+     }
+    }
+   ],
+   "estadistica": {
+    "cadenas": {
+     "media": 176.487,
+     "sd": 11.476,
+     "min": 168.372,
+     "max": 184.601,
+     "n": 2
+    },
+    "cadenas.clave_D8": {
+     "media": 16.795,
+     "sd": 1.587,
+     "min": 15.673,
+     "max": 17.917,
+     "n": 2
+    },
+    "cadenas.natural_desde_m06": {
+     "media": 0.702,
+     "sd": 0.262,
+     "min": 0.516,
+     "max": 0.887,
+     "n": 2
+    },
+    "cadenas.piezas_finas": {
+     "media": 10.948,
+     "sd": 0.887,
+     "min": 10.321,
+     "max": 11.576,
+     "n": 2
+    },
+    "canonico": {
+     "media": 341.399,
+     "sd": 5.157,
+     "min": 337.752,
+     "max": 345.045,
+     "n": 2
+    },
+    "canonico.M04": {
+     "media": 49.05,
+     "sd": 0.354,
+     "min": 48.8,
+     "max": 49.3,
+     "n": 2
+    },
+    "canonico.M05": {
+     "media": 278.45,
+     "sd": 5.586,
+     "min": 274.5,
+     "max": 282.4,
+     "n": 2
+    },
+    "canonico.M06": {
+     "media": 10.3,
+     "sd": 0.141,
+     "min": 10.2,
+     "max": 10.4,
+     "n": 2
+    },
+    "canonico.unidades": {
+     "media": 0.1,
+     "sd": 0.0,
+     "min": 0.1,
+     "max": 0.1,
+     "n": 2
+    },
+    "canonico.validacion": {
+     "media": 3.15,
+     "sd": 0.071,
+     "min": 3.1,
+     "max": 3.2,
+     "n": 2
+    },
+    "exhaustivo": {
+     "media": 1.314,
+     "sd": 0.122,
+     "min": 1.228,
+     "max": 1.4,
+     "n": 2
+    },
+    "juzgar": {
+     "media": 13.979,
+     "sd": 0.605,
+     "min": 13.551,
+     "max": 14.407,
+     "n": 2
+    },
+    "juzgar.clave_D8": {
+     "media": 0.044,
+     "sd": 0.006,
+     "min": 0.04,
+     "max": 0.048,
+     "n": 2
+    },
+    "juzgar.natural_desde_m06": {
+     "media": 0.859,
+     "sd": 0.064,
+     "min": 0.813,
+     "max": 0.904,
+     "n": 2
+    },
+    "vigente": {
+     "media": 3.342,
+     "sd": 0.064,
+     "min": 3.297,
+     "max": 3.387,
+     "n": 2
+    },
+    "vigente.piezas_finas": {
+     "media": 1.048,
+     "sd": 0.038,
+     "min": 1.021,
+     "max": 1.075,
+     "n": 2
+    },
+    "total": {
+     "media": 536.548,
+     "sd": 17.289,
+     "min": 524.323,
+     "max": 548.774,
+     "n": 2
+    }
+   },
+   "huellas_iguales_entre_repeticiones": true
+  },
+  "madrid": {
+   "repeticiones": [
+    {
+     "total_s": 676.277,
+     "fases_s": {
+      "cadenas": 361.666,
+      "cadenas.clave_D8": 18.506,
+      "cadenas.natural_desde_m06": 0.571,
+      "cadenas.piezas_finas": 4.04,
+      "canonico": 306.527,
+      "exhaustivo": 0.628,
+      "juzgar": 6.064,
+      "juzgar.clave_D8": 0.045,
+      "juzgar.natural_desde_m06": 0.661,
+      "vigente": 1.374,
+      "vigente.piezas_finas": 0.41
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 275.8,
+      "M05": 25.1,
+      "M06": 3.9,
+      "validacion": 1.6
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s1490686947",
+      "huella_resultado": "e58e0da4673af858f6d99e571f212c6b5054a7d92a535b90ac5fa7dea4f9fe4b",
+      "candidatos": {
+       "ponderado-s1490686947": "dd4744922acbad6598e2fdb212ff205f9a89b32ac401e6775b62109b396f7bdd",
+       "ponderado-s900440029": "8ebc2ebb610753b75fa42de7123de380e295d6ebe0e34b917657e9cdd094a0fd",
+       "ponderado-s230935122": "05eba4a587fac24017ee11028db2c9ee901b0e669fc984bee9b467729de17952",
+       "ponderado-s1927695744": "57385796be7dd4c8e7416e06dc56b335f0e183672e5e9fba4bb2e665bb95d169",
+       "ponderado-s864287814": "230cc6f81d128e0db798a215b15826bf7a6a50fac98f089253e89d38c5870d41",
+       "ponderado-s1525118710": "97838bfef2cea6cc0cb672b0d95c75f276a3a430b97e5d39109a9fb4eeaafd22",
+       "ponderado-s385950902": "fb3dc88962f39a30a152b21f4e51abd04b79fc16e2c3cf5d9f15e32587c101dc",
+       "ponderado-s439096432": "9a88d995d72213d10037727beabc781d9da8219a7f82e6ecd057f2bfae5f928f",
+       "ponderado-s683108341": "3c25f347e3c42bb7043dae6c60e7f2917bb63e973c1de855a1521e95062aebcc",
+       "ponderado-s1920404271": "228e2bb3aba3fe8c0c17e0cb810df2f9eab8439c7d835be6df3935d581c5a126",
+       "canonico": "87a504f401cbb58e59fe4f7dcc27e8d173063ca9533d71dc66ab93d8c68de87f",
+       "vigente": "3dd2e716badad37cf45d41bbd6325b7855dde59b1ac11874425ad5ed3a5caa3e"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "cota: el árbol de enumeración tiene al menos 214070 nodos > presupuesto 200000; no se intenta",
+       "nodos": null,
+       "tiempo_s": 0.32
+      }
+     }
+    },
+    {
+     "total_s": 690.984,
+     "fases_s": {
+      "cadenas": 370.977,
+      "cadenas.clave_D8": 19.03,
+      "cadenas.natural_desde_m06": 0.634,
+      "cadenas.piezas_finas": 4.451,
+      "canonico": 311.736,
+      "exhaustivo": 0.654,
+      "juzgar": 6.476,
+      "juzgar.clave_D8": 0.054,
+      "juzgar.natural_desde_m06": 0.813,
+      "vigente": 1.12,
+      "vigente.piezas_finas": 0.35
+     },
+     "llamadas": {
+      "canonico": 1,
+      "vigente.piezas_finas": 1,
+      "vigente": 1,
+      "juzgar.natural_desde_m06": 12,
+      "juzgar.clave_D8": 12,
+      "juzgar": 12,
+      "cadenas.piezas_finas": 10,
+      "cadenas.natural_desde_m06": 10,
+      "cadenas.clave_D8": 3000,
+      "cadenas": 10,
+      "exhaustivo": 1
+     },
+     "canonico_subprocesos_s": {
+      "unidades": 0.1,
+      "M04": 281.3,
+      "M05": 25.3,
+      "M06": 3.5,
+      "validacion": 1.4
+     },
+     "estado": "VALIDO",
+     "huellas": {
+      "ganador": "ponderado-s1490686947",
+      "huella_resultado": "e58e0da4673af858f6d99e571f212c6b5054a7d92a535b90ac5fa7dea4f9fe4b",
+      "candidatos": {
+       "ponderado-s1490686947": "dd4744922acbad6598e2fdb212ff205f9a89b32ac401e6775b62109b396f7bdd",
+       "ponderado-s900440029": "8ebc2ebb610753b75fa42de7123de380e295d6ebe0e34b917657e9cdd094a0fd",
+       "ponderado-s230935122": "05eba4a587fac24017ee11028db2c9ee901b0e669fc984bee9b467729de17952",
+       "ponderado-s1927695744": "57385796be7dd4c8e7416e06dc56b335f0e183672e5e9fba4bb2e665bb95d169",
+       "ponderado-s864287814": "230cc6f81d128e0db798a215b15826bf7a6a50fac98f089253e89d38c5870d41",
+       "ponderado-s1525118710": "97838bfef2cea6cc0cb672b0d95c75f276a3a430b97e5d39109a9fb4eeaafd22",
+       "ponderado-s385950902": "fb3dc88962f39a30a152b21f4e51abd04b79fc16e2c3cf5d9f15e32587c101dc",
+       "ponderado-s439096432": "9a88d995d72213d10037727beabc781d9da8219a7f82e6ecd057f2bfae5f928f",
+       "ponderado-s683108341": "3c25f347e3c42bb7043dae6c60e7f2917bb63e973c1de855a1521e95062aebcc",
+       "ponderado-s1920404271": "228e2bb3aba3fe8c0c17e0cb810df2f9eab8439c7d835be6df3935d581c5a126",
+       "canonico": "87a504f401cbb58e59fe4f7dcc27e8d173063ca9533d71dc66ab93d8c68de87f",
+       "vigente": "3dd2e716badad37cf45d41bbd6325b7855dde59b1ac11874425ad5ed3a5caa3e"
+      },
+      "exhaustivo": {
+       "metodo": "cadena",
+       "motivo": "cota: el árbol de enumeración tiene al menos 214070 nodos > presupuesto 200000; no se intenta",
+       "nodos": null,
+       "tiempo_s": 0.299
+      }
+     }
+    }
+   ],
+   "estadistica": {
+    "cadenas": {
+     "media": 366.322,
+     "sd": 6.584,
+     "min": 361.666,
+     "max": 370.977,
+     "n": 2
+    },
+    "cadenas.clave_D8": {
+     "media": 18.768,
+     "sd": 0.371,
+     "min": 18.506,
+     "max": 19.03,
+     "n": 2
+    },
+    "cadenas.natural_desde_m06": {
+     "media": 0.603,
+     "sd": 0.045,
+     "min": 0.571,
+     "max": 0.634,
+     "n": 2
+    },
+    "cadenas.piezas_finas": {
+     "media": 4.245,
+     "sd": 0.291,
+     "min": 4.04,
+     "max": 4.451,
+     "n": 2
+    },
+    "canonico": {
+     "media": 309.131,
+     "sd": 3.683,
+     "min": 306.527,
+     "max": 311.736,
+     "n": 2
+    },
+    "canonico.M04": {
+     "media": 278.55,
+     "sd": 3.889,
+     "min": 275.8,
+     "max": 281.3,
+     "n": 2
+    },
+    "canonico.M05": {
+     "media": 25.2,
+     "sd": 0.141,
+     "min": 25.1,
+     "max": 25.3,
+     "n": 2
+    },
+    "canonico.M06": {
+     "media": 3.7,
+     "sd": 0.283,
+     "min": 3.5,
+     "max": 3.9,
+     "n": 2
+    },
+    "canonico.unidades": {
+     "media": 0.1,
+     "sd": 0.0,
+     "min": 0.1,
+     "max": 0.1,
+     "n": 2
+    },
+    "canonico.validacion": {
+     "media": 1.5,
+     "sd": 0.141,
+     "min": 1.4,
+     "max": 1.6,
+     "n": 2
+    },
+    "exhaustivo": {
+     "media": 0.641,
+     "sd": 0.018,
+     "min": 0.628,
+     "max": 0.654,
+     "n": 2
+    },
+    "juzgar": {
+     "media": 6.27,
+     "sd": 0.291,
+     "min": 6.064,
+     "max": 6.476,
+     "n": 2
+    },
+    "juzgar.clave_D8": {
+     "media": 0.05,
+     "sd": 0.006,
+     "min": 0.045,
+     "max": 0.054,
+     "n": 2
+    },
+    "juzgar.natural_desde_m06": {
+     "media": 0.737,
+     "sd": 0.107,
+     "min": 0.661,
+     "max": 0.813,
+     "n": 2
+    },
+    "vigente": {
+     "media": 1.247,
+     "sd": 0.18,
+     "min": 1.12,
+     "max": 1.374,
+     "n": 2
+    },
+    "vigente.piezas_finas": {
+     "media": 0.38,
+     "sd": 0.042,
+     "min": 0.35,
+     "max": 0.41,
+     "n": 2
+    },
+    "total": {
+     "media": 683.63,
+     "sd": 10.399,
+     "min": 676.277,
+     "max": 690.984,
+     "n": 2
+    }
+   },
+   "huellas_iguales_entre_repeticiones": true
+  }
+ }
+}
