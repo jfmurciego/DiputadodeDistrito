@@ -42,10 +42,10 @@ class ParadaSoloPublicacion(unittest.TestCase):
             self.assertEqual(estado._published_territories(root), set())
             (root / "orchestracion").mkdir()
             (root / "orchestracion/publicaciones_visor.json").write_text(
-                json.dumps({"products": [{"territory_id": "congreso_lugo"}, {"id": "sin-territorio"}]}),
+                json.dumps({"products": [{"territory_id": "nac27"}, {"id": "sin-territorio"}]}),
                 encoding="utf-8",
             )
-            self.assertEqual(estado._published_territories(root), {"congreso_lugo"})
+            self.assertEqual(estado._published_territories(root), {"nac27"})
 
 
 if __name__ == "__main__":

@@ -6,13 +6,13 @@ from herramientas.catalogo_territorios import format_territory_label, visible_la
 
 class NombresVisibles(unittest.TestCase):
     def test_congreso_se_muestra_como_nacional(self):
-        row = {"territory_id": "congreso_huesca", "pilot_code": "C22", "scope": "congreso", "name": "Congreso Huesca"}
+        row = {"territory_id": "nac22", "pilot_code": "C22", "scope": "congreso", "name": "Congreso Huesca"}
         self.assertEqual(visible_name(row), "Nacional Huesca")
         self.assertEqual(visible_label(row), "Nacional Huesca")
         self.assertEqual(format_territory_label(row), "Congreso Huesca")  # valor de los selectores
 
     def test_autonomicas_sin_cambios(self):
-        row = {"territory_id": "aragon", "autonomous_community_code_ine": "02", "name": "Aragón"}
+        row = {"territory_id": "aut02", "autonomous_community_code_ine": "02", "name": "Aragón"}
         self.assertEqual(visible_name(row), "Aragón")
         self.assertEqual(visible_label(row), "02 Aragón")
 

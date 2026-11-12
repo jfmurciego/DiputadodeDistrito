@@ -16,7 +16,7 @@ SHA = "29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b"
 def _pair(reuse: dict, *, artifact: str = "a" * 64, pair_sha: str = SHA) -> dict:
     return {
         "schema": "x",
-        "territory_id": "congreso_alava",
+        "territory_id": "nac01",
         "edition": "2023",
         "territorial_source": {"run_id": 1, "artifact_sha256": artifact},
         "electoral_source": {"run_id": 2, "artifact_sha256": "b" * 64},
@@ -59,7 +59,7 @@ class RegistroParIdempotente(unittest.TestCase):
 
     def test_receipt_real_de_alava(self):
         root = Path(__file__).resolve().parents[1]
-        real = root / "territorios/congreso_alava/evidencia/pares_fuentes/2025" / f"{SHA}.json"
+        real = root / "territorios/nac01/evidencia/pares_fuentes/2025" / f"{SHA}.json"
         if not real.is_file():
             self.skipTest("receipt de Álava no presente")
         stored = json.loads(real.read_text(encoding="utf-8"))

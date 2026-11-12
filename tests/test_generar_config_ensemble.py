@@ -25,16 +25,16 @@ class GeneradorConfigEnsembleTests(unittest.TestCase):
         self.molde = json.loads((ROOT / f"configuracion/ensemble/{MOLDE}.json").read_text(encoding="utf-8"))
 
     def test_reproduce_las_configs_existentes(self):
-        for tid in ("congreso_jaen", "congreso_cordoba", "congreso_sevilla"):
+        for tid in ("nac23", "nac14", "nac41"):
             real = json.loads((ROOT / f"configuracion/ensemble/{tid}.json").read_text(encoding="utf-8"))
             self.assertEqual(construir(_contrato(tid), self.molde), real, tid)
 
     def test_rechaza_puentes_exenciones_y_k1(self):
-        self.assertIn("topology_bridges", motivo_no_apto(_contrato("congreso_badajoz"), self.molde))
-        self.assertIn("K=1", motivo_no_apto(_contrato("congreso_soria"), self.molde))
+        self.assertIn("topology_bridges", motivo_no_apto(_contrato("nac06"), self.molde))
+        self.assertIn("K=1", motivo_no_apto(_contrato("nac42"), self.molde))
 
     def test_rechaza_limite_distinto(self):
-        c = copy.deepcopy(_contrato("congreso_lugo"))
+        c = copy.deepcopy(_contrato("nac27"))
         c["validation"]["population_cap_ratio"] = 1.2
         self.assertIn("population_cap_ratio", motivo_no_apto(c, self.molde))
 
@@ -43,21 +43,21 @@ class GeneradorConfigEnsembleTests(unittest.TestCase):
             self.assertFalse((ROOT / f"configuracion/ensemble/{tid}.json").exists(), tid)
 
     def test_cadiz_aprobado_reproduce_su_config(self):
-        c = _contrato("congreso_cadiz")
+        c = _contrato("nac11")
         self.assertIsNone(motivo_no_apto(c, self.molde))
-        real = json.loads((ROOT / "configuracion/ensemble/congreso_cadiz.json").read_text(encoding="utf-8"))
+        real = json.loads((ROOT / "configuracion/ensemble/nac11.json").read_text(encoding="utf-8"))
         self.assertEqual(construir(c, self.molde), real)
         self.assertEqual(real["contract"]["population_cap_ratio"], 1.16)
 
     def test_aprobacion_no_cubre_exencion_sin_decision(self):
-        c = copy.deepcopy(_contrato("congreso_cadiz"))
+        c = copy.deepcopy(_contrato("nac11"))
         c["validation"]["population_floor_exempt_decisions"] = {}
         self.assertIn("sin decisión", motivo_no_apto(c, self.molde))
 
     def test_barcelona_aprobado_reproduce_su_config(self):
-        c = _contrato("congreso_barcelona")
+        c = _contrato("nac08")
         self.assertIsNone(motivo_no_apto(c, self.molde))
-        real = json.loads((ROOT / "configuracion/ensemble/congreso_barcelona.json").read_text(encoding="utf-8"))
+        real = json.loads((ROOT / "configuracion/ensemble/nac08.json").read_text(encoding="utf-8"))
         self.assertEqual(construir(c, self.molde), real)
         self.assertEqual(real["contract"]["population_floor_exempt_municipalities"], ["08073"])
         self.assertEqual(real["contract"]["population_cap_ratio"], 1.15)
@@ -65,9 +65,9 @@ class GeneradorConfigEnsembleTests(unittest.TestCase):
 
     def test_comunidades_uniprovinciales_copian_limites_del_contrato(self):
         esperado = {  # literales del contrato de producción (validation), no recalculados
-            "ceuta": (25, "51", 0.8, 1.75, 0.12, 1.75), "melilla": (25, "52", 0.5, 1.75, 0.5, 1.75),
-            "madrid": (135, "28", 0.8, 1.75, 0.12, 1.75), "la_rioja": (33, "26", 0.8, 1.75, 0.12, 1.12),
-            "principado_de_asturias": (45, "33", 0.8, 1.75, 0.12, 1.75),
+            "aut18": (25, "51", 0.8, 1.75, 0.12, 1.75), "aut19": (25, "52", 0.5, 1.75, 0.5, 1.75),
+            "aut13": (135, "28", 0.8, 1.75, 0.12, 1.75), "aut17": (33, "26", 0.8, 1.75, 0.12, 1.12),
+            "aut03": (45, "33", 0.8, 1.75, 0.12, 1.75),
         }
         for tid, (k, cpro, piso, techo, tol, atom) in esperado.items():
             c = _contrato(tid)
@@ -80,18 +80,18 @@ class GeneradorConfigEnsembleTests(unittest.TestCase):
                              (k, {cpro: k}, piso, techo, tol, atom), tid)
 
     def test_comunidades_con_puentes_o_exencion_por_particion_siguen_fuera(self):
-        for tid in ("andalucia", "galicia", "canarias", "illes_balears"):
+        for tid in ("aut01", "aut12", "aut05", "aut04"):
             self.assertIsNotNone(motivo_no_apto(_contrato(tid), self.molde), tid)
             self.assertFalse((ROOT / f"configuracion/ensemble/{tid}.json").exists(), tid)
 
     def test_rechaza_exencion_no_gobernada(self):
-        c = copy.deepcopy(_contrato("congreso_barcelona"))
+        c = copy.deepcopy(_contrato("nac08"))
         c["validation"][EXENCION] = ["08073", "08019"]
         self.assertIn("08019 sin decisión", motivo_no_apto(c, self.molde))
-        c = copy.deepcopy(_contrato("congreso_barcelona"))
+        c = copy.deepcopy(_contrato("nac08"))
         c["validation"]["population_floor_exempt_partitions"] = ["X"]
         self.assertIn("exención population_floor_exempt_partitions", motivo_no_apto(c, self.molde))
-        c = copy.deepcopy(_contrato("congreso_lugo"))
+        c = copy.deepcopy(_contrato("nac27"))
         c["validation"][EXENCION] = ["27028"]
         self.assertIn("exención", motivo_no_apto(c, self.molde))
 

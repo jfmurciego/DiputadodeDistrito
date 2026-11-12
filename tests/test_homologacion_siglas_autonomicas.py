@@ -22,18 +22,18 @@ class Reglas(unittest.TestCase):
         self.r = ha.reglas()
 
     def test_familia_sin_regla_es_baja_y_conserva_la_sigla(self):
-        self.assertEqual(ha.resolver(self.r, "galicia", "202402", "DO", "a43"), ("DO", "BAJA", "SIN_REGLA_FAMILIA:a43"))
+        self.assertEqual(ha.resolver(self.r, "aut12", "202402", "DO", "a43"), ("DO", "BAJA", "SIN_REGLA_FAMILIA:a43"))
 
     def test_sigla_propia_de_autonomicas(self):
-        self.assertEqual(ha.resolver(self.r, "castilla_y_leon", "202603", "AHORA DECIDE/AS", "a51")[:2], ("AHORA DECIDE", "MEDIA"))
+        self.assertEqual(ha.resolver(self.r, "aut07", "202603", "AHORA DECIDE/AS", "a51")[:2], ("AHORA DECIDE", "MEDIA"))
 
     def test_coalicion_con_pp_de_cabeza_vale_en_autonomicas(self):
-        self.assertEqual(ha.resolver(self.r, "aragon", "201505", "PP-PAR", "a5")[0], "PP")
+        self.assertEqual(ha.resolver(self.r, "aut02", "201505", "PP-PAR", "a5")[0], "PP")
 
     def test_upn_en_navarra_no_cae_en_la_familia_del_pp(self):
         # D-20 C (generales): UPN-PP y NA+ → «UPN y coaliciones»; en autonómicas la regla debe aplicarse por comunidad
-        self.assertEqual(ha.resolver(self.r, "comunidad_foral_de_navarra", "201105", "UPN-PP", "a5")[0], "UPN y coaliciones")
-        self.assertEqual(ha.resolver(self.r, "aragon", "201105", "UPN-PP", "a5")[0], "PP")
+        self.assertEqual(ha.resolver(self.r, "aut15", "201105", "UPN-PP", "a5")[0], "UPN y coaliciones")
+        self.assertEqual(ha.resolver(self.r, "aut02", "201105", "UPN-PP", "a5")[0], "PP")
 
 
 class TablaReal(unittest.TestCase):

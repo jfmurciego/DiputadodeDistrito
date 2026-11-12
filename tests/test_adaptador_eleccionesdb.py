@@ -32,10 +32,10 @@ class TestAdaptadorEleccionesDB(unittest.TestCase):
   con.execute("INSERT INTO partidos VALUES(1,'P','Partido')")
   con.executemany("INSERT INTO votos_territoriales VALUES(247,?,?,?)",[(18,1,10),(19,1,20)])
   con.commit(); con.close()
-  ceuta=build(p,'ceuta_asamblea_local_2023',Path(td.name)/'ceuta',retrieved_at=RETRIEVED_AT)
-  melilla=build(p,'melilla_asamblea_local_2023',Path(td.name)/'melilla',retrieved_at=RETRIEVED_AT)
-  self.assertEqual((ceuta['territory_id'],ceuta['sections'],ceuta['candidate_votes']),('ceuta',1,10))
-  self.assertEqual((melilla['territory_id'],melilla['sections'],melilla['candidate_votes']),('melilla',1,20))
+  ceuta=build(p,'ceuta_asamblea_local_2023',Path(td.name)/'aut18',retrieved_at=RETRIEVED_AT)
+  melilla=build(p,'melilla_asamblea_local_2023',Path(td.name)/'aut19',retrieved_at=RETRIEVED_AT)
+  self.assertEqual((ceuta['territory_id'],ceuta['sections'],ceuta['candidate_votes']),('aut18',1,10))
+  self.assertEqual((melilla['territory_id'],melilla['sections'],melilla['candidate_votes']),('aut19',1,20))
   self.assertNotEqual(ceuta['selected_source']['sha256'],melilla['selected_source']['sha256'])
  def test_paquete_comun_es_consumible_por_incorporacion(self):
   td,p=self.db(); self.addCleanup(td.cleanup)
@@ -52,8 +52,8 @@ class TestAdaptadorEleccionesDB(unittest.TestCase):
   self.assertTrue((out/'contract/party_dictionary.json').is_file())
   validation=validate_package(
    package=out,
-   params=Path(__file__).resolve().parents[1]/'territorios/cantabria/config/cantabria_2025.yaml',
-   territory_id='cantabria',
+   params=Path(__file__).resolve().parents[1]/'territorios/aut06/config/aut06_2025.yaml',
+   territory_id='aut06',
    edition='2025',
    root=Path(__file__).resolve().parents[1],
    materialize=False,

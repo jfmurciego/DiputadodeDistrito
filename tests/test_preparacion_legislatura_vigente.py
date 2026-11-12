@@ -58,7 +58,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         payload = json.loads(completed.stdout)
         self.assertTrue(payload["ok"])
         self.assertEqual(len(payload["plans"]), 1)
-        self.assertEqual(payload["plans"][0]["territory_id"], "melilla")
+        self.assertEqual(payload["plans"][0]["territory_id"], "aut19")
 
     def test_matrix_has_exactly_19_current_elections(self):
         rows = validate_matrix(ROOT)
@@ -91,7 +91,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         ]
         self.assertEqual(
             {r["territory_id"] for r in rows},
-            {"andalucia", "aragon", "castilla_y_leon"},
+            {"aut01", "aut02", "aut07"},
         )
         for row in rows:
             territorial = row["territorial"]
@@ -179,7 +179,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         source_plan = plan["resolved_source_plan"]
         self.assertEqual(source_plan["schema"], "ddd.resolved-source-plan/1.0")
         self.assertEqual(source_plan["status"], "RESOLVED")
-        self.assertEqual(source_plan["territory"]["territory_id"], "principado_de_asturias")
+        self.assertEqual(source_plan["territory"]["territory_id"], "aut03")
         self.assertEqual(source_plan["territory"]["project_edition"], "2025")
         self.assertEqual(source_plan["temporal"], {
             "population_year": 2023,
@@ -218,14 +218,14 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
 
     def test_andalucia_uses_reconciled_siel_with_2025_territorial_reference(self):
         state = {
-            "territorial_source_declaration": "territorios/andalucia/config/fuentes_oficiales.yaml",
+            "territorial_source_declaration": "territorios/aut01/config/fuentes_oficiales.yaml",
             "territorial_sources_prepared": False,
             "electoral_source_prepared": False,
             "evidence": {},
         }
         with mock.patch(
             "herramientas.resolver_preparacion_legislatura._catalog_state",
-            return_value=({"territory_id": "andalucia"}, state),
+            return_value=({"territory_id": "aut01"}, state),
         ):
             plan = resolve(ROOT, "Andalucía")["plans"][0]
         self.assertEqual(plan["population_year_selected"], 2025)
@@ -245,7 +245,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         # (F10 independiente si sigue sin promover; si no, la preparación).
         live = next(
             r for r in yaml.safe_load(CATALOG.read_text(encoding="utf-8"))["territories"]
-            if r["territory_id"] == "aragon"
+            if r["territory_id"] == "aut02"
         )["editions"]["2025"]
         declared = live.get("independent_source_evidence") or live["preparation_evidence"]
         for key in ("run_id", "artifact_name", "artifact_sha256"):
@@ -257,7 +257,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["electoral_admissibility"], "ADMISSIBLE")
         state = next(
             r for r in yaml.safe_load(CATALOG.read_text(encoding="utf-8"))["territories"]
-            if r["territory_id"] == "aragon"
+            if r["territory_id"] == "aut02"
         )["editions"]["2025"]
         self.assertTrue(state["territorial_product_available"])
         # Regla: la preparación y el M06 vigentes proceden del mismo run de producción, sea
@@ -278,7 +278,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         # seguir evaluándose aunque el catálogo vivo incorpore después un receipt
         # electoral reusable. El resolvedor y sus validadores siguen siendo reales.
         state = {
-            "territorial_source_declaration": "territorios/castilla_y_leon/config/fuentes_oficiales.yaml",
+            "territorial_source_declaration": "territorios/aut07/config/fuentes_oficiales.yaml",
             "territorial_sources_prepared": True,
             "territorial_product_available": True,
             "electoral_source_prepared": False,
@@ -293,16 +293,16 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 "population_year": 2025,
                 "section_year": 2025,
                 "territorial_identity_sha256": "380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c",
-                "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json",
+                "receipt_path": "territorios/aut07/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json",
             },
             "evidence": {
-                "territorial_product": "territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json",
-                "territorial_product_source_lineage": "territorios/castilla_y_leon/evidencia/linaje_producto_territorial/35889595424.json",
+                "territorial_product": "territorios/aut07/evidencia/catalogo/territorial_product_2025.json",
+                "territorial_product_source_lineage": "territorios/aut07/evidencia/linaje_producto_territorial/35889595424.json",
             },
         }
         with mock.patch(
             "herramientas.resolver_preparacion_legislatura._catalog_state",
-            return_value=({"territory_id": "castilla_y_leon"}, state),
+            return_value=({"territory_id": "aut07"}, state),
         ):
             plan = resolve(ROOT, "Castilla y León")["plans"][0]
 
@@ -318,7 +318,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         )
         self.assertEqual(
             candidate["receipt_path"],
-            "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json",
+            "territorios/aut07/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json",
         )
         self.assertEqual(candidate["reason"], "TERRITORIAL_COMPATIBILITY_REPORT_MISSING")
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
@@ -328,14 +328,14 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(state["last_valid_checkpoint"], {"run_id": 35889595424, "stage": "M06"})
         self.assertEqual(
             state["evidence"]["territorial_product_source_lineage"],
-            "territorios/castilla_y_leon/evidencia/linaje_producto_territorial/35889595424.json",
+            "territorios/aut07/evidencia/linaje_producto_territorial/35889595424.json",
         )
         self.assertNotIn("stage", state["preparation_evidence"])
 
     def test_historical_product_source_lineage_preserves_direct_producer_observation(self):
         cases = {
-            "aragon": (36321736287, 35728613828, "f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2"),
-            "castilla_y_leon": (35889595424, 35610439734, "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752"),
+            "aut02": (36321736287, 35728613828, "f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2"),
+            "aut07": (35889595424, 35610439734, "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752"),
         }
         for territory, (product_run, source_run, package_sha) in cases.items():
             path = ROOT / f"territorios/{territory}/evidencia/linaje_producto_territorial/{product_run}.json"
@@ -356,7 +356,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             "evidence": {},
         }
         row = {
-            "territory_id": "andalucia",
+            "territory_id": "aut01",
             "name": "Andalucía",
             "election_id": "andalucia_parlamento_2026",
             "election_date": "2026-05-17",
@@ -365,7 +365,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 "action": "BLOCKED_PROVISIONAL",
             },
         }
-        candidate, action = _electoral_plan(ROOT, "andalucia", state, row)
+        candidate, action = _electoral_plan(ROOT, "aut01", state, row)
         self.assertEqual(action, "ACQUIRE")
         self.assertEqual(candidate["reason"], "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE")
         self.assertEqual(candidate["acquisition_kind"], "official_api_snapshot")
@@ -373,8 +373,8 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(candidate["source_status"], "VERIFIED_OFFICIAL_FINAL")
 
     def test_blocked_provisional_action_still_blocks_without_owner_exception(self):
-        candidate, action = _electoral_plan(ROOT, "extremadura", {}, {
-            "territory_id": "extremadura", "election_id": "extremadura_asamblea_2025-12-21", "election_date": "2025-12-21",
+        candidate, action = _electoral_plan(ROOT, "aut11", {}, {
+            "territory_id": "aut11", "election_id": "extremadura_asamblea_2025-12-21", "election_date": "2025-12-21",
             "electoral": {"action": "BLOCKED_PROVISIONAL"},
         })
         self.assertEqual(action, "BLOCKED_PROVISIONAL")
@@ -382,14 +382,14 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
 
     def test_andalucia_matrix_describes_current_siel_source(self):
         state = {
-            "territorial_source_declaration": "territorios/andalucia/config/fuentes_oficiales.yaml",
+            "territorial_source_declaration": "territorios/aut01/config/fuentes_oficiales.yaml",
             "territorial_sources_prepared": False,
             "electoral_source_prepared": False,
             "evidence": {},
         }
         with mock.patch(
             "herramientas.resolver_preparacion_legislatura._catalog_state",
-            return_value=({"territory_id": "andalucia"}, state),
+            return_value=({"territory_id": "aut01"}, state),
         ):
             plan = resolve(ROOT, "Andalucía")["plans"][0]
         self.assertEqual(plan["electoral_action"], "ACQUIRE")
@@ -401,7 +401,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
 
     def test_partial_acquisition_reuses_electoral_but_replaces_wrong_year_territorial(self):
         state = {
-            "territorial_source_declaration": "territorios/galicia/config/fuentes_oficiales.yaml",
+            "territorial_source_declaration": "territorios/aut12/config/fuentes_oficiales.yaml",
         }
         territorial_candidate = {
             "reusable": False,
@@ -416,7 +416,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         with (
             mock.patch(
                 "herramientas.resolver_preparacion_legislatura._catalog_state",
-                return_value=({"territory_id": "galicia"}, state),
+                return_value=({"territory_id": "aut12"}, state),
             ),
             mock.patch(
                 "herramientas.resolver_preparacion_legislatura._territorial_candidate",
@@ -445,7 +445,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         }
         with mock.patch(
             "herramientas.resolver_preparacion_legislatura._catalog_state",
-            return_value=({"territory_id": "canarias"}, state),
+            return_value=({"territory_id": "aut05"}, state),
         ):
             plan = resolve(ROOT, "Canarias")["plans"][0]
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
@@ -455,7 +455,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
 
     def test_canarias_reacquires_territorial_but_reuses_current_electoral_receipt(self):
         state = {
-            "territorial_source_declaration": "territorios/canarias/config/fuentes_oficiales.yaml",
+            "territorial_source_declaration": "territorios/aut05/config/fuentes_oficiales.yaml",
         }
         territorial_candidate = {
             "reusable": False,
@@ -470,7 +470,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         with (
             mock.patch(
                 "herramientas.resolver_preparacion_legislatura._catalog_state",
-                return_value=({"territory_id": "canarias"}, state),
+                return_value=({"territory_id": "aut05"}, state),
             ),
             mock.patch(
                 "herramientas.resolver_preparacion_legislatura._territorial_candidate",
@@ -808,7 +808,7 @@ class PreparedPairIntegrationRegressionTests(unittest.TestCase):
         catalog = yaml.safe_load(CATALOG.read_text(encoding="utf-8"))
         state = next(
             row for row in catalog["territories"]
-            if row["territory_id"] == "melilla"
+            if row["territory_id"] == "aut19"
         )["editions"]["2025"]
         prep = state["preparation_evidence"]
 

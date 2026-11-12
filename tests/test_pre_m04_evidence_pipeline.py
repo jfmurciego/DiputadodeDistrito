@@ -35,12 +35,12 @@ ROOT = Path(__file__).resolve().parents[1]
 from tests._raiz_congelada import frozen_root  # noqa: E402
 # Madrid, Ceuta y Cataluña cuentan con preflight vigente en el catálogo; sólo
 # estos dos territorios aún necesitan reacreditación para el caso cubierto.
-REAL_TARGETS = ("comunidad_valenciana", "region_de_murcia")
+REAL_TARGETS = ("aut10", "aut14")
 FROM_START_PRE_M04_TARGETS = {
-    "andalucia", "aragon", "principado_de_asturias", "illes_balears", "canarias",
-    "cantabria", "castilla_y_leon", "castilla_la_mancha", "cataluna",
-    "comunidad_valenciana", "extremadura", "galicia", "madrid", "region_de_murcia",
-    "comunidad_foral_de_navarra", "pais_vasco", "la_rioja", "ceuta", "melilla",
+    "aut01", "aut02", "aut03", "aut04", "aut05",
+    "aut06", "aut07", "aut08", "aut09",
+    "aut10", "aut11", "aut12", "aut13", "aut14",
+    "aut15", "aut16", "aut17", "aut18", "aut19",
 } | {row["territory_id"] for row in load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")}
 
 
@@ -483,14 +483,14 @@ class PreM04EvidenceHandoffRegressionTests(unittest.TestCase):
     # territorial de producción es mutable y puede ser sustituido por una
     # evaluación posterior READY/BLOCKED sin invalidar esta regresión histórica.
     REAL_CASES = {
-        "illes_balears": {
+        "aut04": {
             "run_id": 36529385760,
             "source_commit": "afe1ed53c6968e5abf7b8b2ca3726d3cc2cbca97",
             "m03u_sha256": "4a13e0b169f02c1f323937bbc9fc9cbfe01ae9660cce668d26d37e8eef7abfc2",
             "m03_sha256": "6e36edf7767522a5125e12a1b97f0da504f24866161649c708391ea4d73d0ee0",
             "partition_sha256": "8344300cc7d7e2fc2d659f6a2cb20203ca7d5a6c53a5d95e6a2a3e347f9143ea",
         },
-        "canarias": {
+        "aut05": {
             "run_id": 36529404391,
             "source_commit": "afe1ed53c6968e5abf7b8b2ca3726d3cc2cbca97",
             "m03u_sha256": "76b75f7bcb5016ce23e239f893240b4670a9254c67aa9111014fa8ebd40c2a31",
@@ -946,7 +946,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         data = yaml.safe_load(source_catalog.read_text(encoding="utf-8")) or {}
         row = next(
             item for item in data["territories"]
-            if item["territory_id"] == "melilla"
+            if item["territory_id"] == "aut19"
         )
         state = row["editions"]["2025"]
         self.assertTrue(state["territorial_sources_prepared"])
@@ -965,7 +965,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 encoding="utf-8",
             )
             plan = build_plan(
-                territory="melilla",
+                territory="aut19",
                 edition="2025",
                 execution_mode="reuse",
                 catalog=catalog,
@@ -1036,16 +1036,16 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
     def test_00_from_start_archipelagos_and_continental_pre_m04_family_use_01_then_generation(self):
         catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
         families = {
-            "physical_components": ("illes_balears", "canarias"),
+            "physical_components": ("aut04", "aut05"),
             "continental_pre_m04": (
-                "cataluna",
-                "comunidad_valenciana",
-                "madrid",
-                "region_de_murcia",
-                "comunidad_foral_de_navarra",
-                "pais_vasco",
-                "la_rioja",
-                "melilla",
+                "aut09",
+                "aut10",
+                "aut13",
+                "aut14",
+                "aut15",
+                "aut16",
+                "aut17",
+                "aut19",
             ),
         }
         for family, territories in families.items():
@@ -1095,7 +1095,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
 
         reuse = build_plan(
-            territory="illes_balears",
+            territory="aut04",
             edition="2025",
             execution_mode="reuse",
             catalog=catalog,
@@ -1113,7 +1113,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         )
 
         catalog_source = build_plan(
-            territory="illes_balears",
+            territory="aut04",
             edition="2025",
             execution_mode="catalog_source",
             catalog=catalog,
@@ -1133,7 +1133,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         )
 
         continental = build_plan(
-            territory="andalucia",
+            territory="aut01",
             edition="2025",
             execution_mode="from_start",
             catalog=catalog,
@@ -1371,7 +1371,7 @@ class AccreditedMunicipalDiscontinuityGateTests(unittest.TestCase):
         ROOT = frozen_root()  # caso real congelado en aee8215e
         from herramientas._resolver_ejecucion_completa_core import _accredited_municipal_disconnections_match
 
-        contract_path = ROOT / "territorios/cataluna/config/cataluna_2025.yaml"
+        contract_path = ROOT / "territorios/aut09/config/aut09_2025.yaml"
         cfg = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
         declarations = cfg["validation"]["topology_accreditation"]["administrative_components"]
         self.assertEqual(["municipality:25234"], [row["admin_scope"] for row in declarations])

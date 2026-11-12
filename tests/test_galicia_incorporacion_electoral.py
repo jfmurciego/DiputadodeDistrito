@@ -13,8 +13,8 @@ import yaml
 from ddd_core.electoral_contract import PartyDictionary
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG = ROOT / "territorios/galicia/config/galicia_2025.yaml"
-CONTRACT = ROOT / "territorios/galicia/config/elecciones/galicia_parlamento_2024.json"
+CONFIG = ROOT / "territorios/aut12/config/aut12_2025.yaml"
+CONTRACT = ROOT / "territorios/aut12/config/elecciones/galicia_parlamento_2024.json"
 
 
 def load_m07():
@@ -36,7 +36,7 @@ class GaliciaElectoralApplication(unittest.TestCase):
         self.assertIn("out_districts_with_results_geojson", m08)
 
         contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
-        self.assertEqual(contract["territory_id"], "galicia")
+        self.assertEqual(contract["territory_id"], "aut12")
         self.assertEqual(contract["sources"][0]["sha256"], "7f9db16181962a1ef543fe0768c6822d19166e91b97e0a9d48b7c449c24aba96")
         adapter = contract["sources"][0]["adapter"]
         self.assertEqual(adapter["kind"], "wide_polling_station_csv")
@@ -71,7 +71,7 @@ class GaliciaElectoralApplication(unittest.TestCase):
         provenance = adapter["structural_provenance"]
         self.assertEqual(
             provenance["path"],
-            "territorios/galicia/config/elecciones/galicia_parlamento_2024.structural_provenance.json",
+            "territorios/aut12/config/elecciones/galicia_parlamento_2024.structural_provenance.json",
         )
         self.assertEqual(
             provenance["sha256"],

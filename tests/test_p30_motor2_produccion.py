@@ -341,7 +341,7 @@ class MismaCompeticionQueLaBateria(unittest.TestCase):
                 env["PYTHONHASHSEED"] = valor
             with mock.patch.dict(os.environ, env, clear=True), \
                     mock.patch.object(p30, "competir", side_effect=AssertionError("no debe competir")):
-                self.assertEqual(p30.main(["competir", "--params", "territorios/la_rioja/config/la_rioja_2025.yaml"]), 6)
+                self.assertEqual(p30.main(["competir", "--params", "territorios/aut17/config/aut17_2025.yaml"]), 6)
 
     def test_entorno_cubre_los_paquetes_que_fija_el_flujo(self):
         e = p30.entorno()

@@ -256,7 +256,7 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             inventory["sha256"]["cache/castilla_y_leon_2025_m04_semillas.geojson.zip"],
             "3791a1c5aee011b1972cfb13f0193929b3421a13b3d354bad67f7d638e777da4",
         )
-        params=ROOT / "territorios" / "castilla_y_leon" / "config" / "castilla_y_leon_2025.yaml"
+        params=ROOT / "territorios" / "aut07" / "config" / "castilla_y_leon_2025.yaml"
         cfg=__import__("yaml").safe_load(params.read_text(encoding="utf-8")) or {}
         required=[]
         for module_name,module_cfg in (cfg.get("modulos") or {}).items():

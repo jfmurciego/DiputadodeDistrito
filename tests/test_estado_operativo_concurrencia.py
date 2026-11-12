@@ -21,7 +21,7 @@ class SharedOperationalStateConcurrencyTests(unittest.TestCase):
                 "version": 1,
                 "head": "base",
                 "products": {
-                    "principado_de_asturias": asturias,
+                    "aut03": asturias,
                 },
             }
             local = {
@@ -80,7 +80,7 @@ class SharedOperationalStateConcurrencyTests(unittest.TestCase):
                 generated_states.append(dict(local["snapshot"]))
                 events.append(
                     "generated_asturias_only"
-                    if set(local["snapshot"]) == {"principado_de_asturias"}
+                    if set(local["snapshot"]) == {"aut03"}
                     else "generated_asturias_and_castilla"
                 )
 
@@ -89,9 +89,9 @@ class SharedOperationalStateConcurrencyTests(unittest.TestCase):
                 if attempt == 1:
                     self.assertEqual(
                         generated_states,
-                        [{"principado_de_asturias": asturias}],
+                        [{"aut03": asturias}],
                     )
-                    remote["products"]["castilla_la_mancha"] = castilla_la_mancha
+                    remote["products"]["aut08"] = castilla_la_mancha
                     remote["version"] += 1
                     remote["head"] = "castilla-la-mancha-registration"
                     castilla_registered = True
@@ -134,18 +134,18 @@ class SharedOperationalStateConcurrencyTests(unittest.TestCase):
             self.assertEqual(
                 generated_states,
                 [
-                    {"principado_de_asturias": asturias},
+                    {"aut03": asturias},
                     {
-                        "principado_de_asturias": asturias,
-                        "castilla_la_mancha": castilla_la_mancha,
+                        "aut03": asturias,
+                        "aut08": castilla_la_mancha,
                     },
                 ],
             )
             self.assertEqual(
                 local["snapshot"],
                 {
-                    "principado_de_asturias": asturias,
-                    "castilla_la_mancha": castilla_la_mancha,
+                    "aut03": asturias,
+                    "aut08": castilla_la_mancha,
                 },
             )
             self.assertEqual(remote["version"], 3)

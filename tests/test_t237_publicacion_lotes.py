@@ -80,26 +80,26 @@ class ListaDeRuns(unittest.TestCase):
 
 class DescriptoresDelLote(unittest.TestCase):
     def test_un_run_salida_identica(self):
-        uno = [_desc("aragon", "101", "M06"), _desc("aragon", "101")]
+        uno = [_desc("aut02", "101", "M06"), _desc("aut02", "101")]
         self.assertEqual(rpv.merge_batch_descriptors([uno]), uno)
 
     def test_lote_valido_une_todos(self):
-        a, b = [_desc("aragon", "101")], [_desc("murcia", "202", "M06"), _desc("murcia", "202")]
+        a, b = [_desc("aut02", "101")], [_desc("murcia", "202", "M06"), _desc("murcia", "202")]
         self.assertEqual([d["id"] for d in rpv.merge_batch_descriptors([a, b])],
-                         ["m08-aragon-101", "m06-murcia-202", "m08-murcia-202"])
+                         ["m08-aut02-101", "m06-murcia-202", "m08-murcia-202"])
 
     def test_territorio_repetido_en_el_lote_se_rechaza(self):
-        with self.assertRaisesRegex(ValueError, "LOTE_TERRITORIO_REPETIDO: aragon en los runs 101 y 202"):
-            rpv.merge_batch_descriptors([[_desc("aragon", "101")], [_desc("aragon", "202")]])
+        with self.assertRaisesRegex(ValueError, "LOTE_TERRITORIO_REPETIDO: aut02 en los runs 101 y 202"):
+            rpv.merge_batch_descriptors([[_desc("aut02", "101")], [_desc("aut02", "202")]])
 
     def test_mapa_350_en_el_lote_se_rechaza(self):
         with self.assertRaisesRegex(ValueError, "mapa 350"):
-            rpv.merge_batch_descriptors([[_desc("aragon", "101")], [_desc("congreso350_soria", "202")]])
+            rpv.merge_batch_descriptors([[_desc("aut02", "101")], [_desc("congreso350_soria", "202")]])
 
     def test_cli_con_un_run_invalido_no_escribe_nada(self):
         tmp = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp)
-        (tmp / "a.json").write_text(json.dumps([_desc("aragon", "101")]), encoding="utf-8")
+        (tmp / "a.json").write_text(json.dumps([_desc("aut02", "101")]), encoding="utf-8")
         (tmp / "b.json").write_text(json.dumps([_desc("congreso350_soria", "202")]), encoding="utf-8")
         out = subprocess.run([sys.executable, str(TOOL), "merge-descriptors", "--inputs", str(tmp / "a.json"),
                               str(tmp / "b.json"), "--output", str(tmp / "todo.json")],

@@ -51,9 +51,9 @@ class PublicacionDeEnsemblesTests(unittest.TestCase):
         step = next(s for s in JOBS["republish"]["steps"] if s.get("id") == "source")["run"]
         self.assertIn('configuracion/ensemble/${{ inputs.territory_id }}.json', step)
         self.assertIn("*:ensemble_10) ;;", step)
-        self.assertIn("aragon:aragon_10) ;;", step)
+        self.assertIn("aut02:aragon_10) ;;", step)
         self.assertNotIn("*:ensemble_50", step)
-        self.assertNotIn("aragon:aragon_50) ;;", step)
+        self.assertNotIn("aut02:aragon_50) ;;", step)
         assemble = next(s for s in JOBS["republish"]["steps"] if s.get("name") == "Reensamblar galería con el código actual")["run"]
         self.assertIn("configuracion/ensemble/${{ inputs.territory_id }}.json", assemble)
 

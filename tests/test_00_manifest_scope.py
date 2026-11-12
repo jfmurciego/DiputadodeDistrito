@@ -134,7 +134,7 @@ class FullRunManifestScopeTests(unittest.TestCase):
         historical = json.loads(
             (
                 ROOT
-                / "territorios/extremadura/evidencia/ejecuciones_completas/36472516474.json"
+                / "territorios/aut11/evidencia/ejecuciones_completas/36472516474.json"
             ).read_text(encoding="utf-8")
         )
         self.assertEqual(historical["status"], "FAILED")

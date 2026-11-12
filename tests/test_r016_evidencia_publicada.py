@@ -20,8 +20,8 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RUN8 = ROOT / "territorios" / "aragon" / "resultados" / "ejecuciones" / "gh-34592470470-1"
-RUN9 = ROOT / "territorios" / "aragon" / "resultados" / "ejecuciones" / "gh-34599224954-1"
+RUN8 = ROOT / "territorios" / "aut02" / "resultados" / "ejecuciones" / "gh-34592470470-1"
+RUN9 = ROOT / "territorios" / "aut02" / "resultados" / "ejecuciones" / "gh-34599224954-1"
 
 
 class R016EvidenciaPublicada(unittest.TestCase):

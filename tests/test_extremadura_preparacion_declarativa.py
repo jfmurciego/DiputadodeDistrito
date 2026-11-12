@@ -24,18 +24,18 @@ def load_common_preparer():
 class ExtremaduraDeclarativeReadiness(unittest.TestCase):
     def setUp(self):
         self.catalog = yaml.safe_load((ROOT / "configuracion/catalogo_territorios_espana_2025.yaml").read_text(encoding="utf-8"))
-        self.params_path = ROOT / "territorios/extremadura/config/extremadura_2025.yaml"
+        self.params_path = ROOT / "territorios/aut11/config/aut11_2025.yaml"
         self.params = yaml.safe_load(self.params_path.read_text(encoding="utf-8"))
-        self.sources = yaml.safe_load((ROOT / "territorios/extremadura/config/fuentes_oficiales.yaml").read_text(encoding="utf-8"))
-        self.readiness_path = ROOT / "territorios/extremadura/config/preparacion_proceso_completo.yaml"
+        self.sources = yaml.safe_load((ROOT / "territorios/aut11/config/fuentes_oficiales.yaml").read_text(encoding="utf-8"))
+        self.readiness_path = ROOT / "territorios/aut11/config/preparacion_proceso_completo.yaml"
         self.readiness = yaml.safe_load(self.readiness_path.read_text(encoding="utf-8"))
-        self.election_block = json.loads((ROOT / "territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json").read_text(encoding="utf-8"))
-        self.election_sources = yaml.safe_load((ROOT / "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml").read_text(encoding="utf-8"))
+        self.election_block = json.loads((ROOT / "territorios/aut11/config/elecciones/bloqueo_fuente_oficial_2025.json").read_text(encoding="utf-8"))
+        self.election_sources = yaml.safe_load((ROOT / "territorios/aut11/config/elecciones/fuentes_oficiales_2025.yaml").read_text(encoding="utf-8"))
 
     def test_extremadura_is_recognized_without_execution(self):
         rows = {row["territory_id"]: row for row in self.catalog["territories"]}
-        self.assertIn("extremadura", rows)
-        row = rows["extremadura"]
+        self.assertIn("aut11", rows)
+        row = rows["aut11"]
         self.assertEqual(row["province_codes"], ["06", "10"])
         self.assertEqual(row["k_districts"], 65)
         self.assertEqual(row["k_source"], "norma")
@@ -71,7 +71,7 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertIn("partition_unit_field", validator)
 
     def test_sources_and_m01_m03_are_prepared_by_configuration(self):
-        self.assertEqual(self.sources["territory"]["id"], "extremadura")
+        self.assertEqual(self.sources["territory"]["id"], "aut11")
         self.assertEqual([row["code"] for row in self.sources["territory"]["territorial_codes"]], ["06", "10"])
         steps = self.readiness["business_steps"]
         self.assertTrue(steps["official_sources"]["ready"])
@@ -93,7 +93,7 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
                 self.assertIn("Preparación de Extremadura", title.group(1))
                 self.assertNotIn("preindustrial", title.group(1).lower())
         self.assertIn(self.params["meta"]["status"], ESTADOS_PREPARADO)
-        row = next(row for row in self.catalog["territories"] if row["territory_id"] == "extremadura")
+        row = next(row for row in self.catalog["territories"] if row["territory_id"] == "aut11")
         self.assertIn(row["status"], ESTADOS_PREPARADO)
 
     def test_remaining_blocks_are_explicit(self):
@@ -118,7 +118,7 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         active = self.params_path.read_text(encoding="utf-8").lower()
         self.assertNotIn("c020", active)
         common_code = (ROOT / "herramientas/preparar_unidades_internas.py").read_text(encoding="utf-8").lower()
-        for forbidden in ("extremadura", "badajoz", "cáceres", "caceres"):
+        for forbidden in ("aut11", "badajoz", "cáceres", "caceres"):
             self.assertNotIn(forbidden, common_code)
         procedure = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
         self.assertIn("preparar_unidades_internas.py", procedure)
@@ -128,8 +128,8 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertEqual(block["decision"], "BLOCKED")
         self.assertFalse(block["rtve_allowed_as_substitute"])
         self.assertEqual(block["press_repository"]["access"], "credentials_required")
-        self.assertFalse((ROOT / "territorios/extremadura/config/elecciones/extremadura_asamblea_2025.json").exists())
-        self.assertEqual(self.params["meta"]["electoral_sources_declaration"], "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml")
+        self.assertFalse((ROOT / "territorios/aut11/config/elecciones/extremadura_asamblea_2025.json").exists())
+        self.assertEqual(self.params["meta"]["electoral_sources_declaration"], "territorios/aut11/config/elecciones/fuentes_oficiales_2025.yaml")
         self.assertEqual(self.election_sources["minimum_resolution"], "section")
         forbidden = " ".join(str(x).lower() for x in self.election_sources["forbidden_substitutes"])
         self.assertIn("rtve", forbidden)

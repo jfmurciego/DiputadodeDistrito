@@ -46,9 +46,9 @@ class AndaluciaProvisionalWorkflowIntegrationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             (root / "configuracion").mkdir()
-            (root / "territorios/andalucia/evidencia/catalogo").mkdir(parents=True)
-            (root / "territorios/andalucia/config").mkdir(parents=True)
-            (root / "territorios/andalucia/config/andalucia_2025.yaml").write_text(
+            (root / "territorios/aut01/evidencia/catalogo").mkdir(parents=True)
+            (root / "territorios/aut01/config").mkdir(parents=True)
+            (root / "territorios/aut01/config/aut01_2025.yaml").write_text(
                 yaml.safe_dump({"modulos": {}}, sort_keys=False),
                 encoding="utf-8",
             )
@@ -56,13 +56,13 @@ class AndaluciaProvisionalWorkflowIntegrationTests(unittest.TestCase):
                 "schema": "ddd-preparation-catalog/1.1",
                 "default_edition": "2025",
                 "territories": [{
-                    "territory_id": "andalucia",
+                    "territory_id": "aut01",
                     "name": "Andalucía",
                     "editions": {"2025": {
                         "territory_declared": True,
                         "preparation_status": "READY",
-                        "contract_path": "territorios/andalucia/config/andalucia_2025.yaml",
-                        "territorial_source_declaration": "territorios/andalucia/config/fuentes_oficiales.yaml",
+                        "contract_path": "territorios/aut01/config/aut01_2025.yaml",
+                        "territorial_source_declaration": "territorios/aut01/config/fuentes_oficiales.yaml",
                         "electoral_source_declaration": None,
                         "territorial_sources_prepared": True,
                         "territorial_contract_complete": True,
@@ -79,7 +79,7 @@ class AndaluciaProvisionalWorkflowIntegrationTests(unittest.TestCase):
                 "schema": "ddd-election-registry/1.0",
                 "edition": "2025",
                 "territories": {
-                    "andalucia": {
+                    "aut01": {
                         "name": "Andalucía",
                         "election_id": "andalucia_parlamento_2026",
                         "election_date": "2026-05-17",
@@ -96,7 +96,7 @@ class AndaluciaProvisionalWorkflowIntegrationTests(unittest.TestCase):
             result = promote(
                 root_dir=root,
                 kind="electoral_source",
-                territory_id="andalucia",
+                territory_id="aut01",
                 edition="2025",
                 run_id=1472026,
                 artifact_name="ddd-electoral-package-andalucia-2025-provisional-147",

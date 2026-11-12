@@ -18,7 +18,7 @@ class CrosswalkTests(unittest.TestCase):
     def test_complete(self):
         result=validate_rows(self.rows, list(reversed(self.rows)), self.counts)
         self.assertEqual(result['unit_count'],52)
-        self.assertEqual((result['ceuta'],result['melilla']),(1,1))
+        self.assertEqual((result['aut18'],result['aut19']),(1,1))
     def reject(self, change):
         rows=copy.deepcopy(self.rows); change(rows)
         with self.assertRaises(ValueError): validate_rows(self.rows,rows,self.counts)

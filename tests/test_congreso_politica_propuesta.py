@@ -87,7 +87,7 @@ class CongressInstitutionalPolicyCandidateTests(unittest.TestCase):
             option for option in self.options["options"]
             if option["basis"] == "provincial_mean" and option["tolerance"] == "3/20"
         )
-        for name, code in [("caceres", "10"), ("cantabria", "39")]:
+        for name, code in [("caceres", "10"), ("aut06", "39")]:
             case = self.proposal["pilot_diagnostics"][name]
             official = next(r for r in chosen["units"] if r["CPRO"] == code)
             self.assertEqual(case["K"], int(self.contract["quotas_by_origin_unit"][

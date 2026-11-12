@@ -33,8 +33,8 @@ ROOT = Path(__file__).resolve().parents[1]
 CATALOG = yaml.safe_load((ROOT / "fuentes/catalogo_oficial.yaml").read_text(encoding="utf-8"))
 
 SYNTHETIC_EXPECTED_SECTIONS = {
-    "aragon": 1463,
-    "extremadura": 964,
+    "aut02": 1463,
+    "aut11": 964,
 }
 
 
@@ -114,7 +114,7 @@ class OfficialSourcesTests(unittest.TestCase):
 
     def make_shared_national_snapshots(self, root: Path) -> dict[str, Path]:
         counts: dict[str, int] = {}
-        for territory in ("aragon", "extremadura"):
+        for territory in ("aut02", "aut11"):
             dec = declaration(territory)
             expected = SYNTHETIC_EXPECTED_SECTIONS[territory]
             divisions = dec["territory"]["territorial_codes"]
@@ -169,13 +169,13 @@ class OfficialSourcesTests(unittest.TestCase):
         return dec
 
     def test_aragon_remains_declarative_regression(self):
-        dec = declaration("aragon")
-        self.assertEqual(dec["territory"]["id"], "aragon")
+        dec = declaration("aut02")
+        self.assertEqual(dec["territory"]["id"], "aut02")
         self.assertEqual([row["code"] for row in dec["territory"]["territorial_codes"]], ["22", "44", "50"])
         self.assertEqual(dec["coverage_checks"]["required_territorial_codes"], ["22", "44", "50"])
 
     def test_acquisition_persists_resolved_consumer_contract(self):
-        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("aragon")
+        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("aut02")
         self.addCleanup(td.cleanup)
         self.assertEqual(acquisition["decision"], "READY")
         by_role = {row["role"]: row for row in inventory["sources"]}
@@ -234,15 +234,15 @@ class OfficialSourcesTests(unittest.TestCase):
         )
 
     def test_simulation_is_rejected_outside_test(self):
-        dec = declaration("extremadura")
+        dec = declaration("aut11")
         with tempfile.TemporaryDirectory() as td:
             with self.assertRaises(RuntimeError):
                 acquire(catalog=CATALOG, declaration=dec, evidence_dir=Path(td), environment="production", acquisition_mode="simulated", fetcher=SimulatedINE(dec), root_dir=Path(td))
 
     def test_html_instead_of_csv_blocks_and_preserves_evidence(self):
-        dec0 = declaration("extremadura")
+        dec0 = declaration("aut11")
         fetcher = SimulatedINE(dec0, html_population=True)
-        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("extremadura", fetcher=fetcher)
+        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("aut11", fetcher=fetcher)
         self.addCleanup(td.cleanup)
         self.assertEqual(acquisition["decision"], "BLOCKED")
         self.assertTrue((evidence / "inventario_fuentes.json").is_file())
@@ -250,7 +250,7 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertIn("HTML", json.dumps(acquisition, ensure_ascii=False))
 
     def test_population_explicit_aggregate_rows_do_not_hide_valid_sections(self):
-        dec = declaration("cantabria")
+        dec = declaration("aut06")
         payload = (
             "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
             "Total Nacional;;;;Total;Todas las edades;2023;48619620\n"
@@ -409,7 +409,7 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertEqual(checks["selected_section_population_total"], 10)
 
     def test_population_invalid_nonempty_section_still_blocks(self):
-        dec = declaration("cantabria")
+        dec = declaration("aut06")
         payload = (
             "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
             ";Cantabria;39001;seccion-invalida;Total;Todas las edades;2023;123\n"
@@ -418,7 +418,7 @@ class OfficialSourcesTests(unittest.TestCase):
             _filter_population(payload, dec, 2023, ["39"])
 
     def test_population_blank_section_without_explicit_aggregate_level_blocks(self):
-        dec = declaration("cantabria")
+        dec = declaration("aut06")
         payload = (
             "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
             ";;;;Total;Todas las edades;2023;123\n"
@@ -427,7 +427,7 @@ class OfficialSourcesTests(unittest.TestCase):
             _filter_population(payload, dec, 2023, ["39"])
 
     def test_population_missing_section_with_repeated_ancestors_is_municipal_aggregate(self):
-        dec = declaration("cantabria")
+        dec = declaration("aut06")
         payload = (
             "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
             "Total Nacional;Cantabria;39001;;Total;Todas las edades;2023;123\n"
@@ -439,7 +439,7 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertTrue(checks["row_reconciliation"]["balanced"])
 
     def test_population_reconciles_out_of_scope_sections_without_counting_them_in_population(self):
-        dec = declaration("cantabria")
+        dec = declaration("aut06")
         payload = (
             "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
             ";Cantabria;39001;3900101001;Total;Todas las edades;2023;0\n"
@@ -456,7 +456,7 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertTrue(checks["row_reconciliation"]["balanced"])
 
     def test_population_repeated_ancestors_classify_by_most_specific_level(self):
-        dec = declaration("cantabria")
+        dec = declaration("aut06")
         payload = (
             "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
             "Total Nacional;01 Araba/Álava;;;Total;Todas las edades;2023;333746\n"
@@ -485,7 +485,7 @@ class OfficialSourcesTests(unittest.TestCase):
         })
 
     def test_population_repeated_ancestor_row_from_other_territory_is_aggregate_not_section_exclusion(self):
-        dec = declaration("cantabria")
+        dec = declaration("aut06")
         payload = (
             "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
             "Total Nacional;01 Araba/Álava;;;Total;Todas las edades;2023;333746\n"
@@ -497,7 +497,7 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertTrue(checks["row_reconciliation"]["balanced"])
 
     def test_population_true_hierarchy_contradiction_still_blocks(self):
-        dec = declaration("cantabria")
+        dec = declaration("aut06")
         payload = (
             "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
             "Total Nacional;;01001;;Total;Todas las edades;2023;123\n"
@@ -506,40 +506,40 @@ class OfficialSourcesTests(unittest.TestCase):
             _filter_population(payload, dec, 2023, ["39"])
 
     def test_wrong_edition_blocks(self):
-        dec0 = declaration("extremadura")
+        dec0 = declaration("aut11")
         fetcher = SimulatedINE(dec0, edition=2024)
-        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("extremadura", fetcher=fetcher)
+        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("aut11", fetcher=fetcher)
         self.addCleanup(td.cleanup)
         self.assertEqual(acquisition["decision"], "BLOCKED")
         self.assertIn("edición 2025", json.dumps(acquisition, ensure_ascii=False).lower())
 
     def test_missing_province_blocks(self):
-        dec0 = declaration("extremadura")
+        dec0 = declaration("aut11")
         fetcher = SimulatedINE(dec0, omit_population_province="10")
-        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("extremadura", fetcher=fetcher)
+        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("aut11", fetcher=fetcher)
         self.addCleanup(td.cleanup)
         self.assertEqual(acquisition["decision"], "BLOCKED")
         self.assertIn("cobertura provincial", json.dumps(acquisition, ensure_ascii=False).lower())
 
     def test_unexpected_province_blocks(self):
-        dec0 = declaration("extremadura")
+        dec0 = declaration("aut11")
         fetcher = SimulatedINE(dec0, unexpected_section_province="99")
-        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("extremadura", fetcher=fetcher)
+        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("aut11", fetcher=fetcher)
         self.addCleanup(td.cleanup)
         self.assertEqual(acquisition["decision"], "BLOCKED")
         self.assertIn("provincia inesperada", json.dumps(acquisition, ensure_ascii=False).lower())
 
     def test_inventory_from_other_territory_blocks(self):
-        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("extremadura")
+        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("aut11")
         self.addCleanup(td.cleanup)
         inventory = copy.deepcopy(inventory)
-        inventory["territory_id"] = "aragon"
+        inventory["territory_id"] = "aut02"
         decision = self.evaluate_materialized(dec, root, evidence, resolved, inventory, provenance, acquisition)
         self.assertEqual(decision["decision"], "BLOCKED")
         self.assertTrue(any("territory_id" in reason for reason in decision["reasons"]))
 
     def test_exact_source_fields_must_match(self):
-        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("extremadura")
+        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("aut11")
         self.addCleanup(td.cleanup)
         for field, replacement in (("path", "otra/ruta.zip"), ("sha256", "0" * 64), ("bytes", 7), ("urls", ["https://example.invalid"]), ("edition", 2024), ("source_id", "otra_fuente")):
             mutated = copy.deepcopy(inventory)
@@ -569,7 +569,7 @@ class OfficialSourcesTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             snapshots = self.make_shared_national_snapshots(root)
-            dec = self.verified_declaration("extremadura", snapshots)
+            dec = self.verified_declaration("aut11", snapshots)
             dec["required_sources"] = ["poblacion_por_sexo_y_edad"]
             binding = dec["source_bindings"]["poblacion_por_sexo_y_edad"]
             del binding["snapshot"]["path"]
@@ -583,13 +583,13 @@ class OfficialSourcesTests(unittest.TestCase):
             self.assertIn("path", json.dumps(acquisition, ensure_ascii=False))
 
     def test_source_unavailable_preserves_blocking_inventory(self):
-        dec0 = declaration("extremadura")
+        dec0 = declaration("aut11")
         normal = SimulatedINE(dec0)
         def unavailable(url: str) -> bytes:
             if "65034.csv" in url:
                 raise RuntimeError("fuente no disponible")
             return normal(url)
-        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("extremadura", fetcher=unavailable)
+        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("aut11", fetcher=unavailable)
         self.addCleanup(td.cleanup)
         self.assertEqual(acquisition["decision"], "BLOCKED")
         row = next(row for row in inventory["sources"] if row["source_id"] == "poblacion_por_sexo_y_edad")
@@ -601,7 +601,7 @@ class OfficialSourcesTests(unittest.TestCase):
             root = Path(td)
             snapshots = self.make_shared_national_snapshots(root)
             before = {sid: sha256(path) for sid, path in snapshots.items()}
-            dec = self.verified_declaration("extremadura", snapshots)
+            dec = self.verified_declaration("aut11", snapshots)
             evidence = root / "extremadura-evidence"
             resolved, inventory, provenance, acquisition = acquire(catalog=CATALOG, declaration=dec, evidence_dir=evidence, environment="production", acquisition_mode="verified_snapshot", root_dir=root)
             decision = self.evaluate_materialized(dec, root, evidence, resolved, inventory, provenance, acquisition, environment="production")
@@ -616,7 +616,7 @@ class OfficialSourcesTests(unittest.TestCase):
             snapshots = self.make_shared_national_snapshots(root)
             baseline = {sid: sha256(path) for sid, path in snapshots.items()}
             results = {}
-            for territory in ("aragon", "extremadura"):
+            for territory in ("aut02", "aut11"):
                 dec = self.verified_declaration(territory, snapshots)
                 evidence = root / f"{territory}-evidence"
                 resolved, inventory, provenance, acquisition = acquire(catalog=CATALOG, declaration=dec, evidence_dir=evidence, environment="production", acquisition_mode="verified_snapshot", root_dir=root)
@@ -625,7 +625,7 @@ class OfficialSourcesTests(unittest.TestCase):
                 self.assertEqual(baseline, {sid: sha256(path) for sid, path in snapshots.items()})
                 for binding in dec["source_bindings"].values():
                     self.assertTrue((evidence / "materialized" / binding["materialized_path"]).is_file())
-            self.assertEqual(results, {"aragon": "READY", "extremadura": "READY"})
+            self.assertEqual(results, {"aut02": "READY", "aut11": "READY"})
 
     def test_origin_equal_destination_is_blocked(self):
         with tempfile.TemporaryDirectory() as td:
@@ -648,12 +648,12 @@ class OfficialSourcesTests(unittest.TestCase):
             self.assertIn("mismo fichero", json.dumps(acquisition, ensure_ascii=False).lower())
 
     def test_extremadura_simulation_ready_and_inputs_are_consumable_by_m01(self):
-        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("extremadura")
+        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("aut11")
         self.addCleanup(td.cleanup)
         decision = self.evaluate_materialized(dec, root, evidence, resolved, inventory, provenance, acquisition)
         self.assertEqual(acquisition["decision"], "READY")
         self.assertEqual(decision["decision"], "READY")
-        self.assertEqual(decision["territory_id"], "extremadura")
+        self.assertEqual(decision["territory_id"], "aut11")
         self.assertEqual(inventory["territorial_coverage"], ["06", "10"])
         for name in ("inventario_fuentes.json", "manifiesto_procedencia.json", "decision_adquisicion.json", "declaracion_materializacion.json"):
             self.assertTrue((evidence / name).is_file(), name)

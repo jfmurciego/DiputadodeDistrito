@@ -25,7 +25,7 @@ class PublicationPolicy(unittest.TestCase):
     def test_shape_statistics_recompute_from_existing_catalogues(self):
         for territory, record in self.evidence["territories"].items():
             frame = pd.read_csv(ROOT / record["source"])
-            field = "compactness_polsby_popper" if territory == "aragon" else "polsby_popper"
+            field = "compactness_polsby_popper" if territory == "aut02" else "polsby_popper"
             compactness = frame[field].astype(float)
             expected = record["polsby_popper"]
             self.assertEqual(len(frame), record["districts"])
@@ -34,7 +34,7 @@ class PublicationPolicy(unittest.TestCase):
             self.assertEqual(int((compactness < 0.15).sum()), expected["below_0_15"])
 
     def test_c03_direction_is_not_misstated(self):
-        record = self.evidence["territories"]["castilla_y_leon"]
+        record = self.evidence["territories"]["aut07"]
         frame = pd.read_csv(ROOT / record["source"])
         correlation = frame["relative_deviation"].abs().corr(frame["polsby_popper"])
         self.assertAlmostEqual(correlation, record["pearson_abs_population_deviation_vs_shape"], places=11)

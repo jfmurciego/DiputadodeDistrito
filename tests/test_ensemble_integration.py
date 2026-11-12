@@ -163,14 +163,14 @@ class IntegratedRunnerTests(unittest.TestCase):
             manifest = (ROOT / "inputs/MANIFEST.sha256").read_text(encoding="utf-8")
             self.assertIn(f"{EXPECTED_COMARCA_HASH}  inputs/COMARCAS.csv", manifest)
 
-        config = json.loads((ROOT / "configuracion/ensemble/aragon.json").read_text(encoding="utf-8"))
+        config = json.loads((ROOT / "configuracion/ensemble/aut02.json").read_text(encoding="utf-8"))
         self.assertEqual(config["contract"]["province_districts"], {"22": 11, "44": 7, "50": 49})
         self.assertEqual(config["prepared_bundle_id"], "AUTO")
         self.assertTrue(config["inputs"]["initial_geojson"].endswith("_m05_distritos_optimizados.geojson.zip"))
         self.assertEqual(config["topology"]["min_shared_border_m"], 1.0)
         self.assertTrue(config["topology"]["preserve_atomic_multipart_sections"])
         self.assertTrue(
-            (ROOT / "territorios/aragon/config/continuidad_geometrica_2025.json").is_file()
+            (ROOT / "territorios/aut02/config/continuidad_geometrica_2025.json").is_file()
         )
 
     @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "GerryChain no instalado")

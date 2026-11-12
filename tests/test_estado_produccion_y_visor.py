@@ -42,17 +42,17 @@ class ProductionViewerStateTests(unittest.TestCase):
         root.mkdir()
         config = Path(raw) / "territory.yaml"
         config.write_text(yaml.safe_dump({
-            "meta": {"territory_id": "castilla_y_leon", "territory": "Castilla y León"},
+            "meta": {"territory_id": "aut07", "territory": "Castilla y León"},
             "modulos": {"modulo_06_consolidar_distritos": {"expected_districts": expected}},
         }), encoding="utf-8")
         (root / "decision.json").write_text(json.dumps({
-            "territory_id": "castilla_y_leon", "params": str(config),
+            "territory_id": "aut07", "params": str(config),
         }), encoding="utf-8")
         if status:
             (root / "production_status.json").write_text(json.dumps({
                 "schema": "ddd.production-status/1.0",
                 "decision": status,
-                "territory_id": "castilla_y_leon",
+                "territory_id": "aut07",
                 "params": str(config),
             }), encoding="utf-8")
         (root / "result_m06_contiguedad_geometrica.json").write_text(json.dumps({
@@ -68,7 +68,7 @@ class ProductionViewerStateTests(unittest.TestCase):
             add_production(root, site, "123", results)
             self.assertEqual(len(results), 1)
             result = results[0]
-            self.assertEqual(result["territory_id"], "castilla_y_leon")
+            self.assertEqual(result["territory_id"], "aut07")
             self.assertEqual(result["territory_label"], "Castilla y León")
             self.assertEqual(result["expected_districts"], 2)
             self.assertEqual(result["observed_districts"], 2)
@@ -117,7 +117,7 @@ class WorkflowGateTests(unittest.TestCase):
 
 
     def test_aragon_contract_is_authorized_with_governed_exceptions(self):
-        config = yaml.safe_load((ROOT / "territorios/aragon/config/aragon_2025.yaml").read_text(encoding="utf-8"))
+        config = yaml.safe_load((ROOT / "territorios/aut02/config/aut02_2025.yaml").read_text(encoding="utf-8"))
         self.assertEqual(config["meta"]["contract_level"], "production_m01_m06")
         # 01 materializa el contrato del M06 40656036271; el estado manual m08_validated_* no se conserva.
         self.assertIn(config["meta"]["status"], ESTADOS_PREPARADO)

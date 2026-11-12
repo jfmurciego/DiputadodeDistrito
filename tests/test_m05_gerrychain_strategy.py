@@ -84,7 +84,7 @@ class ContractTests(unittest.TestCase):
     def test_asturias_contract_uses_declared_internal_partition_unit(self):
         import yaml
         cfg = yaml.safe_load(
-            (ROOT / "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml")
+            (ROOT / "territorios/aut03/config/aut03_2025.yaml")
             .read_text(encoding="utf-8")
         ) or {}
         contract = contract_from_yaml(cfg)
@@ -576,8 +576,8 @@ class ContractTests(unittest.TestCase):
             "min_shared_border_m": 1.0,
         }
         expected_surcharge = {
-            "territorios/aragon/config/aragon_2025.yaml": 0.30,
-            "territorios/galicia/config/galicia_2025.yaml": 0.0,
+            "territorios/aut02/config/aut02_2025.yaml": 0.30,
+            "territorios/aut12/config/aut12_2025.yaml": 0.0,
         }
         for relative, surcharge in expected_surcharge.items():
             cfg = yaml.safe_load((ROOT / relative).read_text(encoding="utf-8")) or {}
@@ -588,7 +588,7 @@ class ContractTests(unittest.TestCase):
             self.assertIn("comarca_surcharge", gerry, f"{relative}: falta comarca_surcharge")
             self.assertEqual(gerry["comarca_surcharge"], surcharge, f"{relative}: comarca_surcharge")
         galicia = yaml.safe_load(
-            (ROOT / "territorios/galicia/config/galicia_2025.yaml").read_text(encoding="utf-8")
+            (ROOT / "territorios/aut12/config/aut12_2025.yaml").read_text(encoding="utf-8")
         ) or {}
         note = galicia["modulos"]["modulo_05_optimizar_distritos"]["gerrychain"].get("comarca_surcharge_note")
         self.assertIn("no tiene datos comarcales cargados", note)

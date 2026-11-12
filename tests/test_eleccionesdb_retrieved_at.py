@@ -55,7 +55,7 @@ def params(root: Path) -> Path:
     path.write_text(
         yaml.safe_dump(
             {
-                "meta": {"territory_id": "cantabria", "year": 2025},
+                "meta": {"territory_id": "aut06", "year": 2025},
                 "modulos": {},
             },
             sort_keys=False,
@@ -166,7 +166,7 @@ class EleccionesDBRetrievedAtTests(unittest.TestCase):
             result = validate_package(
                 package=package,
                 params=cfg,
-                territory_id="cantabria",
+                territory_id="aut06",
                 edition="2025",
                 root=root,
                 materialize=True,
@@ -202,7 +202,7 @@ class EleccionesDBRetrievedAtTests(unittest.TestCase):
                 validate_package(
                     package=package,
                     params=cfg,
-                    territory_id="cantabria",
+                    territory_id="aut06",
                     edition="2025",
                     root=root,
                     materialize=False,
@@ -228,7 +228,7 @@ class EleccionesDBRetrievedAtTests(unittest.TestCase):
                 validate_package(
                     package=package,
                     params=cfg,
-                    territory_id="cantabria",
+                    territory_id="aut06",
                     edition="2025",
                     root=root,
                     materialize=True,
@@ -246,7 +246,7 @@ class EleccionesDBRetrievedAtTests(unittest.TestCase):
         catalog = json.loads(
             (
                 ROOT
-                / "territorios/castilla_la_mancha/evidencia/catalogo/electoral_source_2025.json"
+                / "territorios/aut08/evidencia/catalogo/electoral_source_2025.json"
             ).read_text(encoding="utf-8")
         )
 

@@ -140,8 +140,8 @@ class Laboratorio(unittest.TestCase):
                          .read_text(encoding="utf-8"))
         with tempfile.TemporaryDirectory() as d:
             self.assertEqual(main(["--seccionado-dir", os.environ["DDD_SECCIONADO_DIR"], "--out", d, "--pasos", "300",
-                                   "congreso_leon"]), 0)
-            r = json.loads((Path(d) / "congreso_leon" / "RESULTADO.json").read_text(encoding="utf-8"))
+                                   "nac24"]), 0)
+            r = json.loads((Path(d) / "nac24" / "RESULTADO.json").read_text(encoding="utf-8"))
         self.assertEqual(r["huella_d"], ref["huella_d"])
 
     def test_reparar_vigente_con_dos_mixtos(self):
@@ -187,7 +187,7 @@ class Laboratorio(unittest.TestCase):
     def test_islas_y_enclaves_del_contrato(self):
         from ddd_motor2.naturalidad_competicion import particiones, puentes_contrato
         cfg = {"m": {"x": {"hard_partition_lookup": "configuracion/particiones_insulares_2025.json",
-                           "hard_partition_territory_id": "congreso_baleares"}}}
+                           "hard_partition_territory_id": "nac07"}}}
         part = particiones(cfg)
         self.assertIn(("0702401001", "0702602001"), part.pop("_puentes"))  # Formentera con Ibiza
         self.assertEqual(len(set(part.values())), 3)
@@ -214,7 +214,7 @@ class Vigentes(unittest.TestCase):
         filas = list(csv.DictReader(open(d / "vigentes.csv", encoding="utf-8")))
         comp = json.loads((ROOT / "datos" / "composicion" / "MANIFEST.json").read_text(encoding="utf-8"))["territorios"]
         self.assertEqual(sorted(r["territorio"] for r in filas), sorted(comp))
-        bad = next(r for r in filas if r["territorio"] == "congreso_badajoz")
+        bad = next(r for r in filas if r["territorio"] == "nac06")
         self.assertEqual((bad["pj_n"], bad["pj_partidos"]), ("14", "13"))  # dato conocido del indicador C13
         for r in filas:
             self.assertGreater(float(r["pp_medio"]), 0)

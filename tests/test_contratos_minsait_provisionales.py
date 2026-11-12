@@ -12,7 +12,7 @@ class MinsaitProvisionalContractsTests(unittest.TestCase):
     def test_andalucia_contract_is_governed_and_non_promotable(self):
         row = resolve(
             election_id="andalucia_parlamento_2026",
-            territory_id="andalucia",
+            territory_id="aut01",
             election_date="2026-05-17",
             root_dir=ROOT,
         )
@@ -27,7 +27,7 @@ class MinsaitProvisionalContractsTests(unittest.TestCase):
     def test_extremadura_contract_is_complete_and_reconciled_as_known_delta(self):
         row = resolve(
             election_id="extremadura_asamblea_2025-12-21",
-            territory_id="extremadura",
+            territory_id="aut11",
             election_date="2025-12-21",
             root_dir=ROOT,
         )
@@ -51,7 +51,7 @@ class MinsaitProvisionalContractsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "otro territorio"):
             resolve(
                 election_id="extremadura_asamblea_2025-12-21",
-                territory_id="andalucia",
+                territory_id="aut01",
                 election_date="2025-12-21",
                 root_dir=ROOT,
             )

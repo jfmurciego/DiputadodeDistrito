@@ -18,8 +18,8 @@ from herramientas.validar_puerta_ejecucion import validate_gate
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PARAMS = ROOT / "territorios/galicia/config/galicia_2025.yaml"
-CONTRACT = ROOT / "territorios/galicia/config/elecciones/galicia_parlamento_2024.json"
+PARAMS = ROOT / "territorios/aut12/config/aut12_2025.yaml"
+CONTRACT = ROOT / "territorios/aut12/config/elecciones/galicia_parlamento_2024.json"
 CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 REGISTRY = ROOT / "configuracion/registro_electoral.yaml"
 ORCHESTRATION = ROOT / ".github/workflows/ejecucion-completa-proyecto.yml"
@@ -35,7 +35,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
     def _catalog_and_state(self) -> tuple[dict, dict]:
         catalog = yaml.safe_load(CATALOG.read_text(encoding="utf-8"))
         galicia = next(
-            row for row in catalog["territories"] if row["territory_id"] == "galicia"
+            row for row in catalog["territories"] if row["territory_id"] == "aut12"
         )
         return catalog, galicia["editions"]["2025"]
 
@@ -45,7 +45,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
         path = ROOT / rel
         self.assertTrue(path.is_file(), f"receipt ausente: {path}")
         payload = json.loads(path.read_text(encoding="utf-8"))
-        self.assertEqual(payload["territory_id"], "galicia")
+        self.assertEqual(payload["territory_id"], "aut12")
         self.assertEqual(str(payload["edition"]), "2025")
         digest = str(payload["artifact_sha256"]).removeprefix("sha256:").lower()
         self.assertRegex(digest, r"^[0-9a-f]{64}$")
@@ -61,7 +61,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
 
         contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
         registry = yaml.safe_load(REGISTRY.read_text(encoding="utf-8"))
-        registered = registry["territories"]["galicia"]
+        registered = registry["territories"]["aut12"]
 
         self.assertEqual(electoral_source["election_id"], registered["election_id"])
         self.assertEqual(contract["election_id"], registered["election_id"])
@@ -88,7 +88,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
             manifest = {
                 "schema": "ddd-electoral-package/1.0",
                 "decision": "ACQUIRE",
-                "territory_id": "galicia",
+                "territory_id": "aut12",
                 "edition": "2025",
                 "election_id": election_id,
                 "election_date": election_date,
@@ -109,7 +109,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                 return validate_gate(
                     phase="electoral_source",
                     artifact_root=package,
-                    territory_id="galicia",
+                    territory_id="aut12",
                     edition="2025",
                     run_id=str(electoral_source["run_id"]),
                     artifact_name=electoral_source["artifact_name"],
@@ -124,7 +124,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
         # Copia profunda para que la prueba no altere el catálogo leído.
         catalog = json.loads(json.dumps(catalog))
         galicia = next(
-            row for row in catalog["territories"] if row["territory_id"] == "galicia"
+            row for row in catalog["territories"] if row["territory_id"] == "aut12"
         )
         state = galicia["editions"]["2025"]
 
@@ -140,7 +140,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                 {
                     "schema": "ddd.catalog-evidence/1.0",
                     "kind": "territorial_product",
-                    "territory_id": "galicia",
+                    "territory_id": "aut12",
                     "edition": "2025",
                     "run_id": territorial_run,
                     "artifact_name": f"ddd-state-{territorial_run}-M06",
@@ -155,7 +155,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                 {
                     "schema": "ddd.catalog-evidence/1.0",
                     "kind": "electoral_product",
-                    "territory_id": "galicia",
+                    "territory_id": "aut12",
                     "edition": "2025",
                     "run_id": electoral_run,
                     "artifact_name": f"ddd-state-{electoral_run}-M08",
@@ -270,7 +270,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
 
     def test_manifest_receipt_mismatches_are_detected(self):
         territorial = {
-            "territory_id": "galicia",
+            "territory_id": "aut12",
             "edition": "2025",
             "run_id": 92001,
             "artifact_name": "ddd-state-92001-M06",
@@ -284,7 +284,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
             "territorial_certification": "PASS",
         }
         manifest = {
-            "territory_id": "galicia",
+            "territory_id": "aut12",
             "edition": "2025",
             "source_sha": territorial["source_commit"],
             "phases": [
@@ -384,7 +384,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                         "schema": "ddd-election-registry/1.0",
                         "edition": "2025",
                         "territories": {
-                            "galicia": {
+                            "aut12": {
                                 "name": "Galicia",
                                 "election_id": "galicia_parlamento_2024",
                             }
@@ -394,11 +394,11 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            base = root / "territorios/galicia/evidencia/catalogo"
+            base = root / "territorios/aut12/evidencia/catalogo"
             _write_json(
                 base / "territorial_product_2025.json",
                 {
-                    "territory_id": "galicia",
+                    "territory_id": "aut12",
                     "edition": "2025",
                     "run_id": current_territorial_run,
                     "artifact_name": f"ddd-state-{current_territorial_run}-M06",
@@ -408,7 +408,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
             _write_json(
                 base / "electoral_source_2025.json",
                 {
-                    "territory_id": "galicia",
+                    "territory_id": "aut12",
                     "edition": "2025",
                     "run_id": electoral_source_run,
                     "artifact_name": f"ddd-electoral-package-galicia-2025-{electoral_source_run}",
@@ -449,7 +449,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                 evidence / "audit/production_status.json",
                 {
                     "decision": "PASS_WITH_EXCEPTIONS",
-                    "territory_id": "galicia",
+                    "territory_id": "aut12",
                     "workflow_run_id": run_id,
                     "source_territorial_run_id": incompatible_territorial_run,
                     "electoral_application": True,
@@ -459,7 +459,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                 evidence / "report/report.json",
                 {
                     "status": "SUCCESS",
-                    "territory_id": "galicia",
+                    "territory_id": "aut12",
                     "workflow_run_id": run_id,
                     "territorial_source_run_id": incompatible_territorial_run,
                     "electoral_package_run_id": electoral_source_run,
@@ -469,7 +469,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                 evidence / "report/validacion_paquete_electoral.json",
                 {
                     "decision": "READY_PACKAGE",
-                    "territory_id": "galicia",
+                    "territory_id": "aut12",
                     "edition": "2025",
                     "election_id": "galicia_parlamento_2024",
                 },
@@ -481,7 +481,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
             ):
                 validate_candidate(
                     root_dir=root,
-                    territory_id="galicia",
+                    territory_id="aut12",
                     edition="2025",
                     candidate={
                         "run_id": run_id,

@@ -71,10 +71,10 @@ class Plan(unittest.TestCase):
         self.assertEqual(self.plan()["count"], 71)
         self.assertEqual(self.plan("nacional")["count"], 52)
         self.assertEqual(self.plan("autonómicas")["count"], 19)
-        self.assertEqual([r["territory_id"] for r in self.plan("comunidad", ["Aragón"])["territorios"]], ["aragon"])
-        self.assertEqual([r["territory_id"] for r in self.plan("comunidad", ["2"])["territorios"]], ["aragon"])
+        self.assertEqual([r["territory_id"] for r in self.plan("comunidad", ["Aragón"])["territorios"]], ["aut02"])
+        self.assertEqual([r["territory_id"] for r in self.plan("comunidad", ["2"])["territorios"]], ["aut02"])
         self.assertEqual([r["territory_id"] for r in self.plan("provincias", ["HU", "50", "Teruel"])["territorios"]],
-                         ["congreso_huesca", "congreso_teruel", "congreso_zaragoza"])
+                         ["nac22", "nac44", "nac50"])
         with self.assertRaises(lv.GestorError):
             self.plan("provincias")
         with self.assertRaises(lv.GestorError):
@@ -88,7 +88,7 @@ class Plan(unittest.TestCase):
                                                                       "desde_el_principio"}, set())
         for r in rows.values():
             self.assertEqual(r["accion"] == "nada", r["estado"] == "PUBLICADO", r["territory_id"])
-        self.assertEqual(rows["congreso_huesca"]["accion"], "nada")  # M08 publicado
+        self.assertEqual(rows["nac22"]["accion"], "nada")  # M08 publicado
         forced = self.plan("provincias", ["HU"], forzar=True)["territorios"][0]
         self.assertEqual(forced["accion"], "desde_el_principio")
         busy = self.plan("provincias", ["HU"], forzar=True, running={"Congreso Huesca": "9"})["territorios"][0]
@@ -161,11 +161,11 @@ class Lanzar(unittest.TestCase):
         return {"territory_id": name.lower(), "selector_00": name, "accion": accion, "run_id": run_id}
 
     def test_running_00_acepta_titulo_viejo_y_p00(self):  # T-215
-        runs = [{"id": 7, "display_title": "P00 Campaña · cantabria · Reutilizar"},
-                {"id": 8, "display_title": "00 Ejecución Completa del Proyecto · ceuta · Reutilizar"},
+        runs = [{"id": 7, "display_title": "P00 Campaña · cantabria · Reutilizar"},  # t220: no es id (título histórico)
+                {"id": 8, "display_title": "00 Ejecución Completa del Proyecto · ceuta · Reutilizar"},  # t220: no es id (título histórico)
                 {"id": 9, "display_title": "P00 Campaña"}]
         with mock.patch.object(lv, "list_runs", side_effect=lambda wf, status="": runs if status == "queued" else []):
-            self.assertEqual(lv.running_00(), {"cantabria": "7", "ceuta": "8"})
+            self.assertEqual(lv.running_00(), {"aut06": "7", "aut18": "8"})
 
     def test_esperar_sigue_una_00_en_curso_con_titulo_viejo(self):  # T-215: cruce del corte
         self.runs[lv.WF_00].append({"id": 5, "display_title": "00 Ejecución Completa del Proyecto · A · Reutilizar",

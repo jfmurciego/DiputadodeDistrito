@@ -40,7 +40,7 @@ class GuardaTerritorio350(unittest.TestCase):
         self.assertIn("::error::", r.stdout)
 
     def test_paso_admite_territorios_del_motor(self):
-        for t in ("Congreso Álava", "Castilla-La Mancha", "congreso_soria", "Región de Murcia"):
+        for t in ("Congreso Álava", "Castilla-La Mancha", "nac42", "Región de Murcia"):
             with self.subTest(t=t):
                 r = self._ejecutar_paso(t)
                 self.assertEqual(r.returncode, 0, r.stdout + r.stderr)

@@ -337,8 +337,8 @@ class WorkflowDecouplingTests(unittest.TestCase):
         )
         rows = {row["territory_id"]: row for row in catalog["territories"]}
         expected_generation_enabled = {
-            "canarias": True,
-            "cataluna": True,
+            "aut05": True,
+            "aut09": True,
         }
         for territory_id, expected_enabled in expected_generation_enabled.items():
             with self.subTest(territory=territory_id):

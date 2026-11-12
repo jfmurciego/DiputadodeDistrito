@@ -45,8 +45,8 @@ class CalendarioReal(unittest.TestCase):
             self.assertEqual(f["fuente_sha256"], " ; ".join(h))
 
     def test_galicia_calendario_propio(self):
-        self.assertEqual(self.meses("galicia"), ["2009-03", "2012-10", "2016-09", "2020-07", "2024-02"])
-        g = {f["mes"]: f for f in filas() if f["comunidad"] == "galicia"}
+        self.assertEqual(self.meses("aut12"), ["2009-03", "2012-10", "2016-09", "2020-07", "2024-02"])
+        g = {f["mes"]: f for f in filas() if f["comunidad"] == "aut12"}
         self.assertEqual(g["2012-10"]["duracion_meses"], "47")
         self.assertEqual(g["2016-09"]["duracion_meses"], "46")
         self.assertEqual(g["2020-07"]["duracion_meses"], "43")
@@ -54,10 +54,10 @@ class CalendarioReal(unittest.TestCase):
         self.assertEqual(g["2024-02"]["fecha"], "2024-02-18")
 
     def test_castilla_y_leon_adelantos(self):
-        self.assertEqual(self.meses("castilla_y_leon"), ["2011-05", "2015-05", "2019-05", "2022-02", "2026-03"])
+        self.assertEqual(self.meses("aut07"), ["2011-05", "2015-05", "2019-05", "2022-02", "2026-03"])
 
     def test_cantabria_2011_sin_datos(self):
-        c = {f["mes"]: f for f in filas() if f["comunidad"] == "cantabria"}
+        c = {f["mes"]: f for f in filas() if f["comunidad"] == "aut06"}
         self.assertEqual(c["2011-05"]["completitud"], "sin datos")
 
     def test_17_comunidades_sin_ceuta_ni_melilla(self):

@@ -65,8 +65,8 @@ class Resultado(unittest.TestCase):
         self.assertEqual(sum(int(r["votantes"]) for r in filas), 1492984)
 
     def test_las_comunidades_entregadas_cuadran(self):
-        esperadas = {"galicia": 4, "madrid": 5, "castilla_y_leon": 5, "cataluna": 5, "comunidad_valenciana": 4,
-                     "comunidad_foral_de_navarra": 4, "pais_vasco": 4, "la_rioja": 4, "canarias": 4}
+        esperadas = {"aut12": 4, "aut13": 5, "aut07": 5, "aut09": 5, "aut10": 4,
+                     "aut15": 4, "aut16": 4, "aut17": 4, "aut05": 4}
         for com, n in esperadas.items():
             m = json.loads((SAL / com / "MANIFEST.json").read_text(encoding="utf-8"))
             self.assertEqual(len(m["elecciones"]), n, com)
@@ -76,7 +76,7 @@ class Resultado(unittest.TestCase):
 
     def test_elecciones_coinciden_con_el_calendario(self):
         cal = ra.leer_calendario()
-        for com in ("galicia", "madrid", "castilla_y_leon", "cataluna", "pais_vasco", "la_rioja", "canarias"):
+        for com in ("aut12", "aut13", "aut07", "aut09", "aut16", "aut17", "aut05"):
             self.assertEqual(sorted(p.name for p in (SAL / com).iterdir() if p.is_dir()),
                              sorted(f["mes"].replace("-", "") for f in cal[com]), com)
 

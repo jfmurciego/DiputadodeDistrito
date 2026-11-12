@@ -42,7 +42,7 @@ class F10OfficialElectoralSources(unittest.TestCase):
             self.assertEqual(path.stat().st_size, row["bytes"], rel)
             self.assertEqual(sha256(path), row["sha256"], rel)
 
-        aragon = result["aragon"]
+        aragon = result["aut02"]
         self.assertEqual(aragon["open_data_rows"], 30326)
         self.assertEqual(aragon["open_data_cusec_party_mismatches"], 0)
         self.assertEqual(aragon["candidate_votes_geographic"], 656725)
@@ -52,7 +52,7 @@ class F10OfficialElectoralSources(unittest.TestCase):
             {"cusec": "5002501003", "candidate_votes": 608, "status": "UNMATCHED_TEMPORAL_IDENTITY"}
         ])
 
-        cyl = result["castilla_y_leon"]
+        cyl = result["aut07"]
         self.assertEqual(cyl["dataset_records"], 67006)
         self.assertEqual(cyl["candidate_votes_including_cera"], 1236753)
         self.assertEqual(cyl["temporal_crosswalk"]["status"], "BLOCKED_UNRESOLVED_OFFICIAL_IDENTITY")
@@ -60,7 +60,7 @@ class F10OfficialElectoralSources(unittest.TestCase):
         self.assertEqual(cyl["temporal_crosswalk"]["geographic_electoral_only_votes"], 3874)
         self.assertEqual(len(cyl["temporal_crosswalk"]["electoral_only"]), 24)
         self.assertEqual(cyl["temporal_crosswalk"]["map_only"], ["3412004006", "3710701002"])
-        for territory in ("aragon", "castilla_y_leon"):
+        for territory in ("aut02", "aut07"):
             validation = result["canonical_package_validation"][territory]
             self.assertEqual(validation["decision"], "READY_PACKAGE")
             self.assertTrue(validation["provenance_hash_matches_contract"])

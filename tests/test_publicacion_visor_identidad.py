@@ -39,7 +39,7 @@ class PublicationIdentityTests(unittest.TestCase):
     def _registry(self, path: Path, run_id: str = "123", territory: str = "synthetic", maps: int = 2) -> None:
         results = [{
             "id": "static-aragon",
-            "territory_id": "aragon",
+            "territory_id": "aut02",
             "kind": "static",
             "viewer_path": "data/static/aragon.geojson",
         }]
@@ -70,7 +70,7 @@ class PublicationIdentityTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             registry = Path(td) / "viewer-results.json"
             write_json(registry, {"schema": "ddd.viewer-results/1.0", "results": [{
-                "id": "static-aragon", "territory_id": "aragon", "kind": "static", "viewer_path": "data/static/aragon.geojson"
+                "id": "static-aragon", "territory_id": "aut02", "kind": "static", "viewer_path": "data/static/aragon.geojson"
             }]})
             result = self.mod.evaluate_publication(
                 requested_run_id="", registry_path=registry, viewer_url="https://example.test/", deployment_outcome="success", phase="final"

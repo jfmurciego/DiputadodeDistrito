@@ -23,12 +23,12 @@ def fila(t, run):
 
 class LatestValidated(unittest.TestCase):
     def test_gemelo_350_con_run_mas_reciente_no_gana(self):
-        completo = [fila("congreso_alava", 100), fila("congreso350_valladolid", 999)]
-        self.assertEqual(geo.elegir_latest(completo, completo)["territory_id"], "congreso_alava")
+        completo = [fila("nac01", 100), fila("congreso350_valladolid", 999)]
+        self.assertEqual(geo.elegir_latest(completo, completo)["territory_id"], "nac01")
 
     def test_si_complete_solo_tiene_350_cae_a_territorial_publicable(self):
-        r = geo.elegir_latest([fila("congreso350_soria", 900)], [fila("congreso350_soria", 900), fila("aragon", 50)])
-        self.assertEqual(r["territory_id"], "aragon")
+        r = geo.elegir_latest([fila("congreso350_soria", 900)], [fila("congreso350_soria", 900), fila("aut02", 50)])
+        self.assertEqual(r["territory_id"], "aut02")
 
     def test_solo_350_no_hay_latest(self):
         self.assertIsNone(geo.elegir_latest([fila("congreso350_madrid", 5)], [fila("congreso350_madrid", 5)]))
@@ -48,8 +48,8 @@ class Registro(unittest.TestCase):
             rpv.rechazar_mapa_350("congreso350_madrid")
 
     def test_territorio_normal_no_se_rechaza(self):
-        rpv.rechazar_mapa_350("congreso_valladolid")
-        rpv.rechazar_mapa_350("madrid")
+        rpv.rechazar_mapa_350("nac47")
+        rpv.rechazar_mapa_350("aut13")
 
     def test_las_entradas_350_ya_registradas_siguen_validando(self):
         # independiente del registro vivo (T-126 retira las dos de Valladolid): se inyecta una entrada 350 sintética

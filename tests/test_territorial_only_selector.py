@@ -91,7 +91,7 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
     def test_reusable_electoral_product_keeps_requested_mode_without_repreparing(self):
         from herramientas.resolver_ejecucion_completa import resolve_publication_mode
         plan = {
-            "territory_id": "principado_de_asturias",
+            "territory_id": "aut03",
             "territory_name": "Principado de Asturias",
             "edition": "2025",
             "run_prepare_electoral": False,
@@ -110,7 +110,7 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
     def test_extremadura_real_block_remains_explicitly_electoral(self):
         from herramientas.resolver_ejecucion_completa import resolve_publication_mode
         declaration = yaml.safe_load(
-            (ROOT / "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml").read_text(encoding="utf-8")
+            (ROOT / "territorios/aut11/config/elecciones/fuentes_oficiales_2025.yaml").read_text(encoding="utf-8")
         )
         candidate = next(row for row in declaration["sources"] if row.get("role") == "candidate_data_source")
         self.assertEqual(candidate["data_status"], "provisional_only")

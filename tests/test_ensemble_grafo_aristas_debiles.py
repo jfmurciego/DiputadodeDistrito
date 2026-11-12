@@ -81,8 +81,8 @@ class AristasDebilesTests(unittest.TestCase):
 
     def test_salamanca_activa_la_opcion_y_aragon_no(self):
         root = Path(__file__).resolve().parents[1] / "configuracion/ensemble"
-        self.assertTrue(json.loads((root / "congreso_salamanca.json").read_text())["topology"]["prune_weak_adjacencies"])
-        self.assertNotIn("prune_weak_adjacencies", json.loads((root / "aragon.json").read_text())["topology"])
+        self.assertTrue(json.loads((root / "nac37.json").read_text())["topology"]["prune_weak_adjacencies"])
+        self.assertNotIn("prune_weak_adjacencies", json.loads((root / "aut02.json").read_text())["topology"])
 
 
 if __name__ == "__main__":

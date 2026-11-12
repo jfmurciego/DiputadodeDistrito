@@ -58,7 +58,7 @@ class ViewerWgs84Tests(unittest.TestCase):
             before = source.read_bytes()
             summary = root / "summary.json"
             summary.write_text(json.dumps({
-                "territory_id": "aragon",
+                "territory_id": "aut02",
                 "candidates": [{"candidate_id": "balanced-01", "geojson": str(source)}],
             }), encoding="utf-8")
 
@@ -109,7 +109,7 @@ class ViewerWgs84Tests(unittest.TestCase):
             summary = root / "site/data/summary.json"
             summary.parent.mkdir(parents=True)
             summary.write_text(json.dumps({
-                "territory_id": "aragon",
+                "territory_id": "aut02",
                 "candidates": [{
                     "candidate_id": "balanced-01",
                     "asset": "assets/balanced-01.geojson",

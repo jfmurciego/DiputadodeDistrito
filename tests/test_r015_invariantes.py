@@ -8,7 +8,7 @@ NOMBRE DE VERSIÓN: Contrato de Aragón gobernado por su manifiesto M06
 FECHA: 2026-10-28
 ESTADO: candidato
 FUNCIÓN: proteger las invariantes territoriales R012/R014, el determinismo de M05 y la trazabilidad activa hacia legacy.
-CAMBIOS: retira territorios/aragon/config/aragon_2025.yaml de las cabeceras obligatorias; no cambia invariantes.
+CAMBIOS: retira territorios/aut02/config/aut02_2025.yaml de las cabeceras obligatorias; no cambia invariantes.
 MOTIVO: el contrato lo materializa 01 y el M06 durable del run 40656036271 fija su SHA-256; una cabecera añadida invalidaría ese producto. Su trazabilidad la acreditan el manifiesto M06 y test_m06_product_reuse_integration.
 ANTERIOR: legacy/tests/test_r015_invariantes_v1.2.1.py
 """
@@ -27,7 +27,7 @@ from collections import defaultdict, deque
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RUN8 = ROOT / "territorios" / "aragon" / "resultados" / "ejecuciones" / "gh-34592470470-1"
+RUN8 = ROOT / "territorios" / "aut02" / "resultados" / "ejecuciones" / "gh-34592470470-1"
 M04_CSV = RUN8 / "M04" / "asignacion_inicial.csv"
 M05_CSV = RUN8 / "M05" / "asignacion_optimizada.csv"
 GRAPH_JSON = RUN8 / "M03" / "grafo.json"

@@ -39,7 +39,7 @@ class DescriptoresDeEscenarioTests(unittest.TestCase):
     def describe(self, **kwargs):
         with tempfile.TemporaryDirectory() as td, \
              mock.patch.object(reg, "production_metadata", return_value={
-                 "territory_id": "congreso_salamanca", "territory_label": "Nacional Salamanca", "expected_districts": 3,
+                 "territory_id": "nac37", "territory_label": "Nacional Salamanca", "expected_districts": 3,
                  "production_status": {"territorial_certification_status": "PASS"}}), \
              mock.patch.object(reg, "read_json", return_value={"decision": "PASS", "gate_statement": "ok"}), \
              mock.patch.object(reg, "certification_status", return_value="CERTIFIED"), \

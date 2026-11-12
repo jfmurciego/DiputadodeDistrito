@@ -36,7 +36,7 @@ class ClaveEleccion(unittest.TestCase):
         self.assertEqual(ce.canonical("ES-NAC-BI-20230723", self.units), "ES-NAC-48-20230723")
         self.assertEqual(ce.canonical("ES-NAC-9-20230723", self.units), "ES-NAC-09-20230723")
         rows = ce.expand("ES-NAC-HU-20230723", self.units)
-        self.assertEqual([r["territory_id"] for r in rows], ["congreso_huesca"])
+        self.assertEqual([r["territory_id"] for r in rows], ["nac22"])
 
     def test_claves_invalidas(self):
         for key in ("ES-NAC-22-20231399", "ES-XX-22-20230723", "nac-22-20230723", ""):
@@ -53,7 +53,7 @@ class ClaveEleccion(unittest.TestCase):
         self.assertTrue(all(r["territory_id"].startswith("congreso_") for r in rows))
 
     def test_autonomicas_con_la_misma_clave(self):
-        self.assertEqual([r["territory_id"] for r in ce.expand("ES-AUT-02-20260208", self.units)], ["aragon"])
+        self.assertEqual([r["territory_id"] for r in ce.expand("ES-AUT-02-20260208", self.units)], ["aut02"])
         same_day = ce.expand("ES-AUT-20230528", self.units)
         self.assertGreater(len(same_day), 1)
         self.assertTrue(all(r["scope"] == "AUT" for r in same_day))
@@ -67,7 +67,7 @@ class ClaveEleccion(unittest.TestCase):
             ce.expand("ES-NAC-20190428", self.units)
 
     def test_dos_elecciones_no_colisionan(self):
-        huesca = next(u for u in self.units if u["territory_id"] == "congreso_huesca")
+        huesca = next(u for u in self.units if u["territory_id"] == "nac22")
         old = copy.deepcopy(huesca)
         old.update(territory_id="congreso_huesca_20190428", election_date="2019-04-28",
                    key="ES-NAC-22-20190428", aliases=["ES-NAC-HU-20190428"])
@@ -78,7 +78,7 @@ class ClaveEleccion(unittest.TestCase):
         self.assertEqual(len(ce.expand("ES-NAC-20230723", units)), 52)
         self.assertEqual(len(ce.expand("ES-NAC-20190428", units)), 1)
         # Reutilizar el mismo territory_id o la misma clave para otra elección sí colisiona.
-        clash = copy.deepcopy(old); clash["territory_id"] = "congreso_huesca"
+        clash = copy.deepcopy(old); clash["territory_id"] = "nac22"
         self.assertTrue(ce.validate(self.units + [clash]))
         dup = copy.deepcopy(huesca); dup["territory_id"] = "otro"
         self.assertTrue(ce.validate(self.units + [dup]))

@@ -21,7 +21,7 @@ class ActivationDashboardAlternativeTests(unittest.TestCase):
         geo=json.loads((SOURCE/"spain-autonomies.geojson").read_text(encoding="utf-8"))
         ids={f["properties"]["territory_id"] for f in geo["features"]}
         self.assertEqual(len(geo["features"]),19)
-        self.assertEqual(ids,{"andalucia","aragon","principado_de_asturias","illes_balears","canarias","cantabria","castilla_y_leon","castilla_la_mancha","cataluna","comunidad_valenciana","extremadura","galicia","madrid","region_de_murcia","comunidad_foral_de_navarra","pais_vasco","la_rioja","ceuta","melilla"})
+        self.assertEqual(ids,{"aut01","aut02","aut03","aut04","aut05","aut06","aut07","aut08","aut09","aut10","aut11","aut12","aut13","aut14","aut15","aut16","aut17","aut18","aut19"})
         self.assertTrue(all(f["geometry"]["type"]=="MultiPolygon" for f in geo["features"]))
     def test_alternative_has_only_four_primary_kpi_states(self):
         js=(SOURCE/"app.js").read_text(encoding="utf-8")
@@ -41,7 +41,7 @@ class ActivationDashboardAlternativeTests(unittest.TestCase):
     def test_ceuta_and_melilla_have_minimum_28px_hit_targets(self):
         js=(SOURCE/"app.js").read_text(encoding="utf-8")
         css=(SOURCE/"styles.css").read_text(encoding="utf-8")
-        self.assertIn('["ceuta","melilla"]',js)
+        self.assertIn('["aut18","aut19"]',js)
         self.assertIn('setAttribute("r","14")',js)
         self.assertIn('"city-hit "',js)
         self.assertIn(".city-hit{fill:transparent;stroke:transparent;pointer-events:all;cursor:pointer}",css)

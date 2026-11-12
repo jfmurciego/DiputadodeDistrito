@@ -53,14 +53,14 @@ class F10DerivedDoorsTests(unittest.TestCase):
 
     def test_independent_receipts_are_not_promoted_or_used_as_historical_products(self):
         rows = {row["territory_id"]: row for row in self.projection["territories"]}
-        for territory_id, run_id in (("andalucia", 38082966768), ("aragon", 38093067883),
-                                     ("castilla_y_leon", 38091055890), ("extremadura", 38091144559)):
+        for territory_id, run_id in (("aut01", 38082966768), ("aut02", 38093067883),
+                                     ("aut07", 38091055890), ("aut11", 38091144559)):
             with self.subTest(territory=territory_id):
                 self.assertEqual("CLOSED", rows[territory_id]["territorial_acquisition"])
                 self.assertEqual(run_id, rows[territory_id]["territorial_run_id"])
-        self.assertEqual("CLOSED", rows["comunidad_valenciana"]["territorial_acquisition"])
-        self.assertEqual(39315133646, rows["comunidad_valenciana"]["territorial_run_id"])
-        self.assertEqual("BLOCKED", rows["comunidad_valenciana"]["territorial_admissibility"])
+        self.assertEqual("CLOSED", rows["aut10"]["territorial_acquisition"])
+        self.assertEqual(39315133646, rows["aut10"]["territorial_run_id"])
+        self.assertEqual("BLOCKED", rows["aut10"]["territorial_admissibility"])
 
     def test_historical_receipt_arrivals_replay_A_through_D(self):
         stages = {
@@ -79,18 +79,18 @@ class F10DerivedDoorsTests(unittest.TestCase):
         ready_b = {x["territory_id"] for x in replay["B"]["work_items"] if x["state"] == "READY_LOCAL"}
         ready_c = {x["territory_id"] for x in replay["C"]["work_items"] if x["state"] == "READY_LOCAL"}
         self.assertEqual(set(), ready_a)
-        self.assertIn("extremadura", ready_b)
-        self.assertTrue({"andalucia", "aragon", "castilla_y_leon"} <= ready_c)
-        cv = next(x for x in replay["C"]["work_items"] if x["territory_id"] == "comunidad_valenciana")
+        self.assertIn("aut11", ready_b)
+        self.assertTrue({"aut01", "aut02", "aut07"} <= ready_c)
+        cv = next(x for x in replay["C"]["work_items"] if x["territory_id"] == "aut10")
         self.assertFalse(cv["selectable"])
-        self.assertEqual("CLOSED", next(x for x in self.projection["territories"] if x["territory_id"] == "comunidad_valenciana")["territorial_acquisition"])
+        self.assertEqual("CLOSED", next(x for x in self.projection["territories"] if x["territory_id"] == "aut10")["territorial_acquisition"])
 
     def test_valencia_2023_receipt_is_temporally_selected_and_not_promoted(self):
         from herramientas.consumir_par_fuentes_legislatura import validate_territorial_receipt
         from herramientas.resolver_preparacion_legislatura import resolve
 
         state, receipt = validate_territorial_receipt(
-            root_dir=ROOT, territory="comunidad_valenciana", edition="2025"
+            root_dir=ROOT, territory="aut10", edition="2025"
         )
         self.assertEqual((2023, 2023), (receipt["population_year"], receipt["section_year"]))
         self.assertEqual("AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED",
@@ -107,7 +107,7 @@ class F10DerivedDoorsTests(unittest.TestCase):
 
     def test_valencia_2023_geometry_evidence_records_full_m02_contract(self):
         evidence = next(
-            ROOT.glob("territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/evidencia_geometrica.json")
+            ROOT.glob("territorios/aut10/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/evidencia_geometrica.json")
         )
         data = json.loads(evidence.read_text(encoding="utf-8"))
         m02 = data["m02"]
@@ -126,18 +126,18 @@ class F10DerivedDoorsTests(unittest.TestCase):
         self.assertEqual(0, data["m03"]["isolated"])
 
     def test_corrupt_hash_wrong_identity_time_and_contradictory_dossier_fail_closed(self):
-        canonical = next(x for x in self.projection["territories"] if x["territory_id"] == "extremadura")
+        canonical = next(x for x in self.projection["territories"] if x["territory_id"] == "aut11")
         receipt = json.loads((ROOT / canonical["territorial_receipt_path"]).read_text())
         dossier_row = json.loads((ROOT / "docs/AUDITORIAS/F10_CIERRE_TERRITORIAL_20261012/matriz_nacional_19.json").read_text())["rows"]
-        dossier_row = next(x for x in dossier_row if x["territory_id"] == "extremadura")
-        args = dict(territory_id="extremadura", receipt_path=canonical["territorial_receipt_path"],
+        dossier_row = next(x for x in dossier_row if x["territory_id"] == "aut11")
+        args = dict(territory_id="aut11", receipt_path=canonical["territorial_receipt_path"],
                     receipt_sha256=canonical["territorial_receipt_sha256"], dossier_row=dossier_row)
         with self.assertRaisesRegex(ValueError, "receipt_sha256"):
             check_territorial_evidence(receipt, **{**args, "receipt_sha256": "0" * 64})
         wrong_edition = copy.deepcopy(receipt); wrong_edition["edition"] = "2024"
         with self.assertRaisesRegex(ValueError, "identidad/edición"):
             check_territorial_evidence(wrong_edition, **args)
-        wrong_identity = copy.deepcopy(receipt); wrong_identity["territory_id"] = "aragon"
+        wrong_identity = copy.deepcopy(receipt); wrong_identity["territory_id"] = "aut02"
         with self.assertRaisesRegex(ValueError, "identidad/edición"):
             check_territorial_evidence(wrong_identity, **args)
         wrong_hash = copy.deepcopy(receipt); wrong_hash["artifact_sha256"] = "0" * 64
@@ -151,15 +151,15 @@ class F10DerivedDoorsTests(unittest.TestCase):
             check_territorial_evidence(receipt, **{**args, "dossier_row": contradictory})
 
     def test_reregistration_is_accepted_only_if_newer_and_same_years(self):
-        canonical = next(x for x in self.projection["territories"] if x["territory_id"] == "extremadura")
+        canonical = next(x for x in self.projection["territories"] if x["territory_id"] == "aut11")
         receipt = json.loads((ROOT / canonical["territorial_receipt_path"]).read_text())
         dossier_row = json.loads((ROOT / "docs/AUDITORIAS/F10_CIERRE_TERRITORIAL_20261012/matriz_nacional_19.json").read_text())["rows"]
-        dossier_row = next(x for x in dossier_row if x["territory_id"] == "extremadura")
+        dossier_row = next(x for x in dossier_row if x["territory_id"] == "aut11")
         # Mismo paquete reutilizado por un run posterior: run, artefacto y receipt nuevos.
         rereg = copy.deepcopy(receipt)
         rereg["run_id"] = int(receipt["run_id"]) + 1
         rereg["artifact_sha256"] = "1" * 64
-        args = dict(territory_id="extremadura", receipt_path="territorios/extremadura/otro/receipt.json",
+        args = dict(territory_id="aut11", receipt_path="territorios/aut11/otro/receipt.json",
                     receipt_sha256="2" * 64, dossier_row=dossier_row)
         check_territorial_evidence(rereg, **args)
         older = copy.deepcopy(rereg); older["run_id"] = int(receipt["run_id"]) - 1
@@ -209,8 +209,8 @@ class F10DerivedDoorsTests(unittest.TestCase):
         self.assertIn("hash de ficha distinto", checked[0]["task_spec_error"])
         rows = copy.deepcopy(self.projection["territories"])
         work = {row["territory_id"]: row for row in work_items_for(rows, AUTHORIZATIONS, checked)}
-        self.assertEqual("WAIT_OWNER", work["andalucia"]["state"])
-        self.assertEqual("READY_LOCAL", work["aragon"]["state"])
+        self.assertEqual("WAIT_OWNER", work["aut01"]["state"])
+        self.assertEqual("READY_LOCAL", work["aut02"]["state"])
 
     def test_card_without_complete_validator_coverage_is_not_selectable(self):
         registry = json.loads((ROOT / "configuracion/f10_auto_tareas.json").read_text())
@@ -228,11 +228,11 @@ class F10DerivedDoorsTests(unittest.TestCase):
     def test_blocked_territory_does_not_block_independent_work_item(self):
         rows = copy.deepcopy(self.projection["territories"])
         rows_by_id = {row["territory_id"]: row for row in rows}
-        rows_by_id["aragon"]["territorial_acquisition"] = "BLOCKED"
+        rows_by_id["aut02"]["territorial_acquisition"] = "BLOCKED"
         work = {row["territory_id"]: row for row in work_items_for(rows, AUTHORIZATIONS, PLAN_OVERLAY["activities"])}
-        self.assertEqual("WAIT_OWNER", work["aragon"]["state"])
-        self.assertEqual("READY_LOCAL", work["andalucia"]["state"])
-        self.assertEqual("READY_LOCAL", work["castilla_y_leon"]["state"])
+        self.assertEqual("WAIT_OWNER", work["aut02"]["state"])
+        self.assertEqual("READY_LOCAL", work["aut01"]["state"])
+        self.assertEqual("READY_LOCAL", work["aut07"]["state"])
 
     def test_without_local_investigation_grant_no_work_is_unlocked(self):
         work = work_items_for(self.projection["territories"], {"local_read_only": ["local_tests"]}, PLAN_OVERLAY["activities"])

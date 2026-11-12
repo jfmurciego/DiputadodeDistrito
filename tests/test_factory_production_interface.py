@@ -14,7 +14,7 @@ SPEC.loader.exec_module(RESOLVER)
 
 class FactoryProductionInterface(unittest.TestCase):
     def test_dos_contratos_resuelven_la_misma_interfaz(self):
-        for territory in ("aragon", "castilla_y_leon"):
+        for territory in ("aut02", "aut07"):
             decision = RESOLVER.resolve(str(ROOT / "territorios" / territory / "config" / f"{territory}_2025.yaml"))
             self.assertEqual(decision["decision"], "ADMITTED", decision["contract"]["errors"])
             self.assertEqual(decision["territory_id"], territory)
@@ -24,8 +24,8 @@ class FactoryProductionInterface(unittest.TestCase):
     def test_interfaz_manual_unica_no_contiene_seleccion_codificada(self):
         text = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
         self.assertIn("${{ inputs.territory_id }}", text)
-        self.assertNotIn("aragon) params=", text)
-        self.assertNotIn("castilla_y_leon) params=", text)
+        self.assertNotIn("aut02) params=", text)
+        self.assertNotIn("aut07) params=", text)
 
 
 

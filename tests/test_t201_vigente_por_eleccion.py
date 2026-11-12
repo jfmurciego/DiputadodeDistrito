@@ -58,10 +58,10 @@ class VigentePorEleccion(unittest.TestCase):
         (self.zips / "congreso_soria_20.zip").write_bytes(z23)
         (self.zips / "congreso_soria_900.zip").write_bytes(z26)
         (self.zips / "congreso_teruel_901.zip").write_bytes(z26)
-        self.p23 = [prod("canonical_m08", "congreso_soria", 20, z23), prod("canonical_m06", "congreso_soria", 20, z23)]
-        self.p26 = [prod("canonical_m08", "congreso_soria", 900, z26, **E26), prod("canonical_m06", "congreso_soria", 900, z26, **E26),
-                    prod("canonical_m08", "congreso_teruel", 901, z26, election_date="2026-11-29"),
-                    prod("canonical_m06", "congreso_teruel", 901, z26, election_date="2026-11-29")]
+        self.p23 = [prod("canonical_m08", "nac42", 20, z23), prod("canonical_m06", "nac42", 20, z23)]
+        self.p26 = [prod("canonical_m08", "nac42", 900, z26, **E26), prod("canonical_m06", "nac42", 900, z26, **E26),
+                    prod("canonical_m08", "nac44", 901, z26, election_date="2026-11-29"),
+                    prod("canonical_m06", "nac44", 901, z26, election_date="2026-11-29")]
 
     def reg(self, nombre, products):
         r = self.d / nombre
@@ -73,14 +73,14 @@ class VigentePorEleccion(unittest.TestCase):
         a = rl.generar(self.d / "oa", solo, m08_dir=self.zips)
         b = rl.generar(self.d / "ob", mixto, m08_dir=self.zips)
         self.assertEqual(a, b)
-        self.assertEqual(sorted(b["territorios"]), ["congreso_soria"])
-        self.assertEqual(b["territorios"]["congreso_soria"]["run_id"], "20")
+        self.assertEqual(sorted(b["territorios"]), ["nac42"])
+        self.assertEqual(b["territorios"]["nac42"]["run_id"], "20")
         self.assertEqual((self.d / "oa/congreso_soria.csv").read_bytes(), (self.d / "ob/congreso_soria.csv").read_bytes())
-        self.assertEqual(rl.vigentes(mixto, "2026-11-29")["congreso_soria"]["run_id"], "900")
-        self.assertEqual(sorted(rl.vigentes(mixto, "2026-11-29")), ["congreso_soria", "congreso_teruel"])
-        self.assertEqual({t: p["run_id"] for t, p in da.vigentes_m06(mixto).items()}, {"congreso_soria": "20"})
+        self.assertEqual(rl.vigentes(mixto, "2026-11-29")["nac42"]["run_id"], "900")
+        self.assertEqual(sorted(rl.vigentes(mixto, "2026-11-29")), ["nac42", "nac44"])
+        self.assertEqual({t: p["run_id"] for t, p in da.vigentes_m06(mixto).items()}, {"nac42": "20"})
         self.assertEqual(da.vigentes_m06(mixto), da.vigentes_m06(solo))
-        self.assertEqual(da.vigentes_m06(mixto, "2026-11-29")["congreso_teruel"]["run_id"], "901")
+        self.assertEqual(da.vigentes_m06(mixto, "2026-11-29")["nac44"]["run_id"], "901")
 
     def test_hemiciclo_no_cambia(self):
         solo, mixto = self.reg("a.json", self.p23), self.reg("b.json", self.p23 + self.p26)
@@ -98,18 +98,18 @@ class VigentePorEleccion(unittest.TestCase):
     def test_legislatura_vigente(self):
         today = date(2026, 11, 10)
         v23, v26 = {"products": self.p23}, {"products": self.p23 + self.p26}
-        self.assertEqual(lv.territory_state(self.d, "congreso_soria", v26, today),
-                         lv.territory_state(self.d, "congreso_soria", v23, today))
-        self.assertEqual(lv.territory_state(self.d, "congreso_soria", v26, today), {"estado": "PUBLICADO", "run_id": "20"})
-        self.assertEqual(lv.territory_state(self.d, "congreso_teruel", v26, today)["estado"], "SIN_PRODUCTO")
-        self.assertEqual(lv.territory_state(self.d, "congreso_teruel", v26, today, "2026-11-29"),
+        self.assertEqual(lv.territory_state(self.d, "nac42", v26, today),
+                         lv.territory_state(self.d, "nac42", v23, today))
+        self.assertEqual(lv.territory_state(self.d, "nac42", v26, today), {"estado": "PUBLICADO", "run_id": "20"})
+        self.assertEqual(lv.territory_state(self.d, "nac44", v26, today)["estado"], "SIN_PRODUCTO")
+        self.assertEqual(lv.territory_state(self.d, "nac44", v26, today, "2026-11-29"),
                          {"estado": "PUBLICADO", "run_id": "901"})
 
     def test_composicion_nombres_y_bateria_no_cambian(self):
         solo, mixto = self.reg("a.json", self.p23), self.reg("b.json", self.p23 + self.p26)
-        self.assertEqual({t: p["run_id"] for t, p in cm.m06_vigentes(mixto).items()}, {"congreso_soria": "20"})
+        self.assertEqual({t: p["run_id"] for t, p in cm.m06_vigentes(mixto).items()}, {"nac42": "20"})
         self.assertEqual(cm.m06_vigentes(mixto), cm.m06_vigentes(solo))
-        self.assertEqual(cm.m06_vigentes(mixto, "2026-11-29")["congreso_teruel"]["run_id"], "901")
+        self.assertEqual(cm.m06_vigentes(mixto, "2026-11-29")["nac44"]["run_id"], "901")
         # nombres: descargar() usa el registro real del repo; se comprueba con un RAIZ temporal y gh simulado
         raiz = self.d / "raiz"
         (raiz / "orchestracion").mkdir(parents=True)
@@ -131,7 +131,7 @@ class VigentePorEleccion(unittest.TestCase):
         for r in (20, 900):
             (runs / f"congreso_soria_{r}.csv").write_text("x")
         with mock.patch.object(bm, "ROOT", self.d):
-            self.assertEqual(bm.composicion_publicada("congreso_soria")[1], "20")
+            self.assertEqual(bm.composicion_publicada("nac42")[1], "20")
 
     def test_catalogo_procedencia_vigente_por_eleccion(self):
         raiz = self.d / "cat"

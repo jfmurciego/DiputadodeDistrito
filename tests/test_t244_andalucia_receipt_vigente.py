@@ -21,14 +21,14 @@ from herramientas.consumir_par_fuentes_legislatura import (
 
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT_253F = (
-    "territorios/andalucia/evidencia/fuentes_territoriales/2025/"
+    "territorios/aut01/evidencia/fuentes_territoriales/2025/"
     "253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09/40946875467/receipt.json"
 )
 
 
 class AndaluciaReceiptVigenteTests(unittest.TestCase):
     def test_resolver_elige_receipt_253f(self):
-        state, receipt = validate_territorial_receipt(root_dir=ROOT, territory="andalucia", edition="2025")
+        state, receipt = validate_territorial_receipt(root_dir=ROOT, territory="aut01", edition="2025")
         self.assertNotIn("independent_source_evidence", state)
         evidence = _territorial_receipt_evidence(state)
         self.assertEqual(RECEIPT_253F, evidence["receipt_path"])

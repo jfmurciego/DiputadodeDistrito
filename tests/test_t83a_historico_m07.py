@@ -57,13 +57,13 @@ class HistoricoM07(unittest.TestCase):
         self.assertEqual((s["2200101001"]["censo"], s["2200101002"]["votantes"]), (120, 60))
 
     def _paquete(self):
-        return rh.escribir_paquete(self.tmp / "paq", "congreso_huesca", "201911", self._secciones(),
+        return rh.escribir_paquete(self.tmp / "paq", "nac22", "201911", self._secciones(),
                                    {"PP": 56, "PSOE": 96}, {"path": "data/201911/sekzioa/22.json", "sha256": "x"})
 
     def test_paquete_carga_como_contrato(self):
         self._paquete()
         contrato, partidos = load_election_contract(self.tmp / "paq/contrato.json", project_root=ROOT,
-                                                    expected_territory_id="congreso_huesca")
+                                                    expected_territory_id="nac22")
         self.assertEqual(contrato["election_id"], "congreso_huesca_2019-11-10")
         self.assertNotIn("official_candidate_votes", contrato["source_verification"])
         self.assertEqual(contrato["source_verification"]["official_party_votes_partial"], {"PP": 56, "PSOE": 96})
@@ -92,7 +92,7 @@ class HistoricoM07(unittest.TestCase):
         tr = self.tmp / "trabajo"
         secc, asign, inf = hm.secciones_m06(comp, zs, tr / "secciones.geojson.zip")
         self.assertEqual(inf["secciones_2025_por_solape"], {})
-        p = hm.params("congreso_huesca", tr, secc, zd, self.tmp / "paq/contrato.json")
+        p = hm.params("nac22", tr, secc, zd, self.tmp / "paq/contrato.json")
         hm.ejecutar("07_agregar_resultados_electorales.py", p)
         hm.ejecutar("08_integrar_resultados.py", p)
         rec = json.loads((tr / "m07_reconciliacion.json").read_text(encoding="utf-8"))

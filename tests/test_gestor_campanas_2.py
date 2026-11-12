@@ -31,13 +31,13 @@ class Seleccion(unittest.TestCase):
         self.assertEqual(len(ids()), 52)
 
     def test_una_comunidad_da_sus_provincias(self):
-        self.assertEqual(ids(territorios="Aragón"), ["congreso_huesca", "congreso_teruel", "congreso_zaragoza"])
+        self.assertEqual(ids(territorios="Aragón"), ["nac22", "nac44", "nac50"])
 
     def test_lista_por_nombre_codigo_y_matricula(self):
-        self.assertEqual(ids(territorios="HU, 42, Vizcaya"), ["congreso_huesca", "congreso_soria", "congreso_vizcaya"])
+        self.assertEqual(ids(territorios="HU, 42, Vizcaya"), ["nac22", "nac42", "nac48"])
 
     def test_autonomico_por_nombre_y_codigo(self):
-        self.assertEqual(ids(tipo="autonómico", territorios="Galicia,13"), ["galicia", "madrid"])
+        self.assertEqual(ids(tipo="autonómico", territorios="Galicia,13"), ["aut12", "aut13"])
         self.assertEqual(len(ids(tipo="autonómico")), 19)
 
     def test_mapa_350(self):
@@ -60,14 +60,14 @@ class NoDisponible(unittest.TestCase):
     def test_historico_ensemble_25_y_350(self):
         casos = [({"eleccion": "histórico: generales 2016", "tipo": "autonómico"}, "nacional"), ({"ensemble": "25"}, "no está validado"),
                  ({"mapa": "350", "publicar": "sí"}, "D-18"), ({"mapa": "350", "tipo": "autonómico"}, "nacional"),
-                 ({"ensemble": "10"}, "congreso_soria")]
+                 ({"ensemble": "10"}, "nac42")]
         for kw, msg in casos:
             with self.subTest(kw=kw), self.assertRaisesRegex(g.NoDisponible, msg):
                 g.resolve({**BASE, **kw}, ROOT)
 
     def test_ensemble_10_con_configuracion(self):
         r = g.resolve({**BASE, "ensemble": "10", "territorios": "Salamanca"}, ROOT)
-        self.assertEqual(r["ensemble"], {"congreso_salamanca": "congreso_salamanca"})
+        self.assertEqual(r["ensemble"], {"nac37": "nac37"})
 
     def test_cli_falla_sin_lanzar(self):
         p = subprocess.run([sys.executable, "herramientas/gestor_campanas_2.py", "plan", "--sin-api",
@@ -100,7 +100,7 @@ class Plan(unittest.TestCase):
     def test_plan_en_seco_muestra_entradas_y_cadena(self):
         plan = g.build({**BASE, "territorios": "Huesca", "inicio": "desde el principio", "publicar": "sí"}, {}, ROOT)
         self.assertEqual([(r["territory_id"], r["accion"], r["publicar"]) for r in plan["territorios"]],
-                         [("congreso_huesca", "desde_el_principio", True)])
+                         [("nac22", "desde_el_principio", True)])
         md = g.markdown(plan, True)
         self.assertIn("SOLO PLAN (no se lanza nada)", md)
         self.assertIn("5) Publicar: sí", md)
@@ -126,9 +126,9 @@ class CampanaCompleta(unittest.TestCase):
         h = g.build(self.C, {}, ROOT)["historico"]
         aut = {r["territorio"]: r["elecciones"] for r in h["include"] if r["tipo"] == "autonomico"}
         # Fechas del calendario con fuente y sha256 (sin la vigente de cada comunidad).
-        self.assertEqual(aut["galicia"], ["201210", "201609", "202007"])
-        self.assertEqual(aut["madrid"], ["201105", "201505", "201905", "202105"])
-        self.assertEqual(aut["castilla_y_leon"], ["201105", "201505", "201905", "202202"])
+        self.assertEqual(aut["aut12"], ["201210", "201609", "202007"])
+        self.assertEqual(aut["aut13"], ["201105", "201505", "201905", "202105"])
+        self.assertEqual(aut["aut07"], ["201105", "201505", "201905", "202202"])
 
     def test_solo_nacional_no_trae_autonomico_y_solo_autonomico_no_trae_generales(self):
         nac = g.build({**self.C, "tipo": "nacional"}, {}, ROOT)["historico"]["include"]

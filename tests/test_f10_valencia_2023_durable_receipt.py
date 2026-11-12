@@ -25,7 +25,7 @@ from tests._raiz_congelada import frozen_root  # noqa: E402
 # completas posteriores, que reescriben catálogo y productos en main.
 ROOT = frozen_root()
 VERSION = ROOT / (
-    "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/"
+    "territorios/aut10/evidencia/fuentes_territoriales/2025/"
     "94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646"
 )
 
@@ -33,7 +33,7 @@ VERSION = ROOT / (
 class Valencia2023DurableReceiptTests(unittest.TestCase):
     def test_receipt_is_consumed_at_exact_2023_years_without_promoting_old_lineage(self):
         row, receipt = consumer.validate_territorial_receipt(
-            root_dir=ROOT, territory="comunidad_valenciana", edition="2025"
+            root_dir=ROOT, territory="aut10", edition="2025"
         )
         self.assertEqual("ddd.territorial-source-receipt/1.0", receipt["schema"])
         self.assertEqual((2025, 2023, 2023),
@@ -56,7 +56,7 @@ class Valencia2023DurableReceiptTests(unittest.TestCase):
     def test_f10_closes_acquisition_but_keeps_geometry_admissibility_blocked(self):
         projection = derive_f10(ROOT)
         cv = next(row for row in projection["territories"]
-                  if row["territory_id"] == "comunidad_valenciana")
+                  if row["territory_id"] == "aut10")
         self.assertEqual("CLOSED", cv["territorial_acquisition"])
         self.assertEqual("BLOCKED", cv["territorial_admissibility"])
         self.assertIn("M02_CONTRACT_NOT_BOUND_TO_2023", cv["territorial_admissibility_reason"][0])
@@ -67,7 +67,7 @@ class Valencia2023DurableReceiptTests(unittest.TestCase):
         self.assertFalse(projection["production_authorized"])
 
         state, receipt = consumer.validate_territorial_receipt(
-            root_dir=ROOT, territory="comunidad_valenciana", edition="2025"
+            root_dir=ROOT, territory="aut10", edition="2025"
         )
         state["independent_source_evidence"]["geometry_assessment_sha256"] = "0" * 64
         status, reasons, _ = _geometric_admissibility(ROOT, state, receipt, "PASS")
@@ -76,7 +76,7 @@ class Valencia2023DurableReceiptTests(unittest.TestCase):
 
     def test_wrong_edition_package_hash_or_identity_is_rejected_by_receipt_consumer(self):
         row, receipt = consumer.validate_territorial_receipt(
-            root_dir=ROOT, territory="comunidad_valenciana", edition="2025"
+            root_dir=ROOT, territory="aut10", edition="2025"
         )
         for field, value, message in (
             ("edition", "2024", "identidad"),
@@ -95,7 +95,7 @@ class Valencia2023DurableReceiptTests(unittest.TestCase):
                         consumer.PreparedPairExecutionBlock, message
                     ):
                         consumer.validate_territorial_receipt(
-                            root_dir=ROOT, territory="comunidad_valenciana", edition="2025"
+                            root_dir=ROOT, territory="aut10", edition="2025"
                         )
 
     def test_full_original_input_hashes_and_geometry_results_are_pinned(self):
@@ -140,7 +140,7 @@ class Valencia2023DurableReceiptTests(unittest.TestCase):
         self.assertEqual({"ADMISSIBLE": 15, "BLOCKED": 4}, projection["counts"]["electoral_admissibility"])
         self.assertEqual({"BLOCKED": 5, "PASS": 14}, projection["counts"]["joint_admissibility"])
         self.assertFalse(projection["production_authorized"])
-        cv = next(row for row in projection["territories"] if row["territory_id"] == "comunidad_valenciana")
+        cv = next(row for row in projection["territories"] if row["territory_id"] == "aut10")
         self.assertEqual("CLOSED", cv["territorial_acquisition"])
         self.assertEqual("ADMISSIBLE", cv["electoral_admissibility"])
         self.assertEqual("BLOCKED", cv["joint_admissibility"])

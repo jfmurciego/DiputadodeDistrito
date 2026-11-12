@@ -219,7 +219,7 @@ class CampaignManagerTests(unittest.TestCase):
                     "missing_candidate_hash_count": 0,
                     "duplicate_candidate_hash_count": 0,
                 }
-                if row["territory_id"] == "galicia":
+                if row["territory_id"] == "aut12":
                     payload["unique_candidate_hash_count"] = 49
                 (target / "campaign_status.json").write_text(
                     json.dumps(payload), encoding="utf-8"
@@ -228,7 +228,7 @@ class CampaignManagerTests(unittest.TestCase):
                 MANIFEST, root, campaign_instance="campaign-x", source_sha="b" * 40
             )
             self.assertEqual(summary["status"], "FAIL")
-            self.assertEqual(summary["failed_territories"], ["galicia"])
+            self.assertEqual(summary["failed_territories"], ["aut12"])
 
     def test_pull_request_never_schedules_productive_campaign_or_pages(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
@@ -280,11 +280,11 @@ class CampaignManagerTests(unittest.TestCase):
     def test_fixed_manifest_source_a_wins_over_live_catalog_b_for_three_strategies(self):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
-            contract = root / "territorios/principado_de_asturias/config/contract.yaml"
+            contract = root / "territorios/aut03/config/contract.yaml"
             contract.parent.mkdir(parents=True)
             contract.write_text(yaml.safe_dump({
                 "meta": {
-                    "territory_id": "principado_de_asturias",
+                    "territory_id": "aut03",
                     "status": "generation_ready",
                     "contract_level": "production_m01_m06",
                     "production_authorization": "AUTHORIZED",
@@ -330,12 +330,12 @@ class CampaignManagerTests(unittest.TestCase):
                 "schema": "ddd-preparation-catalog/1.1",
                 "default_edition": "2025",
                 "territories": [{
-                    "territory_id": "principado_de_asturias",
+                    "territory_id": "aut03",
                     "name": "Principado de Asturias",
                     "editions": {"2025": {
                         "territory_declared": True,
                         "preparation_status": "READY",
-                        "contract_path": "territorios/principado_de_asturias/config/contract.yaml",
+                        "contract_path": "territorios/aut03/config/contract.yaml",
                         "territorial_source_declaration": "sources.yaml",
                         "electoral_source_declaration": None,
                         "territorial_contract_complete": True,
@@ -396,11 +396,11 @@ class CampaignManagerTests(unittest.TestCase):
         rows = {row["territory_id"]: row["editions"]["2025"] for row in catalog["territories"]}
 
         for name, territory_id, route in (
-            ("Galicia", "galicia", "declared_generation_ready"),
-            ("Principado de Asturias", "principado_de_asturias", "linked_internal_partitioning"),
-            ("Aragón", "aragon", "certified_product_lineage"),
-            ("Castilla y León", "castilla_y_leon", "certified_product_lineage"),
-            ("Andalucía", "andalucia", "declared_generation_ready"),
+            ("Galicia", "aut12", "declared_generation_ready"),
+            ("Principado de Asturias", "aut03", "linked_internal_partitioning"),
+            ("Aragón", "aut02", "certified_product_lineage"),
+            ("Castilla y León", "aut07", "certified_product_lineage"),
+            ("Andalucía", "aut01", "declared_generation_ready"),
         ):
             with self.subTest(territory=name):
                 plan = build_plan(
@@ -414,10 +414,10 @@ class CampaignManagerTests(unittest.TestCase):
                 self.assertEqual(plan["generation_gate"], {"allowed": True, "route": route})
 
         for name, territory_id in (
-            ("La Rioja", "la_rioja"),
-            ("Cantabria", "cantabria"),
-            ("Comunidad Foral de Navarra", "comunidad_foral_de_navarra"),
-            ("País Vasco", "pais_vasco"),
+            ("La Rioja", "aut17"),
+            ("Cantabria", "aut06"),
+            ("Comunidad Foral de Navarra", "aut15"),
+            ("País Vasco", "aut16"),
         ):
             with self.subTest(first_product=territory_id):
                 row = rows[territory_id]
@@ -461,9 +461,9 @@ class CampaignManagerTests(unittest.TestCase):
                 )
 
         for name, territory_id in (
-            ("Comunidad de Madrid", "madrid"),
-            ("Comunidad Valenciana", "comunidad_valenciana"),
-            ("Cataluña", "cataluna"),
+            ("Comunidad de Madrid", "aut13"),
+            ("Comunidad Valenciana", "aut10"),
+            ("Cataluña", "aut09"),
         ):
             with self.subTest(still_blocked=territory_id):
                 row = rows[territory_id]
@@ -510,7 +510,7 @@ class CampaignManagerTests(unittest.TestCase):
     def test_first_generation_preflight_is_structural_and_cannot_fallback_to_declaration(self):
         catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
         rows = {row["territory_id"]: row["editions"]["2025"] for row in catalog["territories"]}
-        row = rows["galicia"]
+        row = rows["aut12"]
         evidence = json.loads(
             (ROOT / row["evidence"]["generation_preflight"]).read_text(encoding="utf-8")
         )
@@ -560,7 +560,7 @@ class CampaignManagerTests(unittest.TestCase):
             gate = generation_enablement(
                 root_dir=ROOT,
                 contract_path=str(root / "contract.yaml"),
-                territory_id="galicia",
+                territory_id="aut12",
                 certified_product_ready=False,
                 first_generation_evidence=evidence,
                 preparation_evidence=prep,
@@ -572,7 +572,7 @@ class CampaignManagerTests(unittest.TestCase):
             gate = generation_enablement(
                 root_dir=ROOT,
                 contract_path=str(root / "contract.yaml"),
-                territory_id="galicia",
+                territory_id="aut12",
                 certified_product_ready=False,
                 first_generation_evidence=broken,
                 preparation_evidence=prep,
@@ -585,7 +585,7 @@ class CampaignManagerTests(unittest.TestCase):
             gate = generation_enablement(
                 root_dir=ROOT,
                 contract_path=str(root / "contract.yaml"),
-                territory_id="galicia",
+                territory_id="aut12",
                 certified_product_ready=False,
                 first_generation_evidence=implementation_drift,
                 preparation_evidence=prep,
@@ -637,9 +637,9 @@ class CampaignManagerTests(unittest.TestCase):
             root = Path(raw)
             path = root / "contract.yaml"
             for territory_id, alteration, break_contract in (
-                ("galicia", "meta status", lambda c: c["meta"].update(status="bootstrap")),
-                ("principado_de_asturias", "partition field", lambda c: c["modulos"]["modulo_04_generar_semillas"].update(municipality_field="CUMUN")),
-                ("principado_de_asturias", "partition input", lambda c: c["modulos"]["modulo_04_generar_semillas"].update(in_geojson="source-B")),
+                ("aut12", "meta status", lambda c: c["meta"].update(status="bootstrap")),
+                ("aut03", "partition field", lambda c: c["modulos"]["modulo_04_generar_semillas"].update(municipality_field="CUMUN")),
+                ("aut03", "partition input", lambda c: c["modulos"]["modulo_04_generar_semillas"].update(in_geojson="source-B")),
             ):
                 with self.subTest(territory=territory_id, alteration=alteration):
                     original = ROOT / f"territorios/{territory_id}/config/{territory_id}_2025.yaml"
@@ -724,8 +724,8 @@ class CampaignManagerTests(unittest.TestCase):
                 "publication_status": "PUBLICABLE",
             }
 
-        first = entry("aragon", "ensemble-aragon", 1001)
-        second = entry("galicia", "ensemble-galicia", 1002)
+        first = entry("aut02", "ensemble-aragon", 1001)
+        second = entry("aut12", "ensemble-galicia", 1002)
         base = {
             "schema": "ddd.viewer-publication-registry/2.0",
             "products": [],
@@ -734,7 +734,7 @@ class CampaignManagerTests(unittest.TestCase):
         candidate = make_candidate(base, [second])
         self.assertEqual(
             {row["territory_id"] for row in candidate["ensembles"]},
-            {"aragon", "galicia"},
+            {"aut02", "aut12"},
         )
 
     def test_synthetic_gallery_packages_in_existing_ensemble_format(self):
@@ -787,7 +787,7 @@ class CampaignManagerTests(unittest.TestCase):
                 json.dumps({
                     "campaign_instance": "campaign-synthetic",
                     "slot": "01",
-                    "territory_id": "aragon",
+                    "territory_id": "aut02",
                     "territory_name": "Aragón",
                     "status": "PASS",
                     "entrypoint": "gerrychain_50",
@@ -818,7 +818,7 @@ class CampaignManagerTests(unittest.TestCase):
                     50,
                 )
                 summary = json.loads(archive.read("site/data/summary.json"))
-                self.assertEqual(summary["territory_id"], "aragon")
+                self.assertEqual(summary["territory_id"], "aut02")
                 self.assertEqual(summary["candidate_count_valid"], 50)
                 self.assertEqual(len(summary["candidates"]), 50)
 

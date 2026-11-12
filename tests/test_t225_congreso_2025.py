@@ -55,8 +55,8 @@ class Contratos2026(unittest.TestCase):
         def puentes(t):
             m02 = _c(t, "2026")["modulos"]["modulo_02_construir_adyacencias"]
             return {(str(b["u"]), str(b["v"])) for b in m02["topology_bridges"]}
-        self.assertNotIn(("2523401002", "2523403001"), puentes("congreso_lerida"))
-        self.assertIn(("4717501004", "4717501003"), puentes("congreso_valladolid"))
+        self.assertNotIn(("2523401002", "2523403001"), puentes("nac25"))
+        self.assertIn(("4717501004", "4717501003"), puentes("nac47"))
 
     def test_decision(self):
         d = json.loads(DECISION.read_text(encoding="utf-8"))
@@ -70,13 +70,13 @@ class Contratos2026(unittest.TestCase):
     def test_inventario_insular_2025(self):
         p = json.loads((ROOT / "configuracion/particiones_insulares_2025.json").read_text(encoding="utf-8"))["territories"]
         inv = {t: [i for i in p[t]["inventories"] if i["section_year"] == 2025] for t in
-               ("congreso_baleares", "congreso_las_palmas", "congreso_santa_cruz_de_tenerife", "illes_balears")}
+               ("nac07", "nac35", "nac38", "aut04")}
         self.assertTrue(all(len(v) == 1 for v in inv.values()))
         # cruce con los inventarios 2025 acreditados antes por las autonómicas (fuente independiente: run 36529385760 y
         # 36529404391): mismo universo en Baleares y, en Las Palmas, mismas islas sueltas y grupo = suma de sus islas
-        aut, can = inv["illes_balears"][0], [i for i in p["canarias"]["inventories"] if i["section_year"] == 2025][0]
-        self.assertEqual(inv["congreso_baleares"][0]["universe_cusec_set_sha256"], aut["universe_cusec_set_sha256"])
-        lp = inv["congreso_las_palmas"][0]
+        aut, can = inv["aut04"][0], [i for i in p["aut05"]["inventories"] if i["section_year"] == 2025][0]
+        self.assertEqual(inv["nac07"][0]["universe_cusec_set_sha256"], aut["universe_cusec_set_sha256"])
+        lp = inv["nac35"][0]
         for c in ("35-C01", "35-C02"):
             self.assertEqual(lp["component_cusec_set_sha256"][c], can["component_cusec_set_sha256"][c])
         self.assertEqual(lp["component_sections"]["35-G01"],

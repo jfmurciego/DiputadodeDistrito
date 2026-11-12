@@ -21,7 +21,7 @@ def entrada(run, **extra):
     sha = "%064x" % int(run)
     e = {"id": f"m08-congreso_huesca-{run}", "asset_type": "electoral_product", "source_type": "repository_blob",
          "repository": "o/r", "blob_sha": sha[-40:], "immutable_location": f"github-git-blob://o/r/{sha[-40:]}",
-         "territory_id": "congreso_huesca", "sha256": sha, "kind": "canonical_m08", "run_id": str(run), "canonical": True}
+         "territory_id": "nac22", "sha256": sha, "kind": "canonical_m08", "run_id": str(run), "canonical": True}
     e.update(extra)
     return e
 
@@ -64,7 +64,7 @@ class Registro(unittest.TestCase):
 
 class Descriptores(unittest.TestCase):
     def _descriptores(self, **kw):
-        meta = {"territory_id": "congreso_huesca", "territory_label": "Huesca", "expected_districts": 2,
+        meta = {"territory_id": "nac22", "territory_label": "Huesca", "expected_districts": 2,
                 "production_status": {"decision": "PASS"}}
         with mock.patch.object(rpv, "production_metadata", return_value=meta), \
                 mock.patch.object(rpv, "read_json", return_value={"decision": "PASS"}), \
@@ -118,8 +118,8 @@ class Fecha(unittest.TestCase):
     def test_vigentes_por_eleccion_no_se_pisan(self):
         t = Path(tempfile.mkdtemp()) / "r.json"
         t.write_text(json.dumps(registro(entrada(1), entrada(9, election_date="2026-11-29"))), encoding="utf-8")
-        self.assertEqual(rp.vigentes_eleccion(t)["congreso_huesca"]["run_id"], "1")
-        self.assertEqual(rp.vigentes_eleccion(t, "2026-11-29")["congreso_huesca"]["run_id"], "9")
+        self.assertEqual(rp.vigentes_eleccion(t)["nac22"]["run_id"], "1")
+        self.assertEqual(rp.vigentes_eleccion(t, "2026-11-29")["nac22"]["run_id"], "9")
 
 
 if __name__ == "__main__":

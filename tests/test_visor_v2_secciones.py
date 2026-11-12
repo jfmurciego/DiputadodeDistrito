@@ -51,7 +51,7 @@ class GeneradorSecciones(unittest.TestCase):
             raw = (out / "01.geojson").read_bytes()
             self.assertEqual(idx["provincias"]["01"]["sha256"], g.sha(raw))
             props = {f["properties"]["s"]: f["properties"] for f in json.loads(raw)["features"]}
-            self.assertEqual(props["0100101001"], {"s": "0100101001", "m": "Alegría-Dulantzi", "p": 1390, "d": 3, "t": "congreso_alava"})
+            self.assertEqual(props["0100101001"], {"s": "0100101001", "m": "Alegría-Dulantzi", "p": 1390, "d": 3, "t": "nac01"})
             self.assertEqual(props["0100101002"]["d"], 1)
             x = json.loads(raw)["features"][0]["geometry"]["coordinates"][0][0]
             self.assertTrue(-3.0 < x[0] < -2.0 and 42.0 < x[1] < 43.5, x)  # WGS84 en Álava
@@ -94,7 +94,7 @@ class GeneradorSecciones(unittest.TestCase):
 
 
 def _feat(s, d, p, x0):
-    return {"type": "Feature", "properties": {"s": s, "m": "Vitoria-Gasteiz", "p": p, "d": d, "t": "congreso_alava"},
+    return {"type": "Feature", "properties": {"s": s, "m": "Vitoria-Gasteiz", "p": p, "d": d, "t": "nac01"},
             "geometry": {"type": "Polygon", "coordinates": [[[x0, 42.80], [x0 + .06, 42.80], [x0 + .06, 42.90], [x0, 42.90], [x0, 42.80]]]}}
 
 

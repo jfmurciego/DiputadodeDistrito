@@ -21,23 +21,23 @@ from tests._raiz_congelada import frozen_root  # noqa: E402
 ROOT = frozen_root()
 PACKAGE_ROOT = ROOT / "docs/AUDITORIAS/F10_RECIBOS_ELECTORALES_ASTURIAS_GALICIA_20261026/paquetes"
 CASES = {
-    "principado_de_asturias": {
+    "aut03": {
         "election_id": "asturias_jgpa_2023",
-        "params": ROOT / "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml",
+        "params": ROOT / "territorios/aut03/config/aut03_2025.yaml",
         "source": "data/resultados_electorales_normalizados.csv",
         "sha256": "f82dc1299c97da1d6857ddc7e05cefe34e0b931d8e131608f5c2c998a533cce9",
         "class": "verified_mirror",
-        "receipt": "territorios/principado_de_asturias/evidencia/fuentes_electorales/2025/29fb6a23b9c2e9fa3f3c393c34b90c868983302ea5d8767f7be5d472fbd6536c/40389705458/receipt.json",
+        "receipt": "territorios/aut03/evidencia/fuentes_electorales/2025/29fb6a23b9c2e9fa3f3c393c34b90c868983302ea5d8767f7be5d472fbd6536c/40389705458/receipt.json",
         "artifact_name": "ddd-electoral-package-principado_de_asturias-2025-40389705458",
         "artifact_sha256": "85e2d198db4216120dfacd46a6f5681dcf24f62ac8e68aacd634575f5e5eb037",
     },
-    "galicia": {
+    "aut12": {
         "election_id": "galicia_parlamento_2024",
-        "params": ROOT / "territorios/galicia/config/galicia_2025.yaml",
+        "params": ROOT / "territorios/aut12/config/aut12_2025.yaml",
         "source": "data/resultados_electorales_vigentes.csv",
         "sha256": "7f9db16181962a1ef543fe0768c6822d19166e91b97e0a9d48b7c449c24aba96",
         "class": "official",
-        "receipt": "territorios/galicia/evidencia/fuentes_electorales/2025/af07c8d3bce5a45f63afd1c5d5eca0423a7713f71b4fbbb6c812f2509f51f230/40389705458/receipt.json",
+        "receipt": "territorios/aut12/evidencia/fuentes_electorales/2025/af07c8d3bce5a45f63afd1c5d5eca0423a7713f71b4fbbb6c812f2509f51f230/40389705458/receipt.json",
         "artifact_name": "ddd-electoral-package-galicia-2025-40389705458",
         "artifact_sha256": "58b1d99c27cce39a55129484d9d2a3f8ebcd5748bb3a063c813440bc209e60e2",
     },
@@ -74,7 +74,7 @@ class F10AsturiasGaliciaReceiptCandidateTests(unittest.TestCase):
                 self.assertEqual(manifest["election_id"], case["election_id"])
                 selected = manifest["selected_source"]
                 self.assertEqual(selected["sha256"], case["sha256"])
-                if territory_id == "galicia":
+                if territory_id == "aut12":
                     self.assertEqual(selected["publisher"], "Xunta de Galicia")
                 else:
                     self.assertEqual(selected["source_class"], case["class"])

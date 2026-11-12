@@ -26,7 +26,7 @@ class RegistroSinMapa350(unittest.TestCase):
         self.assertFalse(RETIRADAS & {e["id"] for e in self.registro["products"]})
 
     def test_el_valladolid_de_407_sigue_publicado(self):
-        ids = {e["id"] for e in self.registro["products"] if e["territory_id"] == "congreso_valladolid"}
+        ids = {e["id"] for e in self.registro["products"] if e["territory_id"] == "nac47"}
         self.assertEqual(ids, {"m06-congreso_valladolid-41299313598", "m08-congreso_valladolid-41299313598"})
 
     def test_el_registro_valida_y_su_formato_es_el_de_la_herramienta(self):

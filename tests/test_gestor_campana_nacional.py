@@ -24,7 +24,7 @@ def generation_fixture(root, mode="territorial_only", with_receipt=True):
  # No live catalog entry is assumed to authorize a new generation.
  from herramientas._resolver_ejecucion_completa_core import _contract_generation_binding, _pre_m04_implementation_binding
  catalog=yaml.safe_load((ROOT/"configuracion/catalogo_preparacion.yaml").read_text())
- row=copy.deepcopy(next(r for r in catalog["territories"] if r["territory_id"]=="cantabria"))
+ row=copy.deepcopy(next(r for r in catalog["territories"] if r["territory_id"]=="aut06"))
  state=row["editions"]["2025"]
  contract=yaml.safe_load((ROOT/state["contract_path"]).read_text())
  evidence=json.loads((ROOT/"tests/fixtures/gestor_campana/cantabria_generation_preflight_2025.json").read_text())
@@ -68,10 +68,10 @@ def generation_fixture(root, mode="territorial_only", with_receipt=True):
      "electoral_source":{"electoral_identity_sha256":"3"*64}}}
   (root/("pair.json" if mode=="electoral" else "receipt.json")).write_text(json.dumps(receipt))
  (root/"configuracion/catalogo_preparacion.yaml").write_text(yaml.safe_dump({"schema":"ddd-preparation-catalog/1.1","default_edition":"2025","territories":[row]}))
- m=build_manifest(selected=["cantabria"],publication_mode=mode,source_sha="a"*40,
+ m=build_manifest(selected=["aut06"],publication_mode=mode,source_sha="a"*40,
                   strategy="GerryChain 50",campaign_instance="fixture",root=root)
  r=m["territories"][0]
- plan={"territory_id":"cantabria","edition":"2025","optimization_algorithm":"GerryChain 50",
+ plan={"territory_id":"aut06","edition":"2025","optimization_algorithm":"GerryChain 50",
        "contract_path":"contract.yaml","publication_mode_effective":mode,
        "existing":{"territorial_source":dict(prep)}}
  plan["prepared_source_pair" if mode=="electoral" else "prepared_territorial_source"]={
@@ -176,16 +176,16 @@ class NationalCampaignTests(unittest.TestCase):
   manager=(ROOT/".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
   self.assertIn("campaign_contract_path: ${{ matrix.contract_path }}",manager)
   self.assertIn("persist_state: ${{ matrix.persist_state }}",manager)
-  m=build_manifest(selected=["principado_de_asturias"],publication_mode="electoral",
+  m=build_manifest(selected=["aut03"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-resume",root=ROOT)
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
-  plan=campaign_execution_plan(root=ROOT,territory_id="principado_de_asturias",edition="2025",strategy="Canónico")
+  plan=campaign_execution_plan(root=ROOT,territory_id="aut03",edition="2025",strategy="Canónico")
   self.assertEqual(row["territorial_product"]["run_id"],plan["existing"]["territorial_product"]["run_id"])
   self.assertFalse(row["execution_plan"]["run_generate"])
   self.assertEqual(row["execution_plan"]["run_incorporate"],not plan["catalog_state"]["electoral_product_available"])
   self.assertEqual(len(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]),1)
-  m=build_manifest(selected=["galicia"],publication_mode="electoral",
+  m=build_manifest(selected=["aut12"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-resume-valid",root=ROOT)
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
@@ -193,7 +193,7 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertTrue(row["execution_plan"]["run_incorporate"])
   self.assertTrue(matrix[0]["persist_state"])
   self.assertEqual(matrix[0]["contract_path"],row["contract_path"])
-  galicia=build_manifest(selected=["galicia"],publication_mode="electoral",
+  galicia=build_manifest(selected=["aut12"],publication_mode="electoral",
                          source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-rebuild",root=ROOT)
   row_g=galicia["territories"][0]
   self.assertEqual(row_g["preflight_status"],"PRODUCT_REUSE_READY")
@@ -303,26 +303,26 @@ class NationalCampaignTests(unittest.TestCase):
   ROOT = frozen_root()  # caso real congelado en aee8215e
   catalog=yaml.safe_load((ROOT/"configuracion/catalogo_preparacion.yaml").read_text())
   by_id={r["territory_id"]:r["editions"]["2025"] for r in catalog["territories"]}
-  galicia=by_id["galicia"]
+  galicia=by_id["aut12"]
   self.assertTrue(galicia["territorial_product_available"])
   self.assertFalse(galicia["electoral_product_available"])
   territorial=json.loads((ROOT/galicia["evidence"]["territorial_product"]).read_text())
   electoral=json.loads((ROOT/galicia["evidence"]["electoral_product"]).read_text())
-  producer=json.loads((ROOT/f"territorios/galicia/evidencia/ejecuciones_completas/{electoral['run_id']}.json").read_text())
+  producer=json.loads((ROOT/f"territorios/aut12/evidencia/ejecuciones_completas/{electoral['run_id']}.json").read_text())
   phase=next(p for p in producer["phases"] if p["name"].startswith("02 ·"))
   self.assertNotEqual(phase["run_id"],territorial["run_id"])
   self.assertNotEqual(phase["artifact_digest"].removeprefix("sha256:"),territorial["artifact_sha256"])
-  ceuta=by_id["ceuta"]
+  ceuta=by_id["aut18"]
   self.assertTrue(ceuta["territorial_sources_prepared"])
   self.assertFalse(ceuta["territorial_product_available"])
   obsolete=json.loads((ROOT/ceuta["evidence"]["territorial_product"]).read_text())
-  producer=json.loads((ROOT/f"territorios/ceuta/evidencia/ejecuciones_completas/{obsolete['run_id']}.json").read_text())
+  producer=json.loads((ROOT/f"territorios/aut18/evidencia/ejecuciones_completas/{obsolete['run_id']}.json").read_text())
   phase=next(p for p in producer["phases"] if p["name"].startswith("01 ·"))
   self.assertNotEqual(phase["run_id"],ceuta["preparation_evidence"]["run_id"])
   self.assertNotEqual(phase["artifact_digest"].removeprefix("sha256:"),ceuta["preparation_evidence"]["artifact_sha256"])
 
  def test_matrix_rejects_unblocked_route_mismatch_and_inconsistent_blockers(self):
-  m=build_manifest(selected=["galicia"],publication_mode="electoral",
+  m=build_manifest(selected=["aut12"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="route-negative",root=ROOT)
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
@@ -339,7 +339,7 @@ class NationalCampaignTests(unittest.TestCase):
 
  def test_manifest_freezes_all_lineage_and_rejects_electoral_source_drift(self):
   from herramientas.gestor_campana_nacional import _campaign_lineage_identity
-  m=build_manifest(selected=["galicia"],publication_mode="electoral",
+  m=build_manifest(selected=["aut12"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="lineage-check",root=ROOT)
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
@@ -358,13 +358,13 @@ class NationalCampaignTests(unittest.TestCase):
  def test_galicia_child_consumed_electoral_source_sha_is_enforced(self):
   ROOT=frozen_root()  # Galicia pendiente de incorporar: caso congelado en aee8215e
   from herramientas.gestor_campana_nacional import campaign_execution_plan
-  m=build_manifest(selected=["galicia"],publication_mode="electoral",
+  m=build_manifest(selected=["aut12"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="galicia-lineage",root=ROOT)
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
   self.assertTrue(row["execution_plan"]["run_incorporate"])
   self.assertTrue(row["execution_lineage"]["electoral_source"]["artifact_sha256"])
-  p=copy.deepcopy(campaign_execution_plan(root=ROOT,territory_id="galicia",
+  p=copy.deepcopy(campaign_execution_plan(root=ROOT,territory_id="aut12",
                                          edition="2025",strategy="Canónico"))
   p["publication_mode_effective"]="electoral"
   p["prepared_source_pair"]={k:v for k,v in row["evidence"].items()
@@ -384,8 +384,8 @@ class NationalCampaignTests(unittest.TestCase):
    validate_campaign_child(plan=tampered,**args)
 
  def test_cardinalities_and_codauto_order(self):
-  ids=[r["territory_id"] for r in canonical_selection([r["territory_id"] for r in canonical_selection(["andalucia"])] )]
-  self.assertEqual(ids,["andalucia"])
+  ids=[r["territory_id"] for r in canonical_selection([r["territory_id"] for r in canonical_selection(["aut01"])] )]
+  self.assertEqual(ids,["aut01"])
   from herramientas.catalogo_territorios import load_master
   all_ids=[r["territory_id"] for r in load_master()]
   for n in (1,5,12,19):
@@ -408,7 +408,7 @@ class NationalCampaignTests(unittest.TestCase):
  def test_ceuta_stale_m06_is_not_reused_and_new_generation_requires_accreditation(self):
   ROOT = frozen_root()  # caso real congelado en aee8215e
   from herramientas.resolver_ejecucion_completa import build_plan
-  p=build_plan(territory="ceuta",edition="2025",execution_mode="reuse",
+  p=build_plan(territory="aut18",edition="2025",execution_mode="reuse",
                catalog=ROOT/"configuracion/catalogo_preparacion.yaml",root_dir=ROOT,
                explicit_territorial_source={})
   self.assertFalse(p["catalog_state"]["territorial_product_available"])
@@ -416,7 +416,7 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertFalse(p["run_prepare_territorial"])
   self.assertFalse(p["pre_m04_accreditation_planned"])
   self.assertEqual(p["generation_gate"],{"allowed":True,"route":"validated_pre_m04_topology"})
-  m=build_manifest(selected=["ceuta"],publication_mode="territorial_only",source_sha="a"*40,
+  m=build_manifest(selected=["aut18"],publication_mode="territorial_only",source_sha="a"*40,
                    strategy="Canónico",campaign_instance="regression",root=ROOT)
   r=m["territories"][0]
   self.assertEqual(r["preflight_status"],"GENERATION_READY")
@@ -435,7 +435,7 @@ class NationalCampaignTests(unittest.TestCase):
   frozen=frozen_root()
   for (mode,strategy),(status,allowed,included) in cases.items():
     with self.subTest(mode=mode,strategy=strategy):
-     m=build_manifest(selected=["extremadura"],publication_mode=mode,source_sha="a"*40,
+     m=build_manifest(selected=["aut11"],publication_mode=mode,source_sha="a"*40,
                       strategy=strategy,campaign_instance="regression",root=frozen)
      r=m["territories"][0]
      self.assertEqual(r["preflight_status"],status)
@@ -574,7 +574,7 @@ class NationalCampaignTests(unittest.TestCase):
  def test_incomplete_duplicate_or_foreign_results_never_promote(self):
   with tempfile.TemporaryDirectory() as td:
    m,_=generation_fixture(Path(td))
-   report={"territory_id":"cantabria","slot":"06","publication_mode":"territorial_only",
+   report={"territory_id":"aut06","slot":"06","publication_mode":"territorial_only",
            "campaign_instance":"fixture","source_sha":m["source_sha"],"manifest_sha256":m["manifest_sha256"],
            "status":"PASS","candidate_count_expected":50,"candidate_count_valid":50,
            "unique_candidate_hash_count":50,"missing_candidate_hash_count":0,"duplicate_candidate_hash_count":0}
@@ -586,14 +586,14 @@ class NationalCampaignTests(unittest.TestCase):
      s=aggregate(m,[{**report,field:value}])
      self.assertEqual(s["status"],"FAIL")
      with self.assertRaises(ValueError): validate_campaign_summary_for_promotion(s)
-   for reports in ([],[report,report],[report,{**report,"territory_id":"galicia"}]):
+   for reports in ([],[report,report],[report,{**report,"territory_id":"aut12"}]):
     s=aggregate(m,reports)
     self.assertEqual(s["status"],"FAIL")
     with self.assertRaises(ValueError): validate_campaign_summary_for_promotion(s)
 
  def test_same_cardinality_does_not_allow_substituting_selected_territory(self):
   with self.assertRaisesRegex(ValueError,"territorios seleccionados"):
-   publication_matrix([{"territory_id":"galicia","release_tag":"r","namespace":"n"}],1,["cantabria"])
+   publication_matrix([{"territory_id":"aut12","release_tag":"r","namespace":"n"}],1,["aut06"])
 
  def test_workflow_freezes_every_strategy_and_handles_all_blocked_without_children(self):
   text=Path(".github/workflows/gestor-campanas.yml").read_text()
@@ -731,9 +731,9 @@ class SelectionInputTests(unittest.TestCase):
   """1.1.0 (2026-10-31): selección legible y permisos compatibles con el 00 llamado."""
   def test_names_numbers_and_all(self):
     from herramientas.gestor_campana_nacional import parse_selection
-    self.assertEqual(["cantabria","extremadura"],parse_selection("6, Extremadura",ROOT))
-    self.assertEqual(["comunidad_valenciana"],parse_selection("comunidad valenciana",ROOT))
-    self.assertEqual(["castilla_y_leon"],parse_selection("07 Castilla y León",ROOT))
+    self.assertEqual(["aut06","aut11"],parse_selection("6, Extremadura",ROOT))
+    self.assertEqual(["aut10"],parse_selection("comunidad valenciana",ROOT))
+    self.assertEqual(["aut07"],parse_selection("07 Castilla y León",ROOT))
     self.assertEqual(19,len(parse_selection("Todos",ROOT)))
     with self.assertRaisesRegex(ValueError,"no reconocidos: Narnia"):
       parse_selection("Galicia, Narnia",ROOT)

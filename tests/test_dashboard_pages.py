@@ -20,17 +20,17 @@ class DashboardPages(unittest.TestCase):
     def test_dashboard_se_genera_desde_catalogo(self):
         payload=build(ROOT,"2025")
         self.assertEqual(payload["schema"],"ddd-estado-operativo/2.2")
-        galicia=next(r for r in payload["territories"] if r["territory_id"]=="galicia")
+        galicia=next(r for r in payload["territories"] if r["territory_id"]=="aut12")
 
         catalog=yaml.safe_load((ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
-        row=next(r for r in catalog["territories"] if r["territory_id"]=="galicia")
+        row=next(r for r in catalog["territories"] if r["territory_id"]=="aut12")
         state=row["editions"]["2025"]
 
         def receipt(kind):
             rel=(state.get("evidence") or {}).get(kind)
             self.assertTrue(rel)
             data=json.loads((ROOT/rel).read_text(encoding="utf-8"))
-            self.assertEqual(data["territory_id"],"galicia")
+            self.assertEqual(data["territory_id"],"aut12")
             self.assertEqual(str(data["edition"]),"2025")
             self.assertRegex(str(data["artifact_sha256"]).removeprefix("sha256:"),r"^[0-9a-f]{64}$")
             self.assertTrue(data["run_id"])
@@ -53,7 +53,7 @@ class DashboardPages(unittest.TestCase):
         def m08_del_m06_vigente():
             if str(electoral["run_id"])==str(territorial["run_id"]):
                 return True
-            path=ROOT/f"territorios/galicia/evidencia/ejecuciones_completas/{electoral['run_id']}.json"
+            path=ROOT/f"territorios/aut12/evidencia/ejecuciones_completas/{electoral['run_id']}.json"
             if not path.is_file():
                 return False
             fases={str(p.get("name",""))[:2]:p for p in json.loads(path.read_text(encoding="utf-8")).get("phases") or []}
@@ -136,10 +136,10 @@ class DashboardPages(unittest.TestCase):
             self.assertIn(label,js)
         self.assertIn("MAP_POINTS",js)
         for territory_id in (
-            "andalucia","aragon","principado_de_asturias","illes_balears","canarias",
-            "cantabria","castilla_y_leon","castilla_la_mancha","cataluna",
-            "comunidad_valenciana","extremadura","galicia","madrid","region_de_murcia",
-            "comunidad_foral_de_navarra","pais_vasco","la_rioja","ceuta","melilla",
+            "aut01","aut02","aut03","aut04","aut05",
+            "aut06","aut07","aut08","aut09",
+            "aut10","aut11","aut12","aut13","aut14",
+            "aut15","aut16","aut17","aut18","aut19",
         ):
             self.assertIn(territory_id,js)
         for step in (

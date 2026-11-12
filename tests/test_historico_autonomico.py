@@ -15,9 +15,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import historico_autonomico as ha  # noqa: E402
 
-ESPERADAS = {"galicia": ["201210", "201609", "202007"],
-             "madrid": ["201105", "201505", "201905", "202105"],
-             "castilla_y_leon": ["201105", "201505", "201905", "202202"]}
+ESPERADAS = {"aut12": ["201210", "201609", "202007"],
+             "aut13": ["201105", "201505", "201905", "202105"],
+             "aut07": ["201105", "201505", "201905", "202202"]}
 
 
 class Plan(unittest.TestCase):
@@ -29,21 +29,21 @@ class Plan(unittest.TestCase):
     def test_plan_de_las_tres_comunidades_con_paso_b(self):
         p = ha.plan(list(ESPERADAS), True)
         self.assertEqual({r["comunidad"]: r["elecciones"] for r in p["include"]}, ESPERADAS)
-        self.assertEqual(p["prueba"]["comunidad"], "galicia")
-        self.assertIn("| madrid | 201105, 201505, 201905, 202105 |", ha.plan_markdown(p))
+        self.assertEqual(p["prueba"]["comunidad"], "aut12")
+        self.assertIn("| aut13 | 201105, 201505, 201905, 202105 |", ha.plan_markdown(p))
 
     def test_sin_requisitos_se_omite_con_todas_y_falla_si_se_pide(self):
-        p = ha.plan(["galicia", "narnia"], False)
-        self.assertEqual([r["comunidad"] for r in p["include"]], ["galicia"])
+        p = ha.plan(["aut12", "narnia"], False)
+        self.assertEqual([r["comunidad"] for r in p["include"]], ["aut12"])
         self.assertIn("sin composición", p["omitidos"]["narnia"])
         with self.assertRaisesRegex(ha.NoDisponible, "narnia: sin composición"):
-            ha.plan(["galicia", "narnia"], True)
+            ha.plan(["aut12", "narnia"], True)
         with self.assertRaisesRegex(ha.NoDisponible, "Ninguna comunidad"):
             ha.plan(["narnia"], False)
 
     def test_comunidad_sin_dato_por_seccion_no_se_planifica(self):
         # Cantabria 2011-2019 y Asturias solo tienen dato por municipio en el Observatorio (calendario: «sin datos»/«por municipio»).
-        self.assertEqual(ha.elecciones("principado_de_asturias"), [])
+        self.assertEqual(ha.elecciones("aut03"), [])
 
 
 if __name__ == "__main__":

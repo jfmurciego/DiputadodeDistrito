@@ -7,6 +7,7 @@ import csv
 import hashlib
 import io
 import re
+import tokenize
 import subprocess
 import sys
 import unittest
@@ -121,11 +122,29 @@ def _exento(f: str) -> bool:
     return f.startswith(EXENTOS) or f in NO_ES_ID or bool(EXENTOS_RE.search(f))
 
 
+def _lineas_con_datos(f: str, texto: str):
+    """Líneas donde un id es un dato. En Python, solo los literales de texto (un nombre de variable como `aragon` no
+    es un id); en el resto (YAML, JSON, workflows, shell), la línea entera."""
+    if not f.endswith(".py"):
+        yield from enumerate(texto.splitlines(), 1)
+        return
+    try:
+        for tok in tokenize.generate_tokens(io.StringIO(texto).readline):
+            if tok.type == tokenize.STRING or getattr(tokenize, "FSTRING_MIDDLE", -1) == tok.type:
+                for k, parte in enumerate(tok.string.splitlines()):
+                    yield tok.start[0] + k, parte
+    except (tokenize.TokenError, SyntaxError, IndentationError):
+        yield from enumerate(texto.splitlines(), 1)
+
+
 class SinIdsViejos(unittest.TestCase):
     def test_sin_ids_viejos_vivos(self):
         alt = "|".join(sorted(map(re.escape, _viejos()), key=len, reverse=True))
         token = re.compile(rf"(?<![A-Za-z0-9_.\-])({alt})(?![A-Za-z0-9_\-])")
-        url = re.compile(r"https?://\S+|(site/data|resultados/finales|diagnostico/auto)/\w+")  # rutas públicas e históricas
+        # URL, rutas públicas o de datos derivados (no se renombran, D-61) y claves R2 `<id>/<run>/…`.
+        # y nombres de fichero de datos derivados (`congreso_soria.csv`, `<id>.zip` de un M06 publicado).
+        url = re.compile(r"\w+://\S+|(site/data|resultados/finales|diagnostico/auto)/\w+|\bdatos(_abiertos)?/[\w/.\-]+"
+                         r"|(?<![\w/])(docs|resultados|data)/[\w/.\-]+|\b\w+\.(csv|zip)\b|(?<![\w/])\w+/\d+(?=[/\"'])")
         alias = re.compile(r"\b(aut|nac)\d\d\b")  # una línea que nombra el id viejo y el nuevo documenta el alias
         malos = []
         for f in _ls_files():
@@ -137,8 +156,11 @@ class SinIdsViejos(unittest.TestCase):
                 texto = (ROOT / f).read_text(encoding="utf-8")
             except (UnicodeDecodeError, OSError):
                 continue
-            for n, linea in enumerate(texto.splitlines(), 1):
-                if token.search(url.sub("", linea)) and not alias.search(linea) and "t220: no es id" not in linea:
+            fuente = texto.splitlines()
+            for n, linea in _lineas_con_datos(f, texto):
+                original = fuente[n - 1] if 0 < n <= len(fuente) else linea
+                if (token.search(url.sub("", linea)) and not alias.search(original)
+                        and "t220: no es id" not in original):
                     malos.append(f"{f}:{n}: {linea.strip()[:100]}")
         self.assertEqual(malos, [], f"{len(malos)} ids viejos vivos:\n" + "\n".join(malos[:5000]))
 

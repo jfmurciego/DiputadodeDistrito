@@ -45,7 +45,7 @@ class HijaReutilizarPlanificaTests(unittest.TestCase):
 
 
 CASO_BASE = "cantabria_42720255020"
-EV = "territorios/cantabria/evidencia/"
+EV = "territorios/aut06/evidencia/"
 M08_VIEJO = 41037133327
 NUEVO_RUN = 99999999999
 
