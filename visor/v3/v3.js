@@ -443,12 +443,27 @@
     const headings={territorio:"Perfil territorial",resultados:"Resultados electorales",comparar:"Comparar sistemas",evolucion:"Evolución temporal"};
     $("detail-heading").textContent=headings[S.panel];$("detail-content").innerHTML=content;
   }
+  function syncLevels(){
+    const auto=S.scope==="autonomico";
+    for(const option of $("level").options||[]){
+      const unavailable=auto&&["provincia","municipio","seccion"].includes(option.value);
+      option.disabled=unavailable;
+      if(unavailable)option.title="Capa autonómica a este nivel todavía no publicada";
+      else option.removeAttribute?.("title");
+    }
+    if(auto&&!["comunidad","distrito"].includes(S.level)){
+      S.level="comunidad";$("level").value=S.level;
+    }
+    $("tools-note").textContent=auto?
+      "Ámbito autonómico: distritos M06 publicados; las capas autonómicas de municipios y secciones censales aún no están materializadas. No se sustituyen por secciones del Congreso.":
+      "Las secciones censales disponibles conservan la geometría INE; su color electoral se hereda del ganador de su distrito DDD.";
+  }
   function refresh(){
     if(!bootstrap)return;renderTimeline();
     note("");S.unit=S.unit||{kind:"pais",properties:{}};
     installSource("prov",{type:"FeatureCollection",features:overviewProps()});
-    if(S.scope!=="nacional"){S.province=null;if(S.level!=="comunidad"){S.level="comunidad";$("level").value="comunidad";}}
-    else if(S.level==="comunidad"&&!S.province){/* conservar nivel elegido */}
+    if(S.scope!=="nacional")S.province=null;
+    syncLevels();
     paint();renderDetail();prepareArea();
   }
   function syncElection(){if(S.scope==="autonomico"&&!S.region){S.election="";}renderTimeline();}
