@@ -48,9 +48,9 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 428,
+  "productos": 531,
   "errores": 0,
-  "avisos": 146
+  "avisos": 157
  },
  "territorios": {
   "andalucia": {
@@ -145,7 +145,7 @@
      "producto": "M06",
      "id": "m06-aragon-42497101869",
      "run_id": "42497101869",
-     "vigente": true,
+     "vigente": false,
      "sha256": "80e0786ebc6f44015e41b71c152d2dfe4d8b79e1b12b37e0d244a7c23a5a1b0c",
      "copia_git": {
       "blob_sha": "c7b411cd678e4fb96011664b842c7a46c0e02ce3",
@@ -155,13 +155,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-aragon-43016936483",
+     "run_id": "43016936483",
+     "vigente": true,
+     "sha256": "4533a770a0710b40e70001d72ef248f26212f25c47c1a3a3b785c37395c23bc6",
+     "copia_git": {
+      "blob_sha": "10947541306144d78263ffe49d8501677ede88de",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-aragon-42497101869",
      "run_id": "42497101869",
-     "vigente": true,
+     "vigente": false,
      "sha256": "64fe721f5e509afc82db6c778ff49263e8e113545498431eec5480841044af7b",
      "copia_git": {
       "blob_sha": "9662e5ad7ce474587d35faf611eae326bf8c5575",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-aragon-43016936483",
+     "run_id": "43016936483",
+     "vigente": true,
+     "sha256": "03b71940477c2b7276aa01dd6a64c82083849f2504a7802a51f69dd7bfeec2d0",
+     "copia_git": {
+      "blob_sha": "773a8c5e13917dfadb06c8d2e484efd6237bafb6",
       "ruta": null
      },
      "copias_r2": [],
@@ -184,7 +210,7 @@
     {
      "producto": "resultados",
      "id": "resultados-aragon",
-     "run_id": "42497101869",
+     "run_id": "43016936483",
      "vigente": true,
      "sha256": "a3f97672a39a013baa85814eda183640a69d8f20dc951631e042a54b15aaabd5",
      "copia_git": {
@@ -193,7 +219,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "64fe721f5e509afc82db6c778ff49263e8e113545498431eec5480841044af7b"
+     "origen_sha256": "03b71940477c2b7276aa01dd6a64c82083849f2504a7802a51f69dd7bfeec2d0"
     },
     {
      "producto": "static",
@@ -243,10 +269,23 @@
      "producto": "M06",
      "id": "m06-canarias-42523951377",
      "run_id": "42523951377",
-     "vigente": true,
+     "vigente": false,
      "sha256": "1377ef8ba5e90e8990d6ccf0341f743dbf50407fca066b3fd7b9e5b7677950a4",
      "copia_git": {
       "blob_sha": "09802d7d54f164ba4bb63fafcd1941d028521dcf",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-canarias-43020588641",
+     "run_id": "43020588641",
+     "vigente": true,
+     "sha256": "e5efd072759ddf3448c8d337b569b2724187a67e5057ab1f55bec0c21cc9bd2d",
+     "copia_git": {
+      "blob_sha": "91fd091ae1363ed6c29722aa236be7fb777e15c5",
       "ruta": null
      },
      "copias_r2": [],
@@ -269,10 +308,23 @@
      "producto": "M08",
      "id": "m08-canarias-42523951377",
      "run_id": "42523951377",
-     "vigente": true,
+     "vigente": false,
      "sha256": "12b337b541ad6e6e6b998be3ddb6f255407b047d6b8a2e8e8c8be57df4787e9a",
      "copia_git": {
       "blob_sha": "8a85c922bea52c03b6dd81ee24170f66c5cbf5e7",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-canarias-43020588641",
+     "run_id": "43020588641",
+     "vigente": true,
+     "sha256": "2d5176fe267228ce5741780fd4edb9d0898727b869f3b70e1cb66c29bea36164",
+     "copia_git": {
+      "blob_sha": "cf97cbb87e4daad5c6d60fd49388c0379bc6ae9b",
       "ruta": null
      },
      "copias_r2": [],
@@ -295,7 +347,7 @@
     {
      "producto": "resultados",
      "id": "resultados-canarias",
-     "run_id": "42523951377",
+     "run_id": "43020588641",
      "vigente": true,
      "sha256": "e16c3b8f89b58ca08f357e19f6d9047f82c8be0243c016a178efd75b4894c9b4",
      "copia_git": {
@@ -304,7 +356,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "12b337b541ad6e6e6b998be3ddb6f255407b047d6b8a2e8e8c8be57df4787e9a"
+     "origen_sha256": "2d5176fe267228ce5741780fd4edb9d0898727b869f3b70e1cb66c29bea36164"
     }
    ]
   },
@@ -341,7 +393,7 @@
      "producto": "M06",
      "id": "m06-cantabria-41037133327",
      "run_id": "41037133327",
-     "vigente": true,
+     "vigente": false,
      "sha256": "dc20b6f2614f026c9d1ab6e6c04804bbece589aa3ffe0b0c78b1c1a0fd7e660e",
      "copia_git": {
       "blob_sha": "b4a30d75a0ca0222db154592319896c8acaf4a43",
@@ -351,10 +403,23 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-cantabria-43033094596",
+     "run_id": "43033094596",
+     "vigente": true,
+     "sha256": "a7d56c0bd7439d45ba83d3d06d6efa78790a6d70125ff1aa5db4bd058c92592e",
+     "copia_git": {
+      "blob_sha": "5cd56c11d7a8050414fd0a85aefbbbc4d3bbf6d6",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-cantabria-41037133327",
      "run_id": "41037133327",
-     "vigente": true,
+     "vigente": false,
      "sha256": "388e527bf7e2cfdd4eeda5c9816a344cdc1daf7df5cda2f4f6059a5e48e1cf45",
      "copia_git": {
       "blob_sha": "c7566008a81e02363dc56f2dde577383cb93d4b3",
@@ -366,6 +431,19 @@
        "sha256": "64b29150edf84166a23f2234fbd1bd5f54106bcfe1a3455bf7e8d8ff9a0791dd"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-cantabria-43033094596",
+     "run_id": "43033094596",
+     "vigente": true,
+     "sha256": "c1bbe9bf2283213e36745eff6c56f8d70df6d13c9c667f1ecf22188e4176cd76",
+     "copia_git": {
+      "blob_sha": "84d9a88700fa25c3f8c0fe238daf5631b49926af",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -385,16 +463,16 @@
     {
      "producto": "resultados",
      "id": "resultados-cantabria",
-     "run_id": "41037133327",
+     "run_id": "43033094596",
      "vigente": true,
-     "sha256": "694970f0d1d9365d2a7072dd7d0ba1d7fb773e8a170b571686a7191b3253804c",
+     "sha256": "53da6834f8726dab20302139dbe4dbcac89ea4c88d0d29b397ad54f064c0d2c6",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/cantabria.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "388e527bf7e2cfdd4eeda5c9816a344cdc1daf7df5cda2f4f6059a5e48e1cf45"
+     "origen_sha256": "c1bbe9bf2283213e36745eff6c56f8d70df6d13c9c667f1ecf22188e4176cd76"
     }
    ]
   },
@@ -470,7 +548,7 @@
      "producto": "M06",
      "id": "m06-castilla_la_mancha-40241650464",
      "run_id": "40241650464",
-     "vigente": true,
+     "vigente": false,
      "sha256": "81fe3681aae094eaf7514c7512ed2af9732b24020ee1b91ebb0fd5677ac6d14d",
      "copia_git": {
       "blob_sha": "512925e81166ee50811c2cf9a55bf9cebacf54bf",
@@ -485,13 +563,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-castilla_la_mancha-43031565452",
+     "run_id": "43031565452",
+     "vigente": true,
+     "sha256": "6d9a693e0683a7a33b4abc0e20a263be4dd707cdee3595a675d25c010a15b39f",
+     "copia_git": {
+      "blob_sha": "2d9c77357d84336c8a9b3da1913b982c902fb04d",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-castilla_la_mancha-37444564173",
      "run_id": "37444564173",
-     "vigente": true,
+     "vigente": false,
      "sha256": "69927b5b20000c9ba2a004567ba0e6d81aeb1ea23fd9caad252c842edff90f59",
      "copia_git": {
       "blob_sha": "1f41ce8cdc76b2a80b9d80314312be3cba2f363f",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-castilla_la_mancha-43031565452",
+     "run_id": "43031565452",
+     "vigente": true,
+     "sha256": "40af02e2a7a4b4daf348ebb7bd8ebd3bad799b76a730a4b0c89154f9c1d04dff",
+     "copia_git": {
+      "blob_sha": "cb3d7bacad5beb719760f3b70e533119fcac3c4e",
       "ruta": null
      },
      "copias_r2": [],
@@ -514,16 +618,16 @@
     {
      "producto": "resultados",
      "id": "resultados-castilla_la_mancha",
-     "run_id": "37444564173",
+     "run_id": "43031565452",
      "vigente": true,
-     "sha256": "7149faadacd2654df9cfe145d6e59637549d9ce9580c19fcfd7eec26eacbb30b",
+     "sha256": "77cf902bc12683d87a6e4f22900f2aec8f6460c7acd3c3b5b95a0891919b14bb",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/castilla_la_mancha.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "69927b5b20000c9ba2a004567ba0e6d81aeb1ea23fd9caad252c842edff90f59"
+     "origen_sha256": "40af02e2a7a4b4daf348ebb7bd8ebd3bad799b76a730a4b0c89154f9c1d04dff"
     }
    ]
   },
@@ -560,7 +664,7 @@
      "producto": "M06",
      "id": "m06-castilla_y_leon-42521090842",
      "run_id": "42521090842",
-     "vigente": true,
+     "vigente": false,
      "sha256": "1e9f45e12e33d7ef4ddbd5ce6c735eb861b8a9c99deed680263fcd574af35197",
      "copia_git": {
       "blob_sha": "5143b70a6e064d9251b91d4e82f6c95e706d75e0",
@@ -570,13 +674,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-castilla_y_leon-43030986959",
+     "run_id": "43030986959",
+     "vigente": true,
+     "sha256": "758898e59dcff0637f94fe27ffd7fa80c3955232508563199b84a7486609082e",
+     "copia_git": {
+      "blob_sha": "19becafe1d15c7f72554a084aca36e794ad7cc59",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-castilla_y_leon-42531122768",
      "run_id": "42531122768",
-     "vigente": true,
+     "vigente": false,
      "sha256": "945da465d4e6557f01fdde778c2bbada64e27ecb977d185bddd04a798774b90b",
      "copia_git": {
       "blob_sha": "54309d35d77148151f3f257421050f63d8ca5f8d",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-castilla_y_leon-43030986959",
+     "run_id": "43030986959",
+     "vigente": true,
+     "sha256": "9d66c8f6c32da9b93f0b1e2924b8439042c23c7b88d52b3ed9b6f4e887c21a81",
+     "copia_git": {
+      "blob_sha": "6e71151e52986fd40372a92d85ccf94e1fae8a7d",
       "ruta": null
      },
      "copias_r2": [],
@@ -599,16 +729,16 @@
     {
      "producto": "resultados",
      "id": "resultados-castilla_y_leon",
-     "run_id": "42531122768",
+     "run_id": "43030986959",
      "vigente": true,
-     "sha256": "e0a9acc811ce061c4e67c881f86cd7cd982a4c0fbb61ae6f9250c9a89b9a091e",
+     "sha256": "9fad307449d6855a099f141900b293c92717827bb54f955846b3195d71adebd6",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/castilla_y_leon.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "945da465d4e6557f01fdde778c2bbada64e27ecb977d185bddd04a798774b90b"
+     "origen_sha256": "9d66c8f6c32da9b93f0b1e2924b8439042c23c7b88d52b3ed9b6f4e887c21a81"
     },
     {
      "producto": "static",
@@ -761,7 +891,7 @@
      "producto": "M06",
      "id": "m06-ceuta-42503542766",
      "run_id": "42503542766",
-     "vigente": true,
+     "vigente": false,
      "sha256": "7070a351b9c0cd0ec8fe4613ec99681c6ea9ac37ee248e37a23a0a95fc90c37d",
      "copia_git": {
       "blob_sha": "ec956e24301898cf5f4b245cffdcf51195ba08c5",
@@ -771,10 +901,23 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-ceuta-43052923691",
+     "run_id": "43052923691",
+     "vigente": true,
+     "sha256": "be1497ed7b2a7993fe6e7875202ab32bee32ab061343474e71f690469aa2f2ff",
+     "copia_git": {
+      "blob_sha": "28e56fdb085b6e8bd415806f79ac780aed57c853",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-ceuta-42503542766",
      "run_id": "42503542766",
-     "vigente": true,
+     "vigente": false,
      "sha256": "1ea40f95abfa507ce96ab1c2d3624f8ac5c26f93716f77850b65417331de7432",
      "copia_git": {
       "blob_sha": "bfdc10b224c67c174b8ee2d147f7e97476f7b2c3",
@@ -784,9 +927,22 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M08",
+     "id": "m08-ceuta-43052923691",
+     "run_id": "43052923691",
+     "vigente": true,
+     "sha256": "746fa652f2fc024a012d2122a55941f2d9c8d8f1243c1fb95fd3a13db966073a",
+     "copia_git": {
+      "blob_sha": "bea2bd9afda66967ec87d95c23513be280471eaf",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "resultados",
      "id": "resultados-ceuta",
-     "run_id": "42503542766",
+     "run_id": "43052923691",
      "vigente": true,
      "sha256": "032029f787958c5004db7d830ad6646b29b6cac17c3e12f1f60c1f1264b2a49b",
      "copia_git": {
@@ -795,7 +951,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "1ea40f95abfa507ce96ab1c2d3624f8ac5c26f93716f77850b65417331de7432"
+     "origen_sha256": "746fa652f2fc024a012d2122a55941f2d9c8d8f1243c1fb95fd3a13db966073a"
     }
    ]
   },
@@ -832,10 +988,23 @@
      "producto": "M06",
      "id": "m06-comunidad_foral_de_navarra-41049986588",
      "run_id": "41049986588",
-     "vigente": true,
+     "vigente": false,
      "sha256": "dab6ea00ad906133f145948839ef7c1a4f79c49795715a3ff95e6aff00b84c89",
      "copia_git": {
       "blob_sha": "4d0cca79214f8e7586848919d0d8028217bf8460",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-comunidad_foral_de_navarra-43052874017",
+     "run_id": "43052874017",
+     "vigente": true,
+     "sha256": "088bfaae21347977101b44d26a3dace5e6d4849c2a42cb3a8f33574ea923f686",
+     "copia_git": {
+      "blob_sha": "0f8f6abbedd7c4479e02dc3792763556c5ec9b55",
       "ruta": null
      },
      "copias_r2": [],
@@ -858,7 +1027,7 @@
      "producto": "M08",
      "id": "m08-comunidad_foral_de_navarra-41049986588",
      "run_id": "41049986588",
-     "vigente": true,
+     "vigente": false,
      "sha256": "359526e811d770b629ca45fc6001bc31a07af4e86f712cd4388043ad02ff807d",
      "copia_git": {
       "blob_sha": "759bbd2201a53059f249cbeaef01714057c4e724",
@@ -870,6 +1039,19 @@
        "sha256": "8b59f36746496aa4b908c17863d0db7fe2613c3ce16cf8a8347fb9cf4f7fde68"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-comunidad_foral_de_navarra-43052874017",
+     "run_id": "43052874017",
+     "vigente": true,
+     "sha256": "73d0dc9afa3f3c3735de968926a63464055f602edcf636c70650c6cdaae3a8c0",
+     "copia_git": {
+      "blob_sha": "2ad5c9e515b48b4c07c32aaa17b39579c59c4d2f",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -889,16 +1071,16 @@
     {
      "producto": "resultados",
      "id": "resultados-comunidad_foral_de_navarra",
-     "run_id": "41049986588",
+     "run_id": "43052874017",
      "vigente": true,
-     "sha256": "c1148eb6c9303e7b45d494ef3b25acb05bda1ff51b9e099d04ee66edbd56b7d0",
+     "sha256": "65b1e70756b1b3628e76bb498b9083a9a891fbf45e62907283c87326e3b19285",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/comunidad_foral_de_navarra.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "359526e811d770b629ca45fc6001bc31a07af4e86f712cd4388043ad02ff807d"
+     "origen_sha256": "73d0dc9afa3f3c3735de968926a63464055f602edcf636c70650c6cdaae3a8c0"
     }
    ]
   },
@@ -935,10 +1117,23 @@
      "producto": "M06",
      "id": "m06-comunidad_valenciana-41062567297",
      "run_id": "41062567297",
-     "vigente": true,
+     "vigente": false,
      "sha256": "7ff98ceb983f615f48006e4e01cebd43eb005519e28dd31c241212ca969341be",
      "copia_git": {
       "blob_sha": "590d954319932f716c69001083016526f16773f6",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-comunidad_valenciana-43030421638",
+     "run_id": "43030421638",
+     "vigente": true,
+     "sha256": "4341e578f3fddb0932f7ffdce480b3c8ede046fa926a917470bb48abcd182ae8",
+     "copia_git": {
+      "blob_sha": "94a86a890147d751e7d5c0ae36213c860fd9d629",
       "ruta": null
      },
      "copias_r2": [],
@@ -961,7 +1156,7 @@
      "producto": "M08",
      "id": "m08-comunidad_valenciana-41062567297",
      "run_id": "41062567297",
-     "vigente": true,
+     "vigente": false,
      "sha256": "2cef147c94d5802443db75efaf0b67d2f87318433f076b1957ce14f221f07f6d",
      "copia_git": {
       "blob_sha": "13a1181daf57374f60ca089cde8af9ecddd1c0a4",
@@ -973,6 +1168,19 @@
        "sha256": "ca65edac2de86fe1f9c499b379a30814ffec3e3ea515848e955a558796693cc4"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-comunidad_valenciana-43030421638",
+     "run_id": "43030421638",
+     "vigente": true,
+     "sha256": "1bd659d14335b47c89303a46ad42a34b540656168d747ecf5fdcc1377eace49b",
+     "copia_git": {
+      "blob_sha": "0486bc90349234e6f63028bf9af0bbf16d44db5f",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -992,16 +1200,16 @@
     {
      "producto": "resultados",
      "id": "resultados-comunidad_valenciana",
-     "run_id": "41062567297",
+     "run_id": "43030421638",
      "vigente": true,
-     "sha256": "10734091a60de2422a293f8c8ec26bea0a87fd7b6b1f1abee105f1c8464eb016",
+     "sha256": "871f0794aeb58eef8df38b30b455c73618cbdf2b63df97218dcb32f0bf2278ec",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/comunidad_valenciana.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "2cef147c94d5802443db75efaf0b67d2f87318433f076b1957ce14f221f07f6d"
+     "origen_sha256": "1bd659d14335b47c89303a46ad42a34b540656168d747ecf5fdcc1377eace49b"
     }
    ]
   },
@@ -1025,7 +1233,7 @@
      "producto": "M06",
      "id": "m06-congreso_alava-41346917857",
      "run_id": "41346917857",
-     "vigente": true,
+     "vigente": false,
      "sha256": "44bd4d794d2ef99f0bf924bb0b43df29956e758c59310c434190babe1a50ed41",
      "copia_git": {
       "blob_sha": "366574023fdf95af5a1b3eae3e085d2c7ee2e2c3",
@@ -1035,13 +1243,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_alava-42983088643",
+     "run_id": "42983088643",
+     "vigente": true,
+     "sha256": "56da2c371dd0fec78a44ebf49d62af70d27e2b7a4aef9d1a8015bdce8b0dc9c9",
+     "copia_git": {
+      "blob_sha": "306e070a364e5e38e7f5fb04bf40d5d0a515a70e",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_alava-41346917857",
      "run_id": "41346917857",
-     "vigente": true,
+     "vigente": false,
      "sha256": "4fa44193e376faf3e9ccf8afa62db51b65c977930ac660e0df2a83ac88455e4d",
      "copia_git": {
       "blob_sha": "d3fc88943f3b177aedc172a758785b7d9096c8e3",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_alava-42983088643",
+     "run_id": "42983088643",
+     "vigente": true,
+     "sha256": "d850c12672e7a751b4728e5431a6297e7ce039f67ff030aad6e15238eb31a09d",
+     "copia_git": {
+      "blob_sha": "f61a28e3d279c21252843ede64c343ec65a3429b",
       "ruta": null
      },
      "copias_r2": [],
@@ -1064,21 +1298,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_alava",
-     "run_id": "41346917857",
+     "run_id": "42983088643",
      "vigente": true,
      "sha256": "d7dfd66e25845e240429aa9e69b760257a837a9fdc1a039a490090d17ae25cd6",
      "copia_git": {
-      "blob_sha": "366574023fdf95af5a1b3eae3e085d2c7ee2e2c3",
+      "blob_sha": "306e070a364e5e38e7f5fb04bf40d5d0a515a70e",
       "ruta": "datos_abiertos/congreso_alava/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "44bd4d794d2ef99f0bf924bb0b43df29956e758c59310c434190babe1a50ed41"
+     "origen_sha256": "56da2c371dd0fec78a44ebf49d62af70d27e2b7a4aef9d1a8015bdce8b0dc9c9"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_alava",
-     "run_id": "41346917857",
+     "run_id": "42983088643",
      "vigente": true,
      "sha256": "9092a5f63aaaa4ad4f8b5100af11bb4c54ab9238b68368ac761b4a38f0e11ca1",
      "copia_git": {
@@ -1087,7 +1321,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "4fa44193e376faf3e9ccf8afa62db51b65c977930ac660e0df2a83ac88455e4d"
+     "origen_sha256": "d850c12672e7a751b4728e5431a6297e7ce039f67ff030aad6e15238eb31a09d"
     }
    ]
   },
@@ -1124,10 +1358,23 @@
      "producto": "M06",
      "id": "m06-congreso_albacete-42514994231",
      "run_id": "42514994231",
-     "vigente": true,
+     "vigente": false,
      "sha256": "711147836285bd4a0ce0edf28d066c82ec9c4642b980b598be835f80c52b14c5",
      "copia_git": {
       "blob_sha": "c7df907f1c12c6b6a44005e48199411258f413d2",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-congreso_albacete-42952791883",
+     "run_id": "42952791883",
+     "vigente": true,
+     "sha256": "ff83d22f1824ecf6fae310bcfb60e9b1fae8973a2257f53a3c0cfcffcd351597",
+     "copia_git": {
+      "blob_sha": "e9cd8ab60ff8b02db836f7a04468ab65da1d1f5e",
       "ruta": null
      },
      "copias_r2": [],
@@ -1150,10 +1397,23 @@
      "producto": "M08",
      "id": "m08-congreso_albacete-42514994231",
      "run_id": "42514994231",
-     "vigente": true,
+     "vigente": false,
      "sha256": "4bf56ca501bad00f0a305b56e29709a092d9e226872c76bf752eacfe1bd7953d",
      "copia_git": {
       "blob_sha": "eb789b5090f4fcb1443149cf59fba070bf6e37a0",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_albacete-42952791883",
+     "run_id": "42952791883",
+     "vigente": true,
+     "sha256": "c25816b35e4f582a178d6502db02c9b847900a8179c959ad0bcced5b62810e41",
+     "copia_git": {
+      "blob_sha": "7bac264812763bc2123069db53db5af0e6231587",
       "ruta": null
      },
      "copias_r2": [],
@@ -1176,30 +1436,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_albacete",
-     "run_id": "42514994231",
+     "run_id": "42952791883",
      "vigente": true,
-     "sha256": "0fa784cb17d944dbea0f2246e5cfe56b0eb37f4ae06e67e6d6e06abf28d0416d",
+     "sha256": "8d2f13fa5609738aa711313eb37d605b7e28f6f5d769baf901477546c4dd86da",
      "copia_git": {
-      "blob_sha": "c7df907f1c12c6b6a44005e48199411258f413d2",
+      "blob_sha": "e9cd8ab60ff8b02db836f7a04468ab65da1d1f5e",
       "ruta": "datos_abiertos/congreso_albacete/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "711147836285bd4a0ce0edf28d066c82ec9c4642b980b598be835f80c52b14c5"
+     "origen_sha256": "ff83d22f1824ecf6fae310bcfb60e9b1fae8973a2257f53a3c0cfcffcd351597"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_albacete",
-     "run_id": "42514994231",
+     "run_id": "42952791883",
      "vigente": true,
-     "sha256": "0711fc0862cebeb286345041ec93832c402e3665f89323cba4f32d52cfbbdd38",
+     "sha256": "d921a10ffe44327bf3c553e0bc42bfd7952322ecaef4efed18edef68f76f204f",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_albacete.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "4bf56ca501bad00f0a305b56e29709a092d9e226872c76bf752eacfe1bd7953d"
+     "origen_sha256": "c25816b35e4f582a178d6502db02c9b847900a8179c959ad0bcced5b62810e41"
     }
    ]
   },
@@ -1249,10 +1509,23 @@
      "producto": "M08",
      "id": "m08-congreso_alicante-42495067503",
      "run_id": "42495067503",
-     "vigente": true,
+     "vigente": false,
      "sha256": "b82f3e65b037a8efa876afb94fca8bc681b3eb4cb2b73770c175a5442078b698",
      "copia_git": {
       "blob_sha": "bff1eb7b07b34f922482a8e9e35aa3b45fc41487",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_alicante-42953235024",
+     "run_id": "42953235024",
+     "vigente": true,
+     "sha256": "b74f68cddf7a42c8490dd2422c2b6821665f4bcfb039f4e90b7834c912c3e03b",
+     "copia_git": {
+      "blob_sha": "2a84e667e3bb71eb55d96cd3f392102bc2468281",
       "ruta": null
      },
      "copias_r2": [],
@@ -1275,30 +1548,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_alicante",
-     "run_id": "42495067503",
+     "run_id": "42940331557",
      "vigente": true,
-     "sha256": "61ab7760472455eeb2a9f0bb0b7143c51876fb72ab4ef565938f19aa2b6a41af",
+     "sha256": "1acce9d01ed98bf41d8fcf34806dfe4406d34998b688da87b79e22bcb32adf67",
      "copia_git": {
-      "blob_sha": "5915aa729c6bb763fa468917a2a414b277c9fd29",
+      "blob_sha": "565f756cc0765ca6c69c750184fe0c170608129b",
       "ruta": "datos_abiertos/congreso_alicante/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "36416fd503d223fed8be1ebbe58731df80f3288e35514cb745eb6c6a06e1d443"
+     "origen_sha256": "7d73070429f0e9c2731f6b0a07e6a8205e103de8d0720010958337cf55728ad7"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_alicante",
-     "run_id": "42495067503",
+     "run_id": "42953235024",
      "vigente": true,
-     "sha256": "28924177804fd394a8f43b0be9c53b96a753ab61a44a8e5d544119414195b584",
+     "sha256": "ee7d4ab5bb3cad5dc84cee22235d89e8bd4ae5db84266e5f701b9a41c5d17047",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_alicante.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "b82f3e65b037a8efa876afb94fca8bc681b3eb4cb2b73770c175a5442078b698"
+     "origen_sha256": "b74f68cddf7a42c8490dd2422c2b6821665f4bcfb039f4e90b7834c912c3e03b"
     }
    ]
   },
@@ -1374,10 +1647,23 @@
      "producto": "M08",
      "id": "m08-congreso_almeria-42519378789",
      "run_id": "42519378789",
-     "vigente": true,
+     "vigente": false,
      "sha256": "a620022b7945f9c343752191fe8ad00bb717eaada5f1e4ddfa87da04c5467962",
      "copia_git": {
       "blob_sha": "989da8a12792c75246faf9b7280faae871e49c16",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_almeria-42952468083",
+     "run_id": "42952468083",
+     "vigente": true,
+     "sha256": "67a368c7e36007a8cfebf718c8dd280eeb0272e974551b239a17553bd56d3d97",
+     "copia_git": {
+      "blob_sha": "bedaf7eb439353c612de1a3409bc9d3fb840dd99",
       "ruta": null
      },
      "copias_r2": [],
@@ -1400,30 +1686,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_almeria",
-     "run_id": "42519378789",
+     "run_id": "42940336572",
      "vigente": true,
-     "sha256": "9867514e96a40a3356c43c1c8f4e314d59b9150fcb703282c6414488cbe1fc09",
+     "sha256": "e6c51232f42b00aab518a590a0e44b2b5461131f098a88ed6c7eedf2c5fcc362",
      "copia_git": {
-      "blob_sha": "339adddcc861371e35c714b9c8f667e6d2e1df9a",
+      "blob_sha": "3ea15ba6944378bd353b4ff245c0018dc158da99",
       "ruta": "datos_abiertos/congreso_almeria/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "1b852666d2752f1a5c38c23fc87e9317575b0e0b5408b132f5d57121d76f907e"
+     "origen_sha256": "a020cb1aaa8815f186485112ccb095249f46359d27ead3791939c57dfcba73a0"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_almeria",
-     "run_id": "42519378789",
+     "run_id": "42952468083",
      "vigente": true,
-     "sha256": "fa99fcf78bb82c054a919bac0c0329d8c959603aaa4501d769edb8ab34ef0754",
+     "sha256": "2436105a9fd0521109691c0f7cbf12ca7c61008acca911d8a56446420f97bd5d",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_almeria.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "a620022b7945f9c343752191fe8ad00bb717eaada5f1e4ddfa87da04c5467962"
+     "origen_sha256": "67a368c7e36007a8cfebf718c8dd280eeb0272e974551b239a17553bd56d3d97"
     }
    ]
   },
@@ -1473,10 +1759,23 @@
      "producto": "M08",
      "id": "m08-congreso_asturias-41296638877",
      "run_id": "41296638877",
-     "vigente": true,
+     "vigente": false,
      "sha256": "7b7e285aafc46fa5f3361766e1781f7b87d080ad99e89c4bcc5bbedde479a936",
      "copia_git": {
       "blob_sha": "9cfb9eecfd065e04360c4051c21c479db90639ad",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_asturias-42985447971",
+     "run_id": "42985447971",
+     "vigente": true,
+     "sha256": "13426e3f99ee2e877620651dceeb379488797bcb6e7432aa7eb4656d3fb1a772",
+     "copia_git": {
+      "blob_sha": "22f15b142f333415ceae08da8926d5f207784bc1",
       "ruta": null
      },
      "copias_r2": [],
@@ -1499,30 +1798,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_asturias",
-     "run_id": "41296638877",
+     "run_id": "42981406489",
      "vigente": true,
-     "sha256": "577c3087234cc3347c245857e96c392d6e0767cef5a5c6744a38640fd6a4a808",
+     "sha256": "244d9d5c58a64be6593631141aa134d989276a6152ac723d909ace575dd66475",
      "copia_git": {
-      "blob_sha": "f78afd6ad9243fc79c114e1eb1df83d39bb66c2c",
+      "blob_sha": "ffd8a6d0ebdccb4c7a6cedaf88aad6db9f57c0ec",
       "ruta": "datos_abiertos/congreso_asturias/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "26d9f1eef6f4fa0c46124d0bd90c02275f6d5fa352d7ebf35e2162987f48d5ab"
+     "origen_sha256": "529e16da15b08a8560a23908a3a236110b4272e6320ec3f6330de12d947700ba"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_asturias",
-     "run_id": "41296638877",
+     "run_id": "42985447971",
      "vigente": true,
-     "sha256": "aba1053888e3b48df27b7b673144da9dfb4532c2be2bfe1e2f0271c32e84c8ca",
+     "sha256": "abadefb3c025af0248dde5359f331759a65945ee45e20ff1e2b22b3ed719da9a",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_asturias.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "7b7e285aafc46fa5f3361766e1781f7b87d080ad99e89c4bcc5bbedde479a936"
+     "origen_sha256": "13426e3f99ee2e877620651dceeb379488797bcb6e7432aa7eb4656d3fb1a772"
     }
    ]
   },
@@ -1572,10 +1871,23 @@
      "producto": "M08",
      "id": "m08-congreso_avila-41241662219",
      "run_id": "41241662219",
-     "vigente": true,
+     "vigente": false,
      "sha256": "65c9d1aa3d71c676a34587cbf261fe8d7ab81e5d76ccc0f242629a3b9e5dd1c3",
      "copia_git": {
       "blob_sha": "e97cda6a54ca52585145bdbfcba104085bc7204e",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_avila-42948760863",
+     "run_id": "42948760863",
+     "vigente": true,
+     "sha256": "2fd11b04aa89795809b11d79dabd93eee97c32a88ad87e258ba23b87ca5c49e7",
+     "copia_git": {
+      "blob_sha": "aaf7d52d248339dfda6867025eeca3144dad4645",
       "ruta": null
      },
      "copias_r2": [],
@@ -1598,21 +1910,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_avila",
-     "run_id": "41241662219",
+     "run_id": "42940341213",
      "vigente": true,
      "sha256": "c173adc9899e2e6af3533d8711cc1e0991d5723fff5dc0058ef2473f29b0defe",
      "copia_git": {
-      "blob_sha": "12b12913c997ab1b2672f9b64eb32aa048936486",
+      "blob_sha": "fe0746bf3dc404decc09d3d87271b0582ce5c888",
       "ruta": "datos_abiertos/congreso_avila/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "1dbc9e4be04d22053d7d09cad006f9fbc57ca10874b499ebc5e18ecff1fdde86"
+     "origen_sha256": "c001e41743878c5e99bbcb4e772657f664c6e49633c5a9d8bd609daaf7503b73"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_avila",
-     "run_id": "41241662219",
+     "run_id": "42948760863",
      "vigente": true,
      "sha256": "ffafaa3c13379f0ee25a2f476e8a9ec13f0d28a794492ac842c9404614af949e",
      "copia_git": {
@@ -1621,7 +1933,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "65c9d1aa3d71c676a34587cbf261fe8d7ab81e5d76ccc0f242629a3b9e5dd1c3"
+     "origen_sha256": "2fd11b04aa89795809b11d79dabd93eee97c32a88ad87e258ba23b87ca5c49e7"
     }
    ]
   },
@@ -1697,10 +2009,23 @@
      "producto": "M08",
      "id": "m08-congreso_badajoz-42519381013",
      "run_id": "42519381013",
-     "vigente": true,
+     "vigente": false,
      "sha256": "8934306e2394b04b190ec2dfd1b7a211541563b028de12668837ffb52dd7c89a",
      "copia_git": {
       "blob_sha": "a956dc91d0af4c70f33bf206ba5cd3495db27a75",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_badajoz-42949289470",
+     "run_id": "42949289470",
+     "vigente": true,
+     "sha256": "5f010bbc7e6b42d8b5cbac37c26df4bb1cb3043871222124ed542e551a2a90b9",
+     "copia_git": {
+      "blob_sha": "3c924ae21b2e1f56c09ae52f303302666a7a5395",
       "ruta": null
      },
      "copias_r2": [],
@@ -1723,30 +2048,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_badajoz",
-     "run_id": "42519381013",
+     "run_id": "42940345930",
      "vigente": true,
-     "sha256": "6b9f37cf42587b782798c74c29c364e4c4b25c180c1ef91739a8b3d1546bf4b6",
+     "sha256": "63b14cfe88388df56948ca2b36f28cca9860d03c6e788a68bc83dfbf93358de6",
      "copia_git": {
-      "blob_sha": "6ffc6a528da11213c333258f43a90ebb128d4f3c",
+      "blob_sha": "d407eaebe825605eda69123215a1b1682c390dc2",
       "ruta": "datos_abiertos/congreso_badajoz/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "8d599633fa0e0db716f0b1bdb888b7b8060344f929145b7cba51dc3906b6d9e4"
+     "origen_sha256": "6a5f71818f7589e0f749529c3e8bc20b3fb48cd502082502531685c71ca19bab"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_badajoz",
-     "run_id": "42519381013",
+     "run_id": "42949289470",
      "vigente": true,
-     "sha256": "a82717df3edfe3d9c1a0c16b9877683d59a8a6827b5abd7610cde86cf2e0f45d",
+     "sha256": "666f272dbad94e2bd525e649bec48587e87f3b428a99983415f1177dd7128549",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_badajoz.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "8934306e2394b04b190ec2dfd1b7a211541563b028de12668837ffb52dd7c89a"
+     "origen_sha256": "5f010bbc7e6b42d8b5cbac37c26df4bb1cb3043871222124ed542e551a2a90b9"
     }
    ]
   },
@@ -1796,10 +2121,23 @@
      "producto": "M08",
      "id": "m08-congreso_baleares-41481449507",
      "run_id": "41481449507",
-     "vigente": true,
+     "vigente": false,
      "sha256": "37af82d713001e4a4598d2c8f2927cb319c2b8712d92de8ce4a652cee466d47a",
      "copia_git": {
       "blob_sha": "f4803b7cbbedfeb951917c06ee1ba5ba0bfae033",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_baleares-42953068884",
+     "run_id": "42953068884",
+     "vigente": true,
+     "sha256": "57390fd127c32ffdf24f27c7277d3cc7f40e5a28c1f2849c202dbe1167e7bc77",
+     "copia_git": {
+      "blob_sha": "00d0393d4197e7af90afd062496f4c54a7c05fe4",
       "ruta": null
      },
      "copias_r2": [],
@@ -1822,21 +2160,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_baleares",
-     "run_id": "41481449507",
+     "run_id": "42940350970",
      "vigente": true,
      "sha256": "5237c2ad831cbae56abac4383d02e631eb743f5f3f572e30218c8d52e6fda6a0",
      "copia_git": {
-      "blob_sha": "14a348d64550231dd2a3eddaa662013ddf740ebe",
+      "blob_sha": "fea33e3b0302e4e006256e7a0a72e15fa78af0ea",
       "ruta": "datos_abiertos/congreso_baleares/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "dd5afe1a4ac150521efa0a18abe88d0b1850ece441f8c0d06e927d0a20849d72"
+     "origen_sha256": "1e5827a60ba30171b6813bb3ad7ea931dd1a2aa56ff6cdcfd340ff68a57fe61f"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_baleares",
-     "run_id": "41481449507",
+     "run_id": "42953068884",
      "vigente": true,
      "sha256": "df5f61fb42017454c18b8c6cd9ec50c32937d020bf2c7c638f565f81cf8ab900",
      "copia_git": {
@@ -1845,7 +2183,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "37af82d713001e4a4598d2c8f2927cb319c2b8712d92de8ce4a652cee466d47a"
+     "origen_sha256": "57390fd127c32ffdf24f27c7277d3cc7f40e5a28c1f2849c202dbe1167e7bc77"
     }
    ]
   },
@@ -1869,7 +2207,7 @@
      "producto": "M06",
      "id": "m06-congreso_barcelona-42495069270",
      "run_id": "42495069270",
-     "vigente": true,
+     "vigente": false,
      "sha256": "617d479b38ed621f54892153dc14878701a98c9143feb0862631ded8a1a9780f",
      "copia_git": {
       "blob_sha": "0744f6c1365a241a24e01ec3bd48556d751908ab",
@@ -1879,13 +2217,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_barcelona-42953127263",
+     "run_id": "42953127263",
+     "vigente": true,
+     "sha256": "c274b3627542a34e946fab9bb351c3f7cc0bee1f701dfe40c078cbd365b0ed17",
+     "copia_git": {
+      "blob_sha": "b8019f184ed800f6d1d8a9b0089540399a2fcb12",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_barcelona-42495069270",
      "run_id": "42495069270",
-     "vigente": true,
+     "vigente": false,
      "sha256": "ea82f1a13863487652a200d082dd97060841a300efd3a32b49f867800eb58ab2",
      "copia_git": {
       "blob_sha": "13e085cbb2e47bdf290eef497765e460fc336bf2",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_barcelona-42953127263",
+     "run_id": "42953127263",
+     "vigente": true,
+     "sha256": "44ea0813870751cddd13b0df10adc3edacce22eaaae5a35b1af53e0962c93ca9",
+     "copia_git": {
+      "blob_sha": "1a9d93b471db4485693ce05fa46ea0ed80434b1c",
       "ruta": null
      },
      "copias_r2": [],
@@ -1908,30 +2272,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_barcelona",
-     "run_id": "42495069270",
+     "run_id": "42953127263",
      "vigente": true,
-     "sha256": "2313c958d4ee705ddeb89fb1de9e45f5e5acd657386923448bae6fabf66ae39d",
+     "sha256": "b9e624820885d5e49e49e6f41df04f3625bdb5df700c0337ebf588660c1b84c4",
      "copia_git": {
-      "blob_sha": "0744f6c1365a241a24e01ec3bd48556d751908ab",
+      "blob_sha": "b8019f184ed800f6d1d8a9b0089540399a2fcb12",
       "ruta": "datos_abiertos/congreso_barcelona/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "617d479b38ed621f54892153dc14878701a98c9143feb0862631ded8a1a9780f"
+     "origen_sha256": "c274b3627542a34e946fab9bb351c3f7cc0bee1f701dfe40c078cbd365b0ed17"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_barcelona",
-     "run_id": "42495069270",
+     "run_id": "42953127263",
      "vigente": true,
-     "sha256": "14cf4eff31c7533aa8cb29d00d833ee327a50cd9eff791dceed31a8a895324e7",
+     "sha256": "61ea8e157f80e2ad05a339e482b45c10a6a770dc84576633d1b2dd6683cfbff2",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_barcelona.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "ea82f1a13863487652a200d082dd97060841a300efd3a32b49f867800eb58ab2"
+     "origen_sha256": "44ea0813870751cddd13b0df10adc3edacce22eaaae5a35b1af53e0962c93ca9"
     }
    ]
   },
@@ -1981,10 +2345,23 @@
      "producto": "M08",
      "id": "m08-congreso_burgos-41299221887",
      "run_id": "41299221887",
-     "vigente": true,
+     "vigente": false,
      "sha256": "6000b7333941325af591735270b61ecf7053f8571f6adef71f119e744825561b",
      "copia_git": {
       "blob_sha": "74e2223eb893f175d8861db1c07ec6a7f2ca4510",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_burgos-42986581831",
+     "run_id": "42986581831",
+     "vigente": true,
+     "sha256": "204b5694ae523dfd0bec74ddb9a8b1535e7290ef94197949a39dd1e1705caebb",
+     "copia_git": {
+      "blob_sha": "b246767ba95f7fe67643bf73e5cf65fefff3bb3e",
       "ruta": null
      },
      "copias_r2": [],
@@ -2007,30 +2384,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_burgos",
-     "run_id": "41299221887",
+     "run_id": "42981415070",
      "vigente": true,
-     "sha256": "b98ff062b8b5c1074e47790b2973ebd816279f2cfdbeb64f731c0a20ce36e2f7",
+     "sha256": "b5190c07fdcf7e0323cde9f81b1a65c30d44cfb158a9d75690269e0c25a3e95a",
      "copia_git": {
-      "blob_sha": "0a04c879067138b089f7243a51c3ee20f84d952e",
+      "blob_sha": "aea4811752f105bbc564b7291129a54cc6dbde94",
       "ruta": "datos_abiertos/congreso_burgos/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "b0251dbc3a45083701ea28895ed68acf4e29a9a12514b6c13a925997b2bd1d63"
+     "origen_sha256": "efa28878e0496107e3649e5cfe495fb211d89d9288a751be5fc4312a4d695198"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_burgos",
-     "run_id": "41299221887",
+     "run_id": "42986581831",
      "vigente": true,
-     "sha256": "44f91786adb47ca84409af5a775d6c3c9ab5f1ddab9b192e7095cedece4beb9f",
+     "sha256": "8f59a5b7d92bbcbef3cd3ce6104741a3cc1902730c5f8071da2115e035cd4945",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_burgos.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "6000b7333941325af591735270b61ecf7053f8571f6adef71f119e744825561b"
+     "origen_sha256": "204b5694ae523dfd0bec74ddb9a8b1535e7290ef94197949a39dd1e1705caebb"
     }
    ]
   },
@@ -2080,10 +2457,23 @@
      "producto": "M08",
      "id": "m08-congreso_caceres-41294658600",
      "run_id": "41294658600",
-     "vigente": true,
+     "vigente": false,
      "sha256": "83808080396f08cdfa162bc6e61669f098b359442f3b9a8d962d02dcee6375f9",
      "copia_git": {
       "blob_sha": "a5118a0607c842f7fb9f96073b790d7f11f785dc",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_caceres-42953363103",
+     "run_id": "42953363103",
+     "vigente": true,
+     "sha256": "96ab074d37f32c6421578b86a0a1ba62373a17723556dfe4d6cf447b69c9c909",
+     "copia_git": {
+      "blob_sha": "c209fddde30a70b8f47b0a522223a0c09ed42e2a",
       "ruta": null
      },
      "copias_r2": [],
@@ -2106,30 +2496,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_caceres",
-     "run_id": "41294658600",
+     "run_id": "42940366579",
      "vigente": true,
-     "sha256": "fe25da04739fba0781aef376d46a0ebfbab4fd33568835dfb6066b20e307c330",
+     "sha256": "d0695fbcd35f9f5b8ec61f26c7d02e29c6c92d7aa533d8893d0d5800e4c3f514",
      "copia_git": {
-      "blob_sha": "169ddf46d52bc378f0f9f5d11a239e87d69af53d",
+      "blob_sha": "bc9c7ca637ed7432efed65d9cbc31749cc020815",
       "ruta": "datos_abiertos/congreso_caceres/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "74292d05558e5f07f44cf42cca4377d68f17eb193876cdad535444f9fabd1ea4"
+     "origen_sha256": "7c9f5c1c308db970e604d1b344c364ba6cd26f912142e629a4a9b5a771afe29b"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_caceres",
-     "run_id": "41294658600",
+     "run_id": "42953363103",
      "vigente": true,
-     "sha256": "5de4c6cb91751aa948708f153fadcf3a371516a0f66983381551b16e5115c09f",
+     "sha256": "6826335d0e49100eab60f92389549c14430b162d2ff784a23f44f21a35f06cbb",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_caceres.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "83808080396f08cdfa162bc6e61669f098b359442f3b9a8d962d02dcee6375f9"
+     "origen_sha256": "96ab074d37f32c6421578b86a0a1ba62373a17723556dfe4d6cf447b69c9c909"
     }
    ]
   },
@@ -2153,7 +2543,7 @@
      "producto": "M06",
      "id": "m06-congreso_cadiz-41500124775",
      "run_id": "41500124775",
-     "vigente": true,
+     "vigente": false,
      "sha256": "b394db0e089c1360ed02408c5ab5bb8aa8168ef32798982ad4f78e92cafa0587",
      "copia_git": {
       "blob_sha": "eafe4c846725dc28ff6321f4bcb7149fbeac1472",
@@ -2163,13 +2553,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_cadiz-42953019279",
+     "run_id": "42953019279",
+     "vigente": true,
+     "sha256": "e5bfc9965b2449b9dedb986235e4209841a97915c48b9e82b11745e659a114a6",
+     "copia_git": {
+      "blob_sha": "9a71fd9738403e5921c0b23d6c953bd208325cba",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_cadiz-41500124775",
      "run_id": "41500124775",
-     "vigente": true,
+     "vigente": false,
      "sha256": "38368bb67cdf66f3908e2b352b8f524cc8c8da7f13f728ecc89e0ffe12be4277",
      "copia_git": {
       "blob_sha": "8546ec32dc1be59241c53caecedbb4007d19f4af",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_cadiz-42953019279",
+     "run_id": "42953019279",
+     "vigente": true,
+     "sha256": "2d05227cac5a20d6769ea6a5fb2b5d84ace47e7d4497099fb7e91fc4b5cbec79",
+     "copia_git": {
+      "blob_sha": "9ecda4b43788224697fe98362ec1ad5847d10f51",
       "ruta": null
      },
      "copias_r2": [],
@@ -2192,30 +2608,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_cadiz",
-     "run_id": "41500124775",
+     "run_id": "42953019279",
      "vigente": true,
-     "sha256": "86b00940f1e29678a4e8a098ac484419cb0360f201040531d87b0ce075cf79f7",
+     "sha256": "bc9bc768be3f63ea934fda6d9fd3509243dd9d566a143d6a6f6f47dd9cbab5ed",
      "copia_git": {
-      "blob_sha": "eafe4c846725dc28ff6321f4bcb7149fbeac1472",
+      "blob_sha": "9a71fd9738403e5921c0b23d6c953bd208325cba",
       "ruta": "datos_abiertos/congreso_cadiz/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "b394db0e089c1360ed02408c5ab5bb8aa8168ef32798982ad4f78e92cafa0587"
+     "origen_sha256": "e5bfc9965b2449b9dedb986235e4209841a97915c48b9e82b11745e659a114a6"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_cadiz",
-     "run_id": "41500124775",
+     "run_id": "42953019279",
      "vigente": true,
-     "sha256": "e699180202c1fee3492822e1ba4f19aeb84b65c08ae8228bba483a9023291412",
+     "sha256": "84e90d01c11dae831d8308a13bc849601a1be0143f435430e108a14b776ec739",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_cadiz.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "38368bb67cdf66f3908e2b352b8f524cc8c8da7f13f728ecc89e0ffe12be4277"
+     "origen_sha256": "2d05227cac5a20d6769ea6a5fb2b5d84ace47e7d4497099fb7e91fc4b5cbec79"
     }
    ]
   },
@@ -2265,10 +2681,23 @@
      "producto": "M08",
      "id": "m08-congreso_cantabria-41356175674",
      "run_id": "41356175674",
-     "vigente": true,
+     "vigente": false,
      "sha256": "2c7037760841051b3ad4cfed2bdd7353d5d35efe3640767bc74fb137c1099ab1",
      "copia_git": {
       "blob_sha": "a1da06e542e1285fd2422e651fd100a60bea41e2",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_cantabria-42985965354",
+     "run_id": "42985965354",
+     "vigente": true,
+     "sha256": "76a19c93495146e33f62c0d52ec5dd80765f6b2cccdaa2d6689081ea1e6167be",
+     "copia_git": {
+      "blob_sha": "a4ea073ceee9c82721df8496c1eba4ecbd75ddab",
       "ruta": null
      },
      "copias_r2": [],
@@ -2291,30 +2720,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_cantabria",
-     "run_id": "41356175674",
+     "run_id": "42981422592",
      "vigente": true,
-     "sha256": "bfc006db4206fa987f6a2ac7a9af55c8d950cd664945d66ad0adc90408eacb4b",
+     "sha256": "4baed40850c9f193345836be405de3168da485add666024583a7bd4cea2620c4",
      "copia_git": {
-      "blob_sha": "591a9c54c496c1d04b322551c8992d480b72b353",
+      "blob_sha": "856700194d5f12dca6c39eab06fb56c62c0bca9e",
       "ruta": "datos_abiertos/congreso_cantabria/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "5ca88b82e1e9addae247e6e078ad8c2f56b0e17220fa749aee11a2c136a9d87b"
+     "origen_sha256": "b96b10336723a435a02f2d33bd4535c899cac2917f6a7b73555d3abbf7dcb8d1"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_cantabria",
-     "run_id": "41356175674",
+     "run_id": "42985965354",
      "vigente": true,
-     "sha256": "c87bf9f98ef2dbe571432768dce9567dd942baeb85d319b1d0724a20f3b6f2b5",
+     "sha256": "de90a7ae76536a3d382cf9a44e24627fa7cbb6965ac2b864be00c30eaf51fc1b",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_cantabria.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "2c7037760841051b3ad4cfed2bdd7353d5d35efe3640767bc74fb137c1099ab1"
+     "origen_sha256": "76a19c93495146e33f62c0d52ec5dd80765f6b2cccdaa2d6689081ea1e6167be"
     }
    ]
   },
@@ -2364,10 +2793,23 @@
      "producto": "M08",
      "id": "m08-congreso_castellon-41295629673",
      "run_id": "41295629673",
-     "vigente": true,
+     "vigente": false,
      "sha256": "cc185750e2c4bea56b27963e41ce0f53b6e38f06d67edd5ef9a07d971b324448",
      "copia_git": {
       "blob_sha": "c7205b34b76b9ed34c19838afecc27fe9124f135",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_castellon-42953757677",
+     "run_id": "42953757677",
+     "vigente": true,
+     "sha256": "8983bfd0e613628630c2474a210d12f7d27158dff5b8c1c1bd6be0c8ce83a7eb",
+     "copia_git": {
+      "blob_sha": "b181a6baac99523872da37f16438664bd83aa0e0",
       "ruta": null
      },
      "copias_r2": [],
@@ -2390,30 +2832,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_castellon",
-     "run_id": "41295629673",
+     "run_id": "42940377493",
      "vigente": true,
-     "sha256": "d4376a3733b50447dc5b4667e50ed454934d434a592dfb097a295f962f12f9ea",
+     "sha256": "3279bc8f7f9341a34cc1ad076b8a1d8b9482c73f8f80160286d267a630c92309",
      "copia_git": {
-      "blob_sha": "f8cfc3a7e4af0e924261c7d25c9274678ae0650b",
+      "blob_sha": "161bf8a39780a1989dee7c8b917bcac79fdb3984",
       "ruta": "datos_abiertos/congreso_castellon/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "ba5921830ce016ec27a31b6ad4fb4fcc87c53761b702fb38ae926a07ac6f88f6"
+     "origen_sha256": "d146c588faa7639e488a33fbe748fe963ffaba4ae19c88e479830735e319d226"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_castellon",
-     "run_id": "41295629673",
+     "run_id": "42953757677",
      "vigente": true,
-     "sha256": "fd400ea095b866704e584bccd16d33c0fe2c8049e0f75aa50dd487055495f87e",
+     "sha256": "4cfe99e1bb71ac17c59d911a044e6cbf773c8cf91e9937ffe740a3a1e2958778",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_castellon.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "cc185750e2c4bea56b27963e41ce0f53b6e38f06d67edd5ef9a07d971b324448"
+     "origen_sha256": "8983bfd0e613628630c2474a210d12f7d27158dff5b8c1c1bd6be0c8ce83a7eb"
     }
    ]
   },
@@ -2463,10 +2905,23 @@
      "producto": "M08",
      "id": "m08-congreso_ceuta-41250564472",
      "run_id": "41250564472",
-     "vigente": true,
+     "vigente": false,
      "sha256": "bf52c8bcb5211a4b59171777251eddbf485de6e3e1c1877acbda4c400083b9c1",
      "copia_git": {
       "blob_sha": "a4832d2fc00cc3442113ff09801c3e198433b091",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_ceuta-42985728070",
+     "run_id": "42985728070",
+     "vigente": true,
+     "sha256": "0b29d1cd07b484eba55452905afc8e536d8fe142d217af85f53e794164cf45cd",
+     "copia_git": {
+      "blob_sha": "e59429cfb031138a8cd0241efc79bd6dcf40257e",
       "ruta": null
      },
      "copias_r2": [],
@@ -2489,21 +2944,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_ceuta",
-     "run_id": "41250564472",
+     "run_id": "42981430591",
      "vigente": true,
      "sha256": "f3c8879142eb2a6bac398b7697bc4e014b32159766d6d129e34ded4ceac1d537",
      "copia_git": {
-      "blob_sha": "1be63fee48bf92fc8f5e3a6633afe2fa27c9b7ed",
+      "blob_sha": "1aaced27b5fa9d849b02d5d69208a9fbdf72791e",
       "ruta": "datos_abiertos/congreso_ceuta/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "35a0976bb4aef886cd19778051f9d84d576e6f7e9c42d778ce0d8b9b2c5c4865"
+     "origen_sha256": "210b96f1da69914011d8754ff227114aa40475e4ae45c5c82b3008b107dace4d"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_ceuta",
-     "run_id": "41250564472",
+     "run_id": "42985728070",
      "vigente": true,
      "sha256": "ee58feb986b5906a52df87a9edc8ffafa2248512af54c305d833614992a70672",
      "copia_git": {
@@ -2512,7 +2967,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "bf52c8bcb5211a4b59171777251eddbf485de6e3e1c1877acbda4c400083b9c1"
+     "origen_sha256": "0b29d1cd07b484eba55452905afc8e536d8fe142d217af85f53e794164cf45cd"
     }
    ]
   },
@@ -2562,10 +3017,23 @@
      "producto": "M08",
      "id": "m08-congreso_ciudad_real-41298749455",
      "run_id": "41298749455",
-     "vigente": true,
+     "vigente": false,
      "sha256": "9043dd0b6b5223ebfc7b3df31549b0f27acf0aa04e4ca9a2cf2c09ea41607639",
      "copia_git": {
       "blob_sha": "8c8e5d35dcedec37bdf7d7bdf6524d641aae4292",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_ciudad_real-42954776957",
+     "run_id": "42954776957",
+     "vigente": true,
+     "sha256": "f5dd1cac4259b8f3778ffe9661eea97488a02496819da26756ed11c6e4377bfe",
+     "copia_git": {
+      "blob_sha": "ecf0872821326f3935dc8de0ad7a3138ace1ad5b",
       "ruta": null
      },
      "copias_r2": [],
@@ -2588,30 +3056,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_ciudad_real",
-     "run_id": "41298749455",
+     "run_id": "42940382446",
      "vigente": true,
-     "sha256": "e484503c5aa51a8b03aca1841fb9d440907ee38b63c2396267a86d9bdb3b0796",
+     "sha256": "c83671eb3f6378e2b5c5952dac94a208710684e15c2764518d8dc82ff3774560",
      "copia_git": {
-      "blob_sha": "1ad927a5686dfbd97ee8e9682118dc1495837f0a",
+      "blob_sha": "e77a871f11f6a83fa8ae24545ca8973a5ab97c50",
       "ruta": "datos_abiertos/congreso_ciudad_real/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "0167a300e1a4df4f4c202e189bca38941b04d711fab72fc16e37294c8885f2d3"
+     "origen_sha256": "33b73401c8cabf13a59b78afa7afdbf29372546d1d2946e568c4a33d229b4908"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_ciudad_real",
-     "run_id": "41298749455",
+     "run_id": "42954776957",
      "vigente": true,
-     "sha256": "a6516419b0e9a5ca01147626ac86521ad9a0855128f5366a939887281785c4d7",
+     "sha256": "bdb9d1c2007384ca751e4230e46fd9c89dc24f766f722a1eb12fda970caa3650",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_ciudad_real.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "9043dd0b6b5223ebfc7b3df31549b0f27acf0aa04e4ca9a2cf2c09ea41607639"
+     "origen_sha256": "f5dd1cac4259b8f3778ffe9661eea97488a02496819da26756ed11c6e4377bfe"
     }
    ]
   },
@@ -2661,10 +3129,23 @@
      "producto": "M08",
      "id": "m08-congreso_cordoba-41296161083",
      "run_id": "41296161083",
-     "vigente": true,
+     "vigente": false,
      "sha256": "a73b2fba2c0fc3e598d9d8835c1ede2165f172b91313ad8a3edd129827f6cdcb",
      "copia_git": {
       "blob_sha": "6a305cf6e6310fd335bdfa87f6331b4b618ca330",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_cordoba-42953300723",
+     "run_id": "42953300723",
+     "vigente": true,
+     "sha256": "b958ed608131a050298aa6c2e11a6f91cfb50e3b8c2b5c0068733257177dbe2c",
+     "copia_git": {
+      "blob_sha": "66c383f799c48b06da5aedad71f3375955c7c699",
       "ruta": null
      },
      "copias_r2": [],
@@ -2687,30 +3168,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_cordoba",
-     "run_id": "41296161083",
+     "run_id": "42940387433",
      "vigente": true,
-     "sha256": "5bfca6646231abbcc2a2cbd9802765410accfd9c6c95968c273664b07ee5e1e2",
+     "sha256": "b98fce3fb3e7c71c7964b952fcac30ed6a09d0183c3059b8b7f377ec26d187ac",
      "copia_git": {
-      "blob_sha": "663e0d09d85983b70d2a50d47e5a0b446e304feb",
+      "blob_sha": "274aed78d91dd3fbe8031baaa73c27128883a39b",
       "ruta": "datos_abiertos/congreso_cordoba/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "10a97db73caea16a250f2e485d5d0d1bb83008a0252a99803dea6953ba7ac8c2"
+     "origen_sha256": "02d160d9183d5a5080df76df4cd1a5717b95724bb51b072889efc457d4092ebd"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_cordoba",
-     "run_id": "41296161083",
+     "run_id": "42953300723",
      "vigente": true,
-     "sha256": "50b1e805e40267e5bff4643591f95d72b8b395769e6e5582bbdcb42dd9e71670",
+     "sha256": "e76120e48f4ea2d5e3453af68f8862d03501ee66acec00cc2bc606922d5c6f92",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_cordoba.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "a73b2fba2c0fc3e598d9d8835c1ede2165f172b91313ad8a3edd129827f6cdcb"
+     "origen_sha256": "b958ed608131a050298aa6c2e11a6f91cfb50e3b8c2b5c0068733257177dbe2c"
     }
    ]
   },
@@ -2760,10 +3241,23 @@
      "producto": "M08",
      "id": "m08-congreso_cuenca-41294075778",
      "run_id": "41294075778",
-     "vigente": true,
+     "vigente": false,
      "sha256": "83adf6ad7d78ab09f78d5be88d355f3fd06fb98aa04feda2f3353c0ff4508360",
      "copia_git": {
       "blob_sha": "e29e727992f394a06e730933715684cf5421b5c1",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_cuenca-42954007732",
+     "run_id": "42954007732",
+     "vigente": true,
+     "sha256": "f69e6b83a6058a5aa4bfe3fcb6e6dd4457e43a19a58283378dc6b51e3e9335c7",
+     "copia_git": {
+      "blob_sha": "ab35eaf2c743ab11d0b3fcdf89a59832d5828291",
       "ruta": null
      },
      "copias_r2": [],
@@ -2786,30 +3280,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_cuenca",
-     "run_id": "41294075778",
+     "run_id": "42940397668",
      "vigente": true,
-     "sha256": "61c194c1b234e16550bfc24dbe69732671c9f00f1d090d3c2d335841f6428e6c",
+     "sha256": "1dd9302ef571d368d0d1d70268787efd794bcd31c561e1355d00478924f48775",
      "copia_git": {
-      "blob_sha": "23e6a88cc3538afac3f92544faf1fd4455098fab",
+      "blob_sha": "d9f9820634141c25e3982ca179ee675afc7ef1f1",
       "ruta": "datos_abiertos/congreso_cuenca/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "4746490207d3abd662af430dfa3a104456cd065c165b4645271170a006c004e0"
+     "origen_sha256": "ad4162ef39551c15855ecf0ba9131fc8f6b73284f9a89366261135144ff807c9"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_cuenca",
-     "run_id": "41294075778",
+     "run_id": "42954007732",
      "vigente": true,
-     "sha256": "f23a2a27f754aad2a618e135d4c926aa763e4833a8fe4615012450be66eb6207",
+     "sha256": "e307b38364c1bddc11e97ec74fe47f2df3aec5fe47bca0b64c9431f5e8932af7",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_cuenca.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "83adf6ad7d78ab09f78d5be88d355f3fd06fb98aa04feda2f3353c0ff4508360"
+     "origen_sha256": "f69e6b83a6058a5aa4bfe3fcb6e6dd4457e43a19a58283378dc6b51e3e9335c7"
     }
    ]
   },
@@ -2859,10 +3353,23 @@
      "producto": "M08",
      "id": "m08-congreso_gerona-41298839274",
      "run_id": "41298839274",
-     "vigente": true,
+     "vigente": false,
      "sha256": "1169c1af58a034bf2649fa6fce91beaa802dac51242d159eef2dd09ff22094a5",
      "copia_git": {
       "blob_sha": "be43a21eb06fe0b2b9464ba122339d24f2f476e3",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_gerona-42954957703",
+     "run_id": "42954957703",
+     "vigente": true,
+     "sha256": "846059d87675b9256ee06e70cc44af86bcb4945e61594fddb180bf9405d0b716",
+     "copia_git": {
+      "blob_sha": "179d294c75bce0bd123b57f9db67bb28ec98e0e7",
       "ruta": null
      },
      "copias_r2": [],
@@ -2885,30 +3392,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_gerona",
-     "run_id": "41298839274",
+     "run_id": "42940402050",
      "vigente": true,
-     "sha256": "a928b3731d9ae2a57561599b06bccbac68faadad74439bfaf597c320df1f0a09",
+     "sha256": "7ec3a151700ec36411222297ca7610e53f30c71b3001e3932df9fb0cf4628b1e",
      "copia_git": {
-      "blob_sha": "4f8354e9752910baa53ea70f75604eba11d99bd3",
+      "blob_sha": "5216c4802dbd82c5501b1ddd8feccd1f2e46edf3",
       "ruta": "datos_abiertos/congreso_gerona/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "cd4875419859e9ab2e079b4352e41271bcc501a9ad98b4c7f941d32d0022e2c7"
+     "origen_sha256": "3896ecdd446b9095ce944ad916205460438783cf9375ffc941b4da351ba0db3a"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_gerona",
-     "run_id": "41298839274",
+     "run_id": "42954957703",
      "vigente": true,
-     "sha256": "547f36e2bd9f69fd3c6bc954e4c583c926a51a9c646b00454501939400da3e6d",
+     "sha256": "070252af622080262e8c2e00b06ffe133f8fe8725e87a83218ec8b9a9e68f9d3",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_gerona.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "1169c1af58a034bf2649fa6fce91beaa802dac51242d159eef2dd09ff22094a5"
+     "origen_sha256": "846059d87675b9256ee06e70cc44af86bcb4945e61594fddb180bf9405d0b716"
     }
    ]
   },
@@ -2958,10 +3465,23 @@
      "producto": "M08",
      "id": "m08-congreso_granada-41296546816",
      "run_id": "41296546816",
-     "vigente": true,
+     "vigente": false,
      "sha256": "a2a328d209bcc569c3405645411a2f88d0931ba415e219c0528bd1262656908f",
      "copia_git": {
       "blob_sha": "c66245657ddefc1de11baec0ff20d26de25900ef",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_granada-42954091088",
+     "run_id": "42954091088",
+     "vigente": true,
+     "sha256": "8cfc3a27a1d027b02e6b4ac7d5cdab4f4f89fd2e0fe4bdaa71e650f35a4eeb46",
+     "copia_git": {
+      "blob_sha": "b2399d8d12f7135d4084cb72fb0619e44a12ea95",
       "ruta": null
      },
      "copias_r2": [],
@@ -2984,30 +3504,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_granada",
-     "run_id": "41296546816",
+     "run_id": "42940407337",
      "vigente": true,
-     "sha256": "d6b96886cfc541b89ed63bdcd25f32ca9a19f0ad2e5341797342ac4f195f9700",
+     "sha256": "c60f5a20ba6bc44d6cb628423426a4b8c933f45510bac5b1e10770798a696abb",
      "copia_git": {
-      "blob_sha": "611bf9348182615c952e6fa6b708bd60cd89905a",
+      "blob_sha": "fbc30b0d8fb9dbb784d9e05e229019290aac5527",
       "ruta": "datos_abiertos/congreso_granada/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "6eeb3324efed451f190cc4f2c7aeb1325c19783364a9f965a778d165ad52c1c6"
+     "origen_sha256": "345321bf866324ec8f6375625d687077d4823c49d3e0f051727a4be8c9edcaa1"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_granada",
-     "run_id": "41296546816",
+     "run_id": "42954091088",
      "vigente": true,
-     "sha256": "594cfd4cfba8653d81bfe8fbd628a28fcf2ce30f2405c5bc4541cd99c4e4fb5a",
+     "sha256": "a8cc6581642494c1ea06348e86f3f53042a8dfb3bd63ac630b23a75484fc9567",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_granada.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "a2a328d209bcc569c3405645411a2f88d0931ba415e219c0528bd1262656908f"
+     "origen_sha256": "8cfc3a27a1d027b02e6b4ac7d5cdab4f4f89fd2e0fe4bdaa71e650f35a4eeb46"
     }
    ]
   },
@@ -3057,10 +3577,23 @@
      "producto": "M08",
      "id": "m08-congreso_guadalajara-41294169221",
      "run_id": "41294169221",
-     "vigente": true,
+     "vigente": false,
      "sha256": "3b7ecae22e0ec5f125b6d0fdcaa0960ed1fd36b31b8d3ca9311e18fbf5d30f8e",
      "copia_git": {
       "blob_sha": "4b459fd17245300468949ff20e2f119018d5c792",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_guadalajara-42955217289",
+     "run_id": "42955217289",
+     "vigente": true,
+     "sha256": "8654c3a680cd7a356987e6f39da01c8da37989af7c226d493a6cd1307be6bbff",
+     "copia_git": {
+      "blob_sha": "467f8ab318110b4ede064453db74a90bae3379de",
       "ruta": null
      },
      "copias_r2": [],
@@ -3083,30 +3616,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_guadalajara",
-     "run_id": "41294169221",
+     "run_id": "42940412378",
      "vigente": true,
-     "sha256": "8adc51ffc0034b0f03af844b1bf6e781d84b87430bf34073951384f353882c06",
+     "sha256": "b4df620bde5442db301564aded4f2fde6758c8d6e5864a3ba62493d6ac832667",
      "copia_git": {
-      "blob_sha": "cecdd9f8b243296d1e43202b560ba9614cd08d2b",
+      "blob_sha": "750da519d72f63c6c63daef3bd685d98c13cdc03",
       "ruta": "datos_abiertos/congreso_guadalajara/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "92cb51d9b623af9db3f703d87b1c488e59302c38c735a7033590fed2db871e21"
+     "origen_sha256": "cf978d1e06761d53f80e31e9ce06e8fba1e50a81d2456d8cf5c4fe600c66df70"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_guadalajara",
-     "run_id": "41294169221",
+     "run_id": "42955217289",
      "vigente": true,
-     "sha256": "68ed72c90ad75342c1c8e77412115e742024db0dccaa25aaa8c2a0f71df54dac",
+     "sha256": "ed5c12cf69b9eb0af95e56b61c20cb26152a72dc90b37bf690d67eff48995bbd",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_guadalajara.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "3b7ecae22e0ec5f125b6d0fdcaa0960ed1fd36b31b8d3ca9311e18fbf5d30f8e"
+     "origen_sha256": "8654c3a680cd7a356987e6f39da01c8da37989af7c226d493a6cd1307be6bbff"
     }
    ]
   },
@@ -3156,10 +3689,23 @@
      "producto": "M08",
      "id": "m08-congreso_guipuzcoa-41298935355",
      "run_id": "41298935355",
-     "vigente": true,
+     "vigente": false,
      "sha256": "c4de333c005dc0963859a1b4a79058ba7547b8a7642a611a88ff7c03e5e507a8",
      "copia_git": {
       "blob_sha": "60f963a2c858c3770717a55e830cad0352a2e824",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_guipuzcoa-42955375065",
+     "run_id": "42955375065",
+     "vigente": true,
+     "sha256": "2b133f68d5548139f47cf454dde6e11bda31b10a0aa620429bbdd48592d8a7a1",
+     "copia_git": {
+      "blob_sha": "707c5fc27b8c6354c876d97f8408f07794d998a0",
       "ruta": null
      },
      "copias_r2": [],
@@ -3182,30 +3728,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_guipuzcoa",
-     "run_id": "41298935355",
+     "run_id": "42940417361",
      "vigente": true,
-     "sha256": "f617051cd118dbe363c703dc2d2866531b1ef83ae49cec9c506dc30a1142a12c",
+     "sha256": "d4fb4a74a1ea7d180313e2ba295a9d214bf5c903bcfa8a088e61b44df7b49bc0",
      "copia_git": {
-      "blob_sha": "16e92009efc458b946eb2fd4e163801d99045782",
+      "blob_sha": "df6e88e5d9921d07f878f7913555015526af655c",
       "ruta": "datos_abiertos/congreso_guipuzcoa/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "f6d52eb83af59f0d3e39c6154e6825a0b1ad6615bc6c9ad19fb5c881401159c2"
+     "origen_sha256": "0e16547a9d00cc7ae7b058eb30c6361810b735f39e922584f40b7b338152b1a5"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_guipuzcoa",
-     "run_id": "41298935355",
+     "run_id": "42955375065",
      "vigente": true,
-     "sha256": "52ed95e35a7ba6172a43eb0ea24dcc9726368197fd2b8271fcd7f25213e994be",
+     "sha256": "c5f869a905099d598f173310ecf4c28df56e198094b3bbc39e7fded4aec8bdb7",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_guipuzcoa.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "c4de333c005dc0963859a1b4a79058ba7547b8a7642a611a88ff7c03e5e507a8"
+     "origen_sha256": "2b133f68d5548139f47cf454dde6e11bda31b10a0aa620429bbdd48592d8a7a1"
     }
    ]
   },
@@ -3255,10 +3801,23 @@
      "producto": "M08",
      "id": "m08-congreso_huelva-41335929678",
      "run_id": "41335929678",
-     "vigente": true,
+     "vigente": false,
      "sha256": "6429e064b015f19ec848fb884a555629e5efd8c4d3c305b7241b2b5147cba059",
      "copia_git": {
       "blob_sha": "c7d817affd289cde0c069594366b0b4d929c628b",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_huelva-42996002594",
+     "run_id": "42996002594",
+     "vigente": true,
+     "sha256": "671440cea9285580bff6faf334652e419677f9a2c7115df8a554c6f66aea8303",
+     "copia_git": {
+      "blob_sha": "9791d3198576616af407c789e0931b149d9fdde6",
       "ruta": null
      },
      "copias_r2": [],
@@ -3281,30 +3840,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_huelva",
-     "run_id": "41335929678",
+     "run_id": "42991542477",
      "vigente": true,
-     "sha256": "f2ac52213c0e38d49e59a5c6e5a9de18a48bfb948d6b5bfd6a3e3ad69d70a568",
+     "sha256": "c9856e5b50416f99a070430b5b6a9818e91f74647cc43a37fc60bf0205749d26",
      "copia_git": {
-      "blob_sha": "dcf873c77be2c95769c800bb9a3fd65c827fa735",
+      "blob_sha": "3fcb48e3c68dc40278539c99398327406ca7b93d",
       "ruta": "datos_abiertos/congreso_huelva/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "c74b2145c223cf9a05e0e4d259e193950d07100e89c1c793537109340742db4e"
+     "origen_sha256": "83612d8c4ae47ca293a5c74f667210c03decfc509fff382147c1a11fdf6de62f"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_huelva",
-     "run_id": "41335929678",
+     "run_id": "42996002594",
      "vigente": true,
-     "sha256": "cdb5f4554e0c5791e253ec506aecb01af1fef60822b728fc2449268d39f7bf2e",
+     "sha256": "4b812742101a79d4841b375ee8c1f45b8b913e8313c1bae62d086c9f37b43a65",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_huelva.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "6429e064b015f19ec848fb884a555629e5efd8c4d3c305b7241b2b5147cba059"
+     "origen_sha256": "671440cea9285580bff6faf334652e419677f9a2c7115df8a554c6f66aea8303"
     }
    ]
   },
@@ -3380,10 +3939,23 @@
      "producto": "M08",
      "id": "m08-congreso_huesca-42519383275",
      "run_id": "42519383275",
-     "vigente": true,
+     "vigente": false,
      "sha256": "d696905987ae5b5f4a95e99957f2629583d2700ad63bc67e43f31117e03b6bd3",
      "copia_git": {
       "blob_sha": "d9501b1b659ac4b4cd381b510db6f8e07beebba6",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_huesca-42996217596",
+     "run_id": "42996217596",
+     "vigente": true,
+     "sha256": "9d66937af2005faf4de2e0608e0d02cab6b8a0e70a937fabe93dad1dab434d0b",
+     "copia_git": {
+      "blob_sha": "e40d27c9b4033d3a18188e100b5f5f51399b1cc9",
       "ruta": null
      },
      "copias_r2": [],
@@ -3406,30 +3978,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_huesca",
-     "run_id": "42519383275",
+     "run_id": "42991551418",
      "vigente": true,
-     "sha256": "6ed0da001232a4fb5349bc5ea32aad45bc7d2f44f6eb341ea967b6df5225ae94",
+     "sha256": "364987b27314e6910ea426826e36230ca72ad76a2568f8018b815246525ee600",
      "copia_git": {
-      "blob_sha": "81c4e7b34bc2f60b6e45b05547199c53e80b8fd5",
+      "blob_sha": "ac7ae90cdf245fc41af3fcaa85ed2df8f868d62a",
       "ruta": "datos_abiertos/congreso_huesca/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "d023d782e7c5dbb8acce4b9c480daa56709f4fa77bef2e6036c8ab49f1c75e61"
+     "origen_sha256": "4721e5c3e32b12afd4644f2ea93b25fa27ce7077fd71de847bc2ad0c300d04c1"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_huesca",
-     "run_id": "42519383275",
+     "run_id": "42996217596",
      "vigente": true,
-     "sha256": "27002a7d1e56ddb6ad5938482efaf788b64395bf0be3d3afebc792489ef73b82",
+     "sha256": "87cb14adf8ea0721136dd88b45ae14fc97123fdd3b9f75a4977ba540afa6fd8a",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_huesca.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "d696905987ae5b5f4a95e99957f2629583d2700ad63bc67e43f31117e03b6bd3"
+     "origen_sha256": "9d66937af2005faf4de2e0608e0d02cab6b8a0e70a937fabe93dad1dab434d0b"
     }
    ]
   },
@@ -3453,7 +4025,7 @@
      "producto": "M06",
      "id": "m06-congreso_jaen-41295799269",
      "run_id": "41295799269",
-     "vigente": true,
+     "vigente": false,
      "sha256": "b13230763d2b9859ad314b379cf6250c615a757c0ef01f242270aa26eaee8a23",
      "copia_git": {
       "blob_sha": "b94f3a6ca6d1f1baac161fba38132ab6a6f6bd41",
@@ -3463,13 +4035,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_jaen-42955644352",
+     "run_id": "42955644352",
+     "vigente": true,
+     "sha256": "d673936b7a3fa662ed61dd98b136995e46caceff70b0d87ed75295b6dfcd8451",
+     "copia_git": {
+      "blob_sha": "0f42227c28ac6ad3f825bf9b5827c30b0812d94b",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_jaen-41295799269",
      "run_id": "41295799269",
-     "vigente": true,
+     "vigente": false,
      "sha256": "6eed4c39a538c1704452dd1fbae1895996a55a9bbb3e858d169c95162264d131",
      "copia_git": {
       "blob_sha": "3900d16071e2391c7627166599ff06815dd25467",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_jaen-42955644352",
+     "run_id": "42955644352",
+     "vigente": true,
+     "sha256": "f036df4405fec4b0d2feb44a9bdb17f8bb23a6f4756926231042aaf7ebf30e33",
+     "copia_git": {
+      "blob_sha": "bcfea6bcace9bfd0a408ee225954c93a7bfcb550",
       "ruta": null
      },
      "copias_r2": [],
@@ -3492,30 +4090,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_jaen",
-     "run_id": "41295799269",
+     "run_id": "42955644352",
      "vigente": true,
-     "sha256": "2123e0eb4283cfb09f93246da997c10479c06c6b304a2c1bf8e5bb51f5db5f64",
+     "sha256": "d2dbf37298c923fa652d2a069b8ab67783cbedbc50f7bd18c3394062b9c106ac",
      "copia_git": {
-      "blob_sha": "b94f3a6ca6d1f1baac161fba38132ab6a6f6bd41",
+      "blob_sha": "0f42227c28ac6ad3f825bf9b5827c30b0812d94b",
       "ruta": "datos_abiertos/congreso_jaen/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "b13230763d2b9859ad314b379cf6250c615a757c0ef01f242270aa26eaee8a23"
+     "origen_sha256": "d673936b7a3fa662ed61dd98b136995e46caceff70b0d87ed75295b6dfcd8451"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_jaen",
-     "run_id": "41295799269",
+     "run_id": "42955644352",
      "vigente": true,
-     "sha256": "4f59e0a257ae31a48c067a8de3d6eacbaaf515984020ccac77c939161441a490",
+     "sha256": "c22146346a9120d48751e1f4bbda0190dd3f995b4a31aeecdbf5b4d80dc94422",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_jaen.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "6eed4c39a538c1704452dd1fbae1895996a55a9bbb3e858d169c95162264d131"
+     "origen_sha256": "f036df4405fec4b0d2feb44a9bdb17f8bb23a6f4756926231042aaf7ebf30e33"
     }
    ]
   },
@@ -3565,10 +4163,23 @@
      "producto": "M08",
      "id": "m08-congreso_la_coruna-41296991598",
      "run_id": "41296991598",
-     "vigente": true,
+     "vigente": false,
      "sha256": "5f0207d23a52eb770d1ee7d600b92cf7eaaa31b4d2d3a5de06f0d83e75216123",
      "copia_git": {
       "blob_sha": "db13655c6e54dfa14152a9b337507aeddf98f248",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_la_coruna-42953518518",
+     "run_id": "42953518518",
+     "vigente": true,
+     "sha256": "a1a013480ac475b23b8542f59ec9c64e8e996eaa4ca585d356838c5daf7d5af3",
+     "copia_git": {
+      "blob_sha": "4e43ca4deb9bcf90b4ac25fba90c939ff7f881b6",
       "ruta": null
      },
      "copias_r2": [],
@@ -3591,30 +4202,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_la_coruna",
-     "run_id": "41296991598",
+     "run_id": "42940392520",
      "vigente": true,
-     "sha256": "0cc420300dc4c5b71aa8269f590ef307a63bb55a1a2c1e82faf49cd4e8fc9899",
+     "sha256": "2772d29e3e12031332d155287f5629fd07beb1c50ee853fdeadf3caf5347b5fe",
      "copia_git": {
-      "blob_sha": "58991b5796314eb5a9baf0ed6560f80209294806",
+      "blob_sha": "06777d9caabf0f6043802656373c2056e950d09c",
       "ruta": "datos_abiertos/congreso_la_coruna/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "4ad7c2aebcae10814e7c88492178abeb4f9633a0d48999714990d795940767cc"
+     "origen_sha256": "16112b6d820b8b098e035e1f7b1ed18f3bcfe6315073c1020adf8423eefa489e"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_la_coruna",
-     "run_id": "41296991598",
+     "run_id": "42953518518",
      "vigente": true,
-     "sha256": "833b9b82f9a0172dbfabb472551dba949209d18f99f25a330e68f976de010893",
+     "sha256": "2042d3dbe2720ce4a1b69ab33c7e4ad80b2d07dbfa7da65840da6c6c6e62dbcd",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_la_coruna.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "5f0207d23a52eb770d1ee7d600b92cf7eaaa31b4d2d3a5de06f0d83e75216123"
+     "origen_sha256": "a1a013480ac475b23b8542f59ec9c64e8e996eaa4ca585d356838c5daf7d5af3"
     }
    ]
   },
@@ -3690,10 +4301,23 @@
      "producto": "M08",
      "id": "m08-congreso_la_rioja-42504388624",
      "run_id": "42504388624",
-     "vigente": true,
+     "vigente": false,
      "sha256": "487cd056d84a2f739f53584db3a3b9ca9fd646560ba2fc4f07db6f0c7950be93",
      "copia_git": {
       "blob_sha": "154e3e045a1cbff4ca36261274fec53eedb52c0c",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_la_rioja-42935762636",
+     "run_id": "42935762636",
+     "vigente": true,
+     "sha256": "c0f553f062d2536254d0bdff43753970553c185e23ef48568d5012c2201ea35d",
+     "copia_git": {
+      "blob_sha": "3c23a46238e562648c1e900439c36bd066d3ea23",
       "ruta": null
      },
      "copias_r2": [],
@@ -3716,16 +4340,16 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_la_rioja",
-     "run_id": "42504388624",
+     "run_id": "42932144515",
      "vigente": true,
-     "sha256": "d025da924014522a77e803708098d4a75c27587c26483b4fb92fda998393f31b",
+     "sha256": "f79199a9c31f5e8a24c88c00bed21e1005ce7427f5ea6fd6c62b12eef2593db4",
      "copia_git": {
-      "blob_sha": "b89ec148d92075dacfc2f24667de95d066742397",
+      "blob_sha": "b524de809c234656f8d83d756fa38a744d7d32f2",
       "ruta": "datos_abiertos/congreso_la_rioja/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "e955fa90ad03ba89552f6d925d262d9fa24e8e7e02700e1fe8a4e47e39cdf96d"
+     "origen_sha256": "f9b8d75a7c848d71ee4cc9206bdfd4fc82661a0ab83ddfe6cb40ac2c6a5eb677"
     },
     {
      "producto": "ensemble",
@@ -3744,16 +4368,16 @@
     {
      "producto": "resultados",
      "id": "resultados-congreso_la_rioja",
-     "run_id": "42504388624",
+     "run_id": "42935762636",
      "vigente": true,
-     "sha256": "c694a53913ec76b8e3015c26e3aa3bd01a48a496e214f7b8116d13c9874213b7",
+     "sha256": "2a043015f24a032c2bc64a165d700ae45f2383120ac9a01da83fd5878c9229bf",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_la_rioja.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "487cd056d84a2f739f53584db3a3b9ca9fd646560ba2fc4f07db6f0c7950be93"
+     "origen_sha256": "c0f553f062d2536254d0bdff43753970553c185e23ef48568d5012c2201ea35d"
     }
    ]
   },
@@ -3803,10 +4427,23 @@
      "producto": "M08",
      "id": "m08-congreso_las_palmas-41442913288",
      "run_id": "41442913288",
-     "vigente": true,
+     "vigente": false,
      "sha256": "755bf11e259d520443e0e2550eaeb50494f0bd54e355246b6cf8822a727a24a0",
      "copia_git": {
       "blob_sha": "dc9480466ab380c928492c554cc1f11c7bdde9c2",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_las_palmas-42998268332",
+     "run_id": "42998268332",
+     "vigente": true,
+     "sha256": "baccdf4c503453aecc82998880acf9f27f7a9f0999faa70723ef8bea4aae5da6",
+     "copia_git": {
+      "blob_sha": "0d6f9580ebb78ce6b53a4ca226db79c5fafb97cc",
       "ruta": null
      },
      "copias_r2": [],
@@ -3829,30 +4466,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_las_palmas",
-     "run_id": "41442913288",
+     "run_id": "42991561887",
      "vigente": true,
-     "sha256": "8e3e5a975619f370cc90ae02f97b1741efd7f35cf36787e25e6c9962ddd737a4",
+     "sha256": "17ac441c80eb7df3b1363fee3c9975a9fe7b94cf19b9c57e17ac0bc00e583823",
      "copia_git": {
-      "blob_sha": "fc8b114d71a67855b6f81d3f76f3ea0280f3825d",
+      "blob_sha": "572b8e10d97bdb3bfa0f857194ac61eafc93fa44",
       "ruta": "datos_abiertos/congreso_las_palmas/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "e1085a9d926a560620e68ed7999f033bd5323396a407b85751742c9658a83d87"
+     "origen_sha256": "b9945b0fc585ad024a954508dcb9d6094c93e6c9b42d65d1281495a5b58ff032"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_las_palmas",
-     "run_id": "41442913288",
+     "run_id": "42998268332",
      "vigente": true,
-     "sha256": "d527bba59d5e16f1e9afda3577cf31ea8629f494b19c3f3f0a83dbdc8ec96c20",
+     "sha256": "eed9619e8fb3983fb74de3d50950495c21a3535737819dfe645540bfa12274a9",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_las_palmas.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "755bf11e259d520443e0e2550eaeb50494f0bd54e355246b6cf8822a727a24a0"
+     "origen_sha256": "baccdf4c503453aecc82998880acf9f27f7a9f0999faa70723ef8bea4aae5da6"
     }
    ]
   },
@@ -3928,10 +4565,23 @@
      "producto": "M08",
      "id": "m08-congreso_leon-41629735636",
      "run_id": "41629735636",
-     "vigente": true,
+     "vigente": false,
      "sha256": "3a968b922dc3d7f741287c607bbeec812da129be44a95ceeebbef2bc137a9710",
      "copia_git": {
       "blob_sha": "fb9b05561399abd89a4c06bb3251d5d28712acc4",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_leon-42996717873",
+     "run_id": "42996717873",
+     "vigente": true,
+     "sha256": "cceffd959e104fb97989cb36c271ae1744d6d22b872f164702e0e47f8307472e",
+     "copia_git": {
+      "blob_sha": "5c9f47c00ed72acda7d2e503657fe3d8071ca769",
       "ruta": null
      },
      "copias_r2": [],
@@ -3954,30 +4604,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_leon",
-     "run_id": "41629735636",
+     "run_id": "42991571678",
      "vigente": true,
-     "sha256": "377c7744a5dfc98d7503d0b413cc8375aa936132bf80e7e3187b1203d5e3a299",
+     "sha256": "d472ac3bc8537260c18ece283c869a433c26bf3140df19a9d4293e96e98e4285",
      "copia_git": {
-      "blob_sha": "d3f23897b735597b20e0b4a3ae4d0acc8332ece2",
+      "blob_sha": "a41bb057ea4160c6a82aee2916030687576202fd",
       "ruta": "datos_abiertos/congreso_leon/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "64e44b77dcd81fee3f82ee7698112ee038c54837652c805485c720c9b4fc1025"
+     "origen_sha256": "0c7a63ef0f604d254ccc9e5ea018d9f6f5a0deb5a0c74e52cb57459123b87f9d"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_leon",
-     "run_id": "41629735636",
+     "run_id": "42996717873",
      "vigente": true,
-     "sha256": "8014c472b0b9254579d7511479944769589b5a2d954d9c26dd7aa04d5766bacc",
+     "sha256": "7eca884ea8b700736abebf23575c8931fcafc48a7c1c3aede4dfb82e2b340594",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_leon.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "3a968b922dc3d7f741287c607bbeec812da129be44a95ceeebbef2bc137a9710"
+     "origen_sha256": "cceffd959e104fb97989cb36c271ae1744d6d22b872f164702e0e47f8307472e"
     }
    ]
   },
@@ -4001,7 +4651,7 @@
      "producto": "M06",
      "id": "m06-congreso_lerida-41299033915",
      "run_id": "41299033915",
-     "vigente": true,
+     "vigente": false,
      "sha256": "cc6ac03c68b83abe4c832a7d29f034522f690fa7480cce2752a74bc94d975af1",
      "copia_git": {
       "blob_sha": "1c7a7c7d4f77c71bc0a7ccd78a9eea630f3392e4",
@@ -4011,13 +4661,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_lerida-43064129984",
+     "run_id": "43064129984",
+     "vigente": true,
+     "sha256": "53e7a0544bc6acb08d0024b4018dae9a79f5d00bddf72bb6595059911e7cba95",
+     "copia_git": {
+      "blob_sha": "b2128bf91aca7785efef6b981611f0d037edb895",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_lerida-41299033915",
      "run_id": "41299033915",
-     "vigente": true,
+     "vigente": false,
      "sha256": "3d32113c7d227d7a62cea95f35612e5939d9f165c8b10c97f8ed05cdd5d94dc7",
      "copia_git": {
       "blob_sha": "95da3c81fe54d39d5c249d961d30fb9286729695",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_lerida-43064129984",
+     "run_id": "43064129984",
+     "vigente": true,
+     "sha256": "7aa1e710aa78526de0edd63d7b9cb1f9aff9d8d62c50890f66a7e76e1a058531",
+     "copia_git": {
+      "blob_sha": "38471b2b29ae6c60705b15c70568dd16316c0ca4",
       "ruta": null
      },
      "copias_r2": [],
@@ -4040,30 +4716,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_lerida",
-     "run_id": "41299033915",
+     "run_id": "43064129984",
      "vigente": true,
-     "sha256": "e09d6f70683dcf1d5f6e29e99ff7cfe30381a4dc1f460669f670d09cac26d6fe",
+     "sha256": "413fbda652fa505431804020a035fdd39ad38c25035f461e3a66bea4cd905f23",
      "copia_git": {
-      "blob_sha": "1c7a7c7d4f77c71bc0a7ccd78a9eea630f3392e4",
+      "blob_sha": "b2128bf91aca7785efef6b981611f0d037edb895",
       "ruta": "datos_abiertos/congreso_lerida/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "cc6ac03c68b83abe4c832a7d29f034522f690fa7480cce2752a74bc94d975af1"
+     "origen_sha256": "53e7a0544bc6acb08d0024b4018dae9a79f5d00bddf72bb6595059911e7cba95"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_lerida",
-     "run_id": "41299033915",
+     "run_id": "43064129984",
      "vigente": true,
-     "sha256": "be64820d5e45a0194c08a7917fd77dc1d83ad32cd11df64bde6d6aa2caff1c8c",
+     "sha256": "bd81485b4409e78bdfc52ce92c2c8e151d142656dd82b2e8ac88b1f9cf4d217f",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_lerida.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "3d32113c7d227d7a62cea95f35612e5939d9f165c8b10c97f8ed05cdd5d94dc7"
+     "origen_sha256": "7aa1e710aa78526de0edd63d7b9cb1f9aff9d8d62c50890f66a7e76e1a058531"
     }
    ]
   },
@@ -4139,10 +4815,23 @@
      "producto": "M08",
      "id": "m08-congreso_lugo-42514986960",
      "run_id": "42514986960",
-     "vigente": true,
+     "vigente": false,
      "sha256": "bd1a437af587cd89001327e2145a2ea16f3b41d2921cf33c0a471dbb0d32b87f",
      "copia_git": {
       "blob_sha": "ffffea11b298fa3c7a002852c14a1452f05337a1",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_lugo-42995722473",
+     "run_id": "42995722473",
+     "vigente": true,
+     "sha256": "16f7e61620034eb5b72811e15bf1aa48c140714c02d3a4644aed6c656a9e9086",
+     "copia_git": {
+      "blob_sha": "9619ea1f7234be5e26a56a57aa9c13dbc7135de1",
       "ruta": null
      },
      "copias_r2": [],
@@ -4165,30 +4854,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_lugo",
-     "run_id": "42514986960",
+     "run_id": "42991580539",
      "vigente": true,
-     "sha256": "66cc670dbe293978b6af92a4be0979b02eb0c293ed80c181e9518628ff232f27",
+     "sha256": "b15ea69e745794771140977ec08088aa90b48ba9f6553af7e73189860e8768ea",
      "copia_git": {
-      "blob_sha": "a0dc4c1bb56192d413ff6bdd2463d2b5aa1f9989",
+      "blob_sha": "5db6eb7360dc40eb89296b04d690269d7e86b132",
       "ruta": "datos_abiertos/congreso_lugo/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "8ed9e81b67604dc078a5bad7d2a1523e39f44b3902dcf18f4db2d640de0a013b"
+     "origen_sha256": "5e9cf8c228a6d0afd74e468bd097d33dafec32635778ee6a67220cc07ef45ee0"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_lugo",
-     "run_id": "42514986960",
+     "run_id": "42995722473",
      "vigente": true,
-     "sha256": "f804d131ce3221ef628d9114a15d85fb8353e7227c3d460ba9a2064366733803",
+     "sha256": "5c3d874ccd329b2cc07153df098c1f413ef4b381969357e6f13a0f5082d74218",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_lugo.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "bd1a437af587cd89001327e2145a2ea16f3b41d2921cf33c0a471dbb0d32b87f"
+     "origen_sha256": "16f7e61620034eb5b72811e15bf1aa48c140714c02d3a4644aed6c656a9e9086"
     }
    ]
   },
@@ -4238,10 +4927,23 @@
      "producto": "M08",
      "id": "m08-congreso_madrid-41622703086",
      "run_id": "41622703086",
-     "vigente": true,
+     "vigente": false,
      "sha256": "0b3b809db79a79619d10ac8452ed45c454834bb3490a58fa3838a9e54b35e5c0",
      "copia_git": {
       "blob_sha": "24c734823516a69d1a23cb59bc0d627c2bc69de1",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_madrid-43006307734",
+     "run_id": "43006307734",
+     "vigente": true,
+     "sha256": "fab3baa705973a340918592c216d7ae13128367c2287e6bf3593eeea7eb6800b",
+     "copia_git": {
+      "blob_sha": "4e4998a31b684d1d90797201d618c553251e3774",
       "ruta": null
      },
      "copias_r2": [],
@@ -4264,30 +4966,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_madrid",
-     "run_id": "41622703086",
+     "run_id": "43001749134",
      "vigente": true,
-     "sha256": "f896d52f446169c689241a0926cf8b2391412b74c7c89359fbcd98be6b5b8edf",
+     "sha256": "e3c2a7e560a9abfee6a863741bea4e218fda21c3b4539bd75e4e4af1af938272",
      "copia_git": {
-      "blob_sha": "f58540de9091b77168047562c0a669cd68b20ef9",
+      "blob_sha": "28d9e6aa3da82c495032f3a69b188da1f9a56505",
       "ruta": "datos_abiertos/congreso_madrid/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "c0be80d0d15d89d9929c0400a278a9abcfe31131726fd870790984ab7c06b029"
+     "origen_sha256": "c8b673f6110ed16a6f7280a73dce494d30965e59dd5f59e3fff302a57d4b5a6a"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_madrid",
-     "run_id": "41622703086",
+     "run_id": "43006307734",
      "vigente": true,
-     "sha256": "f1c7c301e1307450de258dc34d2a70d2c6fb9e9c2053bbe9d04b438efbbde0d8",
+     "sha256": "42a6f4c18b13ce986585ea07076c8f8d910c6aa47e75d2cb156ed4c78b62777a",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_madrid.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "0b3b809db79a79619d10ac8452ed45c454834bb3490a58fa3838a9e54b35e5c0"
+     "origen_sha256": "fab3baa705973a340918592c216d7ae13128367c2287e6bf3593eeea7eb6800b"
     }
    ]
   },
@@ -4337,10 +5039,23 @@
      "producto": "M08",
      "id": "m08-congreso_malaga-42495070976",
      "run_id": "42495070976",
-     "vigente": true,
+     "vigente": false,
      "sha256": "a25b2f54c5ceb6f2038b6916ee87101ae6e6fb0cd688f38e27969971f6be0720",
      "copia_git": {
       "blob_sha": "0ae1a479c4a0051e27068c0dcc4cfc2290507530",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_malaga-43006442219",
+     "run_id": "43006442219",
+     "vigente": true,
+     "sha256": "7f02530d9044c2e6af858047a67d03c738d622c19d6cf0328b0ecdc49ffe0ce8",
+     "copia_git": {
+      "blob_sha": "ece4332980b4bfad2d097147d7701529388ff08f",
       "ruta": null
      },
      "copias_r2": [],
@@ -4363,30 +5078,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_malaga",
-     "run_id": "42495070976",
+     "run_id": "43001775134",
      "vigente": true,
-     "sha256": "12168822d736d6024be3a4fcc65c96c8cd3e7377c0d7870fdfb16976b4e7b13a",
+     "sha256": "02a2feebc796f1995a0b9dd9e7fb8350ec9d4b08e381eb76185e672089b06837",
      "copia_git": {
-      "blob_sha": "9fcb5c60190c3362f7bb7dcf46c34768d97396cb",
+      "blob_sha": "4e8501cf03ba8a42310cc341d6c77443a61bf614",
       "ruta": "datos_abiertos/congreso_malaga/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "360b9e270552c0f38a052c7fc9dea507148128832d9d0a4f7f72aed0cdfc8a7d"
+     "origen_sha256": "cbd4790a681c3431fe8a09752541b7d771fcc14150778bf7f44d910de18908bc"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_malaga",
-     "run_id": "42495070976",
+     "run_id": "43006442219",
      "vigente": true,
-     "sha256": "f65e0aec2d2895993f170a48fddfd6dd7b5b2e3d807c0497de6a098e62d61bde",
+     "sha256": "878d1c981da30257da294d6e93b7463ce303f2616e49b5e0d145b616685de1f6",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_malaga.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "a25b2f54c5ceb6f2038b6916ee87101ae6e6fb0cd688f38e27969971f6be0720"
+     "origen_sha256": "7f02530d9044c2e6af858047a67d03c738d622c19d6cf0328b0ecdc49ffe0ce8"
     }
    ]
   },
@@ -4436,10 +5151,23 @@
      "producto": "M08",
      "id": "m08-congreso_melilla-41293988485",
      "run_id": "41293988485",
-     "vigente": true,
+     "vigente": false,
      "sha256": "add4dcc593f20a1a7f78205b91b13087c120966991eb2a81af35134732f671f3",
      "copia_git": {
       "blob_sha": "0359e7c88e9c1bc2c8f60a0615615e1dc6ac7276",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_melilla-43006105644",
+     "run_id": "43006105644",
+     "vigente": true,
+     "sha256": "a0c987af990a6fd35a5423a68fababf44a3f679e3e8625d3800498e89cd9cda0",
+     "copia_git": {
+      "blob_sha": "ba4a73d94b04c5e05a61636c3c7fea64c57ed34e",
       "ruta": null
      },
      "copias_r2": [],
@@ -4462,21 +5190,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_melilla",
-     "run_id": "41293988485",
+     "run_id": "43001757563",
      "vigente": true,
      "sha256": "b818630e9d8d921e3b4b8477a6909926663604763eb9d6b4c2ef4653f98b8f6c",
      "copia_git": {
-      "blob_sha": "27815e9348d63f2ae831f1a60c8495a5f4fd3262",
+      "blob_sha": "b05fbfe9d96abb47fbd2f6ad32be3c8a395f45ce",
       "ruta": "datos_abiertos/congreso_melilla/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "3788e954c96a750f6281f5bedd47436322858279fc3dc51d39b5c7d25ec0bb75"
+     "origen_sha256": "73d3536023fe853e4b5f9dd2a142c5161385ea26f804a9eac6bb80e70763758d"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_melilla",
-     "run_id": "41293988485",
+     "run_id": "43006105644",
      "vigente": true,
      "sha256": "badcefec022696cd6177b05a2a48ea3a7c3e146cdcc2df62d866fc37abed9411",
      "copia_git": {
@@ -4485,7 +5213,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "add4dcc593f20a1a7f78205b91b13087c120966991eb2a81af35134732f671f3"
+     "origen_sha256": "a0c987af990a6fd35a5423a68fababf44a3f679e3e8625d3800498e89cd9cda0"
     }
    ]
   },
@@ -4535,10 +5263,23 @@
      "producto": "M08",
      "id": "m08-congreso_murcia-41622862185",
      "run_id": "41622862185",
-     "vigente": true,
+     "vigente": false,
      "sha256": "f34c2a436f0c12910f63e86898bde6e43170a18c1323e95f5450769fd448d8ee",
      "copia_git": {
       "blob_sha": "574d8ec0f1e61ac183c8b590c22141dacd75f17a",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_murcia-43005676593",
+     "run_id": "43005676593",
+     "vigente": true,
+     "sha256": "e05133a8d5d480818e1884c77f42c99dd73319a67c193dfad92c049dd00b44e9",
+     "copia_git": {
+      "blob_sha": "efb94443986ffc1b2910424f00eaf8d15f3e69bc",
       "ruta": null
      },
      "copias_r2": [],
@@ -4561,30 +5302,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_murcia",
-     "run_id": "41622862185",
+     "run_id": "43001766635",
      "vigente": true,
-     "sha256": "f886614d6004267e880fb01a937108e0b01a5d5113fa855577ed784294ac25f9",
+     "sha256": "0adb76749a327096ee4fe5db039d63d2dba14d6f6c58d1d1b84c50d2c5927a78",
      "copia_git": {
-      "blob_sha": "d77418d6fba6f0b63785e21256215769714a3b05",
+      "blob_sha": "982b0c2a948f7bcf2f5e7dc52027ececcb1888ba",
       "ruta": "datos_abiertos/congreso_murcia/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "8056c77be56654e0593941673245cb2cdbe2cd21a2d74d172faaeaafa825c4e4"
+     "origen_sha256": "0869755bd74b70a8a362378861322c8d0ccdc539cbf8a0c4c8392a97b093ce3c"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_murcia",
-     "run_id": "41622862185",
+     "run_id": "43005676593",
      "vigente": true,
-     "sha256": "08e489e35a2e4e4a52ac3f5ff030c2a7664edc34f0b7700b96e524364da7e5a4",
+     "sha256": "9afa86877d775f15686c0cb424844e91f1892207e205b6c31882b21219ad32d1",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_murcia.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "f34c2a436f0c12910f63e86898bde6e43170a18c1323e95f5450769fd448d8ee"
+     "origen_sha256": "e05133a8d5d480818e1884c77f42c99dd73319a67c193dfad92c049dd00b44e9"
     }
    ]
   },
@@ -4634,10 +5375,23 @@
      "producto": "M08",
      "id": "m08-congreso_navarra-41299128213",
      "run_id": "41299128213",
-     "vigente": true,
+     "vigente": false,
      "sha256": "5b5ef6b5eb2a252d1974eeab5e55d0a2023b446757b41bc2fe2c982ba457b2a5",
      "copia_git": {
       "blob_sha": "0967d47647a8fc62faec9139809393a4c0dd0485",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_navarra-43006653960",
+     "run_id": "43006653960",
+     "vigente": true,
+     "sha256": "e4ede00ae43b44360ccbf8f80379b5fa6bc42f974968a4d5a8cf4304b48405bf",
+     "copia_git": {
+      "blob_sha": "1ea20ec8e377b61ad26111422d9a0461ed7f3969",
       "ruta": null
      },
      "copias_r2": [],
@@ -4660,30 +5414,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_navarra",
-     "run_id": "41299128213",
+     "run_id": "43001785293",
      "vigente": true,
-     "sha256": "16deed74519326b0525b74183b8f51fd4443032e596479001b762fb0fce37688",
+     "sha256": "e48bb8b71f0b12e46224cf31524a28f1b25ee14e26ac914f940eecc323c4a5b1",
      "copia_git": {
-      "blob_sha": "f5587e91c557e43bb560f6f8d9a663c8d5c1f775",
+      "blob_sha": "d21ef397fedeb8fe22085a9a81942880daeb2ce5",
       "ruta": "datos_abiertos/congreso_navarra/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "bdba8f82d8788453fce9274c84ccd82037c1088456979c44070aa857e84ef032"
+     "origen_sha256": "7c14e842f44e70cdc2a2eb31c0140b42d988cd2d0ce4c979f5102923236bca23"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_navarra",
-     "run_id": "41299128213",
+     "run_id": "43006653960",
      "vigente": true,
-     "sha256": "7e59075051985163ec7963057d409b10c9e7fd513ca46f4e04048252ec22150f",
+     "sha256": "90ce3fcf154333991cd9caecf28d75c2caeff9fb92be9518bc4df058f1731b24",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_navarra.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "5b5ef6b5eb2a252d1974eeab5e55d0a2023b446757b41bc2fe2c982ba457b2a5"
+     "origen_sha256": "e4ede00ae43b44360ccbf8f80379b5fa6bc42f974968a4d5a8cf4304b48405bf"
     }
    ]
   },
@@ -4733,10 +5487,23 @@
      "producto": "M08",
      "id": "m08-congreso_orense-41295142111",
      "run_id": "41295142111",
-     "vigente": true,
+     "vigente": false,
      "sha256": "6d4911e094698fe887decccb7566e835e7df39f51e23b7126d3d77db0db44e62",
      "copia_git": {
       "blob_sha": "85aa91e079414ae53a062ab7bfff3e51effe02f5",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_orense-43016113065",
+     "run_id": "43016113065",
+     "vigente": true,
+     "sha256": "6151f26b6acf043c25bae067cd933d96cf3e5a2f7eff43ea4cc57ff790f246b2",
+     "copia_git": {
+      "blob_sha": "1bab13f69a8fa6be65152ec0cd5c047dd00babab",
       "ruta": null
      },
      "copias_r2": [],
@@ -4759,30 +5526,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_orense",
-     "run_id": "41295142111",
+     "run_id": "43012119307",
      "vigente": true,
-     "sha256": "1c72d0d76000dd7c7d7c92d17ef3abe422134cebe69ad7f0f242381597f3a509",
+     "sha256": "3cb7bf7cd8a359ac69e0c98415b5ee664b6114afb68be69b131d3bd677dfb343",
      "copia_git": {
-      "blob_sha": "ebd135b7019a015c6650cc3525b214f357d68a78",
+      "blob_sha": "147fa5468914527c51e1f2443141d572398de798",
       "ruta": "datos_abiertos/congreso_orense/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "ae08e0c7068202deaaf3a04c0f7f4909a87ce039bb55d69633d074afd2740edb"
+     "origen_sha256": "fbad13584c6613de049c4baa8fce883cd4e4c8795820f631cb56192bd6ca655e"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_orense",
-     "run_id": "41295142111",
+     "run_id": "43016113065",
      "vigente": true,
-     "sha256": "9df0a218af3838a9181a8f670e3184a6fa72814ef5eb3e350d49dbe9ba7d50ec",
+     "sha256": "bbac6b21cee33ffa92c9baf70b9e27a84fd6964f03ff91ca01733ee5c29538b4",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_orense.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "6d4911e094698fe887decccb7566e835e7df39f51e23b7126d3d77db0db44e62"
+     "origen_sha256": "6151f26b6acf043c25bae067cd933d96cf3e5a2f7eff43ea4cc57ff790f246b2"
     }
    ]
   },
@@ -4832,10 +5599,23 @@
      "producto": "M08",
      "id": "m08-congreso_palencia-41298660623",
      "run_id": "41298660623",
-     "vigente": true,
+     "vigente": false,
      "sha256": "8f12774107c2054d89e84ff79fa6585c5fda6fd47ba92650b6dfd682ea9e1a1a",
      "copia_git": {
       "blob_sha": "a57583bcba9edd506c7a32b827166f4d0b7ae545",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_palencia-43016085888",
+     "run_id": "43016085888",
+     "vigente": true,
+     "sha256": "1f52be8e3879a6048b5169ce6802e3464b2a461a8ab7994bd7e40c21c9b8714f",
+     "copia_git": {
+      "blob_sha": "bc34f3f74aef01d17258d970f806ba80ac458116",
       "ruta": null
      },
      "copias_r2": [],
@@ -4858,21 +5638,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_palencia",
-     "run_id": "41298660623",
+     "run_id": "43012127687",
      "vigente": true,
      "sha256": "531073f45b91ba80af4ee786b6caa2cb98e41a759b4757dffead4cfc47acc79a",
      "copia_git": {
-      "blob_sha": "36ceb7489e519793d385c8a9a723f9fc53b062c9",
+      "blob_sha": "cfd2415564f8a3a1b90e2b45c564f36ea399028a",
       "ruta": "datos_abiertos/congreso_palencia/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "76e597dca654a53f5dfea12557bc8237e120e55e9d6dcf348f8d1408e904c547"
+     "origen_sha256": "9ab6435fbdd28498ca6d305490b16bdbd362e7b475ca7ac12253afd720f8dca9"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_palencia",
-     "run_id": "41298660623",
+     "run_id": "43016085888",
      "vigente": true,
      "sha256": "8a741407abaa0fd67070dd1db1c66b44952e814fb043340e4772b1ed21ef50d0",
      "copia_git": {
@@ -4881,7 +5661,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "8f12774107c2054d89e84ff79fa6585c5fda6fd47ba92650b6dfd682ea9e1a1a"
+     "origen_sha256": "1f52be8e3879a6048b5169ce6802e3464b2a461a8ab7994bd7e40c21c9b8714f"
     }
    ]
   },
@@ -4931,10 +5711,23 @@
      "producto": "M08",
      "id": "m08-congreso_pontevedra-41353894475",
      "run_id": "41353894475",
-     "vigente": true,
+     "vigente": false,
      "sha256": "5b9985dec344e79125b8a0a974e551ca1b3eb6e476c1778c2c792a817c4138f8",
      "copia_git": {
       "blob_sha": "32d4ca73e436d67d20cf711f9bdaa4f386feec61",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_pontevedra-43016524347",
+     "run_id": "43016524347",
+     "vigente": true,
+     "sha256": "4dee5840f794e88c854bf197ca3b6037d74a01efde5a6c078aa2d7081996106c",
+     "copia_git": {
+      "blob_sha": "8049cc4bcd6c26da100989543482665cce900ccf",
       "ruta": null
      },
      "copias_r2": [],
@@ -4957,30 +5750,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_pontevedra",
-     "run_id": "41353894475",
+     "run_id": "43012135258",
      "vigente": true,
-     "sha256": "9d7776bfab2f0192cae426aff436777e7dd7b725f8793e79d7e698907b4c5c0c",
+     "sha256": "0995e29e328c3c1c76c8b86c25037cf65210234f7aa4e2b5abce5e24c92729d0",
      "copia_git": {
-      "blob_sha": "7ba90d7878ea2b57d16d8bc7b3612bb7a3b2375f",
+      "blob_sha": "e782777886300763fbd7461986772c9281293dc5",
       "ruta": "datos_abiertos/congreso_pontevedra/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "e9ae99095a8da16629135ee476915bca1d405541f79656d055638e166c6ac294"
+     "origen_sha256": "0ef3b83e5b8ab252fb25e430da3280012dc4e3e4b048f9fe991fe629b9f2360c"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_pontevedra",
-     "run_id": "41353894475",
+     "run_id": "43016524347",
      "vigente": true,
-     "sha256": "cc8ef452216052eb9632b31644f228497d239f26c9d1447f1ca67ff253f72227",
+     "sha256": "1c2f451350383b9094f24a22bbf1c7a5ab72ad3c86362ddac9500d4d154ba1eb",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_pontevedra.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "5b9985dec344e79125b8a0a974e551ca1b3eb6e476c1778c2c792a817c4138f8"
+     "origen_sha256": "4dee5840f794e88c854bf197ca3b6037d74a01efde5a6c078aa2d7081996106c"
     }
    ]
   },
@@ -5030,10 +5823,23 @@
      "producto": "M08",
      "id": "m08-congreso_salamanca-41295298674",
      "run_id": "41295298674",
-     "vigente": true,
+     "vigente": false,
      "sha256": "d5b05063714352c8724797395e73e47ae409c586d5248593de41e3431e3768bf",
      "copia_git": {
       "blob_sha": "442c8201661af099714b6e9b49f133deb88f5794",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_salamanca-43017179163",
+     "run_id": "43017179163",
+     "vigente": true,
+     "sha256": "e546b93be086b49610ebebfd71e0255ae7b5ec2371d8b3f0217fe81eeaf1f3f3",
+     "copia_git": {
+      "blob_sha": "fa7c6be175bb6933ace6cbeb947872c033f9403a",
       "ruta": null
      },
      "copias_r2": [],
@@ -5056,16 +5862,16 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_salamanca",
-     "run_id": "41295298674",
+     "run_id": "43012143922",
      "vigente": true,
-     "sha256": "72cdd58c4ee925e0181f0032e30fe5187f871f483bc0311b2ce204687a9e8ae2",
+     "sha256": "bd063fc9aecf7797497ae0d2cf24db472635ff752477771ed10a9cab11844f05",
      "copia_git": {
-      "blob_sha": "519c279aea0d800bf26cbc681521eabf48e59caf",
+      "blob_sha": "24a02d2125da51ab25bc33c6ff95c006310ab87e",
       "ruta": "datos_abiertos/congreso_salamanca/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "4daccc0e0011ab510156a94cd1330e02c9cc97fe6d17d8bb4b655b9325dc4da0"
+     "origen_sha256": "971afdee2c7df7bda9c8215f51c91b083598b0ea2bb8d5ea9084f7f5353fc9a5"
     },
     {
      "producto": "ensemble",
@@ -5084,16 +5890,16 @@
     {
      "producto": "resultados",
      "id": "resultados-congreso_salamanca",
-     "run_id": "41295298674",
+     "run_id": "43017179163",
      "vigente": true,
-     "sha256": "04f7e4062f84510984d867171bc5b0a5fd8747d53d815fa3e67fe3097a4eb1ed",
+     "sha256": "ed3124dd7557e07e17dd33bd7774c84cc38a894ab1766127b83c5f3cc78a7e0d",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_salamanca.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "d5b05063714352c8724797395e73e47ae409c586d5248593de41e3431e3768bf"
+     "origen_sha256": "e546b93be086b49610ebebfd71e0255ae7b5ec2371d8b3f0217fe81eeaf1f3f3"
     }
    ]
   },
@@ -5169,10 +5975,23 @@
      "producto": "M08",
      "id": "m08-congreso_santa_cruz_de_tenerife-42519017008",
      "run_id": "42519017008",
-     "vigente": true,
+     "vigente": false,
      "sha256": "b2e5d59a0a5f231df1184fee01e63dfeee372405b5b3fd918d873573fc06d1b9",
      "copia_git": {
       "blob_sha": "e565ed96f1ffa8ff90b7c0a3600df744bcb60636",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_santa_cruz_de_tenerife-43020203637",
+     "run_id": "43020203637",
+     "vigente": true,
+     "sha256": "fc4f90420d2498233beaca7fa6e1a954143ee3f3f20ed4de2b70ac4d4802c5d7",
+     "copia_git": {
+      "blob_sha": "c63f9e6c26b23030c722c806ccb6d3526c485946",
       "ruta": null
      },
      "copias_r2": [],
@@ -5195,30 +6014,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_santa_cruz_de_tenerife",
-     "run_id": "42519017008",
+     "run_id": "43012151677",
      "vigente": true,
-     "sha256": "053c4a9939f5de94bbe607b54a57b3df604a2b917159031dfaa1cffb39ed3288",
+     "sha256": "15b140078fb915007c85d62d2d1a7a953703ec975d9d7683144eb2b50e7c783d",
      "copia_git": {
-      "blob_sha": "13b05b4afbf2517a039b7175aec8fccb746957de",
+      "blob_sha": "66eb1db132a3dd0f59c6bf3e4eca21222ac5c322",
       "ruta": "datos_abiertos/congreso_santa_cruz_de_tenerife/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "8798a2b53741e954c82a2f3d27be4bd9a6ddbc584bea83fd9fa020aaaa738aae"
+     "origen_sha256": "8818db05924e245608f071d8a57d7db5f0db09920b4131b25d72dcd1e4c3c0fc"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_santa_cruz_de_tenerife",
-     "run_id": "42519017008",
+     "run_id": "43020203637",
      "vigente": true,
-     "sha256": "7fcc1ad1464fedea3de6989aec6bf5f286d5d4143d913771aae6961a7d41c0a8",
+     "sha256": "5864f9d923df7df6e5d84f9df88f724eb2ffcac8127fd931d5538268b33bd648",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_santa_cruz_de_tenerife.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "b2e5d59a0a5f231df1184fee01e63dfeee372405b5b3fd918d873573fc06d1b9"
+     "origen_sha256": "fc4f90420d2498233beaca7fa6e1a954143ee3f3f20ed4de2b70ac4d4802c5d7"
     }
    ]
   },
@@ -5242,7 +6061,7 @@
      "producto": "M06",
      "id": "m06-congreso_segovia-41241846017",
      "run_id": "41241846017",
-     "vigente": true,
+     "vigente": false,
      "sha256": "00d8ba468186219a10ae0821821862ae55426789f7a1d7e35fa896a9e5bf5638",
      "copia_git": {
       "blob_sha": "e26b2372cb2672d8e4d227d011a895c72c174b48",
@@ -5252,13 +6071,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_segovia-43029353804",
+     "run_id": "43029353804",
+     "vigente": true,
+     "sha256": "e86111cde1f57107bdd205b55ca5c1830044c401059b35a9355f7f5fea0114fc",
+     "copia_git": {
+      "blob_sha": "89aaf7b0592be684c3fa94c4431f2175ae58aec9",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_segovia-41241846017",
      "run_id": "41241846017",
-     "vigente": true,
+     "vigente": false,
      "sha256": "514530db2478509c288457e68aa891d67d3e7fb062fea5ecae288bda2b36dd2b",
      "copia_git": {
       "blob_sha": "7b8441b18d177c1c1c6709395f912996a38b076d",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_segovia-43029353804",
+     "run_id": "43029353804",
+     "vigente": true,
+     "sha256": "cb3f8a30da9bfc5cfc8b5486b6456efb95dcffd019d6d295e0bc0c3636074995",
+     "copia_git": {
+      "blob_sha": "9a4ae8cfadd2bb8506e037937b923a320825c2af",
       "ruta": null
      },
      "copias_r2": [],
@@ -5281,21 +6126,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_segovia",
-     "run_id": "41241846017",
+     "run_id": "43029353804",
      "vigente": true,
      "sha256": "9131b5d6e000907a63ae88fe9d33dcabf78bfa7e16faf581939732b84dbb72f2",
      "copia_git": {
-      "blob_sha": "e26b2372cb2672d8e4d227d011a895c72c174b48",
+      "blob_sha": "89aaf7b0592be684c3fa94c4431f2175ae58aec9",
       "ruta": "datos_abiertos/congreso_segovia/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "00d8ba468186219a10ae0821821862ae55426789f7a1d7e35fa896a9e5bf5638"
+     "origen_sha256": "e86111cde1f57107bdd205b55ca5c1830044c401059b35a9355f7f5fea0114fc"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_segovia",
-     "run_id": "41241846017",
+     "run_id": "43029353804",
      "vigente": true,
      "sha256": "38207341475d10dfc19eece3b8d94409f5e765ab5e23595d8029dbc726f22318",
      "copia_git": {
@@ -5304,7 +6149,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "514530db2478509c288457e68aa891d67d3e7fb062fea5ecae288bda2b36dd2b"
+     "origen_sha256": "cb3f8a30da9bfc5cfc8b5486b6456efb95dcffd019d6d295e0bc0c3636074995"
     }
    ]
   },
@@ -5328,7 +6173,7 @@
      "producto": "M06",
      "id": "m06-congreso_sevilla-41297168461",
      "run_id": "41297168461",
-     "vigente": true,
+     "vigente": false,
      "sha256": "b8804062414795e12545ff69a42dcc0d09e9a98f713d2c7f5c7e630ba1902994",
      "copia_git": {
       "blob_sha": "40fe1057d2f9cd5a9b7690c6ac1d931f2aa298d6",
@@ -5338,13 +6183,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_sevilla-43029566265",
+     "run_id": "43029566265",
+     "vigente": true,
+     "sha256": "de798e180edf9af3a9986a36bfa40b2124b40bdaa2a3bb5c3b350312bf9d44fb",
+     "copia_git": {
+      "blob_sha": "d8c65c27e14c6afd8aa6fca95aa189e0731c301a",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_sevilla-41297168461",
      "run_id": "41297168461",
-     "vigente": true,
+     "vigente": false,
      "sha256": "1679dca49ba0f5e76f75b397ca61efc6566e5280550dea9046330bddc731eea0",
      "copia_git": {
       "blob_sha": "f30c6018e8f51b5ad7110a5933597d7dc5519510",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_sevilla-43029566265",
+     "run_id": "43029566265",
+     "vigente": true,
+     "sha256": "6c707154d82c5a18c181ae4adcad204658e0dd924e6f51c1ac5bee8844581210",
+     "copia_git": {
+      "blob_sha": "63e02862be142bffa58caaa666b693a33a0b9772",
       "ruta": null
      },
      "copias_r2": [],
@@ -5367,16 +6238,16 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_sevilla",
-     "run_id": "41297168461",
+     "run_id": "43029566265",
      "vigente": true,
-     "sha256": "c3735ecfbde4aeddcdc47e2a52903bbff38bd3ca6ffb5e785bb4d8d742083da0",
+     "sha256": "11266bba6914619bf99334c14974ed3120b0f660edd135bccb0d26503ae43fd1",
      "copia_git": {
-      "blob_sha": "40fe1057d2f9cd5a9b7690c6ac1d931f2aa298d6",
+      "blob_sha": "d8c65c27e14c6afd8aa6fca95aa189e0731c301a",
       "ruta": "datos_abiertos/congreso_sevilla/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "b8804062414795e12545ff69a42dcc0d09e9a98f713d2c7f5c7e630ba1902994"
+     "origen_sha256": "de798e180edf9af3a9986a36bfa40b2124b40bdaa2a3bb5c3b350312bf9d44fb"
     },
     {
      "producto": "ensemble",
@@ -5395,16 +6266,16 @@
     {
      "producto": "resultados",
      "id": "resultados-congreso_sevilla",
-     "run_id": "41297168461",
+     "run_id": "43029566265",
      "vigente": true,
-     "sha256": "5ddc3df3191f022006fe6380d5ee27dbdd84d3189cf0ad40a49993fe8de66d2d",
+     "sha256": "8f27aa40b88e57982e4e5616297b7d214309a5f9855bad6fc61c55271c107adf",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_sevilla.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "1679dca49ba0f5e76f75b397ca61efc6566e5280550dea9046330bddc731eea0"
+     "origen_sha256": "6c707154d82c5a18c181ae4adcad204658e0dd924e6f51c1ac5bee8844581210"
     }
    ]
   },
@@ -5428,7 +6299,7 @@
      "producto": "M06",
      "id": "m06-congreso_soria-41250310066",
      "run_id": "41250310066",
-     "vigente": true,
+     "vigente": false,
      "sha256": "79155d841e6b6b713e9cbe9b387f3b4e927c7cb4a70ce935a01a8b90048935a1",
      "copia_git": {
       "blob_sha": "28635adcea450debbde9ff4c62ad99c754ae12c0",
@@ -5438,13 +6309,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_soria-43029280043",
+     "run_id": "43029280043",
+     "vigente": true,
+     "sha256": "4692aadf2f8f5b3a4151f7c70851054dc8b29124f36573d777847db896580047",
+     "copia_git": {
+      "blob_sha": "5809ee7cde2dcebc839c0eff761a0075f86c6092",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_soria-41250310066",
      "run_id": "41250310066",
-     "vigente": true,
+     "vigente": false,
      "sha256": "6665bb3af534f67ad787dd774a7890b17f46517340b1e5a43bce95cf502779e9",
      "copia_git": {
       "blob_sha": "9b819f8253137f1d6c44ad8ec54c4576e426ce58",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_soria-43029280043",
+     "run_id": "43029280043",
+     "vigente": true,
+     "sha256": "63350cd5fafea55f68d8da9c7185ed764eb66fb783f6d97c4c81b70cf0881f40",
+     "copia_git": {
+      "blob_sha": "965a901e0eaab291498860959ba5d02857bb259f",
       "ruta": null
      },
      "copias_r2": [],
@@ -5467,21 +6364,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_soria",
-     "run_id": "41250310066",
+     "run_id": "43029280043",
      "vigente": true,
      "sha256": "aee9434472bececb3b4102260deb96c05e3f632b490d93c0967be0334cee3278",
      "copia_git": {
-      "blob_sha": "28635adcea450debbde9ff4c62ad99c754ae12c0",
+      "blob_sha": "5809ee7cde2dcebc839c0eff761a0075f86c6092",
       "ruta": "datos_abiertos/congreso_soria/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "79155d841e6b6b713e9cbe9b387f3b4e927c7cb4a70ce935a01a8b90048935a1"
+     "origen_sha256": "4692aadf2f8f5b3a4151f7c70851054dc8b29124f36573d777847db896580047"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_soria",
-     "run_id": "41250310066",
+     "run_id": "43029280043",
      "vigente": true,
      "sha256": "c4b9b710d107cc66860b037c842b6ff76a9981dcb5027100de108c99876be317",
      "copia_git": {
@@ -5490,7 +6387,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "6665bb3af534f67ad787dd774a7890b17f46517340b1e5a43bce95cf502779e9"
+     "origen_sha256": "63350cd5fafea55f68d8da9c7185ed764eb66fb783f6d97c4c81b70cf0881f40"
     }
    ]
   },
@@ -5527,10 +6424,23 @@
      "producto": "M06",
      "id": "m06-congreso_tarragona-42514991952",
      "run_id": "42514991952",
-     "vigente": true,
+     "vigente": false,
      "sha256": "7f6674484deb6b85da2a1d0b2ae73b85981d63af2c17a5bcf130b05769c34fba",
      "copia_git": {
       "blob_sha": "0999b5dbb595a02808088d6e84fd837a80f478c2",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-congreso_tarragona-43029795470",
+     "run_id": "43029795470",
+     "vigente": true,
+     "sha256": "2f72e292bd0459c0ea98d6ba835f6f1028579eb6a05abef7b3c5d59a2fec46ce",
+     "copia_git": {
+      "blob_sha": "c1cffeeb4a045edbf2ee2dbb2f47d8ed0b394611",
       "ruta": null
      },
      "copias_r2": [],
@@ -5553,10 +6463,23 @@
      "producto": "M08",
      "id": "m08-congreso_tarragona-42514991952",
      "run_id": "42514991952",
-     "vigente": true,
+     "vigente": false,
      "sha256": "a4238facf2dbd4750c34043d826ab1c245a0c51b37dd054a70d0e040baefb33b",
      "copia_git": {
       "blob_sha": "1b4a4a4213021cb54b07650bad5bbd017d5112da",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_tarragona-43029795470",
+     "run_id": "43029795470",
+     "vigente": true,
+     "sha256": "d3c759bd07dd5567d7b36c37f7fdb8d00d79a9f0980b35906742f6306a6d4bc3",
+     "copia_git": {
+      "blob_sha": "5687d3158066d07daf92e96a7ddc5b8f1c8f4b8d",
       "ruta": null
      },
      "copias_r2": [],
@@ -5579,30 +6502,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_tarragona",
-     "run_id": "42514991952",
+     "run_id": "43029795470",
      "vigente": true,
-     "sha256": "de94c77ce9ec232f35a52e2d1959f457e1331e52073a379059269ac85463f789",
+     "sha256": "7d1dfda3e1122d764e290967fb24cb25945ba72b75ca87a73444f13fdbc48d98",
      "copia_git": {
-      "blob_sha": "0999b5dbb595a02808088d6e84fd837a80f478c2",
+      "blob_sha": "c1cffeeb4a045edbf2ee2dbb2f47d8ed0b394611",
       "ruta": "datos_abiertos/congreso_tarragona/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "7f6674484deb6b85da2a1d0b2ae73b85981d63af2c17a5bcf130b05769c34fba"
+     "origen_sha256": "2f72e292bd0459c0ea98d6ba835f6f1028579eb6a05abef7b3c5d59a2fec46ce"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_tarragona",
-     "run_id": "42514991952",
+     "run_id": "43029795470",
      "vigente": true,
-     "sha256": "6356890af6b88a52a35d667503cd0902b01a63fbe670c95d61e4d92e9224f6d1",
+     "sha256": "3ac45cb41628603f1c9e08ebaf1a2fe8f734d562d9b083cdf2630a4b5050565c",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_tarragona.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "a4238facf2dbd4750c34043d826ab1c245a0c51b37dd054a70d0e040baefb33b"
+     "origen_sha256": "d3c759bd07dd5567d7b36c37f7fdb8d00d79a9f0980b35906742f6306a6d4bc3"
     }
    ]
   },
@@ -5626,7 +6549,7 @@
      "producto": "M06",
      "id": "m06-congreso_teruel-41250394074",
      "run_id": "41250394074",
-     "vigente": true,
+     "vigente": false,
      "sha256": "f458afbf4549817ddc093bda229aebe8d14806ca83006d4f833e02388651c3cb",
      "copia_git": {
       "blob_sha": "aeac695056d49ce1ed4f7ac390cd913f57259ffd",
@@ -5636,13 +6559,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_teruel-43029189395",
+     "run_id": "43029189395",
+     "vigente": true,
+     "sha256": "ecbcc4182915adfa9f673adbba839cec7951d4d2d917d528a6ec1966d51d09fb",
+     "copia_git": {
+      "blob_sha": "873375e58f3286c4e428a80f0d8674c2c469db44",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_teruel-41250394074",
      "run_id": "41250394074",
-     "vigente": true,
+     "vigente": false,
      "sha256": "e9adbbb04a6c7a8802c38c2d67347c83aa030764e9576a2b66f0b0797d815ca2",
      "copia_git": {
       "blob_sha": "16b291fb3157d8d03c46d45bc185d428f7c3c15d",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_teruel-43029189395",
+     "run_id": "43029189395",
+     "vigente": true,
+     "sha256": "fa5978973734ce59f375aa061cc98a5b3a1945b5a84d1ca9b0b7f89e40413128",
+     "copia_git": {
+      "blob_sha": "c64353e52e43dde679ec1da3d0e52606e5258ba0",
       "ruta": null
      },
      "copias_r2": [],
@@ -5665,21 +6614,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_teruel",
-     "run_id": "41250394074",
+     "run_id": "43029189395",
      "vigente": true,
      "sha256": "4b4225f41abd2666b40e1279e90fc2190ea54079e50f48536892eeb6e763c466",
      "copia_git": {
-      "blob_sha": "aeac695056d49ce1ed4f7ac390cd913f57259ffd",
+      "blob_sha": "873375e58f3286c4e428a80f0d8674c2c469db44",
       "ruta": "datos_abiertos/congreso_teruel/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "f458afbf4549817ddc093bda229aebe8d14806ca83006d4f833e02388651c3cb"
+     "origen_sha256": "ecbcc4182915adfa9f673adbba839cec7951d4d2d917d528a6ec1966d51d09fb"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_teruel",
-     "run_id": "41250394074",
+     "run_id": "43029189395",
      "vigente": true,
      "sha256": "66aead7e6e40735d145637d4606afefaaad9aecdddee917f9b2b460a95feb755",
      "copia_git": {
@@ -5688,7 +6637,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "e9adbbb04a6c7a8802c38c2d67347c83aa030764e9576a2b66f0b0797d815ca2"
+     "origen_sha256": "fa5978973734ce59f375aa061cc98a5b3a1945b5a84d1ca9b0b7f89e40413128"
     }
    ]
   },
@@ -5712,7 +6661,7 @@
      "producto": "M06",
      "id": "m06-congreso_toledo-41296268720",
      "run_id": "41296268720",
-     "vigente": true,
+     "vigente": false,
      "sha256": "438ab1ce7a80fdc8d9e2362aec6bd1a3947dd678c4fb7a7ddca588061a97d375",
      "copia_git": {
       "blob_sha": "3af235bd23d357673e5b9e1c0260a20c90d31ad1",
@@ -5722,13 +6671,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_toledo-43040968638",
+     "run_id": "43040968638",
+     "vigente": true,
+     "sha256": "8c8edff04c2cbf23bc3346fa5f907a23a0a0705e0afce29eec8b07ec8dafb3fe",
+     "copia_git": {
+      "blob_sha": "acdc152074c105d97ed4d85fe24c775c8dd4c070",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_toledo-41296268720",
      "run_id": "41296268720",
-     "vigente": true,
+     "vigente": false,
      "sha256": "bdcd4179a1d49db08d59366d0a241e92d5d5f41237498450a96e54bb88ab014c",
      "copia_git": {
       "blob_sha": "46e224b53d3a6e1f0f8061667db0e7f9f7bd469f",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_toledo-43040968638",
+     "run_id": "43040968638",
+     "vigente": true,
+     "sha256": "64aa784b5e38bb2a85def6acc90a34f3fe3e7c4a19a14cf92713c3ca4904f07a",
+     "copia_git": {
+      "blob_sha": "7ee195d7e7c6fa7564183663f7d0b00ead552bff",
       "ruta": null
      },
      "copias_r2": [],
@@ -5751,30 +6726,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_toledo",
-     "run_id": "41296268720",
+     "run_id": "43040968638",
      "vigente": true,
-     "sha256": "b7b4b81055b4f99b7f27df320cfaa01449810e44b7a8fdf349a783c04a697355",
+     "sha256": "1a13096fa2aef744b987e8e980283ed385bdbbf67fad40ce2edeb49be26f5d29",
      "copia_git": {
-      "blob_sha": "3af235bd23d357673e5b9e1c0260a20c90d31ad1",
+      "blob_sha": "acdc152074c105d97ed4d85fe24c775c8dd4c070",
       "ruta": "datos_abiertos/congreso_toledo/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "438ab1ce7a80fdc8d9e2362aec6bd1a3947dd678c4fb7a7ddca588061a97d375"
+     "origen_sha256": "8c8edff04c2cbf23bc3346fa5f907a23a0a0705e0afce29eec8b07ec8dafb3fe"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_toledo",
-     "run_id": "41296268720",
+     "run_id": "43040968638",
      "vigente": true,
-     "sha256": "4099f0e6a166efd0e85ce52f0c4021a7e73d2ffc2a2370d250e103b8304410ba",
+     "sha256": "0553a73922aea4b8d376d7b37ed156c798bad407050f7c9e96ea8bc8a0fb9285",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_toledo.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "bdcd4179a1d49db08d59366d0a241e92d5d5f41237498450a96e54bb88ab014c"
+     "origen_sha256": "64aa784b5e38bb2a85def6acc90a34f3fe3e7c4a19a14cf92713c3ca4904f07a"
     }
    ]
   },
@@ -5811,10 +6786,23 @@
      "producto": "M06",
      "id": "m06-congreso_valencia-42525625044",
      "run_id": "42525625044",
-     "vigente": true,
+     "vigente": false,
      "sha256": "43a59012831f4535b485d4fd20f27b14c24b87e92f7c0782a9f3b25a174e3c51",
      "copia_git": {
       "blob_sha": "a3a96c98675a546b2e32cf8510dcea696574e2e9",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-congreso_valencia-43041144007",
+     "run_id": "43041144007",
+     "vigente": true,
+     "sha256": "883ba41586eb36bb0ab1f99e9d6103fd48aef26c20788252a39dbc19461f82da",
+     "copia_git": {
+      "blob_sha": "246b8cfd7b2a32f65ef09761b7793055c7453fda",
       "ruta": null
      },
      "copias_r2": [],
@@ -5837,10 +6825,23 @@
      "producto": "M08",
      "id": "m08-congreso_valencia-42525625044",
      "run_id": "42525625044",
-     "vigente": true,
+     "vigente": false,
      "sha256": "eb4b034b967b7c74aefb058cbb3ab5b8a5299c12282be6b1fed923dc8136500f",
      "copia_git": {
       "blob_sha": "d8520d6c02967199ee139cf113de9027862f7a37",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_valencia-43041144007",
+     "run_id": "43041144007",
+     "vigente": true,
+     "sha256": "25347c7fb21ad145fb017408854b72294ca11426dff8a84dfa70df0474db8057",
+     "copia_git": {
+      "blob_sha": "63814f658b321b5af4e1c09784844defd4f65d1f",
       "ruta": null
      },
      "copias_r2": [],
@@ -5863,30 +6864,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_valencia",
-     "run_id": "42525625044",
+     "run_id": "43041144007",
      "vigente": true,
-     "sha256": "776087559c4ed490e64f62175fccc9d5c6eec3d1c4fc0bac2481d9370a6197aa",
+     "sha256": "fdcf2037971370c68fbb3671891249bc0025383c71e91fca0757eb264a21623f",
      "copia_git": {
-      "blob_sha": "a3a96c98675a546b2e32cf8510dcea696574e2e9",
+      "blob_sha": "246b8cfd7b2a32f65ef09761b7793055c7453fda",
       "ruta": "datos_abiertos/congreso_valencia/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "43a59012831f4535b485d4fd20f27b14c24b87e92f7c0782a9f3b25a174e3c51"
+     "origen_sha256": "883ba41586eb36bb0ab1f99e9d6103fd48aef26c20788252a39dbc19461f82da"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_valencia",
-     "run_id": "42525625044",
+     "run_id": "43041144007",
      "vigente": true,
-     "sha256": "1fe403bb577f1cc3595716b08a50620d6613c7c466ca6bf034d38f4fd6b2cb67",
+     "sha256": "61e5d1db3d4629270d8bfdc899a46724f55d08c6d8a5948d8a0f939f85aac6b5",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_valencia.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "eb4b034b967b7c74aefb058cbb3ab5b8a5299c12282be6b1fed923dc8136500f"
+     "origen_sha256": "25347c7fb21ad145fb017408854b72294ca11426dff8a84dfa70df0474db8057"
     }
    ]
   },
@@ -5910,7 +6911,7 @@
      "producto": "M06",
      "id": "m06-congreso_valladolid-41299313598",
      "run_id": "41299313598",
-     "vigente": true,
+     "vigente": false,
      "sha256": "5c1183841e5307b49327fef4bb463049f8d22873352bbdba2917b4e858e2b9a1",
      "copia_git": {
       "blob_sha": "6c690bd9dd4072e776698eaca1fe4502b8a1f1a4",
@@ -5920,13 +6921,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_valladolid-43040794081",
+     "run_id": "43040794081",
+     "vigente": true,
+     "sha256": "882bc69bbcaba83f7b7343c305f2427b96e9eced8a86e5b3eae1afbbcc1831b4",
+     "copia_git": {
+      "blob_sha": "cbb0501f83228375f30588ff189196812d8548a4",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_valladolid-41299313598",
      "run_id": "41299313598",
-     "vigente": true,
+     "vigente": false,
      "sha256": "f859e8ce044ad1549bb97d462689330dec61263e25dca0266b705abf315f82c6",
      "copia_git": {
       "blob_sha": "52c92117dc16ff1f6139510b56c76c66b1b83567",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_valladolid-43040794081",
+     "run_id": "43040794081",
+     "vigente": true,
+     "sha256": "1a7a2771ff38ef47fbe4981ceddc53dbf2fe235de5b826a4b306b9bd7b287e34",
+     "copia_git": {
+      "blob_sha": "f19b5e8c649d0d360af22bd8459dde5aa702efa6",
       "ruta": null
      },
      "copias_r2": [],
@@ -5949,30 +6976,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_valladolid",
-     "run_id": "41299313598",
+     "run_id": "43040794081",
      "vigente": true,
-     "sha256": "abe0d9f1987910e8a7cde22aab791a7d0c007cacd602f84c749be62369808fe2",
+     "sha256": "596bb2c33e150ec3dcf7032c7cfafaf8918b3182931ba7210673b92880bf19a2",
      "copia_git": {
-      "blob_sha": "6c690bd9dd4072e776698eaca1fe4502b8a1f1a4",
+      "blob_sha": "cbb0501f83228375f30588ff189196812d8548a4",
       "ruta": "datos_abiertos/congreso_valladolid/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "5c1183841e5307b49327fef4bb463049f8d22873352bbdba2917b4e858e2b9a1"
+     "origen_sha256": "882bc69bbcaba83f7b7343c305f2427b96e9eced8a86e5b3eae1afbbcc1831b4"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_valladolid",
-     "run_id": "41299313598",
+     "run_id": "43040794081",
      "vigente": true,
-     "sha256": "b3e9a182aefa6c5696db3fe996b0bcf91a8b7e7b440985b186d1681b9378988b",
+     "sha256": "73f61ca5247d2ff5c3c4a4d2711f7b24769ece8a63af465191d8524214a1d9f3",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_valladolid.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "f859e8ce044ad1549bb97d462689330dec61263e25dca0266b705abf315f82c6"
+     "origen_sha256": "1a7a2771ff38ef47fbe4981ceddc53dbf2fe235de5b826a4b306b9bd7b287e34"
     }
    ]
   },
@@ -5996,7 +7023,7 @@
      "producto": "M06",
      "id": "m06-congreso_vizcaya-41356074013",
      "run_id": "41356074013",
-     "vigente": true,
+     "vigente": false,
      "sha256": "55a5bcab96db8190d4aac251b0d58e12703b80c915616d29cfe508a30370371c",
      "copia_git": {
       "blob_sha": "9ea873c8de3a6c57ed0b211014cf2e4ac88405a7",
@@ -6006,13 +7033,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_vizcaya-43040430397",
+     "run_id": "43040430397",
+     "vigente": true,
+     "sha256": "8e77bf5937a80511bdde13496a02ddf091a818d5cdd5608d753f1ebd5dcdc876",
+     "copia_git": {
+      "blob_sha": "b15b744c80b3a4b7757882de6107073827d0d571",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_vizcaya-41356074013",
      "run_id": "41356074013",
-     "vigente": true,
+     "vigente": false,
      "sha256": "a8e65b68b150ddd1f26396f6436ec75f28b7992cd343eede8e510185590e37bb",
      "copia_git": {
       "blob_sha": "da53172a589fd67b53cd4cd478dff0a4483281ad",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_vizcaya-43040430397",
+     "run_id": "43040430397",
+     "vigente": true,
+     "sha256": "cb2dda48738e361ab7afd01f2eb785a3f6196e2d47bc30dc56e86dd1365201ca",
+     "copia_git": {
+      "blob_sha": "3955681a6b590820c7d1c689f4a88ea91dc8efe8",
       "ruta": null
      },
      "copias_r2": [],
@@ -6035,30 +7088,30 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_vizcaya",
-     "run_id": "41356074013",
+     "run_id": "43040430397",
      "vigente": true,
-     "sha256": "3013858596029c3175330d75f5a3b9315e2d7e008c8955fbf23cd736887c51ef",
+     "sha256": "0848f53c819490a99fbad021b11ae7da12f2f5b2fe4eb8c80f54c4da3b48428a",
      "copia_git": {
-      "blob_sha": "9ea873c8de3a6c57ed0b211014cf2e4ac88405a7",
+      "blob_sha": "b15b744c80b3a4b7757882de6107073827d0d571",
       "ruta": "datos_abiertos/congreso_vizcaya/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "55a5bcab96db8190d4aac251b0d58e12703b80c915616d29cfe508a30370371c"
+     "origen_sha256": "8e77bf5937a80511bdde13496a02ddf091a818d5cdd5608d753f1ebd5dcdc876"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_vizcaya",
-     "run_id": "41356074013",
+     "run_id": "43040430397",
      "vigente": true,
-     "sha256": "81c1026acae11701238fd21d68bc47d052acaa75331076a155ea69767a66a5a4",
+     "sha256": "d9e8fd07f343cf087dc0188c2d5e31c86f411f526bc8736ae40693512692c0a7",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/congreso_vizcaya.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "a8e65b68b150ddd1f26396f6436ec75f28b7992cd343eede8e510185590e37bb"
+     "origen_sha256": "cb2dda48738e361ab7afd01f2eb785a3f6196e2d47bc30dc56e86dd1365201ca"
     }
    ]
   },
@@ -6082,7 +7135,7 @@
      "producto": "M06",
      "id": "m06-congreso_zamora-41250479211",
      "run_id": "41250479211",
-     "vigente": true,
+     "vigente": false,
      "sha256": "c6662aa8a98b3dc64c53e5f428201ba050ee936ea6c4ac767f8868b7ac5fccd2",
      "copia_git": {
       "blob_sha": "05c6845681eab342139cd0656d31f144091eae76",
@@ -6092,13 +7145,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_zamora-43040878307",
+     "run_id": "43040878307",
+     "vigente": true,
+     "sha256": "0fbf4b0dff5ded1f62aa3293f755a3966b4d58c00614b2aaad817aa51ecfde3b",
+     "copia_git": {
+      "blob_sha": "6975be08144027fd7dd942df1c0820f1c796693b",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_zamora-41250479211",
      "run_id": "41250479211",
-     "vigente": true,
+     "vigente": false,
      "sha256": "dd25c9a2aab3889c5c4900875f0ea165a4eda92bfa66d9eee38b3986c0220d19",
      "copia_git": {
       "blob_sha": "ab897447076206bb0b62b2a37945708a4dab85e2",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_zamora-43040878307",
+     "run_id": "43040878307",
+     "vigente": true,
+     "sha256": "fa3434e06b3c1022e4c5a4e9887b5d7c00821794072b3d5e7fa4d174a1e2b321",
+     "copia_git": {
+      "blob_sha": "a0ca5475a6ac6a6ab0b33d23f2044884a5535304",
       "ruta": null
      },
      "copias_r2": [],
@@ -6121,21 +7200,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_zamora",
-     "run_id": "41250479211",
+     "run_id": "43040878307",
      "vigente": true,
      "sha256": "ff64b7ea3d0dc02662eaa676a2b545046b273c9e77444227d27fe958ceb06898",
      "copia_git": {
-      "blob_sha": "05c6845681eab342139cd0656d31f144091eae76",
+      "blob_sha": "6975be08144027fd7dd942df1c0820f1c796693b",
       "ruta": "datos_abiertos/congreso_zamora/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "c6662aa8a98b3dc64c53e5f428201ba050ee936ea6c4ac767f8868b7ac5fccd2"
+     "origen_sha256": "0fbf4b0dff5ded1f62aa3293f755a3966b4d58c00614b2aaad817aa51ecfde3b"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_zamora",
-     "run_id": "41250479211",
+     "run_id": "43040878307",
      "vigente": true,
      "sha256": "476ae37e98fe79377d74e7880fb9841bace98b41a30bf4ba88299232247f3d12",
      "copia_git": {
@@ -6144,7 +7223,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "dd25c9a2aab3889c5c4900875f0ea165a4eda92bfa66d9eee38b3986c0220d19"
+     "origen_sha256": "fa3434e06b3c1022e4c5a4e9887b5d7c00821794072b3d5e7fa4d174a1e2b321"
     }
    ]
   },
@@ -6168,7 +7247,7 @@
      "producto": "M06",
      "id": "m06-congreso_zaragoza-41296815536",
      "run_id": "41296815536",
-     "vigente": true,
+     "vigente": false,
      "sha256": "70a152960ebead39af5fc94fb739db0aeb169d336def2860c0656b5f9c07dd7c",
      "copia_git": {
       "blob_sha": "a43219db6c4b467e8b8c59bd8f4b47e4e0d1a6b0",
@@ -6178,13 +7257,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_zaragoza-43041544479",
+     "run_id": "43041544479",
+     "vigente": true,
+     "sha256": "fc79ab6f8453e16aa370783dfce55eb0988c11d0bdfc8e858ffb37bffa33c116",
+     "copia_git": {
+      "blob_sha": "bb638df4ff10d7148f221685ebed253de181da1f",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_zaragoza-41296815536",
      "run_id": "41296815536",
-     "vigente": true,
+     "vigente": false,
      "sha256": "93c5f5f790ee9afcfd187bc9747ec5b6fab96ab60e1e7dde857533c079b01549",
      "copia_git": {
       "blob_sha": "dd7e9d7863bf9e01c640d1edb05b7ac7c0858b9d",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_zaragoza-43041544479",
+     "run_id": "43041544479",
+     "vigente": true,
+     "sha256": "309515467f187fe915e2b5e66ea1a5f539dcf1929a4379f4ba01d10b8c5bf395",
+     "copia_git": {
+      "blob_sha": "d2ee5ea04286ce9bd55d3d4222cb570c4462fdc4",
       "ruta": null
      },
      "copias_r2": [],
@@ -6207,21 +7312,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_zaragoza",
-     "run_id": "41296815536",
+     "run_id": "43041544479",
      "vigente": true,
      "sha256": "483adf434b1eeb74f7cc95b0c79202143d1ad61f0f4dce77a40ae795488fd2b0",
      "copia_git": {
-      "blob_sha": "a43219db6c4b467e8b8c59bd8f4b47e4e0d1a6b0",
+      "blob_sha": "bb638df4ff10d7148f221685ebed253de181da1f",
       "ruta": "datos_abiertos/congreso_zaragoza/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "70a152960ebead39af5fc94fb739db0aeb169d336def2860c0656b5f9c07dd7c"
+     "origen_sha256": "fc79ab6f8453e16aa370783dfce55eb0988c11d0bdfc8e858ffb37bffa33c116"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_zaragoza",
-     "run_id": "41296815536",
+     "run_id": "43041544479",
      "vigente": true,
      "sha256": "7280bea8120116814f2ac065ed16282c9cd220e7c71bbf57620988cdaad81403",
      "copia_git": {
@@ -6230,7 +7335,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "93c5f5f790ee9afcfd187bc9747ec5b6fab96ab60e1e7dde857533c079b01549"
+     "origen_sha256": "309515467f187fe915e2b5e66ea1a5f539dcf1929a4379f4ba01d10b8c5bf395"
     }
    ]
   },
@@ -6293,10 +7398,23 @@
      "producto": "M06",
      "id": "m06-extremadura-41042675119",
      "run_id": "41042675119",
-     "vigente": true,
+     "vigente": false,
      "sha256": "ba587568e0f95e92bd4aed26e831e1796e6e1cae61ac21caee4885fa2e931569",
      "copia_git": {
       "blob_sha": "8cd1063c3e9c53ac6531d9d8f2ab3cb8a4857638",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-extremadura-43051488486",
+     "run_id": "43051488486",
+     "vigente": true,
+     "sha256": "ec0cf5b3378978453f51cfcf98a8f44ebd107afbe77bad37e3d54f4c95547afe",
+     "copia_git": {
+      "blob_sha": "6ff5f15e372d9cb26a2703a90d04dcd4b107de7a",
       "ruta": null
      },
      "copias_r2": [],
@@ -6319,7 +7437,7 @@
      "producto": "M08",
      "id": "m08-extremadura-41042675119",
      "run_id": "41042675119",
-     "vigente": true,
+     "vigente": false,
      "sha256": "d3305a3b8b28100f4b26a613e1324330d33fd6978264bfd6aba7f52db0956461",
      "copia_git": {
       "blob_sha": "ab1096b6711d6b5020ad2d9462054cb1269fca8f",
@@ -6331,6 +7449,19 @@
        "sha256": "35fec26cf60ceeaac3a5dabbaeccab3b434f759d985672816036ac2dd87727a7"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-extremadura-43051488486",
+     "run_id": "43051488486",
+     "vigente": true,
+     "sha256": "ee63759a093f57e37072b923aabb8bd6d480a71b766cecd09acf9ff2d0f25572",
+     "copia_git": {
+      "blob_sha": "a3617481c37be64f4dc9d2460d78f67c1577a9aa",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6350,16 +7481,16 @@
     {
      "producto": "resultados",
      "id": "resultados-extremadura",
-     "run_id": "41042675119",
+     "run_id": "43051488486",
      "vigente": true,
-     "sha256": "76bf3842cbc8b11d08b532846d4ffd74c8a16649992425efb488da9716c98f17",
+     "sha256": "0dcbe635d44e842c62e7c75d5c4ba5708b7132404dd8804f12d2ac0232a236e4",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/extremadura.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "d3305a3b8b28100f4b26a613e1324330d33fd6978264bfd6aba7f52db0956461"
+     "origen_sha256": "ee63759a093f57e37072b923aabb8bd6d480a71b766cecd09acf9ff2d0f25572"
     }
    ]
   },
@@ -6409,7 +7540,7 @@
      "producto": "M06",
      "id": "m06-galicia-40241719200",
      "run_id": "40241719200",
-     "vigente": true,
+     "vigente": false,
      "sha256": "93028055fcb72b3225b046c4829f2b30b623efa6d5843f8e3b4e41b2ee5c0452",
      "copia_git": {
       "blob_sha": "d8372a064b3aea0ec82e4b0eefd288a400fe05f7",
@@ -6424,13 +7555,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-galicia-43051951192",
+     "run_id": "43051951192",
+     "vigente": true,
+     "sha256": "83a624fe854540b78c9e7824edd5685ade1457b518ed6c9d9be86ac4dbf12f2e",
+     "copia_git": {
+      "blob_sha": "848b97d5316308bca9870f382408d633d5260c2f",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-galicia-36403519566",
      "run_id": "36403519566",
-     "vigente": true,
+     "vigente": false,
      "sha256": "6da1957f653cde1c21eec55a45d9713dac647fb65c04098c9b2b8c87c9ce4ae5",
      "copia_git": {
       "blob_sha": "e432d6905d79d002d586e6a7d7acd5b95f25e7c4",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-galicia-43051951192",
+     "run_id": "43051951192",
+     "vigente": true,
+     "sha256": "08eea15509f673f8805b0094f21810b01165fdf003a5fc28a2a72f76d3a93150",
+     "copia_git": {
+      "blob_sha": "b1f546f429a85c648d298138cf96a5148787a987",
       "ruta": null
      },
      "copias_r2": [],
@@ -6453,16 +7610,16 @@
     {
      "producto": "resultados",
      "id": "resultados-galicia",
-     "run_id": "36403519566",
+     "run_id": "43051951192",
      "vigente": true,
-     "sha256": "4c22e78216221b7f5ed0f2fd9297d554f8752f613a50e2c20c400acbef91b0bf",
+     "sha256": "abd72c0f68f6b59dfb496d88c9f462b1efe69157eb224dd4468a5db277ce818c",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/galicia.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "6da1957f653cde1c21eec55a45d9713dac647fb65c04098c9b2b8c87c9ce4ae5"
+     "origen_sha256": "08eea15509f673f8805b0094f21810b01165fdf003a5fc28a2a72f76d3a93150"
     }
    ]
   },
@@ -6486,7 +7643,7 @@
      "producto": "M06",
      "id": "m06-illes_balears-41033500476",
      "run_id": "41033500476",
-     "vigente": true,
+     "vigente": false,
      "sha256": "756dcb5076f6ea0b6a902b6163d3cc267d48ae57caea907f82a5b62d5535b633",
      "copia_git": {
       "blob_sha": "45656210387ab6ffdcf62d7e10c11c060b6d8298",
@@ -6496,10 +7653,23 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-illes_balears-43019811578",
+     "run_id": "43019811578",
+     "vigente": true,
+     "sha256": "cf5b63b40831b03fad46825e2e74c8a37b05131a1996d4304f28e892c6542289",
+     "copia_git": {
+      "blob_sha": "ebbf213a2c92cc0473b57697af61f417e74148ee",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-illes_balears-41033500476",
      "run_id": "41033500476",
-     "vigente": true,
+     "vigente": false,
      "sha256": "2c12e458d542a818f4cbdbc5bea4dd78cabee1fd2ee9e6f1f88e0edce157ec70",
      "copia_git": {
       "blob_sha": "2a401f219d9abc8971682bf4449778a6cf71b36d",
@@ -6511,6 +7681,19 @@
        "sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-illes_balears-43019811578",
+     "run_id": "43019811578",
+     "vigente": true,
+     "sha256": "13464c74f801279ff85e51713fcccfdcf4982f43c2e7def3178d961ce31a63c6",
+     "copia_git": {
+      "blob_sha": "c79cd78400f7883ec5615e2035cff786db5981eb",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6530,16 +7713,16 @@
     {
      "producto": "resultados",
      "id": "resultados-illes_balears",
-     "run_id": "41033500476",
+     "run_id": "43019811578",
      "vigente": true,
-     "sha256": "bb7ab2499967a9d1fa33362bd8e55bfed47fa21beb945f7b7124f89dfd09583d",
+     "sha256": "bfd8b2d1cbafea4276f012c9ccea1eacbec485f7b3b50282e6267031aff693b4",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/illes_balears.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "2c12e458d542a818f4cbdbc5bea4dd78cabee1fd2ee9e6f1f88e0edce157ec70"
+     "origen_sha256": "13464c74f801279ff85e51713fcccfdcf4982f43c2e7def3178d961ce31a63c6"
     }
    ]
   },
@@ -6563,7 +7746,7 @@
      "producto": "M06",
      "id": "m06-la_rioja-40867456776",
      "run_id": "40867456776",
-     "vigente": true,
+     "vigente": false,
      "sha256": "10e672487c837fa47d09f9d2345dfcc685fdde122e8da0d59d796808bda85f7b",
      "copia_git": {
       "blob_sha": "2bc4b066b871d7a4f51b2646e63432117f1648d8",
@@ -6573,10 +7756,23 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-la_rioja-43007066596",
+     "run_id": "43007066596",
+     "vigente": true,
+     "sha256": "d8b674715b1d88f481ebea8c8df86da2d1d6e3dd38d3ddf9e94e95a39a47c584",
+     "copia_git": {
+      "blob_sha": "7e59ebc634cdaf060dad46720ba74c68f516a0d8",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-la_rioja-40867456776",
      "run_id": "40867456776",
-     "vigente": true,
+     "vigente": false,
      "sha256": "87cfc5a59631470320b517542088d1f963c37d116272de7c84fec4f1ee67c67a",
      "copia_git": {
       "blob_sha": "59036b15bee424b56959125d1b2a082c0c5c4ae9",
@@ -6588,6 +7784,19 @@
        "sha256": "058fae7bdf1ea412070a8db035adbdf082611066741b7a46d493c56710858b2a"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-la_rioja-43007066596",
+     "run_id": "43007066596",
+     "vigente": true,
+     "sha256": "551837610769aff28db91e068bfd1b5c527c67ad03ebaf47274a3e97ecc1103b",
+     "copia_git": {
+      "blob_sha": "63fc466ba944f1e948f364cb189f3105219ebe61",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6607,16 +7816,16 @@
     {
      "producto": "resultados",
      "id": "resultados-la_rioja",
-     "run_id": "40867456776",
+     "run_id": "43007066596",
      "vigente": true,
-     "sha256": "7453c38db903a8be7ecf1e6d9c23dbb6e42decffaf5acdbc893cf0147b3e043e",
+     "sha256": "9cbe8b178f62ab87499354cade92cef5e31b9f80bfb88b97929d3941a545f1d7",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/la_rioja.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "87cfc5a59631470320b517542088d1f963c37d116272de7c84fec4f1ee67c67a"
+     "origen_sha256": "551837610769aff28db91e068bfd1b5c527c67ad03ebaf47274a3e97ecc1103b"
     }
    ]
   },
@@ -6640,7 +7849,7 @@
      "producto": "M06",
      "id": "m06-madrid-40787900559",
      "run_id": "40787900559",
-     "vigente": true,
+     "vigente": false,
      "sha256": "4283dd5720dd2ba61d80970721549713ca9b6f064a57ca6594e118b194c73d65",
      "copia_git": {
       "blob_sha": "7aecce7a88854918d8cea23b1a67b366391371ce",
@@ -6650,10 +7859,23 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-madrid-43053498550",
+     "run_id": "43053498550",
+     "vigente": true,
+     "sha256": "9cafb72d8699d65c8ea83c82a7f30a8b0e2da09d44e36e01616dadabe83177a6",
+     "copia_git": {
+      "blob_sha": "f72ed1a393c39de092b2bf8f67a7c727036c656b",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-madrid-40787900559",
      "run_id": "40787900559",
-     "vigente": true,
+     "vigente": false,
      "sha256": "9914ded5e14d3f57fa5a042df36b6ece5c4c9de578e06ed4c16aeb986e4eab1c",
      "copia_git": {
       "blob_sha": "18e2695dfe9020aed21468607d6390bf8d4dd94c",
@@ -6665,6 +7887,19 @@
        "sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-madrid-43053498550",
+     "run_id": "43053498550",
+     "vigente": true,
+     "sha256": "4d38c27e5d835f63ae339d7fbaa440bec1f058ba5a497e73fc0d125db3b30a47",
+     "copia_git": {
+      "blob_sha": "21a4a24196e12fe5f54fd6d180b4820c398c19ec",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6684,16 +7919,16 @@
     {
      "producto": "resultados",
      "id": "resultados-madrid",
-     "run_id": "40787900559",
+     "run_id": "43053498550",
      "vigente": true,
-     "sha256": "41903c5f6ad7bcbe64863bdf1077f129dfc0e27a07ec0bd7fa0760715222ae73",
+     "sha256": "2861ebe4c91b5f2602107a31a0ffcfae43258d1936bc09db87c070856a0d06a9",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/madrid.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "9914ded5e14d3f57fa5a042df36b6ece5c4c9de578e06ed4c16aeb986e4eab1c"
+     "origen_sha256": "4d38c27e5d835f63ae339d7fbaa440bec1f058ba5a497e73fc0d125db3b30a47"
     }
    ]
   },
@@ -6730,10 +7965,23 @@
      "producto": "M06",
      "id": "m06-melilla-42504386196",
      "run_id": "42504386196",
-     "vigente": true,
+     "vigente": false,
      "sha256": "18dac483d1f873d73f53d42e97d79cfcda18b1412038ffcab58d782711c388d3",
      "copia_git": {
       "blob_sha": "01fd12ceed10421d5d626fdaba918834f5583770",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-melilla-43051007542",
+     "run_id": "43051007542",
+     "vigente": true,
+     "sha256": "d0b08cc87b2b72c4e414301da0542f6386fc5e7fe4128745ff89ad9e3dfe926f",
+     "copia_git": {
+      "blob_sha": "1e9eb026b01b6d3f98ebe6e00ffc65e2386b17c5",
       "ruta": null
      },
      "copias_r2": [],
@@ -6756,10 +8004,23 @@
      "producto": "M08",
      "id": "m08-melilla-42504386196",
      "run_id": "42504386196",
-     "vigente": true,
+     "vigente": false,
      "sha256": "962f40cf850f74d62abe2c262cd4a6fde328568663ad1fcc0584cde3276bcad0",
      "copia_git": {
       "blob_sha": "70252868d175d2eb088a8c5f2dd411b25450b35b",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-melilla-43051007542",
+     "run_id": "43051007542",
+     "vigente": true,
+     "sha256": "a93cc0771243ccf0f3a721bf6ea1d5e59a524cf40fa85aad39b4edbf5a3b973b",
+     "copia_git": {
+      "blob_sha": "b76907ce82cd17e93fe53dd3c0bcf19cf65b61e1",
       "ruta": null
      },
      "copias_r2": [],
@@ -6782,7 +8043,7 @@
     {
      "producto": "resultados",
      "id": "resultados-melilla",
-     "run_id": "42504386196",
+     "run_id": "43051007542",
      "vigente": true,
      "sha256": "4701421bb8851ead100eccc24a1c6c702a4ec9ea8d1a1e9227028b43a4713266",
      "copia_git": {
@@ -6791,7 +8052,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "962f40cf850f74d62abe2c262cd4a6fde328568663ad1fcc0584cde3276bcad0"
+     "origen_sha256": "a93cc0771243ccf0f3a721bf6ea1d5e59a524cf40fa85aad39b4edbf5a3b973b"
     }
    ]
   },
@@ -6815,7 +8076,7 @@
      "producto": "M06",
      "id": "m06-pais_vasco-40951146225",
      "run_id": "40951146225",
-     "vigente": true,
+     "vigente": false,
      "sha256": "2de1e27194381fefefd6042fe0c9f85019e2882906fa1be591f74009fcd05b51",
      "copia_git": {
       "blob_sha": "347793dd1c19c93e7a9aa79087262d53358d1640",
@@ -6825,10 +8086,23 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-pais_vasco-43047232024",
+     "run_id": "43047232024",
+     "vigente": true,
+     "sha256": "49f72750e48e3b3de1de514f2bc2c1ea2ece4c100e1b13bfaa44e2c7129f927d",
+     "copia_git": {
+      "blob_sha": "41d52f0490eb90aa2bf23ff1beaadcc9edf1ba3d",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-pais_vasco-40951146225",
      "run_id": "40951146225",
-     "vigente": true,
+     "vigente": false,
      "sha256": "771848c890f55695ece82af6ebd8f0ee73588aa5d1a1a5983eff432c74875e41",
      "copia_git": {
       "blob_sha": "12c1ec1cf8025a89869bfd88658bbb79a6f541c7",
@@ -6840,6 +8114,19 @@
        "sha256": "1055816b0d86391c38b706d5f5a0a5f11826b50f215500b2df91092972b50e99"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-pais_vasco-43047232024",
+     "run_id": "43047232024",
+     "vigente": true,
+     "sha256": "ac83a5f57b0b3c9d641b0f9d80a3e4a5ac4b260536e5425ae48a118c6e1842dd",
+     "copia_git": {
+      "blob_sha": "2528cccca6aa6d557130b157e6a694b958bfa2c6",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6859,16 +8146,16 @@
     {
      "producto": "resultados",
      "id": "resultados-pais_vasco",
-     "run_id": "40951146225",
+     "run_id": "43047232024",
      "vigente": true,
-     "sha256": "b086e53e1509a7f7289d404ed7de3810802fc3bc98526487270bec4f3ae92bff",
+     "sha256": "18ccd8cdf4d637a0bc2505e2f365e0b25c3d234de27fdeaf1c57380433c06487",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/pais_vasco.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "771848c890f55695ece82af6ebd8f0ee73588aa5d1a1a5983eff432c74875e41"
+     "origen_sha256": "ac83a5f57b0b3c9d641b0f9d80a3e4a5ac4b260536e5425ae48a118c6e1842dd"
     }
    ]
   },
@@ -6944,10 +8231,23 @@
      "producto": "M06",
      "id": "m06-principado_de_asturias-40132061626",
      "run_id": "40132061626",
-     "vigente": true,
+     "vigente": false,
      "sha256": "87f5e921b8ac3277c2488d4d44754a572542b2290ae620eafa01e74ca9be9a22",
      "copia_git": {
       "blob_sha": "ea91213419925f762e4a34234511ccc44a4dec64",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-principado_de_asturias-43016768497",
+     "run_id": "43016768497",
+     "vigente": true,
+     "sha256": "0631715d0c8952cebdaaac5d089f338cf0e7d16caa8de21e0998aa1594c51959",
+     "copia_git": {
+      "blob_sha": "060b5c0d16e2dcedf18ab958d1399693ab03c59b",
       "ruta": null
      },
      "copias_r2": [],
@@ -7009,7 +8309,7 @@
      "producto": "M08",
      "id": "m08-principado_de_asturias-40132061626",
      "run_id": "40132061626",
-     "vigente": true,
+     "vigente": false,
      "sha256": "2860c1c32b1828b880b2861d2ce5b70da056e51228393e164fb23464be27d666",
      "copia_git": {
       "blob_sha": "ad2d52239762ff68f9b661180f48f51f3952bf28",
@@ -7021,6 +8321,19 @@
        "sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-principado_de_asturias-43016768497",
+     "run_id": "43016768497",
+     "vigente": true,
+     "sha256": "5d4ef6b8067eea15f3a20698ef298cd5c4af71c3463a8914323a4e6be75a43e2",
+     "copia_git": {
+      "blob_sha": "2b8c17030ee8855cc31125200f16e07c7d7e4248",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -7040,16 +8353,16 @@
     {
      "producto": "resultados",
      "id": "resultados-principado_de_asturias",
-     "run_id": "40132061626",
+     "run_id": "43016768497",
      "vigente": true,
-     "sha256": "13a707fa981bcc82a252a24058a5c962053ec56e1ce50b4da604d3b447a54483",
+     "sha256": "54188282c46a92005d30577dbf8634812417c1949b7ae5f4c1dcc1fe9d47444b",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/principado_de_asturias.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "2860c1c32b1828b880b2861d2ce5b70da056e51228393e164fb23464be27d666"
+     "origen_sha256": "5d4ef6b8067eea15f3a20698ef298cd5c4af71c3463a8914323a4e6be75a43e2"
     }
    ]
   },
@@ -7086,10 +8399,23 @@
      "producto": "M06",
      "id": "m06-region_de_murcia-42504383790",
      "run_id": "42504383790",
-     "vigente": true,
+     "vigente": false,
      "sha256": "35c2f0837991a1f577f139d77039f5ff73f69bd83bd229c8d5587103add03236",
      "copia_git": {
       "blob_sha": "4ec350e49243fbc28cad37917fb6c9c80be06a1b",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-region_de_murcia-43053208175",
+     "run_id": "43053208175",
+     "vigente": true,
+     "sha256": "484570b7a805638c03ca286248dd15b357cc174477c0e52967d6c22a04ffc9fb",
+     "copia_git": {
+      "blob_sha": "17b6e0866c7986d78b9ad4ef7b5308f5311c3ed6",
       "ruta": null
      },
      "copias_r2": [],
@@ -7112,10 +8438,23 @@
      "producto": "M08",
      "id": "m08-region_de_murcia-42504383790",
      "run_id": "42504383790",
-     "vigente": true,
+     "vigente": false,
      "sha256": "dc2c75bee88fba6f98d39b947e97f57cc3758dcae3dc4c57fd304921b4c8fed7",
      "copia_git": {
       "blob_sha": "eb808812580844c01b0600cb3745481f19073a61",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-region_de_murcia-43053208175",
+     "run_id": "43053208175",
+     "vigente": true,
+     "sha256": "5860ae6fb78dbaea988add24e0cd7c4712d953b1b717fcab8b55eb913fde146d",
+     "copia_git": {
+      "blob_sha": "00c441f9c988340c0f34f1550315dc40e38955c1",
       "ruta": null
      },
      "copias_r2": [],
@@ -7138,16 +8477,16 @@
     {
      "producto": "resultados",
      "id": "resultados-region_de_murcia",
-     "run_id": "42504383790",
+     "run_id": "43053208175",
      "vigente": true,
-     "sha256": "d8d08cdcece10679ee2f53c65edb18f8820357273054e5faf31d534bd1245df3",
+     "sha256": "cff8c12ea151ee20582dfc9fac2a59801a220e8a17d73d485bc20293be9a9c3d",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/region_de_murcia.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "dc2c75bee88fba6f98d39b947e97f57cc3758dcae3dc4c57fd304921b4c8fed7"
+     "origen_sha256": "5860ae6fb78dbaea988add24e0cd7c4712d953b1b717fcab8b55eb913fde146d"
     }
    ]
   }
@@ -7284,56 +8623,70 @@
    "territorio": "aragon",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42497101869: solo copia git"
+   "detalle": "run 43016936483: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "aragon",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42497101869: solo copia git"
+   "detalle": "run 43016936483: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "canarias",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42523951377: solo copia git"
+   "detalle": "run 43020588641: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "canarias",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42523951377: solo copia git"
+   "detalle": "run 43020588641: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "cantabria",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41037133327: solo copia git"
+   "detalle": "run 43033094596: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "cantabria",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43033094596: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "castilla_la_mancha",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43031565452: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "castilla_la_mancha",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 37444564173: solo copia git"
+   "detalle": "run 43031565452: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "castilla_y_leon",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42521090842: solo copia git"
+   "detalle": "run 43030986959: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "castilla_y_leon",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42531122768: solo copia git"
+   "detalle": "run 43030986959: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7347,56 +8700,70 @@
    "territorio": "ceuta",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42503542766: solo copia git"
+   "detalle": "run 43052923691: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "ceuta",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42503542766: solo copia git"
+   "detalle": "run 43052923691: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "comunidad_foral_de_navarra",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41049986588: solo copia git"
+   "detalle": "run 43052874017: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "comunidad_foral_de_navarra",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43052874017: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "comunidad_valenciana",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41062567297: solo copia git"
+   "detalle": "run 43030421638: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "comunidad_valenciana",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43030421638: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_alava",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41346917857: solo copia git"
+   "detalle": "run 42983088643: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_alava",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41346917857: solo copia git"
+   "detalle": "run 42983088643: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_albacete",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42514994231: solo copia git"
+   "detalle": "run 42952791883: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_albacete",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42514994231: solo copia git"
+   "detalle": "run 42952791883: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7410,7 +8777,7 @@
    "territorio": "congreso_alicante",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42495067503: solo copia git"
+   "detalle": "run 42953235024: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7424,7 +8791,7 @@
    "territorio": "congreso_almeria",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42519378789: solo copia git"
+   "detalle": "run 42952468083: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7438,7 +8805,7 @@
    "territorio": "congreso_asturias",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41296638877: solo copia git"
+   "detalle": "run 42985447971: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7452,7 +8819,7 @@
    "territorio": "congreso_avila",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41241662219: solo copia git"
+   "detalle": "run 42948760863: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7466,7 +8833,7 @@
    "territorio": "congreso_badajoz",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42519381013: solo copia git"
+   "detalle": "run 42949289470: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7480,21 +8847,21 @@
    "territorio": "congreso_baleares",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41481449507: solo copia git"
+   "detalle": "run 42953068884: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_barcelona",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42495069270: solo copia git"
+   "detalle": "run 42953127263: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_barcelona",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42495069270: solo copia git"
+   "detalle": "run 42953127263: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7508,7 +8875,7 @@
    "territorio": "congreso_burgos",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41299221887: solo copia git"
+   "detalle": "run 42986581831: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7522,21 +8889,21 @@
    "territorio": "congreso_caceres",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41294658600: solo copia git"
+   "detalle": "run 42953363103: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_cadiz",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41500124775: solo copia git"
+   "detalle": "run 42953019279: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_cadiz",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41500124775: solo copia git"
+   "detalle": "run 42953019279: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7550,7 +8917,7 @@
    "territorio": "congreso_cantabria",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41356175674: solo copia git"
+   "detalle": "run 42985965354: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7564,7 +8931,7 @@
    "territorio": "congreso_castellon",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41295629673: solo copia git"
+   "detalle": "run 42953757677: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7578,7 +8945,7 @@
    "territorio": "congreso_ceuta",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41250564472: solo copia git"
+   "detalle": "run 42985728070: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7592,7 +8959,7 @@
    "territorio": "congreso_ciudad_real",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41298749455: solo copia git"
+   "detalle": "run 42954776957: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7606,7 +8973,7 @@
    "territorio": "congreso_cordoba",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41296161083: solo copia git"
+   "detalle": "run 42953300723: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7620,7 +8987,7 @@
    "territorio": "congreso_cuenca",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41294075778: solo copia git"
+   "detalle": "run 42954007732: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7634,7 +9001,7 @@
    "territorio": "congreso_gerona",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41298839274: solo copia git"
+   "detalle": "run 42954957703: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7648,7 +9015,7 @@
    "territorio": "congreso_granada",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41296546816: solo copia git"
+   "detalle": "run 42954091088: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7662,7 +9029,7 @@
    "territorio": "congreso_guadalajara",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41294169221: solo copia git"
+   "detalle": "run 42955217289: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7676,7 +9043,7 @@
    "territorio": "congreso_guipuzcoa",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41298935355: solo copia git"
+   "detalle": "run 42955375065: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7690,7 +9057,7 @@
    "territorio": "congreso_huelva",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41335929678: solo copia git"
+   "detalle": "run 42996002594: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7704,21 +9071,21 @@
    "territorio": "congreso_huesca",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42519383275: solo copia git"
+   "detalle": "run 42996217596: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_jaen",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41295799269: solo copia git"
+   "detalle": "run 42955644352: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_jaen",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41295799269: solo copia git"
+   "detalle": "run 42955644352: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7732,7 +9099,7 @@
    "territorio": "congreso_la_coruna",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41296991598: solo copia git"
+   "detalle": "run 42953518518: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7746,7 +9113,7 @@
    "territorio": "congreso_la_rioja",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42504388624: solo copia git"
+   "detalle": "run 42935762636: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7760,7 +9127,7 @@
    "territorio": "congreso_las_palmas",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41442913288: solo copia git"
+   "detalle": "run 42998268332: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7774,21 +9141,21 @@
    "territorio": "congreso_leon",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41629735636: solo copia git"
+   "detalle": "run 42996717873: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_lerida",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41299033915: solo copia git"
+   "detalle": "run 43064129984: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_lerida",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41299033915: solo copia git"
+   "detalle": "run 43064129984: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7802,7 +9169,7 @@
    "territorio": "congreso_lugo",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42514986960: solo copia git"
+   "detalle": "run 42995722473: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7816,7 +9183,7 @@
    "territorio": "congreso_madrid",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41622703086: solo copia git"
+   "detalle": "run 43006307734: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7830,7 +9197,7 @@
    "territorio": "congreso_malaga",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42495070976: solo copia git"
+   "detalle": "run 43006442219: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7844,7 +9211,7 @@
    "territorio": "congreso_melilla",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41293988485: solo copia git"
+   "detalle": "run 43006105644: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7858,7 +9225,7 @@
    "territorio": "congreso_murcia",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41622862185: solo copia git"
+   "detalle": "run 43005676593: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7872,7 +9239,7 @@
    "territorio": "congreso_navarra",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41299128213: solo copia git"
+   "detalle": "run 43006653960: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7886,7 +9253,7 @@
    "territorio": "congreso_orense",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41295142111: solo copia git"
+   "detalle": "run 43016113065: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7900,7 +9267,7 @@
    "territorio": "congreso_palencia",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41298660623: solo copia git"
+   "detalle": "run 43016085888: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7914,7 +9281,7 @@
    "territorio": "congreso_pontevedra",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41353894475: solo copia git"
+   "detalle": "run 43016524347: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7928,7 +9295,7 @@
    "territorio": "congreso_salamanca",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41295298674: solo copia git"
+   "detalle": "run 43017179163: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7942,238 +9309,287 @@
    "territorio": "congreso_santa_cruz_de_tenerife",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42519017008: solo copia git"
+   "detalle": "run 43020203637: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_segovia",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41241846017: solo copia git"
+   "detalle": "run 43029353804: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_segovia",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41241846017: solo copia git"
+   "detalle": "run 43029353804: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_sevilla",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41297168461: solo copia git"
+   "detalle": "run 43029566265: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_sevilla",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41297168461: solo copia git"
+   "detalle": "run 43029566265: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_soria",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41250310066: solo copia git"
+   "detalle": "run 43029280043: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_soria",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41250310066: solo copia git"
+   "detalle": "run 43029280043: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_tarragona",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42514991952: solo copia git"
+   "detalle": "run 43029795470: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_tarragona",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42514991952: solo copia git"
+   "detalle": "run 43029795470: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_teruel",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41250394074: solo copia git"
+   "detalle": "run 43029189395: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_teruel",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41250394074: solo copia git"
+   "detalle": "run 43029189395: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_toledo",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41296268720: solo copia git"
+   "detalle": "run 43040968638: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_toledo",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41296268720: solo copia git"
+   "detalle": "run 43040968638: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_valencia",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42525625044: solo copia git"
+   "detalle": "run 43041144007: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_valencia",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42525625044: solo copia git"
+   "detalle": "run 43041144007: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_valladolid",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41299313598: solo copia git"
+   "detalle": "run 43040794081: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_valladolid",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41299313598: solo copia git"
+   "detalle": "run 43040794081: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_vizcaya",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41356074013: solo copia git"
+   "detalle": "run 43040430397: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_vizcaya",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41356074013: solo copia git"
+   "detalle": "run 43040430397: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_zamora",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41250479211: solo copia git"
+   "detalle": "run 43040878307: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_zamora",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41250479211: solo copia git"
+   "detalle": "run 43040878307: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_zaragoza",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41296815536: solo copia git"
+   "detalle": "run 43041544479: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_zaragoza",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41296815536: solo copia git"
+   "detalle": "run 43041544479: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "extremadura",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41042675119: solo copia git"
+   "detalle": "run 43051488486: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "extremadura",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43051488486: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "galicia",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43051951192: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "galicia",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 36403519566: solo copia git"
+   "detalle": "run 43051951192: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "illes_balears",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41033500476: solo copia git"
+   "detalle": "run 43019811578: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "illes_balears",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43019811578: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "la_rioja",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 40867456776: solo copia git"
+   "detalle": "run 43007066596: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "la_rioja",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43007066596: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "madrid",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 40787900559: solo copia git"
+   "detalle": "run 43053498550: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "madrid",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43053498550: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "melilla",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42504386196: solo copia git"
+   "detalle": "run 43051007542: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "melilla",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42504386196: solo copia git"
+   "detalle": "run 43051007542: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "pais_vasco",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 40951146225: solo copia git"
+   "detalle": "run 43047232024: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "pais_vasco",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43047232024: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "principado_de_asturias",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 40132061626: solo copia git"
+   "detalle": "run 43016768497: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "principado_de_asturias",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 43016768497: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "region_de_murcia",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42504383790: solo copia git"
+   "detalle": "run 43053208175: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "region_de_murcia",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42504383790: solo copia git"
+   "detalle": "run 43053208175: solo copia git"
   }
  ]
 }
