@@ -73,12 +73,16 @@
   function paletteExpression(){const e=["match",["get","party"]];Object.entries(PALETA).forEach(([k,c])=>{e.push(k,c);});e.push(PALETA.OTROS);return e;}
   function paintWith(layer,fill){if(map?.getLayer(layer))map.setPaintProperty(layer,"fill-color",fill);}
   function showLayer(id,show){if(map?.getLayer(id))map.setLayoutProperty(id,"visibility",show?"visible":"none");}
-  function rows(){
-    const a=["PP","PSOE","VOX","SUMAR","PODEMOS","EAJ-PNV","EH BILDU","ERC","JUNTS","BNG","CC","OTROS"];
+  function rows(partyColorsAvailable){
+    const parties=["PP","PSOE","VOX","SUMAR","PODEMOS","EAJ-PNV","EH BILDU","ERC","JUNTS","BNG","CC","OTROS"];
+    if(S.view==="electoral"&&!partyColorsAvailable){
+      legend("<h3>Resultados no disponibles</h3><ul><li><i style='background:#a8bac7'></i>Sin color partidista acreditado</li></ul><small>La geometría es real. No se atribuyen ganadores de otra elección o sistema.</small>");
+      return;
+    }
     legend("<h3>"+(S.view==="electoral"?"Partido más votado":"Unidades territoriales")+"</h3><ul>"+
-      (S.view==="electoral"?a.map(p=>"<li><i style='background:"+PALETA[p]+"'></i>"+esc(p)+"</li>").join(""):
+      (S.view==="electoral"?parties.map(p=>"<li><i style='background:"+PALETA[p]+"'></i>"+esc(p)+"</li>").join(""):
       "<li><i style='background:#9caebc'></i>Territorio</li><li><i style='background:#9c2733'></i>Seleccionado</li>")+"</ul>"+
-      "<small>"+(S.view==="electoral"?"PP azul · PSOE rojo · VOX verde · Sumar rosa. Se muestra el nivel electoral acreditado.":"Colores territoriales sin significado partidista.")+"</small>");
+      "<small>"+(S.view==="electoral"?"PP azul · PSOE rojo · VOX verde · Sumar rosa.":"Colores territoriales sin significado partidista.")+"</small>");
   }
   function validElection(){return S.scope==="nacional"&&S.election==="202307";}
   function availability(){
@@ -114,10 +118,10 @@
         Object.entries(ent.data.distritos.reduce((a,d)=>(a[family(d.ganador)]=(a[family(d.ganador)]||0)+1,a),{}))
         .sort((a,b)=>b[1]-a[1])[0]?.[0]||"":""; // ganador dominante entre los distritos de la provincia
       const ds=ent?.data?.distritos||[],pop=ds.reduce((a,d)=>a+(Number(d.poblacion)||0),0);
-      const target=ds.length?pop/ds.length:0;
-      const deviation=target?Math.max(...ds.map(d=>Math.abs((Number(d.poblacion)-target)/target))):null;
+      const devs=D.territorial?.provincias?.[p.cod]?.distritos||[];
+      const deviation=devs.length?Math.max(...devs.map(d=>Math.abs(Number(d.dev)))):null;
       return {...x,properties:{...p,party:family(S.system==="mayoritario"?winner:p.ganador),
-        population:pop||null,deviation:deviation,dominant:winner}};
+        population:pop||null,...(deviation===null?{}:{deviation}),dominant:winner}};
     });
   }
   function styleInit(){return{version:8,sources:{},layers:[{id:"water",type:"background",paint:{"background-color":"#eef3f7"}}]};}
@@ -294,7 +298,8 @@
     const territorial=["get","neutralColor"];
     paintWith("ccaa-fill",neutral);
     const popColor=["interpolate",["linear"],["to-number",["get","population"],0],0,"#e9f0f3",100000,"#9cc5d2",1000000,"#4c819f",4000000,"#244e73"];
-    const devColor=["interpolate",["linear"],["abs",["to-number",["get","deviation"],0]],0,"#dcebdc",.12,"#c2d4b4",.25,"#f3cb84",.6,"#b64c53"];
+    const devColor=["case",["has","deviation"],
+      ["interpolate",["linear"],["abs",["to-number",["get","deviation"],0]],0,"#dcebdc",.12,"#c2d4b4",.25,"#f3cb84",.6,"#b64c53"],neutral];
     function thematic(base){if(S.layer==="poblacion")return popColor;if(S.layer==="desviacion")return devColor;
       if(S.layer==="unidades")return ["coalesce",["get","neutralColor"],neutral];return base;}
     paintWith("prov-fill",thematic(permitColors?party:neutral));
@@ -317,7 +322,9 @@
     map.setPaintProperty("dist-fill","fill-opacity",.82);map.setPaintProperty("sec-fill","fill-opacity",.86);
     // Resalta mediante trazo de selección en la ficha contextual, sin crear resultados de ejemplo.
     const s=availability();if(s)note(s);
-    rows();
+    const partyVisible=permitColors&&S.layer==="ganador"&&
+      (!showS||S.system==="mayoritario");
+    rows(partyVisible);
     if(S.layer==="poblacion"||S.layer==="desviacion"){
       legend("<h3>"+(S.layer==="poblacion"?"Población":"Desviación de población")+"</h3><div style='height:12px;background:linear-gradient(90deg,#dcebdc,#f3cb84,#b64c53);border-radius:6px'></div><small>Capa basada en población M06, donde está publicada; no representa partidos.</small>");
     }
@@ -439,6 +446,11 @@
     ["scope","system","view"].forEach(id=>document.querySelectorAll("#"+id+" button").forEach(b=>b.onclick=()=>{
       S[id==="scope"?"scope":id==="system"?"system":"view"]=b.dataset.value;
       updateSegments(id,b.dataset.value);
+      if(id==="view"&&b.dataset.value==="territorial"&&S.layer==="ganador"){
+        S.layer="desviacion";$("layer").value=S.layer;
+      }else if(id==="view"&&b.dataset.value==="electoral"&&S.layer==="desviacion"){
+        S.layer="ganador";$("layer").value=S.layer;
+      }
       if(id==="scope"){S.province=null;S.unit={kind:"pais",properties:{}};S.region="";
         S.level=S.scope==="autonomico"?"comunidad":"provincia";$("level").value=S.level;
         map.fitBounds([[-9.8,35.3],[4.5,44.2]],{padding:30,duration:350});}
