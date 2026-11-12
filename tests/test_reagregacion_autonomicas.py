@@ -16,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import reagregacion_autonomicas as ra  # noqa: E402
+from ddd_core.territorio_ids import id_legacy  # noqa: E402  (T-220)
 
 SAL = ROOT / "datos/resultados/historico/autonomicas"
 
@@ -68,7 +69,7 @@ class Resultado(unittest.TestCase):
         esperadas = {"aut12": 4, "aut13": 5, "aut07": 5, "aut09": 5, "aut10": 4,
                      "aut15": 4, "aut16": 4, "aut17": 4, "aut05": 4}
         for com, n in esperadas.items():
-            m = json.loads((SAL / com / "MANIFEST.json").read_text(encoding="utf-8"))
+            m = json.loads((SAL / id_legacy(com) / "MANIFEST.json").read_text(encoding="utf-8"))
             self.assertEqual(len(m["elecciones"]), n, com)
             self.assertEqual(m["no_cuadran"], [], com)
             for e, x in m["elecciones"].items():
@@ -77,7 +78,7 @@ class Resultado(unittest.TestCase):
     def test_elecciones_coinciden_con_el_calendario(self):
         cal = ra.leer_calendario()
         for com in ("aut12", "aut13", "aut07", "aut09", "aut16", "aut17", "aut05"):
-            self.assertEqual(sorted(p.name for p in (SAL / com).iterdir() if p.is_dir()),
+            self.assertEqual(sorted(p.name for p in (SAL / id_legacy(com)).iterdir() if p.is_dir()),
                              sorted(f["mes"].replace("-", "") for f in cal[com]), com)
 
 

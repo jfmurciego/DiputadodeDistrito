@@ -10,6 +10,7 @@ import copy
 from pathlib import Path
 
 import yaml
+from ddd_core.territorio_ids import es_nacional, ids_nuevos, id_legacy  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "tests/fixtures/linaje_historico"
@@ -17,10 +18,10 @@ FIXTURES = ROOT / "tests/fixtures/linaje_historico"
 
 def historical_catalog(output: Path, territory_id: str) -> Path:
     live = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
-    row = yaml.safe_load((FIXTURES / f"{territory_id}_catalog_row_2025.yaml").read_text(encoding="utf-8"))
+    row = yaml.safe_load((FIXTURES / f"{id_legacy(territory_id)}_catalog_row_2025.yaml").read_text(encoding="utf-8"))
     row = copy.deepcopy(row)
     row["editions"]["2025"]["evidence"]["territorial_product"] = (
-        f"tests/fixtures/linaje_historico/{territory_id}_territorial_product_2025.json"
+        f"tests/fixtures/linaje_historico/{id_legacy(territory_id)}_territorial_product_2025.json"
     )
     live["territories"] = [row if r["territory_id"] == territory_id else r for r in live["territories"]]
     output.parent.mkdir(parents=True, exist_ok=True)

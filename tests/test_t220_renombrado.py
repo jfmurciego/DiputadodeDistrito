@@ -30,6 +30,7 @@ EXENTOS = (
     "resultados/", "publicado/", "evals/", "diagnostico/", "fuentes/observatorio_autonomicas/",
     "dashboard/", "infraestructura/ordenes-manuales/",  # generado (estado operativo) e histórico (órdenes manuales)
     "configuracion/notacion_territorial.csv", "configuracion/equivalencias_territorios.csv",
+    "configuracion/equivalencia_secciones_congreso_2023.json",  # derivado de datos/ (equivalencia_congreso_2023.py)
     "ddd_core/territorio_ids.py", "tests/test_t220_renombrado.py", "tests/test_resolver_territorio.py",
     "tests/test_notacion_territorial.py", "tests/test_motor2_semilla.py", "tests/generar_equivalencias_5_0_0.py",
     # Regresiones sobre la raíz congelada de aee8215e o sobre evidencias históricas: sus ids son los de entonces.
@@ -71,6 +72,7 @@ NO_ES_ID = {
     "herramientas/materializar_fuentes_nacionales_ine.py": "claves ceuta/melilla del informe de población",
     "herramientas/resumir_preflight_nacional.py": "nombre de variable",
     "herramientas/procesar_f10_resultados_aragon_cyl.py": "variables y carpetas de originales F10 (evidencia histórica)",
+    "herramientas/preflight_caceres_n08.py": "herramienta N08 con su sha256 anclado en la campaña nacional (histórica)",
     "visor/nacional/nacional.js": "zona del mapa", "visor/nacional/index.html": "zona del mapa",
 }
 EXENTOS_RE = re.compile(r"^territorios/[^/]+/(evidencia|resultados|inputs|docs|config/elecciones)/|^territorios/[^/]+/[^/]+\.md$"
@@ -203,7 +205,8 @@ class SinDeteccionPorPrefijo(unittest.TestCase):
     def test_codigo_y_workflows_usan_el_ambito_del_resolutor(self):
         malos = []
         for f in _ls_files():
-            if not f.startswith(CODIGO) or f.endswith(".md") or f == "ddd_core/territorio_ids.py":
+            if (not f.startswith(CODIGO) or f.endswith(".md") or f == "ddd_core/territorio_ids.py"
+                    or f == "herramientas/preflight_caceres_n08.py"):  # N08 histórica: sha256 anclado en la campaña
                 continue
             try:
                 texto = (ROOT / f).read_text(encoding="utf-8")

@@ -18,11 +18,6 @@ import sys
 import tempfile
 import zipfile
 from pathlib import Path
-import sys as _sys
-_RAIZ = str(Path(__file__).resolve().parents[1])
-if _RAIZ not in _sys.path:
-    _sys.path.insert(0, _RAIZ)
-from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito e ids por el resolutor, nunca por prefijo)
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -450,7 +445,7 @@ def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Pa
         'date': '2026-10-12', 'base': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
         'tool_sha256': sha(Path(__file__).read_bytes()),
         'scope': 'single province read-only gates; no real partition or production',
-        'province': code, 'identity': territorio_ids.id_legacy(f'nac{code}'),  # T-220: identidad histórica del preflight
+        'province': code, 'identity': 'congreso_' + code,
         'source_binding': source_binding, 'source_evidence': source_evidence,
         'crosswalk_sha256': crosswalk_meta['sha256'], 'population_output_sha256': population_meta['sha256'],
         'topology_manifest_identity_sha256': ident, 'topology_unit_sha256': sha(raw),

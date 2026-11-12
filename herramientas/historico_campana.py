@@ -37,7 +37,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio, fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, fichero_por_id, en_mapa  # noqa: E402  (T-220: id viejo o nuevo)
 
 ROOT = Path(__file__).resolve().parents[1]
 SOPORTADAS = ("201111", "201512", "201606", "201904", "201911")
@@ -77,7 +77,7 @@ def _json(root: Path, rel: str) -> dict:
 def requisitos(territorio: str, provincia: str, clave: str, root: Path = ROOT) -> list[str]:
     """Lo que falta para el paso A de un territorio (vacío si se puede ejecutar)."""
     falta = []
-    if territorio not in _json(root, INDEX)["territorios"]:
+    if en_mapa(_json(root, INDEX)["territorios"], territorio) is None:
         falta.append("sin M06 publicado (datos_abiertos/INDEX.json)")
     if not fichero_por_id(root / "datos/composicion", "{}.csv", territorio).is_file():
         falta.append("sin composición (datos/composicion/)")

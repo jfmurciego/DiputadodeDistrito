@@ -7,6 +7,7 @@ import yaml
 from herramientas.gestor_campana_nacional import (
     CONFIRMATION, build_manifest, build_matrix, canonical_selection, parse_selection,
 )
+from ddd_core.territorio_ids import es_nacional, ids_nuevos, id_legacy  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 NAC = "Nacional 2023"
@@ -16,7 +17,7 @@ class GestorProvincias(unittest.TestCase):
     def test_selector_lista_las_52_provincias(self):
         ids = parse_selection("todos", campaign=NAC)
         self.assertEqual(len(ids), 52)
-        self.assertTrue(all(t.startswith("congreso_") for t in ids))
+        self.assertTrue(all(es_nacional(t) for t in ids))
         self.assertEqual(len(parse_selection("todos")), 19)  # la autonómica no cambia
 
     def test_ine_matricula_y_nombre(self):

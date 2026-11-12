@@ -13,7 +13,8 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-IDS = sorted(p.name for p in (ROOT / "territorios").iterdir() if p.name.startswith("congreso_"))
+from ddd_core.territorio_ids import es_nacional, ids_nuevos, id_legacy  # noqa: E402  (T-220)
+IDS = sorted(p.name for p in (ROOT / "territorios").iterdir() if es_nacional(p.name))
 DECISION = ROOT / "configuracion/decisiones/congreso_referencia_territorial_2025_2026.json"
 TABLA = ROOT / "configuracion/equivalencia_seccionado_ine_2026_a_2025.csv"
 
@@ -60,7 +61,7 @@ class Contratos2026(unittest.TestCase):
 
     def test_decision(self):
         d = json.loads(DECISION.read_text(encoding="utf-8"))
-        self.assertEqual(d["territory_ids"], IDS)
+        self.assertEqual(sorted(d["territory_ids"]), IDS)  # T-220: la decisión conserva su orden (por id viejo)
         self.assertEqual((d["selected_population_year"], d["selected_section_year"], d["election_year"]), (2025, 2025, 2026))
         self.assertIs(d["generation_authorized_by_this_decision"], False)
         self.assertIn("D-65", d["approval_basis"])

@@ -48,7 +48,7 @@ class R2(unittest.TestCase):
         destino.write_bytes(b"zip-bytes")
 
     def test_sube_y_anota_sha256(self):
-        e = ao.archivar_uno(self.art, "nac22", self.root, self._desc, lambda k: None,
+        e = ao.archivar_uno(self.art, "congreso_huesca", self.root, self._desc, lambda k: None,
                             lambda k, p, h: self.subidas.__setitem__(k, h), "b")
         k = "congreso_huesca/123456789/ddd-state-123456789-M06.zip"
         self.assertEqual(self.subidas, {k: ar.hashlib.sha256(b"zip-bytes").hexdigest()})
@@ -61,7 +61,7 @@ class R2(unittest.TestCase):
         def falla(k, p, h):
             raise RuntimeError("R2 caído")
         with self.assertRaisesRegex(ValueError, "R2 caído"):
-            ao.archivar_uno(self.art, "nac22", self.root, self._desc, lambda k: None, falla, "b")
+            ao.archivar_uno(self.art, "congreso_huesca", self.root, self._desc, lambda k: None, falla, "b")
         self.assertFalse((self.root / ar.MANIFIESTO).exists())
 
     def test_sin_credenciales_falla_claro(self):
@@ -111,7 +111,7 @@ class Composicion(unittest.TestCase):
 
     def test_escribe_composicion_del_run(self):
         est = _estado(self.root / "est", trp.COMP, {0: (2, 500), 1: (2, 400)})
-        e = ao.escribir_composicion(est, "nac22", "77", self.root)
+        e = ao.escribir_composicion(est, "congreso_huesca", "77", self.root)
         ruta = self.root / "datos/composicion/runs/congreso_huesca_77.csv"
         self.assertEqual(ruta.read_text().splitlines()[:2], ["seccion,distrito,poblacion", "2200101001,0,300"])
         man = json.loads((self.root / "datos/composicion/MANIFEST.json").read_text())
@@ -122,51 +122,51 @@ class Composicion(unittest.TestCase):
     def _registro(self, run):
         reg = self.root / ao.cm.REGISTRO_VISOR.relative_to(ao.cm.ROOT)
         reg.parent.mkdir(parents=True, exist_ok=True)
-        reg.write_text(json.dumps({"products": [{"kind": "canonical_m06", "territory_id": "nac22", "run_id": run,
+        reg.write_text(json.dumps({"products": [{"kind": "canonical_m06", "territory_id": "congreso_huesca", "run_id": run,
                                                   "blob_sha": "b" * 40, "sha256": "c" * 64}]}))
 
     def test_run_vigente_se_promueve_a_canonico(self):
         self._registro("77")
         est = _estado(self.root / "est", trp.COMP, {0: (2, 500), 1: (2, 400)})
-        e = ao.escribir_composicion(est, "nac22", "77", self.root)
+        e = ao.escribir_composicion(est, "congreso_huesca", "77", self.root)
         canon = self.root / "datos/composicion/congreso_huesca.csv"
         self.assertEqual(canon.read_bytes(), (self.root / e["ruta"]).read_bytes())
-        t = json.loads((self.root / "datos/composicion/MANIFEST.json").read_text())["territorios"]["nac22"]
+        t = json.loads((self.root / "datos/composicion/MANIFEST.json").read_text())["territorios"]["congreso_huesca"]
         self.assertEqual(t, {"run_id": "77", "blob_sha": "b" * 40, "sha256_m06": "c" * 64, "secciones": 4, "sha256_csv": e["sha256_csv"]})
-        self.assertFalse(ao.promover_canonica("nac22", "77", self.root))  # idempotente
+        self.assertFalse(ao.promover_canonica("congreso_huesca", "77", self.root))  # idempotente
 
     def test_run_no_vigente_no_toca_el_canonico(self):
         self._registro("99")
         est = _estado(self.root / "est", trp.COMP, {0: (2, 500), 1: (2, 400)})
-        ao.escribir_composicion(est, "nac22", "77", self.root)
+        ao.escribir_composicion(est, "congreso_huesca", "77", self.root)
         self.assertFalse((self.root / "datos/composicion/congreso_huesca.csv").exists())
 
     def test_csv_archivado_alterado_no_se_promueve(self):
         self._registro("77")
         est = _estado(self.root / "est", trp.COMP, {0: (2, 500), 1: (2, 400)})
-        e = ao.escribir_composicion(est, "nac22", "77", self.root)
+        e = ao.escribir_composicion(est, "congreso_huesca", "77", self.root)
         (self.root / "datos/composicion/congreso_huesca.csv").unlink()
         (self.root / e["ruta"]).write_text("seccion,distrito,poblacion\n2200101001,0,1\n")
         with self.assertRaises(ValueError):
-            ao.promover_canonica("nac22", "77", self.root)
+            ao.promover_canonica("congreso_huesca", "77", self.root)
         self.assertFalse((self.root / "datos/composicion/congreso_huesca.csv").exists())
 
     def test_no_cuadra_no_escribe(self):
         est = _estado(self.root / "est", trp.COMP, {0: (2, 500), 1: (3, 400)})
         with self.assertRaises(ValueError):
-            ao.escribir_composicion(est, "nac22", "77", self.root)
+            ao.escribir_composicion(est, "congreso_huesca", "77", self.root)
         self.assertFalse((self.root / "datos/composicion").exists())
 
 
 class Partidos(trp.Base):
     def test_votos_del_run_m08(self):
         root = self.d / "repo"
-        ao.escribir_composicion(_estado(self.d / "est6", trp.COMP, {0: (2, 500), 1: (2, 400)}), "nac22", "77", root)
+        ao.escribir_composicion(_estado(self.d / "est6", trp.COMP, {0: (2, 500), 1: (2, 400)}), "congreso_huesca", "77", root)
         est8 = self.d / "est8"
         est8.mkdir()
         z = zipfile.ZipFile(io.BytesIO(self.m08))
         (est8 / "m08.geojson").write_bytes(z.read(z.namelist()[0]))
-        e = ao.escribir_partidos(est8, "nac22", "88", "77", root, self.zip, self.contratos)
+        e = ao.escribir_partidos(est8, "congreso_huesca", "88", "77", root, self.zip, self.contratos)
         lineas = (root / e["ruta"]).read_text().splitlines()
         self.assertEqual(lineas[1], "0,PP,60,54.5455,3,1,160")
         man = json.loads((root / "datos/resultados/MANIFEST.json").read_text())
@@ -177,7 +177,7 @@ class Partidos(trp.Base):
         (est8z / "t_m08_distritos_resultados.geojson.zip").write_bytes(self.m08)
         self.assertEqual(ao.ganadores_m08(est8z), ao.ganadores_m08(est8))
         # sin composición del run territorial: se omite
-        self.assertIsNone(ao.escribir_partidos(est8, "nac22", "88", "66", root, self.zip, self.contratos))
+        self.assertIsNone(ao.escribir_partidos(est8, "congreso_huesca", "88", "66", root, self.zip, self.contratos))
 
 
 class Comprobar(unittest.TestCase):

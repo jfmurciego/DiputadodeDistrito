@@ -77,15 +77,15 @@ class NotacionTerritorial(unittest.TestCase):
         por = {f["codigo"]: f for f in _tabla()}
         for t in cat["territories"]:
             f = por["AUT" + t["autonomous_community_code_ine"]]
-            self.assertEqual((f["id_interno"], f["nombre_es"]), (t["territory_id"], t["name"]))
+            self.assertEqual((f["codigo"].lower(), f["nombre_es"]), (t["territory_id"], t["name"]))  # T-220: id nuevo
         nac = [t for t in cat["pilot_territories"] if not t["territory_id"].startswith("congreso350_")]
         self.assertEqual(len(nac), 52)
         for t in nac:
             f = por["NAC" + t["province_codes"][0]]
-            self.assertEqual(f["id_interno"], t["territory_id"])
+            self.assertEqual(f["codigo"].lower(), t["territory_id"])  # T-220: id nuevo
             self.assertEqual("Congreso " + f["nombre_es"], t["name"])
             self.assertEqual(t["pilot_code"], "C" + f["codigo_ine"])
-        ids = [f["id_interno"] for f in por.values()]
+        ids = [f["codigo"].lower() for f in por.values()]  # T-220: carpetas con el id nuevo
         self.assertEqual(len(ids), len(set(ids)))
         for i in ids:
             self.assertTrue((ROOT / "territorios" / i).is_dir(), i)

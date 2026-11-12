@@ -9,6 +9,7 @@ from pathlib import Path
 import yaml
 
 from herramientas import bateria_motor as b
+from ddd_core.territorio_ids import es_nacional, ids_nuevos, id_legacy  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -16,8 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 class BateriaMotor(unittest.TestCase):
     def test_territorios_son_52_congreso_y_19_comunidades(self):
         ts = b.territorios()
-        self.assertEqual(len([t for t in ts if t.startswith("congreso_")]), 52)
-        self.assertEqual(len([t for t in ts if not t.startswith("congreso_")]), 19)
+        self.assertEqual(len([t for t in ts if es_nacional(t)]), 52)
+        self.assertEqual(len([t for t in ts if not es_nacional(t)]), 19)
 
     def test_reglas_salen_del_informe_de_validar_ejecucion(self):
         ok = {"estado": "PASS", "districts_found": 2, "failures": []}

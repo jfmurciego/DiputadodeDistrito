@@ -165,7 +165,7 @@ class Lanzar(unittest.TestCase):
                 {"id": 8, "display_title": "00 Ejecución Completa del Proyecto · ceuta · Reutilizar"},  # t220: no es id (título histórico)
                 {"id": 9, "display_title": "P00 Campaña"}]
         with mock.patch.object(lv, "list_runs", side_effect=lambda wf, status="": runs if status == "queued" else []):
-            self.assertEqual(lv.running_00(), {"aut06": "7", "aut18": "8"})
+            self.assertEqual(lv.running_00(), {"cantabria": "7", "ceuta": "8"})  # t220: no es id (selector de títulos históricos)
 
     def test_esperar_sigue_una_00_en_curso_con_titulo_viejo(self):  # T-215: cruce del corte
         self.runs[lv.WF_00].append({"id": 5, "display_title": "00 Ejecución Completa del Proyecto · A · Reutilizar",

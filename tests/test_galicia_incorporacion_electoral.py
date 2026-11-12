@@ -82,7 +82,7 @@ class GaliciaElectoralApplication(unittest.TestCase):
         self.assertEqual(len(exceptions), 48)
         self.assertEqual(sum(int(x["expected_votes"]) for x in exceptions), 25086)
 
-        dictionary = ROOT / contract["party_dictionary"]["path"]
+        dictionary = ruta_existente(ROOT, contract["party_dictionary"]["path"])  # T-220
         self.assertEqual(hashlib.sha256(dictionary.read_bytes()).hexdigest(), contract["party_dictionary"]["sha256"])
         PartyDictionary(json.loads(dictionary.read_text(encoding="utf-8")))
 

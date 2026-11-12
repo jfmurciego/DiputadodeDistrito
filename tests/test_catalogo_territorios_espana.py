@@ -18,7 +18,7 @@ class CatalogoTerritoriosEspana(unittest.TestCase):
 
     def test_madrid_es_siguiente_y_arquipielagos_explicitos(self):
         madrid=next(x for x in CAT if x["territory_id"]=="aut13")
-        self.assertEqual(madrid["batch"],"aut13")
+        self.assertEqual(madrid["batch"],"madrid")  # t220: no es id (nombre del lote)
         self.assertEqual(madrid["province_codes"],["28"])
         self.assertEqual({x["territory_id"] for x in CAT if x["batch"]=="insular"},{"aut04","aut05"})
 

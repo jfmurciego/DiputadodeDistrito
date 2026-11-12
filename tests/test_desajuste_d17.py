@@ -54,7 +54,7 @@ def contrato(ruta_yaml: Path, sha: str, datos: dict) -> dict:
     nu = sum(x[3] for x in datos.values())
     ruta_yaml.write_text(f"""contracts:
   congreso_huesca_2023-07-23:
-    territory_id: nac22
+    territory_id: congreso_huesca
     election_date: '2023-07-23'
     source_sha256: {sha}
     election_prefix: '{trp.PRE}'
@@ -62,7 +62,7 @@ def contrato(ruta_yaml: Path, sha: str, datos: dict) -> dict:
     province: '22'
     expected: {{ccaa: '02', sections: {len(datos)}, polling_stations: {len(datos)}, parties: 2, candidate_votes: {cand}, blank_votes: {bl}, null_votes: {nu}, voters: {cand + bl + nu}}}
 """)
-    return rp.contratos(ruta_yaml)["nac22"]
+    return rp.contratos(ruta_yaml)["congreso_huesca"]
 
 
 class Tolerancia(unittest.TestCase):
@@ -140,7 +140,7 @@ class Tolerancia(unittest.TestCase):
         est8.mkdir()
         (est8 / "m08.geojson").write_bytes(zipfile.ZipFile(io.BytesIO(trp.m08_zip(["PP", "PSOE"]))).read("x_m08_distritos_resultados.geojson"))
         with unittest.mock.patch("sys.stdout", new=io.StringIO()):
-            e = ao.escribir_partidos(est8, "nac22", "88", "77", root, self.zip, self.d / "c.yaml", eq)
+            e = ao.escribir_partidos(est8, "congreso_huesca", "88", "77", root, self.zip, self.d / "c.yaml", eq)
         self.assertEqual(e["desajustes"]["secciones"], 2)
         self.assertEqual(e["desajustes"]["ruta"], "datos/resultados/runs/congreso_huesca_88_desajustes.json")
         j = json.loads((root / e["desajustes"]["ruta"]).read_text())
@@ -164,14 +164,14 @@ class CuatroProvincias(unittest.TestCase):
     def test_pct_partido(self):
         eq = rp.leer_equivalencia()
         prov = json.loads(rp.EQUIVALENCIA_META.read_text(encoding="utf-8"))["provincias"]
-        esperado = {"nac06": (386842, 693), "nac02": (218503, 0),
-                    "nac04": (316006, 0), "nac46": (1419017, 8511)}
+        esperado = {"congreso_badajoz": (386842, 693), "congreso_albacete": (218503, 0),
+                    "congreso_almeria": (316006, 0), "congreso_valencia": (1419017, 8511)}
         for terr, (total, partidos) in esperado.items():
             p = prov[terr]
             self.assertEqual(p["votos_candidaturas"], total)
             v = sum(s["votos"] for s in p["secciones_zip_sin_m06"] if rp.clasificar(eq[s["seccion"]]) == "partida")
             self.assertEqual(v, partidos, terr)
-            self.assertEqual(v / total > rp.TOPE_DESAJUSTE, terr == "nac46", terr)
+            self.assertEqual(v / total > rp.TOPE_DESAJUSTE, terr == "congreso_valencia", terr)
         self.assertEqual(rp.clasificar(eq["0608304014"]), "recodificada")
         self.assertFalse(hasattr(rp, "CASOS_APARTE"))
 
@@ -179,7 +179,7 @@ class CuatroProvincias(unittest.TestCase):
         """T-104: con la composición versionada, las 10 partidas de Bétera (46070) caen todas en el distrito 22."""
         eq = rp.leer_equivalencia()
         comp = rp.leer_composicion(rp.COMPOSICION / "congreso_valencia.csv")
-        p = json.loads(rp.EQUIVALENCIA_META.read_text(encoding="utf-8"))["provincias"]["nac46"]
+        p = json.loads(rp.EQUIVALENCIA_META.read_text(encoding="utf-8"))["provincias"]["congreso_valencia"]
         clases = {s["seccion"]: rp.clasificar([e for e in eq[s["seccion"]] if e["seccion_m06"] in comp], comp)
                   for s in p["secciones_zip_sin_m06"]}
         self.assertNotIn("partida", clases.values())

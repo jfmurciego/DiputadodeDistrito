@@ -38,7 +38,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio, fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, fichero_por_id, en_mapa  # noqa: E402  (T-220: id viejo o nuevo)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
@@ -90,7 +90,7 @@ def elecciones(comunidad: str, root: Path = ROOT) -> list[dict]:
 def requisitos(comunidad: str, root: Path = ROOT) -> list[str]:
     """Lo que falta para el paso A de una comunidad (vacío si se puede ejecutar)."""
     falta = []
-    comp = _json(root, COMPOSICION_MANIFEST)["territorios"].get(comunidad)
+    comp = en_mapa(_json(root, COMPOSICION_MANIFEST)["territorios"], comunidad)
     if comp is None or not fichero_por_id(root / "datos/composicion", "{}.csv", comunidad).is_file():
         falta.append("sin composición (datos/composicion/)")
     elif not any(p.get("kind") == "canonical_m06" and mismo_territorio(str(p.get("territory_id") or ""), str(comunidad))

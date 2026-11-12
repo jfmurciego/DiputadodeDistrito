@@ -25,7 +25,7 @@ sys.path.insert(0, str(ROOT / "herramientas"))
 import generar_datos_abiertos as da  # noqa: E402
 import resultados_ligeros as rl  # noqa: E402
 
-T = "congreso_sintetico"
+T = "nac22"  # T-220: el generador filtra por el ámbito NAC del resolutor (un id fuera de la tabla no es nacional)
 
 
 def zip_(nombre, feats):

@@ -2,6 +2,8 @@ import json
 import re
 import unittest
 
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220)
+
 import yaml
 from pathlib import Path
 from herramientas.generar_estado_dashboard import build
@@ -30,7 +32,7 @@ class DashboardPages(unittest.TestCase):
             rel=(state.get("evidence") or {}).get(kind)
             self.assertTrue(rel)
             data=json.loads((ROOT/rel).read_text(encoding="utf-8"))
-            self.assertEqual(data["territory_id"],"aut12")
+            self.assertTrue(mismo_territorio(data["territory_id"],"aut12"))  # T-220: evidencia con el id viejo
             self.assertEqual(str(data["edition"]),"2025")
             self.assertRegex(str(data["artifact_sha256"]).removeprefix("sha256:"),r"^[0-9a-f]{64}$")
             self.assertTrue(data["run_id"])

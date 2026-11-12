@@ -6,6 +6,7 @@ import unittest
 import yaml
 
 from herramientas import clave_eleccion as ce
+from ddd_core.territorio_ids import es_nacional, ids_nuevos, id_legacy  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github/workflows"
@@ -50,7 +51,7 @@ class ClaveEleccion(unittest.TestCase):
         self.assertEqual(len(rows), 52)
         self.assertEqual(len({r["territory_id"] for r in rows}), 52)
         self.assertEqual([r["code"] for r in rows], [f"{i:02d}" for i in range(1, 53)])
-        self.assertTrue(all(r["territory_id"].startswith("congreso_") for r in rows))
+        self.assertTrue(all(es_nacional(r["territory_id"]) for r in rows))
 
     def test_autonomicas_con_la_misma_clave(self):
         self.assertEqual([r["territory_id"] for r in ce.expand("ES-AUT-02-20260208", self.units)], ["aut02"])

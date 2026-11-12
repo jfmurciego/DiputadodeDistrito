@@ -43,7 +43,7 @@ def medir(raiz: Path = ROOT) -> list[dict]:
     for r in cal:
         c, aaaamm = r["comunidad"], r["mes"].replace("-", "")
         if c not in mans:
-            p = raiz / DATOS / c / "MANIFEST.json"
+            p = fichero_por_id(raiz / DATOS, "{}/MANIFEST.json", c)  # T-220: carpeta con el id viejo
             mans[c] = json.loads(p.read_text(encoding="utf-8")).get("elecciones", {}) if p.exists() else {}
         comp = fichero_por_id(raiz / "datos/composicion", "{}.csv", c).exists()
         hay_secc = f"{r['cod_ine']}-{aaaamm}" in secc

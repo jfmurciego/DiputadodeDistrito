@@ -76,7 +76,7 @@ def variantes_350():
     out = []
     for t in cat["pilot_territories"]:
         if t.get("scope") == "congreso_350":
-            cod = por_id[t["parent_territory_id"]]
+            cod = por_id.get(t["parent_territory_id"]) or t["parent_territory_id"].upper()  # T-220: el padre ya es nacNN
             out.append((t["territory_id"], cod, cod.lower() + "-350"))
     return sorted(out, key=lambda x: x[1])
 

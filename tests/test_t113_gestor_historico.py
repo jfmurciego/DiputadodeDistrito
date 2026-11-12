@@ -20,6 +20,7 @@ ROOT = REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import gestor_campanas_2 as g  # noqa: E402
 import historico_campana as hc  # noqa: E402
+from ddd_core.territorio_ids import es_nacional, mismo_territorio  # noqa: E402  (T-220)
 
 H = {"eleccion": "histórico: generales 2019-11", "tipo": "nacional", "territorios": "todos",
      "inicio": "reutilizar progreso", "publicar": "no", "ensemble": "ninguno", "mapa": "407"}
@@ -53,12 +54,12 @@ class Plan(unittest.TestCase):
 
     def test_fixture_son_las_52_circunscripciones(self):
         self.assertEqual(len(set(M06_PUBLICADOS)), 52)
-        self.assertTrue(all(t.startswith("congreso_") for t in M06_PUBLICADOS))
+        self.assertTrue(all(es_nacional(t) for t in M06_PUBLICADOS))
 
     def test_sin_m06_en_el_index_se_omite(self):
         # Invariante: un territorio fuera de datos_abiertos/INDEX.json no entra en el plan aunque tenga composición.
         with tempfile.TemporaryDirectory() as td:
-            root = raiz_congelada([t for t in M06_PUBLICADOS if t != "nac22"], Path(td))
+            root = raiz_congelada([t for t in M06_PUBLICADOS if not mismo_territorio(t, "nac22")], Path(td))
             (root / "datos/composicion/congreso_huesca.csv").write_text("x\n", encoding="utf-8")
             h = hc.plan(H["eleccion"], [{"territory_id": "nac22", "codigo": "22"},
                                         {"territory_id": "nac44", "codigo": "44"}], False, root)
