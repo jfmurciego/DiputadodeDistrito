@@ -1,7 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.3
-# ANTERIOR: legacy/workflows/revisor-pr_v1.0.2_20261112.yml
+# VERSIÓN: 1.0.4
+# ANTERIOR: legacy/workflows/revisor-pr_v1.0.3_20261113.yml
+# CAMBIOS 1.0.4: conservar el contrato de la suite de agentes: sin ambos secretos se omite
+#   el revisor explícitamente, pero ningún error del proveedor con secreto produce veredicto PASS.
 # CAMBIOS 1.0.3: diagnosticar sesiones is_error:true sin respuesta (0 tokens), admitir API Key como
 #   alternativa a OAuth, evitar parseo defectuoso de allowedTools, y validar veredicto+SHA de forma fail-closed.
 #   Ninguna incidencia externa se convierte en PASS.
@@ -42,9 +44,12 @@ jobs:
           HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
         run: |
           set -euo pipefail
-          if [[ -z "${TOKEN:-}" && -z "${API_KEY:-}" ]]; then
-            echo "::error::No hay credenciales Anthropic. Configura ANTHROPIC_API_KEY (preferida) o CLAUDE_CODE_OAUTH_TOKEN."
-            exit 1
+          if [[ -z "${TOKEN:-}" ]]; then
+            if [[ -z "${API_KEY:-}" ]]; then
+              echo "::notice::Sin CLAUDE_CODE_OAUTH_TOKEN ni ANTHROPIC_API_KEY: revisor omitido."
+              echo "listo=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
           fi
           if [[ "$DRAFT" == "true" || "$HEAD_REPO" != "$GITHUB_REPOSITORY" ]]; then echo "::notice::PR en borrador o de un fork: revisor omitido."; echo "listo=false" >> "$GITHUB_OUTPUT"; exit 0; fi
           echo "listo=true" >> "$GITHUB_OUTPUT"
