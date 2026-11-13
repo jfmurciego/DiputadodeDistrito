@@ -1,0 +1,31 @@
+Diputado de Distrito — Deslinde 1.0
+===================================
+
+Identificación de la obra: "Diputado de Distrito: motor reproducible de
+distritos uninominales", componente "Deslinde 1.0" (motor2).
+
+Autor identificado por los metadatos del proyecto (CITATION.cff):
+Jesús Murciego, investigador independiente.
+Copyright © 2026 Jesús Murciego, respecto de sus contribuciones originales.
+
+Código principal de Deslinde:
+  ddd_motor2/
+Especificación técnica y descripción verificable:
+  docs/ARQUITECTURA/DESLINDE_1_0.md
+Historial de evolución y autores/contribuciones:
+  https://github.com/jfmurciego/DiputadodeDistrito
+Identificación académica y citas:
+  CITATION.cff (DOI indicados en ese fichero; no confundir el DOI de
+  un mapa con un registro del motor de software).
+
+Este aviso reconoce la procedencia de las contribuciones originales
+identificadas; no elimina los derechos que correspondan a terceros sobre
+sus respectivas contribuciones, bibliotecas o conjuntos de datos.
+
+El software del repositorio está distribuido bajo la licencia Apache 2.0
+(archivo LICENSE). Este NOTICE no modifica ni amplía sus condiciones;
+se incluye como aviso de atribución a conservar cuando sea aplicable,
+conforme a los términos de Apache 2.0.
+
+No se autoriza presentar la creación original de otra persona como
+propia ni retirar avisos obligatorios de atribución.
