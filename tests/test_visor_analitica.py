@@ -42,7 +42,10 @@ class Contador(unittest.TestCase):
                   if "vendor" not in p.parts and "tile.openstreetmap.org" in p.read_text(encoding="utf-8")}
         self.assertEqual(cargan, OSM_VISORES)  # V2 y V3 no cargan teselas: no lo declaran
         self.assertIn(OSM_TXT, (RAIZ / "visor/index.html").read_text(encoding="utf-8"))
-        for p in ("visor/v3/index.html", "web/textos.md"):
+        nota = "El mapa de fondo lo sirve OpenStreetMap, que ve la dirección IP de quien lo consulta."
+        for p in ("visor/nacional/index.html", "visor/congreso/index.html"):
+            self.assertIn(nota, (RAIZ / p).read_text(encoding="utf-8"), p)
+        for p in ("visor/v2/index.html", "visor/v3/index.html", "web/textos.md"):
             self.assertNotIn("OpenStreetMap", (RAIZ / p).read_text(encoding="utf-8"), p)
 
     def test_rutas_servidas_estan_en_la_lista_blanca(self):

@@ -4,7 +4,7 @@ Proyecto: Diputado de Distrito
 Versión: 1.0.5 | Nombre: visor Nacional (T-84, D-16)
 Fecha: 2026-11-14 | Alcance: vista Nacional, elecciones generales; Autonómica pendiente
 Estado: candidato
-Cambios/motivo: T-294, retirado el hueco inactivo de Cloudflare Web Analytics (T-174); /nacional/ no lleva contador (fuera de la lista blanca del Worker). Antes: T-310, maplibre-gl 5.7.0 local con SRI (sin unpkg). Antes: T-206, nota solo para la elección 2026 (D-69), oculta mientras no se muestre 2026. Antes: T-174, hueco opcional de analítica sin cookies (Cloudflare Web Analytics); inactivo sin token.
+Cambios/motivo: T-294, nota de OpenStreetMap (D-104) y retirado el hueco inactivo de Cloudflare Web Analytics (T-174); /nacional/ no lleva contador (fuera de la lista blanca del Worker). Antes: T-310, maplibre-gl 5.7.0 local con SRI (sin unpkg). Antes: T-206, nota solo para la elección 2026 (D-69), oculta mientras no se muestre 2026. Antes: T-174, hueco opcional de analítica sin cookies (Cloudflare Web Analytics); inactivo sin token.
 Anterior: legacy/visor/nacional/index_v1.0.4.html
 -->
 <html lang="es">
@@ -34,5 +34,6 @@ Anterior: legacy/visor/nacional/index_v1.0.4.html
 <nav class="timebar" id="timebar" aria-label="Elección"></nav>
 <script src="../v2/vendor/maplibre-gl/5.7.0/maplibre-gl.js" integrity="sha384-Blts4zGbI8Hh/NvhcxTYsF2uLBbYIwHXEhPMxN3XpadJCDgstyLfJA3opgmkfBOc"></script>
 <script src="nacional.js"></script>
+<p class="aviso-osm" style="font-size:12px;margin:8px 16px;opacity:.85">El mapa de fondo lo sirve OpenStreetMap, que ve la dirección IP de quien lo consulta.</p>
 </body>
 </html>
