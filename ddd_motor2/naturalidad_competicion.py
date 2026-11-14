@@ -3,11 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — laboratorio de naturalidad: competición con cinco funciones de calidad y grafo ponderado
-VERSIÓN: 1.6.1
-NOMBRE DE VERSIÓN: Naturalidad · árbol ponderado sobre RX
-FECHA: 2026-11-12
+VERSIÓN: 1.7.0
+NOMBRE DE VERSIÓN: Naturalidad · cadena ponderada desde Deslinde
+FECHA: 2026-11-14
 ESTADO: experimento (motor 2; producción no lo importa; no lanza nada; el criterio NO se fija aquí)
-CAMBIOS: 1.6.0 (T-262, D-89): `arbol_ponderado` sobre grafos RX lee extremos y datos de todas las aristas de una vez
+CAMBIOS: 1.7.0 (T-257, D-88): huella_plan, _bip_mitad, arbol_ponderado y cadena se mueven sin cambios al paquete
+  Deslinde (deslinde/ponderado.py) y se importan de allí (fuente única). Mismos planes.
+  1.6.0 (T-262, D-89): `arbol_ponderado` sobre grafos RX lee extremos y datos de todas las aristas de una vez
   (edge_index_map) en vez de get_edge_from_edge_id/node_data/edge_data por arista: mismo orden de aristas
   (_ordered_edge_ids) y una llamada a rng.random() por arista, mismos pesos, mismo árbol y mismos mapas bit a bit.
   1.5.0 (T-205): la clave de calidad (A, B, D5, D8), los desvíos, la naturalidad y los recargos salen a
@@ -42,7 +44,7 @@ CAMBIOS: 1.6.0 (T-262, D-89): `arbol_ponderado` sobre grafos RX lee extremos y d
 MOTIVO: T-172, pasos 3 y 4: ¿cuánta población «cuesta» un mapa más natural? Misma entrada, mismas reglas (núcleo
   ddd_motor2.reglas.evaluar), mismas semillas públicas (semilla.py); cambia solo cómo se elige y cómo se corta.
 CAMBIOS 1.6.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/ddd_motor2/naturalidad_competicion_v1.6.0_20261112.py
+ANTERIOR: legacy/ddd_motor2/naturalidad_competicion_v1.6.1_20261114.py
 QUÉ HACE: por territorio,
   entrada   el mapa vigente (datos/composicion/<t>.csv: población por sección) y la geometría INE del contrato
             (naturalidad_mapas.Geometria). Unidades: cada municipio con población <= objetivo es una unidad (la regla
@@ -75,12 +77,10 @@ import csv
 import hashlib
 import json
 import os
-import random
 import sys
 import time
 from collections import defaultdict
 from fractions import Fraction
-from functools import partial
 from pathlib import Path
 
 from . import naturalidad_mapas as nm
@@ -276,96 +276,7 @@ def particiones(cfg: dict) -> dict:
     return out
 
 
-def huella_plan(asig: dict[str, str]) -> str:
-    """Independiente de las etiquetas: conjunto de distritos como conjuntos de unidades."""
-    g: dict[str, list[str]] = defaultdict(list)
-    for u, d in asig.items():
-        g[d].append(u)
-    forma = sorted("|".join(sorted(v)) for v in g.values())
-    return hashlib.sha256("\n".join(forma).encode("utf-8")).hexdigest()
-
-
-def _bip_mitad(subgraph, pop_col, pop_target, epsilon, *args, bip, eps, **kw):
-    """Corta el par fusionado por la mitad de su población con la tolerancia real `eps` (recom recibe un epsilon
-    holgado porque comprueba contra su pop_target único, que con objetivos por circunscripción no vale)."""
-    total = sum(subgraph.node_data(n)[pop_col] for n in subgraph.node_indices)
-    return bip(subgraph, pop_col, total / 2, eps, *args, **kw)
-
-
-def arbol_ponderado(graph, region_surcharge=None, treat_unassigned_as_single_region=False, rng=None, *, recargo):
-    """Kruskal con peso aleatorio [0,1) + recargo fijo de la arista (sustituye a random_spanning_tree)."""
-    from gerrychain.tree.spanning_tree import _ordered_edge_ids  # noqa: PLC0415
-    if not isinstance(rng, random.Random):
-        rng = random.Random(rng)
-    if graph.is_rx_graph():
-        # mismo orden de aristas y una sola llamada a rng.random() por arista que la ruta general; los extremos y los
-        # datos salen de una vez del grafo RX (sin get_edge_from_edge_id/node_data/edge_data por arista)
-        rx = graph.get_rx_graph()
-        extremos = rx.edge_index_map()
-        get = recargo.get
-        for eid in _ordered_edge_ids(graph):
-            na, nb, datos = extremos[eid]
-            a, b = rx[na]["uid"], rx[nb]["uid"]
-            datos["random_weight"] = rng.random() + get((a, b) if a < b else (b, a), 0.0)
-        return graph.minimum_spanning_tree_from_edge_weight(edge_weight_attribute_name="random_weight")
-    for eid in _ordered_edge_ids(graph):
-        a, b = (graph.node_data(n)["uid"] for n in graph.get_edge_from_edge_id(eid))
-        graph.edge_data(eid)["random_weight"] = rng.random() + recargo.get((a, b) if a < b else (b, a), 0.0)
-    return graph.minimum_spanning_tree_from_edge_weight(edge_weight_attribute_name="random_weight")
-
-
-def cadena(lab: Natural, semilla: int, pasos: int, funciones: tuple[str, ...], recargo: dict | None) -> dict:
-    import networkx as nx  # noqa: PLC0415
-    from gerrychain import Graph, MarkovChain, Partition, updaters  # noqa: PLC0415
-    from gerrychain.proposals import recom  # noqa: PLC0415
-    from gerrychain.tree import bipartition_tree  # noqa: PLC0415
-    g = nx.Graph()
-    for u in sorted(lab.pob_u):
-        g.add_node(u, population=lab.pob_u[u], district=getattr(lab, "u_ini", lab.u0)[u], uid=u)
-    g.add_edges_from(sorted(lab.largo) + sorted(lab.problema.puentes))
-    graph = Graph.from_networkx(g)
-    ini = Partition(graph, assignment="district", updaters={"population": updaters.Tally("population", alias="population")})
-    # Reelección de par como producción (m05_gerrychain_engine): si una pareja no admite corte equilibrado (p. ej.
-    # un distrito vigente fuera de tolerancia), se prueba otra en lugar de abortar la cadena.
-    bip = partial(bipartition_tree, allow_pair_reselection=True, max_attempts=1000)
-    if recargo is not None:
-        bip = partial(bipartition_tree, allow_pair_reselection=True, max_attempts=1000,
-                      spanning_tree_fn=partial(arbol_ponderado, recargo=recargo))
-    eps = float(lab.tol / lab.objetivo)
-    # con objetivos por circunscripción se corta por la mitad de la población del par; si el par mezcla
-    # circunscripciones, el plan resultante lo rechaza `nucleo` (R-CUOTA / provincia única)
-    if lab.obj_circ:
-        bip, eps = partial(_bip_mitad, bip=bip, eps=eps), 1e6
-    prop = partial(recom, pop_col="population", pop_target=float(lab.objetivo), epsilon=eps,
-                   node_repeats=0, bipartition_tree_fn=bip)
-
-    uid = {i: ini.graph.node_data(i)["uid"] for i in ini.graph.node_indices}
-
-    def plan(p) -> dict[str, str]:
-        return {uid[i]: str(d) for i, d in p.assignment.items()}
-
-    def nucleo(p) -> bool:
-        return lab.valido(plan(p))
-
-    ch = MarkovChain(proposal_fn=prop, constraints=[nucleo], initial_partition=ini,
-                     total_steps=pasos, rng=semilla)
-    mejor: dict[str, tuple] = {}
-    vistos = set()
-    t0 = time.perf_counter()
-    fallo = ""
-    try:
-        for p in ch:
-            asig = plan(p)
-            h = huella_plan(asig)
-            vistos.add(h)
-            for f in funciones:
-                k = lab.clave(asig, f)
-                if f not in mejor or k < mejor[f][0]:
-                    mejor[f] = (k, asig)
-    except Exception as e:  # noqa: BLE001  (un fallo de la cadena se informa; sus mejores estados siguen valiendo)
-        fallo = f"{type(e).__name__}: {e}"
-    return {"semilla": semilla, "mejor": mejor, "unicos": len(vistos), "tiempo_s": time.perf_counter() - t0,
-            "fallo": fallo}
+from deslinde.ponderado import _bip_mitad, arbol_ponderado, cadena, huella_plan  # noqa: E402,F401  (T-257)
 
 
 def entorno() -> dict:

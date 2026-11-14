@@ -6,4 +6,4 @@
 
 **Pruebas.** `tests.test_t299_fuente_r2` (R2 simulado: baja y verifica, sha distinto = 53 sin fichero, sin objeto/credenciales/índice = 3, subida exige sha del índice, orden R2 → oficial → release); workflow_safety, design_a y codauto.
 
-**Riesgos.** La PR parte de T-298 (#756: comparte `fuentes_r2.json`); fusionar después. `generar_hemiciclo.py` sigue leyendo el release (no se toca). El objeto aún no está en R2: la primera 03 de Congreso con credenciales lo sube.
+**Riesgos.** `generar_hemiciclo.py` sigue leyendo el release (no se toca). El objeto aún no está en R2: la primera 03 de Congreso con credenciales lo sube.

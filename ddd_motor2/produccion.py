@@ -3,11 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — P30 dentro de la cadena de producción (00 / 02, modo `motor: motor2`)
-VERSIÓN: 1.1.2
-NOMBRE DE VERSIÓN: P30 en producción · la misma competición que la batería
-FECHA: 2026-11-12
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: P30 en producción · Deslinde como paquete
+FECHA: 2026-11-14
 ESTADO: candidato (solo se ejecuta con la entrada `motor: motor2`; con `m05`, por defecto, nada lo llama)
-CAMBIOS: 1.1.2 — (T-258) el vigente del P30 es el publicado en el visor (generadores 1.2.2, vigente.py): la huella
+CAMBIOS: 1.2.0 — (T-257, D-88) CanonicoDelRun se mueve al paquete Deslinde (deslinde/candidatos.py) y se importa
+  de allí; la huella motor2 incluye el código del paquete (paquetes/deslinde/src/deslinde/**/*.py), así que cambia
+  (D-89 lo admite: mismos mapas bit a bit). Misma competición.
+  1.1.2 — (T-258) el vigente del P30 es el publicado en el visor (generadores 1.2.2, vigente.py): la huella
   motor2 del P30 (P30.json «motor2») añade el vigente RESUELTO del territorio (huella_vigente: run, ruta, sha256),
   no el registro global del visor: publicar otro territorio no la cambia. La huella global (`huella`, sin
   territorio) solo cambia por ddd_motor2/vigente.py. P30.json guarda también «run» y «origen» del vigente. El
@@ -27,7 +30,7 @@ CAMBIOS: 1.1.2 — (T-258) el vigente del P30 es el publicado en el visor (gener
   1.0.0 — fichero nuevo.
 MOTIVO: 1.1.1 — T-265 / D-90 (semilla por código oficial). T-216 (corte 5.0.0, paso 3; D-75): el motor nuevo como P30 en la cadena de producción detrás de un interruptor
   `motor: m05|motor2` con `m05` por defecto hasta el relevo.
-ANTERIOR: legacy/ddd_motor2/produccion_v1.1.1_20261111.py
+ANTERIOR: legacy/ddd_motor2/produccion_v1.1.2_20261114.py
 QUÉ HACE (en el job M06 de la generación territorial, tras M04 + M05 canónico + M06 del propio run):
   competir   competición pública del motor 2 (competicion.competir_publico, la de la batería T-208): el canónico es el
              M06 que acaba de producir el run (mismas entradas M01-M03, M04, M05 canónico; no se recalcula), compite con
@@ -66,12 +69,13 @@ from pathlib import Path
 from typing import Mapping
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.1.2"
+VERSION = "1.2.0"
 ESQUEMA = "ddd.p30-motor2/1.0"
 FUNCION = "D8"  # única fuente de la función y N del P30: el flujo no los pasa y la huella motor2 los incluye
 CADENAS = 10
 # Tablas que lee la clave de naturalidad (naturalidad_mapas: partidos judiciales, comarcas agrarias, áreas de movilidad).
 RESPALDO = ".m05_original"  # copia temporal de la salida M05 mientras se rehace M06 (se borra al restaurar)
+DESLINDE = "paquetes/deslinde/src/deslinde"  # T-257: el código de Deslinde entra en la huella motor2
 DATOS_NATURALIDAD = ("configuracion/partidos_judiciales.csv", "docs/ESTUDIOS/T64_*/comarcas_agrarias.csv",
                      "datos/movilidad/**/*",
                      "datos/composicion/*.csv",  # T-223: el mapa vigente publicado compite (generadores.Vigente)
@@ -98,7 +102,7 @@ def huella_vigente(t: str, root: Path = ROOT) -> dict:
 def huella_motor(funcion: str = FUNCION, cadenas: int = CADENAS, root: Path = ROOT, territorio: str | None = None) -> dict:
     """Huella del motor 2 para la capa `motor2` de compatibility/motor.json (solo en el modo motor2). Con `territorio`
     (el P30), añade el vigente publicado que compite en ese territorio (huella_vigente)."""
-    ficheros = sorted(p for p in (root / "ddd_motor2").rglob("*.py") if "__pycache__" not in p.parts)
+    ficheros = sorted(p for d in ("ddd_motor2", DESLINDE) for p in (root / d).rglob("*.py") if "__pycache__" not in p.parts)
     for patron in DATOS_NATURALIDAD:
         ficheros += sorted(p for p in root.glob(patron) if p.is_file())
     engine = {p.relative_to(root).as_posix(): _sha(p.read_bytes()) for p in ficheros}
@@ -139,27 +143,7 @@ def _secciones_m06(cache: Path) -> Path | None:
     return geos[0] if geos else None
 
 
-class CanonicoDelRun:
-    """El canónico es el M06 que el run acaba de producir (M04 + M05 canónico + M06 de producción): no se recalcula."""
-
-    nombre = "canonico"
-
-    def __init__(self, composicion: Path, atributos: Path | None):
-        self.composicion, self.atributos = Path(composicion), atributos
-
-    def generar(self, entrada, semilla, destino: Path):
-        from .competicion import Salida  # noqa: PLC0415
-        destino = Path(destino)
-        destino.mkdir(parents=True, exist_ok=True)
-        if not self.composicion.is_file():
-            return Salida(None, "SIN_M06", f"sin composición M06 del run ({self.composicion})")
-        copia = destino / self.composicion.name
-        shutil.copy2(self.composicion, copia)
-        atr = None
-        if self.atributos is not None and self.atributos.is_file():
-            atr = destino / self.atributos.name
-            shutil.copy2(self.atributos, atr)
-        return Salida(copia, "OK", atributos_secciones=atr, extra={"origen": "M06 del run"})
+from deslinde.candidatos import CanonicoDelRun  # noqa: E402,F401  (T-257: movido a Deslinde)
 
 
 # --------------------------------------------------------------------------- particiones

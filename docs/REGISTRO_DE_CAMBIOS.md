@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.389
+Versión: 1.0.392
 Fecha: 2026-11-14
-Alcance: T-291 — El adaptador común declara la tabla de equivalencia de seccionados (D-65)
+Alcance: T-298 — La batería deja de depender del INE: espejo de fuentes nacionales y entrada mínima en R2 por identidad
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t291-adaptador-equivalencia.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.388_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t298-espejo-ine.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.391_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,9 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.388_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.392 · [2026-11-14 — T-298 — La batería deja de depender del INE: espejo de fuentes nacionales y entrada mínima en R2 por identidad](registro/2026-11-14_t298-espejo-ine.md)
+- 1.0.391 · [2026-11-14 — T-257 — paquete independiente Deslinde 1.0.0 (fuente única)](registro/2026-11-14_t257-paquete-deslinde.md)
+- 1.0.390 · [2026-11-14 — T-291 — La 03 declara la equivalencia 2026→2023 en las generales del 29-11 (D-65)](registro/2026-11-14_t291-03-equivalencia.md)
 - 1.0.389 · [2026-11-14 — T-291 — El adaptador común declara la tabla de equivalencia de seccionados (D-65)](registro/2026-11-14_t291-adaptador-equivalencia.md)
 - 1.0.388 · [2026-11-14 — T-296 — óptimo exacto de D8 (CP-SAT) y hueco del ganador de Deslinde](registro/2026-11-14_claude-t296-optimo-d8.md)
 - 1.0.387 · [2026-11-14 — T-291 — Votos por partido de 2026 con la regla de M07, aparte de 2023 (D-65)](registro/2026-11-14_t291-r3-partidos-2026.md)
