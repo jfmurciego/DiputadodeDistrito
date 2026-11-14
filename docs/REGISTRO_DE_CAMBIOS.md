@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.407
+Versión: 1.0.411
 Fecha: 2026-11-14
-Alcance: T-307 — El registro de la preparación escribe el id canónico; la puerta sigue estricta
+Alcance: T-310 — maplibre-gl servido desde el propio sitio (sin unpkg)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t307-id-legacy-alias-p00.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.406_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t310-maplibre-local.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.410_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,10 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.406_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.411 · [2026-11-14 — T-310 — maplibre-gl servido desde el propio sitio (sin unpkg)](registro/2026-11-14_t310-maplibre-local.md)
+- 1.0.410 · [2026-11-14 — T-302 — Lista BORRAR/CONSERVAR y script de borrado de los almacen-m06-*](registro/2026-11-14_t302b-lista-borrado-almacen-m06.md)
+- 1.0.409 · [2026-11-14 — T-293 — Revisor de PR solo con la etiqueta `revisar-ia`](registro/2026-11-14_t-293-revisor-etiqueta.md)
+- 1.0.408 · [2026-11-14 — T-294 — Contador de visitas sin datos personales: Worker, pruebas y guía (fase 2, parte 1)](registro/2026-11-14_feat-t294-contador-worker.md)
 - 1.0.407 · [2026-11-14 — T-307 — El registro de la preparación escribe el id canónico; la puerta sigue estricta](registro/2026-11-14_t307-id-legacy-alias-p00.md)
 - 1.0.406 · [2026-11-14 — T-306 — Inventario en solo lectura del histórico electoral desde 2011](registro/2026-11-14_t306-inventario-historico.md)
 - 1.0.405 · [2026-11-14 — T-280 — Licencia propietaria del repositorio (D-95)](registro/2026-11-14_t280-licencia-propietaria.md)
