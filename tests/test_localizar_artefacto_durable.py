@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import io
+import json
 import tempfile
 import unittest
 import zipfile
@@ -132,6 +133,107 @@ class FetchTests(unittest.TestCase):
             with self.assertRaises(LocationError):
                 fetch(loc, Path(tmp) / "in", extract=True, download=lambda p, t, r: t.write_bytes(evil))
             self.assertFalse((Path(tmp) / "fuera.txt").exists())
+
+
+class R2PrimeroTests(unittest.TestCase):
+    """T-302: R2 se lee primero (índice con sha256); alterado se rechaza; ausente cae al release."""
+    CLAVE = f"arc-p/m06/{NAME}-12779789644_{SHA[:12]}.zip"
+    INDICE = {CLAVE: {"run_id": str(RUN), "artifact_name": NAME, "artifact_id": 12779789644, "sha256": SHA}}
+
+    def _loc(self, indice=None, releases=None):
+        return locate(REPO, RUN, NAME, SHA, api=_api([], [_release()] if releases is None else releases),
+                      r2_index=self.INDICE if indice is None else indice)
+
+    def test_reads_from_r2_first_with_release_as_fallback(self):
+        loc = self._loc()
+        self.assertEqual(("r2", self.CLAVE), (loc["source"], loc["r2_key"]))
+        self.assertEqual("release", loc["fallback"]["source"])
+        with tempfile.TemporaryDirectory() as tmp:
+            usado = []
+            def r2(k, t): usado.append(k); t.write_bytes(PAYLOAD)
+            def release(*a): raise AssertionError("no debe tocar el release")
+            res = fetch(loc, Path(tmp) / "in", extract=True, download=release, r2=r2)
+            self.assertEqual([self.CLAVE], usado)
+            self.assertTrue((Path(tmp) / "in/run/CHAIN_STATE.json").is_file())
+            self.assertEqual("r2", res["source"])
+
+    def test_tampered_r2_is_rejected_and_never_extracted(self):
+        loc = self._loc(releases=[])
+        self.assertIsNone(loc["fallback"])
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "in"
+            with self.assertRaises(LocationError) as ctx:
+                fetch(loc, out, extract=True, r2=lambda k, t: t.write_bytes(PAYLOAD + b"!"))
+            self.assertEqual(EXIT_DIGEST, ctx.exception.code)
+            self.assertEqual([], list(out.iterdir()))
+
+    def test_tampered_r2_with_valid_release_uses_the_verified_release(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            res = fetch(self._loc(), Path(tmp) / "in", extract=False,
+                        download=lambda p, t, r: t.write_bytes(PAYLOAD),
+                        r2=lambda k, t: t.write_bytes(b"alterado"))
+            self.assertEqual("release", res["source"])
+
+    def test_absent_in_r2_falls_back_to_release(self):
+        loc = self._loc(indice={})
+        self.assertEqual("release", loc["source"])
+        loc = self._loc(indice={"otra": {"run_id": "1", "artifact_name": NAME, "sha256": SHA}})
+        self.assertEqual("release", loc["source"])
+
+    def test_missing_r2_object_falls_back_and_other_digest_is_ignored(self):
+        def falta(k, t): raise OSError("404")
+        with tempfile.TemporaryDirectory() as tmp:
+            res = fetch(self._loc(), Path(tmp) / "in", extract=False,
+                        download=lambda p, t, r: t.write_bytes(PAYLOAD), r2=falta)
+            self.assertEqual("release", res["source"])
+        ajeno = {self.CLAVE: dict(self.INDICE[self.CLAVE], sha256="2" * 64)}
+        self.assertEqual("release", self._loc(indice=ajeno)["source"])
+
+    def test_default_index_is_valid_and_well_formed(self):
+        raw = (Path(__file__).resolve().parents[1] / "orchestracion/almacen_m06_r2.json").read_text(encoding="utf-8")
+        idx = json.loads(raw)
+        self.assertEqual("ddd.almacen-m06-r2/1.0", idx["schema"])
+        for k, e in idx["objetos"].items():
+            self.assertTrue(k.startswith("arc-p/m06/"), k)
+            self.assertRegex(e["sha256"], r"^[0-9a-f]{64}$")
+        # los ids viejos de territorio los vigila tests.test_t220_renombrado sobre todo el repositorio
+        self.assertEqual({}, {k: e for k, e in idx["objetos"].items() if not e.get("run_id") or not e.get("artifact_name")})
+
+
+class AlmacenArchivoTests(unittest.TestCase):
+    def test_sin_assets_falla(self):
+        from herramientas.almacen_m06_r2 import archivar
+        with tempfile.TemporaryDirectory() as tmp:
+            objs, fallos = archivar(REPO, Path(tmp), api=lambda p: [], r2_sha=lambda k: None, r2_subir=lambda *a: None)
+        self.assertEqual(({}, 1), (objs, fallos))
+
+    def test_archiva_verifica_y_es_idempotente(self):
+        from herramientas.almacen_m06_r2 import archivar, indexar, clave
+        rel = [_release(), {"tag_name": "viewer-x-1", "assets": [{"id": 9, "name": "a-1.zip", "digest": "sha256:" + "3" * 64}]}]
+        subidos, remoto = [], {}
+        def subir(k, z, h): subidos.append(k); remoto[k] = h
+        with tempfile.TemporaryDirectory() as tmp:
+            kw = dict(api=lambda p: rel, download=lambda p, t, r: t.write_bytes(PAYLOAD),
+                      r2_sha=remoto.get, r2_subir=subir, ahora=lambda: "2026-11-14T00:00:00Z")
+            objs, fallos = archivar(REPO, Path(tmp), **kw)
+            k = clave(f"{NAME}-12779789644.zip", SHA)
+            self.assertEqual(([k], 0), (subidos, fallos))
+            self.assertEqual(SHA, objs[k]["sha256"])
+            self.assertEqual(str(RUN), objs[k]["run_id"])
+            archivar(REPO, Path(tmp), **kw)
+            self.assertEqual([k], subidos)  # sin resubida
+            idx = Path(tmp) / "idx.json"
+            self.assertEqual(1, indexar(Path(tmp) / "ARCHIVO_ALMACEN_M06.json", idx))
+            self.assertEqual({k}, set(json.loads(idx.read_text())["objetos"]))
+
+    def test_bytes_distintos_del_digest_no_se_suben(self):
+        from herramientas.almacen_m06_r2 import archivar
+        subidos = []
+        with tempfile.TemporaryDirectory() as tmp:
+            objs, fallos = archivar(REPO, Path(tmp), api=lambda p: [_release()],
+                                    download=lambda p, t, r: t.write_bytes(b"otro"), r2_sha=lambda k: None,
+                                    r2_subir=lambda *a: subidos.append(a))
+        self.assertEqual(({}, 1, []), (objs, fallos, subidos))
 
 
 if __name__ == "__main__":
