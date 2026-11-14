@@ -81,20 +81,6 @@ class BateriaMotor(unittest.TestCase):
             self.assertEqual(d["source_bindings"]["secciones_censales"]["materialized_path"], "inputs/seccionado_2023.zip")
             self.assertEqual("snapshot" in d["source_bindings"]["secciones_censales"], modo == "shapefile")
 
-    def test_estados_r2_prefieren_el_run_mas_reciente_y_m03(self):
-        with tempfile.TemporaryDirectory() as td:
-            f = Path(td) / "archivo_r2.json"
-            arts = {str(i): {"territorio": "x", "artefacto": a, "run_id": r, "url": "r2://b/k", "sha256": "0"}
-                    for i, (a, r) in enumerate([("ddd-state-1-M03", "1"), ("ddd-state-2-M03U", "2"),
-                                                ("ddd-state-2-M03", "2"), ("ddd-state-2-M04", "2")])}
-            f.write_text(json.dumps({"artefactos": arts}), encoding="utf-8")
-            viejo, b.ARCHIVO_R2 = b.ARCHIVO_R2, f
-            try:
-                self.assertEqual([a["artefacto"] for a in b.estados_r2("x")],
-                                 ["ddd-state-2-M03", "ddd-state-2-M03U", "ddd-state-1-M03"])
-            finally:
-                b.ARCHIVO_R2 = viejo
-
     def test_entrada_minima_es_m01_y_grafo_m03(self):
         self.assertEqual(b.ENTRADA_MINIMA, ("_m01_secciones_poblacion.geojson.zip", "_m03_grafo.json"))
 
@@ -116,13 +102,14 @@ class BateriaMotor2EnActions(unittest.TestCase):
     def test_modo_m05_intacto_y_motor2_en_matriz(self):
         j = self.wf["jobs"]
         self.assertEqual(j["bateria"]["timeout-minutes"], 300)
-        self.assertEqual(j["bateria"]["if"], "${{ inputs.motor != 'motor2' }}")
+        self.assertEqual(j["bateria"]["if"], "${{ inputs.motor != 'motor2' && inputs.archivar_p10 == '' }}")
         self.assertEqual(j["competicion"]["timeout-minutes"], 360)
         self.assertFalse(j["competicion"]["strategy"]["fail-fast"])
         self.assertEqual(j["competicion"]["env"]["PYTHONHASHSEED"], "0")
         self.assertEqual(j["aceptacion"]["needs"], ["plan", "competicion"])
         txt = (ROOT / ".github/workflows/bateria-motor.yml").read_text(encoding="utf-8")
-        self.assertIn("--desde-r2", txt)
+        self.assertNotIn("www.ine.es", txt)
+        self.assertNotIn("bateria_motor.py nacionales", txt)
         for t in ("nac42", "nac01", "aut19"):
             self.assertIn(f"matrix.t == '{t}'", txt)
         self.assertIn('cp bateria/competicion/RESUMEN.json "bateria/competicion/$T/RESUMEN.json"', txt)
@@ -131,7 +118,7 @@ class BateriaMotor2EnActions(unittest.TestCase):
         job = self.wf["jobs"]["competicion"]
         self.assertFalse([k for k in job["env"] if k.startswith(("AWS_", "R2_"))])
         con = [s["name"] for s in job["steps"] if any(k.startswith("AWS_") for k in s.get("env", {}))]
-        self.assertEqual(con, ["Entradas (R2 o fuente INE)"])
+        self.assertEqual(con, ["Entradas (R2, paquete P10)"])
 
     def test_lista_valida_territorios(self):
         import contextlib

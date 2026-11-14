@@ -217,7 +217,7 @@ ganador nunca es peor que la suya (aserción `competicion.py:356`). Sin ningún 
 ## 8. Paquete independiente (T-257, D-88)
 
 Desde T-257 el núcleo de Deslinde es el paquete Python `deslinde` 1.0.0 en `paquetes/deslinde/` (pyproject propio,
-Apache-2.0, `CITATION.cff`, `requirements-deslinde.lock`, `MAPAS.json`). Es la **fuente única**: `ddd_motor2.<módulo>` de
+`requirements-deslinde.lock`, `MAPAS.json`; privado, D-94: la licencia la fija #744). Es la **fuente única**: `ddd_motor2.<módulo>` de
 los módulos movidos es el mismo objeto que `deslinde.<módulo>` (`ddd_motor2/__init__.py`, `MOVIDOS`).
 
 | Antes (`ddd_motor2/`) | Ahora (`paquetes/deslinde/src/deslinde/`) |
@@ -247,9 +247,9 @@ planes y sha256 de las composiciones de todos los candidatos). El paquete aislad
 cargados) da en nac26 los mismos 12 candidatos. En CI: `tests/test_t257_paquete_deslinde.py` y `HUELLAS_FIJAS` de
 `tests/test_motor2_aceptacion.py`.
 
-**Mapas del depósito (D-88).** `paquetes/deslinde/MAPAS.json` lista los mapas regenerados con Deslinde 1.0.0 (composición
-y GeoJSON con sha256, `huella_resultado`, semilla pública); vacío hasta que se regeneren. El depósito Zenodo «Deslinde
-1.0.0 y mapas» es una nueva versión del concepto 10.5281/zenodo.24093967; su DOI lo emite Zenodo con la Release.
+**Mapas (D-88, D-94).** `paquetes/deslinde/MAPAS.json` lista los mapas regenerados con Deslinde 1.0.0 (composición
+y GeoJSON con sha256, `huella_resultado`, semilla pública); vacío hasta que se regeneren. Zenodo publica solo los mapas (D-94);
+sus metadatos de depósito van en T-276.
 
 ## Puntos abiertos
 

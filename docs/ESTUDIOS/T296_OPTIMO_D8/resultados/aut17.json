@@ -1,0 +1,148 @@
+{
+ "territorio": "aut17",
+ "version": "1.0.0",
+ "k": 33,
+ "huella_reglas": "14fc3cf9229ecb0cd8584166d6cad8b64d38c7c302318e46cd7be515442820aa",
+ "ganador_competicion": "ponderado-s276523860",
+ "ganador": {
+  "clave_d8": {
+   "fuera": 1,
+   "exceso_8": 0.03661526240993912,
+   "partidas": 7,
+   "frontera_km": 0.0,
+   "desvio_max": 0.4177583606903271,
+   "huella": "20015c87fe4e55e9e6e7e4397bf1fd23c448e77c089cf90297af739245e64109"
+  },
+  "igual_a_competicion": true
+ },
+ "canonico": {
+  "clave_d8": {
+   "fuera": 1,
+   "exceso_8": 0.03661526240993912,
+   "partidas": 9,
+   "frontera_km": 0.0,
+   "desvio_max": 0.4177583606903271,
+   "huella": "639ca97773a33fe62fb54885fc0539b4cf0c2ad99553ae1569f7444b09162df0"
+  }
+ },
+ "espacios": {
+  "canonico": {
+   "unidades": 193,
+   "atomos": 193,
+   "aristas_atomos": 509,
+   "variables": 20754,
+   "restricciones": 23341,
+   "modelo_acepta": {
+    "canonico": {
+     "estado": "FACTIBLE",
+     "terminos": {
+      "fuera": 1,
+      "exceso_8": 939575,
+      "partidas": 9,
+      "frontera_mm": 0,
+      "desvio": 134636
+     },
+     "coincide_con_clave_oficial": true
+    },
+    "ganador": {
+     "estado": "FACTIBLE",
+     "terminos": {
+      "fuera": 1,
+      "exceso_8": 939575,
+      "partidas": 7,
+      "frontera_mm": 0,
+      "desvio": 134636
+     },
+     "coincide_con_clave_oficial": true
+    }
+   },
+   "etapas": [
+    {
+     "etapa": "fuera",
+     "estado": "FEASIBLE",
+     "t_s": 120.1,
+     "valor": 1,
+     "cota": 0
+    }
+   ],
+   "exacto": false,
+   "mejor_modelo": {
+    "valido_nucleo": true,
+    "clave_d8": {
+     "fuera": 1,
+     "exceso_8": 0.03661526240993912,
+     "partidas": 7,
+     "frontera_km": 0.0,
+     "desvio_max": 0.4177583606903271,
+     "huella": "79813efd056e728f3e75a8dbb346d9b12faaebfe9fcc7f5b8e4e8831411130e8"
+    }
+   },
+   "hueco_ganador_menos_mejor": {
+    "termino": null,
+    "empate_hasta_huella": true,
+    "misma_particion": false
+   },
+   "estado": "COTA_D8"
+  },
+  "ganador": {
+   "unidades": 315,
+   "atomos": 205,
+   "aristas_atomos": 542,
+   "variables": 21648,
+   "restricciones": 24325,
+   "modelo_acepta": {
+    "canonico": {
+     "estado": "FACTIBLE",
+     "terminos": {
+      "fuera": 1,
+      "exceso_8": 939575,
+      "partidas": 9,
+      "frontera_mm": 0,
+      "desvio": 134636
+     },
+     "coincide_con_clave_oficial": true
+    },
+    "ganador": {
+     "estado": "FACTIBLE",
+     "terminos": {
+      "fuera": 1,
+      "exceso_8": 939575,
+      "partidas": 7,
+      "frontera_mm": 0,
+      "desvio": 134636
+     },
+     "coincide_con_clave_oficial": true
+    }
+   },
+   "etapas": [
+    {
+     "etapa": "fuera",
+     "estado": "FEASIBLE",
+     "t_s": 120.09,
+     "valor": 1,
+     "cota": 0
+    }
+   ],
+   "exacto": false,
+   "mejor_modelo": {
+    "valido_nucleo": true,
+    "clave_d8": {
+     "fuera": 1,
+     "exceso_8": 0.03661526240993912,
+     "partidas": 7,
+     "frontera_km": 0.0,
+     "desvio_max": 0.4177583606903271,
+     "huella": "20015c87fe4e55e9e6e7e4397bf1fd23c448e77c089cf90297af739245e64109"
+    }
+   },
+   "hueco_ganador_menos_mejor": {
+    "termino": null,
+    "empate_hasta_huella": true,
+    "misma_particion": true
+   },
+   "estado": "COTA_D8"
+  }
+ },
+ "t_total_s": 248.8,
+ "memoria_max_mb": 767.7
+}

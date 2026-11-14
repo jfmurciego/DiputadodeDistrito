@@ -69,6 +69,8 @@ EXENTOS = (
     "tests/test_f10_derived_doors.py",
     "tests/test_f10_valencia_2023_durable_receipt.py",
     "tests/test_f10_interannual_correspondence.py",
+    # Visor V3 (T-292): lee datos_abiertos/INDEX.json y las URL públicas, que conservan ids viejos (D-61); convivencia un ciclo.
+    "visor/v3/", "tests/test_visor_v3_ui.js", "tests/test_preparar_portada_v3.py",
 )
 # Ficheros donde la palabra es otra cosa (slug de provincia, clave de un informe de población, zona del mapa).
 NO_ES_ID = {

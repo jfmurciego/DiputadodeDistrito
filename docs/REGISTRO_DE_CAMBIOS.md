@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.382
+Versión: 1.0.395
 Fecha: 2026-11-14
-Alcance: T-220 — Carpetas de territorios con el id nuevo de la tabla maestra (aut01…aut19, nac01…nac52)
+Alcance: T-303 — La batería parte del paquete P10 de la fuente y recalcula M01-M03 con el código vigente
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_claude-t220-renombrado-v2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.381_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t303-bateria-desde-paquete-fuente.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.394_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,19 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.381_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.395 · [2026-11-14 — T-303 — La batería parte del paquete P10 de la fuente y recalcula M01-M03 con el código vigente](registro/2026-11-14_t303-bateria-desde-paquete-fuente.md)
+- 1.0.394 · [2026-11-14 — T-301 — La P50 versiona la composición vigente de cada M06 que publica](registro/2026-11-14_t301-p50-versiona-composicion.md)
+- 1.0.393 · [2026-11-14 — T-299 — ZIP de Infoelectoral en R2 (ARC-E) y inventario de releases](registro/2026-11-14_t299-fuente-interior-r2.md)
+- 1.0.392 · [2026-11-14 — T-298 — La batería deja de depender del INE: espejo de fuentes nacionales y entrada mínima en R2 por identidad](registro/2026-11-14_t298-espejo-ine.md)
+- 1.0.391 · [2026-11-14 — T-257 — paquete independiente Deslinde 1.0.0 (fuente única)](registro/2026-11-14_t257-paquete-deslinde.md)
+- 1.0.390 · [2026-11-14 — T-291 — La 03 declara la equivalencia 2026→2023 en las generales del 29-11 (D-65)](registro/2026-11-14_t291-03-equivalencia.md)
+- 1.0.389 · [2026-11-14 — T-291 — El adaptador común declara la tabla de equivalencia de seccionados (D-65)](registro/2026-11-14_t291-adaptador-equivalencia.md)
+- 1.0.388 · [2026-11-14 — T-296 — óptimo exacto de D8 (CP-SAT) y hueco del ganador de Deslinde](registro/2026-11-14_claude-t296-optimo-d8.md)
+- 1.0.387 · [2026-11-14 — T-291 — Votos por partido de 2026 con la regla de M07, aparte de 2023 (D-65)](registro/2026-11-14_t291-r3-partidos-2026.md)
+- 1.0.386 · [2026-11-14 — T-206 — Texto del padrón 2026 en el visor V3 (D-69)](registro/2026-11-14_t206-texto-padron-2026.md)
+- 1.0.385 · [2026-11-14 — T-203 — Catálogo de procedencia: elección por producto y fuentes con ids nuevos](registro/2026-11-14_t203-procedencia-por-eleccion.md)
+- 1.0.384 · [2026-11-14 — T-291 — M07 consume la equivalencia de seccionados 2026→2023 (D-65)](registro/2026-11-14_t291-equivalencia-2026-2023.md)
+- 1.0.383 · [2026-11-12 — T-116 — Explorador cartográfico V3 integrado](registro/2026-11-12_feat-visor-v3-integrado-20261112.md)
 - 1.0.382 · [2026-11-14 — T-220 — Carpetas de territorios con el id nuevo de la tabla maestra (aut01…aut19, nac01…nac52)](registro/2026-11-14_claude-t220-renombrado-v2.md)
 - 1.0.381 · [2026-11-14 — T-274A — guía del runner propio de GitHub Actions](registro/2026-11-14_claude-t274a-guia-runner-propio.md)
 - 1.0.380 · [2026-11-14 — T-271 — artefactos de diagnóstico de CI desacoplados de la cuota](registro/2026-11-14_t271-artefactos-ci-cuota.md)

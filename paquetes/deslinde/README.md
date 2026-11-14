@@ -41,6 +41,6 @@ da la aceptación mínima.
 
 [`MAPAS.json`](MAPAS.json) vincula por sha256 los mapas regenerados con esta versión. Está vacío hasta que se regeneren.
 
-## Licencia y cita
+## Licencia
 
-Apache-2.0 ([`LICENSE`](LICENSE)). Cita: [`CITATION.cff`](CITATION.cff); serie Zenodo 10.5281/zenodo.24093967.
+Paquete privado (D-94). La licencia la fija #744; hasta entonces, sin licencia de uso.

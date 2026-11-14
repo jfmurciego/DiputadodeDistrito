@@ -1,7 +1,18 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.14.1
-# FECHA: 2026-11-12
+# VERSIÓN: 3.15.0
+# FECHA: 2026-11-14
+# CAMBIOS 3.15.0: T-301, cada M06 canónico que se publica deja su composición sección→distrito versionada: tras describir el run,
+#   `composicion_m06.py --descriptores` la extrae de los artefactos ya descargados, la valida contra el M06 y la escribe en
+#   datos/composicion/runs/<id>_<run>.csv con su sha256 en MANIFEST_RUNS.json; se persiste en el mismo commit del registro.
+#   Si un territorio del lote no se recupera, el lote se rechaza entero (COMPOSICION_NO_RECUPERADA) antes de crear blobs.
+#   Descarga: los runs publicados solo conservan ddd-state-<run>-M07 (~100 MB, ninguno caducado): sin M06 se baja el run completo
+#   (pesa lo mismo). La línea `DESCARGA … estado=` dice cuál. Lotes de ≤12 runs por P50 (disco).
+# MOTIVO 3.15.0: 36 de 71 territorios publicados no tenían vigente comparable (SIN_VIGENTE) porque su composición no estaba en git.
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.14.2_20261114.yml
+# CAMBIOS 3.14.2: materializar V3 (/v3/) con activos publicados y promocionar su portada; V1 y V2 intactas.
+# MOTIVO 3.14.2: migración a visor integrado V3 con niveles hasta sección y filtros; conservar rollback.
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.14.1_20261112.yml
 # CAMBIOS 3.14.1: portada V2 en / y V1 conservada en /v1/; el registro y las capas permanecen intactos.
 # MOTIVO 3.14.1: utilizar la V2 como entrada principal sin alterar el contrato P50 ni la V1.
 # ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.14.0_20261112.yml
@@ -259,23 +270,28 @@ jobs:
           source .ddd-publication/lote.sh
           run="$1"; root="$(raiz_run "$run")"; inicio="$(date +%s)"; modo=selectiva
           mkdir -p "$root"
+          completa() { [[ -n "$(find "$root" -name "$1" -print -quit)" ]]; }
+          lista_completa() {
+            completa production_status.json && completa decision.json && completa manifest.json && completa '*_contiguedad_geometrica.json' \
+              && [[ -n "$(find "$root" \( -name '*_m06_distritos.geojson.zip' -o -name '*_m08_distritos_resultados.geojson.zip' \) -print -quit)" ]]
+          }
+          # T-301: los runs publicados solo conservan ddd-state-<run>-M07 (acumulado, con el M06 y su composición): sin producto en la
+          # selección M06 se baja el run completo (ddd-* pesa lo mismo que ese M07, ~100 MB). Lotes de ≤12 runs por disco.
+          estado_usado=M06
           pats=()
           for p in "ddd-audit-$run*" "ddd-audit-electoral-$run*" "ddd-decision-$run*" "ddd-full-run-manifest-$run*" "ddd-state-$run-M06*" "ddd-state-$run-M08*"; do
             pats+=(--pattern "$p")
           done
-          completa() { [[ -n "$(find "$root" -name "$1" -print -quit)" ]]; }
-          if ! gh run download "$run" "${pats[@]}" --dir "$root" || ! completa production_status.json || ! completa decision.json \
-            || ! completa manifest.json || ! completa '*_contiguedad_geometrica.json' \
-            || [[ -z "$(find "$root" \( -name '*_m06_distritos.geojson.zip' -o -name '*_m08_distritos_resultados.geojson.zip' \) -print -quit)" ]]; then
+          if ! gh run download "$run" "${pats[@]}" --dir "$root" || ! lista_completa; then
             echo "::warning::$run: la descarga selectiva falló o no trae estado, decisión, manifiesto, auditoría y producto; descarga completa ddd-*"
-            modo=completa
+            modo=completa; estado_usado=completo
             rm -rf "$root"; mkdir -p "$root"
             gh run download "$run" --pattern 'ddd-*' --dir "$root" || { echo "el run $run no se pudo descargar" > ".ddd-publication/descargas/$run.fallo"; exit 1; }
           fi
           if [[ -z "$(find "$root" -type f -print -quit)" ]]; then
             echo "la ejecución $run no contiene artefactos DDD" > ".ddd-publication/descargas/$run.fallo"; exit 1
           fi
-          echo "DESCARGA run=$run modo=$modo segundos=$(( $(date +%s) - inicio )) mb=$(du -sm "$root" | cut -f1)"
+          echo "DESCARGA run=$run modo=$modo estado=$estado_usado segundos=$(( $(date +%s) - inicio )) mb=$(du -sm "$root" | cut -f1)"
           touch ".ddd-publication/descargas/$run.ok"
           SH
           chmod +x .ddd-publication/descargar_run.sh
@@ -316,6 +332,8 @@ jobs:
             out="/tmp/product-descriptors-$run.json"
             python herramientas/registro_publicaciones_visor.py describe-production             --production-root "$(raiz_run "$run")"             --run-id "$run" ${SCENARIO_ID:+--scenario-id "$SCENARIO_ID" --strategy "$SCENARIO_STRATEGY"}             --output "$out" || fallos+=("$run")
             salidas+=("$out")
+            # T-301: la composición del M06 que se publica queda versionada (vigente del visor); sin ella, el lote se rechaza.
+            if [[ -s "$out" ]] && ! python herramientas/composicion_m06.py --descriptores "$out" --origen "$(raiz_run "$run")"; then fallos+=("$run"); fi
           done
           (( ${#fallos[@]} == 0 )) || {
             echo "::error::LOTE_RECHAZADO: sin producto publicable en ${fallos[*]} (motivo en las líneas anteriores); no se registra ninguno."; exit 1;
@@ -441,7 +459,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard /tmp/site-candidate/nacional /tmp/site-candidate/docs /tmp/site-candidate/v2
+          rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard /tmp/site-candidate/nacional /tmp/site-candidate/docs /tmp/site-candidate/v2 /tmp/site-candidate/v3
           cp visor/index.html visor/app.js visor/escenarios.js visor/styles.css /tmp/site-candidate/
           cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/
           cp dashboard/hemiciclo.html dashboard/hemiciclo.json /tmp/site-candidate/dashboard/
@@ -453,6 +471,7 @@ jobs:
           python herramientas/generar_datos_abiertos.py --registro /tmp/publicaciones_visor.candidate.json --materializar /tmp/site-candidate/datos
           cp visor/nacional/index.html visor/nacional/nacional.js visor/nacional/styles.css /tmp/site-candidate/nacional/
           cp -R visor/v2/. /tmp/site-candidate/v2/
+          cp visor/v3/index.html visor/v3/v3.css visor/v3/v3.js visor/v3/calendario.json /tmp/site-candidate/v3/
           rm -f /tmp/site-candidate/v2/README.md /tmp/site-candidate/v2/construir_vista_previa.py
           cp web/textos.md /tmp/site-candidate/v2/textos.md
           sed -i 's#data-textos="../../web/textos.md"#data-textos="textos.md"#' /tmp/site-candidate/v2/index.html
@@ -499,6 +518,14 @@ jobs:
           set -euo pipefail
           python herramientas/preparar_portada_v2.py --site=/tmp/site-candidate
 
+      - name: Promocionar portada pública V3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/preparar_portada_v3.py --site=/tmp/site-candidate
+          node --check /tmp/site-candidate/v3/v3.js
+          python -m unittest discover -s tests -p test_preparar_portada_v3.py
+
       - name: Validar sitio candidato completo
         shell: bash
         run: |
@@ -510,7 +537,12 @@ jobs:
           test -s /tmp/site-candidate/nacional/index.html
           node --check /tmp/site-candidate/nacional/nacional.js
           test -s /tmp/site-candidate/index.html
-          grep -q 'url=v2/' /tmp/site-candidate/index.html
+          grep -q 'url=v3/' /tmp/site-candidate/index.html
+          test -s /tmp/site-candidate/v3/index.html
+          test -s /tmp/site-candidate/v3/v3.css
+          test -s /tmp/site-candidate/v3/v3.js
+          test -s /tmp/site-candidate/v3/calendario.json
+          node --check /tmp/site-candidate/v3/v3.js
           test -s /tmp/site-candidate/v1/index.html
           grep -q '<base href="../">' /tmp/site-candidate/v1/index.html
           test -s /tmp/site-candidate/v2/index.html
@@ -595,13 +627,13 @@ jobs:
           }
           cp /tmp/publicaciones_visor.candidate.json "$PUBLICATION_REGISTRY"
           # Registro, resultados ligeros y datos abiertos van juntos: INDEX.json nunca queda desfasado del registro.
-          [[ -z "$(git status --porcelain -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos)" ]] && exit 0
+          [[ -z "$(git status --porcelain -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos datos/composicion)" ]] && exit 0
           [[ "$GITHUB_REF_NAME" == "main" ]] || {
             echo "::error::Las promociones publicables sólo pueden persistirse desde main."; exit 45;
           }
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add -A -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos
+          git add -A -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos datos/composicion
           git commit -m "chore: registrar activos persistentes del visor"
           for attempt in 1 2 3; do
             if git pull --rebase origin main && git push origin HEAD:main; then

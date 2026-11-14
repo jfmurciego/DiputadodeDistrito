@@ -1,0 +1,85 @@
+"""T-291 · la 03 pasa la tabla 2026→2023 al adaptador solo en las generales 2026 sobre los mapas vigentes."""
+from __future__ import annotations
+
+import os
+import re
+import subprocess
+import sys
+import unittest
+from pathlib import Path
+
+import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+WORKFLOW = ROOT / ".github/workflows/preparacion-resultados-electorales.yml"
+
+
+def _prepare_script() -> str:
+    wf = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+    for job in wf["jobs"].values():
+        for step in job.get("steps", []):
+            if step.get("id") == "prepare":
+                return step["run"]
+    raise AssertionError("sin paso prepare")
+
+
+def _equivalence_args(election_date: str, edition: str) -> str:
+    script = _prepare_script()
+    inicio = script.index("equivalence_args=()")
+    fin = re.compile(r"(?m)^fi$").search(script, inicio).end()
+    bloque = script[inicio:fin]
+    out = subprocess.run(
+        ["bash", "-euo", "pipefail", "-c", bloque + '\nprintf "%s|" "${equivalence_args[@]}"'],
+        cwd=ROOT, env={**os.environ, "PATH": f"{Path(sys.executable).parent}{os.pathsep}{os.environ.get('PATH', '')}",
+             "ELECTION_DATE": election_date, "EDITION": edition},
+        capture_output=True, text=True, check=True,
+    )
+    return out.stdout
+
+
+class Paso03Equivalencia(unittest.TestCase):
+    def test_generales_2026_en_mapas_vigentes(self):
+        self.assertEqual(_equivalence_args("2026-11-29", "2025"),
+                         "--section-equivalence|configuracion/equivalencia_seccionado_ine_2026_a_2023.csv|")
+
+    def test_2023_no_cambia(self):
+        self.assertEqual(_equivalence_args("2023-07-23", "2025"), "|")
+
+    def test_otra_edicion_no_cambia(self):
+        self.assertEqual(_equivalence_args("2026-11-29", "2026"), "|")
+
+    def test_las_dos_ramas_del_adaptador_pasan_el_argumento(self):
+        script = _prepare_script()
+        self.assertEqual(script.count('"${equivalence_args[@]}"'), 2)
+        for etiqueta in ("--adapter-label infoelectoral_mesas/1.0", '"${eligible_args[@]}"'):
+            i = script.index(etiqueta)
+            self.assertIn('"${equivalence_args[@]}"', script[i:i + 120], etiqueta)
+
+
+    def test_el_adaptador_acepta_la_opcion_que_pasa_la_03(self):
+        import csv
+        import json
+        import tempfile
+        args = [a for a in _equivalence_args("2026-11-29", "2025").split("|") if a]
+        with tempfile.TemporaryDirectory() as td:
+            src = Path(td) / "s.csv"
+            with src.open("w", encoding="utf-8", newline="") as fh:
+                w = csv.writer(fh)
+                w.writerow(["codigo_ccaa", "codigo_provincia", "codigo_municipio", "codigo_distrito",
+                            "codigo_seccion", "codigo_mesa", "partido", "votos"])
+                w.writerow(["16", "20", "69", "1", "1", "A", "P1", "7"])
+            sha = __import__("hashlib").sha256(src.read_bytes()).hexdigest()
+            out = Path(td) / "pkg"
+            subprocess.run([sys.executable, "herramientas/adaptador_minsait_csv.py", "--source", str(src), "--out", str(out),
+                            "--territory-id", "nac20", "--election-id", "nac20_2026-11-29", "--election-date", "2026-11-29",
+                            "--edition", "2025", "--expected-sha256", sha, "--expected-ccaa", "16",
+                            "--expected-provinces", "1", "--expected-sections", "1", "--expected-polling-stations", "1",
+                            "--expected-candidate-votes", "7", "--source-url", "https://example.invalid/s.csv",
+                            "--publisher", "Minsait", *args], cwd=ROOT, check=True, capture_output=True, text=True)
+            contrato = json.loads((out / "contract/election_contract.json").read_text(encoding="utf-8"))
+        self.assertEqual(contrato["section_reconciliation"]["equivalence_table"]["path"],
+                         "configuracion/equivalencia_seccionado_ine_2026_a_2023.csv")
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -3,9 +3,12 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba del catálogo de procedencia (T-74)
-VERSIÓN: 1.1.0 · FECHA: 2026-11-10 · ESTADO: candidato
-CAMBIOS: 1.1.0 (T-203): aviso ORIGEN_M06_NO_PUBLICADO por (territorio, elección).
-ANTERIOR: legacy/tests/test_catalogo_procedencia_v1.0.0_20261110.py
+VERSIÓN: 1.2.2 · FECHA: 2026-11-14 · ESTADO: candidato
+CAMBIOS: 1.2.2 (T-203): sin literal de id viejo (guardián T-220): id_legacy('aut01').
+  1.2.1 (T-203): en el repositorio, 0 fuentes vacías con ids nuevos y «eleccion» en todos los productos.
+  1.2.0 (T-203): «eleccion» por producto y fuente hallada por id nuevo (aut/nac).
+  1.1.0 (T-203): aviso ORIGEN_M06_NO_PUBLICADO por (territorio, elección).
+ANTERIOR: legacy/tests/test_catalogo_procedencia_v1.2.1_20261114.py
 FUNCIÓN: registros sintéticos: producto completo, M08 publicado sin sha256 (ERROR), composición de un M06 no
   publicado (AVISO), determinismo; y en el repositorio, catálogo versionado igual al regenerado y sin errores.
 """
@@ -18,6 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import catalogo_procedencia as cp  # noqa: E402
+from ddd_core.territorio_ids import id_legacy  # noqa: E402
 
 H = "a" * 64
 
@@ -99,6 +103,33 @@ class CatalogoVersionado(unittest.TestCase):
         self.assertEqual(versionado, cp.serializar(cat),
                          "Regenera con: python herramientas/catalogo_procedencia.py")
         self.assertEqual(cat["resumen"]["errores"], 0, cp.informe(cat))
+
+
+class ProcedenciaPorEleccion(unittest.TestCase):
+    def test_eleccion_en_cada_producto_y_fuente_por_id_nuevo(self):
+        with tempfile.TemporaryDirectory() as d:
+            raiz = Path(d)
+            viejo = id_legacy("aut01")  # el visor aún publica con ids viejos
+            repo_sintetico(raiz)
+            v = json.loads((raiz / "orchestracion/publicaciones_visor.json").read_text(encoding="utf-8"))
+            v["products"][0]["territory_id"] = v["products"][1]["territory_id"] = viejo
+            v["products"][1]["election_date"] = "2019-11-10"
+            escribir(raiz, "orchestracion/publicaciones_visor.json", v)
+            escribir(raiz, "configuracion/catalogo_preparacion.yaml",
+                     "default_edition: '2025'\nterritories:\n- territory_id: aut01\n  editions:\n    '2025':\n"
+                     "      preparation_evidence: {run_id: 7, package_sha256: " + H + "}\n")
+            t = cp.generar(raiz)["territorios"][viejo]
+            self.assertEqual({p["producto"]: p["eleccion"] for p in t["productos"]},
+                             {"M06": "2023-07-23", "M08": "2019-11-10"})
+            self.assertEqual(t["fuente_territorial"]["run_id"], "7")
+
+
+    def test_repositorio_fuentes_y_eleccion_completas(self):
+        cat = cp.generar(ROOT)
+        vacias = [t for t, x in cat["territorios"].items()
+                  if any(p["publicacion"] == "PUBLICABLE" for p in x["productos"]) and not x["fuente_territorial"]]
+        self.assertEqual(vacias, [])
+        self.assertTrue(all(p.get("eleccion") for x in cat["territorios"].values() for p in x["productos"]))
 
 
 if __name__ == "__main__":

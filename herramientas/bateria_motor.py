@@ -3,10 +3,21 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.7
+VERSIÓN: 1.4.1
 NOMBRE DE VERSIÓN: Batería del motor
-FECHA: 2026-11-12
+FECHA: 2026-11-14
 ESTADO: candidato
+CAMBIOS 1.4.1 (T-297): el recuento de candidatos cuenta el candidato exacto de Deslinde 1.1 (generador «exacto», solo con D8 y
+  cuando aporta plan): esperados = 1 + N (+1 exhaustivo) (+1 exacto) (+1 vigente que compite); el exacto no es una cadena.
+CAMBIOS 1.4.0 (T-303): la batería parte de la FUENTE, no de un M03 archivado (Deslinde 1.1 cambia M02/M03 y lo habría invalidado).
+  `archivar-p10` sube a R2 (ARC-E) el paquete P10 de la fuente del territorio, `arc-e/paquetes-p10/<package_sha256>.zip` (el sha256
+  del bundle es el package_sha256 del contrato; se comprueba al archivar y al leer). `entradas` lo baja, lo valida como la 00
+  (`validate_prepared_package`), lo restaura como checkpoint de fuentes (la política de fuentes debe decidir REUSE: nunca adquiere) y
+  EJECUTA M01, M02 y M03 con el código vigente y el contrato: cambiar M02/M03 cambia lo calculado, no hay grafo viejo en uso.
+  Se retiran `archivar` y las entradas mínimas (arc-e/entradas-minimas, M01+M03) de T-298. Sin paquete: BATERIA_FALTA_PAQUETE_P10;
+  paquete de otro contrato o alterado: BATERIA_PAQUETE_P10_CORRUPTO. `--desde-fuente` (diagnóstico local, sin red salvo
+  --permitir-red-ine) reconstruye desde las fuentes nacionales verificadas (orchestracion/fuentes_r2.json).
+CAMBIOS 1.3.0 (T-298): ver legacy/herramientas/bateria_motor_v1.3.0_20261114.py (R2 por identidad, sin INE por defecto).
 CAMBIOS 1.2.5 (T-258): un único vigente. `composicion_publicada` delega en ddd_motor2.vigente.vigente_publicado, el
   mismo que usa la competición (generadores 1.2.2); si el run publicado no tiene composición versionada ya no cae en
   datos/composicion/<t>.csv de otro run (Canarias). `indicadores`: si el bloque «vigente» del COMPETICION.json no es
@@ -49,29 +60,24 @@ CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de 
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
-CAMBIOS 1.2.7 (T-297): el recuento de candidatos cuenta el candidato exacto de Deslinde 1.1 (generador «exacto», solo con D8 y
-  cuando aporta plan): esperados = 1 + N (+1 exhaustivo) (+1 exacto) (+1 vigente que compite); el exacto no es una cadena.
 CAMBIOS 1.2.6 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/bateria_motor_v1.2.6_20261114.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.4.0_20261114.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
               la descarga en vivo y reducida a Sexo=Total y Edad=Todas las edades, que es lo único que usa el filtro).
-  entradas    por territorio: adquisición oficial (herramientas/ejecutar_fuentes_workflow) por la ruta de producción,
-              official_live con el seccionado del OGC del INE y la 65034 servida desde la copia nacional
-              (--seccionado shapefile: verified_snapshot sobre el shapefile nacional, sin red), M01-M03 y preparar_unidades_internas, como procedimiento.sh;
-              guarda en <out>/entradas/<t>/ los ficheros materializados y M01-M03 con su sha256 (ENTRADAS.json) y
-              compara la huella de población y seccionado con la del contrato.
+  entradas    por territorio, T-303: paquete P10 de la fuente (R2, ARC-E, package_sha256 del contrato, verificado) → restauración de fuentes
+              como la 00 (REUSE) → M01, M02 y M03 con el código vigente y el contrato (+ preparar_unidades_internas); guarda en
+              <out>/entradas/<t>/ M01 + grafo con su sha256 (ENTRADAS.json) y compara la huella de población y seccionado con la del
+              contrato. Nunca va al INE. Sin paquete BATERIA_FALTA_PAQUETE_P10; paquete alterado o de otro contrato
+              BATERIA_PAQUETE_P10_CORRUPTO. Solo con --desde-fuente (diagnóstico local): adquisición desde las copias nacionales.
+  archivar-p10 <t> --paquete <carpeta> --run <id>  sube a R2 el paquete P10 (artefacto ddd-source-package-* descomprimido) tras comprobar
+              que es el del contrato; deja ARCHIVO_PAQUETES_P10.json (clave, sha256, bytes, run de origen, fecha).
   motor       por territorio: restaura las entradas, ejecuta M04, M05 canónico (o el motor base M05 de una versión
               legacy con --m05) y M06, y la validación de producción herramientas/validar_ejecucion.py (la misma
               regla, sin reglas paralelas); compara la partición con datos/composicion/<t>.csv.
   matriz      junta los resultados en <out>/MATRIZ.csv y <out>/MATRIZ.md (territorio × regla, tiempos, semilla,
               igualdad con lo publicado y entre versiones del motor).
-              Con --desde-r2 reutiliza antes el estado ddd-state-<run>-M03 archivado en R2 (orchestracion/archivo_r2.json)
-              si su sha256 cuadra y lleva la identidad del contrato vigente. Solo se conserva la entrada mínima
-              (M01 secciones + grafo M03, ENTRADA_MINIMA) y ENTRADAS.json con el sha256 de todo lo demás.
-  archivar    sube a R2 la entrada mínima de cada territorio (reconstruida o extraída de R2): bateria/entradas/<t>/<huella>.zip
-              (cliente de herramientas/archivar_artefactos_r2.py; R2_BUCKET y R2_ACCOUNT_ID).
   lista       JSON {"include":[{"t":...}]} con los territorios pedidos (o los 71) para la matriz de Actions.
   huella      huella real (criterio a de T-194): repite la competición del motor 2 en <out>/_huella2 y compara la
               huella_resultado con la de <out>/competicion/<t>/RESUMEN.json; escribe HUELLA_REAL.json junto a ella.
@@ -127,7 +133,6 @@ FECHA_ZIP = (2025, 1, 1, 0, 0, 0)
 # Entrada mínima de M04 (orden del propietario, 10-11): M01 secciones con población y grafo M03; con ellas M04-M06 dan la
 # misma partición (comprobado en Congreso Madrid, con unidades internas). Lo demás queda solo como sha256 en ENTRADAS.json.
 ENTRADA_MINIMA = ("_m01_secciones_poblacion.geojson.zip", "_m03_grafo.json")
-ARCHIVO_R2 = ROOT / "orchestracion" / "archivo_r2.json"
 
 
 def sha256(path: Path) -> str:
@@ -154,20 +159,67 @@ def contrato(t: str) -> Path:
 
 
 # --------------------------------------------------------------------------- nacionales
+INDICE_FUENTES = ROOT / "orchestracion" / "fuentes_r2.json"
+
+
+class FuenteNacionalError(RuntimeError):
+    pass
+
+
+class PaqueteP10Corrupto(RuntimeError):
+    """El paquete existe en R2 pero no es de la identidad vigente o un fichero no cuadra con su sha256."""
+
+
+def _espejo() -> dict:
+    return json.loads(INDICE_FUENTES.read_text(encoding="utf-8"))["fuentes"]
+
+
+def _bajar_r2(clave: str, dest: Path) -> None:
+    _r2_cp(f"s3://{os.environ['R2_BUCKET']}/{clave}", str(dest))
+
+
+def obtener_fuente_nacional(nombre: str, destino: Path) -> Path:
+    """Deja ``destino/nombre`` con el sha256 de orchestracion/fuentes_r2.json (ARC-E). Solo para --desde-fuente. Orden: copia local, carpeta
+    DDD_ESPEJO_DIR, inputs/partes (2025 y 65034), R2 (arc-e/fuentes/ine/...). Nunca ine.es; sha256 distinto = FuenteNacionalError."""
+    ficha = _espejo().get(nombre)
+    if ficha is None:
+        raise FuenteNacionalError(f"{nombre}: no está en {INDICE_FUENTES.name}")
+    esperado = ficha["sha256"]
+    dest = destino / nombre
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    if dest.is_file() and sha256(dest) == esperado:
+        return dest
+    dest.unlink(missing_ok=True)
+    tmp = dest.with_suffix(dest.suffix + ".part")
+    local = os.environ.get("DDD_ESPEJO_DIR")
+    partes = ROOT / "inputs" / "partes"
+    if local and (Path(local) / nombre).is_file():
+        shutil.copyfile(Path(local) / nombre, tmp)
+    elif nombre in ("seccionado_2025.zip", "65034.csv.zip") and sorted(partes.glob(nombre + ".part*")):
+        with open(tmp, "wb") as fh:
+            for p in sorted(partes.glob(nombre + ".part*")):
+                fh.write(p.read_bytes())
+    else:
+        try:
+            _bajar_r2(ficha["clave"], tmp)
+        except Exception as exc:  # noqa: BLE001
+            tmp.unlink(missing_ok=True)
+            raise FuenteNacionalError(f"{nombre}: sin copia local ni R2 {ficha['clave']} ({exc})") from exc
+    if sha256(tmp) != esperado:
+        obtenido = sha256(tmp)
+        tmp.unlink(missing_ok=True)
+        raise FuenteNacionalError(f"{nombre}: sha256 {obtenido} distinto del esperado {esperado}")
+    tmp.rename(dest)
+    return dest
+
+
 def nacionales(args) -> int:
     NACIONAL.mkdir(parents=True, exist_ok=True)
-    partes = ROOT / "inputs" / "partes"
-    if not (ROOT / "inputs" / "65034.csv.zip").is_file() and not (NACIONAL / "65034.csv.zip").is_file():
-        subprocess.run(["bash", str(partes / "reconstruir_fuentes.sh")], check=True)
     for nombre in ("65034.csv.zip", "seccionado_2025.zip"):
         if (ROOT / "inputs" / nombre).is_file() and not (NACIONAL / nombre).is_file():
             shutil.move(str(ROOT / "inputs" / nombre), NACIONAL / nombre)
-    for ed in EDICIONES:
-        dest = NACIONAL / f"seccionado_{ed}.zip"
-        if not dest.is_file():
-            tmp = dest.with_suffix(".part")
-            urllib.request.urlretrieve(URL_SECCIONADO.format(ed), tmp)
-            tmp.rename(dest)
+    for nombre in ["65034.csv.zip", *(f"seccionado_{ed}.zip" for ed in EDICIONES)]:
+        obtener_fuente_nacional(nombre, NACIONAL)
     totales = NACIONAL / "65034_totales.csv.zip"
     if not totales.is_file():
         buf = io.StringIO()
@@ -185,7 +237,7 @@ def nacionales(args) -> int:
     manifest = {
         "schema": "ddd.bateria-nacionales/1.0",
         "ficheros": {p.name: {"sha256": sha256(p), "bytes": p.stat().st_size} for p in sorted(NACIONAL.glob("*.zip"))},
-        "origen": {"seccionado": URL_SECCIONADO, "65034": URL_65034 + " (copia en inputs/partes)"},
+        "origen": {"indice": str(INDICE_FUENTES.relative_to(ROOT)), "seccionado": URL_SECCIONADO, "65034": URL_65034},
     }
     (NACIONAL / "NACIONALES.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps(manifest["ficheros"], indent=1))
@@ -296,24 +348,38 @@ def _volcar_log(t: str, log: Path, res: dict) -> None:
     print(f"::error title=entradas {t}::{res.get('estado')} rc={res.get('rc')}: {motivo}", flush=True)
 
 
-def entradas_uno(t: str, out: Path, nac: dict, seccionado: str = "ogc") -> dict:
+def entradas_uno(t: str, out: Path, nac: dict, seccionado: str = "shapefile", paquete: Path | None = None) -> dict:
+    """Entradas M01-M03 de un territorio. Con ``paquete`` (carpeta del paquete P10 de la fuente, ya validado) hace lo mismo que la
+    00: restaura el paquete como checkpoint de fuentes (REUSE, sin adquisición) y ejecuta M01, M02 y M03 con el código vigente."""
     dest = out / "entradas" / t
     shutil.rmtree(dest, ignore_errors=True)
     dest.mkdir(parents=True)
     log = dest / "log.txt"
     env = dict(os.environ, DDD_RUN_ID=f"bateria-{t}", PYTHONHASHSEED="0")
     res: dict = {"territorio": t, "tiempos": {}}
-    decl = _declaracion_temporal(t, nac, seccionado)
-    res["seccionado"] = seccionado
+    decl = _declaracion_temporal(t, nac, "ogc" if paquete is not None else seccionado)
+    res["seccionado"] = "paquete_p10" if paquete is not None else seccionado
     completada = "_bateria_declaracion_completada_desde_contrato" in decl.read_text(encoding="utf-8")
     work = out / "_trabajo" / t
     shutil.rmtree(work, ignore_errors=True)
     try:
-        modo = ["official_live"] if seccionado == "ogc" else ["verified_snapshot"]
-        rc, s = _run([sys.executable, "-c", ADQUISICION_OGC, "--declaration", str(decl),
-                      "--working", str(work / "pkg"), "--checkpoint-out", str(work / "ckpt"),
-                      "--acquisition-evidence", str(work / "ev"), "--environment", "production",
-                      "--acquisition-mode", *modo, "--root-dir", str(ROOT)], log, env)
+        if paquete is not None:
+            ckpt_in = work / "ckpt_in"
+            shutil.copytree(paquete, ckpt_in / "sources")
+            rc, s = _run([sys.executable, "-m", "herramientas.ejecutar_fuentes_workflow", "--declaration", str(decl),
+                          "--working", str(work / "pkg"), "--checkpoint-in", str(ckpt_in), "--checkpoint-out", str(work / "ckpt"),
+                          "--acquisition-evidence", str(work / "ev"), "--environment", "production",
+                          "--acquisition-mode", "verified_snapshot", "--root-dir", str(ROOT)], log, env)
+            if rc == 0 and '"decision": "REUSE"' not in log.read_text(encoding="utf-8", errors="replace"):
+                rc = 97  # la 00 reutiliza el paquete; si hubiera adquirido, la batería no mide lo mismo (y habría ido a la red)
+                with open(log, "a", encoding="utf-8") as fh:
+                    fh.write("BATERIA_PAQUETE_P10_NO_REUTILIZADO: la política de fuentes no reutilizó el paquete\n")
+        else:
+            modo = ["official_live"] if seccionado == "ogc" else ["verified_snapshot"]
+            rc, s = _run([sys.executable, "-c", ADQUISICION_OGC, "--declaration", str(decl),
+                          "--working", str(work / "pkg"), "--checkpoint-out", str(work / "ckpt"),
+                          "--acquisition-evidence", str(work / "ev"), "--environment", "production",
+                          "--acquisition-mode", *modo, "--root-dir", str(ROOT)], log, env)
     finally:
         decl.unlink(missing_ok=True)
     res["tiempos"]["adquisicion"] = s
@@ -341,7 +407,7 @@ def entradas_uno(t: str, out: Path, nac: dict, seccionado: str = "ogc") -> dict:
             _volcar_log(t, log, res)
             return res
     res["estado"] = "OK"
-    res["origen"] = "fuente"
+    res["origen"] = "paquete_p10" if paquete is not None else "fuente"
     res["salidas"] = {}
     for f in sorted(cache.iterdir()):
         if f.is_file() and any(f"_m0{n}_" in f.name for n in (1, 2, 3)):
@@ -379,86 +445,138 @@ def _r2_cp(origen: str, destino: str) -> None:
     subprocess.run(["aws", "s3", "cp", origen, destino, "--endpoint-url", ep, "--only-show-errors"], check=True)
 
 
-def estados_r2(t: str) -> list[dict]:
-    """Estados ddd-state-<run>-M03/M03U del territorio en orchestracion/archivo_r2.json, del más reciente al más antiguo."""
-    if not ARCHIVO_R2.is_file():
-        return []
-    d = json.loads(ARCHIVO_R2.read_text(encoding="utf-8"))
-    arts = d.get("artefactos") or {}
-    arts = list(arts.values()) if isinstance(arts, dict) else arts
-    sel = [a for a in arts if a.get("territorio") == t and str(a.get("artefacto", "")).endswith(("-M03", "-M03U"))]
-    return sorted(sel, key=lambda a: (int(a.get("run_id") or 0), str(a["artefacto"]).endswith("-M03")), reverse=True)
+def clave_paquete(ident: dict) -> str:
+    """Clave en R2 (ARC-E) del paquete P10 de la fuente: por el sha256 del paquete del contrato (sin id de territorio)."""
+    return f"arc-e/paquetes-p10/{ident['package_sha256']}.zip"
 
 
-def entradas_r2_uno(t: str, out: Path) -> dict | None:
-    """Reutiliza la entrada mínima de un estado M03 archivado en R2 si su sha256 cuadra con archivo_r2.json y el
-    estado lleva la identidad del contrato vigente (package_sha256 o compatibility_identity_sha256). None si no hay."""
+def _anios_fuentes(t: str) -> tuple[str, str, str]:
+    d = yaml.safe_load((ROOT / "territorios" / carpeta_de(ROOT, t) / "config" / "fuentes_oficiales.yaml").read_text(encoding="utf-8"))
+    terr = d.get("territory") or {}
+    meta = _cfg(t).get("meta") or {}
+    ed = terr.get("edition")
+    return (str(ed), str(terr.get("population_year") or meta.get("source_population_year") or ed),
+            str(terr.get("section_year") or meta.get("source_section_year") or ed))
+
+
+def validar_paquete_p10(t: str, carpeta: Path) -> None:
+    """El paquete de la fuente es el del contrato (sha256 del bundle = package_sha256) y lo acepta la validación de la 00."""
+    from herramientas.seleccionar_paquete_fuentes import validate_prepared_package
+    esperado = _identidad_contrato(t)["package_sha256"]
+    if not esperado:
+        raise PaqueteP10Corrupto("el contrato no declara package_sha256")
+    man = carpeta / "manifest.json"
+    if not man.is_file():
+        raise PaqueteP10Corrupto("sin manifest.json")
+    manifiesto = json.loads(man.read_text(encoding="utf-8"))
+    bundle = carpeta / str(manifiesto.get("path") or "")
+    if not bundle.is_file() or sha256(bundle) != esperado or str(manifiesto.get("sha256")).lower() != esperado:
+        raise PaqueteP10Corrupto("el paquete no es el del contrato (sha256 del bundle distinto de package_sha256)")
+    ed, pob, sec = _anios_fuentes(t)
+    ok, motivos = validate_prepared_package(carpeta, territory_id=t, edition=ed, population_year=pob, section_year=sec)
+    if not ok:
+        raise PaqueteP10Corrupto("paquete rechazado por la validación de la 00: " + "; ".join(motivos))
+
+
+def paquete_p10_desde_r2(t: str, out: Path) -> Path | None:
+    """Baja de R2 y extrae el paquete P10 de ``t`` (clave por package_sha256) y lo valida. None si no está; PaqueteP10Corrupto si no vale."""
     ident = _identidad_contrato(t)
-    claves = [x for x in (ident["package_sha256"], ident["compatibility_identity_sha256"]) if x]
-    for art in estados_r2(t):
-        res: dict = {"territorio": t, "origen": "r2", "estado_r2": art["artefacto"], "url": art["url"], "tiempos": {}}
-        work = out / "_trabajo" / t
+    bucket = os.environ.get("R2_BUCKET", "")
+    if not bucket or not ident["package_sha256"]:
+        return None
+    work = out / "_trabajo" / f"{t}-p10"
+    shutil.rmtree(work, ignore_errors=True)
+    work.mkdir(parents=True)
+    z = work / "paquete.zip"
+    try:
+        _r2_cp(f"s3://{bucket}/{clave_paquete(ident)}", str(z))
+    except (subprocess.CalledProcessError, KeyError, OSError):
         shutil.rmtree(work, ignore_errors=True)
-        work.mkdir(parents=True)
-        zpath = work / "estado.zip"
-        t0 = time.time()
-        bucket_key = art["url"].replace("r2://", "s3://", 1)
-        try:
-            _r2_cp(bucket_key, str(zpath))
-        except (subprocess.CalledProcessError, KeyError) as exc:
-            res["error"] = f"descarga: {exc}"
-            continue
-        res["tiempos"]["descarga_r2"] = round(time.time() - t0, 1)
-        if sha256(zpath) != art.get("sha256"):
-            res["error"] = "sha256 distinto de archivo_r2.json"
-            continue
-        with zipfile.ZipFile(zpath) as zf:
-            nombres = zf.namelist()
-            texto = [n for n in nombres if n.endswith((".json", ".yaml", ".yml")) and zf.getinfo(n).file_size < 5_000_000]
-            vigente = any(any(c in zf.read(n).decode("utf-8", "ignore") for c in claves) for n in texto) if claves else False
-            res["contrato_vigente"] = vigente
-            if not vigente:
-                res["error"] = "el estado no lleva la identidad del contrato vigente"
-                print(f"{t}: {art['artefacto']} no corresponde al contrato vigente", flush=True)
-                continue
-            cache = _cache(t)
-            shutil.rmtree(cache, ignore_errors=True)
-            cache.mkdir(parents=True)
-            for suf in ENTRADA_MINIMA:
-                miembro = next((n for n in nombres if n.endswith(suf)), None)
-                if miembro is None:
-                    res["error"] = f"sin {suf}"
-                    break
-                (cache / Path(miembro).name).write_bytes(zf.read(miembro))
-            else:
-                dest = out / "entradas" / t
-                shutil.rmtree(dest, ignore_errors=True)
-                dest.mkdir(parents=True)
-                res["estado"] = "OK"
-                _guardar_minima(t, cache, dest, res)
-                shutil.rmtree(work, ignore_errors=True)
-                return res
-    return None
+        return None
+    carpeta = work / "pkg"
+    with zipfile.ZipFile(z) as zf:
+        raiz = carpeta.resolve()
+        for m in zf.infolist():
+            if raiz not in (carpeta / m.filename).resolve().parents and (carpeta / m.filename).resolve() != raiz:
+                raise PaqueteP10Corrupto(f"ruta insegura en el paquete: {m.filename}")
+        zf.extractall(carpeta)
+    validar_paquete_p10(t, carpeta)
+    return carpeta
 
 
 def entradas(args) -> int:
-    nac = None  # copias nacionales: solo si algún territorio no se reutiliza de R2
+    """T-303: la batería usa la MISMA fuente que producción y recalcula con el código vigente. Toma el paquete P10 de la fuente del
+    territorio (R2, ARC-E, por package_sha256 del contrato, verificado) y ejecuta como la 00 la restauración de fuentes y M01, M02 y M03
+    con el contrato. No hay M03 archivado que usar: un cambio de M02/M03 cambia lo calculado. Nunca va al INE. Sin paquete:
+    BATERIA_FALTA_PAQUETE_P10; paquete que no es el del contrato o alterado: BATERIA_PAQUETE_P10_CORRUPTO.
+    ``--desde-fuente`` (solo diagnóstico local) reconstruye desde las fuentes nacionales verificadas."""
+    nac = None
     out = Path(args.out)
     fallos = 0
     for t in (territorios() if args.todos else args.territorios):
-        r = entradas_r2_uno(t, out) if args.desde_r2 else None
-        if r is not None:
-            print(f"{t}: OK reutilizada de R2 {r['estado_r2']}", flush=True)
-            continue
-        if nac is None:
-            if not (NACIONAL / "NACIONALES.json").is_file():
+        paquete = None
+        if not args.desde_fuente:
+            try:
+                paquete = paquete_p10_desde_r2(t, out)
+            except PaqueteP10Corrupto as exc:
+                print(f"::error::BATERIA_PAQUETE_P10_CORRUPTO {t}: {exc}. Vuelve a archivarlo (archivar_p10=<run de P10 de {t}>).", flush=True)
+                fallos += 1
+                continue
+            if paquete is None:
+                print(f"::error::BATERIA_FALTA_PAQUETE_P10 {t}: no hay paquete de fuentes en R2 ({clave_paquete(_identidad_contrato(t))}). "
+                      f"Archívalo una vez con «VER Verificación del motor» (archivar_p10=<run de P10 de {t}>, territorios={t}).", flush=True)
+                fallos += 1
+                continue
+        else:
+            if args.seccionado == "ogc" and not args.permitir_red_ine:
+                print("::error::BATERIA_RED_INE_PROHIBIDA: --seccionado ogc exige --permitir-red-ine (OGC e INE solo existen dentro de P10)")
+                return 2
+            if nac is None:
+                for nombre in ["65034.csv.zip", *(f"seccionado_{ed}.zip" for ed in EDICIONES)]:
+                    obtener_fuente_nacional(nombre, NACIONAL)
                 nacionales(args)
-            nac = json.loads((NACIONAL / "NACIONALES.json").read_text(encoding="utf-8"))["ficheros"]
-        r = entradas_uno(t, out, nac, args.seccionado)
+                nac = json.loads((NACIONAL / "NACIONALES.json").read_text(encoding="utf-8"))["ficheros"]
+        r = entradas_uno(t, out, nac or {}, args.seccionado, paquete=paquete)
         iguales = {k: v["igual_contrato"] for k, v in (r.get("fuentes") or {}).items()}
         print(f"{t}: {r['estado']} {r['tiempos']} huella=contrato {iguales}", flush=True)
         fallos += r["estado"] != "OK"
     return 1 if fallos else 0
+
+
+def archivar_p10(args) -> int:
+    """Archiva en R2 (ARC-E) el paquete P10 de la fuente de ``territorio`` (carpeta ``--paquete`` = artefacto ddd-source-package-* ya
+    descomprimido): comprueba que es el del contrato y lo sube en ``arc-e/paquetes-p10/<package_sha256>.zip`` con su sha256."""
+    from herramientas.archivar_artefactos_r2 import r2_cliente
+    t, carpeta = args.territorio, Path(args.paquete)
+    bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
+    if not bucket or not cuenta:
+        print("::error::BATERIA_R2_SIN_CREDENCIALES (R2_BUCKET/R2_ACCOUNT_ID)")
+        return 2
+    try:
+        validar_paquete_p10(t, carpeta)
+    except PaqueteP10Corrupto as exc:
+        print(f"::error::BATERIA_PAQUETE_P10_OTRO_CONTRATO {t}: {exc}")
+        return 1
+    ident = _identidad_contrato(t)
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    z = out / f"{t}-paquete-p10.zip"
+    with zipfile.ZipFile(z, "w", zipfile.ZIP_DEFLATED) as zf:  # determinista: orden y fecha fijos
+        for f in sorted(p for p in carpeta.rglob("*") if p.is_file()):
+            info = zipfile.ZipInfo(f.relative_to(carpeta).as_posix(), FECHA_ZIP)
+            info.compress_type = zipfile.ZIP_DEFLATED
+            zf.writestr(info, f.read_bytes())
+    h = sha256(z)
+    clave = clave_paquete(ident)
+    sha_remoto, subir = r2_cliente(bucket, cuenta)
+    if sha_remoto(clave) != h:
+        subir(clave, z, h)
+    registro = {t: {"url": f"r2://{bucket}/{clave}", "clave": clave, "sha256_zip": h, "bytes": z.stat().st_size,
+                    "package_sha256": ident["package_sha256"], "origen_run": args.run,
+                    "archivado_en": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}}
+    (out / "ARCHIVO_PAQUETES_P10.json").write_text(json.dumps(registro, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(json.dumps(registro[t]))
+    return 0
 
 
 # --------------------------------------------------------------------------- motor
@@ -684,42 +802,6 @@ def matriz(args) -> int:
                       f"igual al publicado {sum(f['igual_publicado'] is True for f in sub)}/{sum(f['igual_publicado'] is not None for f in sub)}")
     (out / "MATRIZ.md").write_text("\n".join(lineas) + "\n", encoding="utf-8")
     print(lineas[-len(versiones):] if versiones else "")
-    return 0
-
-
-# --------------------------------------------------------------------------- archivar
-def archivar(args) -> int:
-    """Sube a R2 la entrada mínima de cada territorio, reconstruida desde fuente o extraída de un estado M03 de R2
-    (así los estados completos M01-M03U pueden podarse, T-145):
-    clave bateria/entradas/<territorio>/<sha256[:16] de la entrada>.zip con ENTRADAS.json + M01 + grafo M03."""
-    from herramientas.archivar_artefactos_r2 import r2_cliente
-    bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
-    if not bucket or not cuenta:
-        print("::error::BATERIA_R2_SIN_CREDENCIALES (R2_BUCKET/R2_ACCOUNT_ID)")
-        return 2
-    out = Path(args.out)
-    sha_remoto, subir = r2_cliente(bucket, cuenta)
-    indice = {}
-    for ent in sorted((out / "entradas").glob("*/ENTRADAS.json")):
-        r = json.loads(ent.read_text(encoding="utf-8"))
-        if r.get("origen") not in ("fuente", "r2") or r.get("estado") != "OK":
-            continue
-        huella = hashlib.sha256(json.dumps(r["entrada_minima"], sort_keys=True).encode()).hexdigest()[:16]
-        paquete = out / "_trabajo" / f"{r['territorio']}-{huella}.zip"
-        paquete.parent.mkdir(parents=True, exist_ok=True)
-        with zipfile.ZipFile(paquete, "w", zipfile.ZIP_DEFLATED) as zf:
-            for nombre in ["ENTRADAS.json", *r["entrada_minima"]]:
-                info = zipfile.ZipInfo(nombre, FECHA_ZIP)
-                info.compress_type = zipfile.ZIP_DEFLATED
-                zf.writestr(info, (ent.parent / nombre).read_bytes())
-        clave = f"bateria/entradas/{r['territorio']}/{huella}.zip"
-        h = sha256(paquete)
-        if sha_remoto(clave) != h:
-            subir(clave, paquete, h)
-        indice[r["territorio"]] = {"url": f"r2://{bucket}/{clave}", "sha256": h, "bytes": paquete.stat().st_size,
-                                   "entrada_minima": r["entrada_minima"], "identidad_contrato": r.get("identidad_contrato")}
-    (out / "ARCHIVO_ENTRADAS.json").write_text(json.dumps(indice, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(json.dumps({"archivadas": len(indice)}))
     return 0
 
 
@@ -1130,16 +1212,22 @@ def main(argv=None) -> int:
         p.add_argument("--todos", action="store_true")
         p.add_argument("--out", default=str(OUT))
         if nombre == "entradas":
-            p.add_argument("--desde-r2", action="store_true",
-                           help="reutiliza el estado M03 archivado en R2 (archivo_r2.json) si es del contrato vigente")
-            p.add_argument("--seccionado", default="ogc", choices=("ogc", "shapefile"),
-                           help="ogc: ruta de producción (OGC del INE); shapefile: copia nacional verificada, sin red")
+            p.add_argument("--desde-r2", action="store_true", help="obsoleto (T-298): R2 es la vía por defecto")
+            p.add_argument("--desde-fuente", action="store_true", help="solo diagnóstico local: reconstruye desde las fuentes, no desde R2")
+            p.add_argument("--seccionado", default="shapefile", choices=("ogc", "shapefile"),
+                           help="solo --desde-fuente. shapefile (por defecto): copia nacional verificada, sin red; ogc: OGC del INE (exige --permitir-red-ine)")
+            p.add_argument("--permitir-red-ine", action="store_true",
+                           help="solo diagnóstico local con --desde-fuente --seccionado ogc: permite ir al OGC del INE; la batería nunca lo usa")
         if nombre == "motor":
             p.add_argument("--m05", default="7.4.4", choices=sorted(M05_BASE))
-    for nombre in ("matriz", "archivar"):
-        sub.add_parser(nombre).add_argument("--out", default=str(OUT))
+    sub.add_parser("matriz").add_argument("--out", default=str(OUT))
     p = sub.add_parser("indicadores")
     p.add_argument("territorio")
+    p.add_argument("--out", default=str(OUT))
+    p = sub.add_parser("archivar-p10")
+    p.add_argument("territorio")
+    p.add_argument("--paquete", required=True)
+    p.add_argument("--run", default="")
     p.add_argument("--out", default=str(OUT))
     sub.add_parser("lista").add_argument("territorios", nargs="*")
     p = sub.add_parser("huella")
@@ -1152,7 +1240,7 @@ def main(argv=None) -> int:
     p.add_argument("territorios", nargs="*")
     p.add_argument("--out", default=str(OUT))
     a = ap.parse_args(argv)
-    return {"lista": lista, "huella": huella, "indicadores": indicadores, "aceptacion": aceptacion, "nacionales": nacionales, "entradas": entradas, "motor": motor, "matriz": matriz, "archivar": archivar}[a.cmd](a)
+    return {"lista": lista, "huella": huella, "indicadores": indicadores, "aceptacion": aceptacion, "nacionales": nacionales, "archivar-p10": archivar_p10, "entradas": entradas, "motor": motor, "matriz": matriz}[a.cmd](a)
 
 
 if __name__ == "__main__":
