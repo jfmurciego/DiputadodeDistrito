@@ -3,18 +3,23 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba del catálogo de procedencia (T-74)
-VERSIÓN: 1.3.0 · FECHA: 2026-11-14 · ESTADO: candidato
-CAMBIOS: 1.3.0 (T-300): fija «motor» (Deslinde y su versión del pyproject) y «fuentes_oficiales.resultados_electorales» (de contratos_infoelectoral).
+VERSIÓN: 1.4.0 · FECHA: 2026-11-14 · ESTADO: candidato
+CAMBIOS: 1.4.0 (T-326): en PR (DDD_EN_PR=1) el catálogo versionado se compara con generar() sobre una raíz congelada
+  (tests/fixtures/catalogo_procedencia, sha256 en MANIFEST.json); la comparación con el fichero vivo sigue en main, la nocturna y el job «Estado vivo».
+  1.3.0 (T-300): fija «motor» (Deslinde y su versión del pyproject) y «fuentes_oficiales.resultados_electorales» (de contratos_infoelectoral).
   1.2.2 (T-203): sin literal de id viejo (guardián T-220): id_legacy('aut01').
   1.2.1 (T-203): en el repositorio, 0 fuentes vacías con ids nuevos y «eleccion» en todos los productos.
   1.2.0 (T-203): «eleccion» por producto y fuente hallada por id nuevo (aut/nac).
   1.1.0 (T-203): aviso ORIGEN_M06_NO_PUBLICADO por (territorio, elección).
-ANTERIOR: legacy/tests/test_catalogo_procedencia_v1.2.2_20261114.py
+ANTERIOR: legacy/tests/test_catalogo_procedencia_v1.3.0_20261114.py
 FUNCIÓN: registros sintéticos: producto completo, M08 publicado sin sha256 (ERROR), composición de un M06 no
   publicado (AVISO), determinismo; y en el repositorio, catálogo versionado igual al regenerado y sin errores.
 """
+import hashlib
 import json
+import os
 import re
+import shutil
 import sys
 import tempfile
 import unittest
@@ -98,13 +103,41 @@ class CatalogoSintetico(unittest.TestCase):
             self.assertEqual(cp.main(["--raiz", d, "--comprobar"]), 1)
 
 
+FIXTURE = ROOT / "tests" / "fixtures" / "catalogo_procedencia"
+
+
+def raiz_congelada(tmp: Path) -> Path:
+    """Copia de la raíz congelada (entradas de generar() y su salida), tras verificar el sha256 de cada fichero."""
+    files = json.loads((FIXTURE / "MANIFEST.json").read_text(encoding="utf-8"))["files"]
+    for rel, sha in files.items():
+        if hashlib.sha256((FIXTURE / rel).read_bytes()).hexdigest() != sha:
+            raise AssertionError(f"fixture catalogo_procedencia alterado: {rel}")
+    raiz = tmp / "raiz"
+    # Solo se omite el MANIFEST.json de la raíz: datos/composicion y datos/resultados traen el suyo y son entradas del catálogo.
+    shutil.copytree(FIXTURE, raiz, ignore=lambda d, names: ["MANIFEST.json"] if Path(d) == FIXTURE else [])
+    return raiz
+
+
 class CatalogoVersionado(unittest.TestCase):
-    def test_versionado_coincide_y_sin_errores(self):
-        cat = cp.generar(ROOT)
-        versionado = (ROOT / cp.SALIDA).read_text(encoding="utf-8")
+    def _comprobar(self, raiz: Path):
+        cat = cp.generar(raiz)
+        versionado = (raiz / cp.SALIDA).read_text(encoding="utf-8")
         self.assertEqual(versionado, cp.serializar(cat),
                          "Regenera con: python herramientas/catalogo_procedencia.py")
         self.assertEqual(cat["resumen"]["errores"], 0, cp.informe(cat))
+
+    @unittest.skipUnless(os.environ.get("DDD_EN_PR") == "1", "la comparación con el estado vivo corre en main, nocturna y «Estado vivo»")
+    def test_versionado_coincide_en_raiz_congelada(self):
+        with tempfile.TemporaryDirectory() as d:
+            self._comprobar(raiz_congelada(Path(d)))
+
+    @unittest.skipIf(os.environ.get("DDD_EN_PR") == "1", "en PR el estado vivo puede cambiar bajo la PR: se prueba la raíz congelada")
+    def test_versionado_coincide_y_sin_errores(self):
+        self._comprobar(ROOT)
+
+    def test_la_raiz_congelada_es_coherente_siempre(self):
+        with tempfile.TemporaryDirectory() as d:
+            self._comprobar(raiz_congelada(Path(d)))
 
 
 class ProcedenciaPorEleccion(unittest.TestCase):
