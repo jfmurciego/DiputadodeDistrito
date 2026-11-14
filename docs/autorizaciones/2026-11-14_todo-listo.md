@@ -6,6 +6,7 @@
 - Caducidad: 2026-11-21 23:59.
 - Gasto semanal al autorizar (09-11 a 14-11, suma de la duración de 4.292 runs, tope 6 h por run; estimación): ~16.900 min (113 % de 15.000). El 52 % son las «Pruebas de la Plataforma». El repositorio vuelve a ser público, así que Actions no cobra. Previsto para la campaña: ~8.000 min.
 - Condición de inicio: #747 (renombrado T-220) en `main` con la CI en verde.
+- Los 71: el inventario del 12-11 (70 filas) más Andalucía (01), publicada en el lote 43206627505.
 
 ## Límites
 | Campo | Contenido |
