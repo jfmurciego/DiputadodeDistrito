@@ -29,3 +29,4 @@
 
 ## Cierre
 Estado: `EN_CURSO`.
+- Congelación del motor (Planificador, 14-11 15:00 UTC): sin cambios en ddd_motor2, ddd_core ni modulos desde b5bd69e hasta terminar la P50 de los 71; se comprueba antes de cada tanda. Excepción ya en main al congelar: #749 (M07 7.4.0, modulos/07; no toca el motor y solo cambia algo si el contrato declara la tabla 2026→2023).
