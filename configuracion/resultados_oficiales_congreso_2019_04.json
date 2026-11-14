@@ -1,0 +1,80 @@
+{
+ "fuente": "Resolución de 24 de mayo de 2019, de la Presidencia de la Junta Electoral Central, por la que se publica el resumen de los resultados de las elecciones al Congreso de los Diputados y al Senado convocadas por Real Decreto 129/2019, de 4 de marzo, y celebradas el 28 de abril de 2019, conforme a las actas de escrutinio general y de proclamación de electos remitidas por las correspondientes Juntas Electorales Provinciales y por las Juntas Electorales de Ceuta y de Melilla.",
+ "boe": "BOE-A-2019-8070",
+ "url": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2019-8070",
+ "fecha_publicacion": "2019-05-30",
+ "sha256_xml": "1d18c553904bf14356d932db6ab8e0816f3b9aa1f86e2a976492645405262812",
+ "sha256_csv": "1f0600b21a69889e9eca433f63c6225375a21c57a6518b3944461907b4fcdc40",
+ "cuadro": "II (candidaturas con escaño en el total estatal)",
+ "total_escanos": 350,
+ "totales_oficiales": {
+  "PSOE": {
+   "votos": 6550885,
+   "escanos": 111
+  },
+  "PP": {
+   "votos": 4261473,
+   "escanos": 65
+  },
+  "Cs": {
+   "votos": 4155665,
+   "escanos": 57
+  },
+  "PODEMOS-IU-EQUO": {
+   "votos": 2897419,
+   "escanos": 33
+  },
+  "VOX": {
+   "votos": 2688092,
+   "escanos": 24
+  },
+  "ERC-SOBIRANISTES": {
+   "votos": 1020392,
+   "escanos": 15
+  },
+  "PSC": {
+   "votos": 962257,
+   "escanos": 12
+  },
+  "ECP-GUANYEM EL CANVI": {
+   "votos": 615665,
+   "escanos": 7
+  },
+  "JxCAT-JUNTS": {
+   "votos": 500787,
+   "escanos": 7
+  },
+  "EAJ-PNV": {
+   "votos": 395884,
+   "escanos": 6
+  },
+  "EH Bildu": {
+   "votos": 259647,
+   "escanos": 4
+  },
+  "PODEMOS-EU-MAREAS EN COMÚN-EQUO": {
+   "votos": 238061,
+   "escanos": 2
+  },
+  "COMPROMÍS 2019": {
+   "votos": 173821,
+   "escanos": 1
+  },
+  "CCa-PNC": {
+   "votos": 137664,
+   "escanos": 2
+  },
+  "PP-FORO": {
+   "votos": 112180,
+   "escanos": 1
+  },
+  "NA+": {
+   "votos": 107619,
+   "escanos": 2
+  },
+  "PRC": {
+   "votos": 52266,
+   "escanos": 1
+  }
+ }
+}
