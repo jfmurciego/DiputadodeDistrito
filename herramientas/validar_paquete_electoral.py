@@ -482,7 +482,7 @@ def validate_package(
         raise ValueError("schema electoral package inválido")
     if manifest.get("decision") not in {"REUSE", "ACQUIRE"}:
         raise ValueError("paquete electoral no utilizable")
-    if not mismo_territorio(str(manifest.get("territory_id")), str(territory_id)) or str(manifest.get("edition")) != str(edition):
+    if str(manifest.get("territory_id")) != territory_id or str(manifest.get("edition")) != str(edition):
         raise ValueError("territorio o edición del paquete electoral no coincide")
     selected, source, actual = _validate_selected_source(package, manifest)
 

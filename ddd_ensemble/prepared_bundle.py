@@ -8,8 +8,6 @@ from dataclasses import dataclass
 from pathlib import PurePosixPath
 from typing import Any
 
-from ddd_core.territorio_ids import mismo_territorio  # T-307: id viejo o nuevo
-
 
 SCHEMA = "ddd.prepared-bundle/1.0"
 REQUIRED_PRODUCTS = ("m01_sections", "m02_edges", "m03_graph")
@@ -67,7 +65,7 @@ def validate_prepared_bundle(path: str, expected_territory: str | None = None) -
         territory = manifest.get("territory_id")
         if not isinstance(territory, str) or not territory:
             raise BundleValidationError("territory_id es obligatorio")
-        if expected_territory and not mismo_territorio(territory, expected_territory):
+        if expected_territory and territory != expected_territory:
             raise BundleValidationError("El territorio no coincide con el solicitado")
         if not manifest.get("bundle_id"):
             raise BundleValidationError("bundle_id es obligatorio")

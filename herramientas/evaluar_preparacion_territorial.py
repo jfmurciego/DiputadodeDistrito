@@ -3,15 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: evaluación automática de preparación territorial
-VERSIÓN: 1.2.1
-NOMBRE DE VERSIÓN: Evaluación sobre recortes territoriales aislados (ids legacy, T-307)
-FECHA: 2026-11-14
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: Evaluación sobre recortes territoriales aislados
+FECHA: 2026-09-17
 ESTADO: candidato
 FUNCIÓN: bloquear o aprobar la preparación comprobando sólo los ficheros territoriales generados y la inmutabilidad de las copias nacionales.
-CAMBIOS 1.2.1 (T-307): la cabecera territory_id se compara con mismo_territorio (alias D-61): el id legacy del paquete P10 y el id nuevo del run resuelven al mismo id canónico; cualquier otro id sigue bloqueando.
-CAMBIOS 1.2.0: resuelve artefactos bajo evidence/materialized, verifica origen != destino y revalida la huella actual de cada snapshot nacional.
-MOTIVO: evitar que una evaluación válida dependa de haber sobrescrito las copias oficiales compartidas; T-307: la regeneración deslinde11-r2 fallaba con territory_id='andalucia' frente a 'aut01'.
-ANTERIOR: legacy/herramientas/evaluar_preparacion_territorial_v1.2.0.py
+CAMBIOS: resuelve artefactos bajo evidence/materialized, verifica origen != destino y revalida la huella actual de cada snapshot nacional.
+MOTIVO: evitar que una evaluación válida dependa de haber sobrescrito las copias oficiales compartidas.
+ANTERIOR: legacy/herramientas/evaluar_preparacion_territorial_v1.1.0.py
 """
 from __future__ import annotations
 
@@ -24,12 +23,6 @@ import zipfile
 from pathlib import Path
 
 import yaml
-
-import sys as _sys_t307
-_RAIZ_T307 = Path(__file__).resolve().parents[1]
-if str(_RAIZ_T307) not in _sys_t307.path:
-    _sys_t307.path.insert(0, str(_RAIZ_T307))
-from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-307: id viejo o nuevo)
 
 CORE_FIELDS = ("source_id", "path", "sha256", "bytes", "urls", "edition")
 
@@ -239,11 +232,7 @@ def evaluate(*, catalog: dict, declaration: dict, resolved_declaration: dict | N
                     observed = document.get(key, document.get("source_year", document.get("edition")))
                 else:
                     observed = document.get(key)
-                if key == "territory_id" and isinstance(observed, str) and isinstance(expected, str):
-                    iguales = mismo_territorio(observed, expected)
-                else:
-                    iguales = observed == expected
-                if not iguales:
+                if observed != expected:
                     checks["headers_equal"] = False
                     reasons.append(f"{document_name}: {key}={observed!r} no coincide con {expected!r}")
 
