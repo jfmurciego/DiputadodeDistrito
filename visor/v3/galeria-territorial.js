@@ -10,7 +10,7 @@
     "almeria":"Almería","asturias":"Oviedo","avila":"Ávila","badajoz":"Badajoz",
     "barcelona":"Barcelona","burgos":"Burgos","caceres":"Cáceres","cadiz":"Cádiz","cantabria":"Santander",
     "castellon":"Castellón de la Plana","castello":"Castellón de la Plana","ciudadreal":"Ciudad Real",
-    "cordoba":"Córdoba (España)","acoruna":"La Coruña","coruna":"La Coruña","cuenca":"Cuenca (España)",
+    "cordoba":"Córdoba (España)","acoruna":"La Coruña","coruna":"La Coruña","lacoruna":"La Coruña","cuenca":"Cuenca (España)",
     "gerona":"Gerona","girona":"Gerona","granada":"Granada","guadalajara":"Guadalajara (España)",
     "guipuzcoa":"San Sebastián","gipuzkoa":"San Sebastián","huelva":"Huelva","huesca":"Huesca",
     "islasbaleares":"Palma de Mallorca","illesbalears":"Palma de Mallorca","jaen":"Jaén (España)",
@@ -19,7 +19,7 @@
     "palencia":"Palencia","laspalmas":"Las Palmas de Gran Canaria","pontevedra":"Pontevedra",
     "larioja":"Logroño","salamanca":"Salamanca","santacruzdetenerife":"Santa Cruz de Tenerife",
     "segovia":"Segovia","sevilla":"Sevilla","soria":"Soria","tarragona":"Tarragona",
-    "teruel":"Teruel","toledo":"Toledo","valencia":"Valencia","valencia":"Valencia",
+    "teruel":"Teruel","toledo":"Toledo","valencia":"Valencia",
     "valladolid":"Valladolid","vizcaya":"Bilbao","bizkaia":"Bilbao","zamora":"Zamora","zaragoza":"Zaragoza",
     "ceuta":"Ceuta","melilla":"Melilla",
     "andalucia":"Sevilla","aragon":"Zaragoza","principadodeasturias":"Oviedo",
@@ -27,7 +27,7 @@
     "castillalamancha":"Toledo","cataluna":"Barcelona","comunidadvalenciana":"Valencia",
     "extremadura":"Mérida (España)","galicia":"Santiago de Compostela",
     "comunidaddemadrid":"Madrid","regiondemurcia":"Murcia",
-    "comunidadforaldenavarra":"Pamplona","paisvasco":"Vitoria","espana":"España"
+    "comunidadforaldenavarra":"Pamplona","paisvasco":"Vitoria"
   };
   const normalize=t=>String(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]/g,"");
   const cache=new Map();
