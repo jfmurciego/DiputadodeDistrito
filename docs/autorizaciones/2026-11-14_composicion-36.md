@@ -1,0 +1,17 @@
+# Autorización de campaña 2026-11-14_composicion-36
+
+- Decisión: D-52. Chat del Operador: session_01KQDtFqw1LBgGn6nCuxP8Yx. Pedida por el Planificador tras #758 (P50 3.15.0, versiona la composición vigente).
+- Frase literal del propietario: (pendiente)
+- Caducidad: 2026-11-15 23:59.
+- Qué: `desplegar-visor-publico.yml` (P50), `pagina_publicar=Sitio completo`, `production_run_id=<lote>`, con los MISMOS runs ya publicados de los 36 SIN_VIGENTE de la batería 43605070831 (`composicion_36_2026-11-14.tsv`); sin cambiar los mapas.
+- Lotes: 1 (43204696160, aut01) → comprobación → 12 → 12 → 11; cada lote, cuando el anterior ha terminado en success.
+- Comprobación tras cada lote: en `main`, `datos/composicion/<id>.csv` del run publicado para cada territorio del lote; `datos_abiertos/INDEX.json` no pierde territorios (52 antes); el registro no pierde productos.
+- Tope: 4 P50 más 1 reintento por fallo transitorio con evidencia; 300 min.
+- FUERA: runs distintos de la lista; Congreso de 350; producción nueva; borrados.
+- Parada: al primer fallo no transitorio, o si un CSV no llega o el INDEX pierde algo: no lanzar más; informar.
+
+## Ejecutado
+| Hora | Lote | Run P50 | Resultado | Comprobación |
+|---|---|---|---|---|
+
+Frase propuesta: «Autorizo la campaña 2026-11-14_composicion-36 tal como figura en la ficha.»
