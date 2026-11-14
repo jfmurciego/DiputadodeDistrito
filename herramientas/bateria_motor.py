@@ -3,10 +3,13 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.0
+VERSIÓN: 1.4.1
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-14
 ESTADO: candidato
+CAMBIOS 1.4.1 (T-304): `entradas_uno` decide REUSE ANTES de ejecutar_fuentes_workflow (resolve_source_action sin fuente oficial disponible: o REUSE o
+  BLOCK, nunca ACQUIRE): un paquete que la política no reutilizaría falla sin llegar a ejecutar nada ni a la red. La comprobación posterior
+  del log se conserva.
 CAMBIOS 1.4.0 (T-303): la batería parte de la FUENTE, no de un M03 archivado (Deslinde 1.1 cambia M02/M03 y lo habría invalidado).
   `archivar-p10` sube a R2 (ARC-E) el paquete P10 de la fuente del territorio, `arc-e/paquetes-p10/<package_sha256>.zip` (el sha256
   del bundle es el package_sha256 del contrato; se comprueba al archivar y al leer). `entradas` lo baja, lo valida como la 00
@@ -59,7 +62,7 @@ MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distr
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
 CAMBIOS 1.2.6 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/bateria_motor_v1.3.0_20261114.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.4.0_20261114.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -362,6 +365,15 @@ def entradas_uno(t: str, out: Path, nac: dict, seccionado: str = "shapefile", pa
     shutil.rmtree(work, ignore_errors=True)
     try:
         if paquete is not None:
+            from herramientas.politica_reutilizacion_fuentes import resolve_source_action
+            dec = resolve_source_action(prepared_manifest=json.loads((paquete / "manifest.json").read_text(encoding="utf-8")),
+                                        root=paquete, requested_edition=_anios_fuentes(t)[0], official_available=False)
+            if dec["decision"] != "REUSE":  # sin fuente oficial disponible solo hay REUSE o BLOCK: nunca se llega a adquirir
+                with open(log, "a", encoding="utf-8") as fh:
+                    fh.write(f"BATERIA_PAQUETE_P10_NO_REUTILIZABLE: {dec['decision']}: {dec['reason']}\n")
+                res.update(estado="FALLO_ADQUISICION", rc=96)
+                _volcar_log(t, log, res)
+                return res
             ckpt_in = work / "ckpt_in"
             shutil.copytree(paquete, ckpt_in / "sources")
             rc, s = _run([sys.executable, "-m", "herramientas.ejecutar_fuentes_workflow", "--declaration", str(decl),

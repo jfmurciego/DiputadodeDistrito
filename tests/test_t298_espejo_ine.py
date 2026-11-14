@@ -227,7 +227,7 @@ class EspejoIne(unittest.TestCase):
         self.assertIn(b.clave_paquete(ident), ausente)
         self.assertNotIn("CORRUPTO", ausente)
 
-    def _uno_con_paquete(self, td: Path, reuse: bool, vistos: list):
+    def _uno_con_paquete(self, td: Path, reuse: bool, vistos: list, politica: dict | None = None):
         """entradas_uno con un paquete: _run simulado; devuelve el resultado."""
         pkg = td / "pkg"
         pkg.mkdir()
@@ -248,9 +248,12 @@ class EspejoIne(unittest.TestCase):
             for suf in b.ENTRADA_MINIMA:
                 (cache / f"t_2025{suf}").write_bytes(b"x")
             return 0, 1.0
+        decision = {"decision": "REUSE", "reason": "ok"} if politica is None else politica
         with mock.patch.object(b, "_run", run), mock.patch.object(b, "_declaracion_temporal", lambda *a: decl), \
                 mock.patch.object(b, "_huellas_contrato", lambda c: {}), mock.patch.object(b, "_cfg", lambda t: {}), \
                 mock.patch.object(b, "_cache", lambda t: cache), mock.patch.object(b, "contrato", lambda t: b.ROOT / "c.yaml"), \
+                mock.patch.object(b, "_anios_fuentes", lambda t: ("2025", "2023", "2023")), \
+                mock.patch("herramientas.politica_reutilizacion_fuentes.resolve_source_action", lambda **k: decision), \
                 mock.patch.object(b, "_guardar_minima", lambda *a: None):
             return b.entradas_uno("t", td / "out", {}, "shapefile", paquete=pkg)
 
@@ -279,6 +282,29 @@ class EspejoIne(unittest.TestCase):
         for muerto in ("entradas_r2_identidad", "entradas_r2_uno", "estados_r2", "clave_identidad", "def archivar("):
             self.assertNotIn(muerto, src)
         self.assertNotIn("entradas-minimas", src[src.index("def clave_paquete"):])
+
+    def test_paquete_que_la_politica_no_reutilizaria_falla_antes_de_ejecutar_nada(self):
+        with tempfile.TemporaryDirectory() as td:
+            vistos = []
+            r = self._uno_con_paquete(Path(td), True, vistos, {"decision": "BLOCK", "reason": "copia preparada dañada: checksum incorrecto"})
+            self.assertEqual(r["estado"], "FALLO_ADQUISICION")
+            self.assertEqual(vistos, [])  # ni el ejecutor de fuentes ni M01-M03: nunca se llega a la adquisición
+            self.assertIn("BATERIA_PAQUETE_P10_NO_REUTILIZABLE", (Path(td) / "out" / "entradas" / "t" / "log.txt").read_text(encoding="utf-8"))
+
+    def test_la_politica_se_consulta_sin_fuente_oficial_disponible(self):
+        import inspect
+        self.assertIn("official_available=False", inspect.getsource(b.entradas_uno))
+
+    def test_poda_protege_m01_m03_con_el_paquete_p10_del_contrato(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            cfg = root / "territorios" / "nac42" / "config"
+            cfg.mkdir(parents=True)
+            (cfg / "nac42_2025.yaml").write_text("generation_state:\n  package_sha256: " + "ab" * 32 + "\n", encoding="utf-8")
+            esperada = "arc-e/paquetes-p10/" + "ab" * 32 + ".zip"
+            self.assertEqual(podar_r2.clave_paquete_p10("nac42", root), esperada)
+            self.assertEqual(podar_r2.clave_paquete_p10("congreso_soria", root), esperada)  # id viejo
+            self.assertIsNone(podar_r2.clave_paquete_p10("nac01", root))  # sin contrato
 
 
 if __name__ == "__main__":
