@@ -4,7 +4,7 @@ Versión: 1.0.48
 Fecha: 2026-11-14
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-113 (huecos autonómicos del histórico sin repartir votos), T-326 (test del catálogo de procedencia sin estado vivo en PR), T-324 hecha
+Cambios/motivo: D-113 (huecos autonómicos del histórico sin repartir votos), T-326 (test del catálogo de procedencia sin estado vivo en PR), T-328 (preparación del histórico sin CI), T-324 hecha
 Anterior: legacy/docs/PLAN_v1.0.47_20261114.md
 -->
 
