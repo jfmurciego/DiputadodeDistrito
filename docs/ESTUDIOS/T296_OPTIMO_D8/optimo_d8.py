@@ -18,7 +18,8 @@ QUÉ HACE:
   Reglas.desde_contrato y demarcaciones/frontera de naturalidad_clave.natural_desde_m06 (la clave D8 oficial).
   Átomos = herramientas/certificador_exacto.construir_atomos (unidades que el núcleo obliga a ir juntas).
   Modelo CP-SAT (formulación de certificador_exacto.resolver 1.4.0, sin las exenciones de suelo, que estos
-  territorios no tienen; si las tuvieran, el script se niega): asignación, provincia/cuotas, población en
+  territorios no tienen; si las tuvieran, el script se niega; sin restricción de provincia: solo admite una
+  circunscripción, así que el modelo es menos estricto, nunca más, y la cota vale): asignación, población en
   [suelo, techo], R-NUCLEO, contigüidad (árbol padre/nivel con raíz = átomo mínimo, ruptura de simetría), disciplina
   municipal R012 (K por municipio entre ceil(P/techo) y ceil(P/objetivo), máx. mixtos).
   Objetivo D8 = clave lexicográfica de naturalidad_clave.clave("D8"), por etapas (cada óptimo se fija como restricción

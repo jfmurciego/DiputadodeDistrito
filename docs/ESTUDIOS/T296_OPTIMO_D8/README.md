@@ -36,7 +36,7 @@ La huella del plan solo desempata y no se modela. Todos los valores son enteros 
 2. El canónico y el ganador, fijados en el modelo, son factibles y dan exactamente su clave oficial («modelo_acepta»: 20 de 20 casos). Por tanto el modelo no es más estricto que el núcleo, y su óptimo es una cota inferior válida.
 3. Si una etapa no termina, el script da el mejor valor encontrado y la cota probada, y se para: las etapas siguientes ya no serían exactas.
 
-**Ganador de Deslinde.** Sale de la competición local (`ddd_motor2.competir`: D8, 10 cadenas, `PYTHONHASHSEED=0`), con el código de `main` en 2c4e2471. Las entradas son las de `bateria_motor.py entradas --seccionado shapefile`, con la huella de población del contrato. La clave del ganador recalculada coincide con la de `COMPETICION.json` en los 9 territorios.
+**Ganador de Deslinde.** Sale de la competición local (`ddd_motor2.competir`: D8, 10 cadenas, `PYTHONHASHSEED=0`), con el código de `main` en 2c4e2471 (procedencia anotada a mano; los JSON no guardan el commit). Las entradas son las de `bateria_motor.py entradas --seccionado shapefile`, con la huella de población del contrato. La clave del ganador recalculada coincide con la de `COMPETICION.json` en los 9 territorios.
 
 ## Resultados
 
@@ -48,7 +48,7 @@ En la tabla, «partidas» cuenta los partidos judiciales más las comarcas agrar
 | Cuenca (nac16) | 2 | 238 | cadena | 0 / 0 / 3 / 1,48 % | 0 / 0 / 3 / **0,00 %** | ÓPTIMO | desvío: 1,48 puntos | 5 s |
 | Guadalajara (nac19) | 2 | 288 | vigente | 0 / 0 / 2 / 0,05 % | 0 / 0 / 2 / **0,00 %** | ÓPTIMO | desvío: 0,05 puntos | 4 s |
 | Huesca (nac22) | 2 | 202 | vigente | 0 / 0 / 1 / 2,11 % | igual | ÓPTIMO | ninguno, es la misma partición | 4 s |
-| La Rioja (nac26) | 3 | 175 | cadena | 0 / 0 / 2 / 0,15 % | igual | ÓPTIMO | ninguno (en una pasada con 2 hilos salió un empate con otra partición) | 4 s |
+| La Rioja (nac26) | 3 | 175 | cadena | 0 / 0 / 2 / 0,15 % | igual | ÓPTIMO | ninguno (en una pasada anterior con 2 hilos, no versionada, salió un empate con otra partición) | 4 s |
 | Lugo (nac27) | 3 | 67 | vigente | 0 / 0 / 3 / 0,55 % | 0 / 0 / 3 / **0,20 %** | ÓPTIMO | desvío: 0,35 puntos | 1 s |
 | **Burgos (nac09)** | 3 | 372 | vigente | 0 / 0 / **3** / 0,02 % | 0 / 0 / **2** / 4,23 % | ÓPTIMO | **partidas: 3 frente a 2** | 8 s |
 | **Valladolid (nac47)** | 4 | 226 | cadena | 0 / 0,0600 / **4** / 14,00 % | 0 / 0,0600 / **2** / 14,00 % | ÓPTIMO | **partidas: 4 frente a 2** | 9 s |
@@ -65,7 +65,7 @@ Los territorios de K=1 (Ávila, Segovia, Soria, Palencia, Teruel, Zamora, Ceuta 
    - Valladolid: 2, frente a 4 de la mejor cadena.
 
    Ambos planes cumplen el núcleo (`valido_nucleo`). En Valladolid empatan en población; en Burgos el desvío sube del 0,02 % al 4,23 %, todavía por debajo del 8 % de D8. Las 10 cadenas no encuentran estos planes. Un competidor exacto los habría elegido. Son planes del modelo y no se ha generado su M06; las composiciones están en `resultados/<t>_canonico_mejor_modelo.csv`.
-4. **Hallazgo: el término de frontera (E4) vale 0 en todos los planes.** El grafo M03 de las entradas no trae `shared_border_m`, y la competición de la batería r3 (T-196) también da 0,0 km. Por tanto D8 no aplica hoy «cortar por donde hay menos vínculo» y decide directamente el desvío máximo. No he comprobado si el M03 de producción trae ese campo.
+4. **Hallazgo: el término de frontera (E4) vale 0 en todos los planes.** El grafo M03 de las entradas no trae `shared_border_m`, y la competición de la batería r3 (T-196) también da 0,0 km. Por tanto D8 no aplica hoy «cortar por donde hay menos vínculo» y decide directamente el desvío máximo. No he comprobado si el M03 de producción trae ese campo. Aviso: con frontera real, el modelo redondea a mm cada par de átomos y la clave oficial redondea la suma (`round(sum/1000, 3)`). Pueden diferir en milésimas de km. No se ha validado con datos, porque E4 siempre sale constante.
 5. **Límite.** En una autonómica (La Rioja, K=33, 193-315 unidades, unas 21.000 variables), E1 no cierra en 120 s: la cota es 0 y la mejor solución es la del ganador, con 1 fuera de tolerancia. Para llegar a autonómicas y provincias grandes hace falta descomponer o generar columnas (véase T-136).
 
 ## Plan de comparación con `redist` (SMC) y GerryChain puro (sin ejecutar)
