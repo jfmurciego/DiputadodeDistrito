@@ -1,0 +1,35 @@
+{
+  "schema": "ddd-fuentes-r2/1.0",
+  "nota": "Índice versionado de ARC-E para la batería (T-298). `fuentes`: huellas medidas de las fuentes nacionales del INE que consume P10 (referencia: la batería ya no las usa ni va a ine.es; 2025 y 65034 coinciden con inputs/partes). `entradas`: paquetes M01+M03 de P10 por territorio archivados en R2 (clave arc-e/entradas-minimas/<id16>.zip por identidad del contrato); se completa con el ARCHIVO_ENTRADAS.json del job archivar_p10. La poda no borra nada bajo arc-e/.",
+  "fuentes": {
+    "seccionado_2023.zip": {
+      "clave": "arc-e/fuentes/ine/seccionado_2023_7a15e700a459.zip",
+      "sha256": "7a15e700a4592d793230441cfcb4b72e40979998aef019ca644389271886bf1f",
+      "bytes": 64929708,
+      "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2023.zip",
+      "descargado_en": "2026-11-14"
+    },
+    "seccionado_2024.zip": {
+      "clave": "arc-e/fuentes/ine/seccionado_2024_df931fa0d372.zip",
+      "sha256": "df931fa0d372808eb81abb2f2645ed5ecccbd6ed397b85db656980748ddd6bf7",
+      "bytes": 65690243,
+      "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2024.zip",
+      "descargado_en": "2026-11-14"
+    },
+    "seccionado_2025.zip": {
+      "clave": "arc-e/fuentes/ine/seccionado_2025_55c9da7e34d3.zip",
+      "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+      "bytes": 60298555,
+      "origen_url": "https://www.ine.es/prodyser/cartografia/seccionado_2025.zip",
+      "descargado_en": "2026-11-14"
+    },
+    "65034.csv.zip": {
+      "clave": "arc-e/fuentes/ine/65034.csv_91d3ff9a90ba.zip",
+      "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+      "bytes": 75489355,
+      "origen_url": "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+      "descargado_en": "2026-02-16"
+    }
+  },
+  "entradas": {}
+}

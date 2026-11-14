@@ -116,13 +116,14 @@ class BateriaMotor2EnActions(unittest.TestCase):
     def test_modo_m05_intacto_y_motor2_en_matriz(self):
         j = self.wf["jobs"]
         self.assertEqual(j["bateria"]["timeout-minutes"], 300)
-        self.assertEqual(j["bateria"]["if"], "${{ inputs.motor != 'motor2' }}")
+        self.assertEqual(j["bateria"]["if"], "${{ inputs.motor != 'motor2' && inputs.archivar_p10 == '' }}")
         self.assertEqual(j["competicion"]["timeout-minutes"], 360)
         self.assertFalse(j["competicion"]["strategy"]["fail-fast"])
         self.assertEqual(j["competicion"]["env"]["PYTHONHASHSEED"], "0")
         self.assertEqual(j["aceptacion"]["needs"], ["plan", "competicion"])
         txt = (ROOT / ".github/workflows/bateria-motor.yml").read_text(encoding="utf-8")
-        self.assertIn("--desde-r2", txt)
+        self.assertNotIn("www.ine.es", txt)
+        self.assertNotIn("bateria_motor.py nacionales", txt)
         for t in ("nac42", "nac01", "aut19"):
             self.assertIn(f"matrix.t == '{t}'", txt)
         self.assertIn('cp bateria/competicion/RESUMEN.json "bateria/competicion/$T/RESUMEN.json"', txt)
@@ -131,7 +132,7 @@ class BateriaMotor2EnActions(unittest.TestCase):
         job = self.wf["jobs"]["competicion"]
         self.assertFalse([k for k in job["env"] if k.startswith(("AWS_", "R2_"))])
         con = [s["name"] for s in job["steps"] if any(k.startswith("AWS_") for k in s.get("env", {}))]
-        self.assertEqual(con, ["Entradas (R2 o fuente INE)"])
+        self.assertEqual(con, ["Entradas (R2, paquete P10)"])
 
     def test_lista_valida_territorios(self):
         import contextlib
@@ -633,7 +634,7 @@ class BateriaMotor2EnActions(unittest.TestCase):
                     "--no-deps", "pip freeze --all", "comm -23", 'pins("requirements.lock")'):
             self.assertIn(imp, txt)
         # lo que Ponderado importa de gerrychain (fuente) está en la comprobación
-        src = (ROOT / "ddd_motor2/naturalidad_competicion.py").read_text(encoding="utf-8")
+        src = (ROOT / "paquetes/deslinde/src/deslinde/ponderado.py").read_text(encoding="utf-8")  # T-257: Deslinde
         for linea in ("from gerrychain.tree.spanning_tree import _ordered_edge_ids", "from gerrychain import Graph, MarkovChain, Partition, updaters",
                       "from gerrychain.proposals import recom", "from gerrychain.tree import bipartition_tree"):
             self.assertIn(linea, src)
