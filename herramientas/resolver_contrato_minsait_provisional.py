@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# CAMBIOS 2026-11-14 (T-332): contratos `rehearsal: true` (ensayo de las generales 2026-11-29): exigen PROVISIONAL, sin
+#   owner_production_exception, production_eligible y promotion_allowed en false, y el sha256 de un fichero de ensayo
+#   (64 hex; «PENDIENTE_T333» hasta que el Operador suba el fichero y falla cerrado). Devuelven `rehearsal`.
+# ANTERIOR (b): legacy/herramientas/resolver_contrato_minsait_provisional_pre_ensayo_20261114.py
 # CAMBIOS 2026-10-29: owner_production_exception (decided_at, rationale, evidence, max_delta_ratio)
 #   hace production_eligible=true si la diferencia con el definitivo no supera el máximo.
 # ANTERIOR: legacy/herramientas/resolver_contrato_minsait_provisional_pre_excepcion_20261029.py
@@ -54,6 +58,12 @@ def resolve(
     if bool(row["production_eligible"]) or bool(row["promotion_allowed"]):
         raise ValueError("Un contrato Minsait provisional no puede ser promocionable")
 
+    rehearsal = row.get("rehearsal") is True
+    if rehearsal:
+        if row.get("source_status") != "PROVISIONAL" or row.get("owner_production_exception") is not None:
+            raise ValueError(f"Contrato de ensayo {election_id}: debe ser PROVISIONAL y sin excepción de producción")
+        if not str(row.get("source_url") or "").strip() or not str(row.get("source_sha256") or "").strip():
+            raise ValueError(f"Contrato de ensayo {election_id}: sin source_url o source_sha256")
     expected = row["expected"] or {}
     for key in ("ccaa", "provinces", "sections", "polling_stations", "candidate_votes"):
         if expected.get(key) in (None, ""):
@@ -91,6 +101,7 @@ def resolve(
         "election_id": election_id,
         **row,
         "production_eligible": production_eligible,
+        "rehearsal": rehearsal,
         "expected": {
             "ccaa": str(expected["ccaa"]).zfill(2),
             "provinces": int(expected["provinces"]),
