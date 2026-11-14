@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12820613500,
+      "artifact_name": "ddd-audit-40690624792",
+      "artifact_sha256": "c8d463e3674f96378e14b07e5cb1c171c9a089fdac3fae24b9f0f12ee90e0799",
+      "run_id": 40690624792,
+      "size_in_bytes": 7960
+    },
+    "m04": {
+      "artifact_id": 12819574976,
+      "artifact_name": "ddd-state-40690624792-M04",
+      "artifact_sha256": "3c46d2b44052b1a9b10240b8f95dbdc7d06f51ca527b635c039c3795b1a4418b",
+      "run_id": 40690624792,
+      "size_in_bytes": 93943072
+    },
+    "m05": {
+      "artifact_id": 12820951852,
+      "artifact_name": "ddd-state-40690624792-M05",
+      "artifact_sha256": "50887e7a3096a234dcfd73bfc01abee1f530142639640a10619834196f461404",
+      "run_id": 40690624792,
+      "size_in_bytes": 97714053
+    },
+    "m06": {
+      "artifact_id": 12820153970,
+      "artifact_name": "ddd-state-40690624792-M06",
+      "artifact_sha256": "132f71fcc29001df1f7b96163bf34e238dd823f654c5c93061f049c311111f49",
+      "run_id": 40690624792,
+      "size_in_bytes": 102517455
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "67102fe73ea40ab5c35affda426fa9b3c70e2c9403cb47349ebf21ff1dac2b89",
+        "size_in_bytes": 497
+      },
+      "castilla_la_mancha_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "2321685f99cee02193904e8e75d07426a90ba1f3c743fd7a0723c72c0af85874",
+        "size_in_bytes": 35464
+      },
+      "optimization_execution.json": {
+        "sha256": "dc05d80df95bcdf5d31fd5b32ca4570a956e2ca6f4a4d7bb8d8c9c58e7608111",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "d1ef6a87f68c28baae215c469f037613162742d95c58ebe43d924aa59c8cc06c",
+        "size_in_bytes": 1337
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "d1ef6a87f68c28baae215c469f037613162742d95c58ebe43d924aa59c8cc06c",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/castilla_la_mancha/config/castilla_la_mancha_2025.yaml",
+    "sha256": "d53abdfd584a7719f3a255add82136a36804bd5356b3c93dadd757b049eb08af"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "4f9d6b3468768e1a83c30539a3d18b097a66574422eadf8449b590320c6ff79a",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "031d508bbb9857c7fca93fec555a4c6db58829bc",
+    "edition": "2025",
+    "territory_id": "castilla_la_mancha",
+    "territory_name": "Castilla-La Mancha",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40690624792,
+    "workflow_sha": "8940b848734cc05516ead27b48378493aa9aeddb"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12819574976,
+      "artifact_name": "ddd-state-40690624792-M04",
+      "artifact_sha256": "3c46d2b44052b1a9b10240b8f95dbdc7d06f51ca527b635c039c3795b1a4418b",
+      "run_id": 40690624792,
+      "size_in_bytes": 93943072
+    },
+    "source_manifest_sha256": "18acc114d764e04358969a939da41334a903b2868d58da8ea8f94fe17365347b",
+    "source_package_artifact": {
+      "artifact_id": 12819061539,
+      "artifact_name": "ddd-source-package-castilla_la_mancha-2025-40690624792",
+      "artifact_sha256": "bdd316c89d209786b3050b3c1595af29ee5d5fd11098b1e628acf7861aecc288",
+      "run_id": 40690624792,
+      "size_in_bytes": 86350467
+    }
+  },
+  "manifest_sha256": "8c0b98abb02854d0ec72d6b370ce66c525737ae7bb3302cb77e2f7eb0c1e27e6",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
