@@ -25,7 +25,7 @@
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
 | 15:23 | — | P50 `desplegar-visor-publico.yml` «Sitio completo», `production_run_id` vacío (orden directa del propietario: «Publica de nuevo el sitio en diputadodedistrito.es: P50 solo sitio, con production_run_id vacío.») | 43604649733 | SUCCESS: PAGE_URL https://diputadodedistrito.es/, DEPLOYMENT_OUTCOME success | 1 / — | 0/1 |
-| 15:28 | los 71 | 1. `bateria-motor.yml` motor2 D8 N=10 (main 2c4e2471, en verde sobre b5bd69e) | 43605070831 | EN_VUELO | 2 / — | 0/1 |
+| 15:28 | los 71 | 1. `bateria-motor.yml` motor2 D8 N=10 (main 2c4e2471, en verde sobre b5bd69e) | 43605070831 | intento 1 FAILURE transitorio: 17 Competiciones (aut01 aut02 aut05 aut07 aut08 aut09 aut10 aut12 aut13 aut17 aut18 aut19 nac03 nac05 nac06 nac12 nac39) con FALLO_ADQUISICION «secciones_censales: The read operation timed out»; 54 en success; aceptación sin evaluar. 16:10 reintento: rerun-failed-jobs (intento 2), EN_VUELO | 2 / ~40 min | 1/1 |
 
 ## Cierre
 Estado: `EN_CURSO`.
