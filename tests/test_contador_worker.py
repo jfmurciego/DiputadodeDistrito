@@ -3,10 +3,11 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: contrato del contador de visitas sin datos personales (T-294, opción A)
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 FECHA: 2026-11-14
 ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/tests/test_contador_worker_v1.0.0_20261114.py
+CAMBIOS: el beacon normaliza `index.html` de la ruta (T-294, parte 2).
 FUNCIÓN: el Worker solo guarda (día, ruta, n); sin logs, cookies ni almacenamiento; los visores solo envían location.pathname.
 """
 from __future__ import annotations

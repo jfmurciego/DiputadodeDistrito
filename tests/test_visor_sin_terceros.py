@@ -1,5 +1,5 @@
-"""Versión 1.0.0 — T-310: los visores no cargan recursos de terceros y sirven maplibre-gl fijado con sha256/SRI. Fecha: 2026-11-14.
-Estado: prueba. Anterior: ninguno (fichero nuevo).
+"""Versión 1.0.1 — T-310: los visores no cargan recursos de terceros y sirven maplibre-gl fijado con sha256/SRI. Fecha: 2026-11-14.
+Estado: prueba. Anterior: legacy/tests/test_visor_sin_terceros_v1.0.0_20261114.py. Cambios 1.0.1 (T-294): el host de Cloudflare deja de ser excepción; queda solo OpenStreetMap.
 """
 import base64
 import hashlib
