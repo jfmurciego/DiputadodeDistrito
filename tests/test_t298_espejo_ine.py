@@ -6,6 +6,9 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
+import contextlib
+import hashlib
+import io
 import json
 
 import yaml
@@ -86,54 +89,6 @@ class EspejoIne(unittest.TestCase):
             self.assertNotIn("urlretrieve", inspect.getsource(f))
             self.assertNotIn("urlopen", inspect.getsource(f))
 
-    def test_entradas_solo_desde_r2_sin_red_y_sin_paquete_falla_claro(self):
-        import argparse, contextlib, io
-
-        def sin_red(*a, **k):
-            raise AssertionError("acceso a red")
-        ident = {"contrato": "c", "contrato_sha256": "1", "package_sha256": "p", "compatibility_identity_sha256": "c"}
-        a = argparse.Namespace(territorios=["nac42"], todos=False, out="/nonexistent", desde_fuente=False, seccionado="ogc")
-        buf = io.StringIO()
-        with mock.patch.object(socket, "socket", sin_red), mock.patch.object(b.urllib.request, "urlopen", sin_red), \
-                mock.patch.object(b, "entradas_r2_identidad", lambda t, out: None), \
-                mock.patch.object(b, "_identidad_contrato", lambda t: ident), contextlib.redirect_stdout(buf):
-            rc = b.entradas(a)
-        self.assertEqual(rc, 1)
-        self.assertIn("BATERIA_FALTA_PAQUETE_P10 nac42", buf.getvalue())
-        self.assertIn(b.clave_identidad(ident), buf.getvalue())
-
-    def test_entradas_desde_r2_restaura_y_verifica_sha256(self):
-        import argparse, hashlib, json, zipfile
-        ident = {"contrato": "c", "contrato_sha256": "1", "package_sha256": "p", "compatibility_identity_sha256": "c"}
-        with tempfile.TemporaryDirectory() as td:
-            td = Path(td)
-            datos = {"nac42_2025_m01_secciones_poblacion.geojson.zip": b"m01", "nac42_2025_m03_grafo.json": b"m03"}
-            meta = {"identidad_contrato": ident, "entrada_minima": {k: hashlib.sha256(v).hexdigest() for k, v in datos.items()}}
-            z = td / "p.zip"
-            with zipfile.ZipFile(z, "w") as zf:
-                zf.writestr("ENTRADAS.json", json.dumps(meta))
-                for k, v in datos.items():
-                    zf.writestr(k, v)
-
-            def cp(origen, destino):
-                self.assertEqual(origen, f"s3://bk/{b.clave_identidad(ident)}")
-                Path(destino).write_bytes(z.read_bytes())
-            cache = td / "cache"
-            with mock.patch.dict("os.environ", {"R2_BUCKET": "bk"}), mock.patch.object(b, "_r2_cp", cp), \
-                    mock.patch.object(b, "_identidad_contrato", lambda t: ident), mock.patch.object(b, "_cache", lambda t: cache):
-                r = b.entradas_r2_identidad("nac42", td / "out")
-                self.assertEqual(r["estado"], "OK")
-                self.assertEqual((cache / "nac42_2025_m03_grafo.json").read_bytes(), b"m03")
-            # fichero alterado: sha256 distinto → rechazado
-            with zipfile.ZipFile(z, "w") as zf:
-                zf.writestr("ENTRADAS.json", json.dumps(meta))
-                zf.writestr("nac42_2025_m01_secciones_poblacion.geojson.zip", b"alterado")
-                zf.writestr("nac42_2025_m03_grafo.json", b"m03")
-            with mock.patch.dict("os.environ", {"R2_BUCKET": "bk"}), mock.patch.object(b, "_r2_cp", cp), \
-                    mock.patch.object(b, "_identidad_contrato", lambda t: ident), mock.patch.object(b, "_cache", lambda t: cache):
-                with self.assertRaises(b.PaqueteP10Corrupto):
-                    b.entradas_r2_identidad("nac42", td / "out")
-
     def test_el_defecto_nunca_llega_al_ine_ni_al_ogc(self):
         import argparse, contextlib, io
         a = argparse.Namespace(territorios=["nac42"], todos=False, out="/nonexistent", desde_fuente=True,
@@ -145,25 +100,6 @@ class EspejoIne(unittest.TestCase):
         import inspect
         self.assertEqual(inspect.signature(b.entradas_uno).parameters["seccionado"].default, "shapefile")
         self.assertIn('"--seccionado", default="shapefile"', inspect.getsource(b.main))
-
-    def test_paquete_corrupto_y_ausente_tienen_codigos_distintos(self):
-        import argparse, contextlib, io
-        ident = {"contrato": "c", "contrato_sha256": "1", "package_sha256": "p", "compatibility_identity_sha256": "c"}
-        a = argparse.Namespace(territorios=["nac42"], todos=False, out="/nonexistent", desde_fuente=False,
-                               seccionado="shapefile", permitir_red_ine=False)
-
-        def salida(efecto):
-            buf = io.StringIO()
-            with mock.patch.object(b, "entradas_r2_identidad", efecto), mock.patch.object(b, "_identidad_contrato", lambda t: ident), \
-                    contextlib.redirect_stdout(buf):
-                self.assertEqual(b.entradas(a), 1)
-            return buf.getvalue()
-        corrupto = salida(mock.Mock(side_effect=b.PaqueteP10Corrupto("fichero alterado")))
-        self.assertIn("BATERIA_PAQUETE_P10_CORRUPTO nac42: fichero alterado", corrupto)
-        self.assertNotIn("FALTA_PAQUETE", corrupto)
-        ausente = salida(mock.Mock(return_value=None))
-        self.assertIn("BATERIA_FALTA_PAQUETE_P10 nac42", ausente)
-        self.assertNotIn("CORRUPTO", ausente)
 
     def test_la_poda_no_borra_arc_e_ni_por_la_ruta_de_borrado(self):
         import csv
@@ -187,20 +123,160 @@ class EspejoIne(unittest.TestCase):
 
     def test_secretos_de_r2_solo_en_los_pasos_que_los_usan(self):
         wf = yaml.safe_load((ROOT / ".github/workflows/bateria-motor.yml").read_text(encoding="utf-8"))
-        esperado = {"archivar_p10": ["Estado M03 de la 00 y archivado por identidad del contrato"],
-                    "bateria": ["Entradas desde R2 (paquete P10)", "Archivar entradas en R2"],
+        esperado = {"archivar_p10": ["Paquete P10 de la fuente y archivado por package_sha256"],
+                    "bateria": ["Entradas desde R2 (paquete P10)"],
                     "competicion": ["Entradas (R2, paquete P10)"], "plan": [], "aceptacion": []}
         for job, pasos in esperado.items():
             j = wf["jobs"][job]
             self.assertFalse([k for k in j.get("env", {}) if k.startswith(("AWS_", "R2_"))], job)
             self.assertEqual([s["name"] for s in j["steps"] if any(k.startswith("AWS_") for k in s.get("env", {}))], pasos, job)
 
-    def test_clave_r2_por_identidad_no_por_territorio(self):
-        a = {"contrato": "territorios/aut01/config/aut01_2025.yaml", "contrato_sha256": "1", "package_sha256": "p", "compatibility_identity_sha256": "c"}
-        o = {**a, "contrato": "territorios/otro/config/otro_2025.yaml", "contrato_sha256": "2"}
-        self.assertEqual(b.clave_identidad(a), b.clave_identidad(o))
-        self.assertNotEqual(b.clave_identidad(a), b.clave_identidad({**a, "package_sha256": "q"}))
-        self.assertRegex(b.clave_identidad(a), r"^arc-e/entradas-minimas/[0-9a-f]{16}\.zip$")
+    # ---- T-303: paquete P10 de la fuente en R2; M01-M03 se recalculan -------------------------------------------------------
+    def _paquete(self, td: Path, contenido: bytes = b"bundle"):
+        """Carpeta de paquete P10 sintética: manifest.json + bundle; devuelve (carpeta, sha256 del bundle)."""
+        carpeta = td / "pkg"
+        carpeta.mkdir()
+        (carpeta / "bundle.zip").write_bytes(contenido)
+        h = hashlib.sha256(contenido).hexdigest()
+        (carpeta / "manifest.json").write_text(json.dumps({"path": "bundle.zip", "sha256": h}), encoding="utf-8")
+        return carpeta, h
+
+    def test_clave_del_paquete_por_package_sha256_no_por_territorio(self):
+        a = {"package_sha256": "ab" * 32, "contrato_sha256": "1"}
+        o = {"package_sha256": "ab" * 32, "contrato_sha256": "2"}
+        self.assertEqual(b.clave_paquete(a), b.clave_paquete(o))
+        self.assertEqual(b.clave_paquete(a), "arc-e/paquetes-p10/" + "ab" * 32 + ".zip")
+        self.assertNotEqual(b.clave_paquete(a), b.clave_paquete({"package_sha256": "cd" * 32}))
+
+    def test_validar_paquete_es_el_del_contrato(self):
+        with tempfile.TemporaryDirectory() as td:
+            carpeta, h = self._paquete(Path(td))
+            with mock.patch.object(b, "_identidad_contrato", lambda t: {"package_sha256": h}), \
+                    mock.patch.object(b, "_anios_fuentes", lambda t: ("2025", "2023", "2023")), \
+                    mock.patch("herramientas.seleccionar_paquete_fuentes.validate_prepared_package", lambda *a, **k: (True, [])):
+                b.validar_paquete_p10("nac42", carpeta)  # no lanza
+            with mock.patch.object(b, "_identidad_contrato", lambda t: {"package_sha256": "0" * 64}):
+                with self.assertRaises(b.PaqueteP10Corrupto):
+                    b.validar_paquete_p10("nac42", carpeta)
+            with mock.patch.object(b, "_identidad_contrato", lambda t: {"package_sha256": h}), \
+                    mock.patch.object(b, "_anios_fuentes", lambda t: ("2025", "2023", "2023")), \
+                    mock.patch("herramientas.seleccionar_paquete_fuentes.validate_prepared_package", lambda *a, **k: (False, ["año distinto"])):
+                with self.assertRaisesRegex(b.PaqueteP10Corrupto, "año distinto"):
+                    b.validar_paquete_p10("nac42", carpeta)
+
+    def test_paquete_desde_r2_sin_red_ausente_corrupto_y_zip_slip(self):
+        import zipfile
+
+        def sin_red(*a, **k):
+            raise AssertionError("acceso a red")
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            carpeta, h = self._paquete(td)
+            z = td / "p.zip"
+            with zipfile.ZipFile(z, "w") as zf:
+                for f in sorted(carpeta.iterdir()):
+                    zf.write(f, f.name)
+            claves = []
+
+            def cp(origen, destino):
+                claves.append(origen)
+                Path(destino).write_bytes(z.read_bytes())
+
+            def sin_objeto(origen, destino):
+                raise OSError("NoSuchKey")
+            ident = {"package_sha256": h}
+            base = [mock.patch.dict("os.environ", {"R2_BUCKET": "bk"}), mock.patch.object(b, "_identidad_contrato", lambda t: ident),
+                    mock.patch.object(socket, "socket", sin_red), mock.patch.object(b.urllib.request, "urlopen", sin_red),
+                    mock.patch.object(b, "_anios_fuentes", lambda t: ("2025", "2023", "2023")),
+                    mock.patch("herramientas.seleccionar_paquete_fuentes.validate_prepared_package", lambda *a, **k: (True, []))]
+            with contextlib.ExitStack() as st:
+                for m in base:
+                    st.enter_context(m)
+                with mock.patch.object(b, "_r2_cp", cp):
+                    pkg = b.paquete_p10_desde_r2("nac42", td / "out")
+                self.assertEqual(claves, [f"s3://bk/arc-e/paquetes-p10/{h}.zip"])
+                self.assertEqual((pkg / "bundle.zip").read_bytes(), b"bundle")
+                with mock.patch.object(b, "_r2_cp", sin_objeto):
+                    self.assertIsNone(b.paquete_p10_desde_r2("nac42", td / "out2"))
+                mal = td / "mal.zip"
+                with zipfile.ZipFile(mal, "w") as zf:
+                    zf.writestr("../fuera.txt", "x")
+                with mock.patch.object(b, "_r2_cp", lambda o, d: Path(d).write_bytes(mal.read_bytes())):
+                    with self.assertRaises(b.PaqueteP10Corrupto):
+                        b.paquete_p10_desde_r2("nac42", td / "out3")
+
+    def test_entradas_codigos_ausente_y_corrupto(self):
+        import argparse
+        ident = {"package_sha256": "ab" * 32, "contrato_sha256": "1"}
+        a = argparse.Namespace(territorios=["nac42"], todos=False, out="/nonexistent", desde_fuente=False,
+                               seccionado="shapefile", permitir_red_ine=False)
+
+        def salida(efecto):
+            buf = io.StringIO()
+            with mock.patch.object(b, "paquete_p10_desde_r2", efecto), mock.patch.object(b, "_identidad_contrato", lambda t: ident), \
+                    contextlib.redirect_stdout(buf):
+                self.assertEqual(b.entradas(a), 1)
+            return buf.getvalue()
+        corrupto = salida(mock.Mock(side_effect=b.PaqueteP10Corrupto("fichero alterado")))
+        self.assertIn("BATERIA_PAQUETE_P10_CORRUPTO nac42: fichero alterado", corrupto)
+        self.assertNotIn("FALTA_PAQUETE", corrupto)
+        ausente = salida(mock.Mock(return_value=None))
+        self.assertIn("BATERIA_FALTA_PAQUETE_P10 nac42", ausente)
+        self.assertIn(b.clave_paquete(ident), ausente)
+        self.assertNotIn("CORRUPTO", ausente)
+
+    def _uno_con_paquete(self, td: Path, reuse: bool, vistos: list):
+        """entradas_uno con un paquete: _run simulado; devuelve el resultado."""
+        pkg = td / "pkg"
+        pkg.mkdir()
+        (pkg / "manifest.json").write_text("{}", encoding="utf-8")
+        decl = td / "decl.yaml"
+        decl.write_text("x: 1\n", encoding="utf-8")
+        cache = td / "cache"
+
+        def run(cmd, log, env):
+            vistos.append(list(cmd))
+            if "herramientas.ejecutar_fuentes_workflow" in cmd:
+                with open(log, "a", encoding="utf-8") as fh:
+                    fh.write('{"decision": "REUSE"}\n' if reuse else '{"decision": "ACQUIRE"}\n')
+                mat = td / "out" / "_trabajo" / "t" / "ev" / "materialized" / "inputs"
+                mat.mkdir(parents=True, exist_ok=True)
+                return 0, 1.0
+            cache.mkdir(exist_ok=True)
+            for suf in b.ENTRADA_MINIMA:
+                (cache / f"t_2025{suf}").write_bytes(b"x")
+            return 0, 1.0
+        with mock.patch.object(b, "_run", run), mock.patch.object(b, "_declaracion_temporal", lambda *a: decl), \
+                mock.patch.object(b, "_huellas_contrato", lambda c: {}), mock.patch.object(b, "_cfg", lambda t: {}), \
+                mock.patch.object(b, "_cache", lambda t: cache), mock.patch.object(b, "contrato", lambda t: b.ROOT / "c.yaml"), \
+                mock.patch.object(b, "_guardar_minima", lambda *a: None):
+            return b.entradas_uno("t", td / "out", {}, "shapefile", paquete=pkg)
+
+    def test_con_paquete_restaura_como_la_00_y_ejecuta_m01_m02_m03_con_el_codigo_vigente(self):
+        with tempfile.TemporaryDirectory() as td:
+            vistos = []
+            r = self._uno_con_paquete(Path(td), True, vistos)
+            self.assertEqual(r["estado"], "OK")
+            self.assertEqual(r["origen"], "paquete_p10")
+            adq = [c for c in vistos if "herramientas.ejecutar_fuentes_workflow" in c][0]
+            self.assertIn("--checkpoint-in", adq)          # el paquete entra como checkpoint de fuentes (REUSE), igual que la 00
+            self.assertNotIn("-c", adq)                    # ni el OGC ni la copia nacional
+            modulos = [Path(c[1]).name for c in vistos if len(c) > 1 and c[1].startswith("modulos/")]
+            self.assertEqual(modulos, ["01_preparar_base_territorial.py", "02_construir_adyacencias.py", "03_construir_grafo.py"])
+
+    def test_si_la_politica_de_fuentes_adquiere_en_vez_de_reutilizar_falla(self):
+        with tempfile.TemporaryDirectory() as td:
+            vistos = []
+            r = self._uno_con_paquete(Path(td), False, vistos)
+            self.assertEqual(r["estado"], "FALLO_ADQUISICION")
+            self.assertEqual([c for c in vistos if len(c) > 1 and str(c[1]).startswith("modulos/")], [])
+
+    def test_no_queda_ningun_m03_archivado_que_usar(self):
+        import inspect
+        src = inspect.getsource(b)
+        for muerto in ("entradas_r2_identidad", "entradas_r2_uno", "estados_r2", "clave_identidad", "def archivar("):
+            self.assertNotIn(muerto, src)
+        self.assertNotIn("entradas-minimas", src[src.index("def clave_paquete"):])
 
 
 if __name__ == "__main__":

@@ -1,6 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: bateria-motor.yml
-# VERSIÓN: 1.1.6
+# VERSIÓN: 1.2.0
+# CAMBIOS 1.2.0 (T-303): la batería parte de la FUENTE y recalcula: los jobs bajan de R2 (ARC-E) el paquete P10 de la fuente del territorio
+#   (arc-e/paquetes-p10/<package_sha256>.zip, verificado), lo restauran como la 00 y ejecutan M01, M02 y M03 con el código de main
+#   (herramientas/bateria_motor.py 1.4.0); ya no hay M03 archivado. `archivar_p10` (Operador, una vez por territorio) archiva el artefacto
+#   ddd-source-package-* del run indicado de P10; se retira el paso «Archivar entradas en R2» (entrada `archivar`).
 # CAMBIOS 1.1.4: T-215 (corte 5.0.0, paso 4), nombre visible v5 «VER Verificación del motor» (antes Auxiliar — Batería del Motor).
 # NOMBRE DE VERSIÓN: Batería del motor
 # FECHA: 2026-11-14
@@ -35,7 +39,7 @@
 #   territorial de P10 archivado en R2 (ARC-E, por identidad del contrato, sha256 verificado; herramientas/bateria_motor.py 1.3.0);
 #   sin paquete, el job falla con BATERIA_FALTA_PAQUETE_P10 y el territorio a archivar. Entrada `archivar_p10` (Operador, una vez por
 #   territorio): archiva en R2 el estado M03 de la 00 indicada. Las credenciales de R2 van solo en los pasos que las usan (Entradas, Archivar, archivar_p10), no en el env de los jobs. Se quita el paso de copias nacionales y la reconstrucción desde fuente.
-# ANTERIOR: legacy/workflows/bateria-motor_v1.1.5_20261114.yml
+# ANTERIOR: legacy/workflows/bateria-motor_v1.1.6_20261114.yml
 name: VER Verificación del motor
 run-name: "Batería del motor ${{ inputs.motor == 'motor2' && format('motor2 {0} N={1}', inputs.funcion, inputs.cadenas) || inputs.versiones_m05 }} ${{ inputs.territorios || 'todos' }}"
 
@@ -70,15 +74,10 @@ on:
         type: string
         default: '7.4.4'
       archivar_p10:
-        description: 'Solo el Operador, una vez por territorio: id de la 00 cuyo estado M03 se archiva en R2 (ARC-E) como entrada mínima del territorio de «territorios»; ignora el resto'
+        description: 'Solo el Operador, una vez por territorio: id del run de P10 (o de la 00) cuyo paquete ddd-source-package-* se archiva en R2 (ARC-E) para el territorio de «territorios»; ignora el resto'
         required: false
         type: string
         default: ''
-      archivar:
-        description: 'Solo m05: subir a R2 la entrada mínima de cada territorio; motor2 la ignora'
-        required: false
-        type: boolean
-        default: false
 
 permissions:
   contents: read
@@ -90,7 +89,7 @@ concurrency:
 
 jobs:
   archivar_p10:
-    name: Archivar entrada P10 en R2 (ARC-E)
+    name: Archivar paquete P10 en R2 (ARC-E)
     if: ${{ inputs.archivar_p10 != '' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -109,7 +108,7 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.lock
       - run: python -m pip install --requirement requirements.lock
-      - name: Estado M03 de la 00 y archivado por identidad del contrato
+      - name: Paquete P10 de la fuente y archivado por package_sha256
         shell: bash
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
@@ -120,14 +119,16 @@ jobs:
         run: |
           set -eo pipefail
           [[ "$RUN_P10" =~ ^[0-9]+$ && -n "$TERRITORIOS" && "$TERRITORIOS" != *" "* ]] || { echo "::error::archivar_p10 = id numérico de la 00 y territorios = un solo territorio"; exit 2; }
-          mkdir -p "$RUNNER_TEMP/estado"
-          gh run download "$RUN_P10" --repo "$GITHUB_REPOSITORY" --dir "$RUNNER_TEMP/estado" --pattern "ddd-state-$RUN_P10-M03*"
-          python herramientas/bateria_motor.py archivar-p10 "$TERRITORIOS" --estado "$RUNNER_TEMP/estado" --run "$RUN_P10"
+          rm -rf "$RUNNER_TEMP/paquete"; mkdir -p "$RUNNER_TEMP/paquete"
+          gh run download "$RUN_P10" --repo "$GITHUB_REPOSITORY" --dir "$RUNNER_TEMP/paquete" --pattern 'ddd-source-package-*'
+          carpeta="$(find "$RUNNER_TEMP/paquete" -type f -name manifest.json -printf '%h\n' | sort | sed -n 1p)"
+          [[ -n "$carpeta" ]] || { echo "::error::El run $RUN_P10 no tiene un artefacto ddd-source-package-* con manifest.json (¿caducó a los 30 días?)"; exit 1; }
+          python herramientas/bateria_motor.py archivar-p10 "$TERRITORIOS" --paquete "$carpeta" --run "$RUN_P10" --out bateria
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: bateria-p10-${{ github.run_id }}
-          path: bateria/ARCHIVO_ENTRADAS.json
+          path: bateria/ARCHIVO_PAQUETES_P10.json
           retention-days: 30
 
   bateria:
@@ -170,22 +171,12 @@ jobs:
           python herramientas/bateria_motor.py matriz
           cat bateria/MATRIZ.md >> "$GITHUB_STEP_SUMMARY"
           exit "$rc"
-      - name: Archivar entradas en R2
-        if: ${{ always() && inputs.archivar }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: auto
-          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
-          R2_BUCKET: ${{ vars.R2_BUCKET }}
-        run: python herramientas/bateria_motor.py archivar
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: bateria-motor-${{ github.run_id }}
           path: |
             bateria/MATRIZ.*
-            bateria/ARCHIVO_ENTRADAS.json
             bateria/entradas/*/ENTRADAS.json
             bateria/motor/*/*/RESULTADO.json
             bateria/motor/*/*/VALIDACION.json
