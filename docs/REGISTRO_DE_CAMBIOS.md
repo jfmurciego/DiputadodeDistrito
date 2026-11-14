@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.411
+Versión: 1.0.413
 Fecha: 2026-11-14
-Alcance: T-310 — maplibre-gl servido desde el propio sitio (sin unpkg)
+Alcance: T-311 — La preparación escribe el id canónico aunque reutilice un P10 viejo; revert de r3 tanda 1
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t310-maplibre-local.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.410_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t311-id-canonico-preparacion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.412_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.410_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.413 · [2026-11-14 — T-311 — La preparación escribe el id canónico aunque reutilice un P10 viejo; revert de r3 tanda 1](registro/2026-11-14_t311-id-canonico-preparacion.md)
+- 1.0.412 · [2026-11-14 — T-302 — El archivado del almacén M06 ve los borradores (contents: write)](registro/2026-11-14_t302c-permisos-almacen-m06.md)
 - 1.0.411 · [2026-11-14 — T-310 — maplibre-gl servido desde el propio sitio (sin unpkg)](registro/2026-11-14_t310-maplibre-local.md)
 - 1.0.410 · [2026-11-14 — T-302 — Lista BORRAR/CONSERVAR y script de borrado de los almacen-m06-*](registro/2026-11-14_t302b-lista-borrado-almacen-m06.md)
 - 1.0.409 · [2026-11-14 — T-293 — Revisor de PR solo con la etiqueta `revisar-ia`](registro/2026-11-14_t-293-revisor-etiqueta.md)
