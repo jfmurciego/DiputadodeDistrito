@@ -1,0 +1,14 @@
+name = "ddd-contador"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+workers_dev = false
+
+routes = [{ pattern = "contador.diputadodedistrito.es", custom_domain = true }]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ddd-contador"
+database_id = "REEMPLAZAR_TRAS_wrangler_d1_create"
+
+[observability]
+enabled = false
