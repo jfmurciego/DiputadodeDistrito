@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.45
+Versión: 1.0.46
 Fecha: 2026-11-14
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: traspaso del Planificador del 14-11 (docs/TRASPASO_PLANIFICADOR_2026-11-14.md): reglas del propietario, D-96 a D-109 y cola T-291 a T-320
-Anterior: legacy/docs/PLAN_v1.0.44_20261114.md
+Cambios/motivo: D-110 (T-270 cerrada sin terminar); D-105 y D-109 matizan decisiones previas; orden de la cola (revisión de #787)
+Anterior: legacy/docs/PLAN_v1.0.45_20261114.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -203,7 +203,7 @@ con frase del propietario en su chat.
 | T-267 | Puerta de validación bajo `bash -eo pipefail` (regresión de T-251) | HECHA |
 | T-268 | La 00 rechaza al principio `congreso350_*` (D-76) | HECHA |
 | T-269 | Relajación real de D-66 en el núcleo | PENDIENTE (P3, solo si aparece un territorio infactible) |
-| T-270 | Medición de Deslinde optimizado en territorios grandes, utilidad del exhaustivo, función A frente a D8 | EN CURSO (informe parcial en su rama) |
+| T-270 | Medición de Deslinde optimizado en territorios grandes, utilidad del exhaustivo, función A frente a D8 | CERRADA sin terminar (D-110; informe parcial en su rama) |
 | T-271 | CI: subir artefactos de diagnóstico solo al fallar, sin tumbar el veredicto | EN CURSO (P0) |
 | T-272 | Inventario de la frontera privado/público | HECHA (rama `t272-frontera-inventario`) |
 
@@ -228,7 +228,7 @@ Fase 3 — retirar lo antiguo accesible:
 Fase 4 — producto (en el privado):
 | #740 / T-220 | Renombrado de carpetas | Poner al día y fusionar tras T-271 |
 | T-257 | Paquete Deslinde (privado; mover, no copiar) | Tras T-220 |
-| T-270 | Terminar la medición | Tras T-271 |
+| T-270 | Cerrada sin terminar (D-110) | — |
 | T-286 | Batería de los 71 con el motor optimizado y la semilla oficial (fija N = 10) | Runner propio; frase del propietario |
 | T-287 | Regenerar los 71 con la semilla oficial y publicarlos por el puente | Frase del propietario |
 | T-288 | Corte 5.0.0 (README del público, etiqueta) | Al final |
@@ -253,13 +253,14 @@ Fase 4 — producto (en el privado):
 - D-102 (14-11). Notación interna M01-M08 → P21-P27/P41-P42 (T-313) después de publicar los 71: P22 = «Geometría y adyacencias», P27 = auditoría, ensemble25/50; alcance completo; alias solo de lectura para el histórico.
 - D-103 (14-11, propietario; traspaso del Planificador). Histórico desde 2011 adelantado (inventario T-306, #770): matiza D-77, que dejaba la regeneración del histórico para después del corte. Zenodo solo mapas (confirma D-94).
 - D-104 (14-11, propietario). Mapa de fondo de OpenStreetMap (visores inicial, nacional y del Congreso): se acepta y se declara en el texto de transparencia que OpenStreetMap sirve el fondo y ve la IP del visitante. Fondo propio servido desde Cloudflare: se reconsidera después del 29-11 (T-316).
-- D-105 (14-11, propietario). Histórico desde 2011: mapa destino 2023 (como D-65) con la regla de M07 7.4.0, sin repartir votos (la sección partida va entera); se descargan los 5 seccionados que faltan y se re-cuadra (T-306 §4-5).
+- D-105 (14-11, propietario). Histórico desde 2011: mapa destino 2023 (como D-65) con la regla de M07 7.4.0, sin repartir votos (la sección partida va entera); se descargan los 5 seccionados que faltan y se re-cuadra (T-306 §4-5). Mantiene D-70: la pérdida de votos de 2011 sigue aceptada y se hereda tal cual.
 - D-106 (14-11, propietario). Contador de Cloudflare: el propietario lo despliega antes del 29-11 con la guía de #780.
 - D-107 (14-11, propietario). Propiedad intelectual: el paquete se regenera sobre main actual (con Deslinde 1.1) antes del registro del lunes 16-11.
 - D-108 (14-11, propietario). Las 6 releases `almacen-m06-*` se borran, tras comprobar en vivo las 51 claves en R2 y una pasada `-WhatIf` limpia; el script lo ejecuta el propietario.
-- D-109 (14-11, propietario). Repositorio privado, público nuevo y runner propio: aparcados hasta después del 29-11.
+- D-109 (14-11, propietario). Repositorio privado, público nuevo y runner propio: aparcados hasta después del 29-11. Matiza D-91, D-93 y D-96: el paso a privado y el runner propio no empiezan antes del 30-11.
+- D-110 (14-11, propietario). T-270 se cierra sin terminar: medía Deslinde antes de 1.1 y T-296/T-297 responden buena parte. La rama `t270-medicion-deslinde-optimizado` queda como referencia; función A frente a D8 y el exhaustivo en medianos pasan a la investigación del final, con Deslinde 1.1.
 
-### Cola T-291 a T-314 (14-11)
+### Cola T-291 a T-321 (14-11)
 | Id | Qué | Estado |
 |---|---|---|
 | T-291 | Equivalencia de seccionados 2026→2023 en M07 7.4.0, adaptador, 03 y votos por partido de 2026 (D-65, D-99) | HECHA (#749 #750 #752 #754) |
@@ -283,13 +284,14 @@ Fase 4 — producto (en el privado):
 | T-310 | maplibre-gl servido desde el sitio | HECHA (#781) |
 | T-311, T-312 | Id canónico al reutilizar P10 (también en el contrato resuelto copiado) y revert de r3 tanda 1 | HECHA (#786) |
 | T-313 | Migración de notación P (D-102): inventario #784 (borrador) | PENDIENTE (después de la P50) |
+| T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? No: transitorio, solo bloquea «Reutilizar» (lectura de código sobre main actual). Orden: P10 → P00 por territorio seguidos | REVISIÓN (#788); camino crítico |
 | T-315 | Declarar el fondo de OpenStreetMap en el texto de transparencia del contador (D-104); va en #783 (T-294 parte 2) | LISTA (Coordinador) |
 | T-316 | Fondo de mapa propio servido desde Cloudflare, sin terceros (D-104) | PENDIENTE (después del 29-11) |
-| T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? No: transitorio, solo bloquea «Reutilizar» (lectura de código sobre main actual). Orden: P10 → P00 por territorio seguidos | REVISIÓN (#788); camino crítico |
+| T-317 | Actualización del plan 1.0.45 | HECHA (#787) |
 | T-318 | Plan del histórico desde 2011 sobre 2023 (D-105): pasos 1-6 de T-306 §5 con coste; el paso A es campaña con ficha | LISTA (Coordinador; tras la P50 de los 71) |
-| T-319 | Paquete de propiedad intelectual regenerado sobre main con `preparar_paquete_pi.py` (D-107), con sha256, para el propietario | LISTA (Coordinador; antes del lunes 16-11) |
+| T-319 | Paquete de propiedad intelectual regenerado sobre main con `preparar_paquete_pi.py` (D-107), con sha256, para el propietario | HECHA (entregado al propietario; sha256 8bd30078…) |
 | T-320 | Almacén M06: comprobación en vivo de las 51 claves en R2 y `-WhatIf` del script; el propietario borra (D-108) | PENDIENTE (tras la P50 de los 71: job de solo lectura nuevo, sin tocar workflows durante la congelación) |
-| T-317 | Esta actualización del plan (1.0.45) | REVISIÓN (#787) |
+| T-321 | Actualización del plan 1.0.46 | REVISIÓN (esta PR) |
 
 ### Frentes y camino crítico (14-11)
 1. Regeneración Deslinde 1.1 (ficha r3, PARADA): #786 fusionada; falta T-314 (#788) en main con CI verde → el Operador reanuda r3 desde el paso 1 (frase ya dada) → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
@@ -299,14 +301,14 @@ Fase 4 — producto (en el privado):
 5. Analítica (#778, #783) con la guía de Cloudflare; robot revisor (frase en su chat).
 6. Histórico: plan tras #770.
 7. Aparcados hasta cerrar el repositorio: público nuevo, puente, Pages, Zenodo y runner propio (T-273, T-275, T-276, T-282, T-283, T-274B).
-8. Al final: investigación (óptimo en medianos, `redist`) y corte 5.0.0; legislatura nueva tras el 29-11.
+8. Al final: investigación (óptimo en medianos, `redist`, función A frente a D8 y exhaustivo con Deslinde 1.1, D-110) y corte 5.0.0; legislatura nueva tras el 29-11.
 
 Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y T-314 en main con CI verde. Pendiente del propietario: Cloudflare del contador, registro de la propiedad intelectual (lunes 16-11), y crear el repositorio público y el runner cuando se cierre el actual.
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290 y T-317. El planificador ha dado T-194 a T-320 (10 a 14-11; T-277 y T-292 sin usar). Siguiente libre para el planificador: T-321.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317 y T-321. El planificador ha dado T-194 a T-321 (10 a 14-11; T-277 y T-292 sin usar). Siguiente libre para el planificador: T-322.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
