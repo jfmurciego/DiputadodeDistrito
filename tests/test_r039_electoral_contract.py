@@ -21,6 +21,7 @@ import unittest
 import pandas as pd
 import yaml
 
+from ddd_core import territorio_ids as ti
 from ddd_core.electoral_contract import PartyDictionary, load_election_contract
 
 
@@ -77,7 +78,7 @@ class R039ElectoralContract(unittest.TestCase):
                 manifest,
             )
             dictionary_record = declared["party_dictionary"]
-            dictionary_path = ROOT / dictionary_record["path"]
+            dictionary_path = ROOT / ti.ruta_nueva(dictionary_record["path"])  # el contrato (sha256 anclado) conserva la ruta vieja
             self.assertEqual(
                 hashlib.sha256(dictionary_path.read_bytes()).hexdigest(),
                 dictionary_record["sha256"],

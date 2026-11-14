@@ -6,6 +6,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import io
+import os
 import re
 import tokenize
 import subprocess
@@ -87,8 +88,17 @@ CODIGO = ("herramientas/", "ddd_core/", "ddd_motor2/", "ddd_ensemble/", "modulos
 
 
 def _ls_files() -> list[str]:
-    out = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True, check=True).stdout
-    return [f for f in out.splitlines() if (ROOT / f).is_file()]
+    """Ficheros versionados; sin .git (contenedor de la CI) recorre el árbol sin carpetas ocultas ni cachés."""
+    if (ROOT / ".git").exists():
+        r = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True)
+        if r.returncode == 0:
+            return [f for f in r.stdout.splitlines() if (ROOT / f).is_file()]
+    omitir = {".git", "__pycache__", "node_modules", ".venv"}
+    res = []
+    for d, dirs, files in os.walk(ROOT):
+        dirs[:] = [x for x in dirs if x not in omitir]
+        res += [(Path(d) / f).relative_to(ROOT).as_posix() for f in files]
+    return res
 
 
 def _equivalencias() -> list[dict]:
