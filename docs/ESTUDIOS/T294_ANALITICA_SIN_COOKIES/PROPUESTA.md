@@ -1,6 +1,6 @@
 # T-294 — Analítica del visor sin cookies (propuesta, 1 página)
 
-Solo propuesta; no se monta nada hasta decidir el propietario (D-71, D-92). Sitio: GitHub Pages en `diputadodedistrito.es`
+Estudio previo a la publicación del visor v2 (D-71). Solo propuesta; no se monta nada hasta decidir el propietario (D-92). Sitio: GitHub Pages en `diputadodedistrito.es`
 (estático; **sin cabeceras HTTP ni código de servidor propios**; CSP solo por `<meta>`). Pages no ofrece logs; solo «Insights →
 Traffic» (14 días, con permiso de escritura).
 
@@ -30,9 +30,13 @@ verifique que el script no usa cookies, `localStorage`, `sessionStorage` ni `cre
 agregado; comprobación manual con las herramientas del navegador (almacenamiento vacío, petición sin cookies).
 
 ## Recomendación
+**Decisión del propietario (14-11-2026): opción A y `maplibre-gl` servido desde el sitio (T-310).**
 **D hoy (no cuesta nada) y A si se quiere serie histórica**: es lo mínimo de datos, 0 €, casi sin operación y la única
 que encaja con Pages sin servidor. B solo si se quieren referentes o países; C no compensa en un sitio estático.
 Acción independiente: el visor v2 carga `maplibre-gl` desde `unpkg.com` (un tercero ve la IP); conviene autoalojarlo.
+
+Nota: precios, límites del plan gratuito de Cloudflare y costes de VPS son estimaciones a fecha de hoy, sin verificar; la
+ausencia de consentimiento es criterio técnico, no asesoría jurídica.
 
 ## Texto para el pie (opción A)
 > **Medición de visitas.** Este sitio cuenta cuántas veces se carga cada página, por día. No usa cookies ni guarda nada en
