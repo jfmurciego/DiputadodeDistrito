@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-12T11:53:25.988705+00:00",
+  "generated_at": "2026-11-14T14:24:39.676790+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -43,7 +43,7 @@
     },
     "territories": [
       {
-        "territory_id": "andalucia",
+        "territory_id": "aut01",
         "name": "Andalucía",
         "display_name": "01 Andalucía",
         "election": {
@@ -66,7 +66,7 @@
             "population_year": 2025,
             "section_year": 2025,
             "run_id": 40946875467,
-            "receipt_path": "territorios/andalucia/evidencia/fuentes_territoriales/2025/253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09/40946875467/receipt.json"
+            "receipt_path": "territorios/aut01/evidencia/fuentes_territoriales/2025/253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09/40946875467/receipt.json"
           }
         },
         "electoral": {
@@ -81,7 +81,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/andalucia/evidencia/pares_fuentes/2025/008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc.json",
+            "receipt_path": "territorios/aut01/evidencia/pares_fuentes/2025/008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc.json",
             "pair_sha256": "008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -94,7 +94,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "aragon",
+        "territory_id": "aut02",
         "name": "Aragón",
         "display_name": "02 Aragón",
         "election": {
@@ -117,7 +117,7 @@
             "population_year": 2025,
             "section_year": 2025,
             "run_id": 40691712762,
-            "receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f/40691712762/receipt.json"
+            "receipt_path": "territorios/aut02/evidencia/fuentes_territoriales/2025/2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f/40691712762/receipt.json"
           }
         },
         "electoral": {
@@ -132,7 +132,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/aragon/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json",
+            "receipt_path": "territorios/aut02/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json",
             "pair_sha256": "b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -145,7 +145,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "principado_de_asturias",
+        "territory_id": "aut03",
         "name": "Principado de Asturias",
         "display_name": "03 Principado de Asturias",
         "election": {
@@ -168,7 +168,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 40693720831,
-            "receipt_path": "territorios/principado_de_asturias/evidencia/fuentes_territoriales/2025/c7318c4524f8378c37e9a7352ba3ada506ae31e7dc5daa2e7996660d8f6c5cab/40693720831/receipt.json"
+            "receipt_path": "territorios/aut03/evidencia/fuentes_territoriales/2025/c7318c4524f8378c37e9a7352ba3ada506ae31e7dc5daa2e7996660d8f6c5cab/40693720831/receipt.json"
           }
         },
         "electoral": {
@@ -183,7 +183,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/principado_de_asturias/evidencia/pares_fuentes/2025/96f6b6b1fa3e548dabea41b1aee41731cc974a4a97c07935aca74f7096e502fb.json",
+            "receipt_path": "territorios/aut03/evidencia/pares_fuentes/2025/96f6b6b1fa3e548dabea41b1aee41731cc974a4a97c07935aca74f7096e502fb.json",
             "pair_sha256": "96f6b6b1fa3e548dabea41b1aee41731cc974a4a97c07935aca74f7096e502fb",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -196,7 +196,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "illes_balears",
+        "territory_id": "aut04",
         "name": "Islas Baleares",
         "display_name": "04 Islas Baleares",
         "election": {
@@ -219,7 +219,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 43011633844,
-            "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/43011633844/receipt.json"
+            "receipt_path": "territorios/aut04/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/43011633844/receipt.json"
           }
         },
         "electoral": {
@@ -234,7 +234,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/illes_balears/evidencia/pares_fuentes/2025/2a8ec31fdd7b769abc01cfa4cbedaa2a7b743327f173184cd85d2433d89de4eb.json",
+            "receipt_path": "territorios/aut04/evidencia/pares_fuentes/2025/2a8ec31fdd7b769abc01cfa4cbedaa2a7b743327f173184cd85d2433d89de4eb.json",
             "pair_sha256": "2a8ec31fdd7b769abc01cfa4cbedaa2a7b743327f173184cd85d2433d89de4eb",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -247,7 +247,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "canarias",
+        "territory_id": "aut05",
         "name": "Canarias",
         "display_name": "05 Canarias",
         "election": {
@@ -270,7 +270,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 43011642069,
-            "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/43011642069/receipt.json"
+            "receipt_path": "territorios/aut05/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/43011642069/receipt.json"
           }
         },
         "electoral": {
@@ -285,7 +285,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814.json",
+            "receipt_path": "territorios/aut05/evidencia/pares_fuentes/2025/9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814.json",
             "pair_sha256": "9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -298,7 +298,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "cantabria",
+        "territory_id": "aut06",
         "name": "Cantabria",
         "display_name": "06 Cantabria",
         "election": {
@@ -321,7 +321,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 42707820760,
-            "receipt_path": "territorios/cantabria/evidencia/fuentes_territoriales/2025/838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028/42707820760/receipt.json"
+            "receipt_path": "territorios/aut06/evidencia/fuentes_territoriales/2025/838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028/42707820760/receipt.json"
           }
         },
         "electoral": {
@@ -336,7 +336,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/cantabria/evidencia/pares_fuentes/2025/e6f708de40a73a4b2941809203619e18a79b4548b69b08af486739bc44c40311.json",
+            "receipt_path": "territorios/aut06/evidencia/pares_fuentes/2025/e6f708de40a73a4b2941809203619e18a79b4548b69b08af486739bc44c40311.json",
             "pair_sha256": "e6f708de40a73a4b2941809203619e18a79b4548b69b08af486739bc44c40311",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -349,7 +349,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "castilla_y_leon",
+        "territory_id": "aut07",
         "name": "Castilla y León",
         "display_name": "07 Castilla y León",
         "election": {
@@ -372,7 +372,7 @@
             "population_year": 2025,
             "section_year": 2025,
             "run_id": 42521090842,
-            "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60/42521090842/receipt.json"
+            "receipt_path": "territorios/aut07/evidencia/fuentes_territoriales/2025/e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60/42521090842/receipt.json"
           }
         },
         "electoral": {
@@ -387,7 +387,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/castilla_y_leon/evidencia/pares_fuentes/2025/3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf.json",
+            "receipt_path": "territorios/aut07/evidencia/pares_fuentes/2025/3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf.json",
             "pair_sha256": "3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -400,7 +400,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "castilla_la_mancha",
+        "territory_id": "aut08",
         "name": "Castilla-La Mancha",
         "display_name": "08 Castilla-La Mancha",
         "election": {
@@ -423,7 +423,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 40690624792,
-            "receipt_path": "territorios/castilla_la_mancha/evidencia/fuentes_territoriales/2025/62d83ef5f8a589ce47a7db753c506f9b8606e6a16774c69cc17a7d9e714c0a7b/40690624792/receipt.json"
+            "receipt_path": "territorios/aut08/evidencia/fuentes_territoriales/2025/62d83ef5f8a589ce47a7db753c506f9b8606e6a16774c69cc17a7d9e714c0a7b/40690624792/receipt.json"
           }
         },
         "electoral": {
@@ -438,7 +438,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/castilla_la_mancha/evidencia/pares_fuentes/2025/c8d8bc1e482267ed15f985168ea0ea537589fa5e2d0ac75fa65f8d2b7489120c.json",
+            "receipt_path": "territorios/aut08/evidencia/pares_fuentes/2025/c8d8bc1e482267ed15f985168ea0ea537589fa5e2d0ac75fa65f8d2b7489120c.json",
             "pair_sha256": "c8d8bc1e482267ed15f985168ea0ea537589fa5e2d0ac75fa65f8d2b7489120c",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -451,7 +451,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "cataluna",
+        "territory_id": "aut09",
         "name": "Cataluña",
         "display_name": "09 Cataluña",
         "election": {
@@ -474,7 +474,7 @@
             "population_year": 2024,
             "section_year": 2024,
             "run_id": 40946901555,
-            "receipt_path": "territorios/cataluna/evidencia/fuentes_territoriales/2025/3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25/40946901555/receipt.json"
+            "receipt_path": "territorios/aut09/evidencia/fuentes_territoriales/2025/3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25/40946901555/receipt.json"
           }
         },
         "electoral": {
@@ -489,7 +489,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/cataluna/evidencia/pares_fuentes/2025/3090588ad0a3e96eb59dbfc5eb7260f1eda08a00b670c1287cebf36c48586087.json",
+            "receipt_path": "territorios/aut09/evidencia/pares_fuentes/2025/3090588ad0a3e96eb59dbfc5eb7260f1eda08a00b670c1287cebf36c48586087.json",
             "pair_sha256": "3090588ad0a3e96eb59dbfc5eb7260f1eda08a00b670c1287cebf36c48586087",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -502,7 +502,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "comunidad_valenciana",
+        "territory_id": "aut10",
         "name": "Comunidad Valenciana",
         "display_name": "10 Comunidad Valenciana",
         "election": {
@@ -525,7 +525,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 40956462986,
-            "receipt_path": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/8be18d02817391c77e1150ba4151facec286df79330c13b368d7e859f2cffef0/40956462986/receipt.json"
+            "receipt_path": "territorios/aut10/evidencia/fuentes_territoriales/2025/8be18d02817391c77e1150ba4151facec286df79330c13b368d7e859f2cffef0/40956462986/receipt.json"
           }
         },
         "electoral": {
@@ -540,7 +540,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/comunidad_valenciana/evidencia/pares_fuentes/2025/dabb1f70e89c22e128269f4ef63f8701763a8e9155a46053330ec0ea42ad10f0.json",
+            "receipt_path": "territorios/aut10/evidencia/pares_fuentes/2025/dabb1f70e89c22e128269f4ef63f8701763a8e9155a46053330ec0ea42ad10f0.json",
             "pair_sha256": "dabb1f70e89c22e128269f4ef63f8701763a8e9155a46053330ec0ea42ad10f0",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -553,7 +553,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "extremadura",
+        "territory_id": "aut11",
         "name": "Extremadura",
         "display_name": "11 Extremadura",
         "election": {
@@ -576,7 +576,7 @@
             "population_year": 2025,
             "section_year": 2025,
             "run_id": 42720735134,
-            "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6/42720735134/receipt.json"
+            "receipt_path": "territorios/aut11/evidencia/fuentes_territoriales/2025/c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6/42720735134/receipt.json"
           }
         },
         "electoral": {
@@ -591,7 +591,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/extremadura/evidencia/pares_fuentes/2025/67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3.json",
+            "receipt_path": "territorios/aut11/evidencia/pares_fuentes/2025/67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3.json",
             "pair_sha256": "67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -604,7 +604,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "galicia",
+        "territory_id": "aut12",
         "name": "Galicia",
         "display_name": "12 Galicia",
         "election": {
@@ -627,7 +627,7 @@
             "population_year": 2024,
             "section_year": 2024,
             "run_id": 40690688352,
-            "receipt_path": "territorios/galicia/evidencia/fuentes_territoriales/2025/a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894/40690688352/receipt.json"
+            "receipt_path": "territorios/aut12/evidencia/fuentes_territoriales/2025/a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894/40690688352/receipt.json"
           }
         },
         "electoral": {
@@ -642,7 +642,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/galicia/evidencia/pares_fuentes/2025/fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914.json",
+            "receipt_path": "territorios/aut12/evidencia/pares_fuentes/2025/fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914.json",
             "pair_sha256": "fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -655,7 +655,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "madrid",
+        "territory_id": "aut13",
         "name": "Comunidad de Madrid",
         "display_name": "13 Comunidad de Madrid",
         "election": {
@@ -678,7 +678,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 40773465956,
-            "receipt_path": "territorios/madrid/evidencia/fuentes_territoriales/2025/940bca48df854c294916fee6a812778c262b117340aab0a36d972a26a29da895/40773465956/receipt.json"
+            "receipt_path": "territorios/aut13/evidencia/fuentes_territoriales/2025/940bca48df854c294916fee6a812778c262b117340aab0a36d972a26a29da895/40773465956/receipt.json"
           }
         },
         "electoral": {
@@ -693,7 +693,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/madrid/evidencia/pares_fuentes/2025/4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8.json",
+            "receipt_path": "territorios/aut13/evidencia/pares_fuentes/2025/4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8.json",
             "pair_sha256": "4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -706,7 +706,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "region_de_murcia",
+        "territory_id": "aut14",
         "name": "Región de Murcia",
         "display_name": "14 Región de Murcia",
         "election": {
@@ -729,7 +729,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 40773421805,
-            "receipt_path": "territorios/region_de_murcia/evidencia/fuentes_territoriales/2025/3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a/40773421805/receipt.json"
+            "receipt_path": "territorios/aut14/evidencia/fuentes_territoriales/2025/3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a/40773421805/receipt.json"
           }
         },
         "electoral": {
@@ -744,7 +744,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/region_de_murcia/evidencia/pares_fuentes/2025/317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d.json",
+            "receipt_path": "territorios/aut14/evidencia/pares_fuentes/2025/317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d.json",
             "pair_sha256": "317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -757,7 +757,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "comunidad_foral_de_navarra",
+        "territory_id": "aut15",
         "name": "Comunidad Foral de Navarra",
         "display_name": "15 Comunidad Foral de Navarra",
         "election": {
@@ -780,7 +780,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 40838170635,
-            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1/40838170635/receipt.json"
+            "receipt_path": "territorios/aut15/evidencia/fuentes_territoriales/2025/4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1/40838170635/receipt.json"
           }
         },
         "electoral": {
@@ -795,7 +795,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc.json",
+            "receipt_path": "territorios/aut15/evidencia/pares_fuentes/2025/4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc.json",
             "pair_sha256": "4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -808,7 +808,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "pais_vasco",
+        "territory_id": "aut16",
         "name": "País Vasco",
         "display_name": "16 País Vasco",
         "election": {
@@ -831,7 +831,7 @@
             "population_year": 2024,
             "section_year": 2024,
             "run_id": 40946888676,
-            "receipt_path": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288/40946888676/receipt.json"
+            "receipt_path": "territorios/aut16/evidencia/fuentes_territoriales/2025/ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288/40946888676/receipt.json"
           }
         },
         "electoral": {
@@ -846,7 +846,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/pais_vasco/evidencia/pares_fuentes/2025/76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac.json",
+            "receipt_path": "territorios/aut16/evidencia/pares_fuentes/2025/76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac.json",
             "pair_sha256": "76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -859,7 +859,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "la_rioja",
+        "territory_id": "aut17",
         "name": "La Rioja",
         "display_name": "17 La Rioja",
         "election": {
@@ -882,7 +882,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 40850322464,
-            "receipt_path": "territorios/la_rioja/evidencia/fuentes_territoriales/2025/fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853/40850322464/receipt.json"
+            "receipt_path": "territorios/aut17/evidencia/fuentes_territoriales/2025/fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853/40850322464/receipt.json"
           }
         },
         "electoral": {
@@ -897,7 +897,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/la_rioja/evidencia/pares_fuentes/2025/b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd.json",
+            "receipt_path": "territorios/aut17/evidencia/pares_fuentes/2025/b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd.json",
             "pair_sha256": "b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -910,7 +910,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "ceuta",
+        "territory_id": "aut18",
         "name": "Ceuta",
         "display_name": "18 Ceuta",
         "election": {
@@ -933,7 +933,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 40773443591,
-            "receipt_path": "territorios/ceuta/evidencia/fuentes_territoriales/2025/e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4/40773443591/receipt.json"
+            "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4/40773443591/receipt.json"
           }
         },
         "electoral": {
@@ -948,7 +948,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/ceuta/evidencia/pares_fuentes/2025/43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8.json",
+            "receipt_path": "territorios/aut18/evidencia/pares_fuentes/2025/43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8.json",
             "pair_sha256": "43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -961,7 +961,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "melilla",
+        "territory_id": "aut19",
         "name": "Melilla",
         "display_name": "19 Melilla",
         "election": {
@@ -984,7 +984,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 40832114779,
-            "receipt_path": "territorios/melilla/evidencia/fuentes_territoriales/2025/abe81cc501292049c35658321fc51f672334e1cada123889d0ec287b42f1e4ec/40832114779/receipt.json"
+            "receipt_path": "territorios/aut19/evidencia/fuentes_territoriales/2025/abe81cc501292049c35658321fc51f672334e1cada123889d0ec287b42f1e4ec/40832114779/receipt.json"
           }
         },
         "electoral": {
@@ -999,7 +999,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/melilla/evidencia/pares_fuentes/2025/f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4.json",
+            "receipt_path": "territorios/aut19/evidencia/pares_fuentes/2025/f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4.json",
             "pair_sha256": "f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1012,7 +1012,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_alava",
+        "territory_id": "nac01",
         "name": "Nacional Álava",
         "display_name": "Nacional Álava",
         "election": {
@@ -1035,7 +1035,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41240137880,
-            "receipt_path": "territorios/congreso_alava/evidencia/fuentes_territoriales/2025/8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16/41240137880/receipt.json"
+            "receipt_path": "territorios/nac01/evidencia/fuentes_territoriales/2025/8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16/41240137880/receipt.json"
           }
         },
         "electoral": {
@@ -1050,7 +1050,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_alava/evidencia/pares_fuentes/2025/29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b.json",
+            "receipt_path": "territorios/nac01/evidencia/pares_fuentes/2025/29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b.json",
             "pair_sha256": "29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1063,7 +1063,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_albacete",
+        "territory_id": "nac02",
         "name": "Nacional Albacete",
         "display_name": "Nacional Albacete",
         "election": {
@@ -1086,7 +1086,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41240260992,
-            "receipt_path": "territorios/congreso_albacete/evidencia/fuentes_territoriales/2025/70020652c0d9c32d03c1ef5c3cf5738ebc1e4ec539a362de24c1ab934b96ffa0/41240260992/receipt.json"
+            "receipt_path": "territorios/nac02/evidencia/fuentes_territoriales/2025/70020652c0d9c32d03c1ef5c3cf5738ebc1e4ec539a362de24c1ab934b96ffa0/41240260992/receipt.json"
           }
         },
         "electoral": {
@@ -1101,7 +1101,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_albacete/evidencia/pares_fuentes/2025/cab052dbdcaf36b292acc9769ee1c419978d21d0fc0252cf73854bc251af7dc8.json",
+            "receipt_path": "territorios/nac02/evidencia/pares_fuentes/2025/cab052dbdcaf36b292acc9769ee1c419978d21d0fc0252cf73854bc251af7dc8.json",
             "pair_sha256": "cab052dbdcaf36b292acc9769ee1c419978d21d0fc0252cf73854bc251af7dc8",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1114,7 +1114,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_alicante",
+        "territory_id": "nac03",
         "name": "Nacional Alicante",
         "display_name": "Nacional Alicante",
         "election": {
@@ -1137,7 +1137,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 42409605030,
-            "receipt_path": "territorios/congreso_alicante/evidencia/fuentes_territoriales/2025/5069521dc815a565b263910a381dbd4cd4fe072a236d204569c151c74a978cf2/42409605030/receipt.json"
+            "receipt_path": "territorios/nac03/evidencia/fuentes_territoriales/2025/5069521dc815a565b263910a381dbd4cd4fe072a236d204569c151c74a978cf2/42409605030/receipt.json"
           }
         },
         "electoral": {
@@ -1152,7 +1152,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_alicante/evidencia/pares_fuentes/2025/f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256.json",
+            "receipt_path": "territorios/nac03/evidencia/pares_fuentes/2025/f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256.json",
             "pair_sha256": "f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1165,7 +1165,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_almeria",
+        "territory_id": "nac04",
         "name": "Nacional Almería",
         "display_name": "Nacional Almería",
         "election": {
@@ -1188,7 +1188,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41242160179,
-            "receipt_path": "territorios/congreso_almeria/evidencia/fuentes_territoriales/2025/ce84679b4ae3c362cf8c561ef8b1fb60823719eb603c96f6d4fa0b49f2336183/41242160179/receipt.json"
+            "receipt_path": "territorios/nac04/evidencia/fuentes_territoriales/2025/ce84679b4ae3c362cf8c561ef8b1fb60823719eb603c96f6d4fa0b49f2336183/41242160179/receipt.json"
           }
         },
         "electoral": {
@@ -1203,7 +1203,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_almeria/evidencia/pares_fuentes/2025/a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c.json",
+            "receipt_path": "territorios/nac04/evidencia/pares_fuentes/2025/a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c.json",
             "pair_sha256": "a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1216,7 +1216,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_avila",
+        "territory_id": "nac05",
         "name": "Nacional Ávila",
         "display_name": "Nacional Ávila",
         "election": {
@@ -1239,7 +1239,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41235278274,
-            "receipt_path": "territorios/congreso_avila/evidencia/fuentes_territoriales/2025/a0b9ab3437a6af111dba6feb60b106d14ac82880b8281d50f155766ef5dc66d5/41235278274/receipt.json"
+            "receipt_path": "territorios/nac05/evidencia/fuentes_territoriales/2025/a0b9ab3437a6af111dba6feb60b106d14ac82880b8281d50f155766ef5dc66d5/41235278274/receipt.json"
           }
         },
         "electoral": {
@@ -1254,7 +1254,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_avila/evidencia/pares_fuentes/2025/0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b.json",
+            "receipt_path": "territorios/nac05/evidencia/pares_fuentes/2025/0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b.json",
             "pair_sha256": "0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1267,7 +1267,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_badajoz",
+        "territory_id": "nac06",
         "name": "Nacional Badajoz",
         "display_name": "Nacional Badajoz",
         "election": {
@@ -1290,7 +1290,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41293199718,
-            "receipt_path": "territorios/congreso_badajoz/evidencia/fuentes_territoriales/2025/d799e5a446392a54654b45d84a13669e067fb3ea330bbeda46f4ae96590606a1/41293199718/receipt.json"
+            "receipt_path": "territorios/nac06/evidencia/fuentes_territoriales/2025/d799e5a446392a54654b45d84a13669e067fb3ea330bbeda46f4ae96590606a1/41293199718/receipt.json"
           }
         },
         "electoral": {
@@ -1305,7 +1305,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_badajoz/evidencia/pares_fuentes/2025/5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48.json",
+            "receipt_path": "territorios/nac06/evidencia/pares_fuentes/2025/5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48.json",
             "pair_sha256": "5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1318,7 +1318,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_baleares",
+        "territory_id": "nac07",
         "name": "Nacional Baleares",
         "display_name": "Nacional Baleares",
         "election": {
@@ -1341,7 +1341,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41465837048,
-            "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_territoriales/2025/e28eb8bb058052cc4af599d41d91927b8c6bfc66d91e8ebb0720a227607d5d30/41465837048/receipt.json"
+            "receipt_path": "territorios/nac07/evidencia/fuentes_territoriales/2025/e28eb8bb058052cc4af599d41d91927b8c6bfc66d91e8ebb0720a227607d5d30/41465837048/receipt.json"
           }
         },
         "electoral": {
@@ -1356,7 +1356,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_baleares/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json",
+            "receipt_path": "territorios/nac07/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json",
             "pair_sha256": "61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1369,7 +1369,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_barcelona",
+        "territory_id": "nac08",
         "name": "Nacional Barcelona",
         "display_name": "Nacional Barcelona",
         "election": {
@@ -1392,7 +1392,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 42409499602,
-            "receipt_path": "territorios/congreso_barcelona/evidencia/fuentes_territoriales/2025/07dec029d20b7b9394a7d5a78965b5d176288ae2d13537b4792a426a97b0f95a/42409499602/receipt.json"
+            "receipt_path": "territorios/nac08/evidencia/fuentes_territoriales/2025/07dec029d20b7b9394a7d5a78965b5d176288ae2d13537b4792a426a97b0f95a/42409499602/receipt.json"
           }
         },
         "electoral": {
@@ -1407,7 +1407,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_barcelona/evidencia/pares_fuentes/2025/b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a.json",
+            "receipt_path": "territorios/nac08/evidencia/pares_fuentes/2025/b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a.json",
             "pair_sha256": "b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1420,7 +1420,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_burgos",
+        "territory_id": "nac09",
         "name": "Nacional Burgos",
         "display_name": "Nacional Burgos",
         "election": {
@@ -1443,7 +1443,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41292846877,
-            "receipt_path": "territorios/congreso_burgos/evidencia/fuentes_territoriales/2025/55262e61bfc140b4e4fe289374c2e1c065b823515feff5a554406717175974f5/41292846877/receipt.json"
+            "receipt_path": "territorios/nac09/evidencia/fuentes_territoriales/2025/55262e61bfc140b4e4fe289374c2e1c065b823515feff5a554406717175974f5/41292846877/receipt.json"
           }
         },
         "electoral": {
@@ -1458,7 +1458,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_burgos/evidencia/pares_fuentes/2025/5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a.json",
+            "receipt_path": "territorios/nac09/evidencia/pares_fuentes/2025/5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a.json",
             "pair_sha256": "5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1471,7 +1471,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_caceres",
+        "territory_id": "nac10",
         "name": "Nacional Cáceres",
         "display_name": "Nacional Cáceres",
         "election": {
@@ -1494,7 +1494,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41240512324,
-            "receipt_path": "territorios/congreso_caceres/evidencia/fuentes_territoriales/2025/7070e632f7a02bde0fa84ce844403dd095444994462161bd1f405f4015ddb79e/41240512324/receipt.json"
+            "receipt_path": "territorios/nac10/evidencia/fuentes_territoriales/2025/7070e632f7a02bde0fa84ce844403dd095444994462161bd1f405f4015ddb79e/41240512324/receipt.json"
           }
         },
         "electoral": {
@@ -1509,7 +1509,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_caceres/evidencia/pares_fuentes/2025/f8f3ff6511a15e7f73e802dfcc54dd45b8e5c296b6c408c88e6fc85504399b79.json",
+            "receipt_path": "territorios/nac10/evidencia/pares_fuentes/2025/f8f3ff6511a15e7f73e802dfcc54dd45b8e5c296b6c408c88e6fc85504399b79.json",
             "pair_sha256": "f8f3ff6511a15e7f73e802dfcc54dd45b8e5c296b6c408c88e6fc85504399b79",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1522,7 +1522,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_cadiz",
+        "territory_id": "nac11",
         "name": "Nacional Cádiz",
         "display_name": "Nacional Cádiz",
         "election": {
@@ -1545,7 +1545,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41465820761,
-            "receipt_path": "territorios/congreso_cadiz/evidencia/fuentes_territoriales/2025/3729f923549f454621c4bc7a8564aee79d8961c502779e1cfb32666f81fd0e25/41465820761/receipt.json"
+            "receipt_path": "territorios/nac11/evidencia/fuentes_territoriales/2025/3729f923549f454621c4bc7a8564aee79d8961c502779e1cfb32666f81fd0e25/41465820761/receipt.json"
           }
         },
         "electoral": {
@@ -1560,7 +1560,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_cadiz/evidencia/pares_fuentes/2025/c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182.json",
+            "receipt_path": "territorios/nac11/evidencia/pares_fuentes/2025/c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182.json",
             "pair_sha256": "c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1573,7 +1573,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_castellon",
+        "territory_id": "nac12",
         "name": "Nacional Castellón",
         "display_name": "Nacional Castellón",
         "election": {
@@ -1596,7 +1596,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41241768943,
-            "receipt_path": "territorios/congreso_castellon/evidencia/fuentes_territoriales/2025/521843ff70d449199d943dedad2f09b1cfe0274e5b1a57534021247b0048bcd8/41241768943/receipt.json"
+            "receipt_path": "territorios/nac12/evidencia/fuentes_territoriales/2025/521843ff70d449199d943dedad2f09b1cfe0274e5b1a57534021247b0048bcd8/41241768943/receipt.json"
           }
         },
         "electoral": {
@@ -1611,7 +1611,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_castellon/evidencia/pares_fuentes/2025/8bbe77deb9c92332e6b8b61310217afa1d5be4d24eb252319b98f2943a3406c6.json",
+            "receipt_path": "territorios/nac12/evidencia/pares_fuentes/2025/8bbe77deb9c92332e6b8b61310217afa1d5be4d24eb252319b98f2943a3406c6.json",
             "pair_sha256": "8bbe77deb9c92332e6b8b61310217afa1d5be4d24eb252319b98f2943a3406c6",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1624,7 +1624,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_ciudad_real",
+        "territory_id": "nac13",
         "name": "Nacional Ciudad Real",
         "display_name": "Nacional Ciudad Real",
         "election": {
@@ -1647,7 +1647,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41291967967,
-            "receipt_path": "territorios/congreso_ciudad_real/evidencia/fuentes_territoriales/2025/386ebde0e1022c0d9422c22b18559e5548dd8c117d92115088e96455e3c00163/41291967967/receipt.json"
+            "receipt_path": "territorios/nac13/evidencia/fuentes_territoriales/2025/386ebde0e1022c0d9422c22b18559e5548dd8c117d92115088e96455e3c00163/41291967967/receipt.json"
           }
         },
         "electoral": {
@@ -1662,7 +1662,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_ciudad_real/evidencia/pares_fuentes/2025/8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015.json",
+            "receipt_path": "territorios/nac13/evidencia/pares_fuentes/2025/8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015.json",
             "pair_sha256": "8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1675,7 +1675,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_cordoba",
+        "territory_id": "nac14",
         "name": "Nacional Córdoba",
         "display_name": "Nacional Córdoba",
         "election": {
@@ -1698,7 +1698,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41242424551,
-            "receipt_path": "territorios/congreso_cordoba/evidencia/fuentes_territoriales/2025/1cc0c1c99ea2414f971682afd838add438493bf11d16e3ed3080f71f9bd8435a/41242424551/receipt.json"
+            "receipt_path": "territorios/nac14/evidencia/fuentes_territoriales/2025/1cc0c1c99ea2414f971682afd838add438493bf11d16e3ed3080f71f9bd8435a/41242424551/receipt.json"
           }
         },
         "electoral": {
@@ -1713,7 +1713,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_cordoba/evidencia/pares_fuentes/2025/96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e.json",
+            "receipt_path": "territorios/nac14/evidencia/pares_fuentes/2025/96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e.json",
             "pair_sha256": "96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1726,7 +1726,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_la_coruna",
+        "territory_id": "nac15",
         "name": "Nacional La Coruña",
         "display_name": "Nacional La Coruña",
         "election": {
@@ -1749,7 +1749,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41243697404,
-            "receipt_path": "territorios/congreso_la_coruna/evidencia/fuentes_territoriales/2025/42f736f44a6b2656526202250d93615598a879813270bcb25280f0c478b6058b/41243697404/receipt.json"
+            "receipt_path": "territorios/nac15/evidencia/fuentes_territoriales/2025/42f736f44a6b2656526202250d93615598a879813270bcb25280f0c478b6058b/41243697404/receipt.json"
           }
         },
         "electoral": {
@@ -1764,7 +1764,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_la_coruna/evidencia/pares_fuentes/2025/0edcee83874afdffefd871bd37738611d53f1a4d8c98d794ace159926d78e2cc.json",
+            "receipt_path": "territorios/nac15/evidencia/pares_fuentes/2025/0edcee83874afdffefd871bd37738611d53f1a4d8c98d794ace159926d78e2cc.json",
             "pair_sha256": "0edcee83874afdffefd871bd37738611d53f1a4d8c98d794ace159926d78e2cc",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1777,7 +1777,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_cuenca",
+        "territory_id": "nac16",
         "name": "Nacional Cuenca",
         "display_name": "Nacional Cuenca",
         "election": {
@@ -1800,7 +1800,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41236647382,
-            "receipt_path": "territorios/congreso_cuenca/evidencia/fuentes_territoriales/2025/9e9512f89d9d3c0e56571f9cca0f8aadcf3e58f00d84a482527ad2eb42bee75b/41236647382/receipt.json"
+            "receipt_path": "territorios/nac16/evidencia/fuentes_territoriales/2025/9e9512f89d9d3c0e56571f9cca0f8aadcf3e58f00d84a482527ad2eb42bee75b/41236647382/receipt.json"
           }
         },
         "electoral": {
@@ -1815,7 +1815,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_cuenca/evidencia/pares_fuentes/2025/26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0.json",
+            "receipt_path": "territorios/nac16/evidencia/pares_fuentes/2025/26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0.json",
             "pair_sha256": "26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1828,7 +1828,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_gerona",
+        "territory_id": "nac17",
         "name": "Nacional Gerona",
         "display_name": "Nacional Gerona",
         "election": {
@@ -1851,7 +1851,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41292216676,
-            "receipt_path": "territorios/congreso_gerona/evidencia/fuentes_territoriales/2025/d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688/41292216676/receipt.json"
+            "receipt_path": "territorios/nac17/evidencia/fuentes_territoriales/2025/d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688/41292216676/receipt.json"
           }
         },
         "electoral": {
@@ -1866,7 +1866,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_gerona/evidencia/pares_fuentes/2025/9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc.json",
+            "receipt_path": "territorios/nac17/evidencia/pares_fuentes/2025/9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc.json",
             "pair_sha256": "9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1879,7 +1879,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_granada",
+        "territory_id": "nac18",
         "name": "Nacional Granada",
         "display_name": "Nacional Granada",
         "election": {
@@ -1902,7 +1902,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41243199582,
-            "receipt_path": "territorios/congreso_granada/evidencia/fuentes_territoriales/2025/6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f/41243199582/receipt.json"
+            "receipt_path": "territorios/nac18/evidencia/fuentes_territoriales/2025/6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f/41243199582/receipt.json"
           }
         },
         "electoral": {
@@ -1917,7 +1917,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_granada/evidencia/pares_fuentes/2025/94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e.json",
+            "receipt_path": "territorios/nac18/evidencia/pares_fuentes/2025/94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e.json",
             "pair_sha256": "94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1930,7 +1930,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_guadalajara",
+        "territory_id": "nac19",
         "name": "Nacional Guadalajara",
         "display_name": "Nacional Guadalajara",
         "election": {
@@ -1953,7 +1953,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41236816482,
-            "receipt_path": "territorios/congreso_guadalajara/evidencia/fuentes_territoriales/2025/f69b4153c5b745f7e7902dd918fccbd0aa165a70f8f91107da8c7335c4a3846c/41236816482/receipt.json"
+            "receipt_path": "territorios/nac19/evidencia/fuentes_territoriales/2025/f69b4153c5b745f7e7902dd918fccbd0aa165a70f8f91107da8c7335c4a3846c/41236816482/receipt.json"
           }
         },
         "electoral": {
@@ -1968,7 +1968,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_guadalajara/evidencia/pares_fuentes/2025/8e2ca58bb58ccfa32fd273ffc148de7417903eb55be4c99f088f26625449b5c1.json",
+            "receipt_path": "territorios/nac19/evidencia/pares_fuentes/2025/8e2ca58bb58ccfa32fd273ffc148de7417903eb55be4c99f088f26625449b5c1.json",
             "pair_sha256": "8e2ca58bb58ccfa32fd273ffc148de7417903eb55be4c99f088f26625449b5c1",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -1981,7 +1981,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_guipuzcoa",
+        "territory_id": "nac20",
         "name": "Nacional Guipúzcoa",
         "display_name": "Nacional Guipúzcoa",
         "election": {
@@ -2004,7 +2004,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41292345223,
-            "receipt_path": "territorios/congreso_guipuzcoa/evidencia/fuentes_territoriales/2025/024bb644bea5445a91424c09beb9991303c4ee4b6329927751b87565cac870c3/41292345223/receipt.json"
+            "receipt_path": "territorios/nac20/evidencia/fuentes_territoriales/2025/024bb644bea5445a91424c09beb9991303c4ee4b6329927751b87565cac870c3/41292345223/receipt.json"
           }
         },
         "electoral": {
@@ -2019,7 +2019,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_guipuzcoa/evidencia/pares_fuentes/2025/9651126a3a22e99dd8d141cdc83ea292db8efd423747fd9739bcc78a505cda5e.json",
+            "receipt_path": "territorios/nac20/evidencia/pares_fuentes/2025/9651126a3a22e99dd8d141cdc83ea292db8efd423747fd9739bcc78a505cda5e.json",
             "pair_sha256": "9651126a3a22e99dd8d141cdc83ea292db8efd423747fd9739bcc78a505cda5e",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2032,7 +2032,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_huelva",
+        "territory_id": "nac21",
         "name": "Nacional Huelva",
         "display_name": "Nacional Huelva",
         "election": {
@@ -2055,7 +2055,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41318125504,
-            "receipt_path": "territorios/congreso_huelva/evidencia/fuentes_territoriales/2025/2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42/41318125504/receipt.json"
+            "receipt_path": "territorios/nac21/evidencia/fuentes_territoriales/2025/2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42/41318125504/receipt.json"
           }
         },
         "electoral": {
@@ -2070,7 +2070,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_huelva/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json",
+            "receipt_path": "territorios/nac21/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json",
             "pair_sha256": "bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2083,7 +2083,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_huesca",
+        "territory_id": "nac22",
         "name": "Nacional Huesca",
         "display_name": "Nacional Huesca",
         "election": {
@@ -2106,7 +2106,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41057319037,
-            "receipt_path": "territorios/congreso_huesca/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41057319037/receipt.json"
+            "receipt_path": "territorios/nac22/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41057319037/receipt.json"
           }
         },
         "electoral": {
@@ -2121,7 +2121,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_huesca/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json",
+            "receipt_path": "territorios/nac22/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json",
             "pair_sha256": "e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2134,7 +2134,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_jaen",
+        "territory_id": "nac23",
         "name": "Nacional Jaén",
         "display_name": "Nacional Jaén",
         "election": {
@@ -2157,7 +2157,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41241896061,
-            "receipt_path": "territorios/congreso_jaen/evidencia/fuentes_territoriales/2025/28881a56e4bbf2301048f901cbb1c89853b7a62c91b65f3138517bfb40ce77ad/41241896061/receipt.json"
+            "receipt_path": "territorios/nac23/evidencia/fuentes_territoriales/2025/28881a56e4bbf2301048f901cbb1c89853b7a62c91b65f3138517bfb40ce77ad/41241896061/receipt.json"
           }
         },
         "electoral": {
@@ -2172,7 +2172,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_jaen/evidencia/pares_fuentes/2025/6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21.json",
+            "receipt_path": "territorios/nac23/evidencia/pares_fuentes/2025/6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21.json",
             "pair_sha256": "6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2185,7 +2185,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_leon",
+        "territory_id": "nac24",
         "name": "Nacional León",
         "display_name": "Nacional León",
         "election": {
@@ -2208,7 +2208,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41241377284,
-            "receipt_path": "territorios/congreso_leon/evidencia/fuentes_territoriales/2025/efb0cce4516bba1965435d97b91171794fa757967fbf573a329ff44c15e5a024/41241377284/receipt.json"
+            "receipt_path": "territorios/nac24/evidencia/fuentes_territoriales/2025/efb0cce4516bba1965435d97b91171794fa757967fbf573a329ff44c15e5a024/41241377284/receipt.json"
           }
         },
         "electoral": {
@@ -2223,7 +2223,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_leon/evidencia/pares_fuentes/2025/ec2b27c201a17fceca9b44d38785522c8676e1b0018c7aa2cbb6ce967b5f5f46.json",
+            "receipt_path": "territorios/nac24/evidencia/pares_fuentes/2025/ec2b27c201a17fceca9b44d38785522c8676e1b0018c7aa2cbb6ce967b5f5f46.json",
             "pair_sha256": "ec2b27c201a17fceca9b44d38785522c8676e1b0018c7aa2cbb6ce967b5f5f46",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2236,7 +2236,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_lerida",
+        "territory_id": "nac25",
         "name": "Nacional Lérida",
         "display_name": "Nacional Lérida",
         "election": {
@@ -2259,7 +2259,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41292591493,
-            "receipt_path": "territorios/congreso_lerida/evidencia/fuentes_territoriales/2025/8a9e4d81a7c6a489b6cab098e79a2e55bc8b35ff25c0d0c1fc12c55ef46cee3f/41292591493/receipt.json"
+            "receipt_path": "territorios/nac25/evidencia/fuentes_territoriales/2025/8a9e4d81a7c6a489b6cab098e79a2e55bc8b35ff25c0d0c1fc12c55ef46cee3f/41292591493/receipt.json"
           }
         },
         "electoral": {
@@ -2274,7 +2274,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_lerida/evidencia/pares_fuentes/2025/ce3113b33666b565750fee12fc6fdc256cb80fde01b3ed4dc5aadd65ae5b2df2.json",
+            "receipt_path": "territorios/nac25/evidencia/pares_fuentes/2025/ce3113b33666b565750fee12fc6fdc256cb80fde01b3ed4dc5aadd65ae5b2df2.json",
             "pair_sha256": "ce3113b33666b565750fee12fc6fdc256cb80fde01b3ed4dc5aadd65ae5b2df2",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2287,7 +2287,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_la_rioja",
+        "territory_id": "nac26",
         "name": "Nacional La Rioja",
         "display_name": "Nacional La Rioja",
         "election": {
@@ -2310,7 +2310,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41240637295,
-            "receipt_path": "territorios/congreso_la_rioja/evidencia/fuentes_territoriales/2025/fd93e7ca00c87e765ff70d80551e3e9e8610149c0db46da42a6337acd6543826/41240637295/receipt.json"
+            "receipt_path": "territorios/nac26/evidencia/fuentes_territoriales/2025/fd93e7ca00c87e765ff70d80551e3e9e8610149c0db46da42a6337acd6543826/41240637295/receipt.json"
           }
         },
         "electoral": {
@@ -2325,7 +2325,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_la_rioja/evidencia/pares_fuentes/2025/d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc.json",
+            "receipt_path": "territorios/nac26/evidencia/pares_fuentes/2025/d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc.json",
             "pair_sha256": "d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2338,7 +2338,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_lugo",
+        "territory_id": "nac27",
         "name": "Nacional Lugo",
         "display_name": "Nacional Lugo",
         "election": {
@@ -2361,7 +2361,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41240766116,
-            "receipt_path": "territorios/congreso_lugo/evidencia/fuentes_territoriales/2025/bc60630570e46c2b31ace8e29a3e9a2dd2e091cb9c13f284b912ba1fdcf08003/41240766116/receipt.json"
+            "receipt_path": "territorios/nac27/evidencia/fuentes_territoriales/2025/bc60630570e46c2b31ace8e29a3e9a2dd2e091cb9c13f284b912ba1fdcf08003/41240766116/receipt.json"
           }
         },
         "electoral": {
@@ -2376,7 +2376,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_lugo/evidencia/pares_fuentes/2025/e4e97c5fbb0e722c00699a9b32d0cf800a90f57be45c5d570a0f4cf87d5b9422.json",
+            "receipt_path": "territorios/nac27/evidencia/pares_fuentes/2025/e4e97c5fbb0e722c00699a9b32d0cf800a90f57be45c5d570a0f4cf87d5b9422.json",
             "pair_sha256": "e4e97c5fbb0e722c00699a9b32d0cf800a90f57be45c5d570a0f4cf87d5b9422",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2389,7 +2389,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_madrid",
+        "territory_id": "nac28",
         "name": "Nacional Madrid",
         "display_name": "Nacional Madrid",
         "election": {
@@ -2412,7 +2412,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41611821388,
-            "receipt_path": "territorios/congreso_madrid/evidencia/fuentes_territoriales/2025/90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99/41611821388/receipt.json"
+            "receipt_path": "territorios/nac28/evidencia/fuentes_territoriales/2025/90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99/41611821388/receipt.json"
           }
         },
         "electoral": {
@@ -2427,7 +2427,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_madrid/evidencia/pares_fuentes/2025/5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5.json",
+            "receipt_path": "territorios/nac28/evidencia/pares_fuentes/2025/5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5.json",
             "pair_sha256": "5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2440,7 +2440,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_malaga",
+        "territory_id": "nac29",
         "name": "Nacional Málaga",
         "display_name": "Nacional Málaga",
         "election": {
@@ -2463,7 +2463,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 42409615215,
-            "receipt_path": "territorios/congreso_malaga/evidencia/fuentes_territoriales/2025/8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3/42409615215/receipt.json"
+            "receipt_path": "territorios/nac29/evidencia/fuentes_territoriales/2025/8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3/42409615215/receipt.json"
           }
         },
         "electoral": {
@@ -2478,7 +2478,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_malaga/evidencia/pares_fuentes/2025/118cccdb9a9afa72367051c0cfa4d92b41524e35ec8b8feb0327760bfc1fb1cd.json",
+            "receipt_path": "territorios/nac29/evidencia/pares_fuentes/2025/118cccdb9a9afa72367051c0cfa4d92b41524e35ec8b8feb0327760bfc1fb1cd.json",
             "pair_sha256": "118cccdb9a9afa72367051c0cfa4d92b41524e35ec8b8feb0327760bfc1fb1cd",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2491,7 +2491,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_murcia",
+        "territory_id": "nac30",
         "name": "Nacional Murcia",
         "display_name": "Nacional Murcia",
         "election": {
@@ -2514,7 +2514,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41613691816,
-            "receipt_path": "territorios/congreso_murcia/evidencia/fuentes_territoriales/2025/1af735c25b69fb0992d25d5406fc622b3347a1a73c14176998a216ddb5fb545a/41613691816/receipt.json"
+            "receipt_path": "territorios/nac30/evidencia/fuentes_territoriales/2025/1af735c25b69fb0992d25d5406fc622b3347a1a73c14176998a216ddb5fb545a/41613691816/receipt.json"
           }
         },
         "electoral": {
@@ -2529,7 +2529,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_murcia/evidencia/pares_fuentes/2025/ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630.json",
+            "receipt_path": "territorios/nac30/evidencia/pares_fuentes/2025/ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630.json",
             "pair_sha256": "ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2542,7 +2542,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_navarra",
+        "territory_id": "nac31",
         "name": "Nacional Navarra",
         "display_name": "Nacional Navarra",
         "election": {
@@ -2565,7 +2565,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41292721581,
-            "receipt_path": "territorios/congreso_navarra/evidencia/fuentes_territoriales/2025/ad986b5497eb8a08c295e831f2e2c94bfdc82b25102373da12f83eceaae5bd6e/41292721581/receipt.json"
+            "receipt_path": "territorios/nac31/evidencia/fuentes_territoriales/2025/ad986b5497eb8a08c295e831f2e2c94bfdc82b25102373da12f83eceaae5bd6e/41292721581/receipt.json"
           }
         },
         "electoral": {
@@ -2580,7 +2580,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_navarra/evidencia/pares_fuentes/2025/a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d.json",
+            "receipt_path": "territorios/nac31/evidencia/pares_fuentes/2025/a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d.json",
             "pair_sha256": "a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2593,7 +2593,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_orense",
+        "territory_id": "nac32",
         "name": "Nacional Orense",
         "display_name": "Nacional Orense",
         "election": {
@@ -2616,7 +2616,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41240887712,
-            "receipt_path": "territorios/congreso_orense/evidencia/fuentes_territoriales/2025/b576d91998274f9664dd3f48f3c270031efe5ccff3f2eb2c958904baec001c31/41240887712/receipt.json"
+            "receipt_path": "territorios/nac32/evidencia/fuentes_territoriales/2025/b576d91998274f9664dd3f48f3c270031efe5ccff3f2eb2c958904baec001c31/41240887712/receipt.json"
           }
         },
         "electoral": {
@@ -2631,7 +2631,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_orense/evidencia/pares_fuentes/2025/69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696.json",
+            "receipt_path": "territorios/nac32/evidencia/pares_fuentes/2025/69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696.json",
             "pair_sha256": "69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2644,7 +2644,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_asturias",
+        "territory_id": "nac33",
         "name": "Nacional Asturias",
         "display_name": "Nacional Asturias",
         "election": {
@@ -2667,7 +2667,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41243326722,
-            "receipt_path": "territorios/congreso_asturias/evidencia/fuentes_territoriales/2025/f2128ce43af3b17095403543a65e5d7c85854a5cf1d5c8370f9a08015dbaa104/41243326722/receipt.json"
+            "receipt_path": "territorios/nac33/evidencia/fuentes_territoriales/2025/f2128ce43af3b17095403543a65e5d7c85854a5cf1d5c8370f9a08015dbaa104/41243326722/receipt.json"
           }
         },
         "electoral": {
@@ -2682,7 +2682,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_asturias/evidencia/pares_fuentes/2025/c37c091cfaa3abf417bfc1151a0f74b8eaa924fa5966bac616449d6b18e8901d.json",
+            "receipt_path": "territorios/nac33/evidencia/pares_fuentes/2025/c37c091cfaa3abf417bfc1151a0f74b8eaa924fa5966bac616449d6b18e8901d.json",
             "pair_sha256": "c37c091cfaa3abf417bfc1151a0f74b8eaa924fa5966bac616449d6b18e8901d",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2695,7 +2695,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_palencia",
+        "territory_id": "nac34",
         "name": "Nacional Palencia",
         "display_name": "Nacional Palencia",
         "election": {
@@ -2718,7 +2718,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41291833956,
-            "receipt_path": "territorios/congreso_palencia/evidencia/fuentes_territoriales/2025/45c88d0f94d0ba8e0aab081102ba295ebf74122e203016ced7d47ddb0a5aabe0/41291833956/receipt.json"
+            "receipt_path": "territorios/nac34/evidencia/fuentes_territoriales/2025/45c88d0f94d0ba8e0aab081102ba295ebf74122e203016ced7d47ddb0a5aabe0/41291833956/receipt.json"
           }
         },
         "electoral": {
@@ -2733,7 +2733,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_palencia/evidencia/pares_fuentes/2025/001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18.json",
+            "receipt_path": "territorios/nac34/evidencia/pares_fuentes/2025/001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18.json",
             "pair_sha256": "001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2746,7 +2746,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_las_palmas",
+        "territory_id": "nac35",
         "name": "Nacional Las Palmas",
         "display_name": "Nacional Las Palmas",
         "election": {
@@ -2769,7 +2769,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 42991561887,
-            "receipt_path": "territorios/congreso_las_palmas/evidencia/fuentes_territoriales/2025/bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a/42991561887/receipt.json"
+            "receipt_path": "territorios/nac35/evidencia/fuentes_territoriales/2025/bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a/42991561887/receipt.json"
           }
         },
         "electoral": {
@@ -2784,7 +2784,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_las_palmas/evidencia/pares_fuentes/2025/a3f2cf94231c6215b6cb5eeac73d577d04c5f828533d7db365456f441c6a9035.json",
+            "receipt_path": "territorios/nac35/evidencia/pares_fuentes/2025/a3f2cf94231c6215b6cb5eeac73d577d04c5f828533d7db365456f441c6a9035.json",
             "pair_sha256": "a3f2cf94231c6215b6cb5eeac73d577d04c5f828533d7db365456f441c6a9035",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2797,7 +2797,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_pontevedra",
+        "territory_id": "nac36",
         "name": "Nacional Pontevedra",
         "display_name": "Nacional Pontevedra",
         "election": {
@@ -2820,7 +2820,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41293311168,
-            "receipt_path": "territorios/congreso_pontevedra/evidencia/fuentes_territoriales/2025/de7f566b987acc70e29452af77aeb1504a934991c6c4c028dc41a7013512e9ca/41293311168/receipt.json"
+            "receipt_path": "territorios/nac36/evidencia/fuentes_territoriales/2025/de7f566b987acc70e29452af77aeb1504a934991c6c4c028dc41a7013512e9ca/41293311168/receipt.json"
           }
         },
         "electoral": {
@@ -2835,7 +2835,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_pontevedra/evidencia/pares_fuentes/2025/da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388.json",
+            "receipt_path": "territorios/nac36/evidencia/pares_fuentes/2025/da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388.json",
             "pair_sha256": "da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2848,7 +2848,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_salamanca",
+        "territory_id": "nac37",
         "name": "Nacional Salamanca",
         "display_name": "Nacional Salamanca",
         "election": {
@@ -2871,7 +2871,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41241010241,
-            "receipt_path": "territorios/congreso_salamanca/evidencia/fuentes_territoriales/2025/e9391f959ab85e7ef3fbd52e4a680cc7cc8fdae3585a4c80b762ecaaceacaaa3/41241010241/receipt.json"
+            "receipt_path": "territorios/nac37/evidencia/fuentes_territoriales/2025/e9391f959ab85e7ef3fbd52e4a680cc7cc8fdae3585a4c80b762ecaaceacaaa3/41241010241/receipt.json"
           }
         },
         "electoral": {
@@ -2886,7 +2886,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_salamanca/evidencia/pares_fuentes/2025/a3f54f25701ef149d6df622f412ff511fb94a5ab5391bed84ce27db1dc6e4d9f.json",
+            "receipt_path": "territorios/nac37/evidencia/pares_fuentes/2025/a3f54f25701ef149d6df622f412ff511fb94a5ab5391bed84ce27db1dc6e4d9f.json",
             "pair_sha256": "a3f54f25701ef149d6df622f412ff511fb94a5ab5391bed84ce27db1dc6e4d9f",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2899,7 +2899,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_santa_cruz_de_tenerife",
+        "territory_id": "nac38",
         "name": "Nacional Santa Cruz de Tenerife",
         "display_name": "Nacional Santa Cruz de Tenerife",
         "election": {
@@ -2922,7 +2922,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 43012151677,
-            "receipt_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/fuentes_territoriales/2025/6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53/43012151677/receipt.json"
+            "receipt_path": "territorios/nac38/evidencia/fuentes_territoriales/2025/6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53/43012151677/receipt.json"
           }
         },
         "electoral": {
@@ -2937,7 +2937,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/pares_fuentes/2025/281ded9a6026099c6240c646c234f20705a9aba68220e8a31ac15a039bc12e4b.json",
+            "receipt_path": "territorios/nac38/evidencia/pares_fuentes/2025/281ded9a6026099c6240c646c234f20705a9aba68220e8a31ac15a039bc12e4b.json",
             "pair_sha256": "281ded9a6026099c6240c646c234f20705a9aba68220e8a31ac15a039bc12e4b",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -2950,7 +2950,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_cantabria",
+        "territory_id": "nac39",
         "name": "Nacional Cantabria",
         "display_name": "Nacional Cantabria",
         "election": {
@@ -2973,7 +2973,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41292096436,
-            "receipt_path": "territorios/congreso_cantabria/evidencia/fuentes_territoriales/2025/c8fced560af34ec53d3ace309ad57edf2ab96592a873ae915fcfe966045e2290/41292096436/receipt.json"
+            "receipt_path": "territorios/nac39/evidencia/fuentes_territoriales/2025/c8fced560af34ec53d3ace309ad57edf2ab96592a873ae915fcfe966045e2290/41292096436/receipt.json"
           }
         },
         "electoral": {
@@ -2988,7 +2988,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_cantabria/evidencia/pares_fuentes/2025/158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7.json",
+            "receipt_path": "territorios/nac39/evidencia/pares_fuentes/2025/158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7.json",
             "pair_sha256": "158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3001,7 +3001,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_segovia",
+        "territory_id": "nac40",
         "name": "Nacional Segovia",
         "display_name": "Nacional Segovia",
         "election": {
@@ -3024,7 +3024,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41235620157,
-            "receipt_path": "territorios/congreso_segovia/evidencia/fuentes_territoriales/2025/7bd7603c459589d31414402f7398ecda942da3bb6094cca3f45b37e8a8c34a5a/41235620157/receipt.json"
+            "receipt_path": "territorios/nac40/evidencia/fuentes_territoriales/2025/7bd7603c459589d31414402f7398ecda942da3bb6094cca3f45b37e8a8c34a5a/41235620157/receipt.json"
           }
         },
         "electoral": {
@@ -3039,7 +3039,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_segovia/evidencia/pares_fuentes/2025/11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c.json",
+            "receipt_path": "territorios/nac40/evidencia/pares_fuentes/2025/11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c.json",
             "pair_sha256": "11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3052,7 +3052,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_sevilla",
+        "territory_id": "nac41",
         "name": "Nacional Sevilla",
         "display_name": "Nacional Sevilla",
         "election": {
@@ -3075,7 +3075,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41244347546,
-            "receipt_path": "territorios/congreso_sevilla/evidencia/fuentes_territoriales/2025/2c2e556fef696b19f0d228f3008e198a71358b4c09997648777274cfedc0175d/41244347546/receipt.json"
+            "receipt_path": "territorios/nac41/evidencia/fuentes_territoriales/2025/2c2e556fef696b19f0d228f3008e198a71358b4c09997648777274cfedc0175d/41244347546/receipt.json"
           }
         },
         "electoral": {
@@ -3090,7 +3090,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_sevilla/evidencia/pares_fuentes/2025/cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d.json",
+            "receipt_path": "territorios/nac41/evidencia/pares_fuentes/2025/cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d.json",
             "pair_sha256": "cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3103,7 +3103,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_soria",
+        "territory_id": "nac42",
         "name": "Nacional Soria",
         "display_name": "Nacional Soria",
         "election": {
@@ -3126,7 +3126,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41235794328,
-            "receipt_path": "territorios/congreso_soria/evidencia/fuentes_territoriales/2025/ff1040e1b797d0e726a53f27ccc57fd62a38e19a20aa85a136dc50fe133dd536/41235794328/receipt.json"
+            "receipt_path": "territorios/nac42/evidencia/fuentes_territoriales/2025/ff1040e1b797d0e726a53f27ccc57fd62a38e19a20aa85a136dc50fe133dd536/41235794328/receipt.json"
           }
         },
         "electoral": {
@@ -3141,7 +3141,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_soria/evidencia/pares_fuentes/2025/b73e7070cb80f9db457a63722fa4bdfc0f6d6a4a369eba0588a25e0357c02ed6.json",
+            "receipt_path": "territorios/nac42/evidencia/pares_fuentes/2025/b73e7070cb80f9db457a63722fa4bdfc0f6d6a4a369eba0588a25e0357c02ed6.json",
             "pair_sha256": "b73e7070cb80f9db457a63722fa4bdfc0f6d6a4a369eba0588a25e0357c02ed6",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3154,7 +3154,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_tarragona",
+        "territory_id": "nac43",
         "name": "Nacional Tarragona",
         "display_name": "Nacional Tarragona",
         "election": {
@@ -3177,7 +3177,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41243062797,
-            "receipt_path": "territorios/congreso_tarragona/evidencia/fuentes_territoriales/2025/163a77990bfeb183b9b123fbdeda14b823e1c8a01bb6b8ebaf6ebfbed2fe5a26/41243062797/receipt.json"
+            "receipt_path": "territorios/nac43/evidencia/fuentes_territoriales/2025/163a77990bfeb183b9b123fbdeda14b823e1c8a01bb6b8ebaf6ebfbed2fe5a26/41243062797/receipt.json"
           }
         },
         "electoral": {
@@ -3192,7 +3192,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_tarragona/evidencia/pares_fuentes/2025/40740f8c1f08ee810e1b3efa102fb98d93a447732332f99f8e356db93322ea7e.json",
+            "receipt_path": "territorios/nac43/evidencia/pares_fuentes/2025/40740f8c1f08ee810e1b3efa102fb98d93a447732332f99f8e356db93322ea7e.json",
             "pair_sha256": "40740f8c1f08ee810e1b3efa102fb98d93a447732332f99f8e356db93322ea7e",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3205,7 +3205,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_teruel",
+        "territory_id": "nac44",
         "name": "Nacional Teruel",
         "display_name": "Nacional Teruel",
         "election": {
@@ -3228,7 +3228,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41235966858,
-            "receipt_path": "territorios/congreso_teruel/evidencia/fuentes_territoriales/2025/6c57be66bbebad6e6dd53561a12ba0e313081566511acd3b0f9bb370db898edc/41235966858/receipt.json"
+            "receipt_path": "territorios/nac44/evidencia/fuentes_territoriales/2025/6c57be66bbebad6e6dd53561a12ba0e313081566511acd3b0f9bb370db898edc/41235966858/receipt.json"
           }
         },
         "electoral": {
@@ -3243,7 +3243,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_teruel/evidencia/pares_fuentes/2025/cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5.json",
+            "receipt_path": "territorios/nac44/evidencia/pares_fuentes/2025/cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5.json",
             "pair_sha256": "cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3256,7 +3256,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_toledo",
+        "territory_id": "nac45",
         "name": "Nacional Toledo",
         "display_name": "Nacional Toledo",
         "election": {
@@ -3279,7 +3279,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41242809451,
-            "receipt_path": "territorios/congreso_toledo/evidencia/fuentes_territoriales/2025/44e0ffd995e8c26c58961c48dfb2ee31c76eaa577439e67964098d7995ee4a37/41242809451/receipt.json"
+            "receipt_path": "territorios/nac45/evidencia/fuentes_territoriales/2025/44e0ffd995e8c26c58961c48dfb2ee31c76eaa577439e67964098d7995ee4a37/41242809451/receipt.json"
           }
         },
         "electoral": {
@@ -3294,7 +3294,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_toledo/evidencia/pares_fuentes/2025/044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0.json",
+            "receipt_path": "territorios/nac45/evidencia/pares_fuentes/2025/044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0.json",
             "pair_sha256": "044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3307,7 +3307,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_valencia",
+        "territory_id": "nac46",
         "name": "Nacional Valencia",
         "display_name": "Nacional Valencia",
         "election": {
@@ -3330,7 +3330,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41318119259,
-            "receipt_path": "territorios/congreso_valencia/evidencia/fuentes_territoriales/2025/4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f/41318119259/receipt.json"
+            "receipt_path": "territorios/nac46/evidencia/fuentes_territoriales/2025/4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f/41318119259/receipt.json"
           }
         },
         "electoral": {
@@ -3345,7 +3345,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_valencia/evidencia/pares_fuentes/2025/1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b.json",
+            "receipt_path": "territorios/nac46/evidencia/pares_fuentes/2025/1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b.json",
             "pair_sha256": "1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3358,7 +3358,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_valladolid",
+        "territory_id": "nac47",
         "name": "Nacional Valladolid",
         "display_name": "Nacional Valladolid",
         "election": {
@@ -3381,7 +3381,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41292964287,
-            "receipt_path": "territorios/congreso_valladolid/evidencia/fuentes_territoriales/2025/b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47/41292964287/receipt.json"
+            "receipt_path": "territorios/nac47/evidencia/fuentes_territoriales/2025/b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47/41292964287/receipt.json"
           }
         },
         "electoral": {
@@ -3396,7 +3396,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_valladolid/evidencia/pares_fuentes/2025/7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837.json",
+            "receipt_path": "territorios/nac47/evidencia/pares_fuentes/2025/7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837.json",
             "pair_sha256": "7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3409,7 +3409,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_vizcaya",
+        "territory_id": "nac48",
         "name": "Nacional Vizcaya",
         "display_name": "Nacional Vizcaya",
         "election": {
@@ -3432,7 +3432,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41293083498,
-            "receipt_path": "territorios/congreso_vizcaya/evidencia/fuentes_territoriales/2025/19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68/41293083498/receipt.json"
+            "receipt_path": "territorios/nac48/evidencia/fuentes_territoriales/2025/19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68/41293083498/receipt.json"
           }
         },
         "electoral": {
@@ -3447,7 +3447,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_vizcaya/evidencia/pares_fuentes/2025/a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939.json",
+            "receipt_path": "territorios/nac48/evidencia/pares_fuentes/2025/a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939.json",
             "pair_sha256": "a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3460,7 +3460,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_zamora",
+        "territory_id": "nac49",
         "name": "Nacional Zamora",
         "display_name": "Nacional Zamora",
         "election": {
@@ -3483,7 +3483,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41236140669,
-            "receipt_path": "territorios/congreso_zamora/evidencia/fuentes_territoriales/2025/9a336472a131bfa3b4692ddb391f80f6edcc997221ac9d801677c3fdb7344c01/41236140669/receipt.json"
+            "receipt_path": "territorios/nac49/evidencia/fuentes_territoriales/2025/9a336472a131bfa3b4692ddb391f80f6edcc997221ac9d801677c3fdb7344c01/41236140669/receipt.json"
           }
         },
         "electoral": {
@@ -3498,7 +3498,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_zamora/evidencia/pares_fuentes/2025/9456a3656fd980295e4100f3e8ea2fd0d288d249938586a8cd3e189a089e6595.json",
+            "receipt_path": "territorios/nac49/evidencia/pares_fuentes/2025/9456a3656fd980295e4100f3e8ea2fd0d288d249938586a8cd3e189a089e6595.json",
             "pair_sha256": "9456a3656fd980295e4100f3e8ea2fd0d288d249938586a8cd3e189a089e6595",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3511,7 +3511,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_zaragoza",
+        "territory_id": "nac50",
         "name": "Nacional Zaragoza",
         "display_name": "Nacional Zaragoza",
         "election": {
@@ -3534,7 +3534,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41243577758,
-            "receipt_path": "territorios/congreso_zaragoza/evidencia/fuentes_territoriales/2025/335734b5fd47607e09d41dd6c8c04472041e69d892adebe00e05e75a7c5b1744/41243577758/receipt.json"
+            "receipt_path": "territorios/nac50/evidencia/fuentes_territoriales/2025/335734b5fd47607e09d41dd6c8c04472041e69d892adebe00e05e75a7c5b1744/41243577758/receipt.json"
           }
         },
         "electoral": {
@@ -3549,7 +3549,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_zaragoza/evidencia/pares_fuentes/2025/1c7a2bca176538bb2bd05dc7c947f2e3beb817bf019718d8962d761ebdc9b631.json",
+            "receipt_path": "territorios/nac50/evidencia/pares_fuentes/2025/1c7a2bca176538bb2bd05dc7c947f2e3beb817bf019718d8962d761ebdc9b631.json",
             "pair_sha256": "1c7a2bca176538bb2bd05dc7c947f2e3beb817bf019718d8962d761ebdc9b631",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3562,7 +3562,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_ceuta",
+        "territory_id": "nac51",
         "name": "Nacional Ceuta",
         "display_name": "Nacional Ceuta",
         "election": {
@@ -3585,7 +3585,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 42488846588,
-            "receipt_path": "territorios/congreso_ceuta/evidencia/fuentes_territoriales/2025/ccab1909b10228fdbd73b382cb3ae31da143df32481d7a54cd516e1e824c9317/42488846588/receipt.json"
+            "receipt_path": "territorios/nac51/evidencia/fuentes_territoriales/2025/ccab1909b10228fdbd73b382cb3ae31da143df32481d7a54cd516e1e824c9317/42488846588/receipt.json"
           }
         },
         "electoral": {
@@ -3600,7 +3600,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_ceuta/evidencia/pares_fuentes/2025/5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d.json",
+            "receipt_path": "territorios/nac51/evidencia/pares_fuentes/2025/5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d.json",
             "pair_sha256": "5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -3613,7 +3613,7 @@
         "next_steps": []
       },
       {
-        "territory_id": "congreso_melilla",
+        "territory_id": "nac52",
         "name": "Nacional Melilla",
         "display_name": "Nacional Melilla",
         "election": {
@@ -3636,7 +3636,7 @@
             "population_year": 2023,
             "section_year": 2023,
             "run_id": 41236482346,
-            "receipt_path": "territorios/congreso_melilla/evidencia/fuentes_territoriales/2025/3b064d541fae902c734746e3fb7c9d1d0c2b5e5b6aa439475d34b1f1aed4e67e/41236482346/receipt.json"
+            "receipt_path": "territorios/nac52/evidencia/fuentes_territoriales/2025/3b064d541fae902c734746e3fb7c9d1d0c2b5e5b6aa439475d34b1f1aed4e67e/41236482346/receipt.json"
           }
         },
         "electoral": {
@@ -3651,7 +3651,7 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_melilla/evidencia/pares_fuentes/2025/c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220.json",
+            "receipt_path": "territorios/nac52/evidencia/pares_fuentes/2025/c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220.json",
             "pair_sha256": "c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220",
             "reason": "CURRENT_DURABLE_PAIR"
           }
@@ -6683,7 +6683,7 @@
   ],
   "territories": [
     {
-      "territory_id": "andalucia",
+      "territory_id": "aut01",
       "name": "Andalucía",
       "ft": "green",
       "g": "green",
@@ -6704,7 +6704,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "andalucia",
+          "territory_id": "aut01",
           "edition": "2025",
           "run_id": 40946875467,
           "artifact_name": "ddd-source-package-andalucia-2025-40946875467",
@@ -6744,7 +6744,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "aragon",
+      "territory_id": "aut02",
       "name": "Aragón",
       "ft": "green",
       "g": "green",
@@ -6765,7 +6765,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "aragon",
+          "territory_id": "aut02",
           "edition": "2025",
           "run_id": 40691712762,
           "artifact_name": "ddd-source-package-aragon-2025-40691712762",
@@ -6805,7 +6805,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "principado_de_asturias",
+      "territory_id": "aut03",
       "name": "Principado de Asturias",
       "ft": "green",
       "g": "green",
@@ -6826,7 +6826,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "principado_de_asturias",
+          "territory_id": "aut03",
           "edition": "2025",
           "run_id": 40693720831,
           "artifact_name": "ddd-source-package-principado_de_asturias-2025-40693720831",
@@ -6866,7 +6866,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "illes_balears",
+      "territory_id": "aut04",
       "name": "Islas Baleares",
       "ft": "green",
       "g": "green",
@@ -6887,7 +6887,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "illes_balears",
+          "territory_id": "aut04",
           "edition": "2025",
           "run_id": 43011633844,
           "artifact_name": "ddd-source-package-illes_balears-2025-43011633844",
@@ -6927,7 +6927,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "canarias",
+      "territory_id": "aut05",
       "name": "Canarias",
       "ft": "green",
       "g": "green",
@@ -6948,7 +6948,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "canarias",
+          "territory_id": "aut05",
           "edition": "2025",
           "run_id": 43011642069,
           "artifact_name": "ddd-source-package-canarias-2025-43011642069",
@@ -6988,7 +6988,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "cantabria",
+      "territory_id": "aut06",
       "name": "Cantabria",
       "ft": "green",
       "g": "green",
@@ -7009,7 +7009,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "cantabria",
+          "territory_id": "aut06",
           "edition": "2025",
           "run_id": 42707820760,
           "artifact_name": "ddd-source-package-cantabria-2025-42707820760",
@@ -7049,7 +7049,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "castilla_y_leon",
+      "territory_id": "aut07",
       "name": "Castilla y León",
       "ft": "green",
       "g": "green",
@@ -7070,7 +7070,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "castilla_y_leon",
+          "territory_id": "aut07",
           "edition": "2025",
           "run_id": 42521090842,
           "artifact_name": "ddd-source-package-castilla_y_leon-2025-42521090842",
@@ -7110,7 +7110,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "castilla_la_mancha",
+      "territory_id": "aut08",
       "name": "Castilla-La Mancha",
       "ft": "green",
       "g": "green",
@@ -7131,7 +7131,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "castilla_la_mancha",
+          "territory_id": "aut08",
           "edition": "2025",
           "run_id": 40690624792,
           "artifact_name": "ddd-source-package-castilla_la_mancha-2025-40690624792",
@@ -7171,7 +7171,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "cataluna",
+      "territory_id": "aut09",
       "name": "Cataluña",
       "ft": "green",
       "g": "green",
@@ -7192,7 +7192,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "cataluna",
+          "territory_id": "aut09",
           "edition": "2025",
           "run_id": 40946901555,
           "artifact_name": "ddd-source-package-cataluna-2025-40946901555",
@@ -7232,7 +7232,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "comunidad_valenciana",
+      "territory_id": "aut10",
       "name": "Comunidad Valenciana",
       "ft": "green",
       "g": "green",
@@ -7253,7 +7253,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "comunidad_valenciana",
+          "territory_id": "aut10",
           "edition": "2025",
           "run_id": 40956462986,
           "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40956462986",
@@ -7293,7 +7293,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "extremadura",
+      "territory_id": "aut11",
       "name": "Extremadura",
       "ft": "green",
       "g": "green",
@@ -7314,7 +7314,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "extremadura",
+          "territory_id": "aut11",
           "edition": "2025",
           "run_id": 42720735134,
           "artifact_name": "ddd-source-package-extremadura-2025-42720735134",
@@ -7354,7 +7354,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "galicia",
+      "territory_id": "aut12",
       "name": "Galicia",
       "ft": "green",
       "g": "green",
@@ -7375,7 +7375,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "galicia",
+          "territory_id": "aut12",
           "edition": "2025",
           "run_id": 40690688352,
           "artifact_name": "ddd-source-package-galicia-2025-40690688352",
@@ -7415,7 +7415,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "madrid",
+      "territory_id": "aut13",
       "name": "Comunidad de Madrid",
       "ft": "green",
       "g": "green",
@@ -7436,7 +7436,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "madrid",
+          "territory_id": "aut13",
           "edition": "2025",
           "run_id": 40773465956,
           "artifact_name": "ddd-source-package-madrid-2025-40773465956",
@@ -7476,7 +7476,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "region_de_murcia",
+      "territory_id": "aut14",
       "name": "Región de Murcia",
       "ft": "green",
       "g": "green",
@@ -7497,7 +7497,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "region_de_murcia",
+          "territory_id": "aut14",
           "edition": "2025",
           "run_id": 40773421805,
           "artifact_name": "ddd-source-package-region_de_murcia-2025-40773421805",
@@ -7537,7 +7537,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "comunidad_foral_de_navarra",
+      "territory_id": "aut15",
       "name": "Comunidad Foral de Navarra",
       "ft": "green",
       "g": "green",
@@ -7558,7 +7558,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "comunidad_foral_de_navarra",
+          "territory_id": "aut15",
           "edition": "2025",
           "run_id": 40838170635,
           "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-40838170635",
@@ -7598,7 +7598,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "pais_vasco",
+      "territory_id": "aut16",
       "name": "País Vasco",
       "ft": "green",
       "g": "green",
@@ -7619,7 +7619,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "pais_vasco",
+          "territory_id": "aut16",
           "edition": "2025",
           "run_id": 40946888676,
           "artifact_name": "ddd-source-package-pais_vasco-2025-40946888676",
@@ -7659,7 +7659,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "la_rioja",
+      "territory_id": "aut17",
       "name": "La Rioja",
       "ft": "green",
       "g": "green",
@@ -7680,7 +7680,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "la_rioja",
+          "territory_id": "aut17",
           "edition": "2025",
           "run_id": 40850322464,
           "artifact_name": "ddd-source-package-la_rioja-2025-40850322464",
@@ -7720,7 +7720,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "ceuta",
+      "territory_id": "aut18",
       "name": "Ceuta",
       "ft": "green",
       "g": "green",
@@ -7741,7 +7741,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "ceuta",
+          "territory_id": "aut18",
           "edition": "2025",
           "run_id": 40773443591,
           "artifact_name": "ddd-source-package-ceuta-2025-40773443591",
@@ -7781,7 +7781,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "melilla",
+      "territory_id": "aut19",
       "name": "Melilla",
       "ft": "green",
       "g": "green",
@@ -7802,7 +7802,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "melilla",
+          "territory_id": "aut19",
           "edition": "2025",
           "run_id": 40832114779,
           "artifact_name": "ddd-source-package-melilla-2025-40832114779",
@@ -7842,7 +7842,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_alava",
+      "territory_id": "nac01",
       "name": "Nacional Álava",
       "ft": "green",
       "g": "green",
@@ -7863,7 +7863,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_alava",
+          "territory_id": "nac01",
           "edition": "2025",
           "run_id": 41240137880,
           "artifact_name": "ddd-source-package-congreso_alava-2025-41240137880",
@@ -7903,7 +7903,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_albacete",
+      "territory_id": "nac02",
       "name": "Nacional Albacete",
       "ft": "green",
       "g": "green",
@@ -7924,7 +7924,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_albacete",
+          "territory_id": "nac02",
           "edition": "2025",
           "run_id": 41240260992,
           "artifact_name": "ddd-source-package-congreso_albacete-2025-41240260992",
@@ -7964,7 +7964,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_alicante",
+      "territory_id": "nac03",
       "name": "Nacional Alicante",
       "ft": "green",
       "g": "green",
@@ -7985,7 +7985,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_alicante",
+          "territory_id": "nac03",
           "edition": "2025",
           "run_id": 42409605030,
           "artifact_name": "ddd-source-package-congreso_alicante-2025-42409605030",
@@ -8025,7 +8025,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_almeria",
+      "territory_id": "nac04",
       "name": "Nacional Almería",
       "ft": "green",
       "g": "green",
@@ -8046,7 +8046,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_almeria",
+          "territory_id": "nac04",
           "edition": "2025",
           "run_id": 41242160179,
           "artifact_name": "ddd-source-package-congreso_almeria-2025-41242160179",
@@ -8086,7 +8086,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_avila",
+      "territory_id": "nac05",
       "name": "Nacional Ávila",
       "ft": "green",
       "g": "green",
@@ -8107,7 +8107,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_avila",
+          "territory_id": "nac05",
           "edition": "2025",
           "run_id": 41235278274,
           "artifact_name": "ddd-source-package-congreso_avila-2025-41235278274",
@@ -8147,7 +8147,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_badajoz",
+      "territory_id": "nac06",
       "name": "Nacional Badajoz",
       "ft": "green",
       "g": "green",
@@ -8168,7 +8168,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_badajoz",
+          "territory_id": "nac06",
           "edition": "2025",
           "run_id": 41293199718,
           "artifact_name": "ddd-source-package-congreso_badajoz-2025-41293199718",
@@ -8208,7 +8208,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_baleares",
+      "territory_id": "nac07",
       "name": "Nacional Baleares",
       "ft": "green",
       "g": "green",
@@ -8229,7 +8229,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_baleares",
+          "territory_id": "nac07",
           "edition": "2025",
           "run_id": 41465837048,
           "artifact_name": "ddd-source-package-congreso_baleares-2025-41465837048",
@@ -8269,7 +8269,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_barcelona",
+      "territory_id": "nac08",
       "name": "Nacional Barcelona",
       "ft": "green",
       "g": "green",
@@ -8290,7 +8290,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_barcelona",
+          "territory_id": "nac08",
           "edition": "2025",
           "run_id": 42409499602,
           "artifact_name": "ddd-source-package-congreso_barcelona-2025-42409499602",
@@ -8330,7 +8330,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_burgos",
+      "territory_id": "nac09",
       "name": "Nacional Burgos",
       "ft": "green",
       "g": "green",
@@ -8351,7 +8351,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_burgos",
+          "territory_id": "nac09",
           "edition": "2025",
           "run_id": 41292846877,
           "artifact_name": "ddd-source-package-congreso_burgos-2025-41292846877",
@@ -8391,7 +8391,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_caceres",
+      "territory_id": "nac10",
       "name": "Nacional Cáceres",
       "ft": "green",
       "g": "green",
@@ -8412,7 +8412,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_caceres",
+          "territory_id": "nac10",
           "edition": "2025",
           "run_id": 41240512324,
           "artifact_name": "ddd-source-package-congreso_caceres-2025-41240512324",
@@ -8452,7 +8452,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_cadiz",
+      "territory_id": "nac11",
       "name": "Nacional Cádiz",
       "ft": "green",
       "g": "green",
@@ -8473,7 +8473,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_cadiz",
+          "territory_id": "nac11",
           "edition": "2025",
           "run_id": 41465820761,
           "artifact_name": "ddd-source-package-congreso_cadiz-2025-41465820761",
@@ -8513,7 +8513,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_castellon",
+      "territory_id": "nac12",
       "name": "Nacional Castellón",
       "ft": "green",
       "g": "green",
@@ -8534,7 +8534,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_castellon",
+          "territory_id": "nac12",
           "edition": "2025",
           "run_id": 41241768943,
           "artifact_name": "ddd-source-package-congreso_castellon-2025-41241768943",
@@ -8574,7 +8574,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_ciudad_real",
+      "territory_id": "nac13",
       "name": "Nacional Ciudad Real",
       "ft": "green",
       "g": "green",
@@ -8595,7 +8595,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_ciudad_real",
+          "territory_id": "nac13",
           "edition": "2025",
           "run_id": 41291967967,
           "artifact_name": "ddd-source-package-congreso_ciudad_real-2025-41291967967",
@@ -8635,7 +8635,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_cordoba",
+      "territory_id": "nac14",
       "name": "Nacional Córdoba",
       "ft": "green",
       "g": "green",
@@ -8656,7 +8656,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_cordoba",
+          "territory_id": "nac14",
           "edition": "2025",
           "run_id": 41242424551,
           "artifact_name": "ddd-source-package-congreso_cordoba-2025-41242424551",
@@ -8696,7 +8696,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_la_coruna",
+      "territory_id": "nac15",
       "name": "Nacional La Coruña",
       "ft": "green",
       "g": "green",
@@ -8717,7 +8717,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_la_coruna",
+          "territory_id": "nac15",
           "edition": "2025",
           "run_id": 41243697404,
           "artifact_name": "ddd-source-package-congreso_la_coruna-2025-41243697404",
@@ -8757,7 +8757,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_cuenca",
+      "territory_id": "nac16",
       "name": "Nacional Cuenca",
       "ft": "green",
       "g": "green",
@@ -8778,7 +8778,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_cuenca",
+          "territory_id": "nac16",
           "edition": "2025",
           "run_id": 41236647382,
           "artifact_name": "ddd-source-package-congreso_cuenca-2025-41236647382",
@@ -8818,7 +8818,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_gerona",
+      "territory_id": "nac17",
       "name": "Nacional Gerona",
       "ft": "green",
       "g": "green",
@@ -8839,7 +8839,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_gerona",
+          "territory_id": "nac17",
           "edition": "2025",
           "run_id": 41292216676,
           "artifact_name": "ddd-source-package-congreso_gerona-2025-41292216676",
@@ -8879,7 +8879,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_granada",
+      "territory_id": "nac18",
       "name": "Nacional Granada",
       "ft": "green",
       "g": "green",
@@ -8900,7 +8900,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_granada",
+          "territory_id": "nac18",
           "edition": "2025",
           "run_id": 41243199582,
           "artifact_name": "ddd-source-package-congreso_granada-2025-41243199582",
@@ -8940,7 +8940,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_guadalajara",
+      "territory_id": "nac19",
       "name": "Nacional Guadalajara",
       "ft": "green",
       "g": "green",
@@ -8961,7 +8961,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_guadalajara",
+          "territory_id": "nac19",
           "edition": "2025",
           "run_id": 41236816482,
           "artifact_name": "ddd-source-package-congreso_guadalajara-2025-41236816482",
@@ -9001,7 +9001,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_guipuzcoa",
+      "territory_id": "nac20",
       "name": "Nacional Guipúzcoa",
       "ft": "green",
       "g": "green",
@@ -9022,7 +9022,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_guipuzcoa",
+          "territory_id": "nac20",
           "edition": "2025",
           "run_id": 41292345223,
           "artifact_name": "ddd-source-package-congreso_guipuzcoa-2025-41292345223",
@@ -9062,7 +9062,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_huelva",
+      "territory_id": "nac21",
       "name": "Nacional Huelva",
       "ft": "green",
       "g": "green",
@@ -9083,7 +9083,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_huelva",
+          "territory_id": "nac21",
           "edition": "2025",
           "run_id": 41318125504,
           "artifact_name": "ddd-source-package-congreso_huelva-2025-41318125504",
@@ -9123,7 +9123,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_huesca",
+      "territory_id": "nac22",
       "name": "Nacional Huesca",
       "ft": "green",
       "g": "green",
@@ -9144,7 +9144,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_huesca",
+          "territory_id": "nac22",
           "edition": "2025",
           "run_id": 41057319037,
           "artifact_name": "ddd-source-package-congreso_huesca-2025-41057319037",
@@ -9184,7 +9184,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_jaen",
+      "territory_id": "nac23",
       "name": "Nacional Jaén",
       "ft": "green",
       "g": "green",
@@ -9205,7 +9205,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_jaen",
+          "territory_id": "nac23",
           "edition": "2025",
           "run_id": 41241896061,
           "artifact_name": "ddd-source-package-congreso_jaen-2025-41241896061",
@@ -9245,7 +9245,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_leon",
+      "territory_id": "nac24",
       "name": "Nacional León",
       "ft": "green",
       "g": "green",
@@ -9266,7 +9266,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_leon",
+          "territory_id": "nac24",
           "edition": "2025",
           "run_id": 41241377284,
           "artifact_name": "ddd-source-package-congreso_leon-2025-41241377284",
@@ -9306,7 +9306,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_lerida",
+      "territory_id": "nac25",
       "name": "Nacional Lérida",
       "ft": "green",
       "g": "green",
@@ -9327,7 +9327,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_lerida",
+          "territory_id": "nac25",
           "edition": "2025",
           "run_id": 41292591493,
           "artifact_name": "ddd-source-package-congreso_lerida-2025-41292591493",
@@ -9367,7 +9367,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_la_rioja",
+      "territory_id": "nac26",
       "name": "Nacional La Rioja",
       "ft": "green",
       "g": "green",
@@ -9388,7 +9388,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_la_rioja",
+          "territory_id": "nac26",
           "edition": "2025",
           "run_id": 41240637295,
           "artifact_name": "ddd-source-package-congreso_la_rioja-2025-41240637295",
@@ -9428,7 +9428,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_lugo",
+      "territory_id": "nac27",
       "name": "Nacional Lugo",
       "ft": "green",
       "g": "green",
@@ -9449,7 +9449,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_lugo",
+          "territory_id": "nac27",
           "edition": "2025",
           "run_id": 41240766116,
           "artifact_name": "ddd-source-package-congreso_lugo-2025-41240766116",
@@ -9489,7 +9489,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_madrid",
+      "territory_id": "nac28",
       "name": "Nacional Madrid",
       "ft": "green",
       "g": "green",
@@ -9510,7 +9510,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_madrid",
+          "territory_id": "nac28",
           "edition": "2025",
           "run_id": 41611821388,
           "artifact_name": "ddd-source-package-congreso_madrid-2025-41611821388",
@@ -9550,7 +9550,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_malaga",
+      "territory_id": "nac29",
       "name": "Nacional Málaga",
       "ft": "green",
       "g": "green",
@@ -9571,7 +9571,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_malaga",
+          "territory_id": "nac29",
           "edition": "2025",
           "run_id": 42409615215,
           "artifact_name": "ddd-source-package-congreso_malaga-2025-42409615215",
@@ -9611,7 +9611,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_murcia",
+      "territory_id": "nac30",
       "name": "Nacional Murcia",
       "ft": "green",
       "g": "green",
@@ -9632,7 +9632,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_murcia",
+          "territory_id": "nac30",
           "edition": "2025",
           "run_id": 41613691816,
           "artifact_name": "ddd-source-package-congreso_murcia-2025-41613691816",
@@ -9672,7 +9672,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_navarra",
+      "territory_id": "nac31",
       "name": "Nacional Navarra",
       "ft": "green",
       "g": "green",
@@ -9693,7 +9693,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_navarra",
+          "territory_id": "nac31",
           "edition": "2025",
           "run_id": 41292721581,
           "artifact_name": "ddd-source-package-congreso_navarra-2025-41292721581",
@@ -9733,7 +9733,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_orense",
+      "territory_id": "nac32",
       "name": "Nacional Orense",
       "ft": "green",
       "g": "green",
@@ -9754,7 +9754,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_orense",
+          "territory_id": "nac32",
           "edition": "2025",
           "run_id": 41240887712,
           "artifact_name": "ddd-source-package-congreso_orense-2025-41240887712",
@@ -9794,7 +9794,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_asturias",
+      "territory_id": "nac33",
       "name": "Nacional Asturias",
       "ft": "green",
       "g": "green",
@@ -9815,7 +9815,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_asturias",
+          "territory_id": "nac33",
           "edition": "2025",
           "run_id": 41243326722,
           "artifact_name": "ddd-source-package-congreso_asturias-2025-41243326722",
@@ -9855,7 +9855,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_palencia",
+      "territory_id": "nac34",
       "name": "Nacional Palencia",
       "ft": "green",
       "g": "green",
@@ -9876,7 +9876,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_palencia",
+          "territory_id": "nac34",
           "edition": "2025",
           "run_id": 41291833956,
           "artifact_name": "ddd-source-package-congreso_palencia-2025-41291833956",
@@ -9916,7 +9916,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_las_palmas",
+      "territory_id": "nac35",
       "name": "Nacional Las Palmas",
       "ft": "green",
       "g": "green",
@@ -9937,7 +9937,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_las_palmas",
+          "territory_id": "nac35",
           "edition": "2025",
           "run_id": 42991561887,
           "artifact_name": "ddd-source-package-congreso_las_palmas-2025-42991561887",
@@ -9977,7 +9977,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_pontevedra",
+      "territory_id": "nac36",
       "name": "Nacional Pontevedra",
       "ft": "green",
       "g": "green",
@@ -9998,7 +9998,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_pontevedra",
+          "territory_id": "nac36",
           "edition": "2025",
           "run_id": 41293311168,
           "artifact_name": "ddd-source-package-congreso_pontevedra-2025-41293311168",
@@ -10038,7 +10038,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_salamanca",
+      "territory_id": "nac37",
       "name": "Nacional Salamanca",
       "ft": "green",
       "g": "green",
@@ -10059,7 +10059,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_salamanca",
+          "territory_id": "nac37",
           "edition": "2025",
           "run_id": 41241010241,
           "artifact_name": "ddd-source-package-congreso_salamanca-2025-41241010241",
@@ -10099,7 +10099,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_santa_cruz_de_tenerife",
+      "territory_id": "nac38",
       "name": "Nacional Santa Cruz de Tenerife",
       "ft": "green",
       "g": "green",
@@ -10120,7 +10120,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_santa_cruz_de_tenerife",
+          "territory_id": "nac38",
           "edition": "2025",
           "run_id": 43012151677,
           "artifact_name": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-43012151677",
@@ -10160,7 +10160,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_cantabria",
+      "territory_id": "nac39",
       "name": "Nacional Cantabria",
       "ft": "green",
       "g": "green",
@@ -10181,7 +10181,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_cantabria",
+          "territory_id": "nac39",
           "edition": "2025",
           "run_id": 41292096436,
           "artifact_name": "ddd-source-package-congreso_cantabria-2025-41292096436",
@@ -10221,7 +10221,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_segovia",
+      "territory_id": "nac40",
       "name": "Nacional Segovia",
       "ft": "green",
       "g": "green",
@@ -10242,7 +10242,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_segovia",
+          "territory_id": "nac40",
           "edition": "2025",
           "run_id": 41235620157,
           "artifact_name": "ddd-source-package-congreso_segovia-2025-41235620157",
@@ -10282,7 +10282,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_sevilla",
+      "territory_id": "nac41",
       "name": "Nacional Sevilla",
       "ft": "green",
       "g": "green",
@@ -10303,7 +10303,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_sevilla",
+          "territory_id": "nac41",
           "edition": "2025",
           "run_id": 41244347546,
           "artifact_name": "ddd-source-package-congreso_sevilla-2025-41244347546",
@@ -10343,7 +10343,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_soria",
+      "territory_id": "nac42",
       "name": "Nacional Soria",
       "ft": "green",
       "g": "green",
@@ -10364,7 +10364,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_soria",
+          "territory_id": "nac42",
           "edition": "2025",
           "run_id": 41235794328,
           "artifact_name": "ddd-source-package-congreso_soria-2025-41235794328",
@@ -10404,7 +10404,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_tarragona",
+      "territory_id": "nac43",
       "name": "Nacional Tarragona",
       "ft": "green",
       "g": "green",
@@ -10425,7 +10425,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_tarragona",
+          "territory_id": "nac43",
           "edition": "2025",
           "run_id": 41243062797,
           "artifact_name": "ddd-source-package-congreso_tarragona-2025-41243062797",
@@ -10465,7 +10465,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_teruel",
+      "territory_id": "nac44",
       "name": "Nacional Teruel",
       "ft": "green",
       "g": "green",
@@ -10486,7 +10486,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_teruel",
+          "territory_id": "nac44",
           "edition": "2025",
           "run_id": 41235966858,
           "artifact_name": "ddd-source-package-congreso_teruel-2025-41235966858",
@@ -10526,7 +10526,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_toledo",
+      "territory_id": "nac45",
       "name": "Nacional Toledo",
       "ft": "green",
       "g": "green",
@@ -10547,7 +10547,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_toledo",
+          "territory_id": "nac45",
           "edition": "2025",
           "run_id": 41242809451,
           "artifact_name": "ddd-source-package-congreso_toledo-2025-41242809451",
@@ -10587,7 +10587,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_valencia",
+      "territory_id": "nac46",
       "name": "Nacional Valencia",
       "ft": "green",
       "g": "green",
@@ -10608,7 +10608,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_valencia",
+          "territory_id": "nac46",
           "edition": "2025",
           "run_id": 41318119259,
           "artifact_name": "ddd-source-package-congreso_valencia-2025-41318119259",
@@ -10648,7 +10648,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_valladolid",
+      "territory_id": "nac47",
       "name": "Nacional Valladolid",
       "ft": "green",
       "g": "green",
@@ -10669,7 +10669,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_valladolid",
+          "territory_id": "nac47",
           "edition": "2025",
           "run_id": 41292964287,
           "artifact_name": "ddd-source-package-congreso_valladolid-2025-41292964287",
@@ -10709,7 +10709,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_vizcaya",
+      "territory_id": "nac48",
       "name": "Nacional Vizcaya",
       "ft": "green",
       "g": "green",
@@ -10730,7 +10730,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_vizcaya",
+          "territory_id": "nac48",
           "edition": "2025",
           "run_id": 41293083498,
           "artifact_name": "ddd-source-package-congreso_vizcaya-2025-41293083498",
@@ -10770,7 +10770,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_zamora",
+      "territory_id": "nac49",
       "name": "Nacional Zamora",
       "ft": "green",
       "g": "green",
@@ -10791,7 +10791,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_zamora",
+          "territory_id": "nac49",
           "edition": "2025",
           "run_id": 41236140669,
           "artifact_name": "ddd-source-package-congreso_zamora-2025-41236140669",
@@ -10831,7 +10831,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_zaragoza",
+      "territory_id": "nac50",
       "name": "Nacional Zaragoza",
       "ft": "green",
       "g": "green",
@@ -10852,7 +10852,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_zaragoza",
+          "territory_id": "nac50",
           "edition": "2025",
           "run_id": 41243577758,
           "artifact_name": "ddd-source-package-congreso_zaragoza-2025-41243577758",
@@ -10892,7 +10892,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_ceuta",
+      "territory_id": "nac51",
       "name": "Nacional Ceuta",
       "ft": "green",
       "g": "green",
@@ -10913,7 +10913,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_ceuta",
+          "territory_id": "nac51",
           "edition": "2025",
           "run_id": 42488846588,
           "artifact_name": "ddd-source-package-congreso_ceuta-2025-42488846588",
@@ -10953,7 +10953,7 @@
       "next_step": "—"
     },
     {
-      "territory_id": "congreso_melilla",
+      "territory_id": "nac52",
       "name": "Nacional Melilla",
       "ft": "green",
       "g": "green",
@@ -10974,7 +10974,7 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_melilla",
+          "territory_id": "nac52",
           "edition": "2025",
           "run_id": 41236482346,
           "artifact_name": "ddd-source-package-congreso_melilla-2025-41236482346",
@@ -12542,7 +12542,7 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "cataluna",
+    "territory_id": "aut09",
     "name": "Cataluña",
     "display_name": "09 Cataluña",
     "autonomous_community_code_ine": "09",
