@@ -1558,6 +1558,7 @@ territories:
         territorial_product: territorios/nac21/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac21/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json
         electoral_product: territorios/nac21/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac21/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac22
   name: Congreso Huesca
