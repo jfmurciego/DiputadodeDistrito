@@ -3,18 +3,20 @@
 """Poda de R2 con lista aprobada (T-145): verifica cada clave y su copia, y solo entonces borra.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.1.0
 NOMBRE DE VERSIÓN: Poda de R2 con lista aprobada
 FECHA: 2026-11-10
 ESTADO: candidato
+CAMBIOS: 1.1.0 (T-304): la protección de M01/M02/M03/M03U pasa de ``bateria/entradas/<t>/`` (retirada en T-303) al paquete P10 de la fuente del
+  territorio, ``arc-e/paquetes-p10/<package_sha256>.zip`` (package_sha256 del contrato), que debe existir en R2 con sha256. Lista y reglas de borrado no cambian.
 CAMBIOS: 1.0.0: fichero nuevo (T-145; la copia ha de ser del mismo territorio).
 MOTIVO: R2 tiene 28 GB frente a 10 GB gratuitos; el propietario aprobó la lista docs/ESTUDIOS/T145_PODA_R2/ola1_borrar.csv
   (234 claves). El borrado en R2 es irreversible: esta herramienta no borra nada fuera de esa lista.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/podar_r2_v1.0.0_20261114.py
 QUÉ HACE: lee la lista (el sha256 del fichero debe ser el fijado en la entrada), y por cada fila comprueba (1) que la clave es un
   ``ddd-state-<run>-M0x.zip``, (2) que R2 la tiene con el sha256 de la lista y el manifiesto la anota igual, (3) que la copia que
   conserva existe en R2 y en el manifiesto con su sha256 y que no está en la propia lista, y (4) para M01/M02/M03/M03U, que
-  el territorio tiene su entrada mínima ``bateria/entradas/<territorio>/*.zip`` con metadato sha256. Simulación por defecto: informa
+  el territorio tiene su paquete P10 de la fuente ``arc-e/paquetes-p10/<package_sha256>.zip`` en R2 con metadato sha256 (T-304). Simulación por defecto: informa
   de todo y no borra. Con ``--ejecutar``: si algún desajuste, no borra nada; si no hay, borra una a una, comprueba que desaparece, quita la
   entrada del manifiesto y se detiene al primer error. Informe JSON de lo borrado.
 USO: python herramientas/podar_r2.py --sha256-lista <sha> [--ejecutar] [--informe ruta.json]
@@ -114,18 +116,28 @@ def podar(filas: list[dict], ruta_man: Path, sha, tiene_entrada, borrar, ejecuta
     return informe
 
 
+def clave_paquete_p10(territorio: str, root: Path = ROOT) -> Optional[str]:
+    """Clave R2 del paquete P10 de la fuente del territorio (id viejo o nuevo): ``arc-e/paquetes-p10/<package_sha256>.zip``; None sin contrato
+    o sin package_sha256."""
+    import yaml
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    from ddd_core.territorio_ids import carpeta_de, resolver_id
+    nuevo = resolver_id(territorio)
+    ruta = root / "territorios" / carpeta_de(root, nuevo) / "config" / f"{nuevo}_2025.yaml"
+    if not ruta.is_file():
+        return None
+    h = ((yaml.safe_load(ruta.read_text(encoding="utf-8")) or {}).get("generation_state") or {}).get("package_sha256")
+    return f"arc-e/paquetes-p10/{h}.zip" if h else None
+
+
 def clientes_r2(bucket: str, cuenta: str):
     sha, _ = ar.r2_cliente(bucket, cuenta)
     ep = f"https://{cuenta}.r2.cloudflarestorage.com"
 
-    def _lista(prefijo: str) -> list[str]:
-        p = subprocess.run(["aws", "s3api", "list-objects-v2", "--bucket", bucket, "--prefix", prefijo,
-                            "--endpoint-url", ep, "--output", "json"], capture_output=True, text=True, check=True)
-        return [o["Key"] for o in (json.loads(p.stdout or "{}").get("Contents") or [])]
-
     def tiene_entrada(territorio: str) -> bool:
-        claves = ar.con_reintentos(lambda: _lista(f"bateria/entradas/{territorio}/"), f"R2 lista {territorio}")
-        return any(k.endswith(".zip") and sha(k) for k in claves)
+        clave = clave_paquete_p10(territorio)
+        return clave is not None and bool(sha(clave))
 
     def borrar(k: str) -> None:
         ar.con_reintentos(lambda: subprocess.run(

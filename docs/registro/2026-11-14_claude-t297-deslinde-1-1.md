@@ -18,8 +18,8 @@
     - lock con ortools 9.14.6206 y sus dependencias. `requirements-exacto.lock` 1.0.0, nuevo:
   pines exactos con hashes, se instala con `--no-deps --require-hashes` (Dockerfile 1.3.0, batería y P30). Si el exacto
   aplica y no hay ortools, la competición falla con `EXACTO_SIN_ORTOOLS`.
-  - `bateria_motor.py` 1.4.1: el recuento de candidatos cuenta el exacto.
-  - `bateria-motor.yml` 1.2.1 y `_reutilizable-generacion-territorial.yml` 1.5.2: instalan ortools con `--no-deps`.
+  - `bateria_motor.py` 1.4.2: el recuento de candidatos cuenta el exacto.
+  - `bateria-motor.yml` 1.2.2 y `_reutilizable-generacion-territorial.yml` 1.5.2: instalan ortools con `--no-deps`.
   - `DESLINDE_1_0.md` 1.1.0, con la copia anterior en `legacy/`; escribe también el desempate por desvío máximo
   (término 7 de D8, sin cambio de orden). `HUELLAS_FIJAS` (D8) regeneradas.
 - Efectos:
