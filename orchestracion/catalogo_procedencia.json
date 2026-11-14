@@ -1714,11 +1714,11 @@
   },
   "congreso_alicante": {
    "fuente_territorial": {
-    "run_id": "42409605030",
+    "run_id": "43650100325",
     "package_sha256": "89012683d93b6426a51dbe26181f264e2e4c173bcfe90da44505634a79040eda",
-    "artifact_sha256": "03fcb111cf36f97db49f60be1fd9c6731465263f07c520d14ca57cd8cafb52e0",
-    "territorial_identity_sha256": "5069521dc815a565b263910a381dbd4cd4fe072a236d204569c151c74a978cf2",
-    "receipt_path": "territorios/nac03/evidencia/fuentes_territoriales/2025/5069521dc815a565b263910a381dbd4cd4fe072a236d204569c151c74a978cf2/42409605030/receipt.json",
+    "artifact_sha256": "9388c8050b3464d47ffca5fc0b99169d4dfa831af92bc5a5b3eba11eaddbdf89",
+    "territorial_identity_sha256": "52d5eb1cfde9fa98d66c5adade4cde3e501b9aa3c3ec54b8f344a046c32ddca3",
+    "receipt_path": "territorios/nac03/evidencia/fuentes_territoriales/2025/52d5eb1cfde9fa98d66c5adade4cde3e501b9aa3c3ec54b8f344a046c32ddca3/43650100325/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
