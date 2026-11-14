@@ -3160,11 +3160,11 @@
   },
   "congreso_castellon": {
    "fuente_territorial": {
-    "run_id": "41241768943",
+    "run_id": "43651935343",
     "package_sha256": "2fb73fe7f4cd3909b739a94e2ca9d66bcfac872448f966e4db000a9431c36fa0",
-    "artifact_sha256": "a6af0b7655a6a5e72d00d2c6a2cf575999cffb03ef8f2ebd4de8f75f1946368b",
-    "territorial_identity_sha256": "521843ff70d449199d943dedad2f09b1cfe0274e5b1a57534021247b0048bcd8",
-    "receipt_path": "territorios/nac12/evidencia/fuentes_territoriales/2025/521843ff70d449199d943dedad2f09b1cfe0274e5b1a57534021247b0048bcd8/41241768943/receipt.json",
+    "artifact_sha256": "21c4055d28b1deb32e93ffae088f277800482eb1062f7253ce71736de42ec482",
+    "territorial_identity_sha256": "24201e2622788035e09c02eba2c022353f6fd033f27b99c0e46e85f626832a9e",
+    "receipt_path": "territorios/nac12/evidencia/fuentes_territoriales/2025/24201e2622788035e09c02eba2c022353f6fd033f27b99c0e46e85f626832a9e/43651935343/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -3412,11 +3412,11 @@
   },
   "congreso_ciudad_real": {
    "fuente_territorial": {
-    "run_id": "41291967967",
+    "run_id": "43651946304",
     "package_sha256": "15481287c881a0987fbd9442af2d5caf63a4f151fa6e4ce02fb26b81c697403f",
-    "artifact_sha256": "9214781fd49abe2893797b721cf53f5b09de138a7fc327eb9f10086a22bca558",
-    "territorial_identity_sha256": "386ebde0e1022c0d9422c22b18559e5548dd8c117d92115088e96455e3c00163",
-    "receipt_path": "territorios/nac13/evidencia/fuentes_territoriales/2025/386ebde0e1022c0d9422c22b18559e5548dd8c117d92115088e96455e3c00163/41291967967/receipt.json",
+    "artifact_sha256": "a03901637464bdaf2060c0136842f22809454fd0beb32a14c8b3d463ce14f1c5",
+    "territorial_identity_sha256": "4658a851a87ad9a8374072444b63f3c2ebb3410f2969a5161c30eda19295c417",
+    "receipt_path": "territorios/nac13/evidencia/fuentes_territoriales/2025/4658a851a87ad9a8374072444b63f3c2ebb3410f2969a5161c30eda19295c417/43651946304/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
