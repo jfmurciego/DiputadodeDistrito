@@ -1,6 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — puerta de validación
-# VERSIÓN: 1.3.1
+# VERSIÓN: 1.4.0
+# CAMBIOS 1.4.0: T-302, la localización durable lee PRIMERO de R2 (arc-p/m06/, índice orchestracion/almacen_m06_r2.json, sha256 verificado) y
+#   cae a Actions/release si no hay entrada, R2 no responde o el objeto está alterado. Secretos R2 opcionales (workflow_call.secrets) y solo en el
+#   paso de la puerta; sin ellos (los callers actuales no los pasan) el comportamiento es el de 1.3.1.
+# ANTERIOR: legacy/workflows/_reutilizable-puerta-validacion_v1.3.1_20261114.yml
 # CAMBIOS 1.3.1: T-267 (regresión de T-251), descargar() segura bajo `bash -eo pipefail` (shell: bash): `dl_rc=0; … || dl_rc=$?` y `grep … || true`.
 # MOTIVO 1.3.1: en 1.3.0 un rc≠0 abortaba antes de clasificar y, con descarga correcta, el grep sin coincidencias + pipefail
 #   mataba el paso con exit 1 sin mensaje: todas las puertas caían (Andalucía, run 43113205292).
@@ -33,6 +37,9 @@ on:
       source_ref: {required: false, type: string, default: ''}
       audit_artifact_name: {required: false, type: string, default: ''}
       artifact_namespace: {required: false, type: string, default: ''}
+    secrets:
+      R2_ACCESS_KEY_ID: {required: false}
+      R2_SECRET_ACCESS_KEY: {required: false}
     outputs:
       decision:
         value: ${{ jobs.validar.outputs.decision }}
@@ -72,6 +79,11 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCESS_KEY_ID != '' && (vars.R2_ACCOUNT_ID || '') || '' }}
+          R2_BUCKET: ${{ secrets.R2_ACCESS_KEY_ID != '' && vars.R2_BUCKET || '' }}
           PHASE: ${{ inputs.phase }}
           TERRITORY_ID: ${{ inputs.territory_id }}
           EDITION: ${{ inputs.data_edition }}
