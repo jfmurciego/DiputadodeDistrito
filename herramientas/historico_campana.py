@@ -3,7 +3,12 @@
 """Histórico de generales en el Gestor 2.0: plan y ejecución del paso A por provincia y elección (T-113).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.1 · FECHA: 2026-11-12 · ESTADO: candidato
+VERSIÓN: 1.2.0 · FECHA: 2026-11-14 · ESTADO: candidato
+CAMBIOS 1.2.0 (T-329): `--mapa 2023` (por defecto, D-105): el paso A lleva los votos de cada sección histórica al mapa vigente 2023 con la
+  tabla configuracion/equivalencia_seccionado_ine_<año>_a_2023.csv (T-328) y la regla de M07 7.4.0 (la sección partida va ENTERA al
+  distrito de mayor población, sin repartir votos); el paquete lleva los votos por sección histórica y el contrato declara
+  section_reconciliation.equivalence_table (M07 la aplica); la participación se lleva con la misma regla. `--mapa 2025` conserva el
+  camino anterior (reagregación de T-83 con reparto por población). Con 2023 no hay paso B: la puerta es M07 PASS.
 CAMBIOS: 1.1.0 (T-123): soporta las cinco generales 2011-2023 (2011, 2015, 2016, 2019-04 y 2019-11) con el mismo paso A y
   la misma puerta; `plan` añade `prueba` (primer territorio, lote de prueba antes del resto).
 CAMBIOS: 1.0.0: fichero nuevo.
@@ -11,7 +16,7 @@ MOTIVO: D-10, D-12 y D-22 del propietario: la opción «histórico» del «0 Ges
   (reagregacion_historico.py --paquete + historico_m07m08.py) en las 52 provincias, una elección por campaña,
   empezando por 2019-11. Motor repetible: cada ejecución regenera desde fuentes con huella, nada se reutiliza.
 CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/historico_campana_v1.1.0_20261112.py
+ANTERIOR: legacy/herramientas/historico_campana_v1.1.1_20261112.py
 QUÉ HACE: `plan(ids, eleccion)` comprueba por territorio lo que el paso A necesita (elección soportada, M06 publicado en
   datos_abiertos/INDEX.json, composición en datos/composicion/, fichero del espejo T-89 en su manifiesto) y devuelve la
   matriz; lo pedido y no soportado falla con NoDisponible; con «todos» se omite y se informa.
@@ -26,6 +31,7 @@ Uso: python herramientas/historico_campana.py ejecutar --territorio nac22 --elec
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import os
@@ -48,6 +54,10 @@ ESPEJO = "orchestracion/fuente_nazioenbehatokia.json"
 INDEX = "datos_abiertos/INDEX.json"
 INE = "https://www.ine.es/prodyser/cartografia/seccionado_{}.zip"
 # Huellas de los seccionados INE históricos usados en T-85/T-83 (datos/resultados/historico/MANIFEST.json).
+# clave de elección del espejo → año del seccionado INE de esa elección (T-306 §3); la tabla año→2023 es de T-328.
+ANIO_SECCIONADO = {"201111": "2012", "201512": "2015", "201606": "2016", "201904": "2019", "201911": "2020"}
+SHA_2023 = "7a15e700a4592d793230441cfcb4b72e40979998aef019ca644389271886bf1f"
+MAPAS = ("2023", "2025")
 HISTORICOS = {
     "2012": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
     "2015": "50dda58ed4afb57c7f1f38e6b6b8150768efaa225bfc3a523b9c210a2a218c03",
@@ -72,6 +82,84 @@ def sha256(path: Path) -> str:
 
 def _json(root: Path, rel: str) -> dict:
     return json.loads((root / rel).read_text(encoding="utf-8"))
+
+
+def tabla_2023(clave: str, root: Path = ROOT) -> Path:
+    return root / f"configuracion/equivalencia_seccionado_ine_{ANIO_SECCIONADO[clave]}_a_2023.csv"
+
+
+def registro_tabla(tabla: Path, root: Path = ROOT) -> dict:
+    """Registro `section_reconciliation.equivalence_table` del contrato (ruta relativa al repo, sha256 y columnas)."""
+    with tabla.open(encoding="utf-8", newline="") as fh:
+        cab = next(csv.reader(fh))
+    return {"path": tabla.resolve().relative_to(root.resolve()).as_posix(), "sha256": sha256(tabla),
+            "source_column": cab[0], "target_column": cab[1], "decision": "D-105"}
+
+
+def leer_tabla(tabla: Path) -> dict:
+    """{sección histórica: {"tipo", "pesos": [(sección 2023, peso_poblacion)]}} (sin_vigente, sin pesos)."""
+    out: dict = {}
+    with tabla.open(encoding="utf-8", newline="") as fh:
+        r = csv.DictReader(fh)
+        origen, destino = r.fieldnames[0], r.fieldnames[1]
+        for f in r:
+            e = out.setdefault(f[origen], {"tipo": f["tipo"], "pesos": []})
+            if f["tipo"] != "sin_vigente":
+                e["pesos"].append((f[destino], float(f["peso_poblacion"])))
+    return out
+
+
+def seccion_destino(entrada: dict, distrito_de: dict) -> str | None:
+    """Regla de M07 7.4.0 (`apply_section_equivalence`): sin repartir votos; una partida va ENTERA al distrito con la mayor
+    población y, dentro de él, a su sección de mayor peso. None = no se mueve (sin_vigente o destino fuera del mapa)."""
+    if entrada["tipo"] == "sin_vigente":
+        return None
+    falta = "\x00MISSING_IN_MAP"
+    por_distrito: dict = {}
+    for t, w in entrada["pesos"]:
+        k = distrito_de.get(t, falta)
+        por_distrito[k] = por_distrito.get(k, 0.0) + w
+    d = min(por_distrito, key=lambda x: (-por_distrito[x], x == falta, x))
+    if d == falta:
+        return None
+    return min((tw for tw in entrada["pesos"] if distrito_de.get(tw[0]) == d), key=lambda tw: (-tw[1], tw[0]))[0]
+
+
+def paquete_2023(carpeta: Path, territorio: str, clave: str, votos: dict, composicion: dict, ruta_espejo: str,
+                 huella_espejo: str, oficial: dict | None = None, root: Path = ROOT) -> dict:
+    """Paquete M07 de una elección sobre el mapa 2023 (D-105). `votos` = {sección histórica: {censo, votantes,
+    votos_candidaturas, votos}} del espejo T-89, SIN reagregar: `secciones.csv` lleva los votos por sección histórica y M07
+    los lleva al mapa con la tabla (contrato `section_reconciliation.equivalence_table`). `participacion.csv` se lleva con la
+    misma regla (`composicion` = {sección 2023: (distrito, población)})."""
+    sys.path.insert(0, str(root / "herramientas"))
+    import reagregacion_historico as rh
+    import fuente_nazioenbehatokia as fnb  # noqa: F401
+    tabla = tabla_2023(clave, root)
+    t = leer_tabla(tabla)
+    distrito_de = {s: d for s, (d, _) in composicion.items()}
+    part: dict = {}
+    for s, r in votos.items():
+        dest = seccion_destino(t[s], distrito_de) if s in t else s
+        k = dest if dest is not None else s
+        acc = part.setdefault(k, {c: 0 for c in rh.CAMPOS})
+        for c in rh.CAMPOS:
+            acc[c] += int(r[c])
+    sec = {s: {"votos": r["votos"], **{c: int(r[c]) for c in rh.CAMPOS}} for s, r in votos.items()}
+    huellas = rh.escribir_paquete(carpeta, territorio, clave, sec, oficial,
+                                  {"path": ruta_espejo, "sha256": huella_espejo, "manifest": ESPEJO})
+    # participación ya sobre el mapa 2023 (M07 solo mueve votos por partido); contrato con la tabla declarada
+    with open(carpeta / "participacion.csv", "w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f, lineterminator="\n")
+        w.writerow(["section_id", *rh.CAMPOS])
+        for k in sorted(part):
+            w.writerow([k, *(part[k][c] for c in rh.CAMPOS)])
+    con = carpeta / "contrato.json"
+    c = json.loads(con.read_text(encoding="utf-8"))
+    c["section_reconciliation"] = {"equivalence_table": registro_tabla(tabla, root)}
+    c["title"] = c["title"].replace("histórico reagregado (T-83)", "histórico sobre el mapa 2023 (T-329)")
+    con.write_text(json.dumps(c, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    huellas["participacion.csv"], huellas["contrato.json"] = sha256(carpeta / "participacion.csv"), sha256(con)
+    return huellas
 
 
 def requisitos(territorio: str, provincia: str, clave: str, root: Path = ROOT) -> list[str]:
@@ -156,8 +244,12 @@ def _correr(args: list[str]) -> int:
     return subprocess.run([sys.executable, *args], cwd=ROOT).returncode
 
 
-def ejecutar(territorio: str, provincia: str, clave: str, trabajo: Path, salida: Path) -> int:
+def ejecutar(territorio: str, provincia: str, clave: str, trabajo: Path, salida: Path, mapa: str = "2023") -> int:
+    if mapa not in MAPAS:
+        raise SystemExit(f"MAPA_NO_SOPORTADO {mapa}: {', '.join(MAPAS)}")
     falta = requisitos(territorio, provincia, clave)
+    if mapa == "2023" and clave in SOPORTADAS and not tabla_2023(clave).is_file():
+        falta.append(f"sin tabla año→2023 ({tabla_2023(clave).name})")
     if clave not in SOPORTADAS or falta:
         raise SystemExit(f"NO_SOPORTADO {territorio} {clave}: {'; '.join(falta) or 'elección no soportada'}")
     subprocess.run(["bash", str(ROOT / "inputs/partes/reconstruir_fuentes.sh")], check=True)
@@ -166,10 +258,13 @@ def ejecutar(territorio: str, provincia: str, clave: str, trabajo: Path, salida:
     ruta = f"data/{clave}/sekzioa/{provincia}.json"
     _bajar(espejo["url"] + ruta, trabajo / "espejo" / ruta, espejo["ficheros"][ruta]["sha256"])
     hist = trabajo / "historicos"
-    for año, h in HISTORICOS.items():
+    for año, h in (HISTORICOS if mapa == "2025" else {}).items():  # con 2023 basta la tabla versionada (T-328)
         _bajar(INE.format(año), hist / f"seccionado_{año}.zip", h)
     m06 = _m06(territorio, trabajo / f"{territorio}_m06.zip")
     paquete = trabajo / "paquete"
+    if mapa == "2023":
+        return _paso_a_2023(territorio, provincia, clave, trabajo, salida, m06, padron, trabajo / "espejo" / ruta,
+                            espejo["ficheros"][ruta]["sha256"], ruta)
     rb = _correr(["herramientas/reagregacion_historico.py", "--espejo", str(trabajo / "espejo"), "--historicos",
                   str(hist), "--seccionado", str(seccionado), "--padron", str(padron), "--territorio", territorio,
                   "--provincia", provincia, "--distritos", str(m06), "--salida", str(salida), "--paquete",
@@ -185,12 +280,35 @@ def ejecutar(territorio: str, provincia: str, clave: str, trabajo: Path, salida:
     return 0 if puerta["estado"] == "PASS" else 1
 
 
+def _paso_a_2023(territorio, provincia, clave, trabajo, salida, m06, padron, fichero_espejo, huella, ruta) -> int:
+    """D-105: sin paso B (el reparto por población de la reagregación a 2025 no se usa); la puerta es M07 PASS."""
+    sys.path.insert(0, str(ROOT / "herramientas"))
+    import fuente_nazioenbehatokia as fnb
+    import historico_m07m08 as hm
+    s2023 = _bajar(INE.format("2023"), trabajo / "historicos" / "seccionado_2023.zip", SHA_2023)
+    comp = hm.leer_composicion(fichero_por_id(ROOT / "datos/composicion", "{}.csv", territorio))
+    votos = fnb.leer_provincia(json.loads(fichero_espejo.read_text(encoding="utf-8")))
+    import reagregacion_historico as rh
+    paquete = trabajo / "paquete"
+    paquete_2023(paquete / clave / territorio, territorio, clave, votos, comp, ruta, huella, rh.leer_oficial(clave, provincia))
+    ra = _correr(["herramientas/historico_m07m08.py", "--paquete", str(paquete), "--territorio", territorio,
+                  "--seccionado", str(s2023), "--distritos", str(m06), "--padron", str(padron),
+                  "--trabajo", str(trabajo / "m07"), "--salida", str(salida)])
+    puerta = {"territorio": territorio, "clave": clave, "mapa": "2023", "paso_b_cuadre": None, "paso_a_m07": ra == 0,
+              "tabla": registro_tabla(tabla_2023(clave))["sha256"], "estado": "PASS" if ra == 0 else "FAIL"}
+    (salida / f"PUERTA_{territorio}_{clave}.json").write_text(json.dumps(puerta, ensure_ascii=False, indent=1) + "\n",
+                                                             encoding="utf-8")
+    print(json.dumps(puerta, ensure_ascii=False), flush=True)
+    return 0 if ra == 0 else 1
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("accion", choices=["ejecutar"])
     ap.add_argument("--territorio", required=True)
     ap.add_argument("--provincia", help="código INE de dos cifras (por defecto, el de la legislatura vigente)")
     ap.add_argument("--eleccion", required=True, help="clave del espejo, p. ej. 201911")
+    ap.add_argument("--mapa", choices=MAPAS, default="2023", help="mapa destino (D-105: 2023; 2025 = reagregación de T-83)")
     ap.add_argument("--trabajo", type=Path, default=ROOT / ".cache/ddd/historico_campana")
     ap.add_argument("--salida", type=Path, default=ROOT / "salida_historico")
     a = ap.parse_args(argv)
@@ -200,7 +318,7 @@ def main(argv=None) -> int:
         cfg = yaml.safe_load((ROOT / "configuracion/legislatura_vigente.yaml").read_text(encoding="utf-8"))
         prov = next(r["codigo"] for r in cfg["territorios"] if mismo_territorio(str(r["territory_id"] or ""), str(a.territorio)))
     a.salida.mkdir(parents=True, exist_ok=True)
-    return ejecutar(a.territorio, prov, a.eleccion, a.trabajo / a.territorio, a.salida)
+    return ejecutar(a.territorio, prov, a.eleccion, a.trabajo / a.territorio, a.salida, a.mapa)
 
 
 if __name__ == "__main__":
