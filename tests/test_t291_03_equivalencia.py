@@ -56,5 +56,30 @@ class Paso03Equivalencia(unittest.TestCase):
             self.assertIn('"${equivalence_args[@]}"', script[i:i + 120], etiqueta)
 
 
+    def test_el_adaptador_acepta_la_opcion_que_pasa_la_03(self):
+        import csv
+        import json
+        import tempfile
+        args = [a for a in _equivalence_args("2026-11-29", "2025").split("|") if a]
+        with tempfile.TemporaryDirectory() as td:
+            src = Path(td) / "s.csv"
+            with src.open("w", encoding="utf-8", newline="") as fh:
+                w = csv.writer(fh)
+                w.writerow(["codigo_ccaa", "codigo_provincia", "codigo_municipio", "codigo_distrito",
+                            "codigo_seccion", "codigo_mesa", "partido", "votos"])
+                w.writerow(["16", "20", "69", "1", "1", "A", "P1", "7"])
+            sha = __import__("hashlib").sha256(src.read_bytes()).hexdigest()
+            out = Path(td) / "pkg"
+            subprocess.run([sys.executable, "herramientas/adaptador_minsait_csv.py", "--source", str(src), "--out", str(out),
+                            "--territory-id", "nac20", "--election-id", "nac20_2026-11-29", "--election-date", "2026-11-29",
+                            "--edition", "2025", "--expected-sha256", sha, "--expected-ccaa", "16",
+                            "--expected-provinces", "1", "--expected-sections", "1", "--expected-polling-stations", "1",
+                            "--expected-candidate-votes", "7", "--source-url", "https://example.invalid/s.csv",
+                            "--publisher", "Minsait", *args], cwd=ROOT, check=True, capture_output=True, text=True)
+            contrato = json.loads((out / "contract/election_contract.json").read_text(encoding="utf-8"))
+        self.assertEqual(contrato["section_reconciliation"]["equivalence_table"]["path"],
+                         "configuracion/equivalencia_seccionado_ine_2026_a_2023.csv")
+
+
 if __name__ == "__main__":
     unittest.main()
