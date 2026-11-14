@@ -1,0 +1,24 @@
+/* Regresión de integración de la galería territorial V3. Sin llamadas de red. */
+"use strict";
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const path=require("node:path");
+const vm=require("node:vm");
+const root=path.join(__dirname,"../visor/v3");
+const html=fs.readFileSync(path.join(root,"index.html"),"utf8");
+const css=fs.readFileSync(path.join(root,"v3.css"),"utf8");
+const main=fs.readFileSync(path.join(root,"v3.js"),"utf8");
+const gallery=fs.readFileSync(path.join(root,"galeria-territorial.js"),"utf8");
+new vm.Script(main,{filename:"v3.js"});
+new vm.Script(gallery,{filename:"galeria-territorial.js"});
+assert.match(html,/id="territory-gallery"/);
+assert.ok(html.indexOf('id="territory-gallery"')<html.indexOf('class="model-cards"'),"Galería antes de indicadores");
+assert.ok(html.indexOf('galeria-territorial.js')<html.indexOf('src="v3.js"'),"Script disponible antes del visor");
+assert.match(main,/DDDGaleria\?\.render\(kind,name,selectedProvince\(\)\?\.properties\.nombre\|\|""\)/);
+assert.match(css,/\.gallery-figure img/);
+assert.match(gallery,/commons\.wikimedia\.org\/w\/api\.php/);
+assert.match(gallery,/!license\|\|!link/,"Sin licencia se bloquea la fotografía");
+assert.match(gallery,/kind==="distrito"\|\|kind==="seccion"/,"No atribuir imagen provincial a distrito");
+assert.match(gallery,/ticket!==revision/,"Ignorar respuesta de selección antigua");
+assert.match(gallery,/showEmpty/,"Fallback sin imagen");
+console.log("V3 galería: PASS (integración, sintaxis, fuente, licencia, identidad y fallback)");
