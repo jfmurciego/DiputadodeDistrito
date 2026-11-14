@@ -5,10 +5,10 @@
   "territory_name": "Principado de Asturias",
   "edition": "2025",
   "run_id": 43624871718,
-  "source_commit": "4d6769aee74628b8f6d5640defda1cff9b615b61",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "2785e322a385b2cfeb67ccab403f47d713ece4ea",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "SOURCE_MATERIALIZATION",
   "source": {
     "run_id": 43624871718,
     "artifact_name": "ddd-source-package-aut03-2025-43624871718",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La fuente ya acreditada no pudo materializarse para la evaluación; requiere diagnóstico técnico."
   }
 }
