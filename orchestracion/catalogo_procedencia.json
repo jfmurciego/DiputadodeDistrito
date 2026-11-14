@@ -1142,11 +1142,11 @@
   },
   "comunidad_foral_de_navarra": {
    "fuente_territorial": {
-    "run_id": "40838170635",
+    "run_id": "43645478667",
     "package_sha256": "208c559a716b904fd9f2bf778feaacd8d976b77bba78b0fd9dc3c06904bf644a",
-    "artifact_sha256": "fa14b233a4b81efd56234916f6637a00e73087e79f20d711d8b7fe5113fb5d98",
-    "territorial_identity_sha256": "4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1",
-    "receipt_path": "territorios/aut15/evidencia/fuentes_territoriales/2025/4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1/40838170635/receipt.json",
+    "artifact_sha256": "c589f663b158ff4dc48a4667a1bc212188ca5b1a068080465189393e5c85358a",
+    "territorial_identity_sha256": "cc5f8c73bb56301faa02bcb76317f34c1d3e14fe275c63afaee3ff97f72609f5",
+    "receipt_path": "territorios/aut15/evidencia/fuentes_territoriales/2025/cc5f8c73bb56301faa02bcb76317f34c1d3e14fe275c63afaee3ff97f72609f5/43645478667/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -9137,11 +9137,11 @@
   },
   "pais_vasco": {
    "fuente_territorial": {
-    "run_id": "40946888676",
+    "run_id": "43645488129",
     "package_sha256": "b47721cbd4aa28cae80b185814b0a002f903ce7a7b5e07aab372cafdd6cef874",
-    "artifact_sha256": "c9175d33370e3a9eaf1e32b5b671efb5dc46462ddba7c8db9a6d6ae6d43dd90c",
-    "territorial_identity_sha256": "ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288",
-    "receipt_path": "territorios/aut16/evidencia/fuentes_territoriales/2025/ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288/40946888676/receipt.json",
+    "artifact_sha256": "b9125cc9ae158009fc0762fa571af38e9b7ceb37f43456a915c0309a0903b971",
+    "territorial_identity_sha256": "08961b83ea2904cc47220dfc00f71b0716a49fdcec719e7482c5c33db13273d2",
+    "receipt_path": "territorios/aut16/evidencia/fuentes_territoriales/2025/08961b83ea2904cc47220dfc00f71b0716a49fdcec719e7482c5c33db13273d2/43645488129/receipt.json",
     "population_year": 2024,
     "section_year": 2024
    },
