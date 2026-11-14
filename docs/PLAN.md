@@ -4,7 +4,7 @@ Versión: 1.0.45
 Fecha: 2026-11-14
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: traspaso del Planificador del 14-11 (docs/TRASPASO_PLANIFICADOR_2026-11-14.md): reglas del propietario, D-96 a D-103 y cola T-291 a T-314
+Cambios/motivo: traspaso del Planificador del 14-11 (docs/TRASPASO_PLANIFICADOR_2026-11-14.md): reglas del propietario, D-96 a D-104 y cola T-291 a T-316
 Anterior: legacy/docs/PLAN_v1.0.44_20261114.md
 -->
 
@@ -252,6 +252,7 @@ Fase 4 — producto (en el privado):
 - D-101 (14-11). Analítica: opción A (contador propio en un Cloudflare Worker, sin datos personales) y maplibre servido desde el sitio (sustituye el aplazamiento de D-71).
 - D-102 (14-11). Notación interna M01-M08 → P21-P27/P41-P42 (T-313) después de publicar los 71: P22 = «Geometría y adyacencias», P27 = auditoría, ensemble25/50; alcance completo; alias solo de lectura para el histórico.
 - D-103 (14-11, propietario; traspaso del Planificador). Histórico desde 2011 adelantado (inventario T-306, #770): matiza D-77, que dejaba la regeneración del histórico para después del corte. Zenodo solo mapas (confirma D-94).
+- D-104 (14-11, propietario). Mapa de fondo de OpenStreetMap (visores inicial, nacional y del Congreso): se acepta y se declara en el texto de transparencia que OpenStreetMap sirve el fondo y ve la IP del visitante. Fondo propio servido desde Cloudflare: se reconsidera después del 29-11 (T-316).
 
 ### Cola T-291 a T-314 (14-11)
 | Id | Qué | Estado |
@@ -277,6 +278,8 @@ Fase 4 — producto (en el privado):
 | T-310 | maplibre-gl servido desde el sitio | HECHA (#781) |
 | T-311, T-312 | Id canónico al reutilizar P10 (también en el contrato resuelto copiado) y revert de r3 tanda 1 | HECHA (#786) |
 | T-313 | Migración de notación P (D-102): inventario #784 (borrador) | PENDIENTE (después de la P50) |
+| T-315 | Declarar el fondo de OpenStreetMap en el texto de transparencia del contador (D-104); va en #783 (T-294 parte 2) | LISTA (Coordinador) |
+| T-316 | Fondo de mapa propio servido desde Cloudflare, sin terceros (D-104) | PENDIENTE (después del 29-11) |
 | T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? EN ESTUDIO: se rehace sobre main actual (la primera versión de #788 no pasó la revisión) | EN CURSO (#788); camino crítico |
 
 ### Frentes y camino crítico (14-11)
@@ -289,12 +292,12 @@ Fase 4 — producto (en el privado):
 7. Aparcados hasta cerrar el repositorio: público nuevo, puente, Pages, Zenodo y runner propio (T-273, T-275, T-276, T-282, T-283, T-274B).
 8. Al final: investigación (óptimo en medianos, `redist`) y corte 5.0.0; legislatura nueva tras el 29-11.
 
-Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y T-314 en main con CI verde. Pendiente del propietario: frase del robot revisor, teselas OSM (aceptar y declarar), mapa destino del histórico (2023 o 2025), Cloudflare del contador, registro de la propiedad intelectual (lunes 16-11), y crear el repositorio público y el runner cuando se cierre el actual.
+Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y T-314 en main con CI verde. Pendiente del propietario: frase del robot revisor, mapa destino del histórico (2023 o 2025), Cloudflare del contador, registro de la propiedad intelectual (lunes 16-11), y crear el repositorio público y el runner cuando se cierre el actual.
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290 y 1.0.45 (traspaso, sin id). El planificador ha dado T-194 a T-314 (10 a 14-11; T-277 y T-292 sin usar). Siguiente libre para el planificador: T-315.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290 y 1.0.45 (traspaso, sin id). El planificador ha dado T-194 a T-316 (10 a 14-11; T-277 y T-292 sin usar). Siguiente libre para el planificador: T-317.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
