@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.44
+Versión: 1.0.45
 Fecha: 2026-11-14
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-91 a D-95 (repositorio privado y público de publicación, propiedad intelectual, runner propio, Zenodo solo mapas) y plan por fases T-267 a T-290
-Anterior: legacy/docs/PLAN_v1.0.43_20261114.md
+Cambios/motivo: traspaso del Planificador del 14-11 (docs/TRASPASO_PLANIFICADOR_2026-11-14.md): reglas del propietario, D-96 a D-109 y cola T-291 a T-320
+Anterior: legacy/docs/PLAN_v1.0.44_20261114.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -235,10 +235,78 @@ Fase 4 — producto (en el privado):
 | T-289 | Pendientes menores: T-206 y T-203 (límite 25-11), T-226, T-227, T-231, T-233, T-238, T-242, T-253 | Por prioridad |
 | T-290 | Actualización del plan (D-91 a D-95) | ESTA PR |
 
+### Reglas del propietario del 14-11 (traspaso del Planificador)
+- Con el propietario: de tú, en español, corto, por temas (sin ids), semáforo y «decidido / construido / probado / publicado». Corregir en voz alta. No preguntar detalles: decidir con criterio y avisar. Nota «📌 Tema cerrado» al cerrar cada tema; cerrar temas antes de abrir nuevos.
+- Nada de PR con fallos: más de tres commits de arreglo en una PR → se escribe una regla.
+- Ahorro de cuota: Sonnet salvo motor y M07; un revisor por PR terminada; de dos a cinco chats; solo hitos.
+- Motor repetible: relanzar desde el principio, nunca parches que acepten versiones antiguas (ids legacy).
+- Tras cualquier renombrado o cambio de cadena: ensayo local de la cadena completa de un territorio y una P00 de prueba antes de campañas.
+- Congelación del motor y de los workflows de producción durante cada campaña de regeneración, hasta la P50.
+
+### Decisiones del 14-11 posteriores a 1.0.44 (D-96 a D-103)
+- D-96 (14-11). Repositorio: el actual pasa a PRIVADO cuando acaben las pruebas (hoy público); el público nuevo, sin historial, solo de publicación (concreta D-91). Secretos según D-92. Registro de la propiedad intelectual el lunes 16-11 (T-281).
+- D-97 (14-11, #744). Licencias: código propietario; mapas y resultados CC BY 4.0; código del visor, todos los derechos reservados; reglas y contratos CC BY 4.0; plan y arquitectura CC BY-NC 4.0.
+- D-98 (14-11, #761). Deslinde 1.1: D8 con frontera compartida medida (`shared_border_m`), candidato exacto CP-SAT para K ≤ 4 y desempate por desvío máximo. Batería 1.1 aprobada 71/71.
+- D-99 (14-11). Noche del 29-11: mapas vigentes de 2023; tabla 2026→2023; la sección partida va entera al distrito con más población, nunca se reparten votos; `minsait_provisional` esa noche (marca PROVISIONAL; se publica con frase del propietario esa noche) e `infoelectoral_mesas` como definitivo. Código en main; falta el ensayo en seco.
+- D-100 (14-11). Fuentes una sola vez en P10 y R2 (ARC-E); la batería parte del paquete P10 y recalcula P21-P23.
+- D-101 (14-11). Analítica: opción A (contador propio en un Cloudflare Worker, sin datos personales) y maplibre servido desde el sitio (sustituye el aplazamiento de D-71).
+- D-102 (14-11). Notación interna M01-M08 → P21-P27/P41-P42 (T-313) después de publicar los 71: P22 = «Geometría y adyacencias», P27 = auditoría, ensemble25/50; alcance completo; alias solo de lectura para el histórico.
+- D-103 (14-11, propietario; traspaso del Planificador). Histórico desde 2011 adelantado (inventario T-306, #770): matiza D-77, que dejaba la regeneración del histórico para después del corte. Zenodo solo mapas (confirma D-94).
+- D-104 (14-11, propietario). Mapa de fondo de OpenStreetMap (visores inicial, nacional y del Congreso): se acepta y se declara en el texto de transparencia que OpenStreetMap sirve el fondo y ve la IP del visitante. Fondo propio servido desde Cloudflare: se reconsidera después del 29-11 (T-316).
+- D-105 (14-11, propietario). Histórico desde 2011: mapa destino 2023 (como D-65) con la regla de M07 7.4.0, sin repartir votos (la sección partida va entera); se descargan los 5 seccionados que faltan y se re-cuadra (T-306 §4-5).
+- D-106 (14-11, propietario). Contador de Cloudflare: el propietario lo despliega antes del 29-11 con la guía de #780.
+- D-107 (14-11, propietario). Propiedad intelectual: el paquete se regenera sobre main actual (con Deslinde 1.1) antes del registro del lunes 16-11.
+- D-108 (14-11, propietario). Las 6 releases `almacen-m06-*` se borran, tras comprobar en vivo las 51 claves en R2 y una pasada `-WhatIf` limpia; el script lo ejecuta el propietario.
+- D-109 (14-11, propietario). Repositorio privado, público nuevo y runner propio: aparcados hasta después del 29-11.
+
+### Cola T-291 a T-314 (14-11)
+| Id | Qué | Estado |
+|---|---|---|
+| T-291 | Equivalencia de seccionados 2026→2023 en M07 7.4.0, adaptador, 03 y votos por partido de 2026 (D-65, D-99) | HECHA (#749 #750 #752 #754) |
+| T-292 | Sin uso (no consta en el traspaso ni en el repositorio) | — |
+| T-293 | Revisor de PR solo con la etiqueta `revisar-ia` | HECHA (#769); activar el robot exige frase del propietario en su chat |
+| T-294 | Analítica sin cookies: propuesta, Worker contador (#780) y contador en los visores (#783); guía de Cloudflare | EN CURSO (#778 y #783 abiertas; despliegue del propietario) |
+| T-295 | Accesibilidad WCAG 2.1 AA del visor V3 | HECHA |
+| T-296 | Óptimo exacto de D8 y hueco del ganador (estudio privado) | HECHA |
+| T-297 | Deslinde 1.1 (D-98) | HECHA (#761) |
+| T-298 | La batería sin INE: fuentes nacionales en R2 (ARC-E) | HECHA |
+| T-299 | ZIP de Infoelectoral en R2 (ARC-E) e inventario de releases | HECHA (#757) |
+| T-300 | Ficha de procedencia en el visor V3; la copia del catálogo en la P50 | HECHA la ficha; #765 RETENIDA (toca la P50; tras la campaña) |
+| T-301 | La P50 versiona la composición vigente de cada M06 | HECHA (#758) |
+| T-302 | Almacen-m06-* a R2, permisos, lista BORRAR/CONSERVAR y script; índice (T-302d) | REVISIÓN (#785); luego script de borrado del propietario |
+| T-303, T-304 | La batería parte del paquete P10 y su seguimiento | HECHA (#756 #759) |
+| T-305 | La P50 restaura de R2 el estado M08/M06 podado | HECHA (#762) |
+| T-306 | Inventario del histórico desde 2011 | HECHA (#770); plan del histórico pendiente |
+| T-307 | El registro de la preparación escribe el id canónico; puerta estricta | HECHA (#776) |
+| T-308 | Revertir los commits de robots de la tanda 1 de r2 | HECHA (#777) |
+| T-309 | Endurecer las comparaciones `mismo_territorio` con ids legacy | PENDIENTE (después de la P50) |
+| T-310 | maplibre-gl servido desde el sitio | HECHA (#781) |
+| T-311, T-312 | Id canónico al reutilizar P10 (también en el contrato resuelto copiado) y revert de r3 tanda 1 | HECHA (#786) |
+| T-313 | Migración de notación P (D-102): inventario #784 (borrador) | PENDIENTE (después de la P50) |
+| T-315 | Declarar el fondo de OpenStreetMap en el texto de transparencia del contador (D-104); va en #783 (T-294 parte 2) | LISTA (Coordinador) |
+| T-316 | Fondo de mapa propio servido desde Cloudflare, sin terceros (D-104) | PENDIENTE (después del 29-11) |
+| T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? No: transitorio, solo bloquea «Reutilizar» (lectura de código sobre main actual). Orden: P10 → P00 por territorio seguidos | REVISIÓN (#788); camino crítico |
+| T-318 | Plan del histórico desde 2011 sobre 2023 (D-105): pasos 1-6 de T-306 §5 con coste; el paso A es campaña con ficha | LISTA (Coordinador; tras la P50 de los 71) |
+| T-319 | Paquete de propiedad intelectual regenerado sobre main con `preparar_paquete_pi.py` (D-107), con sha256, para el propietario | LISTA (Coordinador; antes del lunes 16-11) |
+| T-320 | Almacén M06: comprobación en vivo de las 51 claves en R2 y `-WhatIf` del script; el propietario borra (D-108) | PENDIENTE (tras la P50 de los 71: job de solo lectura nuevo, sin tocar workflows durante la congelación) |
+| T-317 | Esta actualización del plan (1.0.45) | REVISIÓN (#787) |
+
+### Frentes y camino crítico (14-11)
+1. Regeneración Deslinde 1.1 (ficha r3, PARADA): #786 fusionada; falta T-314 (#788) en main con CI verde → el Operador reanuda r3 desde el paso 1 (frase ya dada) → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
+2. Ensayo en seco de la noche del 29-11, tras la regeneración.
+3. Tras la P50: T-313, T-309 y #765.
+4. Almacenes M06: #785 y el script de borrado para el propietario.
+5. Analítica (#778, #783) con la guía de Cloudflare; robot revisor (frase en su chat).
+6. Histórico: plan tras #770.
+7. Aparcados hasta cerrar el repositorio: público nuevo, puente, Pages, Zenodo y runner propio (T-273, T-275, T-276, T-282, T-283, T-274B).
+8. Al final: investigación (óptimo en medianos, `redist`) y corte 5.0.0; legislatura nueva tras el 29-11.
+
+Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y T-314 en main con CI verde. Pendiente del propietario: Cloudflare del contador, registro de la propiedad intelectual (lunes 16-11), y crear el repositorio público y el runner cuando se cierre el actual.
+
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266 y T-290. El planificador ha dado T-194 a T-290 (10 a 14-11; T-277 sin usar). Siguiente libre para el planificador: T-291.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290 y T-317. El planificador ha dado T-194 a T-320 (10 a 14-11; T-277 y T-292 sin usar). Siguiente libre para el planificador: T-321.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
