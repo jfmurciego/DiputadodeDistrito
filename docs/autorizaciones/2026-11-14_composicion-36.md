@@ -15,4 +15,7 @@
 |---|---|---|---|---|
 
 Frase propuesta: «Autorizo la campaña 2026-11-14_composicion-36 tal como figura en la ficha.»
-| 17:42 | 1 (aut01 43204696160) | 43617006619 | EN_VUELO | — |
+| 17:42 | 1 (aut01 43204696160) | 43617006619 | FAILURE no transitorio: LOTE_RECHAZADO «sin producto publicable»; el M08 de 43204696160 se borró en la poda T-278 (archivado en R2) y la P50 solo lo busca en los artefactos | INDEX 52 → 52; registro sin cambios |
+
+## Cierre
+Estado: `PARADA` (43617006619). Los 36 runs tienen el M08 solo en R2 (poda T-278); hace falta que la P50 restaure el M08 desde R2 (`orchestracion/archivo_r2.json`) antes de seguir.
