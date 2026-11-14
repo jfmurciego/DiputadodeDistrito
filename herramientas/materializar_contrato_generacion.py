@@ -6,6 +6,11 @@ La puerta contractual se conserva como validación estructural, pero deja de exi
 industrialización manual territorio a territorio. 01 prepara fuentes y este
 materializador completa automáticamente el contrato que 02 necesita.
 
+CAMBIOS 2026-11-14 (g): T-311, el resolved_source_contract que se copia al contrato lleva siempre el id canónico
+  (aut01…nac52, D-61) en territory.territory_id aunque el paquete P10 reutilizado traiga el legacy (andalucia);
+  se recalcula contract_sha256 y el SHA del paquete queda en package_contract_sha256.
+MOTIVO (g): la campaña r3 reutilizó paquetes anteriores a T-307 y escribió ids legacy en aut0N_2025.yaml.
+ANTERIOR (g): legacy/herramientas/materializar_contrato_generacion_pre_id_canonico_20261114.py
 CAMBIOS 2026-11-02 (f): T-20, un contrato ya completo recibe de nuevo los límites de población que la política declara
   para su territorio (techo, tolerancia, atomicidad, perfil de excepción); antes conservaba los de su creación.
 ANTERIOR (f): legacy/herramientas/materializar_contrato_generacion_pre_limites_politica_20261102.py
@@ -49,7 +54,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import IdReservado, IdTerritorioDesconocido, mismo_territorio, carpeta_de, resolver_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 POLICY = Path("configuracion/politica_generacion_territorial_2025.yaml")
 MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
@@ -362,7 +367,36 @@ def resolved_source_contract(package: Path) -> dict[str, Any] | None:
         raise ValueError(
             f"resolved_source_contract SHA-256 inválido: {expected} != {actual}"
         )
-    return contract
+    return canonicalize_contract_territory(contract)
+
+
+def _contract_sha256(contract: dict[str, Any]) -> str:
+    canonical = dict(contract)
+    canonical.pop("contract_sha256", None)
+    return hashlib.sha256(
+        json.dumps(canonical, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+
+
+def canonicalize_contract_territory(contract: dict[str, Any]) -> dict[str, Any]:
+    """T-311: territory.territory_id siempre canónico; un id fuera de la tabla maestra se conserva."""
+    territory = contract.get("territory")
+    if not isinstance(territory, dict):
+        return contract
+    current = str(territory.get("territory_id") or "").strip()
+    if not current:
+        return contract
+    try:
+        canonical_id = resolver_id(current)
+    except (IdTerritorioDesconocido, IdReservado):
+        return contract
+    if canonical_id == current:
+        return contract
+    out = copy.deepcopy(contract)
+    out["territory"]["territory_id"] = canonical_id
+    out.setdefault("package_contract_sha256", str(contract.get("contract_sha256") or ""))
+    out["contract_sha256"] = _contract_sha256(out)
+    return out
 
 
 def source_input_manifest(package: Path) -> list[dict[str, Any]]:

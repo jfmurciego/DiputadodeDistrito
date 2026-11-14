@@ -270,9 +270,20 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         # su manifiesto productor debe declarar como paquete fuente la preparación vigente.
         producer = json.loads(ruta_existente(ROOT, product["producer_manifest_path"]).read_text(encoding="utf-8"))  # T-220
         source = producer["inputs"]["source_package_artifact"]
-        self.assertEqual(state["preparation_evidence"]["run_id"], source["run_id"])
-        self.assertEqual(state["preparation_evidence"]["artifact_sha256"], source["artifact_sha256"])
-        self.assertNotIn("stage", state["preparation_evidence"])
+        # T-312: invariante de linaje, no run fijo. Una preparación posterior que reutiliza el mismo
+        # paquete P10 (otro run, mismo package_sha256 y compatibilidad) conserva el M06 vigente.
+        prep = state["preparation_evidence"]
+        if prep["run_id"] == source["run_id"]:
+            self.assertEqual(prep["artifact_sha256"], source["artifact_sha256"])
+        else:
+            receipts = sorted((ROOT / "territorios" / "aut02" / "evidencia" / "fuentes_territoriales" / "2025")
+                              .glob(f"*/{source['run_id']}/receipt.json"))
+            self.assertEqual(len(receipts), 1, f"sin receipt durable del paquete fuente del M06 ({source['run_id']})")
+            producer_receipt = json.loads(receipts[0].read_text(encoding="utf-8"))
+            self.assertEqual(producer_receipt["artifact_sha256"], source["artifact_sha256"])
+            for key in ("package_sha256", "compatibility_identity_sha256"):
+                self.assertEqual(prep[key], producer_receipt[key], f"linaje roto en {key}")
+        self.assertNotIn("stage", prep)
 
     def test_castilla_y_leon_source_receipt_is_repaired_without_erasing_historical_product(self):
         # Fixture histórica deliberada: la reparación del receipt territorial debe
