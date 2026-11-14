@@ -2248,11 +2248,11 @@
   },
   "congreso_badajoz": {
    "fuente_territorial": {
-    "run_id": "41293199718",
+    "run_id": "43650129661",
     "package_sha256": "5af705a4eab716266cafaadf48800e0cc1ad056d64f3f22d18683bbb24785ff9",
-    "artifact_sha256": "c50556594ac26817c48ec99121976fd46f0149812e5399dae465f996457c4509",
-    "territorial_identity_sha256": "d799e5a446392a54654b45d84a13669e067fb3ea330bbeda46f4ae96590606a1",
-    "receipt_path": "territorios/nac06/evidencia/fuentes_territoriales/2025/d799e5a446392a54654b45d84a13669e067fb3ea330bbeda46f4ae96590606a1/41293199718/receipt.json",
+    "artifact_sha256": "be2e37651f9fbc35bbd5f5697546840f4393557f22c7e52e429388c8b99a6cee",
+    "territorial_identity_sha256": "f5201bb87283d24e1929245689bbbbea163b2c632d6762db160b8ab3f9f87cfc",
+    "receipt_path": "territorios/nac06/evidencia/fuentes_territoriales/2025/f5201bb87283d24e1929245689bbbbea163b2c632d6762db160b8ab3f9f87cfc/43650129661/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
