@@ -77,7 +77,11 @@ def archivar(repo: str, out: Path, *, api: Callable = gh_api, download: Callable
     """Devuelve (objetos archivados, nº de fallos). Un asset cuyos bytes no coinciden con su digest NO se sube."""
     objetos, fallos = {}, 0
     out.mkdir(parents=True, exist_ok=True)
-    for f in inventario(repo, api):
+    filas = inventario(repo, api)
+    if not filas:
+        print("::error::ALMACEN_SIN_ASSETS: ninguna release almacen-m06-* con assets zip (¿token sin contents:read, drafts, paginación?)")
+        fallos += 1
+    for f in filas:
         if not re.fullmatch(r"[0-9a-f]{64}", f["digest"]):
             print(f"::error::{f['asset']}: la release no registra digest SHA-256; no se archiva")
             fallos += 1
@@ -99,6 +103,9 @@ def archivar(repo: str, out: Path, *, api: Callable = gh_api, download: Callable
         objetos[k] = {"release_tag": f["release_tag"], "asset": f["asset"], "artifact_name": f["artifact_name"],
                       "artifact_id": f["artifact_id"], "run_id": f["run_id"], "sha256": f["digest"],
                       "bytes": f["bytes"], "origen": f"release:{repo}/{f['release_tag']}", "archivado_en": ahora()}
+    if not simular and not fallos and len(objetos) != len(filas):
+        print(f"::error::ALMACEN_INCOMPLETO: archivados {len(objetos)} de {len(filas)} assets")
+        fallos += 1
     (out / "ARCHIVO_ALMACEN_M06.json").write_text(
         json.dumps({"schema": SCHEMA, "objetos": objetos}, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
     return objetos, fallos

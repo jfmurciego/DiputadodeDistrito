@@ -11,7 +11,8 @@ copia en la release draft `almacen-m06-<territorio>-<run>` (asset `<nombre>-<id>
 opcionalmente lo descarga y lo extrae. Solo acepta bytes cuyo SHA-256 coincide.
 CAMBIOS: 1.1.0 (T-302): lee PRIMERO de R2 (arc-p/m06/, índice orchestracion/almacen_m06_r2.json, sha256 verificado)
 y, si la entrada no existe, R2 no está configurado o sus bytes no valen, cae a Actions y a la release draft como
-antes. Un objeto de R2 alterado nunca se acepta. 1.0.0: herramienta nueva.
+antes («R2 primero» vale dentro de esta herramienta; la puerta solo la invoca con el artefacto de Actions
+caducado o ausente). Un objeto de R2 alterado nunca se acepta. 1.0.0: herramienta nueva.
 MOTIVO: los artefactos de Actions caducan a los 14–30 días y los M06 certificados dejaban de
 ser reutilizables aunque sus bytes estuvieran conservados en releases.
 ANTERIOR: legacy/herramientas/localizar_artefacto_durable_v1.0.0_20261114.py

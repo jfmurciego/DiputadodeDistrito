@@ -189,13 +189,24 @@ class R2PrimeroTests(unittest.TestCase):
         ajeno = {self.CLAVE: dict(self.INDICE[self.CLAVE], sha256="2" * 64)}
         self.assertEqual("release", self._loc(indice=ajeno)["source"])
 
-    def test_default_index_has_no_legacy_ids(self):
-        import json
+    def test_default_index_is_valid_and_well_formed(self):
         raw = (Path(__file__).resolve().parents[1] / "orchestracion/almacen_m06_r2.json").read_text(encoding="utf-8")
-        self.assertEqual("ddd.almacen-m06-r2/1.0", json.loads(raw)["schema"])
+        idx = json.loads(raw)
+        self.assertEqual("ddd.almacen-m06-r2/1.0", idx["schema"])
+        for k, e in idx["objetos"].items():
+            self.assertTrue(k.startswith("arc-p/m06/"), k)
+            self.assertRegex(e["sha256"], r"^[0-9a-f]{64}$")
+        # los ids viejos de territorio los vigila tests.test_t220_renombrado sobre todo el repositorio
+        self.assertEqual({}, {k: e for k, e in idx["objetos"].items() if not e.get("run_id") or not e.get("artifact_name")})
 
 
 class AlmacenArchivoTests(unittest.TestCase):
+    def test_sin_assets_falla(self):
+        from herramientas.almacen_m06_r2 import archivar
+        with tempfile.TemporaryDirectory() as tmp:
+            objs, fallos = archivar(REPO, Path(tmp), api=lambda p: [], r2_sha=lambda k: None, r2_subir=lambda *a: None)
+        self.assertEqual(({}, 1), (objs, fallos))
+
     def test_archiva_verifica_y_es_idempotente(self):
         from herramientas.almacen_m06_r2 import archivar, indexar, clave
         rel = [_release(), {"tag_name": "viewer-x-1", "assets": [{"id": 9, "name": "a-1.zip", "digest": "sha256:" + "3" * 64}]}]
