@@ -4,8 +4,8 @@
 # FECHA: 2026-11-14
 # CAMBIOS 3.16.0: T-305, si el run ya no tiene en Actions el estado M06/M08 (la poda T-278 lo borró de los runs archivados),
 #   la descarga lo restaura de R2 (`restaurar_estado_r2.py`: paquete ddd-minimo-<run>-M08/M06 de orchestracion/archivo_r2.json, sha256
-#   verificado) antes de caer a la descarga completa; si falta la composición se baja además el M07. Orden: Actions → R2 → error
-#   claro (RESTAURAR_R2_AUSENTE: run, estado y claves buscadas). Credenciales R2 solo en el env del paso de descarga.
+#   verificado). Orden: Actions (selectiva, completa; sin cambios) → R2 solo si ninguna da producto → error claro
+#   (RESTAURAR_R2_AUSENTE: run, estado y claves buscadas); el M07 de la descarga completa aporta la composición. Credenciales R2 solo en el env del paso de descarga.
 # MOTIVO 3.16.0: el lote 1 de composicion-36 (run 43617006619) cayó con LOTE_RECHAZADO «sin producto publicable».
 # ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.15.0_20261114.yml
 # CAMBIOS 3.15.0: T-301, cada M06 canónico que se publica deja su composición sección→distrito versionada: tras describir el run,
@@ -294,21 +294,22 @@ jobs:
           for p in "ddd-audit-$run*" "ddd-audit-electoral-$run*" "ddd-decision-$run*" "ddd-full-run-manifest-$run*" "ddd-state-$run-M06*" "ddd-state-$run-M08*"; do
             pats+=(--pattern "$p")
           done
-          # T-305: orden Actions → R2 → error claro. El estado M08/M06 de los runs archivados pudo podarse de Actions.
-          r2_rc=0
+          # T-305: orden Actions (selectiva → completa, como siempre) → R2 solo si ninguna da producto → error claro.
           if ! gh run download "$run" "${pats[@]}" --dir "$root" || ! lista_completa; then
-            echo "::warning::$run: la descarga selectiva no trae el producto completo; se intenta restaurar el estado desde R2"
-            python herramientas/restaurar_estado_r2.py "$run" "$root" || r2_rc=$?
-            if (( r2_rc == 0 )) && lista_completa; then
-              modo=selectiva+r2; estado_usado=R2
-              completa '*composicion_distritos.csv' || gh run download "$run" --pattern "ddd-state-$run-M07*" --dir "$root" || true
-            else
-              echo "::warning::$run: sin producto en la selección ni en R2 (rc=$r2_rc); descarga completa ddd-*"
-              modo=completa; estado_usado=completo
-              rm -rf "$root"; mkdir -p "$root"
-              gh run download "$run" --pattern 'ddd-*' --dir "$root" || { echo "el run $run no se pudo descargar" > ".ddd-publication/descargas/$run.fallo"; exit 1; }
-              if ! lista_completa; then
-                echo "run $run: sin estado M06/M08 publicable en Actions ni en R2 (RESTAURAR_R2_AUSENTE/rc=$r2_rc; ver ::error de restaurar_estado_r2)" > ".ddd-publication/descargas/$run.fallo"; exit 1
+            echo "::warning::$run: la descarga selectiva falló o no trae estado, decisión, manifiesto, auditoría y producto; descarga completa ddd-*"
+            modo=completa; estado_usado=completo
+            rm -rf "$root"; mkdir -p "$root"
+            gh run download "$run" --pattern 'ddd-*' --dir "$root" || { echo "el run $run no se pudo descargar" > ".ddd-publication/descargas/$run.fallo"; exit 1; }
+            if ! lista_completa; then
+              # La poda T-278 pudo borrar el ddd-state M08/M06 de Actions: se restaura de R2 (sha256 verificado).
+              r2_rc=0
+              python herramientas/restaurar_estado_r2.py "$run" "$root" || r2_rc=$?
+              # Sin producto en ninguno: el ::error de restaurar_estado_r2 ya nombra run, estado y claves; el lote lo rechaza
+              # «Validar descriptores» (comportamiento de siempre ante un run sin producto).
+              if (( r2_rc != 0 )) || ! lista_completa; then
+                echo "::warning::$run: sin estado M06/M08 publicable en Actions ni en R2 (rc=$r2_rc)"
+              else
+                modo=completa+r2; estado_usado=R2
               fi
             fi
           fi
