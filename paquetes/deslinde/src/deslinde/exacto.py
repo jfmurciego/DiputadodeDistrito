@@ -21,7 +21,9 @@ QUÉ HACE:
   Objetivo: la clave D8 de naturalidad_clave por etapas (fuera de tolerancia → exceso sobre el 8 % → partidos y
   comarcas partidos → frontera cortada en mm → desvío máximo); cada óptimo se fija antes de la siguiente. Si una etapa
   no prueba el óptimo dentro de su tope, se para y se devuelve la mejor solución hallada.
-  DETERMINISTA: 1 hilo, random_seed 0 y tope en tiempo DETERMINISTA de CP-SAT (no de reloj): misma entrada, mismo plan.
+  DETERMINISTA: 4 hilos fijos con interleave_search, random_seed 0 y tope en tiempo DETERMINISTA de CP-SAT (no de
+  reloj): misma entrada, mismo plan, con cualquier carga (con 1 hilo, Valladolid no cerraba la etapa 2 y La Rioja
+  tardaba 379 s; así, 69 s y 37 s).
   El plan devuelto se vuelve a comprobar con el núcleo (reglas.evaluar.valido); si no es válido, no hay plan. Quien llama
   lo juzga además con la clave oficial, como a cualquier candidato.
   info: aplicable, motivo, estado (OPTIMO | MEJOR_VALIDO | SIN_SOLUCION | NO_APLICA), etapas [(nombre, estado, valor,
@@ -43,6 +45,7 @@ VERSION = "1.0.0"
 K_MAX = 4
 TOPE_D8 = Fraction(2, 25)  # 8 %, como naturalidad_clave.TOPES["D8"]
 TIEMPO_DETERMINISTA = 60.0  # por etapa, unidades deterministas de CP-SAT
+HILOS = 4  # fijo (no el nº de CPU): con interleave_search, mismo número de hilos ⇒ misma búsqueda
 ETAPAS = ("fuera", "exceso_8", "partidas", "frontera_mm", "desvio")
 
 
@@ -315,7 +318,8 @@ class _Modelo:
                 continue
             self.m.Minimize(t)
             s = self.cp.CpSolver()
-            s.parameters.num_workers = 1
+            s.parameters.num_workers = HILOS
+            s.parameters.interleave_search = True  # multihilo determinista (no depende de la carga ni de la máquina)
             s.parameters.random_seed = 0
             s.parameters.max_deterministic_time = float(tiempo_det)
             est = s.StatusName(s.Solve(self.m))

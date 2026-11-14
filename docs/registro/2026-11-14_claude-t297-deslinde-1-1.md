@@ -8,7 +8,8 @@
     cambian).
   - `modulos/03` 7.6.0: conserva `shared_border_m`.
   - Paquete Deslinde 1.1.0:
-    - `exacto.py` 1.0.0, nuevo: CP-SAT determinista (1 hilo, semilla 0, tiempo determinista) sobre la clave D8 por
+    - `exacto.py` 1.0.0, nuevo: CP-SAT determinista (4 hilos fijos con búsqueda intercalada, semilla 0, tiempo
+      determinista) sobre la clave D8 por
       etapas. Aplica con 2 ≤ K ≤ 4, una circunscripción y sin exenciones.
     - `competicion.py` 1.5.0: candidato «exacto» con D8; si no prueba el óptimo, su mejor plan válido; si no hay
       ninguno, no compite. Entra en `huella_resultado`.
