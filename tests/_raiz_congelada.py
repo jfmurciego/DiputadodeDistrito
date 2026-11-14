@@ -96,10 +96,31 @@ def _mirror(src: Path, dst: Path, files: dict[str, str], root: Path, rel_src: st
         # una carpeta renombrada sin ficheros de aee8215e no existía entonces: no aparece
 
 
+# T-297 (Deslinde 1.1): la evidencia pre-M04 de aee8215e se acreditó con M02 7.3.3 y M03 7.5.0; desde M02 7.4.0 /
+# M03 7.6.0 (shared_border_m) su binding ya no casa con el código vivo. La raíz congelada monta esas dos versiones
+# archivadas (como herramientas/verificar_evidencia_n08_readonly con las suyas), salvo con codigo_vivo=True.
+MODULOS_DE_LA_EPOCA = {"02_construir_adyacencias.py": "legacy/modulo02/02_construir_adyacencias_v7.3.3.py",
+                       "03_construir_grafo.py": "legacy/modulo03/03_construir_grafo_v7.5.0.py"}
+
+
+def _modulos_de_la_epoca(tmp: Path) -> None:
+    destino = tmp / "modulos"
+    if destino.is_symlink():
+        destino.unlink()
+    destino.mkdir(exist_ok=True)
+    for item in sorted((ROOT / "modulos").iterdir()):
+        if (destino / item.name).exists() or (destino / item.name).is_symlink():
+            continue
+        archivado = MODULOS_DE_LA_EPOCA.get(item.name)
+        (destino / item.name).symlink_to(ROOT / archivado if archivado else item, target_is_directory=item.is_dir())
+
+
 @lru_cache(maxsize=None)
-def frozen_root() -> Path:
+def frozen_root(codigo_vivo: bool = False) -> Path:
     files = json.loads((FIXTURE / "MANIFEST.json").read_text(encoding="utf-8"))["files"]
     tmp = Path(tempfile.mkdtemp(prefix="ddd-raiz-congelada-"))
     atexit.register(shutil.rmtree, tmp, True)
     _mirror(ROOT, tmp, files, tmp)
+    if not codigo_vivo:
+        _modulos_de_la_epoca(tmp)
     return tmp

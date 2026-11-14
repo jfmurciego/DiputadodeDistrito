@@ -122,6 +122,9 @@ class CaceresN08PreflightTests(unittest.TestCase):
             # nueva implementación se presente como parte de aquella evidencia.
             'modulos/02_construir_adyacencias.py':
                 'legacy/modulo02/02_construir_adyacencias_v7.3.2.py',
+            # T-297: Deslinde 1.1 lleva M03 a 7.6.0; el expediente acredita el 7.5.0 archivado.
+            'modulos/03_construir_grafo.py':
+                'legacy/modulo03/03_construir_grafo_v7.5.0.py',
             'ddd_core/congreso_contract.py':
                 'legacy/n08_caceres_20261012/congreso_contract_v1_1.py',
             'territorios/congreso/contrato_congreso_2026.json':
