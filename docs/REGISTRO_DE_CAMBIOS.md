@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.379
+Versión: 1.0.380
 Fecha: 2026-11-14
-Alcance: T-281 — Paquete de propiedad intelectual de Deslinde (instantánea reproducible)
+Alcance: T-271 — artefactos de diagnóstico de CI desacoplados de la cuota
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_claude-t281-paquete-pi.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.378_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t271-artefactos-ci-cuota.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.379_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.378_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.380 · [2026-11-14 — T-271 — artefactos de diagnóstico de CI desacoplados de la cuota](registro/2026-11-14_t271-artefactos-ci-cuota.md)
 - 1.0.379 · [2026-11-14 — T-281 — Paquete de propiedad intelectual de Deslinde (instantánea reproducible)](registro/2026-11-14_claude-t281-paquete-pi.md)
 - 1.0.378 · [2026-11-14 — T-290 — Plan 1.0.44: repositorio privado, publicación pública y plan por fases](registro/2026-11-14_claude-t290-plan-repo-privado.md)
 - 1.0.377 · [2026-11-12 — T-116 — Preparar la V2 como portada conservando el visor técnico](registro/2026-11-12_feat-portada-v2-dominio-es-20261112.md)
