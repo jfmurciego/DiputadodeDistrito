@@ -622,6 +622,7 @@ territories:
         prepared_source_pair: territorios/aut16/evidencia/pares_fuentes/2025/76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac.json
         territorial_product: territorios/aut16/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut16/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/aut16/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut17
   name: La Rioja
