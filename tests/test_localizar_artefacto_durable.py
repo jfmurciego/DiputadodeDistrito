@@ -217,9 +217,19 @@ class AlmacenVeredictoTests(unittest.TestCase):
         ajeno = {clave(f["asset"], f["digest"]): {"sha256": "5" * 64} for f in filas}
         self.assertEqual("CONSERVAR", veredicto(filas, ajeno)[rel[0]["tag_name"]]["estado"])
 
+    def test_asset_ajeno_hace_conservar_la_release(self):
+        from herramientas.almacen_m06_r2 import veredicto, clave, inventario
+        rel = [dict(_release(), assets=[
+            {"id": 1, "name": f"{NAME}-1.zip", "digest": f"sha256:{SHA}", "size": 5},
+            {"id": 2, "name": "notas.txt", "digest": "sha256:" + "6" * 64, "size": 1}])]
+        filas = inventario(REPO, lambda p: rel)
+        self.assertEqual({f"{NAME}-1.zip": True, "notas.txt": False}, {f["asset"]: f["archivable"] for f in filas})
+        idx = {clave(f["asset"], f["digest"]): {"sha256": f["digest"]} for f in filas if f["archivable"]}
+        self.assertEqual("CONSERVAR", veredicto(filas, idx)[rel[0]["tag_name"]]["estado"])
+
     def test_script_powershell_tiene_las_guardas(self):
         ps = (Path(__file__).resolve().parents[1] / "herramientas/borrar_almacen_m06.ps1").read_text(encoding="utf-8")
-        for pieza in ("SupportsShouldProcess", "Escribe BORRAR", "-like 'almacen-m06-*'", "CONSERVAR", "-X DELETE"):
+        for pieza in ("SupportsShouldProcess", "Escribe BORRAR", "-like 'almacen-m06-*'", "CONSERVAR", "-X DELETE", "$LASTEXITCODE -ne 0", "ANTERIOR: ninguna"):
             self.assertIn(pieza, ps)
         self.assertNotIn("viewer-", ps.replace("No toca viewer-*", ""))
 

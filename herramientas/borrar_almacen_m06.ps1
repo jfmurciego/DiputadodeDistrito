@@ -1,5 +1,5 @@
 <#
-PROYECTO: Diputado de Distrito · T-302 · VERSIÓN 1.0.0 · 2026-11-14
+PROYECTO: Diputado de Distrito · T-302 · VERSIÓN 1.0.0 · 2026-11-14 · ANTERIOR: ninguna (fichero nuevo)
 Borra SOLO las releases almacen-m06-* cuyos assets están TODOS en el índice de R2 (orchestracion/almacen_m06_r2.json) con la clave
 arc-p/m06/<asset>_<sha12>.<ext> y el mismo sha256 que registra la release. Las demás se CONSERVAN (se avisa). No toca viewer-* ni otras releases.
 Uso (desde la raíz del repositorio, con `gh auth login` hecho y el índice ya fusionado en main):
@@ -17,8 +17,9 @@ $objetos = (Get-Content $Indice -Raw | ConvertFrom-Json).objetos
 $claves = @{}
 if ($objetos) { foreach ($p in $objetos.PSObject.Properties) { $claves[$p.Name] = "$($p.Value.sha256)".ToLower() } }
 
-$releases = gh api --paginate "repos/$Repo/releases?per_page=100" | ConvertFrom-Json |
-    Where-Object { $_.tag_name -like 'almacen-m06-*' }
+$crudo = gh api --paginate "repos/$Repo/releases?per_page=100"
+if ($LASTEXITCODE -ne 0) { throw "gh api falló al listar las releases (código $LASTEXITCODE): no se borra nada." }
+$releases = $crudo | ConvertFrom-Json | Where-Object { $_.tag_name -like 'almacen-m06-*' }
 if (-not $releases) { Write-Warning 'No hay releases almacen-m06-*.'; return }
 
 $borrar = @()
@@ -46,6 +47,7 @@ if (-not $WhatIfPreference) {
 foreach ($r in $borrar) {
     if ($PSCmdlet.ShouldProcess($r.tag_name, 'Borrar release')) {
         gh api -X DELETE "repos/$Repo/releases/$($r.id)"
+        if ($LASTEXITCODE -ne 0) { throw "No se pudo borrar $($r.tag_name) (código $LASTEXITCODE); se detiene." }
         Write-Host "Borrada $($r.tag_name)"
     }
 }

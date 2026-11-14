@@ -65,13 +65,15 @@ def inventario(repo: str, api: Callable = gh_api) -> list[dict]:
         for a in rel.get("assets") or []:
             nombre = str(a.get("name") or "")
             m = _ASSET.match(nombre)
-            if not m and not re.fullmatch(r"MANIFIESTO-.+\.tsv", nombre):
-                continue  # los MANIFIESTO-*.tsv (≈1 KB) también se archivan: son el índice de cada release
-            m = m or {"nombre": nombre.removesuffix(".tsv"), "id": "0"}
-            run = (_RUN.search(m["nombre"]) or [None, run_release])[1]
-            filas.append({"release_tag": tag, "asset_id": a["id"], "asset": a["name"], "artifact_name": m["nombre"],
-                          "artifact_id": int(m["id"]) or None, "run_id": run,
-                          "digest": str(a.get("digest") or "").removeprefix("sha256:").lower(), "bytes": a.get("size")})
+            es_tsv = bool(re.fullmatch(r"MANIFIESTO-.+\.tsv", nombre))
+            m = m or ({"nombre": nombre.removesuffix(".tsv"), "id": "0"} if es_tsv else None)
+            run = (_RUN.search(m["nombre"] if m else nombre) or [None, run_release])[1]
+            # los assets que no son <artefacto>-<id>.zip ni MANIFIESTO-*.tsv no se archivan: constan como no archivables
+            # y la release que los lleva es CONSERVAR (igual que exige el .ps1)
+            filas.append({"release_tag": tag, "asset_id": a["id"], "asset": nombre, "archivable": m is not None,
+                          "artifact_name": m["nombre"] if m else nombre, "artifact_id": (int(m["id"]) or None) if m else None,
+                          "run_id": run, "digest": str(a.get("digest") or "").removeprefix("sha256:").lower(),
+                          "bytes": a.get("size")})
     return sorted(filas, key=lambda f: (f["release_tag"], f["asset"]))
 
 
@@ -81,7 +83,11 @@ def archivar(repo: str, out: Path, *, api: Callable = gh_api, download: Callable
     """Devuelve (objetos archivados, nº de fallos). Un asset cuyos bytes no coinciden con su digest NO se sube."""
     objetos, fallos = {}, 0
     out.mkdir(parents=True, exist_ok=True)
-    filas = inventario(repo, api)
+    todas = inventario(repo, api)
+    for f in todas:
+        if not f["archivable"]:
+            print(f"::warning::{f['release_tag']}/{f['asset']}: asset no archivable; su release queda en CONSERVAR")
+    filas = [f for f in todas if f["archivable"]]
     if not filas:
         print("::error::ALMACEN_SIN_ASSETS: ninguna release almacen-m06-* con assets zip (¿token sin contents:read, drafts, paginación?)")
         fallos += 1
@@ -120,7 +126,7 @@ def veredicto(filas: list[dict], indice: dict) -> dict[str, dict]:
     res: dict[str, dict] = {}
     for f in filas:
         r = res.setdefault(f["release_tag"], {"assets": [], "estado": "BORRAR", "motivo": ""})
-        k = clave(f["asset"], f["digest"]) if f["digest"] else None
+        k = clave(f["asset"], f["digest"]) if f["digest"] and f["archivable"] else None
         e = indice.get(k) if k else None
         ok = bool(e) and str(e.get("sha256")).lower() == f["digest"]
         r["assets"].append({"asset": f["asset"], "bytes": f["bytes"], "sha256": f["digest"], "clave_r2": k, "en_r2": ok})
