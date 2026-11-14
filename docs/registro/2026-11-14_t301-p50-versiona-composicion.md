@@ -11,6 +11,6 @@
   Copias previas en `legacy/`.
 - Efectos: toda publicación futura deja su vigente versionado. Los 36 actuales se rellenan republicando los mismos runs en
   una P50 por lotes (la lanza el Operador). La huella motor2 cambia al entrar los CSV (esperado).
-- Riesgos: los runs publicados solo conservan `ddd-state-<run>-M07` (~100 MB, ninguno caducado): la P50 prueba M06 y luego M07 (línea `DESCARGA … estado=`); si el CSV no está, el lote se rechaza nombrando el territorio. Lotes de ≤12 runs por disco.
+- Riesgos: los runs publicados solo conservan `ddd-state-<run>-M07` (~100 MB, ninguno caducado): sin M06 la P50 baja el run completo (pesa lo mismo, línea `DESCARGA … estado=`); si el CSV no está, el lote se rechaza nombrando el territorio. Lotes de ≤12 runs por disco.
 - Pruebas: `tests/test_t301_composicion_p50.py` (escribe y no pierde territorio, escenarios ignorados, id viejo reutilizado,
   orden de pasos del workflow). `test_recuperar_composicion_ine` y otros fallan en local sin pyproj, también en main.

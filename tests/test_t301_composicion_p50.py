@@ -108,11 +108,11 @@ class FlujoP50(unittest.TestCase):
         self.assertIn('git add -A -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos datos/composicion', WORKFLOW)
         self.assertNotIn("set +e", WORKFLOW)
 
-    def test_descarga_prefiere_estado_m06_luego_m07_y_registra_cual(self):
-        self.assertIn("for estado in M06 M07; do", WORKFLOW)
-        self.assertIn('"ddd-state-$run-$estado*"', WORKFLOW)
+    def test_descarga_selectiva_m06_con_respaldo_completo_y_registra_cual(self):
+        self.assertIn('"ddd-state-$run-M06*"', WORKFLOW)
+        self.assertNotIn("for estado in", WORKFLOW)
         self.assertIn("estado=$estado_usado", WORKFLOW)
-        self.assertLess(WORKFLOW.index("for estado in M06 M07"), WORKFLOW.index("--pattern 'ddd-*'"))
+        self.assertLess(WORKFLOW.index('"ddd-state-$run-M06*"'), WORKFLOW.index("--pattern 'ddd-*'"))
 
     def test_fallo_sin_composicion_es_codigo_44_con_el_territorio(self):
         d = Path(tempfile.mkdtemp())
