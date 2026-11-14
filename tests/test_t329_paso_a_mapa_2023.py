@@ -28,11 +28,12 @@ try:
 except ImportError:  # pragma: no cover
     hc = None
 
-CLAVE, TERR = "201111", "congreso_alava"
+CLAVE, TERR = "201111", "nac01"  # Álava (T-220: id nuevo; el viejo solo vía id_legacy)
 
 
 def composicion():
-    with open(ROOT / "datos/composicion/congreso_alava.csv", encoding="utf-8", newline="") as f:
+    from ddd_core.territorio_ids import fichero_por_id
+    with open(fichero_por_id(ROOT / "datos/composicion", "{}.csv", TERR), encoding="utf-8", newline="") as f:
         return {r["seccion"]: (r["distrito"], int(r["poblacion"])) for r in csv.DictReader(f)}
 
 
