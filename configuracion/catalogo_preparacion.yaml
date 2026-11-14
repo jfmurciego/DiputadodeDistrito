@@ -1035,25 +1035,24 @@ territories:
         run_id: 42953127263
         stage: M08
       preparation_evidence:
-        run_id: 42409499602
-        artifact_name: ddd-source-package-congreso_barcelona-2025-42409499602
-        artifact_sha256: 37cc86abd67e4a2552cc48ad8149f645f1d46d7904aade8301d7957b2adcd270
+        run_id: 43650150584
+        artifact_name: ddd-source-package-nac08-2025-43650150584
+        artifact_sha256: 87882fda3c86603741013f06d458432b28f2d739740ca2380b3a43f4d6fff24c
         package_sha256: 968f68fd67d6b74ba5b1fb9c5eb76031f5a0deb3cadb38a2d672461db40177e7
-        receipt_path: territorios/nac08/evidencia/fuentes_territoriales/2025/07dec029d20b7b9394a7d5a78965b5d176288ae2d13537b4792a426a97b0f95a/42409499602/receipt.json
-        territorial_identity_sha256: 07dec029d20b7b9394a7d5a78965b5d176288ae2d13537b4792a426a97b0f95a
+        receipt_path: territorios/nac08/evidencia/fuentes_territoriales/2025/b1f93af9346ad61e9401a916ea5b981b0cb0809cf0287171490f44f0d12aa475/43650150584/receipt.json
+        territorial_identity_sha256: b1f93af9346ad61e9401a916ea5b981b0cb0809cf0287171490f44f0d12aa475
         compatibility_report_sha256: f293a77e6ef419afc24b681cb83455fe79f2765a108d47c921ae79f412c39282
         compatibility_identity_sha256: 3e7296f1f5b839ac9b4f7998e854ff6d2b3940740ff98cd2efed0a5265e62261
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 58805c689a759960187600c183a65c8f110c0fe5
+        source_commit: 19650207a874184dc5940b6d353c88c4cb50f03f
       evidence:
         electoral_source: territorios/nac08/evidencia/fuentes_electorales/2025/e8203257f78dee511e0b5e1592611d712f6ae45c76c443a84a164e3983b652af/42489980111/receipt.json
         prepared_source_pair: territorios/nac08/evidencia/pares_fuentes/2025/b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a.json
-        generation_preflight: territorios/nac08/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac08/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/nac08/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac09
   name: Congreso Burgos
   editions:
