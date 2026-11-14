@@ -4,7 +4,7 @@ Versión: 1.0.46
 Fecha: 2026-11-14
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-110 (T-270 cerrada sin terminar); D-105 y D-109 matizan decisiones previas; orden de la cola (revisión de #787)
+Cambios/motivo: D-110, D-111 (#765 antes de la P50) (T-270 cerrada sin terminar); D-105 y D-109 matizan decisiones previas; orden de la cola (revisión de #787)
 Anterior: legacy/docs/PLAN_v1.0.45_20261114.md
 -->
 
@@ -259,6 +259,7 @@ Fase 4 — producto (en el privado):
 - D-108 (14-11, propietario). Las 6 releases `almacen-m06-*` se borran, tras comprobar en vivo las 51 claves en R2 y una pasada `-WhatIf` limpia; el script lo ejecuta el propietario.
 - D-109 (14-11, propietario). Repositorio privado, público nuevo y runner propio: aparcados hasta después del 29-11. Matiza D-91, D-93 y D-96: el paso a privado y el runner propio no empiezan antes del 30-11.
 - D-110 (14-11, propietario). T-270 se cierra sin terminar: medía Deslinde antes de 1.1 y T-296/T-297 responden buena parte. La rama `t270-medicion-deslinde-optimizado` queda como referencia; función A frente a D8 y el exhaustivo en medianos pasan a la investigación del final, con Deslinde 1.1.
+- D-111 (14-11, propietario). Excepción acotada a la congelación: #765 (T-300, la P50 copia el catálogo de procedencia al sitio) se fusiona cuando terminen las P00 de los 71 y antes del primer lote de P50, con revisión independiente; los 71 salen con su ficha de procedencia.
 
 ### Cola T-291 a T-321 (14-11)
 | Id | Qué | Estado |
@@ -272,7 +273,7 @@ Fase 4 — producto (en el privado):
 | T-297 | Deslinde 1.1 (D-98) | HECHA (#761) |
 | T-298 | La batería sin INE: fuentes nacionales en R2 (ARC-E) | HECHA |
 | T-299 | ZIP de Infoelectoral en R2 (ARC-E) e inventario de releases | HECHA (#757) |
-| T-300 | Ficha de procedencia en el visor V3; la copia del catálogo en la P50 | HECHA la ficha; #765 RETENIDA (toca la P50; tras la campaña) |
+| T-300 | Ficha de procedencia en el visor V3; la copia del catálogo en la P50 | HECHA la ficha; #765 RETENIDA hasta el fin de las P00 de los 71 y antes de la primera P50 (D-111) |
 | T-301 | La P50 versiona la composición vigente de cada M06 | HECHA (#758) |
 | T-302 | Almacen-m06-* a R2, permisos, lista BORRAR/CONSERVAR y script; índice (T-302d) | REVISIÓN (#785); luego script de borrado del propietario |
 | T-303, T-304 | La batería parte del paquete P10 y su seguimiento | HECHA (#756 #759) |
@@ -296,7 +297,7 @@ Fase 4 — producto (en el privado):
 ### Frentes y camino crítico (14-11)
 1. Regeneración Deslinde 1.1 (ficha r3, PARADA): #786 fusionada; falta T-314 (#788) en main con CI verde → el Operador reanuda r3 desde el paso 1 (frase ya dada) → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
 2. Ensayo en seco de la noche del 29-11, tras la regeneración.
-3. Tras la P50: T-313, T-309 y #765.
+3. Entre las P00 y la primera P50: fusionar #765 con revisión (D-111). Tras la P50: T-313 y T-309.
 4. Almacenes M06: #785 y el script de borrado para el propietario.
 5. Analítica (#778, #783) con la guía de Cloudflare; robot revisor (frase en su chat).
 6. Histórico: plan tras #770.
