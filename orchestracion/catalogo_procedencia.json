@@ -9487,11 +9487,11 @@
   },
   "region_de_murcia": {
    "fuente_territorial": {
-    "run_id": "40773421805",
+    "run_id": "43645469554",
     "package_sha256": "3cfc6aafeeb09273ca63b59f916ad2aaace11274e0304fd7e6183cda9957c58b",
-    "artifact_sha256": "c372f56285f705141729d9a63dedf5c0d2b94c1dcd3e7485c2d77932d1497ef5",
-    "territorial_identity_sha256": "3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a",
-    "receipt_path": "territorios/aut14/evidencia/fuentes_territoriales/2025/3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a/40773421805/receipt.json",
+    "artifact_sha256": "b4981f10d349b2c0c30ab4c4b17a7ae1e32893df526fdfbc777d5785388ea435",
+    "territorial_identity_sha256": "978680ebfa479e02db3be6101e0f1fb25fc958911b93b9ad8b07a53d88c6b708",
+    "receipt_path": "territorios/aut14/evidencia/fuentes_territoriales/2025/978680ebfa479e02db3be6101e0f1fb25fc958911b93b9ad8b07a53d88c6b708/43645469554/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
