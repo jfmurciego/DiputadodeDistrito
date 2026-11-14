@@ -1,6 +1,7 @@
-## 2026-11-14 — T-324 — Plan 1.0.47: P10 desde R2 (D-112) y tests de estado vivo (T-322)
+## 2026-11-14 — T-322 — Plan 1.0.47: galería fotográfica del visor V3 en la cola
 
-- Causa: decisión del propietario sobre la descarga del INE en cada P10, y el rojo de main por un test de estado vivo durante la campaña r3.
-- Cambio: `docs/PLAN.md` 1.0.47: D-112 (P10 lee de R2 y avisa si el INE cambia; tras la P50), T-322, T-323; siguiente id T-325.
-  Copia en `legacy/docs/PLAN_v1.0.46_20261114.md`.
+- Causa: el propietario pide añadir la PR #792 (galería del visor V3, hecha con ChatGPT) a la cola, con revisión y prioridad del Planificador.
+- Cambio: `docs/PLAN.md` 1.0.47 añade T-322 con los defectos encontrados (CI en rojo, XSS por `innerHTML`, llamadas a
+  Wikimedia en cada visita frente al texto de transparencia, licencia sin comprobar, sin versión ni legacy, tests por regex) y el criterio de hecho;
+  prioridad P3, después del 29-11. T-321 hecha (#789). Siguiente id T-323. Copia en `legacy/docs/PLAN_v1.0.46_20261114.md`.
 - Efectos: solo documentación.
