@@ -13,9 +13,9 @@ CAMBIOS: 7.4.0 (T-297, Deslinde 1.1) — cada arista geométrica lleva `shared_b
   la intersección de los contornos en el CRS métrico de trabajo, la misma que ya decidía la adyacencia
   (`min_shared_border_m`); las pasarelas no la llevan. Qué aristas salen no cambia. Antes la clave D8 leía 0 en todas.
   7.3.3 — conserva todos los hits del índice espacial y los recorre en orden estable; max_candidates ya no elimina candidatos geométricos válidos.
-MOTIVO 7.4.0: la frontera cortada de D8 (DESLINDE_1_0.md) y el recargo de frontera corta del ponderado necesitan la
+MOTIVO: 7.4.0 — la frontera cortada de D8 (DESLINDE_1_0.md) y el recargo de frontera corta del ponderado necesitan la
   longitud por arista; M02 la calculaba y la descartaba (T-296).
-MOTIVO 7.3.3: el truncamiento por distancia entre centroides omitía fronteras reales fuera de los N candidatos más cercanos.
+  7.3.3 — el truncamiento por distancia entre centroides omitía fronteras reales fuera de los N candidatos más cercanos.
 ANTERIOR: legacy/modulo02/02_construir_adyacencias_v7.3.3.py
 """
 from __future__ import annotations

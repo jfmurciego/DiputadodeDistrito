@@ -108,6 +108,22 @@ class RecuentoBateria(unittest.TestCase):
         self.assertEqual((c["cadenas"], c["exacto"], c["candidatos"]), (1, True, 3))
 
 
+class InstalacionOrtools(unittest.TestCase):
+    def test_el_grep_de_los_workflows_y_el_dockerfile_da_los_cinco_pines(self):
+        """El bloque añadido en bateria-motor.yml, _reutilizable-generacion-territorial.yml y Dockerfile, bajo
+        `bash -eo pipefail` (como `shell: bash` en Actions): rc 0 y exactamente los cinco pines."""
+        import subprocess
+        orden = ("grep -iE '^(ortools|absl-py|immutabledict|protobuf|typing_extensions)==' "
+                 "paquetes/deslinde/requirements-deslinde.lock")
+        r = subprocess.run(["bash", "-eo", "pipefail", "-c", orden], cwd=ROOT, capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(sorted(x.split("==")[0].lower() for x in r.stdout.split()),
+                         ["absl-py", "immutabledict", "ortools", "protobuf", "typing_extensions"])
+        for f in (".github/workflows/bateria-motor.yml", ".github/workflows/_reutilizable-generacion-territorial.yml",
+                  "Dockerfile"):
+            self.assertIn("(ortools|absl-py|immutabledict|protobuf|typing_extensions)==", (ROOT / f).read_text())
+
+
 @unittest.skipUnless(TIENE_GEO, "sin shapely/geopandas")
 class FronteraM02M03(unittest.TestCase):
     def test_m02_escribe_y_m03_conserva_shared_border_m(self):

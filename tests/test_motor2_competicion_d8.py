@@ -165,7 +165,7 @@ class VigenteCompite(unittest.TestCase):
         r = self.competir(plan_corte(3))  # corta por la frontera corta: mejor en D8 que el canónico
         self.assertEqual(r.ganador.id, "vigente")
         self.assertTrue(r.vigente["compite"])
-        self.assertEqual([c.orden for c in sorted(r.candidatos, key=lambda c: c.orden)], [0, 1, 2])
+        self.assertEqual([c.orden for c in sorted(r.candidatos, key=lambda c: c.orden)], [0, 1, 2, 3])  # T-297: + exacto (D8, K = 2)
         self.assertIn("vigente", r.a_dict())
 
     def test_vigente_invalido_no_compite(self):

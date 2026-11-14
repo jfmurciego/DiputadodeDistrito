@@ -9,7 +9,7 @@ FECHA: 2026-11-14
 ESTADO: candidato (motor 2; producción no lo importa)
 CAMBIOS: 1.5.0 — (T-297, Deslinde 1.1, H1) candidato «exacto» con D8: tras juzgar los demás, exacto.resolver
   (CP-SAT determinista, K ≤ 4) busca el óptimo D8 sobre las unidades del canónico con la pista del mejor candidato; si
-  aporta un plan válido, compite como uno más (si no prueba el óptimo, su mejor solución válida; si no, nada). La
+  aporta un plan válido, compite como uno más (si no prueba el óptimo, su mejor solución válida; si no, nada). Si aplica, la
   decisión (estado y etapas) entra en huella_resultado y en COMPETICION.json («exacto»). Con A, C y D5, nada cambia.
   1.4.3 — (T-259, D-66) competir_publico valida antes validation.max_mixed_districts_exceptions
   (excepcion_d66.py): si el contrato declara alguna, ErrorContrato y no se ejecuta (el núcleo aún no la aplica: T-269).
@@ -201,7 +201,7 @@ class Resultado:
                                 for c in sorted(self.candidatos, key=lambda c: c.orden)]}
         if self.funcion != "A":
             forma["funcion"] = self.funcion
-        if self.exacto:  # T-297: solo con D8; sin él (A, C, D5) la huella no cambia
+        if self.exacto.get("aplicable"):  # T-297: solo si aplica (D8, K ≤ 4…); si no, la huella no cambia
             forma["exacto"] = [self.exacto.get(k) for k in ("version", "estado", "etapas", "ortools")]
         sp = self.semilla_publica or {}
         if sp.get("codigo"):  # T-265: la semilla y su derivación (código oficial y tabla maestra) entran en la huella

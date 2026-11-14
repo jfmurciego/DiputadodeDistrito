@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 """T-194 · criterio escrito y automatizado de «el motor nuevo puede relevar» (docs/ARQUITECTURA/ACEPTACION_MOTOR2.md).
 
-VERSIÓN: 1.0.1
+VERSIÓN: 1.1.0
+CAMBIOS 1.1.0 (T-297): HUELLAS_FIJAS (D8) regeneradas: el candidato exacto (CP-SAT) compite en los tres (K ≤ 4); necesita ortools
+  (imagen de CI, Dockerfile 1.3.0); con A no cambian.
 CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/tests/test_motor2_aceptacion_v1.0.0_20261112.py
+ANTERIOR: legacy/tests/test_motor2_aceptacion_v1.0.1_20261114.py
 (a) huella bit a bit fija en Soria, Álava y Melilla (semilla pública D-50, N fijo); (b) todo ganador pasa el
 certificador (núcleo único, R-NUCLEO y atomicidad M04); (c) nunca peor que el canónico en los 71, leído del informe de
 la batería ya generado (no recalcula); (d) casos adversos: el certificador rechaza; (e) mismo mapa con id viejo y nuevo
@@ -41,10 +43,10 @@ FUNCION = "D8"         # función de calidad de la competición (T-205: D8 por d
 TERRITORIOS = {"soria": (4, 2), "alava": (6, 3), "aut19": (8, 2)}  # nombre: (unidades, K); 100 habitantes cada una
 ID_TABLA = {"soria": "nac42", "alava": "nac01", "aut19": "aut19"}  # T-265: id de la tabla maestra (semilla)
 CERRADAS = {"soria": ("U0", "U1")}  # núcleo cerrado de referencia (R-NUCLEO) en el plan canónico
-HUELLAS_FIJAS = {  # T-265 (D-90): regeneradas con la semilla del código oficial. huella_resultado de la competición: reglas, semillas, planes y composiciones de todos los candidatos
-    "soria": "6ed61e24880aa8ec1f709f5001379e2f92ff0f08f76012184ee4a254df332ba8",
-    "alava": "616f212889f202855eca0a58ba9dc93ed89fe090920e61e0ac44aeea73b8361a",
-    "aut19": "1dfa8476c5d724556762ae3e40a6688a95abebb0ab7ec7df1e5556d21543f89f",
+HUELLAS_FIJAS = {  # T-297 (Deslinde 1.1): regeneradas con el candidato exacto (D8, K ≤ 4: los tres aplican); antes, T-265 (D-90) con la semilla del código oficial. huella_resultado de la competición: reglas, semillas, planes y composiciones de todos los candidatos
+    "soria": "728188e552e6a5d9125d421734d91338088dcf133b0bb56abfd9b3aaf2a8d682",
+    "alava": "d92ce9b233c2d69b6c40abef54ff771abe03ec0d2a62d3e740a5312c10ecd767",
+    "aut19": "fbb2559accb507acc03ceb8354222a45b4974d7eaa82b87a8b4e2348baa359df",
 }
 HUELLAS_FIJAS_A = {  # las de la función A (antes de T-205; regeneradas en T-265 por la semilla): la competición con --funcion A no cambia
     "soria": "115e61c5c35fd619121a9217087703e242c413859ac29dbab340b91758535cb6",
