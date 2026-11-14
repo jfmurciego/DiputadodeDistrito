@@ -3,15 +3,20 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 02 — Construir adyacencias
-VERSIÓN: 7.3.3
-NOMBRE DE VERSIÓN: Enumeración completa de candidatos topológicos
-FECHA: 2026-10-14
+VERSIÓN: 7.4.0
+NOMBRE DE VERSIÓN: Aristas con longitud de frontera compartida
+FECHA: 2026-11-14
 ESTADO: candidato
 QUÉ HACE: calcula adyacencias geométricas con umbral métrico explícito y aplica, opcionalmente, pasarelas topológicas declarativas auditables.
 POR QUÉ ES SEPARADO: M02 define la relación territorial elemental; M03 solo audita el grafo resultante y los módulos posteriores no deben compensar una adyacencia mal construida.
-CAMBIOS: conserva todos los hits del índice espacial y los recorre en orden estable; max_candidates ya no elimina candidatos geométricos válidos.
-MOTIVO: el truncamiento por distancia entre centroides omitía fronteras reales fuera de los N candidatos más cercanos.
-ANTERIOR: legacy/modulo02/02_construir_adyacencias_v7.3.2.py
+CAMBIOS: 7.4.0 (T-297, Deslinde 1.1) — cada arista geométrica lleva `shared_border_m`: la longitud (m, 3 decimales) de
+  la intersección de los contornos en el CRS métrico de trabajo, la misma que ya decidía la adyacencia
+  (`min_shared_border_m`); las pasarelas no la llevan. Qué aristas salen no cambia. Antes la clave D8 leía 0 en todas.
+  7.3.3 — conserva todos los hits del índice espacial y los recorre en orden estable; max_candidates ya no elimina candidatos geométricos válidos.
+MOTIVO 7.4.0: la frontera cortada de D8 (DESLINDE_1_0.md) y el recargo de frontera corta del ponderado necesitan la
+  longitud por arista; M02 la calculaba y la descartaba (T-296).
+MOTIVO 7.3.3: el truncamiento por distancia entre centroides omitía fronteras reales fuera de los N candidatos más cercanos.
+ANTERIOR: legacy/modulo02/02_construir_adyacencias_v7.3.3.py
 """
 from __future__ import annotations
 
@@ -58,27 +63,28 @@ def load_geojson_any(path_str):
     return _gpd_read_file(str(p))
 
 
-def _relation_ok(gi, gj, predicate, min_shared_border_m, max_precision_overlap_area_m2):
-    if predicate == "touches":
-        if not gi.touches(gj):
-            return False
-        return gi.boundary.intersection(gj.boundary).length >= min_shared_border_m
-
-    if predicate == "intersects":
-        if not gi.intersects(gj):
-            return False
-        return gi.boundary.intersection(gj.boundary).length >= min_shared_border_m
+def _shared_if_ok(gi, gj, predicate, min_shared_border_m, max_precision_overlap_area_m2):
+    """Longitud de frontera compartida (m) si el par es adyacente según el predicado; None si no lo es."""
+    if predicate in ("touches", "intersects"):
+        if not (gi.touches(gj) if predicate == "touches" else gi.intersects(gj)):
+            return None
+        shared = float(gi.boundary.intersection(gj.boundary).length)
+        return shared if shared >= min_shared_border_m else None
 
     if predicate == "contact":
         if not gi.intersects(gj):
-            return False
+            return None
         shared = float(gi.boundary.intersection(gj.boundary).length)
         if shared < min_shared_border_m:
-            return False
+            return None
         overlap_area = float(gi.intersection(gj).area)
-        return gi.touches(gj) or overlap_area <= max_precision_overlap_area_m2
+        return shared if (gi.touches(gj) or overlap_area <= max_precision_overlap_area_m2) else None
 
     raise SystemExit(f"M02: predicate no soportado: {predicate}")
+
+
+def _relation_ok(gi, gj, predicate, min_shared_border_m, max_precision_overlap_area_m2):
+    return _shared_if_ok(gi, gj, predicate, min_shared_border_m, max_precision_overlap_area_m2) is not None
 
 
 def iter_edges(
@@ -92,7 +98,9 @@ def iter_edges(
     max_candidates,
     log_every,
     working_crs,
+    longitudes: dict | None = None,
 ) -> Iterable[Tuple[str, str]]:
+    """Pares adyacentes (a, b) con a < b; si se pasa `longitudes`, guarda en ella la frontera compartida de cada par."""
     if id_field not in gdf.columns:
         raise SystemExit(f"id_field '{id_field}' no existe")
 
@@ -140,22 +148,28 @@ def iter_edges(
             gj = other["_geom_work"]
             if gj is None or gj.is_empty:
                 continue
-            if not _relation_ok(gi, gj, predicate, min_shared_border_m, max_precision_overlap_area_m2):
+            shared = _shared_if_ok(gi, gj, predicate, min_shared_border_m, max_precision_overlap_area_m2)
+            if shared is None:
                 continue
             seen.add(key)
+            if longitudes is not None:
+                longitudes[key] = round(shared, 3)
             if log_every and len(seen) % log_every == 0:
                 print(f"[Módulo 2] edges={len(seen)}")
             yield key
 
 
-def write_edges_jsonl(geometric_edges, bridges, out_path):
+def write_edges_jsonl(geometric_edges, bridges, out_path, longitudes: dict | None = None):
     outp = Path(out_path)
     outp.parent.mkdir(parents=True, exist_ok=True)
     geom = {tuple(sorted((str(u), str(v)))) for u, v in geometric_edges if str(u) != str(v)}
     bridge_map = {(b["u"], b["v"]): b for b in bridges if (b["u"], b["v"]) not in geom}
     with outp.open("w", encoding="utf-8") as f:
         for u, v in sorted(geom):
-            f.write(json.dumps({"u": u, "v": v, "edge_type": "geometric"}, ensure_ascii=False) + "\n")
+            edge = {"u": u, "v": v, "edge_type": "geometric"}
+            if longitudes is not None:
+                edge["shared_border_m"] = longitudes[(u, v)]
+            f.write(json.dumps(edge, ensure_ascii=False) + "\n")
         for key in sorted(bridge_map):
             f.write(json.dumps(bridge_map[key], ensure_ascii=False) + "\n")
     return len(geom) + len(bridge_map), len(geom), len(bridge_map)
@@ -188,6 +202,7 @@ def main():
     predicate = str(s2.get("predicate", "touches"))
     max_overlap = float(s2.get("max_precision_overlap_area_m2", 1.0))
     working_crs = str(s2.get("working_crs", "EPSG:25830"))
+    longitudes: dict = {}
     geometric = list(
         iter_edges(
             gdf,
@@ -200,6 +215,7 @@ def main():
             int(s2.get("max_candidates", 50)),
             int(s2.get("log_every", 10000)),
             working_crs,
+            longitudes,
         )
     )
 
@@ -233,9 +249,9 @@ def main():
         first = rejected[0]
         raise SystemExit(f"M02 pasarela inválida: {first.get('rejection_reason', 'error de política')}")
 
-    n, ng, nb = write_edges_jsonl(geometric, bridges, out_edges)
+    n, ng, nb = write_edges_jsonl(geometric, bridges, out_edges, longitudes)
     print(
-        f"[Módulo 2] OK v7.3.3 edges={n} geometric={ng} bridges={nb} "
+        f"[Módulo 2] OK v7.4.0 edges={n} geometric={ng} bridges={nb} "
         f"predicate={predicate} min_shared_border_m={min_shared} crs={working_crs} out={out_edges}"
     )
 

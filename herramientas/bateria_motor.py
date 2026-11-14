@@ -3,7 +3,7 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.6
+VERSIÓN: 1.2.7
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-12
 ESTADO: candidato
@@ -49,8 +49,10 @@ CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de 
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
+CAMBIOS 1.2.7 (T-297): el recuento de candidatos cuenta el candidato exacto de Deslinde 1.1 (generador «exacto», solo con D8 y
+  cuando aporta plan): esperados = 1 + N (+1 exhaustivo) (+1 exacto) (+1 vigente que compite); el exacto no es una cadena.
 CAMBIOS 1.2.6 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/bateria_motor_v1.2.5_20261112.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.2.6_20261114.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -1009,8 +1011,9 @@ def cadenas_de(carpeta: Path) -> dict | None:
             excluido = "sin bloque «vigente» en COMPETICION.json (función A o competición anterior a T-217)"
         elif info and not dice and not en_lista:
             excluido = "; ".join(x for x in (info.get("estado") or "sin estado", info.get("detalle")) if x)
-        cs = [c for c in todos if c["id"] not in (d["canonico"], "vigente") and c["generador"] != "exhaustivo"]
+        cs = [c for c in todos if c["id"] not in (d["canonico"], "vigente") and c["generador"] not in ("exhaustivo", "exacto")]
         return {"candidatos": len(todos), "exhaustivo": any(c["generador"] == "exhaustivo" for c in todos), "cadenas": len(cs),
+                "exacto": any(c["generador"] == "exacto" for c in todos),
                 "vigente_compite": dice and en_lista, "vigente_incoherente": dice != en_lista, "vigente_excluido": excluido,
                 "evaluables": sum(1 for c in cs if c["estado"] in ("VALIDO", "INVALIDO")),
                 "fallos_generador": sum(1 for c in todos if c["estado"] == "FALLO_GENERADOR"),
@@ -1043,7 +1046,8 @@ def criterio_aceptacion(filas: list[dict], huellas: dict, esperados: list[str], 
     no_validos = sorted(t for t in esperados if t in por_t and por_t[t].get("estado") != "VALIDO")
     peores = sorted(t for t in esperados if t in por_t and por_t[t].get("frente_al_canonico") == "empeora")
     def mal(c: dict) -> bool:
-        esperado = None if n_cadenas is None else 1 + n_cadenas + (1 if c["exhaustivo"] else 0) + (1 if c.get("vigente_compite") else 0)
+        esperado = None if n_cadenas is None else (1 + n_cadenas + (1 if c["exhaustivo"] else 0) + (1 if c.get("exacto") else 0)
+                                                   + (1 if c.get("vigente_compite") else 0))
         return bool(not c["evaluables"] or c["fallos_generador"] or c["no_evaluados"] or c["invalidas_sin_motivo"]
                     or c.get("vigente_incoherente") or (esperado is not None and c["candidatos"] != esperado))
     sin_cadenas = sorted(t for t in esperados if not (cadenas.get(t) or {}).get("evaluables"))
@@ -1092,7 +1096,7 @@ def aceptacion(args) -> int:
           f"- Territorios esperados: {res['esperados']}; faltan: {res['faltan'] or 'ninguno'}.",
           f"- No válidos: {res['no_validos'] or 'ninguno'}; peores que el canónico: {res['empeoran'] or 'ninguno'}.",
           f"- Sin ninguna cadena evaluable: {res['sin_cadenas'] or 'ninguno'}; con FALLO_GENERADOR: {res['fallo_generador'] or 'ninguno'}; "
-          f"candidatos sin evaluar o fuera de 1 + N (+1 exhaustivo, +1 vigente que compite): {res['candidatos_incompletos'] or 'ninguno'}.",
+          f"candidatos sin evaluar o fuera de 1 + N (+1 exhaustivo, +1 exacto, +1 vigente que compite): {res['candidatos_incompletos'] or 'ninguno'}.",
           f"- Vigente excluido de la competición (no cuenta como candidato): {', '.join(res['vigente_excluido']) or 'ninguno'}.",
           *[f"  - {t}: {m}" for t, m in res["vigente_excluido"].items()],
           f"- Comprobación 1 · clave de elección peor que la del canónico: {res['empeoran'] or 'ninguno'}.",

@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "deslinde"
-version = "1.0.0"
+version = "1.1.0"
 description = "Deslinde: delimitación reproducible de distritos uninominales desde secciones censales"
 readme = "README.md"
 license = {text = "Apache-2.0"}
@@ -19,6 +19,7 @@ dependencies = [
     "rustworkx>=0.18,<0.19",
     "scipy>=1.17",
     "geopandas>=1.1,<1.2",
+    "ortools==9.14.6206",
 ]
 keywords = ["redistricting", "distritos uninominales", "GerryChain", "ReCom", "secciones censales"]
 

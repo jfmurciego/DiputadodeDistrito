@@ -17,3 +17,6 @@ Todos los nodos tienen CUSEC y población; todas las aristas apuntan a nodos exi
 
 ## Por qué está antes de M04
 M04 necesita una estructura de conectividad determinista para crecer distritos contiguos. Cambiar el motor de distritación no debe cambiar el territorio de entrada.
+
+## Longitud de frontera (M03 7.6.0, T-297)
+Cada arista del grafo conserva `shared_border_m` de M02 7.4.0 (si falta, no se inventa). La conectividad y las auditorías no cambian.

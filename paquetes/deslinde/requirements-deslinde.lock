@@ -1,7 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # ENTORNO: Deslinde 1.0.0 (paquete independiente, T-257)
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
 # FECHA: 2026-11-14
+# CAMBIOS: 1.1.0 (T-297) — ortools 9.14.6206 y sus dependencias (absl-py, immutabledict, protobuf, typing_extensions) para
+#   el candidato exacto (exacto.py), los pines de requirements-banco-motor.lock.
+# ANTERIOR: legacy/paquetes/deslinde/requirements-deslinde_v1.0.0.lock
 # ESTADO: candidato
 # MOTIVO: el entorno con el que se comprobó la equivalencia bit a bit con ddd_motor2 (T-257) y el de la batería
 #   del motor (.claude/rules/motor2.md): requirements.lock del repo + gerrychain 1.0.0 instalado con --no-deps +
@@ -9,13 +12,17 @@
 #   la pila geoespacial. Instalar:
 #     pip install -r requirements-deslinde.lock --no-deps && pip install --no-deps -e .
 #   y ejecutar siempre con PYTHONHASHSEED=0 (la CLI se niega sin él).
+absl-py==2.5.1
 certifi==2026.10.18
 geopandas==1.1.1
 gerrychain==1.0.0
+immutabledict==4.3.1
 networkx==3.6.1
 numpy==2.5.3
+ortools==9.14.6206
 packaging==26.3
 pandas==2.3.2
+protobuf==6.31.1
 pyogrio==0.11.1
 pyproj==3.7.2
 python-dateutil==2.9.0.post0
@@ -25,4 +32,5 @@ scipy==1.17.1
 shapely==2.1.1
 six==1.17.0
 tqdm==4.70.1
+typing_extensions==4.16.0
 tzdata==2026.6

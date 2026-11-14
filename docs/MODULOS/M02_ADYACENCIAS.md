@@ -13,7 +13,7 @@ GeoJSON canónico de M01.
 Predicado `touches`, CRS métrico ETRS89/UTM 30N, sin buffer ni simplificación y sin longitud mínima de frontera configurada. El índice espacial genera un superset de candidatos; todos sus resultados se ordenan de forma estable y se comprueban topológicamente. `max_candidates` se conserva por compatibilidad de configuración, pero no trunca la enumeración ni puede eliminar contactos válidos.
 
 ## Producto canónico
-`aragon_2025_m02_adyacencias.jsonl`. Cada línea es una arista real `{u, v}`. En la base vigente contiene 4.293 relaciones. La ejecución publica el JSONL completo en `M02/adyacencias.jsonl` y su identidad en `PRODUCTOS.json`.
+`aragon_2025_m02_adyacencias.jsonl`. Cada línea es una arista real `{u, v, edge_type}`; desde M02 7.4.0 (T-297), las geométricas llevan además `shared_border_m`, la longitud en metros (3 decimales) de la frontera compartida en el CRS de trabajo, la misma que decide la adyacencia (la usa la frontera cortada de D8). En la base vigente contiene 4.293 relaciones. La ejecución publica el JSONL completo en `M02/adyacencias.jsonl` y su identidad en `PRODUCTOS.json`.
 
 ## Validaciones
 CUSEC de ambos extremos debe existir en M01; no se permiten auto-aristas; la pareja se canonicaliza para no duplicar A-B/B-A; el número de aislados se verifica en M03.
