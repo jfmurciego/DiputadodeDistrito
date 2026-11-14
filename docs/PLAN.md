@@ -263,7 +263,7 @@ Fase 4 — producto (en el privado):
 - D-112 (14-11, propietario). P10 en producción: lee las fuentes de la copia de R2 (ARC-E) y verifica su sha256; consulta el INE sin descargar (fecha y tamaño) y, si el fichero oficial ha cambiado, para y avisa al propietario, que decide si se adopta la versión nueva. Matiza D-100. Se implementa después de la P50 de los 71 (congelación de workflows).
 - D-113 (14-11, propietario). Histórico autonómico: se publican solo las 54 elecciones con datos por sección; las 21 con fuente solo municipal o provincial (Aragón, Asturias, Cantabria, Castilla-La Mancha, Murcia, Extremadura; T-306 §2) se marcan «sin datos por sección». Nunca se reparten votos de municipio entre secciones.
 
-### Cola T-291 a T-327 (14-11)
+### Cola T-291 a T-328 (14-11)
 | Id | Qué | Estado |
 |---|---|---|
 | T-291 | Equivalencia de seccionados 2026→2023 en M07 7.4.0, adaptador, 03 y votos por partido de 2026 (D-65, D-99) | HECHA (#749 #750 #752 #754) |
@@ -300,7 +300,8 @@ Fase 4 — producto (en el privado):
 | T-324 | Actualización del plan 1.0.47 | HECHA (#791) |
 | T-325 | Galería fotográfica territorial del visor V3 (PR #792, borrador hecho fuera de este sistema con ChatGPT). Revisión del Planificador (14-11): CI en rojo (guardian y 4 suites); `plain()` mete metadatos HTML de Commons en el `innerHTML` de un div suelto (un `<img onerror>` en el campo de autor se ejecuta: XSS; usar `DOMParser` o solo texto); el navegador de cada visitante llama en directo a es.wikipedia.org y commons.wikimedia.org y baja la foto de upload.wikimedia.org (ven su IP), contra el texto de transparencia («no comparte datos con terceros»); acepta cualquier licencia no vacía (no comprueba que sea libre); sin cabecera de versión ni copia en `legacy/` de `v3.js`, `v3.css` e `index.html`; los tests solo buscan cadenas con regex. Criterio de hecho: catálogo estático versionado (una foto por provincia y comunidad, con autor, licencia libre comprobada, enlace a Commons y sha256), imágenes servidas desde el propio sitio, sin llamadas a terceros al visitar; créditos solo como texto; topónimos en español; tests de comportamiento y CI en verde; revisor independiente. Se rehace en una PR nueva; #792 se cierra sin fusionar. | PENDIENTE (P2, propietario 14-11: justo después de la P50 de los 71; no entra en esa P50; se publica luego con una P50 «solo sitio» con frase del propietario) |
 | T-326 | `test_catalogo_procedencia::test_versionado_coincide`: en PR compara contra `generar()` sobre raíz congelada; la comparación con el fichero vivo solo en el job «Estado vivo» de main (toca workflow/gating) | PENDIENTE (después de la P50 de los 71) |
-| T-327 | Actualización del plan 1.0.48 | REVISIÓN (esta PR) |
+| T-328 | Histórico, preparación sin CI (D-105, D-113; T-306 §5 pasos 2 y 4): (a) tablas de equivalencia año→2023 de 2011, 2015, 2016, 2019-04 y 2019-11 con la regla de M07 7.4.0 (sección entera al distrito de más población, sin repartir votos), reutilizando `herramientas/equivalencia_seccionados.py`, con los seccionados INE verificados por el sha256 de T-306 §3 (si la sesión no llega al INE, se para y se pide la descarga al Operador tras las P10 de r3); (b) identificadores BOE de las resoluciones de 2011, 2015, 2016 y 2019-04, de ficheros con fuente y sha256, nunca de memoria; (c) ficha de campaña `docs/autorizaciones/` del paso A (49 provincias × 6) con topes y reintentos. Sin lanzar nada; sin tocar motor ni workflows. | LISTA (Coordinador, 1 implementador Sonnet) |
+| T-327 | Actualización del plan 1.0.48 | REVISIÓN (#795) |
 
 ### Frentes y camino crítico (14-11)
 1. Regeneración Deslinde 1.1 (ficha r3, PARADA): #786 fusionada; falta T-314 (#788) en main con CI verde → el Operador reanuda r3 desde el paso 1 (frase ya dada) → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
@@ -317,7 +318,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324 y T-327. El planificador ha dado T-194 a T-327 (10 a 14-11; T-277 y T-292 sin usar). Siguiente libre para el planificador: T-328.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324 y T-327. El planificador ha dado T-194 a T-328 (10 a 14-11; T-277 y T-292 sin usar). Siguiente libre para el planificador: T-329.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
