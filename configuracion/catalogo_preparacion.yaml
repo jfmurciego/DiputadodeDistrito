@@ -38,6 +38,7 @@ territories:
         prepared_source_pair: territorios/aut01/evidencia/pares_fuentes/2025/008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc.json
         territorial_product: territorios/aut01/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut01/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/aut01/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut02
   name: Aragón
