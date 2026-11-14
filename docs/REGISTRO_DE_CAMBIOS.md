@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.392
+Versión: 1.0.394
 Fecha: 2026-11-14
-Alcance: T-298 — La batería deja de depender del INE: espejo de fuentes nacionales y entrada mínima en R2 por identidad
+Alcance: T-301 — La P50 versiona la composición vigente de cada M06 que publica
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t298-espejo-ine.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.391_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t301-p50-versiona-composicion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.393_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.391_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.394 · [2026-11-14 — T-301 — La P50 versiona la composición vigente de cada M06 que publica](registro/2026-11-14_t301-p50-versiona-composicion.md)
+- 1.0.393 · [2026-11-14 — T-299 — ZIP de Infoelectoral en R2 (ARC-E) y inventario de releases](registro/2026-11-14_t299-fuente-interior-r2.md)
 - 1.0.392 · [2026-11-14 — T-298 — La batería deja de depender del INE: espejo de fuentes nacionales y entrada mínima en R2 por identidad](registro/2026-11-14_t298-espejo-ine.md)
 - 1.0.391 · [2026-11-14 — T-257 — paquete independiente Deslinde 1.0.0 (fuente única)](registro/2026-11-14_t257-paquete-deslinde.md)
 - 1.0.390 · [2026-11-14 — T-291 — La 03 declara la equivalencia 2026→2023 en las generales del 29-11 (D-65)](registro/2026-11-14_t291-03-equivalencia.md)
