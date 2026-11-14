@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.417
+Versión: 1.0.420
 Fecha: 2026-11-14
-Alcance: T-302 — Índice R2 de los almacen-m06-* con el archivado del run 43634668489
+Alcance: T-321 — Plan 1.0.46: D-110 y matices de la revisión de 1.0.45
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t302d-indice-almacen-m06.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.416_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_planificador-plan-1-0-46.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.419_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,9 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.416_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.420 · [2026-11-14 — T-321 — Plan 1.0.46: D-110 y matices de la revisión de 1.0.45](registro/2026-11-14_planificador-plan-1-0-46.md)
+- 1.0.419 · [2026-11-14 — T-294 — Contador en los visores y texto de transparencia (fase 2, parte 2)](registro/2026-11-14_feat-t294-visores-contador.md)
+- 1.0.418 · [2026-11-14 — T-313 — inventario de rutas para migrar M01-M08 a P21-P26 y P40](registro/2026-11-14_claude-t313-inventario.md)
 - 1.0.417 · [2026-11-14 — T-302 — Índice R2 de los almacen-m06-* con el archivado del run 43634668489](registro/2026-11-14_t302d-indice-almacen-m06.md)
 - 1.0.416 · [2026-11-14 — T-314 — Respuesta: el bloqueo de linaje durable de CLM no afecta a «Generar desde fuente»](registro/2026-11-14_t314-linaje-durable.md)
 - 1.0.415 · [2026-11-14 — T-317 — Plan 1.0.45: traspaso del Planificador al plan](registro/2026-11-14_planificador-plan-1-0-45.md)
