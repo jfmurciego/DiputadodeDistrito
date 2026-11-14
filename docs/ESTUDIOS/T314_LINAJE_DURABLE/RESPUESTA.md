@@ -25,18 +25,23 @@ La 00 «Generar desde fuente» regenera 02 y el M06 nuevo con su propio manifies
 al registrarse, el linaje vuelve a cuadrar. Tras eso, la cadena legislatura → electoral → P50 parte del par nuevo (el par viejo ya queda
 incompatible, ver CLAUDE.md «Ejecución 00»). No hace falta arreglo de código → **sin diff mínimo** (punto 3 no aplica).
 
-## 4. Efecto en tests/CI de main
-Hoy en main CLM está en ese estado: `catalogo_preparacion.yaml` aut08 → `preparation_evidence.run_id 43633706440` (sha `59153d79…`), mientras el
-M06 vigente (`generaciones_m06/43025652192.json`) consume la fuente `40690624792` (sha `bdd316c8…`). Reproducido en copia temporal:
-`reuse` → `CONTINUE_DURABLE_BLOCK … artefacto o SHA contradice el manifiesto productor`; `catalog_source` y `from_start` → plan válido
-(`run_prepare_territorial`, `run_generate`, `run_incorporate` = true).
-Tests de estado vivo que leen el CLM real y fallan por esto (módulos del job «Estado vivo», `pruebas-plataforma.yml:599-607`):
-`tests.test_continuar_ultimo_resultado_valido…test_castilla_la_mancha_m08_reuse_follows_m06_lineage` (:401) y
-`tests.test_ejecucion_completa.CastillaLaManchaReuseCurrentDurableInputsTests` (:984). Ese job es `continue-on-error`
-(`pruebas-plataforma.yml:634-639`): señal roja, no bloquea main, y la siguiente PR hereda el rojo hasta el M06 nuevo. En mi copia fallaron además
-tests por `pyproj` ausente y 3 del Gestor nacional (Extremadura/Ceuta/14 rutas) cuya relación con CLM no he verificado.
+## 4. Estado en main y caso futuro (rehecho sobre origin/main be94b20)
+- **Hoy en main el estado ya no se da**: #786 (revert tanda 1 de r3) devolvió aut08 a run 40690624792 (sha `bdd316c8…`), coherente con el M06
+  `43025652192`. Simulado en copia temporal: `reuse` OK (plan sin trabajo), `catalog_source` OK, `resolve-territorial` READY; los 2 tests de CLM
+  (`test_continuar_ultimo_resultado_valido.py:401`, `test_ejecucion_completa.py:984`) **pasan**. Mi primera versión describía c4e4206, ya superado.
+- **Caso futuro (P10 nuevo de CLM con M06 viejo)**, reproducido con la copia de c4e4206 (catálogo con run 43633706440 + su receipt, M06 viejo):
+  - `reuse` → `CONTINUE_DURABLE_BLOCK … contradice el manifiesto productor` (bloquea «Reutilizar» y la hija del bot).
+  - `catalog_source` («Generar desde fuente») → plan válido: `run_prepare_territorial=true`, `run_generate=true`, `run_incorporate=true`.
+    Corrección: `build_plan` fija primero `run_prepare_territorial=False` para `catalog_source` (`resolver_ejecucion_completa.py:687-688`), pero
+    `pre_m04_accreditation_planned` (ruta `planned_pre_m04_accreditation`, :731-732) lo vuelve `true` en CLM, antes y después del P10 nuevo.
+  - Puerta «Planificar» (`ejecucion-completa-proyecto.yml:480-490`): `resolve-territorial` solo corre si `run_prepare_territorial != true`; con el valor
+    `true` se omite. Si fuese `false` (territorio con evidencia pre-M04 válida), `consumir_par_fuentes_legislatura.py:93-117` comprueba que el receipt
+    coincida con `preparation_evidence` y daría `PREPARED_TERRITORIAL_BLOCK` solo si un P10 dejase catálogo y receipt contradictorios; con P10 coherente
+    (caso simulado) devuelve READY. Ese camino no usa `validate_durable_assets`.
+  - Conclusión: tras un P10 nuevo, «Generar desde fuente» pasa Planificar; el M06 que genera acredita la fuente nueva y el linaje cuadra.
+- Sin simular: P50/05 y la legislatura tras el M06 nuevo (no se ejecutó la 00).
 
-## 5. Riesgo al rehacer los 71 P10
+## 5. Riesgo al rehacer los 71 P10 (solo si el catálogo cambia sin M06 nuevo)
 Cada territorio con M06 vigente repetirá el rojo (un par de tests de estado vivo por territorio que fije «reuse» en vivo) hasta su M06 nuevo. Si
 se quiere evitar el ruido: rehacer P10 y 00 por territorio de seguido (no en lote P10 → 00 tardía), o que esos tests usen fixture congelada
 (`tests/_raiz_congelada.py`, como pide `test_guardia_estado_vivo`). Decisión del Planificador; no implementado.
