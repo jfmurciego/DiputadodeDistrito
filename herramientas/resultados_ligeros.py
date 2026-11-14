@@ -3,7 +3,10 @@
 """Resultados electorales ligeros por territorio, versionados en git (T-53).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.2 · FECHA: 2026-11-12 · ESTADO: candidato
+VERSIÓN: 1.5.0 · FECHA: 2026-11-14 · ESTADO: candidato
+CAMBIOS 1.5.0 (T-291, D-65): `generar(..., eleccion)` y `--eleccion`; con una elección distinta de la por defecto la
+  salida es datos/resultados/<elección>/ (salvo --salida explícita): nunca pisa la de 2023.
+ANTERIOR: legacy/herramientas/resultados_ligeros_v1.4.2_20261114.py
 CAMBIOS: 1.4.1: T-203, la constante viene de eleccion_por_defecto (ligero), no del registro (pyproj).
 CAMBIOS 1.4.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 ANTERIOR: legacy/herramientas/resultados_ligeros_v1.4.1_20261112.py
@@ -120,8 +123,15 @@ def bajar_blob(p: dict) -> bytes:
     return r.stdout
 
 
+def salida_de(eleccion: str, salida: Path | None = None) -> Path:
+    """La elección por defecto escribe en datos/resultados; cualquier otra, en datos/resultados/<elección>/."""
+    if salida is not None:
+        return salida
+    return SALIDA if eleccion == ELECCION_POR_DEFECTO else SALIDA / eleccion
+
+
 def generar(salida: Path = SALIDA, registro: Path = REGISTRO_VISOR, cache: Path | None = None,
-            m08_dir: Path | None = None) -> dict:
+            m08_dir: Path | None = None, eleccion: str = ELECCION_POR_DEFECTO) -> dict:
     salida.mkdir(parents=True, exist_ok=True)
     anterior = {}
     if (salida / "MANIFEST.json").exists():
@@ -129,7 +139,7 @@ def generar(salida: Path = SALIDA, registro: Path = REGISTRO_VISOR, cache: Path 
     previo = anterior.get("territorios", {})
     ajenas = {k: v for k, v in anterior.items() if k not in {"schema", "origen", "territorios"}}
     terr = {}
-    for t, p in vigentes(registro).items():
+    for t, p in vigentes(registro, eleccion).items():
         ant = previo.get(t)
         csv_ruta = salida / f"{t}.csv"
         if ant and ant["blob_sha"] == p["blob_sha"] and csv_ruta.exists() and sha256(csv_ruta.read_bytes()) == ant["sha256_csv"]:
@@ -173,13 +183,15 @@ def ganadores(salida: Path, territorio: str, producto: dict) -> list[str] | None
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--salida", type=Path, default=SALIDA)
+    ap.add_argument("--salida", type=Path, default=None)
     ap.add_argument("--registro", type=Path, default=REGISTRO_VISOR)
     ap.add_argument("--cache", type=Path)
     ap.add_argument("--m08-dir", type=Path, help="ZIP <territorio>_<run>.zip ya descargados (sin red)")
+    ap.add_argument("--eleccion", default=ELECCION_POR_DEFECTO, help="AAAA-MM-DD (por defecto la legislatura vigente)")
     a = ap.parse_args(argv)
-    man = generar(a.salida, a.registro, a.cache, a.m08_dir)
-    print(f"{len(man['territorios'])} territorios en {a.salida}")
+    salida = salida_de(a.eleccion, a.salida)
+    man = generar(salida, a.registro, a.cache, a.m08_dir, eleccion=a.eleccion)
+    print(f"{len(man['territorios'])} territorios en {salida}")
     return 0
 
 

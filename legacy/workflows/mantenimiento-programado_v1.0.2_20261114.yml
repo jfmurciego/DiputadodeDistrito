@@ -1,0 +1,289 @@
+# PROYECTO: Diputado de Distrito
+# FICHERO: mantenimiento-programado.yml
+# VERSIÓN: 1.0.2
+# NOMBRE DE VERSIÓN: Mantenimiento programado en un solo auxiliar
+# FECHA: 2026-11-10
+# ESTADO: candidato
+# QUÉ HACE: reúne tres tareas de mantenimiento que escriben en main con la app de registro: archivo diario de artefactos en R2
+#   (cron 05:17), métricas del proceso (cron lunes 05:17) y extracción de la composición M06 (solo manual). Cada tarea es un job con
+#   su concurrencia, sus permisos y su condición (cron propio o entrada `tarea`); el cuerpo de cada job es el del workflow que sustituye.
+#   «Auxiliar — Poda de R2» (borrado irreversible, entorno produccion) no se funde: sigue separada y comparte la concurrencia del archivista.
+# CAMBIOS: 1.0.2 (T-215, corte 5.0.0): solo el nombre visible, «Automático — Mantenimiento». El job archivar_r2 no se traslada a ARC
+#   (moverlo a podar-r2.yml cambiaría sus disparadores y su entorno): desviación declarada en la PR #688.
+#   1.0.1 (T-201b): los runs candidatos de la composición M06 se eligen por (territorio, elección), por defecto 2023-07-23, no por el run_id
+#   mayor entre elecciones (solo cambia esa línea del paso «Runs candidatos»).
+#   1.0.0: fichero nuevo (T-149); sustituye a archivar-artefactos-r2.yml 1.0.1, metricas-proceso.yml 1.0.1 y
+#   extraer-composicion-m06.yml 1.0.1 (copias en legacy/workflows/).
+# MOTIVO: dejar la lista de Actions con un único auxiliar de mantenimiento.
+# ANTERIOR: legacy/workflows/mantenimiento-programado_v1.0.1_20261110.yml
+name: Automático — Mantenimiento
+run-name: "Mantenimiento programado · ${{ inputs.tarea || (github.event.schedule == '17 5 * * 1' && 'métricas' || 'archivo R2') }}"
+
+on:
+  schedule:
+    - cron: '17 5 * * *'
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
+    inputs:
+      tarea:
+        description: 'Tarea de mantenimiento'
+        required: true
+        type: choice
+        options: [archivar_r2, metricas, extraer_m06]
+      caduca_antes:
+        description: 'archivar_r2: solo lo que caduca antes de esta fecha (AAAA-MM-DD); vacío = todo lo vivo'
+        required: false
+        type: string
+        default: ''
+      territorios:
+        description: 'extraer_m06: territorios separados por comas, o «todos»'
+        required: false
+        type: string
+        default: 'todos'
+
+permissions:
+  contents: read
+
+jobs:
+  archivar_r2:
+    if: ${{ github.event.schedule == '17 5 * * *' || inputs.tarea == 'archivar_r2' }}
+    concurrency:
+      group: archivar-artefactos-r2
+      cancel-in-progress: false
+      queue: max
+    permissions:
+      contents: write
+      actions: read
+    name: Archivar y registrar manifiesto
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+      R2_BUCKET: ${{ vars.R2_BUCKET }}
+      CADUCA_ANTES: ${{ inputs.caduca_antes }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Validar configuración de R2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY R2_ACCOUNT_ID R2_BUCKET; do
+            [[ -n "${!name:-}" ]] || { echo "::error::${name} está vacío."; exit 1; }
+          done
+      - name: Archivar artefactos
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=()
+          [[ -z "${CADUCA_ANTES:-}" ]] || args+=(--caduca-antes "$CADUCA_ANTES")
+          python3 herramientas/archivar_artefactos_r2.py "${args[@]}" | tee archivo.log
+      - name: Registrar manifiesto en main
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- orchestracion/archivo_r2.json && [[ -z "$(git ls-files -o --exclude-standard orchestracion/archivo_r2.json)" ]]; then
+            echo "Manifiesto sin cambios."; exit 0
+          fi
+          git config user.name "ddd-registro"
+          git config user.email "ddd-registro@users.noreply.github.com"
+          git add orchestracion/archivo_r2.json
+          git commit -m "chore(archivo): manifiesto R2 de artefactos archivados"
+          for i in 1 2 3 4; do
+            git fetch origin main
+            git rebase origin/main && git push origin HEAD:main && exit 0
+            git rebase --abort || true
+            sleep $((i*3))
+          done
+          echo "::error::No se pudo registrar el manifiesto en main."; exit 1
+
+  metricas:
+    if: ${{ github.event.schedule == '17 5 * * 1' || inputs.tarea == 'metricas' }}
+    concurrency:
+      group: ddd-metricas-proceso
+      cancel-in-progress: false
+      queue: max
+    permissions:
+      contents: write
+      actions: read
+      pull-requests: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Regenerar y empujar
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python herramientas/metricas_proceso.py --espejo dashboard/metricas_proceso.json
+          git config user.name "ddd-registro[bot]"
+          git config user.email "ddd-registro[bot]@users.noreply.github.com"
+          git add orchestracion/metricas_proceso.json dashboard/metricas_proceso.json
+          if git diff --cached --quiet; then echo "Sin cambios en las métricas."; exit 0; fi
+          git commit -m "datos: métricas del proceso"
+          for intento in 1 2 3; do
+            if git push origin HEAD:main; then exit 0; fi
+            echo "::warning::push rechazado (intento $intento)"
+            git pull --rebase origin main
+          done
+          exit 1
+
+  extraer_m06:
+    if: ${{ inputs.tarea == 'extraer_m06' }}
+    concurrency:
+      group: ddd-extraer-composicion-m06
+      cancel-in-progress: false
+      queue: max
+    permissions:
+      contents: write
+      actions: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TERRITORIOS: ${{ inputs.territorios }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+      R2_BUCKET: ${{ vars.R2_BUCKET }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Extraer y registrar
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -c 'import yaml' 2>/dev/null || pip install --break-system-packages pyyaml
+          git config user.name "ddd-registro[bot]"
+          git config user.email "ddd-registro[bot]@users.noreply.github.com"
+          sel="${TERRITORIOS:-todos}"
+          # Runs candidatos: primero los publicados, después todo estado M06 vivo (checkpoints reutilizados).
+          python - "$sel" > candidatos.txt <<'PY'
+          import json, sys
+          sel = sys.argv[1].strip()
+          reg = json.load(open("orchestracion/publicaciones_visor.json"))["products"]
+          vig = {}
+          for p in reg:
+              if p["kind"] == "canonical_m06" and str(p.get("election_date") or "2023-07-23") == "2023-07-23" and (sel in ("", "todos") or p["territory_id"] in sel.split(",")):
+                  t = p["territory_id"]
+                  if t not in vig or int(p["run_id"]) > int(vig[t]["run_id"]):
+                      vig[t] = p
+          for t, p in sorted(vig.items()):
+              print(p["run_id"], t)
+          PY
+          cut -d' ' -f1 candidatos.txt > runs.txt
+          gh api --paginate "repos/$GITHUB_REPOSITORY/actions/artifacts?per_page=100" \
+            --jq '.artifacts[]|select(.expired==false)|select(.name|test("^ddd-state-[0-9]+-M06$"))|.workflow_run.id' >> runs.txt || true
+          awk '!visto[$0]++' runs.txt > runs_unicos.txt
+          mkdir -p trabajo; salida=""
+          for run in $(cat runs_unicos.txt); do
+            rm -rf "trabajo/$run"; mkdir -p "trabajo/$run"
+            if ! gh run download "$run" -n "ddd-state-$run-M06" -D "trabajo/$run" 2>/dev/null; then
+              clave="$(awk -v r="$run" '$1==r{print $2; exit}' candidatos.txt)"
+              if [[ -n "$clave" && -n "${AWS_ACCESS_KEY_ID:-}" && -n "${R2_BUCKET:-}" && -n "${R2_ACCOUNT_ID:-}" ]]; then
+                aws s3 cp --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" \
+                  "s3://${R2_BUCKET}/${clave}/${run}/ddd-state-${run}-M06.zip" "trabajo/$run/" >/dev/null 2>&1 || true
+              fi
+            fi
+            salida="$(python herramientas/composicion_m06.py --origen "trabajo/$run" --territorios "$sel")"
+            echo "run $run → $salida"
+            rm -rf "trabajo/$run"
+            if [[ "$salida" == *"no recuperados: -"* ]]; then break; fi
+          done
+          if [[ "$salida" != *"no recuperados: -"* ]]; then echo "::warning::${salida}"; fi
+          git add -A datos/composicion
+          if ! git diff --cached --quiet; then
+            git commit -m "datos: composición sección→distrito del M06 publicado"
+            for intento in 1 2 3; do
+              if git push origin HEAD:main; then break; fi
+              echo "::warning::push rechazado (intento $intento)"
+              git pull --rebase origin main
+              [[ "$intento" -lt 3 ]] || exit 1
+            done
+          fi
+          python herramientas/resultados_ligeros.py
+          python herramientas/resultados_partidos.py
+          git add -A datos/resultados
+          if ! git diff --cached --quiet; then
+            git commit -m "datos: votos por partido y distrito"
+            for intento in 1 2 3; do
+              if git push origin HEAD:main; then exit 0; fi
+              echo "::warning::push rechazado (intento $intento)"
+              git pull --rebase origin main
+            done
+            exit 1
+          fi
