@@ -1871,6 +1871,7 @@ territories:
         territorial_product: territorios/nac29/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac29/evidencia/pares_fuentes/2025/118cccdb9a9afa72367051c0cfa4d92b41524e35ec8b8feb0327760bfc1fb1cd.json
         electoral_product: territorios/nac29/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac29/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac30
   name: Congreso Murcia
