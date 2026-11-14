@@ -6,9 +6,11 @@ export const RUTAS = ["/", "/v1/", "/v2/", "/v3/", "/tecnico/"];
 export const ORIGENES = [
   "https://diputadodedistrito.es",
   "https://www.diputadodedistrito.es",
-  "https://jfmurciego.github.io",
 ];
-export const TOPE_DIARIO_POR_RUTA = 100000;
+// Topes diarios: D1 gratuito admite ~100 000 filas escritas al día; el total corta antes de agotarlo.
+export const TOPE_DIARIO_POR_RUTA = 20000;
+export const TOPE_DIARIO_TOTAL = 40000;
+export const RUTA_TOTAL = "*";
 
 export const SQL_UPSERT =
   "INSERT INTO visitas (dia, ruta, n) VALUES (?1, ?2, 1) " +
@@ -21,7 +23,13 @@ export async function manejar(request, env, ahora = new Date()) {
   const ruta = (await request.text()).slice(0, 32);
   if (!RUTAS.includes(ruta)) return vacia();
   const dia = ahora.toISOString().slice(0, 10);
-  await env.DB.prepare(SQL_UPSERT).bind(dia, ruta, TOPE_DIARIO_POR_RUTA).run();
+  try {
+    const total = await env.DB.prepare(SQL_UPSERT).bind(dia, RUTA_TOTAL, TOPE_DIARIO_TOTAL).run();
+    if (total?.meta?.changes === 0) return vacia();
+    await env.DB.prepare(SQL_UPSERT).bind(dia, ruta, TOPE_DIARIO_POR_RUTA).run();
+  } catch (_) {
+    // un fallo de la base nunca se muestra al visitante
+  }
   return vacia();
 }
 
