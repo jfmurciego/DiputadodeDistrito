@@ -86,3 +86,18 @@ Orden:
 8. Ensayo local de 1 territorio, suite completa, guardián en `main`; la CI en verde en la PR y en `main`; PR `no-automerge`; luego 00 «Ejecutar desde el principio» para las 71.
 
 **Estimación**: ~2.760 ficheros vivos contienen el patrón, pero solo ~**350–450** se modifican (≈113-118 renombrados, ~100 código/tests, 17 workflows, ~50 config/schemas, ~40 docs vivos, ~15 visor/catálogo); más ~114 copias en `legacy/`. Territorios/evidencia/fixtures/legacy: 0 cambios (alias). Marcado como PR grande: decisión del propietario sobre congelar el resto de PRs de workflows/herramientas durante la migración (coordinación D-18).
+
+## Decisiones del Planificador (14-11, vía Coordinador)
+
+Una por ambigüedad de §1:
+
+1. **M02 → P22 «Geometría y adyacencias»**; M03 → P23 «Grafo». Se corrige la etiqueta del framework (P22 decía «Geometría y alias»).
+2. **P40 con subfases:** P41 = M07 (agregación electoral), P42 = M08 (integración y ganador). Estados y artefactos `-P41` y `-P42`.
+3. **Auditoría geométrica independiente → P27**, con id propio.
+4. **Estrategias GerryChain «25» y «50» → `ensemble25` y `ensemble50`**, nunca números sueltos.
+5. **pre-M04 → pre-P24; M03U → P23U; `M05_REPARACION…` → `P25_REPARACION…`.**
+6. **Versiones de motor:** `m04_engine.json` → `p24_motor.json` (se conserva el número de versión). N06, N07 y N08 son estudios: no se tocan.
+7. **Alcance COMPLETO («enterrar la notación antigua»):** ficheros `modulos/`, `ddd_core`, `herramientas`, tests vivos, workflows, nombres de estado y artefacto y claves R2 NUEVAS. Lo antiguo solo por alias de LECTURA (`resolver_fase`), en el histórico. `kind` del registro: entradas nuevas `canonical_p26` y `canonical_p42` (el visor lee las dos). Las claves R2 ya subidas no se renombran (alias). Datos abiertos: los ficheros nuevos salen con nombre nuevo al republicar.
+8. **Lo histórico no se reescribe.**
+
+Calendario: tras la P50 de los 71; una sola PR (Opus), ensayo local de 1 territorio, P00 de prueba después.
