@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 0.3.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -70,7 +70,7 @@ territory_contract:
     '23': 8
     '29': 22
     '41': 25
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   notes:
   - AND-01 certificó 6.029 secciones y 8.676.713 habitantes sin faltantes de población.
   - Población observada: Almería 770.554; Cádiz 1.261.420; Córdoba 773.163; Granada
@@ -92,13 +92,13 @@ territory_contract:
   population_floor_ratio: 0.8
   population_cap_ratio: 1.75
   target_tolerance_ratio: 0.12
+  limits_profile: standard-1.0.0
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.25
   require_auditable_district_catalogue: true
-  limits_profile: standard-1.0.0
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes:
@@ -248,35 +248,23 @@ validation:
     '11001':
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación
-        (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 52.719 hab.,
-        0,66 de la media.'
-      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población
-        — exención de suelo por municipio en Andalucía»; mecanismo #343'
+      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 52.719 hab., 0,66 de la media.'
+      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población — exención de suelo por municipio en Andalucía»; mecanismo #343'
     '11002':
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación
-        (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 20.261 hab.,
-        0,25 de la media.'
-      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población
-        — exención de suelo por municipio en Andalucía»; mecanismo #343'
+      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 20.261 hab., 0,25 de la media.'
+      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población — exención de suelo por municipio en Andalucía»; mecanismo #343'
     '11005':
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación
-        (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 35.805 hab.,
-        0,45 de la media.'
-      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población
-        — exención de suelo por municipio en Andalucía»; mecanismo #343'
+      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 35.805 hab., 0,45 de la media.'
+      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población — exención de suelo por municipio en Andalucía»; mecanismo #343'
     '41001':
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación
-        (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 55.814 hab.,
-        0,70 de la media.'
-      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población
-        — exención de suelo por municipio en Andalucía»; mecanismo #343'
+      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 55.814 hab., 0,70 de la media.'
+      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población — exención de suelo por municipio en Andalucía»; mecanismo #343'
   source_baseline:
     schema: ddd.source-baseline/1.0
     edition: '2025'
@@ -290,7 +278,7 @@ validation:
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
-    territory_id: andalucia
+    territory_id: aut01
     territory_name: Andalucía
     project_edition: '2025'
   temporal:
@@ -360,7 +348,7 @@ resolved_source_contract:
   contract_sha256: ceb5670c328da29c39651ccc994621416555963537c621cf5ff4766e678ff6ab
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: 2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37
   compatibility_identity_sha256: 4d75bcab25a4bba27656fcf6184e510ab61718c222e213befa04fd8ec96cbc02
   source_inputs:
@@ -412,3 +400,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 40946875467
+  pre_m04_source_commit: 697f9c28cd6d7e0ef65a21c2111edfe92566b676
+  pre_m04_artifact_sha256: 90fb41da3aeff32617d283000b10dbdd558305e8bb3d95222c4fd216892ebf53

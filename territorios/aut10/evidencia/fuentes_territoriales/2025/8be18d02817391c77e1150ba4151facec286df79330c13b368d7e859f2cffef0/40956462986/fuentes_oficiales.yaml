@@ -1,6 +1,6 @@
 schema: ddd-territory-sources/1.2
 territory:
-  id: aut10
+  id: comunidad_valenciana
   business_name: Comunidad Valenciana
   edition: 2025
   population_year: 2023
