@@ -1,7 +1,7 @@
 # Autorización de campaña 2026-11-14_composicion-36
 
 - Decisión: D-52. Chat del Operador: session_01KQDtFqw1LBgGn6nCuxP8Yx. Pedida por el Planificador tras #758 (P50 3.15.0, versiona la composición vigente).
-- Frase literal del propietario: (pendiente)
+- Frase literal del propietario: «Autorizo las campañas 2026-11-14_archivo-p10-71, 2026-11-14_composicion-36 y 2026-11-14_deslinde11-r2 tal como figuran en sus fichas; la de Deslinde 1.1 solo cuando T-297 esté en main con la CI en verde.» (y las tres frases individuales en el mismo mensaje), 2026-11-14 17:40 Europe/Madrid aprox.
 - Caducidad: 2026-11-15 23:59.
 - Qué: `desplegar-visor-publico.yml` (P50), `pagina_publicar=Sitio completo`, `production_run_id=<lote>`, con los MISMOS runs ya publicados de los 36 SIN_VIGENTE de la batería 43605070831 (`composicion_36_2026-11-14.tsv`); sin cambiar los mapas.
 - Lotes: 1 (43204696160, aut01) → comprobación → 12 → 12 → 11; cada lote, cuando el anterior ha terminado en success.
@@ -15,3 +15,4 @@
 |---|---|---|---|---|
 
 Frase propuesta: «Autorizo la campaña 2026-11-14_composicion-36 tal como figura en la ficha.»
+| 17:42 | 1 (aut01 43204696160) | 43617006619 | EN_VUELO | — |
