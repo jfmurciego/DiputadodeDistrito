@@ -7,7 +7,7 @@ from pathlib import Path
 from pyproj import Transformer
 
 
-_VENDOR = Path(__file__).resolve().parents[1] / "visor" / "vendor" / "maplibre-gl" / "5.7.0"
+_VENDOR = Path(__file__).resolve().parents[1] / "visor" / "v2" / "vendor" / "maplibre-gl" / "5.7.0"
 
 HTML = """<!doctype html>
 <html lang=\"es\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">

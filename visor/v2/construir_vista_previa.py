@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Genera un único HTML autónomo del visor v2 (vista previa privada, T-109). VERSIÓN 1.0.0.
 Uso: python visor/v2/construir_vista_previa.py [salida.html]   (por defecto visor_v2_vista_previa.html)
-Incrusta CSS, JS, geometría y web/textos.md; necesita internet solo para MapLibre (unpkg)."""
-import pathlib, sys
+Incrusta CSS, JS, geometría y web/textos.md; MapLibre (vendor local, T-310) también se incrusta: sin internet salvo teselas."""
+import pathlib, re, sys
 R = pathlib.Path(__file__).resolve().parents[2]
 V = R / "visor" / "v2"
 leer = lambda p: p.read_text(encoding="utf-8")
@@ -19,6 +19,9 @@ h = h.replace('<script src="v2.js" data-textos="../../web/textos.md"></script>',
     f'<script type="text/plain" id="d-ccaa">{datos["comunidades.json"]}</script>'
     f'<script type="text/plain" id="d-textos">{md}</script><script>{js}</script>')
 h = h.replace('src="../nacional/"', 'src="https://jfmurciego.github.io/DiputadodeDistrito/nacional/"').replace('href="../nacional/"', 'href="https://jfmurciego.github.io/DiputadodeDistrito/nacional/" target="_blank" rel="noreferrer"')
+ML = V / "vendor" / "maplibre-gl" / "5.7.0"
+h = re.sub(r'<link href="vendor/maplibre-gl/5\.7\.0/maplibre-gl\.css"[^>]*>', lambda m: "<style>" + leer(ML / "maplibre-gl.css") + "</style>", h)
+h = re.sub(r'<script src="vendor/maplibre-gl/5\.7\.0/maplibre-gl\.js"[^>]*></script>', lambda m: "<script>" + leer(ML / "maplibre-gl.js").replace("</script", "<\\/script") + "</script>", h)
 salida = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else "visor_v2_vista_previa.html")
 salida.write_text(h, encoding="utf-8")
 print(salida, len(h) // 1024, "KB")

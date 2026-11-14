@@ -4,7 +4,7 @@
 PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v2_secciones_v1.0.0_20261112.py
 CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 Los valores esperados son literales del fixture (no se recalculan con el código bajo prueba).
-El navegador necesita playwright y MapLibre: con MAPLIBRE_DIR (carpeta con maplibre-gl.js/css) no usa la red.
+El navegador necesita playwright; MapLibre sale del vendor local (visor/v2/vendor).
 """
 import functools
 import http.server
@@ -130,12 +130,6 @@ class NavegadorSecciones(unittest.TestCase):
     def _pagina(self, p, ml):
         b = p.chromium.launch(executable_path=os.environ.get("PW_CHROMIUM") or None, args=["--no-sandbox"])
         pg = b.new_page(viewport={"width": 390, "height": 844})
-        if ml:
-            def r(route):
-                u = route.request.url
-                f = Path(ml) / u.rsplit("/", 1)[1]
-                route.fulfill(path=str(f)) if f.exists() else route.abort()
-            pg.route("https://unpkg.com/**", r)
         pg.goto(self.url)
         pg.wait_for_function("typeof maplibregl!=='undefined'&&typeof map!=='undefined'&&map&&map.isStyleLoaded()", timeout=20000)
         return b, pg
