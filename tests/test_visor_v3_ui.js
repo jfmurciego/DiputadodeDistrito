@@ -80,7 +80,7 @@ const sandbox={document:doc,window:{maplibregl:libre},maplibregl:libre,console,
 const marker="  init();\n})();";
 assert.ok(source.includes(marker),"Cambió el arranque de V3");
 const instrumented=source.replace(marker,
-  '  globalThis.__DDD_TEST__={S,D,PALETA,regionId,openProvince,renderDetail};\n  init();\n})();');
+  '  globalThis.__DDD_TEST__={S,D,PALETA,regionId,openProvince,renderDetail,getProvinceEntry};\n  init();\n})();');
 vm.runInNewContext(instrumented,sandbox,{filename:"v3.js",timeout:5000});
 const flush=async()=>{for(let i=0;i<16;i++)await new Promise(resolve=>setImmediate(resolve));};
 async function main(){
@@ -90,6 +90,15 @@ async function main(){
   assert.equal(t.PALETA.PP,"#1d6fb8");
   assert.equal(t.PALETA.PSOE,"#d32b2b");
   assert.equal(t.PALETA.VOX,"#5fa335");
+  const feat=n=>({properties:{nombre:n}});
+  const saved=t.D.index;
+  t.D.index={territorios:{nac28:{provincia:"Madrid"},congreso_albacete:{},nac02:{provincia:"Albacete"}}};
+  assert.equal(t.getProvinceEntry(feat("Madrid")).key,"nac28","resolución por campo provincia (clave nacNN)");
+  t.D.index={territorios:{congreso_albacete:{}}};
+  assert.equal(t.getProvinceEntry(feat("Albacete")).key,"congreso_albacete","clave heredada congreso_*");
+  t.D.index={territorios:{congreso_madrid:{provincia:"Madrid"}}};
+  assert.equal(t.getProvinceEntry(feat("Madrid")).key,"congreso_madrid");
+  t.D.index=saved;
   const names={"Asturias":"principado_de_asturias","Baleares":"illes_balears",
     "Navarra":"comunidad_foral_de_navarra"};
   for(const [name,id] of Object.entries(names))assert.equal(t.regionId(name),id);

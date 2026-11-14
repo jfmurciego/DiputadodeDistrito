@@ -1,15 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.10.1
+# VERSIÓN: 1.10.2
 # NOMBRE DE VERSIÓN: Diseño A — suite en paralelo con check agregado `pruebas`
 # FECHA: 2026-11-14
 # ESTADO: vigente
-# CAMBIOS 1.10.1: comprobar el controlador V3 con Node en el runner host del guardián; Docker de unittest
-#   permanece inalterado y no necesita incorporar Node. La prueba falla cerrada en un error de interacción.
-# MOTIVO 1.10.1: distinguir la suite Python reproducible del smoke test MapLibre/DOM simulado de V3.
-# ANTERIOR: legacy/workflows/pruebas-plataforma_v1.10.0_20261112.yml
+# ANTERIOR: legacy/workflows/pruebas-plataforma_v1.10.1_20261114.yml
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
-# CAMBIOS: 1.10.1 (T-271): los cinco upload-artifact (diagnóstico de suite, N08, contratos, documentación, producto) suben solo si el
+# CAMBIOS: 1.10.2 (T-292): paso Node en el runner host del guardián que comprueba el controlador del visor V3
+#   (`node --check` y `tests/test_visor_v3_ui.js`); el Docker de unittest no cambia y no necesita Node.
+#   1.10.1 (T-271): los cinco upload-artifact (diagnóstico de suite, N08, contratos, documentación, producto) suben solo si el
 #   job falla (`if: failure()`), con `continue-on-error: true` y `retention-days: 1`: el veredicto depende de los tests y no de la cuota
 #   de almacenamiento de artefactos («Artifact storage quota has been hit» tiñó de rojo main 439af6a). No cambia qué se comprueba.
 #   1.10.0 (T-252): job `estado_vivo` («Estado vivo»), solo en push a main de robot (`cambios` robot=true): ~23 módulos que leen
