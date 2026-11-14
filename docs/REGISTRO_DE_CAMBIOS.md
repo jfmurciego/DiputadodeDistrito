@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.374
-Fecha: 2026-11-12
-Alcance: T-128 — Coordinador: lecciones de plataforma y motor (5.ª tanda) y estado operativo
+Versión: 1.0.381
+Fecha: 2026-11-14
+Alcance: T-274A — guía del runner propio de GitHub Actions
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-12_coordinador-lecciones-5.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.373_registro_20261112.md
+Cambios/motivo: entrada docs/registro/2026-11-14_claude-t274a-guia-runner-propio.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.380_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,13 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.373_registro_20261112.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.381 · [2026-11-14 — T-274A — guía del runner propio de GitHub Actions](registro/2026-11-14_claude-t274a-guia-runner-propio.md)
+- 1.0.380 · [2026-11-14 — T-271 — artefactos de diagnóstico de CI desacoplados de la cuota](registro/2026-11-14_t271-artefactos-ci-cuota.md)
+- 1.0.379 · [2026-11-14 — T-281 — Paquete de propiedad intelectual de Deslinde (instantánea reproducible)](registro/2026-11-14_claude-t281-paquete-pi.md)
+- 1.0.378 · [2026-11-14 — T-290 — Plan 1.0.44: repositorio privado, publicación pública y plan por fases](registro/2026-11-14_claude-t290-plan-repo-privado.md)
+- 1.0.377 · [2026-11-12 — T-116 — Preparar la V2 como portada conservando el visor técnico](registro/2026-11-12_feat-portada-v2-dominio-es-20261112.md)
+- 1.0.376 · [2026-11-12 — T-248 — Borrador del README para la 5.0.0](registro/2026-11-12_claude-t248-readme-5-0-0.md)
+- 1.0.375 · [2026-11-11 — T-234 — Relevo formal: Deslinde 1.0 (motor2) por defecto; ruta autónoma m05 retirada](registro/2026-11-11_claude-t234-relevo-motor2.md)
 - 1.0.374 · [2026-11-12 — T-128 — Coordinador: lecciones de plataforma y motor (5.ª tanda) y estado operativo](registro/2026-11-12_coordinador-lecciones-5.md)
 - 1.0.373 · [2026-11-12 — T-235 — Exención de techo de Lanzarote y La Graciosa en el contrato 2026 de Las Palmas (D-83)](registro/2026-11-12_t-235-excepcion-lanzarote.md)
 - 1.0.372 · [2026-11-12 — T-268 — La 00 rechaza al principio los territorios del mapa de 350 (D-76)](registro/2026-11-12_t268-guarda-congreso350.md)

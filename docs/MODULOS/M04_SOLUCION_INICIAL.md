@@ -1,5 +1,7 @@
 # M04 — Generar solución inicial
 
+> **Deslinde 1.0 (T-234, D-82/D-84).** M04 sigue ejecutándose igual: su solución, optimizada por M05, es el candidato «canónico» de la competición de Deslinde 1.0 (`motor2` en el código) y su M04 da la referencia de núcleos cerrados. La ruta autónoma M04 + M05 sin competición (`motor=m05`) está retirada; el código no se mueve ni se renombra (huellas y tests R015/R016).
+
 ## Propósito
 M04 produce exactamente K=67 distritos iniciales contiguos y territorialmente válidos. No es solo un semillado numérico: debe respetar desde el origen las fronteras provinciales y la disciplina municipal.
 

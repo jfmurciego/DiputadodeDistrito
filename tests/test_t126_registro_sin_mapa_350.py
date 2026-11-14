@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 """T-126: el registro de publicaciones no contiene el mapa 350 y conserva el Valladolid de 407.
 
-PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
+PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS: admite nuevos productos 407 por el principio de solo adición; exige conservar los originales.
+MOTIVO: publicación de nuevos productos Valladolid sin eliminar los anteriores.
+ANTERIOR: legacy/tests/test_t126_registro_sin_mapa_350_v1.0.0_20261112.py
 """
 import json
 import sys
@@ -27,7 +30,13 @@ class RegistroSinMapa350(unittest.TestCase):
 
     def test_el_valladolid_de_407_sigue_publicado(self):
         ids = {e["id"] for e in self.registro["products"] if e["territory_id"] == "congreso_valladolid"}
-        self.assertEqual(ids, {"m06-congreso_valladolid-41299313598", "m08-congreso_valladolid-41299313598"})
+        originales = {"m06-congreso_valladolid-41299313598", "m08-congreso_valladolid-41299313598"}
+        # El registro es aditivo: nuevas generaciones 407 no invalidan los productos publicados antes.
+        self.assertTrue(originales.issubset(ids), f"Faltan productos 407 originales: {originales - ids}")
+        self.assertTrue(all(
+            e["kind"] in {"canonical_m06", "canonical_m08"}
+            for e in self.registro["products"] if e["territory_id"] == "congreso_valladolid"
+        ))
 
     def test_el_registro_valida_y_su_formato_es_el_de_la_herramienta(self):
         rpv.validate_registry(self.registro)

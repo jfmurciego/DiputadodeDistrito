@@ -1,4 +1,4 @@
-"""T-216: P30 del motor 2 en la cadena de producción, detrás del interruptor `motor: m05|motor2` (m05 por defecto).
+"""T-216: P30 del motor 2 en la cadena de producción, detrás del interruptor `motor: m05|motor2` (motor2 por defecto desde T-234).
 
 Solo stdlib + PyYAML (la competición real se prueba en local; ver docs/registro/*t216*)."""
 from __future__ import annotations
@@ -180,15 +180,15 @@ class Flujos(unittest.TestCase):
     def _wf(self, nombre):
         return yaml.safe_load((WF / nombre).read_text(encoding="utf-8"))
 
-    def test_entrada_motor_m05_por_defecto(self):
+    def test_entrada_motor_motor2_por_defecto(self):  # T-234: relevo formal (D-82)
         r = self._wf("_reutilizable-generacion-territorial.yml")[True]["workflow_call"]["inputs"]["motor"]
-        self.assertEqual(r["default"], "m05")
+        self.assertEqual(r["default"], "motor2")
         p = self._wf("produccion-distritos.yml")[True]["workflow_call"]["inputs"]["motor"]
-        self.assertEqual(p["default"], "m05")
+        self.assertEqual(p["default"], "motor2")
         e = self._wf("ejecucion-completa-proyecto.yml")[True]
-        self.assertEqual(e["workflow_call"]["inputs"]["motor"]["default"], "m05")
+        self.assertEqual(e["workflow_call"]["inputs"]["motor"]["default"], "motor2")
         boton = e["workflow_dispatch"]["inputs"]["motor"]
-        self.assertEqual((boton["default"], boton["options"]), ("m05", ["m05", "motor2"]))
+        self.assertEqual((boton["default"], boton["options"]), ("motor2", ["motor2", "m05"]))
 
     def test_pasos_p30_solo_con_motor2_en_m06(self):
         jobs = self._wf("_reutilizable-generacion-territorial.yml")["jobs"]
@@ -202,7 +202,7 @@ class Flujos(unittest.TestCase):
     def test_la_00_pasa_el_motor_a_la_02_y_a_la_cadena(self):
         texto = (WF / "ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
         gen = self._wf("ejecucion-completa-proyecto.yml")["jobs"]["generar"]["with"]
-        self.assertEqual(gen["motor"], "${{ inputs.motor || 'm05' }}")
+        self.assertEqual(gen["motor"], "${{ inputs.motor || 'motor2' }}")
         self.assertIn('-f "inputs[motor]=$MOTOR"', texto)
 
 
