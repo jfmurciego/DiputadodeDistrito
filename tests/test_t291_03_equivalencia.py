@@ -1,8 +1,10 @@
 """T-291 · la 03 pasa la tabla 2026→2023 al adaptador solo en las generales 2026 sobre los mapas vigentes."""
 from __future__ import annotations
 
+import os
 import re
 import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -28,7 +30,8 @@ def _equivalence_args(election_date: str, edition: str) -> str:
     bloque = script[inicio:fin]
     out = subprocess.run(
         ["bash", "-euo", "pipefail", "-c", bloque + '\nprintf "%s|" "${equivalence_args[@]}"'],
-        cwd=ROOT, env={"PATH": "/usr/bin:/bin:/usr/local/bin", "ELECTION_DATE": election_date, "EDITION": edition},
+        cwd=ROOT, env={**os.environ, "PATH": f"{Path(sys.executable).parent}{os.pathsep}{os.environ.get('PATH', '')}",
+             "ELECTION_DATE": election_date, "EDITION": edition},
         capture_output=True, text=True, check=True,
     )
     return out.stdout
