@@ -7,10 +7,10 @@ VERSIÓN: 1.3.0
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-14
 ESTADO: candidato
-CAMBIOS 1.3.0 (T-298): la batería no vuelve a ine.es. `nacionales` toma las fuentes de la copia local, de inputs/partes o del
-  release-espejo (configuracion/fuentes_ine_espejo.yaml) y verifica su sha256 (si no cuadra, falla). La entrada mínima en R2
+CAMBIOS 1.3.0 (T-298): la batería no vuelve a ine.es. `nacionales` toma las fuentes de la copia local, de inputs/partes o de R2 (ARC-E,
+  arc-e/fuentes/ine/<nombre>_<sha12>.zip, índice orchestracion/fuentes_r2.json) y verifica su sha256 (si no cuadra, falla); `subir-fuentes` las sube. La entrada mínima en R2
   se indexa por la identidad del contrato (no por id de territorio): `entradas --desde-r2` la lee de
-  bateria/entradas/identidad/<id16>.zip y comprueba el sha256 de cada fichero contra su ENTRADAS.json. Causa: archivo_r2.json
+  arc-e/entradas-minimas/<id16>.zip y comprueba el sha256 de cada fichero contra su ENTRADAS.json. Causa: archivo_r2.json
   no tiene ningún estado M03 y `entradas` no leía lo que `archivar` sube: cada job volvía a bajar el INE.
 CAMBIOS 1.2.5 (T-258): un único vigente. `composicion_publicada` delega en ddd_motor2.vigente.vigente_publicado, el
   mismo que usa la competición (generadores 1.2.2); si el run publicado no tiene composición versionada ya no cae en
@@ -73,7 +73,7 @@ QUÉ HACE: subcomandos
               Con --desde-r2 reutiliza antes el estado ddd-state-<run>-M03 archivado en R2 (orchestracion/archivo_r2.json)
               si su sha256 cuadra y lleva la identidad del contrato vigente. Solo se conserva la entrada mínima
               (M01 secciones + grafo M03, ENTRADA_MINIMA) y ENTRADAS.json con el sha256 de todo lo demás.
-  archivar    sube a R2 la entrada mínima de cada territorio (reconstruida o extraída de R2): bateria/entradas/identidad/<id16 del contrato>.zip
+  archivar    sube a R2 la entrada mínima de cada territorio (reconstruida o extraída de R2): arc-e/entradas-minimas/<id16 del contrato>.zip
               (cliente de herramientas/archivar_artefactos_r2.py; R2_BUCKET y R2_ACCOUNT_ID).
   lista       JSON {"include":[{"t":...}]} con los territorios pedidos (o los 71) para la matriz de Actions.
   huella      huella real (criterio a de T-194): repite la competición del motor 2 en <out>/_huella2 y compara la
@@ -157,8 +157,7 @@ def contrato(t: str) -> Path:
 
 
 # --------------------------------------------------------------------------- nacionales
-ESPEJO_INE = ROOT / "configuracion" / "fuentes_ine_espejo.yaml"
-REPO_ESPEJO = "jfmurciego/diputadodedistrito"
+INDICE_FUENTES = ROOT / "orchestracion" / "fuentes_r2.json"
 
 
 class FuenteNacionalError(RuntimeError):
@@ -166,31 +165,19 @@ class FuenteNacionalError(RuntimeError):
 
 
 def _espejo() -> dict:
-    return yaml.safe_load(ESPEJO_INE.read_text(encoding="utf-8"))["fuentes"]
+    return json.loads(INDICE_FUENTES.read_text(encoding="utf-8"))["fuentes"]
 
 
-def _descargar_release(tag: str, asset: str, dest: Path) -> None:
-    """Asset de un release del repositorio por REST (GH_TOKEN/GITHUB_TOKEN); nunca ine.es."""
-    import urllib.error
-    repo = os.environ.get("GITHUB_REPOSITORY") or REPO_ESPEJO
-    tok = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or ""
-    cab = {"Authorization": f"Bearer {tok}"} if tok else {}
-    api = f"https://api.github.com/repos/{repo}/releases/tags/{tag}"
-    with urllib.request.urlopen(urllib.request.Request(api, headers={**cab, "Accept": "application/vnd.github+json"}), timeout=60) as r:
-        assets = json.load(r).get("assets") or []
-    url = next((a["url"] for a in assets if a["name"] == asset), None)
-    if url is None:
-        raise FuenteNacionalError(f"el release {tag} no tiene el asset {asset}")
-    with urllib.request.urlopen(urllib.request.Request(url, headers={**cab, "Accept": "application/octet-stream"}), timeout=600) as r, open(dest, "wb") as fh:
-        shutil.copyfileobj(r, fh)
+def _bajar_r2(clave: str, dest: Path) -> None:
+    _r2_cp(f"s3://{os.environ['R2_BUCKET']}/{clave}", str(dest))
 
 
 def obtener_fuente_nacional(nombre: str, destino: Path) -> Path:
-    """Deja ``destino/nombre`` con el sha256 de configuracion/fuentes_ine_espejo.yaml. Orden: copia local (caché de Actions),
-    carpeta DDD_ESPEJO_DIR, inputs/partes (2025 y 65034), release-espejo. Nunca ine.es; sha256 distinto = FuenteNacionalError."""
+    """Deja ``destino/nombre`` con el sha256 de orchestracion/fuentes_r2.json (ARC-E). Orden: copia local, carpeta
+    DDD_ESPEJO_DIR, inputs/partes (2025 y 65034), R2 (arc-e/fuentes/ine/...). Nunca ine.es; sha256 distinto = FuenteNacionalError."""
     ficha = _espejo().get(nombre)
     if ficha is None:
-        raise FuenteNacionalError(f"{nombre}: no está en {ESPEJO_INE.name}")
+        raise FuenteNacionalError(f"{nombre}: no está en {INDICE_FUENTES.name}")
     esperado = ficha["sha256"]
     dest = destino / nombre
     dest.parent.mkdir(parents=True, exist_ok=True)
@@ -208,16 +195,50 @@ def obtener_fuente_nacional(nombre: str, destino: Path) -> Path:
                 fh.write(p.read_bytes())
     else:
         try:
-            _descargar_release(ficha["release_tag"], nombre, tmp)
+            _bajar_r2(ficha["clave"], tmp)
         except Exception as exc:  # noqa: BLE001
             tmp.unlink(missing_ok=True)
-            raise FuenteNacionalError(f"{nombre}: sin copia local ni release-espejo {ficha['release_tag']} ({exc})") from exc
+            raise FuenteNacionalError(f"{nombre}: sin copia local ni R2 {ficha['clave']} ({exc})") from exc
     if sha256(tmp) != esperado:
         obtenido = sha256(tmp)
         tmp.unlink(missing_ok=True)
         raise FuenteNacionalError(f"{nombre}: sha256 {obtenido} distinto del esperado {esperado}")
     tmp.rename(dest)
     return dest
+
+
+def subir_fuentes(args) -> int:
+    """Sube a R2 (ARC-E, permanente) cada fuente del índice: la baja de su URL oficial (o de inputs/partes), verifica el sha256 del
+    índice y la sube con metadato sha256. Es la única vez que se toca ine.es; lo lanza el Operador (bateria-motor.yml, subir_fuentes)."""
+    from herramientas.archivar_artefactos_r2 import r2_cliente
+    bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
+    if not bucket or not cuenta:
+        print("::error::BATERIA_R2_SIN_CREDENCIALES (R2_BUCKET/R2_ACCOUNT_ID)")
+        return 2
+    sha_remoto, subir = r2_cliente(bucket, cuenta)
+    tmpdir = Path(args.out) / "_fuentes"
+    tmpdir.mkdir(parents=True, exist_ok=True)
+    partes = ROOT / "inputs" / "partes"
+    for nombre, ficha in _espejo().items():
+        if sha_remoto(ficha["clave"]) == ficha["sha256"]:
+            print(f"{nombre}: ya en R2 {ficha['clave']}", flush=True)
+            continue
+        dest = tmpdir / nombre
+        dest.unlink(missing_ok=True)
+        if sorted(partes.glob(nombre + ".part*")):
+            with open(dest, "wb") as fh:
+                for p in sorted(partes.glob(nombre + ".part*")):
+                    fh.write(p.read_bytes())
+        else:
+            urllib.request.urlretrieve(ficha["origen_url"], dest)
+        h = sha256(dest)
+        if h != ficha["sha256"]:
+            print(f"::error::{nombre}: sha256 {h} distinto del índice {ficha['sha256']}")
+            return 1
+        subir(ficha["clave"], dest, h)
+        print(f"{nombre}: subida {ficha['clave']} sha256 {h}", flush=True)
+        dest.unlink()
+    return 0
 
 
 def nacionales(args) -> int:
@@ -244,7 +265,7 @@ def nacionales(args) -> int:
     manifest = {
         "schema": "ddd.bateria-nacionales/1.0",
         "ficheros": {p.name: {"sha256": sha256(p), "bytes": p.stat().st_size} for p in sorted(NACIONAL.glob("*.zip"))},
-        "origen": {"espejo": str(ESPEJO_INE.relative_to(ROOT)), "seccionado": URL_SECCIONADO, "65034": URL_65034},
+        "origen": {"indice": str(INDICE_FUENTES.relative_to(ROOT)), "seccionado": URL_SECCIONADO, "65034": URL_65034},
     }
     (NACIONAL / "NACIONALES.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps(manifest["ficheros"], indent=1))
@@ -458,7 +479,7 @@ def _id16(ident: dict) -> str:
 
 
 def clave_identidad(ident: dict) -> str:
-    return f"bateria/entradas/identidad/{_id16(ident)}.zip"
+    return f"arc-e/entradas-minimas/{_id16(ident)}.zip"
 
 
 def entradas_r2_identidad(t: str, out: Path) -> dict | None:
@@ -817,7 +838,7 @@ def matriz(args) -> int:
 def archivar(args) -> int:
     """Sube a R2 la entrada mínima de cada territorio, reconstruida desde fuente o extraída de un estado M03 de R2
     (así los estados completos M01-M03U pueden podarse, T-145):
-    clave bateria/entradas/identidad/<id16 de la identidad del contrato>.zip (T-298) con ENTRADAS.json + M01 + grafo M03."""
+    clave arc-e/entradas-minimas/<id16 de la identidad del contrato>.zip (T-298) con ENTRADAS.json + M01 + grafo M03."""
     from herramientas.archivar_artefactos_r2 import r2_cliente
     bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
     if not bucket or not cuenta:
@@ -840,8 +861,10 @@ def archivar(args) -> int:
                 zf.writestr(info, (ent.parent / nombre).read_bytes())
         clave = clave_identidad({**(r.get("identidad_contrato") or {}), "contrato_sha256": (r.get("identidad_contrato") or {}).get("contrato_sha256") or ""})
         h = sha256(paquete)
-        if sha_remoto(clave) != h:
-            subir(clave, paquete, h)
+        # La clave por territorio se conserva: podar_r2.tiene_entrada la exige antes de borrar estados M01-M03.
+        for k in (clave, f"bateria/entradas/{r['territorio']}/{huella}.zip"):
+            if sha_remoto(k) != h:
+                subir(k, paquete, h)
         indice[r["territorio"]] = {"url": f"r2://{bucket}/{clave}", "sha256": h, "bytes": paquete.stat().st_size,
                                    "entrada_minima": r["entrada_minima"], "identidad_contrato": r.get("identidad_contrato")}
     (out / "ARCHIVO_ENTRADAS.json").write_text(json.dumps(indice, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -1248,6 +1271,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("nacionales")
+    sub.add_parser("subir-fuentes").add_argument("--out", default=str(OUT))
     for nombre in ("entradas", "motor"):
         p = sub.add_parser(nombre)
         p.add_argument("territorios", nargs="*")
@@ -1276,7 +1300,7 @@ def main(argv=None) -> int:
     p.add_argument("territorios", nargs="*")
     p.add_argument("--out", default=str(OUT))
     a = ap.parse_args(argv)
-    return {"lista": lista, "huella": huella, "indicadores": indicadores, "aceptacion": aceptacion, "nacionales": nacionales, "entradas": entradas, "motor": motor, "matriz": matriz, "archivar": archivar}[a.cmd](a)
+    return {"lista": lista, "huella": huella, "indicadores": indicadores, "aceptacion": aceptacion, "nacionales": nacionales, "subir-fuentes": subir_fuentes, "entradas": entradas, "motor": motor, "matriz": matriz, "archivar": archivar}[a.cmd](a)
 
 
 if __name__ == "__main__":

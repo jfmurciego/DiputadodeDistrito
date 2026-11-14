@@ -6,9 +6,10 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-import yaml
+import json
 
 from herramientas import bateria_motor as b
+from herramientas import podar_r2
 
 ROOT = Path(__file__).resolve().parents[1]
 # Valores independientes: medidos sobre la descarga real del INE (2026-11-14) y de inputs/partes/reconstruir_fuentes.sh.
@@ -22,14 +23,20 @@ SHA = {
 
 class EspejoIne(unittest.TestCase):
     def test_ficha_de_las_cuatro_fuentes(self):
-        f = yaml.safe_load((ROOT / "configuracion/fuentes_ine_espejo.yaml").read_text(encoding="utf-8"))["fuentes"]
+        f = json.loads((ROOT / "orchestracion/fuentes_r2.json").read_text(encoding="utf-8"))["fuentes"]
         self.assertEqual({k: v["sha256"] for k, v in f.items()}, SHA)
-        self.assertEqual(f["seccionado_2023.zip"]["release_tag"], "fuente-ine-seccionado-2023")
-        self.assertEqual(f["65034.csv.zip"]["release_tag"], "fuente-ine-65034-2025")
+        for k, v in f.items():
+            self.assertEqual(v["clave"], f"arc-e/fuentes/ine/{k.rsplit('.zip', 1)[0]}_{SHA[k][:12]}.zip")
+            self.assertTrue(v["origen_url"].startswith("https://www.ine.es/") and v["descargado_en"] and v["bytes"])
+        self.assertEqual(f["seccionado_2023.zip"]["bytes"], 64929708)
+
+    def test_la_poda_no_puede_borrar_arc_e(self):
+        for k in ("arc-e/fuentes/ine/seccionado_2023_7a15e700a459.zip", "arc-e/entradas-minimas/0123456789abcdef.zip"):
+            self.assertIsNone(podar_r2._ESTADO.match(k))
 
     def _con_ficha(self, td: Path, contenido: bytes):
         import hashlib
-        ficha = {"x.zip": {"release_tag": "fuente-ine-x", "sha256": hashlib.sha256(contenido).hexdigest()}}
+        ficha = {"x.zip": {"clave": "arc-e/fuentes/ine/x.zip", "sha256": hashlib.sha256(contenido).hexdigest()}}
         return mock.patch.object(b, "_espejo", lambda: ficha)
 
     def test_toma_del_espejo_sin_red_y_sin_ine(self):
@@ -57,30 +64,32 @@ class EspejoIne(unittest.TestCase):
                     b.obtener_fuente_nacional("x.zip", td / "nac")
             self.assertFalse((td / "nac/x.zip").exists())
 
-    def test_sin_copia_ni_release_falla_sin_ir_al_ine(self):
+    def test_sin_copia_ni_r2_falla_sin_ir_al_ine(self):
         with tempfile.TemporaryDirectory() as td:
             td = Path(td)
             vistas = []
 
-            def release_caido(tag, asset, dest):
-                vistas.append(tag)
-                raise OSError("sin release")
+            def r2_caido(clave, dest):
+                vistas.append(clave)
+                raise OSError("sin R2")
             with self._con_ficha(td, b"datos"), mock.patch.dict("os.environ", {}, clear=False), \
-                    mock.patch.object(b, "_descargar_release", release_caido):
+                    mock.patch.object(b, "_bajar_r2", r2_caido):
                 with self.assertRaises(b.FuenteNacionalError):
                     b.obtener_fuente_nacional("x.zip", td / "nac")
-            self.assertEqual(vistas, ["fuente-ine-x"])
+            self.assertEqual(vistas, ["arc-e/fuentes/ine/x.zip"])
 
-    def test_la_bateria_no_nombra_descargas_del_ine(self):
-        src = (ROOT / "herramientas/bateria_motor.py").read_text(encoding="utf-8")
-        self.assertNotIn("urlretrieve", src)
+    def test_solo_subir_fuentes_toca_el_ine(self):
+        import inspect
+        for f in (b.nacionales, b.obtener_fuente_nacional, b.entradas):
+            self.assertNotIn("urlretrieve", inspect.getsource(f))
+            self.assertNotIn("urlopen", inspect.getsource(f))
 
     def test_clave_r2_por_identidad_no_por_territorio(self):
         a = {"contrato": "territorios/aut01/config/aut01_2025.yaml", "contrato_sha256": "1", "package_sha256": "p", "compatibility_identity_sha256": "c"}
-        o = {**a, "contrato": "territorios/andalucia/config/andalucia_2025.yaml", "contrato_sha256": "2"}
+        o = {**a, "contrato": "territorios/otro/config/otro_2025.yaml", "contrato_sha256": "2"}
         self.assertEqual(b.clave_identidad(a), b.clave_identidad(o))
         self.assertNotEqual(b.clave_identidad(a), b.clave_identidad({**a, "package_sha256": "q"}))
-        self.assertRegex(b.clave_identidad(a), r"^bateria/entradas/identidad/[0-9a-f]{16}\.zip$")
+        self.assertRegex(b.clave_identidad(a), r"^arc-e/entradas-minimas/[0-9a-f]{16}\.zip$")
 
 
 if __name__ == "__main__":

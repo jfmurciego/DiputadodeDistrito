@@ -116,7 +116,7 @@ class BateriaMotor2EnActions(unittest.TestCase):
     def test_modo_m05_intacto_y_motor2_en_matriz(self):
         j = self.wf["jobs"]
         self.assertEqual(j["bateria"]["timeout-minutes"], 300)
-        self.assertEqual(j["bateria"]["if"], "${{ inputs.motor != 'motor2' }}")
+        self.assertEqual(j["bateria"]["if"], "${{ inputs.motor != 'motor2' && !inputs.subir_fuentes }}")
         self.assertEqual(j["competicion"]["timeout-minutes"], 360)
         self.assertFalse(j["competicion"]["strategy"]["fail-fast"])
         self.assertEqual(j["competicion"]["env"]["PYTHONHASHSEED"], "0")
