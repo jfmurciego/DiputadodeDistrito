@@ -14,7 +14,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
+sys.path.insert(0, str(ROOT))
 import composicion_m06 as cm  # noqa: E402
+from ddd_core import territorio_ids as ti  # noqa: E402
+from ddd_motor2.vigente import vigente_publicado  # noqa: E402
 
 WORKFLOW = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
 
@@ -85,6 +88,17 @@ class PublicarComposicion(unittest.TestCase):
         self.assertTrue(viejo.read_text().startswith("seccion,"))
         self.assertFalse((self.salida / "runs" / "aut01_555.csv").exists())
 
+    def test_el_vigente_lee_la_composicion_escrita_con_id_nuevo_o_viejo(self):
+        reg = self.tmp / "orchestracion"
+        reg.mkdir()
+        (reg / "publicaciones_visor.json").write_text(json.dumps({"products": [
+            {"kind": "canonical_m06", "territory_id": ti.id_legacy("aut01"), "run_id": "555"}]}), encoding="utf-8")
+        cm.publicar(self._escribir([self._desc("a.zip", ti.id_legacy("aut01"), _m06({0: (2, 150), 1: (1, 70)}))]),
+                    self.run, self.tmp / "datos" / "composicion")
+        v = vigente_publicado("aut01", self.tmp)
+        self.assertEqual((v.run, v.motivo), ("555", ""))
+        self.assertTrue(v.ruta.is_file())
+
 
 class FlujoP50(unittest.TestCase):
     def test_workflow_extrae_antes_de_crear_blobs_y_persiste(self):
@@ -93,6 +107,24 @@ class FlujoP50(unittest.TestCase):
         self.assertIn('datos_abiertos datos/composicion)', WORKFLOW)
         self.assertIn('git add -A -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos datos/composicion', WORKFLOW)
         self.assertNotIn("set +e", WORKFLOW)
+
+    def test_descarga_prefiere_estado_m06_luego_m07_y_registra_cual(self):
+        self.assertIn("for estado in M06 M07; do", WORKFLOW)
+        self.assertIn('"ddd-state-$run-$estado*"', WORKFLOW)
+        self.assertIn("estado=$estado_usado", WORKFLOW)
+        self.assertLess(WORKFLOW.index("for estado in M06 M07"), WORKFLOW.index("--pattern 'ddd-*'"))
+
+    def test_fallo_sin_composicion_es_codigo_44_con_el_territorio(self):
+        d = Path(tempfile.mkdtemp())
+        run = d / "r"
+        run.mkdir()
+        m06 = d / "a.zip"
+        m06.write_bytes(_m06({0: (1, 1)}))
+        desc = d / "d.json"
+        desc.write_text(json.dumps([{"kind": "canonical_m06", "territory_id": "aut01", "run_id": "9", "local_source": str(m06)}]), encoding="utf-8")
+        r = cm.publicar(desc, run, d / "s")
+        self.assertEqual(list(r["no_recuperados"]), ["aut01"])
+        self.assertEqual(cm.main(["--descriptores", str(desc), "--origen", str(run), "--salida", str(d / "s")]), 44)
 
 
 if __name__ == "__main__":
