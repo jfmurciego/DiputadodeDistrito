@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -67,19 +67,19 @@ territory_contract:
   population_floor_ratio: 0.85
   population_cap_ratio: 1.15
   target_tolerance_ratio: 0.15
-  limits_profile: exception
-  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
-    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
-    se divide.'
-  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits
-  limits_exception_decided_at: '2026-10-31'
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
+  limits_profile: exception
+  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
+    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
+    se divide.'
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits
+  limits_exception_decided_at: '2026-10-31'
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -267,10 +267,11 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 883e851ce61df689327b3b4c4a6b88b76accd452e48fc8f9bb59b06a4f366da7
+  contract_sha256: e5b3b4c6a190d0b55ea4133807508d47592a8eba8e1a2d1e0d963ddf563879d7
+  package_contract_sha256: 883e851ce61df689327b3b4c4a6b88b76accd452e48fc8f9bb59b06a4f366da7
 generation_state:
   source_prepared: true
-  generation_enabled: true
+  generation_enabled: false
   package_sha256: ec7faa59e58c97237304ebdcd482ae6f79c89373a9a5dc4c105b0036bfc850ad
   compatibility_identity_sha256: 2e3ac2d972cdfb374547fdd2b2fba0b8cf9796898bc43ed060b5874efae31020
   source_inputs:
@@ -322,6 +323,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41242424551
-  pre_m04_source_commit: 64bbc3322c14d549bbf767151ad132a03d811396
-  pre_m04_artifact_sha256: 85acb01b1a19b5ff5b966602bbcb8a639f82aff24960e4b4068ffad42d58f75b
