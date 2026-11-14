@@ -1191,25 +1191,25 @@ territories:
         run_id: 42953757677
         stage: M08
       preparation_evidence:
-        run_id: 41241768943
-        artifact_name: ddd-source-package-congreso_castellon-2025-41241768943
-        artifact_sha256: a6af0b7655a6a5e72d00d2c6a2cf575999cffb03ef8f2ebd4de8f75f1946368b
+        run_id: 43651935343
+        artifact_name: ddd-source-package-nac12-2025-43651935343
+        artifact_sha256: 21c4055d28b1deb32e93ffae088f277800482eb1062f7253ce71736de42ec482
         package_sha256: 2fb73fe7f4cd3909b739a94e2ca9d66bcfac872448f966e4db000a9431c36fa0
-        receipt_path: territorios/nac12/evidencia/fuentes_territoriales/2025/521843ff70d449199d943dedad2f09b1cfe0274e5b1a57534021247b0048bcd8/41241768943/receipt.json
-        territorial_identity_sha256: 521843ff70d449199d943dedad2f09b1cfe0274e5b1a57534021247b0048bcd8
+        receipt_path: territorios/nac12/evidencia/fuentes_territoriales/2025/24201e2622788035e09c02eba2c022353f6fd033f27b99c0e46e85f626832a9e/43651935343/receipt.json
+        territorial_identity_sha256: 24201e2622788035e09c02eba2c022353f6fd033f27b99c0e46e85f626832a9e
         compatibility_report_sha256: 964e8886a176c85c38f933e8abf6ca5e63399490dd7caaf0cf955309ad3a8851
         compatibility_identity_sha256: 96afbcc041a7e07087ae7e18017cacb90c15477876a74a67fee4acae903abfdd
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: a1e2f698a41d04dc9e34ddf640b8d8aaf804e0a2
+        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
       evidence:
         electoral_source: territorios/nac12/evidencia/fuentes_electorales/2025/edc1431446e17982e9143687d587d8ab6c7a468907295f7be0f207c812bce6d1/41239799217/receipt.json
-        generation_preflight: territorios/nac12/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac12/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac12/evidencia/pares_fuentes/2025/8bbe77deb9c92332e6b8b61310217afa1d5be4d24eb252319b98f2943a3406c6.json
         electoral_product: territorios/nac12/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/nac12/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: nac13
   name: Congreso Ciudad Real
   editions:
@@ -1230,25 +1230,25 @@ territories:
         run_id: 42954776957
         stage: M08
       preparation_evidence:
-        run_id: 41291967967
-        artifact_name: ddd-source-package-congreso_ciudad_real-2025-41291967967
-        artifact_sha256: 9214781fd49abe2893797b721cf53f5b09de138a7fc327eb9f10086a22bca558
+        run_id: 43651946304
+        artifact_name: ddd-source-package-nac13-2025-43651946304
+        artifact_sha256: a03901637464bdaf2060c0136842f22809454fd0beb32a14c8b3d463ce14f1c5
         package_sha256: 15481287c881a0987fbd9442af2d5caf63a4f151fa6e4ce02fb26b81c697403f
-        receipt_path: territorios/nac13/evidencia/fuentes_territoriales/2025/386ebde0e1022c0d9422c22b18559e5548dd8c117d92115088e96455e3c00163/41291967967/receipt.json
-        territorial_identity_sha256: 386ebde0e1022c0d9422c22b18559e5548dd8c117d92115088e96455e3c00163
+        receipt_path: territorios/nac13/evidencia/fuentes_territoriales/2025/4658a851a87ad9a8374072444b63f3c2ebb3410f2969a5161c30eda19295c417/43651946304/receipt.json
+        territorial_identity_sha256: 4658a851a87ad9a8374072444b63f3c2ebb3410f2969a5161c30eda19295c417
         compatibility_report_sha256: 0406824f5b31d61513005b480dd1d2679c9a779eaecbbd44af3cada87dcb6a3a
         compatibility_identity_sha256: 5f1c747bd0c9286140c905ffbbc01c7e751012d90c4aed7489a26cc78e33b8d5
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: d73703d1c87a46762a874f2b3e4a008649963349
+        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
       evidence:
         electoral_source: territorios/nac13/evidencia/fuentes_electorales/2025/630a53d22aa8839036f217167de1fced81ae36f4aaca31cd8a1f3d2aadc1888d/41239804426/receipt.json
-        generation_preflight: territorios/nac13/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac13/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac13/evidencia/pares_fuentes/2025/8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015.json
         electoral_product: territorios/nac13/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/nac13/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: nac14
   name: Congreso Córdoba
   editions:
@@ -1269,25 +1269,25 @@ territories:
         run_id: 42953300723
         stage: M08
       preparation_evidence:
-        run_id: 41242424551
-        artifact_name: ddd-source-package-congreso_cordoba-2025-41242424551
-        artifact_sha256: e5d35701bc33a7dd3dd81ae3dd5a5b3f990ba1882eb322595d86a85940d542e6
+        run_id: 43651957259
+        artifact_name: ddd-source-package-nac14-2025-43651957259
+        artifact_sha256: 46a7d576cab7ac79b09b4bd522d807ce7796d609881f177c09748d46c2fab082
         package_sha256: ec7faa59e58c97237304ebdcd482ae6f79c89373a9a5dc4c105b0036bfc850ad
-        receipt_path: territorios/nac14/evidencia/fuentes_territoriales/2025/1cc0c1c99ea2414f971682afd838add438493bf11d16e3ed3080f71f9bd8435a/41242424551/receipt.json
-        territorial_identity_sha256: 1cc0c1c99ea2414f971682afd838add438493bf11d16e3ed3080f71f9bd8435a
+        receipt_path: territorios/nac14/evidencia/fuentes_territoriales/2025/c634da1344225bb2f8670858948bc371708f707f01f76c14eaa51ff57c7b04b3/43651957259/receipt.json
+        territorial_identity_sha256: c634da1344225bb2f8670858948bc371708f707f01f76c14eaa51ff57c7b04b3
         compatibility_report_sha256: f3d7da890d4ebfd8c51d801958df7fbc47f9007e84a38494bf6f7aff4eeaca08
         compatibility_identity_sha256: 2e3ac2d972cdfb374547fdd2b2fba0b8cf9796898bc43ed060b5874efae31020
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 3c8987226976760910b7711b660979a7f5f84c78
+        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
       evidence:
         electoral_source: territorios/nac14/evidencia/fuentes_electorales/2025/2c6b84f7b0ff5317d3c12aa8b7b195332e8b2d282a460a20241fbb4d6a3fa3bd/41239809492/receipt.json
-        generation_preflight: territorios/nac14/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac14/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac14/evidencia/pares_fuentes/2025/96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e.json
         electoral_product: territorios/nac14/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/nac14/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: nac15
   name: Congreso La Coruña
   editions:
@@ -1308,25 +1308,25 @@ territories:
         run_id: 42953518518
         stage: M08
       preparation_evidence:
-        run_id: 41243697404
-        artifact_name: ddd-source-package-congreso_la_coruna-2025-41243697404
-        artifact_sha256: c3e29f26b8c080248e37f94449ab610d6bec2423f02b77f3256de09080bef3a3
+        run_id: 43651967770
+        artifact_name: ddd-source-package-nac15-2025-43651967770
+        artifact_sha256: 4c480bb54297d44b2a5f5df26e8a668478701f8c8c384d9f734f6a13110f25fb
         package_sha256: 5489cd34367f4f5b7824c46708c178b88e734b8edb8233a15a73107120476df1
-        receipt_path: territorios/nac15/evidencia/fuentes_territoriales/2025/42f736f44a6b2656526202250d93615598a879813270bcb25280f0c478b6058b/41243697404/receipt.json
-        territorial_identity_sha256: 42f736f44a6b2656526202250d93615598a879813270bcb25280f0c478b6058b
+        receipt_path: territorios/nac15/evidencia/fuentes_territoriales/2025/fbf68df81975cbaa7fe6ee0028d0bc16a5a58c0a0bc769b568d64d0fc84c1f95/43651967770/receipt.json
+        territorial_identity_sha256: fbf68df81975cbaa7fe6ee0028d0bc16a5a58c0a0bc769b568d64d0fc84c1f95
         compatibility_report_sha256: eac37714897d4fb32f1bc6aa39c5122164db720a3961d28fe4a9cd858dec24a8
         compatibility_identity_sha256: d04771073502c80cc84aa784eeb378c6ec083d2594fd3c0d0afadc7f9dc770ee
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 5e8d4478b2f5591c121e5e1e28307ac5b130dee5
+        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
       evidence:
         electoral_source: territorios/nac15/evidencia/fuentes_electorales/2025/1e07330a56680771cc6c920fad75cbfa0efd30938dfcd8ca4f15387b6a219091/41239814650/receipt.json
-        generation_preflight: territorios/nac15/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac15/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac15/evidencia/pares_fuentes/2025/0edcee83874afdffefd871bd37738611d53f1a4d8c98d794ace159926d78e2cc.json
         electoral_product: territorios/nac15/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/nac15/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: nac16
   name: Congreso Cuenca
   editions:
@@ -1347,25 +1347,25 @@ territories:
         run_id: 42954007732
         stage: M08
       preparation_evidence:
-        run_id: 41236647382
-        artifact_name: ddd-source-package-congreso_cuenca-2025-41236647382
-        artifact_sha256: c5a7b2b573565cced64673bbf1e95a701570c9e739a2184a594e076eb9105dc6
+        run_id: 43651979100
+        artifact_name: ddd-source-package-nac16-2025-43651979100
+        artifact_sha256: 7e319865a2601226c129a6466d2ef94690de19fb28c824be5b3294893d2503d5
         package_sha256: 8325bca5fc3bc8170e644e6aea14fecc5325d19de22e0b48b268624e3f47a38d
-        receipt_path: territorios/nac16/evidencia/fuentes_territoriales/2025/9e9512f89d9d3c0e56571f9cca0f8aadcf3e58f00d84a482527ad2eb42bee75b/41236647382/receipt.json
-        territorial_identity_sha256: 9e9512f89d9d3c0e56571f9cca0f8aadcf3e58f00d84a482527ad2eb42bee75b
+        receipt_path: territorios/nac16/evidencia/fuentes_territoriales/2025/05638cd93d053839a67c5145b97be8833dd44c83b0c234947529cd3148e3c336/43651979100/receipt.json
+        territorial_identity_sha256: 05638cd93d053839a67c5145b97be8833dd44c83b0c234947529cd3148e3c336
         compatibility_report_sha256: f352e16942a83cff09f8382aeb720bc23a7f477d2bae1accbb6c0c0e6700b3f2
         compatibility_identity_sha256: 565d33955eb045149f067be0454fa73727cca4e73043a469cdd12d3c560d114a
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 09a4aeb9f22ae68bb252ffad76303ebd8fd0f02e
+        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
       evidence:
         electoral_source: territorios/nac16/evidencia/fuentes_electorales/2025/b0cbccd6e4ca463e8b42fe602e7b9eace43abd0b022971272ce293fb819c58f7/41236657374/receipt.json
-        generation_preflight: territorios/nac16/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac16/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac16/evidencia/pares_fuentes/2025/26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0.json
         electoral_product: territorios/nac16/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/nac16/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: nac17
   name: Congreso Gerona
   editions:
@@ -1386,25 +1386,25 @@ territories:
         run_id: 42954957703
         stage: M08
       preparation_evidence:
-        run_id: 41292216676
-        artifact_name: ddd-source-package-congreso_gerona-2025-41292216676
-        artifact_sha256: ca048f3a17c35e0bd7c58b57957eee38d9a58b9df34fc7f868cd15523c7915e6
+        run_id: 43651989454
+        artifact_name: ddd-source-package-nac17-2025-43651989454
+        artifact_sha256: a6b2524fc815750ddfe9d39fc9a71d874af79717affd66fc6e60fbace96d1d5a
         package_sha256: cffe40478cfeec3bd2bf3eb8b3bfe47391ee9c6a95d945d89276cdd0c9df9cde
-        receipt_path: territorios/nac17/evidencia/fuentes_territoriales/2025/d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688/41292216676/receipt.json
-        territorial_identity_sha256: d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688
+        receipt_path: territorios/nac17/evidencia/fuentes_territoriales/2025/33b6ff372aca5c1449a55bc35ea80d7a3549514b9fc258a2d324a75679680ac5/43651989454/receipt.json
+        territorial_identity_sha256: 33b6ff372aca5c1449a55bc35ea80d7a3549514b9fc258a2d324a75679680ac5
         compatibility_report_sha256: 4990515e234bd5c5dc7aca4d4763e787fa6b1442ed55b2e821ec0775d570e06d
         compatibility_identity_sha256: 43150bc97a6b9317867d6ea161cec81ae5765ae49bb749f25745e1869af092b0
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: d73703d1c87a46762a874f2b3e4a008649963349
+        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
       evidence:
         electoral_source: territorios/nac17/evidencia/fuentes_electorales/2025/a03b34676e4217823ee656f307a84c832a305ab6db19461e28c043a60e80bc8f/41239820081/receipt.json
-        generation_preflight: territorios/nac17/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac17/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac17/evidencia/pares_fuentes/2025/9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc.json
         electoral_product: territorios/nac17/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/nac17/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: nac18
   name: Congreso Granada
   editions:
@@ -1425,25 +1425,25 @@ territories:
         run_id: 42954091088
         stage: M08
       preparation_evidence:
-        run_id: 41243199582
-        artifact_name: ddd-source-package-congreso_granada-2025-41243199582
-        artifact_sha256: 094fb840cd04e2e88639ee37848937610b5a530fb8d27f7a19bcae9b0d12d881
+        run_id: 43652000219
+        artifact_name: ddd-source-package-nac18-2025-43652000219
+        artifact_sha256: d31d5222b94c6793109669a5ebbc78e16251b8c85014d24902e8ea2236236ebb
         package_sha256: f070e55093e12331f96971fc1cf739d192d36cbeff619f8772f5feb3e2fd8daf
-        receipt_path: territorios/nac18/evidencia/fuentes_territoriales/2025/6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f/41243199582/receipt.json
-        territorial_identity_sha256: 6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f
+        receipt_path: territorios/nac18/evidencia/fuentes_territoriales/2025/95e2db3fd6e20fdd0cc062700440e18d6608b95c31f9e21e07e5ac043fe6fd10/43652000219/receipt.json
+        territorial_identity_sha256: 95e2db3fd6e20fdd0cc062700440e18d6608b95c31f9e21e07e5ac043fe6fd10
         compatibility_report_sha256: 3ed0866b466e84f80a209b1563e62b0032648c99f635b532fea92eeebd35bbd8
         compatibility_identity_sha256: eeba10b2a057c1a9dcf1c7cc4ff3f5efb42981e210c5254e367e8361e67fd12a
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 6ff6532547597b240f067c72fa651388868d1ca4
+        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
       evidence:
         electoral_source: territorios/nac18/evidencia/fuentes_electorales/2025/dd0dd9e03aa8c8f9c39bb8dde4b95e3c2822a6e1491b91f3a0e99ee7b62de4d5/41239825488/receipt.json
-        generation_preflight: territorios/nac18/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac18/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac18/evidencia/pares_fuentes/2025/94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e.json
         electoral_product: territorios/nac18/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/nac18/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: nac19
   name: Congreso Guadalajara
   editions:
@@ -1464,25 +1464,25 @@ territories:
         run_id: 42955217289
         stage: M08
       preparation_evidence:
-        run_id: 41236816482
-        artifact_name: ddd-source-package-congreso_guadalajara-2025-41236816482
-        artifact_sha256: d5eccc8c9ef8f283fcdffd6f7bfaddbb032c9eed4a9438a880b10e187f64816f
+        run_id: 43652010786
+        artifact_name: ddd-source-package-nac19-2025-43652010786
+        artifact_sha256: 829024f031869b255f211a15141d9ca1004e46ec3ab89c73a6ab90f7d87e93c3
         package_sha256: 999307e568f21491c3698c3ab5e29d82a645bec12462879ec2741f692eb0adab
-        receipt_path: territorios/nac19/evidencia/fuentes_territoriales/2025/f69b4153c5b745f7e7902dd918fccbd0aa165a70f8f91107da8c7335c4a3846c/41236816482/receipt.json
-        territorial_identity_sha256: f69b4153c5b745f7e7902dd918fccbd0aa165a70f8f91107da8c7335c4a3846c
+        receipt_path: territorios/nac19/evidencia/fuentes_territoriales/2025/42b08a34df58de758a5e613785d720572b618519a804764b5b03844245b86c10/43652010786/receipt.json
+        territorial_identity_sha256: 42b08a34df58de758a5e613785d720572b618519a804764b5b03844245b86c10
         compatibility_report_sha256: c0686b2549d914adba6f21bc9c6d93c9b168f2c7705d1d26b26197b99a5e52b3
         compatibility_identity_sha256: 0020d4b06226f86bc7a3b8b38202383a9435c314f0f39313c912e3094231e983
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 2fa2d24ea024244737ae89e97380142a7c7cef14
+        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
       evidence:
         electoral_source: territorios/nac19/evidencia/fuentes_electorales/2025/f421d566485bcdc53d2c1f281efbb5210e1a5df8af79b7dc00a03cdfdf055d03/41236827273/receipt.json
-        generation_preflight: territorios/nac19/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac19/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac19/evidencia/pares_fuentes/2025/8e2ca58bb58ccfa32fd273ffc148de7417903eb55be4c99f088f26625449b5c1.json
         electoral_product: territorios/nac19/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/nac19/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: nac20
   name: Congreso Guipúzcoa
   editions:
@@ -1503,25 +1503,25 @@ territories:
         run_id: 42955375065
         stage: M08
       preparation_evidence:
-        run_id: 41292345223
-        artifact_name: ddd-source-package-congreso_guipuzcoa-2025-41292345223
-        artifact_sha256: a976165325eab1d3c50f8679127478846dd4d974d87cd51b49ac27361cdfa39e
+        run_id: 43652021243
+        artifact_name: ddd-source-package-nac20-2025-43652021243
+        artifact_sha256: 3240a660562f06523c1df9d3aeea10ebc4acb6fef12efdef195c3c54d21d5726
         package_sha256: 781031884f53f03ea9f122edbf318cea09165e1c0fca12884d448efb5e5248fd
-        receipt_path: territorios/nac20/evidencia/fuentes_territoriales/2025/024bb644bea5445a91424c09beb9991303c4ee4b6329927751b87565cac870c3/41292345223/receipt.json
-        territorial_identity_sha256: 024bb644bea5445a91424c09beb9991303c4ee4b6329927751b87565cac870c3
+        receipt_path: territorios/nac20/evidencia/fuentes_territoriales/2025/9b632e37e5042735600c2cd0fc2dcccb16120655fb7dd33f81a4de02d571a5a0/43652021243/receipt.json
+        territorial_identity_sha256: 9b632e37e5042735600c2cd0fc2dcccb16120655fb7dd33f81a4de02d571a5a0
         compatibility_report_sha256: e7b533af0508d0c5e425f44272222236294037de0a6635cacb221b48e18ec60b
         compatibility_identity_sha256: 1ffe2c1f0827eff763157368e00d3c00b452fc311fe6eb866ba8cd9986b3b068
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: d73703d1c87a46762a874f2b3e4a008649963349
+        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
       evidence:
         electoral_source: territorios/nac20/evidencia/fuentes_electorales/2025/d1051888a14ed29231c3a98cc0b7c5c77cfc90599ef0417b00fcb7336b114b88/41239830502/receipt.json
-        generation_preflight: territorios/nac20/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac20/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac20/evidencia/pares_fuentes/2025/9651126a3a22e99dd8d141cdc83ea292db8efd423747fd9739bcc78a505cda5e.json
         electoral_product: territorios/nac20/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/nac20/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: nac21
   name: Congreso Huelva
   editions:
@@ -1542,25 +1542,25 @@ territories:
         run_id: 42996002594
         stage: M08
       preparation_evidence:
-        run_id: 41318125504
-        artifact_name: ddd-source-package-congreso_huelva-2025-41318125504
-        artifact_sha256: af27ee7ec5b03e6ceda550072fa8d0a5e06d87708eed74fc20f584064a39340e
+        run_id: 43652031737
+        artifact_name: ddd-source-package-nac21-2025-43652031737
+        artifact_sha256: af43f3bb57ff20d4d6726f3f51a46c41e28543996374e817cffa7f10111bc620
         package_sha256: da4daaccb0afc09768c583e23b634cba5affbd7eb039be46bb52e938acbe90d9
-        receipt_path: territorios/nac21/evidencia/fuentes_territoriales/2025/2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42/41318125504/receipt.json
-        territorial_identity_sha256: 2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42
+        receipt_path: territorios/nac21/evidencia/fuentes_territoriales/2025/9a689b442eeb3c935c13872bbffd8d419d457e1d1283d460803794c9a394c348/43652031737/receipt.json
+        territorial_identity_sha256: 9a689b442eeb3c935c13872bbffd8d419d457e1d1283d460803794c9a394c348
         compatibility_report_sha256: ab60b5ba58663b29e1f07461362db19fa8b25d6a9cbecda81f2972b2a9cef111
         compatibility_identity_sha256: 49c5f6bc7f595886506cd0077a7f06a5399f9a572df547779a3ca144cbb6a357
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 03b39710d99d8cce48c5a16d80c61f348fc9a514
+        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
       evidence:
         electoral_source: territorios/nac21/evidencia/fuentes_electorales/2025/deb0fbf1e626ccccc6a1e0f0420f93779e92be4da48d4f6e58e8dd1b9bd9d99a/41239835955/receipt.json
-        generation_preflight: territorios/nac21/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac21/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac21/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json
         electoral_product: territorios/nac21/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/nac21/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: nac22
   name: Congreso Huesca
   editions:

@@ -1,0 +1,1523 @@
+{
+ "schema": "ddd.resultados-ligeros/1.0",
+ "origen": "orchestracion/publicaciones_visor.json (canonical_m08)",
+ "territorios": {
+  "andalucia": {
+   "run_id": "43204696160",
+   "blob_sha": "425807487142128ef44f9eec4f08e080722b4ef0",
+   "sha256_origen": "afbb5bed0cce9bd11fdb5584f66e3889123489526f3a4719722ffa7bf185191c",
+   "distritos": 109,
+   "sha256_csv": "c135101931259d762a9ae4a5861e54f700677ffeb78f629a8c664e3ca7809a62"
+  },
+  "aragon": {
+   "run_id": "43016936483",
+   "blob_sha": "773a8c5e13917dfadb06c8d2e484efd6237bafb6",
+   "sha256_origen": "03b71940477c2b7276aa01dd6a64c82083849f2504a7802a51f69dd7bfeec2d0",
+   "distritos": 67,
+   "sha256_csv": "a3f97672a39a013baa85814eda183640a69d8f20dc951631e042a54b15aaabd5"
+  },
+  "canarias": {
+   "run_id": "43020588641",
+   "blob_sha": "cf97cbb87e4daad5c6d60fd49388c0379bc6ae9b",
+   "sha256_origen": "2d5176fe267228ce5741780fd4edb9d0898727b869f3b70e1cb66c29bea36164",
+   "distritos": 70,
+   "sha256_csv": "e16c3b8f89b58ca08f357e19f6d9047f82c8be0243c016a178efd75b4894c9b4"
+  },
+  "cantabria": {
+   "run_id": "43033094596",
+   "blob_sha": "84d9a88700fa25c3f8c0fe238daf5631b49926af",
+   "sha256_origen": "c1bbe9bf2283213e36745eff6c56f8d70df6d13c9c667f1ecf22188e4176cd76",
+   "distritos": 35,
+   "sha256_csv": "53da6834f8726dab20302139dbe4dbcac89ea4c88d0d29b397ad54f064c0d2c6"
+  },
+  "castilla_la_mancha": {
+   "run_id": "43031565452",
+   "blob_sha": "cb3d7bacad5beb719760f3b70e533119fcac3c4e",
+   "sha256_origen": "40af02e2a7a4b4daf348ebb7bd8ebd3bad799b76a730a4b0c89154f9c1d04dff",
+   "distritos": 33,
+   "sha256_csv": "77cf902bc12683d87a6e4f22900f2aec8f6460c7acd3c3b5b95a0891919b14bb"
+  },
+  "castilla_y_leon": {
+   "run_id": "43030986959",
+   "blob_sha": "6e71151e52986fd40372a92d85ccf94e1fae8a7d",
+   "sha256_origen": "9d66c8f6c32da9b93f0b1e2924b8439042c23c7b88d52b3ed9b6f4e887c21a81",
+   "distritos": 82,
+   "sha256_csv": "9fad307449d6855a099f141900b293c92717827bb54f955846b3195d71adebd6"
+  },
+  "cataluna": {
+   "run_id": "43204706233",
+   "blob_sha": "b7f9e8ef972a2a23918d2722ae6573dae9251255",
+   "sha256_origen": "10420d3a193ae5d4fedae58982ba5a55e2f73af93d868ce9015f1329290f03c5",
+   "distritos": 135,
+   "sha256_csv": "f4d5c9c03c297f2365f3d2c7ea5d8cd79a9687877df21e119a72e8605176dd8d"
+  },
+  "ceuta": {
+   "run_id": "43052923691",
+   "blob_sha": "bea2bd9afda66967ec87d95c23513be280471eaf",
+   "sha256_origen": "746fa652f2fc024a012d2122a55941f2d9c8d8f1243c1fb95fd3a13db966073a",
+   "distritos": 25,
+   "sha256_csv": "032029f787958c5004db7d830ad6646b29b6cac17c3e12f1f60c1f1264b2a49b"
+  },
+  "comunidad_foral_de_navarra": {
+   "run_id": "43052874017",
+   "blob_sha": "2ad5c9e515b48b4c07c32aaa17b39579c59c4d2f",
+   "sha256_origen": "73d0dc9afa3f3c3735de968926a63464055f602edcf636c70650c6cdaae3a8c0",
+   "distritos": 50,
+   "sha256_csv": "65b1e70756b1b3628e76bb498b9083a9a891fbf45e62907283c87326e3b19285"
+  },
+  "comunidad_valenciana": {
+   "run_id": "43030421638",
+   "blob_sha": "0486bc90349234e6f63028bf9af0bbf16d44db5f",
+   "sha256_origen": "1bd659d14335b47c89303a46ad42a34b540656168d747ecf5fdcc1377eace49b",
+   "distritos": 99,
+   "sha256_csv": "871f0794aeb58eef8df38b30b455c73618cbdf2b63df97218dcb32f0bf2278ec"
+  },
+  "congreso_alava": {
+   "run_id": "42983088643",
+   "blob_sha": "f61a28e3d279c21252843ede64c343ec65a3429b",
+   "sha256_origen": "d850c12672e7a751b4728e5431a6297e7ce039f67ff030aad6e15238eb31a09d",
+   "distritos": 3,
+   "sha256_csv": "9092a5f63aaaa4ad4f8b5100af11bb4c54ab9238b68368ac761b4a38f0e11ca1"
+  },
+  "congreso_albacete": {
+   "run_id": "42952791883",
+   "blob_sha": "7bac264812763bc2123069db53db5af0e6231587",
+   "sha256_origen": "c25816b35e4f582a178d6502db02c9b847900a8179c959ad0bcced5b62810e41",
+   "distritos": 3,
+   "sha256_csv": "d921a10ffe44327bf3c553e0bc42bfd7952322ecaef4efed18edef68f76f204f"
+  },
+  "congreso_alicante": {
+   "run_id": "42953235024",
+   "blob_sha": "2a84e667e3bb71eb55d96cd3f392102bc2468281",
+   "sha256_origen": "b74f68cddf7a42c8490dd2422c2b6821665f4bcfb039f4e90b7834c912c3e03b",
+   "distritos": 17,
+   "sha256_csv": "ee7d4ab5bb3cad5dc84cee22235d89e8bd4ae5db84266e5f701b9a41c5d17047"
+  },
+  "congreso_almeria": {
+   "run_id": "42952468083",
+   "blob_sha": "bedaf7eb439353c612de1a3409bc9d3fb840dd99",
+   "sha256_origen": "67a368c7e36007a8cfebf718c8dd280eeb0272e974551b239a17553bd56d3d97",
+   "distritos": 6,
+   "sha256_csv": "2436105a9fd0521109691c0f7cbf12ca7c61008acca911d8a56446420f97bd5d"
+  },
+  "congreso_asturias": {
+   "run_id": "42985447971",
+   "blob_sha": "22f15b142f333415ceae08da8926d5f207784bc1",
+   "sha256_origen": "13426e3f99ee2e877620651dceeb379488797bcb6e7432aa7eb4656d3fb1a772",
+   "distritos": 8,
+   "sha256_csv": "abadefb3c025af0248dde5359f331759a65945ee45e20ff1e2b22b3ed719da9a"
+  },
+  "congreso_avila": {
+   "run_id": "42948760863",
+   "blob_sha": "aaf7d52d248339dfda6867025eeca3144dad4645",
+   "sha256_origen": "2fd11b04aa89795809b11d79dabd93eee97c32a88ad87e258ba23b87ca5c49e7",
+   "distritos": 1,
+   "sha256_csv": "ffafaa3c13379f0ee25a2f476e8a9ec13f0d28a794492ac842c9404614af949e"
+  },
+  "congreso_badajoz": {
+   "run_id": "42949289470",
+   "blob_sha": "3c924ae21b2e1f56c09ae52f303302666a7a5395",
+   "sha256_origen": "5f010bbc7e6b42d8b5cbac37c26df4bb1cb3043871222124ed542e551a2a90b9",
+   "distritos": 6,
+   "sha256_csv": "666f272dbad94e2bd525e649bec48587e87f3b428a99983415f1177dd7128549"
+  },
+  "congreso_baleares": {
+   "run_id": "42953068884",
+   "blob_sha": "00d0393d4197e7af90afd062496f4c54a7c05fe4",
+   "sha256_origen": "57390fd127c32ffdf24f27c7277d3cc7f40e5a28c1f2849c202dbe1167e7bc77",
+   "distritos": 10,
+   "sha256_csv": "df5f61fb42017454c18b8c6cd9ec50c32937d020bf2c7c638f565f81cf8ab900"
+  },
+  "congreso_barcelona": {
+   "run_id": "42953127263",
+   "blob_sha": "1a9d93b471db4485693ce05fa46ea0ed80434b1c",
+   "sha256_origen": "44ea0813870751cddd13b0df10adc3edacce22eaaae5a35b1af53e0962c93ca9",
+   "distritos": 50,
+   "sha256_csv": "61ea8e157f80e2ad05a339e482b45c10a6a770dc84576633d1b2dd6683cfbff2"
+  },
+  "congreso_burgos": {
+   "run_id": "42986581831",
+   "blob_sha": "b246767ba95f7fe67643bf73e5cf65fefff3bb3e",
+   "sha256_origen": "204b5694ae523dfd0bec74ddb9a8b1535e7290ef94197949a39dd1e1705caebb",
+   "distritos": 3,
+   "sha256_csv": "8f59a5b7d92bbcbef3cd3ce6104741a3cc1902730c5f8071da2115e035cd4945"
+  },
+  "congreso_caceres": {
+   "run_id": "42953363103",
+   "blob_sha": "c209fddde30a70b8f47b0a522223a0c09ed42e2a",
+   "sha256_origen": "96ab074d37f32c6421578b86a0a1ba62373a17723556dfe4d6cf447b69c9c909",
+   "distritos": 3,
+   "sha256_csv": "6826335d0e49100eab60f92389549c14430b162d2ff784a23f44f21a35f06cbb"
+  },
+  "congreso_cadiz": {
+   "run_id": "42953019279",
+   "blob_sha": "9ecda4b43788224697fe98362ec1ad5847d10f51",
+   "sha256_origen": "2d05227cac5a20d6769ea6a5fb2b5d84ace47e7d4497099fb7e91fc4b5cbec79",
+   "distritos": 11,
+   "sha256_csv": "84e90d01c11dae831d8308a13bc849601a1be0143f435430e108a14b776ec739"
+  },
+  "congreso_cantabria": {
+   "run_id": "42985965354",
+   "blob_sha": "a4ea073ceee9c82721df8496c1eba4ecbd75ddab",
+   "sha256_origen": "76a19c93495146e33f62c0d52ec5dd80765f6b2cccdaa2d6689081ea1e6167be",
+   "distritos": 5,
+   "sha256_csv": "de90a7ae76536a3d382cf9a44e24627fa7cbb6965ac2b864be00c30eaf51fc1b"
+  },
+  "congreso_castellon": {
+   "run_id": "42953757677",
+   "blob_sha": "b181a6baac99523872da37f16438664bd83aa0e0",
+   "sha256_origen": "8983bfd0e613628630c2474a210d12f7d27158dff5b8c1c1bd6be0c8ce83a7eb",
+   "distritos": 5,
+   "sha256_csv": "4cfe99e1bb71ac17c59d911a044e6cbf773c8cf91e9937ffe740a3a1e2958778"
+  },
+  "congreso_ceuta": {
+   "run_id": "42985728070",
+   "blob_sha": "e59429cfb031138a8cd0241efc79bd6dcf40257e",
+   "sha256_origen": "0b29d1cd07b484eba55452905afc8e536d8fe142d217af85f53e794164cf45cd",
+   "distritos": 1,
+   "sha256_csv": "ee58feb986b5906a52df87a9edc8ffafa2248512af54c305d833614992a70672"
+  },
+  "congreso_ciudad_real": {
+   "run_id": "42954776957",
+   "blob_sha": "ecf0872821326f3935dc8de0ad7a3138ace1ad5b",
+   "sha256_origen": "f5dd1cac4259b8f3778ffe9661eea97488a02496819da26756ed11c6e4377bfe",
+   "distritos": 4,
+   "sha256_csv": "bdb9d1c2007384ca751e4230e46fd9c89dc24f766f722a1eb12fda970caa3650"
+  },
+  "congreso_cordoba": {
+   "run_id": "42953300723",
+   "blob_sha": "66c383f799c48b06da5aedad71f3375955c7c699",
+   "sha256_origen": "b958ed608131a050298aa6c2e11a6f91cfb50e3b8c2b5c0068733257177dbe2c",
+   "distritos": 6,
+   "sha256_csv": "e76120e48f4ea2d5e3453af68f8862d03501ee66acec00cc2bc606922d5c6f92"
+  },
+  "congreso_cuenca": {
+   "run_id": "42954007732",
+   "blob_sha": "ab35eaf2c743ab11d0b3fcdf89a59832d5828291",
+   "sha256_origen": "f69e6b83a6058a5aa4bfe3fcb6e6dd4457e43a19a58283378dc6b51e3e9335c7",
+   "distritos": 2,
+   "sha256_csv": "e307b38364c1bddc11e97ec74fe47f2df3aec5fe47bca0b64c9431f5e8932af7"
+  },
+  "congreso_gerona": {
+   "run_id": "42954957703",
+   "blob_sha": "179d294c75bce0bd123b57f9db67bb28ec98e0e7",
+   "sha256_origen": "846059d87675b9256ee06e70cc44af86bcb4945e61594fddb180bf9405d0b716",
+   "distritos": 7,
+   "sha256_csv": "070252af622080262e8c2e00b06ffe133f8fe8725e87a83218ec8b9a9e68f9d3"
+  },
+  "congreso_granada": {
+   "run_id": "42954091088",
+   "blob_sha": "b2399d8d12f7135d4084cb72fb0619e44a12ea95",
+   "sha256_origen": "8cfc3a27a1d027b02e6b4ac7d5cdab4f4f89fd2e0fe4bdaa71e650f35a4eeb46",
+   "distritos": 8,
+   "sha256_csv": "a8cc6581642494c1ea06348e86f3f53042a8dfb3bd63ac630b23a75484fc9567"
+  },
+  "congreso_guadalajara": {
+   "run_id": "42955217289",
+   "blob_sha": "467f8ab318110b4ede064453db74a90bae3379de",
+   "sha256_origen": "8654c3a680cd7a356987e6f39da01c8da37989af7c226d493a6cd1307be6bbff",
+   "distritos": 2,
+   "sha256_csv": "ed5c12cf69b9eb0af95e56b61c20cb26152a72dc90b37bf690d67eff48995bbd"
+  },
+  "congreso_guipuzcoa": {
+   "run_id": "42955375065",
+   "blob_sha": "707c5fc27b8c6354c876d97f8408f07794d998a0",
+   "sha256_origen": "2b133f68d5548139f47cf454dde6e11bda31b10a0aa620429bbdd48592d8a7a1",
+   "distritos": 6,
+   "sha256_csv": "c5f869a905099d598f173310ecf4c28df56e198094b3bbc39e7fded4aec8bdb7"
+  },
+  "congreso_huelva": {
+   "run_id": "42996002594",
+   "blob_sha": "9791d3198576616af407c789e0931b149d9fdde6",
+   "sha256_origen": "671440cea9285580bff6faf334652e419677f9a2c7115df8a554c6f66aea8303",
+   "distritos": 4,
+   "sha256_csv": "4b812742101a79d4841b375ee8c1f45b8b913e8313c1bae62d086c9f37b43a65"
+  },
+  "congreso_huesca": {
+   "run_id": "42996217596",
+   "blob_sha": "e40d27c9b4033d3a18188e100b5f5f51399b1cc9",
+   "sha256_origen": "9d66937af2005faf4de2e0608e0d02cab6b8a0e70a937fabe93dad1dab434d0b",
+   "distritos": 2,
+   "sha256_csv": "87cb14adf8ea0721136dd88b45ae14fc97123fdd3b9f75a4977ba540afa6fd8a"
+  },
+  "congreso_jaen": {
+   "run_id": "42955644352",
+   "blob_sha": "bcfea6bcace9bfd0a408ee225954c93a7bfcb550",
+   "sha256_origen": "f036df4405fec4b0d2feb44a9bdb17f8bb23a6f4756926231042aaf7ebf30e33",
+   "distritos": 5,
+   "sha256_csv": "c22146346a9120d48751e1f4bbda0190dd3f995b4a31aeecdbf5b4d80dc94422"
+  },
+  "congreso_la_coruna": {
+   "run_id": "42953518518",
+   "blob_sha": "4e43ca4deb9bcf90b4ac25fba90c939ff7f881b6",
+   "sha256_origen": "a1a013480ac475b23b8542f59ec9c64e8e996eaa4ca585d356838c5daf7d5af3",
+   "distritos": 9,
+   "sha256_csv": "2042d3dbe2720ce4a1b69ab33c7e4ad80b2d07dbfa7da65840da6c6c6e62dbcd"
+  },
+  "congreso_la_rioja": {
+   "run_id": "42935762636",
+   "blob_sha": "3c23a46238e562648c1e900439c36bd066d3ea23",
+   "sha256_origen": "c0f553f062d2536254d0bdff43753970553c185e23ef48568d5012c2201ea35d",
+   "distritos": 3,
+   "sha256_csv": "2a043015f24a032c2bc64a165d700ae45f2383120ac9a01da83fd5878c9229bf"
+  },
+  "congreso_las_palmas": {
+   "run_id": "42998268332",
+   "blob_sha": "0d6f9580ebb78ce6b53a4ca226db79c5fafb97cc",
+   "sha256_origen": "baccdf4c503453aecc82998880acf9f27f7a9f0999faa70723ef8bea4aae5da6",
+   "distritos": 10,
+   "sha256_csv": "eed9619e8fb3983fb74de3d50950495c21a3535737819dfe645540bfa12274a9"
+  },
+  "congreso_leon": {
+   "run_id": "42996717873",
+   "blob_sha": "5c9f47c00ed72acda7d2e503657fe3d8071ca769",
+   "sha256_origen": "cceffd959e104fb97989cb36c271ae1744d6d22b872f164702e0e47f8307472e",
+   "distritos": 4,
+   "sha256_csv": "7eca884ea8b700736abebf23575c8931fcafc48a7c1c3aede4dfb82e2b340594"
+  },
+  "congreso_lerida": {
+   "run_id": "43064129984",
+   "blob_sha": "38471b2b29ae6c60705b15c70568dd16316c0ca4",
+   "sha256_origen": "7aa1e710aa78526de0edd63d7b9cb1f9aff9d8d62c50890f66a7e76e1a058531",
+   "distritos": 4,
+   "sha256_csv": "bd81485b4409e78bdfc52ce92c2c8e151d142656dd82b2e8ac88b1f9cf4d217f"
+  },
+  "congreso_lugo": {
+   "run_id": "42995722473",
+   "blob_sha": "9619ea1f7234be5e26a56a57aa9c13dbc7135de1",
+   "sha256_origen": "16f7e61620034eb5b72811e15bf1aa48c140714c02d3a4644aed6c656a9e9086",
+   "distritos": 3,
+   "sha256_csv": "5c3d874ccd329b2cc07153df098c1f413ef4b381969357e6f13a0f5082d74218"
+  },
+  "congreso_madrid": {
+   "run_id": "43006307734",
+   "blob_sha": "4e4998a31b684d1d90797201d618c553251e3774",
+   "sha256_origen": "fab3baa705973a340918592c216d7ae13128367c2287e6bf3593eeea7eb6800b",
+   "distritos": 59,
+   "sha256_csv": "42a6f4c18b13ce986585ea07076c8f8d910c6aa47e75d2cb156ed4c78b62777a"
+  },
+  "congreso_malaga": {
+   "run_id": "43006442219",
+   "blob_sha": "ece4332980b4bfad2d097147d7701529388ff08f",
+   "sha256_origen": "7f02530d9044c2e6af858047a67d03c738d622c19d6cf0328b0ecdc49ffe0ce8",
+   "distritos": 15,
+   "sha256_csv": "878d1c981da30257da294d6e93b7463ce303f2616e49b5e0d145b616685de1f6"
+  },
+  "congreso_melilla": {
+   "run_id": "43006105644",
+   "blob_sha": "ba4a73d94b04c5e05a61636c3c7fea64c57ed34e",
+   "sha256_origen": "a0c987af990a6fd35a5423a68fababf44a3f679e3e8625d3800498e89cd9cda0",
+   "distritos": 1,
+   "sha256_csv": "badcefec022696cd6177b05a2a48ea3a7c3e146cdcc2df62d866fc37abed9411"
+  },
+  "congreso_murcia": {
+   "run_id": "43005676593",
+   "blob_sha": "efb94443986ffc1b2910424f00eaf8d15f3e69bc",
+   "sha256_origen": "e05133a8d5d480818e1884c77f42c99dd73319a67c193dfad92c049dd00b44e9",
+   "distritos": 13,
+   "sha256_csv": "9afa86877d775f15686c0cb424844e91f1892207e205b6c31882b21219ad32d1"
+  },
+  "congreso_navarra": {
+   "run_id": "43006653960",
+   "blob_sha": "1ea20ec8e377b61ad26111422d9a0461ed7f3969",
+   "sha256_origen": "e4ede00ae43b44360ccbf8f80379b5fa6bc42f974968a4d5a8cf4304b48405bf",
+   "distritos": 6,
+   "sha256_csv": "90ce3fcf154333991cd9caecf28d75c2caeff9fb92be9518bc4df058f1731b24"
+  },
+  "congreso_orense": {
+   "run_id": "43016113065",
+   "blob_sha": "1bab13f69a8fa6be65152ec0cd5c047dd00babab",
+   "sha256_origen": "6151f26b6acf043c25bae067cd933d96cf3e5a2f7eff43ea4cc57ff790f246b2",
+   "distritos": 3,
+   "sha256_csv": "bbac6b21cee33ffa92c9baf70b9e27a84fd6964f03ff91ca01733ee5c29538b4"
+  },
+  "congreso_palencia": {
+   "run_id": "43016085888",
+   "blob_sha": "bc34f3f74aef01d17258d970f806ba80ac458116",
+   "sha256_origen": "1f52be8e3879a6048b5169ce6802e3464b2a461a8ab7994bd7e40c21c9b8714f",
+   "distritos": 1,
+   "sha256_csv": "8a741407abaa0fd67070dd1db1c66b44952e814fb043340e4772b1ed21ef50d0"
+  },
+  "congreso_pontevedra": {
+   "run_id": "43016524347",
+   "blob_sha": "8049cc4bcd6c26da100989543482665cce900ccf",
+   "sha256_origen": "4dee5840f794e88c854bf197ca3b6037d74a01efde5a6c078aa2d7081996106c",
+   "distritos": 8,
+   "sha256_csv": "1c2f451350383b9094f24a22bbf1c7a5ab72ad3c86362ddac9500d4d154ba1eb"
+  },
+  "congreso_salamanca": {
+   "run_id": "43017179163",
+   "blob_sha": "fa7c6be175bb6933ace6cbeb947872c033f9403a",
+   "sha256_origen": "e546b93be086b49610ebebfd71e0255ae7b5ec2371d8b3f0217fe81eeaf1f3f3",
+   "distritos": 3,
+   "sha256_csv": "ed3124dd7557e07e17dd33bd7774c84cc38a894ab1766127b83c5f3cc78a7e0d"
+  },
+  "congreso_santa_cruz_de_tenerife": {
+   "run_id": "43020203637",
+   "blob_sha": "c63f9e6c26b23030c722c806ccb6d3526c485946",
+   "sha256_origen": "fc4f90420d2498233beaca7fa6e1a954143ee3f3f20ed4de2b70ac4d4802c5d7",
+   "distritos": 9,
+   "sha256_csv": "5864f9d923df7df6e5d84f9df88f724eb2ffcac8127fd931d5538268b33bd648"
+  },
+  "congreso_segovia": {
+   "run_id": "43029353804",
+   "blob_sha": "9a4ae8cfadd2bb8506e037937b923a320825c2af",
+   "sha256_origen": "cb3f8a30da9bfc5cfc8b5486b6456efb95dcffd019d6d295e0bc0c3636074995",
+   "distritos": 1,
+   "sha256_csv": "38207341475d10dfc19eece3b8d94409f5e765ab5e23595d8029dbc726f22318"
+  },
+  "congreso_sevilla": {
+   "run_id": "43029566265",
+   "blob_sha": "63e02862be142bffa58caaa666b693a33a0b9772",
+   "sha256_origen": "6c707154d82c5a18c181ae4adcad204658e0dd924e6f51c1ac5bee8844581210",
+   "distritos": 16,
+   "sha256_csv": "8f27aa40b88e57982e4e5616297b7d214309a5f9855bad6fc61c55271c107adf"
+  },
+  "congreso_soria": {
+   "run_id": "43029280043",
+   "blob_sha": "965a901e0eaab291498860959ba5d02857bb259f",
+   "sha256_origen": "63350cd5fafea55f68d8da9c7185ed764eb66fb783f6d97c4c81b70cf0881f40",
+   "distritos": 1,
+   "sha256_csv": "c4b9b710d107cc66860b037c842b6ff76a9981dcb5027100de108c99876be317"
+  },
+  "congreso_tarragona": {
+   "run_id": "43029795470",
+   "blob_sha": "5687d3158066d07daf92e96a7ddc5b8f1c8f4b8d",
+   "sha256_origen": "d3c759bd07dd5567d7b36c37f7fdb8d00d79a9f0980b35906742f6306a6d4bc3",
+   "distritos": 7,
+   "sha256_csv": "3ac45cb41628603f1c9e08ebaf1a2fe8f734d562d9b083cdf2630a4b5050565c"
+  },
+  "congreso_teruel": {
+   "run_id": "43029189395",
+   "blob_sha": "c64353e52e43dde679ec1da3d0e52606e5258ba0",
+   "sha256_origen": "fa5978973734ce59f375aa061cc98a5b3a1945b5a84d1ca9b0b7f89e40413128",
+   "distritos": 1,
+   "sha256_csv": "66aead7e6e40735d145637d4606afefaaad9aecdddee917f9b2b460a95feb755"
+  },
+  "congreso_toledo": {
+   "run_id": "43040968638",
+   "blob_sha": "7ee195d7e7c6fa7564183663f7d0b00ead552bff",
+   "sha256_origen": "64aa784b5e38bb2a85def6acc90a34f3fe3e7c4a19a14cf92713c3ca4904f07a",
+   "distritos": 6,
+   "sha256_csv": "0553a73922aea4b8d376d7b37ed156c798bad407050f7c9e96ea8bc8a0fb9285"
+  },
+  "congreso_valencia": {
+   "run_id": "43041144007",
+   "blob_sha": "63814f658b321b5af4e1c09784844defd4f65d1f",
+   "sha256_origen": "25347c7fb21ad145fb017408854b72294ca11426dff8a84dfa70df0474db8057",
+   "distritos": 23,
+   "sha256_csv": "61e5d1db3d4629270d8bfdc899a46724f55d08c6d8a5948d8a0f939f85aac6b5"
+  },
+  "congreso_valladolid": {
+   "run_id": "43040794081",
+   "blob_sha": "f19b5e8c649d0d360af22bd8459dde5aa702efa6",
+   "sha256_origen": "1a7a2771ff38ef47fbe4981ceddc53dbf2fe235de5b826a4b306b9bd7b287e34",
+   "distritos": 4,
+   "sha256_csv": "73f61ca5247d2ff5c3c4a4d2711f7b24769ece8a63af465191d8524214a1d9f3"
+  },
+  "congreso_vizcaya": {
+   "run_id": "43040430397",
+   "blob_sha": "3955681a6b590820c7d1c689f4a88ea91dc8efe8",
+   "sha256_origen": "cb2dda48738e361ab7afd01f2eb785a3f6196e2d47bc30dc56e86dd1365201ca",
+   "distritos": 10,
+   "sha256_csv": "d9e8fd07f343cf087dc0188c2d5e31c86f411f526bc8736ae40693512692c0a7"
+  },
+  "congreso_zamora": {
+   "run_id": "43040878307",
+   "blob_sha": "a0ca5475a6ac6a6ab0b33d23f2044884a5535304",
+   "sha256_origen": "fa3434e06b3c1022e4c5a4e9887b5d7c00821794072b3d5e7fa4d174a1e2b321",
+   "distritos": 1,
+   "sha256_csv": "476ae37e98fe79377d74e7880fb9841bace98b41a30bf4ba88299232247f3d12"
+  },
+  "congreso_zaragoza": {
+   "run_id": "43041544479",
+   "blob_sha": "d2ee5ea04286ce9bd55d3d4222cb570c4462fdc4",
+   "sha256_origen": "309515467f187fe915e2b5e66ea1a5f539dcf1929a4379f4ba01d10b8c5bf395",
+   "distritos": 8,
+   "sha256_csv": "7280bea8120116814f2ac065ed16282c9cd220e7c71bbf57620988cdaad81403"
+  },
+  "extremadura": {
+   "run_id": "43051488486",
+   "blob_sha": "a3617481c37be64f4dc9d2460d78f67c1577a9aa",
+   "sha256_origen": "ee63759a093f57e37072b923aabb8bd6d480a71b766cecd09acf9ff2d0f25572",
+   "distritos": 65,
+   "sha256_csv": "0dcbe635d44e842c62e7c75d5c4ba5708b7132404dd8804f12d2ac0232a236e4"
+  },
+  "galicia": {
+   "run_id": "43051951192",
+   "blob_sha": "b1f546f429a85c648d298138cf96a5148787a987",
+   "sha256_origen": "08eea15509f673f8805b0094f21810b01165fdf003a5fc28a2a72f76d3a93150",
+   "distritos": 75,
+   "sha256_csv": "abd72c0f68f6b59dfb496d88c9f462b1efe69157eb224dd4468a5db277ce818c"
+  },
+  "illes_balears": {
+   "run_id": "43019811578",
+   "blob_sha": "c79cd78400f7883ec5615e2035cff786db5981eb",
+   "sha256_origen": "13464c74f801279ff85e51713fcccfdcf4982f43c2e7def3178d961ce31a63c6",
+   "distritos": 59,
+   "sha256_csv": "bfd8b2d1cbafea4276f012c9ccea1eacbec485f7b3b50282e6267031aff693b4"
+  },
+  "la_rioja": {
+   "run_id": "43007066596",
+   "blob_sha": "63fc466ba944f1e948f364cb189f3105219ebe61",
+   "sha256_origen": "551837610769aff28db91e068bfd1b5c527c67ad03ebaf47274a3e97ecc1103b",
+   "distritos": 33,
+   "sha256_csv": "9cbe8b178f62ab87499354cade92cef5e31b9f80bfb88b97929d3941a545f1d7"
+  },
+  "madrid": {
+   "run_id": "43053498550",
+   "blob_sha": "21a4a24196e12fe5f54fd6d180b4820c398c19ec",
+   "sha256_origen": "4d38c27e5d835f63ae339d7fbaa440bec1f058ba5a497e73fc0d125db3b30a47",
+   "distritos": 135,
+   "sha256_csv": "2861ebe4c91b5f2602107a31a0ffcfae43258d1936bc09db87c070856a0d06a9"
+  },
+  "melilla": {
+   "run_id": "43051007542",
+   "blob_sha": "b76907ce82cd17e93fe53dd3c0bcf19cf65b61e1",
+   "sha256_origen": "a93cc0771243ccf0f3a721bf6ea1d5e59a524cf40fa85aad39b4edbf5a3b973b",
+   "distritos": 25,
+   "sha256_csv": "4701421bb8851ead100eccc24a1c6c702a4ec9ea8d1a1e9227028b43a4713266"
+  },
+  "pais_vasco": {
+   "run_id": "43047232024",
+   "blob_sha": "2528cccca6aa6d557130b157e6a694b958bfa2c6",
+   "sha256_origen": "ac83a5f57b0b3c9d641b0f9d80a3e4a5ac4b260536e5425ae48a118c6e1842dd",
+   "distritos": 75,
+   "sha256_csv": "18ccd8cdf4d637a0bc2505e2f365e0b25c3d234de27fdeaf1c57380433c06487"
+  },
+  "principado_de_asturias": {
+   "run_id": "43016768497",
+   "blob_sha": "2b8c17030ee8855cc31125200f16e07c7d7e4248",
+   "sha256_origen": "5d4ef6b8067eea15f3a20698ef298cd5c4af71c3463a8914323a4e6be75a43e2",
+   "distritos": 45,
+   "sha256_csv": "54188282c46a92005d30577dbf8634812417c1949b7ae5f4c1dcc1fe9d47444b"
+  },
+  "region_de_murcia": {
+   "run_id": "43053208175",
+   "blob_sha": "00c441f9c988340c0f34f1550315dc40e38955c1",
+   "sha256_origen": "5860ae6fb78dbaea988add24e0cd7c4712d953b1b717fcab8b55eb913fde146d",
+   "distritos": 45,
+   "sha256_csv": "cff8c12ea151ee20582dfc9fac2a59801a220e8a17d73d485bc20293be9a9c3d"
+  }
+ },
+ "partidos": {
+  "congreso_alava": {
+   "blob_sha_m08": "d3fc88943f3b177aedc172a758785b7d9096c8e3",
+   "sha256_composicion": "a4507f48ddc8d95674949f533d9675cb1bb136b7125aca5c7c0f1a89d968f195",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "9d208c89b45c0ecf4f1994872f05a502b943fdd7cc8c62621df5489c4f26bf29"
+  },
+  "congreso_asturias": {
+   "blob_sha_m08": "9cfb9eecfd065e04360c4051c21c479db90639ad",
+   "sha256_composicion": "16a222a0928c730bfb7ddd60555f82b709a8fe0e34d4a545155fd6752d09d944",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ce555a3217691c7ae5b39e9280935d91f0ce0c6fe01f4dc7a6b557a4ba8c0b1c"
+  },
+  "congreso_baleares": {
+   "blob_sha_m08": "f4803b7cbbedfeb951917c06ee1ba5ba0bfae033",
+   "sha256_composicion": "bcdca9175ecaead38582a2dfe32f61b60e71b717145968a1382d326f3d7cb0c4",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "c8ef884f544b05bdf02bfb0e5050b83ad80ca7e17b68c527988cce346acba065"
+  },
+  "congreso_burgos": {
+   "blob_sha_m08": "74e2223eb893f175d8861db1c07ec6a7f2ca4510",
+   "sha256_composicion": "75199071b7b9d2cc7607006c451c3b389fedc881bd3e52833a62198d87ef6214",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "22d0e89d1f9931e50da6fde5c4421f8da8afcbf48532030c5f7f6c3946300ea5"
+  },
+  "congreso_cadiz": {
+   "blob_sha_m08": "8546ec32dc1be59241c53caecedbb4007d19f4af",
+   "sha256_composicion": "9efad3ca2d728627586a5eefbaf28a9b497f7cdcc48c44f01d64998cbe512c78",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "530006df2963b71074033fabb10fee0769cd509117ed0702a0f4e35fa911bef1"
+  },
+  "congreso_cantabria": {
+   "blob_sha_m08": "a1da06e542e1285fd2422e651fd100a60bea41e2",
+   "sha256_composicion": "7bf80faa7fa1423dfb2fa16e31b8e87b9a1b0ccee7cf3a105e7a73128c40af25",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "a1f48c1433b29d9010ebcde328140ee658df9021ee69a962a354791e571433ea"
+  },
+  "congreso_castellon": {
+   "blob_sha_m08": "c7205b34b76b9ed34c19838afecc27fe9124f135",
+   "sha256_composicion": "faf0cd57d563c2a2ec22363f7dcd2b4cd88d21de8f16a345eb137a61a7f67ae9",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "d40ca3de992b090deeeb38da35bf806cd310c8de99be0c702a83e6b606449e63"
+  },
+  "congreso_ceuta": {
+   "blob_sha_m08": "a4832d2fc00cc3442113ff09801c3e198433b091",
+   "sha256_composicion": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "1665fe8ce50499b9feb1d7b4e31c4745e631912f69b85cd1f58e460741b258b9"
+  },
+  "congreso_cuenca": {
+   "blob_sha_m08": "e29e727992f394a06e730933715684cf5421b5c1",
+   "sha256_composicion": "b742957de73b43e19db9512f9fdb686cfb731e7edb89ea62fef00b5b2dc14f1b",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "3917117c1cc0beec20707c43feb3ee39949870025d93a808d42031c85609facc"
+  },
+  "congreso_gerona": {
+   "blob_sha_m08": "be43a21eb06fe0b2b9464ba122339d24f2f476e3",
+   "sha256_composicion": "2b9e421dd8236727a42a2a2ca3fa77db5af10c41b4729a1fae2f5cdfc43f3a4c",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "2fc89720d66111f11aadcc86320bd05507a0a84e3c6961b9565f8d4ca75a6032"
+  },
+  "congreso_granada": {
+   "blob_sha_m08": "c66245657ddefc1de11baec0ff20d26de25900ef",
+   "sha256_composicion": "9cf457e6c2a8423fa78e429a7ec525191ce8270a7115019a503a483ee7109bcd",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "731a3e019c847253432bebedad7302c82492d9286160c9cfc35663862fea0de4"
+  },
+  "congreso_guadalajara": {
+   "blob_sha_m08": "4b459fd17245300468949ff20e2f119018d5c792",
+   "sha256_composicion": "866af96d6725859c3839c3c789d5f743c13e218c182c2ca2a21e77e3e45f3145",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "07f434c0b511238154f7de5d09c339f452e9fa37c84ada57c73215737eef7d93"
+  },
+  "congreso_huelva": {
+   "blob_sha_m08": "c7d817affd289cde0c069594366b0b4d929c628b",
+   "sha256_composicion": "b6e79d7bd464a5587ca98663ec3a22729c116a62d6c37527fdae133ff5e2a917",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "2454560fe5401a9db4b5d2a77b531a878fb392db4560d363d757473648b49ab5"
+  },
+  "congreso_huesca": {
+   "blob_sha_m08": "db4713cd49825d47c618325403e382476401686a",
+   "sha256_composicion": "e80ec32b04d6bcdb46de5f29b8064ab9ca26555f8c352f7b937fe5a02893b939",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "558edd5c4eb6243d798e0301f0fb8f7770b070a03ed7134f288053e2e0ef9fa5"
+  },
+  "congreso_las_palmas": {
+   "blob_sha_m08": "dc9480466ab380c928492c554cc1f11c7bdde9c2",
+   "sha256_composicion": "e817de3faad80aad9d78b2eeee006fcbdc96ba35789162c04b8894d3a6faf563",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "74f25a34893f50a7c846955fccd92fc9151f51cfdd3c997601dbc0fde484a9ea"
+  },
+  "congreso_leon": {
+   "blob_sha_m08": "fb9b05561399abd89a4c06bb3251d5d28712acc4",
+   "sha256_composicion": "295ee72e72479aa104d93d7f99b0e7d12fc72fd2835c025c74f8cac079dca9dd",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "a8460766899c79140e8ec6dfc9d7d2f4c9c5144d1fd24e82259c70945bd2d809"
+  },
+  "congreso_lerida": {
+   "blob_sha_m08": "95da3c81fe54d39d5c249d961d30fb9286729695",
+   "sha256_composicion": "c840bcd3261d9e18757b4184a8a7855eaaad57bd8e4eb0a4efadfe4882850707",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "89420ed2ecc6aaf55933086fcf36b1bc19e96e68a5f79dc290b031aa2eb0fdd3"
+  },
+  "congreso_melilla": {
+   "blob_sha_m08": "0359e7c88e9c1bc2c8f60a0615615e1dc6ac7276",
+   "sha256_composicion": "fdc1449d7dfc6cb385cb29aff9fb238724ec4566bd8b22e8b768abf47b436d0d",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "43ab4ac6fbe46ab67e028834ffb1ddc383782cbbe2f941c0a7702f2f23a7077c"
+  },
+  "congreso_murcia": {
+   "blob_sha_m08": "574d8ec0f1e61ac183c8b590c22141dacd75f17a",
+   "sha256_composicion": "e508964b031621bb1d80430ac4478b091f868be841cc42f4f39fa6936bff3d96",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "266c3f64399165bedede2765e96e181d78f80b28a80bcfc2c5d7b65a72479788"
+  },
+  "congreso_navarra": {
+   "blob_sha_m08": "0967d47647a8fc62faec9139809393a4c0dd0485",
+   "sha256_composicion": "fd0cf2bac1f6466b6f1d07ef04c3baa04abab73c1f2970720fdbd6614858d8d4",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "c911a7f00728a58b16978056cf2155e2a98f5df0945578c6fa0565241417b162"
+  },
+  "congreso_orense": {
+   "blob_sha_m08": "85aa91e079414ae53a062ab7bfff3e51effe02f5",
+   "sha256_composicion": "a8c192a962ebd0c22323f7a58a0bdd744a1c6038287381e9e36c4c20b555340d",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "89edc57de7b1ae0695ba2abae8782e5c0d56b97605c088179008bf9821825056"
+  },
+  "congreso_palencia": {
+   "blob_sha_m08": "a57583bcba9edd506c7a32b827166f4d0b7ae545",
+   "sha256_composicion": "3a6ce8ce35cdcef4f375975954a5f97a536515b1b6381c0aa69ba79a98128159",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "91cd3798124034c9646d58949acefce52d65e71e7ca1d08a3e8fa8a0cabcc86d"
+  },
+  "congreso_salamanca": {
+   "blob_sha_m08": "442c8201661af099714b6e9b49f133deb88f5794",
+   "sha256_composicion": "58712daa22f577d69ab78947cd48f79afbd15092b42afdd93704a0885ce95b42",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "336b27f78f4f9d801576bf96fd5e238529bc1c4f09a1d104ff37425acef64c84"
+  },
+  "congreso_santa_cruz_de_tenerife": {
+   "blob_sha_m08": "047b62cf96d9474c5dec9fa318e032b5da711133",
+   "sha256_composicion": "06ff3f2a92aab8c31e36223c61915dbe174fb8d95cdd9ba1e7a0488a47fd0d79",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "28bd7d1128121ac4ac06d5a9e2eaa618daf203460ce0df83ebf5d993ef627a00"
+  },
+  "congreso_segovia": {
+   "blob_sha_m08": "7b8441b18d177c1c1c6709395f912996a38b076d",
+   "sha256_composicion": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "0a2dc910af6815955a53414328a838ed62820eea545f686d43852e7fe1c7393c"
+  },
+  "congreso_soria": {
+   "blob_sha_m08": "9b819f8253137f1d6c44ad8ec54c4576e426ce58",
+   "sha256_composicion": "1921c37db90159bfbd5df9a8a025df33688ea1221515ecf2607147406f78fcac",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "26e9bc78dec42bede08628d29e181d19135b116c9a8d1ea6e57c88851a3fcc65"
+  },
+  "congreso_tarragona": {
+   "blob_sha_m08": "c0a648d366913547d9be1cab5f8d59c2756ebd81",
+   "sha256_composicion": "8b5f1e0dc6afb10d8a2bca45bae89b505996cdfee9e9bc19d39c4c26c766bcc1",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ab706bd92a2b153e45fcc2ab7690f1c32f3e6f7f717226cc5adc62907133cae8"
+  },
+  "congreso_teruel": {
+   "blob_sha_m08": "16b291fb3157d8d03c46d45bc185d428f7c3c15d",
+   "sha256_composicion": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "85e32b6168ce5a7b08a0f9654f7cd061727992b838183ccb9bf05814eb2ea593"
+  },
+  "congreso_valladolid": {
+   "blob_sha_m08": "52c92117dc16ff1f6139510b56c76c66b1b83567",
+   "sha256_composicion": "12fc9b06f9a02ebf981d637d6b8ba5fe70f061fb99e9c80a70a697dd5219c3cc",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "c54f9b0a40f844fac885d4242aacb41df5225ab7bd24264a48e874a3649953f8"
+  },
+  "congreso_zamora": {
+   "blob_sha_m08": "ab897447076206bb0b62b2a37945708a4dab85e2",
+   "sha256_composicion": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6edb3fd88bddbe49dede7b6af11aeab7309ff00cd441c12755fa2fe0e4ae4f6c"
+  }
+ },
+ "partidos_runs": {
+  "congreso350_madrid/42599356804": {
+   "territorio": "congreso350_madrid",
+   "run_id": "42599356804",
+   "run_territorial": "42588623702",
+   "sha256_composicion": "7ee0874aca2f8d3dced31e2af72d2f7cb0e021b116b249a05efbce9c17a4b8f5",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "8d930122bb0ffe2462d5f7470a1e2bd0884e5642defe1f9e6cc60a43caa8df9e",
+   "ruta": "datos/resultados/runs/congreso350_madrid_42599356804_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0289,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso350_madrid_42599356804_desajustes.json",
+    "sha256": "90d375092ec11b7aaaac7e93540baf34e7f41fec4911da302e112ab15cc5614a"
+   }
+  },
+  "congreso350_soria/42612579208": {
+   "territorio": "congreso350_soria",
+   "run_id": "42612579208",
+   "run_territorial": "42601453125",
+   "sha256_composicion": "63ec5c906bd9e8fa3241d367c570124392ac1db04d88ab306452e724918f1a4d",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "86f0cf3fc3dac9c7897a9da66ce90582456b9ec78618e72df3edafe2d50ee16e",
+   "ruta": "datos/resultados/runs/congreso350_soria_42612579208_partidos.csv"
+  },
+  "congreso350_valladolid/42613899978": {
+   "territorio": "congreso350_valladolid",
+   "run_id": "42613899978",
+   "run_territorial": "42601455862",
+   "sha256_composicion": "32f7c99872df480ac90187a34224059110006e068e8d453c0af63be5a7ccbafd",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "21398f4df2aec843b5e4a6ecc0570649f60ceea407309fb22f66d7e07ba82e44",
+   "ruta": "datos/resultados/runs/congreso350_valladolid_42613899978_partidos.csv"
+  },
+  "congreso_alava/42983088643": {
+   "territorio": "congreso_alava",
+   "run_id": "42983088643",
+   "run_territorial": "42940320710",
+   "sha256_composicion": "a4507f48ddc8d95674949f533d9675cb1bb136b7125aca5c7c0f1a89d968f195",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "9d208c89b45c0ecf4f1994872f05a502b943fdd7cc8c62621df5489c4f26bf29",
+   "ruta": "datos/resultados/runs/congreso_alava_42983088643_partidos.csv"
+  },
+  "congreso_albacete/42514994231": {
+   "territorio": "congreso_albacete",
+   "run_id": "42514994231",
+   "run_territorial": "42514994231",
+   "sha256_composicion": "e8f4c44ec891d4cc95a46fb15fd1c2f8cdf2edfccb6aa6adb04a48c26129a44c",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "348fa6b640df85f975e35f075090d112f9461fc6f6e9c26d4200c6126e741298",
+   "ruta": "datos/resultados/runs/congreso_albacete_42514994231_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.6348,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_albacete_42514994231_desajustes.json",
+    "sha256": "ebc174da2e6a5a671b410fe2de93d99633b28a5d05ae09033968058aa4e17ef1"
+   }
+  },
+  "congreso_albacete/42952791883": {
+   "territorio": "congreso_albacete",
+   "run_id": "42952791883",
+   "run_territorial": "42940326013",
+   "sha256_composicion": "80a38ca5b914366f01de91679ac48fa1e88f96aea12307edddbefdada3ba4bbf",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "7e4bee6af2dcce520760f0774ede17bfa21a01a0367a95cf53da885d46494a0b",
+   "ruta": "datos/resultados/runs/congreso_albacete_42952791883_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.6348,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_albacete_42952791883_desajustes.json",
+    "sha256": "aa248af5ffc0ddbf59b65d2ac42e4b28660d5e6f8c34370cf76cda39a7c79bfb"
+   }
+  },
+  "congreso_alicante/42495067503": {
+   "territorio": "congreso_alicante",
+   "run_id": "42495067503",
+   "run_territorial": "42495067503",
+   "sha256_composicion": "a5ad973976e0eb4519f6e1b57d32751e47c4755cb4027a7c2f5afd2f56a3a4e2",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "8e379f4b9178e27dfdee21c3c9e117467990766b722d865fde32bab80316f53f",
+   "ruta": "datos/resultados/runs/congreso_alicante_42495067503_partidos.csv",
+   "desajustes": {
+    "secciones": 6,
+    "pct_desajuste": 0.1932,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_alicante_42495067503_desajustes.json",
+    "sha256": "7a37d96ab2850c42db799f45c7c031456d97ae1a307c5273faa4dbe1ae8cfe5c"
+   }
+  },
+  "congreso_alicante/42953235024": {
+   "territorio": "congreso_alicante",
+   "run_id": "42953235024",
+   "run_territorial": "42940331557",
+   "sha256_composicion": "724565679f5304b3456c7e884e530343a5039b58ec04751ec968fbda7d854a0c",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "5e0a33b276c7b988202546089360421c3dc2ca796f736737431cab2fbe90497d",
+   "ruta": "datos/resultados/runs/congreso_alicante_42953235024_partidos.csv",
+   "desajustes": {
+    "secciones": 6,
+    "pct_desajuste": 0.1932,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_alicante_42953235024_desajustes.json",
+    "sha256": "66305d78943e990bd0ce90d89000d13e6a8ccbd3b35e7a65b0ff9a2135836428"
+   }
+  },
+  "congreso_almeria/42519378789": {
+   "territorio": "congreso_almeria",
+   "run_id": "42519378789",
+   "run_territorial": "42519378789",
+   "sha256_composicion": "686b58aa44652658fbb091583ac070ee31e1fe836a0c6ec0da6903a0bd93d106",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "919185970778c123308d5cc6eaf5d613b6efd239a23b36e48148bf056c771390",
+   "ruta": "datos/resultados/runs/congreso_almeria_42519378789_partidos.csv",
+   "desajustes": {
+    "secciones": 3,
+    "pct_desajuste": 0.518,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_almeria_42519378789_desajustes.json",
+    "sha256": "d8312ee76855710af2ffaa6ce8546f8e693266d9ca6e889843382baa15746062"
+   }
+  },
+  "congreso_almeria/42952468083": {
+   "territorio": "congreso_almeria",
+   "run_id": "42952468083",
+   "run_territorial": "42940336572",
+   "sha256_composicion": "1a84aded90c6dc7de04ea19f9eaa382a6316cd058884a66a6da16f18551b4dcb",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ce182d57cbe2d72989f51a6819909e51ab0926a10cb0185df814eaf25994656b",
+   "ruta": "datos/resultados/runs/congreso_almeria_42952468083_partidos.csv",
+   "desajustes": {
+    "secciones": 3,
+    "pct_desajuste": 0.518,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_almeria_42952468083_desajustes.json",
+    "sha256": "22f8ce16ba29a475ec0a11e6373a838a1bfbe5e609f97de7a8a7ac02478e5b2a"
+   }
+  },
+  "congreso_asturias/42985447971": {
+   "territorio": "congreso_asturias",
+   "run_id": "42985447971",
+   "run_territorial": "42981406489",
+   "sha256_composicion": "cf64864f98110e3bbdbfaea73cb89683fca0a151d3f417a5f48d6f0866640a4c",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "aa5579a1db775431c72947df37d5e6d730d9b17e5d14221717196e0810c47951",
+   "ruta": "datos/resultados/runs/congreso_asturias_42985447971_partidos.csv"
+  },
+  "congreso_avila/42948760863": {
+   "territorio": "congreso_avila",
+   "run_id": "42948760863",
+   "run_territorial": "42940341213",
+   "sha256_composicion": "7635b7d07db46817242f602c92069657205bf1df4c865a91b9911ba40fea8b71",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ddf53853be330cac8c961f495ed8372cc979d7cc6116cd3c477078c08c1340c9",
+   "ruta": "datos/resultados/runs/congreso_avila_42948760863_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_avila_42948760863_desajustes.json",
+    "sha256": "8056f076e12796875eb616a6d1a66f0cedcc0c98c4c00f0b03648775cf4f7be8"
+   }
+  },
+  "congreso_badajoz/42519381013": {
+   "territorio": "congreso_badajoz",
+   "run_id": "42519381013",
+   "run_territorial": "42519381013",
+   "sha256_composicion": "fd29a7ec11fb021bb509eea661c7415ae99814c8cffd70725a7b5c5ce3c4de02",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "713aa9d08530710e2e87ea682deebcfe9b495a1742793ae81da6c164491e7fc8",
+   "ruta": "datos/resultados/runs/congreso_badajoz_42519381013_partidos.csv",
+   "desajustes": {
+    "secciones": 10,
+    "pct_desajuste": 0.8706,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_badajoz_42519381013_desajustes.json",
+    "sha256": "a35232d044ea595dd817b2f3d623cd0122708ae095f19096df9f124855c1597c"
+   }
+  },
+  "congreso_badajoz/42949289470": {
+   "territorio": "congreso_badajoz",
+   "run_id": "42949289470",
+   "run_territorial": "42940345930",
+   "sha256_composicion": "9c1701f40cfc90b3ba6e5a97ad8a4cb4bd4fb4702b3a94333186c22e18214753",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ee6db6b5eee2e4c3483731cce355719ad31fff44476313712d3e1b8a6d965d3a",
+   "ruta": "datos/resultados/runs/congreso_badajoz_42949289470_partidos.csv",
+   "desajustes": {
+    "secciones": 10,
+    "pct_desajuste": 0.8706,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_badajoz_42949289470_desajustes.json",
+    "sha256": "1f835e0ea64a2d9dea16791c32cf04f2d6f48c593712681d06094b65ca26c369"
+   }
+  },
+  "congreso_baleares/42953068884": {
+   "territorio": "congreso_baleares",
+   "run_id": "42953068884",
+   "run_territorial": "42940350970",
+   "sha256_composicion": "bcdca9175ecaead38582a2dfe32f61b60e71b717145968a1382d326f3d7cb0c4",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "c8ef884f544b05bdf02bfb0e5050b83ad80ca7e17b68c527988cce346acba065",
+   "ruta": "datos/resultados/runs/congreso_baleares_42953068884_partidos.csv"
+  },
+  "congreso_barcelona/42495069270": {
+   "territorio": "congreso_barcelona",
+   "run_id": "42495069270",
+   "run_territorial": "42495069270",
+   "sha256_composicion": "583f6b3f24aea9c4194fea505686172a5501e019a32ed7735b2b0516d55db590",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "a3b50dc7f1ee9cde24d75d8da7dc116a257ea0d03ee7e104b761f50181ea9ce8",
+   "ruta": "datos/resultados/runs/congreso_barcelona_42495069270_partidos.csv",
+   "desajustes": {
+    "secciones": 9,
+    "pct_desajuste": 0.2395,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_barcelona_42495069270_desajustes.json",
+    "sha256": "84793df64c56f10c656c8fe2332baf5ea0f2eebf3ac4c288c2c4d7cac5f06812"
+   }
+  },
+  "congreso_barcelona/42953127263": {
+   "territorio": "congreso_barcelona",
+   "run_id": "42953127263",
+   "run_territorial": "42940355981",
+   "sha256_composicion": "e4d8c2fa2f5643240c0ad3f5865726ecb7d58f83a00aa09dc5cadbaddb8cb0d9",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "f5d0bec299fb66f9c4dfe93569780e84fedc0dd33ad9d867002580e35716331a",
+   "ruta": "datos/resultados/runs/congreso_barcelona_42953127263_partidos.csv",
+   "desajustes": {
+    "secciones": 9,
+    "pct_desajuste": 0.2395,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_barcelona_42953127263_desajustes.json",
+    "sha256": "92153cc8e93609eb595057e36b9de9b876b224d40599c15567b5a4a4bfba6f54"
+   }
+  },
+  "congreso_burgos/42986581831": {
+   "territorio": "congreso_burgos",
+   "run_id": "42986581831",
+   "run_territorial": "42981415070",
+   "sha256_composicion": "63102db409a4117ae00c087933223f28a0cfff7a676c860b56f76a52a4ca4724",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "47c756e7be724277aa2288c93ec298b51ee7ad76273e7f47cb8324cb7bcf87a8",
+   "ruta": "datos/resultados/runs/congreso_burgos_42986581831_partidos.csv"
+  },
+  "congreso_caceres/42953363103": {
+   "territorio": "congreso_caceres",
+   "run_id": "42953363103",
+   "run_territorial": "42940366579",
+   "sha256_composicion": "26752e4669100873699db6a84575cfff7c062369443785a1f527aaec3d24a009",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "86afbf929b61148fa48b34f6a5c293d0c7f0035f21a2978e9cf363690131eaa4",
+   "ruta": "datos/resultados/runs/congreso_caceres_42953363103_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.3228,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_caceres_42953363103_desajustes.json",
+    "sha256": "e08499318f04dfbbb5978e337d419f5efa6e736d4f96d995aed88ac10e6730be"
+   }
+  },
+  "congreso_cadiz/42953019279": {
+   "territorio": "congreso_cadiz",
+   "run_id": "42953019279",
+   "run_territorial": "42940371696",
+   "sha256_composicion": "19679be0e0eadcc4f689dff054c55c927d6ca0e374b442364cbf0ff99fb356d0",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "8738ce6bd52449b69126b2cbfbeeee180e5c6195219dcdba37bf0dceb48588ee",
+   "ruta": "datos/resultados/runs/congreso_cadiz_42953019279_partidos.csv"
+  },
+  "congreso_cantabria/42985965354": {
+   "territorio": "congreso_cantabria",
+   "run_id": "42985965354",
+   "run_territorial": "42981422592",
+   "sha256_composicion": "153a4e36368976c40d669923ea80ee9fb5c5e51c39e9c64e1b932840140faf52",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "7f53c3c2be8725843519cf5eb6a22c4a1a374fc09fe7bd0ff2768d2f994f9c00",
+   "ruta": "datos/resultados/runs/congreso_cantabria_42985965354_partidos.csv"
+  },
+  "congreso_castellon/42953757677": {
+   "territorio": "congreso_castellon",
+   "run_id": "42953757677",
+   "run_territorial": "42940377493",
+   "sha256_composicion": "52289a941708ac01ddffb56c0031b985bcc955d3b8bf3dba1fda533202937126",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "12782c83721b01dfafd9d2831e89ed80ec3120f928983134c08a74d7a80f59ff",
+   "ruta": "datos/resultados/runs/congreso_castellon_42953757677_partidos.csv"
+  },
+  "congreso_ceuta/42496569312": {
+   "territorio": "congreso_ceuta",
+   "run_id": "42496569312",
+   "run_territorial": "42488846588",
+   "sha256_composicion": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "1665fe8ce50499b9feb1d7b4e31c4745e631912f69b85cd1f58e460741b258b9",
+   "ruta": "datos/resultados/runs/congreso_ceuta_42496569312_partidos.csv"
+  },
+  "congreso_ceuta/42985728070": {
+   "territorio": "congreso_ceuta",
+   "run_id": "42985728070",
+   "run_territorial": "42981430591",
+   "sha256_composicion": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "1665fe8ce50499b9feb1d7b4e31c4745e631912f69b85cd1f58e460741b258b9",
+   "ruta": "datos/resultados/runs/congreso_ceuta_42985728070_partidos.csv"
+  },
+  "congreso_ciudad_real/42954776957": {
+   "territorio": "congreso_ciudad_real",
+   "run_id": "42954776957",
+   "run_territorial": "42940382446",
+   "sha256_composicion": "ee110fcebf7b6d41c4d0c02d1353283813b3e498f57c6d1983e96ebe2d7a4faa",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "91316af0d1b8447496c453f76d7dc9dc034aed1bf872ba307c87b66118a560ce",
+   "ruta": "datos/resultados/runs/congreso_ciudad_real_42954776957_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_ciudad_real_42954776957_desajustes.json",
+    "sha256": "37c00d2bf943f7c6deb767d2761853c839153107447fd2161012ee7ce977e315"
+   }
+  },
+  "congreso_cordoba/42953300723": {
+   "territorio": "congreso_cordoba",
+   "run_id": "42953300723",
+   "run_territorial": "42940387433",
+   "sha256_composicion": "c8b291b8a164be1700d2488364c8ddbaeddd5ec352664002bc10ad3e62fa7dbf",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "9698eb06fbb90befb68021a072e661a5f23f1a132ff0c6e0cbecb75f7f880a48",
+   "ruta": "datos/resultados/runs/congreso_cordoba_42953300723_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_cordoba_42953300723_desajustes.json",
+    "sha256": "9498e33f9a25114c950a57fe5844521524e5a67db054007792e97c872feab677"
+   }
+  },
+  "congreso_cuenca/42954007732": {
+   "territorio": "congreso_cuenca",
+   "run_id": "42954007732",
+   "run_territorial": "42940397668",
+   "sha256_composicion": "794de5d068f60172d1e3acfa9e173e015f84bf01e419f7d8240254998386d7a7",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "c17df8d4258796f979bb4786c0108142e966f1398440fbc7e6b72d94ca12f048",
+   "ruta": "datos/resultados/runs/congreso_cuenca_42954007732_partidos.csv"
+  },
+  "congreso_gerona/42954957703": {
+   "territorio": "congreso_gerona",
+   "run_id": "42954957703",
+   "run_territorial": "42940402050",
+   "sha256_composicion": "8cdc7e8ba935b1270bbfbf0ad931d008e9dd9f0d7a928fe6a5fe053c9aa7ea89",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "f0b6043ce87f34743737d88affbe0718f1636afb54811d8393765aa0843b1b48",
+   "ruta": "datos/resultados/runs/congreso_gerona_42954957703_partidos.csv"
+  },
+  "congreso_granada/42954091088": {
+   "territorio": "congreso_granada",
+   "run_id": "42954091088",
+   "run_territorial": "42940407337",
+   "sha256_composicion": "b4ea86e03e92672664a3a627aeaff5a5d0444d750a452d4b35ba2c3b7056c44a",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "9770a6079c74d2579320a51f0c8dd314cecb40ad44aa5e232a81d48f753d2dd8",
+   "ruta": "datos/resultados/runs/congreso_granada_42954091088_partidos.csv"
+  },
+  "congreso_guadalajara/42955217289": {
+   "territorio": "congreso_guadalajara",
+   "run_id": "42955217289",
+   "run_territorial": "42940412378",
+   "sha256_composicion": "171796dbb0f5f5e837d971a50a17042745d45282c1f56c04a565a029c9a4560a",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "0e059c483ac16ff25f5ef5286dd0b4d25ef71ea242836bbab090d7b425592319",
+   "ruta": "datos/resultados/runs/congreso_guadalajara_42955217289_partidos.csv"
+  },
+  "congreso_guipuzcoa/42955375065": {
+   "territorio": "congreso_guipuzcoa",
+   "run_id": "42955375065",
+   "run_territorial": "42940417361",
+   "sha256_composicion": "91fa7c83a0ed9fe24fa7388ab19c4d80af02927a88f2687bd5baaf1b90e4af70",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6517734307a7dfe5d960d7706de5fffe6cf22795cec2d53888795ed9dc21c10a",
+   "ruta": "datos/resultados/runs/congreso_guipuzcoa_42955375065_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_guipuzcoa_42955375065_desajustes.json",
+    "sha256": "713bcfc51fa680ee12fdbd216ebd1f2bf481c366651f4967add1280c26203a59"
+   }
+  },
+  "congreso_huelva/42996002594": {
+   "territorio": "congreso_huelva",
+   "run_id": "42996002594",
+   "run_territorial": "42991542477",
+   "sha256_composicion": "806c47a3809743ce8e422de4facfc9c0954c9f2d50192eb4a1c323447a0f7e03",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "489b4faf3cb941fbd3ae4fda2f7c35bd5541e5e29d161cca6dce79ca10aee4f2",
+   "ruta": "datos/resultados/runs/congreso_huelva_42996002594_partidos.csv"
+  },
+  "congreso_huesca/42519383275": {
+   "territorio": "congreso_huesca",
+   "run_id": "42519383275",
+   "run_territorial": "42519383275",
+   "sha256_composicion": "e80ec32b04d6bcdb46de5f29b8064ab9ca26555f8c352f7b937fe5a02893b939",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "558edd5c4eb6243d798e0301f0fb8f7770b070a03ed7134f288053e2e0ef9fa5",
+   "ruta": "datos/resultados/runs/congreso_huesca_42519383275_partidos.csv"
+  },
+  "congreso_huesca/42996217596": {
+   "territorio": "congreso_huesca",
+   "run_id": "42996217596",
+   "run_territorial": "42991551418",
+   "sha256_composicion": "4ce5454d88fc1d5e679be869e642cfcb88016b698f8607aceaa7edb6f8025f54",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "4c891f0d8fa45e43ae2afe47e0e00aa5431a04a43cbadeefc0284d2ce0c937fc",
+   "ruta": "datos/resultados/runs/congreso_huesca_42996217596_partidos.csv"
+  },
+  "congreso_jaen/42955644352": {
+   "territorio": "congreso_jaen",
+   "run_id": "42955644352",
+   "run_territorial": "42940432935",
+   "sha256_composicion": "775aa78fa1f56b982ee1f278928f56473842770c1552fdc7e6f7029a007121ed",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "f9526d282a6eaa17b436ad84219a2bba52d46388fcb99caa99ee1af74f267b89",
+   "ruta": "datos/resultados/runs/congreso_jaen_42955644352_partidos.csv",
+   "desajustes": {
+    "secciones": 6,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_jaen_42955644352_desajustes.json",
+    "sha256": "696c41b7a9625a9ad683c76d8a23a9450c731b2b1675514ac7753ae9bf5c29c9"
+   }
+  },
+  "congreso_la_coruna/42953518518": {
+   "territorio": "congreso_la_coruna",
+   "run_id": "42953518518",
+   "run_territorial": "42940392520",
+   "sha256_composicion": "f010d7db498c95bad5ccd1b2587fee3202a63b1cfaead4790aec7182d30df907",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "a6cc882ca490b430d2fc12e7f2b53507a5ec7e09b336928741f339f9420cd64c",
+   "ruta": "datos/resultados/runs/congreso_la_coruna_42953518518_partidos.csv",
+   "desajustes": {
+    "secciones": 14,
+    "pct_desajuste": 0.4707,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_la_coruna_42953518518_desajustes.json",
+    "sha256": "f0b80c8539c3731b2fd7634010581f049d1af9797896d53ab6cb0c50b858b012"
+   }
+  },
+  "congreso_la_rioja/42504388624": {
+   "territorio": "congreso_la_rioja",
+   "run_id": "42504388624",
+   "run_territorial": "42504388624",
+   "sha256_composicion": "5a096f13d2bcf57240777144222efc8e2f7557772cc22fb524195aec56f17fb3",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "f55ab70755d0e7cb09be24a337378b5706f199cce984cec8a6e8b59a1c83bc53",
+   "ruta": "datos/resultados/runs/congreso_la_rioja_42504388624_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.3374,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_la_rioja_42504388624_desajustes.json",
+    "sha256": "444a34463f717cfe6a0f94d91c9103809249ff88c0d27d84a849e0ec8b951ff4"
+   }
+  },
+  "congreso_la_rioja/42935762636": {
+   "territorio": "congreso_la_rioja",
+   "run_id": "42935762636",
+   "run_territorial": "42932144515",
+   "sha256_composicion": "b93198a523386b186a1548afea871a8a5026109ca31744eafee7520fd9e5f959",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6db67cdb9327dfda4b97b6e092f491ee730738cb7de29991ca3e8857e6d2a4db",
+   "ruta": "datos/resultados/runs/congreso_la_rioja_42935762636_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.3374,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_la_rioja_42935762636_desajustes.json",
+    "sha256": "d8b144db6c4876a0a7c3d6a59b152ebc0415f2964b61bb5834875e9f7a3cd858"
+   }
+  },
+  "congreso_las_palmas/42998268332": {
+   "territorio": "congreso_las_palmas",
+   "run_id": "42998268332",
+   "run_territorial": "42991561887",
+   "sha256_composicion": "5f50662a1f66b0869ad182b0e3a600c7bc954a99ed7f4ac8b063df0f715cda5d",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "78a42ee28b73227ce6da3f9a18205ab3190e921f31b43269ead2846b741aa545",
+   "ruta": "datos/resultados/runs/congreso_las_palmas_42998268332_partidos.csv"
+  },
+  "congreso_leon/42996717873": {
+   "territorio": "congreso_leon",
+   "run_id": "42996717873",
+   "run_territorial": "42991571678",
+   "sha256_composicion": "d7f4c500ca83bd70b99d42a1006cdbf56454a0d60f927b88a369502c2dce3869",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "e2901b733f30f9262fb9697c704a2f166257348b0438d039470d8318e2ac1e6b",
+   "ruta": "datos/resultados/runs/congreso_leon_42996717873_partidos.csv"
+  },
+  "congreso_lerida/43064129984": {
+   "territorio": "congreso_lerida",
+   "run_id": "43064129984",
+   "run_territorial": "43059014993",
+   "sha256_composicion": "3357882f436af28e53505fb078eb3df44fe40511d1160f6b2c7d652a2c0eac91",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "02da2cb32a80d67015f41b717de5459053836644bece1009d3b86fa1ce15ecfd",
+   "ruta": "datos/resultados/runs/congreso_lerida_43064129984_partidos.csv"
+  },
+  "congreso_lugo/42514986960": {
+   "territorio": "congreso_lugo",
+   "run_id": "42514986960",
+   "run_territorial": "42514986960",
+   "sha256_composicion": "b8872f3807facddb55074d8f9e60f77c2c1450c95e1f33a3f70fc96e808eee1c",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "237ee6055a9f22b216768f76fcdb75ab4c10191f9843c573b0d8d2be93418a59",
+   "ruta": "datos/resultados/runs/congreso_lugo_42514986960_partidos.csv",
+   "desajustes": {
+    "secciones": 4,
+    "pct_desajuste": 0.207,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_lugo_42514986960_desajustes.json",
+    "sha256": "faee3f20312e1b2235fedd2ba506c1de274ecdc4eee31656146877d0fd23c373"
+   }
+  },
+  "congreso_lugo/42995722473": {
+   "territorio": "congreso_lugo",
+   "run_id": "42995722473",
+   "run_territorial": "42991580539",
+   "sha256_composicion": "cdf3336ac8f6b8bb5197d022fba021fb10219d49acd2e9853b79883bd6e493ee",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "c61a719a91121f32c8452c0b9ce5f6e9cbfaa2814abf2718dc10450409d0fa74",
+   "ruta": "datos/resultados/runs/congreso_lugo_42995722473_partidos.csv",
+   "desajustes": {
+    "secciones": 4,
+    "pct_desajuste": 0.207,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_lugo_42995722473_desajustes.json",
+    "sha256": "17c9cccc6d1dd0173d88bc1c46e150132d292bf352d50d09a83a31933585b09d"
+   }
+  },
+  "congreso_madrid/43006307734": {
+   "territorio": "congreso_madrid",
+   "run_id": "43006307734",
+   "run_territorial": "43001749134",
+   "sha256_composicion": "fc86747085490b06138423a3cc4c4e97bf2489dd1425e73933a844149465e6c6",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "0e377620918bec766950db1948d85ed0f44842a0810e41e1d5a511b31c1f4be4",
+   "ruta": "datos/resultados/runs/congreso_madrid_43006307734_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0289,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_madrid_43006307734_desajustes.json",
+    "sha256": "958061aa10e53c696e2c2228a945b444531776959b69646ba9207a0b6f437baa"
+   }
+  },
+  "congreso_malaga/42495070976": {
+   "territorio": "congreso_malaga",
+   "run_id": "42495070976",
+   "run_territorial": "42495070976",
+   "sha256_composicion": "d46f8cf9fbd4da91c023f661c20a7b31a3b260aecd39c29ce2652a4027acb7b0",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "2e8d8945d6160b48292d59b0422d59f4365d8af40efd82a85a0ff164e6178587",
+   "ruta": "datos/resultados/runs/congreso_malaga_42495070976_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.0641,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_malaga_42495070976_desajustes.json",
+    "sha256": "97970fccaf40f4cfe56cb7080a9971e1d137e9ff9746ff649310bd0768f20736"
+   }
+  },
+  "congreso_malaga/43006442219": {
+   "territorio": "congreso_malaga",
+   "run_id": "43006442219",
+   "run_territorial": "43001775134",
+   "sha256_composicion": "3974817d1330914a9aa7ecfb519986915929b7d8eb88617555e559efeaf76329",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "48ef5ca69fb10a479a478a8425b86a417e62e7ea4091af37511ca76e397898e5",
+   "ruta": "datos/resultados/runs/congreso_malaga_43006442219_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.0641,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_malaga_43006442219_desajustes.json",
+    "sha256": "ce6b271d08198c7e45dd0b497c28cf4cc5cb08b8817f2cf7c768536d1da1588b"
+   }
+  },
+  "congreso_melilla/43006105644": {
+   "territorio": "congreso_melilla",
+   "run_id": "43006105644",
+   "run_territorial": "43001757563",
+   "sha256_composicion": "fdc1449d7dfc6cb385cb29aff9fb238724ec4566bd8b22e8b768abf47b436d0d",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "43ab4ac6fbe46ab67e028834ffb1ddc383782cbbe2f941c0a7702f2f23a7077c",
+   "ruta": "datos/resultados/runs/congreso_melilla_43006105644_partidos.csv"
+  },
+  "congreso_murcia/43005676593": {
+   "territorio": "congreso_murcia",
+   "run_id": "43005676593",
+   "run_territorial": "43001766635",
+   "sha256_composicion": "43ee2295826ea2f2d23dd7fcbea8e2efb3bb84b15d703d827661283483a33914",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6f76cc97e50ab9b472fb55a80b4d966ffaedadf3aeb438c2ae488f4e18842e7f",
+   "ruta": "datos/resultados/runs/congreso_murcia_43005676593_partidos.csv"
+  },
+  "congreso_navarra/43006653960": {
+   "territorio": "congreso_navarra",
+   "run_id": "43006653960",
+   "run_territorial": "43001785293",
+   "sha256_composicion": "664a00fea83460c5fcb187f863ad78f4d4fa789c9535d54319503b76d444d5c7",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "a38f4cee6a429bf2e0134c618aa619c6fb9da85519bf247acc5f3f13bfb0f69b",
+   "ruta": "datos/resultados/runs/congreso_navarra_43006653960_partidos.csv"
+  },
+  "congreso_orense/43016113065": {
+   "territorio": "congreso_orense",
+   "run_id": "43016113065",
+   "run_territorial": "43012119307",
+   "sha256_composicion": "33b0bc74987e53ee60ec0eec8dfeb00b23268b1850939459e68266fff9145ac0",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "9a5f01dd5d01377cfe816644ef5281a3cec3fea01e3ce60b6df92062ffc3227e",
+   "ruta": "datos/resultados/runs/congreso_orense_43016113065_partidos.csv"
+  },
+  "congreso_palencia/43016085888": {
+   "territorio": "congreso_palencia",
+   "run_id": "43016085888",
+   "run_territorial": "43012127687",
+   "sha256_composicion": "3a6ce8ce35cdcef4f375975954a5f97a536515b1b6381c0aa69ba79a98128159",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "91cd3798124034c9646d58949acefce52d65e71e7ca1d08a3e8fa8a0cabcc86d",
+   "ruta": "datos/resultados/runs/congreso_palencia_43016085888_partidos.csv"
+  },
+  "congreso_pontevedra/43016524347": {
+   "territorio": "congreso_pontevedra",
+   "run_id": "43016524347",
+   "run_territorial": "43012135258",
+   "sha256_composicion": "eb496a634afda03bf011c9001ff1665b8e87c2ef94b6ac970c23410c0ba50fef",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "b43abf6a596c14719fdaa73bc2eea586b814132103b206bcf771a7b3e7736c90",
+   "ruta": "datos/resultados/runs/congreso_pontevedra_43016524347_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.1169,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_pontevedra_43016524347_desajustes.json",
+    "sha256": "85e61ea816df65d53966ab405c619d2f426b16dcc6d6576b03d7e938457bc4f6"
+   }
+  },
+  "congreso_salamanca/43017179163": {
+   "territorio": "congreso_salamanca",
+   "run_id": "43017179163",
+   "run_territorial": "43012143922",
+   "sha256_composicion": "1835f116544c44e2fd17c4b92dec02c1101a850beb879165cdeabbab6a69c813",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "de4e7378ade7e180b081c3c6fd157ffa307e820367a2f5170505d8ef032aee6d",
+   "ruta": "datos/resultados/runs/congreso_salamanca_43017179163_partidos.csv"
+  },
+  "congreso_santa_cruz_de_tenerife/42519017008": {
+   "territorio": "congreso_santa_cruz_de_tenerife",
+   "run_id": "42519017008",
+   "run_territorial": "42514989698",
+   "sha256_composicion": "06ff3f2a92aab8c31e36223c61915dbe174fb8d95cdd9ba1e7a0488a47fd0d79",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "28bd7d1128121ac4ac06d5a9e2eaa618daf203460ce0df83ebf5d993ef627a00",
+   "ruta": "datos/resultados/runs/congreso_santa_cruz_de_tenerife_42519017008_partidos.csv"
+  },
+  "congreso_santa_cruz_de_tenerife/43020203637": {
+   "territorio": "congreso_santa_cruz_de_tenerife",
+   "run_id": "43020203637",
+   "run_territorial": "43012151677",
+   "sha256_composicion": "572775632b6c31ba1848f642edc107c34095b8206a057bada42f653664e52979",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "b192b03a04030927927e8aa3ee408614cdfd018b077a2e8a7baa73d04e0682c1",
+   "ruta": "datos/resultados/runs/congreso_santa_cruz_de_tenerife_43020203637_partidos.csv"
+  },
+  "congreso_segovia/43029353804": {
+   "territorio": "congreso_segovia",
+   "run_id": "43029353804",
+   "run_territorial": "43024836898",
+   "sha256_composicion": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "0a2dc910af6815955a53414328a838ed62820eea545f686d43852e7fe1c7393c",
+   "ruta": "datos/resultados/runs/congreso_segovia_43029353804_partidos.csv"
+  },
+  "congreso_sevilla/43029566265": {
+   "territorio": "congreso_sevilla",
+   "run_id": "43029566265",
+   "run_territorial": "43024845069",
+   "sha256_composicion": "effc8421a6233cf0ee97453f49a1df5df45ddb9009c8882512de3f0fbbbbf8a5",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "33afc8b079558f64a144edb600dd168251f80d141b2fd55eeefc248c198abd97",
+   "ruta": "datos/resultados/runs/congreso_sevilla_43029566265_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0629,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_sevilla_43029566265_desajustes.json",
+    "sha256": "2935c77f15136288b81ab8e64606b3001a9b1be6de0d0e3d2f2eb65b4e59800b"
+   }
+  },
+  "congreso_soria/43029280043": {
+   "territorio": "congreso_soria",
+   "run_id": "43029280043",
+   "run_territorial": "43024852774",
+   "sha256_composicion": "1921c37db90159bfbd5df9a8a025df33688ea1221515ecf2607147406f78fcac",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "26e9bc78dec42bede08628d29e181d19135b116c9a8d1ea6e57c88851a3fcc65",
+   "ruta": "datos/resultados/runs/congreso_soria_43029280043_partidos.csv"
+  },
+  "congreso_tarragona/42514991952": {
+   "territorio": "congreso_tarragona",
+   "run_id": "42514991952",
+   "run_territorial": "42514991952",
+   "sha256_composicion": "8b5f1e0dc6afb10d8a2bca45bae89b505996cdfee9e9bc19d39c4c26c766bcc1",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ab706bd92a2b153e45fcc2ab7690f1c32f3e6f7f717226cc5adc62907133cae8",
+   "ruta": "datos/resultados/runs/congreso_tarragona_42514991952_partidos.csv"
+  },
+  "congreso_tarragona/43029795470": {
+   "territorio": "congreso_tarragona",
+   "run_id": "43029795470",
+   "run_territorial": "43024860841",
+   "sha256_composicion": "87969e4784e4074e705d02dda271345a61f681e48f7070706d14b66caa11f3cc",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "9a934f7f305662eba50d5116f5964252025b846685274aaf81168311a807321c",
+   "ruta": "datos/resultados/runs/congreso_tarragona_43029795470_partidos.csv"
+  },
+  "congreso_teruel/43029189395": {
+   "territorio": "congreso_teruel",
+   "run_id": "43029189395",
+   "run_territorial": "43024869107",
+   "sha256_composicion": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "85e32b6168ce5a7b08a0f9654f7cd061727992b838183ccb9bf05814eb2ea593",
+   "ruta": "datos/resultados/runs/congreso_teruel_43029189395_partidos.csv"
+  },
+  "congreso_toledo/43040968638": {
+   "territorio": "congreso_toledo",
+   "run_id": "43040968638",
+   "run_territorial": "43034928684",
+   "sha256_composicion": "ecfc662b417eb3d154aa3895abfcb79215ed749e9db3054883df579d608e9d42",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "cdab532e6961f78dc3b5955f7fa6eb086cfa626bd3880e8454789ba7b6a2dcd4",
+   "ruta": "datos/resultados/runs/congreso_toledo_43040968638_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.2104,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_toledo_43040968638_desajustes.json",
+    "sha256": "bf0e4a2da3d0fa4b0d8ed50f24bb86d54314ab2842d7b2445f007b85ace84931"
+   }
+  },
+  "congreso_valencia/42525625044": {
+   "territorio": "congreso_valencia",
+   "run_id": "42525625044",
+   "run_territorial": "42525625044",
+   "sha256_composicion": "012274d09dcb71b4b87b9b8e0e74ae89b886b33b3109c0c3ec913a33b91bf5a3",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "7e36eca8b26b0ae0a5748c4e0d2ddabe42e3ef2563e8c0d57b31bb419f56eff9",
+   "ruta": "datos/resultados/runs/congreso_valencia_42525625044_partidos.csv",
+   "desajustes": {
+    "secciones": 22,
+    "pct_desajuste": 0.7652,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_valencia_42525625044_desajustes.json",
+    "sha256": "c508ce441f22e330e3455ec0f782e4ef2068848d3de00ec2097e220452d5a002"
+   }
+  },
+  "congreso_valencia/43041144007": {
+   "territorio": "congreso_valencia",
+   "run_id": "43041144007",
+   "run_territorial": "43034939625",
+   "sha256_composicion": "c0f2f2200a5d11c26d7925d5ccd0db28e157343d700d3c20a761e411bfd360a3",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "789e9f7310a8192c7358cd6c40ad53b79b19a5622378aa5d5903ea497457ce77",
+   "ruta": "datos/resultados/runs/congreso_valencia_43041144007_partidos.csv",
+   "desajustes": {
+    "secciones": 22,
+    "pct_desajuste": 0.7652,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_valencia_43041144007_desajustes.json",
+    "sha256": "ae949de4576a08552ce00ca3aa6738fa63ce8ec19bd8368e159edfa37d17c1df"
+   }
+  },
+  "congreso_valladolid/43040794081": {
+   "territorio": "congreso_valladolid",
+   "run_id": "43040794081",
+   "run_territorial": "43034949749",
+   "sha256_composicion": "fa9ecff7083ccd1fa4b78d7f690a165318c2ad68f500045e3328165b344604f3",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "caf0d30ccb757b5b9a28ea915f95e2cbc348cf83bbb204acba1008f90a355f09",
+   "ruta": "datos/resultados/runs/congreso_valladolid_43040794081_partidos.csv"
+  },
+  "congreso_vizcaya/43040430397": {
+   "territorio": "congreso_vizcaya",
+   "run_id": "43040430397",
+   "run_territorial": "43034959389",
+   "sha256_composicion": "41733a0bfbae1e1a1fde38c2e019526388a8256f1069decbb62af828e92e143c",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6e538e27f4b1066cf807a946d53affdffad8320976ee7caae7a13a34ac26fc98",
+   "ruta": "datos/resultados/runs/congreso_vizcaya_43040430397_partidos.csv",
+   "desajustes": {
+    "secciones": 4,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_vizcaya_43040430397_desajustes.json",
+    "sha256": "06e8ee509e1bfd1d66c36181df2bb3cd1124b449090e3f27dd676aa9b2d1fed5"
+   }
+  },
+  "congreso_zamora/43040878307": {
+   "territorio": "congreso_zamora",
+   "run_id": "43040878307",
+   "run_territorial": "43034969907",
+   "sha256_composicion": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "6edb3fd88bddbe49dede7b6af11aeab7309ff00cd441c12755fa2fe0e4ae4f6c",
+   "ruta": "datos/resultados/runs/congreso_zamora_43040878307_partidos.csv"
+  },
+  "congreso_zaragoza/43041544479": {
+   "territorio": "congreso_zaragoza",
+   "run_id": "43041544479",
+   "run_territorial": "43034979460",
+   "sha256_composicion": "d5641387f11681c21e791140c98c0eb373aa1b50e6464e1bb9f0efd989d88ef9",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "2ed76472c067357adff8fe7634f49663e598b25a6e3bb53d06d56021ab39700f",
+   "ruta": "datos/resultados/runs/congreso_zaragoza_43041544479_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.1504,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_zaragoza_43041544479_desajustes.json",
+    "sha256": "b471741fc5ec0807b10b0d721fedf9451f8089f67142a755215aafd236e7ece3"
+   }
+  }
+ }
+}

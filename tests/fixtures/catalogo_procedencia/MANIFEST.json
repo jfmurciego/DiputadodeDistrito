@@ -1,0 +1,18 @@
+{
+ "origen": "git 738e83a (origin/main 2026-11-14): entradas de catalogo_procedencia.generar() y su salida versionada",
+ "files": {
+  "orchestracion/publicaciones_visor.json": "643e3412d3912d8c9cc4162302376d594416e251644103d47a8ff5f751c56a40",
+  "orchestracion/archivo_r2.json": "b0e7529b880a6d7efe9aa93addef1641f7478a23f68011067be1ae435df9077a",
+  "datos_abiertos/INDEX.json": "62c015ba9834c50567f61560267c45d757b05881298b7babc03a3d57d8506dcf",
+  "orchestracion/productos_publicos.json": "06385df04ab7eb296cbf54cba77521641b0135a1a0eeab2b47e1f189597bcbc3",
+  "fuentes/catalogo_oficial.yaml": "25668f8749c6496bbdd013df778b76136e1048f0dce3e8893bfcf06e053e068a",
+  "configuracion/catalogo_preparacion.yaml": "71c62b9509c92ccc413833ea89b0d4fbccf7b632e74946ba50c040a118fb2bee",
+  "configuracion/publicaciones.yaml": "cc9e6bdd6f4f3f44e7d44d23c670ee8ffe4d2cc528f8dd22661c9c5216c3c206",
+  "datos/composicion/MANIFEST.json": "46585ef81bdec704f531f66ebd9f2fb70a05613888cab3ed53c1885a0536ab47",
+  "datos/resultados/MANIFEST.json": "6789079735d69278eec2945aca3dc21978b3a1abf2ce85356510390b2a604d3d",
+  "orchestracion/fuente_nazioenbehatokia.json": "b22ff749d3ba9570b9c1000e1d146ee963ab990f0c624388c41ddca803cbc5b3",
+  "configuracion/contratos_infoelectoral.yaml": "c1086cc9431ad54c67ff9bc2960fa3d1732c63a1756014ea125c3267deee312b",
+  "paquetes/deslinde/pyproject.toml": "d9cc9a789c8373ae8d3da0e5c09f4f5febd2d3efe88b4a8b0d63543fff9307e0",
+  "orchestracion/catalogo_procedencia.json": "5323102807a4d79da75c7b4555abcfa502ada9b045e6a25987107666551d70cf"
+ }
+}
