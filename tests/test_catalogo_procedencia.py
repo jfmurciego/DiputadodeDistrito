@@ -3,9 +3,10 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba del catálogo de procedencia (T-74)
-VERSIÓN: 1.1.0 · FECHA: 2026-11-10 · ESTADO: candidato
-CAMBIOS: 1.1.0 (T-203): aviso ORIGEN_M06_NO_PUBLICADO por (territorio, elección).
-ANTERIOR: legacy/tests/test_catalogo_procedencia_v1.0.0_20261110.py
+VERSIÓN: 1.2.0 · FECHA: 2026-11-14 · ESTADO: candidato
+CAMBIOS: 1.2.0 (T-203): «eleccion» por producto y fuente hallada por id nuevo (aut/nac).
+  1.1.0 (T-203): aviso ORIGEN_M06_NO_PUBLICADO por (territorio, elección).
+ANTERIOR: legacy/tests/test_catalogo_procedencia_v1.1.0_20261114.py
 FUNCIÓN: registros sintéticos: producto completo, M08 publicado sin sha256 (ERROR), composición de un M06 no
   publicado (AVISO), determinismo; y en el repositorio, catálogo versionado igual al regenerado y sin errores.
 """
@@ -99,6 +100,24 @@ class CatalogoVersionado(unittest.TestCase):
         self.assertEqual(versionado, cp.serializar(cat),
                          "Regenera con: python herramientas/catalogo_procedencia.py")
         self.assertEqual(cat["resumen"]["errores"], 0, cp.informe(cat))
+
+
+class ProcedenciaPorEleccion(unittest.TestCase):
+    def test_eleccion_en_cada_producto_y_fuente_por_id_nuevo(self):
+        with tempfile.TemporaryDirectory() as d:
+            raiz = Path(d)
+            repo_sintetico(raiz)
+            v = json.loads((raiz / "orchestracion/publicaciones_visor.json").read_text(encoding="utf-8"))
+            v["products"][0]["territory_id"] = v["products"][1]["territory_id"] = "andalucia"
+            v["products"][1]["election_date"] = "2019-11-10"
+            escribir(raiz, "orchestracion/publicaciones_visor.json", v)
+            escribir(raiz, "configuracion/catalogo_preparacion.yaml",
+                     "default_edition: '2025'\nterritories:\n- territory_id: aut01\n  editions:\n    '2025':\n"
+                     "      preparation_evidence: {run_id: 7, package_sha256: " + H + "}\n")
+            t = cp.generar(raiz)["territorios"]["andalucia"]
+            self.assertEqual({p["producto"]: p["eleccion"] for p in t["productos"]},
+                             {"M06": "2023-07-23", "M08": "2019-11-10"})
+            self.assertEqual(t["fuente_territorial"]["run_id"], "7")
 
 
 if __name__ == "__main__":
