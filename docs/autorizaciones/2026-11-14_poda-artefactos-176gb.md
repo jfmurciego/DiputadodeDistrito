@@ -5,3 +5,4 @@
 - Recálculo previo: `publicaciones_visor.json`, `archivo_r2.json` y el catálogo sin cambios desde el 12-11; ningún paquete BORRAR en el catálogo vigente.
 - Ejecución: `DELETE repos/<r>/actions/artifacts/<id>`, uno a uno; resultado por id en `poda_artefactos_2026-11-14/resultado_borrado.tsv`.
 - Parada: primer error distinto de 204/404.
+- Resultado (2026-11-14): 2.202/2.202 procesados; 2.201 borrados (204) y 1 ya inexistente (404). Artefactos vivos tras la poda: 28.208. CONFIRMADO.
