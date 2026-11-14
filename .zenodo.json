@@ -4,7 +4,7 @@
   "creators": [
     {"name": "Murciego, Jesus", "affiliation": "Independent researcher", "orcid": "0009-0002-4434-959X"}
   ],
-  "license": "apache-2.0",
+  "license": "other-closed",
   "access_right": "open",
   "language": "spa",
   "keywords": ["redistricting", "distritos uninominales", "secciones censales", "GerryChain", "ReCom", "INE", "España"],
@@ -14,5 +14,5 @@
     {"identifier": "https://github.com/jfmurciego/DiputadodeDistrito", "relation": "isSupplementTo", "scheme": "url"},
     {"identifier": "https://jfmurciego.github.io/DiputadodeDistrito/", "relation": "isDocumentedBy", "scheme": "url"}
   ],
-  "notes": "Las fuentes territoriales proceden del INE (padrón y seccionado). Consultar las condiciones de reutilización del INE antes de redistribuir datos brutos."
+  "notes": "Licencia propietaria (todos los derechos reservados) desde el 14-11-2026; las versiones depositadas antes conservan la Apache-2.0. Las fuentes territoriales proceden del INE (padrón y seccionado). Consultar las condiciones de reutilización del INE antes de redistribuir datos brutos."
 }

@@ -15,7 +15,7 @@ class MetadatosZenodo(unittest.TestCase):
         self.assertEqual(c["name"], "Murciego, Jesus")
         self.assertEqual(c["affiliation"], "Independent researcher")
         self.assertEqual(c["orcid"], ORCID)
-        self.assertEqual(z["license"], "apache-2.0")
+        self.assertEqual(z["license"], "other-closed")  # T-280 (D-95): licencia propietaria
 
     def test_citation_cff(self):
         t = (R / "CITATION.cff").read_text(encoding="utf-8")
@@ -24,7 +24,8 @@ class MetadatosZenodo(unittest.TestCase):
         self.assertIn('affiliation: "Independent researcher"', t)
         self.assertIn(ORCID, t)
         self.assertIn('version: "4.9.0"', t)
-        self.assertIn("license: Apache-2.0", t)
+        self.assertNotIn("license: Apache-2.0", t)  # T-280 (D-95)
+        self.assertIn("license-url:", t)
         self.assertNotIn("rellenar", t)
 
     def test_doi_concepto_y_version_coherentes(self):
@@ -47,6 +48,24 @@ class MetadatosZenodo(unittest.TestCase):
         self.assertIn("name: Jesus Murciego", paper)
         self.assertIn('name: "Independent researcher"', paper)
         self.assertNotIn("PENDIENTE", paper.split("# Summary")[0])
+
+
+class LicenciaPropietaria(unittest.TestCase):
+    """T-280 (D-95): LICENSE propietaria, nota de la Apache-2.0 anterior y excepciones de D-92."""
+
+    def test_license(self):
+        t = (R / "LICENSE").read_text(encoding="utf-8")
+        self.assertIn("Copyright (c) 2026 Jesus Murciego. Todos los derechos reservados.", t)
+        self.assertIn("Apache-2.0", t)
+        self.assertIn("14 de noviembre de 2026", t)
+        self.assertIn("CC BY 4.0", t)
+        self.assertIn("PENDIENTE DE DECISIÓN DEL PROPIETARIO", t)
+        self.assertTrue((R / "legacy/licencias/LICENSE_apache-2.0_hasta_2026-11-14.txt").is_file())
+
+    def test_readme_sin_apache_como_licencia_vigente(self):
+        readme = (R / "README.md").read_text(encoding="utf-8")
+        self.assertNotIn("**Código**: Apache-2.0", readme)
+        self.assertIn("licencia propietaria", readme)
 
 
 if __name__ == "__main__":
