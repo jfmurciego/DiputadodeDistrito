@@ -95,3 +95,10 @@ DDD_RUN_ID=bateria-andalucia-7.4.4 DDD_OPTIMIZATION_ALGORITHM="Canónico" python
 ```
 
 Falta además: códigos oficiales de los territorios, registro `docs/registro/AAAA-MM-DD_<rama>.md` y la PR.
+
+## Nota de estado (2026-11-14)
+
+Parado por orden de ahorro del Coordinador (T-270, baja prioridad). Hecho en esta sesión: merge de `origin/main`, entorno
+instalado y entradas de ceuta, melilla, congreso_alava, congreso_soria y congreso_huesca generadas (no versionadas).
+Falta: `medir.py` de esos 5, `a_frente_d8.py`, perfiles M04 (congreso_madrid) y M05 (andalucia), códigos oficiales,
+registro `docs/registro/AAAA-MM-DD_<rama>.md` y la PR. Comandos en «Pendiente y cómo reanudar».
