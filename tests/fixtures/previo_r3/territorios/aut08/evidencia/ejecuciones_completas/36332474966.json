@@ -1,0 +1,75 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "castilla_la_mancha",
+  "territory_name": "Castilla-La Mancha",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 36332474966,
+  "source_sha": "1ed53cd7a10c22317eee02d06d22a773d70f446f",
+  "publish_requested": true,
+  "status": "FAILED",
+  "failed_phases": [],
+  "blocked_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 35744494489,
+      "artifact": "ddd-source-package-castilla_la_mancha-2025-35744494489",
+      "artifact_digest": "sha256:3317a19b68d5fa341b8066d1d5927884912fe981de1b803e67388d573f010e57",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "success",
+      "run_id": 36332474966,
+      "artifact": "ddd-state-36332474966-M06",
+      "artifact_digest": "sha256:84851debe1b1d7be1ea36e2ef7d62b29a7660513003fb2583ada45702640777d",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "success",
+      "run_id": 36332474966,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-27T16:23:40.491834+00:00"
+}
