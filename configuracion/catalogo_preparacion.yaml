@@ -1831,6 +1831,7 @@ territories:
         territorial_product: territorios/nac28/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac28/evidencia/pares_fuentes/2025/5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5.json
         electoral_product: territorios/nac28/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac28/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac29
   name: Congreso Málaga
