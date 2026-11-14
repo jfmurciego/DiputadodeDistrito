@@ -1,5 +1,5 @@
 # CAMBIOS 2026-11-14 (T-332): tres contratos de ENSAYO (`rehearsal: true`) de las generales 2026-11-29 (nac22, nac42, nac52).
-#   Datos relabelados desde el ZIP Infoelectoral 2023 (T-333); NO son resultados de 2026. Nunca promocionables.
+#   Datos del ZIP Infoelectoral 2023 repartidos a claves de sección 2026 y reetiquetados (T-333, #801; recuentos de su MANIFEST); NO son resultados de 2026. Nunca promocionables.
 #   source_sha256 «PENDIENTE_T333» falla cerrado en la 03 (exit 53) hasta que el Operador suba el fichero y lo rellene.
 #   FORMATO DEL FEED DEL 29-11 (riesgo abierto, sin resolver por código): SIN DOCUMENTO. No hay en el repo ni en docs/ especificación,
 #   muestra ni sha256 del feed real de Minsait de la noche. El formato que asume `adaptador_minsait_csv.py` (CSV largo por mesa con
@@ -83,8 +83,8 @@ contracts:
     expected:
       ccaa: '02'
       provinces: 1
-      sections: 286
-      polling_stations: 403
+      sections: 285
+      polling_stations: 401
       candidate_votes: 117735
     reconciliation:
       policy: provisional_vs_definitive_candidate_votes
@@ -110,8 +110,8 @@ contracts:
     expected:
       ccaa: '08'
       provinces: 1
-      sections: 216
-      polling_stations: 256
+      sections: 219
+      polling_stations: 265
       candidate_votes: 49823
     reconciliation:
       policy: provisional_vs_definitive_candidate_votes
@@ -138,7 +138,7 @@ contracts:
       ccaa: '19'
       provinces: 1
       sections: 44
-      polling_stations: 87
+      polling_stations: 90
       candidate_votes: 26925
     reconciliation:
       policy: provisional_vs_definitive_candidate_votes

@@ -18,11 +18,12 @@ from herramientas.resolver_eleccion_vigente import resolve_for_preparation
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github" / "workflows" / "preparacion-resultados-electorales.yml"
-# Literales del ZIP oficial Infoelectoral 2023 (configuracion/contratos_infoelectoral.yaml, sha e78fc231…): secciones, mesas, votos.
+# Votos: literales del ZIP oficial Infoelectoral 2023 (configuracion/contratos_infoelectoral.yaml, sha e78fc231…), que el reparto
+# a claves de sección 2026 conserva. Secciones y mesas: recuentos del fixture de ensayo (MANIFEST de #801, T-333).
 ESPERADO = {
-    "nac22": ("congreso_huesca", "02", 286, 403, 117735, "Congreso Huesca"),
-    "nac42": ("congreso_soria", "08", 216, 256, 49823, "Congreso Soria"),
-    "nac52": ("congreso_melilla", "19", 44, 87, 26925, "Congreso Melilla"),
+    "nac22": ("congreso_huesca", "02", 285, 401, 117735, "Congreso Huesca"),
+    "nac42": ("congreso_soria", "08", 219, 265, 49823, "Congreso Soria"),
+    "nac52": ("congreso_melilla", "19", 44, 90, 26925, "Congreso Melilla"),
 }
 
 
