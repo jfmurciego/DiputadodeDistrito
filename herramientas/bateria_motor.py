@@ -3,10 +3,15 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.6
+VERSIÓN: 1.3.0
 NOMBRE DE VERSIÓN: Batería del motor
-FECHA: 2026-11-12
+FECHA: 2026-11-14
 ESTADO: candidato
+CAMBIOS 1.3.0 (T-298): la batería no vuelve a ine.es. `nacionales` toma las fuentes de la copia local, de inputs/partes o del
+  release-espejo (configuracion/fuentes_ine_espejo.yaml) y verifica su sha256 (si no cuadra, falla). La entrada mínima en R2
+  se indexa por la identidad del contrato (no por id de territorio): `entradas --desde-r2` la lee de
+  bateria/entradas/identidad/<id16>.zip y comprueba el sha256 de cada fichero contra su ENTRADAS.json. Causa: archivo_r2.json
+  no tiene ningún estado M03 y `entradas` no leía lo que `archivar` sube: cada job volvía a bajar el INE.
 CAMBIOS 1.2.5 (T-258): un único vigente. `composicion_publicada` delega en ddd_motor2.vigente.vigente_publicado, el
   mismo que usa la competición (generadores 1.2.2); si el run publicado no tiene composición versionada ya no cae en
   datos/composicion/<t>.csv de otro run (Canarias). `indicadores`: si el bloque «vigente» del COMPETICION.json no es
@@ -50,7 +55,7 @@ MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distr
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
 CAMBIOS 1.2.6 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/bateria_motor_v1.2.5_20261112.py
+ANTERIOR: legacy/herramientas/bateria_motor_v1.2.6_20261114.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -68,7 +73,7 @@ QUÉ HACE: subcomandos
               Con --desde-r2 reutiliza antes el estado ddd-state-<run>-M03 archivado en R2 (orchestracion/archivo_r2.json)
               si su sha256 cuadra y lleva la identidad del contrato vigente. Solo se conserva la entrada mínima
               (M01 secciones + grafo M03, ENTRADA_MINIMA) y ENTRADAS.json con el sha256 de todo lo demás.
-  archivar    sube a R2 la entrada mínima de cada territorio (reconstruida o extraída de R2): bateria/entradas/<t>/<huella>.zip
+  archivar    sube a R2 la entrada mínima de cada territorio (reconstruida o extraída de R2): bateria/entradas/identidad/<id16 del contrato>.zip
               (cliente de herramientas/archivar_artefactos_r2.py; R2_BUCKET y R2_ACCOUNT_ID).
   lista       JSON {"include":[{"t":...}]} con los territorios pedidos (o los 71) para la matriz de Actions.
   huella      huella real (criterio a de T-194): repite la competición del motor 2 en <out>/_huella2 y compara la
@@ -152,20 +157,76 @@ def contrato(t: str) -> Path:
 
 
 # --------------------------------------------------------------------------- nacionales
+ESPEJO_INE = ROOT / "configuracion" / "fuentes_ine_espejo.yaml"
+REPO_ESPEJO = "jfmurciego/diputadodedistrito"
+
+
+class FuenteNacionalError(RuntimeError):
+    pass
+
+
+def _espejo() -> dict:
+    return yaml.safe_load(ESPEJO_INE.read_text(encoding="utf-8"))["fuentes"]
+
+
+def _descargar_release(tag: str, asset: str, dest: Path) -> None:
+    """Asset de un release del repositorio por REST (GH_TOKEN/GITHUB_TOKEN); nunca ine.es."""
+    import urllib.error
+    repo = os.environ.get("GITHUB_REPOSITORY") or REPO_ESPEJO
+    tok = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or ""
+    cab = {"Authorization": f"Bearer {tok}"} if tok else {}
+    api = f"https://api.github.com/repos/{repo}/releases/tags/{tag}"
+    with urllib.request.urlopen(urllib.request.Request(api, headers={**cab, "Accept": "application/vnd.github+json"}), timeout=60) as r:
+        assets = json.load(r).get("assets") or []
+    url = next((a["url"] for a in assets if a["name"] == asset), None)
+    if url is None:
+        raise FuenteNacionalError(f"el release {tag} no tiene el asset {asset}")
+    with urllib.request.urlopen(urllib.request.Request(url, headers={**cab, "Accept": "application/octet-stream"}), timeout=600) as r, open(dest, "wb") as fh:
+        shutil.copyfileobj(r, fh)
+
+
+def obtener_fuente_nacional(nombre: str, destino: Path) -> Path:
+    """Deja ``destino/nombre`` con el sha256 de configuracion/fuentes_ine_espejo.yaml. Orden: copia local (caché de Actions),
+    carpeta DDD_ESPEJO_DIR, inputs/partes (2025 y 65034), release-espejo. Nunca ine.es; sha256 distinto = FuenteNacionalError."""
+    ficha = _espejo().get(nombre)
+    if ficha is None:
+        raise FuenteNacionalError(f"{nombre}: no está en {ESPEJO_INE.name}")
+    esperado = ficha["sha256"]
+    dest = destino / nombre
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    if dest.is_file() and sha256(dest) == esperado:
+        return dest
+    dest.unlink(missing_ok=True)
+    tmp = dest.with_suffix(dest.suffix + ".part")
+    local = os.environ.get("DDD_ESPEJO_DIR")
+    partes = ROOT / "inputs" / "partes"
+    if local and (Path(local) / nombre).is_file():
+        shutil.copyfile(Path(local) / nombre, tmp)
+    elif nombre in ("seccionado_2025.zip", "65034.csv.zip") and sorted(partes.glob(nombre + ".part*")):
+        with open(tmp, "wb") as fh:
+            for p in sorted(partes.glob(nombre + ".part*")):
+                fh.write(p.read_bytes())
+    else:
+        try:
+            _descargar_release(ficha["release_tag"], nombre, tmp)
+        except Exception as exc:  # noqa: BLE001
+            tmp.unlink(missing_ok=True)
+            raise FuenteNacionalError(f"{nombre}: sin copia local ni release-espejo {ficha['release_tag']} ({exc})") from exc
+    if sha256(tmp) != esperado:
+        obtenido = sha256(tmp)
+        tmp.unlink(missing_ok=True)
+        raise FuenteNacionalError(f"{nombre}: sha256 {obtenido} distinto del esperado {esperado}")
+    tmp.rename(dest)
+    return dest
+
+
 def nacionales(args) -> int:
     NACIONAL.mkdir(parents=True, exist_ok=True)
-    partes = ROOT / "inputs" / "partes"
-    if not (ROOT / "inputs" / "65034.csv.zip").is_file() and not (NACIONAL / "65034.csv.zip").is_file():
-        subprocess.run(["bash", str(partes / "reconstruir_fuentes.sh")], check=True)
     for nombre in ("65034.csv.zip", "seccionado_2025.zip"):
         if (ROOT / "inputs" / nombre).is_file() and not (NACIONAL / nombre).is_file():
             shutil.move(str(ROOT / "inputs" / nombre), NACIONAL / nombre)
-    for ed in EDICIONES:
-        dest = NACIONAL / f"seccionado_{ed}.zip"
-        if not dest.is_file():
-            tmp = dest.with_suffix(".part")
-            urllib.request.urlretrieve(URL_SECCIONADO.format(ed), tmp)
-            tmp.rename(dest)
+    for nombre in ["65034.csv.zip", *(f"seccionado_{ed}.zip" for ed in EDICIONES)]:
+        obtener_fuente_nacional(nombre, NACIONAL)
     totales = NACIONAL / "65034_totales.csv.zip"
     if not totales.is_file():
         buf = io.StringIO()
@@ -183,7 +244,7 @@ def nacionales(args) -> int:
     manifest = {
         "schema": "ddd.bateria-nacionales/1.0",
         "ficheros": {p.name: {"sha256": sha256(p), "bytes": p.stat().st_size} for p in sorted(NACIONAL.glob("*.zip"))},
-        "origen": {"seccionado": URL_SECCIONADO, "65034": URL_65034 + " (copia en inputs/partes)"},
+        "origen": {"espejo": str(ESPEJO_INE.relative_to(ROOT)), "seccionado": URL_SECCIONADO, "65034": URL_65034},
     }
     (NACIONAL / "NACIONALES.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps(manifest["ficheros"], indent=1))
@@ -388,9 +449,76 @@ def estados_r2(t: str) -> list[dict]:
     return sorted(sel, key=lambda a: (int(a.get("run_id") or 0), str(a["artefacto"]).endswith("-M03")), reverse=True)
 
 
+def _id16(ident: dict) -> str:
+    """Identidad del contrato sin el id del territorio: package_sha256 + compatibility_identity_sha256 (o el sha del contrato)."""
+    base = f"{ident.get('package_sha256') or ''}|{ident.get('compatibility_identity_sha256') or ''}"
+    if base == "|":
+        base = str(ident["contrato_sha256"])
+    return hashlib.sha256(base.encode()).hexdigest()[:16]
+
+
+def clave_identidad(ident: dict) -> str:
+    return f"bateria/entradas/identidad/{_id16(ident)}.zip"
+
+
+def entradas_r2_identidad(t: str, out: Path) -> dict | None:
+    """T-298: entrada mínima por identidad del contrato (un renombrado no la invalida). Comprueba la identidad y el sha256 de
+    cada fichero contra el ENTRADAS.json del paquete. None si no hay paquete o no cuadra."""
+    ident = _identidad_contrato(t)
+    bucket = os.environ.get("R2_BUCKET", "")
+    if not bucket:
+        return None
+    work = out / "_trabajo" / t
+    shutil.rmtree(work, ignore_errors=True)
+    work.mkdir(parents=True)
+    zpath = work / "entrada.zip"
+    t0 = time.time()
+    try:
+        _r2_cp(f"s3://{bucket}/{clave_identidad(ident)}", str(zpath))
+    except (subprocess.CalledProcessError, KeyError, OSError):
+        shutil.rmtree(work, ignore_errors=True)
+        return None
+    res: dict = {"territorio": t, "origen": "r2", "estado_r2": clave_identidad(ident), "tiempos": {"descarga_r2": round(time.time() - t0, 1)}}
+    cache = _cache(t)
+    with zipfile.ZipFile(zpath) as zf:
+        meta = json.loads(zf.read("ENTRADAS.json").decode("utf-8"))
+        gs = meta.get("identidad_contrato") or {}
+        if _id16({**gs, "contrato_sha256": gs.get("contrato_sha256") or ""}) != _id16(ident):
+            print(f"{t}: paquete R2 de otra identidad de contrato", flush=True)
+            shutil.rmtree(work, ignore_errors=True)
+            return None
+        shutil.rmtree(cache, ignore_errors=True)
+        cache.mkdir(parents=True)
+        for nombre, h in (meta.get("entrada_minima") or {}).items():
+            datos = zf.read(nombre)
+            if hashlib.sha256(datos).hexdigest() != h:
+                print(f"{t}: {nombre} no cuadra con su sha256 en ENTRADAS.json", flush=True)
+                shutil.rmtree(work, ignore_errors=True)
+                return None
+            (cache / nombre).write_bytes(datos)
+    if sorted((meta.get("entrada_minima") or {})) != sorted(ENTRADA_MINIMA_NOMBRES(cache)):
+        shutil.rmtree(work, ignore_errors=True)
+        return None
+    dest = out / "entradas" / t
+    shutil.rmtree(dest, ignore_errors=True)
+    dest.mkdir(parents=True)
+    res["estado"] = "OK"
+    res["contrato_vigente"] = True
+    _guardar_minima(t, cache, dest, res)
+    shutil.rmtree(work, ignore_errors=True)
+    return res
+
+
+def ENTRADA_MINIMA_NOMBRES(cache: Path) -> list[str]:
+    return [f.name for suf in ENTRADA_MINIMA for f in cache.glob(f"*{suf}")]
+
+
 def entradas_r2_uno(t: str, out: Path) -> dict | None:
     """Reutiliza la entrada mínima de un estado M03 archivado en R2 si su sha256 cuadra con archivo_r2.json y el
     estado lleva la identidad del contrato vigente (package_sha256 o compatibility_identity_sha256). None si no hay."""
+    r = entradas_r2_identidad(t, out)
+    if r is not None:
+        return r
     ident = _identidad_contrato(t)
     claves = [x for x in (ident["package_sha256"], ident["compatibility_identity_sha256"]) if x]
     for art in estados_r2(t):
@@ -689,7 +817,7 @@ def matriz(args) -> int:
 def archivar(args) -> int:
     """Sube a R2 la entrada mínima de cada territorio, reconstruida desde fuente o extraída de un estado M03 de R2
     (así los estados completos M01-M03U pueden podarse, T-145):
-    clave bateria/entradas/<territorio>/<sha256[:16] de la entrada>.zip con ENTRADAS.json + M01 + grafo M03."""
+    clave bateria/entradas/identidad/<id16 de la identidad del contrato>.zip (T-298) con ENTRADAS.json + M01 + grafo M03."""
     from herramientas.archivar_artefactos_r2 import r2_cliente
     bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
     if not bucket or not cuenta:
@@ -710,7 +838,7 @@ def archivar(args) -> int:
                 info = zipfile.ZipInfo(nombre, FECHA_ZIP)
                 info.compress_type = zipfile.ZIP_DEFLATED
                 zf.writestr(info, (ent.parent / nombre).read_bytes())
-        clave = f"bateria/entradas/{r['territorio']}/{huella}.zip"
+        clave = clave_identidad({**(r.get("identidad_contrato") or {}), "contrato_sha256": (r.get("identidad_contrato") or {}).get("contrato_sha256") or ""})
         h = sha256(paquete)
         if sha_remoto(clave) != h:
             subir(clave, paquete, h)

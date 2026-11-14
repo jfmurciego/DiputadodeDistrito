@@ -1,0 +1,30 @@
+# PROYECTO: Diputado de Distrito
+# COMPONENTE: espejo de las fuentes nacionales del INE para la batería (T-298)
+# VERSIÓN: 1.0.0 · FECHA: 2026-11-14 · ESTADO: candidato
+# FUNCIÓN: una sola descarga del INE por fuente, a un release del repositorio (como fuente-infoelectoral-02202307); la
+#   batería toma cada fichero de ahí (o de la caché de Actions con clave por este fichero), verifica el sha256 y falla si no
+#   cuadra. Nunca vuelve a ine.es. 2025 y 65034 también están en inputs/partes (misma huella).
+# ORIGEN DE LOS sha256: seccionado 2023/2024/2025 medidos sobre la descarga real de las URL de origen el 2026-11-14
+#   (2025 coincide con inputs/partes/reconstruir_fuentes.sh); 65034 de inputs/partes/reconstruir_fuentes.sh (1,6 GB de
+#   descarga en vivo; zip del repositorio).
+schema: ddd-fuentes-ine-espejo/1.0
+fuentes:
+  seccionado_2023.zip:
+    release_tag: fuente-ine-seccionado-2023
+    origen: https://www.ine.es/prodyser/cartografia/seccionado_2023.zip
+    sha256: 7a15e700a4592d793230441cfcb4b72e40979998aef019ca644389271886bf1f
+    bytes: 64929708
+  seccionado_2024.zip:
+    release_tag: fuente-ine-seccionado-2024
+    origen: https://www.ine.es/prodyser/cartografia/seccionado_2024.zip
+    sha256: df931fa0d372808eb81abb2f2645ed5ecccbd6ed397b85db656980748ddd6bf7
+    bytes: 65690243
+  seccionado_2025.zip:
+    release_tag: fuente-ine-seccionado-2025
+    origen: https://www.ine.es/prodyser/cartografia/seccionado_2025.zip
+    sha256: 55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4
+    bytes: 60298555
+  65034.csv.zip:
+    release_tag: fuente-ine-65034-2025
+    origen: https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv
+    sha256: 91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3
