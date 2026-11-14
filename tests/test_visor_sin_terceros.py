@@ -1,5 +1,5 @@
 """Versión 1.0.1 — T-310: los visores no cargan recursos de terceros y sirven maplibre-gl fijado con sha256/SRI. Fecha: 2026-11-14.
-Estado: prueba. Anterior: legacy/tests/test_visor_sin_terceros_v1.0.0_20261114.py. Cambios 1.0.1 (T-294): el host de Cloudflare deja de ser excepción; queda solo OpenStreetMap.
+Estado: prueba. Anterior: legacy/tests/test_visor_sin_terceros_v1.0.0_20261114.py. Cambios 1.0.1 (T-294): el host de Cloudflare deja de ser excepción; OpenStreetMap pasa a excepción aceptada (D-104).
 """
 import base64
 import hashlib
@@ -17,7 +17,7 @@ EXT_ANY = re.compile(r"https?://[^\"'`\s)\\\\<>]+")
 TAGS = re.compile(r"<(script|link|img|source|iframe|embed|object|video|audio|input)\b[^>]*>", re.I)
 ATTR = re.compile(r"\b(?:src|href|data|poster|srcset)\s*=\s*[\"']([^\"']+)[\"']", re.I)
 CSS_REF = re.compile(r"(?:@import\s+(?:url\()?|url\()\s*[\"']?((?:https?:)?//[^\"')\s]+)", re.I)
-# Cargas dinámicas en JS aún no resueltas (decisión del propietario pendiente; ver registro T-310).
+# Excepción ACEPTADA y declarada en el texto de transparencia (D-104): teselas de OpenStreetMap en V1, nacional y Congreso.
 DINAMICAS_PENDIENTES = {"https://tile.openstreetmap.org/"}  # T-294: el único host propio del contador no se lista; va en un <script> en línea (test_visor_analitica)
 
 
