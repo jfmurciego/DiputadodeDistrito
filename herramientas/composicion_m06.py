@@ -3,9 +3,13 @@
 """Composición sección→distrito del M06 publicado, ligera y versionada en git (T-67).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.2.0 · FECHA: 2026-11-14 · ESTADO: candidato
+CAMBIOS 1.2.0 (T-301): modo `--descriptores` (lo usa la P50): por cada descriptor canonical_m06 del run descargado, extrae la
+  composición sección→distrito de sus artefactos, la valida contra el M06 que se va a publicar y la escribe en
+  datos/composicion/runs/<id>_<run>.csv (el que lee ddd_motor2.vigente) con su sha256 en datos/composicion/MANIFEST_RUNS.json.
+  Si un territorio no se recupera, sale con error (COMPOSICION_NO_RECUPERADA): ninguno se pierde en silencio.
 CAMBIOS 1.1.0 (T-201): `m06_vigentes(registro, eleccion)` elige por (territorio, elección), por defecto 2023-07-23, nunca solo por run_id mayor.
-ANTERIOR: legacy/herramientas/composicion_m06_v1.0.0_20261110.py
+ANTERIOR: legacy/herramientas/composicion_m06_v1.1.0_20261114.py
 QUÉ HACE: el M06 publicado (blob de git) solo trae polígonos por distrito; la asignación sección→distrito vive en el CSV
   ``*_m06_composicion_distritos.csv`` del estado M06 del run (artefactos de 14 días). Esta herramienta toma ese CSV
   (de un directorio, ZIP o TAR ya descargado, con ZIP/TAR anidados), lo valida contra el M06 publicado (mismos distritos,
@@ -31,7 +35,9 @@ import zipfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import resultados_ligeros as rl  # noqa: E402
+from ddd_core import territorio_ids  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRO_VISOR = ROOT / "orchestracion/publicaciones_visor.json"
@@ -184,14 +190,66 @@ def extraer(origen: Path, territorios: list[str] | None = None, salida: Path = S
     return {"hechos": sorted(set(objetivo) - set(pendientes)), "no_recuperados": sorted(pendientes)}
 
 
+def publicar(descriptores: Path, production_root: Path, salida: Path = SALIDA) -> dict:
+    """P50 (T-301): composición de cada canonical_m06 del run descargado, validada contra el M06 que se publica.
+
+    Escribe ``salida/runs/<id>_<run>.csv`` (id nuevo; si ya existe el fichero con el id viejo, ese) y anota el sha256 en
+    ``salida/MANIFEST_RUNS.json``. Devuelve {"hechos": [...], "no_recuperados": {territorio: motivo}}."""
+    descs = [d for d in json.loads(Path(descriptores).read_text(encoding="utf-8")) if d.get("kind") == "canonical_m06"]
+    comps = list(composiciones(Path(production_root)))
+    salida.mkdir(parents=True, exist_ok=True)
+    ruta_man = salida / "MANIFEST_RUNS.json"
+    man = json.loads(ruta_man.read_text(encoding="utf-8")) if ruta_man.exists() else {"schema": "ddd.composicion-runs/1.0", "ficheros": {}}
+    hechos, fallos = [], {}
+    for d in descs:
+        t, run = str(d["territory_id"]), str(d["run_id"])
+        m06 = Path(d["local_source"]).read_bytes()
+        filas, motivo = None, "sin composicion_distritos.csv en los artefactos del run"
+        for comp in comps:
+            try:
+                filas = validar(comp, m06)
+                break
+            except (ValueError, KeyError) as e:
+                motivo = f"ninguna composición cuadra con el M06 ({e})"
+        if filas is None:
+            fallos[t] = motivo
+            continue
+        try:
+            tid = territorio_ids.resolver_id(t)
+        except Exception:  # id fuera de la tabla maestra: se conserva tal cual
+            tid = t
+        cuerpo = csv_bytes(filas)
+        ruta = territorio_ids.fichero_por_id(salida / "runs", "{}_" + run + ".csv", tid)
+        ruta.parent.mkdir(parents=True, exist_ok=True)
+        if not ruta.exists() or ruta.read_bytes() != cuerpo:
+            ruta.write_bytes(cuerpo)
+        man["ficheros"][f"runs/{ruta.name}"] = {"territorio": tid, "run_id": run, "sha256_m06": sha256(m06),
+                                               "secciones": len(filas), "sha256_csv": sha256(cuerpo)}
+        hechos.append(tid)
+    man["ficheros"] = dict(sorted(man["ficheros"].items()))
+    texto = json.dumps(man, ensure_ascii=False, indent=1) + "\n"
+    if not ruta_man.exists() or ruta_man.read_text(encoding="utf-8") != texto:
+        ruta_man.write_text(texto, encoding="utf-8")
+    return {"hechos": sorted(hechos), "no_recuperados": dict(sorted(fallos.items()))}
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--origen", type=Path, required=True)
+    ap.add_argument("--origen", type=Path)
+    ap.add_argument("--descriptores", type=Path, help="modo P50: descriptores del run (JSON) y --origen = raíz del run descargado")
     ap.add_argument("--territorios", default="todos")
     ap.add_argument("--salida", type=Path, default=SALIDA)
     ap.add_argument("--registro", type=Path, default=REGISTRO_VISOR)
     ap.add_argument("--m06-dir", type=Path, help="ZIP <territorio>_<run>.zip del M06 ya descargados (sin red)")
     a = ap.parse_args(argv)
+    if a.origen is None:
+        ap.error("--origen es obligatorio")
+    if a.descriptores:
+        r = publicar(a.descriptores, a.origen, a.salida)
+        print(f"composición publicada: {', '.join(r['hechos']) or '-'}")
+        for t, m in r["no_recuperados"].items():
+            print(f"::error::COMPOSICION_NO_RECUPERADA {t}: {m}")
+        return 44 if r["no_recuperados"] else 0
     ts = None if a.territorios.strip() in ("", "todos") else [t.strip() for t in a.territorios.split(",")]
     r = extraer(a.origen, ts, a.salida, a.registro, a.m06_dir)
     print(f"composición: {len(r['hechos'])} territorios; no recuperados: {', '.join(r['no_recuperados']) or '-'}")
