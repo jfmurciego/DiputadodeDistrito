@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.382
+Versión: 1.0.384
 Fecha: 2026-11-14
-Alcance: T-220 — Carpetas de territorios con el id nuevo de la tabla maestra (aut01…aut19, nac01…nac52)
+Alcance: T-291 — M07 consume la equivalencia de seccionados 2026→2023 (D-65)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_claude-t220-renombrado-v2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.381_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t291-equivalencia-2026-2023.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.383_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.381_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.384 · [2026-11-14 — T-291 — M07 consume la equivalencia de seccionados 2026→2023 (D-65)](registro/2026-11-14_t291-equivalencia-2026-2023.md)
+- 1.0.383 · [2026-11-12 — T-116 — Explorador cartográfico V3 integrado](registro/2026-11-12_feat-visor-v3-integrado-20261112.md)
 - 1.0.382 · [2026-11-14 — T-220 — Carpetas de territorios con el id nuevo de la tabla maestra (aut01…aut19, nac01…nac52)](registro/2026-11-14_claude-t220-renombrado-v2.md)
 - 1.0.381 · [2026-11-14 — T-274A — guía del runner propio de GitHub Actions](registro/2026-11-14_claude-t274a-guia-runner-propio.md)
 - 1.0.380 · [2026-11-14 — T-271 — artefactos de diagnóstico de CI desacoplados de la cuota](registro/2026-11-14_t271-artefactos-ci-cuota.md)
