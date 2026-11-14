@@ -24,7 +24,7 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
-| 15:23 | — | P50 `desplegar-visor-publico.yml` «Sitio completo», `production_run_id` vacío (orden directa del propietario: «Publica de nuevo el sitio en diputadodedistrito.es: P50 solo sitio, con production_run_id vacío.») | 43604649733 | EN_VUELO | 1 / — | 0/1 |
+| 15:23 | — | P50 `desplegar-visor-publico.yml` «Sitio completo», `production_run_id` vacío (orden directa del propietario: «Publica de nuevo el sitio en diputadodedistrito.es: P50 solo sitio, con production_run_id vacío.») | 43604649733 | SUCCESS: PAGE_URL https://diputadodedistrito.es/, DEPLOYMENT_OUTCOME success | 1 / — | 0/1 |
 | 15:28 | los 71 | 1. `bateria-motor.yml` motor2 D8 N=10 (main 2c4e2471, en verde sobre b5bd69e) | 43605070831 | EN_VUELO | 2 / — | 0/1 |
 
 ## Cierre
