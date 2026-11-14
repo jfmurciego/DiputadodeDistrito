@@ -62,7 +62,9 @@ class LicenciaPropietaria(unittest.TestCase):
         self.assertIn("CC BY-NC 4.0", t)
         self.assertNotIn("PENDIENTE", t)
         self.assertNotIn("PROPUESTA TÉCNICA", t)
-        self.assertTrue((R / "legacy/licencias/LICENSE_apache-2.0_hasta_2026-11-14.txt").is_file())
+        # La copia Apache en legacy/licencias/ no entra en la imagen de CI (.dockerignore excluye legacy/*): se comprueba en el árbol.
+        if (R / "legacy").is_dir() and (R / ".git").exists():
+            self.assertTrue((R / "legacy/licencias/LICENSE_apache-2.0_hasta_2026-11-14.txt").is_file())
 
     def test_readme_sin_apache_como_licencia_vigente(self):
         readme = (R / "README.md").read_text(encoding="utf-8")
