@@ -1793,6 +1793,7 @@ territories:
         territorial_product: territorios/nac27/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac27/evidencia/pares_fuentes/2025/e4e97c5fbb0e722c00699a9b32d0cf800a90f57be45c5d570a0f4cf87d5b9422.json
         electoral_product: territorios/nac27/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac27/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac28
   name: Congreso Madrid
