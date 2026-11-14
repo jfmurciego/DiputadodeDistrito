@@ -1,10 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-resultados-electorales.yml
-# VERSIÓN: 1.0.12
+# VERSIÓN: 1.0.13
+# CAMBIOS 1.0.13: T-291 (D-65): con la elección de configuracion/elecciones_generales_2026.yaml y la edición 2025 (mapas
+#   vigentes, seccionado 2023), el adaptador común (infoelectoral_mesas y minsait_provisional) declara en el contrato la tabla
+#   configuracion/equivalencia_seccionado_ine_2026_a_2023.csv (--section-equivalence). Cualquier otra elección no cambia.
 # CAMBIOS 1.0.12: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P10 Fuentes — P12 Electorales» (antes 03 Preparación de Resultados Electorales).
 # CAMBIOS 1.0.11: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Cola durable de operaciones
-# FECHA: 2026-11-10
+# FECHA: 2026-11-14
 # ESTADO: candidato
 # QUÉ HACE: serializa el acceso al recurso compartido y conserva todos los trabajos en espera.
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
@@ -23,7 +26,7 @@
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
 # CAMBIOS 1.0.10: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.11_20261110.yml
+# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.12_20261114.yml
 name: P10 Fuentes — P12 Electorales
 
 on:
@@ -278,6 +281,12 @@ jobs:
         run: |
           set -euo pipefail
           adapter="${{ steps.mode.outputs.adapter }}"
+          # T-291 (D-65): la noche de las generales 2026 va sobre los mapas vigentes (edición 2025, seccionado 2023).
+          equivalence_args=()
+          general_2026="$(python -c 'import yaml; print(yaml.safe_load(open("configuracion/elecciones_generales_2026.yaml", encoding="utf-8"))["election_date"])')"
+          if [[ "$ELECTION_DATE" == "$general_2026" && "$EDITION" == "2025" ]]; then
+            equivalence_args=(--section-equivalence configuracion/equivalencia_seccionado_ine_2026_a_2023.csv)
+          fi
           if [[ "$adapter" == "official_snapshot" ]]; then
             if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
               cp -a .ddd-electoral-previous .ddd-electoral-package
@@ -323,7 +332,8 @@ jobs:
                 --expected-delta-definitive-minus-provisional 0 \
                 --production-eligible \
                 --source-class official \
-                --adapter-label infoelectoral_mesas/1.0
+                --adapter-label infoelectoral_mesas/1.0 \
+                "${equivalence_args[@]}"
             fi
           elif [[ "$adapter" == "minsait_provisional" ]]; then
             if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
@@ -367,7 +377,8 @@ jobs:
                 --definitive-reference-url "$definitive_url" \
                 --definitive-candidate-votes "$definitive_candidate_votes" \
                 --expected-delta-definitive-minus-provisional "$expected_delta" \
-                "${eligible_args[@]}"
+                "${eligible_args[@]}" \
+                "${equivalence_args[@]}"
             fi
           else
             args=(--territory-id "$TERRITORY_ID" --edition "$EDITION" --package-out .ddd-electoral-package --root-dir .)
