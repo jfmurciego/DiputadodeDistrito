@@ -3,15 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: adquisición genérica de fuentes oficiales
-VERSIÓN: 1.4.2
-NOMBRE DE VERSIÓN: Evidencia poblacional antes del filtro
-FECHA: 2026-11-12
+VERSIÓN: 1.4.3
+NOMBRE DE VERSIÓN: Evidencia poblacional antes del filtro (id canónico, T-307)
+FECHA: 2026-11-14
 ESTADO: candidato
 FUNCIÓN: materializar fuentes territoriales por declaración, preservando inmutables las copias oficiales nacionales.
 CAMBIOS: conserva bytes, huella y procedencia poblacional antes de filtrar, incluso si la adquisición queda bloqueada.
 MOTIVO: permitir reproducir los déficits de cobertura sin repetir descargas ni sustituir evidencias.
 CAMBIOS 1.4.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/adquirir_fuentes_oficiales_v1.4.1_20261112.py
+CAMBIOS 1.4.3 (T-307): el territory_id que se escribe en inventario, procedencia y resolved_source_contract es siempre el id canónico resuelto (aut02), aunque la declaración del paquete P10 lleve el legacy (aragon); un id fuera de la tabla maestra se conserva.
+ANTERIOR: legacy/herramientas/adquirir_fuentes_oficiales_v1.4.2.py
 """
 from __future__ import annotations
 
@@ -43,7 +44,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import IdReservado, IdTerritorioDesconocido, carpeta_de, resolver_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 FetchBytes = Callable[[str], bytes]
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -80,6 +81,10 @@ def live_fetch(url: str, retries: int = 4, timeout: int = 120) -> bytes:
 def _territory(declaration: dict) -> tuple[str, str, int, int, int, list[dict]]:
     territory = declaration.get("territory") or {}
     territory_id = str(territory.get("id") or "").strip()
+    try:
+        territory_id = resolver_id(territory_id) if territory_id else territory_id  # T-307: siempre el id canónico
+    except (IdTerritorioDesconocido, IdReservado):
+        pass
     name = str(territory.get("business_name") or "").strip()
     edition = territory.get("edition")
     legacy_year = territory.get("source_year", edition)

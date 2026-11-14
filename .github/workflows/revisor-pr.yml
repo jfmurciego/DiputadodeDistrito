@@ -1,7 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.2
-# ANTERIOR: legacy/workflows/revisor-pr_v1.0.1_20261110.yml
+# VERSIÓN: 1.1.0
+# ANTERIOR: legacy/workflows/revisor-pr_v1.0.2_20261114.yml
+# CAMBIOS 1.1.0: T-293, ahorro de cuota; autorizado por el propietario (solo disparadores; fallo cerrado y permisos intactos).
+#   El revisor solo corre con la etiqueta `revisar-ia` en la PR (a demanda = ponerla; al ponerla, evento `labeled`).
+#   Ya no en cada push, ni en borrador, ni en PR de robots (autor Bot). El workflow sigue disparándose en los mismos
+#   eventos (+ labeled) pero el `if` de `comprobar` los salta: revisar y veredicto quedan «skipped» (cero minutos) y el
+#   check `veredicto`, exigido por el ruleset proteger-main, cuenta como cumplido en cada HEAD (quitar synchronize lo
+#   dejaría pendiente). La concurrencia ya no cancela (cola `queue: max`, exigida por test_operational_concurrency): un push o una etiqueta ajena no matan una revisión en curso.
 # CAMBIOS 1.0.2: T-149, solo el nombre visible («Revisor de PR», sin «_Interno — »). Jobs y check `veredicto` intactos.
 # CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Revisor independiente en cada PR
@@ -17,16 +23,22 @@
 name: Revisor de PR
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened, ready_for_review, labeled]
 permissions:
   contents: read
 concurrency:
   group: ddd-revisor-pr-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  cancel-in-progress: false
+  queue: max
 jobs:
   comprobar:
     runs-on: ubuntu-24.04
     timeout-minutes: 2
+    if: >-
+      contains(github.event.pull_request.labels.*.name, 'revisar-ia') &&
+      (github.event.action != 'labeled' || github.event.label.name == 'revisar-ia') &&
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.user.type != 'Bot'
     outputs:
       listo: ${{ steps.c.outputs.listo }}
     steps:

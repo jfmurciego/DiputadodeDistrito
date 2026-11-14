@@ -59,12 +59,6 @@ class Botones(unittest.TestCase):
     def _abrir(self, p, ancho=390, alto=844):
         b = p.chromium.launch(executable_path=os.environ.get("PW_CHROMIUM") or None, args=["--no-sandbox"])
         pg = b.new_page(viewport={"width": ancho, "height": alto})
-        ml = os.environ.get("MAPLIBRE_DIR")
-        if ml:
-            def r(route):
-                f = Path(ml) / route.request.url.rsplit("/", 1)[1]
-                route.fulfill(path=str(f)) if f.exists() else route.abort()
-            pg.route("https://unpkg.com/**", r)
         pg.route("**/nacional/**", lambda route: route.fulfill(body="<p>n</p>", content_type="text/html"))
         pg.goto(self.url)
         pg.wait_for_function("typeof map!=='undefined'&&map&&map.isStyleLoaded()", timeout=20000)

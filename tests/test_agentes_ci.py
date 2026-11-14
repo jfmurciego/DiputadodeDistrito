@@ -36,6 +36,21 @@ class AgentesEnCI(unittest.TestCase):
         for nombre in self.CASOS:
             self.assertNotIn("workflow_dispatch", disparadores(cargar(nombre)))
 
+    def test_revisor_solo_con_etiqueta_revisar_ia(self):
+        # T-293: sin la etiqueta (o con borrador/PR de robot) comprobar se salta y arrastra revisar y veredicto a «skipped»
+        # (= check `veredicto` cumplido). Los tipos se mantienen para que el check exista en cada HEAD.
+        d = cargar("revisor-pr.yml")
+        tipos = disparadores(d)["pull_request"]["types"]
+        self.assertEqual(set(tipos), {"opened", "synchronize", "reopened", "ready_for_review", "labeled"})
+        cond = " ".join(d["jobs"]["comprobar"]["if"].split())
+        self.assertIn("contains(github.event.pull_request.labels.*.name, 'revisar-ia')", cond)
+        self.assertIn("github.event.label.name == 'revisar-ia'", cond)
+        self.assertIn("github.event.pull_request.draft == false", cond)
+        self.assertIn("github.event.pull_request.user.type != 'Bot'", cond)
+        self.assertFalse(d["concurrency"]["cancel-in-progress"])
+        self.assertEqual(d["jobs"]["revisar"]["needs"], "comprobar")
+        self.assertEqual(d["jobs"]["veredicto"]["needs"], "revisar")
+
     def test_sin_secreto_se_salta_limpiamente(self):
         for nombre, (agente, publicar, _) in self.CASOS.items():
             with self.subTest(workflow=nombre):
