@@ -740,6 +740,7 @@ territories:
         prepared_source_pair: territorios/aut19/evidencia/pares_fuentes/2025/f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4.json
         territorial_product: territorios/aut19/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut19/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/aut19/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac01
   name: Congreso Álava
