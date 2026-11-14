@@ -14,6 +14,7 @@ import json
 import yaml
 
 from herramientas import bateria_motor as b
+from ddd_core.territorio_ids import id_legacy
 from herramientas import podar_r2
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -303,7 +304,7 @@ class EspejoIne(unittest.TestCase):
             (cfg / "nac42_2025.yaml").write_text("generation_state:\n  package_sha256: " + "ab" * 32 + "\n", encoding="utf-8")
             esperada = "arc-e/paquetes-p10/" + "ab" * 32 + ".zip"
             self.assertEqual(podar_r2.clave_paquete_p10("nac42", root), esperada)
-            self.assertEqual(podar_r2.clave_paquete_p10("congreso_soria", root), esperada)  # id viejo
+            self.assertEqual(podar_r2.clave_paquete_p10(id_legacy("nac42"), root), esperada)  # id viejo, vía la tabla maestra
             self.assertIsNone(podar_r2.clave_paquete_p10("nac01", root))  # sin contrato
 
 
