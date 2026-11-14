@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.399
+Versión: 1.0.400
 Fecha: 2026-11-14
-Alcance: T-302 — Los almacen-m06-* a R2 (ARC-P) y lectura de R2 primero
+Alcance: Coordinador — Lecciones del traspaso y de la tanda del 14-11, y relevo en el tablero
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t302-almacen-m06-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.398_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_lecciones-coordinador-relevo.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.399_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.398_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.400 · [2026-11-14 — Coordinador — Lecciones del traspaso y de la tanda del 14-11, y relevo en el tablero](registro/2026-11-14_lecciones-coordinador-relevo.md)
 - 1.0.399 · [2026-11-14 — T-302 — Los almacen-m06-* a R2 (ARC-P) y lectura de R2 primero](registro/2026-11-14_t302-almacen-m06-r2.md)
 - 1.0.398 · [2026-11-14 — T-305 — La P50 restaura de R2 el estado M08/M06 podado de Actions](registro/2026-11-14_t305-p50-restaura-estado-r2.md)
 - 1.0.397 · [2026-11-14 — T-297 — Deslinde 1.1: frontera medida en D8 y candidato exacto (CP-SAT)](registro/2026-11-14_claude-t297-deslinde-1-1.md)
