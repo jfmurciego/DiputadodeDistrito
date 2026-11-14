@@ -31,10 +31,10 @@
 #   1.0.0: fichero nuevo (T-132).
 # MOTIVO: repetir la batería ante cualquier cambio del motor con un solo botón; sin programación ni vigilantes.
 # CAMBIOS 1.1.5 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-# CAMBIOS 1.1.6 (T-298): las fuentes nacionales (seccionado INE 2023-2025 y 65034) ya no se bajan del INE en cada job: R2 (ARC-E,
-#   arc-e/fuentes/ine/, índice orchestracion/fuentes_r2.json) y verificación del sha256
-#   (herramientas/bateria_motor.py 1.3.0). Entrada `subir_fuentes`: sube esas fuentes a R2 (única vez que se toca ine.es; la lanza el Operador). El job motor2 sube la entrada mínima a R2 por identidad del contrato (no por id de
-#   territorio) para que la siguiente batería la reutilice sin tocar el INE; ese paso no hace fallar el job.
+# CAMBIOS 1.1.6 (T-298): la batería usa las mismas entradas que producción y no va a ine.es: los jobs toman M01 y M03 del paquete
+#   territorial de P10 archivado en R2 (ARC-E, por identidad del contrato, sha256 verificado; herramientas/bateria_motor.py 1.3.0);
+#   sin paquete, el job falla con BATERIA_FALTA_PAQUETE_P10 y el territorio a archivar. Entrada `archivar_p10` (Operador, una vez por
+#   territorio): archiva en R2 el estado M03 de la 00 indicada. Se quita el paso de copias nacionales y la reconstrucción desde fuente.
 # ANTERIOR: legacy/workflows/bateria-motor_v1.1.5_20261114.yml
 name: VER Verificación del motor
 run-name: "Batería del motor ${{ inputs.motor == 'motor2' && format('motor2 {0} N={1}', inputs.funcion, inputs.cadenas) || inputs.versiones_m05 }} ${{ inputs.territorios || 'todos' }}"
@@ -69,11 +69,11 @@ on:
         required: false
         type: string
         default: '7.4.4'
-      subir_fuentes:
-        description: 'Solo el Operador, una vez: sube a R2 (ARC-E) las fuentes nacionales del índice orchestracion/fuentes_r2.json; ignora el resto de entradas'
+      archivar_p10:
+        description: 'Solo el Operador, una vez por territorio: id de la 00 cuyo estado M03 se archiva en R2 (ARC-E) como entrada mínima del territorio de «territorios»; ignora el resto'
         required: false
-        type: boolean
-        default: false
+        type: string
+        default: ''
       archivar:
         description: 'Solo m05: subir a R2 la entrada mínima de cada territorio; motor2 la ignora'
         required: false
@@ -89,17 +89,23 @@ concurrency:
   queue: max
 
 jobs:
-  fuentes:
-    name: Subir fuentes nacionales a R2 (ARC-E)
-    if: ${{ inputs.subir_fuentes }}
+  archivar_p10:
+    name: Archivar entrada P10 en R2 (ARC-E)
+    if: ${{ inputs.archivar_p10 != '' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: read
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: auto
       R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
       R2_BUCKET: ${{ vars.R2_BUCKET }}
+      GH_TOKEN: ${{ github.token }}
+      RUN_P10: ${{ inputs.archivar_p10 }}
+      TERRITORIOS: ${{ inputs.territorios }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -108,15 +114,24 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.lock
       - run: python -m pip install --requirement requirements.lock
-      - name: Subir fuentes (sha256 del índice verificado antes de subir)
+      - name: Estado M03 de la 00 y archivado por identidad del contrato
         shell: bash
         run: |
-          set -euo pipefail
-          python herramientas/bateria_motor.py subir-fuentes
+          set -eo pipefail
+          [[ "$RUN_P10" =~ ^[0-9]+$ && -n "$TERRITORIOS" && "$TERRITORIOS" != *" "* ]] || { echo "::error::archivar_p10 = id numérico de la 00 y territorios = un solo territorio"; exit 2; }
+          mkdir -p "$RUNNER_TEMP/estado"
+          gh run download "$RUN_P10" --repo "$GITHUB_REPOSITORY" --dir "$RUNNER_TEMP/estado" --pattern "ddd-state-$RUN_P10-M03*"
+          python herramientas/bateria_motor.py archivar-p10 "$TERRITORIOS" --estado "$RUNNER_TEMP/estado" --run "$RUN_P10"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: bateria-p10-${{ github.run_id }}
+          path: bateria/ARCHIVO_ENTRADAS.json
+          retention-days: 30
 
   bateria:
     name: Batería del motor
-    if: ${{ inputs.motor != 'motor2' && !inputs.subir_fuentes }}
+    if: ${{ inputs.motor != 'motor2' && inputs.archivar_p10 == '' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 300
     env:
@@ -135,15 +150,12 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.lock
       - run: python -m pip install --requirement requirements.lock
-      - name: Copias nacionales (espejo, sha256 verificado)
-        run: python herramientas/bateria_motor.py nacionales
-      - name: Entradas desde fuente
+      - name: Entradas desde R2 (paquete P10)
         shell: bash
         run: |
           set -euo pipefail
-          r2=(); [[ -n "${R2_ACCOUNT_ID:-}" && -n "${AWS_ACCESS_KEY_ID:-}" ]] && r2=(--desde-r2)
-          if [[ -n "$TERRITORIOS" ]]; then read -ra ts <<<"$TERRITORIOS"; python herramientas/bateria_motor.py entradas "${r2[@]}" "${ts[@]}"
-          else python herramientas/bateria_motor.py entradas "${r2[@]}" --todos; fi
+          if [[ -n "$TERRITORIOS" ]]; then read -ra ts <<<"$TERRITORIOS"; python herramientas/bateria_motor.py entradas "${ts[@]}"
+          else python herramientas/bateria_motor.py entradas --todos; fi
       - name: Motor y validación
         shell: bash
         run: |
@@ -174,7 +186,7 @@ jobs:
 
   plan:
     name: Plan del motor 2
-    if: ${{ inputs.motor == 'motor2' && !inputs.subir_fuentes }}
+    if: ${{ inputs.motor == 'motor2' && inputs.archivar_p10 == '' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     outputs:
@@ -217,7 +229,7 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.lock
       - run: python -m pip install --requirement requirements.lock
-      - name: Entradas (R2 o fuente INE)
+      - name: Entradas (R2, paquete P10)
         shell: bash
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
@@ -227,12 +239,7 @@ jobs:
           R2_BUCKET: ${{ vars.R2_BUCKET }}
         run: |
           set -eo pipefail
-          r2=(); [[ -n "${R2_ACCOUNT_ID:-}" && -n "${AWS_ACCESS_KEY_ID:-}" ]] && r2=(--desde-r2)
-          python herramientas/bateria_motor.py entradas "${r2[@]}" "$T"
-          # T-298: la entrada mínima queda en R2 por identidad del contrato (sin id de territorio); no bloquea el job.
-          if [[ -n "${R2_ACCOUNT_ID:-}" && -n "${AWS_ACCESS_KEY_ID:-}" ]]; then
-            python herramientas/bateria_motor.py archivar --out bateria || echo "::warning::T-298: no se pudo archivar la entrada en R2"
-          fi
+          python herramientas/bateria_motor.py entradas "$T"
       - name: Dependencias de las cadenas (sin tocar el lock base) y comprobación rápida
         shell: bash
         run: |
@@ -295,7 +302,7 @@ jobs:
   aceptacion:
     name: Aceptación del motor 2
     needs: [plan, competicion]
-    if: ${{ always() && inputs.motor == 'motor2' && !inputs.subir_fuentes && needs.plan.result == 'success' }}
+    if: ${{ always() && inputs.motor == 'motor2' && inputs.archivar_p10 == '' && needs.plan.result == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:

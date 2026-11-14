@@ -7,11 +7,12 @@ VERSIÓN: 1.3.0
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-14
 ESTADO: candidato
-CAMBIOS 1.3.0 (T-298): la batería no vuelve a ine.es. `nacionales` toma las fuentes de la copia local, de inputs/partes o de R2 (ARC-E,
-  arc-e/fuentes/ine/<nombre>_<sha12>.zip, índice orchestracion/fuentes_r2.json) y verifica su sha256 (si no cuadra, falla); `subir-fuentes` las sube. La entrada mínima en R2
-  se indexa por la identidad del contrato (no por id de territorio): `entradas --desde-r2` la lee de
-  arc-e/entradas-minimas/<id16>.zip y comprueba el sha256 de cada fichero contra su ENTRADAS.json. Causa: archivo_r2.json
-  no tiene ningún estado M03 y `entradas` no leía lo que `archivar` sube: cada job volvía a bajar el INE.
+CAMBIOS 1.3.0 (T-298): la batería usa las MISMAS entradas que producción y nunca va a ine.es: `entradas` toma M01 y M03 del paquete
+  territorial de P10, archivado en R2 (ARC-E) por identidad del contrato (arc-e/entradas-minimas/<id16>.zip, sin id de territorio) y
+  verificado por sha256 (cada fichero contra su ENTRADAS.json). Sin paquete: error BATERIA_FALTA_PAQUETE_P10 con el territorio a
+  archivar. `archivar-p10` lo archiva una vez desde el estado M03/M03U de la 00 del territorio. `--desde-fuente` (solo diagnóstico
+  local) reconstruye desde fuentes verificadas por sha256 (orchestracion/fuentes_r2.json; sin urlretrieve). Causa: archivo_r2.json no
+  tiene ningún estado M03 y `entradas` no leía lo que `archivar` sube: cada job volvía a bajar el INE.
 CAMBIOS 1.2.5 (T-258): un único vigente. `composicion_publicada` delega en ddd_motor2.vigente.vigente_publicado, el
   mismo que usa la competición (generadores 1.2.2); si el run publicado no tiene composición versionada ya no cae en
   datos/composicion/<t>.csv de otro run (Canarias). `indicadores`: si el bloque «vigente» del COMPETICION.json no es
@@ -173,7 +174,7 @@ def _bajar_r2(clave: str, dest: Path) -> None:
 
 
 def obtener_fuente_nacional(nombre: str, destino: Path) -> Path:
-    """Deja ``destino/nombre`` con el sha256 de orchestracion/fuentes_r2.json (ARC-E). Orden: copia local, carpeta
+    """Deja ``destino/nombre`` con el sha256 de orchestracion/fuentes_r2.json (ARC-E). Solo para --desde-fuente. Orden: copia local, carpeta
     DDD_ESPEJO_DIR, inputs/partes (2025 y 65034), R2 (arc-e/fuentes/ine/...). Nunca ine.es; sha256 distinto = FuenteNacionalError."""
     ficha = _espejo().get(nombre)
     if ficha is None:
@@ -205,40 +206,6 @@ def obtener_fuente_nacional(nombre: str, destino: Path) -> Path:
         raise FuenteNacionalError(f"{nombre}: sha256 {obtenido} distinto del esperado {esperado}")
     tmp.rename(dest)
     return dest
-
-
-def subir_fuentes(args) -> int:
-    """Sube a R2 (ARC-E, permanente) cada fuente del índice: la baja de su URL oficial (o de inputs/partes), verifica el sha256 del
-    índice y la sube con metadato sha256. Es la única vez que se toca ine.es; lo lanza el Operador (bateria-motor.yml, subir_fuentes)."""
-    from herramientas.archivar_artefactos_r2 import r2_cliente
-    bucket, cuenta = os.environ.get("R2_BUCKET", ""), os.environ.get("R2_ACCOUNT_ID", "")
-    if not bucket or not cuenta:
-        print("::error::BATERIA_R2_SIN_CREDENCIALES (R2_BUCKET/R2_ACCOUNT_ID)")
-        return 2
-    sha_remoto, subir = r2_cliente(bucket, cuenta)
-    tmpdir = Path(args.out) / "_fuentes"
-    tmpdir.mkdir(parents=True, exist_ok=True)
-    partes = ROOT / "inputs" / "partes"
-    for nombre, ficha in _espejo().items():
-        if sha_remoto(ficha["clave"]) == ficha["sha256"]:
-            print(f"{nombre}: ya en R2 {ficha['clave']}", flush=True)
-            continue
-        dest = tmpdir / nombre
-        dest.unlink(missing_ok=True)
-        if sorted(partes.glob(nombre + ".part*")):
-            with open(dest, "wb") as fh:
-                for p in sorted(partes.glob(nombre + ".part*")):
-                    fh.write(p.read_bytes())
-        else:
-            urllib.request.urlretrieve(ficha["origen_url"], dest)
-        h = sha256(dest)
-        if h != ficha["sha256"]:
-            print(f"::error::{nombre}: sha256 {h} distinto del índice {ficha['sha256']}")
-            return 1
-        subir(ficha["clave"], dest, h)
-        print(f"{nombre}: subida {ficha['clave']} sha256 {h}", flush=True)
-        dest.unlink()
-    return 0
 
 
 def nacionales(args) -> int:
@@ -589,23 +556,60 @@ def entradas_r2_uno(t: str, out: Path) -> dict | None:
 
 
 def entradas(args) -> int:
-    nac = None  # copias nacionales: solo si algún territorio no se reutiliza de R2
+    """T-298: la batería usa las MISMAS entradas que producción: M01 y M03 del paquete territorial de P10, archivado en R2 (ARC-E)
+    por identidad del contrato y verificado por sha256. Nunca va a ine.es. Sin paquete: error claro con el territorio a archivar.
+    ``--desde-fuente`` (solo diagnóstico local) reconstruye desde las fuentes como antes."""
+    nac = None
     out = Path(args.out)
     fallos = 0
     for t in (territorios() if args.todos else args.territorios):
-        r = entradas_r2_uno(t, out) if args.desde_r2 else None
-        if r is not None:
-            print(f"{t}: OK reutilizada de R2 {r['estado_r2']}", flush=True)
+        if not args.desde_fuente:
+            r = entradas_r2_identidad(t, out)
+            if r is None:
+                print(f"::error::BATERIA_FALTA_PAQUETE_P10 {t}: no hay entrada mínima en R2 ({clave_identidad(_identidad_contrato(t))}) "
+                      f"con la identidad del contrato vigente. Archívala una vez con «VER Verificación del motor» (archivar_p10=<run de la 00 de {t}>).",
+                      flush=True)
+                fallos += 1
+                continue
+            print(f"{t}: OK desde R2 {r['estado_r2']}", flush=True)
             continue
         if nac is None:
-            if not (NACIONAL / "NACIONALES.json").is_file():
-                nacionales(args)
+            for nombre in ["65034.csv.zip", *(f"seccionado_{ed}.zip" for ed in EDICIONES)]:
+                obtener_fuente_nacional(nombre, NACIONAL)
+            nacionales(args)
             nac = json.loads((NACIONAL / "NACIONALES.json").read_text(encoding="utf-8"))["ficheros"]
         r = entradas_uno(t, out, nac, args.seccionado)
         iguales = {k: v["igual_contrato"] for k, v in (r.get("fuentes") or {}).items()}
         print(f"{t}: {r['estado']} {r['tiempos']} huella=contrato {iguales}", flush=True)
         fallos += r["estado"] != "OK"
     return 1 if fallos else 0
+
+
+def archivar_p10(args) -> int:
+    """Archiva en R2 (ARC-E) la entrada mínima de ``territorio`` desde el estado M03/M03U de su 00 (``--estado`` = carpeta con el
+    artefacto descomprimido). Comprueba que el estado lleva la identidad del contrato vigente y deja ENTRADAS.json; luego `archivar`."""
+    t, est = args.territorio, Path(args.estado)
+    ident = _identidad_contrato(t)
+    claves = [x for x in (ident["package_sha256"], ident["compatibility_identity_sha256"]) if x]
+    textos = [f for f in est.rglob("*") if f.is_file() and f.suffix in (".json", ".yaml", ".yml") and f.stat().st_size < 5_000_000]
+    if not claves or not any(any(c in f.read_text(encoding="utf-8", errors="ignore") for c in claves) for f in textos):
+        print(f"::error::BATERIA_ESTADO_OTRO_CONTRATO {t}: el estado no lleva la identidad del contrato vigente")
+        return 1
+    stage = Path(args.out) / "_trabajo" / f"{t}-p10"
+    shutil.rmtree(stage, ignore_errors=True)
+    stage.mkdir(parents=True)
+    for suf in ENTRADA_MINIMA:
+        f = next(iter(sorted(est.rglob(f"*{suf}"))), None)
+        if f is None:
+            print(f"::error::BATERIA_ESTADO_SIN_{suf} {t}")
+            return 1
+        shutil.copy2(f, stage / f"{t}_2025{suf}")  # nombre con el id nuevo: el id viejo del estado no sirve al restaurar
+    dest = Path(args.out) / "entradas" / t
+    shutil.rmtree(dest, ignore_errors=True)
+    dest.mkdir(parents=True)
+    res = {"territorio": t, "origen": "p10", "estado": "OK", "run": args.run, "tiempos": {}}
+    _guardar_minima(t, stage, dest, res)
+    return archivar(args)
 
 
 # --------------------------------------------------------------------------- motor
@@ -849,7 +853,7 @@ def archivar(args) -> int:
     indice = {}
     for ent in sorted((out / "entradas").glob("*/ENTRADAS.json")):
         r = json.loads(ent.read_text(encoding="utf-8"))
-        if r.get("origen") not in ("fuente", "r2") or r.get("estado") != "OK":
+        if r.get("origen") not in ("fuente", "r2", "p10") or r.get("estado") != "OK":
             continue
         huella = hashlib.sha256(json.dumps(r["entrada_minima"], sort_keys=True).encode()).hexdigest()[:16]
         paquete = out / "_trabajo" / f"{r['territorio']}-{huella}.zip"
@@ -1271,15 +1275,14 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("nacionales")
-    sub.add_parser("subir-fuentes").add_argument("--out", default=str(OUT))
     for nombre in ("entradas", "motor"):
         p = sub.add_parser(nombre)
         p.add_argument("territorios", nargs="*")
         p.add_argument("--todos", action="store_true")
         p.add_argument("--out", default=str(OUT))
         if nombre == "entradas":
-            p.add_argument("--desde-r2", action="store_true",
-                           help="reutiliza el estado M03 archivado en R2 (archivo_r2.json) si es del contrato vigente")
+            p.add_argument("--desde-r2", action="store_true", help="obsoleto (T-298): R2 es la vía por defecto")
+            p.add_argument("--desde-fuente", action="store_true", help="solo diagnóstico local: reconstruye desde las fuentes, no desde R2")
             p.add_argument("--seccionado", default="ogc", choices=("ogc", "shapefile"),
                            help="ogc: ruta de producción (OGC del INE); shapefile: copia nacional verificada, sin red")
         if nombre == "motor":
@@ -1288,6 +1291,11 @@ def main(argv=None) -> int:
         sub.add_parser(nombre).add_argument("--out", default=str(OUT))
     p = sub.add_parser("indicadores")
     p.add_argument("territorio")
+    p.add_argument("--out", default=str(OUT))
+    p = sub.add_parser("archivar-p10")
+    p.add_argument("territorio")
+    p.add_argument("--estado", required=True)
+    p.add_argument("--run", default="")
     p.add_argument("--out", default=str(OUT))
     sub.add_parser("lista").add_argument("territorios", nargs="*")
     p = sub.add_parser("huella")
@@ -1300,7 +1308,7 @@ def main(argv=None) -> int:
     p.add_argument("territorios", nargs="*")
     p.add_argument("--out", default=str(OUT))
     a = ap.parse_args(argv)
-    return {"lista": lista, "huella": huella, "indicadores": indicadores, "aceptacion": aceptacion, "nacionales": nacionales, "subir-fuentes": subir_fuentes, "entradas": entradas, "motor": motor, "matriz": matriz, "archivar": archivar}[a.cmd](a)
+    return {"lista": lista, "huella": huella, "indicadores": indicadores, "aceptacion": aceptacion, "nacionales": nacionales, "archivar-p10": archivar_p10, "entradas": entradas, "motor": motor, "matriz": matriz, "archivar": archivar}[a.cmd](a)
 
 
 if __name__ == "__main__":

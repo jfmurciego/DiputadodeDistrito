@@ -1,13 +1,16 @@
-# Comprobar las fuentes nacionales en R2 (ARC-E)
+# Comprobar en R2 las entradas de la batería (ARC-E)
 
-El índice versionado es `orchestracion/fuentes_r2.json`: por fichero, clave en R2, sha256, bytes, URL oficial y fecha de descarga.
-Las claves llevan la huella: `arc-e/fuentes/ine/<nombre>_<sha256[:12]>.zip`. Las entradas mínimas por territorio van en
-`arc-e/entradas-minimas/<id16>.zip` (id16 = huella de la identidad del contrato, no el id del territorio). La poda no toca `arc-e/`.
+La batería usa las mismas entradas que producción: M01 (secciones con población) y M03 (grafo) del paquete territorial de P10, archivados
+una vez en R2 y verificados por sha256. La batería nunca va a ine.es; OGC e INE solo existen dentro de P10.
 
-1. En el panel de Cloudflare: R2 → bucket → carpeta `arc-e/fuentes/ine/`; el objeto debe existir y su tamaño coincidir con `bytes`.
-2. Descarga el objeto y en PowerShell: `Get-FileHash -Algorithm SHA256 .\seccionado_2023_7a15e700a459.zip`
-   El valor (en minúsculas) debe ser el `sha256` del índice.
-3. Origen: `origen_url` es la fuente oficial del INE; `seccionado_2025` y `65034` también están en `inputs/partes` con la misma huella.
+- Clave: `arc-e/entradas-minimas/<id16>.zip`, con `id16` = huella de la identidad del contrato (`package_sha256` y
+  `compatibility_identity_sha256`), no el id del territorio: un renombrado no la invalida. El zip lleva `ENTRADAS.json` con el sha256 de cada fichero.
+- Índice versionado: `orchestracion/fuentes_r2.json` (huellas medidas de las fuentes INE de P10 y, en `entradas`, clave/sha256/bytes/origen/fecha
+  de cada paquete archivado; se completa con el `ARCHIVO_ENTRADAS.json` que deja el job).
+- La poda (`podar_r2.py`) solo borra claves `ddd-state-*` de su lista aprobada: nada bajo `arc-e/`.
 
-Subida (una vez, la lanza el Operador con frase del propietario): «VER Verificación del motor» con `subir_fuentes=true`. Los jobs de la
-batería bajan de R2, verifican el sha256 y nunca van a ine.es; si no cuadra, fallan.
+Comprobar un objeto: (1) panel de Cloudflare R2 → bucket → `arc-e/entradas-minimas/`: debe existir y su tamaño coincidir con `bytes`.
+(2) Descárgalo y, en PowerShell, `Get-FileHash -Algorithm SHA256 .\<fichero>.zip`: en minúsculas, igual que el `sha256` del índice.
+
+Archivar un territorio (una vez, lo lanza el Operador con frase del propietario): «VER Verificación del motor» con `territorios=<id>` y
+`archivar_p10=<id de su 00>`. Si falta el paquete, la batería falla con `BATERIA_FALTA_PAQUETE_P10 <id>` y dice qué archivar.

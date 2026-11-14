@@ -1,6 +1,6 @@
 {
   "schema": "ddd-fuentes-r2/1.0",
-  "nota": "Índice de fuentes oficiales permanentes (ARC-E) en R2: clave con la huella, sha256, bytes, URL oficial y fecha de descarga. Los sha256 de seccionado_* se midieron sobre la descarga real de ine.es el 2026-11-14 (2025 coincide con inputs/partes/reconstruir_fuentes.sh); el de 65034 es el de inputs/partes/reconstruir_fuentes.sh (zip del repositorio; la descarga en vivo pesa 1,6 GB). La poda (podar_r2.py) no borra nada bajo arc-e/.",
+  "nota": "Índice versionado de ARC-E para la batería (T-298). `fuentes`: huellas medidas de las fuentes nacionales del INE que consume P10 (referencia: la batería ya no las usa ni va a ine.es; 2025 y 65034 coinciden con inputs/partes). `entradas`: paquetes M01+M03 de P10 por territorio archivados en R2 (clave arc-e/entradas-minimas/<id16>.zip por identidad del contrato); se completa con el ARCHIVO_ENTRADAS.json del job archivar_p10. La poda no borra nada bajo arc-e/.",
   "fuentes": {
     "seccionado_2023.zip": {
       "clave": "arc-e/fuentes/ine/seccionado_2023_7a15e700a459.zip",
@@ -30,5 +30,6 @@
       "origen_url": "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
       "descargado_en": "2026-02-16"
     }
-  }
+  },
+  "entradas": {}
 }

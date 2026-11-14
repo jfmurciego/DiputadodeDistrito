@@ -78,11 +78,58 @@ class EspejoIne(unittest.TestCase):
                     b.obtener_fuente_nacional("x.zip", td / "nac")
             self.assertEqual(vistas, ["arc-e/fuentes/ine/x.zip"])
 
-    def test_solo_subir_fuentes_toca_el_ine(self):
+    def test_nada_de_la_bateria_toca_el_ine(self):
         import inspect
-        for f in (b.nacionales, b.obtener_fuente_nacional, b.entradas):
+        for f in (b.nacionales, b.obtener_fuente_nacional, b.entradas, b.archivar_p10):
             self.assertNotIn("urlretrieve", inspect.getsource(f))
             self.assertNotIn("urlopen", inspect.getsource(f))
+
+    def test_entradas_solo_desde_r2_sin_red_y_sin_paquete_falla_claro(self):
+        import argparse, contextlib, io
+
+        def sin_red(*a, **k):
+            raise AssertionError("acceso a red")
+        ident = {"contrato": "c", "contrato_sha256": "1", "package_sha256": "p", "compatibility_identity_sha256": "c"}
+        a = argparse.Namespace(territorios=["nac42"], todos=False, out="/nonexistent", desde_fuente=False, seccionado="ogc")
+        buf = io.StringIO()
+        with mock.patch.object(socket, "socket", sin_red), mock.patch.object(b.urllib.request, "urlopen", sin_red), \
+                mock.patch.object(b, "entradas_r2_identidad", lambda t, out: None), \
+                mock.patch.object(b, "_identidad_contrato", lambda t: ident), contextlib.redirect_stdout(buf):
+            rc = b.entradas(a)
+        self.assertEqual(rc, 1)
+        self.assertIn("BATERIA_FALTA_PAQUETE_P10 nac42", buf.getvalue())
+        self.assertIn(b.clave_identidad(ident), buf.getvalue())
+
+    def test_entradas_desde_r2_restaura_y_verifica_sha256(self):
+        import argparse, hashlib, json, zipfile
+        ident = {"contrato": "c", "contrato_sha256": "1", "package_sha256": "p", "compatibility_identity_sha256": "c"}
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            datos = {"nac42_2025_m01_secciones_poblacion.geojson.zip": b"m01", "nac42_2025_m03_grafo.json": b"m03"}
+            meta = {"identidad_contrato": ident, "entrada_minima": {k: hashlib.sha256(v).hexdigest() for k, v in datos.items()}}
+            z = td / "p.zip"
+            with zipfile.ZipFile(z, "w") as zf:
+                zf.writestr("ENTRADAS.json", json.dumps(meta))
+                for k, v in datos.items():
+                    zf.writestr(k, v)
+
+            def cp(origen, destino):
+                self.assertEqual(origen, f"s3://bk/{b.clave_identidad(ident)}")
+                Path(destino).write_bytes(z.read_bytes())
+            cache = td / "cache"
+            with mock.patch.dict("os.environ", {"R2_BUCKET": "bk"}), mock.patch.object(b, "_r2_cp", cp), \
+                    mock.patch.object(b, "_identidad_contrato", lambda t: ident), mock.patch.object(b, "_cache", lambda t: cache):
+                r = b.entradas_r2_identidad("nac42", td / "out")
+                self.assertEqual(r["estado"], "OK")
+                self.assertEqual((cache / "nac42_2025_m03_grafo.json").read_bytes(), b"m03")
+            # fichero alterado: sha256 distinto → rechazado
+            with zipfile.ZipFile(z, "w") as zf:
+                zf.writestr("ENTRADAS.json", json.dumps(meta))
+                zf.writestr("nac42_2025_m01_secciones_poblacion.geojson.zip", b"alterado")
+                zf.writestr("nac42_2025_m03_grafo.json", b"m03")
+            with mock.patch.dict("os.environ", {"R2_BUCKET": "bk"}), mock.patch.object(b, "_r2_cp", cp), \
+                    mock.patch.object(b, "_identidad_contrato", lambda t: ident), mock.patch.object(b, "_cache", lambda t: cache):
+                self.assertIsNone(b.entradas_r2_identidad("nac42", td / "out"))
 
     def test_clave_r2_por_identidad_no_por_territorio(self):
         a = {"contrato": "territorios/aut01/config/aut01_2025.yaml", "contrato_sha256": "1", "package_sha256": "p", "compatibility_identity_sha256": "c"}
