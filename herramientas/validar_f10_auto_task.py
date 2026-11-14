@@ -11,6 +11,10 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import sys as _sys_t220  # noqa: E402
+if str(Path(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220: id viejo o nuevo)
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -26,6 +30,13 @@ EXPECTED = {
     "F10-EXT-ELECTORAL-SOURCE": "BLOCKED_FINAL_GRANULAR_SOURCE",
 }
 
+
+
+def _igual(key: str, actual, expected) -> bool:
+    """T-220: un `territory_id` de la evidencia (id viejo) y el de la tarjeta (id nuevo) son el mismo territorio."""
+    if str(key).rsplit(".", 1)[-1] == "territory_id" and isinstance(actual, str) and isinstance(expected, str):
+        return mismo_territorio(actual, expected)
+    return actual == expected
 
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
@@ -91,7 +102,7 @@ def validate(root: Path, task_id: str, cards_path: Path = CARDS,
         if relative.is_absolute() or ".." in relative.parts:
             raise ValueError("Ruta de evidencia fuera del repositorio")
         evidence_paths.add(relative.as_posix())
-        source = root / relative
+        source = ruta_existente(root, relative.as_posix())  # T-220: carpeta nueva o, en raíces históricas, vieja
         actual_hash = sha256(source)
         if actual_hash != item.get("sha256"):
             raise ValueError(f"Hash de evidencia distinto: {relative}")
@@ -99,7 +110,7 @@ def validate(root: Path, task_id: str, cards_path: Path = CARDS,
         if "json_equals" in item or "json_contains" in item:
             document = json.loads(source.read_text(encoding="utf-8"))
             for key, expected in item.get("json_equals", {}).items():
-                if dotted(document, key) != expected:
+                if not _igual(key, dotted(document, key), expected):
                     raise ValueError(f"Identidad/valor distinto en {relative}: {key}")
             serialized = json.dumps(document, ensure_ascii=False, sort_keys=True)
             for expected in item.get("json_contains", []):
@@ -109,7 +120,7 @@ def validate(root: Path, task_id: str, cards_path: Path = CARDS,
         if "yaml_equals" in item:
             document = yaml.safe_load(source.read_text(encoding="utf-8"))
             for key, expected in item["yaml_equals"].items():
-                if dotted(document, key) != expected:
+                if not _igual(key, dotted(document, key), expected):
                     raise ValueError(f"Identidad/valor distinto en {relative}: {key}")
             check["yaml_identity"] = "MATCH"
         checks.append(check)
@@ -128,7 +139,7 @@ def validate(root: Path, task_id: str, cards_path: Path = CARDS,
 
     computed = []
     if task_id == "F10-ARA-CROSSWALK-2025-2026":
-        contract = json.loads((root / "territorios/aragon/config/elecciones/aragon_cortes_2026.json").read_text())
+        contract = json.loads(ruta_existente(root, "territorios/aut02/config/elecciones/aragon_cortes_2026.json").read_text())
         reconc = contract["reconciliation"]
         result_only = reconc["allowed_result_only_sections"]
         map_only = reconc["allowed_map_only_sections"]
@@ -140,7 +151,7 @@ def validate(root: Path, task_id: str, cards_path: Path = CARDS,
             raise ValueError("Excepciones Aragón no reconcilian con el contrato fijado")
         computed.append(actual)
     elif task_id == "F10-CYL-CROSSWALK-2025-2026":
-        reconc = json.loads((root / "territorios/castilla_y_leon/evidencia/reconciliacion_secciones_2025_2026.json").read_text())
+        reconc = json.loads(ruta_existente(root, "territorios/aut07/evidencia/reconciliacion_secciones_2025_2026.json").read_text())
         actual = {"electoral_only_count": len(reconc["electoral_only"]), "map_only_count": len(reconc["m06_only"]),
                   "electoral_only_votes_sum": sum(reconc["electoral_only_votes"].values()),
                   "declared_electoral_only_votes": reconc["electoral_only_total_votes"],
@@ -152,7 +163,7 @@ def validate(root: Path, task_id: str, cards_path: Path = CARDS,
             raise ValueError("Recuentos Castilla y León no concilian")
         computed.append(actual)
     elif task_id == "F10-EXT-ELECTORAL-SOURCE":
-        blocked = json.loads((root / "territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json").read_text())
+        blocked = json.loads(ruta_existente(root, "territorios/aut11/config/elecciones/bloqueo_fuente_oficial_2025.json").read_text())
         definite = blocked["definitive_reconciliation_reference"]["candidate_votes"]
         provisional = blocked["provisional_granular_evidence"]["candidate_votes"]
         actual = {"definitive_votes": definite, "provisional_votes": provisional,

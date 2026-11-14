@@ -7,6 +7,11 @@ import re
 from pathlib import Path
 
 from herramientas.validar_puerta_ejecucion import PASS_DECISIONS
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
@@ -50,7 +55,7 @@ def _receipt(root: Path, territory_id: str, edition: str, kind: str) -> dict:
     path = (
         root
         / "territorios"
-        / territory_id
+        / carpeta_de(root, territory_id)
         / "evidencia"
         / "catalogo"
         / f"{kind}_{edition}.json"
@@ -69,7 +74,7 @@ def _catalog_evidence_path(root: Path, territory_id: str, edition: str, kind: st
         catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}
     except Exception:
         return ""
-    row = next((r for r in catalog.get("territories") or [] if r.get("territory_id") == territory_id), {})
+    row = next((r for r in catalog.get("territories") or [] if mismo_territorio(str(r.get("territory_id") or ""), str(territory_id))), {})
     state = ((row.get("editions") or {}).get(str(edition))) or {}
     return str((state.get("evidence") or {}).get(kind) or "")
 
@@ -165,7 +170,7 @@ def _candidate_state(
     manifest_dir = (
         root
         / "territorios"
-        / territory_id
+        / carpeta_de(root, territory_id)
         / "evidencia"
         / "ejecuciones_completas"
     )
@@ -178,7 +183,7 @@ def _candidate_state(
     for path in sorted(manifest_dir.glob("*.json")):
         manifest = _json(path)
         if (
-            str(manifest.get("territory_id") or "") != territory_id
+            not mismo_territorio(str(manifest.get("territory_id") or ""), str(territory_id))
             or str(manifest.get("edition") or "") != str(edition)
         ):
             continue
@@ -443,7 +448,7 @@ def validate_candidate(
 
     audit = _json(_first(evidence / "audit", "production_status.json") or Path())
     if (
-        str(audit.get("territory_id") or "") != territory_id
+        not mismo_territorio(str(audit.get("territory_id") or ""), str(territory_id))
         or audit.get("workflow_run_id") != run_id
         or audit.get("source_territorial_run_id") != territorial_run
         or audit.get("electoral_application") is not True
@@ -457,7 +462,7 @@ def validate_candidate(
     report = _json(_first(evidence / "report", "report.json") or Path())
     if (
         report.get("status") != "SUCCESS"
-        or str(report.get("territory_id") or "") != territory_id
+        or not mismo_territorio(str(report.get("territory_id") or ""), str(territory_id))
         or report.get("workflow_run_id") != run_id
         or report.get("territorial_source_run_id") != territorial_run
         or report.get("electoral_package_run_id") != electoral_source_run
@@ -475,7 +480,7 @@ def validate_candidate(
     candidate_election = str(validation.get("election_id") or "") or None
     if (
         validation.get("decision") != "READY_PACKAGE"
-        or str(validation.get("territory_id") or "") != territory_id
+        or not mismo_territorio(str(validation.get("territory_id") or ""), str(territory_id))
         or str(validation.get("edition") or "") != str(edition)
         or not registered_election
         or source_election != registered_election

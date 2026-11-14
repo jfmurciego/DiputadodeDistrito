@@ -3,18 +3,19 @@
 """Tabla de homologación de siglas de las autonómicas para la capa de rotación (T-121, paso 4, D-20).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: la rotación autonómica no debe contar «PP-EU → PP» ni «PSC → PSOE» como cambio de ganador; extiende la tabla de
   T-97 a los partidos autonómicos sin modificar homologacion_siglas.py (reutiliza su `resolver`).
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/homologacion_siglas_autonomicas_v1.0.0_20261112.py
 QUÉ HACE: `construir` lee data/autonomikoak/sekzioa/<cca>-<AAAAMM>/<cpro>.json (siglas `s`, familia `f`) del directorio
   dado, y escribe por comunidad, elección y sigla con votos el partido homologado (regla de sigla > familia > identidad,
   reglas_generales.json + reglas_autonomicas.json), el nivel (ALTA/MEDIA/BAJA/DECIDIDA), la regla y el sha256 de la
   fuente, en datos/homologacion_siglas/homologacion_siglas_autonomicas.csv. Sigla de una familia sin regla: se
   deja tal cual con nivel BAJA (no se inventa). `comprobar` revalida sin red: claves únicas y reaplicación de las reglas.
   `dudosas` lista las BAJA y MEDIA agrupadas por partido homologado.
-Uso: python herramientas/homologacion_siglas_autonomicas.py construir --obs-dir DIR [--comunidad galicia …]
+Uso: python herramientas/homologacion_siglas_autonomicas.py construir --obs-dir DIR [--comunidad aut12 …]
      python herramientas/homologacion_siglas_autonomicas.py comprobar | dudosas
 """
 from __future__ import annotations

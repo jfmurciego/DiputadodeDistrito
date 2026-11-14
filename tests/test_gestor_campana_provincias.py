@@ -7,6 +7,7 @@ import yaml
 from herramientas.gestor_campana_nacional import (
     CONFIRMATION, build_manifest, build_matrix, canonical_selection, parse_selection,
 )
+from ddd_core.territorio_ids import es_nacional, ids_nuevos, id_legacy  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 NAC = "Nacional 2023"
@@ -16,13 +17,13 @@ class GestorProvincias(unittest.TestCase):
     def test_selector_lista_las_52_provincias(self):
         ids = parse_selection("todos", campaign=NAC)
         self.assertEqual(len(ids), 52)
-        self.assertTrue(all(t.startswith("congreso_") for t in ids))
+        self.assertTrue(all(es_nacional(t) for t in ids))
         self.assertEqual(len(parse_selection("todos")), 19)  # la autonómica no cambia
 
     def test_ine_matricula_y_nombre(self):
-        self.assertEqual(parse_selection("22, HU, Huesca, Nacional Huesca", campaign=NAC), ["congreso_huesca"])
+        self.assertEqual(parse_selection("22, HU, Huesca, Nacional Huesca", campaign=NAC), ["nac22"])
         self.assertEqual(parse_selection("GE, 7, la coruña", campaign=NAC),
-                         ["congreso_gerona", "congreso_baleares", "congreso_la_coruna"])
+                         ["nac17", "nac07", "nac15"])
         for bad in ("GI", "OU", "Aragón"):
             with self.assertRaises(ValueError):
                 parse_selection(bad, campaign=NAC)
@@ -31,11 +32,11 @@ class GestorProvincias(unittest.TestCase):
 
     def test_no_mezcla_y_hasta_52(self):
         with self.assertRaises(ValueError):
-            canonical_selection(["aragon", "congreso_huesca"], ROOT)
+            canonical_selection(["aut02", "nac22"], ROOT)
         self.assertEqual(len(canonical_selection(parse_selection("todos", campaign=NAC), ROOT)), 52)
 
     def test_huesca_completa_reutiliza_su_producto(self):
-        manifest = build_manifest(selected=["congreso_huesca"], publication_mode="electoral", source_sha="a" * 40,
+        manifest = build_manifest(selected=["nac22"], publication_mode="electoral", source_sha="a" * 40,
                                   strategy="Canónico", campaign_instance="t06")
         row = manifest["territories"][0]
         self.assertEqual((row["slot"], row["territory_display_name"]), ("C22", "Nacional Huesca"))

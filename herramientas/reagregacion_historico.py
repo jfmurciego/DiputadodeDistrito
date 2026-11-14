@@ -3,7 +3,7 @@
 """Reagregación del histórico de generales 2011-2023 a los distritos vigentes (T-83, paso B).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-08 · ESTADO: candidato
+VERSIÓN: 1.3.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.3.0 (T-113): `--elecciones CLAVE…` limita las elecciones procesadas (Gestor 2.0, histórico por elección);
   sin él, todas las del espejo. Las geometrías de los seccionados de todos los años se siguen cargando
   (completar_geometrias), así que el resultado de una elección es idéntico al de la pasada completa. 1.2.0 (T-110): `--lote DIR` procesa las provincias con M06 (zip del blob, sha256 de datos_abiertos/INDEX.json o de DIR/EXTRA.json) cargando
@@ -13,7 +13,8 @@ CAMBIOS: 1.3.0 (T-113): `--elecciones CLAVE…` limita las elecciones procesadas
   oficial parcial queda como referencia), que consume herramientas/historico_m07m08.py. 1.0.0: fichero nuevo.
 MOTIVO: decisiones D-9, D-10, D-12 y D-13 del propietario: los votos de cada general 2011-2023 se trasladan a los
   distritos vigentes (sin redibujar por elección) con la equivalencia de seccionados de T-85 (peso = población).
-ANTERIOR: legacy/herramientas/reagregacion_historico_v1.2.0_20261108.py
+CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/reagregacion_historico_v1.3.0_20261112.py
 QUÉ HACE: fuera de línea (no lanza ni publica). Por territorio (provincia) y elección: (1) asigna cada sección del
   seccionado INE 2025 al distrito M06 de mayor solape; (2) lleva los votos, censo y votantes de cada sección histórica
   del espejo T-89 a las secciones vigentes con `equivalencia_seccionados.equivalencia` y el peso de población (D-13);
@@ -25,7 +26,7 @@ QUÉ HACE: fuera de línea (no lanza ni publica). Por territorio (provincia) y e
   oficial y su defecto es el CERA. Votos perdidos (sin geometría, sin sección vigente o fuera de los distritos) se
   informan, nunca se reparten.
 Uso: python herramientas/reagregacion_historico.py --espejo DIR --historicos DIR --seccionado ZIP --padron ZIP
-       (--lote DIR [--solo T ...] | --territorio congreso_huesca --provincia 22 --distritos M06.geojson) [--salida datos/resultados/historico]
+       (--lote DIR [--solo T ...] | --territorio nac22 --provincia 22 --distritos M06.geojson) [--salida datos/resultados/historico]
        [--tolerancia 0.10] [--paquete DIR] [--elecciones 201911 …]
 """
 from __future__ import annotations
@@ -42,6 +43,11 @@ sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(ROOT))
 import equivalencia_seccionados as eqs  # noqa: E402
 import fuente_nazioenbehatokia as fnb  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 SCHEMA = "ddd.reagregacion-historico/1.0"
 TOLERANCIA = fnb.UMBRAL_DEFECTO
@@ -350,7 +356,7 @@ def main(argv=None) -> int:
     ap.add_argument("--historicos", type=Path, required=True)
     ap.add_argument("--seccionado", type=Path, required=True)
     ap.add_argument("--padron", type=Path, required=True)
-    ap.add_argument("--territorio", help="p. ej. congreso_huesca (con --provincia y --distritos)")
+    ap.add_argument("--territorio", help="p. ej. nac22 (con --provincia y --distritos)")
     ap.add_argument("--provincia", help="código INE de dos cifras")
     ap.add_argument("--distritos", type=Path, help="GeoJSON M06 del territorio")
     ap.add_argument("--lote", type=Path, help="carpeta con <territorio>.zip (blob M06, sha256 de datos_abiertos/INDEX.json): "
@@ -389,7 +395,7 @@ def main(argv=None) -> int:
         if c is None and a.lote and len(str(indice[t].get("provincia", ""))) == 2:  # EXTRA.json trae el código
             c = indice[t]["provincia"]
         if c is None:  # provincia = las dos primeras cifras de la composición vigente
-            with open(ROOT / f"datos/composicion/{t}.csv", encoding="utf-8", newline="") as f:
+            with open(fichero_por_id(ROOT / "datos/composicion", "{}.csv", t), encoding="utf-8", newline="") as f:
                 c = next(csv.DictReader(f))["seccion"][:2]
         entrada, ganadores = procesar(t, c, ruta, a, espejo, vig_all[c], pob, todos, hom, sin_hom)
         man["territorios"][t] = entrada

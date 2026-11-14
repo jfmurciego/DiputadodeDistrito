@@ -2,11 +2,12 @@
 """Resuelve la configuración de ensemble de un territorio para el workflow «06 Escenarios y Ensembles».
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/leer_config_ensemble_v1.0.0_20261109.py
+VERSIÓN: 1.1.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/leer_config_ensemble_v1.1.0_20261112.py
 CAMBIOS 1.1.0 (T-128): admite la fase ensemble_25 (25 candidatas) además de ensemble_10; el Gestor la sigue rechazando hasta que haya una corrida válida.
 QUÉ HACE: lee configuracion/ensemble/<territorio>.json y emite líneas clave=valor para GITHUB_OUTPUT.
-  Aragón conserva su circuito propio (kind=aragon). Cualquier otro territorio es kind=territorial: su bloque
+  Aragón conserva su circuito propio (kind=aut02). Cualquier otro territorio es kind=territorial: su bloque
   «workflow» declara contrato, caché, distritos y CRS, y el paquete de fuentes sale del catálogo de preparación.
   Las fases admitidas son ensemble_10 y ensemble_25; el lote de 50 sigue bloqueado.
 MOTIVO: T-26, el ensemble no debe depender de rutas ni de 67 distritos fijos fuera de la rama de Aragón.
@@ -18,6 +19,11 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 ARAGON_STAGES = {"aragon_10": 10, "aragon_50": 50}
 TERRITORIAL_STAGES = {"ensemble_10": 10, "ensemble_25": 25}
@@ -29,12 +35,12 @@ def describe(territory_id: str, stage: str, root: Path = Path("."), resolve_sour
     if not config_path.is_file():
         raise SystemExit(f"Sin configuración de ensemble para {territory_id}: {config_path}")
     config = json.loads(config_path.read_text(encoding="utf-8"))
-    if config.get("territory_id") != territory_id:
+    if not mismo_territorio(str(config.get("territory_id") or ""), str(territory_id)):
         raise SystemExit(f"{config_path}: territory_id no coincide")
-    if territory_id == "aragon":
+    if territory_id == "aut02":
         if stage not in ARAGON_STAGES and stage != "synthetic":
             raise SystemExit(f"Fase no admitida para Aragón: {stage}")
-        return {"kind": "aragon", "config": str(config_path)}
+        return {"kind": "aut02", "config": str(config_path)}
     if stage not in TERRITORIAL_STAGES and stage != "synthetic":
         raise SystemExit(f"Fase no admitida para {territory_id}: {stage} (solo ensemble_10 y ensemble_25; el lote de 50 sigue bloqueado)")
     block = config.get("workflow") or {}

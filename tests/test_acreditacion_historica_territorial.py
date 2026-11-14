@@ -25,7 +25,7 @@ from herramientas.resolver_ejecucion_completa import build_plan
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 EXPECTED = {
-    "aragon": {
+    "aut02": {
         "run_id": 36321736287,
         "mode": "missing_durable_manifest",
         "gate_sha": "d044c70efc260c6a1646838fcf07cf95df5b433c1a6dca44dacd6a54ffb0d1ad",
@@ -35,7 +35,7 @@ EXPECTED = {
         "audit_artifact_id": 10933135052,
         "audit_archive_sha": "b8e668142f7801cf5c73ec01cd81811e92151266a86f41ba21f5584e34891c4d",
     },
-    "castilla_y_leon": {
+    "aut07": {
         "run_id": 35889595424,
         "mode": "legacy_campaign_namespace_false_rejection",
         "gate_sha": "f375aa583b98902ba68bf7c1bd45b8db8f1104af71962aad801872990f2e81b7",
@@ -56,12 +56,12 @@ def _sha256(path: Path) -> str:
 # como caso fijo (fila de catálogo y receipt anteriores) para seguir ejercitando la acreditación.
 HISTORICAL_FIXTURES = ROOT / "tests/fixtures/acreditacion_historica"
 FIXTURE_CASES = {
-    "aragon": (
+    "aut02": (
         HISTORICAL_FIXTURES / "aragon_catalog_row_36321736287.yaml",
         HISTORICAL_FIXTURES / "aragon_territorial_product_36321736287.json",
     ),
     # Castilla y León generó un M06 nuevo el 29-10; su producto histórico 35889595424 se fija igual.
-    "castilla_y_leon": (
+    "aut07": (
         HISTORICAL_FIXTURES / "castilla_y_leon_catalog_row_35889595424.yaml",
         HISTORICAL_FIXTURES / "castilla_y_leon_territorial_product_35889595424.json",
     ),
@@ -110,6 +110,8 @@ def _accreditation_rel(territory_id: str, run_id: int) -> str:
 
 
 def _copy_file(root: Path, rel: str) -> None:
+    from herramientas.acreditar_producto_territorial_historico import _ruta_viva  # T-220: rutas selladas viejas
+    rel = _ruta_viva(rel)
     src = ROOT / rel
     dst = root / rel
     dst.parent.mkdir(parents=True, exist_ok=True)
@@ -132,7 +134,8 @@ def _reseal_record(path: Path, record: dict) -> None:
 
 
 def _sealed_path(root: Path, record: dict, name: str) -> Path:
-    return root / record["sealed_evidence"][name]["path"]
+    from herramientas.acreditar_producto_territorial_historico import _ruta_viva  # T-220
+    return root / _ruta_viva(record["sealed_evidence"][name]["path"])
 
 
 def _mutate_sealed_json(
@@ -214,8 +217,8 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
                 record = json.loads(
                     (ROOT / _accreditation_rel(territory_id, run_id)).read_text(encoding="utf-8")
                 )
-                gate_path = ROOT / record["sealed_evidence"]["gate"]["path"]
-                audit_path = ROOT / record["sealed_evidence"]["audit"]["path"]
+                gate_path = _sealed_path(ROOT, record, "gate")
+                audit_path = _sealed_path(ROOT, record, "audit")
                 self.assertEqual(expected["gate_sha"], _sha256(gate_path))
                 self.assertEqual(expected["audit_sha"], _sha256(audit_path))
                 self.assertEqual(
@@ -260,10 +263,10 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
 
         cyl = derive_historical_territorial_producer(
             root_dir=ROOT,
-            territory_id="castilla_y_leon",
+            territory_id="aut07",
             edition="2025",
-            receipt_rel=_receipt_rel("castilla_y_leon"),
-            asset=_receipt("castilla_y_leon"),
+            receipt_rel=_receipt_rel("aut07"),
+            asset=_receipt("aut07"),
         )
         self.assertEqual("BLOQUEADO", cyl["phase"]["historical_validation_decision"])
         self.assertEqual(
@@ -305,9 +308,9 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
 
     def test_missing_original_gate_or_audit_blocks(self):
         for evidence_name in ("gate", "audit"):
-            root, td, receipt_rel, asset = _copy_case("aragon")
+            root, td, receipt_rel, asset = _copy_case("aut02")
             self.addCleanup(td.cleanup)
-            _, record = _record(root, "aragon", int(asset["run_id"]))
+            _, record = _record(root, "aut02", int(asset["run_id"]))
             _sealed_path(root, record, evidence_name).unlink()
             with self.subTest(evidence=evidence_name), self.assertRaisesRegex(
                 HistoricalTerritorialAccreditationBlock,
@@ -315,7 +318,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
             ):
                 derive_historical_territorial_producer(
                     root_dir=root,
-                    territory_id="aragon",
+                    territory_id="aut02",
                     edition="2025",
                     receipt_rel=receipt_rel,
                     asset=asset,
@@ -323,9 +326,9 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
 
     def test_altering_one_byte_of_gate_or_audit_blocks(self):
         for evidence_name in ("gate", "audit"):
-            root, td, receipt_rel, asset = _copy_case("aragon")
+            root, td, receipt_rel, asset = _copy_case("aut02")
             self.addCleanup(td.cleanup)
-            _, record = _record(root, "aragon", int(asset["run_id"]))
+            _, record = _record(root, "aut02", int(asset["run_id"]))
             path = _sealed_path(root, record, evidence_name)
             raw = bytearray(path.read_bytes())
             raw[max(0, len(raw) // 2)] ^= 1
@@ -336,7 +339,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
             ):
                 derive_historical_territorial_producer(
                     root_dir=root,
-                    territory_id="aragon",
+                    territory_id="aut02",
                     edition="2025",
                     receipt_rel=receipt_rel,
                     asset=asset,
@@ -350,11 +353,11 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
             "name": lambda row: row.update({"artifact_name": "ddd-state-36321736287-M06-inventado"}),
         }
         for label, mutate in cases.items():
-            root, td, receipt_rel, asset = _copy_case("aragon")
+            root, td, receipt_rel, asset = _copy_case("aut02")
             self.addCleanup(td.cleanup)
             _mutate_sealed_json(
                 root,
-                "aragon",
+                "aut02",
                 int(asset["run_id"]),
                 "gate",
                 mutate,
@@ -366,18 +369,18 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
             ):
                 derive_historical_territorial_producer(
                     root_dir=root,
-                    territory_id="aragon",
+                    territory_id="aut02",
                     edition="2025",
                     receipt_rel=receipt_rel,
                     asset=asset,
                 )
 
     def test_audit_substitution_blocks_even_if_resealed(self):
-        root, td, receipt_rel, asset = _copy_case("aragon")
+        root, td, receipt_rel, asset = _copy_case("aut02")
         self.addCleanup(td.cleanup)
         _mutate_sealed_json(
             root,
-            "aragon",
+            "aut02",
             int(asset["run_id"]),
             "audit",
             lambda row: row.update(
@@ -391,7 +394,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
         ):
             derive_historical_territorial_producer(
                 root_dir=root,
-                territory_id="aragon",
+                territory_id="aut02",
                 edition="2025",
                 receipt_rel=receipt_rel,
                 asset=asset,
@@ -402,11 +405,11 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
             ("gate", lambda row: row.update({"materialized_note": "invented-but-semantically-neutral"})),
             ("audit", lambda row: row.update({"materialized_note": "invented-but-semantically-neutral"})),
         ):
-            root, td, receipt_rel, asset = _copy_case("aragon")
+            root, td, receipt_rel, asset = _copy_case("aut02")
             self.addCleanup(td.cleanup)
             _mutate_sealed_json(
                 root,
-                "aragon",
+                "aut02",
                 int(asset["run_id"]),
                 evidence_name,
                 mutate,
@@ -418,7 +421,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
             ):
                 derive_historical_territorial_producer(
                     root_dir=root,
-                    territory_id="aragon",
+                    territory_id="aut02",
                     edition="2025",
                     receipt_rel=receipt_rel,
                     asset=asset,
@@ -427,7 +430,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
     def test_materialization_verifies_actions_archive_identity_and_exact_member_bytes(self):
         source_bytes = (
             ROOT
-            / "territorios/aragon/evidencia/acreditaciones_historicas/36321736287/originales/puerta.json"
+            / "territorios/aut02/evidencia/acreditaciones_historicas/36321736287/originales/puerta.json"
         ).read_bytes()
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -490,7 +493,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
                 )
 
     def test_actions_expiration_after_materialization_does_not_change_planning(self):
-        for territory_id in ("aragon", "castilla_y_leon"):
+        for territory_id in ("aut02", "aut07"):
             with self.subTest(territory=territory_id), mock.patch.object(
                 historical,
                 "materialize_actions_evidence",
@@ -511,7 +514,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
         *,
         arbitrary_suffix: bool = False,
     ) -> tuple[Path, tempfile.TemporaryDirectory, str, dict]:
-        root, td, receipt_rel, asset = _copy_case("castilla_y_leon")
+        root, td, receipt_rel, asset = _copy_case("aut07")
         run_id = int(asset["run_id"])
         canonical = f"ddd-state-{run_id}-M06"
         artifact_name = f"{canonical}-{namespace}"
@@ -520,14 +523,14 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
         asset["artifact_name"] = artifact_name
         _write_json(root / receipt_rel, asset)
 
-        record_path, record = _record(root, "castilla_y_leon", run_id)
+        record_path, record = _record(root, "aut07", run_id)
         record["original_artifact"]["name"] = artifact_name
         record["historical_manifest"]["artifact_namespace"] = namespace
         _reseal_record(record_path, record)
 
         _mutate_sealed_json(
             root,
-            "castilla_y_leon",
+            "aut07",
             run_id,
             "gate",
             lambda row: row.update({"artifact_name": artifact_name}),
@@ -536,7 +539,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
 
         manifest_path = (
             root
-            / "territorios/castilla_y_leon/evidencia/ejecuciones_completas"
+            / "territorios/aut07/evidencia/ejecuciones_completas"
             / f"{run_id}.json"
         )
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -562,18 +565,18 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
             ):
                 derive_historical_territorial_producer(
                     root_dir=root,
-                    territory_id="castilla_y_leon",
+                    territory_id="aut07",
                     edition="2025",
                     receipt_rel=receipt_rel,
                     asset=asset,
                 )
 
     def test_castilla_y_leon_any_other_gate_block_reason_is_rejected(self):
-        root, td, receipt_rel, asset = _copy_case("castilla_y_leon")
+        root, td, receipt_rel, asset = _copy_case("aut07")
         self.addCleanup(td.cleanup)
         _mutate_sealed_json(
             root,
-            "castilla_y_leon",
+            "aut07",
             int(asset["run_id"]),
             "gate",
             lambda row: row.update(
@@ -587,17 +590,17 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
         ):
             derive_historical_territorial_producer(
                 root_dir=root,
-                territory_id="castilla_y_leon",
+                territory_id="aut07",
                 edition="2025",
                 receipt_rel=receipt_rel,
                 asset=asset,
             )
 
     def test_modern_blocked_producer_without_explicit_historical_record_stays_blocked(self):
-        root, td, receipt_rel, asset = _copy_case("castilla_y_leon")
+        root, td, receipt_rel, asset = _copy_case("aut07")
         self.addCleanup(td.cleanup)
-        (root / _accreditation_rel("castilla_y_leon", int(asset["run_id"]))).unlink()
-        _, state = _catalog_row("castilla_y_leon")
+        (root / _accreditation_rel("aut07", int(asset["run_id"]))).unlink()
+        _, state = _catalog_row("aut07")
         state = copy.deepcopy(state)
         state["electoral_source_prepared"] = False
         state["electoral_product_available"] = False
@@ -609,14 +612,14 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
             validate_durable_assets(
                 root_dir=root,
                 state=state,
-                territory_id="castilla_y_leon",
+                territory_id="aut07",
                 edition="2025",
                 territorial_source=state["preparation_evidence"],
                 expected_election_id=None,
             )
 
     def test_planner_blocks_when_materialization_identity_is_contradictory(self):
-        territory_id = "aragon"
+        territory_id = "aut02"
         root, td, receipt_rel, asset = _copy_case(territory_id)
         self.addCleanup(td.cleanup)
         row, state = _catalog_row(territory_id)
@@ -666,9 +669,9 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
             )
 
     def test_materialization_seal_detects_provenance_identity_change(self):
-        root, td, receipt_rel, asset = _copy_case("aragon")
+        root, td, receipt_rel, asset = _copy_case("aut02")
         self.addCleanup(td.cleanup)
-        record_path, record = _record(root, "aragon", int(asset["run_id"]))
+        record_path, record = _record(root, "aut02", int(asset["run_id"]))
         record["sealed_evidence"]["gate"]["source"]["artifact_id"] += 1
         _write_json(record_path, record)
         with self.assertRaisesRegex(
@@ -677,7 +680,7 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
         ):
             derive_historical_territorial_producer(
                 root_dir=root,
-                territory_id="aragon",
+                territory_id="aut02",
                 edition="2025",
                 receipt_rel=receipt_rel,
                 asset=asset,

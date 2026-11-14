@@ -2,14 +2,17 @@
 # CLASE: activo
 # VERSIÓN: 1.10.1
 # NOMBRE DE VERSIÓN: Diseño A — suite en paralelo con check agregado `pruebas`
-# FECHA: 2026-11-11
+# FECHA: 2026-11-14
 # ESTADO: vigente
 # CAMBIOS 1.10.1: comprobar el controlador V3 con Node en el runner host del guardián; Docker de unittest
 #   permanece inalterado y no necesita incorporar Node. La prueba falla cerrada en un error de interacción.
 # MOTIVO 1.10.1: distinguir la suite Python reproducible del smoke test MapLibre/DOM simulado de V3.
 # ANTERIOR: legacy/workflows/pruebas-plataforma_v1.10.0_20261112.yml
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
-# CAMBIOS: 1.10.0 (T-252): job `estado_vivo` («Estado vivo»), solo en push a main de robot (`cambios` robot=true): ~23 módulos que leen
+# CAMBIOS: 1.10.1 (T-271): los cinco upload-artifact (diagnóstico de suite, N08, contratos, documentación, producto) suben solo si el
+#   job falla (`if: failure()`), con `continue-on-error: true` y `retention-days: 1`: el veredicto depende de los tests y no de la cuota
+#   de almacenamiento de artefactos («Artifact storage quota has been hit» tiñó de rojo main 439af6a). No cambia qué se comprueba.
+#   1.10.0 (T-252): job `estado_vivo` («Estado vivo»), solo en push a main de robot (`cambios` robot=true): ~23 módulos que leen
 #   estado vivo (catálogo, INDEX, orchestracion/, evidencias, composición, status) sin Docker (setup-python + caché pip), timeout,
 #   concurrencia propia que cancela el anterior, continue-on-error y resumen con tests fallidos y commit sospechoso. No entra en `pruebas`.
 #   1.9.0 (T-149, D-49, ahorro de CI aprobado por el propietario): (1) un push de CÓDIGO a main cancela la comprobación superada del
@@ -31,8 +34,8 @@
 #   `tests/tiempos_ci.json`), cada uno en su contenedor; el grupo 1 hace además el descubrimiento, GerryChain y los
 #   pasos N08 condicionales. El check obligatorio sigue llamándose `pruebas`: job final que depende de todos y falla
 #   si alguno no termina en success. No se quita ningún test.
-# MOTIVO: 1.10.0: el rojo que causa un commit de robot (sin suite) aparecía en la PR siguiente. 1.6.0: `pruebas` tardaba ~13-15 min (2.168 tests, ~660 s en un solo proceso).
-# ANTERIOR: legacy/workflows/pruebas-plataforma_v1.9.0_20261111.yml
+# MOTIVO: 1.10.1: la cuota de artefactos llena hacía fallar los jobs de pruebas con los tests en verde. 1.10.0: el rojo que causa un commit de robot (sin suite) aparecía en la PR siguiente. 1.6.0: `pruebas` tardaba ~13-15 min (2.168 tests, ~660 s en un solo proceso).
+# ANTERIOR: legacy/workflows/pruebas-plataforma_v1.10.0_20261114.yml
 name: Pruebas de la Plataforma
 on:
   push:
@@ -121,12 +124,13 @@ jobs:
             -m herramientas.expedientes_excepciones_congreso_n08 \
             --output /app/n08-casos-certificados/expedientes-n08-cinco-provincias.json
       - name: Conservar expedientes nominales N08 y sus CUSEC
-        if: ${{ always() && matrix.grupo == 1 && github.event_name == 'pull_request' && github.head_ref == 'work/n08-nominal-exceptions-20261019' }}
+        if: ${{ failure() && matrix.grupo == 1 && github.event_name == 'pull_request' && github.head_ref == 'work/n08-nominal-exceptions-20261019' }}
+        continue-on-error: true
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: n08-cinco-provincias-cusec-original
           path: n08-casos-certificados/expedientes-n08-cinco-provincias.json
-          retention-days: 90
+          retention-days: 1
           if-no-files-found: warn
       - name: Verificar descubrimiento completo de tests unittest
         if: ${{ matrix.grupo == 1 }}
@@ -154,7 +158,8 @@ jobs:
               tests.test_m05_gerrychain_strategy.GerryChainRuntimeTests -v \
             2>&1 | tee ci-gerrychain.log
       - name: Conservar diagnóstico de la suite
-        if: always()
+        if: failure()
+        continue-on-error: true
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ci-unittest-${{ github.run_id }}-${{ github.run_attempt }}-grupo-${{ matrix.grupo }}
@@ -164,6 +169,7 @@ jobs:
             ci-gerrychain.log
             ci-n08-nine-cases.log
           if-no-files-found: warn
+          retention-days: 1
 
   cambios:
     runs-on: ubuntu-24.04
@@ -269,10 +275,14 @@ jobs:
                   '--output', str(out / f'validacion-{territory_id}.json'),
               ], check=True)
           PY
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      - name: Conservar diagnóstico de contratos
+        if: failure()
+        continue-on-error: true
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: validaciones-contratos-${{ github.run_id }}
           path: validaciones-contratos
+          retention-days: 1
 
   docs:
     needs: cambios
@@ -292,12 +302,15 @@ jobs:
       - run: python -m pip install --requirement documentacion_publica/requirements.lock
       - run: python -m unittest discover -s documentacion_publica/auditoria -p 'test_*.py' -v
       - run: zensical build --strict --clean -f documentacion_publica/zensical.toml
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      - name: Conservar diagnóstico de la documentación
+        if: failure()
+        continue-on-error: true
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-documentacion-${{ github.sha }}
           path: documentacion_publica/site
-          if-no-files-found: error
-          retention-days: 14
+          if-no-files-found: warn
+          retention-days: 1
 
   productos:
     concurrency:
@@ -325,10 +338,14 @@ jobs:
           cp resultados/finales/aragon/distritos.geojson site/data/aragon/
           cp resultados/finales/castilla_y_leon/distritos.geojson site/data/castilla_y_leon/
           mv public-products.json site/data/
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      - name: Conservar diagnóstico del producto
+        if: failure()
+        continue-on-error: true
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: visor-publico-verificado-${{ github.run_id }}
           path: site
+          retention-days: 1
 
   pruebas:
     concurrency:

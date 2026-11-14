@@ -20,6 +20,11 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Callable
 
 from ddd_core.territorial_validation import parse_population_value, validate_geodataframe
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 SCHEMA = "ddd.population-sectioning-compatibility/1.0"
 REPORT_NAME = "compatibilidad_poblacion_seccionado.json"
@@ -1254,7 +1259,7 @@ def validate_report_bindings(
             + "; ".join(report.get("causes") or [])
         )
 
-    if str(report.get("territory_id") or "") != str(territory_id):
+    if not mismo_territorio(str(report.get("territory_id") or ""), str(str(territory_id))):
         reasons.append("informe de compatibilidad pertenece a otro territorio")
     if str(report.get("edition") or "") != str(edition):
         reasons.append("informe de compatibilidad pertenece a otra edición")

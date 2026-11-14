@@ -5,7 +5,7 @@
 schema: ddd-minsait-provisional-contracts/1.0
 contracts:
   andalucia_parlamento_2026:
-    territory_id: andalucia
+    territory_id: aut01
     canonical_codauto: '01'
     election_date: '2026-05-17'
     source_status: PROVISIONAL
@@ -35,7 +35,7 @@ contracts:
       max_delta_ratio: 0.01
       evidence: "DOE 2026AC0001 (524.837 votos a candidaturas) frente a 522.418 del CSV provisional por sección"
       rationale: "Decisión del propietario: la Junta sólo publica en abierto resultados municipales; se usan los provisionales por sección con la diferencia frente al definitivo declarada y acotada."
-    territory_id: extremadura
+    territory_id: aut11
     canonical_codauto: '11'
     election_date: '2025-12-21'
     source_status: PROVISIONAL

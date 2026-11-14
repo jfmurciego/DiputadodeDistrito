@@ -1,13 +1,14 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: integración ensemble / GerryChain
-VERSIÓN: 1.2.0
-FECHA: 2026-09-17
+VERSIÓN: 1.2.1
+FECHA: 2026-11-12
 CAMBIO: mantiene GerryChain como capacidad reutilizable interna y comprueba que
 no reaparece como control en la interfaz productiva de cuatro campos.
 MOTIVO: separar producción territorial de la generación de alternativas sin
 modificar el contrato ni la ejecución interna de GerryChain.
-ANTERIOR: versión 1.1.1 en historial Git.
+CAMBIOS 1.2.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_ensemble_integration_v1.2.0_20261112.py
 """
 from __future__ import annotations
 
@@ -163,14 +164,14 @@ class IntegratedRunnerTests(unittest.TestCase):
             manifest = (ROOT / "inputs/MANIFEST.sha256").read_text(encoding="utf-8")
             self.assertIn(f"{EXPECTED_COMARCA_HASH}  inputs/COMARCAS.csv", manifest)
 
-        config = json.loads((ROOT / "configuracion/ensemble/aragon.json").read_text(encoding="utf-8"))
+        config = json.loads((ROOT / "configuracion/ensemble/aut02.json").read_text(encoding="utf-8"))
         self.assertEqual(config["contract"]["province_districts"], {"22": 11, "44": 7, "50": 49})
         self.assertEqual(config["prepared_bundle_id"], "AUTO")
         self.assertTrue(config["inputs"]["initial_geojson"].endswith("_m05_distritos_optimizados.geojson.zip"))
         self.assertEqual(config["topology"]["min_shared_border_m"], 1.0)
         self.assertTrue(config["topology"]["preserve_atomic_multipart_sections"])
         self.assertTrue(
-            (ROOT / "territorios/aragon/config/continuidad_geometrica_2025.json").is_file()
+            (ROOT / "territorios/aut02/config/continuidad_geometrica_2025.json").is_file()
         )
 
     @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "GerryChain no instalado")

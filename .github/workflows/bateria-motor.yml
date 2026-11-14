@@ -1,9 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: bateria-motor.yml
-# VERSIÓN: 1.1.4
+# VERSIÓN: 1.1.5
 # CAMBIOS 1.1.4: T-215 (corte 5.0.0, paso 4), nombre visible v5 «VER Verificación del motor» (antes Auxiliar — Batería del Motor).
 # NOMBRE DE VERSIÓN: Batería del motor
-# FECHA: 2026-11-10
+# FECHA: 2026-11-12
 # ESTADO: candidato
 # QUÉ HACE: entradas de los 71 territorios (herramientas/bateria_motor.py entradas): reutiliza el estado M03 archivado
 #   en R2 si es del contrato vigente (sha256 de orchestracion/archivo_r2.json) y, si no, las reconstruye desde fuente
@@ -30,7 +30,8 @@
 #   Coste: ~450-650 min de Actions en los 71 (ver la PR). El nombre del flujo no cambia (corte 5.0.0).
 #   1.0.0: fichero nuevo (T-132).
 # MOTIVO: repetir la batería ante cualquier cambio del motor con un solo botón; sin programación ni vigilantes.
-# ANTERIOR: legacy/workflows/bateria-motor_v1.1.3_20261110.yml
+# CAMBIOS 1.1.5 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/workflows/bateria-motor_v1.1.4_20261112.yml
 name: VER Verificación del motor
 run-name: "Batería del motor ${{ inputs.motor == 'motor2' && format('motor2 {0} N={1}', inputs.funcion, inputs.cadenas) || inputs.versiones_m05 }} ${{ inputs.territorios || 'todos' }}"
 
@@ -242,7 +243,7 @@ jobs:
           python herramientas/bateria_motor.py indicadores "$T" --out bateria | tee -a "$GITHUB_STEP_SUMMARY"
           exit "${PIPESTATUS[0]}"
       - name: Huella real (Soria, Álava y Melilla)
-        if: ${{ matrix.t == 'congreso_soria' || matrix.t == 'congreso_alava' || matrix.t == 'melilla' }}
+        if: ${{ matrix.t == 'nac42' || matrix.t == 'nac01' || matrix.t == 'aut19' }}
         run: python herramientas/bateria_motor.py huella "$T" --out bateria --funcion "$FUNCION" --cadenas "$CADENAS"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()

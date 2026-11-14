@@ -1,0 +1,18 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Exclusiones del repositorio público 1.0.0
+# FECHA: 2026-11-14
+# ESTADO: candidato
+# CAMBIOS: 1.0.0 — fichero nuevo (T-281).
+# MOTIVO: D-91 (revisada) y D-92: el repo actual queda privado; lo público irá a un repo nuevo sin historial. Este
+#   fichero es la lista de exclusión que usará T-273 al copiarlo: nada de lo que casa aquí sale al público.
+# ANTERIOR: ninguna (fichero nuevo)
+# Formato: un patrón por línea, relativo a la raíz; «/» final = carpeta entera. Líneas con # son comentarios.
+# T-281 deja las entradas de propiedad intelectual (D-92); T-273 completará el resto.
+propiedad_intelectual/
+ddd_motor2/
+docs/ARQUITECTURA/DESLINDE_1_0.md
+docs/ESTUDIOS/
+legacy/docs/ARQUITECTURA/DESLINDE_1_0_*
+CLAUDE.md
+.claude/

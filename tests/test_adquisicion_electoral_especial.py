@@ -45,7 +45,7 @@ class SpecialElectoralAcquisitionContractTests(unittest.TestCase):
         row = resolve(
             root_dir=ROOT,
             election_id="andalucia_parlamento_2026",
-            territory_id="andalucia",
+            territory_id="aut01",
             election_date="2026-05-17",
         )
         self.assertIsNotNone(row)
@@ -74,7 +74,7 @@ class SpecialElectoralAcquisitionContractTests(unittest.TestCase):
         self.assertIn("andalucia_parlamento_2026", data["acquisitions"])
         text = WORKFLOW.read_text(encoding="utf-8")
         self.assertNotIn('ELECTION_ID" == "andalucia_parlamento_2026', text)
-        self.assertNotIn("if: andalucia", text.lower())
+        self.assertNotIn("if: aut01", text.lower())
 
 
 class CommonWorkflowRoutingTests(unittest.TestCase):
@@ -129,7 +129,7 @@ class CommonPackageValidationRegressionTests(unittest.TestCase):
             manifest = {
                 "schema": "ddd-electoral-package/1.0",
                 "decision": "ACQUIRE",
-                "territory_id": "andalucia",
+                "territory_id": "aut01",
                 "edition": "2025",
                 "election_id": "andalucia_parlamento_2026",
                 "election_date": "2026-05-17",
@@ -152,7 +152,7 @@ class CommonPackageValidationRegressionTests(unittest.TestCase):
             params = root / "params.yaml"
             params.write_text(
                 yaml.safe_dump({
-                    "meta": {"territory_id": "andalucia", "year": 2025},
+                    "meta": {"territory_id": "aut01", "year": 2025},
                     "modulos": {},
                 }, sort_keys=False),
                 encoding="utf-8",
@@ -161,7 +161,7 @@ class CommonPackageValidationRegressionTests(unittest.TestCase):
                 validate_package(
                     package=package,
                     params=params,
-                    territory_id="andalucia",
+                    territory_id="aut01",
                     edition="2025",
                     root=root,
                     materialize=False,
@@ -196,7 +196,7 @@ class OfficialSnapshotExecutorTests(unittest.TestCase):
                 manifest = {
                     "schema": "ddd-electoral-package/1.0",
                     "decision": "ACQUIRE",
-                    "territory_id": "andalucia",
+                    "territory_id": "aut01",
                     "edition": "2025",
                     "election_id": "andalucia_parlamento_2026",
                     "election_date": "2026-05-17",
@@ -217,7 +217,7 @@ class OfficialSnapshotExecutorTests(unittest.TestCase):
                 result = special.prepare(
                     root_dir=root,
                     election_id="andalucia_parlamento_2026",
-                    territory_id="andalucia",
+                    territory_id="aut01",
                     election_date="2026-05-17",
                     edition="2025",
                     snapshot_out=snapshot_out,
@@ -260,7 +260,7 @@ class OfficialSnapshotExecutorTests(unittest.TestCase):
                 manifest = {
                     "schema": "ddd-electoral-package/1.0",
                     "decision": "ACQUIRE",
-                    "territory_id": "andalucia",
+                    "territory_id": "aut01",
                     "edition": "2025",
                     "election_id": "andalucia_parlamento_2026",
                     "election_date": "2026-05-17",
@@ -282,7 +282,7 @@ class OfficialSnapshotExecutorTests(unittest.TestCase):
                     special.prepare(
                         root_dir=root,
                         election_id="andalucia_parlamento_2026",
-                        territory_id="andalucia",
+                        territory_id="aut01",
                         election_date="2026-05-17",
                         edition="2025",
                         snapshot_out=snapshot_out,
@@ -312,7 +312,7 @@ class OfficialSnapshotExecutorTests(unittest.TestCase):
                     special.prepare(
                         root_dir=root,
                         election_id="andalucia_parlamento_2026",
-                        territory_id="andalucia",
+                        territory_id="aut01",
                         election_date="2026-05-17",
                         edition="2025",
                         snapshot_out=root / "snapshot",

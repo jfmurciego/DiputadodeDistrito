@@ -48,7 +48,7 @@ class MinsaitCsvAdapterTests(unittest.TestCase):
             out = root / "package"
             manifest = self.adapter.build(
                 source, out,
-                territory_id="andalucia",
+                territory_id="aut01",
                 election_id="andalucia_parlamento_2026",
                 election_date="2026-05-17",
                 edition="2025",
@@ -105,7 +105,7 @@ class MinsaitCsvAdapterTests(unittest.TestCase):
                     })
             manifest = self.adapter.build(
                 source, root / "package",
-                territory_id="extremadura",
+                territory_id="aut11",
                 election_id="extremadura_asamblea_2025-12-21",
                 election_date="2025-12-21",
                 edition="2025",
@@ -132,7 +132,7 @@ class MinsaitCsvAdapterTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "SHA-256 Minsait no coincide"):
                 self.adapter.build(
                     source, root / "package",
-                    territory_id="andalucia",
+                    territory_id="aut01",
                     election_id="andalucia_parlamento_2026",
                     election_date="2026-05-17",
                     edition="2025",

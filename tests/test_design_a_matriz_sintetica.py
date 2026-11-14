@@ -70,7 +70,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
 
     def test_catalog_lookup_does_not_require_preparation_status_ready(self):
         row=lookup("La Rioja","2025",CAT)
-        self.assertEqual(row["territory_id"],"la_rioja")
+        self.assertEqual(row["territory_id"],"aut17")
         self.assertEqual(row["preparation_status"],"READY")
 
     def test_preparations_are_separate_and_never_execute_m01_m08(self):

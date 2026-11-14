@@ -10,7 +10,7 @@ from herramientas.resolver_eleccion_vigente import resolve
 
 ROOT=Path(__file__).resolve().parents[1]
 WF=ROOT/".github/workflows/preparacion-resultados-electorales.yml"
-DECL=ROOT/"territorios/galicia/config/elecciones/galicia_parlamento_vigente.yaml"
+DECL=ROOT/"territorios/aut12/config/elecciones/galicia_parlamento_vigente.yaml"
 
 class FakeResponse:
     def __init__(self,data:bytes):
@@ -22,7 +22,7 @@ class FakeResponse:
 class GaliciaElectoralVigente(unittest.TestCase):
     def test_galicia_2025_resolves_2024_without_user_year(self):
         row=resolve("Galicia",root_dir=ROOT)
-        self.assertEqual(row["territory_id"],"galicia")
+        self.assertEqual(row["territory_id"],"aut12")
         self.assertEqual(row["territorial_edition"],"2025")
         self.assertEqual(row["election_id"],"galicia_parlamento_2024")
         self.assertEqual(row["election_date"],"2024-02-18")
@@ -46,7 +46,7 @@ class GaliciaElectoralVigente(unittest.TestCase):
     def test_all_required_files_must_be_ready(self):
         declaration={
             "schema":"ddd-election-official-source-declaration/1.0",
-            "territory_id":"galicia",
+            "territory_id":"aut12",
             "election_id":"galicia_parlamento_2024",
             "election_date":"2024-02-18",
             "selection_mode":"all_required",

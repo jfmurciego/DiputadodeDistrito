@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: operación local
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
 # NOMBRE DE VERSIÓN: Lanzador local reproducible
-# FECHA: 2026-09-14
+# FECHA: 2026-11-12
 # ESTADO: candidato
 # QUÉ HACE: comprueba, construye, admite, prueba o ejecuta DDD mediante el Docker fijado del repositorio.
 # CAMBIOS: primera versión.
 # MOTIVO: permitir una operación local en macOS sin instalar ni modificar Python ni dependencias geoespaciales.
-# ANTERIOR: ninguno — componente nuevo.
+# CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/ddd-local.sh/ddd-local_v1.0.0_20261112.sh
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -25,8 +26,8 @@ Uso:
   ./ddd-local.sh ejecutar <territorio|ruta-yaml> [desde] [hasta] --autorizar
 
 Ejemplos:
-  ./ddd-local.sh admitir aragon
-  ./ddd-local.sh ejecutar aragon M01 M08 --autorizar
+  ./ddd-local.sh admitir aut02
+  ./ddd-local.sh ejecutar aut02 M01 M08 --autorizar
 EOF
 }
 

@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """Nombres de distrito (C12) y comarcas partidas (C13) de los distritos nacionales.
 
-VERSIÓN: 1.1.1
+VERSIÓN: 1.1.2
 NOMBRE DE VERSIÓN: Nombres, comarcas y partidos judiciales
-FECHA: 2026-11-10
+FECHA: 2026-11-12
 ESTADO: activo T-64
 CAMBIOS 1.1.1 (T-201): `descargar` toma el M06 de la elección por defecto (2023-07-23), no el run_id mayor entre elecciones.
 CAMBIOS: C13 usa también los partidos judiciales (configuracion/partidos_judiciales.csv, Ley 38/1988) en toda España; los nombres de distrito no cambian.
 MOTIVO: un nombre legible y estable por distrito nacional y la medida de comarcas partidas.
-ANTERIOR: legacy/herramientas/generar_nombres_comunidades_nacional_v1.1.0_20261110.py
+CAMBIOS 1.1.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_nombres_comunidades_nacional_v1.1.1_20261112.py
 
 Reglas de nombre (toponimia solo en español, tabla datos/distritos/toponimos_es.csv):
   1. distrito de un único municipio: «<municipio>»; si ese municipio está repartido entre k>1 distritos
@@ -17,7 +18,7 @@ Reglas de nombre (toponimia solo en español, tabla datos/distritos/toponimos_es
      fuente del repo; si no, «<municipio principal> y entorno» (principal = el más poblado, INE 2025).
   3. colisión de un mismo nombre: « <n>» por posición; último recurso, «(<district_id>)».
 Sin votos, partidos ni resultados. Uso:
-  python herramientas/generar_nombres_comunidades_nacional.py --m06-dir <dir con congreso_*.zip> [--descargar]
+  python herramientas/generar_nombres_comunidades_nacional.py --m06-dir <dir con los M06 NAC .zip> [--descargar]
   python herramientas/generar_nombres_comunidades_nacional.py --reconstruir-municipios 65034.csv.zip
 """
 from __future__ import annotations
@@ -33,6 +34,9 @@ import sys
 import zipfile
 from collections import defaultdict
 from pathlib import Path
+if str(Path(__file__).resolve().parents[1]) not in sys.path:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from ddd_core import territorio_ids  # noqa: E402  (T-220)
 
 VERSION = "1.1.1"
 RAIZ = Path(__file__).resolve().parents[1]
@@ -365,7 +369,7 @@ def descargar(destino):
     registro = json.loads((RAIZ / REGISTRO).read_text(encoding="utf-8"))
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     import resultados_ligeros as rl
-    mejores = rl.vigente_por_eleccion(registro["products"], "canonical_m06", prefijo="congreso_")
+    mejores = rl.vigente_por_eleccion(registro["products"], "canonical_m06", ambito="NAC")
     for t, p in sorted(mejores.items()):
         crudo = subprocess.run(
             ["gh", "api", f"repos/{REPO}/git/blobs/{p['blob_sha']}", "-H", "Accept: application/vnd.github.raw"],
@@ -398,7 +402,7 @@ def main(argv=None):
     partido_de = cargar_partidos()
     salida = RAIZ / a.salida
     resumen, todos_pend = {}, {}
-    for z in sorted(Path(a.m06_dir).glob("congreso_*.zip")):
+    for z in sorted(z for z in Path(a.m06_dir).glob("*.zip") if territorio_ids.es_nacional(z.stem)):
         t = z.stem
         filas, metrica, pend, _, m_part = procesar_territorio(t, z, pob, nombre_ine, tabla, comarca_de, cubiertas, salida, partido_de)
         resumen[t] = {"distritos": len(filas), "sha256_m06": sha256(z),

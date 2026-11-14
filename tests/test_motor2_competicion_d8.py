@@ -81,17 +81,17 @@ class Interfaz(unittest.TestCase):
         from tests.test_motor2_semilla import cfg as cfg_con_ancla
         tmp = Path(tempfile.mkdtemp())
         e = entrada(tmp)
-        e = EntradaTerritorio("ceuta", cfg_con_ancla(), e.grafo_m03)
+        e = EntradaTerritorio("aut18", cfg_con_ancla(), e.grafo_m03)
         e.cfg["validation"] = dict(CFG["validation"])
         planes = {None: plan_corte(2)}
         gen = (Fijo("canonico", planes), type("F", (), {"nombre": "cadena", "generar": lambda s, en, se, d: Salida(
             escribir_comp(Path(d) / "comp.csv", plan_corte(3), POB))})())
-        f = competir_territorio("ceuta", tmp, 3, generadores=gen, entrada=e)
+        f = competir_territorio("aut18", tmp, 3, generadores=gen, entrada=e)
         self.assertEqual((f["funcion"], f["frente_al_canonico"]), ("D8", "mejora"), f)
         with mock.patch("ddd_motor2.generadores.ROOT", tmp):  # T-258: sin mapa publicado (aquí no compite el vigente)
-            g = fila_guardada("ceuta", tmp, 3, cfg=e.cfg, funcion="D8")
+            g = fila_guardada("aut18", tmp, 3, cfg=e.cfg, funcion="D8")
         self.assertEqual((g["frente_al_canonico"], g["ganador"]), ("mejora", f["ganador"]))
-        self.assertIsNone(fila_guardada("ceuta", tmp, 3, cfg=e.cfg, funcion="A"))  # otra función: se recalcula
+        self.assertIsNone(fila_guardada("aut18", tmp, 3, cfg=e.cfg, funcion="A"))  # otra función: se recalcula
 
 
 class FueraDelContrato(unittest.TestCase):
@@ -291,14 +291,14 @@ class PiezasFinas(unittest.TestCase):
 
     def test_congreso_y_sin_ratio_no_cambian(self):
         from ddd_motor2.generadores import piezas_finas
-        tmp, e, comp = self.preparar(0.45, "congreso_x")
+        tmp, e, comp = self.preparar(0.45, "nac22")
         self.assertEqual(piezas_finas(comp, e, tmp / "f.csv")[0], comp)
         tmp, e, comp = self.preparar(None)
         self.assertEqual(piezas_finas(comp, e, tmp / "f.csv")[0], comp)
 
     def test_congreso_no_parte_unidades_m04(self):
         from ddd_motor2.generadores import Vigente
-        for territorio, ratio, esperado in (("congreso_x", 0.45, "VIGENTE_NO_REPRESENTABLE"), ("sintetico", 0.45, "OK"),
+        for territorio, ratio, esperado in (("nac22", 0.45, "VIGENTE_NO_REPRESENTABLE"), ("sintetico", 0.45, "OK"),
                                             ("sintetico", 1.15, "VIGENTE_NO_REPRESENTABLE")):
             tmp = Path(tempfile.mkdtemp())
             e = entrada(tmp)
@@ -399,12 +399,12 @@ class ClaveCompartida(unittest.TestCase):
     def test_leon(self):
         d = ROOT / "docs/ESTUDIOS/T172_naturalidad/resultados/congreso_leon/congreso_leon_D8.csv"
         with open(d, encoding="utf-8") as fh:
-            self.comparar("congreso_leon", {r["seccion"]: r["distrito"] for r in csv.DictReader(fh)})
+            self.comparar("nac24", {r["seccion"]: r["distrito"] for r in csv.DictReader(fh)})
 
     def test_soria(self):
         from ddd_motor2 import naturalidad_mapas as nm
         asig, _ = nm.leer_composicion(nm.COMPOSICION / "congreso_soria.csv")
-        self.comparar("congreso_soria", asig)
+        self.comparar("nac42", asig)
 
 
 @unittest.skipUnless(os.environ.get("DDD_BATERIA_OUT") and importlib.util.find_spec("geopandas"),
@@ -417,8 +417,8 @@ class AutonomicaReal(unittest.TestCase):
         from ddd_motor2.generadores import entrada_bateria
         from ddd_motor2.reglas import Criterio
         out = Path(os.environ["DDD_BATERIA_OUT"])
-        e = entrada_bateria("pais_vasco", out)
-        comp = next((out / "competicion" / "pais_vasco" / "canonico").glob("*_m06_composicion_distritos.csv"))
+        e = entrada_bateria("aut16", out)
+        comp = next((out / "competicion" / "aut16" / "canonico").glob("*_m06_composicion_distritos.csv"))
         c = Candidato("canonico", "canonico", None, 0)
         juzgar(c, Salida(comp), e, Criterio(), comp, "D8")
         self.assertEqual(c.estado, "VALIDO", c.detalle)

@@ -14,7 +14,7 @@ meta:
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
   product_variant: congreso_350
-  parent_territory_id: congreso_madrid
+  parent_territory_id: nac28
 io:
   project_root:
     path: ../../..
@@ -57,16 +57,13 @@ territory_contract:
   - '28'
   k_districts: 37
   k_source: norma
-  k_rationale: 'Congreso 350 (D-19): K=37 son los escaños de Madrid (CPRO 28) en las
-    generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256
-    c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b.'
+  k_rationale: 'Congreso 350 (D-19): K=37 son los escaños de Madrid (CPRO 28) en las generales del 23-07-2023, BOE-A-2023-18907;
+    CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b.'
   k_reference_scope: legal_apportionment_2023
-  k_reference_source: BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv
-    sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b
+  k_reference_source: BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b
   apportionment_source: boe_congreso_2023
   legal_apportionment_reused: true
-  legal_apportionment_context: Escaños por circunscripción de las generales del 23-07-2023
-    (D-19).
+  legal_apportionment_context: Escaños por circunscripción de las generales del 23-07-2023 (D-19).
   district_apportionment: hamilton
   population_floor_ratio: 0.85
   population_cap_ratio: 1.15
@@ -79,10 +76,9 @@ territory_contract:
   require_auditable_district_catalogue: true
   status: generation_ready
   limits_profile: exception
-  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
-    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
-    se divide.'
-  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
+  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 %
+    y un municipio que cabe bajo el techo no se divide.'
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits
   limits_exception_decided_at: '2026-10-31'
 modulos:
   modulo_01_preparar_base_territorial:
@@ -205,9 +201,9 @@ validation:
     section_year: 2023
     population_total: 6871903
     target_section_count: 4479
-    package_sha256: 0e6ac72561d08d35ca634f7f573c2cb3b9c62c9d1a942234bd0ba7373adef1db
-    compatibility_report_sha256: bc4116f4a2d00070c27a28a363989360f3aac6b49d904779579c50a6f65ec9b3
-    compatibility_identity_sha256: 003cae276322bd77a07df6c2f2a112198a05141063eb20f92a899ff90be8bcff
+    package_sha256: d6d75f5700c2ccef64103a4d434bf938f9bd6de6fff4dd248e3175e0b405cccd
+    compatibility_report_sha256: cfbbd7c75e222084781fd3ee765a72f22edc6d57d9df1ae68e5b3fed965ba336
+    compatibility_identity_sha256: c462f25392436bd7bf14f13b5f6d29dc6543c8ca0b5e92bab5f67d9a6ac38307
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -264,8 +260,8 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: 52070699e6d24c54e0c5250d490099eaca811372baf8e2f5ef008ea0fdb28822
-        bytes: 4059966
+        sha256: 366eea9b880bc4595638229769fe22258c240e69a9496abe8fcf5e89945dd8cc
+        bytes: 4059965
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
@@ -278,12 +274,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: c271b819e55c2e114930ae9f8bf23417ccc28f7f1ea250dd76bdb4c8ecc3bdd7
+  contract_sha256: 0de018021164c2b2f3cb6b852135803785431b1933f53c7289a6c21277961683
 generation_state:
   source_prepared: true
   generation_enabled: true
-  package_sha256: 0e6ac72561d08d35ca634f7f573c2cb3b9c62c9d1a942234bd0ba7373adef1db
-  compatibility_identity_sha256: 003cae276322bd77a07df6c2f2a112198a05141063eb20f92a899ff90be8bcff
+  package_sha256: d6d75f5700c2ccef64103a4d434bf938f9bd6de6fff4dd248e3175e0b405cccd
+  compatibility_identity_sha256: c462f25392436bd7bf14f13b5f6d29dc6543c8ca0b5e92bab5f67d9a6ac38307
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 14e841862590a20f2b3ed161a0df3c5782eda4ce1bc7d26ae4b5ebc1236f04c7
@@ -315,7 +311,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: 52070699e6d24c54e0c5250d490099eaca811372baf8e2f5ef008ea0fdb28822
+    sha256: 366eea9b880bc4595638229769fe22258c240e69a9496abe8fcf5e89945dd8cc
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -333,6 +329,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 42588623702
-  pre_m04_source_commit: 96aac1d0bdce9572ac7fde5b4091f7d81ef64bf5
-  pre_m04_artifact_sha256: 0a705f32c392525ee34eed25c8f8e46f113f92c6b3a56f7350752dd3f08174a5
+  pre_m04_run_id: 41611821388
+  pre_m04_source_commit: 1e771abcc1b753768fb9ae6364f9ac7cf462c1bb
+  pre_m04_artifact_sha256: 8818ab93efb98a023289ca0202f99f7aee2e73f55fd8ef0beb10605ec7fb62a5

@@ -76,10 +76,10 @@ class CongressContractTests(unittest.TestCase):
 
     def test_autonomous_catalog_and_manager_are_rejected(self):
         for changes in (
-            {"autonomous_territory_ids": ["andalucia"]},
+            {"autonomous_territory_ids": ["aut01"]},
             {"orchestrator": "gestor_campana_nacional"},
             {"k_decision": {"source_scope": "autonomous_parliament"}},
-            {"k_decision": {"source_territory_id": "aragon"}},
+            {"k_decision": {"source_territory_id": "aut02"}},
             {"k_decision": {"source_scope": "congreso", "source_territory_id": "Aragón"}},
             {"k_decision": {"source_scope": "congreso", "source_territory_id": "COMUNIDAD VALENCIANA"}},
         ):
@@ -89,9 +89,9 @@ class CongressContractTests(unittest.TestCase):
 
     def test_alternative_autonomous_contamination_fields_are_rejected_recursively(self):
         contaminants = (
-            {"autonomous_territories": ["andalucia"]},
-            {"territorial_units": ["andalucia"]},
-            {"sources": {"population": {"territorial_units": ["andalucia"]}}},
+            {"autonomous_territories": ["aut01"]},
+            {"territorial_units": ["aut01"]},
+            {"sources": {"population": {"territorial_units": ["aut01"]}}},
             {"quotas_by_circumscription": [{"code": code, "k": 1, "regional_k": 19} for code in CONGRESS_CODES]},
             {"k_decision": {"total": 52, "source_scope": "congreso", "decision_id": "D-1", "autonomous_parliament_k": 19}},
         )
@@ -102,12 +102,12 @@ class CongressContractTests(unittest.TestCase):
 
     def test_unknown_contract_fields_fail_closed(self):
         with self.assertRaisesRegex(ValueError, "CONTRACT_FIELDS_UNKNOWN"):
-            validate_congress_identity({**self.payload, "regional_input": ["andalucia"]})
+            validate_congress_identity({**self.payload, "regional_input": ["aut01"]})
 
     def test_nested_k_and_territory_objects_are_closed(self):
         for value in (
-            {"aragon": 19},
-            {"x": {"k": 19, "territory": "aragon"}},
+            {"aut02": 19},
+            {"x": {"k": 19, "territory": "aut02"}},
             {"project_precedent": {"parlamento_autonomico_k": 19}},
         ):
             with self.subTest(value=value):
@@ -116,7 +116,7 @@ class CongressContractTests(unittest.TestCase):
 
     def test_non_json_tuple_container_cannot_bypass_nested_schema(self):
         payload = {**self.payload, "k_alternatives": {
-            "analytical_scenarios_not_decisions": ({"k": 19, "territory": "aragon"},)
+            "analytical_scenarios_not_decisions": ({"k": 19, "territory": "aut02"},)
         }}
         with self.assertRaisesRegex(ValueError, "CONGRESS_CONTRACT_INVALID"):
             validate_congress_identity(payload)
@@ -135,19 +135,19 @@ class CongressContractTests(unittest.TestCase):
     def test_conflicting_universe_representations_are_rejected(self):
         payload = {
             **self.payload,
-            "circumscriptions": [{"code": "andalucia", "class": "autonomous_community"}],
+            "circumscriptions": [{"code": "aut01", "class": "autonomous_community"}],
         }
         with self.assertRaisesRegex(ValueError, "CIRCUMSCRIPTION_REPRESENTATIONS_CONFLICT"):
             validate_congress_identity(payload)
 
     def test_invalid_circumscriptions_container_is_rejected(self):
-        payload = {**self.payload, "circumscriptions": {"territory_id": "andalucia"}}
+        payload = {**self.payload, "circumscriptions": {"territory_id": "aut01"}}
         with self.assertRaisesRegex(ValueError, "CIRCUMSCRIPTIONS_MUST_BE_LIST"):
             validate_congress_identity(payload)
 
     def test_nested_territory_metadata_is_rejected(self):
         rows = [{"code": code, "class": "province"} for code in CONGRESS_CODES]
-        rows[0]["territory_id"] = "andalucia"
+        rows[0]["territory_id"] = "aut01"
         payload = {**self.payload, "circumscription_codes": list(CONGRESS_CODES), "circumscriptions": rows}
         with self.assertRaisesRegex(ValueError, "CIRCUMSCRIPTION_CLASSIFICATION_INVALID"):
             validate_congress_identity(payload)

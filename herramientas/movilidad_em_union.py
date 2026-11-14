@@ -3,8 +3,9 @@
 """Movilidad INE (EM-1, telefonía móvil): conversión a CSV, unión flujos↔áreas y estadísticas por provincia (T-139, paso 1).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-10 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/movilidad_em_union_v1.1.0.py (1.1.0: indicador; 1.0.0: convertir, verificar, candidatas)
+VERSIÓN: 1.2.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.2.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/movilidad_em_union_v1.2.0_20261112.py
 QUÉ HACE: (1) `convertir`: xlsx del INE -> CSV en `datos/movilidad/` + MANIFEST con sha256 de origen y de salida;
   (2) `verificar`: unión código de flujo (`001A`) -> `ID_GRUPO` (`01VI`) por nombre normalizado, exige biyección;
   (3) `candidatas`: por provincia, población en áreas que el plan vigente parte entre distritos;
@@ -26,10 +27,20 @@ import sys
 import unicodedata
 from collections import defaultdict
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito e ids por el resolutor, nunca por prefijo)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 from numeracion_publica import numero_publico  # noqa: E402  (distritos 1..K en lo que sale del módulo)
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 DIR = ROOT / "datos" / "movilidad"
 AREAS_CSV = DIR / "areas_movilidad_2019.csv"
 FLUJOS_CSV = DIR / "flujos_em1_origen_destino.csv"
@@ -151,8 +162,8 @@ def estadisticas_provincia(csv_composicion: Path, ind: dict) -> dict:
             "pob_en_areas_partidas_por_el_plan": partida, "n_areas": len(grupos)}
 
 
-CAPITALES = {"congreso_cadiz": "Cádiz", "congreso_granada": "Granada", "congreso_leon": "León",
-             "congreso_gerona": "Girona", "congreso_tarragona": "Tarragona"}  # nombre oficial en el xlsx del INE
+CAPITALES = {"nac11": "Cádiz", "nac18": "Granada", "nac24": "León",
+             "nac17": "Girona", "nac43": "Tarragona"}  # nombre oficial en el xlsx del INE
 
 
 def codigo_capital(areas: list[dict], nombre: str, cpro: str) -> str:
@@ -209,10 +220,10 @@ def cmd_indicador(areas: list[dict]) -> None:
     w = csv.writer(sys.stdout, lineterminator="\n")
     w.writerow(["territorio", "capital", "ambito", "distrito", "cohesion", "flujo_salida"])
     for t, nombre in CAPITALES.items():
-        cpro = leer_csv(COMPOSICION / f"{t}.csv")[0]["seccion"][:2]
+        cpro = leer_csv(fichero_por_id(COMPOSICION, "{}.csv", t))[0]["seccion"][:2]
         cap = codigo_capital(areas, nombre, cpro)
         for etiqueta, c in (("con", None), ("sin", cap)):
-            r = indicador_plan(COMPOSICION / f"{t}.csv", areas, flujos, mapa, c)
+            r = indicador_plan(fichero_por_id(COMPOSICION, "{}.csv", t), areas, flujos, mapa, c)
             for d, (v, n) in r["distritos"].items():
                 w.writerow([t, etiqueta, "distrito", numero_publico(int(d)), f"{v:.4f}" if v is not None else "", n])
             w.writerow([t, etiqueta, "plan", "", f"{r['plan']:.4f}", r["flujo_en_territorio"]])
@@ -336,7 +347,7 @@ def main(argv=None) -> int:
     ind = indice_secciones(areas)
     w = csv.writer(sys.stdout, lineterminator="\n")
     cols = None
-    for p in sorted(COMPOSICION.glob("congreso_*.csv")):
+    for p in sorted(p for p in COMPOSICION.glob("*.csv") if territorio_ids.es_nacional(p.stem)):
         e = estadisticas_provincia(p, ind)
         if cols is None:
             cols = ["territorio"] + list(e)

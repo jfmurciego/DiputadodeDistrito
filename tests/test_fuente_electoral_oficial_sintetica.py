@@ -322,7 +322,7 @@ class OfficialElectionSourceSynthetic(unittest.TestCase):
             self.assertFalse(called)
 
     def test_instalador_fuente_electoral_no_contiene_territorio_concreto(self):
-        self.assertNotIn("extremadura", (ROOT / "herramientas/instalar_fuente_electoral_oficial.py").read_text(encoding="utf-8").lower())
+        self.assertNotIn("aut11", (ROOT / "herramientas/instalar_fuente_electoral_oficial.py").read_text(encoding="utf-8").lower())
 
 
 

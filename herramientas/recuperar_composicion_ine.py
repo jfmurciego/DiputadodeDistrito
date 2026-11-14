@@ -3,8 +3,9 @@
 """Recupera la composición sección→distrito de un M06 publicado por geometría (T-71).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/recuperar_composicion_ine_v1.0.0_20261112.py
 QUÉ HACE: cuando el CSV ``*_m06_composicion_distritos.csv`` del run ya caducó (T-67), reconstruye la asignación con la
   fuente de M01: un punto interior de cada sección del seccionado INE (colección Secciones_<año>, OGC) se asigna al
   polígono de distrito del M06 publicado (blob de git, sha256 del registro del visor) y la población por sección sale
@@ -32,12 +33,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import composicion_m06 as cm  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 URL_SECCIONES = ("https://www.ine.es/geoserver/ogc/features/v1/collections/"
                  "WMS_INE_SECCIONES_G01%3ASecciones_{anio}/items")
 CONTRATOS = ROOT / "configuracion/contratos_infoelectoral.yaml"
-# Territorios cuyo id no es congreso_<provincia> y no están en el contrato Infoelectoral.
-PROVINCIAS_EXTRA = {"ceuta": "51", "region_de_murcia": "30", "melilla": "52"}
+# Territorios que no son circunscripción NAC y no están en el contrato Infoelectoral.
+PROVINCIAS_EXTRA = {"aut18": "51", "aut14": "30", "aut19": "52"}
 
 
 def sha256(b: bytes) -> str:
@@ -49,7 +55,7 @@ def provincia_de(territorio: str) -> str:
         return PROVINCIAS_EXTRA[territorio]
     import yaml
     for r in yaml.safe_load(CONTRATOS.read_text(encoding="utf-8"))["contracts"].values():
-        if r["territory_id"] == territorio:
+        if mismo_territorio(str(r["territory_id"] or ""), str(territorio)):
             return str(r["province"]).zfill(2)
     raise KeyError(f"sin provincia para {territorio}")
 

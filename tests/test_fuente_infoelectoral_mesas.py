@@ -108,7 +108,7 @@ class InfoelectoralConversionTests(unittest.TestCase):
 
 class HuescaContractTests(unittest.TestCase):
     def test_huesca_contract_reconciles_official_totals_minus_cera(self):
-        contract = resolve(election_id="congreso_huesca_2023-07-23", territory_id="congreso_huesca",
+        contract = resolve(election_id="congreso_huesca_2023-07-23", territory_id="nac22",
                            election_date="2023-07-23", root_dir=ROOT)
         self.assertEqual("e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8", contract["source_sha256"])
         self.assertEqual(117735, contract["expected"]["candidate_votes"])

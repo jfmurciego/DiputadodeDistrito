@@ -49,7 +49,7 @@ class TerritorialAcquisitionManifestTests(unittest.TestCase):
         return _manifest_from_acquisition(
             evidence,
             working,
-            "cantabria",
+            "aut06",
             2025,
             2023,
             2023,

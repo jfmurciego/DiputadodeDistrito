@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — interfaz de la competición para la batería T-132
-VERSIÓN: 1.2.1
+VERSIÓN: 1.2.2
 NOMBRE DE VERSIÓN: Competición · interfaz con el vigente publicado
 FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa; no lanza nada en Actions)
@@ -27,11 +27,12 @@ CAMBIOS: 1.2.1 (T-258) — --reanudar compara el sha256 del vigente publicado en
   1.0.0 — fichero nuevo.
 MOTIVO: T-163 / D-48: que la batería T-132 corra la competición en los 71 con una orden y lea el criterio de
   aceptación (71/71 válidos, ninguno peor que el canónico, tiempos) de un solo fichero.
-ANTERIOR: legacy/ddd_motor2/competir_v1.2.0_20261110.py
+CAMBIOS 1.2.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/ddd_motor2/competir_v1.2.1_20261112.py
 USO (en local, con las entradas de la batería en <out>/entradas/<t> y el entorno GerryChain de producción):
     PYTHONHASHSEED=0 python -m ddd_motor2.competir --out bateria --todos            # D8, 10 cadenas
     PYTHONHASHSEED=0 python -m ddd_motor2.competir --out bateria --funcion A --cadenas 5 --todos
-    python -m ddd_motor2.competir --out bateria aragon murcia
+    python -m ddd_motor2.competir --out bateria aut02 aut14
     python -m ddd_motor2.competir --out bateria --todos --reanudar   # salta los COMPETICION.json ya escritos
   Por territorio: <out>/competicion/<t>/COMPETICION.{json,md} (+ composición de cada candidato).
   Agregado: <out>/competicion/RESUMEN.json y RESUMEN.md: por territorio, ganador, estado, si mejora / empata / empeora

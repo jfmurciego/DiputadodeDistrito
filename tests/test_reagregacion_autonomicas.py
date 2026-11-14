@@ -3,8 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba de la reagregación autonómica (T-121)
-VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_reagregacion_autonomicas_v1.0.0_20261112.py
 FUNCIÓN: casos sintéticos con valores a mano y comprobación del resultado real contra literales de la fuente del Observatorio.
 """
 import csv
@@ -16,6 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import reagregacion_autonomicas as ra  # noqa: E402
+from ddd_core.territorio_ids import id_legacy  # noqa: E402  (T-220)
 
 SAL = ROOT / "datos/resultados/historico/autonomicas"
 
@@ -65,10 +67,10 @@ class Resultado(unittest.TestCase):
         self.assertEqual(sum(int(r["votantes"]) for r in filas), 1492984)
 
     def test_las_comunidades_entregadas_cuadran(self):
-        esperadas = {"galicia": 4, "madrid": 5, "castilla_y_leon": 5, "cataluna": 5, "comunidad_valenciana": 4,
-                     "comunidad_foral_de_navarra": 4, "pais_vasco": 4, "la_rioja": 4, "canarias": 4}
+        esperadas = {"aut12": 4, "aut13": 5, "aut07": 5, "aut09": 5, "aut10": 4,
+                     "aut15": 4, "aut16": 4, "aut17": 4, "aut05": 4}
         for com, n in esperadas.items():
-            m = json.loads((SAL / com / "MANIFEST.json").read_text(encoding="utf-8"))
+            m = json.loads((SAL / id_legacy(com) / "MANIFEST.json").read_text(encoding="utf-8"))
             self.assertEqual(len(m["elecciones"]), n, com)
             self.assertEqual(m["no_cuadran"], [], com)
             for e, x in m["elecciones"].items():
@@ -76,8 +78,8 @@ class Resultado(unittest.TestCase):
 
     def test_elecciones_coinciden_con_el_calendario(self):
         cal = ra.leer_calendario()
-        for com in ("galicia", "madrid", "castilla_y_leon", "cataluna", "pais_vasco", "la_rioja", "canarias"):
-            self.assertEqual(sorted(p.name for p in (SAL / com).iterdir() if p.is_dir()),
+        for com in ("aut12", "aut13", "aut07", "aut09", "aut16", "aut17", "aut05"):
+            self.assertEqual(sorted(p.name for p in (SAL / id_legacy(com)).iterdir() if p.is_dir()),
                              sorted(f["mes"].replace("-", "") for f in cal[com]), com)
 
 

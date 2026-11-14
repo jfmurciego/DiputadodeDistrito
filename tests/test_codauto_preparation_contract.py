@@ -32,7 +32,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
     def test_canonical_label_has_no_decorative_separator_and_legacy_is_readable(self):
         cantabria = next(
             row for row in load_master(MASTER)
-            if row["territory_id"] == "cantabria"
+            if row["territory_id"] == "aut06"
         )
         self.assertEqual(format_territory_label(cantabria), "06 Cantabria")
         self.assertEqual(normalize_territory_input("06 Cantabria", MASTER), "Cantabria")
@@ -41,14 +41,14 @@ class CodautoPreparationContractTests(unittest.TestCase):
     def test_preflight_gate_accepts_canonical_label_legacy_label_and_internal_id(self):
         canonical = _state(ROOT, "06 Cantabria", "2025")
         legacy = _state(ROOT, "06 · Cantabria", "2025")
-        internal = _state(ROOT, "cantabria", "2025")
-        self.assertEqual(canonical[:2], ("cantabria", "Cantabria"))
+        internal = _state(ROOT, "aut06", "2025")
+        self.assertEqual(canonical[:2], ("aut06", "Cantabria"))
         self.assertEqual(canonical, legacy)
         self.assertEqual(canonical, internal)
 
     def test_cantabria_current_legislature_plan_selects_2023_not_current_2025(self):
         plan = resolve(ROOT, "06 Cantabria")["plans"][0]
-        self.assertEqual(plan["territory_id"], "cantabria")
+        self.assertEqual(plan["territory_id"], "aut06")
         self.assertEqual(plan["project_edition"], "2025")
         self.assertEqual(plan["population_year_selected"], 2023)
         self.assertEqual(plan["section_year_selected"], 2023)

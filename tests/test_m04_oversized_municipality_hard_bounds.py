@@ -139,7 +139,7 @@ class OversizedMunicipalityHardBounds(unittest.TestCase):
         self.assertEqual(objective, objective_2)
 
     def test_aragon_profile_remains_hard_080_175_quality_012(self):
-        cfg = yaml.safe_load((ROOT / "territorios/aragon/config/aragon_2025.yaml").read_text(encoding="utf-8"))
+        cfg = yaml.safe_load((ROOT / "territorios/aut02/config/aut02_2025.yaml").read_text(encoding="utf-8"))
         contract = cfg["territory_contract"]
         self.assertEqual(contract["oversized_municipality_rule"], "split_only_above_hard_cap")
         self.assertEqual(contract["population_floor_ratio"], 0.8)
@@ -153,7 +153,7 @@ class OversizedMunicipalityHardBounds(unittest.TestCase):
         assert_partition_integrity(self, nodes, weights, adjacency, 80.0, 175.0, result)
 
     def test_castilla_y_leon_profile_keeps_closed_core_open_residual(self):
-        cfg = yaml.safe_load((ROOT / "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml").read_text(encoding="utf-8"))
+        cfg = yaml.safe_load((ROOT / "territorios/aut07/config/aut07_2025.yaml").read_text(encoding="utf-8"))
         contract = cfg["territory_contract"]
         self.assertEqual(contract["oversized_municipality_rule"], "closed_target_cores_plus_open_residual")
         self.assertEqual(contract["population_floor_ratio"], 0.8)

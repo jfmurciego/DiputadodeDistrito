@@ -3,7 +3,7 @@ description: >-
   Catálogo mínimo de releases relevantes para el read model. C1 solo lo consume;
   la automatización de sincronización con GitHub Releases queda para una fase posterior.
 publications:
-  - territory_id: castilla_y_leon
+  - territory_id: aut07
     kind: technical_checkpoint
     status: PRERELEASE
     source_commit: null

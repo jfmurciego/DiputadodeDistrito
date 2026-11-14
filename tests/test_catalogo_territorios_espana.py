@@ -17,10 +17,10 @@ class CatalogoTerritoriosEspana(unittest.TestCase):
         self.assertEqual(set(codes),{f"{i:02d}" for i in range(1,53)})
 
     def test_madrid_es_siguiente_y_arquipielagos_explicitos(self):
-        madrid=next(x for x in CAT if x["territory_id"]=="madrid")
-        self.assertEqual(madrid["batch"],"madrid")
+        madrid=next(x for x in CAT if x["territory_id"]=="aut13")
+        self.assertEqual(madrid["batch"],"madrid")  # t220: no es id (nombre del lote)
         self.assertEqual(madrid["province_codes"],["28"])
-        self.assertEqual({x["territory_id"] for x in CAT if x["batch"]=="insular"},{"illes_balears","canarias"})
+        self.assertEqual({x["territory_id"] for x in CAT if x["batch"]=="insular"},{"aut04","aut05"})
 
     def test_niveles_y_gobierno_de_k(self):
         for territory in CAT:

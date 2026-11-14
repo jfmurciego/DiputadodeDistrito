@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """T-119: capa de secciones del visor v2 (generador + navegador, móvil 390 px).
 
-PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
+PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v2_secciones_v1.0.0_20261112.py
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 Los valores esperados son literales del fixture (no se recalculan con el código bajo prueba).
 El navegador necesita playwright y MapLibre: con MAPLIBRE_DIR (carpeta con maplibre-gl.js/css) no usa la red.
 """
@@ -64,14 +65,14 @@ class GeneradorSecciones(unittest.TestCase):
             c = Path(t); (c / "runs").mkdir()
             for run, fila in (("111", "0100101001,0,5"), ("222", "0100101001,1,7")):
                 b = f"seccion,distrito,poblacion\n{fila}\n".encode()
-                (c / "runs" / f"congreso_y_{run}.csv").write_bytes(b)
-            man = {"runs": {f"congreso_y/{r}": {"territorio": "congreso_y", "run_id": r, "ruta": str(c / "runs" / f"congreso_y_{r}.csv"),
-                   "sha256_csv": hashlib.sha256((c / "runs" / f"congreso_y_{r}.csv").read_bytes()).hexdigest()} for r in ("111", "222")}}
+                (c / "runs" / f"nac44_{run}.csv").write_bytes(b)
+            man = {"runs": {f"nac44/{r}": {"territorio": "nac44", "run_id": r, "ruta": str(c / "runs" / f"nac44_{r}.csv"),
+                   "sha256_csv": hashlib.sha256((c / "runs" / f"nac44_{r}.csv").read_bytes()).hexdigest()} for r in ("111", "222")}}
             (c / "MANIFEST.json").write_text(json.dumps(man), "utf-8")
-            idx = c / "INDEX.json"; idx.write_text(json.dumps({"territorios": {"congreso_y": {"run_id": 111}}}), "utf-8")
+            idx = c / "INDEX.json"; idx.write_text(json.dumps({"territorios": {"nac44": {"run_id": 111}}}), "utf-8")
             sec, h = g.leer_composicion(c, indice=idx)
-            self.assertEqual(sec["0100101001"], {"d": 1, "p": 5, "t": "congreso_y"})  # el run publicado (111), no el más reciente
-            self.assertEqual(list(h), ["congreso_y"])
+            self.assertEqual(sec["0100101001"], {"d": 1, "p": 5, "t": "nac44"})  # el run publicado (111), no el más reciente
+            self.assertEqual(list(h), ["nac44"])
 
     def test_sin_seccionado_no_falla(self):
         import sys
@@ -87,8 +88,8 @@ class GeneradorSecciones(unittest.TestCase):
         import generar_secciones_visor as g
         with tempfile.TemporaryDirectory() as t:
             c = Path(t)
-            (c / "congreso_x.csv").write_text("seccion,distrito,poblacion\n0100101001,0,1\n", "utf-8")
-            (c / "MANIFEST.json").write_text(json.dumps({"territorios": {"congreso_x": {"sha256_csv": MANIFEST_SHA}}}), "utf-8")
+            (c / "nac45.csv").write_text("seccion,distrito,poblacion\n0100101001,0,1\n", "utf-8")
+            (c / "MANIFEST.json").write_text(json.dumps({"territorios": {"nac45": {"sha256_csv": MANIFEST_SHA}}}), "utf-8")
             with self.assertRaises(SystemExit):
                 g.leer_composicion(c)
 

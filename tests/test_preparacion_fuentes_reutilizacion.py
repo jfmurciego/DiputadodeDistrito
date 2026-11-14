@@ -52,7 +52,7 @@ def _canonical_report_identity(report: dict) -> str:
 def build_package(
     root: Path,
     *,
-    territory="la_rioja",
+    territory="aut17",
     edition=2025,
     source_year=None,
     population_year=None,
@@ -219,12 +219,12 @@ class PreparedSourceReuseTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             package = build_package(Path(td) / "valid")
             selected, diagnostics = select_first_valid(
-                [package], territory_id="la_rioja", edition=2025, reuse_enabled=True
+                [package], territory_id="aut17", edition=2025, reuse_enabled=True
             )
             self.assertEqual(selected, package)
             self.assertTrue(diagnostics[0]["valid"])
             self.assertEqual(
-                validate_prepared_package(package, territory_id="la_rioja", edition=2025),
+                validate_prepared_package(package, territory_id="aut17", edition=2025),
                 (True, []),
             )
 
@@ -238,7 +238,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
             )
             valid, reasons = validate_prepared_package(
                 package,
-                territory_id="la_rioja",
+                territory_id="aut17",
                 edition=2025,
                 population_year=2025,
                 section_year=2025,
@@ -256,7 +256,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
             )
             valid, reasons = validate_prepared_package(
                 package,
-                territory_id="la_rioja",
+                territory_id="aut17",
                 edition=2025,
                 population_year=2025,
                 section_year=2026,
@@ -274,7 +274,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             package = build_package(Path(td) / "legacy", include_compatibility=False)
             valid, reasons = validate_prepared_package(
-                package, territory_id="la_rioja", edition=2025
+                package, territory_id="aut17", edition=2025
             )
             self.assertFalse(valid)
             self.assertTrue(any("paquete histórico no reutilizable" in reason for reason in reasons))
@@ -298,7 +298,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
 
                 rewrite_bundle(package, mutate)
                 valid, reasons = validate_prepared_package(
-                    package, territory_id="la_rioja", edition=2025
+                    package, territory_id="aut17", edition=2025
                 )
                 self.assertFalse(valid)
                 self.assertTrue(any(f"INPUT_REPORT_SHA_MISMATCH: {role}" in r for r in reasons), reasons)
@@ -315,7 +315,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
 
             rewrite_bundle(package, mutate)
             valid, reasons = validate_prepared_package(
-                package, territory_id="la_rioja", edition=2025
+                package, territory_id="aut17", edition=2025
             )
             self.assertFalse(valid)
             self.assertTrue(any("INPUT_REPORT_SHA_MISMATCH: population" in r for r in reasons), reasons)
@@ -340,7 +340,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
 
                 rewrite_bundle(package, mutate)
                 valid, reasons = validate_prepared_package(
-                    package, territory_id="la_rioja", edition=2025
+                    package, territory_id="aut17", edition=2025
                 )
                 self.assertFalse(valid)
                 expected = "INPUT_ROLE_MISSING" if case == "missing" else "INPUT_ROLE_DUPLICATE"
@@ -350,7 +350,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             package = build_package(Path(td) / "valid")
             selected, diagnostics = select_first_valid(
-                [package], territory_id="la_rioja", edition=2025, reuse_enabled=False
+                [package], territory_id="aut17", edition=2025, reuse_enabled=False
             )
             self.assertIsNone(selected)
             self.assertEqual(diagnostics, [])
@@ -361,7 +361,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
             newest = build_package(root / "newest", corrupt=True)
             older = build_package(root / "older")
             selected, diagnostics = select_first_valid(
-                [newest, older], territory_id="la_rioja", edition=2025, reuse_enabled=True
+                [newest, older], territory_id="aut17", edition=2025, reuse_enabled=True
             )
             self.assertEqual(selected, older)
             self.assertFalse(diagnostics[0]["valid"])

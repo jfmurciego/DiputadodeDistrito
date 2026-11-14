@@ -376,7 +376,7 @@ class ElectoralGapFillerPreparationIntegrationTests(unittest.TestCase):
                 "election_id": "castilla_la_mancha_cortes_2023",
                 "election_date": "2023-05-28",
                 "election_type": "regional",
-                "scope": "castilla_la_mancha",
+                "scope": "aut08",
             }
             declared = {
                 "election_id": clm_identity["election_id"],
@@ -427,7 +427,7 @@ class ElectoralGapFillerPreparationIntegrationTests(unittest.TestCase):
                  patch("herramientas.preparar_fuente_electoral.check_declaration", side_effect=fake_check):
                 with self.assertRaisesRegex(ValueError, "source.id duplicado"):
                     prepare(
-                        territory_id="castilla_la_mancha",
+                        territory_id="aut08",
                         edition="2025",
                         package_out=package,
                         root=root,
@@ -477,7 +477,7 @@ class ElectoralGapFillerPreparationIntegrationTests(unittest.TestCase):
                 "election_id": "castilla_la_mancha_cortes_2023",
                 "election_date": "2023-05-28",
                 "election_type": "regional",
-                "scope": "castilla_la_mancha",
+                "scope": "aut08",
             }
             european_identity = {
                 "election_id": "europeas_2024",

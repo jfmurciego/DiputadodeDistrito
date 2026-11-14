@@ -367,7 +367,7 @@ class PopulationRepairTests(unittest.TestCase):
 
     def test_no_territorial_literals(self):
         text=Path(r.__file__).read_text(encoding="utf-8").lower()
-        for literal in ("castilla","león","leon","aragon","aragón","35155371295","82"):
+        for literal in ("castilla","león","leon","aut02","aragón","35155371295","82"):
             self.assertNotIn(literal,text)
 
     def test_synthetic_m04_to_m05_contract(self):

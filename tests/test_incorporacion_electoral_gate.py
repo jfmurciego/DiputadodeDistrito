@@ -16,11 +16,11 @@ WF04=ROOT/".github/workflows/incorporacion-resultados-electorales.yml"
 def fixture(prepared: bool):
     td=tempfile.TemporaryDirectory(); root=Path(td.name)
     (root/"configuracion").mkdir(parents=True)
-    (root/"territorios/castilla_la_mancha/config").mkdir(parents=True)
+    (root/"territorios/aut08/config").mkdir(parents=True)
     required={
       "territory_declared":True,"preparation_status":"READY",
-      "contract_path":"territorios/castilla_la_mancha/config/castilla_la_mancha_2025.yaml",
-      "territorial_source_declaration":"territorios/castilla_la_mancha/config/fuentes_oficiales.yaml",
+      "contract_path":"territorios/aut08/config/aut08_2025.yaml",
+      "territorial_source_declaration":"territorios/aut08/config/fuentes_oficiales.yaml",
       "electoral_source_declaration":None,"territorial_sources_prepared":True,
       "territorial_contract_complete":True,"territorial_product_available":True,
       "electoral_source_prepared":prepared,"electoral_product_available":False,
@@ -29,23 +29,23 @@ def fixture(prepared: bool):
       "last_valid_checkpoint":{"run_id":36402139263,"stage":"M06"},
     }
     catalog={"schema":"ddd-preparation-catalog/1.1","default_edition":"2025","territories":[
-      {"territory_id":"castilla_la_mancha","name":"Castilla-La Mancha","editions":{"2025":required}}
+      {"territory_id":"aut08","name":"Castilla-La Mancha","editions":{"2025":required}}
     ]}
     (root/"configuracion/catalogo_preparacion.yaml").write_text(yaml.safe_dump(catalog,allow_unicode=True,sort_keys=False),encoding="utf-8")
     (root/"configuracion/registro_electoral.yaml").write_text(yaml.safe_dump({
-      "schema":"ddd-election-registry/1.0","edition":"2025","territories":{"castilla_la_mancha":{
+      "schema":"ddd-election-registry/1.0","edition":"2025","territories":{"aut08":{
         "codauto":"08","name":"Castilla-La Mancha","election_id":"castilla_la_mancha_cortes_2023",
         "election_date":"2023-05-28","title":"Cortes de Castilla-La Mancha 2023"}}},allow_unicode=True,sort_keys=False),encoding="utf-8")
-    (root/"territorios/castilla_la_mancha/config/castilla_la_mancha_2025.yaml").write_text(yaml.safe_dump({
-      "meta":{"territory_id":"castilla_la_mancha","year":"2025","production_authorization":"AUTHORIZED","contract_level":"production_m01_m06"}
+    (root/"territorios/aut08/config/aut08_2025.yaml").write_text(yaml.safe_dump({
+      "meta":{"territory_id":"aut08","year":"2025","production_authorization":"AUTHORIZED","contract_level":"production_m01_m06"}
     },allow_unicode=True,sort_keys=False),encoding="utf-8")
     digest="24dab5f8ae7bcc4c2704ceb1deba6a2a0458a53151be6f1567232a8d1652302a"
     gate=root/"puerta.json"; manifest=root/"manifest.json"
     gate.write_text(json.dumps({"schema":"ddd.puerta-validacion/1.0","phase":"electoral_source","decision":"VALIDADO",
-      "phase_decision":"ACQUIRE","territory_id":"castilla_la_mancha","edition":"2025","run_id":36402139263,
+      "phase_decision":"ACQUIRE","territory_id":"aut08","edition":"2025","run_id":36402139263,
       "artifact_name":"ddd-electoral-package-castilla_la_mancha-2025-36402139263","artifact_digest":"sha256:"+digest,
       "expected_digest":None,"reasons":[]}),encoding="utf-8")
-    manifest.write_text(json.dumps({"schema":"ddd-electoral-package/1.0","decision":"ACQUIRE","territory_id":"castilla_la_mancha",
+    manifest.write_text(json.dumps({"schema":"ddd-electoral-package/1.0","decision":"ACQUIRE","territory_id":"aut08",
       "edition":"2025","election_id":"castilla_la_mancha_cortes_2023","election_date":"2023-05-28"}),encoding="utf-8")
     return td,root,gate,manifest,digest
 
@@ -75,7 +75,7 @@ class ElectoralIncorporationEligibilityTests(unittest.TestCase):
         original_gate=json.loads(gate.read_text()); original_manifest=json.loads(manifest.read_text())
         cases=[
           ({**original_gate,"decision":"BLOQUEADO"},original_manifest,digest,"no validada"),
-          ({**original_gate,"territory_id":"galicia"},original_manifest,digest,"territorio de la puerta"),
+          ({**original_gate,"territory_id":"aut12"},original_manifest,digest,"territorio de la puerta"),
           (original_gate,{**original_manifest,"election_id":"otra_eleccion"},digest,"election_id"),
           (original_gate,original_manifest,"0"*64,"digest electoral de la puerta"),
         ]

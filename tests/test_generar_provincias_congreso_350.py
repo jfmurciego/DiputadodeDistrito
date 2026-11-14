@@ -13,6 +13,8 @@ from pathlib import Path
 
 import yaml
 
+from ddd_core.territorio_ids import id_legacy  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[1]
 for p in (ROOT, ROOT / "herramientas"):
     if str(p) not in sys.path:
@@ -80,7 +82,7 @@ class Congreso350Tests(unittest.TestCase):
                 self.assertEqual(election_id, matrix[tid]["election_id"])
                 self.assertEqual(election_id, registry[tid]["election_id"])
                 twin_infoe = dict(infoe[election_id])
-                parent_infoe = dict(infoe[f"{parent}_2023-07-23"])
+                parent_infoe = dict(infoe[f"{id_legacy(parent)}_2023-07-23"])  # T-220: election_id con el id viejo
                 self.assertEqual(tid, twin_infoe.pop("territory_id"))
                 parent_infoe.pop("territory_id")
                 self.assertEqual(parent_infoe, twin_infoe)

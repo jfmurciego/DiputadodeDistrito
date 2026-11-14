@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — adaptadores de generador para la competición (canónico y GerryChain)
-VERSIÓN: 1.2.2
+VERSIÓN: 1.2.3
 NOMBRE DE VERSIÓN: Competición · el vigente es el publicado en el visor
 FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa)
@@ -38,7 +38,8 @@ CAMBIOS: 1.2.2 — (T-258) «Vigente» lee el mapa publicado en el visor (vigent
 MOTIVO: T-163: que el orquestador (competicion.py) llame a los generadores reales sin tocarlos, con las mismas
   entradas y pasos que la batería T-132 (herramientas/bateria_motor.py y banco_generadores.py), que se importan en
   diferido y no se modifican.
-ANTERIOR: legacy/ddd_motor2/generadores_v1.2.1_20261110.py
+CAMBIOS 1.2.3 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/ddd_motor2/generadores_v1.2.2_20261112.py
 GENERADORES:
   Canonico    M04 + M05 canónico vigente (7.4.4, semilla fija) + M06 = bateria_motor.motor_uno(t, out, "7.4.4").
   GerryChain  M04 + M05 GerryChain de producción ddd_core/m05_gerrychain_strategy.py (ReCom, --seed-count 1
@@ -62,6 +63,7 @@ from fractions import Fraction
 from pathlib import Path
 
 from .competicion import EntradaTerritorio, Salida
+from .semilla import territorio_ids  # noqa: E402  (T-220: ámbito por el resolutor)
 
 ROOT = Path(__file__).resolve().parents[1]
 M05_CANONICO = "7.4.4"
@@ -170,7 +172,7 @@ def piezas_finas(comp: Path, entrada: EntradaTerritorio, destino: Path, atributo
     from .reglas import Criterio, Reglas
     cfg = entrada.cfg
     part = cfg.get("partitioning") or {}
-    if entrada.territorio.startswith("congreso_"):
+    if territorio_ids.es_nacional(entrada.territorio):
         return Path(comp), {"aplicadas": False, "motivo": "Congreso: unidades M04"}
     if part.get("enabled") and part.get("strategy") == "connected_internal_units":
         return Path(comp), {"aplicadas": False, "motivo": "unidades internas del contrato (connected_internal_units)"}
@@ -288,7 +290,7 @@ class Vigente:
     def ruta(self, t: str) -> tuple[Path | None, str | None, str]:
         """(composición, run, motivo si no hay): la del visor o, con `carpeta`, <carpeta>/<t>.csv."""
         if self.carpeta is not None:
-            f = self.carpeta / f"{t}.csv"
+            f = territorio_ids.fichero_por_id(self.carpeta, "{}.csv", t)
             return (f, None, "") if f.is_file() else (None, None, f"no hay mapa publicado ({f.name})")
         from .vigente import vigente_publicado
         v = vigente_publicado(t, self.root)

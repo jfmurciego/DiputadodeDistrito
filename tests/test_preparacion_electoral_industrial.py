@@ -24,6 +24,7 @@ from herramientas.preparar_fuente_electoral import (
     validate_previous,
 )
 from ddd_core.electoral_contract import load_election_contract
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -48,9 +49,9 @@ class FakeResponse:
 class ResolverIndustrialTests(unittest.TestCase):
     def test_asturias_resolves_without_manual_current_election_row(self):
         catalog = yaml.safe_load((ROOT / "configuracion/elecciones_vigentes.yaml").read_text(encoding="utf-8"))
-        self.assertNotIn("principado_de_asturias", [r["territory_id"] for r in catalog["territories"]])
+        self.assertNotIn("aut03", [r["territory_id"] for r in catalog["territories"]])
         row = resolve("Principado de Asturias", root_dir=ROOT, edition="2025")
-        self.assertEqual(row["territory_id"], "principado_de_asturias")
+        self.assertEqual(row["territory_id"], "aut03")
         self.assertEqual(row["territorial_edition"], "2025")
         self.assertEqual(row["election_id"], "asturias_jgpa_2023")
         self.assertEqual(row["election_date"], "2023-05-28")
@@ -58,31 +59,31 @@ class ResolverIndustrialTests(unittest.TestCase):
 
     def test_aragon_resolves_from_materialized_contract_without_source_declaration(self):
         catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
-        aragon = next(r for r in catalog["territories"] if r["territory_id"] == "aragon")
+        aragon = next(r for r in catalog["territories"] if r["territory_id"] == "aut02")
         self.assertIsNone(aragon["editions"]["2025"]["electoral_source_declaration"])
         row = resolve("Aragón", root_dir=ROOT, edition="2025")
-        self.assertEqual(row["territory_id"], "aragon")
+        self.assertEqual(row["territory_id"], "aut02")
         self.assertEqual(row["election_id"], "aragon_cortes_2026-02-08")
         self.assertEqual(row["election_date"], "2026-02-08")
         self.assertEqual(row["declaration"], "")
         self.assertEqual(row["resolution_mode"], "materialized_election_contract")
         self.assertEqual(
             row["election_contract"],
-            "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
+            "territorios/aut02/config/elecciones/aragon_cortes_2026.json",
         )
 
     def test_aragon_materialized_contract_is_pinned_for_reuse(self):
-        params = ROOT / "territorios/aragon/config/aragon_2025.yaml"
+        params = ROOT / "territorios/aut02/config/aut02_2025.yaml"
         cfg = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
         m07 = (cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
         self.assertEqual(
             m07.get("election_contract"),
-            "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
+            "territorios/aut02/config/elecciones/aragon_cortes_2026.json",
         )
         self.assertFalse((cfg.get("meta") or {}).get("electoral_sources_declaration"))
         contract_path = ROOT / m07["election_contract"]
         contract = json.loads(contract_path.read_text(encoding="utf-8"))
-        self.assertEqual(contract["territory_id"], "aragon")
+        self.assertTrue(mismo_territorio(contract["territory_id"], "aut02"))  # T-220: el contrato conserva el id viejo
         self.assertEqual(contract["election_id"], "aragon_cortes_2026-02-08")
         self.assertEqual(contract["election_date"], "2026-02-08")
         source = contract["sources"][0]

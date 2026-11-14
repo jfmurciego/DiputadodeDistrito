@@ -13,7 +13,7 @@ import geopandas as gpd
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG = ROOT / "territorios/region_de_murcia/config/region_de_murcia_2025.yaml"
+CONFIG = ROOT / "territorios/aut14/config/aut14_2025.yaml"
 FIXTURE = ROOT / "tests/fixtures/murcia_m02_native_crs/source_touch_pairs_2023.geojson"
 SPEC = importlib.util.spec_from_file_location("m02_murcia", ROOT / "modulos/02_construir_adyacencias.py")
 M02 = importlib.util.module_from_spec(SPEC)

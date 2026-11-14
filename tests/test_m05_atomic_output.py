@@ -70,7 +70,7 @@ class AtomicOutputTests(unittest.TestCase):
                 graph = root / "graph.json"; graph.write_text("{}")
                 output.write_bytes(b"original durable checkpoint")
                 config = {
-                    "meta": {"territory_id": "madrid", "run_name": "madrid_2025"},
+                    "meta": {"territory_id": "aut13", "run_name": "aut13_2025"},
                     "modulos": {
                         "modulo_05_optimizar_distritos": {"in_graph_json": str(graph)},
                         "modulo_03_construir_grafo": {"out_graph_json": str(graph)},
@@ -291,15 +291,15 @@ class AtomicOutputTests(unittest.TestCase):
         module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
         with tempfile.TemporaryDirectory() as raw:
             root=Path(raw); module.ROOT=root
-            contract_dir=root/"territorios"/"madrid"/"config"; contract_dir.mkdir(parents=True)
-            (contract_dir/"madrid.yaml").write_text(yaml.safe_dump({"meta":{"run_name":"madrid_2025"}}))
+            contract_dir=root/"territorios"/"aut13"/"config"; contract_dir.mkdir(parents=True)
+            (contract_dir/"aut13.yaml").write_text(yaml.safe_dump({"meta":{"run_name":"aut13_2025"}}))
             graph=root/"graph.json"; graph.write_text("{}")
             output_dir=root/"durable"; output_dir.mkdir()
             keys=("out_summary_csv","out_catalog_csv","out_composition_csv","out_geojson","out_district_geojson","out_diagnostic_json")
             durable={key:output_dir/f"{key}.out" for key in keys}
             originals={key:f"previous:{key}".encode() for key in keys}
             for key,path in durable.items():path.write_bytes(originals[key])
-            cfg={"meta":{"territory_id":"madrid","run_name":"madrid_2025"},"modulos":{
+            cfg={"meta":{"territory_id":"aut13","run_name":"aut13_2025"},"modulos":{
                 "modulo_05_optimizar_distritos":{"in_graph_json":str(graph)},
                 "modulo_03_construir_grafo":{"out_graph_json":str(graph)},
                 "modulo_06_consolidar_distritos":{
@@ -356,10 +356,10 @@ class AtomicOutputTests(unittest.TestCase):
         module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
         with tempfile.TemporaryDirectory() as raw:
             root=Path(raw); module.ROOT=root
-            contract_dir=root/"territorios"/"madrid"/"config"; contract_dir.mkdir(parents=True)
-            (contract_dir/"madrid.yaml").write_text(yaml.safe_dump({"meta":{"run_name":"madrid_2025"}}))
+            contract_dir=root/"territorios"/"aut13"/"config"; contract_dir.mkdir(parents=True)
+            (contract_dir/"aut13.yaml").write_text(yaml.safe_dump({"meta":{"run_name":"aut13_2025"}}))
             graph=root/"graph.json"; graph.write_text("{}")
-            cfg={"meta":{"territory_id":"madrid","run_name":"madrid_2025"},"modulos":{
+            cfg={"meta":{"territory_id":"aut13","run_name":"aut13_2025"},"modulos":{
                 "modulo_05_optimizar_distritos":{"in_graph_json":str(graph)},
                 "modulo_03_construir_grafo":{"out_graph_json":str(graph)},
                 "modulo_06_consolidar_distritos":{"out_summary_csv":"s.csv","out_catalog_csv":"c.csv",

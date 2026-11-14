@@ -13,13 +13,13 @@ from ddd_ensemble.runner import ensure_plan, load_config
 from herramientas.leer_config_ensemble import describe
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIGS = sorted(p for p in (ROOT / "configuracion/ensemble").glob("*.json") if p.stem != "aragon")
+CONFIGS = sorted(p for p in (ROOT / "configuracion/ensemble").glob("*.json") if p.stem != "aut02")
 
 
 class ConfigsEnsembleTerritorialesTests(unittest.TestCase):
     def test_hay_piloto_y_provincias_adicionales(self):
         names = {p.stem for p in CONFIGS}
-        self.assertTrue({"congreso_salamanca", "congreso_la_rioja", "congreso_sevilla"} <= names, names)
+        self.assertTrue({"nac37", "nac26", "nac41"} <= names, names)
 
     def test_cada_config_es_coherente_con_su_contrato(self):
         for path in CONFIGS:
