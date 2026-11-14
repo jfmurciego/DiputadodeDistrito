@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.396
+Versión: 1.0.398
 Fecha: 2026-11-14
-Alcance: T-304 — Seguimiento de T-303: REUSE previo, poda sobre el paquete P10 y limpieza
+Alcance: T-305 — La P50 restaura de R2 el estado M08/M06 podado de Actions
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t304-seguimiento-bateria-p10.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.395_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t305-p50-restaura-estado-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.397_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.395_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.398 · [2026-11-14 — T-305 — La P50 restaura de R2 el estado M08/M06 podado de Actions](registro/2026-11-14_t305-p50-restaura-estado-r2.md)
+- 1.0.397 · [2026-11-14 — T-297 — Deslinde 1.1: frontera medida en D8 y candidato exacto (CP-SAT)](registro/2026-11-14_claude-t297-deslinde-1-1.md)
 - 1.0.396 · [2026-11-14 — T-304 — Seguimiento de T-303: REUSE previo, poda sobre el paquete P10 y limpieza](registro/2026-11-14_t304-seguimiento-bateria-p10.md)
 - 1.0.395 · [2026-11-14 — T-303 — La batería parte del paquete P10 de la fuente y recalcula M01-M03 con el código vigente](registro/2026-11-14_t303-bateria-desde-paquete-fuente.md)
 - 1.0.394 · [2026-11-14 — T-301 — La P50 versiona la composición vigente de cada M06 que publica](registro/2026-11-14_t301-p50-versiona-composicion.md)
