@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.405
+Versión: 1.0.407
 Fecha: 2026-11-14
-Alcance: T-280 — Licencia propietaria del repositorio (D-95)
+Alcance: T-307 — El registro de la preparación escribe el id canónico; la puerta sigue estricta
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t280-licencia-propietaria.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.404_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t307-id-legacy-alias-p00.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.406_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.404_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.407 · [2026-11-14 — T-307 — El registro de la preparación escribe el id canónico; la puerta sigue estricta](registro/2026-11-14_t307-id-legacy-alias-p00.md)
+- 1.0.406 · [2026-11-14 — T-306 — Inventario en solo lectura del histórico electoral desde 2011](registro/2026-11-14_t306-inventario-historico.md)
 - 1.0.405 · [2026-11-14 — T-280 — Licencia propietaria del repositorio (D-95)](registro/2026-11-14_t280-licencia-propietaria.md)
 - 1.0.404 · [2026-11-14 — T-308 — Revertir los commits de robots de la tanda 1 fallida (deslinde11-r2)](registro/2026-11-14_t308-revertir-tanda1-fallida.md)
 - 1.0.403 · [2026-11-14 — T-300 — Ficha de procedencia «De dónde sale este mapa» en el visor V3](registro/2026-11-14_t300-ficha-procedencia-visor-v3.md)
