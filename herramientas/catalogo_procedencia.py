@@ -3,8 +3,9 @@
 """Catálogo de procedencia único, derivado de los registros existentes (T-74).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.1 · FECHA: 2026-11-14 · ESTADO: candidato
-CAMBIOS: 1.4.1 (T-203): _nuevo captura solo IdTerritorioDesconocido; «eleccion_declarada» distingue election_date del registro de la elección por defecto.
+VERSIÓN: 1.5.0 · FECHA: 2026-11-14 · ESTADO: candidato
+CAMBIOS: 1.5.0 (T-300): «motor» (Deslinde y su versión, de paquetes/deslinde/pyproject.toml) y «fuentes_oficiales.resultados_electorales» (editor, enlace y huella por elección, de contratos_infoelectoral.yaml) para la ficha de procedencia del visor V3; el resto, igual.
+  1.4.1 (T-203): _nuevo captura solo IdTerritorioDesconocido; «eleccion_declarada» distingue election_date del registro de la elección por defecto.
   1.4.0 (T-203): cada producto lleva «eleccion» (election_date, por defecto 2023-07-23); la fuente (catalogo_preparacion, ids nuevos aut/nac tras T-220) se busca
   por id nuevo o viejo (resolver_id), antes las 71 fuentes salían vacías; ids de salida sin cambio.
   1.3.1 (T-203): la constante viene de eleccion_por_defecto (ligero), no del registro (pyproj).
@@ -15,7 +16,7 @@ CAMBIOS: 1.4.1 (T-203): _nuevo captura solo IdTerritorioDesconocido; «eleccion_
   1.0.0: fichero nuevo.
 MOTIVO: la procedencia estaba repartida en cinco registros; este índice la junta por territorio y producto sin migrar
   a sus escritores.
-ANTERIOR: legacy/herramientas/catalogo_procedencia_v1.4.0_20261114.py
+ANTERIOR: legacy/herramientas/catalogo_procedencia_v1.4.1_20261114.py
 QUÉ HACE: lee (solo lectura) orchestracion/publicaciones_visor.json, orchestracion/archivo_r2.json,
   datos_abiertos/INDEX.json, orchestracion/productos_publicos.json, fuentes/catalogo_oficial.yaml,
   configuracion/catalogo_preparacion.yaml, configuracion/publicaciones.yaml (DOI) y los MANIFEST de datos/composicion y
@@ -56,6 +57,8 @@ ENTRADAS = {
     "composicion": "datos/composicion/MANIFEST.json",
     "resultados": "datos/resultados/MANIFEST.json",
     "fuente_secundaria": "orchestracion/fuente_nazioenbehatokia.json",
+    "contratos_electorales": "configuracion/contratos_infoelectoral.yaml",
+    "motor": "paquetes/deslinde/pyproject.toml",
 }
 PUBLICADO = {"PUBLICABLE"}
 _SHA_EN_RUTA = re.compile(r"/([0-9a-f]{64})/")
@@ -66,6 +69,9 @@ def _leer(raiz: Path, rel: str):
     if not ruta.exists():
         return None
     texto = ruta.read_text(encoding="utf-8")
+    if rel.endswith(".toml"):
+        m = re.search(r'^version\s*=\s*"([^"]+)"', texto, re.M)
+        return {"version": m.group(1) if m else None}
     return yaml.safe_load(texto) if rel.endswith((".yaml", ".yml")) else json.loads(texto)
 
 
@@ -256,6 +262,14 @@ def generar(raiz: Path = ROOT) -> dict:
     incoherencias.sort(key=lambda i: (i["nivel"], i["codigo"], i["territorio"] or "", i["producto"], i["detalle"]))
     oficiales = {k: {"proveedor": v.get("provider_abbreviation"), "url": v.get("url") or v.get("current_endpoint")}
                  for k, v in ((d["fuentes_oficiales"] or {}).get("sources") or {}).items()}
+    resultados_ofi: dict = {}
+    for c in ((d["contratos_electorales"] or {}).get("contracts") or {}).values():
+        if c.get("election_date") and c.get("source_url"):
+            resultados_ofi.setdefault(str(c["election_date"]), {
+                "proveedor": c.get("publisher"), "url": c["source_url"], "sha256": c.get("source_sha256")})
+    if resultados_ofi:
+        oficiales["resultados_electorales"] = dict(sorted(resultados_ofi.items()))
+    motor = {"nombre": "Deslinde", "version": (d["motor"] or {}).get("version")}
     secundarias = {}
     fs = d["fuente_secundaria"]
     if fs:
@@ -279,6 +293,7 @@ def generar(raiz: Path = ROOT) -> dict:
         "schema": SCHEMA,
         "generado_por": "herramientas/catalogo_procedencia.py",
         "entradas": dict(sorted(ENTRADAS.items())),
+        "motor": motor,
         "fuentes_oficiales": oficiales,
         "fuentes_secundarias": secundarias,
         "resumen": {
