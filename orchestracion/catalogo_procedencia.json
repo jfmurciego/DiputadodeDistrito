@@ -3664,11 +3664,11 @@
   },
   "congreso_cuenca": {
    "fuente_territorial": {
-    "run_id": "41236647382",
+    "run_id": "43651979100",
     "package_sha256": "8325bca5fc3bc8170e644e6aea14fecc5325d19de22e0b48b268624e3f47a38d",
-    "artifact_sha256": "c5a7b2b573565cced64673bbf1e95a701570c9e739a2184a594e076eb9105dc6",
-    "territorial_identity_sha256": "9e9512f89d9d3c0e56571f9cca0f8aadcf3e58f00d84a482527ad2eb42bee75b",
-    "receipt_path": "territorios/nac16/evidencia/fuentes_territoriales/2025/9e9512f89d9d3c0e56571f9cca0f8aadcf3e58f00d84a482527ad2eb42bee75b/41236647382/receipt.json",
+    "artifact_sha256": "7e319865a2601226c129a6466d2ef94690de19fb28c824be5b3294893d2503d5",
+    "territorial_identity_sha256": "05638cd93d053839a67c5145b97be8833dd44c83b0c234947529cd3148e3c336",
+    "receipt_path": "territorios/nac16/evidencia/fuentes_territoriales/2025/05638cd93d053839a67c5145b97be8833dd44c83b0c234947529cd3148e3c336/43651979100/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -3916,11 +3916,11 @@
   },
   "congreso_granada": {
    "fuente_territorial": {
-    "run_id": "41243199582",
+    "run_id": "43652000219",
     "package_sha256": "f070e55093e12331f96971fc1cf739d192d36cbeff619f8772f5feb3e2fd8daf",
-    "artifact_sha256": "094fb840cd04e2e88639ee37848937610b5a530fb8d27f7a19bcae9b0d12d881",
-    "territorial_identity_sha256": "6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f",
-    "receipt_path": "territorios/nac18/evidencia/fuentes_territoriales/2025/6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f/41243199582/receipt.json",
+    "artifact_sha256": "d31d5222b94c6793109669a5ebbc78e16251b8c85014d24902e8ea2236236ebb",
+    "territorial_identity_sha256": "95e2db3fd6e20fdd0cc062700440e18d6608b95c31f9e21e07e5ac043fe6fd10",
+    "receipt_path": "territorios/nac18/evidencia/fuentes_territoriales/2025/95e2db3fd6e20fdd0cc062700440e18d6608b95c31f9e21e07e5ac043fe6fd10/43652000219/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
