@@ -277,7 +277,7 @@ Fase 4 — producto (en el privado):
 | T-310 | maplibre-gl servido desde el sitio | HECHA (#781) |
 | T-311, T-312 | Id canónico al reutilizar P10 (también en el contrato resuelto copiado) y revert de r3 tanda 1 | HECHA (#786) |
 | T-313 | Migración de notación P (D-102): inventario #784 (borrador) | PENDIENTE (después de la P50) |
-| T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? Resultado: transitorio, solo bloquea «Reutilizar» | REVISIÓN (#788); camino crítico |
+| T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? EN ESTUDIO: se rehace sobre main actual (la primera versión de #788 no pasó la revisión) | EN CURSO (#788); camino crítico |
 
 ### Frentes y camino crítico (14-11)
 1. Regeneración Deslinde 1.1 (ficha r3, PARADA): #786 fusionada; falta T-314 (#788) en main con CI verde → el Operador reanuda r3 desde el paso 1 (frase ya dada) → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
