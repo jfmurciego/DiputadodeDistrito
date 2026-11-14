@@ -16,6 +16,10 @@ class MetadatosZenodo(unittest.TestCase):
         self.assertEqual(c["affiliation"], "Independent researcher")
         self.assertEqual(c["orcid"], ORCID)
         self.assertEqual(z["license"], "apache-2.0")
+        # T-257 (D-88): la siguiente versión del concepto es el depósito único «Deslinde 1.0.0 y mapas»
+        self.assertEqual(z["title"], "Deslinde 1.0.0 y mapas")
+        self.assertEqual(z["version"], "1.0.0")
+        self.assertIn("Deslinde", z["description"])
 
     def test_citation_cff(self):
         t = (R / "CITATION.cff").read_text(encoding="utf-8")
@@ -26,6 +30,7 @@ class MetadatosZenodo(unittest.TestCase):
         self.assertIn('version: "4.9.0"', t)
         self.assertIn("license: Apache-2.0", t)
         self.assertNotIn("rellenar", t)
+        self.assertIn('title: "Deslinde 1.0.0 y mapas', t)  # T-257
 
     def test_doi_concepto_y_version_coherentes(self):
         concepto, version = "10.5281/zenodo.24093967", "10.5281/zenodo.24093968"

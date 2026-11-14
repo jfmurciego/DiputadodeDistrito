@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: >-
+  Si usas Deslinde o los mapas que produce, cítalo con estos metadatos. El DOI
+  de versión del depósito «Deslinde 1.0.0 y mapas» lo emite Zenodo al publicar
+  la Release; hasta entonces, cita el DOI de concepto de la serie.
+title: "Deslinde 1.0.0 y mapas: delimitación reproducible de distritos uninominales"
+type: software
+authors:
+  - family-names: "Murciego"
+    given-names: "Jesus"
+    affiliation: "Independent researcher"
+    orcid: "https://orcid.org/0009-0002-4434-959X"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24093967"
+    description: "DOI de CONCEPTO de la serie en Zenodo (resuelve a la última versión)."
+repository-code: "https://github.com/jfmurciego/DiputadodeDistrito"
+license: Apache-2.0
+version: "1.0.0"
+keywords:
+  - redistricting
+  - distritos uninominales
+  - GerryChain
+  - ReCom
+  - secciones censales
+abstract: >-
+  Trazado canónico + 10 cadenas ReCom ponderado + elección D8 + mapa vigente
+  como candidato opcional, con semilla pública derivada del código oficial del
+  territorio y de los sha256 de las fuentes del INE. Definición formal en
+  docs/ARQUITECTURA/DESLINDE_1_0.md del repositorio.

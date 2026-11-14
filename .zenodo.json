@@ -1,18 +1,49 @@
 {
-  "title": "Diputado de Distrito: motor reproducible de distritos uninominales",
+  "title": "Deslinde 1.0.0 y mapas",
+  "version": "1.0.0",
   "upload_type": "software",
   "creators": [
-    {"name": "Murciego, Jesus", "affiliation": "Independent researcher", "orcid": "0009-0002-4434-959X"}
+    {
+      "name": "Murciego, Jesus",
+      "affiliation": "Independent researcher",
+      "orcid": "0009-0002-4434-959X"
+    }
   ],
   "license": "apache-2.0",
   "access_right": "open",
   "language": "spa",
-  "keywords": ["redistricting", "distritos uninominales", "secciones censales", "GerryChain", "ReCom", "INE", "España"],
-  "description": "Motor modular M01–M08 para distritos uninominales desde secciones censales. Cada versión de este registro corresponde a un mapa publicado y conserva el ZIP de código fuente del repositorio en esa versión; el paquete firmado del mapa, su manifiesto SHA-256 y la atestación de procedencia están en la Release de GitHub, no en Zenodo. Los mapas no tienen valor oficial.",
+  "keywords": [
+    "Deslinde",
+    "redistricting",
+    "distritos uninominales",
+    "secciones censales",
+    "GerryChain",
+    "ReCom",
+    "INE",
+    "España"
+  ],
+  "description": "Deslinde 1.0.0: delimitación reproducible de distritos uninominales desde secciones censales (trazado canónico + 10 cadenas ReCom ponderado + elección D8 + mapa vigente como candidato opcional; definición formal en docs/ARQUITECTURA/DESLINDE_1_0.md). El depósito es una nueva versión de la serie 10.5281/zenodo.24093967 y contiene el paquete Python independiente (paquetes/deslinde: código, requirements-deslinde.lock, CITATION.cff, LICENSE) y los mapas regenerados con Deslinde, vinculados por sha256 en paquetes/deslinde/MAPAS.json (composición, GeoJSON, huella del resultado y semilla pública). No incluye datos de terceros: las tablas de naturalidad y las fuentes del INE las aporta quien ejecuta, y la salida registra su sha256. Los mapas no tienen valor oficial.",
   "related_identifiers": [
-    {"identifier": "10.5281/zenodo.24093967", "relation": "isVersionOf", "scheme": "doi"},
-    {"identifier": "https://github.com/jfmurciego/DiputadodeDistrito", "relation": "isSupplementTo", "scheme": "url"},
-    {"identifier": "https://jfmurciego.github.io/DiputadodeDistrito/", "relation": "isDocumentedBy", "scheme": "url"}
+    {
+      "identifier": "10.5281/zenodo.24093967",
+      "relation": "isVersionOf",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "https://github.com/jfmurciego/DiputadodeDistrito",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://jfmurciego.github.io/DiputadodeDistrito/",
+      "relation": "isDocumentedBy",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://github.com/jfmurciego/DiputadodeDistrito/blob/main/docs/ARQUITECTURA/DESLINDE_1_0.md",
+      "relation": "isDocumentedBy",
+      "scheme": "url"
+    }
   ],
   "notes": "Las fuentes territoriales proceden del INE (padrón y seccionado). Consultar las condiciones de reutilización del INE antes de redistribuir datos brutos."
 }
