@@ -26,7 +26,8 @@ QUÉ HACE:
   lo juzga además con la clave oficial, como a cualquier candidato.
   info: aplicable, motivo, estado (OPTIMO | MEJOR_VALIDO | SIN_SOLUCION | NO_APLICA), etapas [(nombre, estado, valor,
   cota)], átomos, versión de ortools; todo lo que cambia el plan entra en la huella de la competición.
-Necesita ortools (pin en paquetes/deslinde/requirements-deslinde.lock); sin él, info["estado"] = "SIN_ORTOOLS".
+Necesita ortools (requirements-exacto.lock, con hashes): si aplica y no está, RuntimeError EXACTO_SIN_ORTOOLS (la
+competición falla; nunca se salta en silencio).
 """
 from __future__ import annotations
 
@@ -343,8 +344,9 @@ def resolver(problema: Problema, reglas: Reglas, natural, pista: Mapping[str, st
         return None, {**info, "aplicable": False, "motivo": motivo, "estado": "NO_APLICA"}
     try:
         import ortools  # noqa: PLC0415
-    except ImportError:
-        return None, {**info, "aplicable": True, "estado": "SIN_ORTOOLS"}
+    except ImportError as exc:  # nunca se salta en silencio: sin él, la competición falla (T-297, Planificador)
+        raise RuntimeError("EXACTO_SIN_ORTOOLS: el candidato exacto aplica (D8, K ≤ 4) y ortools no está instalado; "
+                           "instala requirements-exacto.lock (--no-deps --require-hashes)") from exc
     info.update({"aplicable": True, "ortools": ortools.__version__})
     mod = _Modelo(problema, reglas, natural)
     info["atomos"] = mod.n

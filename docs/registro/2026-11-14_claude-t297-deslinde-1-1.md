@@ -12,10 +12,13 @@
       etapas. Aplica con 2 ≤ K ≤ 4, una circunscripción y sin exenciones.
     - `competicion.py` 1.5.0: candidato «exacto» con D8; si no prueba el óptimo, su mejor plan válido; si no hay
       ninguno, no compite. Entra en `huella_resultado`.
-    - lock con ortools 9.14.6206 y sus dependencias.
+    - lock con ortools 9.14.6206 y sus dependencias. `requirements-exacto.lock` 1.0.0, nuevo:
+  pines exactos con hashes, se instala con `--no-deps --require-hashes` (Dockerfile 1.3.0, batería y P30). Si el exacto
+  aplica y no hay ortools, la competición falla con `EXACTO_SIN_ORTOOLS`.
   - `bateria_motor.py` 1.2.7: el recuento de candidatos cuenta el exacto.
   - `bateria-motor.yml` 1.1.6 y `_reutilizable-generacion-territorial.yml` 1.5.2: instalan ortools con `--no-deps`.
-  - `DESLINDE_1_0.md` 1.1.0, con la copia anterior en `legacy/`.
+  - `DESLINDE_1_0.md` 1.1.0, con la copia anterior en `legacy/`; escribe también el desempate por desvío máximo
+  (término 7 de D8, sin cambio de orden). `HUELLAS_FIJAS` (D8) regeneradas.
 - Efectos:
   - Cambian los mapas, la huella motor2 y el binding pre-M04 (blob de M02 y M03) de todos los territorios. Toda 00
     debe ir con «Generar desde fuente».
@@ -24,4 +27,5 @@
 - Pruebas:
   - `tests/test_t297_deslinde_1_1.py`: exacto óptimo y determinista, «no aplica», frontera M02/M03 y recuento.
   - Suites de motor 2, paquete, M02, workflows y gobernanza, en local.
-  - Competición real en Burgos, Valladolid, Huesca y La Rioja, dos veces (misma huella).
+  - Competición real en Burgos, Valladolid, Huesca, La Rioja, Cuenca, Guadalajara y Lugo, dos veces cada una
+  (misma huella).

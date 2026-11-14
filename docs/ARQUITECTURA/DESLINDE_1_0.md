@@ -6,7 +6,8 @@ FECHA: 2026-11-14
 ESTADO: candidato (documento; describe el código de main ee8e776 más T-265 y T-257)
 CAMBIOS: 1.1.0 (T-297, Deslinde 1.1) — (H2) el término 6 de D8 (frontera cortada) usa por fin la longitud real: M02 7.4.0
   escribe `shared_border_m` en cada arista geométrica y M03 7.6.0 la conserva (antes valía 0 en todos los planes: T-296).
-  También el recargo de frontera corta del ponderado deja de ser uniforme. (H1) candidato nuevo «exacto» (§5):
+  También el recargo de frontera corta del ponderado deja de ser uniforme. (H1) candidato nuevo «exacto» (§5). (H3) desempate por desvío máximo escrito explícitamente en §3 (término 7, sin
+  cambio de orden):
   `exacto.py` 1.0.0, OR-Tools CP-SAT determinista sobre la clave D8 con las reglas del núcleo, si K ≤ 4 y una sola
   circunscripción. La aceptación no cambia, salvo el recuento de candidatos (+1 exacto). Cambian los mapas.
   1.0.2 (T-257, D-88) — §8 nuevo: el núcleo está en el paquete independiente `paquetes/deslinde` (fuente única;
@@ -116,7 +117,10 @@ mejor; `competicion.py:138-143` y `naturalidad_clave.py:64-79`):
    (`TOPES["D8"]`, `naturalidad_clave.py:43, 76-78`). El tope **solo sirve para elegir**; no es regla (cabecera, l. 26);
 5. partidos judiciales + comarcas agrarias repartidos en más de un distrito (`partidas`, l. 47-56);
 6. frontera cortada entre distritos, en km con 3 decimales (`corte_km`, l. 59-61; suma de `shared_border_m` del M03);
-7. desvío máximo relativo;
+7. desvío máximo relativo: **desempate por desvío máximo** (propietario, Deslinde 1.1): a igualdad de población dentro de
+   tolerancia (3-4), de demarcaciones partidas (5) y de forma (6), gana el plan con menor desvío máximo de población. Ya
+   era el término 7 en 1.0; en 1.1 se escribe explícitamente y el candidato exacto lo optimiza (en Cuenca, Guadalajara y
+   Lugo el ganador 1.0 perdía ahí frente al óptimo, T-296);
 8. huella del plan (partición sin etiquetas, `calidad.huella_plan`);
 9. orden del candidato (canónico 0, vigente 1, cadenas, exhaustivo, exacto).
 

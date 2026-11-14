@@ -1,0 +1,22 @@
+# PROYECTO: Diputado de Distrito
+# ENTORNO: candidato «exacto» de Deslinde 1.1 (T-297): OR-Tools CP-SAT
+# VERSIÓN: 1.0.0
+# FECHA: 2026-11-14
+# ESTADO: candidato
+# ANTERIOR: ninguna (fichero nuevo)
+# USO: python -m pip install --no-deps --require-hashes --requirement requirements-exacto.lock
+#   Encima de requirements.lock y SIN dependencias, como gerrychain: no cambia pandas, geopandas ni nada del entorno base
+#   (los workflows lo comprueban con pip freeze antes y después). Hashes de las ruedas linux x86_64 para Python 3.11
+#   (imagen Docker) y 3.13 (P30 y batería). Los mismos pines, sin hashes, en paquetes/deslinde/requirements-deslinde.lock.
+# LICENCIAS: ortools Apache-2.0; absl-py Apache-2.0; protobuf BSD-3-Clause; immutabledict MIT; typing_extensions PSF-2.0.
+absl-py==2.5.1 \
+    --hash=sha256:721200f2f0e9960f2ca9dc3a2a706b201f5f75d812c158f059cbbe29eeafbdb8
+immutabledict==4.3.1 \
+    --hash=sha256:c9facdc0ff30fdb8e35bd16532026cac472a549e182c94fa201b51b25e4bf7bf
+ortools==9.14.6206 \
+    --hash=sha256:9aa2c0c50a765c6a060960dcb0207bd6aeb6341f5adacb3d33e613b7e7409428 \
+    --hash=sha256:38044cf39952d93cbcc02f6acdbe0a9bd3628fbf17f0d7eb0374060fa028c22e
+protobuf==6.31.1 \
+    --hash=sha256:4ee898bf66f7a8b0bd21bce523814e6fbd8c6add948045ce958b73af7e8878c6
+typing_extensions==4.16.0 \
+    --hash=sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8

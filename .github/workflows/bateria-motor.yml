@@ -1,8 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: bateria-motor.yml
 # VERSIÓN: 1.1.6
-# CAMBIOS 1.1.6: T-297 (Deslinde 1.1): el job de competición instala además ortools y sus dependencias (pines de
-#   paquetes/deslinde/requirements-deslinde.lock) SIN dependencias, para el candidato exacto; el entorno base no cambia.
+# CAMBIOS 1.1.6: T-297 (Deslinde 1.1): el job de competición instala además ortools y sus dependencias (requirements-exacto.lock,
+#   versión exacta con hashes) SIN dependencias, para el candidato exacto; el entorno base no cambia.
 # CAMBIOS 1.1.4: T-215 (corte 5.0.0, paso 4), nombre visible v5 «VER Verificación del motor» (antes Auxiliar — Batería del Motor).
 # NOMBRE DE VERSIÓN: Batería del motor
 # FECHA: 2026-11-12
@@ -207,9 +207,8 @@ jobs:
           python -m pip freeze --all | sort > "$RUNNER_TEMP/antes.txt"
           grep -iE '^(gerrychain|networkx|rustworkx|scipy|tqdm|six)==' requirements-ensemble.lock > "$RUNNER_TEMP/cadenas.txt"
           python -m pip install --no-deps --requirement "$RUNNER_TEMP/cadenas.txt"
-          # T-297: el candidato exacto (CP-SAT) con los pines del lock de Deslinde, sin dependencias (no cambian el entorno base).
-          grep -iE '^(ortools|absl-py|immutabledict|protobuf|typing_extensions)==' paquetes/deslinde/requirements-deslinde.lock > "$RUNNER_TEMP/exacto.txt"
-          python -m pip install --no-deps --requirement "$RUNNER_TEMP/exacto.txt"
+          # T-297: el candidato exacto (OR-Tools CP-SAT), versión exacta con hashes, sin dependencias (no cambia el entorno base).
+          python -m pip install --no-deps --require-hashes --requirement requirements-exacto.lock
           python -m pip freeze --all | sort > "$RUNNER_TEMP/despues.txt"
           cambiados="$(comm -23 "$RUNNER_TEMP/antes.txt" "$RUNNER_TEMP/despues.txt")"
           [[ -z "$cambiados" ]] || { echo "::error::cambian paquetes del entorno base: $cambiados"; exit 1; }

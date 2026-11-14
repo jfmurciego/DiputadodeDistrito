@@ -109,19 +109,30 @@ class RecuentoBateria(unittest.TestCase):
 
 
 class InstalacionOrtools(unittest.TestCase):
-    def test_el_grep_de_los_workflows_y_el_dockerfile_da_los_cinco_pines(self):
-        """El bloque añadido en bateria-motor.yml, _reutilizable-generacion-territorial.yml y Dockerfile, bajo
-        `bash -eo pipefail` (como `shell: bash` en Actions): rc 0 y exactamente los cinco pines."""
-        import subprocess
-        orden = ("grep -iE '^(ortools|absl-py|immutabledict|protobuf|typing_extensions)==' "
-                 "paquetes/deslinde/requirements-deslinde.lock")
-        r = subprocess.run(["bash", "-eo", "pipefail", "-c", orden], cwd=ROOT, capture_output=True, text=True)
-        self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertEqual(sorted(x.split("==")[0].lower() for x in r.stdout.split()),
-                         ["absl-py", "immutabledict", "ortools", "protobuf", "typing_extensions"])
+    def test_lock_con_hashes_y_mismos_pines_que_el_paquete(self):
+        import re
+        exacto = (ROOT / "requirements-exacto.lock").read_text()
+        pines = dict(re.findall(r"(?m)^([A-Za-z0-9_.-]+)==(\S+)", exacto))
+        self.assertEqual(sorted(pines), ["absl-py", "immutabledict", "ortools", "protobuf", "typing_extensions"])
+        for nombre in pines:  # cada pin con al menos un --hash
+            self.assertRegex(exacto, rf"(?s){re.escape(nombre)}=={re.escape(pines[nombre])} \\\n\s+--hash=sha256:[0-9a-f]{{64}}")
+        paquete = dict(re.findall(r"(?m)^([A-Za-z0-9_.-]+)==(\S+)",
+                                  (ROOT / "paquetes/deslinde/requirements-deslinde.lock").read_text()))
+        self.assertEqual({k: paquete[k] for k in pines}, pines)
+
+    def test_workflows_y_dockerfile_lo_instalan_sin_dependencias_y_con_hashes(self):
         for f in (".github/workflows/bateria-motor.yml", ".github/workflows/_reutilizable-generacion-territorial.yml",
                   "Dockerfile"):
-            self.assertIn("(ortools|absl-py|immutabledict|protobuf|typing_extensions)==", (ROOT / f).read_text())
+            texto = (ROOT / f).read_text()
+            self.assertRegex(texto, r"pip install (--no-cache-dir )?--no-deps --require-hashes (--requirement|-r) "
+                                    r"(/app/)?requirements-exacto\.lock", f)
+
+    def test_sin_ortools_falla_con_error_claro(self):
+        from unittest import mock
+        from deslinde.exacto import resolver
+        with mock.patch.dict(sys.modules, {"ortools": None}):
+            with self.assertRaisesRegex(RuntimeError, "EXACTO_SIN_ORTOOLS"):
+                resolver(rejilla(), Reglas.desde_contrato(contrato(), Criterio()), _Natural({}, {}, {}), None)
 
 
 @unittest.skipUnless(TIENE_GEO, "sin shapely/geopandas")
