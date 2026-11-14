@@ -4,7 +4,7 @@ import unittest, yaml
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
-CFG=ROOT/"territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml"
+CFG=ROOT/"territorios/aut07/config/aut07_2025.yaml"
 SOURCE_SHA256="6d1b9254509f535e58f185ef3d93ff933c95a3f33999b5e353b380ca811e8892"
 # u, v, provincia_u, provincia_v, frontera_m, solape_m2.
 ADDITIONAL_CONTACTS=[

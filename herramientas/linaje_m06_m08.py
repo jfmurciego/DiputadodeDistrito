@@ -3,8 +3,9 @@
 """Linaje M06/M08 de un territorio publicado (T-249).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-11 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/linaje_m06_m08_v1.0.0_20261112.py
 QUÉ HACE: publicar un territorio es registrar el PAR: canonical_m06 (00 territorial) y canonical_m08 (00 electoral de la
   misma cadena, a menudo «Reutilizar» del bot con otro run_id). Un M08 es del linaje de un M06 si comparten run o si el
   manifiesto del run del M08 (territorios/<t>/evidencia/ejecuciones_completas/<run>.json) acredita que su 02 es el run del
@@ -21,11 +22,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import resultados_ligeros as rl  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 
 def m06_run_acreditado(m08_run: object, territorio: str, root: Path = ROOT) -> str | None:
     """Run del M06 que consumió la 04 del run `m08_run`, según su manifiesto; None si no lo acredita."""
-    ruta = root / "territorios" / territorio / "evidencia" / "ejecuciones_completas" / f"{m08_run}.json"
+    ruta = root / "territorios" / carpeta_de(root, territorio) / "evidencia" / "ejecuciones_completas" / f"{m08_run}.json"
     try:
         man = json.loads(ruta.read_text(encoding="utf-8"))
     except (OSError, ValueError):
@@ -41,7 +47,7 @@ def m06_del_m08(products: list[dict], p8: dict, root: Path = ROOT) -> dict | Non
     """canonical_m06 del linaje de `p8` (mismo territorio y elección): el de su run o el acreditado por su manifiesto."""
     t, elec = p8["territory_id"], rl.eleccion_de(p8)
     m6 = {str(p["run_id"]): p for p in products
-          if p.get("kind") == "canonical_m06" and p.get("territory_id") == t and rl.eleccion_de(p) == elec}
+          if p.get("kind") == "canonical_m06" and mismo_territorio(str(p.get("territory_id") or ""), str(t)) and rl.eleccion_de(p) == elec}
     run = str(p8["run_id"])
     if run in m6:
         return m6[run]

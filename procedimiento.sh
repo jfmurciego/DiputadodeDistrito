@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.9.3
+# VERSIÓN: 2.9.4
 # NOMBRE DE VERSIÓN: Semilla M05 canónica reparada para GerryChain
-# FECHA: 2026-10-30
+# FECHA: 2026-11-12
 # ESTADO: candidato
 # CAMBIOS: falla cerrado GerryChain 50 sin fallback; valida 50 candidatos y 50 hashes; registra algoritmo solicitado/efectivo, fallback, conteo y certificación pendiente M06.
 # MOTIVO: GerryChain 50 solo puede declarar éxito si se ejecutó realmente y produjo su portfolio completo; M05 no certifica el producto territorial.
@@ -11,10 +11,11 @@
 #   suelo que la ruta canónica repara en M05), se ejecuta el M05 canónico, su salida se copia como
 #   semilla y se revalida; GerryChain arranca de ella (--initial). Sin semilla admisible falla cerrado.
 #   La inviabilidad de cardinalidad (una unidad por distrito) falla sin intentar la semilla canónica.
-# ANTERIOR: legacy/procedimiento/procedimiento_v2.9.2.sh
+# CAMBIOS 2.9.4 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/procedimiento.sh/procedimiento_v2.9.3_20261112.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
-PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"
+PARAMS="${DDD_PARAMS:-territorios/aut02/config/aut02_2025.yaml}"
 MODO="${DDD_MODO:-completo}"
 RUN_ID="${DDD_RUN_ID:-${GITHUB_RUN_ID:-local-$(date -u +%Y%m%dT%H%M%SZ)}}"
 FROM_STAGE="${DDD_FROM_STAGE:-TERRITORY_PREPARATION}"

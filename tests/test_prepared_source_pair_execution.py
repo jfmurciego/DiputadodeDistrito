@@ -24,6 +24,7 @@ from herramientas.identidad_fuentes_legislatura import (
     electoral_identity,
     territorial_identity,
 )
+from ddd_core.territorio_ids import ruta_existente  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -374,12 +375,12 @@ class GeometricReuseTests(unittest.TestCase):
     def test_adopted_m06_does_not_inherit_historical_source_lineage(self):
         # Aragón adoptó el M06 40656036271; el linaje de 36321736287 no puede acreditarlo.
         old_receipt = json.loads((ROOT / (
-            "territorios/aragon/evidencia/fuentes_territoriales/2025/"
+            "territorios/aut02/evidencia/fuentes_territoriales/2025/"
             "4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0/"
             "35728613828/receipt.json")).read_text(encoding="utf-8"))
         reuse = resolve_geometric_reuse(
             root_dir=ROOT,
-            territory_id="aragon",
+            territory_id="aut02",
             edition="2025",
             current_identity=old_receipt["territorial_identity_sha256"],
         )
@@ -388,8 +389,8 @@ class GeometricReuseTests(unittest.TestCase):
 
     def test_historical_castilla_y_leon_reuses_only_matching_identity(self):
         cases = {
-            "castilla_y_leon": (
-                "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/"
+            "aut07": (
+                "territorios/aut07/evidencia/fuentes_territoriales/2025/"
                 "380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/"
                 "35610439734/receipt.json",
                 35889595424,
@@ -399,7 +400,7 @@ class GeometricReuseTests(unittest.TestCase):
         from tests._raiz_congelada import frozen_root
         root = frozen_root()
         for territory_id, (receipt_rel, product_run) in cases.items():
-            receipt = json.loads((root / receipt_rel).read_text(encoding="utf-8"))
+            receipt = json.loads(ruta_existente(root, receipt_rel).read_text(encoding="utf-8"))  # T-220: raíz de aee8215e
             current = receipt["territorial_identity_sha256"]
             with self.subTest(territory=territory_id, source="compatible"):
                 reuse = resolve_geometric_reuse(

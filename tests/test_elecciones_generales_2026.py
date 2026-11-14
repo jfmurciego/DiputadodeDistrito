@@ -23,7 +23,7 @@ class UniversoGenerales2026(unittest.TestCase):
     def test_cambios_respecto_a_2023(self):
         cambios = {c["territory_id"]: (c["escanos_2023"], c["escanos_2026"])
                    for c in self.u["circunscripciones"] if c["escanos_2023"] != c["escanos_2026"]}
-        self.assertEqual(cambios, {"congreso_madrid": (37, 38), "congreso_cadiz": (9, 8)})
+        self.assertEqual(cambios, {"nac28": (37, 38), "nac11": (9, 8)})
 
     def test_yaml_coincide_con_csv(self):
         por_cod = {r["codigo"]: int(r["escanos_2026"]) for r in self.csv}
@@ -31,7 +31,7 @@ class UniversoGenerales2026(unittest.TestCase):
             self.assertEqual(c["escanos_2026"], por_cod[c["codigo"]])
 
     def test_no_toca_k_de_ddd(self):
-        for tid, k in (("congreso_madrid", 59), ("congreso_cadiz", 11)):
+        for tid, k in (("nac28", 59), ("nac11", 11)):
             txt = (ROOT / f"territorios/{tid}/config/{tid}_2025.yaml").read_text(encoding="utf-8")
             self.assertIn(f"k_districts: {k}", txt)
 

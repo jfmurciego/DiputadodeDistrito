@@ -436,7 +436,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             cmd = [
                 sys.executable,
                 str(ROOT / "herramientas" / "escribir_manifest_ejecucion_completa.py"),
-                "--territory-id", "extremadura",
+                "--territory-id", "aut11",
                 "--territory-name", "Extremadura",
                 "--edition", "2025",
                 "--execution-mode", "reuse",
@@ -760,7 +760,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         catalog = load(ROOT / "configuracion/catalogo_preparacion.yaml")
         target = next(
             row for row in catalog["territories"]
-            if row["territory_id"] == "cantabria"
+            if row["territory_id"] == "aut06"
         )
         target["editions"]["2025"]["preparation_evidence"].pop(
             "compatibility_identity_sha256",
@@ -783,7 +783,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
 
     def test_catalog_source_mode_blocks_invalid_catalog_accreditation_before_generation(self):
         original = load(ROOT / "configuracion/catalogo_preparacion.yaml")
-        target = next(row for row in original["territories"] if row["territory_id"] == "cantabria")
+        target = next(row for row in original["territories"] if row["territory_id"] == "aut06")
         base_state = target["editions"]["2025"]
         mutations = {
             "missing_evidence": lambda state: state.pop("preparation_evidence", None),
@@ -791,13 +791,13 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             "invalid_digest": lambda state: state["preparation_evidence"].update(artifact_sha256="bad"),
             "missing_package_sha": lambda state: state["preparation_evidence"].pop("package_sha256", None),
             "wrong_provenance": lambda state: state.update(
-                territorial_source_declaration="territorios/andalucia/config/fuentes_oficiales.yaml"
+                territorial_source_declaration="territorios/aut01/config/fuentes_oficiales.yaml"
             ),
         }
         for name, mutate in mutations.items():
             with self.subTest(case=name), tempfile.TemporaryDirectory() as td:
                 data = json.loads(json.dumps(original))
-                row = next(r for r in data["territories"] if r["territory_id"] == "cantabria")
+                row = next(r for r in data["territories"] if r["territory_id"] == "aut06")
                 state = row["editions"]["2025"]
                 mutate(state)
                 catalog = Path(td) / "catalog.yaml"
@@ -857,7 +857,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8")) or {}
         melilla = next(
             row for row in catalog["territories"]
-            if row["territory_id"] == "melilla"
+            if row["territory_id"] == "aut19"
         )
         state = melilla["editions"]["2025"]
         state["territorial_sources_prepared"] = True
@@ -874,7 +874,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 encoding="utf-8",
             )
             plan = build_plan(
-                territory="melilla",
+                territory="aut19",
                 edition="2025",
                 execution_mode="from_start",
                 catalog=synthetic_catalog,
@@ -986,7 +986,7 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         data = load(ROOT / "configuracion/catalogo_preparacion.yaml")
         row = next(
             r for r in data["territories"]
-            if r["territory_id"] == "castilla_la_mancha"
+            if r["territory_id"] == "aut08"
         )
         state = row["editions"]["2025"]
         self.assertTrue(state["territorial_product_available"])
@@ -998,7 +998,7 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         self.assertIsInstance(current_run, int)
         territorial = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text())
         electoral = json.loads((ROOT / state["evidence"]["electoral_product"]).read_text())
-        enlazado = m08_enlaza_m06_vigente(ROOT, "castilla_la_mancha", territorial, electoral)
+        enlazado = m08_enlaza_m06_vigente(ROOT, "aut08", territorial, electoral)
         # T-247: el checkpoint es el run del M06 (stage M06) o el del M08 enlazado a él (stage M08, puede ser la 00
         # hija «Reutilizar»); antes exigía que fuera siempre el run del M06.
         if checkpoint["stage"] == "M08":
@@ -1114,7 +1114,7 @@ class AsturiasIncompatibleGeometricReuseRegressionTests(unittest.TestCase):
             "source_commit": "c" * 40,
         }
         plan = {
-            "territory_id": "principado_de_asturias",
+            "territory_id": "aut03",
             "territory_name": "Principado de Asturias",
             "edition": "2025",
             "execution_mode": "reuse",

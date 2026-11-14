@@ -9,6 +9,30 @@ from pathlib import Path
 from typing import Any
 
 from herramientas.validar_puerta_ejecucion import _artifact_name_is_consistent
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente, carpeta_de, misma_ruta  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core import territorio_ids  # noqa: E402
+
+
+def _historico_y_carpeta(territory_id: str) -> tuple[str, str]:
+    """T-220: (id con el que se selló la evidencia, carpeta viva donde está ahora)."""
+    try:
+        return territorio_ids.id_legacy(territory_id), territorio_ids.resolver_id(territory_id)
+    except (territorio_ids.IdTerritorioDesconocido, territorio_ids.IdReservado):
+        return territory_id, territory_id
+
+
+def _ruta_viva(rel: str) -> str:
+    """Ruta sellada `territorios/<viejo>/…` → carpeta viva `territorios/<nuevo>/…` (las evidencias se movieron)."""
+    partes = str(rel).split("/")
+    if len(partes) > 1 and partes[0] == "territorios":
+        viejo, partes[1] = partes[1], _historico_y_carpeta(partes[1])[1]
+        if len(partes) == 4 and partes[2] == "config" and re.fullmatch(re.escape(viejo) + r"_\d{4}\.yaml", partes[3]):
+            partes[3] = partes[1] + partes[3][len(viejo):]
+    return "/".join(partes)
 
 PASS_DECISIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
@@ -19,7 +43,7 @@ _PRODUCTION_RUN = re.compile(r"^production-(?P<run_id>[1-9][0-9]*)-(?P<attempt>[
 # Planning never queries Actions; it requires the durable bytes and provenance
 # to match these exact, reviewable materialization results.
 _TRUSTED_MATERIALIZATIONS = {
-    ("aragon", 36321736287): {
+    ("aragon", 36321736287): {  # t220: no es id (ancla histórica con el id de entonces; se busca por id_legacy)
         "source_commit": "2d4ab0f40e6461f9455155246a3238922179146f",
         "product": {
             "name": "ddd-state-36321736287-M06",
@@ -41,7 +65,7 @@ _TRUSTED_MATERIALIZATIONS = {
             "content_sha256": "849a15644bae4cd7b3137b2ee96874cbd1a289c8187b3b40709709a28d8af163",
         },
     },
-    ("castilla_y_leon", 35889595424): {
+    ("castilla_y_leon", 35889595424): {  # t220: no es id (ancla histórica con el id de entonces)
         "source_commit": "a041e5bd154c3bf2b01c0accf999771d17127644",
         "product": {
             "name": "ddd-state-35889595424-M06-campaign-35889595424-1--04--castilla_y_leon",
@@ -279,7 +303,7 @@ def _sealed_evidence(
             f"{evidence_name}: procedencia no coincide con la materialización original",
         )
 
-    path = root / rel
+    path = ruta_existente(root, rel.as_posix())  # T-220: carpeta nueva o, en raíces históricas, vieja
     if not path.is_file():
         _block("HISTORICAL_ACCREDITATION_MISSING", f"{evidence_name}: evidencia original durable ausente")
     try:
@@ -325,7 +349,7 @@ def _validate_gate(
     if (
         payload.get("schema") != "ddd.puerta-validacion/1.0"
         or payload.get("phase") != "territorial_product"
-        or str(payload.get("territory_id") or "") != territory_id
+        or not mismo_territorio(str(payload.get("territory_id") or ""), str(territory_id))
         or str(payload.get("edition") or "") != edition
         or _run_id(payload.get("run_id"), label="gate.run_id") != run_id
         or str(payload.get("artifact_name") or "") != asset["artifact_name"]
@@ -346,7 +370,7 @@ def _validate_audit(
     production_run = _PRODUCTION_RUN.fullmatch(str(status.get("run_id") or ""))
     if (
         status.get("schema") != "ddd.production-status/1.3"
-        or str(status.get("territory_id") or "") != territory_id
+        or not mismo_territorio(str(status.get("territory_id") or ""), str(territory_id))
         or not production_run
         or int(production_run.group("run_id")) != run_id
         or str(status.get("to_stage") or "") != "M06"
@@ -375,10 +399,12 @@ def derive_historical_territorial_producer(
 ) -> dict | None:
     root = root_dir.resolve()
     run_id = _run_id(asset.get("run_id"), label="territorial_product")
+    carpeta = carpeta_de(root, territory_id)  # carpeta viva (o la vieja en raíces históricas)
+    territory_id = _historico_y_carpeta(territory_id)[0]  # identidad sellada con el id de entonces
     path = (
         root
         / "territorios"
-        / territory_id
+        / carpeta
         / "evidencia"
         / "acreditaciones_historicas"
         / f"{run_id}.json"
@@ -393,11 +419,11 @@ def derive_historical_territorial_producer(
     if (
         record.get("schema") != "ddd.historical-territorial-accreditation/1.1"
         or record.get("kind") != "territorial_product"
-        or str(record.get("territory_id") or "") != territory_id
+        or not mismo_territorio(str(record.get("territory_id") or ""), str(territory_id))
         or str(record.get("edition") or "") != edition
         or _run_id(record.get("run_id"), label="record.run_id") != run_id
         or str(record.get("source_commit") or "") != source_commit
-        or str(record.get("receipt_path") or "") != str(receipt_rel)
+        or not misma_ruta(str(record.get("receipt_path") or ""), str(receipt_rel))
     ):
         _block("HISTORICAL_ACCREDITATION_IDENTITY_INVALID", "identidad base de la acreditación no coincide con el receipt")
     _verify_materialization_seal(record)
@@ -503,7 +529,7 @@ def derive_historical_territorial_producer(
         _block("HISTORICAL_ACCREDITATION_MISSING", "tratamiento histórico del manifiesto ausente")
     mode = str(historical.get("mode") or "")
     manifest_path = (
-        root / "territorios" / territory_id / "evidencia" / "ejecuciones_completas" / f"{run_id}.json"
+        root / "territorios" / carpeta / "evidencia" / "ejecuciones_completas" / f"{run_id}.json"
     )
 
     if mode == "missing_durable_manifest":
@@ -544,7 +570,7 @@ def derive_historical_territorial_producer(
     manifest = _load_json(manifest_path, label="manifiesto histórico durable")
     if (
         manifest.get("schema") != "ddd.full-run-manifest/2.1"
-        or str(manifest.get("territory_id") or "") != territory_id
+        or not mismo_territorio(str(manifest.get("territory_id") or ""), str(territory_id))
         or str(manifest.get("edition") or "") != edition
         or _run_id(manifest.get("workflow_run_id"), label="manifest.workflow_run_id") != run_id
         or str(manifest.get("source_sha") or "") != source_commit

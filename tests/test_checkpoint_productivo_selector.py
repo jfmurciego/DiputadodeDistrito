@@ -256,7 +256,7 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             inventory["sha256"]["cache/castilla_y_leon_2025_m04_semillas.geojson.zip"],
             "3791a1c5aee011b1972cfb13f0193929b3421a13b3d354bad67f7d638e777da4",
         )
-        params=ROOT / "territorios" / "castilla_y_leon" / "config" / "castilla_y_leon_2025.yaml"
+        params=ROOT / "territorios" / "aut07" / "config" / "aut07_2025.yaml"
         cfg=__import__("yaml").safe_load(params.read_text(encoding="utf-8")) or {}
         required=[]
         for module_name,module_cfg in (cfg.get("modulos") or {}).items():
@@ -270,6 +270,10 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
                         run_name=(cfg.get("meta") or {}).get("run_name"),
                         run_id="",
                     )).name)
+        # T-220: el checkpoint de 35319351944 conserva el run_name de entonces; tras renombrar, los checkpoints M04
+        # quedan invalidados (00 «Generar desde fuente») y la comparación se hace con el prefijo histórico.
+        historico=f"{__import__('ddd_core.territorio_ids',fromlist=['x']).id_legacy('aut07')}_2025"
+        required=[n.replace("aut07_2025", historico) for n in required]
         available={Path(p).name for p in inventory["files"] if p.startswith("cache/")}
         self.assertTrue(set(required) <= available)
         self.assertIn("sources/manifest.json",inventory["files"])

@@ -3,14 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: adquisición genérica de fuentes oficiales
-VERSIÓN: 1.4.1
+VERSIÓN: 1.4.2
 NOMBRE DE VERSIÓN: Evidencia poblacional antes del filtro
-FECHA: 2026-10-12
+FECHA: 2026-11-12
 ESTADO: candidato
 FUNCIÓN: materializar fuentes territoriales por declaración, preservando inmutables las copias oficiales nacionales.
 CAMBIOS: conserva bytes, huella y procedencia poblacional antes de filtrar, incluso si la adquisición queda bloqueada.
 MOTIVO: permitir reproducir los déficits de cobertura sin repetir descargas ni sustituir evidencias.
-ANTERIOR: legacy/herramientas/adquirir_fuentes_oficiales_pre_F10_raw_population_20261012.py
+CAMBIOS 1.4.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/adquirir_fuentes_oficiales_v1.4.1_20261112.py
 """
 from __future__ import annotations
 
@@ -38,6 +39,11 @@ from ddd_core.official_geometry import (
     validate_materialization_roundtrip,
 )
 from ddd_core.territorial_validation import parse_population_value, validate_geodataframe
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 FetchBytes = Callable[[str], bytes]
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -1321,7 +1327,7 @@ def resolve_runtime_bindings(
     contract_path = (
         root_dir
         / "territorios"
-        / territory_id
+        / carpeta_de(root_dir, territory_id)
         / "config"
         / f"{territory_id}_{edition}.yaml"
     )

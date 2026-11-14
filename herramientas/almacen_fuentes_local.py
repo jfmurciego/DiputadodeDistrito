@@ -142,7 +142,7 @@ def recover(inventory: Path, downloads: Path, store: Path, repository: Path) -> 
               'predecessor': None, 'status': 'LOCAL_ONLY', 'changes': 'nuevo manifiesto',
               'reason': 'conservación reproducible'}, 'inventory_sha256': sha256(inventory),
               'inventory_path': str(inventory), 'store': str(store), 'rows': []}
-    order = {'melilla': 0, 'la_rioja': 1, 'galicia': 2}
+    order = {'aut19': 0, 'aut17': 1, 'aut12': 2}
     for row in sorted(rows, key=lambda r: order.get(r['territory_id'], 3)):
         prior = [r for r in previous['rows'] if r['expected'] == row['expected']] if previous else []
         require(len(prior) <= 1, 'manifiesto previo ambiguo')

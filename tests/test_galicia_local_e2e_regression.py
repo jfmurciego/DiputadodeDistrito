@@ -60,7 +60,7 @@ class GaliciaLocalE2ERegressionTests(unittest.TestCase):
             self.assertEqual(result["records"], 2)
 
     def test_galicia_declara_pasarelas_y_cuotas_completas(self):
-        cfg = yaml.safe_load((ROOT / "territorios/galicia/config/galicia_2025.yaml").read_text(encoding="utf-8"))
+        cfg = yaml.safe_load((ROOT / "territorios/aut12/config/aut12_2025.yaml").read_text(encoding="utf-8"))
         bridges = cfg["modulos"]["modulo_02_construir_adyacencias"]["topology_bridges"]
         self.assertEqual([b["admin_scope"] for b in bridges], ["province:36", "municipality:36006"])
         self.assertEqual(cfg["validation"]["province_districts"], {"15": 31, "27": 9, "32": 9, "36": 26})

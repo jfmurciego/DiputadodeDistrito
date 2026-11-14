@@ -20,6 +20,6 @@ class G10Checkpoints(unittest.TestCase):
   self.assertIsNone(select_resume_checkpoint(items,changed_stage_id="DISTRICT_BALANCING",target_stage_id="TERRITORIAL_CERTIFICATION").resume_stage_id)
  def test_indice_acepta_evidencia_y_bloqueo(self):
   validate_checkpoint_index({"schema_version":"1.0","territories":[
-   {"territory":"aragon","source_run":"r","checkpoints":[self.items()[0]]},
-   {"territory":"extremadura","source_run":"r","checkpoints":[{"stage_id":"TERRITORY_GRAPH","status":"EXPERIMENTAL_BLOCKED","products_manifest":"M03/PRODUCTOS.json"}]}]})
+   {"territory":"aut02","source_run":"r","checkpoints":[self.items()[0]]},
+   {"territory":"aut11","source_run":"r","checkpoints":[{"stage_id":"TERRITORY_GRAPH","status":"EXPERIMENTAL_BLOCKED","products_manifest":"M03/PRODUCTOS.json"}]}]})
 if __name__=="__main__": unittest.main()

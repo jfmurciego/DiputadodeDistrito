@@ -25,7 +25,7 @@ class EleccionesDBProvisionalGuard(unittest.TestCase):
 
     def test_extremadura_provisional_is_governed_but_not_selectable(self):
         declaration = yaml.safe_load(
-            (ROOT / "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml").read_text(encoding="utf-8")
+            (ROOT / "territorios/aut11/config/elecciones/fuentes_oficiales_2025.yaml").read_text(encoding="utf-8")
         )
         evidence = declaration["provisional_evidence"]
         self.assertEqual(evidence["status"], "PROVISIONAL")
@@ -44,7 +44,7 @@ class EleccionesDBProvisionalGuard(unittest.TestCase):
 
     def test_extremadura_has_no_public_granular_definitive_source(self):
         declaration = yaml.safe_load(
-            (ROOT / "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml").read_text(encoding="utf-8")
+            (ROOT / "territorios/aut11/config/elecciones/fuentes_oficiales_2025.yaml").read_text(encoding="utf-8")
         )
         granular = {"section", "polling_station"}
         public_granular = [

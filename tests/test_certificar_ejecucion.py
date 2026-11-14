@@ -8,11 +8,11 @@ from herramientas.certificar_ejecucion import certify
 class TechnicalCertificationTests(unittest.TestCase):
     def evidence(self, *, v2=False, geometric_decision="PASS_WITH_EXCEPTIONS"):
         decision = {
-            "decision": "ADMITTED", "production_authorization": "AUTHORIZED", "territory_id": "aragon",
+            "decision": "ADMITTED", "production_authorization": "AUTHORIZED", "territory_id": "aut02",
             "contract": {"contract_sha256": "abc"},
         }
         status = {
-            "decision": geometric_decision, "territory_id": "aragon", "run_id": "production-1",
+            "decision": geometric_decision, "territory_id": "aut02", "run_id": "production-1",
             "from_stage": "M01", "to_stage": "M08", "execution_outcome": "success",
             "population_outcome": "success", "population_decision": "TARGET_MET",
             "population_target_required": False,

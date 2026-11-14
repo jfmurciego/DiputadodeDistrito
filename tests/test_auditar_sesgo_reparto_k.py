@@ -34,7 +34,7 @@ class RepartoKTest(unittest.TestCase):
         report = build_report(payload)
         self.assertEqual(report["decision"], "CLOSED_MEASURED_AND_PUBLISHED")
         by_territory = {row["territory_id"]: row for row in report["territories"]}
-        aragon = by_territory["aragon"]
+        aragon = by_territory["aut02"]
         self.assertEqual(aragon["total_population"], 1364621)
         self.assertEqual(aragon["k_districts"], 67)
         teruel = next(row for row in aragon["provinces"] if row["province_code"] == "44")

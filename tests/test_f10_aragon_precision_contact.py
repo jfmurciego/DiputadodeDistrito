@@ -14,7 +14,7 @@ from shapely.geometry import Polygon, box
 from ddd_core.official_geometry import _source_admissibility
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG = ROOT / "territorios/aragon/config/aragon_2025.yaml"
+CONFIG = ROOT / "territorios/aut02/config/aut02_2025.yaml"
 LEGACY = ROOT / "legacy/configuracion/aragon_2025_v7.14.0.yaml"
 M02 = runpy.run_path(str(ROOT / "modulos/02_construir_adyacencias.py"))["_relation_ok"]
 

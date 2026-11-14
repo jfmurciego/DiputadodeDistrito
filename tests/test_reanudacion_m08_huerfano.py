@@ -615,8 +615,8 @@ class OrphanM08DetectionTests(unittest.TestCase):
 
 class RealFreshIncorporationRegressionTests(unittest.TestCase):
     REAL_FAILURES = {
-        "castilla_la_mancha": [36488755336],
-        "ceuta": [36529371078, 36529371312],
+        "aut08": [36488755336],
+        "aut18": [36529371078, 36529371312],
     }
 
     def _assert_real_case(
@@ -728,7 +728,7 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         # Regla, no instantánea: el M08 vigente sólo se reutiliza si su
         # manifiesto productor lo liga al M06 vigente; si procede de otro M06
         # se rechaza sin fabricar pareja. Vale para cualquier ejecución futura.
-        evidence_root = ROOT / "territorios" / "castilla_la_mancha" / "evidencia"
+        evidence_root = ROOT / "territorios" / "aut08" / "evidencia"
         territorial = json.loads(
             (evidence_root / "catalogo" / "territorial_product_2025.json").read_text(encoding="utf-8")
         )
@@ -763,13 +763,13 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
             self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
 
-        result = scan(root_dir=ROOT, territory_id="castilla_la_mancha", edition="2025")
+        result = scan(root_dir=ROOT, territory_id="aut08", edition="2025")
         self.assertEqual(result["status"], "NONE")
         self.assertEqual(result["reason"], "NO_PENDING_FAILED_INCORPORATION")
         self.assertIsNone(result["absence_barrier_run_id"])
         self.assertEqual(result["retired_candidates"], [])
         self.assertEqual(
-            structural_candidates(root_dir=ROOT, territory_id="castilla_la_mancha", edition="2025"),
+            structural_candidates(root_dir=ROOT, territory_id="aut08", edition="2025"),
             [],
         )
 
@@ -777,7 +777,7 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         manifest_path = (
             ROOT
             / "territorios"
-            / "illes_balears"
+            / "aut04"
             / "evidencia"
             / "ejecuciones_completas"
             / "36573474139.json"
@@ -804,7 +804,7 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
 
         candidates = structural_candidates(
             root_dir=ROOT,
-            territory_id="illes_balears",
+            territory_id="aut04",
             edition="2025",
         )
         self.assertNotIn(36573474139, [row["run_id"] for row in candidates])
@@ -836,7 +836,7 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             return
         self._assert_real_case(
             territory_name="Ceuta",
-            territory_id="ceuta",
+            territory_id="aut18",
             failed_candidate_run=36482903970,
             persisted_false_runs=(36529371312,),
             expected_rebuild=True,

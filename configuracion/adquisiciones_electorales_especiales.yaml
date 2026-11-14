@@ -1,7 +1,7 @@
 schema: ddd-special-electoral-acquisitions/1.0
 acquisitions:
   andalucia_parlamento_2026:
-    territory_id: andalucia
+    territory_id: aut01
     election_date: '2026-05-17'
     kind: official_api_snapshot
     provider: siel

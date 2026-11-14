@@ -4,6 +4,11 @@ import hashlib
 import json
 import re
 from typing import Any
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import variantes  # noqa: E402  (T-220: id viejo o nuevo)
 
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
@@ -37,7 +42,19 @@ def territorial_identity(
     section_year: int,
     package_sha256: str,
     compatibility_identity_sha256: str | None = None,
+    esperado: str | None = None,
 ) -> dict:
+    """Identidad territorial canónica. T-220: con `esperado` (la huella de un receipt ya emitido), si no casa con el
+    id dado se prueba con sus variantes (id nuevo/viejo, ddd_core.territorio_ids.variantes): los receipts anteriores al
+    renombrado se sellaron con el id viejo y siguen reconciliando; los nuevos se sellan con el id nuevo."""
+    if esperado:
+        for variante in variantes(str(territory_id)):
+            candidata = territorial_identity(
+                territory_id=variante, edition=edition, population_year=population_year, section_year=section_year,
+                package_sha256=package_sha256, compatibility_identity_sha256=compatibility_identity_sha256,
+            )
+            if candidata["territorial_identity_sha256"] == str(esperado):
+                return candidata
     payload = {
         "territory_id": str(territory_id),
         "edition": str(edition),

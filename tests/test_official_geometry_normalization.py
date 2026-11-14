@@ -606,7 +606,7 @@ class OfficialGeometryNormalizationTests(unittest.TestCase):
     def test_consumer_fallback_crs_is_replayed_not_compared_to_policy_crs(self):
         declared = _geometry_declared_use(
             ROOT,
-            territory_id="castilla_y_leon",
+            territory_id="aut07",
             edition=2025,
             role="target_sectioning",
         )

@@ -400,7 +400,7 @@ class ContinueFromLastValidTests(unittest.TestCase):
 
     def test_castilla_la_mancha_m08_reuse_follows_m06_lineage(self):
         state = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text())
-        state = next(r for r in state["territories"] if r["territory_id"] == "castilla_la_mancha")["editions"]["2025"]
+        state = next(r for r in state["territories"] if r["territory_id"] == "aut08")["editions"]["2025"]
         territorial = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text())
         electoral = json.loads((ROOT / state["evidence"]["electoral_product"]).read_text())
         plan = build_plan(
@@ -415,7 +415,7 @@ class ContinueFromLastValidTests(unittest.TestCase):
         self.assertEqual(plan["existing"]["territorial_product"]["run_id"], territorial["run_id"])
         # El M06 vigente se reutiliza siempre; el M08 sólo si su linaje (fase 02 de su run) es el M06 vigente (T-247:
         # antes exigía el mismo run, y la cadena 00 → 00 «Reutilizar» de la campaña deja M06 y M08 en runs distintos).
-        if m08_enlaza_m06_vigente(ROOT, "castilla_la_mancha", territorial, electoral):
+        if m08_enlaza_m06_vigente(ROOT, "aut08", territorial, electoral):
             self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
         else:
             self.assertFalse(plan["existing"]["electoral_product"]["run_id"])

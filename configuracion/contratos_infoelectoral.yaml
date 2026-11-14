@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: contratos de fuentes oficiales Infoelectoral (Ministerio del Interior) por mesa
-# VERSIÓN: 1.2.2 · FECHA: 2026-10-31 · ESTADO: candidato
+# VERSIÓN: 1.2.3 · FECHA: 2026-11-12 · ESTADO: candidato
 # FUNCIÓN: fija URL, huella, ficheros, provincia y totales de control de cada elección adquirida del
 #   ZIP oficial por mesa. Los totales sin CERA se verificaron sobre el ZIP real el 30-10-2026 y cuadran
 #   con la Resolución de la JEC de 30-08-2023 (BOE) menos el CERA publicado por la JEC.
@@ -8,11 +8,12 @@
 # CAMBIOS 1.2.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.2.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
 # CAMBIOS 1.2.2: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
-# ANTERIOR: legacy/configuracion/contratos_infoelectoral_v1.2.1_islas_20261031.yaml
+# CAMBIOS 1.2.3 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/configuracion/contratos_infoelectoral_v1.2.2_20261112.yaml
 schema: ddd-infoelectoral-contracts/1.0
 contracts:
   congreso_huesca_2023-07-23:
-    territory_id: congreso_huesca
+    territory_id: nac22
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -45,7 +46,7 @@ contracts:
       null_votes_total: 1253
       cera: {census: 8142, voters: 958, candidate_votes: 943, blank_votes: 4, null_votes: 11}
   congreso_alava_2023-07-23:
-    territory_id: congreso_alava
+    territory_id: nac01
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -70,7 +71,7 @@ contracts:
       voters: 169441
       cera_records: 1
   congreso_albacete_2023-07-23:
-    territory_id: congreso_albacete
+    territory_id: nac02
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -95,7 +96,7 @@ contracts:
       voters: 223057
       cera_records: 1
   congreso_alicante_2023-07-23:
-    territory_id: congreso_alicante
+    territory_id: nac03
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -120,7 +121,7 @@ contracts:
       voters: 904381
       cera_records: 1
   congreso_almeria_2023-07-23:
-    territory_id: congreso_almeria
+    territory_id: nac04
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -145,7 +146,7 @@ contracts:
       voters: 321424
       cera_records: 1
   congreso_avila_2023-07-23:
-    territory_id: congreso_avila
+    territory_id: nac05
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -170,7 +171,7 @@ contracts:
       voters: 98237
       cera_records: 1
   congreso_badajoz_2023-07-23:
-    territory_id: congreso_badajoz
+    territory_id: nac06
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -195,7 +196,7 @@ contracts:
       voters: 396721
       cera_records: 1
   congreso_barcelona_2023-07-23:
-    territory_id: congreso_barcelona
+    territory_id: nac08
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -220,7 +221,7 @@ contracts:
       voters: 2667286
       cera_records: 1
   congreso_burgos_2023-07-23:
-    territory_id: congreso_burgos
+    territory_id: nac09
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -245,7 +246,7 @@ contracts:
       voters: 202740
       cera_records: 1
   congreso_caceres_2023-07-23:
-    territory_id: congreso_caceres
+    territory_id: nac10
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -270,7 +271,7 @@ contracts:
       voters: 238211
       cera_records: 1
   congreso_cadiz_2023-07-23:
-    territory_id: congreso_cadiz
+    territory_id: nac11
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -295,7 +296,7 @@ contracts:
       voters: 641933
       cera_records: 1
   congreso_castellon_2023-07-23:
-    territory_id: congreso_castellon
+    territory_id: nac12
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -320,7 +321,7 @@ contracts:
       voters: 310134
       cera_records: 1
   congreso_ciudad_real_2023-07-23:
-    territory_id: congreso_ciudad_real
+    territory_id: nac13
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -345,7 +346,7 @@ contracts:
       voters: 285943
       cera_records: 1
   congreso_cordoba_2023-07-23:
-    territory_id: congreso_cordoba
+    territory_id: nac14
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -370,7 +371,7 @@ contracts:
       voters: 453432
       cera_records: 1
   congreso_la_coruna_2023-07-23:
-    territory_id: congreso_la_coruna
+    territory_id: nac15
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -395,7 +396,7 @@ contracts:
       voters: 672785
       cera_records: 1
   congreso_cuenca_2023-07-23:
-    territory_id: congreso_cuenca
+    territory_id: nac16
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -420,7 +421,7 @@ contracts:
       voters: 114910
       cera_records: 1
   congreso_gerona_2023-07-23:
-    territory_id: congreso_gerona
+    territory_id: nac17
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -445,7 +446,7 @@ contracts:
       voters: 324824
       cera_records: 1
   congreso_granada_2023-07-23:
-    territory_id: congreso_granada
+    territory_id: nac18
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -470,7 +471,7 @@ contracts:
       voters: 504830
       cera_records: 1
   congreso_guadalajara_2023-07-23:
-    territory_id: congreso_guadalajara
+    territory_id: nac19
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -495,7 +496,7 @@ contracts:
       voters: 141987
       cera_records: 1
   congreso_guipuzcoa_2023-07-23:
-    territory_id: congreso_guipuzcoa
+    territory_id: nac20
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -520,7 +521,7 @@ contracts:
       voters: 374628
       cera_records: 1
   congreso_huelva_2023-07-23:
-    territory_id: congreso_huelva
+    territory_id: nac21
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -545,7 +546,7 @@ contracts:
       voters: 260172
       cera_records: 1
   congreso_jaen_2023-07-23:
-    territory_id: congreso_jaen
+    territory_id: nac23
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -570,7 +571,7 @@ contracts:
       voters: 372097
       cera_records: 1
   congreso_leon_2023-07-23:
-    territory_id: congreso_leon
+    territory_id: nac24
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -595,7 +596,7 @@ contracts:
       voters: 273742
       cera_records: 1
   congreso_lerida_2023-07-23:
-    territory_id: congreso_lerida
+    territory_id: nac25
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -620,7 +621,7 @@ contracts:
       voters: 185171
       cera_records: 1
   congreso_la_rioja_2023-07-23:
-    territory_id: congreso_la_rioja
+    territory_id: nac26
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -645,7 +646,7 @@ contracts:
       voters: 175458
       cera_records: 1
   congreso_lugo_2023-07-23:
-    territory_id: congreso_lugo
+    territory_id: nac27
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -670,7 +671,7 @@ contracts:
       voters: 196972
       cera_records: 1
   congreso_madrid_2023-07-23:
-    territory_id: congreso_madrid
+    territory_id: nac28
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -695,7 +696,7 @@ contracts:
       voters: 3594693
       cera_records: 1
   congreso_malaga_2023-07-23:
-    territory_id: congreso_malaga
+    territory_id: nac29
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -720,7 +721,7 @@ contracts:
       voters: 792942
       cera_records: 1
   congreso_murcia_2023-07-23:
-    territory_id: congreso_murcia
+    territory_id: nac30
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -745,7 +746,7 @@ contracts:
       voters: 751711
       cera_records: 1
   congreso_navarra_2023-07-23:
-    territory_id: congreso_navarra
+    territory_id: nac31
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -770,7 +771,7 @@ contracts:
       voters: 342284
       cera_records: 1
   congreso_orense_2023-07-23:
-    territory_id: congreso_orense
+    territory_id: nac32
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -795,7 +796,7 @@ contracts:
       voters: 182216
       cera_records: 1
   congreso_asturias_2023-07-23:
-    territory_id: congreso_asturias
+    territory_id: nac33
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -820,7 +821,7 @@ contracts:
       voters: 594417
       cera_records: 1
   congreso_palencia_2023-07-23:
-    territory_id: congreso_palencia
+    territory_id: nac34
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -845,7 +846,7 @@ contracts:
       voters: 97309
       cera_records: 1
   congreso_pontevedra_2023-07-23:
-    territory_id: congreso_pontevedra
+    territory_id: nac36
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -870,7 +871,7 @@ contracts:
       voters: 569295
       cera_records: 1
   congreso_salamanca_2023-07-23:
-    territory_id: congreso_salamanca
+    territory_id: nac37
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -895,7 +896,7 @@ contracts:
       voters: 198897
       cera_records: 1
   congreso_cantabria_2023-07-23:
-    territory_id: congreso_cantabria
+    territory_id: nac39
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -920,7 +921,7 @@ contracts:
       voters: 351698
       cera_records: 1
   congreso_segovia_2023-07-23:
-    territory_id: congreso_segovia
+    territory_id: nac40
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -945,7 +946,7 @@ contracts:
       voters: 89381
       cera_records: 1
   congreso_sevilla_2023-07-23:
-    territory_id: congreso_sevilla
+    territory_id: nac41
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -970,7 +971,7 @@ contracts:
       voters: 1070436
       cera_records: 1
   congreso_soria_2023-07-23:
-    territory_id: congreso_soria
+    territory_id: nac42
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -995,7 +996,7 @@ contracts:
       voters: 50479
       cera_records: 1
   congreso_tarragona_2023-07-23:
-    territory_id: congreso_tarragona
+    territory_id: nac43
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -1020,7 +1021,7 @@ contracts:
       voters: 370434
       cera_records: 1
   congreso_teruel_2023-07-23:
-    territory_id: congreso_teruel
+    territory_id: nac44
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -1045,7 +1046,7 @@ contracts:
       voters: 76118
       cera_records: 1
   congreso_toledo_2023-07-23:
-    territory_id: congreso_toledo
+    territory_id: nac45
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -1070,7 +1071,7 @@ contracts:
       voters: 391467
       cera_records: 1
   congreso_valencia_2023-07-23:
-    territory_id: congreso_valencia
+    territory_id: nac46
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -1095,7 +1096,7 @@ contracts:
       voters: 1443668
       cera_records: 1
   congreso_valladolid_2023-07-23:
-    territory_id: congreso_valladolid
+    territory_id: nac47
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -1120,7 +1121,7 @@ contracts:
       voters: 317147
       cera_records: 1
   congreso_vizcaya_2023-07-23:
-    territory_id: congreso_vizcaya
+    territory_id: nac48
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -1145,7 +1146,7 @@ contracts:
       voters: 611348
       cera_records: 1
   congreso_zamora_2023-07-23:
-    territory_id: congreso_zamora
+    territory_id: nac49
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -1170,7 +1171,7 @@ contracts:
       voters: 102925
       cera_records: 1
   congreso_zaragoza_2023-07-23:
-    territory_id: congreso_zaragoza
+    territory_id: nac50
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -1195,7 +1196,7 @@ contracts:
       voters: 519339
       cera_records: 1
   congreso_ceuta_2023-07-23:
-    territory_id: congreso_ceuta
+    territory_id: nac51
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -1220,7 +1221,7 @@ contracts:
       voters: 33585
       cera_records: 1
   congreso_melilla_2023-07-23:
-    territory_id: congreso_melilla
+    territory_id: nac52
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -1245,7 +1246,7 @@ contracts:
       voters: 27472
       cera_records: 1
   congreso_santa_cruz_de_tenerife_2023-07-23:
-    territory_id: congreso_santa_cruz_de_tenerife
+    territory_id: nac38
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -1270,7 +1271,7 @@ contracts:
       voters: 496119
       cera_records: 1
   congreso_baleares_2023-07-23:
-    territory_id: congreso_baleares
+    territory_id: nac07
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
@@ -1295,7 +1296,7 @@ contracts:
       voters: 505851
       cera_records: 1
   congreso_las_palmas_2023-07-23:
-    territory_id: congreso_las_palmas
+    territory_id: nac35
     election_date: '2023-07-23'
     publisher: Ministerio del Interior — Infoelectoral
     license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'

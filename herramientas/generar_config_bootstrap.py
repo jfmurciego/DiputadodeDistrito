@@ -3,20 +3,26 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Generador de configuración bootstrap territorial
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Bootstrap M01-M03 observable
-FECHA: 2026-09-12
+FECHA: 2026-11-12
 ESTADO: vigente — R022
 QUÉ HACE: genera un YAML efímero M01-M03 para un territorio del catálogo nacional, con auditorías topológicas activas y enforcement desactivado.
 POR QUÉ ES SEPARADA: el catálogo planifica territorios; esta herramienta transforma esa declaración en un contrato ejecutable sin duplicar YAML ni lógica en Actions.
 CAMBIOS: primera versión.
 MOTIVO: ejecutar Madrid y el resto de España con el mismo motor y medir antes de fijar cardinalidades, puentes, K o tolerancias.
-ANTERIOR: ninguno — herramienta nueva.
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_config_bootstrap_v1.0.0_20261112.py
 """
 from __future__ import annotations
 import argparse
 from pathlib import Path
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 def main():
     ap=argparse.ArgumentParser()
@@ -28,7 +34,7 @@ def main():
     ap.add_argument("--out",required=True)
     a=ap.parse_args()
     cat=yaml.safe_load(Path(a.catalog).read_text(encoding="utf-8"))
-    matches=[x for x in cat["territories"] if x["territory_id"]==a.territory]
+    matches=[x for x in cat["territories"] if mismo_territorio(str(x["territory_id"] or ""), str(a.territory))]
     if len(matches)!=1: raise SystemExit(f"Territorio no único/no encontrado: {a.territory}")
     t=matches[0];tid=t["territory_id"];edition=int(a.edition);population_year=int(a.population_year);section_year=int(a.section_year);run=f"{tid}_{edition}";base=f"territorios/{tid}/.cache/ddd/preparacion/{{run_name}}"
     cfg={

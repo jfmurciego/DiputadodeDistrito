@@ -24,7 +24,7 @@ def generation_fixture(root, mode="territorial_only", with_receipt=True):
  # No live catalog entry is assumed to authorize a new generation.
  from herramientas._resolver_ejecucion_completa_core import _contract_generation_binding, _pre_m04_implementation_binding
  catalog=yaml.safe_load((ROOT/"configuracion/catalogo_preparacion.yaml").read_text())
- row=copy.deepcopy(next(r for r in catalog["territories"] if r["territory_id"]=="cantabria"))
+ row=copy.deepcopy(next(r for r in catalog["territories"] if r["territory_id"]=="aut06"))
  state=row["editions"]["2025"]
  contract=yaml.safe_load((ROOT/state["contract_path"]).read_text())
  evidence=json.loads((ROOT/"tests/fixtures/gestor_campana/cantabria_generation_preflight_2025.json").read_text())
@@ -49,6 +49,8 @@ def generation_fixture(root, mode="territorial_only", with_receipt=True):
  evidence["source"].update({k:v for k,v in prep.items() if k!="receipt_path"})
  evidence["graph"]["artifact_name"]="ddd-state-7-M03"
  evidence["partitioning"]["job_artifact_name"]="ddd-internal-units-7"
+ # T-220: la fixture se selló con las rutas de caché del id viejo; la entrada de M04 es la del contrato vivo.
+ evidence["partitioning"]["contract_output_geojson"]=contract["modulos"]["modulo_04_generar_semillas"]["in_geojson"]
  contract["generation_state"]={"source_prepared":True,"generation_enabled":True,
   "package_sha256":prep["package_sha256"],"compatibility_identity_sha256":prep["compatibility_identity_sha256"],
   "pre_m04_run_id":7,"pre_m04_source_commit":evidence["source_commit"],
@@ -68,10 +70,10 @@ def generation_fixture(root, mode="territorial_only", with_receipt=True):
      "electoral_source":{"electoral_identity_sha256":"3"*64}}}
   (root/("pair.json" if mode=="electoral" else "receipt.json")).write_text(json.dumps(receipt))
  (root/"configuracion/catalogo_preparacion.yaml").write_text(yaml.safe_dump({"schema":"ddd-preparation-catalog/1.1","default_edition":"2025","territories":[row]}))
- m=build_manifest(selected=["cantabria"],publication_mode=mode,source_sha="a"*40,
+ m=build_manifest(selected=["aut06"],publication_mode=mode,source_sha="a"*40,
                   strategy="GerryChain 50",campaign_instance="fixture",root=root)
  r=m["territories"][0]
- plan={"territory_id":"cantabria","edition":"2025","optimization_algorithm":"GerryChain 50",
+ plan={"territory_id":"aut06","edition":"2025","optimization_algorithm":"GerryChain 50",
        "contract_path":"contract.yaml","publication_mode_effective":mode,
        "existing":{"territorial_source":dict(prep)}}
  plan["prepared_source_pair" if mode=="electoral" else "prepared_territorial_source"]={
@@ -322,7 +324,7 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertNotEqual(phase["artifact_digest"].removeprefix("sha256:"),ceuta["preparation_evidence"]["artifact_sha256"])
 
  def test_matrix_rejects_unblocked_route_mismatch_and_inconsistent_blockers(self):
-  m=build_manifest(selected=["galicia"],publication_mode="electoral",
+  m=build_manifest(selected=["aut12"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="route-negative",root=ROOT)
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
@@ -339,7 +341,7 @@ class NationalCampaignTests(unittest.TestCase):
 
  def test_manifest_freezes_all_lineage_and_rejects_electoral_source_drift(self):
   from herramientas.gestor_campana_nacional import _campaign_lineage_identity
-  m=build_manifest(selected=["galicia"],publication_mode="electoral",
+  m=build_manifest(selected=["aut12"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="lineage-check",root=ROOT)
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
@@ -384,8 +386,8 @@ class NationalCampaignTests(unittest.TestCase):
    validate_campaign_child(plan=tampered,**args)
 
  def test_cardinalities_and_codauto_order(self):
-  ids=[r["territory_id"] for r in canonical_selection([r["territory_id"] for r in canonical_selection(["andalucia"])] )]
-  self.assertEqual(ids,["andalucia"])
+  ids=[r["territory_id"] for r in canonical_selection([r["territory_id"] for r in canonical_selection(["aut01"])] )]
+  self.assertEqual(ids,["aut01"])
   from herramientas.catalogo_territorios import load_master
   all_ids=[r["territory_id"] for r in load_master()]
   for n in (1,5,12,19):
@@ -574,7 +576,7 @@ class NationalCampaignTests(unittest.TestCase):
  def test_incomplete_duplicate_or_foreign_results_never_promote(self):
   with tempfile.TemporaryDirectory() as td:
    m,_=generation_fixture(Path(td))
-   report={"territory_id":"cantabria","slot":"06","publication_mode":"territorial_only",
+   report={"territory_id":"aut06","slot":"06","publication_mode":"territorial_only",
            "campaign_instance":"fixture","source_sha":m["source_sha"],"manifest_sha256":m["manifest_sha256"],
            "status":"PASS","candidate_count_expected":50,"candidate_count_valid":50,
            "unique_candidate_hash_count":50,"missing_candidate_hash_count":0,"duplicate_candidate_hash_count":0}
@@ -586,14 +588,14 @@ class NationalCampaignTests(unittest.TestCase):
      s=aggregate(m,[{**report,field:value}])
      self.assertEqual(s["status"],"FAIL")
      with self.assertRaises(ValueError): validate_campaign_summary_for_promotion(s)
-   for reports in ([],[report,report],[report,{**report,"territory_id":"galicia"}]):
+   for reports in ([],[report,report],[report,{**report,"territory_id":"aut12"}]):
     s=aggregate(m,reports)
     self.assertEqual(s["status"],"FAIL")
     with self.assertRaises(ValueError): validate_campaign_summary_for_promotion(s)
 
  def test_same_cardinality_does_not_allow_substituting_selected_territory(self):
   with self.assertRaisesRegex(ValueError,"territorios seleccionados"):
-   publication_matrix([{"territory_id":"galicia","release_tag":"r","namespace":"n"}],1,["cantabria"])
+   publication_matrix([{"territory_id":"aut12","release_tag":"r","namespace":"n"}],1,["aut06"])
 
  def test_workflow_freezes_every_strategy_and_handles_all_blocked_without_children(self):
   text=Path(".github/workflows/gestor-campanas.yml").read_text()
@@ -731,9 +733,9 @@ class SelectionInputTests(unittest.TestCase):
   """1.1.0 (2026-10-31): selección legible y permisos compatibles con el 00 llamado."""
   def test_names_numbers_and_all(self):
     from herramientas.gestor_campana_nacional import parse_selection
-    self.assertEqual(["cantabria","extremadura"],parse_selection("6, Extremadura",ROOT))
-    self.assertEqual(["comunidad_valenciana"],parse_selection("comunidad valenciana",ROOT))
-    self.assertEqual(["castilla_y_leon"],parse_selection("07 Castilla y León",ROOT))
+    self.assertEqual(["aut06","aut11"],parse_selection("6, Extremadura",ROOT))
+    self.assertEqual(["aut10"],parse_selection("comunidad valenciana",ROOT))
+    self.assertEqual(["aut07"],parse_selection("07 Castilla y León",ROOT))
     self.assertEqual(19,len(parse_selection("Todos",ROOT)))
     with self.assertRaisesRegex(ValueError,"no reconocidos: Narnia"):
       parse_selection("Galicia, Narnia",ROOT)

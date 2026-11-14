@@ -2,7 +2,7 @@
 """Gestor de Campañas 2.0 (T-105, D-22): seis entradas en español → plan en seco o campaña sin chats.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.3.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.3.0 (T-133): la campaña completa con tipo autonómico planifica también el histórico autonómico desde 2011
   (herramientas/historico_autonomico.py: paso A por comunidad, cada una con su calendario); filas con `tipo`
   («general» o «autonomico») y una prueba de cada tipo. Las comunidades sin paso B se omiten con su motivo.
@@ -14,7 +14,8 @@ CAMBIOS: 1.1.0 (T-113): «histórico: generales 2019-11» planifica el paso A de
   (herramientas/historico_campana.py; matriz `historico` del plan, la ejecutan los jobs del workflow); el resto de
   elecciones históricas, el tipo autonómico, el mapa 350, el ensemble y publicar siguen fallando con mensaje claro.
   1.0.0: fichero nuevo.
-ANTERIOR: legacy/herramientas/gestor_campanas_2_v1.2.0_20261109.py
+CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/gestor_campanas_2_v1.3.0_20261112.py
 QUÉ HACE: traduce las entradas del formulario «0 Gestor de Campañas», en el orden de D-22, a un plan de
   `legislatura_vigente.py` y, si «solo plan» está desactivado, lo lanza: 00 (con su cadena par → 00 electoral)
   → 05 si «publicar» = sí → 06 `ensemble_10` si «ensemble» = 10.
@@ -39,6 +40,11 @@ import clave_eleccion as ce  # noqa: E402
 import historico_autonomico as ha  # noqa: E402
 import historico_campana as hc  # noqa: E402
 import legislatura_vigente as lv  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 VIGENTE = "legislatura vigente"
 COMPLETA = "campaña completa"
@@ -94,7 +100,7 @@ def _resolve_tokens(cfg: dict, tipo: str, mapa: str, tokens: list[str], root: Pa
         out, unknown = [], []
         for t in tokens:
             hits = [r["territory_id"] for r in aut if ce._matches_filter(units[r["territory_id"]], t)
-                    or any(_is_community(c, t) and c["territory_id"] == r["territory_id"] for c in _communities(root))]
+                    or any(_is_community(c, t) and mismo_territorio(str(c["territory_id"] or ""), str(r["territory_id"])) for c in _communities(root))]
             (out.extend(hits) if hits else unknown.append(t))
         if unknown:
             raise lv.GestorError(f"Comunidades desconocidas: {', '.join(unknown)} (nombre o código INE de comunidad, 01-19)")

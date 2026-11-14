@@ -24,7 +24,7 @@ PREP = ROOT / ".github/workflows/preparacion-fuentes.yml"
 GEN = ROOT / ".github/workflows/produccion-distritos.yml"
 CAT = ROOT / "configuracion/catalogo_preparacion.yaml"
 MASTER = ROOT / "configuracion/catalogo_territorios_espana_2025.yaml"
-EXT = ROOT / "territorios/extremadura/config/extremadura_2025.yaml"
+EXT = ROOT / "territorios/aut11/config/aut11_2025.yaml"
 
 
 class AutomaticCatalogPromotionTests(unittest.TestCase):
@@ -100,10 +100,10 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         from herramientas.promover_catalogo_tras_preparacion import _catalog_state_bounds
 
         lines = CAT.read_text(encoding="utf-8").splitlines()
-        start, end = _catalog_state_bounds(lines, "galicia", "2025")
+        start, end = _catalog_state_bounds(lines, "aut12", "2025")
         block = lines[start:end]
         self.assertTrue(any(line.strip() == "preparation_status: READY" for line in block))
-        self.assertTrue(any(line.strip() == "contract_path: territorios/galicia/config/galicia_2025.yaml" for line in block))
+        self.assertTrue(any(line.strip() == "contract_path: territorios/aut12/config/aut12_2025.yaml" for line in block))
 
     def test_preparation_evidence_is_inserted_after_complete_checkpoint_block(self):
         with tempfile.TemporaryDirectory() as td:
@@ -216,7 +216,7 @@ territories:
 
     def test_master_catalog_matches_extremadura_promotion(self):
         master = yaml.safe_load(MASTER.read_text(encoding="utf-8"))
-        row = next(r for r in master["territories"] if r["territory_id"] == "extremadura")
+        row = next(r for r in master["territories"] if r["territory_id"] == "aut11")
         self.assertIn(row["status"], ESTADOS_PREPARADO)
         self.assertEqual(row["contract_level"], "production_m01_m06")
         self.assertEqual(row["production_authorization"], "AUTHORIZED")

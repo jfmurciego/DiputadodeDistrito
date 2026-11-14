@@ -1,8 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: elecciones_generales_2026.yaml
-# VERSIÓN: 1.0.0
-# FECHA: 2026-11-08
-# ANTERIOR: ninguna (fichero nuevo)
+# VERSIÓN: 1.0.1
+# FECHA: 2026-11-12
+# CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/configuracion/elecciones_generales_2026_v1.0.0_20261112.yaml
 # QUÉ ES: universo electoral de las generales del 29-11-2026 (RD 806/2026, BOE-A-2026-20742): una fila por
 #   circunscripción con su escaño oficial. Es dato electoral; NO es el K de DDD (N06), que vive en los contratos.
 #   Aún sin resultados (Interior no ha publicado); la legislatura vigente sigue siendo la de 2023.
@@ -15,55 +16,55 @@ fuente:
   escanos_csv: configuracion/escanos_oficiales_congreso_2026.csv
 total_escanos: 350
 circunscripciones:
-- {territory_id: congreso_alava, codigo: '01', election_id: congreso_alava_2026-11-29, escanos_2026: 4, escanos_2023: 4}
-- {territory_id: congreso_albacete, codigo: '02', election_id: congreso_albacete_2026-11-29, escanos_2026: 4, escanos_2023: 4}
-- {territory_id: congreso_alicante, codigo: '03', election_id: congreso_alicante_2026-11-29, escanos_2026: 12, escanos_2023: 12}
-- {territory_id: congreso_almeria, codigo: '04', election_id: congreso_almeria_2026-11-29, escanos_2026: 6, escanos_2023: 6}
-- {territory_id: congreso_avila, codigo: '05', election_id: congreso_avila_2026-11-29, escanos_2026: 3, escanos_2023: 3}
-- {territory_id: congreso_badajoz, codigo: '06', election_id: congreso_badajoz_2026-11-29, escanos_2026: 5, escanos_2023: 5}
-- {territory_id: congreso_baleares, codigo: '07', election_id: congreso_baleares_2026-11-29, escanos_2026: 8, escanos_2023: 8}
-- {territory_id: congreso_barcelona, codigo: '08', election_id: congreso_barcelona_2026-11-29, escanos_2026: 32, escanos_2023: 32}
-- {territory_id: congreso_burgos, codigo: '09', election_id: congreso_burgos_2026-11-29, escanos_2026: 4, escanos_2023: 4}
-- {territory_id: congreso_caceres, codigo: '10', election_id: congreso_caceres_2026-11-29, escanos_2026: 4, escanos_2023: 4}
-- {territory_id: congreso_cadiz, codigo: '11', election_id: congreso_cadiz_2026-11-29, escanos_2026: 8, escanos_2023: 9}
-- {territory_id: congreso_castellon, codigo: '12', election_id: congreso_castellon_2026-11-29, escanos_2026: 5, escanos_2023: 5}
-- {territory_id: congreso_ciudad_real, codigo: '13', election_id: congreso_ciudad_real_2026-11-29, escanos_2026: 5, escanos_2023: 5}
-- {territory_id: congreso_cordoba, codigo: '14', election_id: congreso_cordoba_2026-11-29, escanos_2026: 6, escanos_2023: 6}
-- {territory_id: congreso_la_coruna, codigo: '15', election_id: congreso_la_coruna_2026-11-29, escanos_2026: 8, escanos_2023: 8}
-- {territory_id: congreso_cuenca, codigo: '16', election_id: congreso_cuenca_2026-11-29, escanos_2026: 3, escanos_2023: 3}
-- {territory_id: congreso_gerona, codigo: '17', election_id: congreso_gerona_2026-11-29, escanos_2026: 6, escanos_2023: 6}
-- {territory_id: congreso_granada, codigo: '18', election_id: congreso_granada_2026-11-29, escanos_2026: 7, escanos_2023: 7}
-- {territory_id: congreso_guadalajara, codigo: '19', election_id: congreso_guadalajara_2026-11-29, escanos_2026: 3, escanos_2023: 3}
-- {territory_id: congreso_guipuzcoa, codigo: '20', election_id: congreso_guipuzcoa_2026-11-29, escanos_2026: 6, escanos_2023: 6}
-- {territory_id: congreso_huelva, codigo: '21', election_id: congreso_huelva_2026-11-29, escanos_2026: 5, escanos_2023: 5}
-- {territory_id: congreso_huesca, codigo: '22', election_id: congreso_huesca_2026-11-29, escanos_2026: 3, escanos_2023: 3}
-- {territory_id: congreso_jaen, codigo: '23', election_id: congreso_jaen_2026-11-29, escanos_2026: 5, escanos_2023: 5}
-- {territory_id: congreso_leon, codigo: '24', election_id: congreso_leon_2026-11-29, escanos_2026: 4, escanos_2023: 4}
-- {territory_id: congreso_lerida, codigo: '25', election_id: congreso_lerida_2026-11-29, escanos_2026: 4, escanos_2023: 4}
-- {territory_id: congreso_la_rioja, codigo: '26', election_id: congreso_la_rioja_2026-11-29, escanos_2026: 4, escanos_2023: 4}
-- {territory_id: congreso_lugo, codigo: '27', election_id: congreso_lugo_2026-11-29, escanos_2026: 4, escanos_2023: 4}
-- {territory_id: congreso_madrid, codigo: '28', election_id: congreso_madrid_2026-11-29, escanos_2026: 38, escanos_2023: 37}
-- {territory_id: congreso_malaga, codigo: '29', election_id: congreso_malaga_2026-11-29, escanos_2026: 11, escanos_2023: 11}
-- {territory_id: congreso_murcia, codigo: '30', election_id: congreso_murcia_2026-11-29, escanos_2026: 10, escanos_2023: 10}
-- {territory_id: congreso_navarra, codigo: '31', election_id: congreso_navarra_2026-11-29, escanos_2026: 5, escanos_2023: 5}
-- {territory_id: congreso_orense, codigo: '32', election_id: congreso_orense_2026-11-29, escanos_2026: 4, escanos_2023: 4}
-- {territory_id: congreso_asturias, codigo: '33', election_id: congreso_asturias_2026-11-29, escanos_2026: 7, escanos_2023: 7}
-- {territory_id: congreso_palencia, codigo: '34', election_id: congreso_palencia_2026-11-29, escanos_2026: 3, escanos_2023: 3}
-- {territory_id: congreso_las_palmas, codigo: '35', election_id: congreso_las_palmas_2026-11-29, escanos_2026: 8, escanos_2023: 8}
-- {territory_id: congreso_pontevedra, codigo: '36', election_id: congreso_pontevedra_2026-11-29, escanos_2026: 7, escanos_2023: 7}
-- {territory_id: congreso_salamanca, codigo: '37', election_id: congreso_salamanca_2026-11-29, escanos_2026: 4, escanos_2023: 4}
-- {territory_id: congreso_santa_cruz_de_tenerife, codigo: '38', election_id: congreso_santa_cruz_de_tenerife_2026-11-29, escanos_2026: 7, escanos_2023: 7}
-- {territory_id: congreso_cantabria, codigo: '39', election_id: congreso_cantabria_2026-11-29, escanos_2026: 5, escanos_2023: 5}
-- {territory_id: congreso_segovia, codigo: '40', election_id: congreso_segovia_2026-11-29, escanos_2026: 3, escanos_2023: 3}
-- {territory_id: congreso_sevilla, codigo: '41', election_id: congreso_sevilla_2026-11-29, escanos_2026: 12, escanos_2023: 12}
-- {territory_id: congreso_soria, codigo: '42', election_id: congreso_soria_2026-11-29, escanos_2026: 2, escanos_2023: 2}
-- {territory_id: congreso_tarragona, codigo: '43', election_id: congreso_tarragona_2026-11-29, escanos_2026: 6, escanos_2023: 6}
-- {territory_id: congreso_teruel, codigo: '44', election_id: congreso_teruel_2026-11-29, escanos_2026: 3, escanos_2023: 3}
-- {territory_id: congreso_toledo, codigo: '45', election_id: congreso_toledo_2026-11-29, escanos_2026: 6, escanos_2023: 6}
-- {territory_id: congreso_valencia, codigo: '46', election_id: congreso_valencia_2026-11-29, escanos_2026: 16, escanos_2023: 16}
-- {territory_id: congreso_valladolid, codigo: '47', election_id: congreso_valladolid_2026-11-29, escanos_2026: 5, escanos_2023: 5}
-- {territory_id: congreso_vizcaya, codigo: '48', election_id: congreso_vizcaya_2026-11-29, escanos_2026: 8, escanos_2023: 8}
-- {territory_id: congreso_zamora, codigo: '49', election_id: congreso_zamora_2026-11-29, escanos_2026: 3, escanos_2023: 3}
-- {territory_id: congreso_zaragoza, codigo: '50', election_id: congreso_zaragoza_2026-11-29, escanos_2026: 7, escanos_2023: 7}
-- {territory_id: congreso_ceuta, codigo: '51', election_id: congreso_ceuta_2026-11-29, escanos_2026: 1, escanos_2023: 1}
-- {territory_id: congreso_melilla, codigo: '52', election_id: congreso_melilla_2026-11-29, escanos_2026: 1, escanos_2023: 1}
+- {territory_id: nac01, codigo: '01', election_id: congreso_alava_2026-11-29, escanos_2026: 4, escanos_2023: 4}
+- {territory_id: nac02, codigo: '02', election_id: congreso_albacete_2026-11-29, escanos_2026: 4, escanos_2023: 4}
+- {territory_id: nac03, codigo: '03', election_id: congreso_alicante_2026-11-29, escanos_2026: 12, escanos_2023: 12}
+- {territory_id: nac04, codigo: '04', election_id: congreso_almeria_2026-11-29, escanos_2026: 6, escanos_2023: 6}
+- {territory_id: nac05, codigo: '05', election_id: congreso_avila_2026-11-29, escanos_2026: 3, escanos_2023: 3}
+- {territory_id: nac06, codigo: '06', election_id: congreso_badajoz_2026-11-29, escanos_2026: 5, escanos_2023: 5}
+- {territory_id: nac07, codigo: '07', election_id: congreso_baleares_2026-11-29, escanos_2026: 8, escanos_2023: 8}
+- {territory_id: nac08, codigo: '08', election_id: congreso_barcelona_2026-11-29, escanos_2026: 32, escanos_2023: 32}
+- {territory_id: nac09, codigo: '09', election_id: congreso_burgos_2026-11-29, escanos_2026: 4, escanos_2023: 4}
+- {territory_id: nac10, codigo: '10', election_id: congreso_caceres_2026-11-29, escanos_2026: 4, escanos_2023: 4}
+- {territory_id: nac11, codigo: '11', election_id: congreso_cadiz_2026-11-29, escanos_2026: 8, escanos_2023: 9}
+- {territory_id: nac12, codigo: '12', election_id: congreso_castellon_2026-11-29, escanos_2026: 5, escanos_2023: 5}
+- {territory_id: nac13, codigo: '13', election_id: congreso_ciudad_real_2026-11-29, escanos_2026: 5, escanos_2023: 5}
+- {territory_id: nac14, codigo: '14', election_id: congreso_cordoba_2026-11-29, escanos_2026: 6, escanos_2023: 6}
+- {territory_id: nac15, codigo: '15', election_id: congreso_la_coruna_2026-11-29, escanos_2026: 8, escanos_2023: 8}
+- {territory_id: nac16, codigo: '16', election_id: congreso_cuenca_2026-11-29, escanos_2026: 3, escanos_2023: 3}
+- {territory_id: nac17, codigo: '17', election_id: congreso_gerona_2026-11-29, escanos_2026: 6, escanos_2023: 6}
+- {territory_id: nac18, codigo: '18', election_id: congreso_granada_2026-11-29, escanos_2026: 7, escanos_2023: 7}
+- {territory_id: nac19, codigo: '19', election_id: congreso_guadalajara_2026-11-29, escanos_2026: 3, escanos_2023: 3}
+- {territory_id: nac20, codigo: '20', election_id: congreso_guipuzcoa_2026-11-29, escanos_2026: 6, escanos_2023: 6}
+- {territory_id: nac21, codigo: '21', election_id: congreso_huelva_2026-11-29, escanos_2026: 5, escanos_2023: 5}
+- {territory_id: nac22, codigo: '22', election_id: congreso_huesca_2026-11-29, escanos_2026: 3, escanos_2023: 3}
+- {territory_id: nac23, codigo: '23', election_id: congreso_jaen_2026-11-29, escanos_2026: 5, escanos_2023: 5}
+- {territory_id: nac24, codigo: '24', election_id: congreso_leon_2026-11-29, escanos_2026: 4, escanos_2023: 4}
+- {territory_id: nac25, codigo: '25', election_id: congreso_lerida_2026-11-29, escanos_2026: 4, escanos_2023: 4}
+- {territory_id: nac26, codigo: '26', election_id: congreso_la_rioja_2026-11-29, escanos_2026: 4, escanos_2023: 4}
+- {territory_id: nac27, codigo: '27', election_id: congreso_lugo_2026-11-29, escanos_2026: 4, escanos_2023: 4}
+- {territory_id: nac28, codigo: '28', election_id: congreso_madrid_2026-11-29, escanos_2026: 38, escanos_2023: 37}
+- {territory_id: nac29, codigo: '29', election_id: congreso_malaga_2026-11-29, escanos_2026: 11, escanos_2023: 11}
+- {territory_id: nac30, codigo: '30', election_id: congreso_murcia_2026-11-29, escanos_2026: 10, escanos_2023: 10}
+- {territory_id: nac31, codigo: '31', election_id: congreso_navarra_2026-11-29, escanos_2026: 5, escanos_2023: 5}
+- {territory_id: nac32, codigo: '32', election_id: congreso_orense_2026-11-29, escanos_2026: 4, escanos_2023: 4}
+- {territory_id: nac33, codigo: '33', election_id: congreso_asturias_2026-11-29, escanos_2026: 7, escanos_2023: 7}
+- {territory_id: nac34, codigo: '34', election_id: congreso_palencia_2026-11-29, escanos_2026: 3, escanos_2023: 3}
+- {territory_id: nac35, codigo: '35', election_id: congreso_las_palmas_2026-11-29, escanos_2026: 8, escanos_2023: 8}
+- {territory_id: nac36, codigo: '36', election_id: congreso_pontevedra_2026-11-29, escanos_2026: 7, escanos_2023: 7}
+- {territory_id: nac37, codigo: '37', election_id: congreso_salamanca_2026-11-29, escanos_2026: 4, escanos_2023: 4}
+- {territory_id: nac38, codigo: '38', election_id: congreso_santa_cruz_de_tenerife_2026-11-29, escanos_2026: 7, escanos_2023: 7}
+- {territory_id: nac39, codigo: '39', election_id: congreso_cantabria_2026-11-29, escanos_2026: 5, escanos_2023: 5}
+- {territory_id: nac40, codigo: '40', election_id: congreso_segovia_2026-11-29, escanos_2026: 3, escanos_2023: 3}
+- {territory_id: nac41, codigo: '41', election_id: congreso_sevilla_2026-11-29, escanos_2026: 12, escanos_2023: 12}
+- {territory_id: nac42, codigo: '42', election_id: congreso_soria_2026-11-29, escanos_2026: 2, escanos_2023: 2}
+- {territory_id: nac43, codigo: '43', election_id: congreso_tarragona_2026-11-29, escanos_2026: 6, escanos_2023: 6}
+- {territory_id: nac44, codigo: '44', election_id: congreso_teruel_2026-11-29, escanos_2026: 3, escanos_2023: 3}
+- {territory_id: nac45, codigo: '45', election_id: congreso_toledo_2026-11-29, escanos_2026: 6, escanos_2023: 6}
+- {territory_id: nac46, codigo: '46', election_id: congreso_valencia_2026-11-29, escanos_2026: 16, escanos_2023: 16}
+- {territory_id: nac47, codigo: '47', election_id: congreso_valladolid_2026-11-29, escanos_2026: 5, escanos_2023: 5}
+- {territory_id: nac48, codigo: '48', election_id: congreso_vizcaya_2026-11-29, escanos_2026: 8, escanos_2023: 8}
+- {territory_id: nac49, codigo: '49', election_id: congreso_zamora_2026-11-29, escanos_2026: 3, escanos_2023: 3}
+- {territory_id: nac50, codigo: '50', election_id: congreso_zaragoza_2026-11-29, escanos_2026: 7, escanos_2023: 7}
+- {territory_id: nac51, codigo: '51', election_id: congreso_ceuta_2026-11-29, escanos_2026: 1, escanos_2023: 1}
+- {territory_id: nac52, codigo: '52', election_id: congreso_melilla_2026-11-29, escanos_2026: 1, escanos_2023: 1}

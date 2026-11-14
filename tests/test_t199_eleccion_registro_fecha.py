@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """T-199: dimensión de elección en el registro del visor (compatible hacia atrás) y FECHA parametrizada.
 
-PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-10 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
+PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato · ANTERIOR: legacy/tests/test_t199_eleccion_registro_fecha_v1.0.0_20261112.py
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 """
 import json
 import sys
@@ -21,7 +22,7 @@ def entrada(run, **extra):
     sha = "%064x" % int(run)
     e = {"id": f"m08-congreso_huesca-{run}", "asset_type": "electoral_product", "source_type": "repository_blob",
          "repository": "o/r", "blob_sha": sha[-40:], "immutable_location": f"github-git-blob://o/r/{sha[-40:]}",
-         "territory_id": "congreso_huesca", "sha256": sha, "kind": "canonical_m08", "run_id": str(run), "canonical": True}
+         "territory_id": "nac22", "sha256": sha, "kind": "canonical_m08", "run_id": str(run), "canonical": True}
     e.update(extra)
     return e
 
@@ -64,7 +65,7 @@ class Registro(unittest.TestCase):
 
 class Descriptores(unittest.TestCase):
     def _descriptores(self, **kw):
-        meta = {"territory_id": "congreso_huesca", "territory_label": "Huesca", "expected_districts": 2,
+        meta = {"territory_id": "nac22", "territory_label": "Huesca", "expected_districts": 2,
                 "production_status": {"decision": "PASS"}}
         with mock.patch.object(rpv, "production_metadata", return_value=meta), \
                 mock.patch.object(rpv, "read_json", return_value={"decision": "PASS"}), \
@@ -118,8 +119,8 @@ class Fecha(unittest.TestCase):
     def test_vigentes_por_eleccion_no_se_pisan(self):
         t = Path(tempfile.mkdtemp()) / "r.json"
         t.write_text(json.dumps(registro(entrada(1), entrada(9, election_date="2026-11-29"))), encoding="utf-8")
-        self.assertEqual(rp.vigentes_eleccion(t)["congreso_huesca"]["run_id"], "1")
-        self.assertEqual(rp.vigentes_eleccion(t, "2026-11-29")["congreso_huesca"]["run_id"], "9")
+        self.assertEqual(rp.vigentes_eleccion(t)["nac22"]["run_id"], "1")
+        self.assertEqual(rp.vigentes_eleccion(t, "2026-11-29")["nac22"]["run_id"], "9")
 
 
 if __name__ == "__main__":

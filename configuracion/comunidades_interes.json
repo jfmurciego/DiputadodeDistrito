@@ -33,20 +33,20 @@
     "not_evaluable_blocks_publication": true
   },
   "territories": {
-    "aragon": {
-      "configuration": "territorios/aragon/config/aragon_2025.yaml",
+    "aut02": {
+      "configuration": "territorios/aut02/config/aut02_2025.yaml",
       "declared_source": "inputs/COMARCAS.csv",
       "source_enabled": true,
       "status": "NOT_EVALUABLE"
     },
-    "castilla_y_leon": {
-      "configuration": "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml",
-      "declared_source": "territorios/castilla_y_leon/inputs/COMARCAS_OPCIONAL.csv",
+    "aut07": {
+      "configuration": "territorios/aut07/config/aut07_2025.yaml",
+      "declared_source": "territorios/aut07/inputs/COMARCAS_OPCIONAL.csv",
       "source_enabled": false,
       "status": "NOT_EVALUABLE"
     },
-    "extremadura": {
-      "configuration": "territorios/extremadura/config/extremadura_2025.yaml",
+    "aut11": {
+      "configuration": "territorios/aut11/config/aut11_2025.yaml",
       "declared_source": null,
       "source_enabled": false,
       "status": "NOT_EVALUABLE"

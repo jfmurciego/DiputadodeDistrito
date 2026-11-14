@@ -57,7 +57,7 @@ class SourceTestPackageTests(unittest.TestCase):
 
     def test_declaration_is_generated_without_prepared_snapshot(self):
         d = build_declaration("La Rioja", 2025, source_year=2025)
-        self.assertEqual(d["territory"]["id"], "la_rioja")
+        self.assertEqual(d["territory"]["id"], "aut17")
         self.assertEqual([x["code"] for x in d["territory"]["territorial_codes"]], ["26"])
         self.assertEqual(d["required_sources"], ["poblacion_por_sexo_y_edad", "secciones_censales"])
         self.assertNotIn("snapshot", d["source_bindings"]["poblacion_por_sexo_y_edad"])

@@ -3,11 +3,12 @@
 """Rotación 2011-2023 por distrito para el visor v2 (T-119).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/generar_rotacion_visor_v1.0.0_20261109b.py
+VERSIÓN: 1.1.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_rotacion_visor_v1.1.0_20261112.py
 CAMBIOS 1.1.0 (T-135): el número de distrito sale en numeración pública 1..K (no existe el 0).
-QUÉ HACE: lee datos/resultados/historico/rotacion/congreso_<t>.csv (T-110: ganador homologado por distrito y elección) y
-  datos/composicion/congreso_<t>.csv (para el código de provincia, 2 primeras cifras de la sección) y escribe un único JSON
+QUÉ HACE: lee datos/resultados/historico/rotacion/<circunscripción NAC>.csv (T-110: ganador homologado por distrito y elección) y
+  datos/composicion/<circunscripción NAC>.csv (para el código de provincia, 2 primeras cifras de la sección) y escribe un único JSON
   {schema, elecciones, provincias: {cod: {territorio, sha256, distritos: [{d, g: [ganadores], c: cambios}]}}} con el sha256
   del CSV de origen de cada provincia. Solo copia datos existentes; no calcula votos.
 Uso: python herramientas/generar_rotacion_visor.py --salida visor/v2/datos/rotacion.json [--rotacion DIR] [--composicion DIR]
@@ -20,6 +21,11 @@ import hashlib
 import json
 import sys
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito e ids por el resolutor, nunca por prefijo)
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from numeracion_publica import numero_publico  # noqa: E402
@@ -30,7 +36,7 @@ ELECCIONES = ["201111", "201512", "201606", "201904", "201911", "202307"]
 
 def generar(salida: Path, rotacion: Path, composicion: Path) -> int:
     provs: dict[str, dict] = {}
-    for f in sorted(rotacion.glob("congreso_*.csv")):
+    for f in sorted(f for f in rotacion.glob("*.csv") if territorio_ids.es_nacional(f.stem)):
         comp = composicion / f.name
         if not comp.exists():
             continue

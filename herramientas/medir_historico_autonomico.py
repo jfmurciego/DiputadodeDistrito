@@ -3,7 +3,9 @@
 """Cobertura del histórico autonómico desde 2011 (T-176, paso 1).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/medir_historico_autonomico_v1.0.0_20261112.py
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: medir qué elecciones autonómicas existen por comunidad, cuáles tienen dato en el repositorio y cuáles cuadran
   (D-17: ≤0,5 % de voto), y la causa de cada hueco.
@@ -17,6 +19,11 @@ import argparse
 import csv
 import json
 from pathlib import Path
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 ROOT = Path(__file__).resolve().parents[1]
 CAL = "configuracion/calendario_autonomicas.csv"
@@ -38,9 +45,9 @@ def medir(raiz: Path = ROOT) -> list[dict]:
     for r in cal:
         c, aaaamm = r["comunidad"], r["mes"].replace("-", "")
         if c not in mans:
-            p = raiz / DATOS / c / "MANIFEST.json"
+            p = fichero_por_id(raiz / DATOS, "{}/MANIFEST.json", c)  # T-220: carpeta con el id viejo
             mans[c] = json.loads(p.read_text(encoding="utf-8")).get("elecciones", {}) if p.exists() else {}
-        comp = (raiz / "datos/composicion" / f"{c}.csv").exists()
+        comp = fichero_por_id(raiz / "datos/composicion", "{}.csv", c).exists()
         hay_secc = f"{r['cod_ine']}-{aaaamm}" in secc
         m = mans[c].get(aaaamm)
         f_ = {"comunidad": c, "eleccion": aaaamm, "fecha_mes": r["mes"], "granularidad_calendario": r["granularidad"],

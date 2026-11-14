@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 """T-194 · criterio escrito y automatizado de «el motor nuevo puede relevar» (docs/ARQUITECTURA/ACEPTACION_MOTOR2.md).
 
-VERSIÓN: 1.0.0
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.1
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_motor2_aceptacion_v1.0.0_20261112.py
 (a) huella bit a bit fija en Soria, Álava y Melilla (semilla pública D-50, N fijo); (b) todo ganador pasa el
 certificador (núcleo único, R-NUCLEO y atomicidad M04); (c) nunca peor que el canónico en los 71, leído del informe de
 la batería ya generado (no recalcula); (d) casos adversos: el certificador rechaza; (e) mismo mapa con id viejo y nuevo
@@ -37,18 +38,18 @@ from tests.test_motor2_semilla import cfg as cfg_con_ancla  # noqa: E402
 N_CADENAS = 5          # N de semillas públicas por territorio
 CRITERIO = Criterio()  # criterio del núcleo: el vigente
 FUNCION = "D8"         # función de calidad de la competición (T-205: D8 por defecto en competir.py)
-TERRITORIOS = {"soria": (4, 2), "alava": (6, 3), "melilla": (8, 2)}  # nombre: (unidades, K); 100 habitantes cada una
-ID_TABLA = {"soria": "congreso_soria", "alava": "congreso_alava", "melilla": "melilla"}  # T-265: id de la tabla maestra (semilla)
+TERRITORIOS = {"soria": (4, 2), "alava": (6, 3), "aut19": (8, 2)}  # nombre: (unidades, K); 100 habitantes cada una
+ID_TABLA = {"soria": "nac42", "alava": "nac01", "aut19": "aut19"}  # T-265: id de la tabla maestra (semilla)
 CERRADAS = {"soria": ("U0", "U1")}  # núcleo cerrado de referencia (R-NUCLEO) en el plan canónico
 HUELLAS_FIJAS = {  # T-265 (D-90): regeneradas con la semilla del código oficial. huella_resultado de la competición: reglas, semillas, planes y composiciones de todos los candidatos
     "soria": "6ed61e24880aa8ec1f709f5001379e2f92ff0f08f76012184ee4a254df332ba8",
     "alava": "616f212889f202855eca0a58ba9dc93ed89fe090920e61e0ac44aeea73b8361a",
-    "melilla": "1dfa8476c5d724556762ae3e40a6688a95abebb0ab7ec7df1e5556d21543f89f",
+    "aut19": "1dfa8476c5d724556762ae3e40a6688a95abebb0ab7ec7df1e5556d21543f89f",
 }
 HUELLAS_FIJAS_A = {  # las de la función A (antes de T-205; regeneradas en T-265 por la semilla): la competición con --funcion A no cambia
     "soria": "115e61c5c35fd619121a9217087703e242c413859ac29dbab340b91758535cb6",
     "alava": "28b4350290cea09f1150e4b97597309d1a326b36b6641dd02393a3c871a500f0",
-    "melilla": "5d464977e086fd71c359af9d0c444296660e9bfd55e65ea2ba5f486b37c3674e",
+    "aut19": "5d464977e086fd71c359af9d0c444296660e9bfd55e65ea2ba5f486b37c3674e",
 }
 ESTUDIO = ROOT / "docs" / "ESTUDIOS" / "T132_BATERIA_MOTOR"
 
@@ -123,8 +124,8 @@ class HuellaFija(unittest.TestCase):
     def test_motor_real_dos_ejecuciones(self):
         from ddd_motor2.competir import competir_territorio
         out = Path(os.environ["DDD_ACEPTACION_BATERIA"])
-        for t in ("soria", "alava", "melilla"):
-            nombre = t if t == "melilla" else f"congreso_{t}"
+        for t in ("soria", "alava", "aut19"):
+            nombre = t if t == "aut19" else f"congreso_{t}"
             with self.subTest(t=nombre):
                 a = competir_territorio(nombre, out, N_CADENAS)
                 b = competir_territorio(nombre, out, N_CADENAS)

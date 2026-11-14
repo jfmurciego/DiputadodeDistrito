@@ -3,9 +3,9 @@
 """Archivo en origen: el propio run guarda en R2 su M06/M08 y en git la composición y los votos por partido (T-72).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.4
+VERSIÓN: 1.0.5
 NOMBRE DE VERSIÓN: Archivo en origen
-FECHA: 2026-11-09
+FECHA: 2026-11-12
 ESTADO: candidato
 CAMBIOS: 1.0.4 (T-119): si el run archivado es el del M06 vigente (orchestracion/publicaciones_visor.json) y no existe
   datos/composicion/<territorio>.csv (o es de otro run), composicion lo promueve también a canónico con su entrada en
@@ -21,7 +21,8 @@ CAMBIOS: 1.0.4 (T-119): si el run archivado es el del M06 vigente (orchestracion
   M06 y M08; antes solo veían *.geojson sueltos).
   1.0.1 (T-72b): r2 sube el paquete mínimo y no el ZIP de estado (R2 total ≤ 8 GB); --extra; --sustituye-m06-run (el M08 acumulativo retira su M06 de R2) y el check acepta el M08
   que contiene el M06 publicado.
-ANTERIOR: legacy/herramientas/archivo_origen_v1.0.3_20261109.py
+CAMBIOS 1.0.5 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/archivo_origen_v1.0.4_20261112.py
 QUÉ HACE: cinco subcomandos (r2, composicion, canonica, partidos, comprobar).
   r2          sube a R2 el paquete mínimo (``ddd-minimo-<run>-M06``/M08: GeoJSON distritales, CSV/JSON de M06-M08,
               VALIDACION, manifiestos y ``--extra``; herramientas/archivar_artefactos_r2.empaquetar_minimo) del
@@ -60,6 +61,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import archivar_artefactos_r2 as ar  # noqa: E402
 import composicion_m06 as cm  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 COMPOSICION = Path("datos/composicion")
 RESULTADOS = Path("datos/resultados")
@@ -342,7 +348,7 @@ def comprobar(root: Path) -> dict:
             if e.get("incluye_m06_run"):
                 r2.add((e.get("territorio"), str(e["incluye_m06_run"])))
     man = _json(root / COMPOSICION / "MANIFEST.json", {})
-    git = {(t, str(e.get("run_id"))) for t, e in man.get("territorios", {}).items() if (root / COMPOSICION / f"{t}.csv").is_file()}
+    git = {(t, str(e.get("run_id"))) for t, e in man.get("territorios", {}).items() if fichero_por_id(root / COMPOSICION, "{}.csv", t).is_file()}
     git |= {(e["territorio"], str(e["run_id"])) for e in man.get("runs", {}).values() if (root / e["ruta"]).is_file()}
     exc = set(_json(root / EXCEPCIONES, {}).get("territorios", []))
     sin = sorted(t for t, p in vig.items() if (ar._slug(t), str(p["run_id"])) not in r2 and (t, str(p["run_id"])) not in git)

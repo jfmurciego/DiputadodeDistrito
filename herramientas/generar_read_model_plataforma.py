@@ -10,6 +10,11 @@ from pathlib import Path
 import yaml
 
 from herramientas.generar_estado_operativo import build as build_operational_state
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 PHASE = {"green":"READY","yellow":"PENDING","red":"BLOCKED","gray":"PENDING"}
 
@@ -118,7 +123,7 @@ def _publications(root: Path) -> list[dict]:
 
 
 def _latest_publication(publications: list[dict], tid: str) -> dict:
-    rows = [x for x in publications if x["territory_id"] == tid]
+    rows = [x for x in publications if mismo_territorio(str(x["territory_id"] or ""), str(tid))]
     return rows[-1] if rows else {}
 
 

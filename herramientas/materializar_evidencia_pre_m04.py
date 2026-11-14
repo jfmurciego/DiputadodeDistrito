@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """PROYECTO: Diputado de Distrito
 HERRAMIENTA: Materializador de evidencia pre-M04
-VERSIÓN: 1.0.1
+VERSIÓN: 1.0.2
 NOMBRE DE VERSIÓN: Acreditación fuente-vinculada con contadores verificables
-FECHA: 2026-10-19
+FECHA: 2026-11-12
 ESTADO: candidato de integración; pendiente de CI y revisión.
 QUÉ HACE: materializa evidencia durable para la puerta pre-M04.
 CAMBIOS: conserva contadores municipales y solo normaliza a cero los subcontadores ausentes cuando M03 acredita exactamente cero desconexiones.
 MOTIVO: transportar evidencia verificable para discontinuidades admitidas y rechazar tipos o sumas inválidos.
-ANTERIOR: legacy/herramientas/materializar_evidencia_pre_m04_pre_cat_pre_m04_20261019.py
+CAMBIOS 1.0.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/materializar_evidencia_pre_m04_v1.0.1_20261112.py
 PREDECESOR: copia exacta del archivo de main antes de la primera versión integrada.
 """
 from __future__ import annotations
@@ -33,6 +34,11 @@ from herramientas._resolver_ejecucion_completa_core import (
     _pre_m04_implementation_binding,
 )
 from herramientas.resolver_ejecucion_completa import generation_enablement
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 
@@ -104,7 +110,7 @@ def build_evidence(
     root = root_dir.resolve()
     contract_file = root / contract_path
     contract = _yaml(contract_file)
-    if (contract.get("meta") or {}).get("territory_id") != territory_id:
+    if not mismo_territorio(str((contract.get("meta") or {}).get("territory_id") or ""), str(territory_id)):
         raise ValueError("CONTRACT_IDENTITY_MISMATCH")
 
     row = lookup(territory_id, str(edition), root / CATALOG)
@@ -449,7 +455,7 @@ def register_evidence_path(
     # La escritura de estado permanece sobre la línea del mismo registro original.
     master = _yaml(master_path)
     rows = list(master.get("territories") or []) + list(master.get("pilot_territories") or [])
-    matches = [row for row in rows if str(row.get("territory_id") or "") == territory_id]
+    matches = [row for row in rows if mismo_territorio(str(row.get("territory_id") or ""), str(territory_id))]
     if len(matches) != 1:
         raise ValueError(f"{territory_id}: identidad ausente o duplicada en catálogo territorial maestro")
 

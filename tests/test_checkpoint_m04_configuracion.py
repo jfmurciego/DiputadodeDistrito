@@ -26,7 +26,7 @@ class M04CheckpointConfigurationTests(unittest.TestCase):
         state = root / "state"
         (state / "cache").mkdir(parents=True)
         if report:
-            (state / "cache/andalucia_2025_m04_informe.json").write_text(
+            (state / "cache/aut01_2025_m04_informe.json").write_text(
                 json.dumps({"K": k, "municipality_atomicity_limit_ratio": report_ratio}), encoding="utf-8")
         self.addCleanup(tmp.cleanup)
         return params, state

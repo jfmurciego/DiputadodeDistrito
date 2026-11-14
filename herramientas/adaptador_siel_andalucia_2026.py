@@ -8,7 +8,7 @@ import datetime
 import json
 from pathlib import Path
 
-TERRITORY_ID = "andalucia"
+TERRITORY_ID = "aut01"
 ELECTION_ID = "andalucia_parlamento_2026"
 ELECTION_DATE = "2026-05-17"
 OFFICIAL_CANDIDATE_VOTES = 4_157_539

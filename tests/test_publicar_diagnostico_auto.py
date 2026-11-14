@@ -46,7 +46,7 @@ def _fill(cache: Path, run_name="t_2025", skip=()):
 
 class PublicarDiagnosticoAutoTests(unittest.TestCase):
     def test_territory_of(self):
-        self.assertEqual(pda.territory_of("territorios/congreso_huesca/config/congreso_huesca_2025.yaml"), "congreso_huesca")
+        self.assertEqual(pda.territory_of("territorios/nac22/config/nac22_2025.yaml"), "nac22")
 
     def test_collect_uses_declared_paths_not_mtime(self):
         # T14-01: un fichero más nuevo de otra ejecución en la misma carpeta no se elige.

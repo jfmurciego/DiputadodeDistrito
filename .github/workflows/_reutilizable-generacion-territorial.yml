@@ -1,7 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.5.0
-# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.4.2_20261111.yml
+# VERSIÓN: 1.5.1
+# CAMBIOS 1.5.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.5.0_20261112.yml
 # CAMBIOS 1.5.0: T-234 (relevo formal, D-82): `motor` por defecto = motor2 (Deslinde 1.0); m05 (ruta autónoma del canónico,
 #   retirada) solo si el caller lo pasa de forma expresa. Los callers que paran antes de M06 (06, acreditación previa) no cambian:
 #   los pasos P30 y la capa motor2 de la huella solo actúan en M06.
@@ -18,7 +19,7 @@
 # CAMBIOS 1.3.4: T-149, solo el nombre visible (Interno · Generación territorial) para ordenar la lista de Actions.
 # CAMBIOS 1.3.3: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Diagnóstico automático con linaje y manifiesto
-# FECHA: 2026-11-11
+# FECHA: 2026-11-12
 # ESTADO: candidato
 # QUÉ HACE: consume fuentes territoriales preparadas y genera/certifica el producto territorial hasta la consolidación.
 # CAMBIOS: 1.2.3: la salida de la etapa se guarda en .ddd-logs y, si falla, sus 40 últimas líneas
@@ -472,7 +473,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          case "$PARAMS" in territorios/congreso_*) ;; *) echo "Sin huella de puentes: no es un ámbito nacional."; exit 0 ;; esac
+          tid="${PARAMS#territorios/}"; tid="${tid%%/*}"
+          ambito="$(python3 -m ddd_core.territorio_ids ambito "$tid" 2>/dev/null || true)"
+          [[ "$ambito" == NAC ]] || { echo "Sin huella de puentes: no es un ámbito nacional."; exit 0; }
           m01="$(find "$CACHE_DIR" -maxdepth 1 -name '*_m01_secciones_poblacion.geojson.zip' | head -1)"
           [[ -n "$m01" ]] || { echo "::warning::Sin M01 en $CACHE_DIR; la huella de puentes no se comprueba."; exit 0; }
           docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \

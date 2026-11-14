@@ -458,7 +458,7 @@ def build(
 
     manifest = {
         "schema": "ddd-siel-andalucia-snapshot/1.0",
-        "territory_id": "andalucia",
+        "territory_id": "aut01",
         "election_id": "andalucia_parlamento_2026",
         "election_date": "2026-05-17",
         "siel_election_key": ELECTION_KEY,

@@ -1,5 +1,6 @@
-# VERSIÓN: 1.0.0 · FECHA: 2026-11-11 · CAMBIOS: T-230b, idempotencia del registro del par ante campos derivados.
-# ANTERIOR: ninguna (fichero nuevo)
+# VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · CAMBIOS: T-230b, idempotencia del registro del par ante campos derivados.
+# CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/tests/test_t230b_par_idempotente_v1.0.0_20261112.py
 from __future__ import annotations
 
 import json
@@ -16,7 +17,7 @@ SHA = "29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b"
 def _pair(reuse: dict, *, artifact: str = "a" * 64, pair_sha: str = SHA) -> dict:
     return {
         "schema": "x",
-        "territory_id": "congreso_alava",
+        "territory_id": "nac01",
         "edition": "2023",
         "territorial_source": {"run_id": 1, "artifact_sha256": artifact},
         "electoral_source": {"run_id": 2, "artifact_sha256": "b" * 64},
@@ -59,7 +60,7 @@ class RegistroParIdempotente(unittest.TestCase):
 
     def test_receipt_real_de_alava(self):
         root = Path(__file__).resolve().parents[1]
-        real = root / "territorios/congreso_alava/evidencia/pares_fuentes/2025" / f"{SHA}.json"
+        real = root / "territorios/nac01/evidencia/pares_fuentes/2025" / f"{SHA}.json"
         if not real.is_file():
             self.skipTest("receipt de Álava no presente")
         stored = json.loads(real.read_text(encoding="utf-8"))

@@ -65,12 +65,12 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         rows = load_master(MASTER)
         self.assertEqual([row["autonomous_community_code_ine"] for row in rows], [f"{n:02d}" for n in range(1, 20)])
         self.assertEqual([format_territory_label(row) for row in rows], EXPECTED)
-        self.assertEqual(rows[2]["territory_id"], "principado_de_asturias")
+        self.assertEqual(rows[2]["territory_id"], "aut03")
         self.assertEqual(rows[2]["name"], "Principado de Asturias")
-        self.assertEqual(rows[3]["territory_id"], "illes_balears")
+        self.assertEqual(rows[3]["territory_id"], "aut04")
         self.assertEqual(rows[3]["name"], "Islas Baleares")
-        self.assertEqual(rows[6]["territory_id"], "castilla_y_leon")
-        self.assertEqual(rows[7]["territory_id"], "castilla_la_mancha")
+        self.assertEqual(rows[6]["territory_id"], "aut07")
+        self.assertEqual(rows[7]["territory_id"], "aut08")
 
     def test_country_label_is_es_espana_and_never_00(self):
         self.assertEqual(format_country_label(), "ES · España")
@@ -83,9 +83,9 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         self.assertEqual(normalize_territory_input("01 Andalucía", MASTER), "Andalucía")
         self.assertEqual(normalize_territory_input("06 · Cantabria", MASTER), "Cantabria")  # legacy compatible
         self.assertEqual(normalize_territory_input("04 Islas Baleares", MASTER), "Islas Baleares")
-        self.assertEqual(resolve_master("04 Islas Baleares", MASTER)["territory_id"], "illes_balears")
-        self.assertEqual(resolve_master("03 Principado de Asturias", MASTER)["territory_id"], "principado_de_asturias")
-        self.assertEqual(resolve_master("19 Melilla", MASTER)["territory_id"], "melilla")
+        self.assertEqual(resolve_master("04 Islas Baleares", MASTER)["territory_id"], "aut04")
+        self.assertEqual(resolve_master("03 Principado de Asturias", MASTER)["territory_id"], "aut03")
+        self.assertEqual(resolve_master("19 Melilla", MASTER)["territory_id"], "aut19")
 
         rows = load_master(MASTER)
         self.assertEqual(
@@ -96,10 +96,10 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         plain = lookup("Islas Baleares", "2025", CATALOG)
         visible = lookup("04 Islas Baleares", "2025", CATALOG)
         self.assertEqual(visible, plain)
-        self.assertEqual(visible["territory_id"], "illes_balears")
+        self.assertEqual(visible["territory_id"], "aut04")
 
     def test_historical_plain_names_and_internal_ids_keep_their_previous_treatment(self):
-        for value in ("Andalucía", "andalucia", "Islas Baleares", "illes_balears", "Comunidad de Madrid", "madrid"):
+        for value in ("Andalucía", "aut01", "Islas Baleares", "aut04", "Comunidad de Madrid", "aut13"):
             with self.subTest(value=value):
                 self.assertEqual(normalize_territory_input(value, MASTER), value)
 
@@ -160,14 +160,14 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         plain = build_plan(territory="Galicia", **kwargs)
         visible = build_plan(territory="12 Galicia", **kwargs)
         self.assertEqual(visible, plain)
-        self.assertEqual(visible["territory_id"], "galicia")
+        self.assertEqual(visible["territory_id"], "aut12")
         self.assertEqual(visible["territory_name"], "Galicia")
 
     def test_acquisition_accepts_visible_label_without_changing_declaration(self):
         plain = build_declaration("Andalucía", 2025, source_year=2025)
         visible = build_declaration("01 Andalucía", 2025, source_year=2025)
         self.assertEqual(visible, plain)
-        self.assertEqual(visible["territory"]["id"], "andalucia")
+        self.assertEqual(visible["territory"]["id"], "aut01")
 
     def test_dashboard_state_uses_display_label_but_preserves_name_and_id(self):
         state = build_operational_state(ROOT, "2025")
@@ -176,16 +176,16 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
             [row["display_name"] for row in state["territories"]],
             [*EXPECTED, *VISIBLE_PILOTS],
         )
-        balears = next(row for row in state["territories"] if row["territory_id"] == "illes_balears")
+        balears = next(row for row in state["territories"] if row["territory_id"] == "aut04")
         self.assertEqual(balears["name"], "Islas Baleares")
         self.assertEqual(balears["display_name"], "04 Islas Baleares")
         self.assertEqual(balears["autonomous_community_code_ine"], "04")
 
     def test_viewer_decorates_and_orders_without_changing_result_identity(self):
         rows = [
-            {"id": "m06-balears-1", "territory_id": "illes_balears", "territory_label": "Illes Balears", "label": "M06", "kind": "canonical_m06"},
-            {"id": "m06-andalucia-1", "territory_id": "andalucia", "territory_label": "Andalucía", "label": "M06", "kind": "canonical_m06"},
-            {"id": "m06-asturias-1", "territory_id": "principado_de_asturias", "territory_label": "Asturias", "label": "M06", "kind": "canonical_m06"},
+            {"id": "m06-balears-1", "territory_id": "aut04", "territory_label": "Illes Balears", "label": "M06", "kind": "canonical_m06"},
+            {"id": "m06-andalucia-1", "territory_id": "aut01", "territory_label": "Andalucía", "label": "M06", "kind": "canonical_m06"},
+            {"id": "m06-asturias-1", "territory_id": "aut03", "territory_label": "Asturias", "label": "M06", "kind": "canonical_m06"},
         ]
         decorated = _decorate_and_sort(rows, ROOT)
         self.assertEqual([row["id"] for row in decorated], ["m06-andalucia-1", "m06-asturias-1", "m06-balears-1"])
@@ -194,13 +194,13 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
             ["01 Andalucía", "03 Principado de Asturias", "04 Islas Baleares"],
         )
         self.assertTrue(all(row["country_display_name"] == "ES · España" for row in decorated))
-        self.assertEqual(decorated[2]["territory_id"], "illes_balears")
+        self.assertEqual(decorated[2]["territory_id"], "aut04")
 
     def test_viewer_orders_congress_province_after_autonomous_communities(self):
         # Run 41194447427: Huesca (pilot_territories) no tiene CODAUTO y el visor daba KeyError.
         rows = [
-            {"id": "m08-huesca", "territory_id": "congreso_huesca", "label": "M08", "kind": "canonical_m08"},
-            {"id": "m08-melilla", "territory_id": "melilla", "label": "M08", "kind": "canonical_m08"},
+            {"id": "m08-huesca", "territory_id": "nac22", "label": "M08", "kind": "canonical_m08"},
+            {"id": "m08-melilla", "territory_id": "aut19", "label": "M08", "kind": "canonical_m08"},
         ]
         decorated = _decorate_and_sort(rows, ROOT)
         self.assertEqual([row["id"] for row in decorated], ["m08-melilla", "m08-huesca"])
