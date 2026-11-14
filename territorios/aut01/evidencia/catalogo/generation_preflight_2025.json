@@ -5,10 +5,10 @@
   "territory_name": "Andalucía",
   "edition": "2025",
   "run_id": 43624849879,
-  "source_commit": "4db1aba8bc024f414ef876196b4dd8b50f81165d",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "5313b5a62d5c844f816ca1d6bdc54f4f3befd124",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "SOURCE_MATERIALIZATION",
   "source": {
     "run_id": 43624849879,
     "artifact_name": "ddd-source-package-aut01-2025-43624849879",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La fuente ya acreditada no pudo materializarse para la evaluación; requiere diagnóstico técnico."
   }
 }
