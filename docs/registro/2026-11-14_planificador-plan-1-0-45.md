@@ -1,4 +1,4 @@
-## 2026-11-14 — Plan 1.0.45: traspaso del Planificador al plan
+## 2026-11-14 — T-317 — Plan 1.0.45: traspaso del Planificador al plan
 
 - Causa: relevo del Planificador por contexto (14-11, autorizado por el propietario).
 - Cambio: `docs/PLAN.md` 1.0.45 recoge las reglas del propietario del 14-11, las decisiones D-96 a D-103 y la cola

@@ -280,7 +280,8 @@ Fase 4 — producto (en el privado):
 | T-313 | Migración de notación P (D-102): inventario #784 (borrador) | PENDIENTE (después de la P50) |
 | T-315 | Declarar el fondo de OpenStreetMap en el texto de transparencia del contador (D-104); va en #783 (T-294 parte 2) | LISTA (Coordinador) |
 | T-316 | Fondo de mapa propio servido desde Cloudflare, sin terceros (D-104) | PENDIENTE (después del 29-11) |
-| T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? EN ESTUDIO: se rehace sobre main actual (la primera versión de #788 no pasó la revisión) | EN CURSO (#788); camino crítico |
+| T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? No: transitorio, solo bloquea «Reutilizar» (lectura de código sobre main actual). Orden: P10 → P00 por territorio seguidos | REVISIÓN (#788); camino crítico |
+| T-317 | Esta actualización del plan (1.0.45) | REVISIÓN (#787) |
 
 ### Frentes y camino crítico (14-11)
 1. Regeneración Deslinde 1.1 (ficha r3, PARADA): #786 fusionada; falta T-314 (#788) en main con CI verde → el Operador reanuda r3 desde el paso 1 (frase ya dada) → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
@@ -297,7 +298,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290 y 1.0.45 (traspaso, sin id). El planificador ha dado T-194 a T-316 (10 a 14-11; T-277 y T-292 sin usar). Siguiente libre para el planificador: T-317.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290 y T-317. El planificador ha dado T-194 a T-317 (10 a 14-11; T-277 y T-292 sin usar). Siguiente libre para el planificador: T-318.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
