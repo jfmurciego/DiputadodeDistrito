@@ -14,7 +14,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import variantes  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import mismo_territorio, variantes  # noqa: E402  (T-220: id viejo o nuevo)
 
 PASS_DECISIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
 ELECTORAL_SOURCE_DECISIONS = {"REUSE", "ACQUIRE"}
@@ -60,7 +60,7 @@ def _campaign_namespace_is_consistent(
     return (
         match.group("run_id") == str(run_id)
         and match.group("slot") != "00"
-        and match.group("territory") == territory_id
+        and mismo_territorio(match.group("territory"), territory_id)
     )
 
 
@@ -190,7 +190,7 @@ def validate_gate(
             reasons.append("PRODUCTION_STATUS_AUSENTE")
         else:
             certified = str(status.get("territory_id") or "")
-            if certified != territory_id:
+            if not mismo_territorio(certified, territory_id):
                 reasons.append("TERRITORIO_CERTIFICADO_NO_COINCIDE")
             phase_decision = str(status.get("decision") or "")
             if phase_decision not in PASS_DECISIONS:

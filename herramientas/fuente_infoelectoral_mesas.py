@@ -2,14 +2,15 @@
 """Fuente oficial Infoelectoral por mesa (Ministerio del Interior) para la 03.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-10-30 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-14 · ESTADO: candidato
 QUÉ HACE: resuelve el contrato gobernado de ``configuracion/contratos_infoelectoral.yaml`` y convierte
   el ZIP oficial ``{tipo}{AAAA}{MM}_MESA.zip`` (ficheros 09 de mesa, 10 de votos por candidatura y 03 de
   candidaturas, ancho fijo ISO-8859-1) en el CSV largo por mesa que consume el adaptador común
   (``adaptador_minsait_csv.py``). Excluye el CERA (municipio 999), que no tiene sección, y exige que
   mesas, secciones, candidaturas, votos, blancos, nulos y votantes cuadren con el contrato.
 MOTIVO: piloto Congreso Huesca; resultados oficiales definitivos del Congreso 23-07-2023 por mesa.
-ANTERIOR: ninguno (herramienta nueva).
+CAMBIOS 1.0.1 (T-307): el territory_id del contrato se compara con mismo_territorio (alias D-61).
+ANTERIOR: legacy/herramientas/fuente_infoelectoral_mesas_v1.0.0.py
 """
 from __future__ import annotations
 
@@ -21,7 +22,14 @@ import zipfile
 from collections import defaultdict
 from pathlib import Path
 
+import sys as _sys_t307
+
 import yaml
+
+_RAIZ_T307 = Path(__file__).resolve().parents[1]
+if str(_RAIZ_T307) not in _sys_t307.path:
+    _sys_t307.path.insert(0, str(_RAIZ_T307))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-307)
 
 SCHEMA = "ddd-infoelectoral-contracts/1.0"
 DEFAULT_PATH = Path("configuracion/contratos_infoelectoral.yaml")
@@ -53,7 +61,7 @@ def resolve(*, election_id: str, territory_id: str, election_date: str,
     missing = sorted(required - set(row))
     if missing:
         raise ValueError(f"Contrato Infoelectoral incompleto {election_id}: {missing}")
-    if str(row["territory_id"]) != territory_id or str(row["election_date"]) != election_date:
+    if not mismo_territorio(str(row["territory_id"]), str(territory_id)) or str(row["election_date"]) != election_date:
         raise ValueError(f"Contrato Infoelectoral de otra identidad: {election_id}")
     expected = row["expected"] or {}
     for key in ("ccaa", "sections", "polling_stations", "candidate_votes", "blank_votes",
