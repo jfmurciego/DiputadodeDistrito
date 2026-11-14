@@ -68,11 +68,11 @@
  "territorios": {
   "andalucia": {
    "fuente_territorial": {
-    "run_id": "43624849879",
+    "run_id": "40946875467",
     "package_sha256": "2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37",
-    "artifact_sha256": "e3259304198ad3f2354c126d93f2b46e208c29033b1c69e49fdccac8ddba31de",
-    "territorial_identity_sha256": "79b1640f3bccc1a06d680fc03494135e73360f80bdd25714b0a5cd26c21556f2",
-    "receipt_path": "territorios/aut01/evidencia/fuentes_territoriales/2025/79b1640f3bccc1a06d680fc03494135e73360f80bdd25714b0a5cd26c21556f2/43624849879/receipt.json",
+    "artifact_sha256": "f2694b451830d4a699a4aaa959834edab2e1a7dc5fd83eaa4589ba9d5d196c52",
+    "territorial_identity_sha256": "253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09",
+    "receipt_path": "territorios/aut01/evidencia/fuentes_territoriales/2025/253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09/40946875467/receipt.json",
     "population_year": 2025,
     "section_year": 2025
    },
@@ -178,11 +178,11 @@
   },
   "aragon": {
    "fuente_territorial": {
-    "run_id": "43624860974",
+    "run_id": "40691712762",
     "package_sha256": "2b0a7e7f00cfc12d60c84ab0818e2ece6106bdb48684abfd603f3bc2fd59de34",
-    "artifact_sha256": "5985c9cc8b9c90401b304f655658c10b0bd8e9e02aa8cd15dd1c6b7cbad423ce",
-    "territorial_identity_sha256": "91758e3034623e6e2b9c399a4347d0827e8cbbd5c7663a9a28d334ac958f5fc9",
-    "receipt_path": "territorios/aut02/evidencia/fuentes_territoriales/2025/91758e3034623e6e2b9c399a4347d0827e8cbbd5c7663a9a28d334ac958f5fc9/43624860974/receipt.json",
+    "artifact_sha256": "47a7ab0da32e99c006d925787df3fbdf7032c2b3737ff6effe6cd57321aa390a",
+    "territorial_identity_sha256": "2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f",
+    "receipt_path": "territorios/aut02/evidencia/fuentes_territoriales/2025/2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f/40691712762/receipt.json",
     "population_year": 2025,
     "section_year": 2025
    },
@@ -303,11 +303,11 @@
   },
   "canarias": {
    "fuente_territorial": {
-    "run_id": "43624893510",
+    "run_id": "43011642069",
     "package_sha256": "ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836",
-    "artifact_sha256": "3fc4d04a10f6aa48ea3042db4babfd29f8c3783420288eb0a9bdf724b44f77e0",
-    "territorial_identity_sha256": "2a4a3c7162ccd9cacc405065f71cebb737dd9fc643dbb0723b95d28967c16471",
-    "receipt_path": "territorios/aut05/evidencia/fuentes_territoriales/2025/2a4a3c7162ccd9cacc405065f71cebb737dd9fc643dbb0723b95d28967c16471/43624893510/receipt.json",
+    "artifact_sha256": "b070824189e19022752db97dc9d3ea78f77a523aca054a7328ae7576370bb9c8",
+    "territorial_identity_sha256": "148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393",
+    "receipt_path": "territorios/aut05/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/43011642069/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -8652,11 +8652,11 @@
   },
   "illes_balears": {
    "fuente_territorial": {
-    "run_id": "43624882353",
+    "run_id": "43011633844",
     "package_sha256": "02ad2c8ef9f4716f907f8aa9cc9690a9bc721c26c29a4c7fd9fc662bd33de046",
-    "artifact_sha256": "951c4ea1a7bcce3fe3ec9923c3fbfab40ad6785a07ae290fb30e3f5b52a81905",
-    "territorial_identity_sha256": "2656685909d4624911a6b30d0c2a25e257b23b50b584e97105a5db4867fcc4be",
-    "receipt_path": "territorios/aut04/evidencia/fuentes_territoriales/2025/2656685909d4624911a6b30d0c2a25e257b23b50b584e97105a5db4867fcc4be/43624882353/receipt.json",
+    "artifact_sha256": "54ba0d0ec51f34e98e887b0e25a6a4f43934e3aa191e73dd083013e3dba1a109",
+    "territorial_identity_sha256": "4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f",
+    "receipt_path": "territorios/aut04/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/43011633844/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -9252,11 +9252,11 @@
   },
   "principado_de_asturias": {
    "fuente_territorial": {
-    "run_id": "43624871718",
+    "run_id": "40693720831",
     "package_sha256": "b3e10ec48bb9879d9614bed5ddd0760b90d49cfb3008b4c2b933b916f10a0b2a",
-    "artifact_sha256": "405217c63dfb26c2b377b6fc4da98d480f1567afbdcb8491dcfd142693f68a1e",
-    "territorial_identity_sha256": "ea6debdcbd442ab9567cce7ea73e7511b42a0c55d0f30c4c691576d32485684b",
-    "receipt_path": "territorios/aut03/evidencia/fuentes_territoriales/2025/ea6debdcbd442ab9567cce7ea73e7511b42a0c55d0f30c4c691576d32485684b/43624871718/receipt.json",
+    "artifact_sha256": "60bacfb549404fed841f2ceda6666376fb16852f05ac1ffba5223dc104e3fec6",
+    "territorial_identity_sha256": "c7318c4524f8378c37e9a7352ba3ada506ae31e7dc5daa2e7996660d8f6c5cab",
+    "receipt_path": "territorios/aut03/evidencia/fuentes_territoriales/2025/c7318c4524f8378c37e9a7352ba3ada506ae31e7dc5daa2e7996660d8f6c5cab/40693720831/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
