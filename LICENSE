@@ -1,5 +1,4 @@
 VERSIÓN: 1.0.0 · FECHA: 2026-11-14 · ANTERIOR: legacy/licencias/LICENSE_apache-2.0_hasta_2026-11-14.txt
-PROPUESTA TÉCNICA (T-280, D-95): pendiente de revisión por el propietario con un asesor antes de publicarla.
 
 Diputado de Distrito — Licencia propietaria
 Copyright (c) 2026 Jesus Murciego. Todos los derechos reservados.
@@ -20,15 +19,14 @@ Copyright (c) 2026 Jesus Murciego. Todos los derechos reservados.
 3. Excepciones: lo que se publica abiertamente (D-92)
    Lo siguiente se publica en el repositorio público de publicación con estos términos:
    - Datos abiertos (`datos_abiertos/`): CC BY 4.0, según `datos_abiertos/README.md`.
-   - Mapas y resultados por distrito publicados: PENDIENTE DE DECISIÓN DEL PROPIETARIO
-     (la parte incluida en `datos_abiertos/` va con CC BY 4.0).
-   - Visor y sitio web: PENDIENTE DE DECISIÓN DEL PROPIETARIO.
-   - Reglas y contratos (esquema y validador propios, sin el núcleo): PENDIENTE DE
-     DECISIÓN DEL PROPIETARIO.
-   - Plan y arquitectura publicados: PENDIENTE DE DECISIÓN DEL PROPIETARIO.
-   Mientras un término figure como pendiente, ese contenido queda cubierto por el
-   apartado 2. Las fuentes oficiales (INE, Ministerio del Interior, BOE) conservan
-   sus propias condiciones de reutilización.
+   - Mapas y resultados por distrito publicados: CC BY 4.0.
+   - Visor y sitio web (código): todos los derechos reservados; se publican para
+     su uso en el sitio, sin licencia de reutilización del código.
+   - Reglas y contratos (esquema y validador propios, sin el núcleo): CC BY 4.0.
+   - Plan y arquitectura publicados: CC BY-NC 4.0.
+   Lo no listado en este apartado queda cubierto por el apartado 2. Las fuentes
+   oficiales (INE, Ministerio del Interior, BOE) conservan sus propias condiciones
+   de reutilización.
 
 4. Versiones anteriores bajo Apache-2.0
    Hasta el 14 de noviembre de 2026 el repositorio se distribuyó bajo la Licencia
