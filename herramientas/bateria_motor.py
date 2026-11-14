@@ -3,7 +3,7 @@
 """Batería del motor (T-132): entradas reproducibles desde fuente, M04-M06 en local y matriz territorio × regla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.5
+VERSIÓN: 1.2.6
 NOMBRE DE VERSIÓN: Batería del motor
 FECHA: 2026-11-12
 ESTADO: candidato
@@ -49,7 +49,8 @@ CAMBIOS 1.0.1 (T-201): `composicion_publicada` solo cuenta los canonical_m06 de 
 MOTIVO: responder en minutos y sin lanzar nada si el motor vigente produce distritos válidos en los 71 territorios
   (52 circunscripciones del Congreso + 19 comunidades) y qué cambia entre versiones del motor (decisión del
   propietario: opción B, batería primero).
-ANTERIOR: legacy/herramientas/bateria_motor_v1.2.4_20261111.py
+CAMBIOS 1.2.6 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/bateria_motor_v1.2.5_20261112.py
 QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
@@ -103,6 +104,11 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 import yaml  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 NACIONAL = ROOT / "inputs" / "_nacional"
 OUT = ROOT / "bateria"
@@ -142,7 +148,7 @@ def territorios() -> list[str]:
 
 
 def contrato(t: str) -> Path:
-    return ROOT / "territorios" / t / "config" / f"{t}_2025.yaml"
+    return ROOT / "territorios" / carpeta_de(ROOT, t) / "config" / f"{t}_2025.yaml"
 
 
 # --------------------------------------------------------------------------- nacionales
@@ -186,7 +192,7 @@ def nacionales(args) -> int:
 
 # --------------------------------------------------------------------------- entradas
 def _declaracion_temporal(t: str, nac: dict, seccionado: str) -> Path:
-    base = ROOT / "territorios" / t / "config"
+    base = ROOT / "territorios" / carpeta_de(ROOT, t) / "config"
     d = yaml.safe_load((base / "fuentes_oficiales.yaml").read_text(encoding="utf-8"))
     terr = d.setdefault("territory", {})
     if not terr.get("section_year") or not terr.get("population_year"):
@@ -716,7 +722,7 @@ def archivar(args) -> int:
 
 
 # --------------------------------------------------------------------------- motor 2 en Actions (T-208)
-HUELLA_REAL = ("congreso_soria", "congreso_alava", "melilla")  # criterio a de T-194 (nombres de territorio de la batería)
+HUELLA_REAL = ("nac42", "nac01", "aut19")  # criterio a de T-194 (nombres de territorio de la batería)
 
 
 def lista(args) -> int:

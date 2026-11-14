@@ -14,7 +14,7 @@
   "territories": [
     {
       "slot": "01",
-      "territory_id": "aragon",
+      "territory_id": "aut02",
       "territory_name": "Aragón",
       "publication_mode": "electoral",
       "reuse": {
@@ -33,7 +33,7 @@
     },
     {
       "slot": "02",
-      "territory_id": "principado_de_asturias",
+      "territory_id": "aut03",
       "territory_name": "Principado de Asturias",
       "publication_mode": "electoral",
       "reuse": {
@@ -52,7 +52,7 @@
     },
     {
       "slot": "03",
-      "territory_id": "galicia",
+      "territory_id": "aut12",
       "territory_name": "Galicia",
       "publication_mode": "electoral",
       "reuse": {
@@ -71,7 +71,7 @@
     },
     {
       "slot": "04",
-      "territory_id": "castilla_y_leon",
+      "territory_id": "aut07",
       "territory_name": "Castilla y León",
       "publication_mode": "electoral",
       "reuse": {
@@ -90,7 +90,7 @@
     },
     {
       "slot": "05",
-      "territory_id": "extremadura",
+      "territory_id": "aut11",
       "territory_name": "Extremadura",
       "publication_mode": "territorial_only",
       "reuse": {

@@ -258,7 +258,7 @@ class ResolvedSourceContractConsumerTests(unittest.TestCase):
     def test_runtime_admin_bindings_keep_production_contract_coherent(self):
         source = (
             ROOT
-            / "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml"
+            / "territorios/aut03/config/aut03_2025.yaml"
         )
         cfg = yaml.safe_load(source.read_text(encoding="utf-8"))
         resolved = copy.deepcopy(self.resolved_contract())
@@ -350,7 +350,7 @@ class ResolvedSourceContractConsumerTests(unittest.TestCase):
         try:
             report = validate_production_contract(
                 path,
-                expected_territory="principado_de_asturias",
+                expected_territory="aut03",
             )
         finally:
             path.unlink(missing_ok=True)

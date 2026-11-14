@@ -87,7 +87,7 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
 
         meta = {
             "schema": "ddd-siel-andalucia-snapshot/1.0",
-            "territory_id": "andalucia",
+            "territory_id": "aut01",
             "election_id": "andalucia_parlamento_2026",
             "election_date": "2026-05-17",
             "siel_election_key": 202605,
@@ -157,8 +157,8 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
             self.assertFalse(upstream["section_locator"]["votes_consumed"])
             validation = validate_package(
                 package=out,
-                params=ROOT / "territorios/andalucia/config/andalucia_2025.yaml",
-                territory_id="andalucia",
+                params=ROOT / "territorios/aut01/config/aut01_2025.yaml",
+                territory_id="aut01",
                 edition="2025",
                 root=ROOT,
                 materialize=False,

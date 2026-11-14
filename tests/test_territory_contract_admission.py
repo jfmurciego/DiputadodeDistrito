@@ -58,10 +58,10 @@ def population_repair_contract_errors(data):
 class ProductionContractAdmission(unittest.TestCase):
     def test_contratos_validos_separan_autorizacion_de_produccion(self):
         expected = {
-            "aragon": ("AUTHORIZED", True),
-            "castilla_y_leon": ("AUTHORIZED", True),
-            "extremadura": ("AUTHORIZED", True),
-            "la_rioja": ("AUTHORIZED", True),
+            "aut02": ("AUTHORIZED", True),
+            "aut07": ("AUTHORIZED", True),
+            "aut11": ("AUTHORIZED", True),
+            "aut17": ("AUTHORIZED", True),
         }
         for territory, (authorization, authorized) in expected.items():
             path = ROOT / "territorios" / territory / "config" / f"{territory}_2025.yaml"
@@ -74,8 +74,8 @@ class ProductionContractAdmission(unittest.TestCase):
             self.assertEqual(population_repair_contract_errors(data), [])
 
     def test_asturias_admite_unidad_de_trabajo_m04_distinta_del_municipio_real(self):
-        path = ROOT / "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml"
-        report = validate_production_contract(path, expected_territory="principado_de_asturias")
+        path = ROOT / "territorios/aut03/config/aut03_2025.yaml"
+        report = validate_production_contract(path, expected_territory="aut03")
         self.assertEqual(report["status"], "ADMITTED", report["errors"])
         self.assertTrue(report["production_authorized"])
         data = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -91,21 +91,21 @@ class ProductionContractAdmission(unittest.TestCase):
         )
 
     def test_extremadura_promovida_es_admisible_y_autorizada(self):
-        path = ROOT / "territorios/extremadura/config/extremadura_2025.yaml"
-        report = validate_production_contract(path, expected_territory="extremadura")
+        path = ROOT / "territorios/aut11/config/aut11_2025.yaml"
+        report = validate_production_contract(path, expected_territory="aut11")
         self.assertEqual(report["status"], "ADMITTED", report["errors"])
         self.assertTrue(report["production_authorized"])
         self.assertEqual(report["production_authorization"], "AUTHORIZED")
 
     def mutated(self, mutate):
-        source = ROOT / "territorios" / "aragon" / "config" / "aragon_2025.yaml"
+        source = ROOT / "territorios" / "aut02" / "config" / "aut02_2025.yaml"
         data = yaml.safe_load(source.read_text(encoding="utf-8"))
         mutate(data)
         with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", suffix=".yaml", dir=source.parent, delete=False) as handle:
             yaml.safe_dump(data, handle, sort_keys=False, allow_unicode=True)
             path = Path(handle.name)
         try:
-            return validate_production_contract(path, expected_territory="aragon")
+            return validate_production_contract(path, expected_territory="aut02")
         finally:
             path.unlink(missing_ok=True)
 
@@ -160,7 +160,7 @@ class ProductionContractAdmission(unittest.TestCase):
 
 class PopulationRepairDeclarativeContract(unittest.TestCase):
     def setUp(self):
-        self.path = ROOT / "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml"
+        self.path = ROOT / "territorios/aut07/config/aut07_2025.yaml"
         self.data = yaml.safe_load(self.path.read_text(encoding="utf-8"))
 
     def errors_after(self, mutate):
@@ -181,7 +181,7 @@ class PopulationRepairDeclarativeContract(unittest.TestCase):
         })
         self.assertEqual(m05["unit_id_field"], "ddd_unit_id")
         source = (ROOT / "modulos/05_optimizar_distritos.py").read_text(encoding="utf-8")
-        self.assertNotIn("castilla_y_leon", source.lower())
+        self.assertNotIn("aut07", source.lower())
 
     def test_limites_invalidos_y_parametros_desconocidos_se_rechazan(self):
         mutations = [
@@ -216,7 +216,7 @@ class PopulationRepairDeclarativeContract(unittest.TestCase):
         self.assertNotIn("repair(", prefix)
 
     def test_aragon_no_activa_ni_declara_esta_capacidad(self):
-        path = ROOT / "territorios/aragon/config/aragon_2025.yaml"
+        path = ROOT / "territorios/aut02/config/aut02_2025.yaml"
         data = yaml.safe_load(path.read_text(encoding="utf-8"))
         m05 = data["modulos"]["modulo_05_optimizar_distritos"]
         self.assertNotIn("population_repair", m05)

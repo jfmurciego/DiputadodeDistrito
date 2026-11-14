@@ -9,7 +9,7 @@
   "cards": [
     {
       "id": "F10-AND-CROSSWALK-2025-2026",
-      "territory_id": "andalucia",
+      "territory_id": "aut01",
       "title": "Investigar crosswalk electoral Andalucía 2026 a referencia territorial 2025",
       "context": "La fuente electoral definitiva tiene 6.044 secciones y 4.157.539 votos conciliados; falta acreditar el enlace completo con la referencia INE 2025/2025. Investiga solo las evidencias locales fijadas. No asignes votos ni infieras equivalencias.",
       "acceptance": [
@@ -19,23 +19,23 @@
       ],
       "evidence": [
         {
-          "path": "territorios/andalucia/evidencia/fuentes_electorales/2025/5f81c1412fe1234967c4702da7cc7c06e35dae61db3e14d794472044982baf7e/37150399030/receipt.json",
+          "path": "territorios/aut01/evidencia/fuentes_electorales/2025/5f81c1412fe1234967c4702da7cc7c06e35dae61db3e14d794472044982baf7e/37150399030/receipt.json",
           "sha256": "d768c9e328d1772c0f15915114b83f9751edb629f7abdfe815efbab0451841a8",
           "json_equals": {
             "schema": "ddd.catalog-evidence/1.0",
             "kind": "electoral_source",
-            "territory_id": "andalucia",
+            "territory_id": "aut01",
             "election_id": "andalucia_parlamento_2026",
             "election_date": "2026-05-17"
           }
         },
         {
           "path": "configuracion/adquisiciones_electorales_especiales.yaml",
-          "sha256": "4bb2e7532d43cb688f5b7dfea09e48bc9d64a11d0d18e26fd497d16b48c4e87a"
+          "sha256": "a93d727ef8e956649ae872325060026e3e8ca02ced2c2e06aa0de282a9f2dfb0"
         },
         {
           "path": "configuracion/decisiones/f10_referencia_territorial_2025_2026.json",
-          "sha256": "f9b8e9c0887318c2caae72234eeb321afd94e7de756a679e68d7566dbb373caa",
+          "sha256": "f800fe9a534c7a209134ad087c777233e2deb781d705e7c14f6bb8582c42363c",
           "json_equals": {
             "decision_id": "F10-20261012-PAIR-2025"
           }
@@ -58,7 +58,7 @@
         "read_only_paths": [
           "configuracion/f10_auto_tareas.json",
           "herramientas/validar_f10_auto_task.py",
-          "territorios/andalucia/evidencia/fuentes_electorales/2025/5f81c1412fe1234967c4702da7cc7c06e35dae61db3e14d794472044982baf7e/37150399030/receipt.json",
+          "territorios/aut01/evidencia/fuentes_electorales/2025/5f81c1412fe1234967c4702da7cc7c06e35dae61db3e14d794472044982baf7e/37150399030/receipt.json",
           "configuracion/adquisiciones_electorales_especiales.yaml",
           "configuracion/decisiones/f10_referencia_territorial_2025_2026.json"
         ],
@@ -94,7 +94,7 @@
     },
     {
       "id": "F10-ARA-CROSSWALK-2025-2026",
-      "territory_id": "aragon",
+      "territory_id": "aut02",
       "title": "Investigar crosswalk electoral Aragón 2026 a referencia territorial 2025",
       "context": "El receipt y contrato RTVE acreditan una fuente electoral, pero se conservan excepciones result-only y map-only. Investiga únicamente evidencia local fijada. No asignes los 608 votos de 5002501003 ni el CUSEC map-only 2221301003.",
       "acceptance": [
@@ -104,17 +104,17 @@
       ],
       "evidence": [
         {
-          "path": "territorios/aragon/evidencia/catalogo/electoral_source_2025.json",
+          "path": "territorios/aut02/evidencia/catalogo/electoral_source_2025.json",
           "sha256": "6f4d86d59e3a6bd1a928432b05b8e2a9890b90f5a415cd160f8877ec973332ba",
           "json_equals": {
             "schema": "ddd.catalog-evidence/1.0",
             "kind": "electoral_source",
-            "territory_id": "aragon",
+            "territory_id": "aut02",
             "election_id": "aragon_cortes_2026-02-08"
           }
         },
         {
-          "path": "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
+          "path": "territorios/aut02/config/elecciones/aragon_cortes_2026.json",
           "sha256": "2a9c7bfb9005311989f3e5634d62479a4d7b81a0cabad456e4887a85eeaa406a",
           "json_contains": [
             "5002501003",
@@ -123,7 +123,7 @@
         },
         {
           "path": "configuracion/decisiones/f10_referencia_territorial_2025_2026.json",
-          "sha256": "f9b8e9c0887318c2caae72234eeb321afd94e7de756a679e68d7566dbb373caa",
+          "sha256": "f800fe9a534c7a209134ad087c777233e2deb781d705e7c14f6bb8582c42363c",
           "json_equals": {
             "decision_id": "F10-20261012-PAIR-2025"
           }
@@ -146,8 +146,8 @@
         "read_only_paths": [
           "configuracion/f10_auto_tareas.json",
           "herramientas/validar_f10_auto_task.py",
-          "territorios/aragon/evidencia/catalogo/electoral_source_2025.json",
-          "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
+          "territorios/aut02/evidencia/catalogo/electoral_source_2025.json",
+          "territorios/aut02/config/elecciones/aragon_cortes_2026.json",
           "configuracion/decisiones/f10_referencia_territorial_2025_2026.json"
         ],
         "allowed_actions": [
@@ -182,7 +182,7 @@
     },
     {
       "id": "F10-CYL-CROSSWALK-2025-2026",
-      "territory_id": "castilla_y_leon",
+      "territory_id": "aut07",
       "title": "Investigar crosswalk electoral Castilla y León 2026 a referencia territorial 2025",
       "context": "La evidencia reconciliada contiene 3.528 secciones electorales, 3.506 territoriales, 3.504 comunes, 24 electorales-only, 2 map-only y 15.656 votos electorales-only. Investiga si hay correspondencia oficial; no asignes esos votos.",
       "acceptance": [
@@ -192,18 +192,18 @@
       ],
       "evidence": [
         {
-          "path": "territorios/castilla_y_leon/evidencia/fuente_electoral_2026_procedencia.json",
+          "path": "territorios/aut07/evidencia/fuente_electoral_2026_procedencia.json",
           "sha256": "c219744c673f91712035c30edd9e8d018c181fc5184bc5dc9158296707f43752",
           "json_equals": {
             "schema": "ddd-election-source-provenance/1.0",
-            "territory_id": "castilla_y_leon",
+            "territory_id": "aut07",
             "election_id": "castilla_y_leon_cortes_2026-03-15",
             "source_rows_2026": 67006,
             "normalized_sections": 3528
           }
         },
         {
-          "path": "territorios/castilla_y_leon/evidencia/reconciliacion_secciones_2025_2026.json",
+          "path": "territorios/aut07/evidencia/reconciliacion_secciones_2025_2026.json",
           "sha256": "590f3f26f674fe340b714a34c901427cde247738e81bc9649dc82026bfe16fd9",
           "json_equals": {
             "electoral_sections": 3528,
@@ -218,7 +218,7 @@
         },
         {
           "path": "configuracion/decisiones/f10_referencia_territorial_2025_2026.json",
-          "sha256": "f9b8e9c0887318c2caae72234eeb321afd94e7de756a679e68d7566dbb373caa",
+          "sha256": "f800fe9a534c7a209134ad087c777233e2deb781d705e7c14f6bb8582c42363c",
           "json_equals": {
             "decision_id": "F10-20261012-PAIR-2025"
           }
@@ -241,8 +241,8 @@
         "read_only_paths": [
           "configuracion/f10_auto_tareas.json",
           "herramientas/validar_f10_auto_task.py",
-          "territorios/castilla_y_leon/evidencia/fuente_electoral_2026_procedencia.json",
-          "territorios/castilla_y_leon/evidencia/reconciliacion_secciones_2025_2026.json",
+          "territorios/aut07/evidencia/fuente_electoral_2026_procedencia.json",
+          "territorios/aut07/evidencia/reconciliacion_secciones_2025_2026.json",
           "configuracion/decisiones/f10_referencia_territorial_2025_2026.json"
         ],
         "allowed_actions": [
@@ -277,7 +277,7 @@
     },
     {
       "id": "F10-EXT-ELECTORAL-SOURCE",
-      "territory_id": "extremadura",
+      "territory_id": "aut11",
       "title": "Verificar bloqueo de fuente electoral definitiva granular de Extremadura",
       "context": "Revalida el expediente local sobre el requisito contractual de granularidad sección/mesa y la diferencia entre resultado provisional y total definitivo DOE. No uses copias de terceros como fuente definitiva ni promociones el linaje provisional.",
       "acceptance": [
@@ -287,11 +287,11 @@
       ],
       "evidence": [
         {
-          "path": "territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json",
+          "path": "territorios/aut11/config/elecciones/bloqueo_fuente_oficial_2025.json",
           "sha256": "9de414bb0afaaafd5301f68cd1865b24fddad041a32140b1d2c6083929a667c5",
           "json_equals": {
             "schema_family": "ddd-election-source-readiness",
-            "territory_id": "extremadura",
+            "territory_id": "aut11",
             "status": "BLOCKED_FINAL_GRANULAR_SOURCE",
             "decision": "BLOCKED",
             "delta_definitive_minus_provisional": 2419
@@ -303,12 +303,12 @@
           ]
         },
         {
-          "path": "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml",
+          "path": "territorios/aut11/config/elecciones/fuentes_oficiales_2025.yaml",
           "sha256": "14d8efff9c06de16e9db759cceeedddae2d48c8f971e0491e8bbf7a382053fc9"
         },
         {
           "path": "configuracion/contratos_minsait_provisionales.yaml",
-          "sha256": "a10bfca6a1cd29f9adf7f90fe15b1e0b3f15a86ff66f577bda9d349fa555fbe8"
+          "sha256": "55d7e83a9e897512077c0c33dedac238176074fd71820b247d0bf974bdce7da2"
         }
       ],
       "task": {
@@ -328,8 +328,8 @@
         "read_only_paths": [
           "configuracion/f10_auto_tareas.json",
           "herramientas/validar_f10_auto_task.py",
-          "territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json",
-          "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml",
+          "territorios/aut11/config/elecciones/bloqueo_fuente_oficial_2025.json",
+          "territorios/aut11/config/elecciones/fuentes_oficiales_2025.yaml",
           "configuracion/contratos_minsait_provisionales.yaml"
         ],
         "allowed_actions": [

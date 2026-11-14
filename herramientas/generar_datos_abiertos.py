@@ -3,8 +3,9 @@
 """Datos abiertos y fichas por distrito de las provincias nacionales completas (T-60).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-11 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/generar_datos_abiertos_v1.2.0_20261111.py
+VERSIÓN: 1.3.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_datos_abiertos_v1.3.0_20261112.py
 CAMBIOS 1.3.0 (T-249): el paquete usa el par de cada territorio: el M08 vigente y el M06 de su linaje (mismo run o el
   que acredita el manifiesto del run del M08, `linaje_m06_m08`; `pares_vigentes`), no el M06 más reciente. MOTIVO: el lote P50 43030563528 registró solo M06 nuevos de 34 territorios;
   su M06 vigente quedó sin M08 del mismo run, se omitieron en silencio y el paquete borró sus directorios (51 → 17).
@@ -15,7 +16,7 @@ CAMBIOS 1.2.0 (T-201): `vigentes_m06(registro, eleccion)` elige por (territorio,
   elección no desplaza a la vigente. Salida idéntica si el registro no trae elecciones.
 CAMBIOS 1.1.0 (T-135): distritos numerados de 1 a K en CSV, fichas, INDEX.json, README y GeoJSON público (derivado del blob M06
   con propiedad `distrito`; su sha256 va en geojson.sha256 y el del GeoJSON M06 de origen en geojson.sha256_origen). El blob M06 no cambia.
-QUÉ HACE: por cada territorio congreso_* con M08 vigente y el M06 de su linaje en orchestracion/publicaciones_visor.json:
+QUÉ HACE: por cada circunscripción del Congreso (ámbito NAC del resolutor) con M08 vigente y el M06 de su linaje en orchestracion/publicaciones_visor.json:
   - lee el M06 (blob inmutable, verificado con su sha256) y toma población, secciones y municipios de cada distrito;
   - copia el CSV de resultados de datos/resultados/ (T-53) comprobando que su manifiesto acredita ese M08;
   - escribe datos_abiertos/<territorio>/resultados.csv, una ficha estática distrito-<n>.html por distrito y un
@@ -70,7 +71,7 @@ def escribir(ruta: Path, datos: bytes) -> None:
 
 def vigentes_m06(registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DEFECTO) -> dict[str, dict]:
     return rl.vigente_por_eleccion(json.loads(registro.read_text(encoding="utf-8"))["products"], "canonical_m06",
-                                   eleccion, "congreso_")
+                                   eleccion, ambito="NAC")
 
 
 def pares_vigentes(registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DEFECTO,
@@ -78,7 +79,7 @@ def pares_vigentes(registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DE
     """territorio → (M06, M08): el M08 vigente de la elección (el de datos/resultados/) y el M06 de su linaje."""
     prods = json.loads(registro.read_text(encoding="utf-8"))["products"]
     pares = {}
-    for t, p8 in sorted(rl.vigente_por_eleccion(prods, "canonical_m08", eleccion, "congreso_").items()):
+    for t, p8 in sorted(rl.vigente_por_eleccion(prods, "canonical_m08", eleccion, ambito="NAC").items()):
         p6 = m06_del_m08(prods, p8, root)
         if p6:
             pares[t] = (p6, p8)
@@ -88,8 +89,8 @@ def pares_vigentes(registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DE
 def retirados(previos, registro: Path = REGISTRO, eleccion: str = rl.ELECCION_POR_DEFECTO) -> set[str]:
     """Territorios del INDEX previo sin ningún M06 o M08 de la elección en el registro (retirada explícita)."""
     prods = json.loads(registro.read_text(encoding="utf-8"))["products"]
-    m6 = rl.vigente_por_eleccion(prods, "canonical_m06", eleccion, "congreso_")
-    m8 = rl.vigente_por_eleccion(prods, "canonical_m08", eleccion, "congreso_")
+    m6 = rl.vigente_por_eleccion(prods, "canonical_m06", eleccion, ambito="NAC")
+    m8 = rl.vigente_por_eleccion(prods, "canonical_m08", eleccion, ambito="NAC")
     return {t for t in previos if t not in m6 or t not in m8}
 
 

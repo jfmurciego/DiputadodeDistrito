@@ -13,6 +13,11 @@ except ModuleNotFoundError:  # ejecución directa como script
     from catalogo_territorios import normalize_territory_input
 from pathlib import Path
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "fuentes/territorios_espana.yaml"
@@ -42,6 +47,9 @@ def resolve_territory(value: str, registry_path: Path = DEFAULT_REGISTRY) -> dic
     wanted = norm(normalize_territory_input(value))
     for row in territories(registry_path):
         if wanted in {norm(row.get("id", "")), norm(row.get("name", ""))}:
+            return row
+    for row in territories(registry_path):  # T-220: id viejo o nuevo del mismo territorio
+        if mismo_territorio(str(value), str(row.get("id", ""))):
             return row
     raise KeyError(f"Territorio no registrado: {value}")
 

@@ -1,7 +1,7 @@
 {
   "schema": "ddd-archipelago-partitions/1.4",
   "territories": {
-    "illes_balears": {
+    "aut04": {
       "partition_mode": "physical_components",
       "components": {
         "07-C01": {
@@ -145,7 +145,7 @@
         }
       ]
     },
-    "canarias": {
+    "aut05": {
       "partition_mode": "physical_components",
       "components": {
         "35-C01": {
@@ -344,7 +344,7 @@
         }
       ]
     },
-    "congreso_santa_cruz_de_tenerife": {
+    "nac38": {
       "partition_mode": "physical_components",
       "components": {
         "38-C01": {
@@ -421,7 +421,7 @@
           "admin_scope": "province:38",
           "edge_type": "maritime_group",
           "reason": "Grupo de islas occidentales (La Gomera y La Palma) en un mismo distrito del Congreso; decisión del propietario 31-10-2026 (opción B)",
-          "source": "configuracion/particiones_insulares_2025.json#congreso_santa_cruz_de_tenerife"
+          "source": "configuracion/particiones_insulares_2025.json#nac38"
         },
         {
           "u": "3803601001",
@@ -429,7 +429,7 @@
           "admin_scope": "province:38",
           "edge_type": "maritime_group",
           "reason": "Grupo de islas occidentales (La Gomera y El Hierro) en un mismo distrito del Congreso; decisión del propietario 31-10-2026 (opción B)",
-          "source": "configuracion/particiones_insulares_2025.json#congreso_santa_cruz_de_tenerife"
+          "source": "configuracion/particiones_insulares_2025.json#nac38"
         }
       ],
       "inventories": [
@@ -437,7 +437,7 @@
           "inventory_id": "secciones_2023",
           "section_year": 2023,
           "population_year": 2023,
-          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 38; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de canarias",
+          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 38; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de aut05 (Canarias)",
           "universe_section_count": 681,
           "universe_cusec_set_sha256": "589b1a0ab71efdc4212afffda98699060e2749008038d1c194f0300a0941cb66",
           "component_sections": {
@@ -453,7 +453,7 @@
           "inventory_id": "secciones_2025",
           "section_year": 2025,
           "population_year": 2025,
-          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de canarias",
+          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de aut05 (Canarias)",
           "universe_section_count": 684,
           "universe_cusec_set_sha256": "8c92e0b3d7ff0aa2a5627e9820a9db7f1843f40268eb7b8a1d2a79279fc1256e",
           "component_sections": {
@@ -467,7 +467,7 @@
         }
       ]
     },
-    "congreso_baleares": {
+    "nac07": {
       "partition_mode": "physical_components",
       "components": {
         "07-C01": {
@@ -561,7 +561,7 @@
           "admin_scope": "province:07",
           "edge_type": "maritime_group",
           "reason": "Formentera e Ibiza en un mismo distrito del Congreso; decisión del propietario 31-10-2026",
-          "source": "configuracion/particiones_insulares_2025.json#congreso_baleares"
+          "source": "configuracion/particiones_insulares_2025.json#nac07"
         }
       ],
       "inventories": [
@@ -569,7 +569,7 @@
           "inventory_id": "secciones_2023",
           "section_year": 2023,
           "population_year": 2023,
-          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 07; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de illes_balears",
+          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 07; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de aut04 (Islas Baleares)",
           "universe_section_count": 670,
           "universe_cusec_set_sha256": "9360343a8c2a5d7b1e6fa167155d001a652bbab42df66c70be405052f52bbd2a",
           "component_sections": {
@@ -587,7 +587,7 @@
           "inventory_id": "secciones_2025",
           "section_year": 2025,
           "population_year": 2025,
-          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de illes_balears",
+          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de aut04 (Islas Baleares)",
           "universe_section_count": 674,
           "universe_cusec_set_sha256": "9840bcfa657cbd05b0e04fefa99316c7fb8f9d085d030eea6060796b22ef9f8c",
           "component_sections": {
@@ -603,7 +603,7 @@
         }
       ]
     },
-    "congreso_las_palmas": {
+    "nac35": {
       "partition_mode": "physical_components",
       "components": {
         "35-C01": {
@@ -664,7 +664,7 @@
           "admin_scope": "province:35",
           "edge_type": "maritime_group",
           "reason": "La Graciosa y Lanzarote (municipio de Teguise) en un mismo distrito del Congreso; decisión del propietario 31-10-2026",
-          "source": "configuracion/particiones_insulares_2025.json#congreso_las_palmas"
+          "source": "configuracion/particiones_insulares_2025.json#nac35"
         }
       ],
       "inventories": [
@@ -672,7 +672,7 @@
           "inventory_id": "secciones_2023",
           "section_year": 2023,
           "population_year": 2023,
-          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 35; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de canarias",
+          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 35; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de aut05 (Canarias)",
           "universe_section_count": 715,
           "universe_cusec_set_sha256": "a5b7dd13da9f10241a9370a0034896b3a7fc365062e56f898990acff959620a0",
           "component_sections": {
@@ -690,7 +690,7 @@
           "inventory_id": "secciones_2025",
           "section_year": 2025,
           "population_year": 2025,
-          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de canarias",
+          "source": "INE OGC Secciones_2025 (T-225, adquisición de la ruta de producción); cada isla coincide en número de secciones (y en conjunto CUSEC las islas sueltas) con el inventario INE 2025 acreditado de aut05 (Canarias)",
           "universe_section_count": 723,
           "universe_cusec_set_sha256": "b482147f7240ee16eb96735e40879871ff91c54764a1570d2ee3ff633d8399a7",
           "component_sections": {

@@ -13,25 +13,25 @@ class TestRegistroElectoralComun(unittest.TestCase):
         self.registry=yaml.safe_load((ROOT/"configuracion/registro_electoral.yaml").read_text(encoding="utf-8"))
     def test_registry_follows_canonical_codauto_order(self):
         expected=[
-            "andalucia",
-            "aragon",
-            "principado_de_asturias",
-            "illes_balears",
-            "canarias",
-            "cantabria",
-            "castilla_y_leon",
-            "castilla_la_mancha",
-            "cataluna",
-            "comunidad_valenciana",
-            "extremadura",
-            "galicia",
-            "madrid",
-            "region_de_murcia",
-            "comunidad_foral_de_navarra",
-            "pais_vasco",
-            "la_rioja",
-            "ceuta",
-            "melilla",
+            "aut01",
+            "aut02",
+            "aut03",
+            "aut04",
+            "aut05",
+            "aut06",
+            "aut07",
+            "aut08",
+            "aut09",
+            "aut10",
+            "aut11",
+            "aut12",
+            "aut13",
+            "aut14",
+            "aut15",
+            "aut16",
+            "aut17",
+            "aut18",
+            "aut19",
         ]+[row["territory_id"] for row in load_pilot_territories(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")]
         self.assertEqual(list(self.registry["territories"]),expected)
         # Las 19 autonómicas llevan CODAUTO 01–19; los territorios piloto, pilot_code.
@@ -98,7 +98,7 @@ class TestRegistroElectoralComun(unittest.TestCase):
             result=prepare(territory_id=row["territory_id"],edition="2025",package_out=Path(td)/"electoral",root=ROOT)
         self.assertEqual(result["decision"],"BLOCK"); self.assertIn("Sin paquete reutilizable",result["reason"])
     def test_cantabria_is_identified_but_dead_url_is_not_claimed_as_loaded(self):
-        entry=self.registry["territories"]["cantabria"]
+        entry=self.registry["territories"]["aut06"]
         self.assertEqual(entry["election_id"],"cantabria_parlamento_2023")
         self.assertFalse(entry.get("source_verified",False))
         self.assertFalse(entry.get("package_registered",False))
@@ -106,10 +106,10 @@ class TestRegistroElectoralComun(unittest.TestCase):
         row=resolve("Principado de Asturias",root_dir=ROOT,edition="2025")
         self.assertEqual(row["election_id"],"asturias_jgpa_2023"); self.assertTrue(row["declaration"])
     def test_ceuta_melilla_keep_their_own_identified_assembly_elections(self):
-        self.assertEqual(self.registry["territories"]["ceuta"]["election_id"],"ceuta_asamblea_local_2023")
-        self.assertEqual(self.registry["territories"]["melilla"]["election_id"],"melilla_asamblea_local_2023")
+        self.assertEqual(self.registry["territories"]["aut18"]["election_id"],"ceuta_asamblea_local_2023")
+        self.assertEqual(self.registry["territories"]["aut19"]["election_id"],"melilla_asamblea_local_2023")
     def test_cantabria_eleccionesdb_registration_does_not_claim_generic_declaration(self):
-        entry=self.registry["territories"]["cantabria"]
+        entry=self.registry["territories"]["aut06"]
         self.assertIn(entry["election_id"],ELECTIONS)
         workflow=(ROOT/".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
         self.assertIn("adapter: '${{ steps.mode.outputs.adapter }}'",workflow)

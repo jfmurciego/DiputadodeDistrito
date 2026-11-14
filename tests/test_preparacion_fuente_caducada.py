@@ -53,7 +53,7 @@ class FuenteCaducadaTests(unittest.TestCase):
             env = dict(os.environ, PATH=f"{gh.parent}:{os.environ['PATH']}", GITHUB_OUTPUT=str(output),
                        GITHUB_REPOSITORY="jfmurciego/DiputadodeDistrito", REGISTERED_RUN_ID="36020646219",
                        REGISTERED_ARTIFACT_NAME=NAME, REGISTERED_ARTIFACT_SHA256=DIGEST,
-                       TERRITORY_ID="andalucia", EDITION="2025", POPULATION_YEAR="2025", SECTION_YEAR="2025",
+                       TERRITORY_ID="aut01", EDITION="2025", POPULATION_YEAR="2025", SECTION_YEAR="2025",
                        EXPLICIT_RECOVERY=str(explicit_recovery).lower())
             result = subprocess.run(["bash", "-c", _step("territoriales", step_id="previous")["run"]],
                                     cwd=tmp, env=env, capture_output=True, text=True)

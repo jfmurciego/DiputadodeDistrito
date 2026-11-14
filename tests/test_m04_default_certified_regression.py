@@ -25,17 +25,17 @@ spec.loader.exec_module(entrypoint)
 
 
 CASES = {
-    "aragon": {
-        "params": ROOT / "territorios/aragon/config/aragon_2025.yaml",
-        "graph": ROOT / "territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M03/grafo.json",
-        "composition": ROOT / "territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M06/composicion_distritos.csv",
+    "aut02": {
+        "params": ROOT / "territorios/aut02/config/aut02_2025.yaml",
+        "graph": ROOT / "territorios/aut02/resultados/ejecuciones/gh-34599224954-1/M03/grafo.json",
+        "composition": ROOT / "territorios/aut02/resultados/ejecuciones/gh-34599224954-1/M06/composicion_distritos.csv",
         "k": 67,
         "province_districts": {"22": 11, "44": 7, "50": 49},
     },
-    "castilla_y_leon": {
-        "params": ROOT / "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml",
-        "graph": ROOT / "territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/M03/grafo.json",
-        "composition": ROOT / "territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/M06/composicion_distritos.csv",
+    "aut07": {
+        "params": ROOT / "territorios/aut07/config/aut07_2025.yaml",
+        "graph": ROOT / "territorios/aut07/resultados/ejecuciones/gh-34701897922-1/M03/grafo.json",
+        "composition": ROOT / "territorios/aut07/resultados/ejecuciones/gh-34701897922-1/M06/composicion_distritos.csv",
         "k": 82,
         "province_districts": {
             "05": 6, "09": 12, "24": 15, "34": 6, "37": 11,
@@ -233,10 +233,10 @@ class CanonicalDefaultRegressionTests(unittest.TestCase):
             )
 
     def test_aragon_certified_inputs_preserve_hard_baseline_through_current_entrypoint(self):
-        self._run_case(CASES["aragon"])
+        self._run_case(CASES["aut02"])
 
     def test_castilla_y_leon_certified_inputs_preserve_hard_baseline_through_current_entrypoint(self):
-        self._run_case(CASES["castilla_y_leon"])
+        self._run_case(CASES["aut07"])
 
 
 if __name__ == "__main__":

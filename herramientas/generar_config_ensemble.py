@@ -2,8 +2,9 @@
 """Genera configuracion/ensemble/<territorio>.json de las provincias del Congreso que el ensemble admite.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/generar_config_ensemble_v1.2.0_20261109.py
+VERSIÓN: 1.3.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_config_ensemble_v1.3.0_20261112.py
 CAMBIOS 1.3.0 (T-128): molde autonómico. Ceuta, Melilla, Madrid, La Rioja y Asturias (comunidades de una provincia, sin puentes ni
   exenciones) entran con los límites de su contrato de producción (0,80/1,75/0,12; Melilla, su excepción gobernada), copiados sin cambio;
   el resto de comunidades sigue fuera (puentes, exención por partición o varias provincias). Orden del Planificador, 09-11.
@@ -24,15 +25,25 @@ import argparse
 import copy
 import json
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito por el resolutor, nunca por prefijo)
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
-MOLDE = "congreso_la_rioja"
+MOLDE = "nac26"
 EXCLUIDOS_POR_ORDEN: dict[str, str] = {}
 EXENCION = "population_floor_exempt_municipalities"
 # Lo que el propietario ha aprobado para el ensemble y difiere del molde. La exención se toma del contrato (con su decisión).
 APROBADOS_PROPIETARIO = {
-    "congreso_cadiz": {
+    "nac11": {
         "admite": {"population_cap_ratio", "target_tolerance_ratio", EXENCION},
         "decisions": {
             "population_cap_ratio": {
@@ -43,7 +54,7 @@ APROBADOS_PROPIETARIO = {
             },
         },
     },
-    "congreso_barcelona": {
+    "nac08": {
         "admite": {EXENCION},
         "decisions": {},
     },
@@ -59,7 +70,7 @@ _AUTONOMICA = {
         },
     },
 }
-for _tid in ("ceuta", "melilla", "madrid", "la_rioja", "principado_de_asturias"):
+for _tid in ("aut18", "aut19", "aut13", "aut17", "aut03"):
     APROBADOS_PROPIETARIO[_tid] = _AUTONOMICA
 LIMITES = ("population_floor_ratio", "population_cap_ratio", "target_tolerance_ratio", "municipality_atomicity_limit_ratio")
 
@@ -124,8 +135,10 @@ def main() -> int:
     args = ap.parse_args()
     root = args.root_dir
     molde = json.loads((root / "configuracion/ensemble" / f"{MOLDE}.json").read_text(encoding="utf-8"))
-    rutas = sorted((root / "territorios").glob("congreso_*/config/congreso_*_2025.yaml"))
-    rutas += [root / "territorios" / t / "config" / f"{t}_2025.yaml" for t in sorted(APROBADOS_PROPIETARIO) if not t.startswith("congreso_")]
+    rutas = [root / "territorios" / carpeta_de(root, t) / "config" / f"{t}_2025.yaml" for t in territorio_ids.ids_nuevos("NAC")]
+    rutas = [r for r in rutas if r.exists()]
+    rutas += [root / "territorios" / carpeta_de(root, t) / "config" / f"{t}_2025.yaml" for t in sorted(APROBADOS_PROPIETARIO)
+              if not territorio_ids.es_nacional(t)]
     for path in rutas:
         contract = yaml.safe_load(path.read_text(encoding="utf-8"))
         tid = contract["meta"]["territory_id"]

@@ -90,13 +90,13 @@ class CatalogPilotM08EvolutionTests(unittest.TestCase):
                 ),
                 ABSENT_FINGERPRINT,
             )
-            _push_pilot(remote, base / "pilot-a", "congreso_huesca", "Congreso Huesca", "H22")
+            _push_pilot(remote, base / "pilot-a", "nac22", "Congreso Huesca", "H22")
             # Antes del push del registrador aparece un segundo piloto en main.
             def add_second_pilot(attempt: int) -> None:
                 if attempt == 1:
                     _push_pilot(
                         remote, base / "pilot-b",
-                        "congreso_leon", "Congreso León", "L24",
+                        "nac24", "Congreso León", "L24",
                     )
 
             result_path = base / "registered.json"
@@ -125,7 +125,7 @@ class CatalogPilotM08EvolutionTests(unittest.TestCase):
             )
             self.assertEqual(
                 {r["territory_id"] for r in master["pilot_territories"]},
-                {"congreso_huesca", "congreso_leon"},
+                {"nac22", "nac24"},
             )
             self.assertEqual(
                 {r["territory_id"] for r in master["territories"]},
@@ -232,7 +232,7 @@ class CatalogPilotM08EvolutionTests(unittest.TestCase):
             remote = make_remote(root)
             writer = root / "writer"
             clone(remote, writer)
-            _add_pilot(writer, "congreso_huesca", "Congreso Huesca", "H22")
+            _add_pilot(writer, "nac22", "Congreso Huesca", "H22")
             master_path = writer / "configuracion/catalogo_territorios_espana_2025.yaml"
             baseline = yaml.safe_load(master_path.read_text(encoding="utf-8"))
             self.assertEqual(validate_repository(root_dir=writer), [])

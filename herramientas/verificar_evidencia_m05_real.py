@@ -51,7 +51,7 @@ def main()->int:
     for row in m['source_integrity']['operational_files']:
         p=a.repo_root/row['path']
         if not p.is_file() or sha256(p)!=row['sha256']:errors.append('code:'+row['path'])
-    cfg=a.repo_root/'territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml'
+    cfg=a.repo_root/'territorios/aut07/config/aut07_2025.yaml'
     if sha256(cfg)!=m['source_integrity']['territory_config_sha256']:errors.append('config_sha256')
     canonical=[]; inner=[]; functional=[]; repairs=[]; states=[]; term=[]; pops=[]
     for rn in ('run1','run2'):

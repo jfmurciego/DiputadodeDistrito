@@ -14,6 +14,30 @@ import json
 from pathlib import Path
 
 import yaml
+def _territorio_ids_t220():
+    """T-220: resolutor sin tocar sys.path (la herramienta se ejecuta también por ruta y en árboles mínimos)."""
+    import importlib.util
+    import sys
+    from pathlib import Path
+    if "ddd_core.territorio_ids" in sys.modules:
+        return sys.modules["ddd_core.territorio_ids"]
+    ruta = Path(__file__).resolve().parents[1] / "ddd_core" / "territorio_ids.py"
+    if not ruta.is_file():
+        return None
+    spec = importlib.util.spec_from_file_location("_t220_territorio_ids", ruta)
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    return modulo
+
+
+def mismo_territorio(a, b):  # noqa: E302
+    ti = _territorio_ids_t220()
+    return str(a) == str(b) if ti is None else ti.mismo_territorio(a, b)
+
+
+def carpeta_de(root, x):  # noqa: E302
+    ti = _territorio_ids_t220()
+    return str(x) if ti is None else ti.carpeta_de(root, x)
 
 try:
     from herramientas.politica_reutilizacion_fuentes import resolve_source_action
@@ -38,7 +62,7 @@ def validate_resume_sources(*, params: Path, package: Path, root_dir: Path = Pat
     if not territory_id:
         raise RuntimeError("Fuentes BLOQUEADAS: el contrato no declara meta.territory_id")
 
-    declaration = root_dir / "territorios" / territory_id / "config" / "fuentes_oficiales.yaml"
+    declaration = root_dir / "territorios" / carpeta_de(root_dir, territory_id) / "config" / "fuentes_oficiales.yaml"
     if not declaration.is_file():
         raise RuntimeError(f"Fuentes BLOQUEADAS: no existe declaración de fuentes: {declaration}")
     source_cfg = _read_yaml(declaration)

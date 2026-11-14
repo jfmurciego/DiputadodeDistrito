@@ -3,11 +3,12 @@
 """Hemiciclo nacional: suma de escaños por partido de tres maneras.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.0 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.3.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.3.0 (T-201): `cargar_m08(cache, m08_dir, eleccion)` elige el M08 por (territorio, elección), por defecto 2023-07-23; interfaz
   pública intacta (parámetro opcional al final).
 CAMBIOS: (b) se rellena con el oficial de 2019-11 (BOE-A-2019-18147, T-55) y una tabla explícita de homologación de siglas; lee los ganadores de datos/resultados/*.csv (T-53) cuando el manifiesto acredita el blob vigente; blobs como respaldo.
-ANTERIOR: legacy/herramientas/generar_hemiciclo_v1.2.0_20261110.py
+CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_hemiciclo_v1.3.0_20261112.py
 QUÉ HACE: lee los M08 registrados (distritos_resultados.csv) de las provincias nacionales completas y suma:
   (a) reparto real 2023 (D'Hondt, umbral 3 %), calculado desde los votos y contrastado escaño a escaño con el oficial;
   (b) elección anterior (generales 2019-11): escaños oficiales del BOE (configuracion/resultados_oficiales_congreso_2019_11.csv),
@@ -16,7 +17,7 @@ QUÉ HACE: lee los M08 registrados (distritos_resultados.csv) de las provincias 
   Salida JSON y CSV con totales de «Nacional» por partido y la lista de provincias que faltan, calculada de los datos
   (sin M08, o con distritos distintos de los esperados).
 FUENTES: M08: blobs inmutables de orchestracion/publicaciones_visor.json (kind=canonical_m08, el run más reciente por
-  territorio congreso_*), bajados con `gh api .../git/blobs/<sha>` a una caché local y verificados con su sha256.
+  circunscripción NAC), bajados con `gh api .../git/blobs/<sha>` a una caché local y verificados con su sha256.
   Oficial 2023: ZIP por mesa del release fuente-infoelectoral-02202307 (huella de configuracion/contratos_infoelectoral.yaml),
   votos por candidatura con CERA y votos válidos (candidaturas + blancos) por provincia; el reparto es D'Hondt con barrera del 3 %.
   Verificación de (a): el reparto de cada una de las 52 circunscripciones se contrasta, partido a partido, con el oficial del BOE
@@ -43,6 +44,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import resultados_ligeros as rl  # noqa: E402
+from ddd_core import territorio_ids  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 N06 = ROOT / "docs/ESTUDIOS/N06_DECISION_K_20261012/resultados/reparto_ddd_52.csv"
@@ -96,7 +98,8 @@ PROVINCIAS = {
     "46": ("valencia", "Valencia"), "47": ("valladolid", "Valladolid"), "48": ("vizcaya", "Vizcaya"),
     "49": ("zamora", "Zamora"), "50": ("zaragoza", "Zaragoza"), "51": ("ceuta", "Ceuta"), "52": ("melilla", "Melilla"),
 }
-_POR_ID = {f"congreso_{v[0]}": k for k, v in PROVINCIAS.items()}
+_POR_ID = {t.id_legacy: t.codigo[3:] for t in territorio_ids.tabla().values() if t.ambito == "NAC"}  # T-220: viejo
+_POR_ID.update({t.id: t.codigo[3:] for t in territorio_ids.tabla().values() if t.ambito == "NAC"})  # y nuevo
 
 
 def codigo(valor: str) -> str:
@@ -372,7 +375,7 @@ def ganadores_geojson(datos: bytes) -> list[str]:
 def cargar_m08(cache: Path, m08_dir: Path | None = None, eleccion: str = rl.ELECCION_POR_DEFECTO) -> tuple[dict[str, list[str]], dict[str, str]]:
     """provincia → ganadores por distrito y provincia → run, de los blobs del registro del visor (o de m08_dir)."""
     prods = rl.vigente_por_eleccion(json.loads(REGISTRO_VISOR.read_text(encoding="utf-8"))["products"], "canonical_m08",
-                                    eleccion, "congreso_")
+                                    eleccion, ambito="NAC")
     gan, runs = {}, {}
     for t, p in sorted(prods.items()):
         if t not in _POR_ID:

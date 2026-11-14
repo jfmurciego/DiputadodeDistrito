@@ -38,7 +38,7 @@ class EnsembleWebCrsTests(unittest.TestCase):
             }
             source.write_text(json.dumps(original), encoding="utf-8")
             summary = {
-                "territory_id": "aragon",
+                "territory_id": "aut02",
                 "candidate_count_valid": 1,
                 "candidate_count_expected": 1,
                 "candidates": [{"candidate_id": "balanced-01", "geojson": str(source)}],

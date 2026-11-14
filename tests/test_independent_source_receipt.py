@@ -21,7 +21,7 @@ class IndependentSourceReceiptTests(unittest.TestCase):
         compatibility_sha = "b" * 64
         report_sha = "c" * 64
         identity = territorial_identity(
-            territory_id="extremadura",
+            territory_id="aut11",
             edition="2025",
             population_year=2025,
             section_year=2025,
@@ -31,7 +31,7 @@ class IndependentSourceReceiptTests(unittest.TestCase):
         receipt = {
             "schema": "ddd.territorial-source-receipt/1.0",
             "kind": "territorial_source",
-            "territory_id": "extremadura",
+            "territory_id": "aut11",
             "edition": "2025",
             "run_id": 38091144559,
             "artifact_name": "ddd-source-package-extremadura-2025-38091144559",
@@ -63,7 +63,7 @@ class IndependentSourceReceiptTests(unittest.TestCase):
             "promoted": promoted,
         }
         row = {
-            "territory_id": "extremadura",
+            "territory_id": "aut11",
             "name": "Extremadura",
             "territorial_sources_prepared": True,
             "preparation_evidence": historic,
@@ -77,7 +77,7 @@ class IndependentSourceReceiptTests(unittest.TestCase):
             row, expected = self.make_row(root)
             with mock.patch.object(consumer, "_catalog_row", return_value=row):
                 actual_row, receipt = consumer.validate_territorial_receipt(
-                    root_dir=root, territory="extremadura", edition="2025"
+                    root_dir=root, territory="aut11", edition="2025"
                 )
             self.assertEqual(expected, receipt)
             self.assertEqual(35755043806, actual_row["preparation_evidence"]["run_id"])
@@ -98,7 +98,7 @@ class IndependentSourceReceiptTests(unittest.TestCase):
                         consumer.PreparedPairExecutionBlock, "evidencia auténtica no promovida"
                     ):
                         consumer.validate_territorial_receipt(
-                            root_dir=root, territory="extremadura", edition="2025"
+                            root_dir=root, territory="aut11", edition="2025"
                         )
 
 

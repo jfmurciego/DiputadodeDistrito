@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-11 · ANTERIOR: ninguna (fichero nuevo)
+"""PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ANTERIOR: legacy/tests/test_t225_congreso_2025_v1.0.0_20261112.py
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
 Tests de T-225 (D-65, D-80): contratos de la edición 2026 de las 52 circunscripciones del Congreso con el par INE
 2025/2025, su decisión, los inventarios insulares 2025 y la equivalencia seccionado INE 2026 → 2025."""
 import hashlib
@@ -13,7 +14,8 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-IDS = sorted(p.name for p in (ROOT / "territorios").iterdir() if p.name.startswith("congreso_"))
+from ddd_core.territorio_ids import es_nacional, ids_nuevos, id_legacy  # noqa: E402  (T-220)
+IDS = sorted(p.name for p in (ROOT / "territorios").iterdir() if es_nacional(p.name))
 DECISION = ROOT / "configuracion/decisiones/congreso_referencia_territorial_2025_2026.json"
 TABLA = ROOT / "configuracion/equivalencia_seccionado_ine_2026_a_2025.csv"
 
@@ -55,12 +57,12 @@ class Contratos2026(unittest.TestCase):
         def puentes(t):
             m02 = _c(t, "2026")["modulos"]["modulo_02_construir_adyacencias"]
             return {(str(b["u"]), str(b["v"])) for b in m02["topology_bridges"]}
-        self.assertNotIn(("2523401002", "2523403001"), puentes("congreso_lerida"))
-        self.assertIn(("4717501004", "4717501003"), puentes("congreso_valladolid"))
+        self.assertNotIn(("2523401002", "2523403001"), puentes("nac25"))
+        self.assertIn(("4717501004", "4717501003"), puentes("nac47"))
 
     def test_decision(self):
         d = json.loads(DECISION.read_text(encoding="utf-8"))
-        self.assertEqual(d["territory_ids"], IDS)
+        self.assertEqual(sorted(d["territory_ids"]), IDS)  # T-220: la decisión conserva su orden (por id viejo)
         self.assertEqual((d["selected_population_year"], d["selected_section_year"], d["election_year"]), (2025, 2025, 2026))
         self.assertIs(d["generation_authorized_by_this_decision"], False)
         self.assertIn("D-65", d["approval_basis"])
@@ -70,13 +72,13 @@ class Contratos2026(unittest.TestCase):
     def test_inventario_insular_2025(self):
         p = json.loads((ROOT / "configuracion/particiones_insulares_2025.json").read_text(encoding="utf-8"))["territories"]
         inv = {t: [i for i in p[t]["inventories"] if i["section_year"] == 2025] for t in
-               ("congreso_baleares", "congreso_las_palmas", "congreso_santa_cruz_de_tenerife", "illes_balears")}
+               ("nac07", "nac35", "nac38", "aut04")}
         self.assertTrue(all(len(v) == 1 for v in inv.values()))
         # cruce con los inventarios 2025 acreditados antes por las autonómicas (fuente independiente: run 36529385760 y
         # 36529404391): mismo universo en Baleares y, en Las Palmas, mismas islas sueltas y grupo = suma de sus islas
-        aut, can = inv["illes_balears"][0], [i for i in p["canarias"]["inventories"] if i["section_year"] == 2025][0]
-        self.assertEqual(inv["congreso_baleares"][0]["universe_cusec_set_sha256"], aut["universe_cusec_set_sha256"])
-        lp = inv["congreso_las_palmas"][0]
+        aut, can = inv["aut04"][0], [i for i in p["aut05"]["inventories"] if i["section_year"] == 2025][0]
+        self.assertEqual(inv["nac07"][0]["universe_cusec_set_sha256"], aut["universe_cusec_set_sha256"])
+        lp = inv["nac35"][0]
         for c in ("35-C01", "35-C02"):
             self.assertEqual(lp["component_cusec_set_sha256"][c], can["component_cusec_set_sha256"][c])
         self.assertEqual(lp["component_sections"]["35-G01"],

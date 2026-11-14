@@ -8,6 +8,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.verificar_puentes_congreso import check_contract, classify, main, sections_from_geojson
+from ddd_core.territorio_ids import es_nacional, ids_nuevos, id_legacy  # noqa: E402  (T-220)
 
 SECTIONS = {"4713401001", "4718301001", "4718301002", "2200101001", "2200101002"}
 BASE = {"admin_scope": "province:47", "edge_type": "administrative_exclave", "reason": "r", "source": "s"}
@@ -52,7 +53,7 @@ class VerificarPuentes(unittest.TestCase):
 
     def test_contratos_nacionales_declaran_puentes_bien_formados(self):
         root = Path(__file__).resolve().parents[1]
-        contracts = sorted(root.glob("territorios/congreso_*/config/congreso_*_2025.yaml"))
+        contracts = [root / f"territorios/{t}/config/{t}_2025.yaml" for t in ids_nuevos("NAC")]
         self.assertEqual(len(contracts), 52)
         for path in contracts:
             for b in (yaml.safe_load(path.read_text(encoding="utf-8"))["modulos"]
@@ -69,7 +70,8 @@ class VerificarPuentes(unittest.TestCase):
         self.assertEqual(names[i + 1], "Ejecutar módulo")
         step = steps[i]
         self.assertEqual(step["if"], "${{ env.STAGE == 'M02' }}")
-        self.assertIn("territorios/congreso_*) ;;", step["run"])  # las autonómicas salen sin comprobar
+        self.assertIn("python3 -m ddd_core.territorio_ids ambito", step["run"])  # T-220: ámbito del resolutor
+        self.assertIn('[[ "$ambito" == NAC ]]', step["run"])  # las autonómicas salen sin comprobar
         self.assertIn("--sections-geojson", step["run"])
         # Si M02 se reutiliza por checkpoint, el job m02 no corre y el paso tampoco.
         self.assertIn("needs.m01.result == 'success'", wf["jobs"]["m02"]["if"])

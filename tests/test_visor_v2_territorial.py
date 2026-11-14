@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """T-119 PR-C: vista territorial del visor v2 (generador + navegador) y repaso completo del v2 en móvil y escritorio.
 
-PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
-El fixture reproduce propiedades reales del M06 de Baleares (distrito 9 de congreso_baleares: 76.968 hab., −36,39 %, suelo 0).
+PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato · ANTERIOR: legacy/tests/test_visor_v2_territorial_v1.0.0_20261112.py
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+El fixture reproduce propiedades reales del M06 de Baleares (distrito 9 de nac07, Baleares: 76.968 hab., −36,39 %, suelo 0).
 """
 import functools, hashlib, http.server, json, os, shutil, sys, tempfile, threading, unittest
 from pathlib import Path
@@ -86,7 +87,7 @@ class Repaso(unittest.TestCase):
         gr.generar(v2 / "datos" / "rotacion.json", RAIZ / "datos/resultados/historico/rotacion", RAIZ / "datos/composicion")
         s = v2 / "datos" / "secciones"; s.mkdir()
         (s / "INDEX.json").write_text(json.dumps({"provincias": {"01": {"secciones": 1}}}), "utf-8")
-        (s / "01.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"s": "0100101001", "m": "Vitoria-Gasteiz", "p": 1390, "d": 1, "t": "congreso_alava"},
+        (s / "01.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"s": "0100101001", "m": "Vitoria-Gasteiz", "p": 1390, "d": 1, "t": "nac01"},
             "geometry": {"type": "Polygon", "coordinates": [[[-2.72, 42.8], [-2.66, 42.8], [-2.66, 42.9], [-2.72, 42.9], [-2.72, 42.8]]]}}]}), "utf-8")
 
     @classmethod

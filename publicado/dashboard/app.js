@@ -64,6 +64,8 @@ const MAP_POINTS = {
   comunidad_valenciana:{x:70,y:61,label:'CV'},region_de_murcia:{x:66,y:73,label:'MUR'},andalucia:{x:46,y:78,label:'AND'},
   illes_balears:{x:87,y:62,label:'BAL'},canarias:{x:17,y:88,label:'ICA'},ceuta:{x:49,y:91,label:'CEU'},melilla:{x:59,y:92,label:'MEL'}
 };
+// T-220: los ids nuevos (AUTnn de la tabla maestra) comparten el punto del id viejo.
+for (const [viejo, nuevo] of [['andalucia','aut01'],['aragon','aut02'],['principado_de_asturias','aut03'],['illes_balears','aut04'],['canarias','aut05'],['cantabria','aut06'],['castilla_y_leon','aut07'],['castilla_la_mancha','aut08'],['cataluna','aut09'],['comunidad_valenciana','aut10'],['extremadura','aut11'],['galicia','aut12'],['madrid','aut13'],['region_de_murcia','aut14'],['comunidad_foral_de_navarra','aut15'],['pais_vasco','aut16'],['la_rioja','aut17'],['ceuta','aut18'],['melilla','aut19']]) MAP_POINTS[nuevo] = MAP_POINTS[viejo];
 
 let activationRows = [];
 let activationFilter = 'all';

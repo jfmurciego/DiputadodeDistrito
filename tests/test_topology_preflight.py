@@ -295,7 +295,7 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         self.assertIn("section_year", stale["reason"])
 
     def test_19_real_catalonia_accreditation_survives_config_loader_verbatim(self):
-        cfg = load_params_yaml(str(ROOT / "territorios/cataluna/config/cataluna_2025.yaml"))
+        cfg = load_params_yaml(str(ROOT / "territorios/aut09/config/aut09_2025.yaml"))
         accreditation = cfg["validation"]["topology_accreditation"]
         self.assertEqual("ddd.topology-accreditation.v1", accreditation["schema"])
         declaration = accreditation["administrative_components"][0]
@@ -407,7 +407,7 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         )
 
     def test_24_real_tremp_evidence_is_normative_and_passes_exact_membership(self):
-        cfg = load_params_yaml(str(ROOT / "territorios/cataluna/config/cataluna_2025.yaml"))
+        cfg = load_params_yaml(str(ROOT / "territorios/aut09/config/aut09_2025.yaml"))
         declaration = cfg["validation"]["topology_accreditation"]["administrative_components"][0]
         tremp = ["2523401001", "2523401002", "2523402001", "2523402002", "2523403001"]
         units = {
@@ -483,7 +483,7 @@ class M02ContractInputCases(unittest.TestCase):
         gdf.to_file(path, driver="GeoJSON")
 
     def test_archipelago_contracts_run_m02_from_source_fields_before_ddd_partitions_exist(self):
-        for territory_id in ("illes_balears", "canarias"):
+        for territory_id in ("aut04", "aut05"):
             with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td:
                 root = Path(td)
                 source = root / "m01.geojson"

@@ -15,7 +15,7 @@ class Cobertura(unittest.TestCase):
         self.assertGreaterEqual(len(cuadran), 42)
         self.assertEqual([x for x in f if x["estado"] == "EN_REPO_NO_CUADRA"], [])
         # Cantabria 2023 es la única con dato por sección del Observatorio (índice): a mano
-        c = {x["eleccion"] for x in f if x["comunidad"] == "cantabria" and x["seccion_en_observatorio"] == "si"}
+        c = {x["eleccion"] for x in f if x["comunidad"] == "aut06" and x["seccion_en_observatorio"] == "si"}
         self.assertEqual(c, {"202305"})
 
 

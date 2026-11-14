@@ -29,7 +29,7 @@ class MunicipalFloorExemptionTests(unittest.TestCase):
         self.assertFalse(municipalities_touch_exempt(["30030"], exempt))
 
     def test_murcia_contract_declares_only_beniel(self):
-        cfg = yaml.safe_load((ROOT / "territorios/region_de_murcia/config/region_de_murcia_2025.yaml").read_text(encoding="utf-8"))
+        cfg = yaml.safe_load((ROOT / "territorios/aut14/config/aut14_2025.yaml").read_text(encoding="utf-8"))
         self.assertEqual({"30010"}, exempt_municipalities(cfg))
         self.assertEqual([], cfg["validation"]["population_floor_exempt_partitions"])
 

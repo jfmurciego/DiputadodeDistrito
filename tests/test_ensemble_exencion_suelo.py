@@ -76,8 +76,8 @@ class ExencionSueloEnsembleTests(unittest.TestCase):
         self.assertGreater(report["telemetry"]["unique_states"], 1)
 
     def test_config_de_cadiz_hereda_la_exencion_gobernada(self):
-        cfg = json.loads((ROOT / "configuracion/ensemble/congreso_cadiz.json").read_text(encoding="utf-8"))
-        contrato = yaml.safe_load((ROOT / "territorios/congreso_cadiz/config/congreso_cadiz_2025.yaml").read_text(encoding="utf-8"))
+        cfg = json.loads((ROOT / "configuracion/ensemble/nac11.json").read_text(encoding="utf-8"))
+        contrato = yaml.safe_load((ROOT / "territorios/nac11/config/nac11_2025.yaml").read_text(encoding="utf-8"))
         val = contrato["validation"]
         self.assertEqual(cfg["contract"]["population_floor_exempt_municipalities"], val["population_floor_exempt_municipalities"])
         self.assertEqual(cfg["contract"]["population_cap_ratio"], val["population_cap_ratio"])

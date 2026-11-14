@@ -23,6 +23,20 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio, variantes, ruta_existente  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core import territorio_ids as _ti  # noqa: E402
+
+
+def _id(x) -> str:
+    """Id nuevo si está en la tabla maestra; si no, tal cual (T-220: evidencias con el id viejo)."""
+    try:
+        return _ti.resolver_id(str(x))
+    except (_ti.IdTerritorioDesconocido, _ti.IdReservado):
+        return str(x)
 
 try:
     from herramientas.identidad_fuentes_legislatura import (
@@ -80,7 +94,7 @@ def _digest(value: object) -> str | None:
 
 def _catalog_state(root: Path, territory_id: str, edition: str) -> tuple[dict, dict]:
     data = _yaml(root / CATALOG)
-    rows = [r for r in data.get("territories") or [] if r.get("territory_id") == territory_id]
+    rows = [r for r in data.get("territories") or [] if mismo_territorio(str(r.get("territory_id") or ""), str(territory_id))]
     if len(rows) != 1:
         raise ValueError(f"Territorio ausente/duplicado en catálogo: {territory_id}")
     state = (rows[0].get("editions") or {}).get(str(edition))
@@ -94,7 +108,7 @@ def _temporal_evidence(root: Path, matrix: dict) -> dict:
     rel = str(policy.get("availability_evidence") or "")
     if not rel:
         raise ValueError("TEMPORAL_EVIDENCE_MISSING: falta availability_evidence")
-    path = root / rel
+    path = ruta_existente(root, rel)
     if not path.is_file():
         raise ValueError(f"TEMPORAL_EVIDENCE_MISSING: no existe {rel}")
     data = _json(path)
@@ -271,12 +285,12 @@ def _territorial_candidate(
     declaration_rel = state.get("territorial_source_declaration")
     if not state.get("territorial_sources_prepared") or not isinstance(prep, dict) or not declaration_rel:
         return {"reusable": False, "reason": "TERRITORIAL_PACKAGE_MISSING"}
-    declaration_path = root / str(declaration_rel)
+    declaration_path = ruta_existente(root, str(declaration_rel))
     if not declaration_path.is_file():
         return {"reusable": False, "reason": "TERRITORIAL_DECLARATION_MISSING"}
     declaration = _yaml(declaration_path)
     territory = declaration.get("territory") or {}
-    if str(territory.get("id") or "") != territory_id:
+    if not mismo_territorio(str(territory.get("id") or ""), str(territory_id)):
         return {"reusable": False, "reason": "TERRITORIAL_IDENTITY_MISMATCH"}
     run_id = prep.get("run_id")
     artifact_name = str(prep.get("artifact_name") or "")
@@ -305,7 +319,7 @@ def _territorial_candidate(
         observed_section_year = int(prep_section)
     if not isinstance(run_id, int) or run_id <= 0:
         return {"reusable": False, "reason": "TERRITORIAL_RUN_INVALID"}
-    if artifact_name != f"ddd-source-package-{territory_id}-{edition}-{run_id}":
+    if artifact_name not in {f"ddd-source-package-{v}-{edition}-{run_id}" for v in variantes(territory_id)}:
         return {"reusable": False, "reason": "TERRITORIAL_ARTIFACT_IDENTITY_MISMATCH"}
     if not artifact_sha256 or not package_sha256:
         return {"reusable": False, "reason": "TERRITORIAL_DIGEST_MISSING"}
@@ -327,6 +341,10 @@ def _territorial_candidate(
             "source_commit": prep.get("source_commit"),
         }
 
+    receipt_rel = str(prep.get("receipt_path") or "")
+    esperado = None  # T-220: un receipt ya emitido fija con qué id se selló su identidad
+    if receipt_rel and ruta_existente(root, receipt_rel).is_file():
+        esperado = str(_json(ruta_existente(root, receipt_rel)).get("territorial_identity_sha256") or "") or None
     identity = territorial_identity(
         territory_id=territory_id,
         edition=edition,
@@ -334,17 +352,17 @@ def _territorial_candidate(
         section_year=observed_section_year,
         package_sha256=package_sha256,
         compatibility_identity_sha256=compatibility_identity_sha256,
+        esperado=esperado,
     )
-    receipt_rel = str(prep.get("receipt_path") or "")
     if receipt_rel:
-        receipt_path = root / receipt_rel
+        receipt_path = ruta_existente(root, receipt_rel)
         if not receipt_path.is_file():
             return {"reusable": False, "reason": "TERRITORIAL_RECEIPT_MISSING"}
         receipt = _json(receipt_path)
         if (
             receipt.get("schema") != "ddd.territorial-source-receipt/1.0"
             or receipt.get("kind") != "territorial_source"
-            or str(receipt.get("territory_id") or "") != territory_id
+            or not mismo_territorio(str(receipt.get("territory_id") or ""), str(territory_id))
             or str(receipt.get("edition") or "") != edition
             or int(receipt.get("run_id") or 0) != run_id
             or str(receipt.get("artifact_name") or "") != artifact_name
@@ -422,12 +440,12 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
     rel = evidence.get("electoral_source") if isinstance(evidence, dict) else None
     if not state.get("electoral_source_prepared") or not rel:
         return {"reusable": False, "reason": "ELECTORAL_PACKAGE_MISSING"}
-    path = root / str(rel)
+    path = ruta_existente(root, str(rel))
     if not path.is_file():
         return {"reusable": False, "reason": "ELECTORAL_RECEIPT_MISSING"}
     data = _json(path)
     schema = data.get("schema")
-    if str(data.get("territory_id") or "") != territory_id:
+    if not mismo_territorio(str(data.get("territory_id") or ""), str(territory_id)):
         return {"reusable": False, "reason": "ELECTORAL_IDENTITY_MISMATCH"}
     if str(data.get("election_id") or "") != election_id:
         return {"reusable": False, "reason": "ELECTORAL_ELECTION_MISMATCH"}
@@ -441,7 +459,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
         source_commit = str(data.get("source_commit") or "")
         if not isinstance(run_id, int) or run_id <= 0:
             return {"reusable": False, "reason": "ELECTORAL_RUN_INVALID"}
-        if artifact_name != f"ddd-electoral-package-{territory_id}-2025-{run_id}":
+        if artifact_name not in {f"ddd-electoral-package-{v}-2025-{run_id}" for v in variantes(territory_id)}:
             return {"reusable": False, "reason": "ELECTORAL_ARTIFACT_IDENTITY_MISMATCH"}
         if not artifact_sha256:
             return {"reusable": False, "reason": "ELECTORAL_DIGEST_MISSING"}
@@ -454,11 +472,11 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
         registry_rel = str(data.get("election_registry") or "").strip()
         contract_rel = str(data.get("election_contract") or "").strip()
         if declaration_rel:
-            ref_path = root / declaration_rel
+            ref_path = ruta_existente(root, declaration_rel)
             if not ref_path.is_file():
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_REFERENCE_MISSING"}
             ref = _document(ref_path)
-            if str(ref.get("territory_id") or "") != territory_id or str(ref.get("election_id") or "") != election_id:
+            if not mismo_territorio(str(ref.get("territory_id") or ""), str(territory_id)) or str(ref.get("election_id") or "") != election_id:
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
             provenance_reference = declaration_rel
             provenance_election_date = str(ref.get("election_date") or "")
@@ -472,11 +490,11 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             provenance_reference = registry_rel
             provenance_election_date = str(registered.get("election_date") or "")
         elif contract_rel:
-            ref_path = root / contract_rel
+            ref_path = ruta_existente(root, contract_rel)
             if not ref_path.is_file():
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_REFERENCE_MISSING"}
             ref = _document(ref_path)
-            if str(ref.get("territory_id") or "") != territory_id or str(ref.get("election_id") or "") != election_id:
+            if not mismo_territorio(str(ref.get("territory_id") or ""), str(territory_id)) or str(ref.get("election_id") or "") != election_id:
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
             provenance_reference = contract_rel
             provenance_election_date = str(ref.get("election_date") or "")
@@ -700,16 +718,16 @@ def _owner_approved_2025_pair(root: Path, matrix: dict) -> tuple[str, set[str]]:
     expected_path = "configuracion/decisiones/f10_referencia_territorial_2025_2026.json"
     if rel != expected_path:
         raise ValueError("TERRITORIAL_REFERENCE_DECISION_PATH_MISSING_OR_INVALID")
-    path = root / rel
+    path = ruta_existente(root, rel)
     if not path.is_file():
         raise ValueError("TERRITORIAL_REFERENCE_DECISION_MISSING")
     decision = _json(path)
-    expected_ids = {"andalucia", "aragon", "castilla_y_leon"}
+    expected_ids = {"aut01", "aut02", "aut07"}
     if (
         decision.get("schema") != "ddd.territorial-reference-owner-decision/1.0"
         or decision.get("decision_id") != "F10-20261012-PAIR-2025"
         or decision.get("status") != "OWNER_APPROVED_TERRITORIAL_REFERENCE_ONLY"
-        or set(decision.get("territory_ids") or []) != expected_ids
+        or {_id(x) for x in decision.get("territory_ids") or []} != expected_ids
         or len(decision.get("territory_ids") or []) != len(expected_ids)
         or decision.get("selected_population_year") != 2025
         or decision.get("selected_section_year") != 2025
@@ -768,7 +786,7 @@ def validate_matrix(root: Path) -> list[dict]:
             if not str(terr.get("reason") or "").strip():
                 raise ValueError(f"{tid}: sustitución poblacional sin razón explícita")
 
-        if tid in fallback_ids:
+        if _id(tid) in fallback_ids:
             if (
                 election_year != 2026
                 or pop_selected != 2025
@@ -788,7 +806,7 @@ def validate_matrix(root: Path) -> list[dict]:
             raise ValueError(f"{tid}: excepción F10 no autorizada para este territorio")
 
         if section_required in section_available:
-            if tid not in fallback_ids and (section_selected != section_required or int(terr.get("section_lag_years", 0)) != 0):
+            if _id(tid) not in fallback_ids and (section_selected != section_required or int(terr.get("section_lag_years", 0)) != 0):
                 raise ValueError(f"{tid}: seccionado oficial del año requerido existe y no admite sustitución")
         else:
             if section_selected != latest_section or int(terr.get("section_lag_years", 0)) != section_required - latest_section:

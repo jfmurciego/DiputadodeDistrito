@@ -26,7 +26,7 @@ class OleadaCC1Foundations(unittest.TestCase):
 
     def test_aragon_candidate_only_adds_missing_semantics_and_metrics(self):
         data=yaml.safe_load((ROOT/"configuracion/oleada_c/comunidades_interes_candidatas.yaml").read_text(encoding="utf-8"))
-        aragon=data["territories"]["aragon"]
+        aragon=data["territories"]["aut02"]
         self.assertEqual(aragon["semantics"],"SOFT_OBJECTIVE")
         self.assertEqual(aragon["integration_status"],"DESIGN_ONLY")
         self.assertNotIn("source",aragon)
@@ -39,7 +39,7 @@ class OleadaCC1Foundations(unittest.TestCase):
 
     def test_aragon_read_model_reads_contract_and_pinned_source(self):
         payload=build(ROOT,"2025")
-        aragon=next(x for x in payload["territories"] if x["territory_id"]=="aragon")
+        aragon=next(x for x in payload["territories"] if x["territory_id"]=="aut02")
         coi=aragon["community_interest"]
         self.assertEqual(coi["source"],"inputs/COMARCAS.csv")
         self.assertEqual(coi["source_sha256"],"ac750499cc180c1241465a42b089044cd3095850b078113bc900b1a33538899a")

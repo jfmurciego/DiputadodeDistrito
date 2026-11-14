@@ -77,7 +77,7 @@ class CongressPreflightAdapterTests(unittest.TestCase):
         if defect == 'authorize': c['accreditation']['generation_authorized'] = True
         if defect == 'component': n[1]['physical_component'] = 'other'
         if defect == 'quota': c['quotas_by_origin_unit'][38]['k'] = 4
-        if defect == 'autonomous': c['execution_identity'] = 'aragon'
+        if defect == 'autonomous': c['execution_identity'] = 'aut02'
         with self.assertRaisesRegex(ValueError, reason): validate(data)
 
     def test_interprovincial_edge(self):

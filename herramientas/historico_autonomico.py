@@ -3,7 +3,7 @@
 """Histórico AUTONÓMICO en el Gestor 2.0: plan y paso A (M07/M08) por comunidad y elección, con puerta (T-133).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.0.2 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.0.1 (T-134): el plan (`elecciones`, `requisitos`, `plan`) solo usa la biblioteca estándar: el job «Legislatura
   vigente» del Gestor solo instala PyYAML y fallaba con `No module named 'shapely'` (run 42705439861) al importar este
   módulo. `reagregacion_autonomicas` (shapely, geopandas) se importa de forma perezosa solo en `ejecutar`.
@@ -11,7 +11,8 @@ CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: orden del propietario (09-11): el Gestor lanza TODO el histórico, también las autonómicas desde 2011, cada
   comunidad con sus propias fechas (configuracion/calendario_autonomicas.csv, sin calendario común). Reproduce para
   las comunidades el paso A de las generales (historico_campana.py + historico_m07m08.py).
-ANTERIOR: legacy/herramientas/historico_autonomico_v1.0.0_20261109.py (1.0.0 reutiliza funciones de reagregacion_autonomicas.py, reagregacion_historico.py y
+CAMBIOS 1.0.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/historico_autonomico_v1.0.1_20261112.py
   historico_m07m08.py sin modificarlas)
 QUÉ HACE: `plan(comunidades, explicito)` devuelve, por comunidad, las elecciones del calendario (en alcance, no vigentes,
   con dato por sección en el Observatorio) y lo que falta (M06 publicado en orchestracion/publicaciones_visor.json con
@@ -23,7 +24,7 @@ QUÉ HACE: `plan(comunidades, explicito)` devuelve, por comunidad, las eleccione
   Puerta: código 0 solo si el cuadre del paso B es exacto (`ok`), M07 da PASS y el ganador coincide con B en cada
   distrito.
 NO HACE: publicar, ni escribir en datos/resultados/historico/ del repositorio (el resultado va al artefacto del run).
-Uso: python herramientas/historico_autonomico.py ejecutar --comunidad galicia --salida DIR [--trabajo DIR]
+Uso: python herramientas/historico_autonomico.py ejecutar --comunidad aut12 --salida DIR [--trabajo DIR]
 """
 from __future__ import annotations
 
@@ -33,6 +34,11 @@ import json
 import shutil
 import sys
 from pathlib import Path
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio, fichero_por_id, en_mapa  # noqa: E402  (T-220: id viejo o nuevo)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
@@ -84,10 +90,10 @@ def elecciones(comunidad: str, root: Path = ROOT) -> list[dict]:
 def requisitos(comunidad: str, root: Path = ROOT) -> list[str]:
     """Lo que falta para el paso A de una comunidad (vacío si se puede ejecutar)."""
     falta = []
-    comp = _json(root, COMPOSICION_MANIFEST)["territorios"].get(comunidad)
-    if comp is None or not (root / f"datos/composicion/{comunidad}.csv").is_file():
+    comp = en_mapa(_json(root, COMPOSICION_MANIFEST)["territorios"], comunidad)
+    if comp is None or not fichero_por_id(root / "datos/composicion", "{}.csv", comunidad).is_file():
         falta.append("sin composición (datos/composicion/)")
-    elif not any(p.get("kind") == "canonical_m06" and p.get("territory_id") == comunidad
+    elif not any(p.get("kind") == "canonical_m06" and mismo_territorio(str(p.get("territory_id") or ""), str(comunidad))
                  and p.get("blob_sha") == comp["blob_sha"] and p.get("sha256") == comp["sha256_m06"]
                  for p in _json(root, PUBLICACIONES)["products"]):
         falta.append("sin M06 publicado con la huella de la composición")
@@ -97,7 +103,7 @@ def requisitos(comunidad: str, root: Path = ROOT) -> list[str]:
     els = elecciones(comunidad, root) if comunidad in cal else []
     if comunidad in cal and not els:
         falta.append("ninguna elección histórica con dato por sección")
-    sin_b = [e["eleccion"] for e in els if not (root / B / comunidad / e["eleccion"] / f"{comunidad}.csv").is_file()]
+    sin_b = [e["eleccion"] for e in els if not fichero_por_id(root / B, "{0}/" + e["eleccion"] + "/{0}.csv", comunidad).is_file()]
     if sin_b:
         falta.append("sin paso B versionado para " + ", ".join(sin_b))
     return falta
@@ -226,7 +232,7 @@ def ejecutar(comunidad: str, trabajo: Path, salida: Path, solo: list[str] | None
                         if str(y) in m["fuentes"]["historicos"])
         z = _bajar_verificado(ra.INE.format(y), trabajo / "historicos" / f"seccionado_{y}.zip", esperado)
         todos[y] = eqs.leer_seccionado(z)
-    composicion_m07 = hm.leer_composicion(ROOT / f"datos/composicion/{comunidad}.csv")
+    composicion_m07 = hm.leer_composicion(fichero_por_id(ROOT / "datos/composicion", "{}.csv", comunidad))
     secc, asign, _ = hm.secciones_m06(composicion_m07, seccionado, trabajo / "secciones_m06.geojson.zip", m06, pob)
     paquete = trabajo / "paquete"
     informe, ok = {}, True
@@ -280,7 +286,7 @@ def ejecutar(comunidad: str, trabajo: Path, salida: Path, solo: list[str] | None
 
 def _contraste(comunidad: str, ele: str, resumen: dict) -> dict:
     """Ganador por distrito del paso B versionado frente al de M07 (mismos nombres de sigla de la fuente)."""
-    pb = ROOT / B / comunidad / ele / f"{comunidad}.csv"
+    pb = fichero_por_id(ROOT / B, "{0}/" + ele + "/{0}.csv", comunidad)
     if not pb.exists():
         return {"estado": "sin paso B"}
     with open(pb, encoding="utf-8", newline="") as f:

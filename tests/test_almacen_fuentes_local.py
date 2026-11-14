@@ -49,7 +49,7 @@ class PersistedSourceTests(unittest.TestCase):
         self.store = self.root / 'store'
         self.store.mkdir()
         self.rows = [r for r in self.manifest['rows'] if
-                     r['expected']['territory_id'] in ('melilla', 'la_rioja')]
+                     r['expected']['territory_id'] in ('aut19', 'aut17')]
         self.assertEqual(len(self.rows), 2)
         for row in self.rows:
             for field in ('artifact_path', 'receipt_path'):
@@ -98,7 +98,7 @@ class PersistedSourceTests(unittest.TestCase):
             self.read()
 
     def test_identity_and_edition_exact(self):
-        for kwargs in ({'territory_id': 'ceuta'}, {'edition': '2024'},
+        for kwargs in ({'territory_id': 'aut18'}, {'edition': '2024'},
                        {'territorial_identity_sha256': '0' * 64},
                        {'package_sha256': '0' * 64}):
             with self.subTest(kwargs=kwargs), self.assertRaisesRegex(LocalSourceError, 'identidad exacta'):

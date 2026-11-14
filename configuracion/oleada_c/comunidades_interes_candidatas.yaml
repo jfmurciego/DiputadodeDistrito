@@ -5,9 +5,9 @@ description: >-
   Solo describe semántica y métricas aún no presentes en el contrato territorial.
   Fuente, activación y peso de búsqueda se leen exclusivamente del YAML territorial vigente.
 territories:
-  aragon:
+  aut02:
     schema: ddd-community-interest-policy/1.0
-    territory_id: aragon
+    territory_id: aut02
     edition: '2025'
     semantics: SOFT_OBJECTIVE
     integration_status: DESIGN_ONLY

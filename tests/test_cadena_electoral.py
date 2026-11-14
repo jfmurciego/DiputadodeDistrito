@@ -77,7 +77,7 @@ class CadenaElectoral(unittest.TestCase):
         self.assertNotIn("${{ inputs.cadena_origen_run_id }}\"", texto.split("escribir_manifest_ejecucion_completa.py", 1)[1][:6000])
         with tempfile.TemporaryDirectory() as d:
             out = Path(d) / "m.json"
-            base = ["--territory-id", "congreso_huesca", "--territory-name", "Congreso Huesca", "--edition", "2025",
+            base = ["--territory-id", "nac22", "--territory-name", "Congreso Huesca", "--edition", "2025",
                     "--execution-mode", "reuse", "--optimization-algorithm", "Canónico", "--workflow-run-id", "42",
                     "--source-sha", "a" * 40, "--publication-mode-requested", "electoral",
                     "--publication-mode-effective", "electoral", "--output", str(out),

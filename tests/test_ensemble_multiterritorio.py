@@ -1,8 +1,10 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: contrato estructural GerryChain 50 multi-territorio
-VERSIÓN: 1.0.0
-FECHA: 2026-09-23
+VERSIÓN: 1.0.1
+FECHA: 2026-11-12
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_ensemble_multiterritorio_v1.0.0_20261112.py
 FUNCIÓN: demostrar que el motor ensemble no contiene excepciones territoriales y que
 los contratos de Aragón, Principado de Asturias, Galicia, Castilla y León y
 Extremadura exponen los campos necesarios para un binding externo genérico.
@@ -25,20 +27,20 @@ from ddd_ensemble.ensemble_plan import (
 
 ROOT = Path(__file__).resolve().parents[1]
 TERRITORIES = {
-    "aragon": ("territorios/aragon/config/aragon_2025.yaml", 67, "CUMUN"),
-    "principado_de_asturias": (
-        "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml",
+    "aut02": ("territorios/aut02/config/aut02_2025.yaml", 67, "CUMUN"),
+    "aut03": (
+        "territorios/aut03/config/aut03_2025.yaml",
         45,
         "M04_PARTITION_UNIT",
     ),
-    "galicia": ("territorios/galicia/config/galicia_2025.yaml", 75, "CUMUN"),
-    "castilla_y_leon": (
-        "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml",
+    "aut12": ("territorios/aut12/config/aut12_2025.yaml", 75, "CUMUN"),
+    "aut07": (
+        "territorios/aut07/config/aut07_2025.yaml",
         82,
         "CUMUN",
     ),
-    "extremadura": (
-        "territorios/extremadura/config/extremadura_2025.yaml",
+    "aut11": (
+        "territorios/aut11/config/aut11_2025.yaml",
         65,
         "M04_PARTITION_UNIT",
     ),
@@ -99,8 +101,8 @@ class MultiTerritoryEnsembleContractTests(unittest.TestCase):
             "ddd_core/m05_gerrychain_engine.py",
         ):
             source = (ROOT / relative).read_text(encoding="utf-8").lower()
-            self.assertNotIn('"aragon"', source, relative)
-            self.assertNotIn("'aragon'", source, relative)
+            self.assertNotIn('"aut02"', source, relative)
+            self.assertNotIn("'aut02'", source, relative)
 
     def test_five_territories_expose_generic_binding(self):
         for territory_id, (path, expected_k, expected_discipline) in TERRITORIES.items():

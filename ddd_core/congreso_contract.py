@@ -1,8 +1,9 @@
-"""VERSIÓN: 1.2.1; NOMBRE: guardas de admisión del contrato Congreso.
-FECHA: 2026-10-19; ALCANCE: validación contractual fail-closed, sin ejecutar M01–M08.
+"""VERSIÓN: 1.2.2; NOMBRE: guardas de admisión del contrato Congreso.
+FECHA: 2026-11-12; ALCANCE: validación contractual fail-closed, sin ejecutar M01–M08.
 ESTADO: candidato local; CAMBIOS: rechazar generation_authorized distinto de false.
 MOTIVO: mantener coherentes admisión nacional y autorización productiva.
-ANTERIOR: legacy/n08_nac_20261019/congreso_contract_v1.2.0.py.
+CAMBIOS 1.2.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/ddd_core/congreso_contract_v1.2.1_20261112.py
 ORIGEN HISTÓRICO: legacy/n06_contrato_20261012/congreso_contract_v1.0.0.py.
 """
 from __future__ import annotations
@@ -10,6 +11,7 @@ from __future__ import annotations
 import re
 from decimal import Decimal
 from typing import Any, Mapping
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 VERSION = "1.2.1"
 CONGRESS_CODES = tuple(f"{number:02d}" for number in range(1, 53))
@@ -31,11 +33,11 @@ ALLOWED_CONTRACT_FIELDS = frozenset({
 })
 AUTONOMOUS_TERRITORY_IDS = frozenset(
     {
-        "andalucia", "aragon", "principado_de_asturias", "illes_balears",
-        "canarias", "cantabria", "castilla_y_leon", "castilla_la_mancha",
-        "cataluna", "comunidad_valenciana", "extremadura", "galicia",
-        "comunidad_de_madrid", "region_de_murcia", "comunidad_foral_de_navarra",
-        "pais_vasco", "la_rioja", "ceuta", "melilla",
+        "aut01", "aut02", "aut03", "aut04",
+        "aut05", "aut06", "aut07", "aut08",
+        "aut09", "aut10", "aut11", "aut12",
+        "comunidad_de_madrid", "aut14", "aut15",
+        "aut16", "aut17", "aut18", "aut19",
     }
 )
 
@@ -284,7 +286,7 @@ def validate_congress_identity(payload: Mapping[str, Any]) -> dict[str, Any]:
         errors.append("AUTONOMOUS_INPUT_FORBIDDEN:" + ",".join(contaminated))
     if payload.get("execution_identity") != "congreso":
         errors.append("EXECUTION_IDENTITY_MUST_BE_CONGRESO")
-    if payload.get("territory_id") != "espana_congreso":
+    if not mismo_territorio(str(payload.get("territory_id") or ""), str("espana_congreso")):
         errors.append("TERRITORY_ID_MUST_BE_ESPANA_CONGRESO")
     if payload.get("scope") != "congreso":
         errors.append("SCOPE_MUST_BE_CONGRESO")

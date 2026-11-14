@@ -10,6 +10,11 @@ import yaml
 
 from herramientas.seleccionar_paquete_fuentes import validate_prepared_package
 from herramientas.validar_paquete_electoral import validate_package as validate_electoral_package
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import variantes  # noqa: E402  (T-220: id viejo o nuevo)
 
 PASS_DECISIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
 ELECTORAL_SOURCE_DECISIONS = {"REUSE", "ACQUIRE"}
@@ -68,9 +73,9 @@ def _artifact_name_is_consistent(
     artifact_namespace: str | None = None,
 ) -> bool:
     if phase == "territorial_source":
-        return artifact_name == f"ddd-source-package-{territory_id}-{edition}-{run_id}"
+        return artifact_name in {f"ddd-source-package-{v}-{edition}-{run_id}" for v in variantes(territory_id)}
     if phase == "electoral_source":
-        return artifact_name == f"ddd-electoral-package-{territory_id}-{edition}-{run_id}"
+        return artifact_name in {f"ddd-electoral-package-{v}-{edition}-{run_id}" for v in variantes(territory_id)}
     if phase == "territorial_product":
         canonical = f"ddd-state-{run_id}-M06"
         if artifact_name == canonical:

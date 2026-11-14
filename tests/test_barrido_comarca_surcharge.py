@@ -16,7 +16,7 @@ SPEC = ROOT / "configuracion/experimentos/barrido_comarca_surcharge_aragon.yaml"
 class BarridoComarcaSurchargeTests(unittest.TestCase):
     def test_spec_is_metrics_only_and_fixed_values(self):
         cfg = yaml.safe_load(SPEC.read_text(encoding="utf-8")) or {}
-        self.assertEqual(cfg["territory_id"], "aragon")
+        self.assertEqual(cfg["territory_id"], "aut02")
         self.assertEqual(cfg["comarca_surcharge_values"], [0.3, 0.4, 0.5, 0.6, 0.8])
         self.assertEqual(cfg["promotion"], "forbidden")
         self.assertFalse(cfg["publication"])

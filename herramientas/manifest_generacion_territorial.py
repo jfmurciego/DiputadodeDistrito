@@ -2,9 +2,9 @@
 """Serializa y verifica linaje durable de un M06 emitido por el workflow 02.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: Manifiesto durable M06 independiente · P30 del motor 2
-FECHA: 2026-11-10
+FECHA: 2026-11-12
 ESTADO: candidato
 QUÉ HACE: enlaza contrato, ejecución, inputs, M05, certificación M06 y referencias de artefactos.
 CAMBIOS: 1.1.0 (T-216): si el estado M06 trae p30_motor2/P30.json (modo `motor: motor2`), el manifiesto añade
@@ -14,7 +14,8 @@ CAMBIOS: 1.1.0 (T-216): si el estado M06 trae p30_motor2/P30.json (modo `motor: 
   «checkpoint» y como «m04» (Congreso Álava, run 41335088773). Ids distintos con el mismo nombre siguen fallando.
   1.0.0: añade un manifiesto M06 posterior al empaquetado, sin incluirlo en el artefacto que acredita.
 MOTIVO: conservar linaje durable cuando la generación se ejecuta por 02 y no por 00. 1.1.0: T-216, huella del P30.
-ANTERIOR: legacy/herramientas/manifest_generacion_territorial_v1.0.1_20261101.py
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/manifest_generacion_territorial_v1.1.0_20261112.py
 """
 from __future__ import annotations
 
@@ -27,6 +28,11 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 SCHEMA = "ddd.territorial-generation-manifest/1.0"
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
@@ -145,7 +151,7 @@ def resolve_checkpoint_source_package(
         raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: manifiesto/catálogo ilegible") from exc
     if not isinstance(source_manifest, dict) or not isinstance(catalog, dict):
         raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: manifiesto/catálogo inválido")
-    rows = [row for row in (catalog.get("territories") or []) if row.get("territory_id") == territory_id]
+    rows = [row for row in (catalog.get("territories") or []) if mismo_territorio(str(row.get("territory_id") or ""), str(territory_id))]
     if len(rows) != 1:
         raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: territorio no único en catálogo")
     registered = ((rows[0].get("editions") or {}).get(str(edition)) or {}).get("preparation_evidence") or {}
@@ -161,7 +167,7 @@ def resolve_checkpoint_source_package(
         raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: evidencia fuente incompleta") from exc
     if (
         run_id <= 0 or not name or
-        str(source_manifest.get("territory_id") or "") != territory_id or
+        not mismo_territorio(str(source_manifest.get("territory_id") or ""), str(territory_id)) or
         str(source_manifest.get("edition") or "") != str(edition) or
         observed_package_sha != package_sha
     ):
@@ -277,7 +283,7 @@ def build_manifest(
         raise GenerationManifestError("Tipo de constancia M06 inválido")
     cfg = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
     meta = cfg.get("meta") or {}
-    if str(meta.get("territory_id") or "") != territory_id or str(meta.get("year") or "") != str(edition):
+    if not mismo_territorio(str(meta.get("territory_id") or ""), str(territory_id)) or str(meta.get("year") or "") != str(edition):
         raise GenerationManifestError("El contrato no coincide con territorio/edición")
     contract_digest = _sha(params)
     artifact_index = json.loads(artifact_index_path.read_text(encoding="utf-8"))

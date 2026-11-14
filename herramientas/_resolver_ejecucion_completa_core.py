@@ -1,8 +1,8 @@
 """PROYECTO: Diputado de Distrito
 HERRAMIENTA: Core del resolver de ejecución completa
-VERSIÓN: 1.0.3
+VERSIÓN: 1.0.4
 NOMBRE DE VERSIÓN: Inventario físico por año con CUSEC verificado al materializar
-FECHA: 2026-10-28
+FECHA: 2026-11-12
 ESTADO: candidato de integración; pendiente de CI y revisión.
 QUÉ HACE: aplica las puertas de compatibilidad y generación territorial.
 CAMBIOS: 1.0.2: sin inventario físico de huella exacta, admite el único del mismo año de secciones y
@@ -13,7 +13,8 @@ MOTIVO: la re-descarga del INE del 28-10 dio otra huella para las secciones 2023
 CAMBIOS 1.0.3: un contrato de componentes físicos admite los puentes declarados en el lookup para su
   territorio (grupo de islas en un distrito del Congreso), sólo si coinciden exactamente y cada puente une
   secciones de la misma componente.
-ANTERIOR: legacy/herramientas/_resolver_ejecucion_completa_core_v1.0.2_20261031.py
+CAMBIOS 1.0.4 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/_resolver_ejecucion_completa_core_v1.0.3_20261112.py
 PREDECESOR: copia exacta del archivo de main antes de la primera versión integrada.
 """
 from __future__ import annotations
@@ -28,6 +29,11 @@ import yaml
 
 from herramientas.catalogo_preparacion import lookup
 from ddd_core.topology_preflight import validate_topology_accreditation_binding
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio, variantes  # noqa: E402  (T-220: id viejo o nuevo)
 
 PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
 FIRST_GENERATION_EVIDENCE_SCHEMA = "ddd.catalog-evidence/1.0"
@@ -182,7 +188,7 @@ def _effective_physical_source_identity(contract: dict) -> dict:
         json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
     ).hexdigest()
     declared_identity = str(state.get("territorial_identity_sha256") or "").lower()
-    if declared_identity and declared_identity != territorial_identity_sha256:
+    if declared_identity and declared_identity not in _identidades_por_variante(payload):
         raise ValueError("SOURCE_IDENTITY_MISMATCH: identidad territorial declarada contradice la fuente efectiva")
 
     return {
@@ -190,6 +196,18 @@ def _effective_physical_source_identity(contract: dict) -> dict:
         "sectioning_sha256": sectioning_sha256,
         "territorial_identity_sha256": territorial_identity_sha256,
     }
+
+
+def _identidades_por_variante(payload: dict) -> set[str]:
+    """T-220: huellas de identidad territorial con cada variante del id (nuevo/viejo). Los inventarios físicos y
+    receipts ya acreditados se sellaron con el id viejo; los nuevos se sellan con el nuevo."""
+    out = set()
+    for variante in variantes(str(payload.get("territory_id") or "")):
+        p = {**payload, "territory_id": variante}
+        out.add(hashlib.sha256(
+            json.dumps(p, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        ).hexdigest())
+    return out
 
 
 def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
@@ -261,7 +279,8 @@ def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
         and int(row.get("section_year") or 0) == source_identity["section_year"]
         and str(row.get("sectioning_sha256") or "").lower() == source_identity["sectioning_sha256"]
         and str(row.get("territorial_identity_sha256") or "").lower()
-            == source_identity["territorial_identity_sha256"]
+            in _identidades_por_variante({k: source_identity[k] for k in source_identity
+                                          if k not in ("sectioning_sha256", "territorial_identity_sha256")})
     ]
     inventory_binding = "EXACT_SOURCE_IDENTITY"
     if not matches:
@@ -581,7 +600,7 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
         return blocked("kind no reconocido")
     if evidence.get("decision") != FIRST_GENERATION_DECISION or evidence.get("stage") != "M03U":
         return blocked("decisión/etapa no habilitan primera generación")
-    if evidence.get("territory_id") != territory_id:
+    if not mismo_territorio(str(evidence.get("territory_id") or ""), str(territory_id)):
         return blocked("territorio no coincide")
     run_id = evidence.get("run_id")
     if not isinstance(run_id, int) or isinstance(run_id, bool) or run_id <= 0:
@@ -759,7 +778,7 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
         contract = yaml.safe_load(path.read_text(encoding="utf-8"))
     except (OSError, yaml.YAMLError):
         return _blocked("CAP_CONTRACT", "contrato territorial efectivo ilegible")
-    if not isinstance(contract, dict) or (contract.get("meta") or {}).get("territory_id") != territory_id:
+    if not isinstance(contract, dict) or not mismo_territorio(str((contract.get("meta") or {}).get("territory_id") or ""), str(territory_id)):
         return _blocked("CAP_CONTRACT", "identidad del contrato territorial no coincide")
     capability_gate = _generation_capabilities(contract, root_dir=root_dir)
     if not capability_gate["allowed"]:

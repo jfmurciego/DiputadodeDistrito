@@ -227,7 +227,7 @@ class ProductionPopulationGateTests(unittest.TestCase):
             termination="CANDIDATE_BUDGET_EXHAUSTED",
         )
         result = build_production_status(
-            territory_id="castilla_y_leon", params="fixture.yaml", run_id="production-35199668216-1",
+            territory_id="aut07", params="fixture.yaml", run_id="production-35199668216-1",
             from_stage="M05", to_stage="M06", execution_outcome="success",
             geometric_outcome="success", geometric_decision="PASS_WITH_EXCEPTIONS",
             m05_report=report, geometric_audit=geometry("PASS_WITH_EXCEPTIONS"),
@@ -248,7 +248,7 @@ class ProductionPopulationGateTests(unittest.TestCase):
             termination="PRIMARY_BUDGET_RESERVED_FOR_FOCAL",
         )
         result = build_production_status(
-            territory_id="galicia", params="territorios/galicia/config/galicia_2025.yaml",
+            territory_id="aut12", params="territorios/aut12/config/aut12_2025.yaml",
             run_id="production-35502232253-1", from_stage="M01", to_stage="M06",
             execution_outcome="success", geometric_outcome="success",
             geometric_decision="PASS_WITH_EXCEPTIONS", m05_report=report,

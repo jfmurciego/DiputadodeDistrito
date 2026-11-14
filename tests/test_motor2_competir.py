@@ -81,43 +81,43 @@ class Territorio(unittest.TestCase):
         grafo = tmp / "grafo.json"
         grafo.write_text(json.dumps({"nodes": list(secc.values()), "edges": [
             {"u": secc[a], "v": secc[b]} for a, b in (("A", "B"), ("B", "C"), ("C", "D"))]}))
-        e = EntradaTerritorio("ceuta", cfg_con_ancla(), grafo)
+        e = EntradaTerritorio("aut18", cfg_con_ancla(), grafo)
         bueno = {"A": "1", "B": "1", "C": "2", "D": "2"}
         from ddd_motor2.semilla import semillas
-        cad = Fijo("gerrychain", {x: bueno for x in semillas(e.cfg, "ceuta", 3)})
-        f = competir_territorio("ceuta", tmp, 3, generadores=(Fijo("canonico", {None: bueno}), cad), entrada=e)
+        cad = Fijo("gerrychain", {x: bueno for x in semillas(e.cfg, "aut18", 3)})
+        f = competir_territorio("aut18", tmp, 3, generadores=(Fijo("canonico", {None: bueno}), cad), entrada=e)
         self.assertEqual((f["estado"], f["valido"], f["ganador"], f["frente_al_canonico"]),
                          ("VALIDO", True, "canonico", "empata"))
         self.assertEqual(f["candidatos"], 5)  # canónico + 3 cadenas + exhaustivo (territorio pequeño)
-        self.assertTrue((tmp / "competicion" / "ceuta" / "COMPETICION.json").is_file())
+        self.assertTrue((tmp / "competicion" / "aut18" / "COMPETICION.json").is_file())
         from ddd_motor2.competir import fila_guardada
         with mock.patch("ddd_motor2.generadores.ROOT", tmp):  # T-258: sin mapa publicado (aquí no compite el vigente)
-            g = fila_guardada("ceuta", tmp, 3, cfg=e.cfg)
+            g = fila_guardada("aut18", tmp, 3, cfg=e.cfg)
         self.assertTrue(g.pop("reanudado"))
         self.assertEqual({k: g[k] for k in f if k != "tiempo_s"}, {k: f[k] for k in f if k != "tiempo_s"})
         self.assertIsNone(fila_guardada("otro", tmp, 3, cfg=e.cfg))
         # Otra competición: otro número de cadenas, otra ancla u otras reglas → se recalcula.
-        self.assertIsNone(fila_guardada("ceuta", tmp, 4, cfg=e.cfg))
-        self.assertIsNone(fila_guardada("ceuta", tmp, 3, cfg=cfg_con_ancla(p="c" * 64)))
+        self.assertIsNone(fila_guardada("aut18", tmp, 4, cfg=e.cfg))
+        self.assertIsNone(fila_guardada("aut18", tmp, 3, cfg=cfg_con_ancla(p="c" * 64)))
         otra = cfg_con_ancla()
         otra["validation"]["target_tolerance_ratio"] = 0.2
-        self.assertIsNone(fila_guardada("ceuta", tmp, 3, cfg=otra))
+        self.assertIsNone(fila_guardada("aut18", tmp, 3, cfg=otra))
 
     def test_fallo_al_escribir_deja_error(self):
         from unittest import mock
         tmp = Path(tempfile.mkdtemp())
-        e = EntradaTerritorio("ceuta", cfg_con_ancla(), tmp / "g.json")
+        e = EntradaTerritorio("aut18", cfg_con_ancla(), tmp / "g.json")
         with mock.patch("ddd_motor2.competir.competir_publico", return_value=object()), \
                 mock.patch("ddd_motor2.competir.escribir", side_effect=OSError("disco lleno")):
-            f = competir_territorio("ceuta", tmp, 2, generadores=(None, None), entrada=e)
+            f = competir_territorio("aut18", tmp, 2, generadores=(None, None), entrada=e)
         self.assertEqual(f["estado"], "ERROR")
         self.assertIn("disco lleno", f["detalle"])
 
     def test_sin_ancla_es_error_explicito(self):
         tmp = Path(tempfile.mkdtemp())
         from tests.test_motor2_competicion import CFG
-        e = EntradaTerritorio("ceuta", CFG, tmp / "g.json")
-        f = competir_territorio("ceuta", tmp, 2, generadores=(Fijo("canonico", {}), Fijo("gerrychain", {})), entrada=e)
+        e = EntradaTerritorio("aut18", CFG, tmp / "g.json")
+        f = competir_territorio("aut18", tmp, 2, generadores=(Fijo("canonico", {}), Fijo("gerrychain", {})), entrada=e)
         self.assertEqual(f["estado"], "ERROR")
         self.assertIn("ErrorContrato", f["detalle"])
 

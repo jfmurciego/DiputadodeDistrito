@@ -24,7 +24,7 @@ COMPOSICION = "section_code,district_id\n2600101001,1\n2600101002,2\n"
 def p30_la_rioja(composicion_sha256):
     """Cifras del P30.json real de La Rioja (00 simulada en local, T-221, huella_resultado 7bb9b44b…): gana
     ponderado-s2009387672, 78 secciones cambiadas, fuera_tolerancia=1 y desvío máximo igual al del canónico."""
-    return {"schema": "ddd.p30-motor2/1.0", "territorio": "la_rioja", "ganador": "ponderado-s2009387672",
+    return {"schema": "ddd.p30-motor2/1.0", "territorio": "aut17", "ganador": "ponderado-s2009387672",
             "valido": True, "estado_ganador": "VALIDO", "estado": "P30_GANA_OTRO_PLAN", "rehacer_m06": True,
             "secciones_cambiadas": 78,
             "huella_resultado": "7bb9b44b3a51690d47632914979669ca8339566ef9229f1663d91dc59eee4675",
@@ -61,7 +61,7 @@ class Motor2Certificacion(unittest.TestCase):
 
     def run_status(self, *extra, name="status.json"):
         out = self.d / "out" / name
-        subprocess.run([sys.executable, str(SCRIPT), "--params", str(self.params), "--territory-id", "la_rioja",
+        subprocess.run([sys.executable, str(SCRIPT), "--params", str(self.params), "--territory-id", "aut17",
                         "--run-id", "r1", "--from-stage", "M01", "--to-stage", "M06",
                         "--geometric-outcome", "success", "--geometric-decision", "PASS",
                         "--geometric-audit", str(self.d / "geo.json"), "--output", str(out), *extra],

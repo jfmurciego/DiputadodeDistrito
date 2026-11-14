@@ -107,7 +107,7 @@ class Datos49Provincias(unittest.TestCase):
             cache = Path("/tmp/ddd_m06_t59/congreso_huesca.zip")
             if not cache.exists():
                 self.skipTest("sin M06 en caché local (python herramientas/... --descargar)")
-            g.procesar_territorio("congreso_huesca", cache, pob, nom, tabla, comarca, cub, d)
+            g.procesar_territorio("nac22", cache, pob, nom, tabla, comarca, cub, d)
             a = (Path(d) / "nombres_congreso_huesca.csv").read_bytes()
             self.assertEqual(a, (m06 / "nombres_congreso_huesca.csv").read_bytes())
 

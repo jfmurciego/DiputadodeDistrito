@@ -45,6 +45,11 @@ import yaml
 
 from ddd_core.territory_contract import validate_production_contract
 from herramientas.compatibilidad_poblacion_seccionado import validate_compatibility_package
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 POLICY = Path("configuracion/politica_generacion_territorial_2025.yaml")
 MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
@@ -794,7 +799,7 @@ def existing_or_bootstrap(
     edition: str,
     section_year: str | None = None,
 ) -> tuple[dict[str, Any], Path]:
-    path = root / "territorios" / territory_id / "config" / f"{territory_id}_{edition}.yaml"
+    path = root / "territorios" / carpeta_de(root, territory_id) / "config" / f"{territory_id}_{edition}.yaml"
     if path.is_file():
         return yload(path), path
     run_name = f"{territory_id}_{edition}"
@@ -939,7 +944,7 @@ def materialize(
     master = yload(master_path)
     rows = [
         x for x in list(master.get("territories") or []) + list(master.get("pilot_territories") or [])
-        if x.get("territory_id") == territory_id
+        if mismo_territorio(str(x.get("territory_id") or ""), str(territory_id))
     ]
     if len(rows) != 1:
         raise ValueError(f"Territorio no único en catálogo maestro: {territory_id}")

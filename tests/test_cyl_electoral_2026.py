@@ -3,11 +3,12 @@ import json
 import unittest
 
 import yaml
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
-PARAMS = ROOT / "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml"
-CONTRACT = ROOT / "territorios/castilla_y_leon/config/elecciones/castilla_y_leon_cortes_2026.json"
-RECON = ROOT / "territorios/castilla_y_leon/evidencia/reconciliacion_secciones_2025_2026.json"
+PARAMS = ROOT / "territorios/aut07/config/aut07_2025.yaml"
+CONTRACT = ROOT / "territorios/aut07/config/elecciones/castilla_y_leon_cortes_2026.json"
+RECON = ROOT / "territorios/aut07/evidencia/reconciliacion_secciones_2025_2026.json"
 
 
 class CastillaLeonElectoral2026(unittest.TestCase):
@@ -16,7 +17,7 @@ class CastillaLeonElectoral2026(unittest.TestCase):
         self.assertEqual(cfg["meta"]["contract_level"], "production_m01_m06")
         m07 = cfg["modulos"]["modulo_07_agregar_resultados_electorales"]
         m08 = cfg["modulos"]["modulo_08_integrar_resultados"]
-        self.assertEqual(m07["election_contract"], "territorios/castilla_y_leon/config/elecciones/castilla_y_leon_cortes_2026.json")
+        self.assertEqual(m07["election_contract"], "territorios/aut07/config/elecciones/castilla_y_leon_cortes_2026.json")
         self.assertEqual(m07["section_id_field"], "CUSEC_KEY")
         self.assertEqual(m07["district_field"], "district_id")
         self.assertIn("m06_distritos.geojson.zip", m08["in_district_geojson"])
@@ -26,7 +27,7 @@ class CastillaLeonElectoral2026(unittest.TestCase):
         self.assertEqual(contract["schema_family"], "ddd-election")
         self.assertEqual(contract["schema_version"], "1.0.0")
         self.assertEqual(contract["election_id"], "castilla_y_leon_cortes_2026-03-15")
-        self.assertEqual(contract["territory_id"], "castilla_y_leon")
+        self.assertTrue(mismo_territorio(contract["territory_id"], "aut07"))  # T-220: el contrato conserva el id viejo
         self.assertTrue(contract["boundary_independence"])
         self.assertEqual(len(contract["sources"]), 1)
         source = contract["sources"][0]

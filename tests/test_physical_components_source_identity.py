@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 LOOKUP = ROOT / "configuracion/particiones_insulares_2025.json"
 
 EXPECTED = {
-    "illes_balears": {
+    "aut04": {
         2023: {
             "sectioning_sha256": "d548b2ed2cb180ab16e520f56751bb9b36f1bba5a77283ef70be15037d9eda1e",
             "territorial_identity_sha256": "dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61",
@@ -50,7 +50,7 @@ EXPECTED = {
             },
         },
     },
-    "canarias": {
+    "aut05": {
         2023: {
             "sectioning_sha256": "eadf400e05922fe7116c384a227ed06e7f80769e30e3aceb626d46ce602cafc5",
             "territorial_identity_sha256": "77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f",
@@ -295,8 +295,8 @@ class PhysicalComponentsSourceIdentityTests(unittest.TestCase):
     def test_real_four_accredited_inventories_are_selectable_and_exact(self):
         lookup = json.loads(LOOKUP.read_text(encoding="utf-8"))
         expected_names = {
-            "illes_balears": {"07-C01": "Mallorca", "07-C02": "Menorca", "07-C03": "Formentera", "07-C04": "Ibiza/Eivissa"},
-            "canarias": {
+            "aut04": {"07-C01": "Mallorca", "07-C02": "Menorca", "07-C03": "Formentera", "07-C04": "Ibiza/Eivissa"},
+            "aut05": {
                 "35-C01": "Gran Canaria", "35-C02": "Fuerteventura", "35-C03": "Lanzarote",
                 "35-C04": "La Graciosa", "38-C01": "Tenerife", "38-C02": "La Gomera",
                 "38-C03": "La Palma", "38-C04": "El Hierro",
@@ -314,7 +314,11 @@ class PhysicalComponentsSourceIdentityTests(unittest.TestCase):
                     self.assertEqual(f"secciones_{year}", hard["inventory_id"])
                     self.assertEqual(year, hard["source_identity"]["section_year"])
                     self.assertEqual(expected["sectioning_sha256"], hard["source_identity"]["sectioning_sha256"])
-                    self.assertEqual(expected["territorial_identity_sha256"], hard["source_identity"]["territorial_identity_sha256"])
+                    # T-220: el inventario se selló con el id viejo; el contrato renombrado lo reconoce como su variante.
+                    from herramientas._resolver_ejecucion_completa_core import _identidades_por_variante
+                    ident = {k: v for k, v in hard["source_identity"].items()
+                             if k not in ("sectioning_sha256", "territorial_identity_sha256")}
+                    self.assertIn(expected["territorial_identity_sha256"], _identidades_por_variante(ident))
                     self.assertEqual(expected["universe"], hard["expected_graph_nodes"])
                     self.assertEqual(expected["universe_hash"], hard["universe_cusec_set_sha256"])
                     self.assertEqual(expected["components"], hard["component_sections"])
@@ -325,11 +329,11 @@ class PhysicalComponentsSourceIdentityTests(unittest.TestCase):
 
         self.assertEqual(
             "35-C04",
-            lookup["territories"]["canarias"]["section_overrides"]["3502401010"],
+            lookup["territories"]["aut05"]["section_overrides"]["3502401010"],
         )
 
     def test_current_contracts_select_2023_not_product_edition_2025(self):
-        for territory_id in ("illes_balears", "canarias"):
+        for territory_id in ("aut04", "aut05"):
             contract = yaml.safe_load(
                 (ROOT / f"territorios/{territory_id}/config/{territory_id}_2025.yaml").read_text(encoding="utf-8")
             )
@@ -341,17 +345,17 @@ class PhysicalComponentsSourceIdentityTests(unittest.TestCase):
         # Una re-descarga INE del mismo año con otra huella usa el inventario de ese año; sus CUSEC
         # se verifican al materializar (test_materializer_conserves_input_output_and_records_hashes
         # cubre el fallo cerrado PHYSICAL_COMPONENT_INVENTORY_MISMATCH).
-        contract = _contract_for_inventory("illes_balears", 2023)
+        contract = _contract_for_inventory("aut04", 2023)
         contract["generation_state"]["source_inputs"][0]["sha256"] = "f" * 64
         hard = _hard_partition_spec(contract, ROOT)
         self.assertEqual("secciones_2023", hard["inventory_id"])
         self.assertEqual("SECTION_YEAR_CUSEC_VERIFIED_AT_MATERIALIZATION", hard["inventory_binding"])
         self.assertEqual("f" * 64, hard["source_identity"]["sectioning_sha256"])
-        exact = _hard_partition_spec(_contract_for_inventory("illes_balears", 2023), ROOT)
+        exact = _hard_partition_spec(_contract_for_inventory("aut04", 2023), ROOT)
         self.assertEqual("EXACT_SOURCE_IDENTITY", exact["inventory_binding"])
 
     def test_unaccredited_source_year_fails_closed(self):
-        contract = _contract_for_inventory("illes_balears", 2023)
+        contract = _contract_for_inventory("aut04", 2023)
         contract["meta"]["source_section_year"] = 2021
         contract["meta"]["source_population_year"] = 2021
         contract["generation_state"]["source_inputs"][0]["sha256"] = "f" * 64

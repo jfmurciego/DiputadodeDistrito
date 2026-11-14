@@ -1,12 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: catálogo de elecciones vigentes para preparación electoral
-# VERSIÓN: 1.0.0
-# FECHA: 2026-09-19
+# VERSIÓN: 1.0.1
+# FECHA: 2026-11-12
+# CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/configuracion/elecciones_vigentes_v1.0.0_20261112.yaml
 schema: ddd-current-election-catalog/1.0
 territories:
-  - territory_id: galicia
+  - territory_id: aut12
     name: Galicia
     territorial_edition: '2025'
     election_id: galicia_parlamento_2024
     election_date: '2024-02-18'
-    declaration: territorios/galicia/config/elecciones/galicia_parlamento_vigente.yaml
+    declaration: territorios/aut12/config/elecciones/galicia_parlamento_vigente.yaml

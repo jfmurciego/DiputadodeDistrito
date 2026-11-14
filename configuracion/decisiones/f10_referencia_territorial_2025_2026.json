@@ -6,9 +6,9 @@
   "status": "OWNER_APPROVED_TERRITORIAL_REFERENCE_ONLY",
   "scope": "Aragón, Castilla y León y Andalucía: pareja territorial poblacion/seccionado INE 2025/2025 para elecciones 2026. No certifica correspondencia electoral.",
   "territory_ids": [
-    "andalucia",
-    "aragon",
-    "castilla_y_leon"
+    "aut01",
+    "aut02",
+    "aut07"
   ],
   "selected_population_year": 2025,
   "selected_section_year": 2025,

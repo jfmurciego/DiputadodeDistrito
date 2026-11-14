@@ -2,7 +2,7 @@
 """Huella de puentes topológicos antes de M02 (T-09).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-01 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
 QUÉ HACE: comprueba los `topology_bridges` de M02 de cada contrato contra el inventario de secciones que
   consumirá M02 y clasifica cada puente:
     VALIDO · CAMPOS_INCOMPLETOS · EXTREMOS_IGUALES · MUNICIPIO_INEXISTENTE · CODIGO_SECCION_CAMBIADO
@@ -12,7 +12,8 @@ QUÉ HACE: comprueba los `topology_bridges` de M02 de cada contrato contra el in
   (`--sections-geojson`, el que lee M02).
 NO HACE: medir colindancia ni si el puente reduce componentes; eso exige las aristas de M02 y lo valida
   `ddd_core.topology_preflight.validate_topology_bridges` dentro del módulo.
-ANTERIOR: —
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/verificar_puentes_congreso_v1.0.0_20261112.py
 """
 from __future__ import annotations
 
@@ -21,8 +22,18 @@ import json
 import sys
 import zipfile
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito e ids por el resolutor, nunca por prefijo)
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 REQUIRED = ("u", "v", "admin_scope", "edge_type", "reason", "source")
 
@@ -93,14 +104,15 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Comprueba los puentes de M02 contra el inventario de secciones.")
     ap.add_argument("--root-dir", type=Path, default=Path("."))
     ap.add_argument("--params", type=Path, action="append", default=[],
-                    help="Contrato(s); por defecto todos los territorios/congreso_*/config/*_2025.yaml")
+                    help="Contrato(s); por defecto los contratos 2025 de todas las circunscripciones NAC")
     src = ap.add_mutually_exclusive_group(required=True)
     src.add_argument("--zip", type=Path, help="ZIP oficial de Interior por mesa (secciones 2023)")
     src.add_argument("--sections-geojson", type=Path, help="GeoJSON M01 que consume M02")
     ap.add_argument("--json-output", type=Path)
     a = ap.parse_args(argv)
     sections = sections_from_zip(a.zip) if a.zip else sections_from_geojson(a.sections_geojson)
-    contracts = a.params or sorted((a.root_dir / "territorios").glob("congreso_*/config/congreso_*_2025.yaml"))
+    contracts = a.params or [p for t in territorio_ids.ids_nuevos("NAC")
+                              if (p := a.root_dir / "territorios" / carpeta_de(a.root_dir, t) / "config" / f"{t}_2025.yaml").exists()]
     reports = [check_contract(p, sections) for p in contracts]
     summary = {"schema": "ddd.bridge-fingerprint/1.0", "sections": len(sections),
                "status": "PASS" if all(r["status"] == "PASS" for r in reports) else "BLOCK", "contracts": reports}
