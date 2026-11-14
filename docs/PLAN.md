@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.43
-Fecha: 2026-11-11
+Versión: 1.0.44
+Fecha: 2026-11-14
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-87 a D-90 (Zenodo, veda del motor levantada, optimización antes del corte, semilla por código oficial) y T-237 a T-266
-Anterior: legacy/docs/PLAN_v1.0.42_20261111.md
+Cambios/motivo: D-91 a D-95 (repositorio privado y público de publicación, propiedad intelectual, runner propio, Zenodo solo mapas) y plan por fases T-267 a T-290
+Anterior: legacy/docs/PLAN_v1.0.43_20261114.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -125,6 +125,11 @@ con frase del propietario en su chat.
 - D-88. Zenodo: un único depósito «Deslinde 1.0.0 y mapas» cuando estén la optimización, el paquete independiente y la definición formal; hasta entonces no se deposita nada. El visor sí se publica.
 - D-89 (11-11). Se levanta la veda del motor de producción (M04, M05, `ddd_core`, GerryChain) para optimizar, con la condición de mapas (composiciones) idénticos bit a bit; puede cambiar la huella del código o del resultado si queda registrada. La optimización (D-85) se adelanta a antes del corte 5.0.0, que espera. Los distritos quedan aparcados mientras tanto: no se lanza nada nuevo sin frase del propietario.
 - D-90 (11-11). La semilla de Deslinde sale del código oficial del territorio en la tabla maestra (con su sha256), no del nombre de la carpeta. Cambio único y deliberado de los mapas: va tras las optimizaciones bit a bit y antes de regenerar las 71 y de renombrar las carpetas (T-220); su salida es la nueva referencia de «bit a bit».
+- D-91 (14-11, propietario). El proyecto nació abierto; desde ahora no se quiere copia sin autorización. Un único repositorio de trabajo, el actual, PRIVADO (fuente única de todo: código, datos, Campañas, plan). Lo público va a un repositorio NUEVO de publicación, sin historial, que solo escribe el puente de publicación desde el privado. No se reescribe el historial del privado. (Sustituye la primera redacción de D-91 del mismo día, «el actual vuelve a ser público».)
+- D-92 (14-11). Secretos: código de Deslinde (motor, competición, D8), su definición formal y los estudios y mediciones. Públicos: visor y sitio, mapas, resultados, datos abiertos, reglas y contratos (con un esquema y un validador propios, sin el núcleo), plan y arquitectura.
+- D-93 (14-11). Las Campañas y la CI del privado corren en un runner propio del propietario (self-hosted); los artefactos pesados van a R2 (ARC). GitHub Actions de pago solo como puente temporal.
+- D-94 (14-11). Zenodo: solo mapas, desde el repositorio público. Sustituye la parte de software de D-88; el paquete Deslinde (D-86.1) es privado; sin JOSS ni OSF. La investigación (D-73, D-86.3-5) sigue, sin publicar código.
+- D-95 (14-11). Propiedad intelectual: el propietario la registra; el código del privado pasa a licencia propietaria desde ahora. Lo ya publicado bajo Apache-2.0 sigue bajo esa licencia (no es revocable); se intenta retirar lo antiguo accesible (copia de Zenodo del 9-11, releases antiguas) sin depender de ello.
 
 ### Cola vigente del motor y de las generales 2026 (10-11)
 | Id | Tarea | Estado |
@@ -194,12 +199,46 @@ con frase del propietario en su chat.
 | T-263 | Código muerto: M04 v745–v754 y M05 v740 a legacy (#723; cambia la huella M04 de checkpoints) | REVISIÓN |
 | T-264 / T-264b | Puentes del contrato que el motor no leía: diagnóstico y prueba (mismos mapas en 4 territorios); parche mínimo | EN_CURSO (parche tras T-261) |
 | T-265 | Semilla por código oficial (D-90) | PENDIENTE (tras T-261 a T-264) |
-| T-266 | Actualización del plan (D-87 a D-90) | ESTA PR |
+| T-266 | Actualización del plan (D-87 a D-90) | HECHA |
+| T-267 | Puerta de validación bajo `bash -eo pipefail` (regresión de T-251) | HECHA |
+| T-268 | La 00 rechaza al principio `congreso350_*` (D-76) | HECHA |
+| T-269 | Relajación real de D-66 en el núcleo | PENDIENTE (P3, solo si aparece un territorio infactible) |
+| T-270 | Medición de Deslinde optimizado en territorios grandes, utilidad del exhaustivo, función A frente a D8 | EN CURSO (informe parcial en su rama) |
+| T-271 | CI: subir artefactos de diagnóstico solo al fallar, sin tumbar el veredicto | EN CURSO (P0) |
+| T-272 | Inventario de la frontera privado/público | HECHA (rama `t272-frontera-inventario`) |
+
+### Plan por fases del repositorio privado (14-11, D-91 a D-95)
+Fase 0 — desbloquear (hoy):
+| T-271 | Ver arriba | P0 |
+| T-278 | Borrar los artefactos sobrantes (propuesta del Operador, 176 GB) y las releases borrador de ensembles | Frase del propietario al Operador |
+| T-279 | Relevo del Operador (contexto al 65 %): traspaso escrito y chat nuevo | Planificador |
+Fase 1 — privado operativo:
+| T-274 | Runner propio: guía de registro (sistema del servidor) y CI y Campañas con `runs-on: [self-hosted, ddd]`; sin runner propio en ningún repositorio público | Coordinador; el propietario registra el runner |
+| T-280 | Licencia propietaria del código en el privado (LICENSE, cabeceras, README interno) y nota de lo publicado antes bajo Apache-2.0 | Coordinador |
+| T-281 | Paquete para el registro de la propiedad intelectual: instantánea del código de Deslinde, definición formal y estudios con sha256 y fecha | Coordinador; lo presenta el propietario |
+Fase 2 — repositorio público de publicación:
+| T-273 | Contenido inicial del público por lista blanca (inventario T-272), generado por script desde el privado; README y licencia de datos | Coordinador; el propietario crea el repositorio vacío |
+| T-282 | Desacoplar del motor lo que se publica: el visor sin `ddd_ensemble`; validador de contratos con esquema JSON | Coordinador |
+| T-275 | Puente de publicación: la P50 escribe en el público con un token fine-grained (solo `contents:write` en el público); `publicaciones_visor.json` apunta a ficheros del público, no a blobs del privado | Coordinador |
+| T-283 | Pages y el dominio `diputadodedistrito.es` servidos desde el público | Coordinador; el propietario ajusta el dominio |
+| T-276 | Zenodo solo mapas, desde el público (`.zenodo.json`, `CITATION.cff`) | Coordinador |
+Fase 3 — retirar lo antiguo accesible:
+| T-284 | Textos de solicitud a Zenodo (retirar o restringir la copia del repositorio del 9-11) y a Software Heritage si lo archivó | Planificador redacta; el propietario envía |
+| T-285 | Borrar releases antiguas que no son de mapas (borradores de ensembles, `cyl-m06-checkpoint-temp`) | Frase del propietario al Operador |
+Fase 4 — producto (en el privado):
+| #740 / T-220 | Renombrado de carpetas | Poner al día y fusionar tras T-271 |
+| T-257 | Paquete Deslinde (privado; mover, no copiar) | Tras T-220 |
+| T-270 | Terminar la medición | Tras T-271 |
+| T-286 | Batería de los 71 con el motor optimizado y la semilla oficial (fija N = 10) | Runner propio; frase del propietario |
+| T-287 | Regenerar los 71 con la semilla oficial y publicarlos por el puente | Frase del propietario |
+| T-288 | Corte 5.0.0 (README del público, etiqueta) | Al final |
+| T-289 | Pendientes menores: T-206 y T-203 (límite 25-11), T-226, T-227, T-231, T-233, T-238, T-242, T-253 | Por prioridad |
+| T-290 | Actualización del plan (D-91 a D-95) | ESTA PR |
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236 y T-266. El planificador ha dado T-194 a T-266 (10 y 11-11). Siguiente libre para el planificador: T-267.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266 y T-290. El planificador ha dado T-194 a T-290 (10 a 14-11; T-277 sin usar). Siguiente libre para el planificador: T-291.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
