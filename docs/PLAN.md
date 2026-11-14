@@ -288,7 +288,7 @@ Fase 4 — producto (en el privado):
 | T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? No: transitorio, solo bloquea «Reutilizar» (lectura de código sobre main actual). Orden: P10 → P00 por territorio seguidos | REVISIÓN (#788); camino crítico |
 | T-318 | Plan del histórico desde 2011 sobre 2023 (D-105): pasos 1-6 de T-306 §5 con coste; el paso A es campaña con ficha | LISTA (Coordinador; tras la P50 de los 71) |
 | T-319 | Paquete de propiedad intelectual regenerado sobre main con `preparar_paquete_pi.py` (D-107), con sha256, para el propietario | LISTA (Coordinador; antes del lunes 16-11) |
-| T-320 | Almacén M06: comprobación en vivo de las 51 claves en R2 y `-WhatIf` del script; el propietario borra (D-108) | LISTA (Coordinador, tras #785) |
+| T-320 | Almacén M06: comprobación en vivo de las 51 claves en R2 y `-WhatIf` del script; el propietario borra (D-108) | PENDIENTE (tras la P50 de los 71: job de solo lectura nuevo, sin tocar workflows durante la congelación) |
 | T-317 | Esta actualización del plan (1.0.45) | REVISIÓN (#787) |
 
 ### Frentes y camino crítico (14-11)
