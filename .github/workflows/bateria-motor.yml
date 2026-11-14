@@ -1,6 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: bateria-motor.yml
-# VERSIÓN: 1.3.0
+# VERSIÓN: 1.3.1
+# CAMBIOS 1.3.1 (T-302): el job `archivar_almacen_m06` pasa a `contents: write` (solo ese job; los demás siguen en read): las releases almacen-m06-*
+#   son borradores y el GITHUB_TOKEN no los ve con contents: read (run 43632394790: ALMACEN_SIN_ASSETS). El job solo LEE releases (API GET y descarga de
+#   assets) y sube a R2; no hace push ni edita ni borra releases.
 # CAMBIOS 1.3.0 (T-302): entrada `archivar_almacen_m06` (Operador, una vez): sube a R2 (ARC-P, arc-p/m06/<asset>_<sha12>.zip) los assets de las releases
 #   almacen-m06-* con su sha256 verificado contra el digest de la release y deja ARCHIVO_ALMACEN_M06.json como artefacto (herramientas/
 #   almacen_m06_r2.py; después `indexar` en una PR). No borra nada. Secretos de R2 solo en el paso que sube.
@@ -45,7 +48,7 @@
 #   territorial de P10 archivado en R2 (ARC-E, por identidad del contrato, sha256 verificado; herramientas/bateria_motor.py 1.3.0);
 #   sin paquete, el job falla con BATERIA_FALTA_PAQUETE_P10 y el territorio a archivar. Entrada `archivar_p10` (Operador, una vez por
 #   territorio): archiva en R2 el estado M03 de la 00 indicada. Las credenciales de R2 van solo en los pasos que las usan (Entradas, Archivar, archivar_p10), no en el env de los jobs. Se quita el paso de copias nacionales y la reconstrucción desde fuente.
-# ANTERIOR: legacy/workflows/bateria-motor_v1.2.2_20261114.yml
+# ANTERIOR: legacy/workflows/bateria-motor_v1.3.0_20261114.yml
 name: VER Verificación del motor
 run-name: "Batería del motor ${{ inputs.motor == 'motor2' && format('motor2 {0} N={1}', inputs.funcion, inputs.cadenas) || inputs.versiones_m05 }} ${{ inputs.territorios || 'todos' }}"
 
@@ -148,7 +151,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     permissions:
-      contents: read
+      contents: write  # ve los borradores almacen-m06-*; solo lectura de releases (sin push ni edición)
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
