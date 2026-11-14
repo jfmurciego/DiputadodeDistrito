@@ -2,7 +2,7 @@
 """Archiva en R2 (ARC-P) los assets de las releases draft ``almacen-m06-*`` y mantiene su índice versionado.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.1.0
 NOMBRE DE VERSIÓN: Archivo en R2 del almacén M06
 FECHA: 2026-11-14
 ESTADO: candidato
@@ -10,9 +10,10 @@ QUÉ HACE: ``archivar`` baja cada asset ``<artefacto>-<id>.zip`` de las releases
   SHA-256 contra el digest que registra GitHub, lo sube a ``arc-p/m06/<asset>_<sha12>.zip`` (idempotente: no
   resube si R2 ya tiene el mismo sha256) y deja ``ARCHIVO_ALMACEN_M06.json``. ``indexar`` fusiona ese fichero en
   ``orchestracion/almacen_m06_r2.json`` (la entrada que ``localizar_artefacto_durable`` lee PRIMERO). No borra nada.
-CAMBIOS: fichero nuevo (T-302).
+CAMBIOS: 1.1.0 (T-302): también archiva los MANIFIESTO-*.tsv de cada release (índice de sus assets) y añade `listar` (BORRAR solo si todos
+  los assets están en el índice con su sha256; si no, CONSERVAR). 1.0.0: fichero nuevo (T-302).
 MOTIVO: los seis ``almacen-m06-*`` (1,11 GB) son la única copia durable de sus artefactos (T-299).
-ANTERIOR: ninguno (herramienta nueva).
+ANTERIOR: legacy/herramientas/almacen_m06_r2_v1.0.0_20261114.py
 Entorno de ``archivar``: GH_TOKEN, R2_BUCKET, R2_ACCOUNT_ID y credenciales AWS_*.
 """
 from __future__ import annotations
@@ -41,7 +42,8 @@ _RUN = re.compile(r"-(\d{8,})(?:-M\d+)?$")
 
 
 def clave(asset: str, sha256: str) -> str:
-    return f"{PREFIJO_CLAVE}{asset.removesuffix('.zip')}_{sha256[:12]}.zip"
+    stem, ext = asset.rsplit(".", 1)
+    return f"{PREFIJO_CLAVE}{stem}_{sha256[:12]}.{ext}"
 
 
 def _sha(path: Path) -> str:
@@ -61,12 +63,14 @@ def inventario(repo: str, api: Callable = gh_api) -> list[dict]:
             continue
         run_release = tag.rsplit("-", 1)[-1]
         for a in rel.get("assets") or []:
-            m = _ASSET.match(str(a.get("name") or ""))
-            if not m:
-                continue
+            nombre = str(a.get("name") or "")
+            m = _ASSET.match(nombre)
+            if not m and not re.fullmatch(r"MANIFIESTO-.+\.tsv", nombre):
+                continue  # los MANIFIESTO-*.tsv (≈1 KB) también se archivan: son el índice de cada release
+            m = m or {"nombre": nombre.removesuffix(".tsv"), "id": "0"}
             run = (_RUN.search(m["nombre"]) or [None, run_release])[1]
             filas.append({"release_tag": tag, "asset_id": a["id"], "asset": a["name"], "artifact_name": m["nombre"],
-                          "artifact_id": int(m["id"]), "run_id": run,
+                          "artifact_id": int(m["id"]) or None, "run_id": run,
                           "digest": str(a.get("digest") or "").removeprefix("sha256:").lower(), "bytes": a.get("size")})
     return sorted(filas, key=lambda f: (f["release_tag"], f["asset"]))
 
@@ -111,6 +115,31 @@ def archivar(repo: str, out: Path, *, api: Callable = gh_api, download: Callable
     return objetos, fallos
 
 
+def veredicto(filas: list[dict], indice: dict) -> dict[str, dict]:
+    """Por release: BORRAR solo si TODOS sus assets zip están en el índice con la clave y el sha256 esperados; si no, CONSERVAR."""
+    res: dict[str, dict] = {}
+    for f in filas:
+        r = res.setdefault(f["release_tag"], {"assets": [], "estado": "BORRAR", "motivo": ""})
+        k = clave(f["asset"], f["digest"]) if f["digest"] else None
+        e = indice.get(k) if k else None
+        ok = bool(e) and str(e.get("sha256")).lower() == f["digest"]
+        r["assets"].append({"asset": f["asset"], "bytes": f["bytes"], "sha256": f["digest"], "clave_r2": k, "en_r2": ok})
+        if not ok:
+            r["estado"] = "CONSERVAR"
+            r["motivo"] = "NO VERIFICADO EN R2 → CONSERVAR"
+    return res
+
+
+def listar(repo: str, indice: Path = INDICE_R2, api: Callable = gh_api) -> str:
+    idx = json.loads(indice.read_text(encoding="utf-8")).get("objetos", {}) if indice.is_file() else {}
+    v = veredicto(inventario(repo, api), idx)
+    out = ["| Release | Assets | En R2 | Estado |", "|---|---|---|---|"]
+    for tag, r in sorted(v.items()):
+        n = sum(a["en_r2"] for a in r["assets"])
+        out.append(f"| `{tag}` | {len(r['assets'])} | {n} | {r['estado']}{' — ' + r['motivo'] if r['motivo'] else ''} |")
+    return "\n".join(out)
+
+
 def indexar(archivo: Path, indice: Path = INDICE_R2) -> int:
     nuevo = json.loads(archivo.read_text(encoding="utf-8"))["objetos"]
     actual = json.loads(indice.read_text(encoding="utf-8")) if indice.is_file() else {"schema": SCHEMA, "objetos": {}}
@@ -127,9 +156,14 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", ""))
     a.add_argument("--out", type=Path, default=Path("almacen_m06"))
     a.add_argument("--simular", action="store_true")
+    l = sub.add_parser("listar")
+    l.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", ""))
     i = sub.add_parser("indexar")
     i.add_argument("archivo", type=Path)
     ns = ap.parse_args(argv)
+    if ns.cmd == "listar":
+        print(listar(ns.repo))
+        return 0
     if ns.cmd == "indexar":
         print(f"{indexar(ns.archivo)} objeto(s) indexados en {INDICE_R2}")
         return 0

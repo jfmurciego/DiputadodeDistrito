@@ -1,0 +1,6 @@
+## 2026-11-14 — T-302 — Lista BORRAR/CONSERVAR y script de borrado de los almacen-m06-*
+
+Causa: el propietario pide la lista de releases `almacen-m06-*` con su estado en R2 y un script para borrar solo las verificadas; cada release lleva además un `MANIFIESTO-*.tsv` que el archivado (#764) no copiaba y se perdería al borrar.
+Cambio: `almacen_m06_r2.py` 1.1.0 (archiva también los MANIFIESTO-*.tsv; `listar`: BORRAR solo si todos los assets están en `orchestracion/almacen_m06_r2.json` con clave y sha256 correctos); `herramientas/borrar_almacen_m06.ps1` (PowerShell + gh: `-WhatIf`, confirmación escribiendo BORRAR, salta y avisa de lo no verificado, no toca viewer-*); `docs/ESTUDIOS/T302_LISTA_BORRADO_ALMACEN_M06.md` (6 releases, todas «NO VERIFICADO EN R2 → CONSERVAR»: el archivado aún no se ha lanzado). Copia en `legacy/`.
+Pruebas: `tests/test_localizar_artefacto_durable.py` (veredicto BORRAR/CONSERVAR, MANIFIESTO incluido, sha ajeno; guardas del .ps1). El .ps1 no se ha podido ejecutar (sin pwsh en la sesión).
+Riesgos: sin 00 ni cambio de huellas; no se lanza ni se borra nada. Pasos: Operador lanza `archivar_almacen_m06=true`; PR con `indexar`; propietario ejecuta el .ps1 (-WhatIf primero).
