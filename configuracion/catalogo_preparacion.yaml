@@ -1659,25 +1659,24 @@ territories:
         run_id: 42996717873
         stage: M08
       preparation_evidence:
-        run_id: 41241377284
-        artifact_name: ddd-source-package-congreso_leon-2025-41241377284
-        artifact_sha256: e576851afca31bc07379759546812488a830c35634ac15c2fc91361d31fd13ad
+        run_id: 43654094711
+        artifact_name: ddd-source-package-nac24-2025-43654094711
+        artifact_sha256: eda4835fb304dd1125ab44970a3dd01e496cb514555963aa0c8eca475988297a
         package_sha256: ad4c13561666a914ad5f187a4eb74b11d44cabef38dfbd2317221abdf1dc0c8b
-        receipt_path: territorios/nac24/evidencia/fuentes_territoriales/2025/efb0cce4516bba1965435d97b91171794fa757967fbf573a329ff44c15e5a024/41241377284/receipt.json
-        territorial_identity_sha256: efb0cce4516bba1965435d97b91171794fa757967fbf573a329ff44c15e5a024
+        receipt_path: territorios/nac24/evidencia/fuentes_territoriales/2025/44209d956505b33ab0b815fa581bd303d17716c67dcc2afe220c1ee456b91396/43654094711/receipt.json
+        territorial_identity_sha256: 44209d956505b33ab0b815fa581bd303d17716c67dcc2afe220c1ee456b91396
         compatibility_report_sha256: cc03ed216c8042c0df341b8a749dc0317acde2cba20091bc5a0efeefd94730d7
         compatibility_identity_sha256: ad0e21f088c3b151fec3761f6fff2801fe028a1e77d44e9d4d034c16a1102c5c
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: ac48851e6d0201a5b54356422aa0d73fec96eeef
+        source_commit: f5cf354e2c15ec5aae1aea2b92d8f832e00392d0
       evidence:
         electoral_source: territorios/nac24/evidencia/fuentes_electorales/2025/a57d170628ef34e459163cee84bbc310d5225cd1d586a8a771419bb3a66a5e35/41239847787/receipt.json
-        generation_preflight: territorios/nac24/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac24/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac24/evidencia/pares_fuentes/2025/ec2b27c201a17fceca9b44d38785522c8676e1b0018c7aa2cbb6ce967b5f5f46.json
         electoral_product: territorios/nac24/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac25
   name: Congreso Lérida
   editions:
