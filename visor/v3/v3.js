@@ -1,12 +1,13 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V3 (nueva interfaz)
- * VERSIÓN: 1.1.0
+ * VERSIÓN: 1.2.0
  * FECHA: 2026-11-14
  * ESTADO: candidato
  * CAMBIOS: explorador mapa, ámbito, proporcional/mayoritario, territorial/electoral,
  * calendario por ámbito, distrito y sección censal reales, paleta de partidos.
  * MOTIVO: una sola experiencia con datos acreditados y fallo cerrado ante fuentes ausentes.
- * ANTERIOR: legacy/visor/v3/v3_v1.0.1_20261114.js
+ * ANTERIOR: legacy/visor/v3/v3_v1.1.0_20261114.js
+ * 1.2.0: T-295, accesibilidad WCAG 2.1 AA: anuncio de la selección (región aria-live), tabla alternativa al mapa operable con teclado, movimiento reducido, controles de MapLibre en español.
  * 1.1.0: T-300, panel «De dónde sale este mapa» (fuentes con enlace, huella, motor actual con su salvedad, elección; sin id de ejecución, D-92) leído de datos/catalogo_procedencia.json; sin él, aviso.
  * 1.0.1: T-206, pie con el texto del padrón 2026 (D-69), visible solo con una elección 2026 general. */
 "use strict";
@@ -55,6 +56,7 @@
     if (/^UPN$/.test(s))return "UPN";
     return "OTROS";
   }
+  const LOCALE_ES={"NavigationControl.ZoomIn":"Acercar","NavigationControl.ZoomOut":"Alejar","NavigationControl.ResetBearing":"Orientar al norte"};
   function esc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
   function color(n){return PALETA[family(n)]||PALETA.OTROS;}
   function randomNeutral(n){const pal=["#91aabb","#a5bcc8","#b5c8d0","#9baac2","#c2d0da","#afbeca","#8eabb7"];let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))>>>0;return pal[h%pal.length];}
@@ -66,11 +68,13 @@
   let map=null,bootstrap=false,loading=false;
   const empty=()=>({type:"FeatureCollection",features:[]});
   async function getJson(path){const r=await fetch(path,{cache:"default"});if(!r.ok)throw Error(path+": HTTP "+r.status);return r.json();}
+  function dur(n){return typeof matchMedia==="function"&&matchMedia("(prefers-reduced-motion: reduce)").matches?0:n;}
+  function announce(t){const e=$("sr-status");if(e)e.textContent=t||"";}
   function note(t){$("map-notice").textContent=t||"";}
   function legend(t){$("legend").innerHTML=t;}
   function helpText(t){$("election-note").textContent=t;}
   function bbox(geometry){let box=[180,90,-180,-90];function walk(coords){if(typeof coords[0]==="number"){box[0]=Math.min(box[0],coords[0]);box[1]=Math.min(box[1],coords[1]);box[2]=Math.max(box[2],coords[0]);box[3]=Math.max(box[3],coords[1]);}else coords.forEach(walk);}walk(geometry.coordinates||[]);return [[box[0],box[1]],[box[2],box[3]]];}
-  function focus(g){if(map&&g&&g.coordinates){map.fitBounds(bbox(g),{padding:65,maxZoom:12,duration:420});}}
+  function focus(g){if(map&&g&&g.coordinates){map.fitBounds(bbox(g),{padding:65,maxZoom:12,duration:dur(420)});}}
   function updateSegments(id,val){document.querySelectorAll("#"+id+" button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.value===val)));}
   function paletteExpression(){const e=["match",["get","party"]];Object.entries(PALETA).forEach(([k,c])=>{e.push(k,c);});e.push(PALETA.OTROS);return e;}
   function paintWith(layer,fill){if(map?.getLayer(layer))map.setPaintProperty(layer,"fill-color",fill);}
@@ -478,6 +482,25 @@
     const headings={territorio:"Perfil territorial",resultados:"Resultados electorales",comparar:"Comparar sistemas",evolucion:"Evolución temporal"};
     $("detail-heading").textContent=headings[S.panel];$("detail-content").innerHTML=content;
     $("prov-content").innerHTML=provenanceHtml(kind,obj);
+    renderTable();
+    announce($("selection-type").textContent+": "+name+". "+$("selection-path").textContent+". "+
+      records.map(([a,b])=>a+": "+b).join(". "));
+  }
+  function renderTable(){
+    const box=$("results-table");if(!box)return;
+    const prov=provinceFeatures();
+    if(S.scope!=="nacional"||!prov.length){box.dataset.key="";box.innerHTML="<p class='small-note'>La tabla de provincias está disponible en el ámbito nacional.</p>";return;}
+    const ok=validElection()&&S.view==="electoral";
+    const key=S.scope+"|"+ok;if(box.dataset.key===key&&box.innerHTML)return; // no recrear la tabla al seleccionar: conserva el foco
+    box.dataset.key=key;
+    const head=ok?"<tr><th scope='col'>Provincia</th><th scope='col'>Partido más votado</th><th scope='col'>% del ganador</th><th scope='col'>Escaños</th></tr>":
+      "<tr><th scope='col'>Provincia</th><th scope='col'>Escaños</th><th scope='col'>Distritos DDD</th></tr>";
+    const body=prov.map(f=>{const p=f.properties;
+      const btn="<button type='button' data-prov='"+esc(p.cod)+"'>"+esc(p.nombre)+"</button>";
+      return ok?"<tr><th scope='row'>"+btn+"</th><td><i style='background:"+color(p.ganador)+"'></i>"+esc(p.ganador||"—")+"</td><td>"+esc(pct(p.pct))+"</td><td>"+esc(fmt(p.escanos))+"</td></tr>":
+        "<tr><th scope='row'>"+btn+"</th><td>"+esc(fmt(p.escanos))+"</td><td>"+esc(fmt(p.k407))+"</td></tr>";}).join("");
+    box.innerHTML="<table><caption>"+(ok?"Resultados generales 2023 por provincia":"Provincias (sin capa electoral certificada para esta vista)")+"</caption><thead>"+head+"</thead><tbody>"+body+"</tbody></table>";
+    if(box.querySelectorAll)box.querySelectorAll("button[data-prov]").forEach(b=>{b.onclick=()=>openProvince(b.dataset.prov,true);});
   }
   function syncLevels(){
     const auto=S.scope==="autonomico";
@@ -531,7 +554,7 @@
       }
       if(id==="scope"){S.province=null;S.unit={kind:"pais",properties:{}};S.region="";
         S.level=S.scope==="autonomico"?"comunidad":"provincia";$("level").value=S.level;
-        map.fitBounds([[-9.8,35.3],[4.5,44.2]],{padding:30,duration:350});}
+        map.fitBounds([[-9.8,35.3],[4.5,44.2]],{padding:30,duration:dur(350)});}
       refresh();
     }));
     $("layer").onchange=e=>{S.layer=e.target.value;if(S.layer==="desviacion"&&S.view!=="territorial"){
@@ -552,9 +575,9 @@
       S.panel=b.dataset.panel;document.querySelectorAll("[data-panel]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));renderDetail();
     });
     $("reset-map").onclick=()=>{S.province=null;S.unit={kind:"pais",properties:{}};S.level=S.scope==="nacional"?"provincia":"comunidad";$("level").value=S.level;
-      map.fitBounds([[-9.8,35.3],[4.5,44.2]],{padding:30,duration:450});refresh();};
-    $("peninsula").onclick=()=>map.fitBounds([[-9.8,35.6],[4.5,43.95]],{padding:25,duration:350});
-    $("canarias").onclick=()=>map.fitBounds([[-18.5,27.4],[-13.3,29.5]],{padding:25,duration:350});
+      map.fitBounds([[-9.8,35.3],[4.5,44.2]],{padding:30,duration:dur(450)});refresh();};
+    $("peninsula").onclick=()=>map.fitBounds([[-9.8,35.6],[4.5,43.95]],{padding:25,duration:dur(350)});
+    $("canarias").onclick=()=>map.fitBounds([[-18.5,27.4],[-13.3,29.5]],{padding:25,duration:dur(350)});
     $("help").onclick=()=>$("help-dialog").showModal();
   }
   async function init(){
@@ -575,7 +598,7 @@
       $("election-region").innerHTML='<option value="">Selecciona parlamento</option>'+
         Object.entries(REGION).map(([name,id])=>"<option value='"+esc(id)+"'>"+esc(name)+"</option>").join("");
       map=new maplibregl.Map({container:"map",style:styleInit(),bounds:[[-9.8,35.4],[4.5,44.2]],
-        fitBoundsOptions:{padding:30},dragRotate:false,pitchWithRotate:false,renderWorldCopies:false,attributionControl:false});
+        fitBoundsOptions:{padding:30},dragRotate:false,pitchWithRotate:false,renderWorldCopies:false,attributionControl:false,locale:LOCALE_ES});
       map.addControl(new maplibregl.NavigationControl({showCompass:false}),"top-right");
       map.on("load",()=>{bootstrap=true;install();});
       map.on("error",e=>{if(e?.error)console.error("MapLibre:",e.error);});

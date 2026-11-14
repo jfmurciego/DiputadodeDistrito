@@ -1,7 +1,8 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: prueba de interacción V3
- * VERSIÓN: 1.1.0 · FECHA: 2026-11-14 · ESTADO: candidato
- * ANTERIOR: legacy/tests/test_visor_v3_ui_v1.0.0_20261114.js
+ * VERSIÓN: 1.2.0 · FECHA: 2026-11-14 · ESTADO: candidato
+ * ANTERIOR: legacy/tests/test_visor_v3_ui_v1.1.0_20261114.js
+ * 1.2.0 (T-295): accesibilidad WCAG 2.1 AA (marcado, CSS, contraste, anuncio de selección y tabla alternativa).
  * 1.1.0 (T-300): casos del panel «De dónde sale este mapa» (catálogo de procedencia real, sin catálogo, sin producto).
  * CAMBIOS: prueba la UI con un navegador simulado y datos territoriales reales. */
 "use strict";
@@ -167,6 +168,39 @@ async function main(){
   t.D.provenance=savedProv;
   t.S.unit=null;t.renderDetail();
   assert.match(prov(),/Selecciona una provincia/);
+  // T-295: accesibilidad.
+  const html=fs.readFileSync(path.join(ROOT,"visor/v3/index.html"),"utf8");
+  const css=fs.readFileSync(path.join(ROOT,"visor/v3/v3.css"),"utf8");
+  assert.match(html,/<html lang="es">/);
+  assert.match(html,/class="skip" href="#contenido"/,"enlace de salto");
+  assert.match(html,/id="sr-status"[^>]*aria-live="polite"/,"región viva única para el anuncio de la selección");
+  assert.ok(!/<aside class="insights"[^>]*aria-live/.test(html),"sin aria-live en toda la columna (ruido)");
+  assert.ok(!/id="provenance"[^>]*aria-live/.test(html),"el panel de procedencia no duplica el anuncio");
+  for(const id of ["reset-map","peninsula","canarias","help"])
+    assert.match(html,new RegExp('id="'+id+'"[^>]*aria-label="[^"]{4,}"'),"nombre accesible de #"+id);
+  assert.match(html,/id="map"[^>]*aria-describedby="map-help"/);
+  assert.match(html,/id="results-table"/);
+  assert.match(css,/prefers-reduced-motion:reduce/);
+  assert.match(css,/:focus-visible[^{]*\{outline:3px solid #14161a/);
+  assert.ok(!/e6a344/.test(css),"foco antiguo de 2.1:1");
+  function lum(h){const c=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255).map(v=>v<=.03928?v/12.92:((v+.055)/1.055)**2.4);return .2126*c[0]+.7152*c[1]+.0722*c[2];}
+  function ratio(a,b){const [x,y]=[lum(a),lum(b)].sort((m,n)=>n-m);return (x+.05)/(y+.05);}
+  for(const [fg,bg,min,what] of [["#575962","#ffffff",4.5,"texto gris"],["#575962","#fdf1f1",4.5,"gris sobre tarjeta"],
+    ["#ffffff","#7d5547",4.5,"hero fin degradado"],["#ffffff","#9c2733",4.5,"botón activo"],["#14161a","#ffffff",3,"foco"],
+    ["#868992","#ffffff",3,"borde de control"],["#575962","#f9eff0",4.5,"gris sobre tarjeta"]])
+    assert.ok(ratio(fg,bg)>=min,what+" "+fg+"/"+bg+" "+ratio(fg,bg).toFixed(2));
+  // anuncio de la selección y tabla alternativa
+  t.S.unit={kind:"provincia",properties:madrid.properties};t.S.election="202307";t.S.view="electoral";t.S.scope="nacional";
+  element("results-table").dataset={};t.renderDetail();
+  assert.match(element("sr-status").textContent,/Provincia: Madrid/,"se anuncia la selección");
+  const tbl=element("results-table").innerHTML;
+  assert.match(tbl,/<caption>Resultados generales 2023 por provincia/);
+  assert.match(tbl,/<th scope='row'><button type='button' data-prov='28'>Madrid<\/button>/,"fila de Madrid operable con teclado");
+  assert.equal((tbl.match(/data-prov=/g)||[]).length,provincias.features.length,"todas las provincias en la tabla");
+  assert.match(tbl,/<td><i style='background:#[0-9a-f]{6}'><\/i>(PP|PSOE|VOX)/,"partido por nombre además del color");
+  t.S.election="201911";t.renderDetail();
+  assert.match(element("results-table").innerHTML,/sin capa electoral certificada/,"sin 2023 no se atribuyen ganadores");
+  t.S.election="202307";
   console.log("V3 UI smoke: PASS (regiones, mapa, secciones, fecha y sistema)");
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});
