@@ -5,10 +5,10 @@
   "territory_name": "Islas Baleares",
   "edition": "2025",
   "run_id": 43624882353,
-  "source_commit": "6a78cb2e08e4d217ba0f0f3a5f7ecb7b2fedfbf9",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "e01f8865d6ded69488b2822ef43612c6e8204435",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "SOURCE_MATERIALIZATION",
   "source": {
     "run_id": 43624882353,
     "artifact_name": "ddd-source-package-aut04-2025-43624882353",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La fuente ya acreditada no pudo materializarse para la evaluación; requiere diagnóstico técnico."
   }
 }
