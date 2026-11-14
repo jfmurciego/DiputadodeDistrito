@@ -108,5 +108,22 @@ class AliasOtrasPuertasTests(unittest.TestCase):
             fim.resolve(territory_id=id_legacy(AJENO), **base)
 
 
+class RegistroIdCanonicoTests(unittest.TestCase):
+    """El registro de la preparación escribe el id canónico, nunca el legacy del paquete P10."""
+
+    def _decl(self, tid):
+        return {"territory": {"id": tid, "business_name": "T", "edition": 2025,
+                              "territorial_codes": [{"code": "01", "business_name": "P"}]}}
+
+    def test_declaracion_legacy_escribe_canonico(self):
+        from herramientas.adquirir_fuentes_oficiales import _territory
+        self.assertEqual(_territory(self._decl(LEGACY))[0], NUEVO)
+        self.assertEqual(_territory(self._decl(NUEVO))[0], NUEVO)
+
+    def test_id_fuera_de_tabla_se_conserva(self):
+        from herramientas.adquirir_fuentes_oficiales import _territory
+        self.assertEqual(_territory(self._decl("sintetico_x"))[0], "sintetico_x")
+
+
 if __name__ == "__main__":
     unittest.main()
