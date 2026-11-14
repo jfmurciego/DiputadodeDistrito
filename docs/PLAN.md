@@ -4,7 +4,7 @@ Versión: 1.0.45
 Fecha: 2026-11-14
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: traspaso del Planificador del 14-11 (docs/TRASPASO_PLANIFICADOR_2026-11-14.md): reglas del propietario, D-96 a D-109 y cola T-291 a T-320
+Cambios/motivo: traspaso del Planificador del 14-11 (docs/TRASPASO_PLANIFICADOR_2026-11-14.md): reglas del propietario, D-96 a D-110 y cola T-291 a T-320
 Anterior: legacy/docs/PLAN_v1.0.44_20261114.md
 -->
 
@@ -203,7 +203,7 @@ con frase del propietario en su chat.
 | T-267 | Puerta de validación bajo `bash -eo pipefail` (regresión de T-251) | HECHA |
 | T-268 | La 00 rechaza al principio `congreso350_*` (D-76) | HECHA |
 | T-269 | Relajación real de D-66 en el núcleo | PENDIENTE (P3, solo si aparece un territorio infactible) |
-| T-270 | Medición de Deslinde optimizado en territorios grandes, utilidad del exhaustivo, función A frente a D8 | EN CURSO (informe parcial en su rama) |
+| T-270 | Medición de Deslinde optimizado en territorios grandes, utilidad del exhaustivo, función A frente a D8 | CERRADA sin terminar (D-110; informe parcial en su rama) |
 | T-271 | CI: subir artefactos de diagnóstico solo al fallar, sin tumbar el veredicto | EN CURSO (P0) |
 | T-272 | Inventario de la frontera privado/público | HECHA (rama `t272-frontera-inventario`) |
 
@@ -228,7 +228,7 @@ Fase 3 — retirar lo antiguo accesible:
 Fase 4 — producto (en el privado):
 | #740 / T-220 | Renombrado de carpetas | Poner al día y fusionar tras T-271 |
 | T-257 | Paquete Deslinde (privado; mover, no copiar) | Tras T-220 |
-| T-270 | Terminar la medición | Tras T-271 |
+| T-270 | Cerrada sin terminar (D-110) | — |
 | T-286 | Batería de los 71 con el motor optimizado y la semilla oficial (fija N = 10) | Runner propio; frase del propietario |
 | T-287 | Regenerar los 71 con la semilla oficial y publicarlos por el puente | Frase del propietario |
 | T-288 | Corte 5.0.0 (README del público, etiqueta) | Al final |
@@ -258,6 +258,7 @@ Fase 4 — producto (en el privado):
 - D-107 (14-11, propietario). Propiedad intelectual: el paquete se regenera sobre main actual (con Deslinde 1.1) antes del registro del lunes 16-11.
 - D-108 (14-11, propietario). Las 6 releases `almacen-m06-*` se borran, tras comprobar en vivo las 51 claves en R2 y una pasada `-WhatIf` limpia; el script lo ejecuta el propietario.
 - D-109 (14-11, propietario). Repositorio privado, público nuevo y runner propio: aparcados hasta después del 29-11.
+- D-110 (14-11, propietario). T-270 se cierra sin terminar: medía Deslinde antes de 1.1 y T-296/T-297 responden buena parte. La rama `t270-medicion-deslinde-optimizado` queda como referencia; función A frente a D8 y el exhaustivo en medianos pasan a la investigación del final, con Deslinde 1.1.
 
 ### Cola T-291 a T-314 (14-11)
 | Id | Qué | Estado |
@@ -299,7 +300,7 @@ Fase 4 — producto (en el privado):
 5. Analítica (#778, #783) con la guía de Cloudflare; robot revisor (frase en su chat).
 6. Histórico: plan tras #770.
 7. Aparcados hasta cerrar el repositorio: público nuevo, puente, Pages, Zenodo y runner propio (T-273, T-275, T-276, T-282, T-283, T-274B).
-8. Al final: investigación (óptimo en medianos, `redist`) y corte 5.0.0; legislatura nueva tras el 29-11.
+8. Al final: investigación (óptimo en medianos, `redist`, función A frente a D8 y exhaustivo con Deslinde 1.1, D-110) y corte 5.0.0; legislatura nueva tras el 29-11.
 
 Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y T-314 en main con CI verde. Pendiente del propietario: Cloudflare del contador, registro de la propiedad intelectual (lunes 16-11), y crear el repositorio público y el runner cuando se cierre el actual.
 
