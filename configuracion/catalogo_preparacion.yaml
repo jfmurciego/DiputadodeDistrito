@@ -1599,6 +1599,7 @@ territories:
         electoral_source: territorios/nac22/evidencia/fuentes_electorales/2025/155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422/41194293941/receipt.json
         prepared_source_pair: territorios/nac22/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json
         electoral_product: territorios/nac22/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac22/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: nac23
   name: Congreso Jaén
   editions:
