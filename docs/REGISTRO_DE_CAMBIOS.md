@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.427
+Versión: 1.0.428
 Fecha: 2026-11-14
-Alcance: T-326 — test del catálogo de procedencia sin estado vivo en PR
+Alcance: T-330 — CSV oficiales de resultados por circunscripción 2011, 2015, 2016 y 2019-04 (BOE)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t326-catalogo-procedencia-congelado.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.426_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t330-resultados-oficiales-boe.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.427_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.426_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.428 · [2026-11-14 — T-330 — CSV oficiales de resultados por circunscripción 2011, 2015, 2016 y 2019-04 (BOE)](registro/2026-11-14_t330-resultados-oficiales-boe.md)
 - 1.0.427 · [2026-11-14 — T-326 — test del catálogo de procedencia sin estado vivo en PR](registro/2026-11-14_t326-catalogo-procedencia-congelado.md)
 - 1.0.426 · [2026-11-14 — T-328 — Histórico desde 2011: tablas año→2023, identificadores BOE y ficha del paso A](registro/2026-11-14_t328-historico-2023.md)
 - 1.0.425 · [2026-11-14 — T-327 — Plan 1.0.48: huecos autonómicos del histórico (D-113) y test de procedencia (T-326)](registro/2026-11-14_planificador-plan-1-0-48.md)
