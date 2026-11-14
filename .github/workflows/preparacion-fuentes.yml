@@ -363,6 +363,9 @@ jobs:
           echo "run_id=$REGISTERED_RUN_ID" >> "$GITHUB_OUTPUT"
           echo "artifact_name=$REGISTERED_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
           echo "reused_candidate=true" >> "$GITHUB_OUTPUT"
+      - name: Instalar entorno geoespacial para el paquete de R2
+        if: ${{ steps.previous.outputs.reused_candidate != 'true' }}
+        run: python -m pip install --disable-pip-version-check -r requirements.lock
       - id: r2
         name: Paquete P10 desde R2 (consulta al INE sin descargar)
         if: ${{ steps.previous.outputs.reused_candidate != 'true' }}

@@ -3,17 +3,22 @@
 """P10 desde la copia de R2 con aviso de cambios del INE (T-323, D-112).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.1.0
 NOMBRE DE VERSIÓN: P10 lee de R2 y consulta el INE sin descargar
 FECHA: 2026-11-14
 ESTADO: candidato
-CAMBIOS: 1.0.0: fichero nuevo (T-323).
+CAMBIOS: 1.1.0: (1) el paquete de R2 solo se usa si edición y años pedidos son los del contrato; si no, aviso y adquisición como antes. (2) Last-Modified ya no
+  para por sí solo (el INE sirve 65034.csv dinámico, sin Content-Length: medido 2026-11-14, Last-Modified 2026-10-27): solo aviso; para solo un Content-Length
+  distinto de `bytes` en un .zip. (3) BadZipFile = paquete corrupto (53).
+  1.0.0: fichero nuevo (T-323).
 MOTIVO: D-112: P10 no descarga del INE en cada ejecución; usa el paquete de R2 (clave por package_sha256 del contrato, sha256 verificado) y
   solo consulta el INE con HEAD (Content-Length, Last-Modified) frente a la huella del índice orchestracion/fuentes_r2.json.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: ninguna (fichero nuevo; 1.0.0 solo existió en esta PR)
 QUÉ HACE: `preparar`: 1) restaura el paquete P10 del contrato desde R2 y lo valida (bateria_motor.paquete_p10_desde_r2); sin paquete o sin
   credenciales: aviso y `desde_r2=false` (P10 adquiere como hasta ahora). 2) con paquete, consulta el INE (HEAD, sin descargar): fichero
-  cambiado = evidencia positiva → `::error::FUENTE_INE_CAMBIADA`, salida 54, sin sustituir nada (decide el propietario). Sin respuesta,
+  cambiado = evidencia positiva (Content-Length de un .zip distinto de `bytes`) → `::error::FUENTE_INE_CAMBIADA`, salida 54, sin sustituir nada (decide el propietario).
+  LÍMITE: el padrón 65034.csv no trae Content-Length ni ETag y su Last-Modified no es fiable: solo se avisa (::warning::), no se detecta su cambio por cabeceras.
+  Sin Content-Length/Last-Modified o con el mismo tamaño no hay evidencia de cambio: aviso. Sin paquete en R2 o fallo de `aws cp` (bateria_motor lo devuelve como None) se adquiere del INE sin consultar nada. Sin respuesta,
   503, 403 o red caída → `::warning::` y sigue con R2 (política T-246: solo bloquea la evidencia positiva). Paquete corrupto: salida 53.
 USO: python herramientas/p10_desde_r2.py preparar --territory aut02 --edition 2025 --population-year 2025 --section-year 2025 --out .ddd-source-package
 """
@@ -26,8 +31,7 @@ import shutil
 import sys
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
-from email.utils import parsedate_to_datetime
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,8 +58,7 @@ def fuentes_necesarias(population_year: str, section_year: str, indice: Path = I
 
 
 def comprobar_ine(nombres: list[str], head=head_ine, indice: Path = INDICE) -> tuple[list[str], list[str]]:
-    """(cambiadas, avisos). Cambiada = evidencia positiva: Content-Length de un .zip distinto de `bytes` o Last-Modified posterior a
-    `descargado_en`. Cualquier otra cosa (red, 5xx, 403, 404, sin cabeceras) es solo un aviso."""
+    """(cambiadas, avisos). Cambiada = evidencia positiva: Content-Length de un .zip distinto de `bytes`. Cualquier otra cosa (red, 5xx, 403, 404, sin cabeceras) es solo un aviso."""
     fuentes = json.loads(indice.read_text(encoding="utf-8"))["fuentes"]
     cambiadas, avisos = [], []
     for n in nombres:
@@ -74,21 +77,19 @@ def comprobar_ine(nombres: list[str], head=head_ine, indice: Path = INDICE) -> t
         if url.lower().endswith(".zip") and cl and cl.isdigit() and int(cl) != int(f["bytes"]):
             motivos.append(f"tamaño {cl} != {f['bytes']}")
         lm = h.get("last-modified")
-        if lm:
-            try:
-                fecha = parsedate_to_datetime(lm)
-                if fecha.tzinfo is None:
-                    fecha = fecha.replace(tzinfo=timezone.utc)
-                limite = datetime.fromisoformat(f["descargado_en"]).replace(tzinfo=timezone.utc).replace(hour=23, minute=59, second=59)
-                if fecha > limite:
-                    motivos.append(f"Last-Modified {lm} posterior a la copia ({f['descargado_en']})")
-            except (TypeError, ValueError):
-                avisos.append(f"{n}: Last-Modified ilegible ({lm})")
+        if lm and (not cl or not url.lower().endswith(".zip")):
+            avisos.append(f"{n}: Last-Modified {lm} (copia de {f['descargado_en']}); no se usa para parar: no es fiable en este endpoint, se comprueba solo el tamaño de los .zip")
         if not cl and not lm:
             avisos.append(f"{n}: el INE no devolvió Content-Length ni Last-Modified; no se puede comprobar")
         if motivos:
             cambiadas.append(f"{n} ({'; '.join(motivos)})")
     return cambiadas, avisos
+
+
+def anios_contrato(territorio: str) -> tuple[str, str, str]:
+    """(edición, año de población, año de seccionado) del contrato del territorio, como los usa la validación del paquete."""
+    from herramientas import bateria_motor as bm
+    return tuple(bm._anios_fuentes(territorio))  # type: ignore[return-value]
 
 
 def _salida(clave: str, valor: str) -> None:
@@ -99,18 +100,29 @@ def _salida(clave: str, valor: str) -> None:
 
 
 def preparar(territorio: str, edicion: str, anio_poblacion: str, anio_seccion: str, destino: Path, *, restaurar=None, head=head_ine,
-             indice: Path = INDICE) -> int:
+             indice: Path = INDICE, anios=None) -> int:
     from herramientas import bateria_motor as bm
     restaurar = restaurar or bm.paquete_p10_desde_r2
     work = destino.parent / "_p10_r2"
+    pedido = (str(edicion), str(anio_poblacion), str(anio_seccion))
+    try:
+        contrato = (anios or anios_contrato)(territorio)
+    except Exception as exc:  # noqa: BLE001 - sin contrato legible no hay paquete que reutilizar
+        contrato = None
+        print(f"::warning::P10_R2_SIN_CONTRATO {territorio}: {exc}")
+    if contrato != pedido:
+        print(f"::warning::P10_R2_ANIOS_DISTINTOS {territorio}: se pide (edición, población, sección)={pedido} y el contrato de R2 es {contrato}; "
+              "no se usa el paquete de R2 y P10 adquiere de la fuente oficial como hasta ahora.")
+        _salida("desde_r2", "false")
+        return 0
     try:
         carpeta = restaurar(territorio, work)
-    except bm.PaqueteP10Corrupto as exc:
+    except (bm.PaqueteP10Corrupto, zipfile.BadZipFile) as exc:
         print(f"::error::P10_PAQUETE_R2_CORRUPTO {territorio}: {exc}", file=sys.stderr)
         _salida("desde_r2", "false")
         return SALIDA_CORRUPTO
     if carpeta is None:
-        print(f"::warning::P10_SIN_PAQUETE_R2 {territorio}: no hay paquete en R2 o faltan credenciales; P10 adquiere de la fuente oficial como hasta ahora.")
+        print(f"::warning::P10_SIN_PAQUETE_R2 {territorio}: no hay paquete en R2, falló la lectura de R2 o faltan credenciales; P10 adquiere del INE SIN comprobar nada contra R2.")
         _salida("desde_r2", "false")
         return 0
     nombres, faltan = fuentes_necesarias(anio_poblacion, anio_seccion, indice)
