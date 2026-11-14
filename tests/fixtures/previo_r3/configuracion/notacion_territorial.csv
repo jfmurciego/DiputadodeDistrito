@@ -1,0 +1,83 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Notación territorial AUT/NAC
+# FECHA: 2026-11-10
+# ESTADO: vigente — T-148 paso 1
+# QUÉ HACE: tabla maestra única de la notación AUTnn (19 comunidades y ciudades autónomas) y NACnn (50 provincias más Ceuta y Melilla, circunscripciones del Congreso) con su identificador interno actual.
+# CAMBIOS: fichero nuevo.
+# MOTIVO: sustituir el CODAUTO suelto por una notación única; los identificadores internos no se migran (decisión del propietario pendiente).
+# ANTERIOR: ninguna (fichero nuevo)
+# FUENTE: INE, códigos CODAUTO/CPRO — https://www.ine.es/daco/daco42/codmun/cod_ccaa.htm, cod_provincia.htm y cod_ccaa_provincia.htm; copia en fuentes/ine_codigos_territoriales_2026-11-10/ (sha256 en SHA256SUMS: cod_ccaa 7eef0807…, cod_provincia 5129d5ae…, cod_ccaa_provincia de7cdc23…).
+# REGLA: AUTnn = CODAUTO del INE (01-19); NACnn = CPRO del INE (01-52). Ceuta y Melilla: AUT18/AUT19 y NAC51/NAC52. nombre_es siempre en español; literal_ine es el literal del INE tal cual (puede venir en otra lengua) y solo es trazabilidad.
+codigo,ambito,codigo_ine,literal_ine,nombre_es,id_interno
+AUT01,AUT,01,Andalucía,Andalucía,andalucia
+AUT02,AUT,02,Aragón,Aragón,aragon
+AUT03,AUT,03,"Asturias, Principado de",Principado de Asturias,principado_de_asturias
+AUT04,AUT,04,"Balears, Illes",Islas Baleares,illes_balears
+AUT05,AUT,05,Canarias,Canarias,canarias
+AUT06,AUT,06,Cantabria,Cantabria,cantabria
+AUT07,AUT,07,Castilla y León,Castilla y León,castilla_y_leon
+AUT08,AUT,08,Castilla - La Mancha,Castilla-La Mancha,castilla_la_mancha
+AUT09,AUT,09,Cataluña,Cataluña,cataluna
+AUT10,AUT,10,Comunitat Valenciana,Comunidad Valenciana,comunidad_valenciana
+AUT11,AUT,11,Extremadura,Extremadura,extremadura
+AUT12,AUT,12,Galicia,Galicia,galicia
+AUT13,AUT,13,"Madrid, Comunidad de",Comunidad de Madrid,madrid
+AUT14,AUT,14,"Murcia, Región de",Región de Murcia,region_de_murcia
+AUT15,AUT,15,"Navarra, Comunidad Foral de",Comunidad Foral de Navarra,comunidad_foral_de_navarra
+AUT16,AUT,16,País Vasco,País Vasco,pais_vasco
+AUT17,AUT,17,"Rioja, La",La Rioja,la_rioja
+AUT18,AUT,18,Ceuta,Ceuta,ceuta
+AUT19,AUT,19,Melilla,Melilla,melilla
+NAC01,NAC,01,Araba/Álava,Álava,congreso_alava
+NAC02,NAC,02,Albacete,Albacete,congreso_albacete
+NAC03,NAC,03,Alicante/Alacant,Alicante,congreso_alicante
+NAC04,NAC,04,Almería,Almería,congreso_almeria
+NAC05,NAC,05,Ávila,Ávila,congreso_avila
+NAC06,NAC,06,Badajoz,Badajoz,congreso_badajoz
+NAC07,NAC,07,"Balears, Illes",Baleares,congreso_baleares
+NAC08,NAC,08,Barcelona,Barcelona,congreso_barcelona
+NAC09,NAC,09,Burgos,Burgos,congreso_burgos
+NAC10,NAC,10,Cáceres,Cáceres,congreso_caceres
+NAC11,NAC,11,Cádiz,Cádiz,congreso_cadiz
+NAC12,NAC,12,Castellón/Castelló,Castellón,congreso_castellon
+NAC13,NAC,13,Ciudad Real,Ciudad Real,congreso_ciudad_real
+NAC14,NAC,14,Córdoba,Córdoba,congreso_cordoba
+NAC15,NAC,15,"Coruña, A",La Coruña,congreso_la_coruna
+NAC16,NAC,16,Cuenca,Cuenca,congreso_cuenca
+NAC17,NAC,17,Girona,Gerona,congreso_gerona
+NAC18,NAC,18,Granada,Granada,congreso_granada
+NAC19,NAC,19,Guadalajara,Guadalajara,congreso_guadalajara
+NAC20,NAC,20,Gipuzkoa,Guipúzcoa,congreso_guipuzcoa
+NAC21,NAC,21,Huelva,Huelva,congreso_huelva
+NAC22,NAC,22,Huesca,Huesca,congreso_huesca
+NAC23,NAC,23,Jaén,Jaén,congreso_jaen
+NAC24,NAC,24,León,León,congreso_leon
+NAC25,NAC,25,Lleida,Lérida,congreso_lerida
+NAC26,NAC,26,"Rioja, La",La Rioja,congreso_la_rioja
+NAC27,NAC,27,Lugo,Lugo,congreso_lugo
+NAC28,NAC,28,Madrid,Madrid,congreso_madrid
+NAC29,NAC,29,Málaga,Málaga,congreso_malaga
+NAC30,NAC,30,Murcia,Murcia,congreso_murcia
+NAC31,NAC,31,Navarra,Navarra,congreso_navarra
+NAC32,NAC,32,Ourense,Orense,congreso_orense
+NAC33,NAC,33,Asturias,Asturias,congreso_asturias
+NAC34,NAC,34,Palencia,Palencia,congreso_palencia
+NAC35,NAC,35,"Palmas, Las",Las Palmas,congreso_las_palmas
+NAC36,NAC,36,Pontevedra,Pontevedra,congreso_pontevedra
+NAC37,NAC,37,Salamanca,Salamanca,congreso_salamanca
+NAC38,NAC,38,Santa Cruz de Tenerife,Santa Cruz de Tenerife,congreso_santa_cruz_de_tenerife
+NAC39,NAC,39,Cantabria,Cantabria,congreso_cantabria
+NAC40,NAC,40,Segovia,Segovia,congreso_segovia
+NAC41,NAC,41,Sevilla,Sevilla,congreso_sevilla
+NAC42,NAC,42,Soria,Soria,congreso_soria
+NAC43,NAC,43,Tarragona,Tarragona,congreso_tarragona
+NAC44,NAC,44,Teruel,Teruel,congreso_teruel
+NAC45,NAC,45,Toledo,Toledo,congreso_toledo
+NAC46,NAC,46,Valencia/València,Valencia,congreso_valencia
+NAC47,NAC,47,Valladolid,Valladolid,congreso_valladolid
+NAC48,NAC,48,Bizkaia,Vizcaya,congreso_vizcaya
+NAC49,NAC,49,Zamora,Zamora,congreso_zamora
+NAC50,NAC,50,Zaragoza,Zaragoza,congreso_zaragoza
+NAC51,NAC,51,Ceuta,Ceuta,congreso_ceuta
+NAC52,NAC,52,Melilla,Melilla,congreso_melilla
