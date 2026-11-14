@@ -154,6 +154,7 @@ territories:
         prepared_source_pair: territorios/aut04/evidencia/pares_fuentes/2025/2a8ec31fdd7b769abc01cfa4cbedaa2a7b743327f173184cd85d2433d89de4eb.json
         territorial_product: territorios/aut04/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut04/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/aut04/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut05
   name: Canarias
