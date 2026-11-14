@@ -4,7 +4,7 @@ Versión: 1.0.47
 Fecha: 2026-11-14
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-112 (P10 desde la copia de R2 con aviso de cambios del INE), T-322 (tests de estado vivo con fixture) y T-323
+Cambios/motivo: D-112 (P10 desde la copia de R2 con aviso de cambios del INE), T-322 (tests de estado vivo con fixture), T-323 y T-325 (galería del visor V3, PR externa #792)
 Anterior: legacy/docs/PLAN_v1.0.46_20261114.md
 -->
 
@@ -262,7 +262,7 @@ Fase 4 — producto (en el privado):
 - D-111 (14-11, propietario). Excepción acotada a la congelación: #765 (T-300, la P50 copia el catálogo de procedencia al sitio) se fusiona cuando terminen las P00 de los 71 y antes del primer lote de P50, con revisión independiente; los 71 salen con su ficha de procedencia.
 - D-112 (14-11, propietario). P10 en producción: lee las fuentes de la copia de R2 (ARC-E) y verifica su sha256; consulta el INE sin descargar (fecha y tamaño) y, si el fichero oficial ha cambiado, para y avisa al propietario, que decide si se adopta la versión nueva. Matiza D-100. Se implementa después de la P50 de los 71 (congelación de workflows).
 
-### Cola T-291 a T-323 (14-11)
+### Cola T-291 a T-325 (14-11)
 | Id | Qué | Estado |
 |---|---|---|
 | T-291 | Equivalencia de seccionados 2026→2023 en M07 7.4.0, adaptador, 03 y votos por partido de 2026 (D-65, D-99) | HECHA (#749 #750 #752 #754) |
@@ -297,6 +297,7 @@ Fase 4 — producto (en el privado):
 | T-322 | Tests de estado vivo (p. ej. `test_reanudacion_m08_huerfano`, CLM) con fixture congelado, sin skip condicional, y barrido de los que rompe la regeneración; sin tocar motor ni workflows | EN CURSO (Coordinador); bloquea la tanda 2 de r3 |
 | T-323 | P10 desde R2 con aviso de cambios del INE (D-112) | PENDIENTE (después de la P50 de los 71) |
 | T-324 | Actualización del plan 1.0.47 | REVISIÓN (esta PR) |
+| T-325 | Galería fotográfica territorial del visor V3 (PR #792, borrador hecho fuera de este sistema con ChatGPT). Revisión del Planificador (14-11): CI en rojo (guardian y 4 suites); `plain()` mete metadatos HTML de Commons en el `innerHTML` de un div suelto (un `<img onerror>` en el campo de autor se ejecuta: XSS; usar `DOMParser` o solo texto); el navegador de cada visitante llama en directo a es.wikipedia.org y commons.wikimedia.org y baja la foto de upload.wikimedia.org (ven su IP), contra el texto de transparencia («no comparte datos con terceros»); acepta cualquier licencia no vacía (no comprueba que sea libre); sin cabecera de versión ni copia en `legacy/` de `v3.js`, `v3.css` e `index.html`; los tests solo buscan cadenas con regex. Criterio de hecho: catálogo estático versionado (una foto por provincia y comunidad, con autor, licencia libre comprobada, enlace a Commons y sha256), imágenes servidas desde el propio sitio, sin llamadas a terceros al visitar; créditos solo como texto; topónimos en español; tests de comportamiento y CI en verde; revisor independiente. Se rehace en una PR nueva; #792 se cierra sin fusionar. | PENDIENTE (P3: después del 29-11; no entra en la P50 de los 71) |
 
 ### Frentes y camino crítico (14-11)
 1. Regeneración Deslinde 1.1 (ficha r3, PARADA): #786 fusionada; falta T-314 (#788) en main con CI verde → el Operador reanuda r3 desde el paso 1 (frase ya dada) → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
@@ -313,7 +314,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321 y T-324. El planificador ha dado T-194 a T-324 (10 a 14-11; T-277 y T-292 sin usar). Siguiente libre para el planificador: T-325.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321 y T-324. El planificador ha dado T-194 a T-325 (10 a 14-11; T-277 y T-292 sin usar). Siguiente libre para el planificador: T-326.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
