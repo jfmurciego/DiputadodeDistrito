@@ -748,11 +748,11 @@
   },
   "castilla_y_leon": {
    "fuente_territorial": {
-    "run_id": "42521090842",
+    "run_id": "43633696773",
     "package_sha256": "c0ab5947c911e815bb2b0657c9a256020916d8c3f9293bb379b1bfb6e6cd0215",
-    "artifact_sha256": "3a710cff73dca6a5048e28f1eea5f1e5454404324538b66b7ae9c3b0b229c168",
-    "territorial_identity_sha256": "e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60",
-    "receipt_path": "territorios/aut07/evidencia/fuentes_territoriales/2025/e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60/42521090842/receipt.json",
+    "artifact_sha256": "beb77cd92ecd48c28cdd8d9c8d9e7b4528fe07a7c0481d337fd5e1e144a5c30f",
+    "territorial_identity_sha256": "74830da97b9c4fe1c260a90840fc099ad2594f1533c90c63cae4eeb755bf0f30",
+    "receipt_path": "territorios/aut07/evidencia/fuentes_territoriales/2025/74830da97b9c4fe1c260a90840fc099ad2594f1533c90c63cae4eeb755bf0f30/43633696773/receipt.json",
     "population_year": 2025,
     "section_year": 2025
    },
