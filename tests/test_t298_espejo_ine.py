@@ -182,7 +182,8 @@ class EspejoIne(unittest.TestCase):
                 podar_r2.leer_lista(lista, sha)
             man = Path(td) / "m.json"
             man.write_text('{"artefactos": {}}', encoding="utf-8")
-            with self.assertRaises(Exception):
+            # `verificar` exige una clave ddd-state-*: con arc-e/ falla (AttributeError al leer la etapa) antes de llegar a `borrar`.
+            with self.assertRaises(AttributeError):
                 podar_r2.podar([fila], man, lambda k: "a", lambda t: True, borrar, True)
         borrar.assert_not_called()
 
