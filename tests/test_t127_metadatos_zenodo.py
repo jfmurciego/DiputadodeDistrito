@@ -59,7 +59,9 @@ class LicenciaPropietaria(unittest.TestCase):
         self.assertIn("Apache-2.0", t)
         self.assertIn("14 de noviembre de 2026", t)
         self.assertIn("CC BY 4.0", t)
-        self.assertIn("PENDIENTE DE DECISIÓN DEL PROPIETARIO", t)
+        self.assertIn("CC BY-NC 4.0", t)
+        self.assertNotIn("PENDIENTE", t)
+        self.assertNotIn("PROPUESTA TÉCNICA", t)
         self.assertTrue((R / "legacy/licencias/LICENSE_apache-2.0_hasta_2026-11-14.txt").is_file())
 
     def test_readme_sin_apache_como_licencia_vigente(self):

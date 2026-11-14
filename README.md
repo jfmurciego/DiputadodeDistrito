@@ -234,7 +234,7 @@ El visor solo muestra lo registrado en `orchestracion/publicaciones_visor.json`.
 
 Las fuentes oficiales conservan sus propias condiciones de reutilización.
 
-- **Código y resto del repositorio**: licencia propietaria, todos los derechos reservados (`LICENSE`), desde el 14-11-2026. Lo publicado antes bajo Apache-2.0 conserva esa licencia para quien lo recibió. Las excepciones abiertas (D-92) y las pendientes de decisión están en `LICENSE`.
+- **Código y resto del repositorio**: licencia propietaria, todos los derechos reservados (`LICENSE`), desde el 14-11-2026. Lo publicado antes bajo Apache-2.0 conserva esa licencia para quien lo recibió. Las excepciones abiertas (D-92) están en `LICENSE`.
 - **Datos** (`datos_abiertos/`): CC BY 4.0, citando «Diputado de Distrito» y el run de procedencia.
 
 ## Cómo citar
