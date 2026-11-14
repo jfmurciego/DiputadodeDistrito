@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-resultados-electorales.yml
-# VERSIÓN: 1.0.13
+# VERSIÓN: 1.0.14
+# CAMBIOS 1.0.14: T-299: el ZIP por mesa de Infoelectoral se lee primero de R2 (ARC-E, arc-e/fuentes/interior/, sha256 del índice orchestracion/fuentes_r2.json);
+#   si no está, URL oficial y, después, el release espejo como respaldo; el ZIP verificado se sube a R2 si falta. La huella del contrato se exige igual.
 # CAMBIOS 1.0.13: T-291 (D-65): con la elección de configuracion/elecciones_generales_2026.yaml y la edición 2025 (mapas
 #   vigentes, seccionado 2023), el adaptador común (infoelectoral_mesas y minsait_provisional) declara en el contrato la tabla
 #   configuracion/equivalencia_seccionado_ine_2026_a_2023.csv (--section-equivalence). Cualquier otra elección no cambia.
@@ -26,7 +28,7 @@
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
 # CAMBIOS 1.0.10: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.12_20261114.yml
+# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.13_20261114.yml
 name: P10 Fuentes — P12 Electorales
 
 on:
@@ -245,13 +247,23 @@ jobs:
           }
       - name: Recuperar y convertir ZIP oficial Infoelectoral por mesa
         if: ${{ steps.mode.outputs.adapter == 'infoelectoral_mesas' && steps.previous.outputs.run_id == '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
         run: |
           set -euo pipefail
           test -s .ddd-infoelectoral-contract.json
           source_url="$(jq -r .source_url .ddd-infoelectoral-contract.json)"
           source_sha256="$(jq -r .source_sha256 .ddd-infoelectoral-contract.json)"
+          # T-299: primero R2 (ARC-E, sha256 del índice); 3 = no está (o sin credenciales) y se sigue con la URL oficial y el espejo.
+          nombre_zip="$(basename "$source_url")"
+          rc_r2=0; python herramientas/fuente_r2.py bajar "$nombre_zip" infoelectoral-mesas.zip || rc_r2=$?
+          [[ "$rc_r2" == 0 || "$rc_r2" == 3 ]] || exit "$rc_r2"
           # El servidor de Infoelectoral corta peticiones sin cabecera de navegador.
-          if ! curl --fail --location --retry 2 --connect-timeout 15 --max-time 300 \
+          if [[ "$rc_r2" != 0 ]] && ! curl --fail --location --retry 2 --connect-timeout 15 --max-time 300 \
             -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36" \
             -H "Referer: https://infoelectoral.interior.gob.es/" \
             -o infoelectoral-mesas.zip "$source_url"; then
@@ -271,6 +283,9 @@ jobs:
             echo "::error::Huella del ZIP Infoelectoral no coincide con el contrato"
             exit 53
           }
+          if [[ "$rc_r2" != 0 && -n "${R2_BUCKET:-}" && -n "${AWS_ACCESS_KEY_ID:-}" ]]; then
+            python herramientas/fuente_r2.py subir "$nombre_zip" infoelectoral-mesas.zip || echo "::warning::T-299: no se pudo subir el ZIP a R2"
+          fi
           python herramientas/fuente_infoelectoral_mesas.py convert \
             --root-dir . --election-id "$ELECTION_ID" --territory-id "$TERRITORY_ID" \
             --election-date "$ELECTION_DATE" --zip infoelectoral-mesas.zip \

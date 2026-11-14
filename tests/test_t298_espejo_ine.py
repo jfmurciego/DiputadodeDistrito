@@ -26,6 +26,7 @@ SHA = {
 class EspejoIne(unittest.TestCase):
     def test_ficha_de_las_cuatro_fuentes(self):
         f = json.loads((ROOT / "orchestracion/fuentes_r2.json").read_text(encoding="utf-8"))["fuentes"]
+        f = {k: v for k, v in f.items() if k in SHA}  # T-299 añade el ZIP de Interior al mismo índice
         self.assertEqual({k: v["sha256"] for k, v in f.items()}, SHA)
         for k, v in f.items():
             self.assertEqual(v["clave"], f"arc-e/fuentes/ine/{k.rsplit('.zip', 1)[0]}_{SHA[k][:12]}.zip")
@@ -181,7 +182,8 @@ class EspejoIne(unittest.TestCase):
                 podar_r2.leer_lista(lista, sha)
             man = Path(td) / "m.json"
             man.write_text('{"artefactos": {}}', encoding="utf-8")
-            with self.assertRaises(Exception):
+            # `verificar` exige una clave ddd-state-*: con arc-e/ falla (AttributeError al leer la etapa) antes de llegar a `borrar`.
+            with self.assertRaises(AttributeError):
                 podar_r2.podar([fila], man, lambda k: "a", lambda t: True, borrar, True)
         borrar.assert_not_called()
 
