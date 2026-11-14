@@ -190,11 +190,55 @@ class PasoResolverBajoBash(unittest.TestCase):
 
 
 @unittest.skipUnless(os.system("command -v jq >/dev/null 2>&1") == 0, "jq no disponible")
+class AdaptadorYEntradaVacia(unittest.TestCase):
+    def _modo(self, election_id: str, territory_id: str, election_date: str, ensayo: str) -> tuple[int, str, str]:
+        wf = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        script = next(s for s in wf["jobs"]["electorales"]["steps"] if s.get("id") == "mode")["run"]
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "out"
+            out.touch()
+            proc = subprocess.run(["bash", "-eo", "pipefail", "-c", script], cwd=ROOT, capture_output=True, text=True,
+                                  env={**os.environ, "ELECTION_ID": election_id, "TERRITORY_ID": territory_id,
+                                       "ELECTION_DATE": election_date, "ENSAYO": ensayo, "GITHUB_OUTPUT": str(out)})
+            try:
+                return proc.returncode, out.read_text(encoding="utf-8"), proc.stdout + proc.stderr
+            finally:
+                for f in (".ddd-special-acquisition.json", ".ddd-infoelectoral-contract.json", ".ddd-minsait-contract.json"):
+                    (ROOT / f).unlink(missing_ok=True)
+
+    def test_ensayo_con_adaptador_distinto_de_minsait_sale_con_57(self):
+        # La elección de 2023 de Huesca resuelve a infoelectoral_mesas: en ensayo es un error (exit 57).
+        rc, _out, log = self._modo("congreso_huesca_2023-07-23", "nac22", "2023-07-23", "true")
+        self.assertEqual(rc, 57, log)
+        # Sin ensayo, el mismo caso sigue resolviendo infoelectoral_mesas (producción no cambia).
+        rc, out, _ = self._modo("congreso_huesca_2023-07-23", "nac22", "2023-07-23", "false")
+        self.assertEqual(rc, 0)
+        self.assertIn("adapter=infoelectoral_mesas", out)
+
+    def test_ensayo_con_la_eleccion_2026_resuelve_minsait_provisional(self):
+        rc, out, log = self._modo("congreso_huesca_2026-11-29", "nac22", "2026-11-29", "true")
+        self.assertEqual(rc, 0, log)
+        self.assertIn("adapter=minsait_provisional", out)
+
+    def test_eleccion_vacia_en_workflow_call_sigue_el_flujo_de_produccion(self):
+        script = _resolve_step_script()
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "out"
+            out.touch()
+            proc = subprocess.run(["bash", "-eo", "pipefail", "-c", script], cwd=ROOT, capture_output=True, text=True,
+                                  env={**os.environ, "TERRITORY": "Congreso Huesca", "EDITION": "2025", "PERSIST_INPUT": "null",
+                                       "ELECCION": "", "GITHUB_OUTPUT": str(out)})
+            pares = dict(l.split("=", 1) for l in out.read_text(encoding="utf-8").splitlines() if "=" in l)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertEqual((pares["ensayo"], pares["persist_state"], pares["election_id"]), ("false", "true", "congreso_huesca_2023-07-23"))
+
+
+@unittest.skipUnless(os.system("command -v jq >/dev/null 2>&1") == 0, "jq no disponible")
 class TerminalDelEnsayo(unittest.TestCase):
     """El paso «Aplicar decisión electoral» real, bajo `bash -eo pipefail`: un ensayo válido sale en verde; producción no cambia."""
 
     def _run(self, *, ensayo: str, eligible: str, status: str, validation: str = "READY_PACKAGE", decision: str = "ACQUIRE",
-             allow_gap: str = "false") -> tuple[int, dict, str]:
+             allow_gap: str = "false", source_class: str = "rehearsal") -> tuple[int, dict, str]:
         wf = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         script = next(s for s in wf["jobs"]["electorales"]["steps"] if s.get("id") == "outcome")["run"]
         for expr, value in (("steps.policy.outputs.production_eligible", eligible), ("steps.policy.outputs.source_status", status),
@@ -204,7 +248,7 @@ class TerminalDelEnsayo(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             pkg = Path(tmp) / ".ddd-electoral-package"
             (pkg / "evidence").mkdir(parents=True)
-            (pkg / "manifest.json").write_text(json.dumps({"decision": decision}), encoding="utf-8")
+            (pkg / "manifest.json").write_text(json.dumps({"decision": decision, "selected_source": {"source_class": source_class}}), encoding="utf-8")
             (pkg / "evidence" / "validacion_preparacion.json").write_text(json.dumps({"decision": validation}), encoding="utf-8")
             out = Path(tmp) / "out"
             out.touch()
@@ -223,6 +267,10 @@ class TerminalDelEnsayo(unittest.TestCase):
         self.assertEqual(self._run(ensayo="true", eligible="false", status="PROVISIONAL", validation="BLOCK")[0], 42)
         self.assertEqual(self._run(ensayo="true", eligible="false", status="PROVISIONAL", decision="BLOCK")[0], 42)
         self.assertEqual(self._run(ensayo="true", eligible="false", status="DEFINITIVE")[0], 42)
+
+    def test_ensayo_sin_source_class_rehearsal_en_el_manifiesto_falla(self):
+        self.assertEqual(self._run(ensayo="true", eligible="false", status="PROVISIONAL", source_class="provisional_mirror")[0], 42)
+        self.assertEqual(self._run(ensayo="true", eligible="false", status="PROVISIONAL", source_class="")[0], 42)
 
     def test_produccion_no_cambia(self):
         # No ensayo y no elegible: sigue siendo bloqueo (exit 42), igual que antes.

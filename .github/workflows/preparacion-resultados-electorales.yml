@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-resultados-electorales.yml
 # VERSIÓN: 1.0.15
-# CAMBIOS 1.0.15: T-332: entrada `eleccion` («vigente» por defecto; «ensayo 2026-11-29»). El ensayo elige la elección
+# CAMBIOS 1.0.15: T-332 (el terminal ENSAYO_OK exige además source_class=rehearsal en el manifiesto del paquete): entrada `eleccion` («vigente» por defecto; «ensayo 2026-11-29»). El ensayo elige la elección
 #   la elección de 2026-11-29 de la circunscripción SOLO en esa ejecución (herramientas/resolver_ensayo_electoral.py; elecciones_vigentes.yaml no cambia),
 #   exige el adaptador minsait_provisional con contrato `rehearsal`, fuerza persist_state=false, no reutiliza paquetes registrados
 #   y sube el artefacto como ensayo (production_eligible=false: nunca se registra); un ensayo válido termina en verde con
@@ -537,7 +537,8 @@ jobs:
           # T-332: un ENSAYO correcto (paquete válido, PROVISIONAL, no elegible por diseño) termina en verde y NO es READY:
           # no registra ni promociona. Cualquier otro motivo de bloqueo sigue siendo fallo.
           if [[ "$ENSAYO" == "true" && "$decision" =~ ^(REUSE|ACQUIRE)$ && "$validation_decision" == "READY_PACKAGE" \
-                && "$production_eligible" != "true" && "$source_status" == "PROVISIONAL" ]]; then
+                && "$production_eligible" != "true" && "$source_status" == "PROVISIONAL" ]] \
+             && jq -e '.selected_source.source_class == "rehearsal"' "$manifest" >/dev/null; then
             {
               echo "electoral_outcome=ENSAYO_OK"
               echo "electoral_skip_reason="
