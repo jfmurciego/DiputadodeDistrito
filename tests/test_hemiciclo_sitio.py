@@ -41,6 +41,8 @@ class HemicicloEnElSitio(unittest.TestCase):
             site = Path(d) / "site-candidate"
             # (T-73: se omite la copia del portal Zensical, que exige zensical build.) Los pasos de copia del publicador, sobre un directorio temporal (sin el materializador del registro).
             copias = "\n".join(l for l in build.splitlines() if l.strip().startswith(("rm -rf /tmp/site-candidate", "cp ", "grep -q")) and "documentacion_publica/site" not in l)
+            # T-300: el materializador de datos abiertos (omitido aquí) crea datos/; el cp del catálogo lo necesita.
+            copias = copias.replace("\ncp orchestracion/catalogo_procedencia.json", "\nmkdir -p /tmp/site-candidate/datos\ncp orchestracion/catalogo_procedencia.json")
             script = "set -euo pipefail\n" + copias.replace("/tmp/site-candidate", str(site))
             subprocess.run(["bash", "-c", script], cwd=ROOT, check=True)
             dash = site / "dashboard"
