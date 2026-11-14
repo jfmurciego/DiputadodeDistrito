@@ -4420,11 +4420,11 @@
   },
   "congreso_huesca": {
    "fuente_territorial": {
-    "run_id": "41057319037",
+    "run_id": "43654075593",
     "package_sha256": "4912eea85523c456f7297e406b76b184b23fc3b46b2cd4aca0c48d908a168330",
-    "artifact_sha256": "e22527ea7a1ea54d8af41f3ab5446f35c316c31310e4e8f5a8ef000910b4c211",
-    "territorial_identity_sha256": "67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f",
-    "receipt_path": "territorios/nac22/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41057319037/receipt.json",
+    "artifact_sha256": "b8fd79d0a54e5dfdf25f8e1214ccbc4802255dc80c1f28c659c9b099a2ddcff4",
+    "territorial_identity_sha256": "4ac382c4bc92b120b42dc83056c6ea23ae24a3552344634d9728197b71beeae8",
+    "receipt_path": "territorios/nac22/evidencia/fuentes_territoriales/2025/4ac382c4bc92b120b42dc83056c6ea23ae24a3552344634d9728197b71beeae8/43654075593/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -4576,11 +4576,11 @@
   },
   "congreso_jaen": {
    "fuente_territorial": {
-    "run_id": "41241896061",
+    "run_id": "43654085400",
     "package_sha256": "0bba04d35fc1b9665cce27c8abc99d55b429f4fe8dc1edfc115cf7eaa26646d1",
-    "artifact_sha256": "2f845f1bcd9e796bcd02a86005a55547f656d15f90be05cff7dd4a72aa2bce5e",
-    "territorial_identity_sha256": "28881a56e4bbf2301048f901cbb1c89853b7a62c91b65f3138517bfb40ce77ad",
-    "receipt_path": "territorios/nac23/evidencia/fuentes_territoriales/2025/28881a56e4bbf2301048f901cbb1c89853b7a62c91b65f3138517bfb40ce77ad/41241896061/receipt.json",
+    "artifact_sha256": "d74bb3d2e5e09b56992f22414bab1a46b5e81e4574a997e0b5fa974e5346c446",
+    "territorial_identity_sha256": "ae0bcc70ecfd43e9860a388d5471b0c44c2b8e4d1fab2a08a672bbd7e19433ca",
+    "receipt_path": "territorios/nac23/evidencia/fuentes_territoriales/2025/ae0bcc70ecfd43e9860a388d5471b0c44c2b8e4d1fab2a08a672bbd7e19433ca/43654085400/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -4828,11 +4828,11 @@
   },
   "congreso_la_rioja": {
    "fuente_territorial": {
-    "run_id": "41240637295",
+    "run_id": "43654112740",
     "package_sha256": "7cc86a540e97a496c86b8747b935f028b8702817abee7637c61bc361043e5dea",
-    "artifact_sha256": "cbb9e9fbfba6bfbf5b3e5502712e14e6f11a6e54ecc3ca228b3d32199af882f0",
-    "territorial_identity_sha256": "fd93e7ca00c87e765ff70d80551e3e9e8610149c0db46da42a6337acd6543826",
-    "receipt_path": "territorios/nac26/evidencia/fuentes_territoriales/2025/fd93e7ca00c87e765ff70d80551e3e9e8610149c0db46da42a6337acd6543826/41240637295/receipt.json",
+    "artifact_sha256": "60b6e087cd4fde9d05fe84420348b765feb26a4bc108317fdb7f30356068ff54",
+    "territorial_identity_sha256": "e0419f020f02f39ab9774b9494225ad710d16892fd9d4805af7070dd5ffe5020",
+    "receipt_path": "territorios/nac26/evidencia/fuentes_territoriales/2025/e0419f020f02f39ab9774b9494225ad710d16892fd9d4805af7070dd5ffe5020/43654112740/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -5126,11 +5126,11 @@
   },
   "congreso_leon": {
    "fuente_territorial": {
-    "run_id": "41241377284",
+    "run_id": "43654094711",
     "package_sha256": "ad4c13561666a914ad5f187a4eb74b11d44cabef38dfbd2317221abdf1dc0c8b",
-    "artifact_sha256": "e576851afca31bc07379759546812488a830c35634ac15c2fc91361d31fd13ad",
-    "territorial_identity_sha256": "efb0cce4516bba1965435d97b91171794fa757967fbf573a329ff44c15e5a024",
-    "receipt_path": "territorios/nac24/evidencia/fuentes_territoriales/2025/efb0cce4516bba1965435d97b91171794fa757967fbf573a329ff44c15e5a024/41241377284/receipt.json",
+    "artifact_sha256": "eda4835fb304dd1125ab44970a3dd01e496cb514555963aa0c8eca475988297a",
+    "territorial_identity_sha256": "44209d956505b33ab0b815fa581bd303d17716c67dcc2afe220c1ee456b91396",
+    "receipt_path": "territorios/nac24/evidencia/fuentes_territoriales/2025/44209d956505b33ab0b815fa581bd303d17716c67dcc2afe220c1ee456b91396/43654094711/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -5282,11 +5282,11 @@
   },
   "congreso_lerida": {
    "fuente_territorial": {
-    "run_id": "41292591493",
+    "run_id": "43654103920",
     "package_sha256": "a0631d2459fe65c441770adcb7a9e9eb88806d3aafa5b68321c88069930e9b96",
-    "artifact_sha256": "f8985da3a5cb1c33d05f464d09a19fe849b2426725914c570239be701db2b705",
-    "territorial_identity_sha256": "8a9e4d81a7c6a489b6cab098e79a2e55bc8b35ff25c0d0c1fc12c55ef46cee3f",
-    "receipt_path": "territorios/nac25/evidencia/fuentes_territoriales/2025/8a9e4d81a7c6a489b6cab098e79a2e55bc8b35ff25c0d0c1fc12c55ef46cee3f/41292591493/receipt.json",
+    "artifact_sha256": "50d0dbd2ede77afed60d7c3546272998e5f068cb8640b9c2ffb5777ed946ac5d",
+    "territorial_identity_sha256": "9503923e60a27a4887a9a882a490452b072391a7b0afc5a2812a4b206572a402",
+    "receipt_path": "territorios/nac25/evidencia/fuentes_territoriales/2025/9503923e60a27a4887a9a882a490452b072391a7b0afc5a2812a4b206572a402/43654103920/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -5564,11 +5564,11 @@
   },
   "congreso_madrid": {
    "fuente_territorial": {
-    "run_id": "41611821388",
+    "run_id": "43654131046",
     "package_sha256": "d6d75f5700c2ccef64103a4d434bf938f9bd6de6fff4dd248e3175e0b405cccd",
-    "artifact_sha256": "a141e422444585aaeb6127a6a9a651add60034e04cf1f75f4ea20287caee08a0",
-    "territorial_identity_sha256": "90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99",
-    "receipt_path": "territorios/nac28/evidencia/fuentes_territoriales/2025/90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99/41611821388/receipt.json",
+    "artifact_sha256": "0e288b1829021f7f2d1f8fbae3f3608744cd45411e63ba9bbbaa6e029e6fa11f",
+    "territorial_identity_sha256": "e18d857401acd1fcaf8a04de7f17158a44350229911504a8faf01710e4df66b3",
+    "receipt_path": "territorios/nac28/evidencia/fuentes_territoriales/2025/e18d857401acd1fcaf8a04de7f17158a44350229911504a8faf01710e4df66b3/43654131046/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -5690,11 +5690,11 @@
   },
   "congreso_malaga": {
    "fuente_territorial": {
-    "run_id": "42409615215",
+    "run_id": "43654141157",
     "package_sha256": "37e059f70c8e42da32c2a99a8a5c1211175d290abb1b7e12e8ce72fd3819b8f0",
-    "artifact_sha256": "ee2301bea2c6cd972e433c1816e914bd900c09ecc3096756573d3fc9e975e5d3",
-    "territorial_identity_sha256": "8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3",
-    "receipt_path": "territorios/nac29/evidencia/fuentes_territoriales/2025/8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3/42409615215/receipt.json",
+    "artifact_sha256": "88837d130f637142883b099fcfa890007b38b19184c5432fa2c8e22ef71f26e7",
+    "territorial_identity_sha256": "251828d9c983e66541b5391038371c3ab4c6b6c223d71333689f6be4c48dba5b",
+    "receipt_path": "territorios/nac29/evidencia/fuentes_territoriales/2025/251828d9c983e66541b5391038371c3ab4c6b6c223d71333689f6be4c48dba5b/43654141157/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
