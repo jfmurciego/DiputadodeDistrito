@@ -1,6 +1,6 @@
 {
   "schema": "ddd-fuentes-r2/1.0",
-  "nota": "Índice versionado de ARC-E para la batería (T-298). `fuentes`: huellas medidas de las fuentes nacionales del INE que consume P10 (referencia: la batería ya no las usa ni va a ine.es; 2025 y 65034 coinciden con inputs/partes). `entradas`: paquetes M01+M03 de P10 por territorio archivados en R2 (clave arc-e/entradas-minimas/<id16>.zip por identidad del contrato); se completa con el ARCHIVO_ENTRADAS.json del job archivar_p10. La poda no borra nada bajo arc-e/.",
+  "nota": "Índice versionado de ARC-E (T-298/T-303). `fuentes`: huellas medidas de las fuentes oficiales que consume P10 (INE y Interior); la batería ya no las usa ni va a ine.es. Los paquetes P10 por territorio van en arc-e/paquetes-p10/<package_sha256>.zip (package_sha256 del contrato; ver docs/GUIA_FUENTES_R2.md); el job archivar_p10 deja su ARCHIVO_PAQUETES_P10.json. La poda no borra nada bajo arc-e/.",
   "fuentes": {
     "seccionado_2023.zip": {
       "clave": "arc-e/fuentes/ine/seccionado_2023_7a15e700a459.zip",
@@ -38,6 +38,5 @@
       "descargado_en": "2026-10-31",
       "respaldo": "release fuente-infoelectoral-02202307 (Interior rechaza a los runners); sha256 y bytes del contrato configuracion/contratos_infoelectoral.yaml"
     }
-  },
-  "entradas": {}
+  }
 }
