@@ -7,6 +7,8 @@ from unittest import mock
 import zipfile
 from pathlib import Path
 
+from tests._previo_r3 import raiz_previo_r3
+
 import yaml
 
 from herramientas.registro_publicaciones_visor import make_candidate
@@ -508,15 +510,16 @@ class CampaignManagerTests(unittest.TestCase):
                     )
 
     def test_first_generation_preflight_is_structural_and_cannot_fallback_to_declaration(self):
-        catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        base = raiz_previo_r3()  # T-322: aut12 previo a r3; un P10 nuevo no toca este caso estructural
+        catalog = yaml.safe_load((base / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
         rows = {row["territory_id"]: row["editions"]["2025"] for row in catalog["territories"]}
         row = rows["aut12"]
         evidence = json.loads(
-            (ROOT / row["evidence"]["generation_preflight"]).read_text(encoding="utf-8")
+            (base / row["evidence"]["generation_preflight"]).read_text(encoding="utf-8")
         )
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
-            contract = yaml.safe_load((ROOT / row["contract_path"]).read_text(encoding="utf-8"))
+            contract = yaml.safe_load((base / row["contract_path"]).read_text(encoding="utf-8"))
             contract["meta"]["status"] = "source_prepared_pending_pre_m04"
             contract["territory_contract"]["status"] = "source_prepared_pending_pre_m04"
             prep = dict(row["preparation_evidence"])

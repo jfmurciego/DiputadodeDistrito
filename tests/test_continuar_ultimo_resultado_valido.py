@@ -417,11 +417,8 @@ class ContinueFromLastValidTests(unittest.TestCase):
         self.assertEqual(plan["existing"]["territorial_product"]["run_id"], territorial["run_id"])
         # El M06 vigente se reutiliza siempre; el M08 sólo si su linaje (fase 02 de su run) es el M06 vigente (T-247:
         # antes exigía el mismo run, y la cadena 00 → 00 «Reutilizar» de la campaña deja M06 y M08 en runs distintos).
-        if m08_enlaza_m06_vigente(root, "aut08", territorial, electoral):
-            self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
-        else:
-            self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
-            self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
+        self.assertTrue(m08_enlaza_m06_vigente(root, "aut08", territorial, electoral))  # rama fijada por el fixture congelado
+        self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
 
     def test_workflow_accepts_future_label_without_exposing_interface_yet(self):
         workflow = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
