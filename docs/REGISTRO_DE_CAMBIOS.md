@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.413
+Versión: 1.0.416
 Fecha: 2026-11-14
-Alcance: T-311 — La preparación escribe el id canónico aunque reutilice un P10 viejo; revert de r3 tanda 1
+Alcance: T-314 — Respuesta: el bloqueo de linaje durable de CLM no afecta a «Generar desde fuente»
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t311-id-canonico-preparacion.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.412_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t314-linaje-durable.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.415_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,9 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.412_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.416 · [2026-11-14 — T-314 — Respuesta: el bloqueo de linaje durable de CLM no afecta a «Generar desde fuente»](registro/2026-11-14_t314-linaje-durable.md)
+- 1.0.415 · [2026-11-14 — T-317 — Plan 1.0.45: traspaso del Planificador al plan](registro/2026-11-14_planificador-plan-1-0-45.md)
+- 1.0.414 · [2026-11-14 — T-294 — Propuesta de analítica sin cookies condensada a una página](registro/2026-11-14_docs-t294-analitica-una-pagina.md)
 - 1.0.413 · [2026-11-14 — T-311 — La preparación escribe el id canónico aunque reutilice un P10 viejo; revert de r3 tanda 1](registro/2026-11-14_t311-id-canonico-preparacion.md)
 - 1.0.412 · [2026-11-14 — T-302 — El archivado del almacén M06 ve los borradores (contents: write)](registro/2026-11-14_t302c-permisos-almacen-m06.md)
 - 1.0.411 · [2026-11-14 — T-310 — maplibre-gl servido desde el propio sitio (sin unpkg)](registro/2026-11-14_t310-maplibre-local.md)
