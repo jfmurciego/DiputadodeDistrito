@@ -1,7 +1,8 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: prueba de interacción V3
- * VERSIÓN: 1.0.0 · FECHA: 2026-11-12 · ESTADO: candidato
- * ANTERIOR: ninguna (fichero nuevo)
+ * VERSIÓN: 1.1.0 · FECHA: 2026-11-14 · ESTADO: candidato
+ * ANTERIOR: legacy/tests/test_visor_v3_ui_v1.0.0_20261114.js
+ * 1.1.0 (T-300): casos del panel «De dónde sale este mapa» (catálogo de procedencia real, sin catálogo, sin producto).
  * CAMBIOS: prueba la UI con un navegador simulado y datos territoriales reales. */
 "use strict";
 const assert=require("node:assert/strict");
@@ -13,6 +14,7 @@ const source=fs.readFileSync(path.join(ROOT,"visor/v3/v3.js"),"utf8");
 const provincias=JSON.parse(fs.readFileSync(path.join(ROOT,"visor/v2/datos/provincias.json"),"utf8"));
 const comunidades=JSON.parse(fs.readFileSync(path.join(ROOT,"visor/v2/datos/comunidades.json"),"utf8"));
 const index=JSON.parse(fs.readFileSync(path.join(ROOT,"datos_abiertos/INDEX.json"),"utf8"));
+const catalogo=JSON.parse(fs.readFileSync(path.join(ROOT,"orchestracion/catalogo_procedencia.json"),"utf8"));
 const madrid=provincias.features.find(f=>f.properties.cod==="28");
 const madridEntry=Object.entries(index.territorios).find(([id,v])=>v.provincia==="Madrid");
 assert.ok(madrid&&madridEntry);
@@ -32,6 +34,7 @@ const fixtures={
     publication_status:"PUBLICABLE",viewer_path:"data/results/madrid/1/m06.geojson",
     run_id:"1",label:"M06 Madrid",certification_status:"CERTIFIED"}]},
   "../data/results/madrid/1/m06.geojson":districtFC,
+  "../datos/catalogo_procedencia.json":catalogo,
   "calendario.json":{madrid:[["202305","may. 2023"]]}
 };
 for(const v of Object.values(index.territorios))fixtures["../datos/"+v.geojson.ruta]=districtFC;
@@ -138,6 +141,31 @@ async function main(){
   assert.equal(map.getLayer("dist-fill").paint["fill-color"],"#a8bac7");
   group["#system button"][0].onclick();await flush();
   assert.equal(map.getLayer("dist-fill").layout.visibility,"none");
+  // T-300: panel de procedencia, leído del catálogo publicado.
+  const prov=()=>element("prov-content").innerHTML;
+  const madridKey=t.getProvinceEntry(madrid).key;
+  const vig=catalogo.territorios[madridKey].productos.find(p=>p.vigente&&p.producto==="M08");
+  t.S.unit={kind:"provincia",properties:madrid.properties};t.S.election="202307";t.S.view="electoral";
+  t.renderDetail();
+  assert.match(prov(),/Padrón/);assert.match(prov(),/Seccionado/);
+  assert.ok(prov().includes(vig.sha256.slice(0,12)),"huella abreviada del catálogo");
+  assert.ok(!prov().includes(vig.sha256),"la huella va abreviada");
+  assert.ok(prov().includes(vig.run_id),"ejecución");
+  assert.ok(prov().includes(catalogo.motor.nombre+" "+catalogo.motor.version),"motor y versión");
+  assert.ok(prov().includes(catalogo.fuentes_oficiales.poblacion_por_sexo_y_edad.url),"enlace al padrón oficial");
+  assert.ok(prov().includes(catalogo.fuentes_oficiales.resultados_electorales[vig.eleccion].url),"enlace a resultados");
+  assert.ok(prov().includes(vig.eleccion),"elección");
+  assert.match(prov(),/Fecha de generación<\/dt><dd>No consta/,"sin inventar fecha");
+  assert.ok(!/territorios\/|receipt/.test(prov()),"sin rutas ni ids internos del repositorio");
+  t.S.election="201911";t.renderDetail();
+  assert.match(prov(),/Sin producto vigente/,"elección sin producto: aviso");
+  t.S.election="202307";
+  const savedProv=t.D.provenance;t.D.provenance=null;t.renderDetail();
+  assert.match(prov(),/Procedencia no disponible/,"sin catálogo: aviso, nada inventado");
+  assert.ok(!/sha256|Deslinde/.test(prov()));
+  t.D.provenance=savedProv;
+  t.S.unit=null;t.renderDetail();
+  assert.match(prov(),/Selecciona una provincia/);
   console.log("V3 UI smoke: PASS (regiones, mapa, secciones, fecha y sistema)");
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,18 +1,19 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V3 (nueva interfaz)
- * VERSIÓN: 1.0.1
+ * VERSIÓN: 1.1.0
  * FECHA: 2026-11-14
  * ESTADO: candidato
  * CAMBIOS: explorador mapa, ámbito, proporcional/mayoritario, territorial/electoral,
  * calendario por ámbito, distrito y sección censal reales, paleta de partidos.
  * MOTIVO: una sola experiencia con datos acreditados y fallo cerrado ante fuentes ausentes.
- * ANTERIOR: legacy/visor/v3/v3_v1.0.0.js
+ * ANTERIOR: legacy/visor/v3/v3_v1.0.1_20261114.js
+ * 1.1.0: T-300, panel «De dónde sale este mapa» (fuentes con enlace, huella, ejecución y motor, elección) leído de datos/catalogo_procedencia.json; sin él, aviso.
  * 1.0.1: T-206, pie con el texto del padrón 2026 (D-69), visible solo con una elección 2026 general. */
 "use strict";
 (function () {
   const BASE={provincias:"../v2/datos/provincias.json",comunidades:"../v2/datos/comunidades.json",
     indices:"../datos/INDEX.json",secciones:"../v2/datos/secciones/",territorial:"../v2/datos/territorial.json",
-    productos:"../data/viewer-results.json",calendario:"calendario.json"};
+    productos:"../data/viewer-results.json",calendario:"calendario.json",procedencia:"../datos/catalogo_procedencia.json"};
   const PALETA={PP:"#1d6fb8",PSOE:"#d32b2b",VOX:"#5fa335",SUMAR:"#cf2a7b",PODEMOS:"#8750b5",
     "EAJ-PNV":"#2c5e36","EH BILDU":"#0f7a52",ERC:"#f0ac00",JUNTS:"#18a99b",BNG:"#7cb2d8",CC:"#e8c400",
     UPN:"#3a55a2",OTROS:"#9aa3ad"};
@@ -58,7 +59,7 @@
   function color(n){return PALETA[family(n)]||PALETA.OTROS;}
   function randomNeutral(n){const pal=["#91aabb","#a5bcc8","#b5c8d0","#9baac2","#c2d0da","#afbeca","#8eabb7"];let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))>>>0;return pal[h%pal.length];}
   const S={scope:"nacional",system:"proporcional",view:"electoral",layer:"ganador",level:"provincia",election:"202307",region:"",panel:"territorio",province:null,unit:null,selected:null};
-  const D={prov:null,communities:null,index:null,sectionsIndex:null,territorial:null,products:null,calendar:{},
+  const D={prov:null,communities:null,index:null,sectionsIndex:null,territorial:null,products:null,provenance:null,calendar:{},
     districtCache:new Map(),sectionCache:new Map(),regionCache:new Map(),allDistricts:new Map(),allSections:new Map()};
   let districtBulkPromise=null, renderRevision=0;
   D.districtFailures=new Map();
@@ -388,6 +389,39 @@
       "<tr class='total'><td>Total</td><td>"+fmt(actual)+"</td><td>"+fmt(ddd)+"</td></tr></tbody></table>"+
       "<p class='small-note'>DDD: un escaño para el partido más votado en cada distrito M08. No es el reparto proporcional oficial.</p>";
   }
+  function provenanceHtml(kind,obj){
+    const aviso=t=>"<p class='small-note'>"+esc(t)+"</p>";
+    const cat=D.provenance;
+    if(kind==="pais")return aviso("Selecciona una provincia, comunidad, distrito o sección para ver de dónde sale su mapa.");
+    if(!cat?.territorios)return aviso("Procedencia no disponible: el catálogo de procedencia no está publicado. No se muestran fuentes sin acreditar.");
+    let key=null;
+    if(S.scope==="autonomico"||kind==="comunidad")key=S.scope==="autonomico"&&S.region?S.region:regionId(obj.nombre||"");
+    else key=getProvinceEntry(selectedProvince())?.key||null;
+    const t=key&&cat.territorios[key];
+    if(!t)return aviso("Procedencia no disponible para esta selección en el catálogo publicado.");
+    const prefix=S.election.slice(0,4)+"-"+S.election.slice(4,6);
+    const vig=(t.productos||[]).filter(p=>p.vigente&&String(p.eleccion||"").startsWith(prefix));
+    const want=S.view==="electoral"?["M08","M06"]:["M06","M08"];
+    const prod=want.map(k=>vig.find(p=>p.producto===k)).find(Boolean);
+    if(!prod)return aviso("Sin producto vigente en el catálogo de procedencia para la elección seleccionada.");
+    const safe=u=>/^https?:\/\//.test(String(u||""))?String(u):null;
+    const link=(label,u)=>safe(u)?"<a href='"+esc(safe(u))+"' target='_blank' rel='noopener noreferrer'>"+esc(label)+"</a>":esc(label);
+    const fo=cat.fuentes_oficiales||{},ft=t.fuente_territorial||{};
+    const elDate=prod.eleccion||"";
+    const res=(fo.resultados_electorales||{})[elDate];
+    const rows=[];
+    const pad=fo.poblacion_por_sexo_y_edad;
+    rows.push(["Padrón"+(ft.population_year?" "+ft.population_year:""),pad?link((pad.proveedor||"Fuente oficial"),pad.url):"No consta"]);
+    const sec=fo.secciones_censales;
+    rows.push(["Seccionado"+(ft.section_year?" "+ft.section_year:""),sec?link((sec.proveedor||"Fuente oficial"),sec.url):"No consta"]);
+    rows.push(["Resultados "+(elDate?elDate.slice(0,4):""),res?link(res.proveedor||"Fuente oficial",res.url):"No consta en el catálogo"]);
+    rows.push(["Huella sha256",prod.sha256?String(prod.sha256).slice(0,12)+"…":"No consta"]);
+    rows.push(["Ejecución",prod.run_id?String(prod.run_id):"No consta"]);
+    rows.push(["Motor",cat.motor?.nombre?cat.motor.nombre+(cat.motor.version?" "+cat.motor.version:""):"No consta"]);
+    rows.push(["Elección",elDate?elDate+(prod.eleccion_declarada===false?" (por defecto)":""):"No consta"]);
+    rows.push(["Fecha de generación",prod.generado||"No consta en el catálogo"]);
+    return "<div class='context'><dl>"+rows.map(([a,b])=>"<div><dt>"+esc(a)+"</dt><dd>"+(/^<a /.test(b)?b:esc(b))+"</dd></div>").join("")+"</dl></div>";
+  }
   function renderDetail(){
     const obj=S.unit?.properties||{},kind=S.unit?.kind||"pais";
     $("selection-type").textContent={pais:"España",comunidad:"Comunidad autónoma",provincia:"Provincia",distrito:"Distrito uninominal",seccion:"Sección censal INE"}[kind];
@@ -444,6 +478,7 @@
     if(S.panel==="evolucion")content="<p class='small-note'>Elige elecciones en el navegador inferior. La comparación temporal de una sección exige acreditar la identidad y geometría equivalentes; no se dibujan series ficticias.</p>";
     const headings={territorio:"Perfil territorial",resultados:"Resultados electorales",comparar:"Comparar sistemas",evolucion:"Evolución temporal"};
     $("detail-heading").textContent=headings[S.panel];$("detail-content").innerHTML=content;
+    $("prov-content").innerHTML=provenanceHtml(kind,obj);
   }
   function syncLevels(){
     const auto=S.scope==="autonomico";
@@ -527,15 +562,15 @@
     if(!window.maplibregl){note("No se pudo cargar la librería cartográfica MapLibre.");return;}
     controls();
     try{
-      const [pr,cc,idx,sec,terr,products,calendar]=await Promise.all([
+      const [pr,cc,idx,sec,terr,products,calendar,prov]=await Promise.all([
         getJson(BASE.provincias),getJson(BASE.comunidades),
         getJson(BASE.indices).catch(()=>null),getJson(BASE.secciones+"INDEX.json").catch(()=>null),
         getJson(BASE.territorial).catch(()=>null),getJson(BASE.productos).catch(()=>null),
-        getJson(BASE.calendario).catch(()=>({}))
+        getJson(BASE.calendario).catch(()=>({})),getJson(BASE.procedencia).catch(()=>null)
       ]);
       if(pr.type!=="FeatureCollection"||cc.type!=="FeatureCollection")throw Error("Fuentes base cartográficas inválidas");
       D.prov=pr;D.communities=cc;D.index=idx;D.sectionsIndex=sec;D.territorial=terr;D.products=products;
-      D.calendar=calendar;
+      D.calendar=calendar;D.provenance=prov;
       $("places").innerHTML=pr.features.map(f=>"<option value='"+esc(f.properties.nombre)+"'></option>").join("")+
         cc.features.map(f=>"<option value='"+esc(f.properties.nombre)+"'></option>").join("");
       $("election-region").innerHTML='<option value="">Selecciona parlamento</option>'+

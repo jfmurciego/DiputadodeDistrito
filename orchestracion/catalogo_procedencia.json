@@ -3,15 +3,21 @@
  "generado_por": "herramientas/catalogo_procedencia.py",
  "entradas": {
   "composicion": "datos/composicion/MANIFEST.json",
+  "contratos_electorales": "configuracion/contratos_infoelectoral.yaml",
   "datos_abiertos": "datos_abiertos/INDEX.json",
   "fuente_secundaria": "orchestracion/fuente_nazioenbehatokia.json",
   "fuentes_oficiales": "fuentes/catalogo_oficial.yaml",
+  "motor": "paquetes/deslinde/pyproject.toml",
   "preparacion": "configuracion/catalogo_preparacion.yaml",
   "productos_publicos": "orchestracion/productos_publicos.json",
   "publicaciones": "configuracion/publicaciones.yaml",
   "r2": "orchestracion/archivo_r2.json",
   "resultados": "datos/resultados/MANIFEST.json",
   "visor": "orchestracion/publicaciones_visor.json"
+ },
+ "motor": {
+  "nombre": "Deslinde",
+  "version": "1.1.0"
  },
  "fuentes_oficiales": {
   "poblacion_por_sexo_y_edad": {
@@ -21,6 +27,13 @@
   "secciones_censales": {
    "proveedor": "INE",
    "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items"
+  },
+  "resultados_electorales": {
+   "2023-07-23": {
+    "proveedor": "Ministerio del Interior — Infoelectoral",
+    "url": "https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip",
+    "sha256": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8"
+   }
   }
  },
  "fuentes_secundarias": {
