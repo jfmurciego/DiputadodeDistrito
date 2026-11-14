@@ -69,6 +69,7 @@ FECHA = "2023-07-23"  # elección por defecto (legislatura vigente); ver fecha_g
 ELECCIONES_2026 = ROOT / "configuracion/elecciones_generales_2026.yaml"
 EQUIVALENCIA = ROOT / "configuracion/equivalencia_secciones_congreso_2023.csv"
 EQUIVALENCIA_META = ROOT / "configuracion/equivalencia_secciones_congreso_2023.json"
+EQUIVALENCIA_MAYORIA = ROOT / "configuracion/equivalencia_seccionado_ine_2026_a_2023.csv"  # T-291, elecciones ≠ FECHA
 TOPE_DESAJUSTE = 0.005  # D-17: fracción de los votos a candidaturas de la provincia
 CONTENIDA_MIN = 0.95  # T-103: parte mínima del área de la sección del ZIP en una sola sección M06 (UMBRAL de T-85)
 CABECERA = ["distrito", "partido", "votos", "porcentaje", "blancos", "nulos", "censo"]
@@ -157,6 +158,65 @@ def leer_equivalencia(ruta: Path = EQUIVALENCIA) -> dict[str, list[dict]]:
         out[r["seccion_zip"]].append({"seccion_m06": r["seccion_m06"], "tipo": r["tipo"],
                                       "peso_area": float(r["peso_area"]), "frac_m06": float(r["frac_m06"])})
     return dict(out)
+
+
+def leer_equivalencia_mayoria(ruta: Path = EQUIVALENCIA_MAYORIA) -> dict[str, dict]:
+    """seccion_2026 → {"tipo", "pesos": [(seccion_2023, peso_poblacion)]}; sha256 del CSV contra su JSON hermano."""
+    cuerpo = ruta.read_bytes()
+    esperado = json.loads(ruta.with_suffix(".json").read_text(encoding="utf-8"))["csv"]["sha256"]
+    if sha256(cuerpo) != esperado:
+        raise ValueError(f"sha256 de {ruta.name} no coincide con su JSON")
+    out: dict[str, dict] = {}
+    filas = csv.reader(io.StringIO(cuerpo.decode("utf-8")))
+    cab = next(filas)
+    i_tipo, i_peso = cab.index("tipo"), cab.index("peso_poblacion")
+    for r in filas:
+        e = out.setdefault(r[0], {"tipo": r[i_tipo], "pesos": []})
+        if r[i_tipo] != "sin_vigente":
+            e["pesos"].append((r[1], float(r[i_peso])))
+    return out
+
+
+def destino_por_mayoria(entrada: dict, comp: dict[str, int]) -> str | None:
+    """Regla de M07 7.4.0: la sección va entera al distrito con más peso de población (la parte sin distrito cuenta como
+    bloque propio y, si gana, devuelve None) y, dentro de él, a su sección de más peso; empates por código."""
+    if entrada["tipo"] == "sin_vigente" or not entrada["pesos"]:
+        return None
+    falta = "\x00MISSING_IN_MAP"
+    por_d: dict[str, float] = defaultdict(float)
+    for v, w in entrada["pesos"]:
+        por_d[str(comp[v]) if v in comp else falta] += w
+    d = min(por_d, key=lambda k: (-por_d[k], k == falta, k))
+    if d == falta:
+        return None
+    return min(((v, w) for v, w in entrada["pesos"] if v in comp and str(comp[v]) == d), key=lambda x: (-x[1], x[0]))[0]
+
+
+def aplicar_mayoria(por_seccion: dict, extra09: dict, comp: dict[str, int], tabla: dict) -> tuple[dict, dict, dict]:
+    """Mueve votos, censo, blancos y nulos de cada sección de la tabla a su destino (todas a la vez, sin encadenar)."""
+    alias, filas = {}, []
+    for s in sorted(set(por_seccion) | set(extra09)):
+        if s not in tabla:
+            continue
+        v = destino_por_mayoria(tabla[s], comp)
+        if v is None:
+            continue
+        alias[s] = v
+        distritos = {comp[t] for t, _ in tabla[s]["pesos"] if t in comp}
+        filas.append({"seccion": s, "clase": tabla[s]["tipo"], "destino": v, "distrito": comp[v],
+                      "votos": sum(por_seccion.get(s, {}).values()), "entre_distritos": len(distritos) > 1})
+    votos: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    for s, d in por_seccion.items():
+        for p, n in d.items():
+            votos[alias.get(s, s)][p] += n
+    meta: dict[str, dict[str, int]] = defaultdict(lambda: {"censo": 0, "blancos": 0, "nulos": 0})
+    for s, d in extra09.items():
+        for k, n in d.items():
+            meta[alias.get(s, s)][k] += n
+    informe = {"decision": "D-65; regla de M07 7.4.0 (partida entera al distrito de mayor población)",
+               "tabla": EQUIVALENCIA_MAYORIA.relative_to(ROOT).as_posix(), "asignaciones": filas,
+               "votos_por_mayoria_entre_distritos": sum(f["votos"] for f in filas if f["entre_distritos"])}
+    return votos, dict(meta), informe
 
 
 def repartir(n: int, pesos: dict[int, float]) -> dict[int, int]:
@@ -261,7 +321,7 @@ def _desajustes(por_seccion, extra09, comp, equivalencia, poblacion, total, tope
 
 def agregar_informe(zip_path: Path, contrato: dict, comp: dict[str, int], m08_ganadores: list[str],
                     equivalencia: dict | None = None, poblacion: dict[str, int] | None = None,
-                    tope: float = TOPE_DESAJUSTE) -> tuple[bytes, dict]:
+                    tope: float = TOPE_DESAJUSTE, mayoria: dict | None = None) -> tuple[bytes, dict]:
     """Como ``agregar`` y además el informe de desajustes D-17 (vacío si las secciones coinciden)."""
     with tempfile.TemporaryDirectory() as tmp:
         resumen = fim.convert(zip_path, contrato, Path(tmp) / "mesas.csv")  # huella y totales del contrato
@@ -272,7 +332,12 @@ def agregar_informe(zip_path: Path, contrato: dict, comp: dict[str, int], m08_ga
         por_seccion[sec][r["partido"]] += int(r["votos"])
     extra09 = mesas_09(zip_path, contrato)
     reparto, informe = {}, {}
-    if set(extra09) != set(comp):
+    if mayoria is not None:
+        por_seccion, extra09, informe = aplicar_mayoria(por_seccion, extra09, comp, mayoria)
+        falta = sorted(set(extra09) - set(comp))
+        if falta:
+            raise ValueError(f"secciones del ZIP sin distrito tras la equivalencia {len(falta)} (p. ej. {falta[:3]})")
+    elif set(extra09) != set(comp):
         reparto, informe = _desajustes(por_seccion, extra09, comp, equivalencia, poblacion or {},
                                        resumen["candidate_votes"], tope)
     votos: dict[int, dict[str, int]] = defaultdict(lambda: defaultdict(int))
@@ -350,7 +415,8 @@ def generar(salida: Path = SALIDA, registro: Path = rl.REGISTRO_VISOR, composici
                 continue
             if zip_path is None:
                 zip_path = bajar_zip(ctr[t], Path(tmp.name) / "mesa.zip")
-            cuerpo = agregar(zip_path, ctr[t], leer_composicion(rutac), gan)
+            cuerpo = agregar_informe(zip_path, ctr[t], leer_composicion(rutac), gan,
+                                     mayoria=None if fecha == FECHA else leer_equivalencia_mayoria())[0]
             if not rutap.exists() or rutap.read_bytes() != cuerpo:
                 rutap.write_bytes(cuerpo)
             nuevo[t] = {"blob_sha_m08": m08[t]["blob_sha"], "sha256_composicion": cm["sha256_csv"],
@@ -370,14 +436,16 @@ def generar(salida: Path = SALIDA, registro: Path = rl.REGISTRO_VISOR, composici
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--zip", type=Path)
-    ap.add_argument("--salida", type=Path, default=SALIDA)
+    ap.add_argument("--salida", type=Path, default=None,
+                    help="por defecto datos/resultados (2023) o datos/resultados/<elección>/")
     ap.add_argument("--composicion", type=Path, default=COMPOSICION)
     ap.add_argument("--registro", type=Path, default=rl.REGISTRO_VISOR)
     ap.add_argument("--territorios", default="todos")
     ap.add_argument("--fecha", default=None, help="elección de los contratos: AAAA-MM-DD o «2026» (por defecto 2023-07-23)")
     a = ap.parse_args(argv)
     ts = None if a.territorios.strip() in ("", "todos") else [t.strip() for t in a.territorios.split(",")]
-    r = generar(a.salida, a.registro, a.composicion, a.zip, ts, fecha=resolver_fecha(a.fecha))
+    fecha = resolver_fecha(a.fecha)
+    r = generar(rl.salida_de(fecha, a.salida), a.registro, a.composicion, a.zip, ts, fecha=fecha)
     print(f"partidos: {len(r['hechos'])} territorios; sin composición/M08: {len(r['omitidos'])}")
     return 0
 
