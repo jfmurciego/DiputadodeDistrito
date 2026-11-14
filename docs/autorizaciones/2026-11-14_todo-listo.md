@@ -30,3 +30,4 @@
 ## Cierre
 Estado: `EN_CURSO`.
 - Congelación del motor (Planificador, 14-11 15:00 UTC): sin cambios en ddd_motor2, ddd_core ni modulos desde b5bd69e hasta terminar la P50 de los 71; se comprueba antes de cada tanda. Excepción ya en main al congelar: #749 (M07 7.4.0, modulos/07; no toca el motor y solo cambia algo si el contrato declara la tabla 2026→2023).
+- Ajuste (Planificador, 15:01 UTC): #749 (43691e0) ACEPTADA, inerte para 2023. Único cambio permitido desde b5bd69e en esas rutas: modulos/07 de 43691e0. Comprobación: `git diff --stat 43691e0 origin/main -- ddd_motor2 ddd_core modulos` vacío y `git diff --stat b5bd69e 43691e0 -- ddd_motor2 ddd_core modulos` = solo modulos/07.
