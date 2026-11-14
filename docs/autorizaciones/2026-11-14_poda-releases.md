@@ -5,3 +5,4 @@
 - Retenidas (referenciadas en `publicaciones_visor.json` y `catalogo_procedencia.json`): `ensemble-congreso-la-rioja-cccc4a1e8df2`, `ensemble-congreso-salamanca-2b68dd0a396a`, `ensemble-congreso-sevilla-9987893f2689`. Pendiente de decisión del propietario.
 - Fuera de la frase: `almacen-m06-*` (6) y `viewer-*` (2) borradores; `mapa-*` y `fuente-infoelectoral-02202307`.
 - Ejecución: el proxy de la sesión cloud devuelve 403 al DELETE de releases. La ejecuta el propietario: `borrar_releases.ps1` (PowerShell) o `borrar_releases.sh` (Git Bash).
+- Resultado (2026-11-14): el propietario borró las 34 desde su equipo; comprobado por API, no queda ninguna de lista.tsv. T-285 HECHA (salvo las 3 ensembles retenidas).
