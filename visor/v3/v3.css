@@ -24,3 +24,18 @@
 .detail-mode summary{cursor:pointer;font-weight:700;padding:6px 0;min-height:28px}
 @media(max-width:480px){.legend{max-width:calc(100% - 28px)}.legend ul{grid-template-columns:repeat(2,minmax(0,1fr))}.legend li{white-space:normal}.site-nav{flex-wrap:wrap;row-gap:4px}.model-cards{flex-wrap:wrap}.model-cards>div{flex:1 1 130px}.map-tag{max-width:calc(100% - 140px)}.timeline-controls select{max-width:100%}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+
+/* Galería territorial V3 1.0.0: elemento de presentación, nunca dato de distrito. */
+.territory-gallery{margin:0;padding:13px 15px 5px;border-bottom:1px solid var(--line)}
+.gallery-heading{font:700 17px Georgia,serif;margin:0 0 9px;color:var(--ink)}
+.gallery-figure{margin:0;background:#f5f5f5;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.gallery-figure>a{display:block;line-height:0}
+.gallery-figure img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:#edf0f2}
+.gallery-figure a:focus-visible{outline:3px solid var(--wine);outline-offset:-3px}
+.gallery-figure figcaption{display:flex;flex-direction:column;gap:3px;padding:9px 11px;line-height:1.4}
+.gallery-figure figcaption strong{font-size:12px}
+.gallery-figure figcaption span{font-size:11px;color:var(--muted)}
+.gallery-figure figcaption small{font-size:10px;color:var(--muted);overflow-wrap:anywhere}
+.gallery-unavailable{font-size:12px;color:var(--muted);background:#f6f5f4;padding:17px 12px;border-radius:9px;margin:0 0 10px}
+@media(prefers-reduced-motion:reduce){.gallery-figure img{transition:none}}
