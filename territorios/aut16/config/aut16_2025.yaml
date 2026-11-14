@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -55,7 +55,7 @@ territory_contract:
   - '01'
   - '20'
   - '48'
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   notes:
   - R022 congeló 1707 secciones y 2242343 habitantes sin faltantes.
   - R023 justificó 2 pasarelas; no se añade ninguna excepción no auditada.
@@ -68,13 +68,13 @@ territory_contract:
   population_floor_ratio: 0.8
   population_cap_ratio: 1.75
   target_tolerance_ratio: 0.12
-  limits_profile: standard-1.0.0
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.25
   require_auditable_district_catalogue: true
+  limits_profile: standard-1.0.0
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes:
@@ -288,10 +288,11 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: b2054d03dc2fb461b01f53af7e4e0bd79b1b98e9b5152b7a904865163ccb1fcc
+  contract_sha256: 204d583be18cc3d8011511125c82d9f9da8ea937c0d3a1ca729da0d779a7cf53
+  package_contract_sha256: b2054d03dc2fb461b01f53af7e4e0bd79b1b98e9b5152b7a904865163ccb1fcc
 generation_state:
   source_prepared: true
-  generation_enabled: true
+  generation_enabled: false
   package_sha256: b47721cbd4aa28cae80b185814b0a002f903ce7a7b5e07aab372cafdd6cef874
   compatibility_identity_sha256: 90707fb28597d7f75bf8af3d4dfb427cac2f3508bfae26220a4eca00a4c6c001
   source_inputs:
@@ -343,6 +344,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40946888676
-  pre_m04_source_commit: 0e118a72a347e1fb67dcf2e14633e4bae1879ac0
-  pre_m04_artifact_sha256: 964b4bcf612fb9ae57455f377a8f422a1b70060ca07fbdcb514c72ec56f84150
