@@ -1,4 +1,11 @@
-"""Regresiones de la portada V2 y las rutas relativas de V1."""
+"""Regresiones de la portada V2 y las rutas relativas de V1.
+PROYECTO: Diputado de Distrito
+VERSIÓN: 1.0.1
+FECHA: 2026-11-12
+CAMBIOS: aceptar la promoción encadenada V3 sin eliminar los contratos de V2 ni de V1.
+MOTIVO: V3 tiene nuevo destino público; V2 se conserva en /v2/.
+ANTERIOR: legacy/tests/test_preparar_portada_v2_v1.0.0_20261112.py
+"""
 import tempfile
 import unittest
 from pathlib import Path
@@ -68,7 +75,10 @@ class PrepararPortadaV2Tests(unittest.TestCase):
         self.assertEqual(workflow.count("python herramientas/preparar_portada_v2.py"), 1)
         self.assertIn("python herramientas/preparar_portada_v2.py --site=/tmp/site-candidate", workflow)
         self.assertEqual(workflow.count("--site /tmp/site-candidate"), 1)
-        self.assertIn("grep -q 'url=v2/' /tmp/site-candidate/index.html", workflow)
+        self.assertIn("python herramientas/preparar_portada_v3.py --site=/tmp/site-candidate", workflow)
+        self.assertIn("grep -q 'url=v3/' /tmp/site-candidate/index.html", workflow)
+        self.assertLess(promocion, workflow.index("- name: Promocionar portada pública V3"))
+        self.assertLess(workflow.index("- name: Promocionar portada pública V3"), validacion)
         self.assertIn('test -s /tmp/site-candidate/v1/index.html', workflow)
         self.assertIn("grep -q 'href=\"congreso/\"' /tmp/site-candidate/v1/index.html", workflow)
 
