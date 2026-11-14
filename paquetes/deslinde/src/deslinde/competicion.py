@@ -9,8 +9,9 @@ FECHA: 2026-11-14
 ESTADO: candidato (motor 2; producción no lo importa)
 CAMBIOS: 1.5.0 — (T-297, Deslinde 1.1, H1) candidato «exacto» con D8: tras juzgar los demás, exacto.resolver
   (CP-SAT determinista, K ≤ 4) busca el óptimo D8 sobre las unidades del canónico con la pista del mejor candidato; si
-  aporta un plan válido, compite como uno más (si no prueba el óptimo, su mejor solución válida; si no, nada). Si aplica, la
-  decisión (estado y etapas) entra en huella_resultado y en COMPETICION.json («exacto»). Con A, C y D5, nada cambia.
+  aporta un plan válido, compite como uno más (si no prueba el óptimo, su mejor solución válida; si no, nada). Con D8, la
+  decisión (estado y etapas, o NO_APLICA con su motivo) entra en huella_resultado; un ErrorContrato/ErrorDatos al
+  preparar el exacto se propaga (nunca se salta en silencio) y en COMPETICION.json («exacto»). Con A, C y D5, nada cambia.
   1.4.3 — (T-259, D-66) competir_publico valida antes validation.max_mixed_districts_exceptions
   (excepcion_d66.py): si el contrato declara alguna, ErrorContrato y no se ejecuta (el núcleo aún no la aplica: T-269).
   Resultado.excepciones_d66 (lista normalizada; hoy siempre []) va a COMPETICION.json. La huella no cambia.
@@ -201,8 +202,9 @@ class Resultado:
                                 for c in sorted(self.candidatos, key=lambda c: c.orden)]}
         if self.funcion != "A":
             forma["funcion"] = self.funcion
-        if self.exacto.get("aplicable"):  # T-297: solo si aplica (D8, K ≤ 4…); si no, la huella no cambia
-            forma["exacto"] = [self.exacto.get(k) for k in ("version", "estado", "etapas", "ortools")]
+        if self.exacto:  # T-297: con D8, siempre (también NO_APLICA, con su motivo); con A, C y D5 no hay bloque
+            forma["exacto"] = [self.exacto.get(k) for k in ("version", "estado", "etapas", "ortools")] + (
+                [] if self.exacto.get("aplicable") else [self.exacto.get("motivo")])
         sp = self.semilla_publica or {}
         if sp.get("codigo"):  # T-265: la semilla y su derivación (código oficial y tabla maestra) entran en la huella
             forma["semilla"] = [sp.get("esquema"), sp["codigo"], (sp.get("tabla_maestra") or {}).get("sha256")]
@@ -320,22 +322,20 @@ def _exacto(entrada: EntradaTerritorio, sal_can: Salida, referencia: Path | None
     from .exacto import resolver
     from .exhaustivo import escribir_composicion
     from .naturalidad_clave import natural_desde_m06
-    if sal_can.composicion is None or not Path(sal_can.composicion).is_file():
-        return {"estado": "NO_APLICA", "motivo": "sin composición del canónico"}, None
-    try:
-        reglas = Reglas.desde_contrato(entrada.cfg, criterio)
-        args = dict(referencia_nucleos=referencia,
-                    atributos_secciones=sal_can.atributos_secciones or entrada.atributos_secciones,
-                    respaldo_municipio_cusec=criterio.respaldo_municipio_cusec)
-        problema, plan, _ = problema_y_plan(sal_can.composicion, entrada.grafo_m03, entrada.cfg, **args)
-        if pista is not None and pista.composicion and Path(pista.composicion).is_file():
-            _, plan_p, _ = problema_y_plan(pista.composicion, entrada.grafo_m03, entrada.cfg, **args)
-            if set(plan_p) == set(plan):
-                plan = plan_p
-        nat = natural_desde_m06(problema, reglas, sal_can.composicion, entrada.grafo_m03, entrada.cfg)
-        mejor, info = resolver(problema, reglas, nat, plan, funcion=funcion)
-    except (ErrorContrato, ErrorDatos) as exc:
-        return {"estado": "NO_APLICA", "motivo": f"{type(exc).__name__}: {exc}"}, None
+    if sal_can.composicion is None or not Path(sal_can.composicion).is_file():  # consta en la huella y el informe
+        return {"aplicable": False, "estado": "NO_APLICA", "motivo": "sin composición del canónico"}, None
+    # Sin try: un ErrorContrato/ErrorDatos al preparar el exacto se propaga (nunca se salta el exacto en silencio)
+    reglas = Reglas.desde_contrato(entrada.cfg, criterio)
+    args = dict(referencia_nucleos=referencia,
+                atributos_secciones=sal_can.atributos_secciones or entrada.atributos_secciones,
+                respaldo_municipio_cusec=criterio.respaldo_municipio_cusec)
+    problema, plan, _ = problema_y_plan(sal_can.composicion, entrada.grafo_m03, entrada.cfg, **args)
+    if pista is not None and pista.composicion and Path(pista.composicion).is_file():
+        _, plan_p, _ = problema_y_plan(pista.composicion, entrada.grafo_m03, entrada.cfg, **args)
+        if set(plan_p) == set(plan):
+            plan = plan_p
+    nat = natural_desde_m06(problema, reglas, sal_can.composicion, entrada.grafo_m03, entrada.cfg)
+    mejor, info = resolver(problema, reglas, nat, plan, funcion=funcion)
     if mejor is None:
         return info, None
     comp = escribir_composicion(sal_can.composicion, mejor, destino / Path(sal_can.composicion).name, entrada.cfg)
@@ -410,8 +410,11 @@ def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador,
     if funcion == "D8":
         t0 = time.monotonic()
         mejor_previo = min((c for c, _ in pendientes), key=Candidato.clave)
-        info_exacto, sal_x = _exacto(entrada, sal_can, referencia, criterio, destino / "exacto", funcion,
-                                     mejor_previo if mejor_previo.estado == "VALIDO" else None)
+        if can.estado in ("FALLO_GENERADOR", "ERROR_DATOS", "ERROR_CONTRATO"):  # sin base para el exacto: consta
+            info_exacto, sal_x = {"aplicable": False, "estado": "NO_APLICA", "motivo": f"canónico {can.estado}"}, None
+        else:
+            info_exacto, sal_x = _exacto(entrada, sal_can, referencia, criterio, destino / "exacto", funcion,
+                                         mejor_previo if mejor_previo.estado == "VALIDO" else None)
         if sal_x is not None:
             c = Candidato("exacto", "exacto", None, len(pendientes))
             c.extra = dict(sal_x.extra)

@@ -48,8 +48,9 @@ def rejilla():
     return Problema(us, aristas)
 
 
-@unittest.skipUnless(TIENE_ORTOOLS, "sin ortools")
 class Exacto(unittest.TestCase):
+    """Sin skip: ortools es dependencia de Deslinde 1.1 (requirements-exacto.lock, imagen de CI con Dockerfile 1.3.0);
+    si falta donde debe estar, estos tests fallan en vez de saltarse."""
     def _resolver(self, nat, **kw):
         from deslinde.exacto import resolver
         p = rejilla()
@@ -94,6 +95,67 @@ class Exacto(unittest.TestCase):
             self.assertIsNone(plan)
             self.assertEqual(info["estado"], "NO_APLICA")
             self.assertIn(motivo, info["motivo"])
+
+
+class ExactoEnLaCompeticion(unittest.TestCase):
+    """Integración con competir() (sintético de test_motor2_competicion_d8: K = 2, 5 unidades)."""
+
+    def competir(self, canonico=None):
+        from tests.test_motor2_competicion_d8 import Fijo, entrada, plan_corte
+        from ddd_motor2.competicion import competir
+        tmp = Path(tempfile.mkdtemp())
+        return competir(entrada(tmp), canonico or Fijo("canonico", {None: plan_corte(2)}),
+                        Fijo("cadena", {7: plan_corte(2)}), [7], tmp / "out", exhaustivo=False, funcion="D8")
+
+    def test_gana_el_exacto_con_el_optimo(self):
+        r = self.competir()
+        self.assertEqual(r.exacto["estado"], "OPTIMO")
+        self.assertEqual(r.ganador.id, "exacto")  # corta por la frontera corta (C-D), mejor que canónico y cadena
+        self.assertIn("exacto", r.a_dict())
+
+    def test_un_plan_del_exacto_rechazado_por_el_nucleo_no_gana(self):
+        from unittest import mock
+        from tests.test_motor2_competicion_d8 import UNIDADES
+        malo = ({u: "X0" for u in UNIDADES}, {"version": "x", "aplicable": True, "estado": "OPTIMO", "etapas": []})
+        with mock.patch("deslinde.exacto.resolver", return_value=malo):
+            r = self.competir()
+        x = next(c for c in r.candidatos if c.id == "exacto")
+        self.assertEqual(x.estado, "INVALIDO")
+        self.assertNotEqual(r.ganador.id, "exacto")
+        self.assertEqual(r.ganador.estado, "VALIDO")
+
+    def test_el_limite_no_depende_del_reloj(self):
+        import itertools
+        from unittest import mock
+        base = self.competir().huella()
+        reloj = itertools.count(0, 10_000.0)  # cada llamada al reloj avanza casi 3 horas
+        with mock.patch("time.monotonic", side_effect=lambda: next(reloj)), \
+                mock.patch("time.time", side_effect=lambda: next(reloj)):
+            lento = self.competir().huella()
+        self.assertEqual(base, lento)
+
+    def test_sin_canonico_no_aplica_y_consta_en_la_huella(self):
+        from ddd_motor2.competicion import Salida
+
+        class Roto:
+            nombre = "canonico"
+
+            def generar(self, entrada, semilla, destino):
+                return Salida(None, "FALLO", "roto")
+
+        r = self.competir(Roto())
+        self.assertEqual((r.exacto["estado"], r.exacto["motivo"]), ("NO_APLICA", "canónico FALLO_GENERADOR"))
+        self.assertEqual(r.a_dict()["exacto"]["estado"], "NO_APLICA")
+        h = r.huella()
+        r.exacto = {**r.exacto, "motivo": "otro"}
+        self.assertNotEqual(h, r.huella())
+
+    def test_un_error_al_preparar_el_exacto_se_propaga(self):
+        from unittest import mock
+        from ddd_motor2.reglas import ErrorDatos
+        with mock.patch("deslinde.exacto.resolver", side_effect=ErrorDatos("roto")):  # antes se volvía NO_APLICA mudo
+            with self.assertRaises(ErrorDatos):
+                self.competir()
 
 
 class RecuentoBateria(unittest.TestCase):

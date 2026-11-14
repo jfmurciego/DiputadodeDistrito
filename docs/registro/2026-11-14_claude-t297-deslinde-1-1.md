@@ -12,12 +12,14 @@
       determinista) sobre la clave D8 por
       etapas. Aplica con 2 ≤ K ≤ 4, una circunscripción y sin exenciones.
     - `competicion.py` 1.5.0: candidato «exacto» con D8; si no prueba el óptimo, su mejor plan válido; si no hay
-      ninguno, no compite. Entra en `huella_resultado`.
+      ninguno, no compite. Con D8 su decisión (también NO_APLICA con su
+      motivo) entra en `huella_resultado` y en COMPETICION.json; un error al prepararlo se propaga (nunca se salta en
+      silencio).
     - lock con ortools 9.14.6206 y sus dependencias. `requirements-exacto.lock` 1.0.0, nuevo:
   pines exactos con hashes, se instala con `--no-deps --require-hashes` (Dockerfile 1.3.0, batería y P30). Si el exacto
   aplica y no hay ortools, la competición falla con `EXACTO_SIN_ORTOOLS`.
-  - `bateria_motor.py` 1.2.7: el recuento de candidatos cuenta el exacto.
-  - `bateria-motor.yml` 1.1.6 y `_reutilizable-generacion-territorial.yml` 1.5.2: instalan ortools con `--no-deps`.
+  - `bateria_motor.py` 1.4.1: el recuento de candidatos cuenta el exacto.
+  - `bateria-motor.yml` 1.2.1 y `_reutilizable-generacion-territorial.yml` 1.5.2: instalan ortools con `--no-deps`.
   - `DESLINDE_1_0.md` 1.1.0, con la copia anterior en `legacy/`; escribe también el desempate por desvío máximo
   (término 7 de D8, sin cambio de orden). `HUELLAS_FIJAS` (D8) regeneradas.
 - Efectos:
@@ -26,7 +28,9 @@
   - Con A, C y D5 el exacto no actúa.
   - La aceptación no cambia, salvo el recuento de candidatos (+1 exacto).
 - Pruebas:
-  - `tests/test_t297_deslinde_1_1.py`: exacto óptimo y determinista, «no aplica», frontera M02/M03 y recuento.
+  - `tests/test_t297_deslinde_1_1.py`: exacto óptimo y determinista, «no aplica», sin ortools falla, integración
+    con competir() (plan rechazado por el núcleo no gana, independiente del reloj, NO_APLICA en la huella, error propagado),
+    frontera M02/M03, recuento y lock con hashes; sin skip por ortools (la imagen de CI lo instala).
   - Suites de motor 2, paquete, M02, workflows y gobernanza, en local.
   - Competición real en Burgos, Valladolid, Huesca, La Rioja, Cuenca, Guadalajara y Lugo, dos veces cada una
   (misma huella).
