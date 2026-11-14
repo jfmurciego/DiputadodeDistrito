@@ -1,0 +1,118 @@
+{
+ "territorio": "nac16",
+ "version": "1.0.0",
+ "k": 2,
+ "huella_reglas": "4c6f16f843dbbb63f1e0b426bdfd98aaa52e1f83d4f410cce5ecdcc536f6f1ff",
+ "ganador_competicion": "ponderado-s1848017373",
+ "ganador": {
+  "clave_d8": {
+   "fuera": 0,
+   "exceso_8": 0.0,
+   "partidas": 3,
+   "frontera_km": 0.0,
+   "desvio_max": 0.014846096474430043,
+   "huella": "1fa0505482c43437ba5f78fa1f24ada6895593a168d783d9c17cd8a69d4334bf"
+  },
+  "igual_a_competicion": true
+ },
+ "canonico": {
+  "clave_d8": {
+   "fuera": 0,
+   "exceso_8": 0.0,
+   "partidas": 9,
+   "frontera_km": 0.0,
+   "desvio_max": 0.0,
+   "huella": "16e53ad10f8aebbedcb88a871fd8d8f420458dc28002d2bbffe97920aae93708"
+  }
+ },
+ "espacios": {
+  "canonico": {
+   "unidades": 238,
+   "atomos": 238,
+   "aristas_atomos": 642,
+   "variables": 3471,
+   "restricciones": 5717,
+   "modelo_acepta": {
+    "canonico": {
+     "estado": "FACTIBLE",
+     "terminos": {
+      "fuera": 0,
+      "exceso_8": 198436,
+      "partidas": 9,
+      "frontera_mm": 0,
+      "desvio": 0
+     },
+     "coincide_con_clave_oficial": true
+    },
+    "ganador": {
+     "estado": "FACTIBLE",
+     "terminos": {
+      "fuera": 0,
+      "exceso_8": 198436,
+      "partidas": 3,
+      "frontera_mm": 0,
+      "desvio": 1473
+     },
+     "coincide_con_clave_oficial": true
+    }
+   },
+   "etapas": [
+    {
+     "etapa": "fuera",
+     "estado": "OPTIMAL",
+     "t_s": 0.18,
+     "valor": 0,
+     "cota": 0
+    },
+    {
+     "etapa": "exceso_8",
+     "estado": "OPTIMAL",
+     "t_s": 1.4,
+     "valor": 198436,
+     "cota": 198436
+    },
+    {
+     "etapa": "partidas",
+     "estado": "OPTIMAL",
+     "t_s": 0.95,
+     "valor": 3,
+     "cota": 3
+    },
+    {
+     "etapa": "frontera_mm",
+     "estado": "CONSTANTE",
+     "valor": 0,
+     "cota": 0
+    },
+    {
+     "etapa": "desvio",
+     "estado": "OPTIMAL",
+     "t_s": 0.77,
+     "valor": 0,
+     "cota": 0
+    }
+   ],
+   "exacto": true,
+   "mejor_modelo": {
+    "valido_nucleo": true,
+    "clave_d8": {
+     "fuera": 0,
+     "exceso_8": 0.0,
+     "partidas": 3,
+     "frontera_km": 0.0,
+     "desvio_max": 0.0,
+     "huella": "56da51369b9e2ac2b85b3aba0be0de6efe84ea30073a933c57b97199e2b8fb56"
+    }
+   },
+   "hueco_ganador_menos_mejor": {
+    "termino": "desvio_max",
+    "ganador": 0.014846096474430043,
+    "optimo": 0.0,
+    "diferencia": 0.014846096474430043
+   },
+   "estado": "OPTIMO_D8"
+  }
+ },
+ "t_total_s": 4.6,
+ "memoria_max_mb": 168.8
+}
