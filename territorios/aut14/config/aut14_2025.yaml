@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -53,7 +53,7 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes: &id001
   - '30'
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   notes:
   - R022 congeló 1224 secciones y 1586989 habitantes sin faltantes.
   - R023 justificó 2 pasarelas; no se añade ninguna excepción no auditada.
@@ -208,15 +208,14 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
-  # Decisión del propietario (29-10-2026): Beniel (11.462 hab.) solo linda dentro de la provincia con
-  # la ciudad de Murcia, cuyos núcleos son cerrados; su distrito queda exento del suelo.
   population_floor_exempt_municipalities:
   - '30010'
   population_floor_exempt_decisions:
     '30010':
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Beniel: enclave dentro de un municipio con núcleos cerrados; su distrito queda exento del suelo (Murcia, M05).'
+      reason: 'Beniel: enclave dentro de un municipio con núcleos cerrados; su distrito
+        queda exento del suelo (Murcia, M05).'
       evidence: 'PR #343; tests/test_exencion_suelo_municipal.py'
   partition_apportionment_audit: {}
   source_baseline:
@@ -299,10 +298,11 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: b7b205f4ff128527e1aec5f929bc74dd81568cec01301a883471495adc32ae8d
+  contract_sha256: ee81a626278ce99dc0490ba710ffee943c4043b6049470d0430a43fd095ffa32
+  package_contract_sha256: b7b205f4ff128527e1aec5f929bc74dd81568cec01301a883471495adc32ae8d
 generation_state:
   source_prepared: true
-  generation_enabled: true
+  generation_enabled: false
   package_sha256: 3cfc6aafeeb09273ca63b59f916ad2aaace11274e0304fd7e6183cda9957c58b
   compatibility_identity_sha256: 83781a2ede58bbd0df66520d5e58222d15e97a05ea9cef9bea24d51aeb2b8c28
   source_inputs:
@@ -354,6 +354,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40773421805
-  pre_m04_source_commit: 3e1602af65ac8ba70bea08882e35f466fe3cd7fb
-  pre_m04_artifact_sha256: 262bf28ba342c452f9e7d4d9c0acb21dd4282d25ee9082f591498da22700ef24
