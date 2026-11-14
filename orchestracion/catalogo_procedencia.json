@@ -573,11 +573,11 @@
   },
   "castilla_la_mancha": {
    "fuente_territorial": {
-    "run_id": "40690624792",
+    "run_id": "43633706440",
     "package_sha256": "d601e87101c28fab18fc48778854617e20f354ae8bc353265f5e195fdebf56fc",
-    "artifact_sha256": "bdd316c89d209786b3050b3c1595af29ee5d5fd11098b1e628acf7861aecc288",
-    "territorial_identity_sha256": "62d83ef5f8a589ce47a7db753c506f9b8606e6a16774c69cc17a7d9e714c0a7b",
-    "receipt_path": "territorios/aut08/evidencia/fuentes_territoriales/2025/62d83ef5f8a589ce47a7db753c506f9b8606e6a16774c69cc17a7d9e714c0a7b/40690624792/receipt.json",
+    "artifact_sha256": "59153d79983e964d6246fba0acde549c9dfdaf5b92fb508561093be7b653b817",
+    "territorial_identity_sha256": "d4b258fe493a4d0c0a668040cc3f98889a489133f5c89f2e23f83e86fce0c289",
+    "receipt_path": "territorios/aut08/evidencia/fuentes_territoriales/2025/d4b258fe493a4d0c0a668040cc3f98889a489133f5c89f2e23f83e86fce0c289/43633706440/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -888,11 +888,11 @@
   },
   "cataluna": {
    "fuente_territorial": {
-    "run_id": "40946901555",
+    "run_id": "43633716021",
     "package_sha256": "045cbc8f075163bc60451b5a49fffe86563baf9d2a48be8aa89c0480cd61abce",
-    "artifact_sha256": "48f48f116aa80838cc5a9c1a6b3794c807c52b65a3217b0c7a821016b65404f8",
-    "territorial_identity_sha256": "3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25",
-    "receipt_path": "territorios/aut09/evidencia/fuentes_territoriales/2025/3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25/40946901555/receipt.json",
+    "artifact_sha256": "e025fc62a2030716af208e281be17dd42dbc93281aaa673c3674537bf4202f28",
+    "territorial_identity_sha256": "699b33dca6a72d49f9f0057e175ba26c44d751ad0543a96af6624bc7fb99790e",
+    "receipt_path": "territorios/aut09/evidencia/fuentes_territoriales/2025/699b33dca6a72d49f9f0057e175ba26c44d751ad0543a96af6624bc7fb99790e/43633716021/receipt.json",
     "population_year": 2024,
     "section_year": 2024
    },
