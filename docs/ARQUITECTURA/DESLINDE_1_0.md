@@ -1,17 +1,20 @@
 <!--
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1
-NOMBRE DE VERSIÓN: Definición formal de Deslinde 1.0 · semilla por código oficial (definición 1.0.1)
-FECHA: 2026-11-11
-ESTADO: candidato (documento; describe el código de main ee8e776 más T-265)
-CAMBIOS: 1.0.1 (T-265, D-90) — la semilla pública sale del código oficial del territorio en la tabla maestra
+VERSIÓN: 1.0.2
+NOMBRE DE VERSIÓN: Definición formal de Deslinde 1.0 · paquete independiente (definición 1.0.1)
+FECHA: 2026-11-14
+ESTADO: candidato (documento; describe el código de main ee8e776 más T-265 y T-257)
+CAMBIOS: 1.0.2 (T-257, D-88) — §8 nuevo: el núcleo está en el paquete independiente `paquetes/deslinde` (fuente única;
+  `ddd_motor2` lo importa). La definición (reglas, D8, semilla, candidatos) no cambia: mismos mapas bit a bit. Las rutas
+  `ddd_motor2/<módulo>.py` citadas abajo son hoy `paquetes/deslinde/src/deslinde/<módulo>.py` (tabla en §8).
+  1.0.1 (T-265, D-90) — la semilla pública sale del código oficial del territorio en la tabla maestra
   (`configuracion/notacion_territorial.csv`, con su sha256), no del nombre de la carpeta: deja de ser «candidato a
   1.1» y entra en la definición 1.0.1 (§4, punto abierto 2 cerrado). Cambio único y deliberado de los mapas; su
   salida es la nueva referencia de «bit a bit». Reglas, elección D8 y candidatos no cambian.
   1.0.0 — fichero nuevo (T-255).
 MOTIVO: D-84 (nombre y composición de Deslinde 1.0) y D-86 (2): definición formal publicada de las reglas, la elección
   D8 y la semilla, sacada solo del código y de las decisiones registradas.
-ANTERIOR: legacy/docs/ARQUITECTURA/DESLINDE_1_0_v1.0.0_20261111.md
+ANTERIOR: legacy/docs/ARQUITECTURA/DESLINDE_1_0_v1.0.1_20261114.md
 -->
 
 # Deslinde 1.0 — delimitación reproducible de distritos uninominales
@@ -210,6 +213,43 @@ ganador nunca es peor que la suya (aserción `competicion.py:356`). Sin ningún 
   no corre en CI (`ACEPTACION_MOTOR2.md`, «Límite conocido»).
 - Con la función A el vigente no compite (`produccion.generadores_por_defecto`, l. 236-243).
 - El criterio (e) «mismo mapa con id viejo y nuevo» (D-60) está en `skip` hasta el corte.
+
+## 8. Paquete independiente (T-257, D-88)
+
+Desde T-257 el núcleo de Deslinde es el paquete Python `deslinde` 1.0.0 en `paquetes/deslinde/` (pyproject propio,
+Apache-2.0, `CITATION.cff`, `requirements-deslinde.lock`, `MAPAS.json`). Es la **fuente única**: `ddd_motor2.<módulo>` de
+los módulos movidos es el mismo objeto que `deslinde.<módulo>` (`ddd_motor2/__init__.py`, `MOVIDOS`).
+
+| Antes (`ddd_motor2/`) | Ahora (`paquetes/deslinde/src/deslinde/`) |
+|---|---|
+| `reglas/*`, `adaptadores`, `calidad`, `exhaustivo`, `excepcion_d66`, `competicion`, `naturalidad_clave`, `informe` | mismos nombres |
+| `semilla` (fórmula) | `semilla` (+ `territorio`: resolutor del código oficial) |
+| `naturalidad_competicion.cadena`, `arbol_ponderado`, `huella_plan` | `ponderado` |
+| `generadores.piezas_finas`, `reparar`, `Ponderado`, lógica de `Vigente`; `produccion.CanonicoDelRun` | `candidatos` |
+| `ddd_core/population_cap_exemptions.py` (leído) | `exenciones` (copia literal vigilada por test) |
+| — | `tablas`, `contrato`, `api`, `__main__` |
+
+Siguen en `ddd_motor2/`: lo que depende del repo — `produccion` (P30 de la 00), `vigente` (mapa del visor),
+`generadores` (Canonico/GerryChain de la batería y el Vigente del visor como subclase), `competir`, `competidor`, el
+laboratorio y los informes de naturalidad, y los registros del repo: `semilla.py` (resolutor con la tabla maestra,
+`ddd_core.territorio_ids`) y `tablas_repo.py` (las tres tablas de naturalidad versionadas).
+
+**Sin el repo.** El código oficial lo da quien llama (`territorio="NAC22"`) o un resolutor registrado; la semilla y su
+fórmula no cambian, pero sin tabla maestra `huella_resultado` no lleva su sha256 (los candidatos y el ganador son los
+mismos). Las tablas de naturalidad las aporta quien llama (`deslinde.tablas.desde_ficheros`) y `DESLINDE.json` registra
+la ruta y el sha256 de cada una; el paquete no trae datos de terceros. El vigente es opcional (D-84). El contrato debe
+venir materializado. `PYTHONHASHSEED=0` es obligatorio **y efectivo**: con `python -I` o `-E` la variable se ignora y
+las cadenas cambian (T-257 lo vio en nac26); la CLI sale con 6.
+
+**Equivalencia (T-257).** Batería real con 10 cadenas y D8, `main` b5bd69e frente a la rama: nac22, nac26, aut17 y
+nac35 (contrato 2025 con la exención de techo 35-G01 del de 2026) dan la misma `huella_resultado` (ganador, semillas,
+planes y sha256 de las composiciones de todos los candidatos). El paquete aislado (sin `ddd_core` ni `ddd_motor2`
+cargados) da en nac26 los mismos 12 candidatos. En CI: `tests/test_t257_paquete_deslinde.py` y `HUELLAS_FIJAS` de
+`tests/test_motor2_aceptacion.py`.
+
+**Mapas del depósito (D-88).** `paquetes/deslinde/MAPAS.json` lista los mapas regenerados con Deslinde 1.0.0 (composición
+y GeoJSON con sha256, `huella_resultado`, semilla pública); vacío hasta que se regeneren. El depósito Zenodo «Deslinde
+1.0.0 y mapas» es una nueva versión del concepto 10.5281/zenodo.24093967; su DOI lo emite Zenodo con la Release.
 
 ## Puntos abiertos
 

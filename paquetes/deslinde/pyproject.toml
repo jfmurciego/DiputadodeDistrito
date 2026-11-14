@@ -1,0 +1,33 @@
+# PROYECTO: Diputado de Distrito · Deslinde 1.0.0 (T-257, D-88). VERSIÓN: 1.0.0 · FECHA: 2026-11-14.
+# ANTERIOR: ninguna (fichero nuevo). Rangos compatibles; la reproducibilidad bit a bit solo con requirements-deslinde.lock.
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deslinde"
+version = "1.0.0"
+description = "Deslinde: delimitación reproducible de distritos uninominales desde secciones censales"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [{name = "Jesus Murciego"}]
+requires-python = ">=3.11"
+dependencies = [
+    "PyYAML>=6.0",
+    "gerrychain==1.0.0",
+    "networkx>=3.6,<3.7",
+    "rustworkx>=0.18,<0.19",
+    "scipy>=1.17",
+    "geopandas>=1.1,<1.2",
+]
+keywords = ["redistricting", "distritos uninominales", "GerryChain", "ReCom", "secciones censales"]
+
+[project.urls]
+Repository = "https://github.com/jfmurciego/DiputadodeDistrito"
+Documentation = "https://github.com/jfmurciego/DiputadodeDistrito/blob/main/docs/ARQUITECTURA/DESLINDE_1_0.md"
+
+[project.scripts]
+deslinde = "deslinde.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

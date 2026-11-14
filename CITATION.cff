@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: >-
   Si usas este software o los mapas que produce, cítalo con los metadatos de
   abajo. Para un mapa concreto, cita el DOI de su versión en Zenodo; el DOI de concepto es la serie de versiones de mapa, no la cita del proyecto entero.
-title: "Diputado de Distrito: motor reproducible de distritos uninominales"
+title: "Deslinde 1.0.0 y mapas (Diputado de Distrito): delimitación reproducible de distritos uninominales"
 type: software
 authors:
   - family-names: "Murciego"
@@ -12,7 +12,7 @@ authors:
 identifiers:
   - type: doi
     value: "10.5281/zenodo.24093967"
-    description: "DOI de CONCEPTO en Zenodo: la serie de versiones de MAPA publicadas (resuelve a la última); hoy solo Congreso Huesca 1.0.0. No es la cita del proyecto entero ni del motor."
+    description: "DOI de CONCEPTO en Zenodo: la serie de versiones (resuelve a la última). La siguiente versión es el depósito único «Deslinde 1.0.0 y mapas» (D-88): el paquete Deslinde y sus mapas; su DOI de versión lo emite Zenodo al publicar la Release."
   - type: doi
     value: "10.5281/zenodo.24093968"
     description: "DOI de VERSIÓN en Zenodo: mapa Congreso Huesca 1.0.0 (mapa-congreso_huesca-v1.0.0, 9-11-2026). El depósito contiene el código fuente del repositorio, no el paquete firmado .tar.gz."
@@ -29,6 +29,9 @@ keywords:
   - secciones censales
   - España
 abstract: >-
-  Motor modular (M01–M08) que construye, optimiza, valida y audita distritos
-  uninominales a partir de secciones censales oficiales del INE. Los mapas
-  producidos son un ejercicio de investigación y no tienen valor oficial.
+  Deslinde 1.0.0 delimita distritos uninominales de forma reproducible a partir
+  de secciones censales oficiales del INE: trazado canónico, 10 cadenas ReCom
+  ponderado, elección D8 y mapa vigente como candidato opcional. Es el núcleo
+  del motor modular M01–M08 de Diputado de Distrito y se publica como paquete
+  independiente (paquetes/deslinde) junto con los mapas que produce, vinculados
+  por sha256. Los mapas son un ejercicio de investigación y no tienen valor oficial.
