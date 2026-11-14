@@ -26,7 +26,7 @@ def _build(root: Path, **extra) -> dict:
                     "codigo_seccion", "codigo_mesa", "partido", "votos"])
         w.writerow(["16", "20", "69", "1", "1", "A", "P1", "7"])
     out = root / "package"
-    adapter.build(source, out, territory_id="congreso_guipuzcoa", election_id="congreso_guipuzcoa_2026-11-29",
+    adapter.build(source, out, territory_id="nac20", election_id="nac20_2026-11-29",
                   election_date="2026-11-29", edition="2023", expected_sha256=adapter.sha256(source),
                   expected_ccaa="16", expected_provinces=1, expected_sections=1, expected_polling_stations=1,
                   expected_candidate_votes=7, source_url="https://example.invalid/s.csv", publisher="Minsait", **extra)
