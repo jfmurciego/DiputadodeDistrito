@@ -2,23 +2,27 @@
 """Localiza un artefacto acreditado en GitHub Actions o, si caducó, en su release draft.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Localización durable de artefactos acreditados
-FECHA: 2026-10-28
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Localización durable de artefactos acreditados (R2 primero)
+FECHA: 2026-11-14
 ESTADO: candidato
 QUÉ HACE: dado run, nombre y SHA-256 acreditados, devuelve el artefacto vivo de Actions o su
 copia en la release draft `almacen-m06-<territorio>-<run>` (asset `<nombre>-<id>.zip`), y
 opcionalmente lo descarga y lo extrae. Solo acepta bytes cuyo SHA-256 coincide.
-CAMBIOS: herramienta nueva.
+CAMBIOS: 1.1.0 (T-302): lee PRIMERO de R2 (arc-p/m06/, índice orchestracion/almacen_m06_r2.json, sha256 verificado)
+y, si la entrada no existe, R2 no está configurado o sus bytes no valen, cae a Actions y a la release draft como
+antes («R2 primero» vale dentro de esta herramienta; la puerta solo la invoca con el artefacto de Actions
+caducado o ausente). Un objeto de R2 alterado nunca se acepta. 1.0.0: herramienta nueva.
 MOTIVO: los artefactos de Actions caducan a los 14–30 días y los M06 certificados dejaban de
 ser reutilizables aunque sus bytes estuvieran conservados en releases.
-ANTERIOR: ninguno (herramienta nueva).
+ANTERIOR: legacy/herramientas/localizar_artefacto_durable_v1.0.0_20261114.py
 """
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -31,8 +35,11 @@ RELEASE_PREFIX = "almacen-m06-"
 EXIT_NOT_FOUND = 44
 EXIT_DIGEST = 45
 
+INDICE_R2 = Path(__file__).resolve().parents[1] / "orchestracion" / "almacen_m06_r2.json"
+
 Api = Callable[[str], object]
 Download = Callable[[str, Path, bool], None]
+R2Download = Callable[[str, Path], None]
 
 
 class LocationError(RuntimeError):
@@ -61,6 +68,23 @@ def gh_download(path: str, target: Path, release_asset: bool) -> None:
         subprocess.run(["gh", "api", *headers, path], check=True, stdout=stream)
 
 
+def r2_configurado() -> bool:
+    return bool(os.environ.get("R2_BUCKET") and os.environ.get("R2_ACCOUNT_ID"))
+
+
+def r2_download(clave: str, target: Path) -> None:
+    ep = f"https://{os.environ['R2_ACCOUNT_ID']}.r2.cloudflarestorage.com"
+    subprocess.run(["aws", "s3", "cp", f"s3://{os.environ['R2_BUCKET']}/{clave}", str(target),
+                    "--endpoint-url", ep, "--only-show-errors"], check=True)
+
+
+def cargar_indice(path: Path = INDICE_R2) -> dict:
+    try:
+        return json.loads(path.read_text(encoding="utf-8")).get("objetos") or {}
+    except (OSError, ValueError):
+        return {}
+
+
 def file_sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -69,7 +93,28 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def locate(repo: str, run_id: int, name: str, sha256: str | None, *, api: Api = gh_api) -> dict:
+def locate(repo: str, run_id: int, name: str, sha256: str | None, *, api: Api = gh_api,
+           r2_index: dict | None = None) -> dict:
+    """Como ``_locate`` pero, si ``r2_index`` trae una entrada del artefacto con el SHA-256 acreditado, la devuelve
+    primero (source ``r2``) con el resto de fuentes como ``fallback``. Sin índice o sin entrada: Actions y release."""
+    expected = _sha(sha256)
+    for clave, e in sorted((r2_index or {}).items()):
+        if str(e.get("run_id")) != str(run_id) or e.get("artifact_name") != name:
+            continue
+        digest = str(e.get("sha256") or "").lower()
+        if not re.fullmatch(r"[0-9a-f]{64}", digest) or (expected is not None and digest != expected):
+            continue
+        try:
+            fallback = _locate(repo, run_id, name, digest, api=api)
+        except LocationError:
+            fallback = None
+        return {"schema": SCHEMA, "source": "r2", "run_id": run_id, "artifact_name": name,
+                "artifact_id": e.get("artifact_id"), "artifact_sha256": digest,
+                "r2_key": clave, "download_path": clave, "fallback": fallback}
+    return _locate(repo, run_id, name, sha256, api=api)
+
+
+def _locate(repo: str, run_id: int, name: str, sha256: str | None, *, api: Api = gh_api) -> dict:
     """Devuelve la ubicación verificada por metadatos; no descarga nada.
 
     Sin ``sha256`` (p. ej. la auditoría que acompaña a un M06) se adopta el digest que
@@ -133,15 +178,35 @@ def _extract(archive: Path, target: Path) -> None:
         zf.extractall(target)
 
 
-def fetch(location: dict, out_dir: Path, *, extract: bool, download: Download = gh_download) -> dict:
-    """Descarga el zip ubicado, comprueba su SHA-256 y, si se pide, lo extrae."""
+def fetch(location: dict, out_dir: Path, *, extract: bool, download: Download = gh_download,
+          r2: R2Download = r2_download) -> dict:
+    """Descarga el zip ubicado, comprueba su SHA-256 y, si se pide, lo extrae.
+
+    Un objeto de R2 ausente o alterado se descarta (se avisa) y se usa el respaldo (Actions o release), que se
+    verifica igual; sin respaldo válido, error."""
     out_dir.mkdir(parents=True, exist_ok=True)
     archive = out_dir / f"{location['artifact_name']}.zip"
-    download(location["download_path"], archive, location["source"] == "release")
-    observed = file_sha256(archive)
-    if observed != location["artifact_sha256"]:
-        archive.unlink(missing_ok=True)
-        raise LocationError(EXIT_DIGEST, f"Bytes descargados con SHA-256 distinto: {observed}")
+    if location["source"] == "r2":
+        fallback = location.get("fallback")
+        try:
+            archive.unlink(missing_ok=True)
+            r2(location["r2_key"], archive)
+            observed = file_sha256(archive)
+            if observed != location["artifact_sha256"]:
+                raise LocationError(EXIT_DIGEST, f"Objeto de R2 con SHA-256 distinto: {observed}")
+        except (LocationError, subprocess.CalledProcessError, OSError) as exc:
+            archive.unlink(missing_ok=True)
+            if not fallback:
+                raise exc if isinstance(exc, LocationError) else LocationError(
+                    EXIT_NOT_FOUND, f"Objeto de R2 no disponible: {location['r2_key']}") from exc
+            print(f"::warning::R2 descartado ({exc}); se usa {fallback['source']}", file=sys.stderr)
+            return fetch(fallback, out_dir, extract=extract, download=download, r2=r2)
+    else:
+        download(location["download_path"], archive, location["source"] == "release")
+        observed = file_sha256(archive)
+        if observed != location["artifact_sha256"]:
+            archive.unlink(missing_ok=True)
+            raise LocationError(EXIT_DIGEST, f"Bytes descargados con SHA-256 distinto: {observed}")
     result = dict(location, archive=str(archive))
     if extract:
         _extract(archive, out_dir)
@@ -161,12 +226,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--extract", action="store_true", help="extraer el zip como gh run download")
     ns = ap.parse_args(argv)
     try:
-        result = locate(ns.repo, ns.run_id, ns.name, ns.sha256)
+        result = locate(ns.repo, ns.run_id, ns.name, ns.sha256,
+                        r2_index=cargar_indice() if r2_configurado() else None)
         if ns.out_dir:
             result = fetch(result, ns.out_dir, extract=ns.extract)
     except LocationError as exc:
         print(f"::error::{exc}", file=sys.stderr)
         return exc.code
+    result.pop("fallback", None)
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))
     return 0
 

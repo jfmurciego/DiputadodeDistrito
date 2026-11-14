@@ -1,0 +1,5 @@
+{
+  "schema": "ddd.almacen-m06-r2/1.0",
+  "nota": "Índice de T-302: objetos de arc-p/m06/ en R2 con sha256 y origen. Vacío hasta que el Operador lance el archivado y se fusione ARCHIVO_ALMACEN_M06.json con `python herramientas/almacen_m06_r2.py indexar <fichero>`. Mientras esté vacío, localizar_artefacto_durable usa Actions y la release.",
+  "objetos": {}
+}
