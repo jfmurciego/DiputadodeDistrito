@@ -1,7 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.14.1
+# VERSIÓN: 3.14.2
 # FECHA: 2026-11-12
+# CAMBIOS 3.14.2: materializar V3 (/v3/) con activos publicados y promocionar su portada; V1 y V2 intactas.
+# MOTIVO 3.14.2: migración a visor integrado V3 con niveles hasta sección y filtros; conservar rollback.
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.14.1_20261112.yml
 # CAMBIOS 3.14.1: portada V2 en / y V1 conservada en /v1/; el registro y las capas permanecen intactos.
 # MOTIVO 3.14.1: utilizar la V2 como entrada principal sin alterar el contrato P50 ni la V1.
 # ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.14.0_20261112.yml
@@ -441,7 +444,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard /tmp/site-candidate/nacional /tmp/site-candidate/docs /tmp/site-candidate/v2
+          rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard /tmp/site-candidate/nacional /tmp/site-candidate/docs /tmp/site-candidate/v2 /tmp/site-candidate/v3
           cp visor/index.html visor/app.js visor/escenarios.js visor/styles.css /tmp/site-candidate/
           cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/
           cp dashboard/hemiciclo.html dashboard/hemiciclo.json /tmp/site-candidate/dashboard/
@@ -453,6 +456,7 @@ jobs:
           python herramientas/generar_datos_abiertos.py --registro /tmp/publicaciones_visor.candidate.json --materializar /tmp/site-candidate/datos
           cp visor/nacional/index.html visor/nacional/nacional.js visor/nacional/styles.css /tmp/site-candidate/nacional/
           cp -R visor/v2/. /tmp/site-candidate/v2/
+          cp visor/v3/index.html visor/v3/v3.css visor/v3/v3.js visor/v3/calendario.json /tmp/site-candidate/v3/
           rm -f /tmp/site-candidate/v2/README.md /tmp/site-candidate/v2/construir_vista_previa.py
           cp web/textos.md /tmp/site-candidate/v2/textos.md
           sed -i 's#data-textos="../../web/textos.md"#data-textos="textos.md"#' /tmp/site-candidate/v2/index.html
@@ -499,6 +503,14 @@ jobs:
           set -euo pipefail
           python herramientas/preparar_portada_v2.py --site=/tmp/site-candidate
 
+      - name: Promocionar portada pública V3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/preparar_portada_v3.py --site=/tmp/site-candidate
+          node --check /tmp/site-candidate/v3/v3.js
+          python -m unittest discover -s tests -p test_preparar_portada_v3.py
+
       - name: Validar sitio candidato completo
         shell: bash
         run: |
@@ -510,7 +522,12 @@ jobs:
           test -s /tmp/site-candidate/nacional/index.html
           node --check /tmp/site-candidate/nacional/nacional.js
           test -s /tmp/site-candidate/index.html
-          grep -q 'url=v2/' /tmp/site-candidate/index.html
+          grep -q 'url=v3/' /tmp/site-candidate/index.html
+          test -s /tmp/site-candidate/v3/index.html
+          test -s /tmp/site-candidate/v3/v3.css
+          test -s /tmp/site-candidate/v3/v3.js
+          test -s /tmp/site-candidate/v3/calendario.json
+          node --check /tmp/site-candidate/v3/v3.js
           test -s /tmp/site-candidate/v1/index.html
           grep -q '<base href="../">' /tmp/site-candidate/v1/index.html
           test -s /tmp/site-candidate/v2/index.html

@@ -3,8 +3,11 @@
 """Catálogo de procedencia único, derivado de los registros existentes (T-74).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.3.1 · FECHA: 2026-11-10 · ESTADO: candidato
-CAMBIOS: 1.3.1 (T-203): la constante viene de eleccion_por_defecto (ligero), no del registro (pyproj).
+VERSIÓN: 1.4.1 · FECHA: 2026-11-14 · ESTADO: candidato
+CAMBIOS: 1.4.1 (T-203): _nuevo captura solo IdTerritorioDesconocido; «eleccion_declarada» distingue election_date del registro de la elección por defecto.
+  1.4.0 (T-203): cada producto lleva «eleccion» (election_date, por defecto 2023-07-23); la fuente (catalogo_preparacion, ids nuevos aut/nac tras T-220) se busca
+  por id nuevo o viejo (resolver_id), antes las 71 fuentes salían vacías; ids de salida sin cambio.
+  1.3.1 (T-203): la constante viene de eleccion_por_defecto (ligero), no del registro (pyproj).
   1.3.0 (T-203): los avisos ORIGEN_M06/M08_NO_PUBLICADO y RESULTADOS_M08_NO_PUBLICADO comparan por (territorio, elección), no solo por territorio;
   el literal 2023-07-23 pasa a ELECCION_POR_DEFECTO (registro_publicaciones_visor). Entradas sin election_date = 2023: salida idéntica.
   1.2.0 (T-201): «vigente» se calcula por (territorio, tipo, elección), no por el run_id mayor entre elecciones; sin election_date, 2023-07-23.
@@ -12,7 +15,7 @@ CAMBIOS: 1.3.1 (T-203): la constante viene de eleccion_por_defecto (ligero), no 
   1.0.0: fichero nuevo.
 MOTIVO: la procedencia estaba repartida en cinco registros; este índice la junta por territorio y producto sin migrar
   a sus escritores.
-ANTERIOR: legacy/herramientas/catalogo_procedencia_v1.3.0_20261110.py
+ANTERIOR: legacy/herramientas/catalogo_procedencia_v1.4.0_20261114.py
 QUÉ HACE: lee (solo lectura) orchestracion/publicaciones_visor.json, orchestracion/archivo_r2.json,
   datos_abiertos/INDEX.json, orchestracion/productos_publicos.json, fuentes/catalogo_oficial.yaml,
   configuracion/catalogo_preparacion.yaml, configuracion/publicaciones.yaml (DOI) y los MANIFEST de datos/composicion y
@@ -38,6 +41,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from herramientas.eleccion_por_defecto import ELECCION_POR_DEFECTO  # noqa: E402
+from ddd_core.territorio_ids import IdTerritorioDesconocido, resolver_id  # noqa: E402
 
 SALIDA = "orchestracion/catalogo_procedencia.json"
 SCHEMA = "ddd.catalogo-procedencia/1.0"
@@ -101,6 +105,13 @@ def _fuentes(preparacion: dict | None) -> dict:
     return out
 
 
+def _nuevo(tid: str) -> str:
+    try:
+        return resolver_id(tid)
+    except IdTerritorioDesconocido:  # solo el id desconocido; cualquier otro error debe verse
+        return tid
+
+
 def generar(raiz: Path = ROOT) -> dict:
     d = {k: _leer(raiz, v) for k, v in ENTRADAS.items()}
     visor = d["visor"] or {"products": [], "ensembles": []}
@@ -115,7 +126,7 @@ def generar(raiz: Path = ROOT) -> dict:
 
     def ter(tid: str) -> dict:
         if tid not in territorios:
-            f = fuentes.get(tid, {})
+            f = fuentes.get(tid) or fuentes.get(_nuevo(tid)) or {}
             territorios[tid] = {
                 "fuente_territorial": f.get("territorial"),
                 "fuente_electoral": f.get("electoral"),
@@ -131,6 +142,9 @@ def generar(raiz: Path = ROOT) -> dict:
     # Productos del visor (M06, M08, estáticos): el vigente es el run más reciente por territorio y tipo.
     def _eleccion(p: dict) -> str:
         return str(p.get("election_date") or ELECCION_POR_DEFECTO)
+
+    def _declarada(p: dict) -> bool:
+        return bool(p.get("election_date"))
 
     vigente: dict[tuple, int] = {}
     for p in visor.get("products", []):
@@ -149,6 +163,8 @@ def generar(raiz: Path = ROOT) -> dict:
         ter(tid)["productos"].append({
             "producto": producto,
             "id": p["id"],
+            "eleccion": _eleccion(p),
+            "eleccion_declarada": _declarada(p),
             "run_id": str(run) if run else None,
             "vigente": bool(run) and int(run) == vigente.get((tid, kind, _eleccion(p))),
             "sha256": p.get("sha256"),
@@ -160,6 +176,8 @@ def generar(raiz: Path = ROOT) -> dict:
         ter(e["territory_id"])["productos"].append({
             "producto": "ensemble",
             "id": e["id"],
+            "eleccion": _eleccion(e),
+            "eleccion_declarada": _declarada(e),
             "run_id": None,
             "vigente": True,
             "sha256": e.get("sha256"),
@@ -172,7 +190,7 @@ def generar(raiz: Path = ROOT) -> dict:
     # Productos derivados versionados en git: composición, resultados ligeros y datos abiertos.
     for tid, c in sorted(((d["composicion"] or {}).get("territorios") or {}).items()):
         ter(tid)["productos"].append({
-            "producto": "composicion", "id": f"composicion-{tid}", "run_id": str(c.get("run_id")), "vigente": True,
+            "producto": "composicion", "id": f"composicion-{tid}", "eleccion": _eleccion(c), "eleccion_declarada": _declarada(c), "run_id": str(c.get("run_id")), "vigente": True,
             "sha256": c.get("sha256_csv"), "copia_git": {"blob_sha": None, "ruta": f"datos/composicion/{tid}.csv"},
             "copias_r2": [], "publicacion": "DATOS_ABIERTOS", "origen_sha256": c.get("sha256_m06"),
         })
@@ -181,7 +199,7 @@ def generar(raiz: Path = ROOT) -> dict:
                  f"sha256_m06 {c.get('sha256_m06')} no es un canonical_m06 del visor")
     for tid, r in sorted(((d["resultados"] or {}).get("territorios") or {}).items()):
         ter(tid)["productos"].append({
-            "producto": "resultados", "id": f"resultados-{tid}", "run_id": str(r.get("run_id")), "vigente": True,
+            "producto": "resultados", "id": f"resultados-{tid}", "eleccion": _eleccion(r), "eleccion_declarada": _declarada(r), "run_id": str(r.get("run_id")), "vigente": True,
             "sha256": r.get("sha256_csv"), "copia_git": {"blob_sha": None, "ruta": f"datos/resultados/{tid}.csv"},
             "copias_r2": [], "publicacion": "DATOS_ABIERTOS", "origen_sha256": r.get("sha256_origen"),
         })
@@ -191,7 +209,7 @@ def generar(raiz: Path = ROOT) -> dict:
     for tid, x in sorted(((d["datos_abiertos"] or {}).get("territorios") or {}).items()):
         g = x.get("geojson") or {}
         ter(tid)["productos"].append({
-            "producto": "datos_abiertos", "id": f"datos-abiertos-{tid}", "run_id": str(x.get("run_id")),
+            "producto": "datos_abiertos", "id": f"datos-abiertos-{tid}", "eleccion": _eleccion(x), "eleccion_declarada": _declarada(x), "run_id": str(x.get("run_id")),
             "vigente": True, "sha256": g.get("sha256"),
             "copia_git": {"blob_sha": x.get("blob_sha"), "ruta": f"datos_abiertos/{g.get('ruta')}"},
             "copias_r2": [], "publicacion": "DATOS_ABIERTOS", "origen_sha256": x.get("sha256_origen"),
