@@ -5,10 +5,10 @@
   "territory_name": "Aragón",
   "edition": "2025",
   "run_id": 43624860974,
-  "source_commit": "d7f6a78b15a8192b2760c13175b9df59c0f30805",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "c712eb4819e22063f4213f6d28aa84af1db6fd9b",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "SOURCE_MATERIALIZATION",
   "source": {
     "run_id": 43624860974,
     "artifact_name": "ddd-source-package-aut02-2025-43624860974",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La fuente ya acreditada no pudo materializarse para la evaluación; requiere diagnóstico técnico."
   }
 }
