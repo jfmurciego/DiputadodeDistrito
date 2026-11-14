@@ -3,10 +3,11 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba del catálogo de procedencia (T-74)
-VERSIÓN: 1.2.0 · FECHA: 2026-11-14 · ESTADO: candidato
-CAMBIOS: 1.2.0 (T-203): «eleccion» por producto y fuente hallada por id nuevo (aut/nac).
+VERSIÓN: 1.2.1 · FECHA: 2026-11-14 · ESTADO: candidato
+CAMBIOS: 1.2.1 (T-203): en el repositorio, 0 fuentes vacías con ids nuevos y «eleccion» en todos los productos.
+  1.2.0 (T-203): «eleccion» por producto y fuente hallada por id nuevo (aut/nac).
   1.1.0 (T-203): aviso ORIGEN_M06_NO_PUBLICADO por (territorio, elección).
-ANTERIOR: legacy/tests/test_catalogo_procedencia_v1.1.0_20261114.py
+ANTERIOR: legacy/tests/test_catalogo_procedencia_v1.2.0_20261114.py
 FUNCIÓN: registros sintéticos: producto completo, M08 publicado sin sha256 (ERROR), composición de un M06 no
   publicado (AVISO), determinismo; y en el repositorio, catálogo versionado igual al regenerado y sin errores.
 """
@@ -118,6 +119,14 @@ class ProcedenciaPorEleccion(unittest.TestCase):
             self.assertEqual({p["producto"]: p["eleccion"] for p in t["productos"]},
                              {"M06": "2023-07-23", "M08": "2019-11-10"})
             self.assertEqual(t["fuente_territorial"]["run_id"], "7")
+
+
+    def test_repositorio_fuentes_y_eleccion_completas(self):
+        cat = cp.generar(ROOT)
+        vacias = [t for t, x in cat["territorios"].items()
+                  if any(p["publicacion"] == "PUBLICABLE" for p in x["productos"]) and not x["fuente_territorial"]]
+        self.assertEqual(vacias, [])
+        self.assertTrue(all(p.get("eleccion") for x in cat["territorios"].values() for p in x["productos"]))
 
 
 if __name__ == "__main__":

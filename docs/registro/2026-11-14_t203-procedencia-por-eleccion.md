@@ -4,3 +4,4 @@
 - **Cambio:** `catalogo_procedencia.py` 1.4.0: campo `eleccion` (election_date; por defecto 2023-07-23) en cada producto y búsqueda de la fuente por id nuevo o viejo (`resolver_id`). Ids de salida sin cambio (lecturas viejas intactas). Catálogo regenerado (avisos 300 → 158).
 - **Pruebas:** `tests.test_catalogo_procedencia` (nuevo caso por elección y por id nuevo).
 - **Riesgos:** ninguno en el motor ni huellas; no toca workflows ni contratos. T-206 queda aparte.
+- **Revisión (1.4.1):** `_nuevo` captura solo `IdTerritorioDesconocido`; se añade `eleccion_declarada` (la elección por defecto 2023-07-23 es el contrato de T-201 para entradas sin `election_date`, que hoy son todas) y un test sobre el repositorio (0 fuentes vacías, `eleccion` en todo producto).
