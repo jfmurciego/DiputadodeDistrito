@@ -13,3 +13,6 @@ visor/v2/datos/rotacion.json
 visor/v2/datos/territorial.json
 inputs/reconstruido/
 capturas_t119/
+
+# T-281: paquete de propiedad intelectual (el ZIP pesa ~50 MB; solo se versionan manifiesto, hashes y README)
+propiedad_intelectual/*.zip
