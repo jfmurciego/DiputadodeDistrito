@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# CAMBIOS 2026-11-14 (T-291, D-65): --section-equivalence declara en el contrato la tabla gobernada de equivalencia de
+#   seccionados (section_reconciliation.equivalence_table: ruta relativa al repo, sha256 y columnas) que consume M07 7.4.0.
+#   Sin el argumento, el contrato no cambia.
+# ANTERIOR (d): legacy/herramientas/adaptador_minsait_csv_pre_equivalencia_20261114.py
 # CAMBIOS 2026-10-30: --source-class y --adapter-label para fuentes oficiales convertidas al mismo CSV
 #   largo por mesa (Infoelectoral, Ministerio del Interior); por defecto, provisional_mirror/minsait_csv/1.1.
 # ANTERIOR (c): legacy/herramientas/adaptador_minsait_csv_pre_source_class_20261030.py
@@ -15,6 +19,9 @@ import json
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+EQUIVALENCE_REQUIRED_COLUMNS = {"tipo", "peso_poblacion"}
 
 
 def sha256(path: Path) -> str:
@@ -36,6 +43,21 @@ def _code(value: object, width: int) -> str:
     if not text.isdigit():
         raise ValueError(f"Código territorial no numérico: {value!r}")
     return text.zfill(width)
+
+
+def section_equivalence_record(path: Path, *, root: Path = REPO_ROOT) -> dict[str, str]:
+    """Registro equivalence_table de una tabla versionada en el repo: las dos primeras columnas son origen y destino."""
+    resolved = (path if path.is_absolute() else root / path).resolve()
+    try:
+        relative = resolved.relative_to(root.resolve()).as_posix()
+    except ValueError as exc:
+        raise ValueError(f"La tabla de equivalencia debe estar versionada en el repositorio: {path}") from exc
+    with resolved.open(encoding="utf-8", newline="") as fh:
+        header = next(csv.reader(fh))
+    if len(header) < 2 or not EQUIVALENCE_REQUIRED_COLUMNS <= set(header):
+        raise ValueError(f"Tabla de equivalencia sin columnas origen/destino/tipo/peso_poblacion: {header}")
+    return {"path": relative, "sha256": sha256(resolved), "source_column": header[0],
+            "target_column": header[1], "decision": "D-65"}
 
 
 def build(
@@ -63,6 +85,7 @@ def build(
     retrieved_at: str = "",
     source_class: str = "provisional_mirror",
     adapter_label: str = "minsait_csv/1.1",
+    section_equivalence: Path | None = None,
 ) -> dict:
     retrieved_at = retrieved_at or datetime.now(timezone.utc).isoformat()
     actual_sha = sha256(source)
@@ -257,6 +280,10 @@ def build(
             "source_sha256": actual_sha,
         },
     }
+    if section_equivalence:
+        contract_payload["section_reconciliation"] = {
+            "equivalence_table": section_equivalence_record(section_equivalence)
+        }
     contract.write_text(
         json.dumps(contract_payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -335,6 +362,9 @@ def main() -> None:
     ap.add_argument("--expected-delta-definitive-minus-provisional", type=int)
     ap.add_argument("--production-eligible", action="store_true",
                     help="sólo con owner_production_exception validada por el resolver del contrato")
+    ap.add_argument("--section-equivalence", type=Path, default=None,
+                    help="tabla de equivalencia de seccionados versionada (D-65), p. ej. "
+                         "configuracion/equivalencia_seccionado_ine_2026_a_2023.csv")
     args = ap.parse_args()
     print(
         json.dumps(
@@ -362,6 +392,7 @@ def main() -> None:
                 retrieved_at=args.retrieved_at,
                 source_class=args.source_class,
                 adapter_label=args.adapter_label,
+                section_equivalence=args.section_equivalence,
             ),
             ensure_ascii=False,
             indent=2,
