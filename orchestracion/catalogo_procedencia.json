@@ -888,11 +888,11 @@
   },
   "cataluna": {
    "fuente_territorial": {
-    "run_id": "40946901555",
+    "run_id": "43640071031",
     "package_sha256": "045cbc8f075163bc60451b5a49fffe86563baf9d2a48be8aa89c0480cd61abce",
-    "artifact_sha256": "48f48f116aa80838cc5a9c1a6b3794c807c52b65a3217b0c7a821016b65404f8",
-    "territorial_identity_sha256": "3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25",
-    "receipt_path": "territorios/aut09/evidencia/fuentes_territoriales/2025/3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25/40946901555/receipt.json",
+    "artifact_sha256": "a8b36f32b65cef0b5416e67e2605cebc4313c0c0e73be444334d5bca04bdd6ff",
+    "territorial_identity_sha256": "699b33dca6a72d49f9f0057e175ba26c44d751ad0543a96af6624bc7fb99790e",
+    "receipt_path": "territorios/aut09/evidencia/fuentes_territoriales/2025/699b33dca6a72d49f9f0057e175ba26c44d751ad0543a96af6624bc7fb99790e/43640071031/receipt.json",
     "population_year": 2024,
     "section_year": 2024
    },
