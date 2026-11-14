@@ -18,7 +18,7 @@ TAGS = re.compile(r"<(script|link|img|source|iframe|embed|object|video|audio|inp
 ATTR = re.compile(r"\b(?:src|href|data|poster|srcset)\s*=\s*[\"']([^\"']+)[\"']", re.I)
 CSS_REF = re.compile(r"(?:@import\s+(?:url\()?|url\()\s*[\"']?((?:https?:)?//[^\"')\s]+)", re.I)
 # Cargas dinámicas en JS aún no resueltas (decisión del propietario pendiente; ver registro T-310).
-DINAMICAS_PENDIENTES = {"https://tile.openstreetmap.org/", "https://static.cloudflareinsights.com/"}
+DINAMICAS_PENDIENTES = {"https://tile.openstreetmap.org/"}  # T-294: el único host propio del contador no se lista; va en un <script> en línea (test_visor_analitica)
 
 
 def _publicados(exts):

@@ -106,3 +106,4 @@
 
 ## pieTexto
 <!-- Texto del pie de página -->
+Medición de visitas. Este sitio cuenta cuántas veces se carga cada página, por día. No usa cookies ni guarda nada en tu dispositivo, no registra tu dirección IP ni datos de tu navegador, no te identifica ni te sigue y no comparte datos con terceros. Solo se conserva un número por página y día. La infraestructura (alojamiento y red de entrega) trata tu IP de forma transitoria para entregarte la página, como cualquier servicio web.

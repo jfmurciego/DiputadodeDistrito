@@ -48,7 +48,7 @@ class ContadorWorker(unittest.TestCase):
 
     def test_visores_solo_envian_la_ruta(self):
         # Cada <script> en línea que mencione el contador debe ser exactamente un sendBeacon de location.pathname.
-        patron = re.compile(r'^navigator\.sendBeacon&&navigator\.sendBeacon\("https://contador\.diputadodedistrito\.es/v",location\.pathname\)$')
+        patron = re.compile(r'^navigator\.sendBeacon&&navigator\.sendBeacon\("https://contador\.diputadodedistrito\.es/v",location\.pathname\.replace\(/index\\\.html\$/,""\)\)$')
         for rel in ("visor/index.html", "visor/v2/index.html", "visor/v3/index.html"):
             html = (ROOT / rel).read_text(encoding="utf-8")
             for cuerpo in re.findall(r"(?s)<script>(.*?)</script>", html):
