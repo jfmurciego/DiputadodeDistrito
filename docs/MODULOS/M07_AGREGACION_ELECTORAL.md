@@ -1,8 +1,8 @@
 # M07 — Agregar resultados electorales
 
-**Versión:** 1.2.0
+**Versión:** 1.3.0 (código M07 7.4.0, T-291)
 **Estado:** vigente — R039
-**Anterior:** `legacy/docs/M07_AGREGACION_ELECTORAL_v1.1.0.md`
+**Anterior:** `legacy/docs/M07_AGREGACION_ELECTORAL_v1.2.0.md`
 
 ## Propósito
 M07 proyecta una elección sobre distritos ya calculados. La elección no participa en la creación de fronteras.
@@ -19,6 +19,15 @@ partidos y contiene la política de reconciliación.
 
 La carga es cerrada: checksum incorrecto, territorio distinto, adaptador no
 declarado, alias ambiguo o partido desconocido bloquean M07 antes de publicar.
+
+## Equivalencia de seccionados (7.4.0, D-65)
+Si el contrato declara `section_reconciliation.equivalence_table` (`path`, `sha256`, `source_column`,
+`target_column`), M07 verifica la huella y lleva los votos de cada sección de la tabla al mapa vigente antes de
+reconciliar, todas a la vez: `1:1` y `contenida` pasan enteros; `partida` se reparte por `peso_poblacion` (D-13) con
+resto mayor por partido; `sin_vigente` no se toca y acaba en `ddd_unassigned_votes`. Los votos de cada partido se
+conservan; el informe (`section_equivalence`) da secciones y votos por clase, destinos ausentes del mapa y votos
+repartidos entre distritos distintos. Tabla de la noche del 29-11-2026: `configuracion/equivalencia_seccionado_ine_2026_a_2023.csv`
+(`herramientas/equivalencia_seccionado_2026_2023.py`). Los `splits` del contrato siguen sin aplicarse.
 
 ## Productos
 `M07/resultados_por_partido.csv`: votos asignados por distrito y partido. `M07/resumen_electoral.csv`: total, ganador, votos, cuota y bloque. `M07/reconciliacion.json`: votos de entrada, asignados y no asignables, más las secciones no emparejadas. El GeoJSON enriquecido conserva todas las secciones del mapa, incluidas las que carecen de resultados.

@@ -3,15 +3,20 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 07 — Agregar resultados electorales
-VERSIÓN: 7.3.2
-NOMBRE DE VERSIÓN: Contrato electoral universal
-FECHA: 2026-10-28
+VERSIÓN: 7.4.0
+NOMBRE DE VERSIÓN: Equivalencia de seccionados gobernada
+FECHA: 2026-11-14
 QUÉ HACE: verifica convocatoria, fuentes y partidos antes de agregar votos a distritos.
 POR QUÉ ES SEPARADO: la elección nunca condiciona fronteras; M07 solo proyecta sobre M06.
-ESTADO: vigente — R039
-CAMBIOS: endurece la frontera electoral: votos enteros decimales exactos y rechazo fail-closed de filas/zonas con localizador, sección o partido inválidos, sin descartes silenciosos.
-MOTIVO: permitir nuevas elecciones sin tablas ni lógica territorial en M07.
-ANTERIOR: legacy/modulo07/07_agregar_resultados_electorales_v7.3.1.py
+ESTADO: candidato — T-291
+CAMBIOS: consume la tabla de equivalencia de seccionados declarada en
+  section_reconciliation.equivalence_table (ruta y sha256): 1:1 y contenida pasan los votos enteros a su sección
+  del mapa; partida los reparte por el peso de población de la tabla (D-13) con resto mayor por partido;
+  sin_vigente queda como está (ddd_unassigned_votes). Conserva los votos por partido y lo informa por clase,
+  con los votos repartidos entre distritos distintos. Los splits del contrato siguen sin aplicarse.
+MOTIVO: D-65 (propietario): la noche del 29-11-2026 lleva los resultados por sección 2026 a los mapas vigentes
+  (seccionado 2023) por equivalencia de secciones; sin consumirla, contenidas y partidas caían a votos sin asignar.
+ANTERIOR: legacy/modulo07/07_agregar_resultados_electorales_v7.3.2.py
 CAMBIOS 7.3.2: aplica la excepción de pérdida DDD declarada por elección en
   configuracion/excepciones_reconciliacion_electoral_2025.yaml, fuera del contrato electoral sellado.
 """
@@ -1267,6 +1272,104 @@ def _largest_remainder(total: int, weighted_targets: list[tuple[str, float]]) ->
     return base
 
 
+EQUIVALENCE_CLASSES = ("1:1", "contenida", "partida", "sin_vigente")
+
+
+def load_section_equivalence(record: dict, *, project_root) -> tuple[dict[str, dict], dict]:
+    """Lee la tabla gobernada {ruta, sha256, source_column, target_column} y devuelve
+    {sección_fuente: {"tipo": clase, "pesos": [(sección_mapa, peso_poblacion), ...]}} y su evidencia."""
+    path = Path(str(require(record.get("path"), "Equivalencia sin path")))
+    if not path.is_absolute():
+        path = Path(project_root) / path
+    expected = str(require(record.get("sha256"), "Equivalencia sin sha256")).lower()
+    raw = path.read_bytes()
+    actual = hashlib.sha256(raw).hexdigest()
+    if actual != expected:
+        raise ValueError(f"SECTION_EQUIVALENCE_SHA256_MISMATCH: {actual} != {expected}")
+    source_col = str(require(record.get("source_column"), "Equivalencia sin source_column"))
+    target_col = str(require(record.get("target_column"), "Equivalencia sin target_column"))
+    table: dict[str, dict] = {}
+    for row in csv.DictReader(io.StringIO(raw.decode("utf-8"))):
+        source = str(row[source_col]).strip()
+        kind = str(row["tipo"]).strip()
+        if kind not in EQUIVALENCE_CLASSES:
+            raise ValueError(f"SECTION_EQUIVALENCE_UNKNOWN_CLASS: {source} {kind}")
+        entry = table.setdefault(source, {"tipo": kind, "pesos": []})
+        if entry["tipo"] != kind:
+            raise ValueError(f"SECTION_EQUIVALENCE_MIXED_CLASS: {source}")
+        if kind == "sin_vigente":
+            continue
+        target = str(row[target_col]).strip()
+        weight = float(row["peso_poblacion"])
+        if not target or weight < 0:
+            raise ValueError(f"SECTION_EQUIVALENCE_INVALID_ROW: {source} -> {target}")
+        entry["pesos"].append((target, weight))
+    for source, entry in table.items():
+        if entry["tipo"] in ("1:1", "contenida") and len(entry["pesos"]) != 1:
+            raise ValueError(f"SECTION_EQUIVALENCE_EXACT_NOT_UNIQUE: {source}")
+        if entry["tipo"] == "partida" and len(entry["pesos"]) < 2:
+            raise ValueError(f"SECTION_EQUIVALENCE_SPLIT_SINGLE_TARGET: {source}")
+    return table, {"path": str(record.get("path")), "sha256": actual, "source_column": source_col,
+                   "target_column": target_col, "decision": record.get("decision")}
+
+
+def apply_section_equivalence(
+    section_party: pd.DataFrame,
+    gdf,
+    *,
+    section_field: str,
+    district_field: str | None,
+    table: dict[str, dict],
+) -> tuple[pd.DataFrame, dict]:
+    """Lleva los votos de las secciones de la tabla a las secciones del mapa vigente (todas a la vez, sin
+    encadenar). Conserva los votos de cada partido. Las secciones fuera de la tabla no cambian."""
+    out = section_party.copy()
+    out[section_field] = out[section_field].astype(str)
+    current = set(gdf[section_field].astype(str))
+    district_of = (
+        dict(zip(gdf[section_field].astype(str), gdf[district_field].astype(str)))
+        if district_field and district_field in gdf.columns else {}
+    )
+    votes_before = int(out["votes"].sum())
+    by_class = {k: {"sections": 0, "votes": 0} for k in EQUIVALENCE_CLASSES}
+    evidence = {"status": "CONSUMED", "by_class": by_class, "targets_missing_in_map": [],
+                "votes_split_across_districts": 0, "sections_split_across_districts": [],
+                "votes_before": votes_before}
+    rows = []
+    for source, group in out.groupby(section_field, sort=True):
+        entry = table.get(source)
+        if entry is None:
+            rows.extend(group.to_dict("records"))
+            continue
+        kind = entry["tipo"]
+        section_votes = int(group["votes"].sum())
+        by_class[kind]["sections"] += 1
+        by_class[kind]["votes"] += section_votes
+        targets = [(t, w) for t, w in entry["pesos"] if t in current]
+        missing = sorted(t for t, _ in entry["pesos"] if t not in current)
+        if missing:
+            evidence["targets_missing_in_map"].append({"source": source, "missing": missing})
+        if kind == "sin_vigente" or not targets or sum(w for _, w in targets) <= 0:
+            rows.extend(group.to_dict("records"))
+            continue
+        districts = {district_of.get(t) for t, _ in targets}
+        if len(districts) > 1:
+            evidence["votes_split_across_districts"] += section_votes
+            evidence["sections_split_across_districts"].append(source)
+        for party, votes in zip(group["party"], group["votes"]):
+            shares = _largest_remainder(int(votes), targets) if len(targets) > 1 else {targets[0][0]: int(votes)}
+            rows.extend({section_field: t, "party": party, "votes": v} for t, v in shares.items() if v)
+    result = pd.DataFrame(rows, columns=[section_field, "party", "votes"])
+    result = result.groupby([section_field, "party"], as_index=False)["votes"].sum()
+    for party, before in section_party.groupby("party")["votes"].sum().items():
+        after = int(result.loc[result["party"] == party, "votes"].sum())
+        if int(before) != after:
+            raise AssertionError(f"La equivalencia altera los votos de {party}: {before} -> {after}")
+    evidence["votes_after"] = int(result["votes"].sum())
+    evidence["sections_split_across_districts"].sort()
+    return result, evidence
+
+
 def apply_section_reconciliation(
     section_party: pd.DataFrame,
     gdf,
@@ -1448,6 +1551,20 @@ def main():
     )
     result_section_ids = set().union(*(batch[1] for batch in result_batches))
     section_party = results.groupby([section_field, "party"], as_index=False)["votes"].sum()
+    equivalence_record = (contract.get("section_reconciliation") or {}).get("equivalence_table")
+    section_equivalence_report = {"status": "NOT_DECLARED"}
+    if equivalence_record:
+        equivalence_table, equivalence_source = load_section_equivalence(
+            equivalence_record, project_root=project_root
+        )
+        section_party, section_equivalence_report = apply_section_equivalence(
+            section_party,
+            gdf,
+            section_field=section_field,
+            district_field=district_field,
+            table=equivalence_table,
+        )
+        section_equivalence_report["table"] = equivalence_source
     section_party, section_reconciliation_report = apply_section_reconciliation(
         section_party,
         gdf,
@@ -1488,6 +1605,7 @@ def main():
         "not_applicable_party_cells": not_applicable_party_cells,
     }
     report["section_reconciliation"] = section_reconciliation_report
+    report["section_equivalence"] = section_equivalence_report
     report["source_verification"] = contract.get("source_verification") or {}
     report["non_geocodable_votes"] = contract.get("non_geocodable_votes") or {}
     report_file = Path(report_path)
