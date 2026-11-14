@@ -1001,6 +1001,7 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         territorial = json.loads((root / state["evidence"]["territorial_product"]).read_text())
         electoral = json.loads((root / state["evidence"]["electoral_product"]).read_text())
         enlazado = m08_enlaza_m06_vigente(root, "aut08", territorial, electoral)
+        self.assertTrue(enlazado)  # rama fijada por el fixture congelado
         # T-247: el checkpoint es el run del M06 (stage M06) o el del M08 enlazado a él (stage M08, puede ser la 00
         # hija «Reutilizar»); antes exigía que fuera siempre el run del M06.
         if checkpoint["stage"] == "M08":
@@ -1017,11 +1018,7 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         )
         self.assertEqual(plan["existing"]["territorial_product"]["run_id"], territorial["run_id"])
         # Regla de linaje: el M08 sólo se reutiliza si su run enlaza (fase 02) el M06 vigente.
-        if enlazado:
-            self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
-        else:
-            self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
-            self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
+        self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
 
 
 class TerritorialSourceVerificationShellTests(unittest.TestCase):

@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "galicia",
+  "territory_name": "Galicia",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 36403519566,
+  "source_sha": "61763602fc0cdbd0bea4f6b615c4e1dd422bc9af",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": true,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "resumption": null,
+  "failed_phases": [],
+  "blocked_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 36345716757,
+      "artifact": "ddd-source-package-galicia-2025-36345716757",
+      "artifact_digest": "sha256:367869c2149d753d1159cd0fcb4771593f98ca6c05c43277b88b0000afb09602",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "success",
+      "run_id": 36403519566,
+      "artifact": "ddd-state-36403519566-M06",
+      "artifact_digest": "sha256:12529f8c76eb46e661a28d546d09cd5d33e8e9db331c1f435d72d6adbbdc3733",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 36136559051,
+      "artifact": "ddd-electoral-package-galicia-2025-36136559051",
+      "artifact_digest": "sha256:59392e194397ea965fde76a5a68fe97519d08e6c175f4328d3830fc72d102db2",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "success",
+      "run_id": 36403519566,
+      "artifact": "ddd-state-36403519566-M08",
+      "artifact_digest": "sha256:c0fd18457e228aaf1d63f4e832f1601a02ae30e31512e90971b6812562b5c513",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "success",
+      "run_id": 36403519566,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-28T09:43:00.578809+00:00"
+}
