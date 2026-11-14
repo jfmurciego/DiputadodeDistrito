@@ -1,7 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.16.0
+# VERSIÓN: 3.17.0
 # FECHA: 2026-11-14
+# CAMBIOS 3.17.0: T-300, copia orchestracion/catalogo_procedencia.json al sitio como datos/catalogo_procedencia.json (la ficha «De dónde sale
+#   este mapa» del visor V3 lo lee); si falta, el sitio no se construye (fallo cerrado). Nada más cambia.
+# MOTIVO 3.17.0: la ficha de procedencia lee el catálogo publicado, sin copias a mano.
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.16.0_20261114.yml
 # CAMBIOS 3.16.0: T-305, si el run ya no tiene en Actions el estado M06/M08 (la poda T-278 lo borró de los runs archivados),
 #   la descarga lo restaura de R2 (`restaurar_estado_r2.py`: paquete ddd-minimo-<run>-M08/M06 de orchestracion/archivo_r2.json, sha256
 #   verificado). Orden: Actions (selectiva, completa; sin cambios) → R2 solo si ninguna da producto → error claro
@@ -494,6 +498,7 @@ jobs:
           python herramientas/generar_datos_abiertos.py --registro /tmp/publicaciones_visor.candidate.json
           python herramientas/generar_datos_abiertos.py --registro /tmp/publicaciones_visor.candidate.json --comprobar
           python herramientas/generar_datos_abiertos.py --registro /tmp/publicaciones_visor.candidate.json --materializar /tmp/site-candidate/datos
+          cp orchestracion/catalogo_procedencia.json /tmp/site-candidate/datos/catalogo_procedencia.json
           cp visor/nacional/index.html visor/nacional/nacional.js visor/nacional/styles.css /tmp/site-candidate/nacional/
           cp -R visor/v2/. /tmp/site-candidate/v2/
           cp visor/v3/index.html visor/v3/v3.css visor/v3/v3.js visor/v3/calendario.json /tmp/site-candidate/v3/
