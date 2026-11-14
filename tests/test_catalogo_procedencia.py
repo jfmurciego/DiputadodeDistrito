@@ -6,6 +6,8 @@ COMPONENTE: prueba del catálogo de procedencia (T-74)
 VERSIÓN: 1.4.0 · FECHA: 2026-11-14 · ESTADO: candidato
 CAMBIOS: 1.4.0 (T-326): en PR (DDD_EN_PR=1) el catálogo versionado se compara con generar() sobre una raíz congelada
   (tests/fixtures/catalogo_procedencia, sha256 en MANIFEST.json); la comparación con el fichero vivo sigue en main, la nocturna y el job «Estado vivo».
+  Pérdida asumida: en PR no se detecta que el catálogo vivo difiera de generar(ROOT) (edición a mano o cambio de publicaciones.yaml/
+  catalogo_preparacion.yaml/contratos_infoelectoral.yaml sin regenerar): solo lo ve el push a main. Un cambio de generar() sí falla en PR.
   1.3.0 (T-300): fija «motor» (Deslinde y su versión del pyproject) y «fuentes_oficiales.resultados_electorales» (de contratos_infoelectoral).
   1.2.2 (T-203): sin literal de id viejo (guardián T-220): id_legacy('aut01').
   1.2.1 (T-203): en el repositorio, 0 fuentes vacías con ids nuevos y «eleccion» en todos los productos.
