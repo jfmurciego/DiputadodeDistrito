@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.384
+Versión: 1.0.385
 Fecha: 2026-11-14
-Alcance: T-291 — M07 consume la equivalencia de seccionados 2026→2023 (D-65)
+Alcance: T-203 — Catálogo de procedencia: elección por producto y fuentes con ids nuevos
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t291-equivalencia-2026-2023.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.383_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t203-procedencia-por-eleccion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.384_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.383_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.385 · [2026-11-14 — T-203 — Catálogo de procedencia: elección por producto y fuentes con ids nuevos](registro/2026-11-14_t203-procedencia-por-eleccion.md)
 - 1.0.384 · [2026-11-14 — T-291 — M07 consume la equivalencia de seccionados 2026→2023 (D-65)](registro/2026-11-14_t291-equivalencia-2026-2023.md)
 - 1.0.383 · [2026-11-12 — T-116 — Explorador cartográfico V3 integrado](registro/2026-11-12_feat-visor-v3-integrado-20261112.md)
 - 1.0.382 · [2026-11-14 — T-220 — Carpetas de territorios con el id nuevo de la tabla maestra (aut01…aut19, nac01…nac52)](registro/2026-11-14_claude-t220-renombrado-v2.md)
