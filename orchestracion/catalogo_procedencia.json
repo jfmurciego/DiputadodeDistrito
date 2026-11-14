@@ -8767,11 +8767,11 @@
   },
   "la_rioja": {
    "fuente_territorial": {
-    "run_id": "40850322464",
+    "run_id": "43645497921",
     "package_sha256": "18d6198245386da78d425674a0fc2bbd379811c428507602eac96dbfbbb63888",
-    "artifact_sha256": "c8ace5e7af65516e115f9c0b34eab695168ba13363786b21b55643fffbfef9ca",
-    "territorial_identity_sha256": "fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853",
-    "receipt_path": "territorios/aut17/evidencia/fuentes_territoriales/2025/fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853/40850322464/receipt.json",
+    "artifact_sha256": "4c78fa9cc45d71f69c2108ff1726dec8edd5d74c23fe62a366c5c340d0745a46",
+    "territorial_identity_sha256": "0c9c86eb040c1a26bb60a2188d411f2f4ff4484ae3e87b5f415f0adc7e113636",
+    "receipt_path": "territorios/aut17/evidencia/fuentes_territoriales/2025/0c9c86eb040c1a26bb60a2188d411f2f4ff4484ae3e87b5f415f0adc7e113636/43645497921/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
