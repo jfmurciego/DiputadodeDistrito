@@ -1,0 +1,40 @@
+{
+ "schema": "ddd.identificadores-boe-resultados-congreso/1.0",
+ "version": "1.0.0",
+ "fecha": "2026-11-14",
+ "nota": "Resolución/Acuerdo de la Junta Electoral Central con el resumen de resultados al Congreso y al Senado. Localizados en el sumario del BOE (datosabiertos/api/boe/sumario) y descargados de https://www.boe.es/diario_boe/xml.php?id=<id>; sha256 del XML tal como se descarga. Sin corrección de errores en los 120 días siguientes (sumarios barridos). 2019-11 y 2023: resultados_oficiales_congreso_<elección>.json.",
+ "elecciones": {
+  "2011-11": {
+   "boe": "BOE-A-2011-19391",
+   "url": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2011-19391",
+   "fecha_publicacion": "2011-12-10",
+   "sha256_xml": "bce16ce8372112421310f929083eb998746571c0785998ed846756df6eedfc0b",
+   "titulo": "Acuerdo de 7 de diciembre de 2011, de la Junta Electoral Central, por el que se publica el resumen de los resultados de las elecciones al Congreso de los Diputados y al Senado convocadas por Real Decreto 1329/2011, de 26 de septiembre, y celebradas el 20 de noviembre de 2011, conforme a las actas de escrutinio general y de proclamación de electos remitidas por las correspondientes Juntas Electorales Provinciales y por las Juntas Electorales de Ceuta y de Melilla.",
+   "csv_resultados": null
+  },
+  "2015-12": {
+   "boe": "BOE-A-2016-867",
+   "url": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2016-867",
+   "fecha_publicacion": "2016-01-29",
+   "sha256_xml": "aa983182898f3b0e787175c1b1ed69641107a45186fa4fdef8e8b65dcfa41d23",
+   "titulo": "Resolución de 26 de enero de 2016, de la Presidencia de la Junta Electoral Central, por la que se publica el resumen de los resultados de las elecciones al Congreso de los Diputados y al Senado convocadas por Real Decreto 977/2015, de 26 de octubre, y celebradas el 20 de diciembre de 2015, conforme a las actas de escrutinio general y de proclamación de electos remitidas por las correspondientes Juntas Electorales Provinciales y por las Juntas Electorales de Ceuta y de Melilla.",
+   "csv_resultados": null
+  },
+  "2016-06": {
+   "boe": "BOE-A-2016-7133",
+   "url": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2016-7133",
+   "fecha_publicacion": "2016-07-22",
+   "sha256_xml": "8144b5ea5809d83ff4db3425883885ae33759e46ba6fc2c42d1c140e07108ea2",
+   "titulo": "Acuerdo de 20 de julio de 2016, de la Junta Electoral Central, por el que se publica el resumen de los resultados de las elecciones al Congreso de los Diputados y al Senado convocadas por Real Decreto 184/2016, de 3 de mayo, y celebradas el 26 de junio de 2016, conforme a las actas de escrutinio general y de proclamación de electos remitidas por las correspondientes Juntas Electorales Provinciales y por las Juntas Electorales de Ceuta y de Melilla.",
+   "csv_resultados": null
+  },
+  "2019-04": {
+   "boe": "BOE-A-2019-8070",
+   "url": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2019-8070",
+   "fecha_publicacion": "2019-05-30",
+   "sha256_xml": "1d18c553904bf14356d932db6ab8e0816f3b9aa1f86e2a976492645405262812",
+   "titulo": "Resolución de 24 de mayo de 2019, de la Presidencia de la Junta Electoral Central, por la que se publica el resumen de los resultados de las elecciones al Congreso de los Diputados y al Senado convocadas por Real Decreto 129/2019, de 4 de marzo, y celebradas el 28 de abril de 2019, conforme a las actas de escrutinio general y de proclamación de electos remitidas por las correspondientes Juntas Electorales Provinciales y por las Juntas Electorales de Ceuta y de Melilla.",
+   "csv_resultados": null
+  }
+ }
+}

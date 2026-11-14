@@ -1,0 +1,605 @@
+{
+ "schema": "ddd.equivalencia-seccionado-historico-2023/1.0",
+ "decision": "D-105; regla M07 7.4.0 (sección entera al distrito de más población); peso D-13",
+ "eleccion": "2016-06",
+ "csv": {
+  "ruta": "configuracion/equivalencia_seccionado_ine_2016_a_2023.csv",
+  "sha256": "06aeb5932af8ec02986271fa8f42a72f1fac26528f77280efe4c206f9fcf8d7f"
+ },
+ "fuentes": {
+  "seccionado_2016": {
+   "url": "https://www.ine.es/prodyser/cartografia/seccionado_2016.zip",
+   "sha256": "3410af763bfe58d1b0f9c0d0038cbdd6417e0f3f6d0fce6a3e70bef64c84b3e1"
+  },
+  "seccionado_2023": {
+   "url": "https://www.ine.es/prodyser/cartografia/seccionado_2023.zip",
+   "sha256": "7a15e700a4592d793230441cfcb4b72e40979998aef019ca644389271886bf1f"
+  },
+  "padron_65034": {
+   "url": "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+   "periodo": "2023",
+   "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3"
+  }
+ },
+ "umbral_1a1": 0.95,
+ "astilla": 0.01,
+ "nacional": {
+  "poblacion_2023": 48085361,
+  "poblacion_afectada_partidas": 3510720,
+  "pct_poblacion_afectada": 7.301
+ },
+ "provincias": {
+  "01": {
+   "tipo_1:1": 3,
+   "tipo_contenida": 46,
+   "tipo_partida": 21,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 336308,
+   "poblacion_afectada_partidas": 37965,
+   "pct_poblacion_afectada": 11.2887,
+   "secciones_hist_sin_2023": 70,
+   "secciones_2023_sin_hist": 5
+  },
+  "02": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 16,
+   "tipo_partida": 4,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 387529,
+   "poblacion_afectada_partidas": 4584,
+   "pct_poblacion_afectada": 1.1829,
+   "secciones_hist_sin_2023": 20,
+   "secciones_2023_sin_hist": 1
+  },
+  "03": {
+   "tipo_1:1": 1,
+   "tipo_contenida": 29,
+   "tipo_partida": 33,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 1955268,
+   "poblacion_afectada_partidas": 105259,
+   "pct_poblacion_afectada": 5.3834,
+   "secciones_hist_sin_2023": 63,
+   "secciones_2023_sin_hist": 21
+  },
+  "04": {
+   "tipo_1:1": 3,
+   "tipo_contenida": 23,
+   "tipo_partida": 15,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 753364,
+   "poblacion_afectada_partidas": 43902,
+   "pct_poblacion_afectada": 5.8274,
+   "secciones_hist_sin_2023": 41,
+   "secciones_2023_sin_hist": 7
+  },
+  "05": {
+   "tipo_1:1": 1,
+   "tipo_contenida": 3,
+   "tipo_partida": 1,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 159764,
+   "poblacion_afectada_partidas": 2446,
+   "pct_poblacion_afectada": 1.5312,
+   "secciones_hist_sin_2023": 5,
+   "secciones_2023_sin_hist": 0
+  },
+  "06": {
+   "tipo_1:1": 4,
+   "tipo_contenida": 5,
+   "tipo_partida": 6,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 666049,
+   "poblacion_afectada_partidas": 12763,
+   "pct_poblacion_afectada": 1.9163,
+   "secciones_hist_sin_2023": 15,
+   "secciones_2023_sin_hist": 2
+  },
+  "07": {
+   "tipo_1:1": 2,
+   "tipo_contenida": 7,
+   "tipo_partida": 21,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 1209906,
+   "poblacion_afectada_partidas": 60545,
+   "pct_poblacion_afectada": 5.0041,
+   "secciones_hist_sin_2023": 30,
+   "secciones_2023_sin_hist": 17
+  },
+  "08": {
+   "tipo_1:1": 24,
+   "tipo_contenida": 111,
+   "tipo_partida": 182,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 5797356,
+   "poblacion_afectada_partidas": 433581,
+   "pct_poblacion_afectada": 7.479,
+   "secciones_hist_sin_2023": 317,
+   "secciones_2023_sin_hist": 89
+  },
+  "09": {
+   "tipo_1:1": 2,
+   "tipo_contenida": 17,
+   "tipo_partida": 7,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 357370,
+   "poblacion_afectada_partidas": 16351,
+   "pct_poblacion_afectada": 4.5753,
+   "secciones_hist_sin_2023": 26,
+   "secciones_2023_sin_hist": 3
+  },
+  "10": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 19,
+   "tipo_partida": 8,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 388257,
+   "poblacion_afectada_partidas": 14608,
+   "pct_poblacion_afectada": 3.7623,
+   "secciones_hist_sin_2023": 27,
+   "secciones_2023_sin_hist": 4
+  },
+  "11": {
+   "tipo_1:1": 35,
+   "tipo_contenida": 56,
+   "tipo_partida": 79,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 1254866,
+   "poblacion_afectada_partidas": 146850,
+   "pct_poblacion_afectada": 11.7025,
+   "secciones_hist_sin_2023": 170,
+   "secciones_2023_sin_hist": 36
+  },
+  "12": {
+   "tipo_1:1": 1,
+   "tipo_contenida": 14,
+   "tipo_partida": 10,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 604086,
+   "poblacion_afectada_partidas": 26633,
+   "pct_poblacion_afectada": 4.4089,
+   "secciones_hist_sin_2023": 25,
+   "secciones_2023_sin_hist": 8
+  },
+  "13": {
+   "tipo_1:1": 6,
+   "tipo_contenida": 24,
+   "tipo_partida": 5,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 491927,
+   "poblacion_afectada_partidas": 9060,
+   "pct_poblacion_afectada": 1.8417,
+   "secciones_hist_sin_2023": 35,
+   "secciones_2023_sin_hist": 3
+  },
+  "14": {
+   "tipo_1:1": 18,
+   "tipo_contenida": 49,
+   "tipo_partida": 54,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 775002,
+   "poblacion_afectada_partidas": 77970,
+   "pct_poblacion_afectada": 10.0606,
+   "secciones_hist_sin_2023": 121,
+   "secciones_2023_sin_hist": 12
+  },
+  "15": {
+   "tipo_1:1": 1,
+   "tipo_contenida": 51,
+   "tipo_partida": 42,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 1123884,
+   "poblacion_afectada_partidas": 68278,
+   "pct_poblacion_afectada": 6.0752,
+   "secciones_hist_sin_2023": 94,
+   "secciones_2023_sin_hist": 9
+  },
+  "16": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 0,
+   "tipo_partida": 0,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 198436,
+   "poblacion_afectada_partidas": 0,
+   "pct_poblacion_afectada": 0.0,
+   "secciones_hist_sin_2023": 0,
+   "secciones_2023_sin_hist": 0
+  },
+  "17": {
+   "tipo_1:1": 8,
+   "tipo_contenida": 16,
+   "tipo_partida": 21,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 808672,
+   "poblacion_afectada_partidas": 49478,
+   "pct_poblacion_afectada": 6.1184,
+   "secciones_hist_sin_2023": 45,
+   "secciones_2023_sin_hist": 6
+  },
+  "18": {
+   "tipo_1:1": 10,
+   "tipo_contenida": 56,
+   "tipo_partida": 46,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 934072,
+   "poblacion_afectada_partidas": 98848,
+   "pct_poblacion_afectada": 10.5825,
+   "secciones_hist_sin_2023": 112,
+   "secciones_2023_sin_hist": 25
+  },
+  "19": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 6,
+   "tipo_partida": 9,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 275082,
+   "poblacion_afectada_partidas": 28386,
+   "pct_poblacion_afectada": 10.319,
+   "secciones_hist_sin_2023": 15,
+   "secciones_2023_sin_hist": 10
+  },
+  "20": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 4,
+   "tipo_partida": 14,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 726712,
+   "poblacion_afectada_partidas": 30250,
+   "pct_poblacion_afectada": 4.1625,
+   "secciones_hist_sin_2023": 18,
+   "secciones_2023_sin_hist": 5
+  },
+  "21": {
+   "tipo_1:1": 23,
+   "tipo_contenida": 13,
+   "tipo_partida": 57,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 534084,
+   "poblacion_afectada_partidas": 80865,
+   "pct_poblacion_afectada": 15.1409,
+   "secciones_hist_sin_2023": 93,
+   "secciones_2023_sin_hist": 8
+  },
+  "22": {
+   "tipo_1:1": 1,
+   "tipo_contenida": 4,
+   "tipo_partida": 1,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 226878,
+   "poblacion_afectada_partidas": 450,
+   "pct_poblacion_afectada": 0.1983,
+   "secciones_hist_sin_2023": 6,
+   "secciones_2023_sin_hist": 0
+  },
+  "23": {
+   "tipo_1:1": 2,
+   "tipo_contenida": 26,
+   "tipo_partida": 6,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 620637,
+   "poblacion_afectada_partidas": 11012,
+   "pct_poblacion_afectada": 1.7743,
+   "secciones_hist_sin_2023": 34,
+   "secciones_2023_sin_hist": 2
+  },
+  "24": {
+   "tipo_1:1": 12,
+   "tipo_contenida": 37,
+   "tipo_partida": 40,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 448573,
+   "poblacion_afectada_partidas": 49871,
+   "pct_poblacion_afectada": 11.1178,
+   "secciones_hist_sin_2023": 89,
+   "secciones_2023_sin_hist": 2
+  },
+  "25": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 1,
+   "tipo_partida": 2,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 447343,
+   "poblacion_afectada_partidas": 4475,
+   "pct_poblacion_afectada": 1.0003,
+   "secciones_hist_sin_2023": 3,
+   "secciones_2023_sin_hist": 1
+  },
+  "26": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 6,
+   "tipo_partida": 6,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 322282,
+   "poblacion_afectada_partidas": 23618,
+   "pct_poblacion_afectada": 7.3283,
+   "secciones_hist_sin_2023": 12,
+   "secciones_2023_sin_hist": 7
+  },
+  "27": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 9,
+   "tipo_partida": 3,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 324267,
+   "poblacion_afectada_partidas": 7872,
+   "pct_poblacion_afectada": 2.4276,
+   "secciones_hist_sin_2023": 12,
+   "secciones_2023_sin_hist": 1
+  },
+  "28": {
+   "tipo_1:1": 13,
+   "tipo_contenida": 128,
+   "tipo_partida": 173,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 6871903,
+   "poblacion_afectada_partidas": 652988,
+   "pct_poblacion_afectada": 9.5023,
+   "secciones_hist_sin_2023": 314,
+   "secciones_2023_sin_hist": 195
+  },
+  "29": {
+   "tipo_1:1": 28,
+   "tipo_contenida": 55,
+   "tipo_partida": 89,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 1752728,
+   "poblacion_afectada_partidas": 253396,
+   "pct_poblacion_afectada": 14.4572,
+   "secciones_hist_sin_2023": 172,
+   "secciones_2023_sin_hist": 56
+  },
+  "30": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 41,
+   "tipo_partida": 19,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 1551692,
+   "poblacion_afectada_partidas": 31280,
+   "pct_poblacion_afectada": 2.0158,
+   "secciones_hist_sin_2023": 60,
+   "secciones_2023_sin_hist": 2
+  },
+  "31": {
+   "tipo_1:1": 6,
+   "tipo_contenida": 4,
+   "tipo_partida": 11,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 672155,
+   "poblacion_afectada_partidas": 38968,
+   "pct_poblacion_afectada": 5.7975,
+   "secciones_hist_sin_2023": 21,
+   "secciones_2023_sin_hist": 16
+  },
+  "32": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 28,
+   "tipo_partida": 9,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 304563,
+   "poblacion_afectada_partidas": 12444,
+   "pct_poblacion_afectada": 4.086,
+   "secciones_hist_sin_2023": 37,
+   "secciones_2023_sin_hist": 0
+  },
+  "33": {
+   "tipo_1:1": 11,
+   "tipo_contenida": 79,
+   "tipo_partida": 33,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 1006060,
+   "poblacion_afectada_partidas": 40800,
+   "pct_poblacion_afectada": 4.0555,
+   "secciones_hist_sin_2023": 123,
+   "secciones_2023_sin_hist": 4
+  },
+  "34": {
+   "tipo_1:1": 1,
+   "tipo_contenida": 12,
+   "tipo_partida": 6,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 157787,
+   "poblacion_afectada_partidas": 8537,
+   "pct_poblacion_afectada": 5.4102,
+   "secciones_hist_sin_2023": 19,
+   "secciones_2023_sin_hist": 0
+  },
+  "35": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 10,
+   "tipo_partida": 18,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 1145843,
+   "poblacion_afectada_partidas": 54572,
+   "pct_poblacion_afectada": 4.7626,
+   "secciones_hist_sin_2023": 28,
+   "secciones_2023_sin_hist": 17
+  },
+  "36": {
+   "tipo_1:1": 4,
+   "tipo_contenida": 54,
+   "tipo_partida": 34,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 946710,
+   "poblacion_afectada_partidas": 55393,
+   "pct_poblacion_afectada": 5.8511,
+   "secciones_hist_sin_2023": 92,
+   "secciones_2023_sin_hist": 11
+  },
+  "37": {
+   "tipo_1:1": 1,
+   "tipo_contenida": 4,
+   "tipo_partida": 3,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 327089,
+   "poblacion_afectada_partidas": 6374,
+   "pct_poblacion_afectada": 1.9486,
+   "secciones_hist_sin_2023": 8,
+   "secciones_2023_sin_hist": 2
+  },
+  "38": {
+   "tipo_1:1": 4,
+   "tipo_contenida": 22,
+   "tipo_partida": 52,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 1067173,
+   "poblacion_afectada_partidas": 108575,
+   "pct_poblacion_afectada": 10.174,
+   "secciones_hist_sin_2023": 78,
+   "secciones_2023_sin_hist": 19
+  },
+  "39": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 18,
+   "tipo_partida": 11,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 588387,
+   "poblacion_afectada_partidas": 12747,
+   "pct_poblacion_afectada": 2.1665,
+   "secciones_hist_sin_2023": 29,
+   "secciones_2023_sin_hist": 0
+  },
+  "40": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 1,
+   "tipo_partida": 1,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 155332,
+   "poblacion_afectada_partidas": 79,
+   "pct_poblacion_afectada": 0.0508,
+   "secciones_hist_sin_2023": 2,
+   "secciones_2023_sin_hist": 0
+  },
+  "41": {
+   "tipo_1:1": 38,
+   "tipo_contenida": 89,
+   "tipo_partida": 172,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 1959394,
+   "poblacion_afectada_partidas": 303419,
+   "pct_poblacion_afectada": 15.4854,
+   "secciones_hist_sin_2023": 299,
+   "secciones_2023_sin_hist": 45
+  },
+  "42": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 0,
+   "tipo_partida": 2,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 89528,
+   "poblacion_afectada_partidas": 1523,
+   "pct_poblacion_afectada": 1.7011,
+   "secciones_hist_sin_2023": 2,
+   "secciones_2023_sin_hist": 0
+  },
+  "43": {
+   "tipo_1:1": 1,
+   "tipo_contenida": 3,
+   "tipo_partida": 7,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 848592,
+   "poblacion_afectada_partidas": 16831,
+   "pct_poblacion_afectada": 1.9834,
+   "secciones_hist_sin_2023": 11,
+   "secciones_2023_sin_hist": 2
+  },
+  "44": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 5,
+   "tipo_partida": 4,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 135046,
+   "poblacion_afectada_partidas": 5837,
+   "pct_poblacion_afectada": 4.3219,
+   "secciones_hist_sin_2023": 9,
+   "secciones_2023_sin_hist": 2
+  },
+  "45": {
+   "tipo_1:1": 2,
+   "tipo_contenida": 34,
+   "tipo_partida": 49,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 731112,
+   "poblacion_afectada_partidas": 115245,
+   "pct_poblacion_afectada": 15.7629,
+   "secciones_hist_sin_2023": 85,
+   "secciones_2023_sin_hist": 12
+  },
+  "46": {
+   "tipo_1:1": 4,
+   "tipo_contenida": 66,
+   "tipo_partida": 83,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 2656841,
+   "poblacion_afectada_partidas": 198017,
+   "pct_poblacion_afectada": 7.4531,
+   "secciones_hist_sin_2023": 153,
+   "secciones_2023_sin_hist": 31
+  },
+  "47": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 32,
+   "tipo_partida": 6,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 521333,
+   "poblacion_afectada_partidas": 16679,
+   "pct_poblacion_afectada": 3.1994,
+   "secciones_hist_sin_2023": 38,
+   "secciones_2023_sin_hist": 4
+  },
+  "48": {
+   "tipo_1:1": 2,
+   "tipo_contenida": 24,
+   "tipo_partida": 21,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 1153282,
+   "poblacion_afectada_partidas": 46857,
+   "pct_poblacion_afectada": 4.0629,
+   "secciones_hist_sin_2023": 47,
+   "secciones_2023_sin_hist": 12
+  },
+  "49": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 3,
+   "tipo_partida": 0,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 166927,
+   "poblacion_afectada_partidas": 0,
+   "pct_poblacion_afectada": 0.0,
+   "secciones_hist_sin_2023": 3,
+   "secciones_2023_sin_hist": 0
+  },
+  "50": {
+   "tipo_1:1": 2,
+   "tipo_contenida": 16,
+   "tipo_partida": 23,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 979365,
+   "poblacion_afectada_partidas": 53382,
+   "pct_poblacion_afectada": 5.4507,
+   "secciones_hist_sin_2023": 41,
+   "secciones_2023_sin_hist": 12
+  },
+  "51": {
+   "tipo_1:1": 2,
+   "tipo_contenida": 10,
+   "tipo_partida": 16,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 83052,
+   "poblacion_afectada_partidas": 30857,
+   "pct_poblacion_afectada": 37.1544,
+   "secciones_hist_sin_2023": 28,
+   "secciones_2023_sin_hist": 2
+  },
+  "52": {
+   "tipo_1:1": 0,
+   "tipo_contenida": 0,
+   "tipo_partida": 0,
+   "tipo_sin_vigente": 0,
+   "poblacion_2023": 85493,
+   "poblacion_afectada_partidas": 0,
+   "pct_poblacion_afectada": 0.0,
+   "secciones_hist_sin_2023": 0,
+   "secciones_2023_sin_hist": 0
+  }
+ }
+}
