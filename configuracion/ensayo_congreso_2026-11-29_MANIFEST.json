@@ -1,0 +1,56 @@
+{
+  "derived_from": {
+    "sha256": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+    "source": "Ministerio del Interior — Infoelectoral 02202307_MESA.zip"
+  },
+  "election_date_label": "2026-11-29",
+  "files": {
+    "nac22": {
+      "bytes": 303122,
+      "candidate_votes": 117735,
+      "ccaa": "02",
+      "derived_from_election_id": "congreso_huesca_2023-07-23",
+      "election_id_ensayo": "congreso_huesca_2026-11-29",
+      "file": "ensayo_congreso_huesca_2026-11-29.csv",
+      "polling_stations": 403,
+      "province": "22",
+      "rows": 5239,
+      "sections": 286,
+      "sha256": "c63e86e039d642da7b9f79d2900e2eca1cbc34ee110dd7c832d3ed53445dcb9a"
+    },
+    "nac42": {
+      "bytes": 143122,
+      "candidate_votes": 49823,
+      "ccaa": "08",
+      "derived_from_election_id": "congreso_soria_2023-07-23",
+      "election_id_ensayo": "congreso_soria_2026-11-29",
+      "file": "ensayo_congreso_soria_2026-11-29.csv",
+      "polling_stations": 256,
+      "province": "42",
+      "rows": 2560,
+      "sections": 216,
+      "sha256": "1fd0b35becbdf254da1020320791e743fc4ae8c7f76ac96947f18d1cbef20d17"
+    },
+    "nac52": {
+      "bytes": 39521,
+      "candidate_votes": 26925,
+      "ccaa": "19",
+      "derived_from_election_id": "congreso_melilla_2023-07-23",
+      "election_id_ensayo": "congreso_melilla_2026-11-29",
+      "file": "ensayo_congreso_melilla_2026-11-29.csv",
+      "polling_stations": 87,
+      "province": "52",
+      "rows": 696,
+      "sections": 44,
+      "sha256": "464899a478b07b3b2a85f524ce6bbec003497b0e43e24f72018897d5c3001371"
+    }
+  },
+  "mark": "ENSAYO_2026-11-29_NO_OFICIAL",
+  "official": false,
+  "rehearsal": true,
+  "release_tag": "fuente-ensayo-congreso-2026-11-29",
+  "schema": "ddd-ensayo-datos-manifest/1.0",
+  "section_keys": "seccionado 2023 (sin rekey a 2026): la tabla de equivalencia 2026→2023 deja sin cambio las secciones que no figuran en ella",
+  "status": "PROVISIONAL",
+  "warning": "Datos de ENSAYO derivados del ZIP Infoelectoral 2023 por mesa; no son resultados de 2026 ni datos oficiales."
+}

@@ -1,0 +1,7 @@
+## 2026-11-14 — T-333 — Datos de ensayo por mesa para nac22, nac42 y nac52 (BORRADOR, no-automerge)
+
+- Causa: el ensayo de la noche del 29-11 (ficha `2026-11-15_ensayo-noche-29-11`) necesita datos por mesa en formato `minsait_provisional` y no hay fixtures de 2026.
+- Cambio: `herramientas/generar_datos_ensayo_congreso.py` 1.0.0 deriva del ZIP oficial Infoelectoral 2023 por mesa (sha256 `e78fc231…1f8`, verificado por `fuente_infoelectoral_mesas`) tres CSV `ensayo_congreso_<provincia>_2026-11-29.csv`: mismo formato del adaptador más la columna `ensayo` = `ENSAYO_2026-11-29_NO_OFICIAL` en cada fila. `configuracion/ensayo_congreso_2026-11-29_MANIFEST.json` fija sha256, bytes, filas y totales (`rehearsal: true`, `official: false`, `status: PROVISIONAL`). Generación determinista (LF, orden fijo).
+- No se sube nada: el Operador publica los tres CSV en el release `fuente-ensayo-congreso-2026-11-29` y rellena `source_sha256` de los contratos de T-332 (#800) con los valores del MANIFEST: huesca `c63e86e0…cb9a`, soria `1fd0b35b…d17`, melilla `464899a4…1371`. Las claves de sección son las de 2023: la tabla 2026→2023 no cambia las secciones que no figuran en ella (limitación declarada en el MANIFEST).
+- Pruebas: `tests.test_datos_ensayo_congreso_t333` (7; con `DDD_ZIP_INFOELECTORAL_2023` regenera y compara con el MANIFEST) y el adaptador real sobre el CSV de Soria: paquete `production_eligible=false`, `PROVISIONAL`.
+- Huellas: ninguna (no toca M04, M05 ni workflows).
