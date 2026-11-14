@@ -466,6 +466,7 @@
       kind==="provincia"?(validElection()?"Resultados oficiales generales 2023 / catálogo DDD":"Cartografía DDD · capa electoral histórica no disponible"):
         "Productos del registro durable de DDD";
     $("source-label").textContent=source;
+    window.DDDGaleria?.render(kind,name,selectedProvince()?.properties.nombre||"");
     let content="";
     if(S.panel==="territorio")content="<p class='small-note'>Selecciona cualquier territorio en el mapa. El zoom abre distritos y, donde existen, secciones censales con su geometría real.</p>";
     if(S.panel==="resultados"){
