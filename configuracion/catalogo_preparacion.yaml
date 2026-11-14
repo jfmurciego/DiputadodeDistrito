@@ -957,25 +957,24 @@ territories:
         run_id: 42949289470
         stage: M08
       preparation_evidence:
-        run_id: 41293199718
-        artifact_name: ddd-source-package-congreso_badajoz-2025-41293199718
-        artifact_sha256: c50556594ac26817c48ec99121976fd46f0149812e5399dae465f996457c4509
+        run_id: 43650129661
+        artifact_name: ddd-source-package-nac06-2025-43650129661
+        artifact_sha256: be2e37651f9fbc35bbd5f5697546840f4393557f22c7e52e429388c8b99a6cee
         package_sha256: 5af705a4eab716266cafaadf48800e0cc1ad056d64f3f22d18683bbb24785ff9
-        receipt_path: territorios/nac06/evidencia/fuentes_territoriales/2025/d799e5a446392a54654b45d84a13669e067fb3ea330bbeda46f4ae96590606a1/41293199718/receipt.json
-        territorial_identity_sha256: d799e5a446392a54654b45d84a13669e067fb3ea330bbeda46f4ae96590606a1
+        receipt_path: territorios/nac06/evidencia/fuentes_territoriales/2025/f5201bb87283d24e1929245689bbbbea163b2c632d6762db160b8ab3f9f87cfc/43650129661/receipt.json
+        territorial_identity_sha256: f5201bb87283d24e1929245689bbbbea163b2c632d6762db160b8ab3f9f87cfc
         compatibility_report_sha256: f45c13e8ffeb0746715f68f92ba09c4c5587e67a5e63268bc699931ffa8649b5
         compatibility_identity_sha256: 7b51b17caed01ea4022fbeb7841abbf52db25f1dda73992c8c0ad3bc4c4111e7
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
+        source_commit: 19650207a874184dc5940b6d353c88c4cb50f03f
       evidence:
         electoral_source: territorios/nac06/evidencia/fuentes_electorales/2025/cb1dfe01a462d120c8f9f8dd9d3139d2a4a726a1fefae57a5e2ff7dab6915183/41239771818/receipt.json
-        generation_preflight: territorios/nac06/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac06/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac06/evidencia/pares_fuentes/2025/5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48.json
         electoral_product: territorios/nac06/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac07
   name: Congreso Baleares
   editions:
