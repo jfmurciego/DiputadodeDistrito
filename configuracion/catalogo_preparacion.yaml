@@ -411,25 +411,25 @@ territories:
         run_id: 43051488486
         stage: M08
       preparation_evidence:
-        run_id: 42720735134
-        artifact_name: ddd-source-package-extremadura-2025-42720735134
-        artifact_sha256: 9d50ad9459baa8c275927668e553c3fd09285dc28b8027d2c7746fd7c0c68158
+        run_id: 43645442274
+        artifact_name: ddd-source-package-aut11-2025-43645442274
+        artifact_sha256: 71c302e005208112412f75c932dcdf2db188a7e8a98bd150dc11d297de8937a5
         package_sha256: 14abaecb2364af56af8ca827e2f65b8a8212842f88b1fd2e9394ab15bb33381d
-        receipt_path: territorios/aut11/evidencia/fuentes_territoriales/2025/c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6/42720735134/receipt.json
-        territorial_identity_sha256: c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6
+        receipt_path: territorios/aut11/evidencia/fuentes_territoriales/2025/da4476701b09af39554789017e88e53ed9b84f1218c2bbb577eb37dfb615fc88/43645442274/receipt.json
+        territorial_identity_sha256: da4476701b09af39554789017e88e53ed9b84f1218c2bbb577eb37dfb615fc88
         compatibility_report_sha256: 411ea5a3d2f0d180b74ffe17f6d563cbd7200151aac4c88bc986f5bfaa7a2bcf
         compatibility_identity_sha256: c74900602d2fdf4d6af7f58f9d6f88ed1059e8461d88c0e43bef961f23bca92c
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2025
         section_year: 2025
-        source_commit: 0ec9728c39bb6ded9db45608f5516d901805758a
+        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
       evidence:
         territorial_product: territorios/aut11/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/aut11/evidencia/fuentes_electorales/2025/e3963afbdaaefc34551d19d08eb4819e66266697dc33b6469b5b5aca318e3350/42720735134/receipt.json
         prepared_source_pair: territorios/aut11/evidencia/pares_fuentes/2025/67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3.json
         electoral_product: territorios/aut11/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/aut11/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: aut12
   name: Galicia
   editions:
@@ -450,25 +450,25 @@ territories:
         run_id: 43051951192
         stage: M08
       preparation_evidence:
-        run_id: 40690688352
-        artifact_name: ddd-source-package-galicia-2025-40690688352
-        artifact_sha256: 20d7850a31f2ae24fb25d4a58726589fa5938da8691bfb41e7b1f1722661622b
+        run_id: 43645451541
+        artifact_name: ddd-source-package-aut12-2025-43645451541
+        artifact_sha256: 2d422bd76710bc25cf45631e32b9d7e1aede2ceb3f9b7c8dfa74bd02dd6d04ba
         package_sha256: 891470ada7696896661e9987cd5bf47c6a7332886bbb0669d4d6e3a6ae49b04d
-        receipt_path: territorios/aut12/evidencia/fuentes_territoriales/2025/a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894/40690688352/receipt.json
-        territorial_identity_sha256: a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894
+        receipt_path: territorios/aut12/evidencia/fuentes_territoriales/2025/1651ec81b1367df37949d4418d7decc2339e7d5c327183f60db74b6b4e4c7344/43645451541/receipt.json
+        territorial_identity_sha256: 1651ec81b1367df37949d4418d7decc2339e7d5c327183f60db74b6b4e4c7344
         compatibility_report_sha256: eac810f98aea3cd2aac78e5984c89ee5548b13bda9736b926503b41dd723af33
         compatibility_identity_sha256: b1de69fa6f311928d4d4e983561f89591522162c1b41a68b2f7df8dfa179d268
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2024
         section_year: 2024
-        source_commit: 8940b848734cc05516ead27b48378493aa9aeddb
+        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
       evidence:
         electoral_source: territorios/aut12/evidencia/fuentes_electorales/2025/af07c8d3bce5a45f63afd1c5d5eca0423a7713f71b4fbbb6c812f2509f51f230/40389705458/receipt.json
         territorial_product: territorios/aut12/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut12/evidencia/catalogo/electoral_product_2025.json
         prepared_source_pair: territorios/aut12/evidencia/pares_fuentes/2025/fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914.json
         generation_preflight: territorios/aut12/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: aut13
   name: Comunidad de Madrid
   editions:
@@ -489,25 +489,25 @@ territories:
         run_id: 43053498550
         stage: M08
       preparation_evidence:
-        run_id: 40773465956
-        artifact_name: ddd-source-package-madrid-2025-40773465956
-        artifact_sha256: b1792fa2242ab38465fbf1a182a67d5966760d997f416c4216a52b20a480713f
+        run_id: 43645460677
+        artifact_name: ddd-source-package-aut13-2025-43645460677
+        artifact_sha256: 269b9c81b4ebf8b56d7a639948f8e3aedc38a57de39a91ae3cd180f9327e154a
         package_sha256: 45171fc1fd60d4ffa731f3bf41f3fa2f889e6f6c167227afc154262310c2940a
-        receipt_path: territorios/aut13/evidencia/fuentes_territoriales/2025/940bca48df854c294916fee6a812778c262b117340aab0a36d972a26a29da895/40773465956/receipt.json
-        territorial_identity_sha256: 940bca48df854c294916fee6a812778c262b117340aab0a36d972a26a29da895
+        receipt_path: territorios/aut13/evidencia/fuentes_territoriales/2025/ae8b62dace85159af12c5bce3a8be15d2ab5c11dc2ed9a82c88ff7679cc21178/43645460677/receipt.json
+        territorial_identity_sha256: ae8b62dace85159af12c5bce3a8be15d2ab5c11dc2ed9a82c88ff7679cc21178
         compatibility_report_sha256: c49509ea59cf6579ac3436d4a8ac5b4b4fee30adcd086576582d904d3b1c7c9e
         compatibility_identity_sha256: 0c128b32a9d048f3344fcdf70230421f9f0a844c083c4d8c0e0c90e290119366
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: e6778a88325a7c787e4279783fd0e19d7d1d2975
+        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
       evidence:
         electoral_source: territorios/aut13/evidencia/fuentes_electorales/2025/66b8d0cd823a4a29607a1553595c2a79c2d6ddbae51d432f5cd158dfec29d9ba/40773465956/receipt.json
         prepared_source_pair: territorios/aut13/evidencia/pares_fuentes/2025/4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8.json
-        generation_preflight: territorios/aut13/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/aut13/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut13/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/aut13/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: aut14
   name: Región de Murcia
   editions:
@@ -528,25 +528,25 @@ territories:
         run_id: 43053208175
         stage: M08
       preparation_evidence:
-        run_id: 40773421805
-        artifact_name: ddd-source-package-region_de_murcia-2025-40773421805
-        artifact_sha256: c372f56285f705141729d9a63dedf5c0d2b94c1dcd3e7485c2d77932d1497ef5
+        run_id: 43645469554
+        artifact_name: ddd-source-package-aut14-2025-43645469554
+        artifact_sha256: b4981f10d349b2c0c30ab4c4b17a7ae1e32893df526fdfbc777d5785388ea435
         package_sha256: 3cfc6aafeeb09273ca63b59f916ad2aaace11274e0304fd7e6183cda9957c58b
-        receipt_path: territorios/aut14/evidencia/fuentes_territoriales/2025/3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a/40773421805/receipt.json
-        territorial_identity_sha256: 3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a
+        receipt_path: territorios/aut14/evidencia/fuentes_territoriales/2025/978680ebfa479e02db3be6101e0f1fb25fc958911b93b9ad8b07a53d88c6b708/43645469554/receipt.json
+        territorial_identity_sha256: 978680ebfa479e02db3be6101e0f1fb25fc958911b93b9ad8b07a53d88c6b708
         compatibility_report_sha256: f164e3c8b1627d478c47f05b1dd07301d5b4f42408332b80c19a4bfe1e712822
         compatibility_identity_sha256: 83781a2ede58bbd0df66520d5e58222d15e97a05ea9cef9bea24d51aeb2b8c28
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: e6778a88325a7c787e4279783fd0e19d7d1d2975
+        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
       evidence:
         electoral_source: territorios/aut14/evidencia/fuentes_electorales/2025/bb4afc30bfd7530f7ea02f4a879b3eb7f029ed851899b925935a80c98e3add6a/40954443883/receipt.json
         prepared_source_pair: territorios/aut14/evidencia/pares_fuentes/2025/317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d.json
-        generation_preflight: territorios/aut14/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/aut14/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut14/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/aut14/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: aut15
   name: Comunidad Foral de Navarra
   editions:
@@ -567,25 +567,25 @@ territories:
         run_id: 43052874017
         stage: M08
       preparation_evidence:
-        run_id: 40838170635
-        artifact_name: ddd-source-package-comunidad_foral_de_navarra-2025-40838170635
-        artifact_sha256: fa14b233a4b81efd56234916f6637a00e73087e79f20d711d8b7fe5113fb5d98
+        run_id: 43645478667
+        artifact_name: ddd-source-package-aut15-2025-43645478667
+        artifact_sha256: c589f663b158ff4dc48a4667a1bc212188ca5b1a068080465189393e5c85358a
         package_sha256: 208c559a716b904fd9f2bf778feaacd8d976b77bba78b0fd9dc3c06904bf644a
-        receipt_path: territorios/aut15/evidencia/fuentes_territoriales/2025/4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1/40838170635/receipt.json
-        territorial_identity_sha256: 4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1
+        receipt_path: territorios/aut15/evidencia/fuentes_territoriales/2025/cc5f8c73bb56301faa02bcb76317f34c1d3e14fe275c63afaee3ff97f72609f5/43645478667/receipt.json
+        territorial_identity_sha256: cc5f8c73bb56301faa02bcb76317f34c1d3e14fe275c63afaee3ff97f72609f5
         compatibility_report_sha256: a9d7607694237c4ce4194e2c19ab095e09aeb90c250a46974acf4c3ceae2111a
         compatibility_identity_sha256: cd06fc1124dd3bc3b0844370a0b5aef5f3583ed0144e612c5339b5dd3ced76b2
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 56a05425004ca2539106f4d016a06a7096e48098
+        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
       evidence:
         electoral_source: territorios/aut15/evidencia/fuentes_electorales/2025/ac4fd5f21ab07fe8db6d056bdb71454d9a6ecdb69fa12e4f72983e6356ca141f/40838170635/receipt.json
         prepared_source_pair: territorios/aut15/evidencia/pares_fuentes/2025/4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc.json
-        generation_preflight: territorios/aut15/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/aut15/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut15/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/aut15/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: aut16
   name: País Vasco
   editions:
@@ -606,25 +606,25 @@ territories:
         run_id: 43047232024
         stage: M08
       preparation_evidence:
-        run_id: 40946888676
-        artifact_name: ddd-source-package-pais_vasco-2025-40946888676
-        artifact_sha256: c9175d33370e3a9eaf1e32b5b671efb5dc46462ddba7c8db9a6d6ae6d43dd90c
+        run_id: 43645488129
+        artifact_name: ddd-source-package-aut16-2025-43645488129
+        artifact_sha256: b9125cc9ae158009fc0762fa571af38e9b7ceb37f43456a915c0309a0903b971
         package_sha256: b47721cbd4aa28cae80b185814b0a002f903ce7a7b5e07aab372cafdd6cef874
-        receipt_path: territorios/aut16/evidencia/fuentes_territoriales/2025/ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288/40946888676/receipt.json
-        territorial_identity_sha256: ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288
+        receipt_path: territorios/aut16/evidencia/fuentes_territoriales/2025/08961b83ea2904cc47220dfc00f71b0716a49fdcec719e7482c5c33db13273d2/43645488129/receipt.json
+        territorial_identity_sha256: 08961b83ea2904cc47220dfc00f71b0716a49fdcec719e7482c5c33db13273d2
         compatibility_report_sha256: aa1097efe890eeff63689357f237e350b54a5d75707ed1bc8982ba243f64090f
         compatibility_identity_sha256: 90707fb28597d7f75bf8af3d4dfb427cac2f3508bfae26220a4eca00a4c6c001
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2024
         section_year: 2024
-        source_commit: 091d40cef648abcc9319af1f6dc3488a5abdc556
+        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
       evidence:
         electoral_source: territorios/aut16/evidencia/fuentes_electorales/2025/32e2c695b91acc6bae9c8b0455b7678b814bf66dc374c741f94622693ff703ab/43036604667/receipt.json
         prepared_source_pair: territorios/aut16/evidencia/pares_fuentes/2025/76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac.json
-        generation_preflight: territorios/aut16/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/aut16/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut16/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/aut16/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: aut17
   name: La Rioja
   editions:
@@ -645,25 +645,25 @@ territories:
         run_id: 43007066596
         stage: M08
       preparation_evidence:
-        run_id: 40850322464
-        artifact_name: ddd-source-package-la_rioja-2025-40850322464
-        artifact_sha256: c8ace5e7af65516e115f9c0b34eab695168ba13363786b21b55643fffbfef9ca
+        run_id: 43645497921
+        artifact_name: ddd-source-package-aut17-2025-43645497921
+        artifact_sha256: 4c78fa9cc45d71f69c2108ff1726dec8edd5d74c23fe62a366c5c340d0745a46
         package_sha256: 18d6198245386da78d425674a0fc2bbd379811c428507602eac96dbfbbb63888
-        receipt_path: territorios/aut17/evidencia/fuentes_territoriales/2025/fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853/40850322464/receipt.json
-        territorial_identity_sha256: fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853
+        receipt_path: territorios/aut17/evidencia/fuentes_territoriales/2025/0c9c86eb040c1a26bb60a2188d411f2f4ff4484ae3e87b5f415f0adc7e113636/43645497921/receipt.json
+        territorial_identity_sha256: 0c9c86eb040c1a26bb60a2188d411f2f4ff4484ae3e87b5f415f0adc7e113636
         compatibility_report_sha256: 3194a6768260a83b2784458a2dd9309afd6bcb57aaf1e5b00556d33c15cc83ba
         compatibility_identity_sha256: 3aeba2c82a6868ba8c88075b08fdc1e862da7545dde6296d7216c3aa173d16ed
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 1d22781f17213fd39d15879c0a707e035c6b5cc1
+        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
       evidence:
         electoral_source: territorios/aut17/evidencia/fuentes_electorales/2025/35a5a19b40d7d19c48d53eadfdcc2f045be0cc239ba3266c18389c1b0d09e951/40850322464/receipt.json
         prepared_source_pair: territorios/aut17/evidencia/pares_fuentes/2025/b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd.json
-        generation_preflight: territorios/aut17/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/aut17/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut17/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/aut17/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: aut18
   name: Ceuta
   editions:
@@ -684,25 +684,25 @@ territories:
         run_id: 43052923691
         stage: M08
       preparation_evidence:
-        run_id: 40773443591
-        artifact_name: ddd-source-package-ceuta-2025-40773443591
-        artifact_sha256: 9de48295eec36c7e5e4ad16cb1ed929f128e3325ef2e18d2b53bc10f7a6be374
+        run_id: 43645507829
+        artifact_name: ddd-source-package-aut18-2025-43645507829
+        artifact_sha256: 8652155ecb1c7f7e15e19e0ebef44f1879f05cdae9199a0769b595c56e4167af
         package_sha256: 21511daa229d9497f142ad9032d317595cf1cef0b56d1f2ae125a8f0eff107fe
-        receipt_path: territorios/aut18/evidencia/fuentes_territoriales/2025/e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4/40773443591/receipt.json
-        territorial_identity_sha256: e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4
+        receipt_path: territorios/aut18/evidencia/fuentes_territoriales/2025/249dd20fc5dbadceec0cf2d4ed0cd3c9bf9fba5a8a03c613ccd4f1eee568498c/43645507829/receipt.json
+        territorial_identity_sha256: 249dd20fc5dbadceec0cf2d4ed0cd3c9bf9fba5a8a03c613ccd4f1eee568498c
         compatibility_report_sha256: 2889da059eea31f950e2dbcf25148ae04cf565f7a523771b858afc975c987e13
         compatibility_identity_sha256: a0c31b1cd1edc34b90ef8516ee4197aa5b326434c041a2d85a068bda20b74d5d
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: e6778a88325a7c787e4279783fd0e19d7d1d2975
+        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
       evidence:
         territorial_product: territorios/aut18/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/aut18/evidencia/fuentes_electorales/2025/a030a3e1892b4fd6943caef31f04f339ec7f31414e7e9baf51a361c1e068cd5e/40773443591/receipt.json
         prepared_source_pair: territorios/aut18/evidencia/pares_fuentes/2025/43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8.json
-        generation_preflight: territorios/aut18/evidencia/catalogo/generation_preflight_2025.json
         electoral_product: territorios/aut18/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/aut18/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: aut19
   name: Melilla
   editions:
@@ -723,25 +723,24 @@ territories:
         run_id: 43051007542
         stage: M08
       preparation_evidence:
-        run_id: 40832114779
-        artifact_name: ddd-source-package-melilla-2025-40832114779
-        artifact_sha256: db0c191d868c248133c64d58f21706ccfb9686301c0d50270e09262b47fc8ccb
+        run_id: 43645525636
+        artifact_name: ddd-source-package-aut19-2025-43645525636
+        artifact_sha256: fa2bf73bab6362e1811159eff2358985213b473a89ff1fa5d0ddb2fd590d6b56
         package_sha256: 1aa62cb7c0ff47a6037322ace1e2ed5c6f36b11bc34f6f19aa0dcdcd36722aa9
-        receipt_path: territorios/aut19/evidencia/fuentes_territoriales/2025/abe81cc501292049c35658321fc51f672334e1cada123889d0ec287b42f1e4ec/40832114779/receipt.json
-        territorial_identity_sha256: abe81cc501292049c35658321fc51f672334e1cada123889d0ec287b42f1e4ec
+        receipt_path: territorios/aut19/evidencia/fuentes_territoriales/2025/df011bdb65a8d5084eaa825e727884b00d3b8809dfa137f9d4013f2bf58f135a/43645525636/receipt.json
+        territorial_identity_sha256: df011bdb65a8d5084eaa825e727884b00d3b8809dfa137f9d4013f2bf58f135a
         compatibility_report_sha256: 226619aacfaea5ed8a72aad0e7230663b4e713259e5527c6e37fa4d1f046f07d
         compatibility_identity_sha256: 0180db6e15213ff1049309f0a9cad75fcaed8ed9c2b004c19904e20b25028c41
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 14b4d01c67fc3660ef275e6f76da0e06c8894d90
+        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
       evidence:
         electoral_source: territorios/aut19/evidencia/fuentes_electorales/2025/8ac3f49c633f1be8ba441bf1290dc79c1a4b30b2bac0033f9c2699e73c1fd019/40832114779/receipt.json
         prepared_source_pair: territorios/aut19/evidencia/pares_fuentes/2025/f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4.json
-        generation_preflight: territorios/aut19/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/aut19/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut19/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac01
   name: Congreso Álava
   editions:
@@ -762,25 +761,24 @@ territories:
         run_id: 42983088643
         stage: M08
       preparation_evidence:
-        run_id: 41240137880
-        artifact_name: ddd-source-package-congreso_alava-2025-41240137880
-        artifact_sha256: 7d101c7cd9dee73eeb7b7a09936c7e41456b58c3daab81532f02c5823fbe9448
+        run_id: 43645534913
+        artifact_name: ddd-source-package-nac01-2025-43645534913
+        artifact_sha256: 18445a0a53cb8c7da2861ea5399038bbc023bf768ff1e3cb9bba8123450c2756
         package_sha256: cad80db926a5783f220748226415da98777ed5f4d912e56164961ee8c1d3f7d9
-        receipt_path: territorios/nac01/evidencia/fuentes_territoriales/2025/8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16/41240137880/receipt.json
-        territorial_identity_sha256: 8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16
+        receipt_path: territorios/nac01/evidencia/fuentes_territoriales/2025/a48493b744d72550a0648a74f0da4e4068db81c73385c09d3ec06b1d3e5576f2/43645534913/receipt.json
+        territorial_identity_sha256: a48493b744d72550a0648a74f0da4e4068db81c73385c09d3ec06b1d3e5576f2
         compatibility_report_sha256: b599419e3bc387b6d968406255313cd80c301cbdbaeaca9de6d91674e7e64603
         compatibility_identity_sha256: 57a0d1cd652493de2c435be0a5f2fbd5a39fdf6ed4425fa503774a95ff52f619
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 68ee5b1b2f4e2e87e70e20ab40fc2718d7b19c9a
+        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
       evidence:
         electoral_source: territorios/nac01/evidencia/fuentes_electorales/2025/4f920eb6eba9ea922f3007b741ced4e85036efae35088e17836aadbb5b31e4ae/41239750223/receipt.json
-        generation_preflight: territorios/nac01/evidencia/catalogo/generation_preflight_2025.json
         prepared_source_pair: territorios/nac01/evidencia/pares_fuentes/2025/29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b.json
         territorial_product: territorios/nac01/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/nac01/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac02
   name: Congreso Albacete
   editions:

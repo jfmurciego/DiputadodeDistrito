@@ -1033,11 +1033,11 @@
   },
   "ceuta": {
    "fuente_territorial": {
-    "run_id": "40773443591",
+    "run_id": "43645507829",
     "package_sha256": "21511daa229d9497f142ad9032d317595cf1cef0b56d1f2ae125a8f0eff107fe",
-    "artifact_sha256": "9de48295eec36c7e5e4ad16cb1ed929f128e3325ef2e18d2b53bc10f7a6be374",
-    "territorial_identity_sha256": "e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4",
-    "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4/40773443591/receipt.json",
+    "artifact_sha256": "8652155ecb1c7f7e15e19e0ebef44f1879f05cdae9199a0769b595c56e4167af",
+    "territorial_identity_sha256": "249dd20fc5dbadceec0cf2d4ed0cd3c9bf9fba5a8a03c613ccd4f1eee568498c",
+    "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/249dd20fc5dbadceec0cf2d4ed0cd3c9bf9fba5a8a03c613ccd4f1eee568498c/43645507829/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -1142,11 +1142,11 @@
   },
   "comunidad_foral_de_navarra": {
    "fuente_territorial": {
-    "run_id": "40838170635",
+    "run_id": "43645478667",
     "package_sha256": "208c559a716b904fd9f2bf778feaacd8d976b77bba78b0fd9dc3c06904bf644a",
-    "artifact_sha256": "fa14b233a4b81efd56234916f6637a00e73087e79f20d711d8b7fe5113fb5d98",
-    "territorial_identity_sha256": "4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1",
-    "receipt_path": "territorios/aut15/evidencia/fuentes_territoriales/2025/4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1/40838170635/receipt.json",
+    "artifact_sha256": "c589f663b158ff4dc48a4667a1bc212188ca5b1a068080465189393e5c85358a",
+    "territorial_identity_sha256": "cc5f8c73bb56301faa02bcb76317f34c1d3e14fe275c63afaee3ff97f72609f5",
+    "receipt_path": "territorios/aut15/evidencia/fuentes_territoriales/2025/cc5f8c73bb56301faa02bcb76317f34c1d3e14fe275c63afaee3ff97f72609f5/43645478667/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -8332,11 +8332,11 @@
   },
   "extremadura": {
    "fuente_territorial": {
-    "run_id": "42720735134",
+    "run_id": "43645442274",
     "package_sha256": "14abaecb2364af56af8ca827e2f65b8a8212842f88b1fd2e9394ab15bb33381d",
-    "artifact_sha256": "9d50ad9459baa8c275927668e553c3fd09285dc28b8027d2c7746fd7c0c68158",
-    "territorial_identity_sha256": "c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6",
-    "receipt_path": "territorios/aut11/evidencia/fuentes_territoriales/2025/c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6/42720735134/receipt.json",
+    "artifact_sha256": "71c302e005208112412f75c932dcdf2db188a7e8a98bd150dc11d297de8937a5",
+    "territorial_identity_sha256": "da4476701b09af39554789017e88e53ed9b84f1218c2bbb577eb37dfb615fc88",
+    "receipt_path": "territorios/aut11/evidencia/fuentes_territoriales/2025/da4476701b09af39554789017e88e53ed9b84f1218c2bbb577eb37dfb615fc88/43645442274/receipt.json",
     "population_year": 2025,
     "section_year": 2025
    },
@@ -8507,11 +8507,11 @@
   },
   "galicia": {
    "fuente_territorial": {
-    "run_id": "40690688352",
+    "run_id": "43645451541",
     "package_sha256": "891470ada7696896661e9987cd5bf47c6a7332886bbb0669d4d6e3a6ae49b04d",
-    "artifact_sha256": "20d7850a31f2ae24fb25d4a58726589fa5938da8691bfb41e7b1f1722661622b",
-    "territorial_identity_sha256": "a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894",
-    "receipt_path": "territorios/aut12/evidencia/fuentes_territoriales/2025/a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894/40690688352/receipt.json",
+    "artifact_sha256": "2d422bd76710bc25cf45631e32b9d7e1aede2ceb3f9b7c8dfa74bd02dd6d04ba",
+    "territorial_identity_sha256": "1651ec81b1367df37949d4418d7decc2339e7d5c327183f60db74b6b4e4c7344",
+    "receipt_path": "territorios/aut12/evidencia/fuentes_territoriales/2025/1651ec81b1367df37949d4418d7decc2339e7d5c327183f60db74b6b4e4c7344/43645451541/receipt.json",
     "population_year": 2024,
     "section_year": 2024
    },
@@ -8767,11 +8767,11 @@
   },
   "la_rioja": {
    "fuente_territorial": {
-    "run_id": "40850322464",
+    "run_id": "43645497921",
     "package_sha256": "18d6198245386da78d425674a0fc2bbd379811c428507602eac96dbfbbb63888",
-    "artifact_sha256": "c8ace5e7af65516e115f9c0b34eab695168ba13363786b21b55643fffbfef9ca",
-    "territorial_identity_sha256": "fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853",
-    "receipt_path": "territorios/aut17/evidencia/fuentes_territoriales/2025/fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853/40850322464/receipt.json",
+    "artifact_sha256": "4c78fa9cc45d71f69c2108ff1726dec8edd5d74c23fe62a366c5c340d0745a46",
+    "territorial_identity_sha256": "0c9c86eb040c1a26bb60a2188d411f2f4ff4484ae3e87b5f415f0adc7e113636",
+    "receipt_path": "territorios/aut17/evidencia/fuentes_territoriales/2025/0c9c86eb040c1a26bb60a2188d411f2f4ff4484ae3e87b5f415f0adc7e113636/43645497921/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -8882,11 +8882,11 @@
   },
   "madrid": {
    "fuente_territorial": {
-    "run_id": "40773465956",
+    "run_id": "43645460677",
     "package_sha256": "45171fc1fd60d4ffa731f3bf41f3fa2f889e6f6c167227afc154262310c2940a",
-    "artifact_sha256": "b1792fa2242ab38465fbf1a182a67d5966760d997f416c4216a52b20a480713f",
-    "territorial_identity_sha256": "940bca48df854c294916fee6a812778c262b117340aab0a36d972a26a29da895",
-    "receipt_path": "territorios/aut13/evidencia/fuentes_territoriales/2025/940bca48df854c294916fee6a812778c262b117340aab0a36d972a26a29da895/40773465956/receipt.json",
+    "artifact_sha256": "269b9c81b4ebf8b56d7a639948f8e3aedc38a57de39a91ae3cd180f9327e154a",
+    "territorial_identity_sha256": "ae8b62dace85159af12c5bce3a8be15d2ab5c11dc2ed9a82c88ff7679cc21178",
+    "receipt_path": "territorios/aut13/evidencia/fuentes_territoriales/2025/ae8b62dace85159af12c5bce3a8be15d2ab5c11dc2ed9a82c88ff7679cc21178/43645460677/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -8997,11 +8997,11 @@
   },
   "melilla": {
    "fuente_territorial": {
-    "run_id": "40832114779",
+    "run_id": "43645525636",
     "package_sha256": "1aa62cb7c0ff47a6037322ace1e2ed5c6f36b11bc34f6f19aa0dcdcd36722aa9",
-    "artifact_sha256": "db0c191d868c248133c64d58f21706ccfb9686301c0d50270e09262b47fc8ccb",
-    "territorial_identity_sha256": "abe81cc501292049c35658321fc51f672334e1cada123889d0ec287b42f1e4ec",
-    "receipt_path": "territorios/aut19/evidencia/fuentes_territoriales/2025/abe81cc501292049c35658321fc51f672334e1cada123889d0ec287b42f1e4ec/40832114779/receipt.json",
+    "artifact_sha256": "fa2bf73bab6362e1811159eff2358985213b473a89ff1fa5d0ddb2fd590d6b56",
+    "territorial_identity_sha256": "df011bdb65a8d5084eaa825e727884b00d3b8809dfa137f9d4013f2bf58f135a",
+    "receipt_path": "territorios/aut19/evidencia/fuentes_territoriales/2025/df011bdb65a8d5084eaa825e727884b00d3b8809dfa137f9d4013f2bf58f135a/43645525636/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -9137,11 +9137,11 @@
   },
   "pais_vasco": {
    "fuente_territorial": {
-    "run_id": "40946888676",
+    "run_id": "43645488129",
     "package_sha256": "b47721cbd4aa28cae80b185814b0a002f903ce7a7b5e07aab372cafdd6cef874",
-    "artifact_sha256": "c9175d33370e3a9eaf1e32b5b671efb5dc46462ddba7c8db9a6d6ae6d43dd90c",
-    "territorial_identity_sha256": "ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288",
-    "receipt_path": "territorios/aut16/evidencia/fuentes_territoriales/2025/ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288/40946888676/receipt.json",
+    "artifact_sha256": "b9125cc9ae158009fc0762fa571af38e9b7ceb37f43456a915c0309a0903b971",
+    "territorial_identity_sha256": "08961b83ea2904cc47220dfc00f71b0716a49fdcec719e7482c5c33db13273d2",
+    "receipt_path": "territorios/aut16/evidencia/fuentes_territoriales/2025/08961b83ea2904cc47220dfc00f71b0716a49fdcec719e7482c5c33db13273d2/43645488129/receipt.json",
     "population_year": 2024,
     "section_year": 2024
    },
@@ -9487,11 +9487,11 @@
   },
   "region_de_murcia": {
    "fuente_territorial": {
-    "run_id": "40773421805",
+    "run_id": "43645469554",
     "package_sha256": "3cfc6aafeeb09273ca63b59f916ad2aaace11274e0304fd7e6183cda9957c58b",
-    "artifact_sha256": "c372f56285f705141729d9a63dedf5c0d2b94c1dcd3e7485c2d77932d1497ef5",
-    "territorial_identity_sha256": "3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a",
-    "receipt_path": "territorios/aut14/evidencia/fuentes_territoriales/2025/3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a/40773421805/receipt.json",
+    "artifact_sha256": "b4981f10d349b2c0c30ab4c4b17a7ae1e32893df526fdfbc777d5785388ea435",
+    "territorial_identity_sha256": "978680ebfa479e02db3be6101e0f1fb25fc958911b93b9ad8b07a53d88c6b708",
+    "receipt_path": "territorios/aut14/evidencia/fuentes_territoriales/2025/978680ebfa479e02db3be6101e0f1fb25fc958911b93b9ad8b07a53d88c6b708/43645469554/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },

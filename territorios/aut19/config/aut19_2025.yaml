@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -53,7 +53,7 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes: &id001
   - '52'
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   notes:
   - R022 congeló 44 secciones y 87067 habitantes sin faltantes.
   - R023 justificó 0 pasarelas; no se añade ninguna excepción no auditada.
@@ -71,6 +71,12 @@ territory_contract:
   population_floor_ratio: 0.5
   population_cap_ratio: 1.75
   target_tolerance_ratio: 0.5
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: split_only_above_hard_cap
+  municipality_atomicity_limit_ratio: 1.75
+  require_auditable_district_catalogue: true
   limits_profile: exception
   limits_exception_rationale: 'Territorio excepcional (decisión del propietario, 28-10-2026):
     44 secciones indivisibles para K=25 obligan a al menos 6 distritos de una sola
@@ -81,12 +87,6 @@ territory_contract:
   limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.aut19.population_limits;
     población INE 65034 (2023), 44 secciones, 85.493 habitantes
   limits_exception_decided_at: '2026-10-28'
-  require_graph_contiguity: true
-  require_single_admin_level_1_per_district: true
-  require_municipality_discipline: true
-  oversized_municipality_rule: split_only_above_hard_cap
-  municipality_atomicity_limit_ratio: 1.75
-  require_auditable_district_catalogue: true
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes:
@@ -210,7 +210,7 @@ validation:
     compatibility_identity_sha256: 0180db6e15213ff1049309f0a9cad75fcaed8ed9c2b004c19904e20b25028c41
 generation_state:
   source_prepared: true
-  generation_enabled: true
+  generation_enabled: false
   package_sha256: 1aa62cb7c0ff47a6037322ace1e2ed5c6f36b11bc34f6f19aa0dcdcd36722aa9
   compatibility_identity_sha256: 0180db6e15213ff1049309f0a9cad75fcaed8ed9c2b004c19904e20b25028c41
   source_inputs:
@@ -262,9 +262,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40832114779
-  pre_m04_source_commit: 847db0b33efb12f53edcb9b967aa42e6ce7776aa
-  pre_m04_artifact_sha256: 725cceda30ab0914793bc0366e3431de730ce46d7e43381c4ed4a5cd731010eb
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -335,4 +332,5 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: af864df14346d5fff59fb55b86d49da0de2dc491b26e3399f894534bb40500f7
+  contract_sha256: eed3cc161a71a8529449e7da2e0ee41e0144aecfa415d230f53bc2a4dc6151a5
+  package_contract_sha256: af864df14346d5fff59fb55b86d49da0de2dc491b26e3399f894534bb40500f7

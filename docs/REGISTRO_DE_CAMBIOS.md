@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.421
+Versión: 1.0.423
 Fecha: 2026-11-14
-Alcance: T-322 — Tests de reutilización sobre raíz congelada previa a r3
+Alcance: T-324 — Plan 1.0.47: P10 desde R2 (D-112) y tests de estado vivo (T-322)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t322-fixtures-congelados.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.420_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_planificador-plan-1-0-47.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.422_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.420_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.423 · [2026-11-14 — T-324 — Plan 1.0.47: P10 desde R2 (D-112) y tests de estado vivo (T-322)](registro/2026-11-14_planificador-plan-1-0-47.md)
+- 1.0.422 · [2026-11-14 — Coordinador — Lecciones de la noche del 14-11 y cierre en el tablero](registro/2026-11-14_lecciones-coordinador-noche.md)
 - 1.0.421 · [2026-11-14 — T-322 — Tests de reutilización sobre raíz congelada previa a r3](registro/2026-11-14_t322-fixtures-congelados.md)
 - 1.0.420 · [2026-11-14 — T-321 — Plan 1.0.46: D-110 y matices de la revisión de 1.0.45](registro/2026-11-14_planificador-plan-1-0-46.md)
 - 1.0.419 · [2026-11-14 — T-294 — Contador en los visores y texto de transparencia (fase 2, parte 2)](registro/2026-11-14_feat-t294-visores-contador.md)
