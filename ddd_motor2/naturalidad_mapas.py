@@ -3,14 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — indicadores de naturalidad de los mapas vigentes y de cualquier composición
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Naturalidad · mapas
-FECHA: 2026-11-10
+FECHA: 2026-11-12
 ESTADO: candidato (motor 2; producción no lo importa; no lanza nada)
 CAMBIOS: fichero nuevo.
 MOTIVO: T-172: calcular las métricas de ddd_motor2/naturalidad.py sobre los mapas vigentes (datos/composicion/*.csv)
   y sobre los candidatos de la competición, con la geometría oficial del INE.
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/ddd_motor2/naturalidad_mapas_v1.0.0_20261112.py
 USO: python -m ddd_motor2.naturalidad_mapas vigentes --seccionado-dir <dir con SECC_CE_AAAA0101.shp por año> \
        [--salida datos/naturalidad] [territorio ...]
   --seccionado-dir: carpeta con s2023/, s2024/, s2025/ (el shapefile nacional del INE descomprimido); el año es el
@@ -35,6 +36,8 @@ from collections import defaultdict
 from pathlib import Path
 
 from . import naturalidad as nat
+from ddd_core.territorio_ids import carpeta_de  # noqa: E402  (T-220)
+from .semilla import territorio_ids  # noqa: E402  (T-220)
 
 ROOT = Path(__file__).resolve().parents[1]
 COMPOSICION = ROOT / "datos" / "composicion"
@@ -97,7 +100,7 @@ def grupo_area(sec: str, ind: dict) -> str | None:
 
 
 def anio_seccionado(territorio: str) -> str:
-    txt = (ROOT / "territorios" / territorio / "config" / f"{territorio}_2025.yaml").read_text(encoding="utf-8")
+    txt = (ROOT / "territorios" / carpeta_de(ROOT, territorio) / "config" / f"{territorio}_2025.yaml").read_text(encoding="utf-8")
     m = re.search(r"source_section_year:\s*(\d{4})", txt)
     if not m:
         raise ValueError(f"{territorio}: el contrato no declara source_section_year")
@@ -208,7 +211,7 @@ def cmd_vigentes(a) -> int:
             anio = anio_seccionado(t)
             shp = shp_de(Path(a.seccionado_dir), anio)
             shps[anio] = shp
-            asig, pob = leer_composicion(COMPOSICION / f"{t}.csv")
+            asig, pob = leer_composicion(territorio_ids.fichero_por_id(COMPOSICION, "{}.csv", t))
             geo = Geometria(shp, set(asig))
             filas.append(fila(t, anio, asig, pob, indicadores(asig, pob, geo, tablas, mov)))
             print(f"{t}: ok", flush=True)

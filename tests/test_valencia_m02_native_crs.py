@@ -15,7 +15,7 @@ import geopandas as gpd
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG = ROOT / "territorios/comunidad_valenciana/config/comunidad_valenciana_2025.yaml"
+CONFIG = ROOT / "territorios/aut10/config/aut10_2025.yaml"
 FIXTURE = ROOT / "tests/fixtures/f10_valencia_m02_native_crs/source_touch_pairs_2025.geojson"
 SPEC = importlib.util.spec_from_file_location("m02_valencia", ROOT / "modulos/02_construir_adyacencias.py")
 M02 = importlib.util.module_from_spec(SPEC)
@@ -38,7 +38,7 @@ class ValenciaM02NativeCrsTests(unittest.TestCase):
         # Los años de fuente siguen a la preparación vigente del catálogo (cada ejecución desde el
         # principio puede acreditar otra edición INE); el contrato debe coincidir con ella.
         catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
-        prep = next(r for r in catalog["territories"] if r["territory_id"] == "comunidad_valenciana")["editions"]["2025"]["preparation_evidence"]
+        prep = next(r for r in catalog["territories"] if r["territory_id"] == "aut10")["editions"]["2025"]["preparation_evidence"]
         self.assertEqual(config["meta"]["source_section_year"], prep["section_year"])
         self.assertEqual(config["meta"]["source_population_year"], prep["population_year"])
 

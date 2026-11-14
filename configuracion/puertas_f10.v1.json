@@ -28,7 +28,7 @@
   "activities": [
     {
       "id": "F10-AND-CROSSWALK-2025-2026",
-      "territory_id": "andalucia",
+      "territory_id": "aut01",
       "action": "research_official_2025_2026_crosswalk",
       "requires": [
         {
@@ -50,7 +50,7 @@
     },
     {
       "id": "F10-ARA-CROSSWALK-2025-2026",
-      "territory_id": "aragon",
+      "territory_id": "aut02",
       "action": "research_official_2025_2026_crosswalk",
       "requires": [
         {
@@ -72,7 +72,7 @@
     },
     {
       "id": "F10-CYL-CROSSWALK-2025-2026",
-      "territory_id": "castilla_y_leon",
+      "territory_id": "aut07",
       "action": "research_official_2025_2026_crosswalk",
       "requires": [
         {
@@ -94,7 +94,7 @@
     },
     {
       "id": "F10-EXT-ELECTORAL-SOURCE",
-      "territory_id": "extremadura",
+      "territory_id": "aut11",
       "action": "research_definitive_granular_election_source",
       "requires": [
         {
@@ -116,7 +116,7 @@
     },
     {
       "id": "F10-CV-2023-SOURCE-RESOLUTION",
-      "territory_id": "comunidad_valenciana",
+      "territory_id": "aut10",
       "action": "resolve_2023_population_geometry_blocker",
       "requires": [
         {

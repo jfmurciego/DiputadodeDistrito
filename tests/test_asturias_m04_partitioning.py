@@ -4,7 +4,7 @@ import yaml
 from herramientas.preparar_unidades_internas import build_command
 
 ROOT=Path(__file__).resolve().parents[1]
-PARAMS=ROOT/"territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml"
+PARAMS=ROOT/"territorios/aut03/config/aut03_2025.yaml"
 
 class AsturiasM04Partitioning(unittest.TestCase):
     def test_asturias_declares_internal_units_before_m04(self):

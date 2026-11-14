@@ -9,6 +9,11 @@ import json
 from pathlib import Path
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 SCHEMA = "ddd-minsait-provisional-contracts/1.0"
 DEFAULT_PATH = Path("configuracion/contratos_minsait_provisionales.yaml")
@@ -38,7 +43,7 @@ def resolve(
     missing = sorted(required - set(row))
     if missing:
         raise ValueError(f"Contrato Minsait incompleto {election_id}: {missing}")
-    if str(row["territory_id"]) != territory_id:
+    if not mismo_territorio(str(row["territory_id"]), str(territory_id)):
         raise ValueError(
             f"Contrato Minsait de otro territorio: {row['territory_id']} != {territory_id}"
         )

@@ -3,14 +3,15 @@
 """Cuadre del histórico reagregado de España (T-110) con Infoelectoral y con el espejo del Observatorio.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: T-110 (orden del propietario): cuadrar la salida de `reagregacion_historico.py --lote` en las 52 provincias.
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/cuadre_historico_espana_v1.0.0_20261112.py
 QUÉ HACE: fuera de línea. Por provincia (52) y elección: (1) total de candidaturas del espejo T-89 (Observatorio)
   frente al de Infoelectoral (2023-07, ZIP nacional por mesa, ficheros 08 por provincia y 10 por mesa sin CERA) y frente
   a los CSV oficiales versionados (BOE, 2019-11 y 2023); (2) lo reagregado a distritos (MANIFEST.json) frente al espejo;
-  (3) el ganador de 2023 por distrito frente al M08 versionado en `datos/resultados/congreso_<t>.csv`.
+  (3) el ganador de 2023 por distrito frente al M08 versionado en `datos/resultados/<circunscripción NAC>.csv`.
   El espejo suma secciones y no incluye el voto CERA: nunca debe superar a la oficial. Escribe un JSON con el cuadre y
   la lista de lo que no cuadra con su motivo.
 Uso: python herramientas/cuadre_historico_espana.py --espejo DIR --mesas ZIP --salida JSON
@@ -29,6 +30,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).parent))
 import equivalencia_seccionados as eqs  # noqa: E402
 import fuente_nazioenbehatokia as fnb  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 TOLERANCIA = 0.10  # defecto máximo admitido del espejo frente a la oficial (CERA + redondeos)
 
@@ -70,7 +76,7 @@ def leer_oficial_csv(ruta: Path) -> dict:
 
 
 def ganadores_m08(t: str) -> dict:
-    p = ROOT / f"datos/resultados/{t}.csv"
+    p = fichero_por_id(ROOT / "datos/resultados", "{}.csv", t)
     if not p.exists():
         return {}
     with open(p, encoding="utf-8", newline="") as f:
@@ -78,7 +84,7 @@ def ganadores_m08(t: str) -> dict:
 
 
 def ganadores_b(t: str, clave: str) -> dict:
-    p = ROOT / f"datos/resultados/historico/{clave}/{t}.csv"
+    p = fichero_por_id(ROOT / f"datos/resultados/historico/{clave}", "{}.csv", t)
     with open(p, encoding="utf-8", newline="") as f:
         return {r["distrito"]: r["ganador"] for r in csv.DictReader(f)}
 

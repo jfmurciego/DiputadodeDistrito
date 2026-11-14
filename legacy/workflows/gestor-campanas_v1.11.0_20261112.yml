@@ -1,0 +1,556 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz humana de campaña
+# VERSIÓN: 1.11.0 · FECHA: 2026-11-11 · ESTADO: candidato
+# CAMBIOS 1.11.0: T-234 (relevo formal, D-82): el Gestor lanza la 00 con motor=motor2 (Deslinde 1.0; herramientas/legislatura_vigente.py
+#   1.3.0). El modo «matriz» (campaña anterior) pasa el motor de forma expresa: Canónico → motor2; GerryChain → m05 (ruta retirada).
+# CAMBIOS 1.10.0: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P00 Campaña — Gestor» (antes 0 Gestor de Campañas); nombres de jobs con el prefijo P00.
+# CAMBIOS 1.9.0: T-133, el histórico autonómico (herramientas/historico_autonomico.py, paso A por comunidad con su calendario)
+#   corre en los mismos jobs: cada fila lleva `tipo` (general | autonomico) y la prueba incluye una de cada tipo.
+# CAMBIOS 1.8.0: T-130, «campaña completa» (una orden): la parte vigente (nacional y/o autonómica) se lanza con el Gestor y,
+#   a la vez, el histórico de las cinco generales corre en los jobs «histórico» con `clave` por fila (260 ejecuciones:
+#   prueba + dos lotes por el tope de 256 de la matriz). El histórico autonómico queda pendiente (T-131).
+# CAMBIOS 1.7.0: T-123, las cinco generales 2011-2023 (2011, 2015, 2016, 2019-04, 2019-11) con el mismo paso A y la misma
+#   puerta; el job «histórico prueba» corre el primer territorio y el resto solo arranca si pasa; paralelismo = «max_paralelo».
+# CAMBIOS 1.6.0: T-113, «histórico: generales 2019-11»: el plan da la matriz del paso A de T-83 por provincia
+#   (herramientas/historico_campana.py) y el job «histórico» la ejecuta (reagregación → M07/M08 sobre el M06 publicado,
+#   puerta: cuadre exacto, M07 PASS y mismo ganador que B) con artefacto por territorio; no publica. El resto del
+#   histórico sigue fallando al planificar con mensaje claro.
+# CAMBIOS 1.5.0: T-105, Gestor 2.0 (D-22): formulario en el orden de D-22 (elección, tipo, territorios, inicio, publicar,
+#   ensemble) más mapa (407/350) y «solo plan» activado por defecto; herramientas/gestor_campanas_2.py. Lo no disponible
+#   (histórico antes de T-83 A, ensemble 25) falla al planificar sin lanzar. Sustituye modo plan/lanzar, ámbito y forzar;
+#   «matriz» (campaña anterior) y «continuar» (relevo interno) quedan en «modo».
+# CAMBIOS 1.4.0: T-102: ámbito «congreso 350» (49 gemelos congreso350_*, K = escaños reales de 2023; nunca publican, D-18).
+# CAMBIOS 1.3.0: T-86, legislatura vigente por ámbito (configuracion/legislatura_vigente.yaml). Modo «plan» (en seco:
+#   territorios, clave, estado y acción) y «lanzar» (un clic de produccion por campaña; territorio de prueba si el lote
+#   es > 1; 00 → cadena electoral → 05 por territorio, D-3; salta los publicados salvo forzar; concurrencia limitada;
+#   relevo «continuar» como bot al acercarse al límite del job). El modo «matriz» conserva la campaña anterior.
+# CAMBIOS 1.2.0: campaña «Nacional 2023» con las 52 provincias (INE, matrícula o nombre); T-06.
+# CAMBIOS 1.1.0: actions: write (el 00 llamado tiene un job con actions: write; con read, GitHub no arranca:
+#   startup_failure); selección por «todos», números o nombres en lugar de CODAUTO con ceros.
+# ANTERIOR: legacy/workflows/gestor-campanas_v1.10.0_20261111.yml
+# QUÉ HACE: selecciona 1–19 territorios por CODAUTO, fija un manifiesto inmutable y orquesta desde el mismo commit.
+# NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
+name: P00 Campaña — Gestor
+
+on:
+  workflow_dispatch:
+    inputs:
+      eleccion:
+        description: '1) Elección'
+        required: true
+        type: choice
+        default: legislatura vigente
+        options:
+          - legislatura vigente
+          - 'histórico: generales 2019-11'
+          - 'histórico: generales 2019-04'
+          - 'histórico: generales 2016'
+          - 'histórico: generales 2015'
+          - 'histórico: generales 2011'
+      tipo:
+        description: '2) Tipo'
+        required: true
+        type: choice
+        default: nacional
+        options:
+          - nacional
+          - autonómico
+      territorios:
+        description: '3) Territorios: todos o lista separada por comas (provincias o comunidades por nombre, código o matrícula)'
+        required: true
+        type: string
+        default: todos
+      inicio:
+        description: '4) Inicio'
+        required: true
+        type: choice
+        default: reutilizar progreso
+        options:
+          - desde el principio
+          - aprovechar fuentes
+          - reutilizar progreso
+      publicar:
+        description: '5) Publicar en el visor'
+        required: true
+        type: choice
+        default: 'no'
+        options:
+          - 'no'
+          - sí
+      ensemble:
+        description: '6) Ensemble GerryChain'
+        required: true
+        type: choice
+        default: ninguno
+        options:
+          - ninguno
+          - '10'
+          - '25'
+      mapa:
+        description: 'Mapa: 407 distritos o 350 (escaños reales de 2023, T-102; nunca publica)'
+        required: true
+        type: choice
+        default: '407'
+        options:
+          - '407'
+          - '350'
+      solo_plan:
+        description: 'Solo plan: muestra qué se lanzaría y no lanza nada. Desactívelo para lanzar'
+        required: true
+        type: boolean
+        default: true
+      max_paralelo:
+        description: Territorios a la vez tras el de prueba
+        required: true
+        type: string
+        default: '3'
+      modo:
+        description: 'Avanzado: gestor (formulario de arriba), matriz (campaña anterior). continuar es el relevo interno'
+        required: true
+        type: choice
+        default: gestor
+        options:
+          - gestor
+          - matriz
+          - continuar
+      campana:
+        description: Campaña
+        required: true
+        type: choice
+        default: Autonómica 2025
+        options:
+          - Autonómica 2025
+          - Nacional 2023
+      estrategia:
+        description: Estrategia territorial
+        required: true
+        type: choice
+        default: Canónico
+        options:
+          - Canónico
+          - GerryChain
+          - GerryChain 25
+          - GerryChain 50
+      publication_mode:
+        description: Alcance
+        required: true
+        type: choice
+        default: electoral
+        options:
+          - electoral
+          - territorial_only
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/gestor-campanas.yml'
+      - 'configuracion/legislatura_vigente.yaml'
+      - 'configuracion/registro_electoral.yaml'
+      - 'configuracion/preparacion_legislatura_vigente.yaml'
+      - 'herramientas/legislatura_vigente.py'
+      - 'tests/test_legislatura_vigente.py'
+      - 'herramientas/gestor_campanas_2.py'
+      - 'tests/test_gestor_campanas_2.py'
+      - 'herramientas/historico_campana.py'
+      - 'herramientas/historico_autonomico.py'
+      - 'herramientas/reagregacion_historico.py'
+      - 'herramientas/historico_m07m08.py'
+      - 'configuracion/catalogo_territorios_espana_2025.yaml'
+      - 'configuracion/catalogo_preparacion.yaml'
+      - 'herramientas/gestor_campana_nacional.py'
+      - 'tests/test_gestor_campana_nacional.py'
+      - 'herramientas/gestor_campana.py'
+      - 'tests/test_gestor_campana.py'
+      - '.github/workflows/ejecucion-completa-proyecto.yml'
+      - '.github/workflows/produccion-distritos.yml'
+      - '.github/workflows/incorporacion-resultados-electorales.yml'
+      - '.github/workflows/_reutilizable-generacion-territorial.yml'
+      - '.github/workflows/_reutilizable-incorporacion-electoral.yml'
+      - '.github/workflows/_reutilizable-puerta-validacion.yml'
+
+permissions:
+  contents: write
+  actions: write
+  issues: write
+  pages: write
+  id-token: write
+
+jobs:
+  legislatura:
+    name: P00 Gestor — Legislatura vigente
+    if: ${{ github.event_name == 'pull_request' || inputs.modo != 'matriz' }}
+    # Lanzarlo el propietario equivale a su permiso (D-22): un clic de produccion; el relevo «continuar» va como bot.
+    environment: ${{ (github.event_name == 'workflow_dispatch' && inputs.modo == 'gestor' && !inputs.solo_plan) && 'produccion' || '' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    outputs:
+      historico: ${{ steps.plan.outputs.historico }}
+      historico_clave: ${{ steps.plan.outputs.historico_clave }}
+      historico_prueba: ${{ steps.plan.outputs.historico_prueba }}
+      historico_resto: ${{ steps.plan.outputs.historico_resto }}
+      historico_resto2: ${{ steps.plan.outputs.historico_resto2 }}
+      lanzar_vigente: ${{ steps.plan.outputs.lanzar_vigente }}
+    concurrency:
+      group: ${{ (github.event_name == 'workflow_dispatch' && !inputs.solo_plan) && 'ddd-gestor-legislatura' || format('ddd-gestor-plan-{0}', github.run_id) }}
+      cancel-in-progress: false
+      queue: max
+    env:
+      GH_TOKEN: ${{ github.token }}
+      MODO: ${{ inputs.modo || 'gestor' }}
+      ELECCION: ${{ inputs.eleccion || 'legislatura vigente' }}
+      TIPO: ${{ inputs.tipo || 'nacional' }}
+      TERRITORIOS: ${{ inputs.territorios || 'Huesca' }}
+      INICIO: ${{ inputs.inicio || 'reutilizar progreso' }}
+      PUBLICAR: ${{ inputs.publicar || 'no' }}
+      ENSEMBLE: ${{ inputs.ensemble || 'ninguno' }}
+      MAPA: ${{ inputs.mapa || '407' }}
+      SOLO_PLAN: ${{ (github.event_name != 'workflow_dispatch' || inputs.solo_plan) && 'true' || 'false' }}
+      MAX_PARALELO: ${{ inputs.max_paralelo || '3' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Comprobar la legislatura vigente contra sus fuentes
+        run: python herramientas/legislatura_vigente.py generar --comprobar
+      - name: Plan (en seco)
+        id: plan
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$MODO" == continuar && "$GITHUB_ACTOR" != 'github-actions[bot]' ]]; then
+            echo "::error::«continuar» es el relevo interno del Gestor; use «gestor»."; exit 22
+          fi
+          if [[ "$SOLO_PLAN" != true && "$GITHUB_REF_NAME" != main ]]; then
+            echo "::error::Las campañas sólo se lanzan desde main."; exit 21
+          fi
+          sin_api=()
+          [[ "$GITHUB_EVENT_NAME" == pull_request ]] && sin_api=(--sin-api)
+          python herramientas/gestor_campanas_2.py plan --eleccion "$ELECCION" --tipo "$TIPO" \
+            --territorios "$TERRITORIOS" --inicio "$INICIO" --publicar "$PUBLICAR" --ensemble "$ENSEMBLE" \
+            --mapa "$MAPA" --solo-plan "$SOLO_PLAN" "${sin_api[@]}" --salida plan.json --resumen plan.md
+          cat plan.md >> "$GITHUB_STEP_SUMMARY"
+          if jq -e 'has("territorios")' plan.json >/dev/null; then echo "lanzar_vigente=true" >> "$GITHUB_OUTPUT"; fi
+          if jq -e 'has("historico")' plan.json >/dev/null; then
+            C="$(jq -r .historico.clave plan.json)"
+            jq -c --arg c "$C" '[.historico.include[] | . + {clave: (.clave // $c), tipo: (.tipo // "general"), provincia: (.provincia // "")}]' plan.json > filas.json
+            jq -c '[(map(select(.tipo == "general")) | first // empty), (map(select(.tipo == "autonomico")) | first // empty)]' filas.json > pruebas.json
+            jq -c --slurpfile p pruebas.json '[.[] | select(. as $r | ($p[0] | index($r)) == null)]' filas.json > resto.json
+            echo "historico=$(jq -c '{include: .}' filas.json)" >> "$GITHUB_OUTPUT"
+            echo "historico_prueba=$(jq -c '{include: .}' pruebas.json)" >> "$GITHUB_OUTPUT"
+            if jq -e 'length > 0' resto.json >/dev/null; then
+              echo "historico_resto=$(jq -c '{include: .[0:250]}' resto.json)" >> "$GITHUB_OUTPUT"
+            fi
+            if jq -e 'length > 250' resto.json >/dev/null; then
+              echo "historico_resto2=$(jq -c '{include: .[250:]}' resto.json)" >> "$GITHUB_OUTPUT"
+            fi
+            echo "historico_clave=$C" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Lanzar la campaña
+        if: ${{ github.event_name == 'workflow_dispatch' && !inputs.solo_plan && inputs.modo != 'matriz' && steps.plan.outputs.lanzar_vigente == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          extra=()
+          [[ "$MODO" == continuar ]] && extra=(--sin-prueba)
+          python herramientas/gestor_campanas_2.py lanzar --plan plan.json --max-paralelo "$MAX_PARALELO" \
+            --minutos 320 "${extra[@]}" | tee resultado.json
+          { echo "### Resultado"; echo '```json'; cat resultado.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+  historico_prueba:
+    name: Histórico prueba ${{ matrix.clave }} ${{ matrix.territorio }}
+    # El clic de produccion del job «legislatura» es el permiso (D-22); este job solo corre si se aprobó y planificó.
+    if: ${{ github.event_name == 'workflow_dispatch' && !inputs.solo_plan && inputs.modo == 'gestor' && needs.legislatura.outputs.historico != '' }}
+    needs: legislatura
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.legislatura.outputs.historico_prueba) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      CLAVE: ${{ matrix.clave }}
+      TERRITORIO: ${{ matrix.territorio }}
+      PROVINCIA: ${{ matrix.provincia }}
+      TIPO: ${{ matrix.tipo }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: python -m pip install --disable-pip-version-check -r requirements.lock
+      - name: Paso A del histórico (reagregación → M07/M08) con puerta
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$TIPO" == autonomico ]]; then
+            python herramientas/historico_autonomico.py ejecutar --comunidad "$TERRITORIO" --salida salida_historico
+          else
+            python herramientas/historico_campana.py ejecutar --territorio "$TERRITORIO" --provincia "$PROVINCIA" \
+              --eleccion "$CLAVE" --salida salida_historico
+          fi
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: ${{ always() }}
+        with:
+          name: ddd-historico-${{ matrix.clave }}-${{ matrix.territorio }}
+          path: salida_historico
+          if-no-files-found: warn
+          retention-days: 90
+
+  historico:
+    name: Histórico ${{ matrix.clave }} ${{ matrix.territorio }}
+    # El clic de produccion del job «legislatura» es el permiso (D-22); este job solo corre si se aprobó y planificó.
+    if: ${{ success() && github.event_name == 'workflow_dispatch' && !inputs.solo_plan && inputs.modo == 'gestor' && needs.legislatura.outputs.historico_resto != '' }}
+    needs: [legislatura, historico_prueba]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(inputs.max_paralelo || '3') }}
+      matrix: ${{ fromJSON(needs.legislatura.outputs.historico_resto) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      CLAVE: ${{ matrix.clave }}
+      TERRITORIO: ${{ matrix.territorio }}
+      PROVINCIA: ${{ matrix.provincia }}
+      TIPO: ${{ matrix.tipo }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: python -m pip install --disable-pip-version-check -r requirements.lock
+      - name: Paso A del histórico (reagregación → M07/M08) con puerta
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$TIPO" == autonomico ]]; then
+            python herramientas/historico_autonomico.py ejecutar --comunidad "$TERRITORIO" --salida salida_historico
+          else
+            python herramientas/historico_campana.py ejecutar --territorio "$TERRITORIO" --provincia "$PROVINCIA" \
+              --eleccion "$CLAVE" --salida salida_historico
+          fi
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: ${{ always() }}
+        with:
+          name: ddd-historico-${{ matrix.clave }}-${{ matrix.territorio }}
+          path: salida_historico
+          if-no-files-found: warn
+          retention-days: 90
+
+  historico_2:
+    name: Histórico ${{ matrix.clave }} ${{ matrix.territorio }}
+    # El clic de produccion del job «legislatura» es el permiso (D-22); este job solo corre si se aprobó y planificó.
+    if: ${{ success() && github.event_name == 'workflow_dispatch' && !inputs.solo_plan && inputs.modo == 'gestor' && needs.legislatura.outputs.historico_resto2 != '' }}
+    needs: [legislatura, historico_prueba]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(inputs.max_paralelo || '3') }}
+      matrix: ${{ fromJSON(needs.legislatura.outputs.historico_resto2) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      CLAVE: ${{ matrix.clave }}
+      TERRITORIO: ${{ matrix.territorio }}
+      PROVINCIA: ${{ matrix.provincia }}
+      TIPO: ${{ matrix.tipo }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: python -m pip install --disable-pip-version-check -r requirements.lock
+      - name: Paso A del histórico (reagregación → M07/M08) con puerta
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$TIPO" == autonomico ]]; then
+            python herramientas/historico_autonomico.py ejecutar --comunidad "$TERRITORIO" --salida salida_historico
+          else
+            python herramientas/historico_campana.py ejecutar --territorio "$TERRITORIO" --provincia "$PROVINCIA" \
+              --eleccion "$CLAVE" --salida salida_historico
+          fi
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: ${{ always() }}
+        with:
+          name: ddd-historico-${{ matrix.clave }}-${{ matrix.territorio }}
+          path: salida_historico
+          if-no-files-found: warn
+          retention-days: 90
+
+  preparar:
+    name: P00 Gestor — Preparar
+    if: ${{ github.event_name == 'pull_request' || inputs.modo == 'matriz' }}
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      campaign_instance: ${{ steps.plan.outputs.campaign_instance }}
+      source_sha: ${{ steps.plan.outputs.source_sha }}
+      manifest_sha256: ${{ steps.plan.outputs.manifest_sha256 }}
+      manifest_path: ${{ steps.plan.outputs.manifest_path }}
+      strategy: ${{ steps.plan.outputs.strategy }}
+      ready_count: ${{ steps.plan.outputs.ready_count }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+      - id: plan
+        name: Construir selección nacional y manifiesto inmutable
+        shell: bash
+        env:
+          INPUTS_JSON: ${{ toJSON(inputs) }}
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+            test "$GITHUB_REF_NAME" = main || { echo "::error::Las campañas sólo se lanzan desde main."; exit 21; }
+            selected_json="$(python - <<'PY'
+          import json,os
+          from herramientas.gestor_campana_nacional import parse_selection
+          inputs=json.loads(os.environ["INPUTS_JSON"])
+          try:
+              print(json.dumps(parse_selection(str(inputs.get("territorios") or ""),campaign=str(inputs.get("campana") or "Autonómica 2025"))))
+          except ValueError as exc:
+              raise SystemExit(f"::error::{exc}")
+          PY
+          )"
+            publication_mode="${{ inputs.publication_mode }}"
+            strategy="${{ inputs.estrategia }}"
+            confirmation=EXECUTE_CAMPAIGN_CONFIRMED
+          else
+            selected_json='["galicia"]'
+            publication_mode=electoral
+            strategy='GerryChain 50'
+            confirmation=EXECUTE_CAMPAIGN_CONFIRMED
+          fi
+          source_sha="$GITHUB_SHA"
+          campaign_instance="campaign-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p .ddd-campaign
+          matrix="$(python -m herramientas.gestor_campana_nacional plan \
+            --selected-json "$selected_json" --publication-mode "$publication_mode" \
+            --source-sha "$source_sha" --strategy "$strategy" \
+            --campaign-instance "$campaign_instance" --confirmation "$confirmation" \
+            --output-manifest .ddd-campaign/campaign-manifest.json)"
+          manifest_sha256="$(jq -r .manifest_sha256 .ddd-campaign/campaign-manifest.json)"
+          {
+            echo "matrix=$matrix"
+            echo "ready_count=$(jq '.include|length' <<<"$matrix")"
+            echo "campaign_instance=$campaign_instance"
+            echo "source_sha=$source_sha"
+            echo "manifest_sha256=$manifest_sha256"
+            echo "manifest_path=.ddd-campaign/campaign-manifest.json"
+            echo "strategy=$strategy"
+          } >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: ${{ steps.plan.outcome == 'success' }}
+        with:
+          name: ddd-campaign-manifest-${{ steps.plan.outputs.campaign_instance }}
+          path: .ddd-campaign/campaign-manifest.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90
+      - name: E2E sintético del Gestor nacional
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          python -m pip install --disable-pip-version-check PyYAML==6.0.2
+          python -m unittest tests.test_gestor_campana_nacional
+
+  territorios:
+    name: ${{ matrix.slot }} ${{ matrix.territory_name }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.modo == 'matriz' && needs.preparar.outputs.ready_count != '0' }}
+    needs: preparar
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix: ${{ fromJSON(needs.preparar.outputs.matrix) }}
+    uses: ./.github/workflows/ejecucion-completa-proyecto.yml
+    secrets: inherit
+    with:
+      territory_id: ${{ matrix.territory_name }}
+      data_edition: ${{ matrix.data_edition }}
+      execution_mode: ${{ matrix.execution_mode }}
+      optimization_algorithm: ${{ matrix.optimization_algorithm }}
+      motor: ${{ matrix.optimization_algorithm == 'Canónico' && 'motor2' || 'm05' }}
+      publish_result: false
+      source_ref: ${{ matrix.source_sha }}
+      persist_state: ${{ matrix.persist_state }}
+      publication_mode: ${{ matrix.publication_mode }}
+      artifact_namespace: ${{ matrix.artifact_namespace }}
+      campaign_instance: ${{ matrix.campaign_instance }}
+      campaign_slot: ${{ matrix.slot }}
+      campaign_namespace: ${{ matrix.namespace }}
+      campaign_manifest_sha256: ${{ matrix.manifest_sha256 }}
+      campaign_contract_path: ${{ matrix.contract_path }}
+      campaign_contract_sha256: ${{ matrix.generation_contract.contract_sha256 }}
+      campaign_generation_evidence_path: ${{ matrix.generation_contract.generation_evidence_path }}
+      campaign_generation_evidence_sha256: ${{ matrix.generation_contract.generation_evidence_sha256 }}
+      campaign_source_run_id: ${{ matrix.generation_contract.source.run_id }}
+      campaign_source_artifact_name: ${{ matrix.generation_contract.source.artifact_name }}
+      campaign_source_artifact_sha256: ${{ matrix.generation_contract.source.artifact_sha256 }}
+      campaign_source_package_sha256: ${{ matrix.generation_contract.source.package_sha256 }}
+      campaign_evidence_receipt_path: ${{ matrix.evidence.receipt_path }}
+      campaign_evidence_receipt_sha256: ${{ matrix.evidence.receipt_sha256 }}
+      campaign_territorial_identity_sha256: ${{ matrix.evidence.territorial_identity_sha256 }}
+      campaign_electoral_identity_sha256: ${{ matrix.evidence.electoral_identity_sha256 || '' }}
+      campaign_pair_sha256: ${{ matrix.evidence.pair_sha256 || '' }}
+      candidate_count: ${{ matrix.candidate_count }}
+      gerrychain_entrypoint: ${{ matrix.entrypoint }}
+      require_unique_hashes: ${{ matrix.require_unique_hashes }}
+      expected_district_count: ${{ matrix.expected_district_count }}
+
+  resumen:
+    name: Resumen agregado de campaña
+    if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.modo == 'matriz' && needs.preparar.result == 'success' }}
+    needs: [preparar, territorios]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.preparar.outputs.source_sha }}
+      - name: Recuperar todos los resultados territoriales
+        continue-on-error: true
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: ddd-campaign-territory-*
+          path: .ddd-campaign/reports
+          merge-multiple: false
+      - name: Recuperar manifiesto inmutable
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ddd-campaign-manifest-${{ needs.preparar.outputs.campaign_instance }}
+          path: .ddd-campaign
+      - id: aggregate
+        name: Conservar todos los fallos individuales
+        shell: bash
+        run: |
+          set +e
+          mkdir -p .ddd-campaign/summary
+          python -m herramientas.gestor_campana_nacional aggregate             --manifest "${{ needs.preparar.outputs.manifest_path }}"             --reports-root .ddd-campaign/reports             --output-json .ddd-campaign/summary/campaign-summary.json             --output-md .ddd-campaign/summary/campaign-summary.md
+          rc=$?
+          echo "aggregate_rc=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ddd-campaign-summary-${{ needs.preparar.outputs.campaign_instance }}
+          path: .ddd-campaign/summary
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90
+      - name: Verificar integridad del resumen agregado
+        shell: bash
+        run: |
+          test "${{ steps.aggregate.outputs.aggregate_rc }}" = 0 || {
+            echo "::error::Integridad del resumen inválida; consulte el artefacto agregado."
+            exit 2
+          }
+          test -f .ddd-campaign/summary/campaign-summary.json || {
+            echo "::error::No existe resumen JSON pese a ejecución de agregación."
+            exit 3
+          }
+          jq -e --argjson expected "$(jq '.territories | length' .ddd-campaign/campaign-manifest.json)" '.territory_count_expected == $expected' .ddd-campaign/summary/campaign-summary.json >/dev/null || {
+            echo "::error::El agregado no contiene la cardinalidad esperada de la campaña."
+            exit 4
+          }
+          test "${{ needs.preparar.outputs.ready_count }}" != 0 || {
+            echo "::error::CAMPAIGN_ZERO_EXECUTABLE: ningún territorio tiene GENERATION_READY; informe generado y preservado, campaña NO ejecutada."
+            exit 5
+          }
+          jq -e '.completion_status == "COMPLETE" and .status == "PASS"' .ddd-campaign/summary/campaign-summary.json >/dev/null || {
+            echo "::error::CAMPAIGN_INCOMPLETE: resumen preservado, pero existen territorios bloqueados, ausentes o fallidos."
+            exit 6
+          }
+

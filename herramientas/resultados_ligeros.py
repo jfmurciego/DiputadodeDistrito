@@ -3,9 +3,10 @@
 """Resultados electorales ligeros por territorio, versionados en git (T-53).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.1 · FECHA: 2026-11-10 · ESTADO: candidato
+VERSIÓN: 1.4.2 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.4.1: T-203, la constante viene de eleccion_por_defecto (ligero), no del registro (pyproj).
-ANTERIOR: legacy/herramientas/resultados_ligeros_v1.4.0_20261110.py
+CAMBIOS 1.4.2 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/resultados_ligeros_v1.4.1_20261112.py
 CAMBIOS: 1.4.0: T-203, ELECCION_POR_DEFECTO se importa de registro_publicaciones_visor en vez de repetir el literal.
 ANTERIOR: legacy/herramientas/resultados_ligeros_v1.3.0_20261110.py
 CAMBIOS: 1.3.0: T-201, `vigentes(registro, eleccion)` y `vigente_por_eleccion`: la vigente es la de (territorio, elección), nunca solo el run_id
@@ -49,23 +50,39 @@ def sha256(b: bytes) -> str:
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from herramientas.eleccion_por_defecto import ELECCION_POR_DEFECTO  # noqa: E402,F401
+from ddd_core import territorio_ids  # noqa: E402  (T-220: lectura con id viejo o nuevo)
 
 
 def eleccion_de(p: dict) -> str:
     return str(p.get("election_date") or ELECCION_POR_DEFECTO)
 
 
+def _ambito(territorio: str) -> str | None:
+    try:
+        return territorio_ids.ambito(territorio)
+    except (territorio_ids.IdTerritorioDesconocido, territorio_ids.IdReservado):
+        return None
+
+
 def vigente_por_eleccion(products: list[dict], kind: str, eleccion: str = ELECCION_POR_DEFECTO,
-                         prefijo: str = "") -> dict[str, dict]:
-    """territorio → producto `kind` de la elección dada con el run_id mayor (T-201: nunca el mayor entre elecciones)."""
+                         ambito: str | None = None) -> dict[str, dict]:
+    """territorio → producto `kind` de la elección dada con el run_id mayor (T-201: nunca el mayor entre elecciones).
+
+    T-220: el id viejo y el nuevo son el mismo territorio (ddd_core.territorio_ids.resolver_id); la clave es el
+    territory_id del producto vigente. `ambito` (AUT | NAC) filtra por el resolutor, nunca por prefijo.
+    """
     prods: dict[str, dict] = {}
     for p in products:
-        if p.get("kind") != kind or eleccion_de(p) != eleccion or not str(p.get("territory_id", "")).startswith(prefijo):
+        tid = str(p.get("territory_id", ""))
+        if p.get("kind") != kind or eleccion_de(p) != eleccion or (ambito is not None and _ambito(tid) != ambito):
             continue
-        t = p["territory_id"]
+        try:
+            t = territorio_ids.resolver_id(tid)
+        except (territorio_ids.IdTerritorioDesconocido, territorio_ids.IdReservado):
+            t = tid
         if t not in prods or int(p["run_id"]) > int(prods[t]["run_id"]):
             prods[t] = p
-    return prods
+    return {p["territory_id"]: p for p in prods.values()}
 
 
 def vigentes(registro: Path = REGISTRO_VISOR, eleccion: str = ELECCION_POR_DEFECTO) -> dict[str, dict]:

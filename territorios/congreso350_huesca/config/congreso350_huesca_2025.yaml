@@ -14,7 +14,7 @@ meta:
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
   product_variant: congreso_350
-  parent_territory_id: congreso_huesca
+  parent_territory_id: nac22
 io:
   project_root:
     path: ../../..

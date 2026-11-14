@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT))
 
 from ddd_core.population_cap_exemptions import CapExemptionError, cap_exempt_partitions, district_cap  # noqa: E402
 
-CONTRATO_2026 = ROOT / "territorios/congreso_las_palmas/config/congreso_las_palmas_2026.yaml"
+CONTRATO_2026 = ROOT / "territorios/nac35/config/nac35_2026.yaml"
 DECISION = {"decided_at": "2026-11-11", "decided_by": "propietario", "decision": "D-83",
             "reason": "isla entera", "evidence": "docs/PLAN.md D-83"}
 

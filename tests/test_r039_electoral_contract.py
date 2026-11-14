@@ -1,12 +1,13 @@
 """
 PRUEBAS: Contrato electoral común R039
-VERSIÓN: 1.0.2
+VERSIÓN: 1.0.3
 NOMBRE DE VERSIÓN: Verificación coherente y normalización de district_id
-FECHA: 2026-09-15
+FECHA: 2026-11-12
 ESTADO: vigente — R039
 CAMBIOS: añade regresión para IDs de distrito leídos por pandas como float entero (1.0) frente a IDs geométricos textuales ("1").
 MOTIVO: impedir que una representación de tipo convierta una cobertura electoral completa en un falso faltante 67/67.
-ANTERIOR: legacy/tests/test_r039_electoral_contract_v1.0.1.py
+CAMBIOS 1.0.3 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/tests/test_r039_electoral_contract_v1.0.2_20261112.py
 """
 from __future__ import annotations
 
@@ -40,7 +41,7 @@ M08 = load_module("modulos/08_integrar_resultados.py", "ddd_m08_r039")
 
 class R039ElectoralContract(unittest.TestCase):
     def test_contrato_aragon_verifica_hash_y_todas_las_siglas(self):
-        config_path = ROOT / "territorios/aragon/config/aragon_2025.yaml"
+        config_path = ROOT / "territorios/aut02/config/aut02_2025.yaml"
         config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
         m07 = config["modulos"]["modulo_07_agregar_resultados_electorales"]
         self.assertEqual(
@@ -60,7 +61,7 @@ class R039ElectoralContract(unittest.TestCase):
             contract, parties = load_election_contract(
                 contract_path,
                 project_root=ROOT,
-                expected_territory_id="aragon",
+                expected_territory_id="aut02",
             )
             frames = [
                 M07.read_results(source["resolved_path"], source["adapter"], "CUSEC_KEY", parties)
@@ -70,7 +71,7 @@ class R039ElectoralContract(unittest.TestCase):
             self.assertEqual(len(observed), 15)
             self.assertIn("IU_MOVIMIENTO_SUMAR", observed)
         else:
-            manifest = (ROOT / "territorios/aragon/inputs/MANIFEST.sha256").read_text(encoding="utf-8")
+            manifest = (ROOT / "territorios/aut02/inputs/MANIFEST.sha256").read_text(encoding="utf-8")
             self.assertIn(
                 f"{source_record['sha256']}  {source_record['path']}",
                 manifest,
@@ -157,7 +158,7 @@ class R039ElectoralContract(unittest.TestCase):
     def test_modulos_no_contienen_tablas_ni_nombres_territoriales(self):
         m07_text = (ROOT / "modulos/07_agregar_resultados_electorales.py").read_text(encoding="utf-8")
         m08_text = (ROOT / "modulos/08_integrar_resultados.py").read_text(encoding="utf-8")
-        for forbidden in ("RTVE", "aragon", "PP", "PSOE", "PODEMOS"):
+        for forbidden in ("RTVE", "aut02", "PP", "PSOE", "PODEMOS"):
             self.assertNotIn(forbidden, m07_text + m08_text)
 
 

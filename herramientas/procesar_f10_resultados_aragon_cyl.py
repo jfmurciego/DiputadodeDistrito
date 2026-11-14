@@ -211,9 +211,9 @@ def process_aragon(out: Path) -> dict:
         mismatches = [(key, geography[key], od[key]) for key in set(od) | set(geography) if od[key] != geography[key]]
         raise ValueError(f"Open Data no concilia por CUSEC/candidatura con XLS definitivos: {mismatches[:5]}")
 
-    normalized = write_long(ROOT / "territorios/aragon/inputs/aragon_2026_cortes_secciones_partidos.csv", geography, ";")
+    normalized = write_long(ROOT / "territorios/aut02/inputs/aragon_2026_cortes_secciones_partidos.csv", geography, ";")
     election_sections = sorted({s for s, _ in geography})
-    official_crosswalk = json.loads((ROOT / "territorios/aragon/config/elecciones/aragon_cortes_2026.json").read_text(encoding="utf-8"))["reconciliation"]
+    official_crosswalk = json.loads((ROOT / "territorios/aut02/config/elecciones/aragon_cortes_2026.json").read_text(encoding="utf-8"))["reconciliation"]
     result_only_detail = []
     for code in election_sections:
         code_votes = sum(value for (section, _party), value in geography.items() if section == code)
@@ -247,7 +247,7 @@ def process_aragon(out: Path) -> dict:
 def process_cyl(out: Path) -> dict:
     from ddd_core.electoral_contract import PartyDictionary
 
-    dictionary_path = ROOT / "territorios/castilla_y_leon/config/elecciones/diccionario_partidos_cyl_2026.json"
+    dictionary_path = ROOT / "territorios/aut07/config/elecciones/diccionario_partidos_cyl_2026.json"
     dictionary = PartyDictionary(json.loads(dictionary_path.read_text(encoding="utf-8")))
     source = CYL_RAW / "resultados_2026_por_mesa.csv"
     values: Counter = Counter()
@@ -308,7 +308,7 @@ def process_cyl(out: Path) -> dict:
     if equation_failures:
         raise ValueError(f"Ecuación de escrutinio por mesa CYL fallida: {equation_failures[:5]}")
 
-    normalized=write_long(ROOT / "territorios/castilla_y_leon/inputs/cyl_2026_secciones_partidos.csv",values,",", "section_id")
+    normalized=write_long(ROOT / "territorios/aut07/inputs/cyl_2026_secciones_partidos.csv",values,",", "section_id")
     # Control de las rectificaciones del BOCYL del 8 de junio aplicadas en el dataset:
     # PANCAL-URCI no tiene votos en Salamanca/Zamora; PREPAL registra 311 y 333.
     correction_check = {}
@@ -324,7 +324,7 @@ def process_cyl(out: Path) -> dict:
     if correction_check != {"PANCAL_URCI_SALAMANCA":0,"PANCAL_URCI_ZAMORA":0,
                            "PREPAL_SALAMANCA":311,"PREPAL_ZAMORA":333}:
         raise ValueError(f"Dataset no refleja las rectificaciones BOCYL del 8 de junio: {correction_check}")
-    recon_path=ROOT/"territorios/castilla_y_leon/evidencia/reconciliacion_secciones_2025_2026.json"
+    recon_path=ROOT/"territorios/aut07/evidencia/reconciliacion_secciones_2025_2026.json"
     recon=json.loads(recon_path.read_text(encoding="utf-8"))
     observed_sections=sorted({section for section,_party in values})
     if len(observed_sections) != recon["electoral_sections"]:
@@ -360,7 +360,7 @@ def prepare_candidate_contract(territory: str, source_rel: str, election_date: s
     contract["sources"]=[{"path":Path(source_rel).relative_to(Path("territorios")/territory).as_posix(),
         "sha256":sha256(ROOT/source_rel),"publisher":publisher,"source_url":url,"retrieved_at":"2026-10-20",
         "adapter":{"kind":"long_csv","separator":separator,
-            "section_field":"CUSEC_KEY" if territory=="aragon" else "section_id",
+            "section_field":"CUSEC_KEY" if territory=="aut02" else "section_id",
             "party_field":"party","votes_field":"votes"}}]
     contract["source_verification"]=verification
     out.mkdir(parents=True,exist_ok=True)
@@ -420,9 +420,9 @@ def write_provenance(out: Path, reports: list[dict]) -> dict:
                                 "sha256":sha256(path),"source_url":urls.get(path.name),
                                 "acquired_on":"2026-10-20"})
     payload={"schema":"ddd-f10-official-electoral-originals/1.0","acquired_on":"2026-10-20",
-             "originals":entries,"processors":{"aragon":"herramientas/procesar_f10_resultados_aragon_cyl.py",
-             "castilla_y_leon":"herramientas/procesar_f10_resultados_aragon_cyl.py"},
-             "generated":{"aragon":reports[0],"castilla_y_leon":reports[1]}}
+             "originals":entries,"processors":{"aut02":"herramientas/procesar_f10_resultados_aragon_cyl.py",
+             "aut07":"herramientas/procesar_f10_resultados_aragon_cyl.py"},
+             "generated":{"aut02":reports[0],"aut07":reports[1]}}
     out.mkdir(parents=True,exist_ok=True)
     target=out/"manifest_procesamiento.json"
     target.write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
@@ -435,13 +435,13 @@ def main() -> None:
     args=parser.parse_args()
     aragon=process_aragon(args.output_dir)
     cyl=process_cyl(args.output_dir)
-    aragon_contract=prepare_candidate_contract("aragon",aragon["normalized_source"]["path"],"2026-02-08",
+    aragon_contract=prepare_candidate_contract("aut02",aragon["normalized_source"]["path"],"2026-02-08",
         "Gobierno de Aragón — Portal de elecciones y datos abiertos",
         "https://www.aragon.es/portal-de-elecciones/resultados-electorales",";",
         {"status":"VERIFIED_OFFICIAL_FORMATS_MATCH","geographic_candidate_votes":656725,
          "cera_candidate_votes_separate":4259,"official_candidate_votes_including_cera":660984,
          "cera_control_path":aragon["cera_control"]["path"],"cera_control_sha256":aragon["cera_control"]["sha256"]},args.output_dir)
-    cyl_contract=prepare_candidate_contract("castilla_y_leon",cyl["normalized_source"]["path"],"2026-03-15",
+    cyl_contract=prepare_candidate_contract("aut07",cyl["normalized_source"]["path"],"2026-03-15",
         "Junta de Castilla y León — Datos Abiertos",
         "https://analisis.datosabiertos.jcyl.es/explore/dataset/resultados-electorales-1983-actualidad/",",",
         {"status":"VERIFIED_DATASET_AGREES_WITH_CORRECTED_BOCYL","official_candidate_votes_including_cera":1236753,
@@ -449,18 +449,18 @@ def main() -> None:
          "correction_2026_06_08":{"PANCAL_URCI_SALAMANCA":0,"PANCAL_URCI_ZAMORA":0,
                                   "PREPAL_SALAMANCA":311,"PREPAL_ZAMORA":333}},args.output_dir)
     validations={
-        "aragon":validate_normalized_package("aragon",aragon["normalized_source"]["path"],"2026-02-08",aragon_contract),
-        "castilla_y_leon":validate_normalized_package("castilla_y_leon",cyl["normalized_source"]["path"],"2026-03-15",cyl_contract),
+        "aut02":validate_normalized_package("aut02",aragon["normalized_source"]["path"],"2026-02-08",aragon_contract),
+        "aut07":validate_normalized_package("aut07",cyl["normalized_source"]["path"],"2026-03-15",cyl_contract),
     }
     candidate_contracts={
-        "aragon":{"path":aragon_contract.relative_to(ROOT).as_posix(),"sha256":sha256(aragon_contract)},
-        "castilla_y_leon":{"path":cyl_contract.relative_to(ROOT).as_posix(),"sha256":sha256(cyl_contract)},
+        "aut02":{"path":aragon_contract.relative_to(ROOT).as_posix(),"sha256":sha256(aragon_contract)},
+        "aut07":{"path":cyl_contract.relative_to(ROOT).as_posix(),"sha256":sha256(cyl_contract)},
     }
     report={"schema":"ddd-f10-three-territories-processing/1.0","processed_on":date.today().isoformat(),
-            "aragon":aragon,"castilla_y_leon":cyl,
+            "aut02":aragon,"aut07":cyl,
             "candidate_contracts":candidate_contracts,
             "canonical_package_validation":validations,
-            "extremadura":{"territory":"Extremadura","definitive_granular_source":"NOT_FOUND_PUBLICLY_OR_IN_PROTECTED_STORE",
+            "aut11":{"territory":"Extremadura","definitive_granular_source":"NOT_FOUND_PUBLICLY_OR_IN_PROTECTED_STORE",
                             "definitive_constituency_candidate_votes":{"Badajoz":326196,"Cáceres":198641,"total":524837},
                             "existing_provisional_candidate_votes":522418,"unallocated_difference":2419,
                             "official_material":{"doe_result_url":"https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001",
@@ -476,7 +476,7 @@ def main() -> None:
     out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     provenance=write_provenance(args.output_dir,[aragon,cyl])
     print(json.dumps({"result":out.relative_to(ROOT).as_posix(),"sha256":sha256(out),"manifest":provenance,
-                      "aragon":aragon,"castilla_y_leon":cyl},ensure_ascii=False,indent=2))
+                      "aut02":aragon,"aut07":cyl},ensure_ascii=False,indent=2))
 
 
 if __name__=="__main__":

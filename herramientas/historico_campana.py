@@ -3,14 +3,15 @@
 """Histórico de generales en el Gestor 2.0: plan y ejecución del paso A por provincia y elección (T-113).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.1.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.1.0 (T-123): soporta las cinco generales 2011-2023 (2011, 2015, 2016, 2019-04 y 2019-11) con el mismo paso A y
   la misma puerta; `plan` añade `prueba` (primer territorio, lote de prueba antes del resto).
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: D-10, D-12 y D-22 del propietario: la opción «histórico» del «0 Gestor de Campañas» ejecuta el paso A de T-83
   (reagregacion_historico.py --paquete + historico_m07m08.py) en las 52 provincias, una elección por campaña,
   empezando por 2019-11. Motor repetible: cada ejecución regenera desde fuentes con huella, nada se reutiliza.
-ANTERIOR: legacy/herramientas/historico_campana_v1.0.0_20261109.py
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/historico_campana_v1.1.0_20261112.py
 QUÉ HACE: `plan(ids, eleccion)` comprueba por territorio lo que el paso A necesita (elección soportada, M06 publicado en
   datos_abiertos/INDEX.json, composición en datos/composicion/, fichero del espejo T-89 en su manifiesto) y devuelve la
   matriz; lo pedido y no soportado falla con NoDisponible; con «todos» se omite y se informa.
@@ -20,7 +21,7 @@ QUÉ HACE: `plan(ids, eleccion)` comprueba por territorio lo que el paso A neces
   Puerta: código 0 solo si el cuadre del paso B es exacto, M07 da PASS y el ganador coincide con B en cada distrito.
 NO HACE: publicar (la 04 del histórico no está adaptada: publicar = «sí» falla al planificar), ni escribir en
   datos/resultados/historico/ del repositorio (el resultado va al artefacto del run).
-Uso: python herramientas/historico_campana.py ejecutar --territorio congreso_huesca --eleccion 201911 --salida DIR
+Uso: python herramientas/historico_campana.py ejecutar --territorio nac22 --eleccion 201911 --salida DIR
 """
 from __future__ import annotations
 
@@ -32,6 +33,11 @@ import subprocess
 import sys
 import urllib.request
 from pathlib import Path
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio, fichero_por_id, en_mapa  # noqa: E402  (T-220: id viejo o nuevo)
 
 ROOT = Path(__file__).resolve().parents[1]
 SOPORTADAS = ("201111", "201512", "201606", "201904", "201911")
@@ -71,9 +77,9 @@ def _json(root: Path, rel: str) -> dict:
 def requisitos(territorio: str, provincia: str, clave: str, root: Path = ROOT) -> list[str]:
     """Lo que falta para el paso A de un territorio (vacío si se puede ejecutar)."""
     falta = []
-    if territorio not in _json(root, INDEX)["territorios"]:
+    if en_mapa(_json(root, INDEX)["territorios"], territorio) is None:
         falta.append("sin M06 publicado (datos_abiertos/INDEX.json)")
-    if not (root / f"datos/composicion/{territorio}.csv").is_file():
+    if not fichero_por_id(root / "datos/composicion", "{}.csv", territorio).is_file():
         falta.append("sin composición (datos/composicion/)")
     if f"data/{clave}/sekzioa/{provincia}.json" not in _json(root, ESPEJO)["ficheros"]:
         falta.append(f"sin fichero del espejo T-89 para {clave}")
@@ -192,7 +198,7 @@ def main(argv=None) -> int:
     if not prov:
         import yaml
         cfg = yaml.safe_load((ROOT / "configuracion/legislatura_vigente.yaml").read_text(encoding="utf-8"))
-        prov = next(r["codigo"] for r in cfg["territorios"] if r["territory_id"] == a.territorio)
+        prov = next(r["codigo"] for r in cfg["territorios"] if mismo_territorio(str(r["territory_id"] or ""), str(a.territorio)))
     a.salida.mkdir(parents=True, exist_ok=True)
     return ejecutar(a.territorio, prov, a.eleccion, a.trabajo / a.territorio, a.salida)
 

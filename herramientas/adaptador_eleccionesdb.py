@@ -6,18 +6,18 @@ from pathlib import Path
 
 # Única configuración territorial: el algoritmo es común para todas las elecciones.
 ELECTIONS={
- 'illes_balears_parlament_2023':(235,'04','illes_balears','2023-05-28'),
- 'canarias_parlamento_2023':(236,'05','canarias','2023-05-28'),
- 'cantabria_parlamento_2023':(237,'06','cantabria','2023-05-28'),
- 'castilla_la_mancha_cortes_2023':(238,'08','castilla_la_mancha','2023-05-28'),
- 'comunidad_madrid_asamblea_2023':(240,'13','madrid','2023-05-28'),
- 'region_murcia_asamblea_2023':(241,'14','region_de_murcia','2023-05-28'),
- 'navarra_parlamento_2023':(242,'15','comunidad_foral_de_navarra','2023-05-28'),
- 'la_rioja_parlamento_2023':(243,'17','la_rioja','2023-05-28'),
- 'comunidad_valenciana_corts_2023':(244,'10','comunidad_valenciana','2023-05-28'),
- 'pais_vasco_parlamento_2024':(250,'16','pais_vasco','2024-04-21'),
- 'ceuta_asamblea_local_2023':(247,'18','ceuta','2023-05-28'),
- 'melilla_asamblea_local_2023':(247,'19','melilla','2023-05-28'),
+ 'illes_balears_parlament_2023':(235,'04','aut04','2023-05-28'),
+ 'canarias_parlamento_2023':(236,'05','aut05','2023-05-28'),
+ 'cantabria_parlamento_2023':(237,'06','aut06','2023-05-28'),
+ 'castilla_la_mancha_cortes_2023':(238,'08','aut08','2023-05-28'),
+ 'comunidad_madrid_asamblea_2023':(240,'13','aut13','2023-05-28'),
+ 'region_murcia_asamblea_2023':(241,'14','aut14','2023-05-28'),
+ 'navarra_parlamento_2023':(242,'15','aut15','2023-05-28'),
+ 'la_rioja_parlamento_2023':(243,'17','aut17','2023-05-28'),
+ 'comunidad_valenciana_corts_2023':(244,'10','aut10','2023-05-28'),
+ 'pais_vasco_parlamento_2024':(250,'16','aut16','2024-04-21'),
+ 'ceuta_asamblea_local_2023':(247,'18','aut18','2023-05-28'),
+ 'melilla_asamblea_local_2023':(247,'19','aut19','2023-05-28'),
 }
 
 def sha256(path:Path)->str:

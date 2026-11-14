@@ -1,8 +1,9 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.1.1
 # CAMBIOS 1.1.0: T-215, columna «Nombre visible v5» (el nombre que lleva hoy cada fichero tras el paso 4) y nota de separadores.
-# FECHA: 2026-11-10
-# ANTERIOR: legacy/tests/generar_equivalencias_5_0_0_v1.0.0_20261110.py
+# FECHA: 2026-11-12
+# CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/tests/generar_equivalencias_5_0_0_v1.1.0_20261112.py
 """T-198: genera docs/ARQUITECTURA/EQUIVALENCIAS_5_0_0.md (viejo -> nuevo) de la tabla maestra.
 
 Reproducible: `python tests/generar_equivalencias_5_0_0.py` reescribe el documento;
@@ -76,7 +77,7 @@ def variantes_350():
     out = []
     for t in cat["pilot_territories"]:
         if t.get("scope") == "congreso_350":
-            cod = por_id[t["parent_territory_id"]]
+            cod = por_id.get(t["parent_territory_id"]) or t["parent_territory_id"].upper()  # T-220: el padre ya es nacNN
             out.append((t["territory_id"], cod, cod.lower() + "-350"))
     return sorted(out, key=lambda x: x[1])
 

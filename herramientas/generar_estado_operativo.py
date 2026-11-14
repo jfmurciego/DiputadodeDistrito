@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Estado operativo del proyecto (README y JSON compartido).
 
-VERSIÓN: 2.3.6 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 2.3.7 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 2.3.6: T-125, `latest_validated` ignora los territorios `congreso350_*` (mapa 350, D-18/D-19: nunca se publican); la 05 sin
   run explícito ya no promueve el último run de un gemelo 350 (`elegir_latest`).
   2.3.5: T-11, un fallo solo en la 05 (o en pasos posteriores sin fase) no cuenta como «parada» si la
@@ -15,7 +15,8 @@ CAMBIOS: 2.3.6: T-125, `latest_validated` ignora los territorios `congreso350_*`
   cada territorio informa de su última ejecución completa (run, fase donde se paró, motivo) y de la 05.
 MOTIVO: el README marcaba completo a Aragón con un M08 de otro linaje, dejaba en amarillo territorios
   con la 04 hecha y no decía dónde ni por qué se paró cada territorio.
-ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.5_20261109.py
+CAMBIOS 2.3.7 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.6_20261112.py
 """
 from __future__ import annotations
 
@@ -24,8 +25,18 @@ import json
 import re
 from datetime import datetime, timezone
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito por el resolutor, nunca por prefijo)
 
 import yaml
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 try:
     from herramientas.catalogo_territorios import (
@@ -82,7 +93,7 @@ def _load_receipt(root: Path, state: dict, territory_id: str, edition: str, key:
         return {}
     if not isinstance(payload, dict):
         return {}
-    if str(payload.get("territory_id") or "") != territory_id or str(payload.get("edition") or "") != str(edition):
+    if not mismo_territorio(str(payload.get("territory_id") or ""), str(territory_id)) or str(payload.get("edition") or "") != str(edition):
         return {}
     digest = str(payload.get("artifact_sha256") or "").removeprefix("sha256:").lower()
     if not re.fullmatch(r"[0-9a-f]{64}", digest):
@@ -210,7 +221,7 @@ def _source_readiness_row(
     activation = activation or _activation_snapshot(plan)
     return {
         "territory_id": plan["territory_id"],
-        "name": display_name if plan["territory_id"].startswith("congreso_") else plan["name"],
+        "name": display_name if territorio_ids.es_nacional(plan["territory_id"]) else plan["name"],
         "display_name": display_name,
         "election": {
             "election_id": plan["election_id"],
@@ -402,7 +413,7 @@ def _build_source_readiness(root: Path, master: dict) -> dict:
 
 def _latest_run(root: Path, tid: str, edition: str) -> dict:
     """Última ejecución completa registrada: dónde se paró y por qué, sin leer logs."""
-    folder = root / "territorios" / tid / "evidencia" / "ejecuciones_completas"
+    folder = root / "territorios" / carpeta_de(root, tid) / "evidencia" / "ejecuciones_completas"
     runs = sorted((int(p.stem), p) for p in folder.glob("*.json") if p.stem.isdigit()) if folder.is_dir() else []
     if not runs:
         return {}
@@ -419,7 +430,7 @@ def _latest_run(root: Path, tid: str, edition: str) -> dict:
     stopped = failed[0] if failed else None
     reason = None
     if stopped and stopped.startswith("02"):
-        preflight = root / "territorios" / tid / "evidencia" / "catalogo" / f"generation_preflight_{edition}.json"
+        preflight = root / "territorios" / carpeta_de(root, tid) / "evidencia" / "catalogo" / f"generation_preflight_{edition}.json"
         try:
             gate = (json.loads(preflight.read_text(encoding="utf-8")).get("effective_gate") or {})
         except (OSError, json.JSONDecodeError):
@@ -468,7 +479,7 @@ def _clear_publication_only_stop(last_run: dict, complete: bool, published: bool
 
 def _m08_consumed_current_m06(root: Path, tid: str, electoral_run: object, territorial_run: object) -> bool:
     """El manifiesto del run M08 acredita que su 04 terminó consumiendo el M06 vigente."""
-    path = root / "territorios" / tid / "evidencia" / "ejecuciones_completas" / f"{electoral_run}.json"
+    path = root / "territorios" / carpeta_de(root, tid) / "evidencia" / "ejecuciones_completas" / f"{electoral_run}.json"
     try:
         manifest = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):

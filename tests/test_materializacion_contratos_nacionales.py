@@ -519,7 +519,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
     def _validate_cross_year_package(self, package: Path) -> tuple[bool, list[str]]:
         return validate_prepared_package(
             package,
-            territory_id="principado_de_asturias",
+            territory_id="aut03",
             edition=2025,
             population_year=2025,
             section_year=2026,
@@ -527,10 +527,10 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
 
     def test_existing_contract_gets_policy_population_limits_reapplied(self):
         # T-20: un contrato ya completo conservaba el techo antiguo (Cádiz 1,15) aunque la política dijera 1,16.
-        with temp_root("congreso_cadiz", "Congreso Cádiz", ["11"]) as td:
+        with temp_root("nac11", "Congreso Cádiz", ["11"]) as td:
             root = Path(td)
             package = population_package(root, [("1112501001", 1_245_000)], population_year=2023, section_year=2023)
-            first = materialize(root, "congreso_cadiz", "2025", package, population_year="2023", section_year="2023")
+            first = materialize(root, "nac11", "2025", package, population_year="2023", section_year="2023")
             self.assertNotEqual(first.get("partition_mode"), "existing_contract")
             path = root / first["contract_path"]
             cfg = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -540,7 +540,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             cfg["territory_contract"]["limits_profile"] = "exception"
             cfg["territory_contract"]["limits_exception_rationale"] = "antiguo"
             path.write_text(yaml.safe_dump(cfg, sort_keys=False, allow_unicode=True), encoding="utf-8")
-            second = materialize(root, "congreso_cadiz", "2025", package, population_year="2023", section_year="2023")
+            second = materialize(root, "nac11", "2025", package, population_year="2023", section_year="2023")
             self.assertEqual(second["partition_mode"], "existing_contract")
             out = yaml.safe_load(path.read_text(encoding="utf-8"))
             self.assertEqual(out["territory_contract"]["population_cap_ratio"], 1.16)
@@ -550,7 +550,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
 
     def test_cross_year_geometry_derivations_are_materially_bound(self):
         td = temp_root(
-            "principado_de_asturias",
+            "aut03",
             "Principado de Asturias",
             ["33"],
         )
@@ -563,7 +563,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
 
     def test_cross_year_missing_geometry_derivation_blocks(self):
         td = temp_root(
-            "principado_de_asturias",
+            "aut03",
             "Principado de Asturias",
             ["33"],
         )
@@ -593,7 +593,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
 
     def test_cross_year_geometry_derivation_sha_mismatch_blocks(self):
         td = temp_root(
-            "principado_de_asturias",
+            "aut03",
             "Principado de Asturias",
             ["33"],
         )
@@ -633,7 +633,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
 
     def test_cross_year_inline_audit_mismatch_with_durable_blocks(self):
         td = temp_root(
-            "principado_de_asturias",
+            "aut03",
             "Principado de Asturias",
             ["33"],
         )
@@ -684,14 +684,14 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
 
     def test_archipelago_registry_is_explicit_and_has_no_marine_edges(self):
         data = json.loads(PARTITIONS.read_text(encoding="utf-8"))
-        self.assertEqual(set(data["territories"]), {"illes_balears", "canarias", "congreso_santa_cruz_de_tenerife", "congreso_baleares", "congreso_las_palmas"})
+        self.assertEqual(set(data["territories"]), {"aut04", "aut05", "nac38", "nac07", "nac35"})
         # Las autonómicas no tienen aristas marinas; sólo un grupo de islas del Congreso declara puentes.
-        self.assertFalse(data["territories"]["illes_balears"].get("bridges"))
-        self.assertFalse(data["territories"]["canarias"].get("bridges"))
-        self.assertEqual(len(data["territories"]["illes_balears"]["components"]), 4)
-        self.assertEqual(len(data["territories"]["canarias"]["components"]), 8)
+        self.assertFalse(data["territories"]["aut04"].get("bridges"))
+        self.assertFalse(data["territories"]["aut05"].get("bridges"))
+        self.assertEqual(len(data["territories"]["aut04"]["components"]), 4)
+        self.assertEqual(len(data["territories"]["aut05"]["components"]), 8)
         self.assertEqual(
-            data["territories"]["canarias"]["section_overrides"]["3502401010"],
+            data["territories"]["aut05"]["section_overrides"]["3502401010"],
             "35-C04",
         )
 
@@ -707,7 +707,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
         self.assertEqual(exempt, ["C"])
 
     def test_population_parser_accepts_semicolon_official_subset(self):
-        td = temp_root("principado_de_asturias", "Principado de Asturias", ["33"])
+        td = temp_root("aut03", "Principado de Asturias", ["33"])
         try:
             root = Path(td.name)
             package = population_package(
@@ -715,7 +715,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 [("3300101001", 1507), ("3300201001", 1905), ("3300201002", 0)],
                 delimiter=";",
             )
-            result = materialize(root, "principado_de_asturias", "2025", package, population_year="2025", section_year="2025")
+            result = materialize(root, "aut03", "2025", package, population_year="2025", section_year="2025")
             self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
             self.assertEqual(cfg["validation"]["province_districts"], {"33": 45})
@@ -726,7 +726,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
         cases = ((2023, 2023), (2024, 2024), (2025, 2026))
         for population_year, section_year in cases:
             with self.subTest(population_year=population_year, section_year=section_year):
-                td = temp_root("principado_de_asturias", "Principado de Asturias", ["33"])
+                td = temp_root("aut03", "Principado de Asturias", ["33"])
                 try:
                     root = Path(td.name)
                     package = population_package(
@@ -737,7 +737,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                     )
                     result = materialize(
                         root,
-                        "principado_de_asturias",
+                        "aut03",
                         "2025",
                         package,
                         population_year=str(population_year),
@@ -759,7 +759,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                     )
                     admitted = validate_production_contract(
                         contract_path,
-                        expected_territory="principado_de_asturias",
+                        expected_territory="aut03",
                     )
                     self.assertEqual("ADMITTED", admitted["status"], admitted["errors"])
 
@@ -772,7 +772,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                         )
                         rejected = validate_production_contract(
                             contract_path,
-                            expected_territory="principado_de_asturias",
+                            expected_territory="aut03",
                         )
                         self.assertEqual("REJECTED", rejected["status"])
                         self.assertTrue(
@@ -787,7 +787,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                     td.cleanup()
 
     def test_dynamic_source_manifest_rejects_invalid_digest(self):
-        td = temp_root("principado_de_asturias", "Principado de Asturias", ["33"])
+        td = temp_root("aut03", "Principado de Asturias", ["33"])
         try:
             root = Path(td.name)
             package = population_package(
@@ -798,7 +798,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             )
             result = materialize(
                 root,
-                "principado_de_asturias",
+                "aut03",
                 "2025",
                 package,
                 population_year="2023",
@@ -813,7 +813,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             )
             rejected = validate_production_contract(
                 contract_path,
-                expected_territory="principado_de_asturias",
+                expected_territory="aut03",
             )
             self.assertEqual("REJECTED", rejected["status"])
             self.assertTrue(
@@ -824,11 +824,11 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             td.cleanup()
 
     def test_materializes_asturias_without_manual_contract_work(self):
-        td = temp_root("principado_de_asturias", "Principado de Asturias", ["33"])
+        td = temp_root("aut03", "Principado de Asturias", ["33"])
         try:
             root = Path(td.name)
             package = population_package(root, [("3300101001", 1_015_128)])
-            result = materialize(root, "principado_de_asturias", "2025", package, population_year="2025", section_year="2025")
+            result = materialize(root, "aut03", "2025", package, population_year="2025", section_year="2025")
             self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             self.assertEqual(result["k"], 45)
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
@@ -1034,7 +1034,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
 
     def test_archipelago_physical_input_rejects_missing_lookup_and_inconsistent_apportionment(self):
         contract = yaml.safe_load(
-            (ROOT/"territorios/illes_balears/config/illes_balears_2025.yaml").read_text(encoding="utf-8")
+            (ROOT/"territorios/aut04/config/aut04_2025.yaml").read_text(encoding="utf-8")
         )
         missing = copy.deepcopy(contract)
         missing["validation"]["hard_partition_lookup"] = "configuracion/no-existe.json"
@@ -1129,7 +1129,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             workflow,
         )
 
-        for territory_id in ("illes_balears", "canarias"):
+        for territory_id in ("aut04", "aut05"):
             with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td:
                 root = Path(td)
                 source = root/"source.geojson.zip"
@@ -1195,7 +1195,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 self.assertTrue(target.is_file(), territory_id)
 
     def test_real_archipelago_contracts_separate_m02_source_fields_from_m04_partition_fields(self):
-        for territory_id in ("illes_balears", "canarias"):
+        for territory_id in ("aut04", "aut05"):
             with self.subTest(territory=territory_id):
                 contract = yaml.safe_load(
                     (ROOT / f"territorios/{territory_id}/config/{territory_id}_2025.yaml").read_text(
@@ -1265,7 +1265,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
 
     def test_archipelago_policy_separates_institutional_k_from_ddd_apportionment(self):
         policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
-        for territory_id, expected_k in (("illes_balears", 59), ("canarias", 70)):
+        for territory_id, expected_k in (("aut04", 59), ("aut05", 70)):
             entry = policy["territories"][territory_id]
             self.assertEqual(expected_k, entry["k"])
             self.assertEqual("norma", entry["k_source"])
@@ -1275,16 +1275,16 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             self.assertIn("Contexto solamente", entry["legal_context"]["note"])
         self.assertEqual(
             {"Mallorca":33,"Menorca":13,"Ibiza":12,"Formentera":1},
-            policy["territories"]["illes_balears"]["legal_context"]["constituencies"],
+            policy["territories"]["aut04"]["legal_context"]["constituencies"],
         )
-        canary = policy["territories"]["canarias"]["legal_context"]
+        canary = policy["territories"]["aut05"]["legal_context"]
         self.assertEqual(9, canary["autonomous_constituency"])
         self.assertEqual(61, sum(canary["island_constituencies"].values()))
 
     def test_r026_component_inventories_match_partition_registry_and_ddd_audit(self):
         partitions = json.loads(PARTITIONS.read_text(encoding="utf-8"))
         cases = {
-            "illes_balears": {
+            "aut04": {
                 "k": 59,
                 "r026": ROOT/"resultados/archipielagos/gh-34688874092/illes_balears.json",
                 "population_by_partition": {
@@ -1293,7 +1293,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 "quota": {"07-C01":44,"07-C02":6,"07-C03":1,"07-C04":8},
                 "exempt": ["07-C03"],
             },
-            "canarias": {
+            "aut05": {
                 "k": 70,
                 "r026": ROOT/"resultados/archipielagos/gh-34688874092/canarias.json",
                 "population_by_partition": {
@@ -1345,7 +1345,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             )
 
     def test_materializes_canary_archipelago_without_marine_bridge(self):
-        td = temp_root("canarias", "Canarias", ["35", "38"])
+        td = temp_root("aut05", "Canarias", ["35", "38"])
         try:
             root = Path(td.name)
             package = population_package(root, [
@@ -1358,7 +1358,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 ("3800701001", 86297),
                 ("3801301001", 11993),
             ])
-            result = materialize(root, "canarias", "2025", package, population_year="2025", section_year="2025")
+            result = materialize(root, "aut05", "2025", package, population_year="2025", section_year="2025")
             self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             self.assertEqual(result["partition_mode"], "physical_components_hamilton")
             self.assertEqual(
@@ -1382,7 +1382,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             td.cleanup()
 
     def test_materializes_balearic_archipelago_with_explicit_partition_exception(self):
-        td = temp_root("illes_balears", "Islas Baleares", ["07"])
+        td = temp_root("aut04", "Islas Baleares", ["07"])
         try:
             root = Path(td.name)
             package = population_package(root, [
@@ -1391,7 +1391,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 ("0702401001", 11690),
                 ("0702601001", 164265),
             ])
-            result = materialize(root, "illes_balears", "2025", package, population_year="2025", section_year="2025")
+            result = materialize(root, "aut04", "2025", package, population_year="2025", section_year="2025")
             self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             self.assertEqual(result["partition_mode"], "physical_components_hamilton")
             self.assertEqual(
@@ -1424,7 +1424,7 @@ class TerritoryPopulationLimitsTests(unittest.TestCase):
     def test_melilla_exceptional_limits_and_national_defaults_elsewhere(self):
         from herramientas.materializar_contrato_generacion import territory_population_limits
         policy = yaml.safe_load((ROOT / "configuracion/politica_generacion_territorial_2025.yaml").read_text(encoding="utf-8"))
-        melilla = territory_population_limits(policy["defaults"], policy["territories"]["melilla"], "melilla")
+        melilla = territory_population_limits(policy["defaults"], policy["territories"]["aut19"], "aut19")
         self.assertEqual((0.50, 1.75, 0.50), (melilla["population_floor_ratio"], melilla["population_cap_ratio"], melilla["target_tolerance_ratio"]))
         for territory_id, entry in policy["territories"].items():
             if not entry.get("population_limits"):
@@ -1433,7 +1433,7 @@ class TerritoryPopulationLimitsTests(unittest.TestCase):
     def test_atomicity_limit_override_for_peninsular_m05_group(self):
         from herramientas.materializar_contrato_generacion import territory_population_limits
         policy = yaml.safe_load((ROOT / "configuracion/politica_generacion_territorial_2025.yaml").read_text(encoding="utf-8"))
-        for territory_id in ("andalucia", "pais_vasco", "cataluna"):
+        for territory_id in ("aut01", "aut16", "aut09"):
             with self.subTest(territory=territory_id):
                 limits = territory_population_limits(policy["defaults"], policy["territories"][territory_id], territory_id)
                 self.assertEqual(1.25, limits["municipality_atomicity_limit_ratio"])
@@ -1467,7 +1467,7 @@ class StructuralFloorExemptionTests(unittest.TestCase):
             component_apportionment_audit, structural_floor_exemptions,
         )
         policy = yaml.safe_load((ROOT / "configuracion/politica_generacion_territorial_2025.yaml").read_text(encoding="utf-8"))
-        structural = structural_floor_exemptions(policy["territories"]["illes_balears"], "illes_balears")
+        structural = structural_floor_exemptions(policy["territories"]["aut04"], "aut04")
         self.assertIn("07-C02", structural)
         self.assertIn("07-C04", structural)
         pops = {"07-C01": 940332, "07-C02": 99005, "07-C03": 11389, "07-C04": 159180}
@@ -1484,7 +1484,7 @@ class StructuralFloorExemptionTests(unittest.TestCase):
             structural_floor_exemptions({"structural_floor_exemptions": {"07-C02": {"rationale": "x"}}}, "t")
 
     def test_live_baleares_contract_keeps_menorca_exempt(self):
-        cfg = yaml.safe_load((ROOT / "territorios/illes_balears/config/illes_balears_2025.yaml").read_text(encoding="utf-8"))
+        cfg = yaml.safe_load((ROOT / "territorios/aut04/config/aut04_2025.yaml").read_text(encoding="utf-8"))
         self.assertIn("07-C02", cfg["validation"]["population_floor_exempt_partitions"])
         self.assertIn("07-C04", cfg["validation"]["population_floor_exempt_partitions"])
         self.assertTrue(cfg["validation"]["partition_apportionment_audit"]["07-C02"]["floor_exception_required"])

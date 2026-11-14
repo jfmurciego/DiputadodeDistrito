@@ -12,7 +12,7 @@ class TestCatalunaElectoralVigente(unittest.TestCase):
                 w.writerow({"Nivell":"ME","Codi circumscripció":"08","Codi municipi":"001","Nom municipi":"X","Districte":"01","Secció":"001","Mesa":"A","Votants":"10","Vots a candidatures":"9","Vots PSC":"5","Vots ERC":"4"})
                 w.writerow({"Nivell":"ME","Codi circumscripció":"08","Codi municipi":"001","Nom municipi":"X","Districte":"01","Secció":"001","Mesa":"B","Votants":"12","Vots a candidatures":"11","Vots PSC":"6","Vots ERC":"5"})
                 w.writerow({"Nivell":"ME","Codi circumscripció":"08","Codi municipi":"998","Nom municipi":"Residents Absents-Barcelona","Districte":"99","Secció":"001","Mesa":"U","Votants":"3","Vots a candidatures":"3","Vots PSC":"2","Vots ERC":"1"})
-            declaration={"territory_id":"cataluna","election_id":"cataluna_parlament_2024","election_date":"2024-05-12","verification":{"official_voters":25,"official_candidate_votes":23,"expected_polling_stations":2,"expected_sections":1,"expected_cera_rows":1,"expected_cera_candidate_votes":3,"official_party_totals":{"PSC":13,"ERC":10}}}
+            declaration={"territory_id":"aut09","election_id":"cataluna_parlament_2024","election_date":"2024-05-12","verification":{"official_voters":25,"official_candidate_votes":23,"expected_polling_stations":2,"expected_sections":1,"expected_cera_rows":1,"expected_cera_candidate_votes":3,"official_party_totals":{"PSC":13,"ERC":10}}}
             source_decl={"publisher":"Generalitat / mirror","url":"https://example.invalid/epc.csv"}
             result=transform_gencat_polling_csv(src,out,declaration,source_decl,root)
             self.assertEqual(result["sections"],1)

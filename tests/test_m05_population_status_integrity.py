@@ -78,10 +78,10 @@ class PopulationStatusIntegrityTests(unittest.TestCase):
     def test_madrid_all_district_populations_and_statuses_match_m05_m06_products(self):
         run = Path(os.environ["DDD_M05_MADRID_RUN_DIR"])
         m05_geo = load_geo(run / "m05_candidate.geojson.zip")
-        m06_geo = load_geo(run / "official" / "madrid_2025_m06_secciones.geojson.zip")
+        m06_geo = load_geo(run / "official" / "aut13_2025_m06_secciones.geojson.zip")
         report = json.loads((run / "m05_report.json").read_text())
-        diagnostic = json.loads((run / "official" / "madrid_2025_m06_resumen_distritos_diagnostico.json").read_text())
-        summary_path = run / "official" / "madrid_2025_m06_resumen_distritos.csv"
+        diagnostic = json.loads((run / "official" / "aut13_2025_m06_resumen_distritos_diagnostico.json").read_text())
+        summary_path = run / "official" / "aut13_2025_m06_resumen_distritos.csv"
         with summary_path.open(newline="") as stream:
             summary = {str(row["district_id"]): row for row in csv.DictReader(stream)}
 

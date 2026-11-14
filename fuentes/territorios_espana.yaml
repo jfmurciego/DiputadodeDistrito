@@ -1,88 +1,89 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: registro administrativo mínimo para pruebas de fuentes
-# VERSIÓN: 1.2.2
-# FECHA: 2026-10-30
+# VERSIÓN: 1.2.3
+# FECHA: 2026-11-12
 # CAMBIOS: 1.1.0: piloto Congreso Huesca (provincia 22).
 # CAMBIOS 1.2.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.2.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
 # CAMBIOS 1.2.2: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
-# ANTERIOR: legacy/fuentes/territorios_espana_v1.2.1_islas_20261031.yaml
+# CAMBIOS 1.2.3 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/fuentes/territorios_espana_v1.2.2_20261112.yaml
 # ESTADO: candidato
 # FUNCIÓN: permitir probar fuentes oficiales para cualquier territorio sin exigir preparación previa.
 schema: ddd-territory-source-test-registry/1.0
 default_edition: '2025'
 territories:
-  - {id: andalucia, name: Andalucía, province_codes: ['04','11','14','18','21','23','29','41']}
-  - {id: aragon, name: Aragón, province_codes: ['22','44','50']}
-  - {id: principado_de_asturias, name: Principado de Asturias, province_codes: ['33']}
-  - {id: illes_balears, name: Islas Baleares, province_codes: ['07']}
-  - {id: canarias, name: Canarias, province_codes: ['35','38']}
-  - {id: cantabria, name: Cantabria, province_codes: ['39']}
-  - {id: castilla_la_mancha, name: Castilla-La Mancha, province_codes: ['02','13','16','19','45']}
-  - {id: castilla_y_leon, name: Castilla y León, province_codes: ['05','09','24','34','37','40','42','47','49']}
-  - {id: cataluna, name: Cataluña, province_codes: ['08','17','25','43']}
-  - {id: comunidad_valenciana, name: Comunidad Valenciana, province_codes: ['03','12','46']}
-  - {id: extremadura, name: Extremadura, province_codes: ['06','10']}
-  - {id: galicia, name: Galicia, province_codes: ['15','27','32','36']}
-  - {id: madrid, name: Comunidad de Madrid, province_codes: ['28']}
-  - {id: region_de_murcia, name: Región de Murcia, province_codes: ['30']}
-  - {id: comunidad_foral_de_navarra, name: Comunidad Foral de Navarra, province_codes: ['31']}
-  - {id: pais_vasco, name: País Vasco, province_codes: ['01','20','48']}
-  - {id: la_rioja, name: La Rioja, province_codes: ['26']}
-  - {id: ceuta, name: Ceuta, province_codes: ['51']}
-  - {id: melilla, name: Melilla, province_codes: ['52']}
-  - {id: congreso_alava, name: Congreso Álava, province_codes: ['01']}
-  - {id: congreso_albacete, name: Congreso Albacete, province_codes: ['02']}
-  - {id: congreso_alicante, name: Congreso Alicante, province_codes: ['03']}
-  - {id: congreso_almeria, name: Congreso Almería, province_codes: ['04']}
-  - {id: congreso_avila, name: Congreso Ávila, province_codes: ['05']}
-  - {id: congreso_badajoz, name: Congreso Badajoz, province_codes: ['06']}
-  - {id: congreso_baleares, name: Congreso Baleares, province_codes: ['07']}
-  - {id: congreso_barcelona, name: Congreso Barcelona, province_codes: ['08']}
-  - {id: congreso_burgos, name: Congreso Burgos, province_codes: ['09']}
-  - {id: congreso_caceres, name: Congreso Cáceres, province_codes: ['10']}
-  - {id: congreso_cadiz, name: Congreso Cádiz, province_codes: ['11']}
-  - {id: congreso_castellon, name: Congreso Castellón, province_codes: ['12']}
-  - {id: congreso_ciudad_real, name: Congreso Ciudad Real, province_codes: ['13']}
-  - {id: congreso_cordoba, name: Congreso Córdoba, province_codes: ['14']}
-  - {id: congreso_la_coruna, name: Congreso La Coruña, province_codes: ['15']}
-  - {id: congreso_cuenca, name: Congreso Cuenca, province_codes: ['16']}
-  - {id: congreso_gerona, name: Congreso Gerona, province_codes: ['17']}
-  - {id: congreso_granada, name: Congreso Granada, province_codes: ['18']}
-  - {id: congreso_guadalajara, name: Congreso Guadalajara, province_codes: ['19']}
-  - {id: congreso_guipuzcoa, name: Congreso Guipúzcoa, province_codes: ['20']}
-  - {id: congreso_huelva, name: Congreso Huelva, province_codes: ['21']}
-  - {id: congreso_huesca, name: Congreso Huesca, province_codes: ['22']}
-  - {id: congreso_jaen, name: Congreso Jaén, province_codes: ['23']}
-  - {id: congreso_leon, name: Congreso León, province_codes: ['24']}
-  - {id: congreso_lerida, name: Congreso Lérida, province_codes: ['25']}
-  - {id: congreso_la_rioja, name: Congreso La Rioja, province_codes: ['26']}
-  - {id: congreso_lugo, name: Congreso Lugo, province_codes: ['27']}
-  - {id: congreso_madrid, name: Congreso Madrid, province_codes: ['28']}
-  - {id: congreso_malaga, name: Congreso Málaga, province_codes: ['29']}
-  - {id: congreso_murcia, name: Congreso Murcia, province_codes: ['30']}
-  - {id: congreso_navarra, name: Congreso Navarra, province_codes: ['31']}
-  - {id: congreso_orense, name: Congreso Orense, province_codes: ['32']}
-  - {id: congreso_asturias, name: Congreso Asturias, province_codes: ['33']}
-  - {id: congreso_palencia, name: Congreso Palencia, province_codes: ['34']}
-  - {id: congreso_las_palmas, name: Congreso Las Palmas, province_codes: ['35']}
-  - {id: congreso_pontevedra, name: Congreso Pontevedra, province_codes: ['36']}
-  - {id: congreso_salamanca, name: Congreso Salamanca, province_codes: ['37']}
-  - {id: congreso_santa_cruz_de_tenerife, name: Congreso Santa Cruz de Tenerife, province_codes: ['38']}
-  - {id: congreso_cantabria, name: Congreso Cantabria, province_codes: ['39']}
-  - {id: congreso_segovia, name: Congreso Segovia, province_codes: ['40']}
-  - {id: congreso_sevilla, name: Congreso Sevilla, province_codes: ['41']}
-  - {id: congreso_soria, name: Congreso Soria, province_codes: ['42']}
-  - {id: congreso_tarragona, name: Congreso Tarragona, province_codes: ['43']}
-  - {id: congreso_teruel, name: Congreso Teruel, province_codes: ['44']}
-  - {id: congreso_toledo, name: Congreso Toledo, province_codes: ['45']}
-  - {id: congreso_valencia, name: Congreso Valencia, province_codes: ['46']}
-  - {id: congreso_valladolid, name: Congreso Valladolid, province_codes: ['47']}
-  - {id: congreso_vizcaya, name: Congreso Vizcaya, province_codes: ['48']}
-  - {id: congreso_zamora, name: Congreso Zamora, province_codes: ['49']}
-  - {id: congreso_zaragoza, name: Congreso Zaragoza, province_codes: ['50']}
-  - {id: congreso_ceuta, name: Congreso Ceuta, province_codes: ['51']}
-  - {id: congreso_melilla, name: Congreso Melilla, province_codes: ['52']}
+  - {id: aut01, name: Andalucía, province_codes: ['04','11','14','18','21','23','29','41']}
+  - {id: aut02, name: Aragón, province_codes: ['22','44','50']}
+  - {id: aut03, name: Principado de Asturias, province_codes: ['33']}
+  - {id: aut04, name: Islas Baleares, province_codes: ['07']}
+  - {id: aut05, name: Canarias, province_codes: ['35','38']}
+  - {id: aut06, name: Cantabria, province_codes: ['39']}
+  - {id: aut08, name: Castilla-La Mancha, province_codes: ['02','13','16','19','45']}
+  - {id: aut07, name: Castilla y León, province_codes: ['05','09','24','34','37','40','42','47','49']}
+  - {id: aut09, name: Cataluña, province_codes: ['08','17','25','43']}
+  - {id: aut10, name: Comunidad Valenciana, province_codes: ['03','12','46']}
+  - {id: aut11, name: Extremadura, province_codes: ['06','10']}
+  - {id: aut12, name: Galicia, province_codes: ['15','27','32','36']}
+  - {id: aut13, name: Comunidad de Madrid, province_codes: ['28']}
+  - {id: aut14, name: Región de Murcia, province_codes: ['30']}
+  - {id: aut15, name: Comunidad Foral de Navarra, province_codes: ['31']}
+  - {id: aut16, name: País Vasco, province_codes: ['01','20','48']}
+  - {id: aut17, name: La Rioja, province_codes: ['26']}
+  - {id: aut18, name: Ceuta, province_codes: ['51']}
+  - {id: aut19, name: Melilla, province_codes: ['52']}
+  - {id: nac01, name: Congreso Álava, province_codes: ['01']}
+  - {id: nac02, name: Congreso Albacete, province_codes: ['02']}
+  - {id: nac03, name: Congreso Alicante, province_codes: ['03']}
+  - {id: nac04, name: Congreso Almería, province_codes: ['04']}
+  - {id: nac05, name: Congreso Ávila, province_codes: ['05']}
+  - {id: nac06, name: Congreso Badajoz, province_codes: ['06']}
+  - {id: nac07, name: Congreso Baleares, province_codes: ['07']}
+  - {id: nac08, name: Congreso Barcelona, province_codes: ['08']}
+  - {id: nac09, name: Congreso Burgos, province_codes: ['09']}
+  - {id: nac10, name: Congreso Cáceres, province_codes: ['10']}
+  - {id: nac11, name: Congreso Cádiz, province_codes: ['11']}
+  - {id: nac12, name: Congreso Castellón, province_codes: ['12']}
+  - {id: nac13, name: Congreso Ciudad Real, province_codes: ['13']}
+  - {id: nac14, name: Congreso Córdoba, province_codes: ['14']}
+  - {id: nac15, name: Congreso La Coruña, province_codes: ['15']}
+  - {id: nac16, name: Congreso Cuenca, province_codes: ['16']}
+  - {id: nac17, name: Congreso Gerona, province_codes: ['17']}
+  - {id: nac18, name: Congreso Granada, province_codes: ['18']}
+  - {id: nac19, name: Congreso Guadalajara, province_codes: ['19']}
+  - {id: nac20, name: Congreso Guipúzcoa, province_codes: ['20']}
+  - {id: nac21, name: Congreso Huelva, province_codes: ['21']}
+  - {id: nac22, name: Congreso Huesca, province_codes: ['22']}
+  - {id: nac23, name: Congreso Jaén, province_codes: ['23']}
+  - {id: nac24, name: Congreso León, province_codes: ['24']}
+  - {id: nac25, name: Congreso Lérida, province_codes: ['25']}
+  - {id: nac26, name: Congreso La Rioja, province_codes: ['26']}
+  - {id: nac27, name: Congreso Lugo, province_codes: ['27']}
+  - {id: nac28, name: Congreso Madrid, province_codes: ['28']}
+  - {id: nac29, name: Congreso Málaga, province_codes: ['29']}
+  - {id: nac30, name: Congreso Murcia, province_codes: ['30']}
+  - {id: nac31, name: Congreso Navarra, province_codes: ['31']}
+  - {id: nac32, name: Congreso Orense, province_codes: ['32']}
+  - {id: nac33, name: Congreso Asturias, province_codes: ['33']}
+  - {id: nac34, name: Congreso Palencia, province_codes: ['34']}
+  - {id: nac35, name: Congreso Las Palmas, province_codes: ['35']}
+  - {id: nac36, name: Congreso Pontevedra, province_codes: ['36']}
+  - {id: nac37, name: Congreso Salamanca, province_codes: ['37']}
+  - {id: nac38, name: Congreso Santa Cruz de Tenerife, province_codes: ['38']}
+  - {id: nac39, name: Congreso Cantabria, province_codes: ['39']}
+  - {id: nac40, name: Congreso Segovia, province_codes: ['40']}
+  - {id: nac41, name: Congreso Sevilla, province_codes: ['41']}
+  - {id: nac42, name: Congreso Soria, province_codes: ['42']}
+  - {id: nac43, name: Congreso Tarragona, province_codes: ['43']}
+  - {id: nac44, name: Congreso Teruel, province_codes: ['44']}
+  - {id: nac45, name: Congreso Toledo, province_codes: ['45']}
+  - {id: nac46, name: Congreso Valencia, province_codes: ['46']}
+  - {id: nac47, name: Congreso Valladolid, province_codes: ['47']}
+  - {id: nac48, name: Congreso Vizcaya, province_codes: ['48']}
+  - {id: nac49, name: Congreso Zamora, province_codes: ['49']}
+  - {id: nac50, name: Congreso Zaragoza, province_codes: ['50']}
+  - {id: nac51, name: Congreso Ceuta, province_codes: ['51']}
+  - {id: nac52, name: Congreso Melilla, province_codes: ['52']}
   - {id: congreso350_alava, name: Congreso 350 Álava, province_codes: ['01']}
   - {id: congreso350_albacete, name: Congreso 350 Albacete, province_codes: ['02']}
   - {id: congreso350_alicante, name: Congreso 350 Alicante, province_codes: ['03']}

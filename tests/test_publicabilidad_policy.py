@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 import pandas as pd
+from ddd_core.territorio_ids import ruta_existente  # noqa: E402  (T-220: evidencia con rutas viejas)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,7 +25,7 @@ class PublicationPolicy(unittest.TestCase):
 
     def test_shape_statistics_recompute_from_existing_catalogues(self):
         for territory, record in self.evidence["territories"].items():
-            frame = pd.read_csv(ROOT / record["source"])
+            frame = pd.read_csv(ruta_existente(ROOT, record["source"]))
             field = "compactness_polsby_popper" if territory == "aragon" else "polsby_popper"
             compactness = frame[field].astype(float)
             expected = record["polsby_popper"]
@@ -35,7 +36,7 @@ class PublicationPolicy(unittest.TestCase):
 
     def test_c03_direction_is_not_misstated(self):
         record = self.evidence["territories"]["castilla_y_leon"]
-        frame = pd.read_csv(ROOT / record["source"])
+        frame = pd.read_csv(ruta_existente(ROOT, record["source"]))
         correlation = frame["relative_deviation"].abs().corr(frame["polsby_popper"])
         self.assertAlmostEqual(correlation, record["pearson_abs_population_deviation_vs_shape"], places=11)
         quartiles = record["population_deviation_quartiles"]

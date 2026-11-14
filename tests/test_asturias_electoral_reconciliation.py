@@ -7,8 +7,8 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-DECL = ROOT / "territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml"
-CROSSWALK = ROOT / "territorios/principado_de_asturias/config/elecciones/asturias_2023_oviedo_special_crosswalk.json"
+DECL = ROOT / "territorios/aut03/config/elecciones/asturias_jgpa_2023_vigente.yaml"
+CROSSWALK = ROOT / "territorios/aut03/config/elecciones/asturias_2023_oviedo_special_crosswalk.json"
 
 
 class AsturiasElectoralReconciliationTests(unittest.TestCase):

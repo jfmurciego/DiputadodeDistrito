@@ -26,6 +26,11 @@ from herramientas.persistir_estado_operativo_compartido import (
     persist_rederived_tree,
     shared_state_backoff,
 )
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio  # noqa: E402  (T-220: id viejo o nuevo)
 
 ABSENT_FINGERPRINT = "ABSENT"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
@@ -61,7 +66,7 @@ def _validate_non_enabling_identity(
         raise ValueError("GENERATION_EVALUATION_IDENTITY: schema inválido")
     if candidate.get("kind") != "generation_preflight":
         raise ValueError("GENERATION_EVALUATION_IDENTITY: kind inválido")
-    if str(candidate.get("territory_id") or "") != territory_id:
+    if not mismo_territorio(str(candidate.get("territory_id") or ""), str(territory_id)):
         raise ValueError("GENERATION_EVALUATION_IDENTITY: territorio no coincide")
     if str(candidate.get("edition") or "") != str(edition):
         raise ValueError("GENERATION_EVALUATION_IDENTITY: edición no coincide")
@@ -123,7 +128,7 @@ def _catalog_state(root: Path, territory_id: str, edition: str) -> dict:
         (
             row
             for row in catalog.get("territories") or []
-            if str(row.get("territory_id") or "") == territory_id
+            if mismo_territorio(str(row.get("territory_id") or ""), str(territory_id))
         ),
         None,
     )
@@ -146,7 +151,7 @@ def _master_row(root: Path, territory_id: str) -> dict:
     # CODAUTO=19 a los fixtures mínimos de persistencia.
     master = _yaml(root / MASTER)
     rows = list(master.get("territories") or []) + list(master.get("pilot_territories") or [])
-    matches = [row for row in rows if str(row.get("territory_id") or "") == territory_id]
+    matches = [row for row in rows if mismo_territorio(str(row.get("territory_id") or ""), str(territory_id))]
     if len(matches) > 1:
         raise PreM04PersistenceConflict(
             "INCOMPATIBLE_CURRENT_STATE",

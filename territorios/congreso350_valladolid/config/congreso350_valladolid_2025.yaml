@@ -14,7 +14,7 @@ meta:
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
   product_variant: congreso_350
-  parent_territory_id: congreso_valladolid
+  parent_territory_id: nac47
 io:
   project_root:
     path: ../../..
@@ -57,20 +57,22 @@ territory_contract:
   - '47'
   k_districts: 5
   k_source: norma
-  k_rationale: 'Congreso 350 (D-19): K=5 son los escaños de Valladolid (CPRO 47) en
-    las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256
-    c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b.'
+  k_rationale: 'Congreso 350 (D-19): K=5 son los escaños de Valladolid (CPRO 47) en las generales del 23-07-2023, BOE-A-2023-18907;
+    CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b.'
   k_reference_scope: legal_apportionment_2023
-  k_reference_source: BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv
-    sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b
+  k_reference_source: BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b
   apportionment_source: boe_congreso_2023
   legal_apportionment_reused: true
-  legal_apportionment_context: Escaños por circunscripción de las generales del 23-07-2023
-    (D-19).
+  legal_apportionment_context: Escaños por circunscripción de las generales del 23-07-2023 (D-19).
   district_apportionment: hamilton
   population_floor_ratio: 0.85
   population_cap_ratio: 1.15
   target_tolerance_ratio: 0.15
+  limits_profile: exception
+  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 %
+    y un municipio que cabe bajo el techo no se divide.'
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits
+  limits_exception_decided_at: '2026-10-31'
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
@@ -78,12 +80,6 @@ territory_contract:
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
   status: generation_ready
-  limits_profile: exception
-  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
-    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
-    se divide.'
-  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
-  limits_exception_decided_at: '2026-10-31'
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -107,9 +103,8 @@ modulos:
       v: '4718301001'
       admin_scope: province:47
       edge_type: administrative_exclave
-      reason: 'Roales de Campos + Quintanilla del Molar: exclave vallisoletano; enlace
-        mínimo a Valdunquillo.'
-      source: CYL-02 audit; heredado de territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+      reason: 'Roales de Campos + Quintanilla del Molar: exclave vallisoletano; enlace mínimo a Valdunquillo.'
+      source: CYL-02 audit; heredado de territorios/aut07/config/aut07_2025.yaml
   modulo_03_construir_grafo:
     in_geojson: territorios/congreso350_valladolid/.cache/ddd/preparacion/{run_name}/congreso350_valladolid_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso350_valladolid/.cache/ddd/preparacion/{run_name}/congreso350_valladolid_2025_m02_adyacencias.jsonl
@@ -205,9 +200,9 @@ validation:
     section_year: 2023
     population_total: 521333
     target_section_count: 565
-    package_sha256: 0e55a4f1cc392e9c46cda5b37012a9f0fd3da837b743ccff41a594335e52db79
-    compatibility_report_sha256: 0795f9ddc06733983b8a452e2a22c35f21d362fdf0f9e5451cc1402f1416c5b0
-    compatibility_identity_sha256: 68ec9c6e78020c6d8761a19f66f596eadcfdbf880c08199e5f8a146a38c31535
+    package_sha256: 0192eb0046a947d131012375e7d0d5585af948102a3b1f07188b4bfdc650d38e
+    compatibility_report_sha256: f058e27bc50d694c93b370637c9d33a5f7d1347e345e4fbcf376bc73537eab1a
+    compatibility_identity_sha256: 99cc6da37feb11c9672c9d0326f6458fafe5e45646a240d090c599a7283dfb04
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -264,8 +259,8 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: ad5ed6e93d67de0cfaf341c806415613cab9bb898ac546b01bad39c571c6c532
-        bytes: 693569
+        sha256: 7cb9a2d4148eba0a48a0bbdb9de15e09865f9fddf09bc58e61d86cc3a3748b03
+        bytes: 693568
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
@@ -278,12 +273,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 777b2fc250c72b927eecaf2a2eb16a5752f6005f77ab6a980005a16216d474ac
+  contract_sha256: cff8a496707f1669d0a4907106ecc290ab89a269dcd5606efb76781af8835ebd
 generation_state:
   source_prepared: true
   generation_enabled: true
-  package_sha256: 0e55a4f1cc392e9c46cda5b37012a9f0fd3da837b743ccff41a594335e52db79
-  compatibility_identity_sha256: 68ec9c6e78020c6d8761a19f66f596eadcfdbf880c08199e5f8a146a38c31535
+  package_sha256: 0192eb0046a947d131012375e7d0d5585af948102a3b1f07188b4bfdc650d38e
+  compatibility_identity_sha256: 99cc6da37feb11c9672c9d0326f6458fafe5e45646a240d090c599a7283dfb04
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 534f59b4de1fd0282906a1ed5ba86fce8d299d19e28169c8126ef78462670080
@@ -315,7 +310,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: ad5ed6e93d67de0cfaf341c806415613cab9bb898ac546b01bad39c571c6c532
+    sha256: 7cb9a2d4148eba0a48a0bbdb9de15e09865f9fddf09bc58e61d86cc3a3748b03
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -333,6 +328,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 42601455862
-  pre_m04_source_commit: c63562101282f3a801d8a1bf9891ff9620edbdd6
-  pre_m04_artifact_sha256: fa0f76434bab4f69ebd15b9617de068e69a6b191c5a073aaeb570d42c16f74c9
+  pre_m04_run_id: 41292964287
+  pre_m04_source_commit: 0e02c202e1b93fb4a119bd1ff6c1aa2fadfda4e1
+  pre_m04_artifact_sha256: bfe5d01997ce3828077fe3a73ca31f63ef22ed5ca8ebdcb643da1a3f0dc4cffb

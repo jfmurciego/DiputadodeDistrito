@@ -3,10 +3,11 @@
 """Calendario de elecciones autonómicas por comunidad (T-121, paso 1).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: orden del propietario (09-11): histórico autonómico desde 2011; cada comunidad tiene legislaturas de duración propia.
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/calendario_autonomicas_v1.0.0_20261112.py
 QUÉ HACE: lee dos instantáneas con sha256 del Observatorio Electoral de las Naciones (fuentes/observatorio_autonomicas/):
   index.json (calendario por comunidad, código INE 01-17, mes AAAAMM) e iturriak.html (proveedor, URL, granularidad,
   completitud y verificación oficial de cada elección). Escribe configuracion/calendario_autonomicas.csv.
@@ -38,14 +39,14 @@ INICIO = "201101"
 LEGISLATURA_MESES = 48
 # código INE de comunidad -> (territory_id del catálogo, etiqueta de la tabla «iturriak» del Observatorio)
 COMUNIDADES = {
-    "01": ("andalucia", "Andalucía"), "02": ("aragon", "Aragón"), "03": ("principado_de_asturias", "Asturies"),
-    "04": ("illes_balears", "Illes Balears"), "05": ("canarias", "Canarias"), "06": ("cantabria", "Cantabria"),
-    "07": ("castilla_y_leon", "Castilla y León"), "08": ("castilla_la_mancha", "Castilla-La Mancha"),
-    "09": ("cataluna", "Catalunya"), "10": ("comunidad_valenciana", "País Valencià"), "11": ("extremadura", "Extremadura"),
-    "12": ("galicia", "Galiza"), "13": ("madrid", "Madrid"), "14": ("region_de_murcia", "Murcia"),
-    "15": ("comunidad_foral_de_navarra", "Nafarroa Garaia"), "16": ("pais_vasco", "EAE"), "17": ("la_rioja", "La Rioja"),
+    "01": ("aut01", "Andalucía"), "02": ("aut02", "Aragón"), "03": ("aut03", "Asturies"),
+    "04": ("aut04", "Illes Balears"), "05": ("aut05", "Canarias"), "06": ("aut06", "Cantabria"),
+    "07": ("aut07", "Castilla y León"), "08": ("aut08", "Castilla-La Mancha"),
+    "09": ("aut09", "Catalunya"), "10": ("aut10", "País Valencià"), "11": ("aut11", "Extremadura"),
+    "12": ("aut12", "Galiza"), "13": ("aut13", "Madrid"), "14": ("aut14", "Murcia"),
+    "15": ("aut15", "Nafarroa Garaia"), "16": ("aut16", "EAE"), "17": ("aut17", "La Rioja"),
 }
-SIN_PARLAMENTO = ("ceuta", "melilla")
+SIN_PARLAMENTO = ("aut18", "aut19")
 MESES = {m: i + 1 for i, m in enumerate("enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre".split())}
 CAMPOS = ["comunidad", "cod_ine", "mes", "fecha", "precision", "en_alcance", "vigente", "fin_legislatura_mes",
           "duracion_meses", "adelanto_meses", "disolucion_anticipada", "proveedor_resultados", "url_resultados",

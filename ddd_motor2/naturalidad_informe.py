@@ -3,9 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — entregable del laboratorio de naturalidad: mapas A/D5/D8/C/B lado a lado y tablas
-VERSIÓN: 1.3.0
+VERSIÓN: 1.3.1
 NOMBRE DE VERSIÓN: Naturalidad · informe nacional
-FECHA: 2026-11-10
+FECHA: 2026-11-12
 ESTADO: experimento (motor 2; producción no lo importa; nada se publica)
 CAMBIOS: 1.3.0 (T-202): columna «valido» (el mapa cumple el núcleo); en TABLA.md, un mapa que no lo cumple (el
   vigente de Castilla y León, D-66) se marca «A (incumple el núcleo)». EMPEORA cuenta también la suma de desvíos
@@ -18,7 +18,8 @@ CAMBIOS: 1.3.0 (T-202): columna «valido» (el mapa cumple el núcleo); en TABLA
   superficie, población, municipio principal y si es un núcleo cerrado dentro de un solo municipio), para explicar los
   distritos urbanos minúsculos en superficie. 1.0.0: fichero nuevo.
 MOTIVO: T-172, paso 5: que el propietario decida con los mapas delante; el criterio no se fija en código.
-ANTERIOR: 1.2.0 (T-179, #662) — legacy/ddd_motor2/naturalidad_informe_v1.2.0_20261110.py
+CAMBIOS 1.3.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/ddd_motor2/naturalidad_informe_v1.3.0_20261112.py
 USO: python -m ddd_motor2.naturalidad_informe --seccionado-dir <dir> --resultados <out del laboratorio> --salida <dir>
        [--png t1,t2,...]
 QUÉ HACE: por territorio, un PNG con los cinco ganadores (misma escala y mismos colores: cada distrito de B y C toma el
@@ -36,6 +37,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from . import naturalidad_mapas as nm
+from .semilla import territorio_ids  # noqa: E402  (T-220: ámbito por el resolutor)
 
 NOMBRES = {"A": "A · solo población (función vigente)", "B": "B · población y luego naturalidad",
            "C": "C · como B con grafo ponderado", "D5": "D5 · como C, desvío máx. ≤ 5 %",
@@ -44,24 +46,23 @@ ORDEN = ("A", "D5", "D8", "C", "B")
 PALETA = ["#4e79a7", "#f28e2b", "#e15759", "#76b7b2", "#59a14f", "#edc948", "#b07aa1", "#ff9da7", "#9c755f",
           "#bab0ac", "#86bcb6", "#d37295", "#a0cbe8", "#ffbe7d", "#8cd17d", "#b6992d", "#f1ce63", "#499894",
           "#d4a6c8", "#fabfd2"]
-NOMBRE_TERRITORIO = {
-    "canarias": "Canarias", "cantabria": "Cantabria", "castilla_la_mancha": "Castilla-La Mancha",
-    "castilla_y_leon": "Castilla y León", "cataluna": "Cataluña", "comunidad_foral_de_navarra": "Navarra",
-    "comunidad_valenciana": "Comunidad Valenciana", "extremadura": "Extremadura", "galicia": "Galicia",
-    "la_rioja": "La Rioja", "madrid": "Comunidad de Madrid", "melilla": "Melilla", "pais_vasco": "País Vasco",
-    "principado_de_asturias": "Principado de Asturias", "region_de_murcia": "Región de Murcia"}
+NOMBRE_TERRITORIO = {  # T-220: id nuevo de la tabla maestra (el viejo se resuelve en nombre())
+    "aut05": "Canarias", "aut06": "Cantabria", "aut08": "Castilla-La Mancha",
+    "aut07": "Castilla y León", "aut09": "Cataluña", "aut15": "Navarra",
+    "aut10": "Comunidad Valenciana", "aut11": "Extremadura", "aut12": "Galicia",
+    "aut17": "La Rioja", "aut13": "Comunidad de Madrid", "aut19": "Melilla", "aut16": "País Vasco",
+    "aut03": "Principado de Asturias", "aut14": "Región de Murcia"}
 
 
 def nombre(t: str) -> str:
+    try:
+        t = territorio_ids.resolver_id(t)
+    except (territorio_ids.IdTerritorioDesconocido, territorio_ids.IdReservado):
+        pass
     if t in NOMBRE_TERRITORIO:
         return f"{NOMBRE_TERRITORIO[t]} (autonómicas)"
-    if t.startswith("congreso_"):
-        import sys  # noqa: PLC0415
-        if str(nm.ROOT) not in sys.path:
-            sys.path.insert(0, str(nm.ROOT))
-        from herramientas.generar_hemiciclo import PROVINCIAS  # noqa: PLC0415
-        prov = {i: n for i, n in PROVINCIAS.values()}
-        return prov.get(t[9:], t)
+    if territorio_ids.es_nacional(t):
+        return territorio_ids.territorio(t).nombre_es
     return t
 COLUMNAS = ["territorio", "funcion", "k", "valido", "candidato", "fuera_tolerancia", "desvio_max_pct", "max_desvio_personas",
             "suma_desvio_personas", "coste_suma_desvio_vs_A", "pp_medio", "pp_min", "convexidad_media",

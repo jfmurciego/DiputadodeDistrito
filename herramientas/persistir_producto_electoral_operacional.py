@@ -14,6 +14,11 @@ import yaml
 
 from herramientas.catalogo_preparacion import CATALOG, validate_repository
 from herramientas.promover_catalogo_operacional import promote
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import mismo_territorio, carpeta_de  # noqa: E402  (T-220: id viejo o nuevo)
 
 
 ABSENT_FINGERPRINT = "ABSENT"
@@ -110,7 +115,7 @@ def _catalog_state(root: Path, territory_id: str, edition: str) -> dict:
     except Exception:
         return {}
     for row in data.get("territories") or []:
-        if str(row.get("territory_id") or "") == territory_id:
+        if mismo_territorio(str(row.get("territory_id") or ""), str(territory_id)):
             state = (row.get("editions") or {}).get(str(edition))
             return state if isinstance(state, dict) else {}
     return {}
@@ -123,7 +128,7 @@ def recovery_context_fingerprint(
     edition: str,
 ) -> str:
     root = root_dir.resolve()
-    base = root / "territorios" / territory_id / "evidencia" / "catalogo"
+    base = root / "territorios" / carpeta_de(root, territory_id) / "evidencia" / "catalogo"
     payload = {
         "territorial_product": _read_json(base / f"territorial_product_{edition}.json"),
         "electoral_source": _read_json(base / f"electoral_source_{edition}.json"),
@@ -216,7 +221,7 @@ def _catalog_registration_matches(
         return False
     state = None
     for row in data.get("territories") or []:
-        if str(row.get("territory_id") or "") == territory_id:
+        if mismo_territorio(str(row.get("territory_id") or ""), str(territory_id)):
             state = (row.get("editions") or {}).get(str(edition))
             break
     if not isinstance(state, dict):

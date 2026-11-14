@@ -14,7 +14,7 @@ meta:
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
   product_variant: congreso_350
-  parent_territory_id: congreso_jaen
+  parent_territory_id: nac23
 io:
   project_root:
     path: ../../..
@@ -71,7 +71,7 @@ territory_contract:
   limits_profile: exception
   limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 %
     y un municipio que cabe bajo el techo no se divide.'
-  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits
   limits_exception_decided_at: '2026-10-31'
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true

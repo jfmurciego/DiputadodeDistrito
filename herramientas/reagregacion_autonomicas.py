@@ -3,11 +3,12 @@
 """Reagregación del histórico AUTONÓMICO a los distritos autonómicos vigentes (T-121, paso 3).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.1.1 · FECHA: 2026-11-12 · ESTADO: candidato
 CAMBIOS: 1.1.0 (T-131): excluye el voto CERA que La Rioja trae como pseudo-sección; secciones sin censo (Canarias 2011) cuentan 0 y se declaran. 1.0.0: fichero nuevo.
 MOTIVO: orden del propietario (09-11): reproducir para las comunidades el paso B de las generales (T-83): votos de cada
   autonómica → distritos vigentes con la equivalencia de seccionados de T-85 y peso por población (D-13).
-ANTERIOR: legacy/herramientas/reagregacion_autonomicas_v1.0.0_20261109.py
+CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/reagregacion_autonomicas_v1.1.0_20261112.py
 QUÉ HACE: fuera de línea (no lanza ni publica). Por comunidad y elección en alcance de configuracion/calendario_autonomicas.csv:
   (1) descarga del Observatorio data/autonomikoak/sekzioa/<cca>-<AAAAMM>/<provincia>.json y data/autonomikoak/hauteskundea/
   <cca>-<AAAAMM>.json (sha256 en el MANIFEST; la fuente no publica huellas previas); (2) lleva las secciones históricas
@@ -18,7 +19,7 @@ QUÉ HACE: fuera de línea (no lanza ni publica). Por comunidad y elección en a
   `<salida>/<comunidad>/rotacion.csv` (ganador por distrito y elección; homologado si existe
   datos/homologacion_siglas/homologacion_siglas_autonomicas.csv, D-20; si no, la sigla de la fuente).
   Elecciones sin dato por sección (solo municipio) se listan en `huecos` del MANIFEST de la comunidad, no se inventan.
-Uso: python herramientas/reagregacion_autonomicas.py --comunidad galicia madrid --trabajo DIR [--salida datos/resultados/historico/autonomicas]
+Uso: python herramientas/reagregacion_autonomicas.py --comunidad aut12 aut13 --trabajo DIR [--salida datos/resultados/historico/autonomicas]
        (DIR cacheará seccionados históricos y ficheros del Observatorio; --seccionado/--padron por defecto inputs/…zip)
 """
 from __future__ import annotations
@@ -39,6 +40,11 @@ sys.path.insert(0, str(ROOT))
 import equivalencia_seccionados as eqs  # noqa: E402
 import fuente_nazioenbehatokia as fnb  # noqa: E402
 import reagregacion_historico as rh  # noqa: E402
+import sys as _sys_t220  # noqa: E402
+from pathlib import Path as _Path_t220  # noqa: E402
+if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
+    _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
+from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
 
 SCHEMA = "ddd.reagregacion-autonomicas/1.0"
 BASE = "https://nazioenbehatokia.eus/data/autonomikoak/"
@@ -84,7 +90,7 @@ def leer_calendario(raiz: Path = ROOT) -> dict[str, list[dict]]:
 
 def leer_composicion(comunidad: str, raiz: Path = ROOT) -> dict[str, str]:
     """{cusec vigente: distrito} de datos/composicion/<comunidad>.csv."""
-    with open(raiz / f"datos/composicion/{comunidad}.csv", encoding="utf-8", newline="") as f:
+    with open(fichero_por_id(raiz / "datos/composicion", "{}.csv", comunidad), encoding="utf-8", newline="") as f:
         return {r["seccion"]: r["distrito"] for r in csv.DictReader(f)}
 
 
@@ -226,7 +232,7 @@ def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: d
         (salida_c / ele / "MANIFEST.json").write_text(json.dumps({
             "schema": SCHEMA, "comunidad": com, "eleccion": ele, "seccionado_historico": año, "peso": "poblacion (D-13)",
             "fuentes": {"observatorio": huellas, "seccionado_2025": eqs.sha256(a.seccionado), "padron_65034": eqs.sha256(a.padron),
-                        "composicion": eqs.sha256(ROOT / f"datos/composicion/{com}.csv"),
+                        "composicion": eqs.sha256(fichero_por_id(ROOT / "datos/composicion", "{}.csv", com)),
                         "asignacion_por_geometria": {
                             "secciones": len(geom_asignadas), "habitantes": sum(pob.get(s, 0) for s, _ in geom_asignadas),
                             "metodo": "sección vigente ausente de la composición M06 → distrito de la unión de secciones conocidas más próxima; empate: mayor contacto"},

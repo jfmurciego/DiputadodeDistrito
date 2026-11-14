@@ -1,9 +1,9 @@
 """Resolver de activos durables M06/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0
+VERSIÓN: 1.2.1
 NOMBRE DE VERSIÓN: M08 sin linaje productor se rechaza, no bloquea
-FECHA: 2026-11-10
+FECHA: 2026-11-12
 ESTADO: candidato
 QUÉ HACE: valida activos territoriales/electorales y sus manifiestos de productor.
 CAMBIOS 1.2.0: T-166, si la fase 04 del manifiesto no enlaza el M08 del catálogo (04 en failure, digest vacío) o no es
@@ -12,7 +12,8 @@ CAMBIOS 1.2.0: T-166, si la fase 04 del manifiesto no enlaza el M08 del catálog
 CAMBIOS 1.1.1: compara la fuente M06 standalone con el artefacto territorial declarado en sus inputs.
 MOTIVO: la 00 hija «Reutilizar» encadenada fallaba siempre en Planificar (DURABLE_LINEAGE_INCOMPATIBLE: electoral_product)
   y dejaba el eslabón electoral sin hacer; un receipt auténtico cuyo manifiesto no prueba la 04 no es reutilizable.
-ANTERIOR: legacy/herramientas/resolver_activos_durables_v1.1.1_20261110.py
+CAMBIOS 1.2.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/resolver_activos_durables_v1.2.0_20261112.py
 """
 from __future__ import annotations
 
@@ -22,6 +23,7 @@ import re
 from pathlib import Path
 from typing import Any
 
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente, carpeta_de  # T-220: evidencia con id viejo o nuevo
 from herramientas.acreditar_producto_territorial_historico import (
     HistoricalTerritorialAccreditationBlock,
     derive_historical_territorial_producer,
@@ -63,7 +65,7 @@ def _run_id(value: Any, *, label: str) -> int:
 def _load_json(root: Path, rel: str | None, *, label: str) -> dict:
     if not rel:
         _block("DURABLE_ASSET_MISSING", f"{label}: receipt durable no declarado")
-    path = root / str(rel)
+    path = ruta_existente(root, str(rel))
     if not path.is_file():
         _block("DURABLE_ASSET_MISSING", f"{label}: receipt durable inexistente: {rel}")
     try:
@@ -88,7 +90,7 @@ def _receipt(
     payload = _load_json(root, rel, label=kind)
     if payload.get("schema") != "ddd.catalog-evidence/1.0" or payload.get("kind") != kind:
         _block("DURABLE_ASSET_IDENTITY_INVALID", f"{kind}: schema/kind no coincide")
-    if str(payload.get("territory_id") or "") != territory_id or str(payload.get("edition") or "") != str(edition):
+    if not mismo_territorio(str(payload.get("territory_id") or ""), str(territory_id)) or str(payload.get("edition") or "") != str(edition):
         _block("DURABLE_ASSET_IDENTITY_INVALID", f"{kind}: territorio/edición no coincide")
     run_id = _run_id(payload.get("run_id"), label=kind)
     artifact = str(payload.get("artifact_name") or "")
@@ -133,7 +135,7 @@ def _validate_m06_manifest(
     except (TypeError, ValueError):
         manifest_run = manifest_attempt = 0
     if (
-        str(identity.get("territory_id") or "") != territory_id
+        not mismo_territorio(str(identity.get("territory_id") or ""), str(territory_id))
         or str(identity.get("edition") or "") != str(edition)
         or manifest_run != run_id
         or manifest_attempt <= 0
@@ -157,7 +159,7 @@ def _validate_m06_manifest(
         )
     if not contract_path or str(contract.get("path") or "") != str(contract_path):
         _block("DURABLE_LINEAGE_UNPROVEN", f"run {run_id}: ruta del contrato no coincide")
-    params = root / str(contract_path)
+    params = ruta_existente(root, str(contract_path))
     if not params.is_file():
         _block("DURABLE_LINEAGE_UNPROVEN", f"run {run_id}: contrato materializado ausente")
     expected_contract_sha = hashlib.sha256(params.read_bytes()).hexdigest()
@@ -309,7 +311,7 @@ def _manifest(
     *, receipt: dict | None = None, contract_path: str | None = None,
 ) -> dict:
     rel = Path("territorios") / territory_id / "evidencia" / "ejecuciones_completas" / f"{run_id}.json"
-    path = root / rel
+    path = ruta_existente(root, rel)
     standalone = False
     if not path.is_file():
         explicit = str((receipt or {}).get("producer_manifest_path") or "")
@@ -319,7 +321,7 @@ def _manifest(
                 _block("DURABLE_LINEAGE_UNPROVEN", f"run {run_id}: ruta de manifiesto fuera del repositorio")
             path = candidate
         else:
-            path = root / "territorios" / territory_id / "evidencia" / "generaciones_m06" / f"{run_id}.json"
+            path = root / "territorios" / carpeta_de(root, territory_id) / "evidencia" / "generaciones_m06" / f"{run_id}.json"
         standalone = True
     if not path.is_file():
         _block("DURABLE_LINEAGE_UNPROVEN", f"run {run_id}: manifiesto durable ausente")
@@ -334,7 +336,7 @@ def _manifest(
         )
     if (
         payload.get("schema") != "ddd.full-run-manifest/2.1"
-        or str(payload.get("territory_id") or "") != territory_id
+        or not mismo_territorio(str(payload.get("territory_id") or ""), str(territory_id))
         or str(payload.get("edition") or "") != str(edition)
         or int(payload.get("workflow_run_id") or 0) != run_id
     ):

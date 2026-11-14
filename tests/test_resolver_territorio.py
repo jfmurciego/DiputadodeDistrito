@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# FECHA: 2026-11-10
+# VERSIÓN: 1.0.1
+# FECHA: 2026-11-12
 # QUÉ HACE: pruebas D y E de T-170 §4 (T-214): resolutor único, catálogo con notacion/id_legacy biyectivo con la tabla
 #   maestra y admisión de contratos con el id viejo o el nuevo.
 # CAMBIOS: fichero nuevo.
 # MOTIVO: D-61; corte 5.0.0 pasos 1-2.
-# ANTERIOR: ninguna (fichero nuevo)
+# CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/tests/test_resolver_territorio_v1.0.0_20261112.py
 import sys
 import unittest
 from pathlib import Path
@@ -98,7 +99,7 @@ class CatalogoConNotacion(unittest.TestCase):
         for r in con:
             t = tabla[r["notacion"].lower()]
             self.assertEqual(r["id_legacy"], t.id_legacy)
-            self.assertEqual(r["territory_id"], t.id_legacy)  # hasta el git mv
+            self.assertEqual(r["territory_id"], t.id)  # T-220: tras el git mv, el id nuevo
             if t.ambito == "AUT":
                 self.assertEqual(r["autonomous_community_code_ine"], t.codigo[3:])
             else:
@@ -115,14 +116,14 @@ class ContratosLeenAmbosIds(unittest.TestCase):
     def test_contrato_territorial(self):
         from ddd_core.territory_contract import validate_production_contract
 
-        path = ROOT / "territorios/congreso_huesca/config/congreso_huesca_2025.yaml"
+        path = ROOT / "territorios/nac22/config/nac22_2025.yaml"  # T-220: tras el git mv
         viejo = validate_production_contract(path, expected_territory="congreso_huesca")
         nuevo = validate_production_contract(path, expected_territory="nac22")
         self.assertEqual(viejo["status"], nuevo["status"])
         self.assertEqual(viejo["errors"], nuevo["errors"])
         otro = validate_production_contract(path, expected_territory="nac50")
         self.assertTrue(any("no coincide" in e for e in otro["errors"]))
-        path = ROOT / "territorios/madrid/config/madrid_2025.yaml"
+        path = ROOT / "territorios/aut13/config/aut13_2025.yaml"
         cruce = validate_production_contract(path, expected_territory="nac28")
         self.assertTrue(any("no coincide" in e for e in cruce["errors"]))
 

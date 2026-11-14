@@ -2,14 +2,15 @@
 """Promueve evidencia operacional sin perder el enlace productor M06.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.2
+VERSIÓN: 1.1.3
 NOMBRE DE VERSIÓN: Linaje histórico retirado al registrar un M06 nuevo
-FECHA: 2026-10-28
+FECHA: 2026-11-12
 ESTADO: candidato
 QUÉ HACE: registra recibos operativos y rederiva su persistencia desde el HEAD destino.
 CAMBIOS: al registrar territorial_product retira territorial_product_source_lineage si pertenece a otro run.
 MOTIVO: Aragón registró el M06 40656036271 conservando el linaje del producto 36321736287, y la reutilización geométrica atribuía el producto nuevo a la fuente antigua.
-ANTERIOR: legacy/herramientas/promover_catalogo_operacional_v1.1.1_20261028.py
+CAMBIOS 1.1.3 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/promover_catalogo_operacional_v1.1.2_20261112.py
 """
 from __future__ import annotations
 
@@ -19,6 +20,30 @@ import re
 from pathlib import Path
 
 import yaml
+def _territorio_ids_t220():
+    """T-220: resolutor sin tocar sys.path (la herramienta se ejecuta también por ruta y en árboles mínimos)."""
+    import importlib.util
+    import sys
+    from pathlib import Path
+    if "ddd_core.territorio_ids" in sys.modules:
+        return sys.modules["ddd_core.territorio_ids"]
+    ruta = Path(__file__).resolve().parents[1] / "ddd_core" / "territorio_ids.py"
+    if not ruta.is_file():
+        return None
+    spec = importlib.util.spec_from_file_location("_t220_territorio_ids", ruta)
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    return modulo
+
+
+def mismo_territorio(a, b):  # noqa: E302
+    ti = _territorio_ids_t220()
+    return str(a) == str(b) if ti is None else ti.mismo_territorio(a, b)
+
+
+def carpeta_de(root, x):  # noqa: E302
+    ti = _territorio_ids_t220()
+    return str(x) if ti is None else ti.carpeta_de(root, x)
 
 try:
     from herramientas.catalogo_preparacion import validate_repository
@@ -47,7 +72,7 @@ def _save_yaml(path: Path, data: dict) -> None:
 
 def _state(catalog: dict, territory_id: str, edition: str) -> tuple[dict, str]:
     for row in catalog.get("territories") or []:
-        if row.get("territory_id") != territory_id:
+        if not mismo_territorio(str(row.get("territory_id") or ""), str(territory_id)):
             continue
         state = (row.get("editions") or {}).get(str(edition))
         if not isinstance(state, dict):
@@ -57,7 +82,7 @@ def _state(catalog: dict, territory_id: str, edition: str) -> tuple[dict, str]:
 
 
 def _receipt_path(root: Path, territory_id: str, kind: str, edition: str) -> Path:
-    return root / "territorios" / territory_id / "evidencia" / "catalogo" / f"{kind}_{edition}.json"
+    return root / "territorios" / carpeta_de(root, territory_id) / "evidencia" / "catalogo" / f"{kind}_{edition}.json"
 
 
 def _write_receipt(path: Path, payload: dict) -> str:
@@ -104,7 +129,7 @@ def promote(
             if (
                 manifest.get("schema") != "ddd.territorial-generation-manifest/1.0"
                 or manifest_sha256(manifest) != manifest.get("manifest_sha256")
-                or str(identity.get("territory_id") or "") != territory_id
+                or not mismo_territorio(str(identity.get("territory_id") or ""), str(territory_id))
                 or str(identity.get("edition") or "") != str(edition)
                 or int(identity.get("workflow_run_id") or 0) != int(run_id)
                 or str(product.get("artifact_name") or "") != artifact_name
@@ -137,7 +162,7 @@ def promote(
             declaration_path = root / declaration
             if not declaration_path.is_file(): raise ValueError(f"Declaración electoral inexistente: {declaration}")
             declared = _load_yaml(declaration_path)
-            if str(declared.get("territory_id") or "") != territory_id:
+            if not mismo_territorio(str(declared.get("territory_id") or ""), str(territory_id)):
                 raise ValueError("Declaración electoral pertenece a otro territorio")
             declared_election_id = str(declared.get("election_id") or "")
             if not declared_election_id or (election_id and declared_election_id != election_id):
@@ -162,7 +187,7 @@ def promote(
                 if not election_contract_path.is_file():
                     raise ValueError(f"Contrato electoral inexistente: {election_contract_raw}")
                 election_contract = json.loads(election_contract_path.read_text(encoding="utf-8"))
-                if str(election_contract.get("territory_id") or "") != territory_id:
+                if not mismo_territorio(str(election_contract.get("territory_id") or ""), str(territory_id)):
                     raise ValueError("Contrato electoral pertenece a otro territorio")
                 contract_election_id = str(election_contract.get("election_id") or "")
                 if not contract_election_id or (election_id and contract_election_id != election_id):
@@ -205,7 +230,7 @@ def promote(
         receipt_payload["election_date"] = election_date
         receipt_payload["electoral_identity_sha256"] = identity["electoral_identity_sha256"]
         receipt = (
-            root / "territorios" / territory_id / "evidencia" / "fuentes_electorales"
+            root / "territorios" / carpeta_de(root, territory_id) / "evidencia" / "fuentes_electorales"
             / str(edition) / identity["electoral_identity_sha256"] / str(run_id) / "receipt.json"
         )
         rendered = json.dumps(receipt_payload, ensure_ascii=False, indent=2) + "\n"

@@ -8,6 +8,14 @@ from __future__ import annotations
 import argparse, hashlib, json, re
 from pathlib import Path
 import yaml
+import sys as _sys
+_RAIZ=str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path: _sys.path.insert(0,_RAIZ)
+from ddd_core.territorio_ids import mismo_territorio, ruta_existente, variantes, misma_ruta  # noqa: E402  (T-220: evidencia con id viejo o nuevo)
+
+
+def _mismo(a,b)->bool:
+    return mismo_territorio(str(a or ""),str(b or ""))
 
 try:
     from herramientas.catalogo_territorios import normalize_territory_input
@@ -99,7 +107,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
         elif str(m.get("name"))!=name: errors.append(f"{tid}: nombre no coincide con catálogo maestro")
         for edition,state in row["editions"].items():
             contract_raw=state.get("contract_path")
-            contract=(root/contract_raw) if contract_raw else None
+            contract=ruta_existente(root,contract_raw) if contract_raw else None
             cfg=None
             if contract_raw:
                 if not contract.is_file(): errors.append(f"{tid}/{edition}: contract_path inexistente: {contract_raw}")
@@ -108,7 +116,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                     except Exception as exc: errors.append(f"{tid}/{edition}: contrato ilegible: {exc}")
             if cfg is not None:
                 meta=cfg.get("meta") or {}
-                if str(meta.get("territory_id") or "")!=tid: errors.append(f"{tid}/{edition}: meta.territory_id no coincide")
+                if not mismo_territorio(str(meta.get("territory_id") or ""), str(tid)): errors.append(f"{tid}/{edition}: meta.territory_id no coincide")
                 if str(meta.get("year") or "")!=str(edition): errors.append(f"{tid}/{edition}: meta.year no coincide")
                 actual_auth=str(meta.get("production_authorization") or "NONE")
                 if actual_auth!=str(state.get("production_authorization")):
@@ -119,11 +127,11 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                 errors.append(f"{tid}/{edition}: contrato completo sin fichero materializado")
             src_raw=state.get("territorial_source_declaration")
             if src_raw:
-                src=root/src_raw
+                src=ruta_existente(root,src_raw)
                 if not src.is_file(): errors.append(f"{tid}/{edition}: declaración territorial inexistente: {src_raw}")
                 else:
                     d=_yaml(src); tr=d.get("territory") or {}
-                    if str(tr.get("id") or "")!=tid or str(tr.get("edition") or "")!=str(edition):
+                    if not mismo_territorio(str(tr.get("id") or ""), str(tid)) or str(tr.get("edition") or "")!=str(edition):
                         errors.append(f"{tid}/{edition}: declaración territorial no corresponde al catálogo")
             if state.get("preparation_status") in PREPARABLE and not src_raw:
                 errors.append(f"{tid}/{edition}: preparable sin declaración territorial inicial")
@@ -132,14 +140,14 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
             if state.get("territorial_sources_prepared") and not src_raw:
                 errors.append(f"{tid}/{edition}: fuentes preparadas sin declaración")
             ed_raw=state.get("electoral_source_declaration")
-            if ed_raw and not (root/ed_raw).is_file():
+            if ed_raw and not ruta_existente(root,ed_raw).is_file():
                 errors.append(f"{tid}/{edition}: declaración electoral inexistente: {ed_raw}")
 
             prep=state.get("preparation_evidence") or {}
             if state.get("territorial_sources_prepared") and isinstance(prep,dict):
                 receipt_raw=str(prep.get("receipt_path") or "")
                 if receipt_raw:
-                    receipt_path=root/receipt_raw
+                    receipt_path=ruta_existente(root,receipt_raw)
                     if not receipt_path.is_file():
                         errors.append(f"{tid}/{edition}: receipt territorial versionado inexistente: {receipt_raw}")
                     else:
@@ -147,7 +155,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                             receipt=json.loads(receipt_path.read_text(encoding="utf-8"))
                             if receipt.get("schema")!="ddd.territorial-source-receipt/1.0":
                                 errors.append(f"{tid}/{edition}: schema de receipt territorial inválido")
-                            if str(receipt.get("territory_id") or "")!=tid or str(receipt.get("edition") or "")!=str(edition):
+                            if not _mismo(receipt.get("territory_id"),tid) or str(receipt.get("edition") or "")!=str(edition):
                                 errors.append(f"{tid}/{edition}: receipt territorial pertenece a otra identidad")
                             for key in ("run_id","artifact_name","artifact_sha256","package_sha256","territorial_identity_sha256"):
                                 expected=prep.get(key)
@@ -161,7 +169,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
             generation_raw=str(evidence.get("generation_preflight") or "")
             generation_status=""
             if generation_raw:
-                generation_path=root/generation_raw
+                generation_path=ruta_existente(root,generation_raw)
                 if not generation_path.is_file():
                     errors.append(f"{tid}/{edition}: evidencia pre-generación inexistente: {generation_raw}")
                 else:
@@ -169,7 +177,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                         generation=json.loads(generation_path.read_text(encoding="utf-8"))
                         if generation.get("schema")!="ddd.catalog-evidence/1.0" or generation.get("kind")!="generation_preflight":
                             errors.append(f"{tid}/{edition}: schema/tipo de evaluación pre-generación inválido")
-                        if str(generation.get("territory_id") or "")!=tid or str(generation.get("edition") or "")!=str(edition):
+                        if not _mismo(generation.get("territory_id"),tid) or str(generation.get("edition") or "")!=str(edition):
                             errors.append(f"{tid}/{edition}: evaluación pre-generación pertenece a otra identidad")
                         explicit_generation_status=generation.get("evaluation_status")
                         if explicit_generation_status not in (None,""):
@@ -218,7 +226,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                     )
             pair_raw=str(evidence.get("prepared_source_pair") or "")
             if pair_raw:
-                pair_path=root/pair_raw
+                pair_path=ruta_existente(root,pair_raw)
                 if not pair_path.is_file():
                     errors.append(f"{tid}/{edition}: par preparado durable inexistente: {pair_raw}")
                 else:
@@ -226,20 +234,20 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                         pair=json.loads(pair_path.read_text(encoding="utf-8"))
                         if pair.get("schema")!="ddd.prepared-source-pair/1.0":
                             errors.append(f"{tid}/{edition}: schema de par preparado inválido")
-                        if str(pair.get("territory_id") or "")!=tid or str(pair.get("edition") or "")!=str(edition):
+                        if not _mismo(pair.get("territory_id"),tid) or str(pair.get("edition") or "")!=str(edition):
                             errors.append(f"{tid}/{edition}: par preparado pertenece a otra identidad")
                         if str(pair.get("geometric_compatibility_key") or "")!=str((pair.get("territorial_source") or {}).get("territorial_identity_sha256") or ""):
                             errors.append(f"{tid}/{edition}: clave geométrica no coincide con identidad territorial del par")
                         for side in ("territorial_source","electoral_source"):
                             receipt_rel=str((pair.get(side) or {}).get("receipt_path") or "")
-                            if not receipt_rel or not (root/receipt_rel).is_file():
+                            if not receipt_rel or not ruta_existente(root,receipt_rel).is_file():
                                 errors.append(f"{tid}/{edition}: par preparado sin receipt durable de {side}")
                     except Exception as exc:
                         errors.append(f"{tid}/{edition}: par preparado inválido: {exc}")
 
             lineage_raw=str(evidence.get("territorial_product_source_lineage") or "")
             if lineage_raw:
-                lineage_path=root/lineage_raw
+                lineage_path=ruta_existente(root,lineage_raw)
                 if not lineage_path.is_file():
                     errors.append(f"{tid}/{edition}: linaje producto→fuente inexistente: {lineage_raw}")
                 else:
@@ -247,7 +255,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                         lineage=json.loads(lineage_path.read_text(encoding="utf-8"))
                         if lineage.get("schema")!="ddd.territorial-product-source-lineage/1.0":
                             errors.append(f"{tid}/{edition}: schema de linaje producto→fuente inválido")
-                        if str(lineage.get("territory_id") or "")!=tid:
+                        if not mismo_territorio(str(lineage.get("territory_id") or ""), str(tid)):
                             errors.append(f"{tid}/{edition}: linaje producto→fuente pertenece a otro territorio")
                     except Exception as exc:
                         errors.append(f"{tid}/{edition}: linaje producto→fuente inválido: {exc}")
@@ -258,7 +266,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                 if not raw:
                     errors.append(f"{tid}/{edition}: {flag}=true sin evidence.{kind}")
                     return None
-                p=root/str(raw)
+                p=ruta_existente(root,str(raw))
                 if not p.is_file() or p.stat().st_size<=0:
                     errors.append(f"{tid}/{edition}: evidencia inexistente o vacía: {raw}")
                     return None
@@ -276,13 +284,13 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                 if isinstance(receipt,dict) and receipt.get("schema")=="ddd.catalog-evidence/1.0":
                     if receipt.get("kind")!="electoral_source":
                         errors.append(f"{tid}/{edition}: evidencia electoral con tipo inválido")
-                    if str(receipt.get("territory_id") or "")!=tid or str(receipt.get("edition") or "")!=str(edition):
+                    if not _mismo(receipt.get("territory_id"),tid) or str(receipt.get("edition") or "")!=str(edition):
                         errors.append(f"{tid}/{edition}: evidencia electoral no corresponde al territorio/edición")
-                    if not isinstance(receipt.get("run_id"),int) or not str(receipt.get("artifact_name") or "").startswith(f"ddd-electoral-package-{tid}-{edition}-"):
+                    if not isinstance(receipt.get("run_id"),int) or not str(receipt.get("artifact_name") or "").startswith(tuple(f"ddd-electoral-package-{v}-{edition}-" for v in variantes(tid))):
                         errors.append(f"{tid}/{edition}: evidencia electoral sin run/artefacto durable")
                     if not re.fullmatch(r"[0-9a-f]{64}",str(receipt.get("artifact_sha256") or "")):
                         errors.append(f"{tid}/{edition}: evidencia electoral sin SHA-256 de artefacto")
-                    if str(receipt.get("declaration") or "")!=str(ed_raw or ""):
+                    if not misma_ruta(str(receipt.get("declaration") or ""),str(ed_raw or "")):
                         errors.append(f"{tid}/{edition}: evidencia electoral y declaración no coinciden")
                     if not ed_raw:
                         registry_raw=str(receipt.get("election_registry") or "")
@@ -290,7 +298,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                             if registry_raw!="configuracion/registro_electoral.yaml":
                                 errors.append(f"{tid}/{edition}: registro electoral de evidencia no autorizado: {registry_raw}")
                             else:
-                                registry_path=root/registry_raw
+                                registry_path=ruta_existente(root,registry_raw)
                                 if not registry_path.is_file():
                                     errors.append(f"{tid}/{edition}: registro electoral común inexistente")
                                 else:
@@ -317,7 +325,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                             if not election_contract_raw or not re.fullmatch(r"[0-9a-f]{64}",election_contract_hash):
                                 errors.append(f"{tid}/{edition}: evidencia electoral sin contrato materializado ni registro común verificable")
                             else:
-                                election_contract_path=root/election_contract_raw
+                                election_contract_path=ruta_existente(root,election_contract_raw)
                                 if not election_contract_path.is_file():
                                     errors.append(f"{tid}/{edition}: contrato electoral de evidencia inexistente: {election_contract_raw}")
                                 elif _sha256(election_contract_path).lower()!=election_contract_hash:
@@ -325,7 +333,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                                 else:
                                     try:
                                         election_contract=json.loads(election_contract_path.read_text(encoding="utf-8"))
-                                        if str(election_contract.get("territory_id") or "")!=tid:
+                                        if not mismo_territorio(str(election_contract.get("territory_id") or ""), str(tid)):
                                             errors.append(f"{tid}/{edition}: contrato electoral de evidencia pertenece a otro territorio")
                                         if str(election_contract.get("election_id") or "")!=str(receipt.get("election_id") or ""):
                                             errors.append(f"{tid}/{edition}: election_id de evidencia no coincide con contrato electoral")
@@ -338,7 +346,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                     else:
                         m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
                         contract_raw=m07.get("election_contract")
-                        contract_path=(root/str(contract_raw)) if contract_raw else None
+                        contract_path=ruta_existente(root,str(contract_raw)) if contract_raw else None
                         if contract_path is None or not contract_path.is_file():
                             errors.append(f"{tid}/{edition}: fuente electoral preparada sin election_contract real")
                         else:
@@ -349,7 +357,7 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                                     errors.append(f"{tid}/{edition}: election_contract sin fuentes")
                                 for source in sources:
                                     src_raw=source.get("path"); expected=str(source.get("sha256") or "").lower()
-                                    src=(root/str(src_raw)) if src_raw else None
+                                    src=ruta_existente(root,str(src_raw)) if src_raw else None
                                     if not src_raw or not expected:
                                         errors.append(f"{tid}/{edition}: fuente electoral sin path/sha256 contractual")
                                     elif src is not None and src.is_file() and _sha256(src).lower()!=expected:
@@ -399,7 +407,7 @@ def lookup(territory:str,edition:str,path:Path=CATALOG)->dict:
     territory=normalize_territory_input(territory)
     matches=[]
     for row in load_catalog(path)["territories"]:
-        if territory.strip() not in {row["name"],row["territory_id"]}: continue
+        if territory.strip()!=row["name"] and not _mismo(territory.strip(),row["territory_id"]): continue
         state=(row.get("editions") or {}).get(str(edition))
         if state is not None:
             matches.append({"territory_id":row["territory_id"],"name":row["name"],"edition":str(edition),**state})

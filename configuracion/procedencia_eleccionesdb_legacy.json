@@ -28,7 +28,7 @@
       },
       "observed_legacy_packages": [
         {
-          "territory_id": "castilla_la_mancha",
+          "territory_id": "aut08",
           "run_id": 36402139263,
           "artifact_id": 10961251316,
           "artifact_name": "ddd-electoral-package-castilla_la_mancha-2025-36402139263",

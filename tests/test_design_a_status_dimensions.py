@@ -23,7 +23,7 @@ class DeploymentVsCertificationTests(unittest.TestCase):
             }
         }
         territorial=build_production_status(
-            territory_id="castilla_y_leon",params="fixture.yaml",run_id="production-123-1",
+            territory_id="aut07",params="fixture.yaml",run_id="production-123-1",
             from_stage="M05",to_stage="M06",execution_outcome="success",
             geometric_outcome="success",geometric_decision="PASS",
             m05_report=report,geometric_audit=geometry(),
@@ -38,7 +38,7 @@ class DeploymentVsCertificationTests(unittest.TestCase):
             (root/"production_status.json").write_text(json.dumps(territorial),encoding="utf-8")
             registry=Path(td)/"viewer-results.json"
             registry.write_text(json.dumps({"results":[{
-                "kind":"canonical_m06","run_id":"123","territory_id":"castilla_y_leon",
+                "kind":"canonical_m06","run_id":"123","territory_id":"aut07",
                 "viewer_path":"data/results/m06-123.geojson"
             }]}),encoding="utf-8")
             deployment=evaluate_publication(

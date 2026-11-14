@@ -20,8 +20,8 @@ class ComunidadesInteresContract(unittest.TestCase):
 
     def test_rutas_comarcales_se_declaran_en_yaml_territorial_vigente(self):
         for relative in (
-            "territorios/aragon/config/aragon_2025.yaml",
-            "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml",
+            "territorios/aut02/config/aut02_2025.yaml",
+            "territorios/aut07/config/aut07_2025.yaml",
         ):
             cfg=yaml.safe_load((ROOT/relative).read_text(encoding="utf-8")) or {}
             comarcas=(((cfg.get("io") or {}).get("input") or {}).get("comarcas") or {})

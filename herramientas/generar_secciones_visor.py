@@ -3,8 +3,9 @@
 """Capa de secciones censales del visor v2, por provincia (T-119).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/generar_secciones_visor_v1.1.0_20261109b.py
+VERSIÓN: 1.2.1 · FECHA: 2026-11-12 · ESTADO: candidato
+CAMBIOS 1.2.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+ANTERIOR: legacy/herramientas/generar_secciones_visor_v1.2.0_20261112.py
 CAMBIOS 1.2.0 (T-135): el número de distrito sale en numeración pública 1..K (no existe el 0).
 QUÉ HACE: une el seccionado INE (ZIP con shapefile, columnas CUSEC y NMUN) con datos/composicion/<territorio>.csv
   (seccion, distrito, poblacion; MANIFEST con sha256) y escribe SALIDA/<cod provincia>.geojson (WGS84, simplificado,
@@ -23,6 +24,11 @@ import hashlib
 import json
 import sys
 from pathlib import Path
+import sys as _sys
+_RAIZ = str(Path(__file__).resolve().parents[1])
+if _RAIZ not in _sys.path:
+    _sys.path.insert(0, _RAIZ)
+from ddd_core import territorio_ids  # noqa: E402  (T-220: ámbito e ids por el resolutor, nunca por prefijo)
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from numeracion_publica import numero_publico  # noqa: E402
@@ -45,7 +51,7 @@ def _runs_faltantes(carpeta: Path, ya: set[str], indice: Path | None) -> list[tu
         run_pub = {t: str(e["run_id"]) for t, e in json.loads(indice.read_text("utf-8"))["territorios"].items()}
     por: dict[str, list[dict]] = {}
     for e in json.loads(man.read_text("utf-8")).get("runs", {}).values():
-        if e["territorio"].startswith("congreso_") and e["territorio"] not in ya:
+        if territorio_ids.es_nacional(e["territorio"]) and e["territorio"] not in ya:
             por.setdefault(e["territorio"], []).append(e)
     salida = []
     for t, es in sorted(por.items()):
@@ -55,13 +61,13 @@ def _runs_faltantes(carpeta: Path, ya: set[str], indice: Path | None) -> list[tu
     return salida
 
 
-def leer_composicion(carpeta: Path, patron: str = "congreso_*.csv", indice: Path | None = None) -> tuple[dict[str, dict], dict[str, str]]:
-    """{seccion: {d, p, t}} (solo los territorios congreso_*: un distrito por provincia, como el mapa) y {territorio: sha256 del CSV}; verifica el CSV contra MANIFEST.json si existe."""
+def leer_composicion(carpeta: Path, patron: str = "*.csv", indice: Path | None = None) -> tuple[dict[str, dict], dict[str, str]]:
+    """{seccion: {d, p, t}} (solo las circunscripciones NAC del resolutor: un distrito por provincia, como el mapa) y {territorio: sha256 del CSV}; verifica el CSV contra MANIFEST.json si existe."""
     man = carpeta / "MANIFEST.json"
     esperado = json.loads(man.read_text("utf-8")).get("territorios", {}) if man.exists() else {}
     sec: dict[str, dict] = {}
     huellas: dict[str, str] = {}
-    fuentes = [(f.stem, f, esperado.get(f.stem, {}).get("sha256_csv")) for f in sorted(carpeta.glob(patron))]
+    fuentes = [(f.stem, f, esperado.get(f.stem, {}).get("sha256_csv")) for f in sorted(carpeta.glob(patron)) if territorio_ids.es_nacional(f.stem)]
     fuentes += _runs_faltantes(carpeta, {x[0] for x in fuentes}, indice)
     for stem, f, e in fuentes:
         datos = f.read_bytes()
