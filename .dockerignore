@@ -1,10 +1,13 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.4.4
+# VERSIÓN: 1.4.5
 # NOMBRE: Imagen sin datos con snapshots contractuales y M02 histórico de regresión
 # FECHA: 2026-10-31
+# CAMBIOS 1.4.5 (T-297): incluye legacy/modulo02/02_construir_adyacencias_v7.3.3.py y legacy/modulo03/03_construir_grafo_v7.5.0.py:
+#   la raíz congelada de los tests (aee8215e) y la evidencia N08 de Cáceres se juzgan con ellos (Deslinde 1.1 lleva los
+#   activos a M02 7.4.0 / M03 7.6.0).
 # CAMBIOS 1.4.4: incluye legacy/workflows/retirados_20261031/ (tests de los workflows retirados del menú).
 # QUÉ HACE: excluye datasets y resultados, pero incorpora únicamente los snapshots históricos mínimos requeridos por las regresiones.
-# ANTERIOR: legacy/dockerignore_v1.4.3
+# ANTERIOR: legacy/dockerignore_v1.4.4
 # Evita duplicar datos y resultados dentro de cada imagen Docker.
 .git
 inputs/*
@@ -29,6 +32,10 @@ siel-andalucia-2026.zip
 !legacy/modulo02/
 legacy/modulo02/*
 !legacy/modulo02/02_construir_adyacencias_v7.3.2.py
+!legacy/modulo02/02_construir_adyacencias_v7.3.3.py
+!legacy/modulo03/
+legacy/modulo03/*
+!legacy/modulo03/03_construir_grafo_v7.5.0.py
 !legacy/n06_contrato_20261012/
 legacy/n06_contrato_20261012/*
 !legacy/n06_contrato_20261012/contrato_congreso_2026_v0.1.0.json

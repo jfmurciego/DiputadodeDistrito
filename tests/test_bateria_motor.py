@@ -337,10 +337,10 @@ class BateriaMotor2EnActions(unittest.TestCase):
             cm = b.cadenas_de(out / "competicion" / "aut13")
             cn = b.cadenas_de(out / "competicion" / "aut15")
             self.assertTrue(cm["vigente_compite"])
-            self.assertEqual(cm["candidatos"] - (1 if cm["exhaustivo"] else 0), 1 + 2 + 1)
+            self.assertEqual(cm["candidatos"] - (1 if cm["exhaustivo"] else 0) - (1 if cm["exacto"] else 0), 1 + 2 + 1)
             self.assertFalse(cn["vigente_compite"])
             self.assertTrue(cn["vigente_excluido"])
-            self.assertEqual(cn["candidatos"] - (1 if cn["exhaustivo"] else 0), 1 + 2)
+            self.assertEqual(cn["candidatos"] - (1 if cn["exhaustivo"] else 0) - (1 if cn["exacto"] else 0), 1 + 2)
             for t in ("aut13", "aut15"):
                 (out / "competicion" / t / "INDICADORES.json").write_text(json.dumps({"territorio": t, "estado": "OK"}))
             import contextlib

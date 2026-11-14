@@ -3,11 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — orquestador de la competición «canónico + GerryChain»
-VERSIÓN: 1.4.3
-NOMBRE DE VERSIÓN: Competición · excepción D-66 del contrato
-FECHA: 2026-11-12
+VERSIÓN: 1.5.0
+NOMBRE DE VERSIÓN: Competición · candidato exacto (CP-SAT)
+FECHA: 2026-11-14
 ESTADO: candidato (motor 2; producción no lo importa)
-CAMBIOS: 1.4.3 — (T-259, D-66) competir_publico valida antes validation.max_mixed_districts_exceptions
+CAMBIOS: 1.5.0 — (T-297, Deslinde 1.1, H1) candidato «exacto» con D8: tras juzgar los demás, exacto.resolver
+  (CP-SAT determinista, K ≤ 4) busca el óptimo D8 sobre las unidades del canónico con la pista del mejor candidato; si
+  aporta un plan válido, compite como uno más (si no prueba el óptimo, su mejor solución válida; si no, nada). Con D8, la
+  decisión (estado y etapas, o NO_APLICA con su motivo) entra en huella_resultado; un ErrorContrato/ErrorDatos al
+  preparar el exacto se propaga (nunca se salta en silencio) y en COMPETICION.json («exacto»). Con A, C y D5, nada cambia.
+  1.4.3 — (T-259, D-66) competir_publico valida antes validation.max_mixed_districts_exceptions
   (excepcion_d66.py): si el contrato declara alguna, ErrorContrato y no se ejecuta (el núcleo aún no la aplica: T-269).
   Resultado.excepciones_d66 (lista normalizada; hoy siempre []) va a COMPETICION.json. La huella no cambia.
   1.4.2 — (T-265, D-90) huella_resultado incluye la semilla pública registrada (esquema, código oficial de la
@@ -44,7 +49,8 @@ CAMBIOS: 1.4.3 — (T-259, D-66) competir_publico valida antes validation.max_mi
   1.1.0 — competir_publico (semillas públicas de semilla.py); Resultado.valido y Resultado.huella()
   (reproducibilidad bit a bit); sin referencia de núcleos y con unidades cerradas, ERROR_DATOS (indicador explícito:
   unidades con nucleo_cerrado, no el texto del aviso); pruebas de desempate por huella y de canónico fallido.
-MOTIVO: 1.4.3 — T-259 / D-66: la excepción explícita del contrato queda validada y anotada. 1.4.2 — T-265 / D-90: la semilla sale del código oficial y queda registrada en la huella.
+MOTIVO: 1.5.0 — T-296 halló planes válidos mejores en D8 que el ganador (Burgos, Valladolid) que las cadenas no ven.
+  1.4.3 — T-259 / D-66: la excepción explícita del contrato queda validada y anotada. 1.4.2 — T-265 / D-90: la semilla sale del código oficial y queda registrada en la huella.
   1.4.1 — T-261 (D-89): no gastar el 60-87 % de la competición en un exhaustivo que no acaba.
   1.4.0 — T-217 (opción c de T-211): en las autonómicas el canónico M05 queda peor que el mapa publicado
   (Navarra: 24 fuera de tolerancia frente a 11) y las cadenas no lo alcanzan.
@@ -53,7 +59,7 @@ MOTIVO: 1.4.3 — T-259 / D-66: la excepción explícita del contrato queda vali
   1.3.0 — T-205: D8 en la competición del motor nuevo (decisión tras T-179). 1.2.0 — T-175: enumeración exacta para territorios pequeños en el competidor del motor nuevo.
   T-163 / D-48: la primera versión del motor nuevo es una competición entre el canónico y N cadenas de
   GerryChain bajo el núcleo único de reglas; gana el mejor plan válido, así que nunca es peor que el canónico.
-ANTERIOR: legacy/ddd_motor2/competicion_v1.4.2_20261111.py
+ANTERIOR: legacy/ddd_motor2/competicion_v1.4.3_20261114.py
 QUÉ HACE: competir(entrada, canonico, cadena, semillas) ejecuta el generador canónico (una vez) y la cadena con cada
   semilla, a través de adaptadores (protocolo Generador: devuelven una composición M06). Cada candidato se juzga con el
   núcleo (adaptadores.problema_y_plan + reglas.evaluar, Criterio D-44 por defecto) y se ordena con la función de
@@ -85,7 +91,7 @@ from .adaptadores import problema_y_plan
 from .calidad import metricas
 from .reglas import Criterio, ErrorContrato, ErrorDatos, Reglas, evaluar
 
-VERSION = "1.4.3"
+VERSION = "1.5.0"
 FUNCIONES = ("A", "C", "D5", "D8")
 ORDEN_A = ["evaluable", "violaciones_duras", "fuera_tolerancia", "desvio_max", "ecm", "huella_plan", "orden"]
 ORDEN_NATURAL = ["evaluable", "violaciones_duras", "fuera_tolerancia", "exceso_tope", "demarcaciones_partidas",
@@ -181,6 +187,7 @@ class Resultado:
     funcion: str = "A"
     vigente: dict = field(default_factory=dict)  # T-217: si compitió y, si no, por qué
     excepciones_d66: list = field(default_factory=list)  # T-259: excepciones D-66 del contrato (validadas)
+    exacto: dict = field(default_factory=dict)  # T-297: decisión del candidato exacto (solo D8)
 
     @property
     def valido(self) -> bool:
@@ -195,6 +202,9 @@ class Resultado:
                                 for c in sorted(self.candidatos, key=lambda c: c.orden)]}
         if self.funcion != "A":
             forma["funcion"] = self.funcion
+        if self.exacto:  # T-297: con D8, siempre (también NO_APLICA, con su motivo); con A, C y D5 no hay bloque
+            forma["exacto"] = [self.exacto.get(k) for k in ("version", "estado", "etapas", "ortools")] + (
+                [] if self.exacto.get("aplicable") else [self.exacto.get("motivo")])
         sp = self.semilla_publica or {}
         if sp.get("codigo"):  # T-265: la semilla y su derivación (código oficial y tabla maestra) entran en la huella
             forma["semilla"] = [sp.get("esquema"), sp["codigo"], (sp.get("tabla_maestra") or {}).get("sha256")]
@@ -207,6 +217,7 @@ class Resultado:
             "canonico": self.canonico.id, "exhaustivo": self.exhaustivo, "huella_reglas": self.huella_reglas, "criterio": self.criterio,
             **({"vigente": self.vigente} if self.vigente else {}),
             "excepciones_d66": self.excepciones_d66,
+            **({"exacto": self.exacto} if self.exacto else {}),
             "funcion": self.funcion, "orden_calidad": ORDEN_A if self.funcion == "A" else ORDEN_NATURAL,
             "tiempo_total_s": round(self.tiempo_total_s, 3),
             "candidatos": [c.a_dict() for c in sorted(self.candidatos, key=Candidato.clave)],
@@ -304,6 +315,34 @@ def _exhaustivo(entrada: EntradaTerritorio, sal_can: Salida, referencia: Path | 
                         extra={"enumeracion": {k: info[k] for k in ("nodos", "validos", "huella", "empatados")}})
 
 
+def _exacto(entrada: EntradaTerritorio, sal_can: Salida, referencia: Path | None, criterio: Criterio, destino: Path,
+            funcion: str, pista: Candidato | None) -> tuple[dict, Salida | None]:
+    """Candidato exacto (exacto.py) sobre las unidades de la composición del canónico; pista = el mejor candidato
+    juzgado si sus unidades son las mismas (si no, el canónico)."""
+    from .exacto import resolver
+    from .exhaustivo import escribir_composicion
+    from .naturalidad_clave import natural_desde_m06
+    if sal_can.composicion is None or not Path(sal_can.composicion).is_file():  # consta en la huella y el informe
+        return {"aplicable": False, "estado": "NO_APLICA", "motivo": "sin composición del canónico"}, None
+    # Sin try: un ErrorContrato/ErrorDatos al preparar el exacto se propaga (nunca se salta el exacto en silencio)
+    reglas = Reglas.desde_contrato(entrada.cfg, criterio)
+    args = dict(referencia_nucleos=referencia,
+                atributos_secciones=sal_can.atributos_secciones or entrada.atributos_secciones,
+                respaldo_municipio_cusec=criterio.respaldo_municipio_cusec)
+    problema, plan, _ = problema_y_plan(sal_can.composicion, entrada.grafo_m03, entrada.cfg, **args)
+    if pista is not None and pista.composicion and Path(pista.composicion).is_file():
+        _, plan_p, _ = problema_y_plan(pista.composicion, entrada.grafo_m03, entrada.cfg, **args)
+        if set(plan_p) == set(plan):
+            plan = plan_p
+    nat = natural_desde_m06(problema, reglas, sal_can.composicion, entrada.grafo_m03, entrada.cfg)
+    mejor, info = resolver(problema, reglas, nat, plan, funcion=funcion)
+    if mejor is None:
+        return info, None
+    comp = escribir_composicion(sal_can.composicion, mejor, destino / Path(sal_can.composicion).name, entrada.cfg)
+    return info, Salida(comp, "OK", atributos_secciones=sal_can.atributos_secciones,
+                        extra={"exacto": {k: info.get(k) for k in ("estado", "etapas")}})
+
+
 def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador, semillas: Iterable[int],
              destino: Path, *, criterio: Criterio | None = None, semilla_canonica: int | None = None,
              exhaustivo: bool = True, funcion: str = "A", vigente: Generador | None = None) -> Resultado:
@@ -367,6 +406,21 @@ def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador,
         juzgar(c, sal, entrada, criterio, referencia, funcion)
         c.tiempos["juzgar_s"] = round(time.monotonic() - t0, 3)
 
+    info_exacto: dict = {}
+    if funcion == "D8":
+        t0 = time.monotonic()
+        mejor_previo = min((c for c, _ in pendientes), key=Candidato.clave)
+        if can.estado in ("FALLO_GENERADOR", "ERROR_DATOS", "ERROR_CONTRATO"):  # sin base para el exacto: consta
+            info_exacto, sal_x = {"aplicable": False, "estado": "NO_APLICA", "motivo": f"canónico {can.estado}"}, None
+        else:
+            info_exacto, sal_x = _exacto(entrada, sal_can, referencia, criterio, destino / "exacto", funcion,
+                                         mejor_previo if mejor_previo.estado == "VALIDO" else None)
+        if sal_x is not None:
+            c = Candidato("exacto", "exacto", None, len(pendientes))
+            c.extra = dict(sal_x.extra)
+            juzgar(c, sal_x, entrada, criterio, referencia, funcion)
+            c.tiempos["generar_s"] = round(time.monotonic() - t0, 3)
+            pendientes.append((c, sal_x))
     candidatos = [c for c, _ in pendientes]
     ganador = min(candidatos, key=Candidato.clave)
     assert ganador.clave() <= can.clave()  # por construcción: el canónico compite (y el vigente válido, si lo hay)
@@ -376,7 +430,8 @@ def competir(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador,
         huella = ""
     return Resultado(entrada.territorio, candidatos, ganador, can, huella,
                      {k: getattr(criterio, k) for k in criterio.__dataclass_fields__},
-                     time.monotonic() - t_ini, exhaustivo=info_ex, funcion=funcion, vigente=info_vig)
+                     time.monotonic() - t_ini, exhaustivo=info_ex, funcion=funcion, vigente=info_vig,
+                     exacto=info_exacto)
 
 
 def competir_publico(entrada: EntradaTerritorio, canonico: Generador, cadena: Generador, destino: Path, *,

@@ -88,7 +88,7 @@ class Territorio(unittest.TestCase):
         f = competir_territorio("aut18", tmp, 3, generadores=(Fijo("canonico", {None: bueno}), cad), entrada=e)
         self.assertEqual((f["estado"], f["valido"], f["ganador"], f["frente_al_canonico"]),
                          ("VALIDO", True, "canonico", "empata"))
-        self.assertEqual(f["candidatos"], 5)  # canónico + 3 cadenas + exhaustivo (territorio pequeño)
+        self.assertEqual(f["candidatos"], 6)  # canónico + 3 cadenas + exhaustivo (territorio pequeño) + exacto (T-297)
         self.assertTrue((tmp / "competicion" / "aut18" / "COMPETICION.json").is_file())
         from ddd_motor2.competir import fila_guardada
         with mock.patch("ddd_motor2.generadores.ROOT", tmp):  # T-258: sin mapa publicado (aquí no compite el vigente)

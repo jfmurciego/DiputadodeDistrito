@@ -1,10 +1,15 @@
 <!--
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.2
-NOMBRE DE VERSIÓN: Definición formal de Deslinde 1.0 · paquete independiente (definición 1.0.1)
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Definición formal de Deslinde 1.1 · frontera medida y candidato exacto
 FECHA: 2026-11-14
 ESTADO: candidato (documento; describe el código de main ee8e776 más T-265 y T-257)
-CAMBIOS: 1.0.2 (T-257, D-88) — §8 nuevo: el núcleo está en el paquete independiente `paquetes/deslinde` (fuente única;
+CAMBIOS: 1.1.0 (T-297, Deslinde 1.1) — (H2) el término 6 de D8 (frontera cortada) usa por fin la longitud real: M02 7.4.0
+  escribe `shared_border_m` en cada arista geométrica y M03 7.6.0 la conserva (antes valía 0 en todos los planes: T-296).
+  También el recargo de frontera corta del ponderado deja de ser uniforme. (H1) candidato nuevo «exacto» (§5):
+  `exacto.py` 1.0.0, OR-Tools CP-SAT determinista sobre la clave D8 con las reglas del núcleo, si K ≤ 4 y una sola
+  circunscripción. (H3) desempate por desvío máximo escrito explícitamente en §3 (término 7, sin cambio de orden). La aceptación no cambia, salvo el recuento de candidatos (+1 exacto). Cambian los mapas.
+  1.0.2 (T-257, D-88) — §8 nuevo: el núcleo está en el paquete independiente `paquetes/deslinde` (fuente única;
   `ddd_motor2` lo importa). La definición (reglas, D8, semilla, candidatos) no cambia: mismos mapas bit a bit. Las rutas
   `ddd_motor2/<módulo>.py` citadas abajo son hoy `paquetes/deslinde/src/deslinde/<módulo>.py` (tabla en §8).
   1.0.1 (T-265, D-90) — la semilla pública sale del código oficial del territorio en la tabla maestra
@@ -14,10 +19,10 @@ CAMBIOS: 1.0.2 (T-257, D-88) — §8 nuevo: el núcleo está en el paquete indep
   1.0.0 — fichero nuevo (T-255).
 MOTIVO: D-84 (nombre y composición de Deslinde 1.0) y D-86 (2): definición formal publicada de las reglas, la elección
   D8 y la semilla, sacada solo del código y de las decisiones registradas.
-ANTERIOR: legacy/docs/ARQUITECTURA/DESLINDE_1_0_v1.0.1_20261114.md
+ANTERIOR: legacy/docs/ARQUITECTURA/DESLINDE_1_0_v1.0.2_20261114.md
 -->
 
-# Deslinde 1.0 — delimitación reproducible de distritos uninominales
+# Deslinde 1.1 — delimitación reproducible de distritos uninominales
 
 **Qué es (D-84, `docs/PLAN.md:121`).** Deslinde 1.0 = trazado canónico + 10 cadenas ReCom + elección D8 + mapa vigente
 como candidato. En el código, las «10 cadenas ReCom» son 10 cadenas ReCom **ponderado** de GerryChain (§5). Hoy está implementado como «motor 2» en `ddd_motor2/` (motor nuevo de D-48); el código **no se
@@ -36,7 +41,8 @@ Todas las citas son a `main` en `ee8e776`. Versiones de los ficheros citados: `r
   la política (`.claude/rules/contratos.md`). Bloque `validation` (K, suelo, techo, tolerancia, exenciones, provincia
   única, disciplina municipal, núcleos cerrados, contigüidad) y `generation_state.source_inputs` (sha256 del padrón y
   del seccionado, ancla de la semilla).
-- Grafo M03 de secciones (`*_m03_grafo.json`, aristas con `shared_border_m`) y `topology_bridges` del contrato, que van
+- Grafo M03 de secciones (`*_m03_grafo.json`, aristas con `shared_border_m`: desde M02 7.4.0 / M03 7.6.0, la longitud en m
+  de la frontera compartida en el CRS de trabajo; antes no existía y valía 0) y `topology_bridges` del contrato, que van
   aparte como `puentes` (`adaptadores.py`, cabecera «ENTRADA ÚNICA»).
 - Composición M06 del canónico (CSV: `CUSEC_KEY`, `district_id`, `section_pop`, `ddd_unit_id`, `ddd_closed_urban`) y su
   GeoJSON de secciones; en producción es el M06 que acaba de producir el run (`produccion.py`, «QUÉ HACE · competir»).
@@ -110,9 +116,12 @@ mejor; `competicion.py:138-143` y `naturalidad_clave.py:64-79`):
    (`TOPES["D8"]`, `naturalidad_clave.py:43, 76-78`). El tope **solo sirve para elegir**; no es regla (cabecera, l. 26);
 5. partidos judiciales + comarcas agrarias repartidos en más de un distrito (`partidas`, l. 47-56);
 6. frontera cortada entre distritos, en km con 3 decimales (`corte_km`, l. 59-61; suma de `shared_border_m` del M03);
-7. desvío máximo relativo;
+7. desvío máximo relativo: **desempate por desvío máximo** (propietario, Deslinde 1.1): a igualdad de población dentro de
+   tolerancia (3-4), de demarcaciones partidas (5) y de forma (6), gana el plan con menor desvío máximo de población. Ya
+   era el término 7 en 1.0; en 1.1 se escribe explícitamente y el candidato exacto lo optimiza (en Cuenca, Guadalajara y
+   Lugo el ganador 1.0 perdía ahí frente al óptimo, T-296);
 8. huella del plan (partición sin etiquetas, `calidad.huella_plan`);
-9. orden del candidato (canónico 0, vigente 1, cadenas, exhaustivo).
+9. orden del candidato (canónico 0, vigente 1, cadenas, exhaustivo, exacto).
 
 Con cuotas de varias circunscripciones, los términos 4 y 7 se miden contra el objetivo de la circunscripción de cada
 distrito (`Natural.desvios`, l. 93-101); el término 3, contra el regional. Con una circunscripción coinciden.
@@ -161,7 +170,8 @@ pines de `requirements-ensemble.lock` (`bateria-motor.yml:101-205`; T-181).
 | 0 | **canónico** | P30: el M06 del propio run (`CanonicoDelRun`); batería: M04 + M05 canónico 7.4.4 + M06 (`generadores.Canonico`) |
 | 1 | **vigente** | `datos/composicion/<t>.csv` sobre las filas del canónico (con piezas finas). Solo compite si es representable, tiene **exactamente** las secciones de la entrada (si no, `VIGENTE_OTRO_SECCIONADO`, 1.2.1) y es válido. Si incumple el núcleo, **vigente reparado** (D-66): `reparar` solo sabe arreglar R-NUCLEO y R-MUN-MIXTOS (con otra infracción no se repara y no compite): reparación mínima y determinista, máx. 20 pasos, sin crear infracciones nuevas, y se juzga de nuevo (`generadores.py:194-269, 329-347`). No compite con la función A |
 | 2..N+1 | **ponderado** ×N (N=10, D-67) | Cadena ReCom ponderado de GerryChain (`naturalidad_competicion.cadena`, l. 300-350): 300 pasos, `epsilon = t`, árbol de expansión ponderado con recargos 0,5 (partido judicial) / 0,3 (comarca agraria) / 0,2 (área de movilidad) / 0,3 (frontera corta) (`generadores.py:356-357`), el núcleo como restricción en cada paso y `rng = semilla_i`; devuelve el mejor estado por D8. Si el vigente compite, la mitad final de las semillas parte de él y el resto del canónico (`competicion.py:329-331`) |
-| último | **exhaustivo** (si aplica) | Enumeración exacta de todos los planes válidos sobre las unidades del canónico si termina dentro de `presupuesto_nodos=200 000` (`Criterio.metodo="presupuesto"`, `modelo.py:177-178`; `exhaustivo.py:41-70`) |
+| último | **exacto** (1.1; solo D8, si aplica y aporta plan) | `exacto.resolver` 1.0.0 (OR-Tools CP-SAT 9.14.6206): modelo entero de las reglas del núcleo (asignación, suelo/techo, R-NUCLEO, contigüidad por árbol, R012 con máx. de mixtos) sobre las unidades del canónico, con los términos 3-7 de la clave D8 resueltos por etapas lexicográficas (cada óptimo se fija). Aplica con 2 ≤ K ≤ 4, una circunscripción y sin exenciones de suelo ni techo. Determinista: 4 hilos fijos con `interleave_search`, `random_seed=0` y tope de 60 unidades de tiempo determinista por etapa. Pista: el mejor candidato ya juzgado. Si una etapa no prueba el óptimo, aporta su mejor plan válido; si no hay ninguno, no compite. La decisión (`estado`, etapas con valor y cota) va a COMPETICION.json («exacto») y a `huella_resultado` |
+| penúltimo | **exhaustivo** (si aplica) | Enumeración exacta de todos los planes válidos sobre las unidades del canónico si termina dentro de `presupuesto_nodos=200 000` (`Criterio.metodo="presupuesto"`, `modelo.py:177-178`; `exhaustivo.py:41-70`) |
 
 Diferencia con el ReCom de producción (`ddd_core/m05_gerrychain_strategy.py`, generador `GerryChain`, que solo compite
 con la función A): el ponderado usa un árbol de expansión con recargos por demarcación y frontera, juzga cada paso con el
@@ -182,8 +192,8 @@ ganador nunca es peor que la suya (aserción `competicion.py:356`). Sin ningún 
   vigente publicado (`peor_que`, l. 759-765; T-212, T-228/T-229). Desvío máximo mayor que el del vigente = aviso, no
   bloquea. HOY (código): `SIN_VIGENTE` y `NO_EVALUABLE` constan por nombre y **no hay aceptación**; `UN_DISTRITO` vale.
   OBJETIVO (decisión, punto abierto 5): sin vigente comparable la comprobación 2 no se aplica y no bloquea;
-- cadenas evaluables, sin `FALLO_GENERADOR`, y nº de candidatos = 1 + N (+1 exhaustivo) (+1 si el vigente compite)
-  (T-222);
+- cadenas evaluables, sin `FALLO_GENERADOR`, y nº de candidatos = 1 + N (+1 exhaustivo) (+1 exacto) (+1 si el vigente
+  compite) (T-222, T-297);
 - N=10 es la definición (D-67); el N=5 de `tests/test_motor2_aceptacion.py:37` es solo un atajo de CI, no una regla;
 - huella real igual en dos ejecuciones en `congreso_soria`, `congreso_alava` y `melilla` (`HUELLA_REAL`, l. 726);
 - en CI (`tests/test_motor2_aceptacion.py`): huellas fijas (a), ganador certificado por
@@ -191,8 +201,11 @@ ganador nunca es peor que la suya (aserción `competicion.py:356`). Sin ningún 
 
 ## 7. Límites conocidos: qué NO garantiza Deslinde 1.0
 
-- **No es un óptimo demostrado.** Es el mejor de un conjunto finito de candidatos (canónico, vigente, 10 cadenas de 300
-  pasos). Óptimo demostrado o cota con resolutor exacto es el paso 3 de la hoja de ruta (D-86); el encargo de esta tarea
+- **No es un óptimo demostrado, salvo con el exacto.** Es el mejor de un conjunto finito de candidatos (canónico, vigente,
+  10 cadenas de 300 pasos y, desde 1.1, el exacto). Si el exacto aplica y su `estado` es `OPTIMO`, el ganador es el
+  óptimo D8 demostrado sobre las unidades del canónico (hasta la huella; la frontera se optimiza en mm enteros por par de
+  unidades y la clave la redondea a m: diferencias de milésimas de km pueden desempatar distinto). Sin el exacto
+  (K > 4, varias circunscripciones, exenciones) sigue sin serlo. Óptimo demostrado o cota con resolutor exacto es el paso 3 de la hoja de ruta (D-86); el encargo de esta tarea
   lo sitúa en Deslinde 1.1/2.0 (D-87/D-88, no registradas: Puntos abiertos).
 - **El exhaustivo no es el óptimo D8**: la enumeración guarda el mejor plan por la regla de calidad A (`calidad.py`:
   duras → fuera → desvío → ECM → huella; `exhaustivo.py:55-56`), no por D8; ese plan compite después con la clave D8.
@@ -208,7 +221,7 @@ ganador nunca es peor que la suya (aserción `competicion.py:356`). Sin ningún 
   unidades M04 en el Congreso o con `connected_internal_units` (T-211 (a)/(b): parte de la mejora del laboratorio no es
   alcanzable).
 - **Naturalidad aproximada**: partidos judiciales y comarcas agrarias por el municipio de la unidad; la frontera es la
-  `shared_border_m` del M03 (0 si falta).
+  `shared_border_m` del M03 (0 si falta; desde M02 7.4.0 siempre viene en las aristas geométricas, no en las pasarelas).
 - **Reproducibilidad bit a bit** solo con las mismas entradas, `PYTHONHASHSEED=0` y el mismo entorno; con el motor real
   no corre en CI (`ACEPTACION_MOTOR2.md`, «Límite conocido»).
 - Con la función A el vigente no compite (`produccion.generadores_por_defecto`, l. 236-243).

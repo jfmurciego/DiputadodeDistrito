@@ -323,7 +323,7 @@ class MismaCompeticionQueLaBateria(unittest.TestCase):
             from herramientas import bateria_motor as bm
             escribir(r, tmp / nombre / "informe")
             c = bm.cadenas_de(tmp / nombre / "informe")
-            self.assertEqual((c["fallos_generador"], c["candidatos"], c["vigente_compite"]), (0, 3, False), c)
+            self.assertEqual((c["fallos_generador"], c["candidatos"], c["vigente_compite"]), (0, 4, False), c)  # T-297: canónico + 2 cadenas + exacto (D8, K = 2)
             self.assertIn("vigente excluido: otro seccionado", c["vigente_excluido"])
             ok = {"territorio": "sintetico", "estado": "VALIDO", "frente_al_canonico": "empata"}
             res = bm.criterio_aceptacion([ok], {}, ["sintetico"], {"sintetico": c}, 2, {"sintetico": {"estado": "OK"}})

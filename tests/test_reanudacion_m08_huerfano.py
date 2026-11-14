@@ -809,6 +809,17 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         )
         self.assertNotIn(36573474139, [row["run_id"] for row in candidates])
 
+    def test_ceuta_pre_m04_obsoleto_con_m02_m03_de_deslinde_1_1(self):
+        """T-297 (D-82): con M02 7.4.0 / M03 7.6.0 la acreditación pre-M04 congelada ya no vale: hay que preparar de
+        nuevo (M01-M03), no reutilizarla."""
+        patcher = unittest.mock.patch.object(sys.modules[__name__], "ROOT", frozen_root(codigo_vivo=True))
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        plan = build_plan(territory="Ceuta", edition="2025", execution_mode="reuse",
+                          catalog=ROOT / "configuracion/catalogo_preparacion.yaml", root_dir=ROOT,
+                          optimization_algorithm="Canónico", force_selected_algorithm=True)
+        self.assertTrue(plan["run_prepare_territorial"])
+
     def test_ceuta_historical_candidates_survive_but_stale_m06_requires_rebuild(self):
         # Caso real congelado en aee8215e: Ceuta generó después un M06 nuevo.
         patcher = unittest.mock.patch.object(sys.modules[__name__], "ROOT", frozen_root())
