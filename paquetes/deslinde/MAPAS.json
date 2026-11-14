@@ -1,0 +1,7 @@
+{
+  "schema": "deslinde-mapas/1",
+  "version_deslinde": "1.0.0",
+  "nota": "Mapas regenerados con Deslinde 1.0.0, uno por territorio, vinculados por sha256. Vacío hasta que se regeneren (esperan a la cuota de GitHub Actions); no se añade ninguno hecho con otra versión.",
+  "campos": ["territorio", "codigo_oficial", "edicion", "run", "composicion", "composicion_sha256", "geojson", "geojson_sha256", "huella_resultado", "semilla_publica_sha256", "version_deslinde"],
+  "mapas": []
+}

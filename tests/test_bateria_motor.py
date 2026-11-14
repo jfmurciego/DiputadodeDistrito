@@ -633,7 +633,7 @@ class BateriaMotor2EnActions(unittest.TestCase):
                     "--no-deps", "pip freeze --all", "comm -23", 'pins("requirements.lock")'):
             self.assertIn(imp, txt)
         # lo que Ponderado importa de gerrychain (fuente) está en la comprobación
-        src = (ROOT / "ddd_motor2/naturalidad_competicion.py").read_text(encoding="utf-8")
+        src = (ROOT / "paquetes/deslinde/src/deslinde/ponderado.py").read_text(encoding="utf-8")  # T-257: Deslinde
         for linea in ("from gerrychain.tree.spanning_tree import _ordered_edge_ids", "from gerrychain import Graph, MarkovChain, Partition, updaters",
                       "from gerrychain.proposals import recom", "from gerrychain.tree import bipartition_tree"):
             self.assertIn(linea, src)

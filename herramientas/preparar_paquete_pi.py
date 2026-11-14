@@ -2,16 +2,17 @@
 """Paquete para el registro de propiedad intelectual de Deslinde (instantánea reproducible desde un commit).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Paquete PI de Deslinde 1.0.0
+VERSIÓN: 1.0.1
+NOMBRE DE VERSIÓN: Paquete PI de Deslinde 1.0.0 · con el paquete Deslinde
 FECHA: 2026-11-14
 ESTADO: candidato
-CAMBIOS: 1.0.0 — fichero nuevo (T-281).
+CAMBIOS: 1.0.1 — (T-257) entra también paquetes/deslinde/** (el núcleo movido de ddd_motor2 al paquete
+  independiente); sin esto el código de Deslinde quedaba fuera del ZIP sin aviso. 1.0.0 — fichero nuevo (T-281).
 MOTIVO: D-91 (revisada), D-92 y D-95: el código de Deslinde, su definición formal y los estudios son privados y se
   registran como propiedad intelectual; hace falta una instantánea verificable por hashes, no una copia del repo.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/preparar_paquete_pi_v1.0.0_20261114.py
 QUÉ HACE: lee SOLO del objeto git del commit (no del árbol de trabajo) una lista blanca:
-  - ddd_motor2/** (el motor Deslinde);
+  - ddd_motor2/** y paquetes/deslinde/** (el motor Deslinde);
   - los módulos que ddd_motor2 ejecuta (`modulos/0X_*.py` citados literalmente en su código);
   - el cierre de imports `ddd_core` de todo lo anterior (análisis AST, transitivo);
   - docs/ARQUITECTURA/DESLINDE_1_0.md y docs/ESTUDIOS/**.
@@ -40,11 +41,11 @@ import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 ROOT = Path(__file__).resolve().parents[1]
 NOMBRE_ZIP = "paquete_deslinde.zip"
 DOC_DESLINDE = "docs/ARQUITECTURA/DESLINDE_1_0.md"
-PREFIJOS_COMPLETOS = ("ddd_motor2/", "docs/ESTUDIOS/")
+PREFIJOS_COMPLETOS = ("ddd_motor2/", "paquetes/deslinde/", "docs/ESTUDIOS/")
 PAQUETES_SEGUIDOS = ("ddd_core", "ddd_motor2")
 FECHA_ZIP = (1980, 1, 1, 0, 0, 0)
 
@@ -160,7 +161,7 @@ def seleccionar(arbol: Arbol, excluir: list[str]) -> dict:
         raise PaqueteError(f"falta {DOC_DESLINDE} en el commit")
     base = {r for r in arbol.blobs if r.startswith(PREFIJOS_COMPLETOS)} | {DOC_DESLINDE}
     for r in sorted(base):
-        if r.startswith("ddd_motor2/") and r.endswith(".py"):
+        if r.startswith(("ddd_motor2/", "paquetes/deslinde/")) and r.endswith(".py"):
             base.update(m for m in RE_MODULO.findall(arbol.leer(r).decode("utf-8", "replace")) if m in arbol.blobs)
     pendientes = sorted(r for r in base if r.endswith(".py") and not r.startswith("docs/"))
     vistos, externos = set(pendientes), set()
