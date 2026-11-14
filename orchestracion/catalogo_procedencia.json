@@ -4420,11 +4420,11 @@
   },
   "congreso_huesca": {
    "fuente_territorial": {
-    "run_id": "41057319037",
+    "run_id": "43654075593",
     "package_sha256": "4912eea85523c456f7297e406b76b184b23fc3b46b2cd4aca0c48d908a168330",
-    "artifact_sha256": "e22527ea7a1ea54d8af41f3ab5446f35c316c31310e4e8f5a8ef000910b4c211",
-    "territorial_identity_sha256": "67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f",
-    "receipt_path": "territorios/nac22/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41057319037/receipt.json",
+    "artifact_sha256": "b8fd79d0a54e5dfdf25f8e1214ccbc4802255dc80c1f28c659c9b099a2ddcff4",
+    "territorial_identity_sha256": "4ac382c4bc92b120b42dc83056c6ea23ae24a3552344634d9728197b71beeae8",
+    "receipt_path": "territorios/nac22/evidencia/fuentes_territoriales/2025/4ac382c4bc92b120b42dc83056c6ea23ae24a3552344634d9728197b71beeae8/43654075593/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
