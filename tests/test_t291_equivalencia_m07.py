@@ -68,7 +68,9 @@ class EquivalenciaM07(unittest.TestCase):
         self.assertEqual(ev["by_class"]["sin_vigente"], {"sections": 1, "votes": 2})
         self.assertEqual(ev["votes_assigned_by_majority_across_districts"], 13)
         self.assertEqual(ev["majority_assignments"], [{"source": "A", "target": "T1", "district": "D1", "votes": 13,
-                                                       "district_population_share": 0.75}])
+                                                       "district_population_share": 0.75,
+                                                       "runner_up_population_share": 0.25}])
+        self.assertEqual(ev["max_runner_up_population_share"], 0.25)
 
     def test_mayoria_por_distrito_no_por_seccion(self):
         # T1 (D1) es la mayor sección, pero D2 suma 0,6 con T2 y T3: gana D2 y, dentro, T2 (empate, por código).
@@ -100,7 +102,8 @@ class EquivalenciaM07(unittest.TestCase):
                                                district_field="district", table=tabla)
         self.assertEqual(out.to_dict("records"), [{"section": "T2", "party": "P", "votes": 6}])
 
-    def test_destino_ausente_del_mapa_se_informa_y_se_renormaliza(self):
+    def test_destino_ausente_del_mapa_cuenta_en_la_mayoria(self):
+        # Empate entre la parte en el mapa (T1) y la ausente (X9): gana el distrito real.
         texto = ("seccion_2026,seccion_2023,tipo,peso_area,peso_poblacion\n"
                  "A,T1,partida,0.5,0.5\nA,X9,partida,0.5,0.5\n")
         tabla, _ = _tabla(self.dir, texto)
@@ -108,7 +111,37 @@ class EquivalenciaM07(unittest.TestCase):
         out, ev = m07.apply_section_equivalence(votos, self.mapa, section_field="section",
                                                 district_field="district", table=tabla)
         self.assertEqual(out.to_dict("records"), [{"section": "T1", "party": "P", "votes": 7}])
-        self.assertEqual(ev["targets_missing_in_map"], [{"source": "A", "missing": ["X9"]}])
+        self.assertEqual(ev["targets_missing_in_map"], [{"source": "A", "missing": ["X9"], "left_unassigned": False}])
+
+    def test_si_la_mayor_parte_falta_del_mapa_no_se_mueve(self):
+        texto = ("seccion_2026,seccion_2023,tipo,peso_area,peso_poblacion\n"
+                 "A,T1,partida,0.2,0.2\nA,X9,partida,0.8,0.8\n")
+        tabla, _ = _tabla(self.dir, texto)
+        votos = pd.DataFrame({"section": ["A"], "party": ["P"], "votes": [7]})
+        out, ev = m07.apply_section_equivalence(votos, self.mapa, section_field="section",
+                                                district_field="district", table=tabla)
+        self.assertEqual(out.to_dict("records"), [{"section": "A", "party": "P", "votes": 7}])
+        self.assertTrue(ev["targets_missing_in_map"][0]["left_unassigned"])
+
+    def test_sin_encadenar(self):
+        # T1→T2 y T2→T3 en la misma tabla: cada origen se mueve una sola vez.
+        texto = ("seccion_2026,seccion_2023,tipo,peso_area,peso_poblacion\n"
+                 "T1,T2,contenida,1,1\nT2,T3,contenida,1,1\n")
+        tabla, _ = _tabla(self.dir, texto)
+        votos = pd.DataFrame({"section": ["T1", "T2"], "party": ["P", "P"], "votes": [5, 3]})
+        out, _ = m07.apply_section_equivalence(votos, self.mapa, section_field="section",
+                                               district_field="district", table=tabla)
+        self.assertEqual(sorted(map(tuple, out[["section", "votes"]].values.tolist())), [("T2", 5), ("T3", 3)])
+
+    def test_alias_del_contrato_tras_la_equivalencia(self):
+        tabla, _ = _tabla(self.dir)
+        votos = pd.DataFrame({"section": ["B"], "party": ["P"], "votes": [5]})
+        out, _ = m07.apply_section_equivalence(votos, self.mapa, section_field="section",
+                                               district_field="district", table=tabla)
+        out2, ev = m07.apply_section_reconciliation(out, self.mapa, section_field="section", contract={
+            "section_reconciliation": {"aliases": [{"from": "B", "to": "T3", "method": "exact_1_to_1"}]}})
+        self.assertEqual(out2.to_dict("records"), [{"section": "T1", "party": "P", "votes": 5}])
+        self.assertEqual(ev["aliases_not_applied"][0]["reason"], "SOURCE_SECTION_NOT_IN_ACCEPTED_RESULTS")
 
     def test_huella_incorrecta_bloquea(self):
         p = self.dir / "eq.csv"

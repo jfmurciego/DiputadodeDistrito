@@ -14,7 +14,8 @@ QUÉ HACE: por provincia, las secciones de 2026 cuyo CUSEC no existe en 2023, o 
   cambiado (diferencia simétrica > 5 % del área), se cruzan por geometría con las de 2023
   (herramientas/equivalencia_seccionados.equivalencia: 1:1 al 95 %, astillas < 1 %, peso de población del padrón
   65034 a 1-1-2023, el de los mapas vigentes, D-13). Tipos: 1:1, contenida (cae entera en una sección 2023: exacta),
-  partida (varias secciones 2023: M07 reparte por peso de población) y sin_vigente. Escribe:
+  partida (varias secciones 2023: M07 la asigna entera al distrito con la mayor parte de su
+  población, sin repartir votos) y sin_vigente. Escribe:
     configuracion/equivalencia_seccionado_ine_2026_a_2023.csv  seccion_2026, seccion_2023, tipo, peso_area, peso_poblacion
     configuracion/equivalencia_seccionado_ine_2026_a_2023.json fuentes con sha256, sha256 del CSV y resumen por provincia.
 Uso: python herramientas/equivalencia_seccionado_2026_2023.py --s2026 SECC2026.zip --s2023 SECC2023.zip --padron 65034.csv.zip

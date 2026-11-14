@@ -1327,12 +1327,17 @@ def apply_section_equivalence(
     fuera de la tabla, y las sin_vigente, no cambian."""
     out = section_party.copy()
     out[section_field] = out[section_field].astype(str)
-    district_of = dict(zip(gdf[section_field].astype(str), gdf[district_field].astype(str)))
+    district_of = {
+        str(sec): str(dist)
+        for sec, dist in zip(gdf[section_field], gdf[district_field])
+        if pd.notna(dist) and str(dist).strip()
+    }
     votes_before = int(out["votes"].sum())
     by_class = {k: {"sections": 0, "votes": 0} for k in EQUIVALENCE_CLASSES}
     evidence = {"status": "CONSUMED", "by_class": by_class, "targets_missing_in_map": [],
                 "majority_assignments": [], "votes_assigned_by_majority_across_districts": 0,
-                "votes_before": votes_before}
+                "max_runner_up_population_share": 0.0, "votes_before": votes_before}
+    missing_key = "\x00MISSING_IN_MAP"
     alias: dict[str, str] = {}
     for source in sorted(set(out[section_field])):
         entry = table.get(source)
@@ -1342,25 +1347,40 @@ def apply_section_equivalence(
         section_votes = int(out.loc[out[section_field] == source, "votes"].sum())
         by_class[kind]["sections"] += 1
         by_class[kind]["votes"] += section_votes
-        targets = [(t, w) for t, w in entry["pesos"] if t in district_of]
-        missing = sorted(t for t, _ in entry["pesos"] if t not in district_of)
-        if missing:
-            evidence["targets_missing_in_map"].append({"source": source, "missing": missing})
-        if kind == "sin_vigente" or not targets:
+        if kind == "sin_vigente":
             continue
+        missing = sorted(t for t, _ in entry["pesos"] if t not in district_of)
+        # La mayoría se mide sobre TODA la población de la sección: la parte cuyo destino falta en el mapa (o no
+        # tiene distrito) cuenta como un bloque propio. Si ese bloque es el mayor, la sección no se mueve y sus votos
+        # acaban en ddd_unassigned_votes (tope del 1,5 %).
         by_district: dict[str, float] = {}
-        for t, w in targets:
-            by_district[district_of[t]] = by_district.get(district_of[t], 0.0) + w
-        district = min(by_district, key=lambda d: (-by_district[d], d))
-        target = min((tw for tw in targets if district_of[tw[0]] == district), key=lambda tw: (-tw[1], tw[0]))[0]
+        for t, w in entry["pesos"]:
+            key = district_of.get(t, missing_key)
+            by_district[key] = by_district.get(key, 0.0) + w
+        district = min(by_district, key=lambda d: (-by_district[d], d == missing_key, d))
+        if missing:
+            evidence["targets_missing_in_map"].append(
+                {"source": source, "missing": missing, "left_unassigned": district == missing_key}
+            )
+        if district == missing_key:
+            continue
+        target = min((tw for tw in entry["pesos"] if district_of.get(tw[0]) == district),
+                     key=lambda tw: (-tw[1], tw[0]))[0]
         alias[source] = target
         if len(by_district) > 1:
             total = sum(by_district.values())
+            runner_up = max(w for d, w in by_district.items() if d != district)
+            share = round(by_district[district] / total, 6) if total else None
+            runner_share = round(runner_up / total, 6) if total else None
             evidence["votes_assigned_by_majority_across_districts"] += section_votes
             evidence["majority_assignments"].append({
                 "source": source, "target": target, "district": district, "votes": section_votes,
-                "district_population_share": round(by_district[district] / total, 6) if total else None,
+                "district_population_share": share, "runner_up_population_share": runner_share,
             })
+            if runner_share is not None:
+                evidence["max_runner_up_population_share"] = max(
+                    evidence["max_runner_up_population_share"], runner_share
+                )
     out[section_field] = out[section_field].map(lambda value: alias.get(value, value))
     out = out.groupby([section_field, "party"], as_index=False)["votes"].sum()
     if int(out["votes"].sum()) != votes_before:

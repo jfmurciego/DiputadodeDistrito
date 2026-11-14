@@ -27,7 +27,9 @@ reconciliar, todas a la vez y sin repartir votos: `1:1` y `contenida` pasan a su
 distrito con la mayor parte de su población (`peso_poblacion` de la tabla, padrón 2023 como el M06, D-13) y, dentro de
 él, a su sección de mayor peso; `sin_vigente` no se toca y acaba en `ddd_unassigned_votes`. El informe
 (`section_equivalence`) da secciones y votos por clase, destinos ausentes del mapa y cada asignación por mayoría
-entre distritos (sección, distrito, votos y cuota de población). Tabla de la noche del 29-11-2026: `configuracion/equivalencia_seccionado_ine_2026_a_2023.csv`
+entre distritos (sección, distrito, votos, cuota de población del ganador y del segundo; máximo del segundo en
+`max_runner_up_population_share`). La parte de una partida cuyo destino falta del mapa cuenta como un bloque propio:
+si es la mayor, la sección no se mueve y sus votos van a `ddd_unassigned_votes`. Tabla de la noche del 29-11-2026: `configuracion/equivalencia_seccionado_ine_2026_a_2023.csv`
 (`herramientas/equivalencia_seccionado_2026_2023.py`). Los `splits` del contrato siguen sin aplicarse.
 
 ## Productos
