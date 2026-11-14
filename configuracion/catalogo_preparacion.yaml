@@ -467,6 +467,7 @@ territories:
         territorial_product: territorios/aut12/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut12/evidencia/catalogo/electoral_product_2025.json
         prepared_source_pair: territorios/aut12/evidencia/pares_fuentes/2025/fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914.json
+        generation_preflight: territorios/aut12/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut13
   name: Comunidad de Madrid
