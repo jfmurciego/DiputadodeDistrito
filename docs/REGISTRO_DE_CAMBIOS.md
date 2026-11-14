@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.377
-Fecha: 2026-11-12
-Alcance: T-116 — Preparar la V2 como portada conservando el visor técnico
+Versión: 1.0.378
+Fecha: 2026-11-14
+Alcance: T-290 — Plan 1.0.44: repositorio privado, publicación pública y plan por fases
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-12_feat-portada-v2-dominio-es-20261112.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.376_registro_20261112.md
+Cambios/motivo: entrada docs/registro/2026-11-14_claude-t290-plan-repo-privado.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.377_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.376_registro_20261112.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.378 · [2026-11-14 — T-290 — Plan 1.0.44: repositorio privado, publicación pública y plan por fases](registro/2026-11-14_claude-t290-plan-repo-privado.md)
 - 1.0.377 · [2026-11-12 — T-116 — Preparar la V2 como portada conservando el visor técnico](registro/2026-11-12_feat-portada-v2-dominio-es-20261112.md)
 - 1.0.376 · [2026-11-12 — T-248 — Borrador del README para la 5.0.0](registro/2026-11-12_claude-t248-readme-5-0-0.md)
 - 1.0.375 · [2026-11-11 — T-234 — Relevo formal: Deslinde 1.0 (motor2) por defecto; ruta autónoma m05 retirada](registro/2026-11-11_claude-t234-relevo-motor2.md)
