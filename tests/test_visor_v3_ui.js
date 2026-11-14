@@ -150,8 +150,9 @@ async function main(){
   assert.match(prov(),/Padrón/);assert.match(prov(),/Seccionado/);
   assert.ok(prov().includes(vig.sha256.slice(0,12)),"huella abreviada del catálogo");
   assert.ok(!prov().includes(vig.sha256),"la huella va abreviada");
-  assert.ok(prov().includes(vig.run_id),"ejecución");
-  assert.ok(prov().includes(catalogo.motor.nombre+" "+catalogo.motor.version),"motor y versión");
+  assert.ok(!prov().includes(vig.run_id),"sin id de ejecución del repositorio privado (D-92)");
+  assert.ok(prov().includes(catalogo.motor.nombre+" "+catalogo.motor.version+" (no necesariamente la de este mapa)"),"motor: versión actual con su salvedad");
+  assert.match(prov(),/Motor Deslinde \(versión actual\)/);
   assert.ok(prov().includes(catalogo.fuentes_oficiales.poblacion_por_sexo_y_edad.url),"enlace al padrón oficial");
   assert.ok(prov().includes(catalogo.fuentes_oficiales.resultados_electorales[vig.eleccion].url),"enlace a resultados");
   assert.ok(prov().includes(vig.eleccion),"elección");

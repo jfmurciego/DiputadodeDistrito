@@ -7,7 +7,7 @@
  * calendario por ámbito, distrito y sección censal reales, paleta de partidos.
  * MOTIVO: una sola experiencia con datos acreditados y fallo cerrado ante fuentes ausentes.
  * ANTERIOR: legacy/visor/v3/v3_v1.0.1_20261114.js
- * 1.1.0: T-300, panel «De dónde sale este mapa» (fuentes con enlace, huella, ejecución y motor, elección) leído de datos/catalogo_procedencia.json; sin él, aviso.
+ * 1.1.0: T-300, panel «De dónde sale este mapa» (fuentes con enlace, huella, motor actual con su salvedad, elección; sin id de ejecución, D-92) leído de datos/catalogo_procedencia.json; sin él, aviso.
  * 1.0.1: T-206, pie con el texto del padrón 2026 (D-69), visible solo con una elección 2026 general. */
 "use strict";
 (function () {
@@ -416,8 +416,7 @@
     rows.push(["Seccionado"+(ft.section_year?" "+ft.section_year:""),sec?link((sec.proveedor||"Fuente oficial"),sec.url):"No consta"]);
     rows.push(["Resultados "+(elDate?elDate.slice(0,4):""),res?link(res.proveedor||"Fuente oficial",res.url):"No consta en el catálogo"]);
     rows.push(["Huella sha256",prod.sha256?String(prod.sha256).slice(0,12)+"…":"No consta"]);
-    rows.push(["Ejecución",prod.run_id?String(prod.run_id):"No consta"]);
-    rows.push(["Motor",cat.motor?.nombre?cat.motor.nombre+(cat.motor.version?" "+cat.motor.version:""):"No consta"]);
+    rows.push(["Motor Deslinde (versión actual)",cat.motor?.nombre?cat.motor.nombre+(cat.motor.version?" "+cat.motor.version:"")+" (no necesariamente la de este mapa)":"No consta"]);
     rows.push(["Elección",elDate?elDate+(prod.eleccion_declarada===false?" (por defecto)":""):"No consta"]);
     rows.push(["Fecha de generación",prod.generado||"No consta en el catálogo"]);
     return "<div class='context'><dl>"+rows.map(([a,b])=>"<div><dt>"+esc(a)+"</dt><dd>"+(/^<a /.test(b)?b:esc(b))+"</dd></div>").join("")+"</dl></div>";
