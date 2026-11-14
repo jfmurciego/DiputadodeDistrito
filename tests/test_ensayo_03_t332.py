@@ -74,9 +74,9 @@ class ContratosDeEnsayo(unittest.TestCase):
 
     def test_sha256_es_huella_real_o_pendiente_que_falla_cerrado(self):
         # Mientras no exista el fichero de ensayo (T-333) la huella es PENDIENTE_T333: la 03 sale con exit 53 al compararla.
-        for slug in ("huesca", "soria", "melilla"):
+        for slug in (v[0] for v in ESPERADO.values()):
             raw = yaml.safe_load((ROOT / "configuracion/contratos_minsait_provisionales.yaml").read_text(encoding="utf-8"))
-            sha = raw["contracts"][f"congreso_{slug}_2026-11-29"]["source_sha256"]
+            sha = raw["contracts"][f"{slug}_2026-11-29"]["source_sha256"]
             self.assertTrue(sha == "PENDIENTE_T333" or re.fullmatch(r"[0-9a-f]{64}", sha), sha)
 
     def test_los_contratos_existentes_no_son_ensayo(self):
