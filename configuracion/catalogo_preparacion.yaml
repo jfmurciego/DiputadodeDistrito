@@ -176,25 +176,24 @@ territories:
         run_id: 43020588641
         stage: M08
       preparation_evidence:
-        run_id: 43011642069
-        artifact_name: ddd-source-package-canarias-2025-43011642069
-        artifact_sha256: b070824189e19022752db97dc9d3ea78f77a523aca054a7328ae7576370bb9c8
+        run_id: 43633675302
+        artifact_name: ddd-source-package-aut05-2025-43633675302
+        artifact_sha256: 7944cdb132013c1a467790fd7cf55a75a5dc795f193d364da5e3718701a81083
         package_sha256: ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836
-        receipt_path: territorios/aut05/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/43011642069/receipt.json
-        territorial_identity_sha256: 148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393
+        receipt_path: territorios/aut05/evidencia/fuentes_territoriales/2025/2a4a3c7162ccd9cacc405065f71cebb737dd9fc643dbb0723b95d28967c16471/43633675302/receipt.json
+        territorial_identity_sha256: 2a4a3c7162ccd9cacc405065f71cebb737dd9fc643dbb0723b95d28967c16471
         compatibility_report_sha256: 86f389eec7d9ad8aefa24f76bcbde7953727a9e5811532b702d0268b92f08dc7
         compatibility_identity_sha256: af3fcd401ca015593e3867cb6023bd8a352babbbec9e85a7c789777090a60d7c
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 2d29dc4536e23c35ec9f2eb594fc5b8021b77cd1
+        source_commit: d515ca11dcf3e88bcfad14959aed70e97ea9e1c4
       evidence:
         electoral_source: territorios/aut05/evidencia/fuentes_electorales/2025/3d6ea40b409231569f1f6240b06660f73c2cab44984296754f5ca4eda023da34/42521092889/receipt.json
         prepared_source_pair: territorios/aut05/evidencia/pares_fuentes/2025/9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814.json
         territorial_product: territorios/aut05/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut05/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut05/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: aut06
   name: Cantabria
   editions:
