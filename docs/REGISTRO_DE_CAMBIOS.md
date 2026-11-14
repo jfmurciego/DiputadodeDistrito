@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.386
+Versión: 1.0.388
 Fecha: 2026-11-14
-Alcance: T-206 — Texto del padrón 2026 en el visor V3 (D-69)
+Alcance: T-296 — óptimo exacto de D8 (CP-SAT) y hueco del ganador de Deslinde
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t206-texto-padron-2026.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.385_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_claude-t296-optimo-d8.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.387_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.385_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.388 · [2026-11-14 — T-296 — óptimo exacto de D8 (CP-SAT) y hueco del ganador de Deslinde](registro/2026-11-14_claude-t296-optimo-d8.md)
+- 1.0.387 · [2026-11-14 — T-291 — Votos por partido de 2026 con la regla de M07, aparte de 2023 (D-65)](registro/2026-11-14_t291-r3-partidos-2026.md)
 - 1.0.386 · [2026-11-14 — T-206 — Texto del padrón 2026 en el visor V3 (D-69)](registro/2026-11-14_t206-texto-padron-2026.md)
 - 1.0.385 · [2026-11-14 — T-203 — Catálogo de procedencia: elección por producto y fuentes con ids nuevos](registro/2026-11-14_t203-procedencia-por-eleccion.md)
 - 1.0.384 · [2026-11-14 — T-291 — M07 consume la equivalencia de seccionados 2026→2023 (D-65)](registro/2026-11-14_t291-equivalencia-2026-2023.md)
