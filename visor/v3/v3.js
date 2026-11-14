@@ -1,12 +1,13 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V3 (nueva interfaz)
- * VERSIÓN: 1.0.0
- * FECHA: 2026-11-12
+ * VERSIÓN: 1.0.1
+ * FECHA: 2026-11-14
  * ESTADO: candidato
  * CAMBIOS: explorador mapa, ámbito, proporcional/mayoritario, territorial/electoral,
  * calendario por ámbito, distrito y sección censal reales, paleta de partidos.
  * MOTIVO: una sola experiencia con datos acreditados y fallo cerrado ante fuentes ausentes.
- * ANTERIOR: ninguna (fichero nuevo) */
+ * ANTERIOR: legacy/visor/v3/v3_v1.0.0.js
+ * 1.0.1: T-206, pie con el texto del padrón 2026 (D-69), visible solo con una elección 2026 general. */
 "use strict";
 (function () {
   const BASE={provincias:"../v2/datos/provincias.json",comunidades:"../v2/datos/comunidades.json",
@@ -357,6 +358,7 @@
       b.onclick=()=>{S.election=id;renderTimeline();note("");refresh();};
       container.appendChild(b);
     });
+    const pn=$("padron-note");if(pn)pn.hidden=!(S.scope==="nacional"&&String(S.election).startsWith("2026"));
     helpText(auto?"Calendario derivado de las ediciones históricas almacenadas; el mapa solo usa el producto acreditado disponible.":"Histórico documentado en el repositorio. Mapa electoral detallado disponible para 2023.");
   }
   function compareModels(){
