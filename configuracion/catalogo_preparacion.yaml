@@ -1052,6 +1052,7 @@ territories:
         prepared_source_pair: territorios/nac08/evidencia/pares_fuentes/2025/b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a.json
         territorial_product: territorios/nac08/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/nac08/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac08/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac09
   name: Congreso Burgos
