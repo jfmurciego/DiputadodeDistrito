@@ -1033,11 +1033,11 @@
   },
   "ceuta": {
    "fuente_territorial": {
-    "run_id": "40773443591",
+    "run_id": "43645507829",
     "package_sha256": "21511daa229d9497f142ad9032d317595cf1cef0b56d1f2ae125a8f0eff107fe",
-    "artifact_sha256": "9de48295eec36c7e5e4ad16cb1ed929f128e3325ef2e18d2b53bc10f7a6be374",
-    "territorial_identity_sha256": "e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4",
-    "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4/40773443591/receipt.json",
+    "artifact_sha256": "8652155ecb1c7f7e15e19e0ebef44f1879f05cdae9199a0769b595c56e4167af",
+    "territorial_identity_sha256": "249dd20fc5dbadceec0cf2d4ed0cd3c9bf9fba5a8a03c613ccd4f1eee568498c",
+    "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/249dd20fc5dbadceec0cf2d4ed0cd3c9bf9fba5a8a03c613ccd4f1eee568498c/43645507829/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
