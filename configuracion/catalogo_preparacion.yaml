@@ -58,7 +58,6 @@ territories:
         territorial_product: territorios/aut02/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/aut02/evidencia/fuentes_electorales/2025/9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af/40896686254/receipt.json
         electoral_product: territorios/aut02/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut02/evidencia/catalogo/generation_preflight_2025.json
         prepared_source_pair: territorios/aut02/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
@@ -66,19 +65,19 @@ territories:
         run_id: 43016936483
         stage: M08
       preparation_evidence:
-        run_id: 40691712762
-        artifact_name: ddd-source-package-aragon-2025-40691712762
-        artifact_sha256: 47a7ab0da32e99c006d925787df3fbdf7032c2b3737ff6effe6cd57321aa390a
+        run_id: 43633644499
+        artifact_name: ddd-source-package-aut02-2025-43633644499
+        artifact_sha256: a24055a34d66b5fe89ad52ebb7f589a282c1c519d3b7770a2d95864883382361
         package_sha256: 2b0a7e7f00cfc12d60c84ab0818e2ece6106bdb48684abfd603f3bc2fd59de34
-        receipt_path: territorios/aut02/evidencia/fuentes_territoriales/2025/2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f/40691712762/receipt.json
-        territorial_identity_sha256: 2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f
+        receipt_path: territorios/aut02/evidencia/fuentes_territoriales/2025/91758e3034623e6e2b9c399a4347d0827e8cbbd5c7663a9a28d334ac958f5fc9/43633644499/receipt.json
+        territorial_identity_sha256: 91758e3034623e6e2b9c399a4347d0827e8cbbd5c7663a9a28d334ac958f5fc9
         compatibility_report_sha256: caadb892c3cf6c306c81a2d23838ce8f1bb50db95682a61dc0877e776de8a5ad
         compatibility_identity_sha256: 4f80abeb0e1fb1f24de0deb7c654e27a7115e8123b404181cac3e59ea290152f
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2025
         section_year: 2025
-        source_commit: 8940b848734cc05516ead27b48378493aa9aeddb
-      generation_enabled: true
+        source_commit: d515ca11dcf3e88bcfad14959aed70e97ea9e1c4
+      generation_enabled: false
 - territory_id: aut03
   name: Principado de Asturias
   editions:
