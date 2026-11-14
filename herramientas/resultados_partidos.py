@@ -3,8 +3,14 @@
 """Votos por partido y distrito en git (T-67).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.0 · FECHA: 2026-11-10 · ESTADO: candidato
-CAMBIOS: 1.4.0 (T-199, hueco 3 del ensayo T-197): la fecha de la elección ya no es solo una constante. ``fecha_generales_2026``
+VERSIÓN: 1.5.0 · FECHA: 2026-11-14 · ESTADO: candidato
+CAMBIOS: 1.5.0 (T-291, D-65, decisión (a) del Planificador): con una elección distinta de 2023-07-23 la salida va a
+  datos/resultados/<elección>/ (resultados_ligeros.salida_de) y las secciones del ZIP se llevan al M06 vigente con la
+  tabla configuracion/equivalencia_seccionado_ine_2026_a_2023.csv y la regla de M07 7.4.0: sin repartir votos, 1:1 y
+  contenida a su sección y la partida ENTERA al distrito con la mayor parte de su población (con censo, blancos y
+  nulos). Diferencia con M07: una sección del ZIP que siga sin distrito (sin_vigente o bloque ausente mayor) hace
+  fallar el territorio en vez de ir a votos sin asignar. Una del M06 sin mesas cuenta 0. 2023 no cambia.
+  1.4.0 (T-199, hueco 3 del ensayo T-197): la fecha de la elección ya no es solo una constante. ``fecha_generales_2026``
   la lee de configuracion/elecciones_generales_2026.yaml; ``contratos(ruta, fecha)`` y ``generar(..., fecha)`` filtran por
   ella y ``--fecha`` acepta AAAA-MM-DD o «2026». El valor por defecto sigue siendo FECHA = 2023-07-23 (legislatura vigente):
   sin argumentos nada cambia.
@@ -27,7 +33,8 @@ CAMBIOS: 1.4.0 (T-199, hueco 3 del ensayo T-197): la fecha de la elección ya no
 MOTIVO 1.4.0: con contratos de 2026 ``contratos()`` no habría encontrado ninguno.
 MOTIVO 1.1.0: Málaga, Alicante y Barcelona (T-101): el ZIP de Interior y el seccionado INE 2023 del M06 difieren en unas
   pocas secciones (recodificaciones) y el archivista fallaba con PARTIDOS_ORIGEN_FAILED.
-ANTERIOR: legacy/herramientas/resultados_partidos_v1.3.0_20261110.py
+ANTERIOR: legacy/herramientas/resultados_partidos_v1.4.0_20261114.py
+ANTERIOR 1.4.0: legacy/herramientas/resultados_partidos_v1.3.0_20261110.py
 QUÉ HACE: por cada territorio con composición sección→distrito acreditada (datos/composicion, T-67) y M08 vigente
   (datos/resultados), agrega los votos por partido del ZIP nacional por mesa de Infoelectoral (release
   fuente-infoelectoral-02202307; huella y totales comprobados con herramientas/fuente_infoelectoral_mesas.convert)

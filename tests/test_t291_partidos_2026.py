@@ -85,6 +85,21 @@ class Partidos2026(unittest.TestCase):
         self.assertEqual(rl.salida_de("2026-11-29"), rl.SALIDA / "2026-11-29")
         self.assertEqual(rl.salida_de("2026-11-29", Path("x")), Path("x"))
 
+    def test_destino_igual_a_m07_con_desempate_por_cadena_y_bloque_ausente(self):
+        # Distritos 10 y 2 empatados: como M07, gana la cadena menor («10» < «2»). X no está en el mapa.
+        comp = {"A": 10, "B": 2, "C": 2}
+        casos = {"S1": [("A", 0.5), ("B", 0.5)], "S2": [("A", 0.3), ("X", 0.7)], "S3": [("A", 0.5), ("X", 0.5)],
+                 "S4": [("B", 0.2), ("C", 0.2), ("A", 0.3), ("X", 0.3)]}
+        tabla = {s: {"tipo": "partida", "pesos": p} for s, p in casos.items()}
+        mapa = pd.DataFrame({"section": list(comp), "district": [str(d) for d in comp.values()]})
+        votos = pd.DataFrame({"section": list(casos), "party": list(casos), "votes": [1, 1, 1, 1]})
+        out, _ = m07.apply_section_equivalence(votos, mapa, section_field="section", district_field="district",
+                                               table=tabla)
+        m07_destino = dict(zip(out["party"], out["section"]))  # cada caso lleva su propio «partido»
+        for s in casos:
+            self.assertEqual(rp.destino_por_mayoria(tabla[s], comp) or s, m07_destino[s], s)
+        self.assertEqual(rp.destino_por_mayoria(tabla["S1"], comp), "A")
+
     def test_tabla_versionada_y_regla_igual_a_m07(self):
         tabla = rp.leer_equivalencia_mayoria()
         self.assertGreater(len(tabla), 1000)
