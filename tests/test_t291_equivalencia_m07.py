@@ -58,17 +58,38 @@ class EquivalenciaM07(unittest.TestCase):
         out, ev = m07.apply_section_equivalence(votos, self.mapa, section_field="section",
                                                 district_field="district", table=tabla)
         got = {(r["section"], r["party"]): r["votes"] for r in out.to_dict("records")}
-        # P de A: 7,5/2,5 → empate de restos, gana T1 por orden: 8/2. Q de A: 2,25/0,75 → 2/1.
-        self.assertEqual(got, {("T1", "P"): 8 + 5, ("T2", "P"): 2, ("T1", "Q"): 2, ("T2", "Q"): 1,
-                               ("T3", "P"): 4, ("C", "P"): 6, ("S", "P"): 2})
+        # A (partida 0,75 en D1 / 0,25 en D2) va ENTERA a T1: no se reparten votos.
+        self.assertEqual(got, {("T1", "P"): 10 + 5, ("T1", "Q"): 3, ("T3", "P"): 4, ("C", "P"): 6, ("S", "P"): 2})
         self.assertEqual(ev["votes_before"], 30)
         self.assertEqual(ev["votes_after"], 30)
         self.assertEqual(ev["by_class"]["partida"], {"sections": 1, "votes": 13})
         self.assertEqual(ev["by_class"]["contenida"], {"sections": 1, "votes": 5})
         self.assertEqual(ev["by_class"]["1:1"], {"sections": 1, "votes": 4})
         self.assertEqual(ev["by_class"]["sin_vigente"], {"sections": 1, "votes": 2})
-        self.assertEqual(ev["votes_split_across_districts"], 13)
-        self.assertEqual(ev["sections_split_across_districts"], ["A"])
+        self.assertEqual(ev["votes_assigned_by_majority_across_districts"], 13)
+        self.assertEqual(ev["majority_assignments"], [{"source": "A", "target": "T1", "district": "D1", "votes": 13,
+                                                       "district_population_share": 0.75}])
+
+    def test_mayoria_por_distrito_no_por_seccion(self):
+        # T1 (D1) es la mayor sección, pero D2 suma 0,6 con T2 y T3: gana D2 y, dentro, T2 (empate, por código).
+        texto = ("seccion_2026,seccion_2023,tipo,peso_area,peso_poblacion\n"
+                 "A,T1,partida,0.4,0.4\nA,T2,partida,0.3,0.3\nA,T3,partida,0.3,0.3\n")
+        tabla, _ = _tabla(self.dir, texto)
+        votos = pd.DataFrame({"section": ["A"], "party": ["P"], "votes": [9]})
+        out, ev = m07.apply_section_equivalence(votos, self.mapa, section_field="section",
+                                                district_field="district", table=tabla)
+        self.assertEqual(out.to_dict("records"), [{"section": "T2", "party": "P", "votes": 9}])
+        self.assertEqual(ev["majority_assignments"][0]["district"], "D2")
+
+    def test_partida_dentro_de_un_distrito_no_cuenta_como_mayoria(self):
+        texto = ("seccion_2026,seccion_2023,tipo,peso_area,peso_poblacion\n"
+                 "A,T2,partida,0.3,0.3\nA,T3,partida,0.7,0.7\n")
+        tabla, _ = _tabla(self.dir, texto)
+        votos = pd.DataFrame({"section": ["A"], "party": ["P"], "votes": [9]})
+        out, ev = m07.apply_section_equivalence(votos, self.mapa, section_field="section",
+                                                district_field="district", table=tabla)
+        self.assertEqual(out.to_dict("records"), [{"section": "T3", "party": "P", "votes": 9}])
+        self.assertEqual(ev["majority_assignments"], [])
 
     def test_cusec_conservado_con_limite_cambiado_se_reasigna(self):
         # La sección 2026 «T1» conserva el código pero su territorio cae en T2: la tabla manda.

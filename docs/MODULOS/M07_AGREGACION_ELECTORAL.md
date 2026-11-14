@@ -23,10 +23,11 @@ declarado, alias ambiguo o partido desconocido bloquean M07 antes de publicar.
 ## Equivalencia de seccionados (7.4.0, D-65)
 Si el contrato declara `section_reconciliation.equivalence_table` (`path`, `sha256`, `source_column`,
 `target_column`), M07 verifica la huella y lleva los votos de cada sección de la tabla al mapa vigente antes de
-reconciliar, todas a la vez: `1:1` y `contenida` pasan enteros; `partida` se reparte por `peso_poblacion` (D-13) con
-resto mayor por partido; `sin_vigente` no se toca y acaba en `ddd_unassigned_votes`. Los votos de cada partido se
-conservan; el informe (`section_equivalence`) da secciones y votos por clase, destinos ausentes del mapa y votos
-repartidos entre distritos distintos. Tabla de la noche del 29-11-2026: `configuracion/equivalencia_seccionado_ine_2026_a_2023.csv`
+reconciliar, todas a la vez y sin repartir votos: `1:1` y `contenida` pasan a su sección; una `partida` va entera al
+distrito con la mayor parte de su población (`peso_poblacion` de la tabla, padrón 2023 como el M06, D-13) y, dentro de
+él, a su sección de mayor peso; `sin_vigente` no se toca y acaba en `ddd_unassigned_votes`. El informe
+(`section_equivalence`) da secciones y votos por clase, destinos ausentes del mapa y cada asignación por mayoría
+entre distritos (sección, distrito, votos y cuota de población). Tabla de la noche del 29-11-2026: `configuracion/equivalencia_seccionado_ine_2026_a_2023.csv`
 (`herramientas/equivalencia_seccionado_2026_2023.py`). Los `splits` del contrato siguen sin aplicarse.
 
 ## Productos

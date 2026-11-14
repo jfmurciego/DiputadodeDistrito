@@ -10,10 +10,10 @@ QUÉ HACE: verifica convocatoria, fuentes y partidos antes de agregar votos a di
 POR QUÉ ES SEPARADO: la elección nunca condiciona fronteras; M07 solo proyecta sobre M06.
 ESTADO: candidato — T-291
 CAMBIOS: consume la tabla de equivalencia de seccionados declarada en
-  section_reconciliation.equivalence_table (ruta y sha256): 1:1 y contenida pasan los votos enteros a su sección
-  del mapa; partida los reparte por el peso de población de la tabla (D-13) con resto mayor por partido;
-  sin_vigente queda como está (ddd_unassigned_votes). Conserva los votos por partido y lo informa por clase,
-  con los votos repartidos entre distritos distintos. Los splits del contrato siguen sin aplicarse.
+  section_reconciliation.equivalence_table (ruta y sha256) sin repartir votos: 1:1 y contenida pasan a su sección
+  del mapa; una partida va entera al distrito con la mayor parte de su población (peso de la tabla, D-13);
+  sin_vigente queda como está (ddd_unassigned_votes). Informa por clase y las asignaciones por mayoría entre
+  distritos. Los splits del contrato siguen sin aplicarse.
 MOTIVO: D-65 (propietario): la noche del 29-11-2026 lleva los resultados por sección 2026 a los mapas vigentes
   (seccionado 2023) por equivalencia de secciones; sin consumirla, contenidas y partidas caían a votos sin asignar.
 ANTERIOR: legacy/modulo07/07_agregar_resultados_electorales_v7.3.2.py
@@ -1318,56 +1318,56 @@ def apply_section_equivalence(
     gdf,
     *,
     section_field: str,
-    district_field: str | None,
+    district_field: str,
     table: dict[str, dict],
 ) -> tuple[pd.DataFrame, dict]:
-    """Lleva los votos de las secciones de la tabla a las secciones del mapa vigente (todas a la vez, sin
-    encadenar). Conserva los votos de cada partido. Las secciones fuera de la tabla no cambian."""
+    """Lleva los votos de las secciones de la tabla a una sección del mapa vigente (todas a la vez, sin encadenar).
+    Nunca reparte votos: 1:1 y contenida van a su sección; una partida va ENTERA al distrito con la mayor parte de
+    su población (peso de población de la tabla, D-13) y, dentro de él, a su sección de mayor peso. Las secciones
+    fuera de la tabla, y las sin_vigente, no cambian."""
     out = section_party.copy()
     out[section_field] = out[section_field].astype(str)
-    current = set(gdf[section_field].astype(str))
-    district_of = (
-        dict(zip(gdf[section_field].astype(str), gdf[district_field].astype(str)))
-        if district_field and district_field in gdf.columns else {}
-    )
+    district_of = dict(zip(gdf[section_field].astype(str), gdf[district_field].astype(str)))
     votes_before = int(out["votes"].sum())
     by_class = {k: {"sections": 0, "votes": 0} for k in EQUIVALENCE_CLASSES}
     evidence = {"status": "CONSUMED", "by_class": by_class, "targets_missing_in_map": [],
-                "votes_split_across_districts": 0, "sections_split_across_districts": [],
+                "majority_assignments": [], "votes_assigned_by_majority_across_districts": 0,
                 "votes_before": votes_before}
-    rows = []
-    for source, group in out.groupby(section_field, sort=True):
+    alias: dict[str, str] = {}
+    for source in sorted(set(out[section_field])):
         entry = table.get(source)
         if entry is None:
-            rows.extend(group.to_dict("records"))
             continue
         kind = entry["tipo"]
-        section_votes = int(group["votes"].sum())
+        section_votes = int(out.loc[out[section_field] == source, "votes"].sum())
         by_class[kind]["sections"] += 1
         by_class[kind]["votes"] += section_votes
-        targets = [(t, w) for t, w in entry["pesos"] if t in current]
-        missing = sorted(t for t, _ in entry["pesos"] if t not in current)
+        targets = [(t, w) for t, w in entry["pesos"] if t in district_of]
+        missing = sorted(t for t, _ in entry["pesos"] if t not in district_of)
         if missing:
             evidence["targets_missing_in_map"].append({"source": source, "missing": missing})
-        if kind == "sin_vigente" or not targets or sum(w for _, w in targets) <= 0:
-            rows.extend(group.to_dict("records"))
+        if kind == "sin_vigente" or not targets:
             continue
-        districts = {district_of.get(t) for t, _ in targets}
-        if len(districts) > 1:
-            evidence["votes_split_across_districts"] += section_votes
-            evidence["sections_split_across_districts"].append(source)
-        for party, votes in zip(group["party"], group["votes"]):
-            shares = _largest_remainder(int(votes), targets) if len(targets) > 1 else {targets[0][0]: int(votes)}
-            rows.extend({section_field: t, "party": party, "votes": v} for t, v in shares.items() if v)
-    result = pd.DataFrame(rows, columns=[section_field, "party", "votes"])
-    result = result.groupby([section_field, "party"], as_index=False)["votes"].sum()
-    for party, before in section_party.groupby("party")["votes"].sum().items():
-        after = int(result.loc[result["party"] == party, "votes"].sum())
-        if int(before) != after:
-            raise AssertionError(f"La equivalencia altera los votos de {party}: {before} -> {after}")
-    evidence["votes_after"] = int(result["votes"].sum())
-    evidence["sections_split_across_districts"].sort()
-    return result, evidence
+        by_district: dict[str, float] = {}
+        for t, w in targets:
+            by_district[district_of[t]] = by_district.get(district_of[t], 0.0) + w
+        district = min(by_district, key=lambda d: (-by_district[d], d))
+        target = min((tw for tw in targets if district_of[tw[0]] == district), key=lambda tw: (-tw[1], tw[0]))[0]
+        alias[source] = target
+        if len(by_district) > 1:
+            total = sum(by_district.values())
+            evidence["votes_assigned_by_majority_across_districts"] += section_votes
+            evidence["majority_assignments"].append({
+                "source": source, "target": target, "district": district, "votes": section_votes,
+                "district_population_share": round(by_district[district] / total, 6) if total else None,
+            })
+    out[section_field] = out[section_field].map(lambda value: alias.get(value, value))
+    out = out.groupby([section_field, "party"], as_index=False)["votes"].sum()
+    if int(out["votes"].sum()) != votes_before:
+        raise AssertionError("La equivalencia altera los votos")
+    evidence["votes_after"] = int(out["votes"].sum())
+    evidence["sections_assigned_by_majority_across_districts"] = len(evidence["majority_assignments"])
+    return out, evidence
 
 
 def apply_section_reconciliation(
