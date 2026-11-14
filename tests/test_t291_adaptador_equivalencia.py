@@ -46,6 +46,14 @@ class AdaptadorEquivalencia(unittest.TestCase):
             "decision": "D-65",
         })
 
+    def test_el_contrato_con_tabla_carga_en_el_validador_de_m07(self):
+        from ddd_core.electoral_contract import load_election_contract
+        with tempfile.TemporaryDirectory() as td:
+            _build(Path(td), section_equivalence=Path(TABLA))
+            contract, _ = load_election_contract(Path(td) / "package/contract/election_contract.json",
+                                                 project_root=Path(td) / "package")
+        self.assertEqual(contract["section_reconciliation"]["equivalence_table"]["path"], TABLA)
+
     def test_sin_argumento_el_contrato_no_cambia(self):
         with tempfile.TemporaryDirectory() as td:
             contract = _build(Path(td))
