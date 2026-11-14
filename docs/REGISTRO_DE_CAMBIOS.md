@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.403
+Versión: 1.0.404
 Fecha: 2026-11-14
-Alcance: T-300 — Ficha de procedencia «De dónde sale este mapa» en el visor V3
+Alcance: T-308 — Revertir los commits de robots de la tanda 1 fallida (deslinde11-r2)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t300-ficha-procedencia-visor-v3.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.402_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t308-revertir-tanda1-fallida.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.403_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.402_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.404 · [2026-11-14 — T-308 — Revertir los commits de robots de la tanda 1 fallida (deslinde11-r2)](registro/2026-11-14_t308-revertir-tanda1-fallida.md)
 - 1.0.403 · [2026-11-14 — T-300 — Ficha de procedencia «De dónde sale este mapa» en el visor V3](registro/2026-11-14_t300-ficha-procedencia-visor-v3.md)
 - 1.0.402 · [2026-11-14 — T-295 — Accesibilidad WCAG 2.1 AA del visor V3](registro/2026-11-14_t295-accesibilidad-visor-v3.md)
 - 1.0.401 · [2026-11-14 — T-294 — Propuesta de analítica del visor sin cookies (fase 1)](registro/2026-11-14_docs-t294-analitica-sin-cookies.md)
