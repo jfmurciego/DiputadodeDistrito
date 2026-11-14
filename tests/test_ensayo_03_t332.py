@@ -102,6 +102,27 @@ class ContratosDeEnsayo(unittest.TestCase):
                                      root_dir=tmpdir, contract_path=Path("c.yaml"))
 
 
+class ResolverSha256(unittest.TestCase):
+    def _con_sha(self, sha):
+        raw = yaml.safe_load((ROOT / "configuracion/contratos_minsait_provisionales.yaml").read_text(encoding="utf-8"))
+        row = {**raw["contracts"]["congreso_huesca_2026-11-29"], "source_sha256": sha}
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        (Path(tmp.name) / "c.yaml").write_text(yaml.safe_dump(
+            {"schema": "ddd-minsait-provisional-contracts/1.0", "contracts": {"congreso_huesca_2026-11-29": row}}), encoding="utf-8")
+        return resolve_contract(election_id="congreso_huesca_2026-11-29", territory_id="nac22", election_date="2026-11-29",
+                                root_dir=Path(tmp.name), contract_path=Path("c.yaml"))
+
+    def test_acepta_64_hex_y_la_marca_pendiente(self):
+        self.assertTrue(self._con_sha("a" * 64)["rehearsal"])
+        self.assertTrue(self._con_sha("PENDIENTE_T333")["rehearsal"])
+
+    def test_rechaza_cualquier_otra_cadena(self):
+        for malo in ("", "abc", "A" * 64, "PENDIENTE", "g" * 64):
+            with self.assertRaises(ValueError, msg=malo):
+                self._con_sha(malo)
+
+
 class PersistStateFalse(unittest.TestCase):
     def test_persist_false_no_registra_y_termina_en_exito(self):
         self.assertFalse(resolve_persist_state(False))
@@ -165,6 +186,48 @@ class PasoResolverBajoBash(unittest.TestCase):
     def test_valor_desconocido_falla(self):
         rc, _ = self._run("ensayo 2027")
         self.assertEqual(rc, 42)
+
+
+@unittest.skipUnless(os.system("command -v jq >/dev/null 2>&1") == 0, "jq no disponible")
+class TerminalDelEnsayo(unittest.TestCase):
+    """El paso «Aplicar decisión electoral» real, bajo `bash -eo pipefail`: un ensayo válido sale en verde; producción no cambia."""
+
+    def _run(self, *, ensayo: str, eligible: str, status: str, validation: str = "READY_PACKAGE", decision: str = "ACQUIRE",
+             allow_gap: str = "false") -> tuple[int, dict, str]:
+        wf = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        script = next(s for s in wf["jobs"]["electorales"]["steps"] if s.get("id") == "outcome")["run"]
+        for expr, value in (("steps.policy.outputs.production_eligible", eligible), ("steps.policy.outputs.source_status", status),
+                            ("inputs.allow_source_gap_success", allow_gap)):
+            script = script.replace("${{ %s }}" % expr, value)
+        self.assertNotIn("${{", script)
+        with tempfile.TemporaryDirectory() as tmp:
+            pkg = Path(tmp) / ".ddd-electoral-package"
+            (pkg / "evidence").mkdir(parents=True)
+            (pkg / "manifest.json").write_text(json.dumps({"decision": decision}), encoding="utf-8")
+            (pkg / "evidence" / "validacion_preparacion.json").write_text(json.dumps({"decision": validation}), encoding="utf-8")
+            out = Path(tmp) / "out"
+            out.touch()
+            proc = subprocess.run(["bash", "-eo", "pipefail", "-c", script], cwd=tmp, capture_output=True, text=True,
+                                  env={**os.environ, "ENSAYO": ensayo, "GITHUB_OUTPUT": str(out)})
+            text = out.read_text(encoding="utf-8")
+            return proc.returncode, dict(l.split("=", 1) for l in text.splitlines() if "=" in l and "<<" not in l), proc.stdout
+
+    def test_ensayo_correcto_sale_en_verde_y_no_es_ready(self):
+        rc, out, stdout = self._run(ensayo="true", eligible="false", status="PROVISIONAL")
+        self.assertEqual(rc, 0)
+        self.assertEqual(out["electoral_outcome"], "ENSAYO_OK")
+        self.assertIn("ENSAYO correcto", stdout)
+
+    def test_ensayo_con_paquete_no_valido_sigue_fallando(self):
+        self.assertEqual(self._run(ensayo="true", eligible="false", status="PROVISIONAL", validation="BLOCK")[0], 42)
+        self.assertEqual(self._run(ensayo="true", eligible="false", status="PROVISIONAL", decision="BLOCK")[0], 42)
+        self.assertEqual(self._run(ensayo="true", eligible="false", status="DEFINITIVE")[0], 42)
+
+    def test_produccion_no_cambia(self):
+        # No ensayo y no elegible: sigue siendo bloqueo (exit 42), igual que antes.
+        self.assertEqual(self._run(ensayo="false", eligible="false", status="PROVISIONAL")[0], 42)
+        rc, out, _ = self._run(ensayo="false", eligible="true", status="PROVISIONAL")
+        self.assertEqual((rc, out["electoral_outcome"]), (0, "READY"))
 
 
 if __name__ == "__main__":

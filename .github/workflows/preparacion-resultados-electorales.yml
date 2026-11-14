@@ -4,7 +4,8 @@
 # CAMBIOS 1.0.15: T-332: entrada `eleccion` («vigente» por defecto; «ensayo 2026-11-29»). El ensayo elige la elección
 #   la elección de 2026-11-29 de la circunscripción SOLO en esa ejecución (herramientas/resolver_ensayo_electoral.py; elecciones_vigentes.yaml no cambia),
 #   exige el adaptador minsait_provisional con contrato `rehearsal`, fuerza persist_state=false, no reutiliza paquetes registrados
-#   y sube el artefacto como ensayo (production_eligible=false: nunca se registra). Con «vigente» el flujo no cambia.
+#   y sube el artefacto como ensayo (production_eligible=false: nunca se registra); un ensayo válido termina en verde con
+#   electoral_outcome=ENSAYO_OK (otro motivo de bloqueo sigue siendo fallo). Con «vigente» el flujo no cambia.
 # CAMBIOS 1.0.14: T-299: el ZIP por mesa de Infoelectoral se lee primero de R2 (ARC-E, arc-e/fuentes/interior/, sha256 del índice orchestracion/fuentes_r2.json);
 #   si no está, URL oficial y, después, el release espejo como respaldo; el ZIP verificado se sube a R2 si falta. La huella del contrato se exige igual.
 # CAMBIOS 1.0.13: T-291 (D-65): con la elección de configuracion/elecciones_generales_2026.yaml y la edición 2025 (mapas
@@ -530,6 +531,18 @@ jobs:
               echo "electoral_outcome=READY"
               echo "electoral_skip_reason="
             } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # T-332: un ENSAYO correcto (paquete válido, PROVISIONAL, no elegible por diseño) termina en verde y NO es READY:
+          # no registra ni promociona. Cualquier otro motivo de bloqueo sigue siendo fallo.
+          if [[ "$ENSAYO" == "true" && "$decision" =~ ^(REUSE|ACQUIRE)$ && "$validation_decision" == "READY_PACKAGE" \
+                && "$production_eligible" != "true" && "$source_status" == "PROVISIONAL" ]]; then
+            {
+              echo "electoral_outcome=ENSAYO_OK"
+              echo "electoral_skip_reason="
+            } >> "$GITHUB_OUTPUT"
+            echo "::notice::ENSAYO correcto, no elegible para producción: no se registra ni se promociona."
             exit 0
           fi
 
