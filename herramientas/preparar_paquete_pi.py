@@ -16,8 +16,9 @@ QUÉ HACE: lee SOLO del objeto git del commit (no del árbol de trabajo) una lis
   - el cierre de imports `ddd_core` de todo lo anterior (análisis AST, transitivo);
   - docs/ARQUITECTURA/DESLINDE_1_0.md y docs/ESTUDIOS/**.
   Excluye por ruta CLAUDE.md, .claude/, ficheros de secretos (.env, *.pem, *.key, id_rsa…) y cachés; FALLA (código 2)
-  si el contenido de un fichero incluido tiene patrones obvios de secreto o de dato personal (tokens, claves privadas,
-  rutas /home/ o /Users/, correos). `--excluir RUTA` (repetible) quita ficheros a mano y queda en el manifiesto.
+  si el contenido de un fichero incluido tiene patrones obvios de secreto (tokens, claves privadas) o correos. Las rutas
+  /home/ o /Users/ (logs y scripts de estudios) no paran: el paquete es privado y no se debilita el registro quitando
+  estudios (decisión del Planificador, T-281); quedan como `avisos` en el manifiesto. `--excluir RUTA` (repetible) quita ficheros a mano y queda en el manifiesto.
   Escribe en la salida (por defecto propiedad_intelectual/): MANIFEST.json (ruta, tamaño y sha256 por fichero, commit,
   fecha UTC del commit, versión de Deslinde, sha256 del ZIP), el ZIP determinista (orden por ruta, fecha fija
   1980-01-01, permisos 0644, sin compresión: idéntico en cualquier máquina), SHA256SUMS y README.md.
@@ -64,12 +65,15 @@ PATRONES_SECRETO = [
     ("clave_privada", re.compile(rb"-----BEGIN [A-Z ]*PRIVATE KEY-----")),
     ("token_slack", re.compile(rb"\bxox[baprs]-[A-Za-z0-9-]{10,}")),
     ("clave_api", re.compile(rb"\bsk-(ant-)?[A-Za-z0-9_-]{20,}")),
-    ("ruta_home", re.compile(rb"/home/[A-Za-z0-9_.-]+")),
-    ("ruta_users", re.compile(rb"/Users/[A-Za-z0-9_.-]+")),
     ("correo", re.compile(rb"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}\b")),
 ]
 # En binarios (PNG, gz) el patrón de correo da falsos positivos con bytes al azar: solo se busca en texto.
 SOLO_TEXTO = {"correo"}
+# Rutas de máquina: se avisan en el manifiesto, no paran (el paquete PI es privado; sanear solo importa al público).
+PATRONES_AVISO = [
+    ("ruta_home", re.compile(rb"/home/[A-Za-z0-9_.-]+")),
+    ("ruta_users", re.compile(rb"/Users/[A-Za-z0-9_.-]+")),
+]
 RE_MODULO = re.compile(r"modulos/0\d_[a-z0-9_]+\.py")
 
 
@@ -177,6 +181,11 @@ def seleccionar(arbol: Arbol, excluir: list[str]) -> dict:
             "paquetes_del_repo_importados_no_incluidos": sorted(externos - set(PAQUETES_SEGUIDOS))}
 
 
+def detectar_avisos(arbol: Arbol, rutas: list[str]) -> list[dict]:
+    return [{"ruta": r, "tipo": nombre} for r in rutas for nombre, patron in PATRONES_AVISO
+            if patron.search(arbol.leer(r))]
+
+
 def detectar_secretos(arbol: Arbol, rutas: list[str]) -> list[tuple[str, str]]:
     hallazgos = []
     for r in rutas:
@@ -233,7 +242,7 @@ def generar(raiz: Path, commit: str, salida: Path, excluir: list[str], con_zip: 
     hallazgos = detectar_secretos(arbol, sel["incluidos"])
     if hallazgos:
         lineas = "\n".join(f"  {r}: {n}" for r, n in hallazgos)
-        raise PaqueteError(f"patrones de secreto o dato personal en {len(hallazgos)} caso(s):\n{lineas}")
+        raise PaqueteError(f"patrones de secreto o correo en {len(hallazgos)} caso(s):\n{lineas}")
     ficheros = [{"ruta": r, "bytes": len(arbol.leer(r)), "sha256": hashlib.sha256(arbol.leer(r)).hexdigest()}
                 for r in sel["incluidos"]]
     datos_zip = zip_determinista(arbol, sel["incluidos"])
@@ -249,6 +258,7 @@ def generar(raiz: Path, commit: str, salida: Path, excluir: list[str], con_zip: 
         "total_bytes": sum(f["bytes"] for f in ficheros),
         "excluidos_por_politica": sel["excluidos_por_politica"],
         "excluidos_explicitos": sel["excluidos_explicitos"],
+        "avisos": detectar_avisos(arbol, sel["incluidos"]),
         "paquetes_del_repo_importados_no_incluidos": sel["paquetes_del_repo_importados_no_incluidos"],
         "ficheros": ficheros,
     }
@@ -284,7 +294,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"::error::paquete PI: {exc}", file=sys.stderr)
         return 2
     print(f"paquete PI: {m['total_ficheros']} ficheros, {m['total_bytes']} bytes, commit {m['commit'][:12]}, "
-          f"Deslinde {m['deslinde_version']}, zip sha256 {m['zip']['sha256']}")
+          f"Deslinde {m['deslinde_version']}, zip sha256 {m['zip']['sha256']}, avisos {len(m['avisos'])}")
     return 0
 
 

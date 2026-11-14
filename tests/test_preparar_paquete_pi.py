@@ -106,9 +106,16 @@ class PaquetePI(unittest.TestCase):
         y = next(f for f in m["ficheros"] if f["ruta"] == "ddd_core/y.py")
         self.assertEqual(y["sha256"], hashlib.sha256(b"Y = 3\n").hexdigest())
 
-    def test_falla_ante_secreto_o_ruta_personal(self):
-        for extra in ({"docs/ESTUDIOS/e1/log.txt": f"cwd={RUTA_PERSONAL}\n"},
-                      {"ddd_motor2/c.py": f"T = '{TOKEN}'\n"}):
+    def test_ruta_personal_se_incluye_con_aviso(self):
+        raiz = _repo(self.tmp, {"docs/ESTUDIOS/e1/log.txt": f"cwd={RUTA_PERSONAL}\n"})
+        self.assertEqual(self._generar(raiz, "s"), 0)
+        m = json.loads((self.tmp / "s/MANIFEST.json").read_text(encoding="utf-8"))
+        self.assertIn("docs/ESTUDIOS/e1/log.txt", [f["ruta"] for f in m["ficheros"]])
+        self.assertEqual(m["avisos"], [{"ruta": "docs/ESTUDIOS/e1/log.txt", "tipo": "ruta_users"}])
+
+    def test_falla_ante_secreto(self):
+        for extra in ({"ddd_motor2/c.py": f"T = '{TOKEN}'\n"},
+                      {"docs/ESTUDIOS/e1/k.txt": "-----BEGIN RSA " + "PRIVATE KEY-----\n"}):
             with self.subTest(extra=list(extra)):
                 sub = self.tmp / list(extra)[0].replace("/", "_")
                 sub.mkdir()

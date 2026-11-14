@@ -1,24 +1,70 @@
 {
+  "avisos": [
+    {
+      "ruta": "docs/ESTUDIOS/N06_DECISION_K_20261012/REGISTRO_PLAN.json",
+      "tipo": "ruta_users"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/N06_DECISION_K_20261012/pruebas_formalizacion_inicial.log",
+      "tipo": "ruta_users"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/N06_DECISION_K_20261012/vinculo_plan.json",
+      "tipo": "ruta_users"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/N06_INTEGRACION_INE_20261012/pruebas_90.log",
+      "tipo": "ruta_users"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/N08_CACERES_20261012/logs/ejecucion.txt",
+      "tipo": "ruta_users"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/T197_generales_2026/ensayo.py",
+      "tipo": "ruta_home"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/diag.py",
+      "tipo": "ruta_home"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/exentos.py",
+      "tipo": "ruta_home"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/resumen.py",
+      "tipo": "ruta_home"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/unid.py",
+      "tipo": "ruta_home"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/T217_vigente_piezas_finas/scripts/vig.py",
+      "tipo": "ruta_home"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/T225_CONGRESO_2025/RESUMEN.json",
+      "tipo": "ruta_home"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/T254_MEDICION_DESLINDE/resultados/auditoria_congreso_huesca.json",
+      "tipo": "ruta_home"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/T254_MEDICION_DESLINDE/resultados/auditoria_congreso_la_rioja.json",
+      "tipo": "ruta_home"
+    },
+    {
+      "ruta": "docs/ESTUDIOS/T254_MEDICION_DESLINDE/resultados/auditoria_la_rioja.json",
+      "tipo": "ruta_home"
+    }
+  ],
   "commit": "439af6a523b6fc52b7c28e87ad690510aff450fa",
   "deslinde_version": "1.0.1",
   "esquema": "ddd.paquete_pi.v1",
-  "excluidos_explicitos": [
-    "docs/ESTUDIOS/N06_DECISION_K_20261012/REGISTRO_PLAN.json",
-    "docs/ESTUDIOS/N06_DECISION_K_20261012/pruebas_formalizacion_inicial.log",
-    "docs/ESTUDIOS/N06_DECISION_K_20261012/vinculo_plan.json",
-    "docs/ESTUDIOS/N06_INTEGRACION_INE_20261012/pruebas_90.log",
-    "docs/ESTUDIOS/N08_CACERES_20261012/logs/ejecucion.txt",
-    "docs/ESTUDIOS/T197_generales_2026/ensayo.py",
-    "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/diag.py",
-    "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/exentos.py",
-    "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/resumen.py",
-    "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/unid.py",
-    "docs/ESTUDIOS/T217_vigente_piezas_finas/scripts/vig.py",
-    "docs/ESTUDIOS/T225_CONGRESO_2025/RESUMEN.json",
-    "docs/ESTUDIOS/T254_MEDICION_DESLINDE/resultados/auditoria_congreso_huesca.json",
-    "docs/ESTUDIOS/T254_MEDICION_DESLINDE/resultados/auditoria_congreso_la_rioja.json",
-    "docs/ESTUDIOS/T254_MEDICION_DESLINDE/resultados/auditoria_la_rioja.json"
-  ],
+  "excluidos_explicitos": [],
   "excluidos_por_politica": [],
   "fecha_utc": "2026-11-12T13:55:06Z",
   "ficheros": [
@@ -2048,6 +2094,11 @@
       "sha256": "5116148c52cc1a611129434d0eeebde32b60cb8e46a14b97d1febc1ac4279995"
     },
     {
+      "bytes": 461,
+      "ruta": "docs/ESTUDIOS/N06_DECISION_K_20261012/REGISTRO_PLAN.json",
+      "sha256": "367ec3ef076feb8191520b656912bc6ba81675a0dd089f9ff15289640090a099"
+    },
+    {
       "bytes": 1272,
       "ruta": "docs/ESTUDIOS/N06_DECISION_K_20261012/REVISION_CORRECCION_20261012.md",
       "sha256": "c597a519568bb521e58bbbf08a9142ec08f844c922a4d4dfd3f39cd11e6d011e"
@@ -2071,6 +2122,11 @@
       "bytes": 139,
       "ruta": "docs/ESTUDIOS/N06_DECISION_K_20261012/pruebas_formalizacion.log",
       "sha256": "fbba8a2dbeb615e0f3b8e9099b4195a64a6d1e18bf53ecf252e954e9f3992a44"
+    },
+    {
+      "bytes": 3065,
+      "ruta": "docs/ESTUDIOS/N06_DECISION_K_20261012/pruebas_formalizacion_inicial.log",
+      "sha256": "f563c5905e879604aceaee7e2105a5bac5b5a39325ea33046c980809a13bdd38"
     },
     {
       "bytes": 7077,
@@ -2128,6 +2184,11 @@
       "sha256": "0391be932d566592db2e79896a0ec0738bb9fab1fdd5f02138efe833bfe56b34"
     },
     {
+      "bytes": 1630,
+      "ruta": "docs/ESTUDIOS/N06_DECISION_K_20261012/vinculo_plan.json",
+      "sha256": "55c58d0d0a48911f3d452bb92bdc1293d2d334cdf27943e23dbdb871bcf6b6dc"
+    },
+    {
       "bytes": 3002,
       "ruta": "docs/ESTUDIOS/N06_INTEGRACION_INE_20261012/ENTREGA.md",
       "sha256": "296510d3fa615fb9cfcbe72aff3d88802f5582c047e8b9ce3bd956e84047fb57"
@@ -2136,6 +2197,11 @@
       "bytes": 4470,
       "ruta": "docs/ESTUDIOS/N06_INTEGRACION_INE_20261012/N08_PREFLIGHT.md",
       "sha256": "094244502d7c7fe2484683169370d3a9074583eaba529d8fd98275a0e00d28d6"
+    },
+    {
+      "bytes": 1018,
+      "ruta": "docs/ESTUDIOS/N06_INTEGRACION_INE_20261012/pruebas_90.log",
+      "sha256": "56a08d733e7c438c1b981a7237a34d1b2cfa1f3207bd73b035f1d16c41374477"
     },
     {
       "bytes": 708,
@@ -2246,6 +2312,11 @@
       "bytes": 1997,
       "ruta": "docs/ESTUDIOS/N08_CACERES_20261012/REVISIONES.md",
       "sha256": "79411d63c4e009b2bd7b28daafbac7bfc118a11c35a0d24002420ed4e22c6480"
+    },
+    {
+      "bytes": 850,
+      "ruta": "docs/ESTUDIOS/N08_CACERES_20261012/logs/ejecucion.txt",
+      "sha256": "96186210b53d6894087801f0c76f049233e04193acc0f5065c73ae70a1ce465e"
     },
     {
       "bytes": 254,
@@ -5363,6 +5434,11 @@
       "sha256": "30df3b8fe890cfbb3970a3634462c0a6007bef0233dcb6dc00a4aac8ffb3f747"
     },
     {
+      "bytes": 4094,
+      "ruta": "docs/ESTUDIOS/T197_generales_2026/ensayo.py",
+      "sha256": "227d43684c2e0f67b07b40f6d380b151ebc558c1c44e9485492d20a5447663cf"
+    },
+    {
       "bytes": 6422,
       "ruta": "docs/ESTUDIOS/T211_ponderado_autonomicas/README.md",
       "sha256": "ebb1efa0ac99657cba4494cd994b22f2926602523d19c70aa293588b90b41afa"
@@ -5388,9 +5464,29 @@
       "sha256": "b52cc314a3ba321e4115270e932129a0927b1b5f60b8a598fab46dd3e909c097"
     },
     {
+      "bytes": 2501,
+      "ruta": "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/diag.py",
+      "sha256": "d6b8fad2785835271cf0c9dd490cf5855f156a9b626129e3b30f40c0cbe89b00"
+    },
+    {
+      "bytes": 1406,
+      "ruta": "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/exentos.py",
+      "sha256": "156ec4126c6b9067b752594abf3dbfbb46ffe9db0a9d3d45e7dcf5c96c3b2671"
+    },
+    {
       "bytes": 939,
       "ruta": "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/laboratorio.py",
       "sha256": "093f3daad2331c30855d9a1046ce9069cded627151f67f380ebd178a9370be83"
+    },
+    {
+      "bytes": 1643,
+      "ruta": "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/resumen.py",
+      "sha256": "78f448a11335ca0bcbb85f09ead9d435e802aa50caa2a0e967a5f5ddb38812f5"
+    },
+    {
+      "bytes": 937,
+      "ruta": "docs/ESTUDIOS/T211_ponderado_autonomicas/scripts/unid.py",
+      "sha256": "7d222cc61f607ece583676cf8947edf326613fba76aede7be2fb19795ef8f643"
     },
     {
       "bytes": 3068,
@@ -5443,6 +5539,16 @@
       "sha256": "2d9dd49e44b1c778c958775c01925f4016d1d8502fbced62655f71c6d73381c0"
     },
     {
+      "bytes": 935,
+      "ruta": "docs/ESTUDIOS/T217_vigente_piezas_finas/scripts/vig.py",
+      "sha256": "936775475899918505fc03a49ffd72bfec30e52a287059da37cc1303ec3d9cfc"
+    },
+    {
+      "bytes": 24765,
+      "ruta": "docs/ESTUDIOS/T225_CONGRESO_2025/RESUMEN.json",
+      "sha256": "e53204c75b3788c27ff0baf2de6e7941fc81ba5f12d1231800e86fa3333c072c"
+    },
+    {
       "bytes": 20022,
       "ruta": "docs/ESTUDIOS/T254_MEDICION_DESLINDE/README.md",
       "sha256": "4d37842f7cab029d3073ccff66e8c852fad61f3b0c784778816e1544c111d77e"
@@ -5471,6 +5577,21 @@
       "bytes": 29735,
       "ruta": "docs/ESTUDIOS/T254_MEDICION_DESLINDE/resultados/MEDICION.json",
       "sha256": "d9f886bd5ef58f16c944053dcb119ac7c9b453e499b17eaff08113eb69904585"
+    },
+    {
+      "bytes": 2502,
+      "ruta": "docs/ESTUDIOS/T254_MEDICION_DESLINDE/resultados/auditoria_congreso_huesca.json",
+      "sha256": "6ff7e01bdea7c5c5157c74b5522859603d247b04293815cfdfdd051a32a0d259"
+    },
+    {
+      "bytes": 3316,
+      "ruta": "docs/ESTUDIOS/T254_MEDICION_DESLINDE/resultados/auditoria_congreso_la_rioja.json",
+      "sha256": "a3a8e24b93e272bd94c17167fe85694326fd3f3c60eab6a4854610c252bc7704"
+    },
+    {
+      "bytes": 28364,
+      "ruta": "docs/ESTUDIOS/T254_MEDICION_DESLINDE/resultados/auditoria_la_rioja.json",
+      "sha256": "c83766a0a6eaa0ad4056bab40e930b09d6e0378520c4f438d0d0e1ba343cee1e"
     },
     {
       "bytes": 21016,
@@ -5668,12 +5789,12 @@
     "version": "1.0.0"
   },
   "paquetes_del_repo_importados_no_incluidos": [],
-  "total_bytes": 50407671,
-  "total_ficheros": 1128,
+  "total_bytes": 50485158,
+  "total_ficheros": 1143,
   "zip": {
-    "bytes": 50659313,
+    "bytes": 50739726,
     "formato": "ZIP_STORED, orden por ruta, fecha 1980-01-01T00:00:00, 0644",
     "nombre": "paquete_deslinde.zip",
-    "sha256": "adb87221d524db3c60c1ffbb66be10a5c5a7676e9f116231cf0e38f2cd7c43bc"
+    "sha256": "5ae301e73da1e55b78804349759603c797769a98a01b2a51cfffc4bd9b9485ad"
   }
 }
