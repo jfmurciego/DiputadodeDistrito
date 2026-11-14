@@ -8,6 +8,8 @@ from unittest import mock
 
 import json
 
+import yaml
+
 from herramientas import bateria_motor as b
 from herramientas import podar_r2
 
@@ -129,7 +131,69 @@ class EspejoIne(unittest.TestCase):
                 zf.writestr("nac42_2025_m03_grafo.json", b"m03")
             with mock.patch.dict("os.environ", {"R2_BUCKET": "bk"}), mock.patch.object(b, "_r2_cp", cp), \
                     mock.patch.object(b, "_identidad_contrato", lambda t: ident), mock.patch.object(b, "_cache", lambda t: cache):
-                self.assertIsNone(b.entradas_r2_identidad("nac42", td / "out"))
+                with self.assertRaises(b.PaqueteP10Corrupto):
+                    b.entradas_r2_identidad("nac42", td / "out")
+
+    def test_el_defecto_nunca_llega_al_ine_ni_al_ogc(self):
+        import argparse, contextlib, io
+        a = argparse.Namespace(territorios=["nac42"], todos=False, out="/nonexistent", desde_fuente=True,
+                               seccionado="ogc", permitir_red_ine=False)
+        buf = io.StringIO()
+        with mock.patch.object(b, "entradas_uno", side_effect=AssertionError("no debe ejecutarse")), contextlib.redirect_stdout(buf):
+            self.assertEqual(b.entradas(a), 2)
+        self.assertIn("BATERIA_RED_INE_PROHIBIDA", buf.getvalue())
+        import inspect
+        self.assertEqual(inspect.signature(b.entradas_uno).parameters["seccionado"].default, "shapefile")
+        self.assertIn('"--seccionado", default="shapefile"', inspect.getsource(b.main))
+
+    def test_paquete_corrupto_y_ausente_tienen_codigos_distintos(self):
+        import argparse, contextlib, io
+        ident = {"contrato": "c", "contrato_sha256": "1", "package_sha256": "p", "compatibility_identity_sha256": "c"}
+        a = argparse.Namespace(territorios=["nac42"], todos=False, out="/nonexistent", desde_fuente=False,
+                               seccionado="shapefile", permitir_red_ine=False)
+
+        def salida(efecto):
+            buf = io.StringIO()
+            with mock.patch.object(b, "entradas_r2_identidad", efecto), mock.patch.object(b, "_identidad_contrato", lambda t: ident), \
+                    contextlib.redirect_stdout(buf):
+                self.assertEqual(b.entradas(a), 1)
+            return buf.getvalue()
+        corrupto = salida(mock.Mock(side_effect=b.PaqueteP10Corrupto("fichero alterado")))
+        self.assertIn("BATERIA_PAQUETE_P10_CORRUPTO nac42: fichero alterado", corrupto)
+        self.assertNotIn("FALTA_PAQUETE", corrupto)
+        ausente = salida(mock.Mock(return_value=None))
+        self.assertIn("BATERIA_FALTA_PAQUETE_P10 nac42", ausente)
+        self.assertNotIn("CORRUPTO", ausente)
+
+    def test_la_poda_no_borra_arc_e_ni_por_la_ruta_de_borrado(self):
+        import csv
+        borrar = mock.Mock()
+        fila = {"clave": "arc-e/entradas-minimas/0123456789abcdef.zip", "sha256": "a", "copia_clave": "x/1/ddd-state-1-M03.zip",
+                "copia_sha256": "b", "territorio": "arc-e", "tamano_bytes": "1"}
+        with tempfile.TemporaryDirectory() as td:
+            lista = Path(td) / "l.csv"
+            with open(lista, "w", newline="", encoding="utf-8") as fh:
+                w = csv.DictWriter(fh, fieldnames=list(fila))
+                w.writeheader()
+                w.writerow(fila)
+            sha = podar_r2.sha256_fichero(lista)
+            with self.assertRaises(ValueError):
+                podar_r2.leer_lista(lista, sha)
+            man = Path(td) / "m.json"
+            man.write_text('{"artefactos": {}}', encoding="utf-8")
+            with self.assertRaises(Exception):
+                podar_r2.podar([fila], man, lambda k: "a", lambda t: True, borrar, True)
+        borrar.assert_not_called()
+
+    def test_secretos_de_r2_solo_en_los_pasos_que_los_usan(self):
+        wf = yaml.safe_load((ROOT / ".github/workflows/bateria-motor.yml").read_text(encoding="utf-8"))
+        esperado = {"archivar_p10": ["Estado M03 de la 00 y archivado por identidad del contrato"],
+                    "bateria": ["Entradas desde R2 (paquete P10)", "Archivar entradas en R2"],
+                    "competicion": ["Entradas (R2, paquete P10)"], "plan": [], "aceptacion": []}
+        for job, pasos in esperado.items():
+            j = wf["jobs"][job]
+            self.assertFalse([k for k in j.get("env", {}) if k.startswith(("AWS_", "R2_"))], job)
+            self.assertEqual([s["name"] for s in j["steps"] if any(k.startswith("AWS_") for k in s.get("env", {}))], pasos, job)
 
     def test_clave_r2_por_identidad_no_por_territorio(self):
         a = {"contrato": "territorios/aut01/config/aut01_2025.yaml", "contrato_sha256": "1", "package_sha256": "p", "compatibility_identity_sha256": "c"}
