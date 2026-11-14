@@ -106,7 +106,3 @@
 
 ## pieTexto
 <!-- Texto del pie de página -->
-
-## padron2026
-<!-- Aviso del padrón de las generales de 2026 (D-69) -->
-Los distritos de las generales de 2026 están trazados con el padrón y el seccionado de 2023; se actualizarán con el padrón de 2025.
