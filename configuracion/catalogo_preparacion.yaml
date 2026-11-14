@@ -1386,25 +1386,24 @@ territories:
         run_id: 42954957703
         stage: M08
       preparation_evidence:
-        run_id: 41292216676
-        artifact_name: ddd-source-package-congreso_gerona-2025-41292216676
-        artifact_sha256: ca048f3a17c35e0bd7c58b57957eee38d9a58b9df34fc7f868cd15523c7915e6
+        run_id: 43651989454
+        artifact_name: ddd-source-package-nac17-2025-43651989454
+        artifact_sha256: a6b2524fc815750ddfe9d39fc9a71d874af79717affd66fc6e60fbace96d1d5a
         package_sha256: cffe40478cfeec3bd2bf3eb8b3bfe47391ee9c6a95d945d89276cdd0c9df9cde
-        receipt_path: territorios/nac17/evidencia/fuentes_territoriales/2025/d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688/41292216676/receipt.json
-        territorial_identity_sha256: d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688
+        receipt_path: territorios/nac17/evidencia/fuentes_territoriales/2025/33b6ff372aca5c1449a55bc35ea80d7a3549514b9fc258a2d324a75679680ac5/43651989454/receipt.json
+        territorial_identity_sha256: 33b6ff372aca5c1449a55bc35ea80d7a3549514b9fc258a2d324a75679680ac5
         compatibility_report_sha256: 4990515e234bd5c5dc7aca4d4763e787fa6b1442ed55b2e821ec0775d570e06d
         compatibility_identity_sha256: 43150bc97a6b9317867d6ea161cec81ae5765ae49bb749f25745e1869af092b0
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: d73703d1c87a46762a874f2b3e4a008649963349
+        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
       evidence:
         electoral_source: territorios/nac17/evidencia/fuentes_electorales/2025/a03b34676e4217823ee656f307a84c832a305ab6db19461e28c043a60e80bc8f/41239820081/receipt.json
-        generation_preflight: territorios/nac17/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac17/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac17/evidencia/pares_fuentes/2025/9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc.json
         electoral_product: territorios/nac17/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac18
   name: Congreso Granada
   editions:
