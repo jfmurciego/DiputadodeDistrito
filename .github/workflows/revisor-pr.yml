@@ -7,7 +7,7 @@
 #   Ya no en cada push, ni en borrador, ni en PR de robots (autor Bot). El workflow sigue disparándose en los mismos
 #   eventos (+ labeled) pero el `if` de `comprobar` los salta: revisar y veredicto quedan «skipped» (cero minutos) y el
 #   check `veredicto`, exigido por el ruleset proteger-main, cuenta como cumplido en cada HEAD (quitar synchronize lo
-#   dejaría pendiente). La concurrencia ya no cancela: un push o una etiqueta ajena no matan una revisión en curso.
+#   dejaría pendiente). La concurrencia ya no cancela (cola `queue: max`, exigida por test_operational_concurrency): un push o una etiqueta ajena no matan una revisión en curso.
 # CAMBIOS 1.0.2: T-149, solo el nombre visible («Revisor de PR», sin «_Interno — »). Jobs y check `veredicto` intactos.
 # CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Revisor independiente en cada PR
@@ -29,6 +29,7 @@ permissions:
 concurrency:
   group: ddd-revisor-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: false
+  queue: max
 jobs:
   comprobar:
     runs-on: ubuntu-24.04
