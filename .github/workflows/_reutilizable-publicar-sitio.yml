@@ -1,7 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.14.2
-# FECHA: 2026-11-12
+# VERSIÓN: 3.15.0
+# FECHA: 2026-11-14
+# CAMBIOS 3.15.0: T-301, cada M06 canónico que se publica deja su composición sección→distrito versionada: tras describir el run,
+#   `composicion_m06.py --descriptores` la extrae de los artefactos ya descargados, la valida contra el M06 y la escribe en
+#   datos/composicion/runs/<id>_<run>.csv con su sha256 en MANIFEST_RUNS.json; se persiste en el mismo commit del registro.
+#   Si un territorio del lote no se recupera, el lote se rechaza entero (COMPOSICION_NO_RECUPERADA) antes de crear blobs.
+# MOTIVO 3.15.0: 36 de 71 territorios publicados no tenían vigente comparable (SIN_VIGENTE) porque su composición no estaba en git.
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.14.2_20261114.yml
 # CAMBIOS 3.14.2: materializar V3 (/v3/) con activos publicados y promocionar su portada; V1 y V2 intactas.
 # MOTIVO 3.14.2: migración a visor integrado V3 con niveles hasta sección y filtros; conservar rollback.
 # ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.14.1_20261112.yml
@@ -319,6 +325,8 @@ jobs:
             out="/tmp/product-descriptors-$run.json"
             python herramientas/registro_publicaciones_visor.py describe-production             --production-root "$(raiz_run "$run")"             --run-id "$run" ${SCENARIO_ID:+--scenario-id "$SCENARIO_ID" --strategy "$SCENARIO_STRATEGY"}             --output "$out" || fallos+=("$run")
             salidas+=("$out")
+            # T-301: la composición del M06 que se publica queda versionada (vigente del visor); sin ella, el lote se rechaza.
+            if [[ -s "$out" ]] && ! python herramientas/composicion_m06.py --descriptores "$out" --origen "$(raiz_run "$run")"; then fallos+=("$run"); fi
           done
           (( ${#fallos[@]} == 0 )) || {
             echo "::error::LOTE_RECHAZADO: sin producto publicable en ${fallos[*]} (motivo en las líneas anteriores); no se registra ninguno."; exit 1;
@@ -612,13 +620,13 @@ jobs:
           }
           cp /tmp/publicaciones_visor.candidate.json "$PUBLICATION_REGISTRY"
           # Registro, resultados ligeros y datos abiertos van juntos: INDEX.json nunca queda desfasado del registro.
-          [[ -z "$(git status --porcelain -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos)" ]] && exit 0
+          [[ -z "$(git status --porcelain -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos datos/composicion)" ]] && exit 0
           [[ "$GITHUB_REF_NAME" == "main" ]] || {
             echo "::error::Las promociones publicables sólo pueden persistirse desde main."; exit 45;
           }
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add -A -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos
+          git add -A -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos datos/composicion
           git commit -m "chore: registrar activos persistentes del visor"
           for attempt in 1 2 3; do
             if git pull --rebase origin main && git push origin HEAD:main; then
