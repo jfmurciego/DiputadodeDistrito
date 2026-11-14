@@ -29,6 +29,7 @@ const HUECOS={
  metodo3Titulo:"Paso 3 · título",metodo3Texto:"Paso 3 · texto",
  metodo4Titulo:"Paso 4 · título",metodo4Texto:"Paso 4 · texto",
  cierreCita:"Frase de cierre",cierreAviso:"Aviso legal corto (mapa de investigación sin valor oficial)",
+ padron2026:"Aviso del padrón de las generales de 2026 (D-69)",
  pieTexto:"Texto del pie de página"
 };
 Object.keys(HUECOS).forEach(k=>{if(!document.querySelector('[data-k="'+k+'"]'))delete HUECOS[k]});
