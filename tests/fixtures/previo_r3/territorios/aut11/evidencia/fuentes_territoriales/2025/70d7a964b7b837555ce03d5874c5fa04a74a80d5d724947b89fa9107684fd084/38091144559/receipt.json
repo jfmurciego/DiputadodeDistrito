@@ -1,0 +1,17 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "extremadura",
+  "edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "run_id": 38091144559,
+  "artifact_name": "ddd-source-package-extremadura-2025-38091144559",
+  "artifact_sha256": "b4241708cbc7eb1fcf3dd7b6298152392731975106bbddaf6d8ae03bc3fcd8dc",
+  "package_sha256": "5f55db978522cc3fe5c32cbe25e61005a3e30823acab1ff10b3fe2a824f21b0a",
+  "source_commit": "776006e62ebd80ab20a55b186c3778bce76e9f19",
+  "territorial_identity_sha256": "70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "a45c3ff9833d9898c56f177180731fd07b52e6dadeb3d3e937a510eaa1664346",
+  "compatibility_identity_sha256": "cccf94fe04269dc88a5b187bd99ab90c68010619f9b1e6c25319f4b4820d1959"
+}

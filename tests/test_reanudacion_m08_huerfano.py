@@ -754,17 +754,14 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         self.assertEqual(phase04["artifact"], electoral["artifact_name"])
         self.assertEqual(phase04["result"], "success")
         same_lineage = phase02["artifact"] == territorial["artifact_name"]
+        self.assertTrue(same_lineage)  # el fixture congelado fija la rama «M08 enlazado»; un cambio de datos no puede probar la contraria
 
         plan = build_plan(
             territory="Castilla-La Mancha", edition="2025", execution_mode="reuse",
             catalog=root / "configuracion/catalogo_preparacion.yaml", root_dir=root,
         )
         self.assertEqual(plan["existing"]["territorial_product"]["run_id"], current_run)
-        if same_lineage:
-            self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
-        else:
-            self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
-            self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
+        self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
 
         result = scan(root_dir=root, territory_id="aut08", edition="2025")
         self.assertEqual(result["status"], "NONE")
