@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Diputado de Distrito: explora los distritos, sistemas electorales y resultados publicados de España.">
+<title>Diputado de Distrito · Visor V3</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css">
+<link rel="stylesheet" href="v3.css">
+</head>
+<body>
+<header class="top">
+  <div class="identity"><div class="logo" aria-hidden="true"><i></i><i></i><i></i></div><a class="wordmark" href="./">Diputado de Distrito</a><span class="strap">Territorio, sistema electoral y representación</span></div>
+  <nav class="site-nav" aria-label="Menú principal"><a class="current" href="./">Explorar</a><a href="../docs/datos-abiertos.html">Datos</a><a href="../docs/metodo.html">Metodología</a><a href="../docs/fuentes.html">Fuentes</a></nav>
+  <button class="icon-button" id="help" aria-label="Ayuda">?</button>
+</header>
+<div class="app">
+  <nav class="modes" aria-label="Modalidad de análisis">
+    <button data-panel="territorio" aria-pressed="true">⌖ <span>Territorio</span></button>
+    <button data-panel="resultados" aria-pressed="false">▥ <span>Resultados</span></button>
+    <button data-panel="comparar" aria-pressed="false">⚖ <span>Comparar</span></button>
+    <button data-panel="evolucion" aria-pressed="false">⌁ <span>Evolución</span></button>
+  </nav>
+  <div class="workspace">
+    <aside class="tools" aria-label="Herramientas del mapa">
+      <h2>☷ Herramientas</h2>
+      <fieldset><legend>Ámbito</legend><div class="segment" id="scope"><button data-value="nacional" aria-pressed="true">Nacional</button><button data-value="autonomico" aria-pressed="false">Autonómico</button></div></fieldset>
+      <fieldset><legend>Sistema electoral</legend><div class="segment" id="system"><button data-value="proporcional" aria-pressed="true">Actual proporcional</button><button data-value="mayoritario" aria-pressed="false">Mayoritario DDD</button></div></fieldset>
+      <fieldset><legend>Vista</legend><div class="segment" id="view"><button data-value="territorial" aria-pressed="false">Territorial</button><button data-value="electoral" aria-pressed="true">Electoral</button></div></fieldset>
+      <label class="control">Capa <select id="layer"><option value="ganador">Partido más votado</option><option value="unidades">Límites electorales</option><option value="poblacion">Población</option><option value="desviacion">Desviación de población</option></select></label>
+      <label class="control">Nivel territorial <select id="level"><option value="comunidad">Comunidad autónoma</option><option value="provincia" selected>Provincia</option><option value="distrito">Distrito electoral</option><option value="municipio">Municipio (secciones)</option><option value="seccion">Sección censal</option></select></label>
+      <label class="control">Buscar territorio <input id="search" type="search" placeholder="Provincia, comunidad o CUSEC" autocomplete="off" list="places"><datalist id="places"></datalist></label>
+      <fieldset class="preferences"><legend>Opciones de mapa</legend>
+        <label><span>Mostrar límites</span><input id="boundaries" type="checkbox" checked></label>
+        <label><span>Etiquetas de territorio</span><input id="labels" type="checkbox"></label>
+        <label><span>Detalle de secciones al acercar</span><input id="auto-sections" type="checkbox" checked></label>
+      </fieldset>
+      <p class="tools-note" id="tools-note">Las opciones sin datos verificables se indican expresamente. Nunca se generan resultados electorales de ejemplo.</p>
+    </aside>
+    <main class="map-shell">
+      <div id="map" role="application" aria-label="Mapa interactivo de territorios y resultados electorales de España"></div>
+      <div class="map-tag"><span class="status-dot"></span><span id="map-caption">Resultados oficiales 2023 · vista provincial</span></div>
+      <div class="map-actions"><button id="reset-map" title="Volver a España">⌖</button><button id="peninsula" title="Península">P</button><button id="canarias" title="Canarias">C</button></div>
+      <div id="map-notice" class="map-notice" role="status"></div>
+      <div id="legend" class="legend" aria-label="Leyenda"></div>
+      <div class="attribution">Cartografía de investigación · geometrías y resultados según producto publicado</div>
+    </main>
+    <aside class="insights" aria-live="polite">
+      <div class="insights-hero"><span class="overline" id="selection-type">España</span><h1 id="selection-name">Diputado de Distrito</h1><p id="selection-path">Selecciona una provincia o comunidad en el mapa</p></div>
+      <div class="model-cards"><div><small id="ddd-label">Propuesta DDD</small><strong id="ddd-count">407</strong><span id="ddd-unit">distritos nacionales</span></div><div><small id="current-label">Congreso actual</small><strong id="current-count">350</strong><span id="current-unit">escaños</span></div></div>
+      <div id="context" class="context"><p class="hint">El mapa y las fichas mostrarán únicamente datos disponibles en el registro de publicación.</p></div>
+      <div class="source-label" id="source-label"></div>
+      <section class="detail-mode" id="detail-mode"><h2 id="detail-heading">Resultados y territorio</h2><div id="detail-content"></div></section>
+    </aside>
+  </div>
+  <footer class="timeline">
+    <div class="timeline-title"><span aria-hidden="true">▣</span><div><b>Navegador electoral</b><small id="timeline-subtitle">Elecciones generales</small></div></div>
+    <div class="timeline-controls"><label id="election-region-label" for="election-region" hidden>Parlamento</label><select id="election-region" aria-label="Comunidad para el calendario autonómico"><option value="">Todas las comunidades</option></select><div class="years" id="elections" role="group" aria-label="Elecciones disponibles"></div></div>
+    <p id="election-note" class="election-note">Solo se dibujan resultados certificados para la elección seleccionada.</p>
+  </footer>
+</div>
+<dialog id="help-dialog"><h2>Cómo explorar DDD</h2><p>Selecciona ámbito, sistema electoral y vista. Pulsa una provincia para entrar en sus distritos y continúa acercándote para consultar secciones censales cuando estén publicadas.</p><p>Las secciones se colorean por su distrito o por una variable territorial. No se atribuyen resultados electorales a una sección si no existen resultados propios publicados para esa sección.</p><p>Las elecciones antiguas o las capas sin producto publicado indican su ausencia, sin reutilizar silenciosamente datos de otro año.</p><form method="dialog"><button>Cerrar</button></form></dialog>
+<script defer src="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js"></script>
+<script defer src="v3.js"></script>
+</body></html>

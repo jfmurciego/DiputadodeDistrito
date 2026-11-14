@@ -1,11 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.10.1
+# VERSIÓN: 1.10.2
 # NOMBRE DE VERSIÓN: Diseño A — suite en paralelo con check agregado `pruebas`
 # FECHA: 2026-11-14
 # ESTADO: vigente
+# ANTERIOR: legacy/workflows/pruebas-plataforma_v1.10.1_20261114.yml
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
-# CAMBIOS: 1.10.1 (T-271): los cinco upload-artifact (diagnóstico de suite, N08, contratos, documentación, producto) suben solo si el
+# CAMBIOS: 1.10.2 (T-292): paso Node en el runner host del guardián que comprueba el controlador del visor V3
+#   (`node --check` y `tests/test_visor_v3_ui.js`); el Docker de unittest no cambia y no necesita Node.
+#   1.10.1 (T-271): los cinco upload-artifact (diagnóstico de suite, N08, contratos, documentación, producto) suben solo si el
 #   job falla (`if: failure()`), con `continue-on-error: true` y `retention-days: 1`: el veredicto depende de los tests y no de la cuota
 #   de almacenamiento de artefactos («Artifact storage quota has been hit» tiñó de rojo main 439af6a). No cambia qué se comprueba.
 #   1.10.0 (T-252): job `estado_vivo` («Estado vivo»), solo en push a main de robot (`cambios` robot=true): ~23 módulos que leen
@@ -56,6 +59,11 @@ jobs:
     steps:
       - name: Obtener código
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Verificar V3 con Node en runner host
+        if: ${{ hashFiles('visor/v3/v3.js') != '' }}
+        run: |
+          node --check visor/v3/v3.js
+          node tests/test_visor_v3_ui.js
       - name: Guardián de main — sin marcas de conflicto en ficheros versionados
         run: python herramientas/comprobar_guardian_main.py marcas
       - name: Guardián de main — numeración consecutiva del registro de cambios
