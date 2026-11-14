@@ -2908,11 +2908,11 @@
   },
   "congreso_cadiz": {
    "fuente_territorial": {
-    "run_id": "41465820761",
+    "run_id": "43650180523",
     "package_sha256": "29b9604d8a617e6a0dff74e0a67d738211bd0771a525c954d9fa214eaf6709cb",
-    "artifact_sha256": "39e612f105e899cfff0b4a89b3692a1097f595fdc385806e27b91389660cd875",
-    "territorial_identity_sha256": "3729f923549f454621c4bc7a8564aee79d8961c502779e1cfb32666f81fd0e25",
-    "receipt_path": "territorios/nac11/evidencia/fuentes_territoriales/2025/3729f923549f454621c4bc7a8564aee79d8961c502779e1cfb32666f81fd0e25/41465820761/receipt.json",
+    "artifact_sha256": "d7ac2f80f19e8a7e28cd713eb0ef1edff7b0b5c07d9f206b8faf3697b1ae56fe",
+    "territorial_identity_sha256": "346b9390b5d2bbf58b69ebc2c87d9347163f57aa0bc6ebcb75d76908b53d2252",
+    "receipt_path": "territorios/nac11/evidencia/fuentes_territoriales/2025/346b9390b5d2bbf58b69ebc2c87d9347163f57aa0bc6ebcb75d76908b53d2252/43650180523/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
