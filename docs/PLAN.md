@@ -251,7 +251,7 @@ Fase 4 — producto (en el privado):
 - D-100 (14-11). Fuentes una sola vez en P10 y R2 (ARC-E); la batería parte del paquete P10 y recalcula P21-P23.
 - D-101 (14-11). Analítica: opción A (contador propio en un Cloudflare Worker, sin datos personales) y maplibre servido desde el sitio (sustituye el aplazamiento de D-71).
 - D-102 (14-11). Notación interna M01-M08 → P21-P27/P41-P42 (T-313) después de publicar los 71: P22 = «Geometría y adyacencias», P27 = auditoría, ensemble25/50; alcance completo; alias solo de lectura para el histórico.
-- D-103 (14-11). Histórico desde 2011 adelantado (inventario T-306, #770). Zenodo solo mapas (confirma D-94).
+- D-103 (14-11, propietario; traspaso del Planificador). Histórico desde 2011 adelantado (inventario T-306, #770): matiza D-77, que dejaba la regeneración del histórico para después del corte. Zenodo solo mapas (confirma D-94).
 
 ### Cola T-291 a T-314 (14-11)
 | Id | Qué | Estado |
@@ -275,12 +275,12 @@ Fase 4 — producto (en el privado):
 | T-308 | Revertir los commits de robots de la tanda 1 de r2 | HECHA (#777) |
 | T-309 | Endurecer las comparaciones `mismo_territorio` con ids legacy | PENDIENTE (después de la P50) |
 | T-310 | maplibre-gl servido desde el sitio | HECHA (#781) |
-| T-311, T-312 | Id canónico al reutilizar P10 (también en el contrato resuelto copiado) y revert de r3 tanda 1 | REVISIÓN (#786); camino crítico |
+| T-311, T-312 | Id canónico al reutilizar P10 (también en el contrato resuelto copiado) y revert de r3 tanda 1 | HECHA (#786) |
 | T-313 | Migración de notación P (D-102): inventario #784 (borrador) | PENDIENTE (después de la P50) |
-| T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? | EN CURSO; camino crítico |
+| T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? Resultado: transitorio, solo bloquea «Reutilizar» | REVISIÓN (#788); camino crítico |
 
 ### Frentes y camino crítico (14-11)
-1. Regeneración Deslinde 1.1 (ficha r3, PARADA; main en rojo por r3): #786 y T-314 en main con CI verde → el Operador reanuda r3 desde el paso 1 (frase ya dada) → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
+1. Regeneración Deslinde 1.1 (ficha r3, PARADA): #786 fusionada; falta T-314 (#788) en main con CI verde → el Operador reanuda r3 desde el paso 1 (frase ya dada) → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
 2. Ensayo en seco de la noche del 29-11, tras la regeneración.
 3. Tras la P50: T-313, T-309 y #765.
 4. Almacenes M06: #785 y el script de borrado para el propietario.
