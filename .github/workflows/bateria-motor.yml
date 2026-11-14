@@ -3,7 +3,7 @@
 # VERSIÓN: 1.3.1
 # CAMBIOS 1.3.1 (T-302): el job `archivar_almacen_m06` pasa a `contents: write` (solo ese job; los demás siguen en read): las releases almacen-m06-*
 #   son borradores y el GITHUB_TOKEN no los ve con contents: read (run 43632394790: ALMACEN_SIN_ASSETS). El job solo LEE releases (API GET y descarga de
-#   assets) y sube a R2; no hace push ni edita ni borra releases.
+#   assets) y sube a R2; no hace push ni edita ni borra releases; su checkout lleva persist-credentials: false.
 # CAMBIOS 1.3.0 (T-302): entrada `archivar_almacen_m06` (Operador, una vez): sube a R2 (ARC-P, arc-p/m06/<asset>_<sha12>.zip) los assets de las releases
 #   almacen-m06-* con su sha256 verificado contra el digest de la release y deja ARCHIVO_ALMACEN_M06.json como artefacto (herramientas/
 #   almacen_m06_r2.py; después `indexar` en una PR). No borra nada. Secretos de R2 solo en el paso que sube.
@@ -156,6 +156,8 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false  # contents: write; el job no hace push
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.13'

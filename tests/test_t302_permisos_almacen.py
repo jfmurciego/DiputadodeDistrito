@@ -33,6 +33,11 @@ class PermisosAlmacenM06(unittest.TestCase):
         for prohibido in ("git push", "git commit", "release edit", "release delete", "release create", "-X DELETE", "-X POST", "-X PATCH"):
             self.assertNotIn(prohibido, texto)
 
+    def test_el_checkout_del_job_no_persiste_credenciales(self):
+        pasos = self.wf["jobs"]["archivar_almacen_m06"]["steps"]
+        checkout = next(p for p in pasos if str(p.get("uses", "")).startswith("actions/checkout@"))
+        self.assertIs(checkout["with"]["persist-credentials"], False)
+
 
 if __name__ == "__main__":
     unittest.main()
