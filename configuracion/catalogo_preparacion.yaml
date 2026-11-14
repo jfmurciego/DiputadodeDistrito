@@ -879,25 +879,24 @@ territories:
         run_id: 42952468083
         stage: M08
       preparation_evidence:
-        run_id: 41242160179
-        artifact_name: ddd-source-package-congreso_almeria-2025-41242160179
-        artifact_sha256: 50605604d8979ecc8625a2cb92b30f76cffb8ec197642234c5a0bdd13c3dac2d
+        run_id: 43650110521
+        artifact_name: ddd-source-package-nac04-2025-43650110521
+        artifact_sha256: 3cdd75ed36000c74cb417b9a03ee8c23193c2056f99adcae614d355ea357ef99
         package_sha256: b360a877b4e64184ecf5002e30cf39a3d52a493cac09cbab79e4c7e5b8720121
-        receipt_path: territorios/nac04/evidencia/fuentes_territoriales/2025/ce84679b4ae3c362cf8c561ef8b1fb60823719eb603c96f6d4fa0b49f2336183/41242160179/receipt.json
-        territorial_identity_sha256: ce84679b4ae3c362cf8c561ef8b1fb60823719eb603c96f6d4fa0b49f2336183
+        receipt_path: territorios/nac04/evidencia/fuentes_territoriales/2025/c888558be6c2efdbd3a52b103bce956d3bf164fa948d356c1fa18120856d0623/43650110521/receipt.json
+        territorial_identity_sha256: c888558be6c2efdbd3a52b103bce956d3bf164fa948d356c1fa18120856d0623
         compatibility_report_sha256: 8578cacccc41275ae47338c67c13806d80f2bfa5cddf371ed143da3d2d900ec8
         compatibility_identity_sha256: e4cdc40cc90a5e1abd1ffb1ea8bd1adec58d639516fecbd1f36b214e6787169f
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: b53dd1af35d21917f0218e3c9a04756b4da50292
+        source_commit: 19650207a874184dc5940b6d353c88c4cb50f03f
       evidence:
         electoral_source: territorios/nac04/evidencia/fuentes_electorales/2025/4ec8ae00ed211a167735c2d8a9a21b56d8c4710c51c599b8fb2f5a9df35e680c/41239766467/receipt.json
-        generation_preflight: territorios/nac04/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac04/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac04/evidencia/pares_fuentes/2025/a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c.json
         electoral_product: territorios/nac04/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac05
   name: Congreso Ávila
   editions:
