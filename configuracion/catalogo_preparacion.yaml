@@ -1229,25 +1229,24 @@ territories:
         run_id: 42954776957
         stage: M08
       preparation_evidence:
-        run_id: 41291967967
-        artifact_name: ddd-source-package-congreso_ciudad_real-2025-41291967967
-        artifact_sha256: 9214781fd49abe2893797b721cf53f5b09de138a7fc327eb9f10086a22bca558
+        run_id: 43651946304
+        artifact_name: ddd-source-package-nac13-2025-43651946304
+        artifact_sha256: a03901637464bdaf2060c0136842f22809454fd0beb32a14c8b3d463ce14f1c5
         package_sha256: 15481287c881a0987fbd9442af2d5caf63a4f151fa6e4ce02fb26b81c697403f
-        receipt_path: territorios/nac13/evidencia/fuentes_territoriales/2025/386ebde0e1022c0d9422c22b18559e5548dd8c117d92115088e96455e3c00163/41291967967/receipt.json
-        territorial_identity_sha256: 386ebde0e1022c0d9422c22b18559e5548dd8c117d92115088e96455e3c00163
+        receipt_path: territorios/nac13/evidencia/fuentes_territoriales/2025/4658a851a87ad9a8374072444b63f3c2ebb3410f2969a5161c30eda19295c417/43651946304/receipt.json
+        territorial_identity_sha256: 4658a851a87ad9a8374072444b63f3c2ebb3410f2969a5161c30eda19295c417
         compatibility_report_sha256: 0406824f5b31d61513005b480dd1d2679c9a779eaecbbd44af3cada87dcb6a3a
         compatibility_identity_sha256: 5f1c747bd0c9286140c905ffbbc01c7e751012d90c4aed7489a26cc78e33b8d5
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: d73703d1c87a46762a874f2b3e4a008649963349
+        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
       evidence:
         electoral_source: territorios/nac13/evidencia/fuentes_electorales/2025/630a53d22aa8839036f217167de1fced81ae36f4aaca31cd8a1f3d2aadc1888d/41239804426/receipt.json
-        generation_preflight: territorios/nac13/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac13/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac13/evidencia/pares_fuentes/2025/8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015.json
         electoral_product: territorios/nac13/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac14
   name: Congreso Córdoba
   editions:
