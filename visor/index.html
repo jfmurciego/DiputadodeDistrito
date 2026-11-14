@@ -1,18 +1,18 @@
 <!doctype html>
 <!--
 Proyecto: Diputado de Distrito
-Versión: 1.4.2 | Nombre: visor territorial
-Fecha: 2026-11-10 | Alcance: sitio público de resultados
+Versión: 1.4.3 | Nombre: visor territorial
+Fecha: 2026-11-14 | Alcance: sitio público de resultados
 Estado: candidato
-Cambios/motivo: T-174, hueco opcional de analítica sin cookies (Cloudflare Web Analytics); inactivo sin token.
-Anterior: legacy/visor/index_v1.4.1.html
+Cambios/motivo: T-310, maplibre-gl 5.7.0 local con SRI (sin unpkg). Antes: T-174, hueco opcional de analítica sin cookies (Cloudflare Web Analytics); inactivo sin token.
+Anterior: legacy/visor/index_v1.4.2.html
 -->
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Diputado de Distrito · visor territorial</title>
-  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="v2/vendor/maplibre-gl/5.7.0/maplibre-gl.css" integrity="sha384-gNYNsUmuZqDYiT3gbirWTV5K7rt71RoveS/yXAaU09d4ZUmeDVTD3XoqB6uJAIFR">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -35,7 +35,7 @@ Anterior: legacy/visor/index_v1.4.1.html
       <section class="source-note"><h2>Fuente</h2><p>La vista no ejecuta ni modifica el motor. Representa el artefacto seleccionado.</p><a id="source-link" target="_blank" rel="noreferrer" hidden>Abrir fuente</a></section>
     </aside>
   </main>
-  <script src="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js"></script>
+  <script src="v2/vendor/maplibre-gl/5.7.0/maplibre-gl.js" integrity="sha384-Blts4zGbI8Hh/NvhcxTYsF2uLBbYIwHXEhPMxN3XpadJCDgstyLfJA3opgmkfBOc"></script>
   <script src="escenarios.js"></script>
   <script src="app.js"></script>
 <!-- ANALITICA:INICIO (T-174) Cloudflare Web Analytics. Sin token no se inyecta nada. Rellenar TOKEN con el token del beacon (público por diseño); el mismo en visor/index.html, visor/nacional/index.html y visor/v2/index.html. -->

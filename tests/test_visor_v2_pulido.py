@@ -2,7 +2,7 @@
 """T-119 pulido del visor v2: un solo iframe del visor nacional, pestañas accesibles, sin scroll horizontal a 390 px.
 
 PROYECTO: Diputado de Distrito · VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato · ANTERIOR: ninguna (fichero nuevo)
-Con MAPLIBRE_DIR (maplibre-gl.js/css) no usa la red; PW_CHROMIUM fija el ejecutable; CAPTURAS_DIR guarda capturas.
+MapLibre sale del vendor local (visor/v2/vendor); PW_CHROMIUM fija el ejecutable; CAPTURAS_DIR guarda capturas.
 """
 import functools, http.server, os, shutil, tempfile, threading, unittest
 from pathlib import Path
@@ -34,12 +34,6 @@ class Pulido(unittest.TestCase):
     def _abrir(self, p, ancho, alto):
         b = p.chromium.launch(executable_path=os.environ.get("PW_CHROMIUM") or None, args=["--no-sandbox"])
         pg = b.new_page(viewport={"width": ancho, "height": alto})
-        ml = os.environ.get("MAPLIBRE_DIR")
-        if ml:
-            def r(route):
-                f = Path(ml) / route.request.url.rsplit("/", 1)[1]
-                route.fulfill(path=str(f)) if f.exists() else route.abort()
-            pg.route("https://unpkg.com/**", r)
         pg.route("**/nacional/**", lambda route: route.fulfill(body="<p>nacional</p>", content_type="text/html"))
         pg.goto(self.url)
         pg.wait_for_function("typeof map!=='undefined'&&map&&map.isStyleLoaded()", timeout=20000)

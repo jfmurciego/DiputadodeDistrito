@@ -1,14 +1,17 @@
 from __future__ import annotations
 
 import json
+import shutil
 from pathlib import Path
 
 from pyproj import Transformer
 
 
+_VENDOR = Path(__file__).resolve().parents[1] / "visor" / "v2" / "vendor" / "maplibre-gl" / "5.7.0"
+
 HTML = """<!doctype html>
 <html lang=\"es\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">
-<title>DDD · Revisión territorial</title><link href=\"https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"style.css\"></head>
+<title>DDD · Revisión territorial</title><link href=\"vendor/maplibre-gl/maplibre-gl.css\" rel=\"stylesheet\"><link rel=\"stylesheet\" href=\"style.css\"></head>
 <body><header><h1>Revisión de alternativas territoriales</h1><p id=\"meta\"></p></header>
 <main><section class=\"toolbar\"><label>Perfil <select id=\"profile\"><option value=\"\">Todos</option></select></label>
 <label><input id=\"pareto\" type=\"checkbox\"> Solo frente de Pareto</label><button id=\"download\">Descargar selection.json</button></section>
@@ -17,7 +20,7 @@ HTML = """<!doctype html>
 <section id=\"cards\" class=\"cards\"></section><section class=\"decision\"><h2>Decisión de campo</h2>
 <label>Candidato <select id=\"selected\"><option value=\"\">Sin seleccionar</option></select></label>
 <label>Responsable <input id=\"reviewer\"></label><label>Justificación <textarea id=\"reason\"></textarea></label></section></main>
-<script src=\"https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js\"></script><script src=\"app.js\"></script></body></html>"""
+<script src=\"vendor/maplibre-gl/maplibre-gl.js\"></script><script src=\"app.js\"></script></body></html>"""
 
 CSS = """body{font-family:system-ui;margin:0;color:#172033;background:#f5f7fa}header,main{max-width:1200px;margin:auto;padding:1rem 1.5rem}header{background:#14213d;color:white;max-width:none}header>*{max-width:1200px;margin-left:auto;margin-right:auto}.toolbar{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}.compare{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}.compare>div{background:white;padding:.75rem}.map{height:430px;margin-top:.5rem;background:#e8edf3}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-top:1rem}.card{background:white;border:1px solid #d8dee9;border-radius:8px;padding:1rem}.card.pareto{border-left:6px solid #2a9d8f}.metric{display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding:.25rem 0}.decision{margin-top:2rem;background:white;padding:1rem}.decision label{display:block;margin:.75rem 0}.decision input,.decision textarea,.decision select{width:100%;max-width:700px;padding:.5rem}button{padding:.6rem 1rem;background:#14213d;color:white;border:0;border-radius:4px;cursor:pointer}small{color:#52606d}@media(max-width:760px){.compare{grid-template-columns:1fr}.map{height:340px}}"""
 
@@ -115,6 +118,10 @@ def build_gallery(summary_path: str, output_dir: str) -> Path:
         portable_candidates.append(item)
     portable["candidates"] = portable_candidates
     (data_dir / "summary.json").write_text(json.dumps(portable, ensure_ascii=False, indent=2), encoding="utf-8")
+    vendor = output / "vendor" / "maplibre-gl"
+    vendor.mkdir(parents=True, exist_ok=True)
+    for name in ("maplibre-gl.js", "maplibre-gl.css", "LICENSE.txt"):
+        shutil.copyfile(_VENDOR / name, vendor / name)
     (output / "index.html").write_text(HTML, encoding="utf-8")
     (output / "style.css").write_text(CSS, encoding="utf-8")
     (output / "app.js").write_text(JS, encoding="utf-8")
