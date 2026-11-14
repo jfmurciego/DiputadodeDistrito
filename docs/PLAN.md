@@ -280,7 +280,7 @@ Fase 4 — producto (en el privado):
 | T-314 | ¿Bloquea `DURABLE_LINEAGE_INCOMPATIBLE` (CLM) «Generar desde fuente»? | EN CURSO; camino crítico |
 
 ### Frentes y camino crítico (14-11)
-1. Regeneración Deslinde 1.1 (ficha r3, PARADA): #786 y T-314 en main con CI verde → frase del propietario para reanudar r3 desde el paso 1 → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
+1. Regeneración Deslinde 1.1 (ficha r3, PARADA; main en rojo por r3): #786 y T-314 en main con CI verde → el Operador reanuda r3 desde el paso 1 (frase ya dada) → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
 2. Ensayo en seco de la noche del 29-11, tras la regeneración.
 3. Tras la P50: T-313, T-309 y #765.
 4. Almacenes M06: #785 y el script de borrado para el propietario.
@@ -289,7 +289,7 @@ Fase 4 — producto (en el privado):
 7. Aparcados hasta cerrar el repositorio: público nuevo, puente, Pages, Zenodo y runner propio (T-273, T-275, T-276, T-282, T-283, T-274B).
 8. Al final: investigación (óptimo en medianos, `redist`) y corte 5.0.0; legislatura nueva tras el 29-11.
 
-Pendiente del propietario: frase de reanudación de r3 (tras #786 y T-314), frase del robot revisor, Cloudflare del contador, registro de la propiedad intelectual (lunes 16-11), y crear el repositorio público y el runner cuando se cierre el actual.
+Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y T-314 en main con CI verde. Pendiente del propietario: frase del robot revisor, teselas OSM (aceptar y declarar), mapa destino del histórico (2023 o 2025), Cloudflare del contador, registro de la propiedad intelectual (lunes 16-11), y crear el repositorio público y el runner cuando se cierre el actual.
 
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
