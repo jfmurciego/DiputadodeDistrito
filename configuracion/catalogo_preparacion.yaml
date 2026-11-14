@@ -1169,6 +1169,7 @@ territories:
         prepared_source_pair: territorios/nac11/evidencia/pares_fuentes/2025/c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182.json
         territorial_product: territorios/nac11/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/nac11/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac11/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac12
   name: Congreso Castellón
