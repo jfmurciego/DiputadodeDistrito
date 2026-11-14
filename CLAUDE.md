@@ -93,8 +93,8 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
   entorno Default permite `boe.es`.
 
 ## Historial de lecciones
-- 2026-10-29/31 · Murcia/Valencia (M04 7.4.15–18, exención Beniel) y Congreso (piloto Huesca, 50 provincias, espejo Infoelectoral) · #324–#371.
-- 2026-11-01/02 · T-02 (CRS 25830, M04 7.6.0), bloqueos de población (exención en contrato, techo en política), activación por elección, Gestor con provincias · #374–#398.
+- 2026-10-29/11-02 · Murcia/Valencia (M04 7.4.15–18), Congreso (piloto Huesca, espejo Infoelectoral), T-02 (CRS 25830), bloqueos de población, activación por elección · #324–#398.
 - 2026-11-07 · Agentes, CLAUDE.md < 100 líneas, `.claude/rules/` por rutas, hooks de git, registro por ficheros, archivista R2, cadenas sin Mac · #427 #428 #441–#448.
 - 2026-11-08 · Ola 2 y 3 (ensembles, archivista D-17, siglas D-20, Gestor 2.0, M05 7.4.3, congreso_350) y noche (relevo de chats, ids del Planificador, tests sobre estado vivo, T-90b/T-109/T-113) · #500–#555. Detalle en `.claude/rules/`.
 - 2026-11-09 · Visor v2 y /v2/, registro sin 350, Gestor campaña completa y paso A autonómico, ensembles, censo 2026, sin distrito 0, banco de pruebas del motor. Detalle en `.claude/rules/`.
+- 2026-11-14 · Traspaso del Coordinador, renombrado T-220, Deslinde (paquete 1.0, 1.1 con CP-SAT), fuentes en R2/P10, batería desde la fuente, P50 con composición y restauración R2, V3 y ficha de procedencia · #741–#764. Detalle en `.claude/rules/`.

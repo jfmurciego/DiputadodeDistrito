@@ -1,6 +1,6 @@
 # Estado operativo (mantiene el Coordinador)
 
-Fecha: 2026-11-12 (mañana) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
+Fecha: 2026-11-14 (tarde) · Actualizar en cada PR de lecciones o de estado. Verde = cumple el criterio del propietario; amarillo = en marcha o a medias; rojo = bloqueado o fallando. Notación D-47: fases P00-P60 y archivo ARC; en lo que se cuenta al propietario, sin códigos antiguos, sin ids de tarea ni de PR.
 
 ## Tablero por tema (prioridad 1: el motor)
 | Tema | Estado | Situación | Siguiente |
@@ -57,3 +57,6 @@ La batería de los 71 y la regeneración NO van esta semana (cuota); T-220 aparc
 
 ## Relevo 10-11
 Coordinador nuevo desde las 11:15 del 10-11. Chats vivos: Planificador, Operador y T-225. Cerrados con lecciones guardadas (≤6 líneas cada uno): todos los anteriores más T-211, T-214, T-215, T-216, T-221, T-222, T-223, T-228 y T-229. Lecciones del motor nuevo y de la batería en `.claude/rules/motor2.md`; las anteriores en `diagnostico-local.md` y `workflows.md`.
+
+## Relevo 14-11
+Coordinador nuevo (relevo del anterior, 14-11 11:45). Fusionadas: plan 1.0.44 (#743), T-271 (#742), renombrado T-220 (#747), visor V3 (#741), M07 7.4.0 con equivalencia 2026→2023 (#749/#750/#752/#754), catálogo por elección (#748), texto D-69 (#753), estudio D8 (#755), paquete Deslinde (#751) y Deslinde 1.1 con exacto CP-SAT (#761), batería desde el paquete P10 en R2 (#756/#759/#760), espejo Infoelectoral en R2 (#757), P50 con composición (#758) y restauración R2 (#762), almacen-m06 a R2 (#764). Pendientes: #744 (licencia, propietario), #763 (ficha de procedencia V3, retenida: toca la P50), T-294 analítica, T-295 accesibilidad, T-274B (runs-on), T-273/T-282/T-275/T-283/T-276 (repo público). En vuelo: batería 1.1 (43622401461) y regeneración de los 71; congelación del motor y de los workflows de producción hasta la publicación. Menores abiertos: test NOT_DECLARED de M07, etiqueta del doc M07, test de visibilidad de `padron-note`, `|| true` y `buscar()` en la restauración R2. Lecciones en `.claude/rules/`.

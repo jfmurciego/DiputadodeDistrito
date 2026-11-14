@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.398
+Versión: 1.0.404
 Fecha: 2026-11-14
-Alcance: T-305 — La P50 restaura de R2 el estado M08/M06 podado de Actions
+Alcance: T-308 — Revertir los commits de robots de la tanda 1 fallida (deslinde11-r2)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t305-p50-restaura-estado-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.397_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-14_t308-revertir-tanda1-fallida.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.403_registro_20261114.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,12 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.397_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.404 · [2026-11-14 — T-308 — Revertir los commits de robots de la tanda 1 fallida (deslinde11-r2)](registro/2026-11-14_t308-revertir-tanda1-fallida.md)
+- 1.0.403 · [2026-11-14 — T-300 — Ficha de procedencia «De dónde sale este mapa» en el visor V3](registro/2026-11-14_t300-ficha-procedencia-visor-v3.md)
+- 1.0.402 · [2026-11-14 — T-295 — Accesibilidad WCAG 2.1 AA del visor V3](registro/2026-11-14_t295-accesibilidad-visor-v3.md)
+- 1.0.401 · [2026-11-14 — T-294 — Propuesta de analítica del visor sin cookies (fase 1)](registro/2026-11-14_docs-t294-analitica-sin-cookies.md)
+- 1.0.400 · [2026-11-14 — Coordinador — Lecciones del traspaso y de la tanda del 14-11, y relevo en el tablero](registro/2026-11-14_lecciones-coordinador-relevo.md)
+- 1.0.399 · [2026-11-14 — T-302 — Los almacen-m06-* a R2 (ARC-P) y lectura de R2 primero](registro/2026-11-14_t302-almacen-m06-r2.md)
 - 1.0.398 · [2026-11-14 — T-305 — La P50 restaura de R2 el estado M08/M06 podado de Actions](registro/2026-11-14_t305-p50-restaura-estado-r2.md)
 - 1.0.397 · [2026-11-14 — T-297 — Deslinde 1.1: frontera medida en D8 y candidato exacto (CP-SAT)](registro/2026-11-14_claude-t297-deslinde-1-1.md)
 - 1.0.396 · [2026-11-14 — T-304 — Seguimiento de T-303: REUSE previo, poda sobre el paquete P10 y limpieza](registro/2026-11-14_t304-seguimiento-bateria-p10.md)

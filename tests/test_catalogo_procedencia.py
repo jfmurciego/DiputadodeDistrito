@@ -3,16 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba del catálogo de procedencia (T-74)
-VERSIÓN: 1.2.2 · FECHA: 2026-11-14 · ESTADO: candidato
-CAMBIOS: 1.2.2 (T-203): sin literal de id viejo (guardián T-220): id_legacy('aut01').
+VERSIÓN: 1.3.0 · FECHA: 2026-11-14 · ESTADO: candidato
+CAMBIOS: 1.3.0 (T-300): fija «motor» (Deslinde y su versión del pyproject) y «fuentes_oficiales.resultados_electorales» (de contratos_infoelectoral).
+  1.2.2 (T-203): sin literal de id viejo (guardián T-220): id_legacy('aut01').
   1.2.1 (T-203): en el repositorio, 0 fuentes vacías con ids nuevos y «eleccion» en todos los productos.
   1.2.0 (T-203): «eleccion» por producto y fuente hallada por id nuevo (aut/nac).
   1.1.0 (T-203): aviso ORIGEN_M06_NO_PUBLICADO por (territorio, elección).
-ANTERIOR: legacy/tests/test_catalogo_procedencia_v1.2.1_20261114.py
+ANTERIOR: legacy/tests/test_catalogo_procedencia_v1.2.2_20261114.py
 FUNCIÓN: registros sintéticos: producto completo, M08 publicado sin sha256 (ERROR), composición de un M06 no
   publicado (AVISO), determinismo; y en el repositorio, catálogo versionado igual al regenerado y sin errores.
 """
 import json
+import re
 import sys
 import tempfile
 import unittest
@@ -130,6 +132,17 @@ class ProcedenciaPorEleccion(unittest.TestCase):
                   if any(p["publicacion"] == "PUBLICABLE" for p in x["productos"]) and not x["fuente_territorial"]]
         self.assertEqual(vacias, [])
         self.assertTrue(all(p.get("eleccion") for x in cat["territorios"].values() for p in x["productos"]))
+
+
+class MotorYResultadosOficiales(unittest.TestCase):
+    def test_motor_y_fuente_de_resultados(self):
+        cat = json.loads((ROOT / cp.SALIDA).read_text(encoding="utf-8"))
+        version = re.search(r'^version\s*=\s*"([^"]+)"',
+                            (ROOT / "paquetes/deslinde/pyproject.toml").read_text(encoding="utf-8"), re.M).group(1)
+        self.assertEqual(cat["motor"], {"nombre": "Deslinde", "version": version})
+        res = cat["fuentes_oficiales"]["resultados_electorales"]["2023-07-23"]
+        self.assertTrue(res["url"].startswith("https://infoelectoral.interior.gob.es/"))
+        self.assertRegex(res["sha256"], r"^[0-9a-f]{64}$")
 
 
 if __name__ == "__main__":
