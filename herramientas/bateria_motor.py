@@ -61,7 +61,9 @@ QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
               la descarga en vivo y reducida a Sexo=Total y Edad=Todas las edades, que es lo único que usa el filtro).
-  entradas    por territorio: adquisición oficial (herramientas/ejecutar_fuentes_workflow) por la ruta de producción,
+  entradas    por territorio, T-298: M01 y M03 del paquete P10 archivado en R2 (ARC-E, identidad del contrato, sha256 verificado); sin paquete
+              BATERIA_FALTA_PAQUETE_P10, con paquete alterado BATERIA_PAQUETE_P10_CORRUPTO; nunca va al INE. Solo con --desde-fuente
+              (diagnóstico local): adquisición oficial (herramientas/ejecutar_fuentes_workflow) por la ruta de producción,
               official_live con el seccionado del OGC del INE y la 65034 servida desde la copia nacional
               (--seccionado shapefile: verified_snapshot sobre el shapefile nacional, sin red), M01-M03 y preparar_unidades_internas, como procedimiento.sh;
               guarda en <out>/entradas/<t>/ los ficheros materializados y M01-M03 con su sha256 (ENTRADAS.json) y
@@ -74,7 +76,8 @@ QUÉ HACE: subcomandos
               Con --desde-r2 reutiliza antes el estado ddd-state-<run>-M03 archivado en R2 (orchestracion/archivo_r2.json)
               si su sha256 cuadra y lleva la identidad del contrato vigente. Solo se conserva la entrada mínima
               (M01 secciones + grafo M03, ENTRADA_MINIMA) y ENTRADAS.json con el sha256 de todo lo demás.
-  archivar    sube a R2 la entrada mínima de cada territorio (reconstruida o extraída de R2): arc-e/entradas-minimas/<id16 del contrato>.zip
+  archivar-p10 <t> --estado <carpeta> --run <id>  archiva el paquete P10 (M01 + grafo M03 del estado M03/M03U de la 00) y llama a archivar.
+  archivar    sube a R2 la entrada mínima de cada territorio (extraída de P10 o reconstruida): arc-e/entradas-minimas/<id16 del contrato>.zip
               (cliente de herramientas/archivar_artefactos_r2.py; R2_BUCKET y R2_ACCOUNT_ID).
   lista       JSON {"include":[{"t":...}]} con los territorios pedidos (o los 71) para la matriz de Actions.
   huella      huella real (criterio a de T-194): repite la competición del motor 2 en <out>/_huella2 y compara la
@@ -163,6 +166,10 @@ INDICE_FUENTES = ROOT / "orchestracion" / "fuentes_r2.json"
 
 class FuenteNacionalError(RuntimeError):
     pass
+
+
+class PaqueteP10Corrupto(RuntimeError):
+    """El paquete existe en R2 pero no es de la identidad vigente o un fichero no cuadra con su sha256."""
 
 
 def _espejo() -> dict:
@@ -343,7 +350,7 @@ def _volcar_log(t: str, log: Path, res: dict) -> None:
     print(f"::error title=entradas {t}::{res.get('estado')} rc={res.get('rc')}: {motivo}", flush=True)
 
 
-def entradas_uno(t: str, out: Path, nac: dict, seccionado: str = "ogc") -> dict:
+def entradas_uno(t: str, out: Path, nac: dict, seccionado: str = "shapefile") -> dict:
     dest = out / "entradas" / t
     shutil.rmtree(dest, ignore_errors=True)
     dest.mkdir(parents=True)
@@ -472,21 +479,19 @@ def entradas_r2_identidad(t: str, out: Path) -> dict | None:
         meta = json.loads(zf.read("ENTRADAS.json").decode("utf-8"))
         gs = meta.get("identidad_contrato") or {}
         if _id16({**gs, "contrato_sha256": gs.get("contrato_sha256") or ""}) != _id16(ident):
-            print(f"{t}: paquete R2 de otra identidad de contrato", flush=True)
             shutil.rmtree(work, ignore_errors=True)
-            return None
+            raise PaqueteP10Corrupto("el paquete no lleva la identidad del contrato vigente")
         shutil.rmtree(cache, ignore_errors=True)
         cache.mkdir(parents=True)
         for nombre, h in (meta.get("entrada_minima") or {}).items():
             datos = zf.read(nombre)
             if hashlib.sha256(datos).hexdigest() != h:
-                print(f"{t}: {nombre} no cuadra con su sha256 en ENTRADAS.json", flush=True)
                 shutil.rmtree(work, ignore_errors=True)
-                return None
+                raise PaqueteP10Corrupto(f"{nombre} no cuadra con su sha256 en ENTRADAS.json")
             (cache / nombre).write_bytes(datos)
     if sorted((meta.get("entrada_minima") or {})) != sorted(ENTRADA_MINIMA_NOMBRES(cache)):
         shutil.rmtree(work, ignore_errors=True)
-        return None
+        raise PaqueteP10Corrupto("la entrada mínima no tiene M01 y grafo M03")
     dest = out / "entradas" / t
     shutil.rmtree(dest, ignore_errors=True)
     dest.mkdir(parents=True)
@@ -564,7 +569,12 @@ def entradas(args) -> int:
     fallos = 0
     for t in (territorios() if args.todos else args.territorios):
         if not args.desde_fuente:
-            r = entradas_r2_identidad(t, out)
+            try:
+                r = entradas_r2_identidad(t, out)
+            except PaqueteP10Corrupto as exc:
+                print(f"::error::BATERIA_PAQUETE_P10_CORRUPTO {t}: {exc}. Vuelve a archivarlo (archivar_p10=<run de la 00 de {t}>).", flush=True)
+                fallos += 1
+                continue
             if r is None:
                 print(f"::error::BATERIA_FALTA_PAQUETE_P10 {t}: no hay entrada mínima en R2 ({clave_identidad(_identidad_contrato(t))}) "
                       f"con la identidad del contrato vigente. Archívala una vez con «VER Verificación del motor» (archivar_p10=<run de la 00 de {t}>).",
@@ -573,6 +583,9 @@ def entradas(args) -> int:
                 continue
             print(f"{t}: OK desde R2 {r['estado_r2']}", flush=True)
             continue
+        if args.seccionado == "ogc" and not args.permitir_red_ine:
+            print("::error::BATERIA_RED_INE_PROHIBIDA: --seccionado ogc exige --permitir-red-ine (OGC e INE solo existen dentro de P10)")
+            return 2
         if nac is None:
             for nombre in ["65034.csv.zip", *(f"seccionado_{ed}.zip" for ed in EDICIONES)]:
                 obtener_fuente_nacional(nombre, NACIONAL)
@@ -603,7 +616,7 @@ def archivar_p10(args) -> int:
         if f is None:
             print(f"::error::BATERIA_ESTADO_SIN_{suf} {t}")
             return 1
-        shutil.copy2(f, stage / f"{t}_2025{suf}")  # nombre con el id nuevo: el id viejo del estado no sirve al restaurar
+        shutil.copy2(f, stage / f"{contrato(t).stem}{suf}")  # nombre con el id nuevo: el id viejo del estado no sirve al restaurar
     dest = Path(args.out) / "entradas" / t
     shutil.rmtree(dest, ignore_errors=True)
     dest.mkdir(parents=True)
@@ -1283,8 +1296,10 @@ def main(argv=None) -> int:
         if nombre == "entradas":
             p.add_argument("--desde-r2", action="store_true", help="obsoleto (T-298): R2 es la vía por defecto")
             p.add_argument("--desde-fuente", action="store_true", help="solo diagnóstico local: reconstruye desde las fuentes, no desde R2")
-            p.add_argument("--seccionado", default="ogc", choices=("ogc", "shapefile"),
-                           help="ogc: ruta de producción (OGC del INE); shapefile: copia nacional verificada, sin red")
+            p.add_argument("--seccionado", default="shapefile", choices=("ogc", "shapefile"),
+                           help="solo --desde-fuente. shapefile (por defecto): copia nacional verificada, sin red; ogc: OGC del INE (exige --permitir-red-ine)")
+            p.add_argument("--permitir-red-ine", action="store_true",
+                           help="solo diagnóstico local con --desde-fuente --seccionado ogc: permite ir al OGC del INE; la batería nunca lo usa")
         if nombre == "motor":
             p.add_argument("--m05", default="7.4.4", choices=sorted(M05_BASE))
     for nombre in ("matriz", "archivar"):
