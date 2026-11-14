@@ -297,6 +297,8 @@ class Modelo:
             orden.setdefault(v, len(orden))
         return [orden[v] for v in lab]
 
+    _plan_pista_completa = None
+
     def a_plan(self, sol) -> dict[str, str]:
         return {s: f"D{k}" for i, a in enumerate(self.atomos) for k in range(self.K) if sol.Value(self.x[i, k])
                 for s in a["secs"]}
@@ -312,6 +314,7 @@ class Modelo:
         """¿El plan es factible en el modelo? (comprobación de que el modelo no es más estricto que el núcleo) y sus
         términos (las holguras de E1 y E2 interactúan: se resuelven también por etapas)."""
         cl = self.m.Clone()
+        self._plan_pista_completa = plan
         for i, k in enumerate(self.etiquetas(plan)):
             cl.Add(self.x[i, k] == 1)
         lx = self.lexicografico(tiempo, hilos, None, modelo=cl)
@@ -333,6 +336,11 @@ class Modelo:
 
     def pista(self, plan):
         self.m.ClearHints()
+        completa = getattr(self, "pista_completa", None)
+        if completa is not None and plan is self._plan_pista_completa:
+            for v, val in enumerate(completa):
+                self.m.AddHint(self.m.GetIntVarFromProtoIndex(v), val)
+            return
         for i, k in enumerate(self.etiquetas(plan)):
             for kk in range(self.K):
                 self.m.AddHint(self.x[i, kk], kk == k)
@@ -353,6 +361,9 @@ class Modelo:
             est = s.StatusName(s.Solve(m))
             e = {"etapa": nombre, "estado": est, "t_s": round(time.time() - t0, 2)}
             if est in ("OPTIMAL", "FEASIBLE"):
+                if modelo is not None:  # solución completa (x, raíces, niveles, holguras): pista para el modelo libre
+                    self.pista_completa = [s.Value(m.GetIntVarFromProtoIndex(v))
+                                           for v in range(len(m.Proto().variables))]
                 e["valor"] = int(round(s.ObjectiveValue()))
                 e["cota"] = int(math.ceil(s.BestObjectiveBound() - 1e-9))
                 mejor = self.a_plan(s)
