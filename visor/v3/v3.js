@@ -105,7 +105,7 @@
     const n=normal(f.properties.nombre);
     let e=Object.entries(D.index.territorios).find(([key,v])=>normal(v.provincia)===n);
     if(!e){const candidates=[n,n.replace(/^islas/,""),n.replace(/^illes/,""),n.replace("lapalma","santacruzdetenerife")];
-      e=Object.entries(D.index.territorios).find(([key,v])=>candidates.some(c=>normal(key.replace(/^congreso_/,""))===c));}
+      e=Object.entries(D.index.territorios).find(([key,v])=>candidates.some(c=>normal(key.replace(/^[a-z]+_/,""))===c));}
     return e?{key:e[0],data:e[1]}:null;
   }
   function metaOfDistrict(province,id){
