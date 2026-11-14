@@ -1,7 +1,7 @@
 # Diputado de Distrito — motor de distritos uninominales
 
-**README rev. 5.0.0-r0** (BORRADOR para el corte 5.0.0; revisión del documento)  
-**Anterior:** `legacy/docs/README_v4.9.0-r2.md`
+**README rev. 5.0.0-r1** (BORRADOR para el corte 5.0.0; revisión del documento: licencia propietaria, T-280)  
+**Anterior:** `legacy/docs/README_v5.0.0-r0.md`
 
 [![DOI de concepto](https://zenodo.org/badge/DOI/10.5281/zenodo.24093967.svg)](https://doi.org/10.5281/zenodo.24093967) Serie de versiones de mapa publicadas en Zenodo; no es la cita del proyecto entero. Cada depósito contiene el código fuente del repositorio en esa versión, no el paquete firmado `.tar.gz`.
 
@@ -234,7 +234,7 @@ El visor solo muestra lo registrado en `orchestracion/publicaciones_visor.json`.
 
 Las fuentes oficiales conservan sus propias condiciones de reutilización.
 
-- **Código**: Apache-2.0 (`LICENSE`).
+- **Código y resto del repositorio**: licencia propietaria, todos los derechos reservados (`LICENSE`), desde el 14-11-2026. Lo publicado antes bajo Apache-2.0 conserva esa licencia para quien lo recibió. Las excepciones abiertas (D-92) y las pendientes de decisión están en `LICENSE`.
 - **Datos** (`datos_abiertos/`): CC BY 4.0, citando «Diputado de Distrito» y el run de procedencia.
 
 ## Cómo citar
