@@ -5,10 +5,10 @@
   "territory_name": "Canarias",
   "edition": "2025",
   "run_id": 43624893510,
-  "source_commit": "a699cd12a712cd1f00c39a672dd145854d1737dc",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "6944d1052878d012c570a17cca32738fb73ef1c2",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "SOURCE_MATERIALIZATION",
   "source": {
     "run_id": 43624893510,
     "artifact_name": "ddd-source-package-aut05-2025-43624893510",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La fuente ya acreditada no pudo materializarse para la evaluación; requiere diagnóstico técnico."
   }
 }
