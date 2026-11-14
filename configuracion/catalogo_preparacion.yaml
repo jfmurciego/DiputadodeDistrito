@@ -292,26 +292,25 @@ territories:
         electoral_source: territorios/aut07/evidencia/fuentes_electorales/2025/988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea/42521090842/receipt.json
         prepared_source_pair: territorios/aut07/evidencia/pares_fuentes/2025/3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf.json
         electoral_product: territorios/aut07/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut07/evidencia/catalogo/generation_preflight_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 43030986959
         stage: M08
       preparation_evidence:
-        run_id: 42521090842
-        artifact_name: ddd-source-package-castilla_y_leon-2025-42521090842
-        artifact_sha256: 3a710cff73dca6a5048e28f1eea5f1e5454404324538b66b7ae9c3b0b229c168
+        run_id: 43640052186
+        artifact_name: ddd-source-package-aut07-2025-43640052186
+        artifact_sha256: c20108c5998c59b22c7698ee036dac86436606f961ea5acf35d7ef49a022659c
         package_sha256: c0ab5947c911e815bb2b0657c9a256020916d8c3f9293bb379b1bfb6e6cd0215
-        receipt_path: territorios/aut07/evidencia/fuentes_territoriales/2025/e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60/42521090842/receipt.json
-        territorial_identity_sha256: e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60
+        receipt_path: territorios/aut07/evidencia/fuentes_territoriales/2025/74830da97b9c4fe1c260a90840fc099ad2594f1533c90c63cae4eeb755bf0f30/43640052186/receipt.json
+        territorial_identity_sha256: 74830da97b9c4fe1c260a90840fc099ad2594f1533c90c63cae4eeb755bf0f30
         compatibility_report_sha256: f7e13b4c123fe2889cfd5b0f8c6e0f505d4cfbc09ea9ebcf104984b35bd128bd
         compatibility_identity_sha256: 31c36a90168ce5023e79c7a7dc95fd606a8248f52c65a8c0cfb945dd2c13905d
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2025
         section_year: 2025
-        source_commit: 8a8ed5f7deec51613ea7c31b92fc54b35de21745
-      generation_enabled: true
+        source_commit: b744c083351e7460e678f672bf397fd753a816ff
+      generation_enabled: false
 - territory_id: aut09
   name: Cataluña
   editions:
