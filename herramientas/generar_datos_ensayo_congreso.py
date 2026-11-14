@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.0.0
 # FECHA: 2026-11-14
 # CAMBIOS 1.0.0 (T-333): genera los datos de ENSAYO por mesa de las generales 2026-11-29 (nac22 Huesca, nac42 Soria, nac52 Melilla)
 #   a partir del ZIP oficial Infoelectoral 2023 por mesa (sha256 fijado en contratos_infoelectoral.yaml). Son datos de 2023
 #   REETIQUETADOS como ENSAYO (columna `ensayo` en cada fila y nombre `ensayo_…`): NO son resultados de 2026 ni datos oficiales.
 #   Formato = el del adaptador minsait_csv (+ la columna `ensayo`). Escribe un MANIFEST con sha256. No sube nada: lo hace el Operador.
-# CAMBIOS 1.1.0 (T-333, decisión del Planificador, opción A): los CSV llevan CLAVES DE SECCIÓN 2026. Cada fila de 2023 (sección T, mesa,
+# Claves de sección (decisión del Planificador, opción A): los CSV llevan CLAVES DE SECCIÓN 2026. Cada fila de 2023 (sección T, mesa,
 #   partido) se reparte entre las secciones 2026 S que la tabla configuracion/equivalencia_seccionado_ine_2026_a_2023.csv (sha256 fijado)
 #   declara como sus compuestas con T, en proporción a peso_poblacion; reparto SOLO para construir el fixture. Entero y determinista:
 #   cociente exacto por sección, resto al mayor peso (empate: clave menor); filas con la misma (S, mesa, partido) se suman; orden fijo.
 #   Se conserva el total provincial de votos. Las secciones sin fila en la tabla conservan su clave. El id del ensayo se deriva del de 2023.
-# ANTERIOR: (fichero nuevo; 1.0.0 solo estuvo en la PR, con claves de 2023)
+# ANTERIOR: ninguna (fichero nuevo)
 from __future__ import annotations
 
 import argparse
