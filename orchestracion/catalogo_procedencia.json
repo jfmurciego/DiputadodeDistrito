@@ -63,7 +63,7 @@
   "territorios": 71,
   "productos": 535,
   "errores": 0,
-  "avisos": 159
+  "avisos": 160
  },
  "territorios": {
   "andalucia": {
@@ -9627,6 +9627,13 @@
   }
  },
  "incoherencias": [
+  {
+   "nivel": "AVISO",
+   "territorio": "aut11",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "aut11/43698495438/ddd-audit-43698495438.zip"
+  },
   {
    "nivel": "AVISO",
    "territorio": "aut11",
