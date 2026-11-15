@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T20:59:46.924257+00:00",
+  "generated_at": "2026-11-15T21:04:04.259423+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 93,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 26,
-      "activable": 1,
+      "activated": 27,
+      "activable": 0,
       "territorial_pending": 46,
       "electoral_pending": 93,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 27,
-      "durable_pair": 26
+      "durable_pair": 27
     },
     "territories": [
       {
@@ -1308,12 +1308,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac06/evidencia/pares_fuentes/2025/5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac06/evidencia/pares_fuentes/2025/52b29c5eca1404df03e8c912a3ac8240bf3a5aaa237cd6f6545099a43a40d6a2.json",
+            "pair_sha256": "52b29c5eca1404df03e8c912a3ac8240bf3a5aaa237cd6f6545099a43a40d6a2",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -8250,20 +8250,20 @@
       "name": "Nacional Alicante",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43754642510,
+      "run_id": 43760040662,
       "last_run": {
-        "run_id": 43754642510,
+        "run_id": 43760040662,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8304,7 +8304,7 @@
       },
       "autonomous_community_code_ine": "C03",
       "display_name": "Nacional Alicante",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac04",
@@ -8353,13 +8353,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_almeria",
+          "territory_id": "nac04",
           "territory_name": "Congreso Almería",
           "edition": "2025",
-          "run_id": 42952468083,
-          "artifact_name": "ddd-state-42952468083-M08",
-          "artifact_sha256": "388fb303125678800d0842151a96a11f785fb80933b0bf665da5fc5dc480f8f5",
-          "source_commit": "ad14467090890f86ef3185f789bf4bba016ec094",
+          "run_id": 43760565695,
+          "artifact_name": "ddd-state-43760565695-M08",
+          "artifact_sha256": "b6061e35cd6007918fae5c4fe7202c3e656725f16106d06b6b72477b3d7b3314",
+          "source_commit": "1d8858e4eecdcdb6f0da8a71812b785ac39b4d96",
           "stage": "M08"
         }
       },
@@ -8414,13 +8414,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_avila",
+          "territory_id": "nac05",
           "territory_name": "Congreso Ávila",
           "edition": "2025",
-          "run_id": 42948760863,
-          "artifact_name": "ddd-state-42948760863-M08",
-          "artifact_sha256": "04140cf4ca843ec5c0b261c63c81f816b69604a40f68753b0b606ffd29927117",
-          "source_commit": "29fbd3b77c14aa3cef36d639bb0170cc82601ffb",
+          "run_id": 43760758129,
+          "artifact_name": "ddd-state-43760758129-M08",
+          "artifact_sha256": "405f03c9329c16be546658fc31f744ad52364710398cbaa256d99011c1361453",
+          "source_commit": "3a7608d8fceb8d7ae2717e246c68b3b598d90d59",
           "stage": "M08"
         }
       },
@@ -12538,7 +12538,7 @@
     }
   ],
   "kpis": {
-    "complete": 69,
+    "complete": 70,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12560,6 +12560,7 @@
       "19 Melilla",
       "Nacional Álava",
       "Nacional Albacete",
+      "Nacional Alicante",
       "Nacional Baleares",
       "Nacional Barcelona",
       "Nacional Burgos",
@@ -12819,13 +12820,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac02",
-    "name": "Nacional Albacete",
-    "display_name": "Nacional Albacete",
-    "autonomous_community_code_ine": "C02",
-    "run_id": 43759317191,
+    "territory_id": "nac03",
+    "name": "Nacional Alicante",
+    "display_name": "Nacional Alicante",
+    "autonomous_community_code_ine": "C03",
+    "run_id": 43760040662,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
@@ -12833,12 +12834,6 @@
       "territory": "12 Galicia",
       "territory_id": "aut12",
       "autonomous_community_code_ine": "12",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Alicante",
-      "territory_id": "nac03",
-      "autonomous_community_code_ine": "C03",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12876,6 +12871,12 @@
       "territory_id": "congreso350_alicante",
       "autonomous_community_code_ine": "R03",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Almería",
+      "territory_id": "congreso350_almeria",
+      "autonomous_community_code_ine": "R04",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12883,12 +12884,6 @@
       "territory": "12 Galicia",
       "territory_id": "aut12",
       "autonomous_community_code_ine": "12",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Alicante",
-      "territory_id": "nac03",
-      "autonomous_community_code_ine": "C03",
       "action": "preparar fuentes electorales"
     },
     {
