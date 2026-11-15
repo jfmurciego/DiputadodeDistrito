@@ -1,5 +1,5 @@
-# VERSIÓN: 1.3.0
-# CAMBIOS: 1.3.0: padrón 65034 descargado y comparado por sha256 (D-112). 1.2.0: id no canónico (T-336) → ACQUIRE; canónico → REUSE. 1.1.0: años pedidos ≠ contrato, Last-Modified solo avisa (cabeceras reales de 65034.csv), 200 sin cabeceras, BadZipFile. 1.0.0: fichero nuevo (T-323, D-112).
+# VERSIÓN: 1.4.0
+# CAMBIOS: 1.4.0: padrón por sha256 del EXTRACTO filtrado (D-119): extracto igual+crudo distinto sigue, extracto distinto para. 1.3.0: padrón 65034 descargado y comparado por sha256 (D-112). 1.2.0: id no canónico (T-336) → ACQUIRE; canónico → REUSE. 1.1.0: años pedidos ≠ contrato, Last-Modified solo avisa (cabeceras reales de 65034.csv), 200 sin cabeceras, BadZipFile. 1.0.0: fichero nuevo (T-323, D-112).
 # ANTERIOR: ninguna (fichero nuevo; 1.0.0 solo existió en esta PR)
 """T-323: P10 usa el paquete de R2 y solo consulta el INE (HEAD): sin cambios usa R2, cambiado para y avisa, sin red degrada con aviso."""
 import hashlib
@@ -17,10 +17,23 @@ from herramientas import p10_desde_r2 as p
 ROOT = Path(__file__).resolve().parents[1]
 # Valores independientes de la huella oficial medida el 2026-11-14 (ver orchestracion/fuentes_r2.json).
 BYTES_2025 = 60298555
-# Contenido sintético del padrón: ';' en el INE, tabulador en la copia; el sha256 esperado es el de la versión tabulada, calculado aparte.
-PADRON_VIVO = [b"Total Nacional;Provincias;Total\r\n", b"Total Nacional;;49.128.297\r\n"]
-PADRON_SHA = hashlib.sha256(b"Total Nacional\tProvincias\tTotal\r\nTotal Nacional\t\t49.128.297\r\n").hexdigest()
 HEAD_IGUAL = {"content-length": str(BYTES_2025), "last-modified": "Tue, 04 Nov 2025 10:00:00 GMT"}
+# Padrón sintético (formato del INE: ';', CRLF). El extracto esperado es un literal escrito a mano: BOM, delimitador original, "\n", solo Total/Todas las
+# edades de 2025 de la provincia 50 (la de Huesca, el año 2024 y «Hombres» no entran).
+CAB = "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\r\n"
+F1 = "Total Nacional;50 Zaragoza;50001 Abla;5000101001;Total;Todas las edades;2025;1.234\r\n"
+F2 = "Total Nacional;50 Zaragoza;50001 Abla;5000101002;Total;Todas las edades;2025;800\r\n"
+RUIDO = [
+    "Total Nacional;50 Zaragoza;50001 Abla;5000101001;Total;Todas las edades;2024;1.100\r\n",
+    "Total Nacional;50 Zaragoza;50001 Abla;5000101001;Hombres;Todas las edades;2025;600\r\n",
+    "Total Nacional;22 Huesca;22001 Aban;2200101001;Total;Todas las edades;2025;300\r\n",
+]
+EXTRACTO = ("\ufeffTotal Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
+            "Total Nacional;50 Zaragoza;50001 Abla;5000101001;Total;Todas las edades;2025;1.234\n"
+            "Total Nacional;50 Zaragoza;50001 Abla;5000101002;Total;Todas las edades;2025;800\n").encode("utf-8")
+DECLARACION = {"territory": {"territorial_codes": [{"code": "50", "business_name": "Zaragoza"}]}}
+PADRON_VIVO = [(CAB + F1 + RUIDO[0] + F2 + RUIDO[1] + RUIDO[2]).encode("utf-8")]
+PADRON_SHA = hashlib.sha256(b"crudo de la copia").hexdigest()  # el crudo de la copia es otro: solo informa
 
 
 def _indice(td: Path) -> Path:
@@ -32,21 +45,26 @@ def _indice(td: Path) -> Path:
     return ruta
 
 
-def _paquete_falso(t, work, territory_id=None):
+def _paquete_falso(t, work, territory_id=None, extracto=EXTRACTO):
+    import zipfile
     d = Path(work) / "pkg"
     d.mkdir(parents=True)
-    (d / "bundle.bin").write_bytes(b"no es un zip")  # el bundle no es un ZIP: paquete_territory_mismatch solo compara el manifiesto
-    (d / "manifest.json").write_text(json.dumps({"path": "bundle.bin", "territory_id": territory_id or "aut02"}), encoding="utf-8")
+    interior = io.BytesIO()
+    with zipfile.ZipFile(interior, "w") as z:
+        z.writestr("65034.csv", extracto)
+    with zipfile.ZipFile(d / "prepared_sources.zip", "w") as z:
+        z.writestr("materialized/inputs/65034.csv.zip", interior.getvalue())
+    (d / "manifest.json").write_text(json.dumps({"path": "prepared_sources.zip", "territory_id": territory_id or "aut02"}), encoding="utf-8")
     return d
 
 
 class P10DesdeR2(unittest.TestCase):
-    def _preparar(self, head, restaurar=_paquete_falso, anios=lambda t: ("2025", "2025", "2025"), pedido=("2025", "2025", "2025"), descargar=lambda u: iter(PADRON_VIVO)):
+    def _preparar(self, head, restaurar=_paquete_falso, anios=lambda t: ("2025", "2025", "2025"), pedido=("2025", "2025", "2025"), descargar=lambda u: iter(PADRON_VIVO), declaracion=DECLARACION):
         with tempfile.TemporaryDirectory() as td:
             td = Path(td)
             out, err = io.StringIO(), io.StringIO()
             with redirect_stdout(out), redirect_stderr(err):
-                rc = p.preparar("aut02", *pedido, td / ".ddd-source-package", restaurar=restaurar, head=head, indice=_indice(td), anios=anios, descargar=descargar)
+                rc = p.preparar("aut02", *pedido, td / ".ddd-source-package", restaurar=restaurar, head=head, indice=_indice(td), anios=anios, descargar=descargar, declaracion=declaracion)
             return rc, out.getvalue() + err.getvalue(), (td / ".ddd-source-package" / "manifest.json").is_file()
 
     def test_ine_sin_cambios_usa_r2(self):
@@ -54,6 +72,7 @@ class P10DesdeR2(unittest.TestCase):
         self.assertEqual(rc, 0)
         self.assertTrue(restaurado)
         self.assertNotIn("::error::", log)
+        self.assertNotIn("SIN_COMPROBAR", log)  # una excepción tragada no debe dar un verde en falso
 
     def test_ine_cambiado_por_tamano_para_y_avisa(self):
         rc, log, restaurado = self._preparar(lambda u: (200, {**HEAD_IGUAL, "content-length": "60298999"}))
@@ -67,18 +86,41 @@ class P10DesdeR2(unittest.TestCase):
         self.assertTrue(restaurado)
         self.assertNotIn("::error::", log)
 
-    def test_padron_igual_sigue_y_se_descarga_entero(self):
+    def test_extracto_igual_sigue_aunque_el_crudo_difiera(self):
         pedidos = []
         rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), descargar=lambda u: (pedidos.append(u) or iter(PADRON_VIVO)))
         self.assertEqual(rc, 0)
         self.assertTrue(restaurado)
         self.assertEqual(pedidos, ["https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"])
+        self.assertIn("::notice::P10_PADRON_EXTRACTO_IGUAL 65034.csv.zip", log)
+        self.assertIn("crudo cambió, extracto igual", log)
+        self.assertNotIn("SIN_COMPROBAR", log)
 
-    def test_padron_con_sha_distinto_para(self):
-        rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), descargar=lambda u: iter([PADRON_VIVO[0], b"Total Nacional;;49.128.298\r\n"]))
+    def test_extracto_distinto_para(self):
+        vivo = (CAB + F1 + F2.replace("800", "801")).encode("utf-8")  # una sección cambia de población
+        rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), descargar=lambda u: iter([vivo]))
         self.assertEqual(rc, p.SALIDA_CAMBIADA)
         self.assertFalse(restaurado)
-        self.assertIn("::error::FUENTE_INE_CAMBIADA 65034.csv.zip", log)
+        self.assertIn("::error::FUENTE_INE_CAMBIADA 65034.csv.zip (extracto filtrado", log)
+
+    def test_extracto_igual_en_trozos_pequenos(self):
+        crudo = PADRON_VIVO[0]
+        trozos = [crudo[i:i + 7] for i in range(0, len(crudo), 7)]  # cortes en mitad de línea y de carácter
+        rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), descargar=lambda u: iter(trozos))
+        self.assertEqual(rc, 0)
+        self.assertTrue(restaurado)
+
+    def test_extracto_en_streaming_devuelve_el_literal(self):
+        r = p.extracto_en_streaming(iter(PADRON_VIVO), DECLARACION, 2025, ["50"])
+        self.assertEqual(r["extracto"], EXTRACTO)
+        self.assertEqual(r["crudo_bytes"], len(PADRON_VIVO[0]))
+
+    def test_sin_extracto_de_referencia_solo_avisa(self):
+        rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), restaurar=lambda t, w: _paquete_falso(t, w, extracto=b""))
+        self.assertEqual(rc, p.SALIDA_CAMBIADA)  # extracto vacío ≠ extracto vivo: evidencia positiva
+        rc2, log2, _ = self._preparar(lambda u: (200, HEAD_IGUAL), declaracion=None)
+        self.assertEqual(rc2, 0)
+        self.assertIn("sin extracto de referencia", log2)
 
     def test_padron_sin_red_degrada_con_aviso(self):
         def sin_red(u):
@@ -87,15 +129,15 @@ class P10DesdeR2(unittest.TestCase):
         rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), descargar=sin_red)
         self.assertEqual(rc, 0)
         self.assertTrue(restaurado)
-        self.assertIn("::warning::P10_INE_SIN_COMPROBAR 65034.csv.zip: no se pudo descargar", log)
+        self.assertIn("::warning::P10_INE_SIN_COMPROBAR 65034.csv.zip: no se pudo leer el padrón", log)
 
     def test_padron_cortado_a_medias_degrada_con_aviso(self):
         def corta(u):
-            yield PADRON_VIVO[0]
+            yield PADRON_VIVO[0][:50]
             raise ConnectionResetError("reset")
         rc, log, _ = self._preparar(lambda u: (200, HEAD_IGUAL), descargar=corta)
         self.assertEqual(rc, 0)
-        self.assertIn("no se pudo descargar", log)
+        self.assertIn("no se pudo leer el padrón", log)
 
     def test_200_sin_cabeceras_solo_avisa(self):
         rc, log, restaurado = self._preparar(lambda u: (200, {}))

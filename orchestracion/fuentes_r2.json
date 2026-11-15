@@ -30,7 +30,7 @@
       "origen_url": "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
       "descargado_en": "2026-02-16",
       "contenido_sha256": "1938833dea5c4ac1e722e0038c1ed2295c1efa446b930a560e4afd6eb8c18c2a",
-      "contenido_nota": "T-323/D-112: sha256 del miembro 65034.csv de la copia (tabulador, 1640758427 bytes) = sha256 del CSV vivo del INE con ';' sustituido por tabulador. El INE sirve este CSV dinámico sin Content-Length ni ETag: P10 lo descarga entero y compara."
+      "contenido_nota": "T-323/D-119: sha256 del crudo de la copia (miembro 65034.csv, tabulador, 1640758427 bytes; el INE sirve el mismo CSV con ';'). Solo informa: P10 para por el sha256 del EXTRACTO filtrado, que compara con el del paquete de R2 del territorio."
     },
     "02202307_MESA.zip": {
       "clave": "arc-e/fuentes/interior/02202307_MESA_e78fc231326a.zip",

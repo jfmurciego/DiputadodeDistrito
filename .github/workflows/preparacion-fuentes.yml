@@ -406,7 +406,7 @@ jobs:
           R2_BUCKET: ${{ secrets.R2_ACCESS_KEY_ID != '' && vars.R2_BUCKET || '' }}
         run: |
           python herramientas/p10_desde_r2.py preparar --territory "$TERRITORY_ID" --edition "$EDITION" \
-            --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR" --out .ddd-source-package
+            --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR" --out .ddd-source-package --declaration "$SOURCE_DECLARATION"
       - name: Resumen de fuentes (adquiere)
         if: ${{ steps.previous.outputs.reused_candidate != 'true' && steps.r2.outputs.desde_r2 != 'true' }}
         run: |
