@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-15T21:17:27.448960+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-15T21:18:31.246359+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -61,7 +61,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Almería** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43760565695 · SUCCESS | — | — | — |
 | **Nacional Ávila** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43760758129 · SUCCESS | — | — | — |
 | **Nacional Badajoz** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43761252898 · SUCCESS | — | — | — |
-| **Nacional Baleares** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42953068884 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Baleares** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43757976344 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Barcelona** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42953127263 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Burgos** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42986581831 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Cáceres** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953363103 · SUCCESS | — | — | — |
