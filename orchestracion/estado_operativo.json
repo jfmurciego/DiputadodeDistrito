@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T16:04:08.397419+00:00",
+  "generated_at": "2026-11-15T16:09:12.495075+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 4,
-      "action_required": 116,
+      "admissible": 5,
+      "action_required": 115,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 4,
+      "activated": 5,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 116,
+      "electoral_pending": 115,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 4,
-      "durable_pair": 4
+      "electoral_source": 5,
+      "durable_pair": 5
     },
     "territories": [
       {
@@ -127,15 +127,15 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
+          "status": "INCOMPATIBLE",
           "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "reason": "ELECTORAL_PROVENANCE_MISMATCH",
           "source": "Corporación RTVE — resultados 2026",
           "granularity": "section_party"
         },
         "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTION_REQUIRED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut02/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json",
@@ -152,7 +152,7 @@
           {
             "domain": "electoral",
             "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
+            "reason": "ELECTORAL_PROVENANCE_MISMATCH"
           }
         ]
       },
@@ -298,20 +298,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/aut05/evidencia/pares_fuentes/2025/9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/aut05/evidencia/pares_fuentes/2025/2c9e2d03e0521b48d658d5c56538f85f2e509002f253ea462a0ecd7ea3d51bc5.json",
+            "pair_sha256": "2c9e2d03e0521b48d658d5c56538f85f2e509002f253ea462a0ecd7ea3d51bc5",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -319,13 +319,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "aut06",
@@ -7107,11 +7101,11 @@
       "name": "Andalucía",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43204696160,
+      "run_id": 43728682179,
       "last_run": {
         "run_id": 43204696160,
         "status": "SUCCESS",
@@ -7120,7 +7114,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7134,16 +7128,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "andalucia",
+          "territory_id": "aut01",
           "territory_name": "Andalucía",
           "edition": "2025",
-          "run_id": 43107035084,
-          "artifact_name": "ddd-state-43107035084-M06",
-          "artifact_sha256": "c5ffbc5fbfbd2809223617f295a7f05eaacdd60141673a216bfbde721d76cfc7",
-          "source_commit": "8e4e268e0dfb5e353a381456bfdee5c8133fc509",
+          "run_id": 43728682179,
+          "artifact_name": "ddd-state-43728682179-M06",
+          "artifact_sha256": "43137bb9b90954950fa73a73727b3d833dbd15e8746594c555295a3d2caab995",
+          "source_commit": "392c5bcf00332652a58e45f3526b2e9c37876272",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/andalucia/evidencia/generaciones_m06/43107035084.json"
+          "producer_manifest_path": "territorios/aut01/evidencia/generaciones_m06/43728682179.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7161,7 +7155,7 @@
       },
       "autonomous_community_code_ine": "01",
       "display_name": "01 Andalucía",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut02",
@@ -7174,11 +7168,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43728693144,
       "last_run": {
-        "run_id": 43016936483,
+        "run_id": 43728693144,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -12676,9 +12670,8 @@
     }
   ],
   "kpis": {
-    "complete": 70,
+    "complete": 69,
     "complete_names": [
-      "01 Andalucía",
       "06 Cantabria",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
@@ -12969,6 +12962,12 @@
   },
   "alerts": [
     {
+      "territory": "01 Andalucía",
+      "territory_id": "aut01",
+      "autonomous_community_code_ine": "01",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "02 Aragón",
       "territory_id": "aut02",
       "autonomous_community_code_ine": "02",
@@ -13009,15 +13008,15 @@
       "territory_id": "congreso350_alicante",
       "autonomous_community_code_ine": "R03",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Almería",
-      "territory_id": "congreso350_almeria",
-      "autonomous_community_code_ine": "R04",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
+    {
+      "territory": "01 Andalucía",
+      "territory_id": "aut01",
+      "autonomous_community_code_ine": "01",
+      "action": "preparar fuentes electorales"
+    },
     {
       "territory": "02 Aragón",
       "territory_id": "aut02",
