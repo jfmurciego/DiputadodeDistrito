@@ -178,11 +178,11 @@
   },
   "aragon": {
    "fuente_territorial": {
-    "run_id": "43724241077",
+    "run_id": "43728693144",
     "package_sha256": "5ccab3dbdc8fd629312e8c91dca8ae4ebf02c1d9ba32c52324d1c3573c7b2c00",
-    "artifact_sha256": "2ecfae68697bca8ffbb4c18e53e14a351e3a114a4b8c4d4cfb091c659a91aaf9",
+    "artifact_sha256": "0b93a615e5d8c0354e1932e23280a63e42dfbae042464316f4c7f9779a057940",
     "territorial_identity_sha256": "2fdc39e5b356c1b3464934a47c793b6c00779c068121c791f6e18fde6c433375",
-    "receipt_path": "territorios/aut02/evidencia/fuentes_territoriales/2025/2fdc39e5b356c1b3464934a47c793b6c00779c068121c791f6e18fde6c433375/43724241077/receipt.json",
+    "receipt_path": "territorios/aut02/evidencia/fuentes_territoriales/2025/2fdc39e5b356c1b3464934a47c793b6c00779c068121c791f6e18fde6c433375/43728693144/receipt.json",
     "population_year": 2025,
     "section_year": 2025
    },
