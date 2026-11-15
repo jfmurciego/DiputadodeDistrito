@@ -1967,6 +1967,13 @@
    "sha256_csv": "573e535e9d2b18911882029d7a3fd4ee99e6b517e63ab92505e969625180f06f",
    "ruta": "datos/composicion/runs/nac15_43764621629.csv"
   },
+  "nac16/43764632170": {
+   "territorio": "nac16",
+   "run_id": "43764632170",
+   "secciones": 310,
+   "sha256_csv": "fd0f6baa195f794705601ddeb0658048f48321b572b848d90b088c6324f47077",
+   "ruta": "datos/composicion/runs/nac16_43764632170.csv"
+  },
   "pais_vasco/43041060549": {
    "territorio": "pais_vasco",
    "run_id": "43041060549",
