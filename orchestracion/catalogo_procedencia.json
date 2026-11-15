@@ -1033,11 +1033,11 @@
   },
   "ceuta": {
    "fuente_territorial": {
-    "run_id": "43728984580",
+    "run_id": "43749637927",
     "package_sha256": "b6d7e221ee86d4760236bf3a901c8f33372bb2fd9c27883ebba980d01eb9d128",
-    "artifact_sha256": "d63bf827283d0b08958a674240c94ba113831a2f7b706267bba05db874be0560",
+    "artifact_sha256": "1b9b5e475a37227c4a5c9c6df7d892c61bcfb64bf23401089c0cf216bd961822",
     "territorial_identity_sha256": "2cdeea2b02fe2bd6d328393f3c9ab25f8f996c90f73d0e583fd5f9c6a02e60ab",
-    "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/2cdeea2b02fe2bd6d328393f3c9ab25f8f996c90f73d0e583fd5f9c6a02e60ab/43728984580/receipt.json",
+    "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/2cdeea2b02fe2bd6d328393f3c9ab25f8f996c90f73d0e583fd5f9c6a02e60ab/43749637927/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
