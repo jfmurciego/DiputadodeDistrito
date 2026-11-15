@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T23:14:46.597525+00:00",
+  "generated_at": "2026-11-15T23:18:28.810927+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9123,11 +9123,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43764654875,
       "last_run": {
-        "run_id": 42954091088,
+        "run_id": 43764654875,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -9422,11 +9422,11 @@
       "name": "Nacional Jaén",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
-      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42955644352,
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 43765782167,
       "last_run": {
         "run_id": 42955644352,
         "status": "SUCCESS",
@@ -9435,7 +9435,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9449,16 +9449,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_jaen",
+          "territory_id": "nac23",
           "territory_name": "Congreso Jaén",
           "edition": "2025",
-          "run_id": 42940432935,
-          "artifact_name": "ddd-state-42940432935-M06",
-          "artifact_sha256": "0f60519e07769f5c7aac0cef5b9edb46e9066ec000c0a71b2f38646fd85c48e1",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
-          "decision": "PASS_WITH_EXCEPTIONS",
+          "run_id": 43765782167,
+          "artifact_name": "ddd-state-43765782167-M06",
+          "artifact_sha256": "69ccebcd9b5b930994ffad656cb9984b617a5fd502cdb8ca65d47015df6d95b0",
+          "source_commit": "451db073727f70523fe5888e0f8886be5b23dd66",
+          "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_jaen/evidencia/generaciones_m06/42940432935.json"
+          "producer_manifest_path": "territorios/nac23/evidencia/generaciones_m06/43765782167.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9476,18 +9476,18 @@
       },
       "autonomous_community_code_ine": "C23",
       "display_name": "Nacional Jaén",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac24",
       "name": "Nacional León",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42996717873,
+      "run_id": 43766201397,
       "last_run": {
         "run_id": 42996717873,
         "status": "SUCCESS",
@@ -9496,7 +9496,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9510,16 +9510,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_leon",
+          "territory_id": "nac24",
           "territory_name": "Congreso León",
           "edition": "2025",
-          "run_id": 42991571678,
-          "artifact_name": "ddd-state-42991571678-M06",
-          "artifact_sha256": "f62d48ca81045ed065c167673ba1188a0504c1aa6adcd23eeddc9604a26a81be",
-          "source_commit": "48716f6314fe92973436599417e7be4886bbe0c2",
+          "run_id": 43766201397,
+          "artifact_name": "ddd-state-43766201397-M06",
+          "artifact_sha256": "230021b7be666a524a0e441bdd0e5463116a0e08d22431b2258685e47c1e578e",
+          "source_commit": "3f6e0337735472bf32cd22877f4c63c2d3fe5f4d",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_leon/evidencia/generaciones_m06/42991571678.json"
+          "producer_manifest_path": "territorios/nac24/evidencia/generaciones_m06/43766201397.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9537,7 +9537,7 @@
       },
       "autonomous_community_code_ine": "C24",
       "display_name": "Nacional León",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac25",
@@ -12490,7 +12490,7 @@
     }
   ],
   "kpis": {
-    "complete": 65,
+    "complete": 63,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12524,8 +12524,6 @@
       "Nacional Castellón",
       "Nacional Huelva",
       "Nacional Huesca",
-      "Nacional Jaén",
-      "Nacional León",
       "Nacional Lérida",
       "Nacional La Rioja",
       "Nacional Lugo",
