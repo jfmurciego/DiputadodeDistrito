@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.439
+Versión: 1.0.443
 Fecha: 2026-11-15
-Alcance: T-343 — Mapa espejo→sigla BOE acreditado con ficheros para la puerta del histórico
+Alcance: T-351 — Ficha del paso A del histórico al día (condición previa, orden tras r4, topes y avisos)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-15_t343-alias-boe-espejo.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.438_registro_20261115.md
+Cambios/motivo: entrada docs/registro/2026-11-15_operador-t351-ficha-historico.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.442_registro_20261115.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,10 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.438_registro_20261115.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.443 · [2026-11-15 — T-351 — Ficha del paso A del histórico al día (condición previa, orden tras r4, topes y avisos)](registro/2026-11-15_operador-t351-ficha-historico.md)
+- 1.0.442 · [2026-11-15 — T-345 — Alias de coaliciones acreditados con la composición del BOE de candidaturas proclamadas (D-120)](registro/2026-11-15_t345-composicion-boe.md)
+- 1.0.441 · [2026-11-15 — T-350 — Plan 1.0.50: D-119 a D-122 y cola T-342 a T-349](registro/2026-11-15_planificador-plan-1-0-50.md)
+- 1.0.440 · [2026-11-15 — T-348 — Transparencia: la frase de Cloudflare/NEL también en nacional y Congreso](registro/2026-11-15_t348-transparencia-visores.md)
 - 1.0.439 · [2026-11-15 — T-343 — Mapa espejo→sigla BOE acreditado con ficheros para la puerta del histórico](registro/2026-11-15_t343-alias-boe-espejo.md)
 - 1.0.438 · [2026-11-15 — T-346 — Transparencia: el sitio lo sirve Cloudflare (informes NEL/Report-To con la IP)](registro/2026-11-15_feat-t346-nota-cloudflare.md)
 - 1.0.437 · [2026-11-15 — T-342 — Puerta del histórico: pérdida ≤ 0,1 % y contraste con el BOE (fallo cerrado)](registro/2026-11-15_t342-puerta-historico.md)
