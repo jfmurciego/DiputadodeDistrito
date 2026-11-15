@@ -798,8 +798,8 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 43754629627
-        stage: M06
+        run_id: 43759317191
+        stage: M08
       preparation_evidence:
         run_id: 43754629627
         artifact_name: ddd-source-package-nac02-2025-43754629627
