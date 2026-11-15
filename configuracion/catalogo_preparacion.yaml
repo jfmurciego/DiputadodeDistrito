@@ -2166,25 +2166,24 @@ territories:
         run_id: 43017179163
         stage: M08
       preparation_evidence:
-        run_id: 41241010241
-        artifact_name: ddd-source-package-congreso_salamanca-2025-41241010241
-        artifact_sha256: da869071df48034b3734bd864ee837ec428131b51154aa0f40d5cf880cb40ebe
+        run_id: 43662728262
+        artifact_name: ddd-source-package-nac37-2025-43662728262
+        artifact_sha256: a360be0fc6111be0270d0021e5525b163f159c0166b3e70c1360ddd563b3235c
         package_sha256: 60529b9ee0bc74c5bb5b7b935721eb5063f59fa2d1541e866e3cc1ab93adfa2c
-        receipt_path: territorios/nac37/evidencia/fuentes_territoriales/2025/e9391f959ab85e7ef3fbd52e4a680cc7cc8fdae3585a4c80b762ecaaceacaaa3/41241010241/receipt.json
-        territorial_identity_sha256: e9391f959ab85e7ef3fbd52e4a680cc7cc8fdae3585a4c80b762ecaaceacaaa3
+        receipt_path: territorios/nac37/evidencia/fuentes_territoriales/2025/7df140cd701263761db7516119e57461375fb2178e3313ce5e918d35026e5b1f/43662728262/receipt.json
+        territorial_identity_sha256: 7df140cd701263761db7516119e57461375fb2178e3313ce5e918d35026e5b1f
         compatibility_report_sha256: 2fe9f0dee8fea77acbb8c8ef4b08a9bb164789b06c3463dc0303b7f7e5c5bdc1
         compatibility_identity_sha256: 3c6160e77ccb706ad0d990c9f228a1cd12760049537564420bcd0bfe50929a4a
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 77f053655ac35e403dad362c023e12b872428256
+        source_commit: e9a5d584f58ec802b5a7408295be4cecbb8ec159
       evidence:
         electoral_source: territorios/nac37/evidencia/fuentes_electorales/2025/98bbcaab7ca5b91879fbdf67f680ac886b0ae774212430c06e071fa4e190faad/41239908359/receipt.json
-        generation_preflight: territorios/nac37/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac37/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac37/evidencia/pares_fuentes/2025/a3f54f25701ef149d6df622f412ff511fb94a5ab5391bed84ce27db1dc6e4d9f.json
         electoral_product: territorios/nac37/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac38
   name: Congreso Santa Cruz de Tenerife
   editions:
