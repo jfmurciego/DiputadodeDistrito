@@ -10,7 +10,7 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   source_population_year: 2023
   source_section_year: 2023
 io:
@@ -77,7 +77,7 @@ territory_contract:
   - R022 congeló 343 secciones y 326803 habitantes sin faltantes.
   - R023 justificó 0 pasarelas; no se añade ninguna excepción topológica.
   - Se aplica el perfil general R036 0.80/1.75/0.12 sin excepción.
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes:
@@ -274,7 +274,7 @@ resolved_source_contract:
   contract_sha256: 1482fb94ba4ef20b2b774fc4fc143c6021ff1e9fce4dddc3ec7626e834404024
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: 5097f01bd80e2af393d36e52cfd60716b4cf7984154e4326be38777c84102f62
   compatibility_identity_sha256: 368e61e6052d92c47ddc23c358a0be630f5bf10dab5220e646777128ba905a98
   source_inputs:
@@ -326,3 +326,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 43749332670
+  pre_m04_source_commit: e70b6b0e5af2afc0eb6f44c0658e4cefd144f864
+  pre_m04_artifact_sha256: be1fb66a4ff4c19cfb43e3a8b8df54d9cd59bd400f6a0d4ebed90026fab788b3
