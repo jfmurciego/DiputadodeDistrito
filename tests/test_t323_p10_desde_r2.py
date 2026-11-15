@@ -1,5 +1,5 @@
-# VERSIÓN: 1.1.0
-# CAMBIOS: 1.1.0: años pedidos ≠ contrato, Last-Modified solo avisa (cabeceras reales de 65034.csv), 200 sin cabeceras, BadZipFile. 1.0.0: fichero nuevo (T-323, D-112).
+# VERSIÓN: 1.2.0
+# CAMBIOS: 1.2.0: id no canónico (T-336) → ACQUIRE; canónico → REUSE. 1.1.0: años pedidos ≠ contrato, Last-Modified solo avisa (cabeceras reales de 65034.csv), 200 sin cabeceras, BadZipFile. 1.0.0: fichero nuevo (T-323, D-112).
 # ANTERIOR: ninguna (fichero nuevo; 1.0.0 solo existió en esta PR)
 """T-323: P10 usa el paquete de R2 y solo consulta el INE (HEAD): sin cambios usa R2, cambiado para y avisa, sin red degrada con aviso."""
 import io
@@ -28,10 +28,11 @@ def _indice(td: Path) -> Path:
     return ruta
 
 
-def _paquete_falso(t, work):
+def _paquete_falso(t, work, territory_id=None):
     d = Path(work) / "pkg"
     d.mkdir(parents=True)
-    (d / "manifest.json").write_text("{}", encoding="utf-8")
+    (d / "bundle.bin").write_bytes(b"no es un zip")  # el bundle no es un ZIP: paquete_territory_mismatch solo compara el manifiesto
+    (d / "manifest.json").write_text(json.dumps({"path": "bundle.bin", "territory_id": territory_id or "aut02"}), encoding="utf-8")
     return d
 
 
@@ -83,6 +84,21 @@ class P10DesdeR2(unittest.TestCase):
         self.assertEqual(rc, 0)
         self.assertFalse(restaurado)
         self.assertIn("P10_R2_ANIOS_DISTINTOS", log)
+
+    def test_id_no_canonico_no_se_reutiliza(self):
+        # T-336: el paquete de R2 lleva un id distinto del canónico → ACQUIRE, sin consultar al INE.
+        def no_hay_red(u):
+            raise AssertionError("no se consulta al INE si el paquete no es reutilizable")
+        rc, log, restaurado = self._preparar(no_hay_red, restaurar=lambda t, w: _paquete_falso(t, w, "aragon"))
+        self.assertEqual(rc, 0)
+        self.assertFalse(restaurado)
+        self.assertIn("P10_R2_ID_NO_CANONICO", log)
+
+    def test_id_canonico_sigue_en_reuse(self):
+        rc, log, restaurado = self._preparar(lambda u: (200, HEAD_IGUAL), restaurar=lambda t, w: _paquete_falso(t, w, "aut02"))
+        self.assertEqual(rc, 0)
+        self.assertTrue(restaurado)
+        self.assertNotIn("P10_R2_ID_NO_CANONICO", log)
 
     def test_zip_corrupto_sale_53(self):
         import zipfile

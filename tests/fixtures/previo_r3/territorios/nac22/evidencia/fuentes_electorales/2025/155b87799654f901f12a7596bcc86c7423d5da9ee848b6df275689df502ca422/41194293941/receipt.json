@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_huesca",
+  "territory_name": "Congreso Huesca",
+  "edition": "2025",
+  "run_id": 41194293941,
+  "artifact_name": "ddd-electoral-package-congreso_huesca-2025-41194293941",
+  "artifact_sha256": "fd2a0bd657b2e1265af3cf331e00a8ef63d434426c1302b0103ffc069c6f56c4",
+  "source_commit": "575711ab89bfa68c2cf88433d6ad76584c86a1ee",
+  "election_id": "congreso_huesca_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422"
+}

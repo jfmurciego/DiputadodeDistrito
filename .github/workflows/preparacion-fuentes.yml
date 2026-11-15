@@ -1,7 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.4.13
-# CAMBIOS 1.4.13: T-323 (D-112), paso «Paquete P10 desde R2» antes de adquirir: restaura el paquete del contrato de R2 (sha256 verificado) y consulta el INE solo con HEAD; fuente cambiada = para con FUENTE_INE_CAMBIADA; sin paquete o sin red al INE = aviso y sigue como antes.
+# VERSIÓN: 1.4.14
+# CAMBIOS 1.4.14: T-323 (D-112), paso «Paquete P10 desde R2» antes de adquirir: restaura el paquete del contrato de R2 (sha256 verificado, id de territorio canónico, años pedidos = contrato) y consulta el INE solo con HEAD; .zip con tamaño cambiado = para con FUENTE_INE_CAMBIADA; sin paquete, id no canónico, años distintos o sin red al INE = aviso y sigue como antes.
+# CAMBIOS 1.4.13: T-336, «Recuperar fuente territorial registrada» rechaza (rc 3 del selector) un paquete cuyo territory_id no es EXACTAMENTE el canónico y adquiere de nuevo (::warning::; otro rechazo sigue fallando); falla si reutilizara uno no canónico; el resumen del job dice si REUTILIZÓ o ADQUIERE y con qué paquete.
 # CAMBIOS 1.4.12: T-215 (corte 5.0.0, paso 4), nombre visible v5 «P10 Fuentes — P11 Territoriales» (antes 01 Preparación de Datos Territoriales).
 # CAMBIOS 1.4.11: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
@@ -20,7 +21,7 @@
 # CAMBIOS 1.4.9: T-94, el paso «Persistir diagnóstico» ya no esconde el error del escritor (stderr al log y volcado del result-json).
 # CAMBIOS 1.4.10: T-96, el job generation_pending (persistencia PENDING en main) usa la «Credencial de registro» tras el checkout;
 #   con github.token el ruleset proteger-main rechazaba el push (GH013, "veredicto" esperado; run 42463443610, Ceuta).
-# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.12_20261114.yml
+# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.13_20261115.yml
 name: P10 Fuentes — P11 Territoriales
 
 on:
@@ -359,7 +360,35 @@ jobs:
           [[ "$actual_digest" == "$REGISTERED_ARTIFACT_SHA256" ]] || { echo "::error::Digest de artefacto territorial no coincide con el registro."; exit 45; }
           rm -rf .ddd-source-package
           gh run download "$REGISTERED_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$REGISTERED_ARTIFACT_NAME" --dir .ddd-source-package
-          python -m herramientas.seleccionar_paquete_fuentes             --package .ddd-source-package             --territory-id "$TERRITORY_ID"             --edition "$EDITION" --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR"
+          rc=0
+          python -m herramientas.seleccionar_paquete_fuentes --package .ddd-source-package --territory-id "$TERRITORY_ID" --edition "$EDITION" --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR" || rc=$?
+          if [[ "$rc" == 3 ]]; then
+            # T-336: el paquete registrado es de un id de territorio NO canónico: no se reutiliza, se adquiere de nuevo.
+            echo "::warning::Paquete registrado $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID) con id de territorio no canónico: se rechaza y se adquiere de nuevo (T-336)."
+            {
+              echo "### Fuentes del P10: ADQUIRIRÁ (paquete registrado rechazado)"
+              echo "- Paquete registrado: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID)"
+              echo "- Motivo: territory_id del paquete distinto del canónico $TERRITORY_ID"
+            } >> "$GITHUB_STEP_SUMMARY"
+            # El paquete viejo NO debe quedar en el directorio de trabajo: la política lo leería y devolvería REUSE.
+            rm -rf .ddd-source-package
+            echo "reused_candidate=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          [[ "$rc" == 0 ]] || exit "$rc"
+          # Cinturón: si se reutiliza, el id de manifiesto y de los 3 documentos es EXACTAMENTE el canónico, o falla.
+          python - "$TERRITORY_ID" <<'PY' || { echo "::error::Reutilización de un paquete con id no canónico (T-336)."; exit 46; }
+          import sys
+          from pathlib import Path
+          from herramientas.politica_reutilizacion_fuentes import paquete_territory_mismatch
+          m = paquete_territory_mismatch(Path(".ddd-source-package"), sys.argv[1])
+          if m:
+              print("; ".join(m)); raise SystemExit(1)
+          PY
+          {
+            echo "### Fuentes del P10: REUTILIZÓ"
+            echo "- Paquete: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID), territory_id verificado == $TERRITORY_ID"
+          } >> "$GITHUB_STEP_SUMMARY"
           echo "run_id=$REGISTERED_RUN_ID" >> "$GITHUB_OUTPUT"
           echo "artifact_name=$REGISTERED_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
           echo "reused_candidate=true" >> "$GITHUB_OUTPUT"
@@ -378,6 +407,10 @@ jobs:
         run: |
           python herramientas/p10_desde_r2.py preparar --territory "$TERRITORY_ID" --edition "$EDITION" \
             --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR" --out .ddd-source-package
+      - name: Resumen de fuentes (adquiere)
+        if: ${{ steps.previous.outputs.reused_candidate != 'true' && steps.r2.outputs.desde_r2 != 'true' }}
+        run: |
+          echo "### Fuentes del P10: ADQUIERE desde la fuente oficial (sin paquete reutilizable para $TERRITORY_ID)" >> "$GITHUB_STEP_SUMMARY"
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
         if: ${{ steps.previous.outputs.reused_candidate != 'true' && steps.r2.outputs.desde_r2 != 'true' }}
       - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0

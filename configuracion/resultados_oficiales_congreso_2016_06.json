@@ -1,0 +1,82 @@
+{
+ "fuente": "Acuerdo de 20 de julio de 2016, de la Junta Electoral Central, por el que se publica el resumen de los resultados de las elecciones al Congreso de los Diputados y al Senado convocadas por Real Decreto 184/2016, de 3 de mayo, y celebradas el 26 de junio de 2016, conforme a las actas de escrutinio general y de proclamación de electos remitidas por las correspondientes Juntas Electorales Provinciales y por las Juntas Electorales de Ceuta y de Melilla.",
+ "boe": "BOE-A-2016-7133",
+ "url": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2016-7133",
+ "fecha_publicacion": "2016-07-22",
+ "sha256_xml": "8144b5ea5809d83ff4db3425883885ae33759e46ba6fc2c42d1c140e07108ea2",
+ "sha256_pdf": "bedff18ce6b5a185564d0e85137cc30e0d295e0e4c42e88be9976570821a3bfd",
+ "datos_desde": "pdf (las tablas del XML son imágenes)",
+ "sha256_csv": "4fd01ba0e6ee92433227060238a23bf151e7e16f4b9761781539e2fe5498626e",
+ "cuadro": "II (candidaturas con escaño en el total estatal)",
+ "total_escanos": 350,
+ "totales_oficiales": {
+  "PP": {
+   "votos": 7372172,
+   "escanos": 126
+  },
+  "PSOE": {
+   "votos": 4663505,
+   "escanos": 75
+  },
+  "PODEMOS-IU-EQUO-CLIAS": {
+   "votos": 3227123,
+   "escanos": 45
+  },
+  "C's": {
+   "votos": 3141570,
+   "escanos": 32
+  },
+  "ECP": {
+   "votos": 853102,
+   "escanos": 12
+  },
+  "PODEMOS-COMPROMÍS-EUPV": {
+   "votos": 659771,
+   "escanos": 9
+  },
+  "ERC-CATSÍ": {
+   "votos": 632234,
+   "escanos": 9
+  },
+  "PSC-PSOE": {
+   "votos": 559870,
+   "escanos": 7
+  },
+  "CDC": {
+   "votos": 483488,
+   "escanos": 8
+  },
+  "PODEMOS-EN MAREA-ANOVA-EU": {
+   "votos": 347542,
+   "escanos": 5
+  },
+  "EAJ-PNV": {
+   "votos": 287014,
+   "escanos": 5
+  },
+  "PP-PAR": {
+   "votos": 252456,
+   "escanos": 6
+  },
+  "PSOE-NCa": {
+   "votos": 220471,
+   "escanos": 3
+  },
+  "PP-FORO": {
+   "votos": 209632,
+   "escanos": 3
+  },
+  "EH Bildu": {
+   "votos": 184713,
+   "escanos": 2
+  },
+  "UPN-PP": {
+   "votos": 106976,
+   "escanos": 2
+  },
+  "CCa": {
+   "votos": 78253,
+   "escanos": 1
+  }
+ }
+}

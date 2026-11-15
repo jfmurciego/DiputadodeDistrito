@@ -4,15 +4,15 @@
   "territory_id": "aut11",
   "territory_name": "Extremadura",
   "edition": "2025",
-  "run_id": 43645442274,
-  "source_commit": "2f1f36f4ca745b67e29523cb8e5687dd64c4c819",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "run_id": 43669468142,
+  "source_commit": "33550bb6fef2a1e462fd87ac3fe8c6b432473b28",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "SOURCE_MATERIALIZATION",
   "source": {
-    "run_id": 43645442274,
-    "artifact_name": "ddd-source-package-aut11-2025-43645442274",
-    "artifact_sha256": "71c302e005208112412f75c932dcdf2db188a7e8a98bd150dc11d297de8937a5",
+    "run_id": 43669468142,
+    "artifact_name": "ddd-source-package-aut11-2025-43669468142",
+    "artifact_sha256": "27315800b679a957ab65fd8bd291ec45eb8d178e2ca16a3eab63e63cf8e1161a",
     "package_sha256": "14abaecb2364af56af8ca827e2f65b8a8212842f88b1fd2e9394ab15bb33381d",
     "compatibility_identity_sha256": "c74900602d2fdf4d6af7f58f9d6f88ed1059e8461d88c0e43bef961f23bca92c",
     "territorial_identity_sha256": "da4476701b09af39554789017e88e53ed9b84f1218c2bbb577eb37dfb615fc88",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La fuente ya acreditada no pudo materializarse para la evaluación; requiere diagnóstico técnico."
   }
 }

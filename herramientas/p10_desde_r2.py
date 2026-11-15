@@ -3,11 +3,12 @@
 """P10 desde la copia de R2 con aviso de cambios del INE (T-323, D-112).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.2.0
 NOMBRE DE VERSIÓN: P10 lee de R2 y consulta el INE sin descargar
 FECHA: 2026-11-14
 ESTADO: candidato
-CAMBIOS: 1.1.0: (1) el paquete de R2 solo se usa si edición y años pedidos son los del contrato; si no, aviso y adquisición como antes. (2) Last-Modified ya no
+CAMBIOS: 1.2.0: (T-336) un paquete de R2 cuyo territory_id no es exactamente el canónico no es reutilizable: aviso y ACQUIRE; el resumen del job dice REUTILIZÓ desde R2.
+  1.1.0: (1) el paquete de R2 solo se usa si edición y años pedidos son los del contrato; si no, aviso y adquisición como antes. (2) Last-Modified ya no
   para por sí solo (el INE sirve 65034.csv dinámico, sin Content-Length: medido 2026-11-14, Last-Modified 2026-10-27): solo aviso; para solo un Content-Length
   distinto de `bytes` en un .zip. (3) BadZipFile = paquete corrupto (53).
   1.0.0: fichero nuevo (T-323).
@@ -125,6 +126,13 @@ def preparar(territorio: str, edicion: str, anio_poblacion: str, anio_seccion: s
         print(f"::warning::P10_SIN_PAQUETE_R2 {territorio}: no hay paquete en R2, falló la lectura de R2 o faltan credenciales; P10 adquiere del INE SIN comprobar nada contra R2.")
         _salida("desde_r2", "false")
         return 0
+    from herramientas.politica_reutilizacion_fuentes import paquete_territory_mismatch
+    mismatch = paquete_territory_mismatch(carpeta, territorio)
+    if mismatch:
+        print(f"::warning::P10_R2_ID_NO_CANONICO {territorio}: el paquete de R2 no es del id canónico ({'; '.join(mismatch)}); no se reutiliza y P10 adquiere de la fuente oficial (T-336).")
+        shutil.rmtree(work, ignore_errors=True)
+        _salida("desde_r2", "false")
+        return 0
     nombres, faltan = fuentes_necesarias(anio_poblacion, anio_seccion, indice)
     for n in faltan:
         print(f"::warning::P10_FUENTE_SIN_HUELLA {n} no está en fuentes_r2.json: no se comprueba si el INE cambió.")
@@ -139,6 +147,10 @@ def preparar(territorio: str, edicion: str, anio_poblacion: str, anio_seccion: s
     shutil.rmtree(destino, ignore_errors=True)
     shutil.copytree(carpeta, destino)
     shutil.rmtree(work, ignore_errors=True)
+    resumen = os.environ.get("GITHUB_STEP_SUMMARY")
+    if resumen:
+        with open(resumen, "a", encoding="utf-8") as fh:
+            fh.write(f"### Fuentes del P10: REUTILIZÓ desde R2\n- Paquete del contrato de {territorio} (sha256 verificado, territory_id canónico); INE consultado sin descargar.\n")
     print(f"p10_desde_r2: {territorio} restaurado desde R2 (sha256 verificado); INE sin cambios detectados ({len(nombres)} fuentes consultadas).")
     _salida("desde_r2", "true")
     return 0

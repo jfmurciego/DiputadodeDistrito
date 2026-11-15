@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.425
-Fecha: 2026-11-14
-Alcance: T-327 — Plan 1.0.48: huecos autonómicos del histórico (D-113) y test de procedencia (T-326)
+Versión: 1.0.431
+Fecha: 2026-11-15
+Alcance: T-334 — Seguimiento de T-329: manifiesto neutro, puerta con m07/perdidos, tabla verificada y id nuevo
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_planificador-plan-1-0-48.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.424_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-15_t334-seguimiento-paso-a.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.430_registro_20261115.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,12 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.424_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.431 · [2026-11-15 — T-334 — Seguimiento de T-329: manifiesto neutro, puerta con m07/perdidos, tabla verificada y id nuevo](registro/2026-11-15_t334-seguimiento-paso-a.md)
+- 1.0.430 · [2026-11-14 — T-329 — Paso A del histórico sobre el mapa 2023 (D-105)](registro/2026-11-14_t329-paso-a-mapa-2023.md)
+- 1.0.429 · [2026-11-15 — T-335 — Barrido de tests de estado vivo ante la campaña r3 (fixture congelado)](registro/2026-11-15_t335-barrido-estado-vivo.md)
+- 1.0.428 · [2026-11-14 — T-330 — CSV oficiales de resultados por circunscripción 2011, 2015, 2016 y 2019-04 (BOE)](registro/2026-11-14_t330-resultados-oficiales-boe.md)
+- 1.0.427 · [2026-11-14 — T-326 — test del catálogo de procedencia sin estado vivo en PR](registro/2026-11-14_t326-catalogo-procedencia-congelado.md)
+- 1.0.426 · [2026-11-14 — T-328 — Histórico desde 2011: tablas año→2023, identificadores BOE y ficha del paso A](registro/2026-11-14_t328-historico-2023.md)
 - 1.0.425 · [2026-11-14 — T-327 — Plan 1.0.48: huecos autonómicos del histórico (D-113) y test de procedencia (T-326)](registro/2026-11-14_planificador-plan-1-0-48.md)
 - 1.0.424 · [2026-11-14 — T-322 — aut11 y aut12 a la raíz congelada y linaje fijado (continuación de #793)](registro/2026-11-14_t322b-fixtures-aut11-aut12.md)
 - 1.0.423 · [2026-11-14 — T-324 — Plan 1.0.47: P10 desde R2 (D-112) y tests de estado vivo (T-322)](registro/2026-11-14_planificador-plan-1-0-47.md)

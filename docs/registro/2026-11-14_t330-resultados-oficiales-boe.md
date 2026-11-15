@@ -1,0 +1,13 @@
+## 2026-11-14 — T-330 — CSV oficiales de resultados por circunscripción 2011, 2015, 2016 y 2019-04 (BOE)
+
+**Causa.** Las cuatro generales sin contraste oficial local (T-306 §1) solo tenían identificador BOE (T-328); faltaban los resultados por circunscripción con su fuente y sha256, como `resultados_oficiales_congreso_2019_11.csv` y `_2023.csv`.
+
+**Cambio (solo `configuracion/`, `herramientas/` y tests; sin motor, sin workflows, sin lanzar).**
+- `herramientas/resultados_oficiales_boe.py` 1.0.0: lee el documento del BOE tras comprobar su sha256 contra `identificadores_boe_resultados_congreso.json`, extrae el cuadro II y escribe CSV y JSON (fuente, sha256 del documento y del CSV, fila «Total estatal» del BOE). Para sin escribir si no hay 52 circunscripciones, si los escaños no son 350, si los escaños de una circunscripción no suman los suyos o si un partido no suma su «Total estatal». Reproduce byte a byte el CSV de 2019-11 (sha256 9a533386…).
+- `configuracion/resultados_oficiales_congreso_{2011_11,2015_12,2016_06,2019_04}.{csv,json}` (234, 269, 225 y 280 filas). 2011, 2015 y 2019-04 salen del XML del BOE; **2016-06 sale del PDF** (BOE-A-2016-7133, sha256 bedff18c…, capa de texto con `pdftotext -layout`): las tablas de su XML son imágenes. Las siglas son las de la cabecera del BOE (las 17 de 2015 y 2016 sin sigla propia, el nombre de la columna).
+- `identificadores_boe_resultados_congreso.json` 1.1.0 (copia 1.0.0 en `legacy/configuracion/`): `sha256_pdf` de 2016-06 y ruta del CSV de cada convocatoria.
+- Orden de circunscripciones y topónimos en español (Gerona, Lérida, Orense, Vizcaya, Guipúzcoa…) como en los CSV de 2019-11 y 2023; el emparejamiento código↔nombre por posición se contrastó con el voto a candidaturas del cuadro I del BOE frente al del espejo de cada provincia (defecto máximo 1,6 %, el voto CERA; una sola excepción, Alicante 2011, −0,07 %).
+
+**Pruebas.** `tests/test_t330_resultados_boe.py`: 52 circunscripciones, 350 escaños, escaños por circunscripción y por partido y votos de cada partido igual a la fila «Total estatal» del BOE, valores de Albacete y totales leídos a mano del BOE, 2019-04 = 2019-11 y 2015 vs 2016 distintos solo en León y Valencia, sha256 del CSV y del documento, extractor (columna sin sigla, orden por tabla). Guardián `todo` y GovernanceHeaders en verde.
+
+**Riesgos.** `fnb.OFICIALES` (contraste espejo↔oficial de `reagregacion_historico`) no se amplía: cambiaría el cuadre de un script compartido; queda para quien lo pida. Los XML/PDF del BOE no se versionan (sha256 en el JSON; se bajan de la URL). Sin efecto en huellas ni en la 00. PR `no-automerge`.
