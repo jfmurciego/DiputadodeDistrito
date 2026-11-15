@@ -333,24 +333,23 @@ territories:
         run_id: 43204706233
         stage: M08
       preparation_evidence:
-        run_id: 43724316836
-        artifact_name: ddd-source-package-aut09-2025-43724316836
-        artifact_sha256: 366e8e558c365d25f11f4436f6736ccbbb1a62cc0bc2b3fe7c265567cb0ba3dc
+        run_id: 43743381120
+        artifact_name: ddd-source-package-aut09-2025-43743381120
+        artifact_sha256: 1d9ef69359050274e8d591039616386de720d1e703d35786b3ce287a71f65bde
         package_sha256: 592e7aad90860c38dcea9dd2cecf7a1e3ec05dce7c92bdc8e2245696b4e11f3f
-        receipt_path: territorios/aut09/evidencia/fuentes_territoriales/2025/4467259ac1b7751bfd6be682888faa651d6acb2a422f6f8236a27bdb40548367/43724316836/receipt.json
+        receipt_path: territorios/aut09/evidencia/fuentes_territoriales/2025/4467259ac1b7751bfd6be682888faa651d6acb2a422f6f8236a27bdb40548367/43743381120/receipt.json
         territorial_identity_sha256: 4467259ac1b7751bfd6be682888faa651d6acb2a422f6f8236a27bdb40548367
         compatibility_report_sha256: f7e143f13b02ee34c75bea30a6c38231fadf47fa46106478ab2b7a61468fdd28
         compatibility_identity_sha256: 4371dba21869acb7deac9d05a69f48c39bad3b00f48bf9028f17633d57da89fc
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2024
         section_year: 2024
-        source_commit: db314ed67063bae3987f77ad566c74ad18ac1dbf
+        source_commit: bb6605a9ad5e3148256f44074ad119324b8ebc99
       evidence:
         electoral_source: territorios/aut09/evidencia/fuentes_electorales/2025/9512fde80f903cbe93eab4be4695612da01cd7a420d7840e4d04834985a46e18/43036592492/receipt.json
         prepared_source_pair: territorios/aut09/evidencia/pares_fuentes/2025/3090588ad0a3e96eb59dbfc5eb7260f1eda08a00b670c1287cebf36c48586087.json
         territorial_product: territorios/aut09/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut09/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut09/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut10
   name: Comunidad Valenciana
