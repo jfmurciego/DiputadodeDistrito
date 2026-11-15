@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T17:51:44.036595+00:00",
+  "generated_at": "2026-11-15T17:54:57.649145+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -491,8 +491,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 43724316836,
-            "receipt_path": "territorios/aut09/evidencia/fuentes_territoriales/2025/4467259ac1b7751bfd6be682888faa651d6acb2a422f6f8236a27bdb40548367/43724316836/receipt.json"
+            "run_id": 43743381120,
+            "receipt_path": "territorios/aut09/evidencia/fuentes_territoriales/2025/4467259ac1b7751bfd6be682888faa651d6acb2a422f6f8236a27bdb40548367/43743381120/receipt.json"
           }
         },
         "electoral": {
@@ -7199,20 +7199,20 @@
       "name": "Principado de Asturias",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43739230787,
+      "run_id": 43742340201,
       "last_run": {
-        "run_id": 43739230787,
+        "run_id": 43742340201,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7253,7 +7253,7 @@
       },
       "autonomous_community_code_ine": "03",
       "display_name": "03 Principado de Asturias",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "aut04",
@@ -7584,9 +7584,9 @@
         "territorial_source": {
           "territory_id": "aut09",
           "edition": "2025",
-          "run_id": 43724316836,
-          "artifact_name": "ddd-source-package-aut09-2025-43724316836",
-          "artifact_sha256": "366e8e558c365d25f11f4436f6736ccbbb1a62cc0bc2b3fe7c265567cb0ba3dc",
+          "run_id": 43743381120,
+          "artifact_name": "ddd-source-package-aut09-2025-43743381120",
+          "artifact_sha256": "1d9ef69359050274e8d591039616386de720d1e703d35786b3ce287a71f65bde",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12646,10 +12646,11 @@
     }
   ],
   "kpis": {
-    "complete": 71,
+    "complete": 72,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
+      "03 Principado de Asturias",
       "04 Islas Baleares",
       "05 Canarias",
       "06 Cantabria",
@@ -12929,22 +12930,16 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "aut02",
-    "name": "Aragón",
-    "display_name": "02 Aragón",
-    "autonomous_community_code_ine": "02",
-    "run_id": 43742224175,
+    "territory_id": "aut03",
+    "name": "Principado de Asturias",
+    "display_name": "03 Principado de Asturias",
+    "autonomous_community_code_ine": "03",
+    "run_id": 43742340201,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
-    {
-      "territory": "03 Principado de Asturias",
-      "territory_id": "aut03",
-      "autonomous_community_code_ine": "03",
-      "action": "incorporar resultados electorales"
-    },
     {
       "territory": "07 Castilla y León",
       "territory_id": "aut07",
@@ -12986,15 +12981,15 @@
       "territory_id": "congreso350_avila",
       "autonomous_community_code_ine": "R05",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Badajoz",
+      "territory_id": "congreso350_badajoz",
+      "autonomous_community_code_ine": "R06",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
-    {
-      "territory": "03 Principado de Asturias",
-      "territory_id": "aut03",
-      "autonomous_community_code_ine": "03",
-      "action": "preparar fuentes electorales"
-    },
     {
       "territory": "07 Castilla y León",
       "territory_id": "aut07",
