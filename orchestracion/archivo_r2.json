@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-15T22:56:57Z",
+  "actualizado_en": "2026-11-15T23:03:03Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -9502,6 +9502,20 @@
       "tamano_estado_original": 79799522,
       "territorio": "nac16",
       "url": "r2://ddd-research-archive/nac16/43764632170/ddd-minimo-43764632170-M06.zip"
+    },
+    "nac17/43764643457/ddd-minimo-43764643457-M06.zip": {
+      "archivado_en": "2026-11-15T23:03:03Z",
+      "artefacto": "ddd-minimo-43764643457-M06",
+      "artefacto_origen": "ddd-state-43764643457-M06",
+      "artifact_id": 14183597903,
+      "caducidad_original": "2026-11-29T22:37:22Z",
+      "run_id": "43764643457",
+      "sha256": "8d9fb1c0f8c258b075a605249630eabd34d11bd5a31fa363d45947995374cad0",
+      "sha256_estado_original": "5effe39eb1fe817d48ee5389ca6800006a2df6a16c88560567e4265cf4ac149e",
+      "tamano_bytes": 344699,
+      "tamano_estado_original": 82697119,
+      "territorio": "nac17",
+      "url": "r2://ddd-research-archive/nac17/43764643457/ddd-minimo-43764643457-M06.zip"
     },
     "nac18/43764654875/ddd-minimo-43764654875-M06.zip": {
       "archivado_en": "2026-11-15T22:52:46Z",
