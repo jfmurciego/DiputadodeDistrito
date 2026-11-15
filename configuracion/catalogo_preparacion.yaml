@@ -1581,25 +1581,24 @@ territories:
         run_id: 42996217596
         stage: M08
       preparation_evidence:
-        run_id: 43761346786
-        artifact_name: ddd-source-package-nac22-2025-43761346786
-        artifact_sha256: 3aa58c7944c10d8e0e7e5cfc29cc823c7598e5f48faf832c5a975680e2a93bfe
+        run_id: 43772965482
+        artifact_name: ddd-source-package-nac22-2025-43772965482
+        artifact_sha256: 5eb0cd85d8e328aaac758a4a280374e8a3680a548a39003ded7b1b0a7da17eaf
         package_sha256: 25a2511f8065c0efd8a553a473d8df08a9488009d5e1f819b24172c9a9f5d458
-        receipt_path: territorios/nac22/evidencia/fuentes_territoriales/2025/0ec27f2584d3c68e8281498c88df41284c31fab9ce5c6eca87dc354dee93e939/43761346786/receipt.json
+        receipt_path: territorios/nac22/evidencia/fuentes_territoriales/2025/0ec27f2584d3c68e8281498c88df41284c31fab9ce5c6eca87dc354dee93e939/43772965482/receipt.json
         territorial_identity_sha256: 0ec27f2584d3c68e8281498c88df41284c31fab9ce5c6eca87dc354dee93e939
         compatibility_report_sha256: 4d56766a46a03688f263e0f5d6186f835549e310ee1fd1774121f4181a16c616
         compatibility_identity_sha256: 3429ea5558a00b006d0eab3c7fd2b7e10699c4e83f891d66aedd3db7a4cd62ab
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 63480db8a88a1bedfd23ca6dead22e0e466c5aa0
+        source_commit: d350436502daaa745b62d7d8ab33372071a8692e
       generation_enabled: false
       evidence:
         territorial_product: territorios/nac22/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/nac22/evidencia/fuentes_electorales/2025/155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422/41194293941/receipt.json
         prepared_source_pair: territorios/nac22/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json
         electoral_product: territorios/nac22/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac22/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: nac23
   name: Congreso Jaén
   editions:
