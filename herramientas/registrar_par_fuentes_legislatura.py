@@ -118,6 +118,9 @@ def _historical_product_reuse(root: Path, *, plan: dict, current_identity: str) 
             "product_receipt_path": product_rel,
             "lineage_path": lineage_rel,
         }
+    if str(product.get("territory_id") or "") != str(plan["territory_id"]):
+        # T-349 (D-102): la reconciliación del linaje solo reconoce; el M06 que entra al par exige id exacto en su recibo.
+        return {"available": True, "geometric_reuse_compatible": False, "reason": "PRODUCT_ID_NO_CANONICO", "product_receipt_path": product_rel}
     source_identity = str((lineage.get("territorial_source") or {}).get("territorial_identity_sha256") or "")
     try:
         compatible = geometric_reuse_compatible(

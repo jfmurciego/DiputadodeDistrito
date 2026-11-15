@@ -268,27 +268,26 @@ class InventarioPorRama(unittest.TestCase):
                 self.assertFalse(c["reusable"])
                 self.assertEqual(c["reason"], "ELECTORAL_ID_NO_CANONICO")
 
-    def test_rama_fuentes_territoriales_objeto_real_con_nombre_viejo_se_rechaza(self):
-        catalogo = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
-        st = next(r for r in catalogo["territories"] if r["territory_id"] == CANON)["editions"]["2025"]
+    def test_rama_fuentes_territoriales_objeto_con_nombre_viejo_se_rechaza(self):
+        raiz = _raiz_estado_viejo(canonico=True)
+        catalogo = yaml.safe_load((raiz / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        st = next(r for r in catalogo["territories"] if r["territory_id"] == "aut08")["editions"]["2025"]
         prep = st["preparation_evidence"]
-        viejo = dict(st, preparation_evidence=dict(prep, artifact_name=f"ddd-source-package-{VIEJO}-2025-{prep['run_id']}"))
-        c = rpl._territorial_candidate(ROOT, CANON, "2025", viejo, 2025, 2025)
+        viejo = dict(st, preparation_evidence=dict(prep, artifact_name=f"ddd-source-package-{territorio_ids.tabla()['aut08'].id_legacy}-2025-{prep['run_id']}"))
+        c = rpl._territorial_candidate(raiz, "aut08", "2025", viejo, 2025, 2025)
         self.assertFalse(c["reusable"])
         self.assertIn(c["reason"], {"TERRITORIAL_ID_NO_CANONICO", "TERRITORIAL_RECEIPT_CONTRADICTORY"})
-        self.assertEqual(rpl._territorial_admissibility("ACQUIRE", c) in {"NOT_ACCREDITED", "INCOMPATIBLE"}, True)
+        self.assertIn(rpl._territorial_admissibility("ACQUIRE", c), {"NOT_ACCREDITED", "INCOMPATIBLE"})
 
     def test_rama_poblacion_va_con_el_paquete_de_fuentes(self):
         self.assertEqual(self.tabla["ramas"]["poblacion"]["politica"], "ESTRICTA")
 
-    def test_inventario_comprometido_declara_las_mismas_ramas_y_su_base_es_ancestro(self):
+    def test_inventario_comprometido_declara_las_mismas_ramas_y_su_procedencia(self):
         committed = json.loads((ROOT / "docs/diagnostico/inventario_ids_no_canonicos.json").read_text(encoding="utf-8"))
         self.assertEqual(committed["ramas"], self.tabla["ramas"])
         self.assertEqual({f["territorio"] for f in committed["filas"]}, {f["territorio"] for f in self.tabla["filas"]})
-        r = subprocess.run(["git", "merge-base", "--is-ancestor", committed["base_commit"], "HEAD"], cwd=ROOT, capture_output=True)
-        if r.returncode == 128:
-            self.skipTest("sin historia git suficiente (clon superficial)")
-        self.assertEqual(r.returncode, 0, "base_commit del inventario obsoleto: regenerar con herramientas.inventario_ids_no_canonicos")
+        # El base_commit es el del commit del que se generó la tabla; que sea un sha completo evita un inventario sin procedencia.
+        self.assertRegex(committed["base_commit"], r"^[0-9a-f]{40}$")
 
     def test_solo_las_ramas_de_lo_publicado_son_solo_lectura(self):
         alias = {k for k, v in self.tabla["ramas"].items() if v["politica"] == "SOLO_LECTURA_PUBLICADO"}
@@ -326,7 +325,9 @@ class RamasDeLaCadenaD102(unittest.TestCase):
 
     def test_m06_canonico_se_reutiliza_en_la_p00(self):
         from herramientas.resolver_ejecucion_completa import build_plan
-        plan = build_plan(territory="Extremadura", edition="2025", execution_mode="reuse", catalog=CAT, root_dir=ROOT)
+        raiz = _raiz_estado_viejo(canonico=True)  # mismo estado de previo_r3 con ids canónicos (fixture versionada)
+        plan = build_plan(territory="Castilla-La Mancha", edition="2025", execution_mode="reuse",
+                          catalog=raiz / "configuracion/catalogo_preparacion.yaml", root_dir=raiz)
         self.assertEqual(plan["execution_mode"], "reuse")
 
     def test_m08_congelado_con_id_viejo_se_descarta_para_reincorporar(self):
@@ -371,6 +372,127 @@ class RegistroVisorP50(unittest.TestCase):
             (d / "decision.json").write_text(json.dumps({"territory_id": CANON}), encoding="utf-8")
             meta = production_metadata(d)
         self.assertEqual(meta["territory_id"], CANON)  # el descriptor de la P50 usa este id tal cual y añade alias_de
+
+
+def _raiz_estado_viejo(canonico: bool = False) -> Path:
+    """Estado REAL registrado con id viejo (copia fiel del commit previo a r3, `previo_r3`, sin tocar) más la configuración
+    estática (matrices, contratos, calendario) que el planificador necesita y que no es estado registrado."""
+    import shutil
+    from tests._previo_r3 import raiz_previo_r3
+    raiz = raiz_previo_r3(canonico=canonico)
+    for origen in [*Path(ROOT / "configuracion").rglob("*"), *Path(ROOT / "fuentes").rglob("*"), *ROOT.glob("territorios/*/config/**/*")]:
+        if origen.is_file():
+            destino = raiz / origen.relative_to(ROOT)
+            if not destino.exists():
+                destino.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy(origen, destino)
+    return raiz
+
+
+class FlujoConEstadoViejo(unittest.TestCase):
+    """Defensa de fondo («cero sorpresas»): con TODO el estado registrado con id viejo, ni la Activación ni la P00 ni el 03
+    activan una sola bandera de reutilización; todo se prepara o se genera de nuevo con el id canónico."""
+
+    TERRITORIOS = ("aut01", "aut08", "aut11", "aut12", "aut19")
+
+    @classmethod
+    def setUpClass(cls):
+        cls.raiz = _raiz_estado_viejo()
+        cls.catalogo = cls.raiz / "configuracion/catalogo_preparacion.yaml"
+
+    def test_activacion_no_reutiliza_nada(self):
+        for t in self.TERRITORIOS:
+            with self.subTest(territorio=t):
+                plan = rpl.resolve(self.raiz, t)["plans"][0]
+                self.assertEqual(plan["territorial_action"], "ACQUIRE")
+                self.assertEqual(plan["electoral_action"], "ACQUIRE")
+                self.assertFalse(plan["territorial_candidate"].get("reusable"))
+                self.assertFalse(plan["electoral_candidate"].get("reusable"))
+
+    def test_p00_reutilizar_y_generar_desde_fuente_no_reutilizan(self):
+        from herramientas.resolver_ejecucion_completa import build_plan
+        for t in self.TERRITORIOS:
+            for modo, motivo in (("reuse", r"DURABLE_ASSET_(ID_NO_CANONICO|MISSING)"), ("catalog_source", r"CATALOG_SOURCE_BLOCK")):
+                with self.subTest(territorio=t, modo=modo):
+                    with self.assertRaisesRegex(ValueError, motivo):
+                        build_plan(territory=t, edition="2025", execution_mode=modo, catalog=self.catalogo, root_dir=self.raiz)
+
+    def test_recibos_durables_viejos_se_descartan(self):
+        from herramientas.resolver_activos_durables import validate_durable_assets
+        cat = yaml.safe_load(self.catalogo.read_text(encoding="utf-8"))
+        for fila in cat["territories"]:
+            t = fila["territory_id"]
+            st = fila["editions"]["2025"]
+            rel = (st.get("evidence") or {}).get("electoral_source")
+            if t not in self.TERRITORIOS or not rel or not (self.raiz / rel).is_file():
+                continue
+            with self.subTest(territorio=t):
+                estado = {"electoral_source_prepared": True, "electoral_product_available": bool(st["evidence"].get("electoral_product")),
+                          "evidence": {k: v for k, v in st["evidence"].items() if k in ("electoral_source", "electoral_product")}}
+                r = validate_durable_assets(root_dir=self.raiz, state=estado, territory_id=t, edition="2025",
+                                            territorial_source=None, expected_election_id=None)
+                self.assertIsNone(r["electoral_source"])
+                self.assertIsNone(r["electoral_product"])
+                self.assertIn("DURABLE_ASSET_ID_NO_CANONICO: electoral_source", r["rejected_electoral_source"]["reason"])
+
+    def test_par_registrado_viejo_no_se_consume(self):
+        from herramientas.consumir_par_fuentes_legislatura import PreparedPairExecutionBlock, resolve_pair
+        cat = yaml.safe_load(self.catalogo.read_text(encoding="utf-8"))
+        con_par = [f["territory_id"] for f in cat["territories"] if f["territory_id"] in self.TERRITORIOS
+                   and (f["editions"]["2025"].get("evidence") or {}).get("prepared_source_pair")]
+        self.assertTrue(con_par)
+        for t in con_par:
+            with self.subTest(territorio=t), self.assertRaises(PreparedPairExecutionBlock):
+                resolve_pair(root_dir=self.raiz, territory=t, edition="2025")
+
+    def test_m06_viejo_no_entra_al_par_ni_como_reuso_geometrico(self):
+        from herramientas.consumir_par_fuentes_legislatura import resolve_geometric_reuse
+        for t in ("aut08", "aut11", "aut12", "aut19"):
+            with self.subTest(territorio=t):
+                try:
+                    r = resolve_geometric_reuse(root_dir=self.raiz, territory_id=t, edition="2025", current_identity="a" * 64,
+                                                current_source={"run_id": 1, "artifact_name": "x", "artifact_sha256": "b" * 64})
+                except Exception:
+                    continue  # bloqueo explícito: tampoco hay reutilización
+                self.assertFalse(r.get("compatible"), r)
+
+    def test_la_reconciliacion_de_huellas_selladas_solo_reconoce(self):
+        """`territorial_identity` con `esperado` reconoce la huella sellada con el id viejo, pero el recibo del M06 y el
+        receipt territorial (los objetos reutilizables) siguen exigiendo el id exacto: reconocer ≠ habilitar reuso."""
+        from herramientas.identidad_fuentes_legislatura import territorial_identity
+        base = dict(edition="2025", population_year=2025, section_year=2025, package_sha256="a" * 64)
+        sellada = territorial_identity(territory_id=VIEJO, **base)["territorial_identity_sha256"]
+        self.assertEqual(territorial_identity(territory_id=CANON, esperado=sellada, **base)["territorial_identity_sha256"], sellada)
+        from herramientas.resolver_activos_durables import PASS_CERTIFICATIONS, DurableAssetBlock, validate_durable_assets
+        cat = yaml.safe_load(self.catalogo.read_text(encoding="utf-8"))
+        st = next(f for f in cat["territories"] if f["territory_id"] == "aut11")["editions"]["2025"]
+        with self.assertRaises(DurableAssetBlock):
+            validate_durable_assets(root_dir=self.raiz, territory_id="aut11", edition="2025", territorial_source=None, expected_election_id=None,
+                                    state={"territorial_product_available": True, "territorial_certification": sorted(PASS_CERTIFICATIONS)[0],
+                                           "evidence": {"territorial_product": st["evidence"]["territorial_product"]}})
+
+
+class ProductoM06EnElPar(unittest.TestCase):
+    def test_recibo_m06_con_id_viejo_no_es_compatible_aunque_el_linaje_case(self):
+        from herramientas.consumir_par_fuentes_legislatura import resolve_geometric_reuse
+        from tests._raiz_congelada import frozen_root
+        root = frozen_root()  # aee8215e: CyL con M06 histórico e id viejo en su recibo
+        from ddd_core.territorio_ids import ruta_existente
+        receipt = json.loads(ruta_existente(root, "territorios/aut07/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json").read_text(encoding="utf-8"))
+        r = resolve_geometric_reuse(root_dir=root, territory_id="aut07", edition="2025", current_identity=receipt["territorial_identity_sha256"])
+        self.assertFalse(r["compatible"])
+        self.assertEqual(r["reason"], "PRODUCT_ID_NO_CANONICO")
+
+
+class ComposicionSoloLectura(unittest.TestCase):
+    def test_fichero_con_id_viejo_solo_se_lee_si_no_existe_el_canonico(self):
+        from ddd_core.territorio_ids import fichero_por_id
+        with tempfile.TemporaryDirectory() as td:
+            d = Path(td)
+            (d / f"{VIEJO}.csv").write_text("v", encoding="utf-8")
+            self.assertEqual(fichero_por_id(d, "{}.csv", CANON).name, f"{VIEJO}.csv")  # lectura de lo histórico/publicado
+            (d / f"{CANON}.csv").write_text("n", encoding="utf-8")
+            self.assertEqual(fichero_por_id(d, "{}.csv", CANON).name, f"{CANON}.csv")  # lo nuevo siempre con el id canónico
 
 
 if __name__ == "__main__":

@@ -399,10 +399,25 @@ class GeometricReuseTests(unittest.TestCase):
         # Caso histórico congelado en aee8215e: Castilla y León generó después un M06 nuevo.
         from tests._raiz_congelada import frozen_root
         root = frozen_root()
+        from herramientas import consumir_par_fuentes_legislatura as cpf
+        original_json = cpf._json
+
+        def con_producto_canonico(path, *, label):
+            """T-349 (D-102): estado posterior a regenerar con id canónico: SOLO el recibo del producto M06 lleva el id exacto."""
+            data = original_json(path, label=label)
+            if label == "receipt de producto territorial":
+                data = dict(data, territory_id="aut07")
+            return data
+
         for territory_id, (receipt_rel, product_run) in cases.items():
             receipt = json.loads(ruta_existente(root, receipt_rel).read_text(encoding="utf-8"))  # T-220: raíz de aee8215e
             current = receipt["territorial_identity_sha256"]
-            with self.subTest(territory=territory_id, source="compatible"):
+            with self.subTest(territory=territory_id, source="id_viejo"):
+                # Con el recibo del M06 tal cual estaba (id viejo) la reconciliación del linaje NO habilita el reuso.
+                reuse = resolve_geometric_reuse(root_dir=root, territory_id=territory_id, edition="2025", current_identity=current)
+                self.assertFalse(reuse["compatible"])
+                self.assertEqual(reuse["reason"], "PRODUCT_ID_NO_CANONICO")
+            with self.subTest(territory=territory_id, source="compatible"), mock.patch.object(cpf, "_json", con_producto_canonico):
                 reuse = resolve_geometric_reuse(
                     root_dir=root,
                     territory_id=territory_id,
@@ -412,7 +427,7 @@ class GeometricReuseTests(unittest.TestCase):
                 self.assertTrue(reuse["compatible"])
                 self.assertEqual(reuse["product_run_id"], product_run)
 
-            with self.subTest(territory=territory_id, source="different"):
+            with self.subTest(territory=territory_id, source="different"), mock.patch.object(cpf, "_json", con_producto_canonico):
                 reuse = resolve_geometric_reuse(
                     root_dir=root,
                     territory_id=territory_id,

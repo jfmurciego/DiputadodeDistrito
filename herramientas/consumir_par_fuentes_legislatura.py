@@ -241,7 +241,7 @@ def resolve_pair(
 
 
 def _producer_manifest_reuse(
-    root: Path, product_rel: str, *, current_source: dict | None, current_identity: str,
+    root: Path, product_rel: str, *, current_source: dict | None, current_identity: str, territory_id: str = "",
 ) -> dict | None:
     """Linaje implícito: el manifiesto M06 declara el paquete fuente que consumió.
 
@@ -252,6 +252,8 @@ def _producer_manifest_reuse(
     if not current_source or not product_rel or not (ruta_existente(root, product_rel)).is_file():
         return None
     product = _json(ruta_existente(root, product_rel), label="receipt de producto territorial")
+    if territory_id and str(product.get("territory_id") or "") != str(territory_id):
+        return None  # T-349 (D-102): el M06 que entra al par exige id exacto en su recibo
     manifest_rel = str(product.get("producer_manifest_path") or "")
     if not manifest_rel or not (ruta_existente(root, manifest_rel)).is_file():
         return None
@@ -312,6 +314,7 @@ def resolve_geometric_reuse(
     if not lineage_rel or not (ruta_existente(root, lineage_rel)).is_file():
         from_manifest = _producer_manifest_reuse(
             root, product_rel, current_source=current_source, current_identity=current_identity,
+            territory_id=territory_id,
         )
         if from_manifest is not None:
             return from_manifest
@@ -338,6 +341,15 @@ def resolve_geometric_reuse(
         raise PreparedPairExecutionBlock(
             "PREPARED_TERRITORIAL_BLOCK: linaje del producto territorial inválido"
         )
+    if str(product.get("territory_id") or "") != str(territory_id):
+        # T-349 (D-102): la reconciliación del linaje solo reconoce; el M06 que entra al par exige id exacto en su recibo.
+        return {
+            "available": True,
+            "compatible": False,
+            "reason": "PRODUCT_ID_NO_CANONICO",
+            "product_receipt_path": product_rel,
+            "current_territorial_identity_sha256": current_identity,
+        }
     historical_identity = str(
         (lineage.get("territorial_source") or {}).get("territorial_identity_sha256") or ""
     )
