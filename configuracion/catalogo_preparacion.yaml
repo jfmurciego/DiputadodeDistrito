@@ -117,7 +117,7 @@ territories:
         electoral_product: territorios/aut03/evidencia/catalogo/electoral_product_2025.json
         prepared_source_pair: territorios/aut03/evidencia/pares_fuentes/2025/96f6b6b1fa3e548dabea41b1aee41731cc974a4a97c07935aca74f7096e502fb.json
         generation_preflight: territorios/aut03/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: aut04
   name: Islas Baleares
   editions:
