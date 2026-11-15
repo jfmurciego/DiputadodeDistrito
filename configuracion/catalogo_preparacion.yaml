@@ -1932,24 +1932,23 @@ territories:
         run_id: 43006653960
         stage: M08
       preparation_evidence:
-        run_id: 43654160684
-        artifact_name: ddd-source-package-nac31-2025-43654160684
-        artifact_sha256: 636fd02e355d88fb4d3a33ae1f6a46724c5ede408b3b2438f7952c6d0dfd6da6
-        package_sha256: 6b6e064e3771a6e329fe6f0c184c6d657c04f1e15f89d9c18b55cef6d8a350d8
-        receipt_path: territorios/nac31/evidencia/fuentes_territoriales/2025/2c104d37982141778b52bf2fde6fb5c0303aae79163d65321abc393709ae397e/43654160684/receipt.json
-        territorial_identity_sha256: 2c104d37982141778b52bf2fde6fb5c0303aae79163d65321abc393709ae397e
-        compatibility_report_sha256: bbf8cc4c13d9ba28dadb6b58519b20c136c0c93cba6d2f48b443972d242cbd0b
-        compatibility_identity_sha256: ba83318fadb08d03a37558c704bf9b284e7adfbc2c548849adb578abbd93f554
+        run_id: 43764735304
+        artifact_name: ddd-source-package-nac31-2025-43764735304
+        artifact_sha256: 8467f00e5660623afd02fe1a331cb962b591fe8141311cee2d273b4814a3c3d3
+        package_sha256: 03b246bda8b565956df1efac154332783f9a5b7402a2b4b23be782ccf5de7910
+        receipt_path: territorios/nac31/evidencia/fuentes_territoriales/2025/51d8252d7e3db17f59afbc306a68339713d7effc4337247a0b5bd5158ebf0823/43764735304/receipt.json
+        territorial_identity_sha256: 51d8252d7e3db17f59afbc306a68339713d7effc4337247a0b5bd5158ebf0823
+        compatibility_report_sha256: 5e99a3a11627ce7df434b564c83c5bb917510d5d5c8a25fb55f7409185feb454
+        compatibility_identity_sha256: 90c540f24ec4af2625da39b0c32076592f3015f7c13ab149e1c9abc8e2e4b870
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: f5cf354e2c15ec5aae1aea2b92d8f832e00392d0
+        source_commit: cf2066068368147f178bde7e86f8caaf2ba7358a
       evidence:
         electoral_source: territorios/nac31/evidencia/fuentes_electorales/2025/4394ab125b595f91a5d69069b0276e322ba6af2ca3bbd2acb16bc595bb13b9d3/41239887617/receipt.json
         territorial_product: territorios/nac31/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac31/evidencia/pares_fuentes/2025/a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d.json
         electoral_product: territorios/nac31/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac31/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac32
   name: Congreso Orense
