@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-15T16:09:12.495075+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-15T16:10:56.271390+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -38,7 +38,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 |---|:---:|:---:|:---:|:---:|:---:|---|---|---|---|---|
 | **01 Andalucía** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43204696160 · SUCCESS | — | — | preparar fuentes electorales |
 | **02 Aragón** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43728693144 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
-| **03 Principado de Asturias** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43016768497 · SUCCESS | — | — | preparar fuentes electorales |
+| **03 Principado de Asturias** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43728705200 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **04 Islas Baleares** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43019811578 · SUCCESS | — | — | preparar fuentes electorales |
 | **05 Canarias** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43728972913 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **06 Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43033094596 · SUCCESS | — | — | — |
