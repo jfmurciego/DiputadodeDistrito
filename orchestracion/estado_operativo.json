@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T21:20:27.955868+00:00",
+  "generated_at": "2026-11-15T21:42:05.538872+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 27,
-      "action_required": 93,
+      "admissible": 30,
+      "action_required": 90,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 27,
+      "activated": 30,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 93,
+      "electoral_pending": 90,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 27,
-      "durable_pair": 27
+      "electoral_source": 30,
+      "durable_pair": 30
     },
     "territories": [
       {
@@ -1351,20 +1351,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac07/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac07/evidencia/pares_fuentes/2025/372cc096da52400c83ec55b20df3042f88945353f64721c1b578e3f149b96cc2.json",
+            "pair_sha256": "372cc096da52400c83ec55b20df3042f88945353f64721c1b578e3f149b96cc2",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1372,13 +1372,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac08",
@@ -1408,20 +1402,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac08/evidencia/pares_fuentes/2025/b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac08/evidencia/pares_fuentes/2025/f76cd4bba58493a740c59382496954fb6e09e1d3482567f369d3b33b4f7b4a93.json",
+            "pair_sha256": "f76cd4bba58493a740c59382496954fb6e09e1d3482567f369d3b33b4f7b4a93",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1429,13 +1423,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac09",
@@ -1465,20 +1453,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac09/evidencia/pares_fuentes/2025/5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac09/evidencia/pares_fuentes/2025/571002bfe6e8c3af240722e7cb06e4064cc96acaa29256b3cec6fedfa37541c2.json",
+            "pair_sha256": "571002bfe6e8c3af240722e7cb06e4064cc96acaa29256b3cec6fedfa37541c2",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1486,13 +1474,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac10",
@@ -1745,8 +1727,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43754667654,
-            "receipt_path": "territorios/nac14/evidencia/fuentes_territoriales/2025/2193143d9be593e434cc09c9954b4775e101163c6996d46cddb5d478df1c9843/43754667654/receipt.json"
+            "run_id": 43763992154,
+            "receipt_path": "territorios/nac14/evidencia/fuentes_territoriales/2025/2193143d9be593e434cc09c9954b4775e101163c6996d46cddb5d478df1c9843/43763992154/receipt.json"
           }
         },
         "electoral": {
@@ -1802,8 +1784,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43754679327,
-            "receipt_path": "territorios/nac15/evidencia/fuentes_territoriales/2025/fb304315c15e9e7b2d9070266813026807cdcc3c32521d39a095097f280b87d1/43754679327/receipt.json"
+            "run_id": 43764621629,
+            "receipt_path": "territorios/nac15/evidencia/fuentes_territoriales/2025/fb304315c15e9e7b2d9070266813026807cdcc3c32521d39a095097f280b87d1/43764621629/receipt.json"
           }
         },
         "electoral": {
@@ -2258,8 +2240,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43654085400,
-            "receipt_path": "territorios/nac23/evidencia/fuentes_territoriales/2025/ae0bcc70ecfd43e9860a388d5471b0c44c2b8e4d1fab2a08a672bbd7e19433ca/43654085400/receipt.json"
+            "run_id": 43761358605,
+            "receipt_path": "territorios/nac23/evidencia/fuentes_territoriales/2025/94c32429a8c5496797828f85c980206e37cfc198490adbe2588c4d722c8987c7/43761358605/receipt.json"
           }
         },
         "electoral": {
@@ -2315,8 +2297,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43654094711,
-            "receipt_path": "territorios/nac24/evidencia/fuentes_territoriales/2025/44209d956505b33ab0b815fa581bd303d17716c67dcc2afe220c1ee456b91396/43654094711/receipt.json"
+            "run_id": 43761803899,
+            "receipt_path": "territorios/nac24/evidencia/fuentes_territoriales/2025/436098e4c0b58ff94759de5eef3d4a56212f90fd9cc7ba174cdb39e18c25a05b/43761803899/receipt.json"
           }
         },
         "electoral": {
@@ -8536,13 +8518,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_baleares",
+          "territory_id": "nac07",
           "territory_name": "Congreso Baleares",
           "edition": "2025",
-          "run_id": 42953068884,
-          "artifact_name": "ddd-state-42953068884-M08",
-          "artifact_sha256": "8c26683f3cc565c9e9d26f88aaf52f7e476d4d607b7233bf67710edf8dd6e8bf",
-          "source_commit": "5841c5e374f931f1008a616b6a0f033bae70ee4f",
+          "run_id": 43763327156,
+          "artifact_name": "ddd-state-43763327156-M08",
+          "artifact_sha256": "6383d276fc272592e08ffdef2fee3b8e386836939aae19f873de655d49614b29",
+          "source_commit": "d5865160a614074c9b86c2631d5e8b01e76f00a6",
           "stage": "M08"
         }
       },
@@ -8561,11 +8543,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43757988864,
       "last_run": {
-        "run_id": 42953127263,
+        "run_id": 43757988864,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -8597,13 +8579,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_barcelona",
+          "territory_id": "nac08",
           "territory_name": "Congreso Barcelona",
           "edition": "2025",
-          "run_id": 42953127263,
-          "artifact_name": "ddd-state-42953127263-M08",
-          "artifact_sha256": "a9ffd2ef295af448e18c909b32a2b3a3a3dd3c5fcebcfc0d306ba3e0adf1afcb",
-          "source_commit": "6a9d860eee7224d7fcff7d030ec7a501a3cbd45d",
+          "run_id": 43763728403,
+          "artifact_name": "ddd-state-43763728403-M08",
+          "artifact_sha256": "1e01b57e7bfbb2588aa40b0e90abb8bfac5c04fca211ce53a920855e765ab9ad",
+          "source_commit": "5ad2ae531baa8e6bba10083b81f891456e1f3020",
           "stage": "M08"
         }
       },
@@ -8658,13 +8640,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_burgos",
+          "territory_id": "nac09",
           "territory_name": "Congreso Burgos",
           "edition": "2025",
-          "run_id": 42986581831,
-          "artifact_name": "ddd-state-42986581831-M08",
-          "artifact_sha256": "e3e916c74d62578dd98ba095fcb6756c3ede0820d619935053c204c5a518632a",
-          "source_commit": "06840be543025cf2efd875a73d0adee5a7bf33eb",
+          "run_id": 43763483520,
+          "artifact_name": "ddd-state-43763483520-M08",
+          "artifact_sha256": "e6e014fbab1d718b36fbeb658cac3e2709e4e9f2653778a0fe9e0937d55bd48c",
+          "source_commit": "022dc60cd5968e2a99d3fb91a5ff00964f8790fd",
           "stage": "M08"
         }
       },
@@ -8940,9 +8922,9 @@
         "territorial_source": {
           "territory_id": "nac14",
           "edition": "2025",
-          "run_id": 43754667654,
-          "artifact_name": "ddd-source-package-nac14-2025-43754667654",
-          "artifact_sha256": "b32358d4eb7ec897bbadd7dee326d6de9c67e47ebf94822e638e590ac7f4bb35",
+          "run_id": 43763992154,
+          "artifact_name": "ddd-source-package-nac14-2025-43763992154",
+          "artifact_sha256": "05831e9199b12750c4272a86790643e8d6ee73d7d4084877b25ff6ccd4a3467a",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9001,9 +8983,9 @@
         "territorial_source": {
           "territory_id": "nac15",
           "edition": "2025",
-          "run_id": 43754679327,
-          "artifact_name": "ddd-source-package-nac15-2025-43754679327",
-          "artifact_sha256": "7a9045f9ba1e34192697c99c95d3bca40010b877117ca92e9d7a2ca070dd0839",
+          "run_id": 43764621629,
+          "artifact_name": "ddd-source-package-nac15-2025-43764621629",
+          "artifact_sha256": "1c7fe87cab6327738fbb14cbb60d6fbcef1a2fa54910925add841a62bc6f2147",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9489,9 +9471,9 @@
         "territorial_source": {
           "territory_id": "nac23",
           "edition": "2025",
-          "run_id": 43654085400,
-          "artifact_name": "ddd-source-package-nac23-2025-43654085400",
-          "artifact_sha256": "d74bb3d2e5e09b56992f22414bab1a46b5e81e4574a997e0b5fa974e5346c446",
+          "run_id": 43761358605,
+          "artifact_name": "ddd-source-package-nac23-2025-43761358605",
+          "artifact_sha256": "3a6324cdb460107d765ebcf13053838ff5226e716b0b209a45fefa9ab2187322",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9550,9 +9532,9 @@
         "territorial_source": {
           "territory_id": "nac24",
           "edition": "2025",
-          "run_id": 43654094711,
-          "artifact_name": "ddd-source-package-nac24-2025-43654094711",
-          "artifact_sha256": "eda4835fb304dd1125ab44970a3dd01e496cb514555963aa0c8eca475988297a",
+          "run_id": 43761803899,
+          "artifact_name": "ddd-source-package-nac24-2025-43761803899",
+          "artifact_sha256": "f9816f14793c0bc3b60210d496de664157dcd3855f87d9bacef7e0ea0ba1887d",
           "decision": "VALIDADO"
         },
         "territorial_product": {
