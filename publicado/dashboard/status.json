@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-14T16:42:35.991010+00:00",
+  "generated_at": "2026-11-15T09:57:01.649132+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 74,
-      "activable": 0,
+      "activated": 3,
+      "activable": 71,
       "territorial_pending": 46,
       "electoral_pending": 46,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 74,
-      "durable_pair": 74
+      "durable_pair": 3
     },
     "territories": [
       {
@@ -65,8 +65,8 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 40946875467,
-            "receipt_path": "territorios/aut01/evidencia/fuentes_territoriales/2025/253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09/40946875467/receipt.json"
+            "run_id": 43639991903,
+            "receipt_path": "territorios/aut01/evidencia/fuentes_territoriales/2025/79b1640f3bccc1a06d680fc03494135e73360f80bdd25714b0a5cd26c21556f2/43639991903/receipt.json"
           }
         },
         "electoral": {
@@ -78,12 +78,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut01/evidencia/pares_fuentes/2025/008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc.json",
             "pair_sha256": "008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -116,8 +116,8 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 40691712762,
-            "receipt_path": "territorios/aut02/evidencia/fuentes_territoriales/2025/2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f/40691712762/receipt.json"
+            "run_id": 43640002217,
+            "receipt_path": "territorios/aut02/evidencia/fuentes_territoriales/2025/91758e3034623e6e2b9c399a4347d0827e8cbbd5c7663a9a28d334ac958f5fc9/43640002217/receipt.json"
           }
         },
         "electoral": {
@@ -129,12 +129,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut02/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json",
             "pair_sha256": "b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -167,8 +167,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40693720831,
-            "receipt_path": "territorios/aut03/evidencia/fuentes_territoriales/2025/c7318c4524f8378c37e9a7352ba3ada506ae31e7dc5daa2e7996660d8f6c5cab/40693720831/receipt.json"
+            "run_id": 43640013123,
+            "receipt_path": "territorios/aut03/evidencia/fuentes_territoriales/2025/ea6debdcbd442ab9567cce7ea73e7511b42a0c55d0f30c4c691576d32485684b/43640013123/receipt.json"
           }
         },
         "electoral": {
@@ -180,12 +180,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut03/evidencia/pares_fuentes/2025/96f6b6b1fa3e548dabea41b1aee41731cc974a4a97c07935aca74f7096e502fb.json",
             "pair_sha256": "96f6b6b1fa3e548dabea41b1aee41731cc974a4a97c07935aca74f7096e502fb",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -218,8 +218,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43011633844,
-            "receipt_path": "territorios/aut04/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/43011633844/receipt.json"
+            "run_id": 43640023838,
+            "receipt_path": "territorios/aut04/evidencia/fuentes_territoriales/2025/2656685909d4624911a6b30d0c2a25e257b23b50b584e97105a5db4867fcc4be/43640023838/receipt.json"
           }
         },
         "electoral": {
@@ -231,12 +231,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut04/evidencia/pares_fuentes/2025/2a8ec31fdd7b769abc01cfa4cbedaa2a7b743327f173184cd85d2433d89de4eb.json",
             "pair_sha256": "2a8ec31fdd7b769abc01cfa4cbedaa2a7b743327f173184cd85d2433d89de4eb",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -269,8 +269,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43011642069,
-            "receipt_path": "territorios/aut05/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/43011642069/receipt.json"
+            "run_id": 43640033803,
+            "receipt_path": "territorios/aut05/evidencia/fuentes_territoriales/2025/2a4a3c7162ccd9cacc405065f71cebb737dd9fc643dbb0723b95d28967c16471/43640033803/receipt.json"
           }
         },
         "electoral": {
@@ -282,12 +282,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut05/evidencia/pares_fuentes/2025/9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814.json",
             "pair_sha256": "9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -320,8 +320,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 42707820760,
-            "receipt_path": "territorios/aut06/evidencia/fuentes_territoriales/2025/838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028/42707820760/receipt.json"
+            "run_id": 43640043210,
+            "receipt_path": "territorios/aut06/evidencia/fuentes_territoriales/2025/91b047fb2403365b8558196602ecf8ca0f536baeb279a379fdce72c271e93aa0/43640043210/receipt.json"
           }
         },
         "electoral": {
@@ -333,12 +333,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut06/evidencia/pares_fuentes/2025/e6f708de40a73a4b2941809203619e18a79b4548b69b08af486739bc44c40311.json",
             "pair_sha256": "e6f708de40a73a4b2941809203619e18a79b4548b69b08af486739bc44c40311",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -371,8 +371,8 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 42521090842,
-            "receipt_path": "territorios/aut07/evidencia/fuentes_territoriales/2025/e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60/42521090842/receipt.json"
+            "run_id": 43640052186,
+            "receipt_path": "territorios/aut07/evidencia/fuentes_territoriales/2025/74830da97b9c4fe1c260a90840fc099ad2594f1533c90c63cae4eeb755bf0f30/43640052186/receipt.json"
           }
         },
         "electoral": {
@@ -384,12 +384,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut07/evidencia/pares_fuentes/2025/3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf.json",
             "pair_sha256": "3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -422,8 +422,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40690624792,
-            "receipt_path": "territorios/aut08/evidencia/fuentes_territoriales/2025/62d83ef5f8a589ce47a7db753c506f9b8606e6a16774c69cc17a7d9e714c0a7b/40690624792/receipt.json"
+            "run_id": 43640061481,
+            "receipt_path": "territorios/aut08/evidencia/fuentes_territoriales/2025/d4b258fe493a4d0c0a668040cc3f98889a489133f5c89f2e23f83e86fce0c289/43640061481/receipt.json"
           }
         },
         "electoral": {
@@ -435,12 +435,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut08/evidencia/pares_fuentes/2025/c8d8bc1e482267ed15f985168ea0ea537589fa5e2d0ac75fa65f8d2b7489120c.json",
             "pair_sha256": "c8d8bc1e482267ed15f985168ea0ea537589fa5e2d0ac75fa65f8d2b7489120c",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -473,8 +473,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 40946901555,
-            "receipt_path": "territorios/aut09/evidencia/fuentes_territoriales/2025/3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25/40946901555/receipt.json"
+            "run_id": 43640071031,
+            "receipt_path": "territorios/aut09/evidencia/fuentes_territoriales/2025/699b33dca6a72d49f9f0057e175ba26c44d751ad0543a96af6624bc7fb99790e/43640071031/receipt.json"
           }
         },
         "electoral": {
@@ -486,12 +486,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut09/evidencia/pares_fuentes/2025/3090588ad0a3e96eb59dbfc5eb7260f1eda08a00b670c1287cebf36c48586087.json",
             "pair_sha256": "3090588ad0a3e96eb59dbfc5eb7260f1eda08a00b670c1287cebf36c48586087",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -524,8 +524,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40956462986,
-            "receipt_path": "territorios/aut10/evidencia/fuentes_territoriales/2025/8be18d02817391c77e1150ba4151facec286df79330c13b368d7e859f2cffef0/40956462986/receipt.json"
+            "run_id": 43640080386,
+            "receipt_path": "territorios/aut10/evidencia/fuentes_territoriales/2025/2a3965a20955227ede94ec4fb961f0e42db1e01a75c8f60debdcfa3c5b9c287e/43640080386/receipt.json"
           }
         },
         "electoral": {
@@ -537,12 +537,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut10/evidencia/pares_fuentes/2025/dabb1f70e89c22e128269f4ef63f8701763a8e9155a46053330ec0ea42ad10f0.json",
             "pair_sha256": "dabb1f70e89c22e128269f4ef63f8701763a8e9155a46053330ec0ea42ad10f0",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -575,8 +575,8 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 42720735134,
-            "receipt_path": "territorios/aut11/evidencia/fuentes_territoriales/2025/c92bbfd22f36b6dbcbfe7b0bd38ed8a60280aed32f3ff8d6c6967b4a2febcac6/42720735134/receipt.json"
+            "run_id": 43698495438,
+            "receipt_path": "territorios/aut11/evidencia/fuentes_territoriales/2025/6148e69fd3c6a1761307a646f8a66a42d5643c98acae14c40332988d3ee820ae/43698495438/receipt.json"
           }
         },
         "electoral": {
@@ -588,12 +588,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut11/evidencia/pares_fuentes/2025/67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3.json",
             "pair_sha256": "67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -626,8 +626,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 40690688352,
-            "receipt_path": "territorios/aut12/evidencia/fuentes_territoriales/2025/a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894/40690688352/receipt.json"
+            "run_id": 43645451541,
+            "receipt_path": "territorios/aut12/evidencia/fuentes_territoriales/2025/1651ec81b1367df37949d4418d7decc2339e7d5c327183f60db74b6b4e4c7344/43645451541/receipt.json"
           }
         },
         "electoral": {
@@ -639,12 +639,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut12/evidencia/pares_fuentes/2025/fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914.json",
             "pair_sha256": "fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -677,8 +677,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40773465956,
-            "receipt_path": "territorios/aut13/evidencia/fuentes_territoriales/2025/940bca48df854c294916fee6a812778c262b117340aab0a36d972a26a29da895/40773465956/receipt.json"
+            "run_id": 43645460677,
+            "receipt_path": "territorios/aut13/evidencia/fuentes_territoriales/2025/ae8b62dace85159af12c5bce3a8be15d2ab5c11dc2ed9a82c88ff7679cc21178/43645460677/receipt.json"
           }
         },
         "electoral": {
@@ -690,12 +690,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut13/evidencia/pares_fuentes/2025/4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8.json",
             "pair_sha256": "4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -728,8 +728,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40773421805,
-            "receipt_path": "territorios/aut14/evidencia/fuentes_territoriales/2025/3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a/40773421805/receipt.json"
+            "run_id": 43645469554,
+            "receipt_path": "territorios/aut14/evidencia/fuentes_territoriales/2025/978680ebfa479e02db3be6101e0f1fb25fc958911b93b9ad8b07a53d88c6b708/43645469554/receipt.json"
           }
         },
         "electoral": {
@@ -741,12 +741,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut14/evidencia/pares_fuentes/2025/317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d.json",
             "pair_sha256": "317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -779,8 +779,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40838170635,
-            "receipt_path": "territorios/aut15/evidencia/fuentes_territoriales/2025/4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1/40838170635/receipt.json"
+            "run_id": 43645478667,
+            "receipt_path": "territorios/aut15/evidencia/fuentes_territoriales/2025/cc5f8c73bb56301faa02bcb76317f34c1d3e14fe275c63afaee3ff97f72609f5/43645478667/receipt.json"
           }
         },
         "electoral": {
@@ -792,12 +792,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut15/evidencia/pares_fuentes/2025/4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc.json",
             "pair_sha256": "4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -830,8 +830,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 40946888676,
-            "receipt_path": "territorios/aut16/evidencia/fuentes_territoriales/2025/ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288/40946888676/receipt.json"
+            "run_id": 43645488129,
+            "receipt_path": "territorios/aut16/evidencia/fuentes_territoriales/2025/08961b83ea2904cc47220dfc00f71b0716a49fdcec719e7482c5c33db13273d2/43645488129/receipt.json"
           }
         },
         "electoral": {
@@ -843,12 +843,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut16/evidencia/pares_fuentes/2025/76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac.json",
             "pair_sha256": "76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -881,8 +881,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40850322464,
-            "receipt_path": "territorios/aut17/evidencia/fuentes_territoriales/2025/fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853/40850322464/receipt.json"
+            "run_id": 43645497921,
+            "receipt_path": "territorios/aut17/evidencia/fuentes_territoriales/2025/0c9c86eb040c1a26bb60a2188d411f2f4ff4484ae3e87b5f415f0adc7e113636/43645497921/receipt.json"
           }
         },
         "electoral": {
@@ -894,12 +894,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut17/evidencia/pares_fuentes/2025/b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd.json",
             "pair_sha256": "b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -932,8 +932,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40773443591,
-            "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4/40773443591/receipt.json"
+            "run_id": 43645507829,
+            "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/249dd20fc5dbadceec0cf2d4ed0cd3c9bf9fba5a8a03c613ccd4f1eee568498c/43645507829/receipt.json"
           }
         },
         "electoral": {
@@ -945,12 +945,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut18/evidencia/pares_fuentes/2025/43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8.json",
             "pair_sha256": "43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -983,8 +983,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40832114779,
-            "receipt_path": "territorios/aut19/evidencia/fuentes_territoriales/2025/abe81cc501292049c35658321fc51f672334e1cada123889d0ec287b42f1e4ec/40832114779/receipt.json"
+            "run_id": 43645525636,
+            "receipt_path": "territorios/aut19/evidencia/fuentes_territoriales/2025/df011bdb65a8d5084eaa825e727884b00d3b8809dfa137f9d4013f2bf58f135a/43645525636/receipt.json"
           }
         },
         "electoral": {
@@ -996,12 +996,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/aut19/evidencia/pares_fuentes/2025/f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4.json",
             "pair_sha256": "f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1034,8 +1034,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41240137880,
-            "receipt_path": "territorios/nac01/evidencia/fuentes_territoriales/2025/8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16/41240137880/receipt.json"
+            "run_id": 43645534913,
+            "receipt_path": "territorios/nac01/evidencia/fuentes_territoriales/2025/a48493b744d72550a0648a74f0da4e4068db81c73385c09d3ec06b1d3e5576f2/43645534913/receipt.json"
           }
         },
         "electoral": {
@@ -1047,12 +1047,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac01/evidencia/pares_fuentes/2025/29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b.json",
             "pair_sha256": "29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1085,8 +1085,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41240260992,
-            "receipt_path": "territorios/nac02/evidencia/fuentes_territoriales/2025/70020652c0d9c32d03c1ef5c3cf5738ebc1e4ec539a362de24c1ab934b96ffa0/41240260992/receipt.json"
+            "run_id": 43650090622,
+            "receipt_path": "territorios/nac02/evidencia/fuentes_territoriales/2025/63179bee9a73e37579d118f6c6b1a27faffe09a50c7136eff0b209bbcd20e274/43650090622/receipt.json"
           }
         },
         "electoral": {
@@ -1098,12 +1098,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac02/evidencia/pares_fuentes/2025/cab052dbdcaf36b292acc9769ee1c419978d21d0fc0252cf73854bc251af7dc8.json",
             "pair_sha256": "cab052dbdcaf36b292acc9769ee1c419978d21d0fc0252cf73854bc251af7dc8",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1136,8 +1136,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 42409605030,
-            "receipt_path": "territorios/nac03/evidencia/fuentes_territoriales/2025/5069521dc815a565b263910a381dbd4cd4fe072a236d204569c151c74a978cf2/42409605030/receipt.json"
+            "run_id": 43650100325,
+            "receipt_path": "territorios/nac03/evidencia/fuentes_territoriales/2025/52d5eb1cfde9fa98d66c5adade4cde3e501b9aa3c3ec54b8f344a046c32ddca3/43650100325/receipt.json"
           }
         },
         "electoral": {
@@ -1149,12 +1149,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac03/evidencia/pares_fuentes/2025/f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256.json",
             "pair_sha256": "f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1187,8 +1187,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41242160179,
-            "receipt_path": "territorios/nac04/evidencia/fuentes_territoriales/2025/ce84679b4ae3c362cf8c561ef8b1fb60823719eb603c96f6d4fa0b49f2336183/41242160179/receipt.json"
+            "run_id": 43650110521,
+            "receipt_path": "territorios/nac04/evidencia/fuentes_territoriales/2025/c888558be6c2efdbd3a52b103bce956d3bf164fa948d356c1fa18120856d0623/43650110521/receipt.json"
           }
         },
         "electoral": {
@@ -1200,12 +1200,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac04/evidencia/pares_fuentes/2025/a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c.json",
             "pair_sha256": "a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1238,8 +1238,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41235278274,
-            "receipt_path": "territorios/nac05/evidencia/fuentes_territoriales/2025/a0b9ab3437a6af111dba6feb60b106d14ac82880b8281d50f155766ef5dc66d5/41235278274/receipt.json"
+            "run_id": 43650119878,
+            "receipt_path": "territorios/nac05/evidencia/fuentes_territoriales/2025/70099414314869f03817d5075989c6de17e101aa1278029fe95dfd00e0d26a06/43650119878/receipt.json"
           }
         },
         "electoral": {
@@ -1251,12 +1251,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac05/evidencia/pares_fuentes/2025/0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b.json",
             "pair_sha256": "0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1289,8 +1289,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41293199718,
-            "receipt_path": "territorios/nac06/evidencia/fuentes_territoriales/2025/d799e5a446392a54654b45d84a13669e067fb3ea330bbeda46f4ae96590606a1/41293199718/receipt.json"
+            "run_id": 43650129661,
+            "receipt_path": "territorios/nac06/evidencia/fuentes_territoriales/2025/f5201bb87283d24e1929245689bbbbea163b2c632d6762db160b8ab3f9f87cfc/43650129661/receipt.json"
           }
         },
         "electoral": {
@@ -1302,12 +1302,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac06/evidencia/pares_fuentes/2025/5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48.json",
             "pair_sha256": "5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1340,8 +1340,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41465837048,
-            "receipt_path": "territorios/nac07/evidencia/fuentes_territoriales/2025/e28eb8bb058052cc4af599d41d91927b8c6bfc66d91e8ebb0720a227607d5d30/41465837048/receipt.json"
+            "run_id": 43650139990,
+            "receipt_path": "territorios/nac07/evidencia/fuentes_territoriales/2025/ea7b07c222103fdec77b72b89fdedd4a3c25426f1a6cc632d8bc191d998adb32/43650139990/receipt.json"
           }
         },
         "electoral": {
@@ -1353,12 +1353,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac07/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json",
             "pair_sha256": "61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1391,8 +1391,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 42409499602,
-            "receipt_path": "territorios/nac08/evidencia/fuentes_territoriales/2025/07dec029d20b7b9394a7d5a78965b5d176288ae2d13537b4792a426a97b0f95a/42409499602/receipt.json"
+            "run_id": 43650150584,
+            "receipt_path": "territorios/nac08/evidencia/fuentes_territoriales/2025/b1f93af9346ad61e9401a916ea5b981b0cb0809cf0287171490f44f0d12aa475/43650150584/receipt.json"
           }
         },
         "electoral": {
@@ -1404,12 +1404,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac08/evidencia/pares_fuentes/2025/b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a.json",
             "pair_sha256": "b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1442,8 +1442,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41292846877,
-            "receipt_path": "territorios/nac09/evidencia/fuentes_territoriales/2025/55262e61bfc140b4e4fe289374c2e1c065b823515feff5a554406717175974f5/41292846877/receipt.json"
+            "run_id": 43650160733,
+            "receipt_path": "territorios/nac09/evidencia/fuentes_territoriales/2025/c9942ecc2735678c52065cee5bdc6eba2e752a87818c740b382f820cc178ef6e/43650160733/receipt.json"
           }
         },
         "electoral": {
@@ -1455,12 +1455,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac09/evidencia/pares_fuentes/2025/5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a.json",
             "pair_sha256": "5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1493,8 +1493,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41240512324,
-            "receipt_path": "territorios/nac10/evidencia/fuentes_territoriales/2025/7070e632f7a02bde0fa84ce844403dd095444994462161bd1f405f4015ddb79e/41240512324/receipt.json"
+            "run_id": 43650170423,
+            "receipt_path": "territorios/nac10/evidencia/fuentes_territoriales/2025/2a1a7b35951489b1304bae46171a4a89e31abbab71b103be7967e7b991c8658b/43650170423/receipt.json"
           }
         },
         "electoral": {
@@ -1506,12 +1506,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac10/evidencia/pares_fuentes/2025/f8f3ff6511a15e7f73e802dfcc54dd45b8e5c296b6c408c88e6fc85504399b79.json",
             "pair_sha256": "f8f3ff6511a15e7f73e802dfcc54dd45b8e5c296b6c408c88e6fc85504399b79",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1544,8 +1544,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41465820761,
-            "receipt_path": "territorios/nac11/evidencia/fuentes_territoriales/2025/3729f923549f454621c4bc7a8564aee79d8961c502779e1cfb32666f81fd0e25/41465820761/receipt.json"
+            "run_id": 43650180523,
+            "receipt_path": "territorios/nac11/evidencia/fuentes_territoriales/2025/346b9390b5d2bbf58b69ebc2c87d9347163f57aa0bc6ebcb75d76908b53d2252/43650180523/receipt.json"
           }
         },
         "electoral": {
@@ -1557,12 +1557,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac11/evidencia/pares_fuentes/2025/c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182.json",
             "pair_sha256": "c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1595,8 +1595,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41241768943,
-            "receipt_path": "territorios/nac12/evidencia/fuentes_territoriales/2025/521843ff70d449199d943dedad2f09b1cfe0274e5b1a57534021247b0048bcd8/41241768943/receipt.json"
+            "run_id": 43651935343,
+            "receipt_path": "territorios/nac12/evidencia/fuentes_territoriales/2025/24201e2622788035e09c02eba2c022353f6fd033f27b99c0e46e85f626832a9e/43651935343/receipt.json"
           }
         },
         "electoral": {
@@ -1608,12 +1608,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac12/evidencia/pares_fuentes/2025/8bbe77deb9c92332e6b8b61310217afa1d5be4d24eb252319b98f2943a3406c6.json",
             "pair_sha256": "8bbe77deb9c92332e6b8b61310217afa1d5be4d24eb252319b98f2943a3406c6",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1646,8 +1646,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41291967967,
-            "receipt_path": "territorios/nac13/evidencia/fuentes_territoriales/2025/386ebde0e1022c0d9422c22b18559e5548dd8c117d92115088e96455e3c00163/41291967967/receipt.json"
+            "run_id": 43651946304,
+            "receipt_path": "territorios/nac13/evidencia/fuentes_territoriales/2025/4658a851a87ad9a8374072444b63f3c2ebb3410f2969a5161c30eda19295c417/43651946304/receipt.json"
           }
         },
         "electoral": {
@@ -1659,12 +1659,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac13/evidencia/pares_fuentes/2025/8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015.json",
             "pair_sha256": "8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1697,8 +1697,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41242424551,
-            "receipt_path": "territorios/nac14/evidencia/fuentes_territoriales/2025/1cc0c1c99ea2414f971682afd838add438493bf11d16e3ed3080f71f9bd8435a/41242424551/receipt.json"
+            "run_id": 43651957259,
+            "receipt_path": "territorios/nac14/evidencia/fuentes_territoriales/2025/c634da1344225bb2f8670858948bc371708f707f01f76c14eaa51ff57c7b04b3/43651957259/receipt.json"
           }
         },
         "electoral": {
@@ -1710,12 +1710,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac14/evidencia/pares_fuentes/2025/96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e.json",
             "pair_sha256": "96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1748,8 +1748,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41243697404,
-            "receipt_path": "territorios/nac15/evidencia/fuentes_territoriales/2025/42f736f44a6b2656526202250d93615598a879813270bcb25280f0c478b6058b/41243697404/receipt.json"
+            "run_id": 43651967770,
+            "receipt_path": "territorios/nac15/evidencia/fuentes_territoriales/2025/fbf68df81975cbaa7fe6ee0028d0bc16a5a58c0a0bc769b568d64d0fc84c1f95/43651967770/receipt.json"
           }
         },
         "electoral": {
@@ -1761,12 +1761,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac15/evidencia/pares_fuentes/2025/0edcee83874afdffefd871bd37738611d53f1a4d8c98d794ace159926d78e2cc.json",
             "pair_sha256": "0edcee83874afdffefd871bd37738611d53f1a4d8c98d794ace159926d78e2cc",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1799,8 +1799,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41236647382,
-            "receipt_path": "territorios/nac16/evidencia/fuentes_territoriales/2025/9e9512f89d9d3c0e56571f9cca0f8aadcf3e58f00d84a482527ad2eb42bee75b/41236647382/receipt.json"
+            "run_id": 43651979100,
+            "receipt_path": "territorios/nac16/evidencia/fuentes_territoriales/2025/05638cd93d053839a67c5145b97be8833dd44c83b0c234947529cd3148e3c336/43651979100/receipt.json"
           }
         },
         "electoral": {
@@ -1812,12 +1812,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac16/evidencia/pares_fuentes/2025/26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0.json",
             "pair_sha256": "26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1850,8 +1850,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41292216676,
-            "receipt_path": "territorios/nac17/evidencia/fuentes_territoriales/2025/d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688/41292216676/receipt.json"
+            "run_id": 43651989454,
+            "receipt_path": "territorios/nac17/evidencia/fuentes_territoriales/2025/33b6ff372aca5c1449a55bc35ea80d7a3549514b9fc258a2d324a75679680ac5/43651989454/receipt.json"
           }
         },
         "electoral": {
@@ -1863,12 +1863,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac17/evidencia/pares_fuentes/2025/9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc.json",
             "pair_sha256": "9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1901,8 +1901,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41243199582,
-            "receipt_path": "territorios/nac18/evidencia/fuentes_territoriales/2025/6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f/41243199582/receipt.json"
+            "run_id": 43652000219,
+            "receipt_path": "territorios/nac18/evidencia/fuentes_territoriales/2025/95e2db3fd6e20fdd0cc062700440e18d6608b95c31f9e21e07e5ac043fe6fd10/43652000219/receipt.json"
           }
         },
         "electoral": {
@@ -1914,12 +1914,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac18/evidencia/pares_fuentes/2025/94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e.json",
             "pair_sha256": "94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1952,8 +1952,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41236816482,
-            "receipt_path": "territorios/nac19/evidencia/fuentes_territoriales/2025/f69b4153c5b745f7e7902dd918fccbd0aa165a70f8f91107da8c7335c4a3846c/41236816482/receipt.json"
+            "run_id": 43652010786,
+            "receipt_path": "territorios/nac19/evidencia/fuentes_territoriales/2025/42b08a34df58de758a5e613785d720572b618519a804764b5b03844245b86c10/43652010786/receipt.json"
           }
         },
         "electoral": {
@@ -1965,12 +1965,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac19/evidencia/pares_fuentes/2025/8e2ca58bb58ccfa32fd273ffc148de7417903eb55be4c99f088f26625449b5c1.json",
             "pair_sha256": "8e2ca58bb58ccfa32fd273ffc148de7417903eb55be4c99f088f26625449b5c1",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2003,8 +2003,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41292345223,
-            "receipt_path": "territorios/nac20/evidencia/fuentes_territoriales/2025/024bb644bea5445a91424c09beb9991303c4ee4b6329927751b87565cac870c3/41292345223/receipt.json"
+            "run_id": 43652021243,
+            "receipt_path": "territorios/nac20/evidencia/fuentes_territoriales/2025/9b632e37e5042735600c2cd0fc2dcccb16120655fb7dd33f81a4de02d571a5a0/43652021243/receipt.json"
           }
         },
         "electoral": {
@@ -2016,12 +2016,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac20/evidencia/pares_fuentes/2025/9651126a3a22e99dd8d141cdc83ea292db8efd423747fd9739bcc78a505cda5e.json",
             "pair_sha256": "9651126a3a22e99dd8d141cdc83ea292db8efd423747fd9739bcc78a505cda5e",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2054,8 +2054,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41318125504,
-            "receipt_path": "territorios/nac21/evidencia/fuentes_territoriales/2025/2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42/41318125504/receipt.json"
+            "run_id": 43652031737,
+            "receipt_path": "territorios/nac21/evidencia/fuentes_territoriales/2025/9a689b442eeb3c935c13872bbffd8d419d457e1d1283d460803794c9a394c348/43652031737/receipt.json"
           }
         },
         "electoral": {
@@ -2067,12 +2067,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac21/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json",
             "pair_sha256": "bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2105,8 +2105,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41057319037,
-            "receipt_path": "territorios/nac22/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41057319037/receipt.json"
+            "run_id": 43654075593,
+            "receipt_path": "territorios/nac22/evidencia/fuentes_territoriales/2025/4ac382c4bc92b120b42dc83056c6ea23ae24a3552344634d9728197b71beeae8/43654075593/receipt.json"
           }
         },
         "electoral": {
@@ -2118,12 +2118,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac22/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json",
             "pair_sha256": "e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2156,8 +2156,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41241896061,
-            "receipt_path": "territorios/nac23/evidencia/fuentes_territoriales/2025/28881a56e4bbf2301048f901cbb1c89853b7a62c91b65f3138517bfb40ce77ad/41241896061/receipt.json"
+            "run_id": 43654085400,
+            "receipt_path": "territorios/nac23/evidencia/fuentes_territoriales/2025/ae0bcc70ecfd43e9860a388d5471b0c44c2b8e4d1fab2a08a672bbd7e19433ca/43654085400/receipt.json"
           }
         },
         "electoral": {
@@ -2169,12 +2169,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac23/evidencia/pares_fuentes/2025/6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21.json",
             "pair_sha256": "6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2207,8 +2207,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41241377284,
-            "receipt_path": "territorios/nac24/evidencia/fuentes_territoriales/2025/efb0cce4516bba1965435d97b91171794fa757967fbf573a329ff44c15e5a024/41241377284/receipt.json"
+            "run_id": 43654094711,
+            "receipt_path": "territorios/nac24/evidencia/fuentes_territoriales/2025/44209d956505b33ab0b815fa581bd303d17716c67dcc2afe220c1ee456b91396/43654094711/receipt.json"
           }
         },
         "electoral": {
@@ -2220,12 +2220,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac24/evidencia/pares_fuentes/2025/ec2b27c201a17fceca9b44d38785522c8676e1b0018c7aa2cbb6ce967b5f5f46.json",
             "pair_sha256": "ec2b27c201a17fceca9b44d38785522c8676e1b0018c7aa2cbb6ce967b5f5f46",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2258,8 +2258,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41292591493,
-            "receipt_path": "territorios/nac25/evidencia/fuentes_territoriales/2025/8a9e4d81a7c6a489b6cab098e79a2e55bc8b35ff25c0d0c1fc12c55ef46cee3f/41292591493/receipt.json"
+            "run_id": 43654103920,
+            "receipt_path": "territorios/nac25/evidencia/fuentes_territoriales/2025/9503923e60a27a4887a9a882a490452b072391a7b0afc5a2812a4b206572a402/43654103920/receipt.json"
           }
         },
         "electoral": {
@@ -2271,12 +2271,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac25/evidencia/pares_fuentes/2025/ce3113b33666b565750fee12fc6fdc256cb80fde01b3ed4dc5aadd65ae5b2df2.json",
             "pair_sha256": "ce3113b33666b565750fee12fc6fdc256cb80fde01b3ed4dc5aadd65ae5b2df2",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2309,8 +2309,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41240637295,
-            "receipt_path": "territorios/nac26/evidencia/fuentes_territoriales/2025/fd93e7ca00c87e765ff70d80551e3e9e8610149c0db46da42a6337acd6543826/41240637295/receipt.json"
+            "run_id": 43654112740,
+            "receipt_path": "territorios/nac26/evidencia/fuentes_territoriales/2025/e0419f020f02f39ab9774b9494225ad710d16892fd9d4805af7070dd5ffe5020/43654112740/receipt.json"
           }
         },
         "electoral": {
@@ -2322,12 +2322,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac26/evidencia/pares_fuentes/2025/d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc.json",
             "pair_sha256": "d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2360,8 +2360,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41240766116,
-            "receipt_path": "territorios/nac27/evidencia/fuentes_territoriales/2025/bc60630570e46c2b31ace8e29a3e9a2dd2e091cb9c13f284b912ba1fdcf08003/41240766116/receipt.json"
+            "run_id": 43654121494,
+            "receipt_path": "territorios/nac27/evidencia/fuentes_territoriales/2025/df202710aecb153436135103dbbede1cdf9c63831a5ca073fbdafb9b4a026bbc/43654121494/receipt.json"
           }
         },
         "electoral": {
@@ -2373,12 +2373,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac27/evidencia/pares_fuentes/2025/e4e97c5fbb0e722c00699a9b32d0cf800a90f57be45c5d570a0f4cf87d5b9422.json",
             "pair_sha256": "e4e97c5fbb0e722c00699a9b32d0cf800a90f57be45c5d570a0f4cf87d5b9422",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2411,8 +2411,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41611821388,
-            "receipt_path": "territorios/nac28/evidencia/fuentes_territoriales/2025/90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99/41611821388/receipt.json"
+            "run_id": 43654131046,
+            "receipt_path": "territorios/nac28/evidencia/fuentes_territoriales/2025/e18d857401acd1fcaf8a04de7f17158a44350229911504a8faf01710e4df66b3/43654131046/receipt.json"
           }
         },
         "electoral": {
@@ -2424,12 +2424,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac28/evidencia/pares_fuentes/2025/5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5.json",
             "pair_sha256": "5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2462,8 +2462,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 42409615215,
-            "receipt_path": "territorios/nac29/evidencia/fuentes_territoriales/2025/8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3/42409615215/receipt.json"
+            "run_id": 43654141157,
+            "receipt_path": "territorios/nac29/evidencia/fuentes_territoriales/2025/251828d9c983e66541b5391038371c3ab4c6b6c223d71333689f6be4c48dba5b/43654141157/receipt.json"
           }
         },
         "electoral": {
@@ -2475,12 +2475,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac29/evidencia/pares_fuentes/2025/118cccdb9a9afa72367051c0cfa4d92b41524e35ec8b8feb0327760bfc1fb1cd.json",
             "pair_sha256": "118cccdb9a9afa72367051c0cfa4d92b41524e35ec8b8feb0327760bfc1fb1cd",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2513,8 +2513,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41613691816,
-            "receipt_path": "territorios/nac30/evidencia/fuentes_territoriales/2025/1af735c25b69fb0992d25d5406fc622b3347a1a73c14176998a216ddb5fb545a/41613691816/receipt.json"
+            "run_id": 43654150908,
+            "receipt_path": "territorios/nac30/evidencia/fuentes_territoriales/2025/6f4898586bfb3e709079c20a19e54d52ae494e00013f99c58b9b2617314efd0f/43654150908/receipt.json"
           }
         },
         "electoral": {
@@ -2526,12 +2526,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac30/evidencia/pares_fuentes/2025/ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630.json",
             "pair_sha256": "ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2564,8 +2564,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41292721581,
-            "receipt_path": "territorios/nac31/evidencia/fuentes_territoriales/2025/ad986b5497eb8a08c295e831f2e2c94bfdc82b25102373da12f83eceaae5bd6e/41292721581/receipt.json"
+            "run_id": 43654160684,
+            "receipt_path": "territorios/nac31/evidencia/fuentes_territoriales/2025/2c104d37982141778b52bf2fde6fb5c0303aae79163d65321abc393709ae397e/43654160684/receipt.json"
           }
         },
         "electoral": {
@@ -2577,12 +2577,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac31/evidencia/pares_fuentes/2025/a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d.json",
             "pair_sha256": "a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2615,8 +2615,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41240887712,
-            "receipt_path": "territorios/nac32/evidencia/fuentes_territoriales/2025/b576d91998274f9664dd3f48f3c270031efe5ccff3f2eb2c958904baec001c31/41240887712/receipt.json"
+            "run_id": 43662680429,
+            "receipt_path": "territorios/nac32/evidencia/fuentes_territoriales/2025/eb237b8a2cdceb0b828a0838cc0c7818c6c4067e47130d0fccb10d20821ba539/43662680429/receipt.json"
           }
         },
         "electoral": {
@@ -2628,12 +2628,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac32/evidencia/pares_fuentes/2025/69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696.json",
             "pair_sha256": "69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2666,8 +2666,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41243326722,
-            "receipt_path": "territorios/nac33/evidencia/fuentes_territoriales/2025/f2128ce43af3b17095403543a65e5d7c85854a5cf1d5c8370f9a08015dbaa104/41243326722/receipt.json"
+            "run_id": 43662690007,
+            "receipt_path": "territorios/nac33/evidencia/fuentes_territoriales/2025/7dac5cedc5554fafbdfef9315ffbaba0f79e5f29402be4d1744bf4e52caa8d1a/43662690007/receipt.json"
           }
         },
         "electoral": {
@@ -2679,12 +2679,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac33/evidencia/pares_fuentes/2025/c37c091cfaa3abf417bfc1151a0f74b8eaa924fa5966bac616449d6b18e8901d.json",
             "pair_sha256": "c37c091cfaa3abf417bfc1151a0f74b8eaa924fa5966bac616449d6b18e8901d",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2717,8 +2717,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41291833956,
-            "receipt_path": "territorios/nac34/evidencia/fuentes_territoriales/2025/45c88d0f94d0ba8e0aab081102ba295ebf74122e203016ced7d47ddb0a5aabe0/41291833956/receipt.json"
+            "run_id": 43662699421,
+            "receipt_path": "territorios/nac34/evidencia/fuentes_territoriales/2025/c2023548aa7203d1b6f6f0b2a935948c04efb191645debe95b0359bc09e5c15e/43662699421/receipt.json"
           }
         },
         "electoral": {
@@ -2730,12 +2730,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac34/evidencia/pares_fuentes/2025/001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18.json",
             "pair_sha256": "001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2768,8 +2768,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 42991561887,
-            "receipt_path": "territorios/nac35/evidencia/fuentes_territoriales/2025/bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a/42991561887/receipt.json"
+            "run_id": 43662709222,
+            "receipt_path": "territorios/nac35/evidencia/fuentes_territoriales/2025/ea334caf1a4d7761683c5fedb320a91e9c92d43ed98d9dd754ef757752925ad3/43662709222/receipt.json"
           }
         },
         "electoral": {
@@ -2781,12 +2781,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac35/evidencia/pares_fuentes/2025/a3f2cf94231c6215b6cb5eeac73d577d04c5f828533d7db365456f441c6a9035.json",
             "pair_sha256": "a3f2cf94231c6215b6cb5eeac73d577d04c5f828533d7db365456f441c6a9035",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2819,8 +2819,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41293311168,
-            "receipt_path": "territorios/nac36/evidencia/fuentes_territoriales/2025/de7f566b987acc70e29452af77aeb1504a934991c6c4c028dc41a7013512e9ca/41293311168/receipt.json"
+            "run_id": 43662718842,
+            "receipt_path": "territorios/nac36/evidencia/fuentes_territoriales/2025/85edd2e79d349e8a2328bc599fafdce432ad60e2170cc2cf5da1efdcb71ca385/43662718842/receipt.json"
           }
         },
         "electoral": {
@@ -2832,12 +2832,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac36/evidencia/pares_fuentes/2025/da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388.json",
             "pair_sha256": "da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2870,8 +2870,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41241010241,
-            "receipt_path": "territorios/nac37/evidencia/fuentes_territoriales/2025/e9391f959ab85e7ef3fbd52e4a680cc7cc8fdae3585a4c80b762ecaaceacaaa3/41241010241/receipt.json"
+            "run_id": 43662728262,
+            "receipt_path": "territorios/nac37/evidencia/fuentes_territoriales/2025/7df140cd701263761db7516119e57461375fb2178e3313ce5e918d35026e5b1f/43662728262/receipt.json"
           }
         },
         "electoral": {
@@ -2883,12 +2883,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac37/evidencia/pares_fuentes/2025/a3f54f25701ef149d6df622f412ff511fb94a5ab5391bed84ce27db1dc6e4d9f.json",
             "pair_sha256": "a3f54f25701ef149d6df622f412ff511fb94a5ab5391bed84ce27db1dc6e4d9f",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2921,8 +2921,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43012151677,
-            "receipt_path": "territorios/nac38/evidencia/fuentes_territoriales/2025/6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53/43012151677/receipt.json"
+            "run_id": 43662742736,
+            "receipt_path": "territorios/nac38/evidencia/fuentes_territoriales/2025/6d1ec162a1dc11f5f2e500b498ed5bf83a55d3b662db231c9ec1528bd4c6af46/43662742736/receipt.json"
           }
         },
         "electoral": {
@@ -2934,12 +2934,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac38/evidencia/pares_fuentes/2025/281ded9a6026099c6240c646c234f20705a9aba68220e8a31ac15a039bc12e4b.json",
             "pair_sha256": "281ded9a6026099c6240c646c234f20705a9aba68220e8a31ac15a039bc12e4b",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2972,8 +2972,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41292096436,
-            "receipt_path": "territorios/nac39/evidencia/fuentes_territoriales/2025/c8fced560af34ec53d3ace309ad57edf2ab96592a873ae915fcfe966045e2290/41292096436/receipt.json"
+            "run_id": 43662752623,
+            "receipt_path": "territorios/nac39/evidencia/fuentes_territoriales/2025/06e0ca905be23fddebc5cb7973372f66092ef978ad1e55ea45d25d012ceee810/43662752623/receipt.json"
           }
         },
         "electoral": {
@@ -2985,12 +2985,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac39/evidencia/pares_fuentes/2025/158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7.json",
             "pair_sha256": "158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3023,8 +3023,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41235620157,
-            "receipt_path": "territorios/nac40/evidencia/fuentes_territoriales/2025/7bd7603c459589d31414402f7398ecda942da3bb6094cca3f45b37e8a8c34a5a/41235620157/receipt.json"
+            "run_id": 43662762669,
+            "receipt_path": "territorios/nac40/evidencia/fuentes_territoriales/2025/ed08ff50c0a47cbf8edd8138310e89c8c2306849e6d358478b92f080e9f0a710/43662762669/receipt.json"
           }
         },
         "electoral": {
@@ -3036,12 +3036,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac40/evidencia/pares_fuentes/2025/11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c.json",
             "pair_sha256": "11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3074,8 +3074,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41244347546,
-            "receipt_path": "territorios/nac41/evidencia/fuentes_territoriales/2025/2c2e556fef696b19f0d228f3008e198a71358b4c09997648777274cfedc0175d/41244347546/receipt.json"
+            "run_id": 43662772532,
+            "receipt_path": "territorios/nac41/evidencia/fuentes_territoriales/2025/1fe1f38be294a03749eb77068d491f8d5965de52d88394c22ab9185120ca5dec/43662772532/receipt.json"
           }
         },
         "electoral": {
@@ -3087,12 +3087,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac41/evidencia/pares_fuentes/2025/cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d.json",
             "pair_sha256": "cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3125,8 +3125,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41235794328,
-            "receipt_path": "territorios/nac42/evidencia/fuentes_territoriales/2025/ff1040e1b797d0e726a53f27ccc57fd62a38e19a20aa85a136dc50fe133dd536/41235794328/receipt.json"
+            "run_id": 43664052017,
+            "receipt_path": "territorios/nac42/evidencia/fuentes_territoriales/2025/4d14ca9cecb11a4c1cd149f8091495c8f88ba5751573753a2a1696a88ebf371a/43664052017/receipt.json"
           }
         },
         "electoral": {
@@ -3138,12 +3138,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac42/evidencia/pares_fuentes/2025/b73e7070cb80f9db457a63722fa4bdfc0f6d6a4a369eba0588a25e0357c02ed6.json",
             "pair_sha256": "b73e7070cb80f9db457a63722fa4bdfc0f6d6a4a369eba0588a25e0357c02ed6",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3176,8 +3176,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41243062797,
-            "receipt_path": "territorios/nac43/evidencia/fuentes_territoriales/2025/163a77990bfeb183b9b123fbdeda14b823e1c8a01bb6b8ebaf6ebfbed2fe5a26/41243062797/receipt.json"
+            "run_id": 43664060568,
+            "receipt_path": "territorios/nac43/evidencia/fuentes_territoriales/2025/ce03614466cccd2dad941cc562ad07d9b2198f300ee7335cb89ee359534be604/43664060568/receipt.json"
           }
         },
         "electoral": {
@@ -3189,12 +3189,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac43/evidencia/pares_fuentes/2025/40740f8c1f08ee810e1b3efa102fb98d93a447732332f99f8e356db93322ea7e.json",
             "pair_sha256": "40740f8c1f08ee810e1b3efa102fb98d93a447732332f99f8e356db93322ea7e",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3227,8 +3227,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41235966858,
-            "receipt_path": "territorios/nac44/evidencia/fuentes_territoriales/2025/6c57be66bbebad6e6dd53561a12ba0e313081566511acd3b0f9bb370db898edc/41235966858/receipt.json"
+            "run_id": 43664069293,
+            "receipt_path": "territorios/nac44/evidencia/fuentes_territoriales/2025/9a1c7e63bb5c2e0df8f924111df7e4e0caabe0568defad520d74aabaaf76576e/43664069293/receipt.json"
           }
         },
         "electoral": {
@@ -3240,12 +3240,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac44/evidencia/pares_fuentes/2025/cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5.json",
             "pair_sha256": "cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3278,8 +3278,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41242809451,
-            "receipt_path": "territorios/nac45/evidencia/fuentes_territoriales/2025/44e0ffd995e8c26c58961c48dfb2ee31c76eaa577439e67964098d7995ee4a37/41242809451/receipt.json"
+            "run_id": 43664078379,
+            "receipt_path": "territorios/nac45/evidencia/fuentes_territoriales/2025/e219ae6c98a82271326f621b5adc2fb6e43b56d3e37668e59f6d48a11274586b/43664078379/receipt.json"
           }
         },
         "electoral": {
@@ -3291,12 +3291,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac45/evidencia/pares_fuentes/2025/044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0.json",
             "pair_sha256": "044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3329,8 +3329,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41318119259,
-            "receipt_path": "territorios/nac46/evidencia/fuentes_territoriales/2025/4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f/41318119259/receipt.json"
+            "run_id": 43664087770,
+            "receipt_path": "territorios/nac46/evidencia/fuentes_territoriales/2025/2d58ce4e19119e918449a8a4d87be13138e8650dc2db0ff9b14de68a4183a0b3/43664087770/receipt.json"
           }
         },
         "electoral": {
@@ -3342,12 +3342,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac46/evidencia/pares_fuentes/2025/1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b.json",
             "pair_sha256": "1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3380,8 +3380,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41292964287,
-            "receipt_path": "territorios/nac47/evidencia/fuentes_territoriales/2025/b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47/41292964287/receipt.json"
+            "run_id": 43664097182,
+            "receipt_path": "territorios/nac47/evidencia/fuentes_territoriales/2025/5ceb1ad5ef52e0a57f3c1d846abf27ea2e1e4e50d3f1e971bf6e118cc45298a8/43664097182/receipt.json"
           }
         },
         "electoral": {
@@ -3393,12 +3393,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac47/evidencia/pares_fuentes/2025/7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837.json",
             "pair_sha256": "7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3431,8 +3431,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41293083498,
-            "receipt_path": "territorios/nac48/evidencia/fuentes_territoriales/2025/19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68/41293083498/receipt.json"
+            "run_id": 43664106564,
+            "receipt_path": "territorios/nac48/evidencia/fuentes_territoriales/2025/ae559a0881725fe62f44fe19130de7c6922944ec3b29056a433a6c089a487351/43664106564/receipt.json"
           }
         },
         "electoral": {
@@ -3444,12 +3444,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac48/evidencia/pares_fuentes/2025/a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939.json",
             "pair_sha256": "a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3482,8 +3482,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41236140669,
-            "receipt_path": "territorios/nac49/evidencia/fuentes_territoriales/2025/9a336472a131bfa3b4692ddb391f80f6edcc997221ac9d801677c3fdb7344c01/41236140669/receipt.json"
+            "run_id": 43664116102,
+            "receipt_path": "territorios/nac49/evidencia/fuentes_territoriales/2025/8a2ad90a67c869ae226c690dd31b1e72a4a48333ef76e2387bc442501af9ccb8/43664116102/receipt.json"
           }
         },
         "electoral": {
@@ -3495,12 +3495,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac49/evidencia/pares_fuentes/2025/9456a3656fd980295e4100f3e8ea2fd0d288d249938586a8cd3e189a089e6595.json",
             "pair_sha256": "9456a3656fd980295e4100f3e8ea2fd0d288d249938586a8cd3e189a089e6595",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3533,8 +3533,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41243577758,
-            "receipt_path": "territorios/nac50/evidencia/fuentes_territoriales/2025/335734b5fd47607e09d41dd6c8c04472041e69d892adebe00e05e75a7c5b1744/41243577758/receipt.json"
+            "run_id": 43664125813,
+            "receipt_path": "territorios/nac50/evidencia/fuentes_territoriales/2025/adc77957e958848806a9b804f581eed7b2a8051a263f1a5c6c49421eb3a4503d/43664125813/receipt.json"
           }
         },
         "electoral": {
@@ -3546,12 +3546,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac50/evidencia/pares_fuentes/2025/1c7a2bca176538bb2bd05dc7c947f2e3beb817bf019718d8962d761ebdc9b631.json",
             "pair_sha256": "1c7a2bca176538bb2bd05dc7c947f2e3beb817bf019718d8962d761ebdc9b631",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3584,8 +3584,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 42488846588,
-            "receipt_path": "territorios/nac51/evidencia/fuentes_territoriales/2025/ccab1909b10228fdbd73b382cb3ae31da143df32481d7a54cd516e1e824c9317/42488846588/receipt.json"
+            "run_id": 43664135123,
+            "receipt_path": "territorios/nac51/evidencia/fuentes_territoriales/2025/467cc91a3be27b7f0ef79f35ea7b29495134ceb83609c6e03cdd213471596ca4/43664135123/receipt.json"
           }
         },
         "electoral": {
@@ -3597,12 +3597,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac51/evidencia/pares_fuentes/2025/5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d.json",
             "pair_sha256": "5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3635,8 +3635,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41236482346,
-            "receipt_path": "territorios/nac52/evidencia/fuentes_territoriales/2025/3b064d541fae902c734746e3fb7c9d1d0c2b5e5b6aa439475d34b1f1aed4e67e/41236482346/receipt.json"
+            "run_id": 43664144395,
+            "receipt_path": "territorios/nac52/evidencia/fuentes_territoriales/2025/a9762edb7d6fa640133ad69d22c252a07cdab63f6fc53d2992e3db0e8ac1f732/43664144395/receipt.json"
           }
         },
         "electoral": {
@@ -3648,12 +3648,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/nac52/evidencia/pares_fuentes/2025/c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220.json",
             "pair_sha256": "c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -6706,9 +6706,9 @@
         "territorial_source": {
           "territory_id": "aut01",
           "edition": "2025",
-          "run_id": 40946875467,
-          "artifact_name": "ddd-source-package-andalucia-2025-40946875467",
-          "artifact_sha256": "f2694b451830d4a699a4aaa959834edab2e1a7dc5fd83eaa4589ba9d5d196c52",
+          "run_id": 43639991903,
+          "artifact_name": "ddd-source-package-aut01-2025-43639991903",
+          "artifact_sha256": "fa4581388b06f66d1b76ec5eb9aa7ad2ad09277b48f1f8855818e90e5af990e8",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -6767,9 +6767,9 @@
         "territorial_source": {
           "territory_id": "aut02",
           "edition": "2025",
-          "run_id": 40691712762,
-          "artifact_name": "ddd-source-package-aragon-2025-40691712762",
-          "artifact_sha256": "47a7ab0da32e99c006d925787df3fbdf7032c2b3737ff6effe6cd57321aa390a",
+          "run_id": 43640002217,
+          "artifact_name": "ddd-source-package-aut02-2025-43640002217",
+          "artifact_sha256": "ddaaf8cd5416dd15b9175f1419e6f8325d5cc4e35d7fd6e6a076ca83f056a195",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -6828,9 +6828,9 @@
         "territorial_source": {
           "territory_id": "aut03",
           "edition": "2025",
-          "run_id": 40693720831,
-          "artifact_name": "ddd-source-package-principado_de_asturias-2025-40693720831",
-          "artifact_sha256": "60bacfb549404fed841f2ceda6666376fb16852f05ac1ffba5223dc104e3fec6",
+          "run_id": 43640013123,
+          "artifact_name": "ddd-source-package-aut03-2025-43640013123",
+          "artifact_sha256": "802ff1512f1a7fe53c34433917a6a8f27210357969104dd762bdcd5ba23aaa85",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -6889,9 +6889,9 @@
         "territorial_source": {
           "territory_id": "aut04",
           "edition": "2025",
-          "run_id": 43011633844,
-          "artifact_name": "ddd-source-package-illes_balears-2025-43011633844",
-          "artifact_sha256": "54ba0d0ec51f34e98e887b0e25a6a4f43934e3aa191e73dd083013e3dba1a109",
+          "run_id": 43640023838,
+          "artifact_name": "ddd-source-package-aut04-2025-43640023838",
+          "artifact_sha256": "f8e2ec1b9a37c2e7cdb964081d727693d3c16445c48fc6bd99be85de758a96fa",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -6950,9 +6950,9 @@
         "territorial_source": {
           "territory_id": "aut05",
           "edition": "2025",
-          "run_id": 43011642069,
-          "artifact_name": "ddd-source-package-canarias-2025-43011642069",
-          "artifact_sha256": "b070824189e19022752db97dc9d3ea78f77a523aca054a7328ae7576370bb9c8",
+          "run_id": 43640033803,
+          "artifact_name": "ddd-source-package-aut05-2025-43640033803",
+          "artifact_sha256": "5c5c8e661854eaaddb73e77abaa03317964f6de3370eaf3fea982ecb72c4000f",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7011,9 +7011,9 @@
         "territorial_source": {
           "territory_id": "aut06",
           "edition": "2025",
-          "run_id": 42707820760,
-          "artifact_name": "ddd-source-package-cantabria-2025-42707820760",
-          "artifact_sha256": "9078db6b7e0fe91151126dc111e355d5fbc769ba697f33f6f45f87eafe73de19",
+          "run_id": 43640043210,
+          "artifact_name": "ddd-source-package-aut06-2025-43640043210",
+          "artifact_sha256": "0f3b826ca262c49cf3c0748b564972ef35504e39f7039ee5a2d7c61d514ad11b",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7072,9 +7072,9 @@
         "territorial_source": {
           "territory_id": "aut07",
           "edition": "2025",
-          "run_id": 42521090842,
-          "artifact_name": "ddd-source-package-castilla_y_leon-2025-42521090842",
-          "artifact_sha256": "3a710cff73dca6a5048e28f1eea5f1e5454404324538b66b7ae9c3b0b229c168",
+          "run_id": 43640052186,
+          "artifact_name": "ddd-source-package-aut07-2025-43640052186",
+          "artifact_sha256": "c20108c5998c59b22c7698ee036dac86436606f961ea5acf35d7ef49a022659c",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7133,9 +7133,9 @@
         "territorial_source": {
           "territory_id": "aut08",
           "edition": "2025",
-          "run_id": 40690624792,
-          "artifact_name": "ddd-source-package-castilla_la_mancha-2025-40690624792",
-          "artifact_sha256": "bdd316c89d209786b3050b3c1595af29ee5d5fd11098b1e628acf7861aecc288",
+          "run_id": 43640061481,
+          "artifact_name": "ddd-source-package-aut08-2025-43640061481",
+          "artifact_sha256": "03ac37ba916c1ad6ba6357a638321ac11e5d41920b10923336096e1dd903cdf8",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7194,9 +7194,9 @@
         "territorial_source": {
           "territory_id": "aut09",
           "edition": "2025",
-          "run_id": 40946901555,
-          "artifact_name": "ddd-source-package-cataluna-2025-40946901555",
-          "artifact_sha256": "48f48f116aa80838cc5a9c1a6b3794c807c52b65a3217b0c7a821016b65404f8",
+          "run_id": 43640071031,
+          "artifact_name": "ddd-source-package-aut09-2025-43640071031",
+          "artifact_sha256": "a8b36f32b65cef0b5416e67e2605cebc4313c0c0e73be444334d5bca04bdd6ff",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7255,9 +7255,9 @@
         "territorial_source": {
           "territory_id": "aut10",
           "edition": "2025",
-          "run_id": 40956462986,
-          "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40956462986",
-          "artifact_sha256": "1aa62c171c5bb073a7941dd1c0b31f9f4c8155aa8153c027da9622690a0b2c2d",
+          "run_id": 43640080386,
+          "artifact_name": "ddd-source-package-aut10-2025-43640080386",
+          "artifact_sha256": "ff56ff7a05fe23c825b542a6348ab6ce8c8892ae334b2c3b120473f7c0684949",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7297,43 +7297,43 @@
       "name": "Extremadura",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43051488486,
+      "run_id": 43698495438,
       "last_run": {
-        "run_id": 43051488486,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 43694989383,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "aut11",
           "edition": "2025",
-          "run_id": 42720735134,
-          "artifact_name": "ddd-source-package-extremadura-2025-42720735134",
-          "artifact_sha256": "9d50ad9459baa8c275927668e553c3fd09285dc28b8027d2c7746fd7c0c68158",
+          "run_id": 43698495438,
+          "artifact_name": "ddd-source-package-aut11-2025-43698495438",
+          "artifact_sha256": "8ec38155757ede187ca2e1c3e9af5da77deadb6c6455d6343f44f1f6939a4236",
           "decision": "VALIDADO"
         },
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "extremadura",
+          "territory_id": "aut11",
           "territory_name": "Extremadura",
           "edition": "2025",
-          "run_id": 43045468808,
-          "artifact_name": "ddd-state-43045468808-M06",
-          "artifact_sha256": "5bf779c702b38d67b2410a5c182a86bb1eedf2fc68b1915669b485ce1e8a3de3",
-          "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+          "run_id": 43698495438,
+          "artifact_name": "ddd-state-43698495438-M06",
+          "artifact_sha256": "ce3a643f1181a9b40b62f7e05734e967b19236dbeefec932f675b634fd60cf7b",
+          "source_commit": "e07a6e0709659d16034098964212b985a695b2bc",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/extremadura/evidencia/generaciones_m06/43045468808.json"
+          "producer_manifest_path": "territorios/aut11/evidencia/generaciones_m06/43698495438.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7351,7 +7351,7 @@
       },
       "autonomous_community_code_ine": "11",
       "display_name": "11 Extremadura",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut12",
@@ -7377,9 +7377,9 @@
         "territorial_source": {
           "territory_id": "aut12",
           "edition": "2025",
-          "run_id": 40690688352,
-          "artifact_name": "ddd-source-package-galicia-2025-40690688352",
-          "artifact_sha256": "20d7850a31f2ae24fb25d4a58726589fa5938da8691bfb41e7b1f1722661622b",
+          "run_id": 43645451541,
+          "artifact_name": "ddd-source-package-aut12-2025-43645451541",
+          "artifact_sha256": "2d422bd76710bc25cf45631e32b9d7e1aede2ceb3f9b7c8dfa74bd02dd6d04ba",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7438,9 +7438,9 @@
         "territorial_source": {
           "territory_id": "aut13",
           "edition": "2025",
-          "run_id": 40773465956,
-          "artifact_name": "ddd-source-package-madrid-2025-40773465956",
-          "artifact_sha256": "b1792fa2242ab38465fbf1a182a67d5966760d997f416c4216a52b20a480713f",
+          "run_id": 43645460677,
+          "artifact_name": "ddd-source-package-aut13-2025-43645460677",
+          "artifact_sha256": "269b9c81b4ebf8b56d7a639948f8e3aedc38a57de39a91ae3cd180f9327e154a",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7499,9 +7499,9 @@
         "territorial_source": {
           "territory_id": "aut14",
           "edition": "2025",
-          "run_id": 40773421805,
-          "artifact_name": "ddd-source-package-region_de_murcia-2025-40773421805",
-          "artifact_sha256": "c372f56285f705141729d9a63dedf5c0d2b94c1dcd3e7485c2d77932d1497ef5",
+          "run_id": 43645469554,
+          "artifact_name": "ddd-source-package-aut14-2025-43645469554",
+          "artifact_sha256": "b4981f10d349b2c0c30ab4c4b17a7ae1e32893df526fdfbc777d5785388ea435",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7560,9 +7560,9 @@
         "territorial_source": {
           "territory_id": "aut15",
           "edition": "2025",
-          "run_id": 40838170635,
-          "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-40838170635",
-          "artifact_sha256": "fa14b233a4b81efd56234916f6637a00e73087e79f20d711d8b7fe5113fb5d98",
+          "run_id": 43645478667,
+          "artifact_name": "ddd-source-package-aut15-2025-43645478667",
+          "artifact_sha256": "c589f663b158ff4dc48a4667a1bc212188ca5b1a068080465189393e5c85358a",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7621,9 +7621,9 @@
         "territorial_source": {
           "territory_id": "aut16",
           "edition": "2025",
-          "run_id": 40946888676,
-          "artifact_name": "ddd-source-package-pais_vasco-2025-40946888676",
-          "artifact_sha256": "c9175d33370e3a9eaf1e32b5b671efb5dc46462ddba7c8db9a6d6ae6d43dd90c",
+          "run_id": 43645488129,
+          "artifact_name": "ddd-source-package-aut16-2025-43645488129",
+          "artifact_sha256": "b9125cc9ae158009fc0762fa571af38e9b7ceb37f43456a915c0309a0903b971",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7682,9 +7682,9 @@
         "territorial_source": {
           "territory_id": "aut17",
           "edition": "2025",
-          "run_id": 40850322464,
-          "artifact_name": "ddd-source-package-la_rioja-2025-40850322464",
-          "artifact_sha256": "c8ace5e7af65516e115f9c0b34eab695168ba13363786b21b55643fffbfef9ca",
+          "run_id": 43645497921,
+          "artifact_name": "ddd-source-package-aut17-2025-43645497921",
+          "artifact_sha256": "4c78fa9cc45d71f69c2108ff1726dec8edd5d74c23fe62a366c5c340d0745a46",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7743,9 +7743,9 @@
         "territorial_source": {
           "territory_id": "aut18",
           "edition": "2025",
-          "run_id": 40773443591,
-          "artifact_name": "ddd-source-package-ceuta-2025-40773443591",
-          "artifact_sha256": "9de48295eec36c7e5e4ad16cb1ed929f128e3325ef2e18d2b53bc10f7a6be374",
+          "run_id": 43645507829,
+          "artifact_name": "ddd-source-package-aut18-2025-43645507829",
+          "artifact_sha256": "8652155ecb1c7f7e15e19e0ebef44f1879f05cdae9199a0769b595c56e4167af",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7804,9 +7804,9 @@
         "territorial_source": {
           "territory_id": "aut19",
           "edition": "2025",
-          "run_id": 40832114779,
-          "artifact_name": "ddd-source-package-melilla-2025-40832114779",
-          "artifact_sha256": "db0c191d868c248133c64d58f21706ccfb9686301c0d50270e09262b47fc8ccb",
+          "run_id": 43645525636,
+          "artifact_name": "ddd-source-package-aut19-2025-43645525636",
+          "artifact_sha256": "fa2bf73bab6362e1811159eff2358985213b473a89ff1fa5d0ddb2fd590d6b56",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7865,9 +7865,9 @@
         "territorial_source": {
           "territory_id": "nac01",
           "edition": "2025",
-          "run_id": 41240137880,
-          "artifact_name": "ddd-source-package-congreso_alava-2025-41240137880",
-          "artifact_sha256": "7d101c7cd9dee73eeb7b7a09936c7e41456b58c3daab81532f02c5823fbe9448",
+          "run_id": 43645534913,
+          "artifact_name": "ddd-source-package-nac01-2025-43645534913",
+          "artifact_sha256": "18445a0a53cb8c7da2861ea5399038bbc023bf768ff1e3cb9bba8123450c2756",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7926,9 +7926,9 @@
         "territorial_source": {
           "territory_id": "nac02",
           "edition": "2025",
-          "run_id": 41240260992,
-          "artifact_name": "ddd-source-package-congreso_albacete-2025-41240260992",
-          "artifact_sha256": "2f45f2c0f403a2628ec2127e09a05f19dacf22ab9e3ccec9cf7104d7e0c5af02",
+          "run_id": 43650090622,
+          "artifact_name": "ddd-source-package-nac02-2025-43650090622",
+          "artifact_sha256": "e2524492f4452f4fe1ab938e5470798d407c246f0f03e418705600688150588f",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7987,9 +7987,9 @@
         "territorial_source": {
           "territory_id": "nac03",
           "edition": "2025",
-          "run_id": 42409605030,
-          "artifact_name": "ddd-source-package-congreso_alicante-2025-42409605030",
-          "artifact_sha256": "03fcb111cf36f97db49f60be1fd9c6731465263f07c520d14ca57cd8cafb52e0",
+          "run_id": 43650100325,
+          "artifact_name": "ddd-source-package-nac03-2025-43650100325",
+          "artifact_sha256": "9388c8050b3464d47ffca5fc0b99169d4dfa831af92bc5a5b3eba11eaddbdf89",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8048,9 +8048,9 @@
         "territorial_source": {
           "territory_id": "nac04",
           "edition": "2025",
-          "run_id": 41242160179,
-          "artifact_name": "ddd-source-package-congreso_almeria-2025-41242160179",
-          "artifact_sha256": "50605604d8979ecc8625a2cb92b30f76cffb8ec197642234c5a0bdd13c3dac2d",
+          "run_id": 43650110521,
+          "artifact_name": "ddd-source-package-nac04-2025-43650110521",
+          "artifact_sha256": "3cdd75ed36000c74cb417b9a03ee8c23193c2056f99adcae614d355ea357ef99",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8109,9 +8109,9 @@
         "territorial_source": {
           "territory_id": "nac05",
           "edition": "2025",
-          "run_id": 41235278274,
-          "artifact_name": "ddd-source-package-congreso_avila-2025-41235278274",
-          "artifact_sha256": "64e0326c45cda0e0f8ca06b547eb479cbdcd9129af1fbe6f0c3eb38351cc3f3b",
+          "run_id": 43650119878,
+          "artifact_name": "ddd-source-package-nac05-2025-43650119878",
+          "artifact_sha256": "727a2d44c2b05b3b76d45a1790f96eb2d001ec267934ed9123ce508294697adc",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8170,9 +8170,9 @@
         "territorial_source": {
           "territory_id": "nac06",
           "edition": "2025",
-          "run_id": 41293199718,
-          "artifact_name": "ddd-source-package-congreso_badajoz-2025-41293199718",
-          "artifact_sha256": "c50556594ac26817c48ec99121976fd46f0149812e5399dae465f996457c4509",
+          "run_id": 43650129661,
+          "artifact_name": "ddd-source-package-nac06-2025-43650129661",
+          "artifact_sha256": "be2e37651f9fbc35bbd5f5697546840f4393557f22c7e52e429388c8b99a6cee",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8231,9 +8231,9 @@
         "territorial_source": {
           "territory_id": "nac07",
           "edition": "2025",
-          "run_id": 41465837048,
-          "artifact_name": "ddd-source-package-congreso_baleares-2025-41465837048",
-          "artifact_sha256": "80f99d710a25f5d0b81496c3db929ee5c48a56e7422784e518702c90b020c5c1",
+          "run_id": 43650139990,
+          "artifact_name": "ddd-source-package-nac07-2025-43650139990",
+          "artifact_sha256": "89f50355f86efc4d519aec9fb574f5660f64cdb77b62c70ab64b3661652543a1",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8292,9 +8292,9 @@
         "territorial_source": {
           "territory_id": "nac08",
           "edition": "2025",
-          "run_id": 42409499602,
-          "artifact_name": "ddd-source-package-congreso_barcelona-2025-42409499602",
-          "artifact_sha256": "37cc86abd67e4a2552cc48ad8149f645f1d46d7904aade8301d7957b2adcd270",
+          "run_id": 43650150584,
+          "artifact_name": "ddd-source-package-nac08-2025-43650150584",
+          "artifact_sha256": "87882fda3c86603741013f06d458432b28f2d739740ca2380b3a43f4d6fff24c",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8353,9 +8353,9 @@
         "territorial_source": {
           "territory_id": "nac09",
           "edition": "2025",
-          "run_id": 41292846877,
-          "artifact_name": "ddd-source-package-congreso_burgos-2025-41292846877",
-          "artifact_sha256": "e5d3c35b2797e0df1cf95fcc46f836ec52085873f53a4444b88c2231d57bbccb",
+          "run_id": 43650160733,
+          "artifact_name": "ddd-source-package-nac09-2025-43650160733",
+          "artifact_sha256": "b959b7e72e5fed54115a4baccaf29c9b79e04ec5e7c30bd893d0807067755e61",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8414,9 +8414,9 @@
         "territorial_source": {
           "territory_id": "nac10",
           "edition": "2025",
-          "run_id": 41240512324,
-          "artifact_name": "ddd-source-package-congreso_caceres-2025-41240512324",
-          "artifact_sha256": "c28a6c0c45bd071655deed566a7aa275e526c6cc3baec4287f3765c93d76a8bc",
+          "run_id": 43650170423,
+          "artifact_name": "ddd-source-package-nac10-2025-43650170423",
+          "artifact_sha256": "91f5e6f5a631cfbc6dce4d4e82b3970fbd02b48546b164584659c179b29517a0",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8475,9 +8475,9 @@
         "territorial_source": {
           "territory_id": "nac11",
           "edition": "2025",
-          "run_id": 41465820761,
-          "artifact_name": "ddd-source-package-congreso_cadiz-2025-41465820761",
-          "artifact_sha256": "39e612f105e899cfff0b4a89b3692a1097f595fdc385806e27b91389660cd875",
+          "run_id": 43650180523,
+          "artifact_name": "ddd-source-package-nac11-2025-43650180523",
+          "artifact_sha256": "d7ac2f80f19e8a7e28cd713eb0ef1edff7b0b5c07d9f206b8faf3697b1ae56fe",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8536,9 +8536,9 @@
         "territorial_source": {
           "territory_id": "nac12",
           "edition": "2025",
-          "run_id": 41241768943,
-          "artifact_name": "ddd-source-package-congreso_castellon-2025-41241768943",
-          "artifact_sha256": "a6af0b7655a6a5e72d00d2c6a2cf575999cffb03ef8f2ebd4de8f75f1946368b",
+          "run_id": 43651935343,
+          "artifact_name": "ddd-source-package-nac12-2025-43651935343",
+          "artifact_sha256": "21c4055d28b1deb32e93ffae088f277800482eb1062f7253ce71736de42ec482",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8597,9 +8597,9 @@
         "territorial_source": {
           "territory_id": "nac13",
           "edition": "2025",
-          "run_id": 41291967967,
-          "artifact_name": "ddd-source-package-congreso_ciudad_real-2025-41291967967",
-          "artifact_sha256": "9214781fd49abe2893797b721cf53f5b09de138a7fc327eb9f10086a22bca558",
+          "run_id": 43651946304,
+          "artifact_name": "ddd-source-package-nac13-2025-43651946304",
+          "artifact_sha256": "a03901637464bdaf2060c0136842f22809454fd0beb32a14c8b3d463ce14f1c5",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8658,9 +8658,9 @@
         "territorial_source": {
           "territory_id": "nac14",
           "edition": "2025",
-          "run_id": 41242424551,
-          "artifact_name": "ddd-source-package-congreso_cordoba-2025-41242424551",
-          "artifact_sha256": "e5d35701bc33a7dd3dd81ae3dd5a5b3f990ba1882eb322595d86a85940d542e6",
+          "run_id": 43651957259,
+          "artifact_name": "ddd-source-package-nac14-2025-43651957259",
+          "artifact_sha256": "46a7d576cab7ac79b09b4bd522d807ce7796d609881f177c09748d46c2fab082",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8719,9 +8719,9 @@
         "territorial_source": {
           "territory_id": "nac15",
           "edition": "2025",
-          "run_id": 41243697404,
-          "artifact_name": "ddd-source-package-congreso_la_coruna-2025-41243697404",
-          "artifact_sha256": "c3e29f26b8c080248e37f94449ab610d6bec2423f02b77f3256de09080bef3a3",
+          "run_id": 43651967770,
+          "artifact_name": "ddd-source-package-nac15-2025-43651967770",
+          "artifact_sha256": "4c480bb54297d44b2a5f5df26e8a668478701f8c8c384d9f734f6a13110f25fb",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8780,9 +8780,9 @@
         "territorial_source": {
           "territory_id": "nac16",
           "edition": "2025",
-          "run_id": 41236647382,
-          "artifact_name": "ddd-source-package-congreso_cuenca-2025-41236647382",
-          "artifact_sha256": "c5a7b2b573565cced64673bbf1e95a701570c9e739a2184a594e076eb9105dc6",
+          "run_id": 43651979100,
+          "artifact_name": "ddd-source-package-nac16-2025-43651979100",
+          "artifact_sha256": "7e319865a2601226c129a6466d2ef94690de19fb28c824be5b3294893d2503d5",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8841,9 +8841,9 @@
         "territorial_source": {
           "territory_id": "nac17",
           "edition": "2025",
-          "run_id": 41292216676,
-          "artifact_name": "ddd-source-package-congreso_gerona-2025-41292216676",
-          "artifact_sha256": "ca048f3a17c35e0bd7c58b57957eee38d9a58b9df34fc7f868cd15523c7915e6",
+          "run_id": 43651989454,
+          "artifact_name": "ddd-source-package-nac17-2025-43651989454",
+          "artifact_sha256": "a6b2524fc815750ddfe9d39fc9a71d874af79717affd66fc6e60fbace96d1d5a",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8902,9 +8902,9 @@
         "territorial_source": {
           "territory_id": "nac18",
           "edition": "2025",
-          "run_id": 41243199582,
-          "artifact_name": "ddd-source-package-congreso_granada-2025-41243199582",
-          "artifact_sha256": "094fb840cd04e2e88639ee37848937610b5a530fb8d27f7a19bcae9b0d12d881",
+          "run_id": 43652000219,
+          "artifact_name": "ddd-source-package-nac18-2025-43652000219",
+          "artifact_sha256": "d31d5222b94c6793109669a5ebbc78e16251b8c85014d24902e8ea2236236ebb",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8963,9 +8963,9 @@
         "territorial_source": {
           "territory_id": "nac19",
           "edition": "2025",
-          "run_id": 41236816482,
-          "artifact_name": "ddd-source-package-congreso_guadalajara-2025-41236816482",
-          "artifact_sha256": "d5eccc8c9ef8f283fcdffd6f7bfaddbb032c9eed4a9438a880b10e187f64816f",
+          "run_id": 43652010786,
+          "artifact_name": "ddd-source-package-nac19-2025-43652010786",
+          "artifact_sha256": "829024f031869b255f211a15141d9ca1004e46ec3ab89c73a6ab90f7d87e93c3",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9024,9 +9024,9 @@
         "territorial_source": {
           "territory_id": "nac20",
           "edition": "2025",
-          "run_id": 41292345223,
-          "artifact_name": "ddd-source-package-congreso_guipuzcoa-2025-41292345223",
-          "artifact_sha256": "a976165325eab1d3c50f8679127478846dd4d974d87cd51b49ac27361cdfa39e",
+          "run_id": 43652021243,
+          "artifact_name": "ddd-source-package-nac20-2025-43652021243",
+          "artifact_sha256": "3240a660562f06523c1df9d3aeea10ebc4acb6fef12efdef195c3c54d21d5726",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9085,9 +9085,9 @@
         "territorial_source": {
           "territory_id": "nac21",
           "edition": "2025",
-          "run_id": 41318125504,
-          "artifact_name": "ddd-source-package-congreso_huelva-2025-41318125504",
-          "artifact_sha256": "af27ee7ec5b03e6ceda550072fa8d0a5e06d87708eed74fc20f584064a39340e",
+          "run_id": 43652031737,
+          "artifact_name": "ddd-source-package-nac21-2025-43652031737",
+          "artifact_sha256": "af43f3bb57ff20d4d6726f3f51a46c41e28543996374e817cffa7f10111bc620",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9146,9 +9146,9 @@
         "territorial_source": {
           "territory_id": "nac22",
           "edition": "2025",
-          "run_id": 41057319037,
-          "artifact_name": "ddd-source-package-congreso_huesca-2025-41057319037",
-          "artifact_sha256": "e22527ea7a1ea54d8af41f3ab5446f35c316c31310e4e8f5a8ef000910b4c211",
+          "run_id": 43654075593,
+          "artifact_name": "ddd-source-package-nac22-2025-43654075593",
+          "artifact_sha256": "b8fd79d0a54e5dfdf25f8e1214ccbc4802255dc80c1f28c659c9b099a2ddcff4",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9207,9 +9207,9 @@
         "territorial_source": {
           "territory_id": "nac23",
           "edition": "2025",
-          "run_id": 41241896061,
-          "artifact_name": "ddd-source-package-congreso_jaen-2025-41241896061",
-          "artifact_sha256": "2f845f1bcd9e796bcd02a86005a55547f656d15f90be05cff7dd4a72aa2bce5e",
+          "run_id": 43654085400,
+          "artifact_name": "ddd-source-package-nac23-2025-43654085400",
+          "artifact_sha256": "d74bb3d2e5e09b56992f22414bab1a46b5e81e4574a997e0b5fa974e5346c446",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9268,9 +9268,9 @@
         "territorial_source": {
           "territory_id": "nac24",
           "edition": "2025",
-          "run_id": 41241377284,
-          "artifact_name": "ddd-source-package-congreso_leon-2025-41241377284",
-          "artifact_sha256": "e576851afca31bc07379759546812488a830c35634ac15c2fc91361d31fd13ad",
+          "run_id": 43654094711,
+          "artifact_name": "ddd-source-package-nac24-2025-43654094711",
+          "artifact_sha256": "eda4835fb304dd1125ab44970a3dd01e496cb514555963aa0c8eca475988297a",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9329,9 +9329,9 @@
         "territorial_source": {
           "territory_id": "nac25",
           "edition": "2025",
-          "run_id": 41292591493,
-          "artifact_name": "ddd-source-package-congreso_lerida-2025-41292591493",
-          "artifact_sha256": "f8985da3a5cb1c33d05f464d09a19fe849b2426725914c570239be701db2b705",
+          "run_id": 43654103920,
+          "artifact_name": "ddd-source-package-nac25-2025-43654103920",
+          "artifact_sha256": "50d0dbd2ede77afed60d7c3546272998e5f068cb8640b9c2ffb5777ed946ac5d",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9390,9 +9390,9 @@
         "territorial_source": {
           "territory_id": "nac26",
           "edition": "2025",
-          "run_id": 41240637295,
-          "artifact_name": "ddd-source-package-congreso_la_rioja-2025-41240637295",
-          "artifact_sha256": "cbb9e9fbfba6bfbf5b3e5502712e14e6f11a6e54ecc3ca228b3d32199af882f0",
+          "run_id": 43654112740,
+          "artifact_name": "ddd-source-package-nac26-2025-43654112740",
+          "artifact_sha256": "60b6e087cd4fde9d05fe84420348b765feb26a4bc108317fdb7f30356068ff54",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9451,9 +9451,9 @@
         "territorial_source": {
           "territory_id": "nac27",
           "edition": "2025",
-          "run_id": 41240766116,
-          "artifact_name": "ddd-source-package-congreso_lugo-2025-41240766116",
-          "artifact_sha256": "e28b6ebf05ebae54196f3f44e8eb2d0d10c0efb7ed035cedc4f559bb83f6ea65",
+          "run_id": 43654121494,
+          "artifact_name": "ddd-source-package-nac27-2025-43654121494",
+          "artifact_sha256": "2d12b8a9f82e93fa7f55b7d4023b0781b5b8049f50b03e23a25c0412dd8ab752",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9512,9 +9512,9 @@
         "territorial_source": {
           "territory_id": "nac28",
           "edition": "2025",
-          "run_id": 41611821388,
-          "artifact_name": "ddd-source-package-congreso_madrid-2025-41611821388",
-          "artifact_sha256": "a141e422444585aaeb6127a6a9a651add60034e04cf1f75f4ea20287caee08a0",
+          "run_id": 43654131046,
+          "artifact_name": "ddd-source-package-nac28-2025-43654131046",
+          "artifact_sha256": "0e288b1829021f7f2d1f8fbae3f3608744cd45411e63ba9bbbaa6e029e6fa11f",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9573,9 +9573,9 @@
         "territorial_source": {
           "territory_id": "nac29",
           "edition": "2025",
-          "run_id": 42409615215,
-          "artifact_name": "ddd-source-package-congreso_malaga-2025-42409615215",
-          "artifact_sha256": "ee2301bea2c6cd972e433c1816e914bd900c09ecc3096756573d3fc9e975e5d3",
+          "run_id": 43654141157,
+          "artifact_name": "ddd-source-package-nac29-2025-43654141157",
+          "artifact_sha256": "88837d130f637142883b099fcfa890007b38b19184c5432fa2c8e22ef71f26e7",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9634,9 +9634,9 @@
         "territorial_source": {
           "territory_id": "nac30",
           "edition": "2025",
-          "run_id": 41613691816,
-          "artifact_name": "ddd-source-package-congreso_murcia-2025-41613691816",
-          "artifact_sha256": "ff7c08e78d611563cad03de2f46ab3a02b69656d20796fbab14468026e720cfb",
+          "run_id": 43654150908,
+          "artifact_name": "ddd-source-package-nac30-2025-43654150908",
+          "artifact_sha256": "d8a6b2c1ce347775932400f3aa52a5424dc7d1ab56e86d7f03377b2d4aa06de7",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9695,9 +9695,9 @@
         "territorial_source": {
           "territory_id": "nac31",
           "edition": "2025",
-          "run_id": 41292721581,
-          "artifact_name": "ddd-source-package-congreso_navarra-2025-41292721581",
-          "artifact_sha256": "ed6564695ea6f9ba3c2c7f1e0b177608c2704fe2a1d4b5b58ab95fdfaed3d9ac",
+          "run_id": 43654160684,
+          "artifact_name": "ddd-source-package-nac31-2025-43654160684",
+          "artifact_sha256": "636fd02e355d88fb4d3a33ae1f6a46724c5ede408b3b2438f7952c6d0dfd6da6",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9756,9 +9756,9 @@
         "territorial_source": {
           "territory_id": "nac32",
           "edition": "2025",
-          "run_id": 41240887712,
-          "artifact_name": "ddd-source-package-congreso_orense-2025-41240887712",
-          "artifact_sha256": "6649836bde1fa498f0f10663bbf1cb723449810f009a272e7851bf47a42cd541",
+          "run_id": 43662680429,
+          "artifact_name": "ddd-source-package-nac32-2025-43662680429",
+          "artifact_sha256": "a4ee99065570142896238aa00498dfc27f32ac3d6b58d40948e146ae7f3b1ac5",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9817,9 +9817,9 @@
         "territorial_source": {
           "territory_id": "nac33",
           "edition": "2025",
-          "run_id": 41243326722,
-          "artifact_name": "ddd-source-package-congreso_asturias-2025-41243326722",
-          "artifact_sha256": "74451f158552e71551faed7025cfa418b75de54ba526f666aa6d1e8c26c1ab98",
+          "run_id": 43662690007,
+          "artifact_name": "ddd-source-package-nac33-2025-43662690007",
+          "artifact_sha256": "e148574031660f003b44f44b993e06435ee4b449a72d8c3757bfd15d20e87414",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9878,9 +9878,9 @@
         "territorial_source": {
           "territory_id": "nac34",
           "edition": "2025",
-          "run_id": 41291833956,
-          "artifact_name": "ddd-source-package-congreso_palencia-2025-41291833956",
-          "artifact_sha256": "0e91e7936db7665b77d9ee5a75b93d550115adaffb3581193c259df02af5912d",
+          "run_id": 43662699421,
+          "artifact_name": "ddd-source-package-nac34-2025-43662699421",
+          "artifact_sha256": "89276f1837a3cf2494f8c6c4c45fe860dbe3c4fafa7a87d064a2aeed9ec4c74d",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9939,9 +9939,9 @@
         "territorial_source": {
           "territory_id": "nac35",
           "edition": "2025",
-          "run_id": 42991561887,
-          "artifact_name": "ddd-source-package-congreso_las_palmas-2025-42991561887",
-          "artifact_sha256": "08b4bdec2a4f39a8583e5378dd498fd90b926a53c2037e8ed70b09a499d4dadf",
+          "run_id": 43662709222,
+          "artifact_name": "ddd-source-package-nac35-2025-43662709222",
+          "artifact_sha256": "2ae7e409e8a5eb00e9b0708455808321f12ccf3b15541af962d57c721889e1f1",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10000,9 +10000,9 @@
         "territorial_source": {
           "territory_id": "nac36",
           "edition": "2025",
-          "run_id": 41293311168,
-          "artifact_name": "ddd-source-package-congreso_pontevedra-2025-41293311168",
-          "artifact_sha256": "d46399f01897467aac660383677d13e2980443f5001311b53b35fb5b9972b91b",
+          "run_id": 43662718842,
+          "artifact_name": "ddd-source-package-nac36-2025-43662718842",
+          "artifact_sha256": "c83389e1b3ef0b24f694e002c99569946480e5cdbaa43d7ff489a1fd60b3f7a3",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10061,9 +10061,9 @@
         "territorial_source": {
           "territory_id": "nac37",
           "edition": "2025",
-          "run_id": 41241010241,
-          "artifact_name": "ddd-source-package-congreso_salamanca-2025-41241010241",
-          "artifact_sha256": "da869071df48034b3734bd864ee837ec428131b51154aa0f40d5cf880cb40ebe",
+          "run_id": 43662728262,
+          "artifact_name": "ddd-source-package-nac37-2025-43662728262",
+          "artifact_sha256": "a360be0fc6111be0270d0021e5525b163f159c0166b3e70c1360ddd563b3235c",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10122,9 +10122,9 @@
         "territorial_source": {
           "territory_id": "nac38",
           "edition": "2025",
-          "run_id": 43012151677,
-          "artifact_name": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-43012151677",
-          "artifact_sha256": "43cfc4dd6edf4c68d048ee4797cd00a3dfb547bca852622eeb7837f5130b23bd",
+          "run_id": 43662742736,
+          "artifact_name": "ddd-source-package-nac38-2025-43662742736",
+          "artifact_sha256": "b2fdc77390a81c0e0338ebc5c2571c1b7aeb0134c6af341a3289cbb38546565b",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10183,9 +10183,9 @@
         "territorial_source": {
           "territory_id": "nac39",
           "edition": "2025",
-          "run_id": 41292096436,
-          "artifact_name": "ddd-source-package-congreso_cantabria-2025-41292096436",
-          "artifact_sha256": "15cfb2b9e93cbea92b2b45a8f6dafdbd411d44cf8556fff7b221cf9f8cfbd84b",
+          "run_id": 43662752623,
+          "artifact_name": "ddd-source-package-nac39-2025-43662752623",
+          "artifact_sha256": "f2c0f0446d7f633286d4db6b20e4f6437b980bdecc02b69f7a526ef64c55ed6f",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10244,9 +10244,9 @@
         "territorial_source": {
           "territory_id": "nac40",
           "edition": "2025",
-          "run_id": 41235620157,
-          "artifact_name": "ddd-source-package-congreso_segovia-2025-41235620157",
-          "artifact_sha256": "69095d26e3c0e80f7156162c014d97b8c7b99f5f60475c30d5caf9350359c40f",
+          "run_id": 43662762669,
+          "artifact_name": "ddd-source-package-nac40-2025-43662762669",
+          "artifact_sha256": "88c74ec28239d35119567b3df177c0f2a88c6ec81f491b77808492f2eef1cd11",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10305,9 +10305,9 @@
         "territorial_source": {
           "territory_id": "nac41",
           "edition": "2025",
-          "run_id": 41244347546,
-          "artifact_name": "ddd-source-package-congreso_sevilla-2025-41244347546",
-          "artifact_sha256": "6fd8bcb16093981d226efd2e99093d58a0f6b40812cc3479db9ce9131317ec5d",
+          "run_id": 43662772532,
+          "artifact_name": "ddd-source-package-nac41-2025-43662772532",
+          "artifact_sha256": "7b69acc3fa32457e914f3f6cafcdbc7d149c2b64638e82d93b85705515bd1f66",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10366,9 +10366,9 @@
         "territorial_source": {
           "territory_id": "nac42",
           "edition": "2025",
-          "run_id": 41235794328,
-          "artifact_name": "ddd-source-package-congreso_soria-2025-41235794328",
-          "artifact_sha256": "ae9e6bf66087037801fab843bb193f22f08b11f5e56103ce824d10eb2815b9f8",
+          "run_id": 43664052017,
+          "artifact_name": "ddd-source-package-nac42-2025-43664052017",
+          "artifact_sha256": "1531196f3fea8e204a30fc23c536bbcbded900bf095eb877457fc8d4efea2d74",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10427,9 +10427,9 @@
         "territorial_source": {
           "territory_id": "nac43",
           "edition": "2025",
-          "run_id": 41243062797,
-          "artifact_name": "ddd-source-package-congreso_tarragona-2025-41243062797",
-          "artifact_sha256": "52587a94ffe47e234d57e062bfb78e1b30d2d653b7af23ef534ba0c2ef03e964",
+          "run_id": 43664060568,
+          "artifact_name": "ddd-source-package-nac43-2025-43664060568",
+          "artifact_sha256": "db5d23c73a2250e925e4b6babd8c7fa5b84ff13e786d2dd184935d33b249cdce",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10488,9 +10488,9 @@
         "territorial_source": {
           "territory_id": "nac44",
           "edition": "2025",
-          "run_id": 41235966858,
-          "artifact_name": "ddd-source-package-congreso_teruel-2025-41235966858",
-          "artifact_sha256": "bf78bc22524148b7cd586655cedc3e5550dbd2dcda4cd57ccfbb79f7427805af",
+          "run_id": 43664069293,
+          "artifact_name": "ddd-source-package-nac44-2025-43664069293",
+          "artifact_sha256": "038c5cc7aca985c4b7e4b0a7cf2147c582f8778276b80e3af436b0654f626202",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10549,9 +10549,9 @@
         "territorial_source": {
           "territory_id": "nac45",
           "edition": "2025",
-          "run_id": 41242809451,
-          "artifact_name": "ddd-source-package-congreso_toledo-2025-41242809451",
-          "artifact_sha256": "71f31e9845cf1cc6d6072b0ed5d3248502320699c6665548ebde86604e3db465",
+          "run_id": 43664078379,
+          "artifact_name": "ddd-source-package-nac45-2025-43664078379",
+          "artifact_sha256": "bc9d2fff3203fb5e7d84fb83023cfc6570af60484d9d5bc54df59196d824eda3",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10610,9 +10610,9 @@
         "territorial_source": {
           "territory_id": "nac46",
           "edition": "2025",
-          "run_id": 41318119259,
-          "artifact_name": "ddd-source-package-congreso_valencia-2025-41318119259",
-          "artifact_sha256": "5315962cbf6c6db3e683cebf71dd01802d657f561d4277340910cf83412b04c2",
+          "run_id": 43664087770,
+          "artifact_name": "ddd-source-package-nac46-2025-43664087770",
+          "artifact_sha256": "0cdaa5723dea6b1e223b6e139f4f35ba18bd80050e5a5403d91210a4f5e8c313",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10671,9 +10671,9 @@
         "territorial_source": {
           "territory_id": "nac47",
           "edition": "2025",
-          "run_id": 41292964287,
-          "artifact_name": "ddd-source-package-congreso_valladolid-2025-41292964287",
-          "artifact_sha256": "5339f65d92d46db779652724e1689d5ff51830896eca9295fcd8a3ce30688ff4",
+          "run_id": 43664097182,
+          "artifact_name": "ddd-source-package-nac47-2025-43664097182",
+          "artifact_sha256": "cb17ecd45d3097e860f08300646ce0b5cdda91202541800e0be495739e4a6ef8",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10732,9 +10732,9 @@
         "territorial_source": {
           "territory_id": "nac48",
           "edition": "2025",
-          "run_id": 41293083498,
-          "artifact_name": "ddd-source-package-congreso_vizcaya-2025-41293083498",
-          "artifact_sha256": "d62c95ac6b4adf8e15b569cfb0a4d779c08bd94e3c2474c04d4a31f9b5c1878f",
+          "run_id": 43664106564,
+          "artifact_name": "ddd-source-package-nac48-2025-43664106564",
+          "artifact_sha256": "c54b9fa265f81b1148cf1d5f9f55ac7a9ebbf61a9f23de33d7f5705fcbde2696",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10793,9 +10793,9 @@
         "territorial_source": {
           "territory_id": "nac49",
           "edition": "2025",
-          "run_id": 41236140669,
-          "artifact_name": "ddd-source-package-congreso_zamora-2025-41236140669",
-          "artifact_sha256": "51e3dc4d4ef5befc784a9b30440dda19aa9cac35e93348bda74fb40946622c19",
+          "run_id": 43664116102,
+          "artifact_name": "ddd-source-package-nac49-2025-43664116102",
+          "artifact_sha256": "e5808854b49939d590f7288d68b1f9fdfc8463be690b39fef52d248d57262454",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10854,9 +10854,9 @@
         "territorial_source": {
           "territory_id": "nac50",
           "edition": "2025",
-          "run_id": 41243577758,
-          "artifact_name": "ddd-source-package-congreso_zaragoza-2025-41243577758",
-          "artifact_sha256": "627977b4ba7a437b6badf0c84976f54525bb7a7634e79f7beb5291fe96af50d9",
+          "run_id": 43664125813,
+          "artifact_name": "ddd-source-package-nac50-2025-43664125813",
+          "artifact_sha256": "5a96d194d6194aa5fca43c32d41c5246eaac89f60c84dd60e70274311b0324f8",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10915,9 +10915,9 @@
         "territorial_source": {
           "territory_id": "nac51",
           "edition": "2025",
-          "run_id": 42488846588,
-          "artifact_name": "ddd-source-package-congreso_ceuta-2025-42488846588",
-          "artifact_sha256": "9808a974cef7018ae2f8b1c9eba200ac8f1b11de6c63853c0838a0651ead8b4e",
+          "run_id": 43664135123,
+          "artifact_name": "ddd-source-package-nac51-2025-43664135123",
+          "artifact_sha256": "88e18343a59deba8d7d69e89ebeae82a6abacef6a95112b5907f8ede55116fb0",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10976,9 +10976,9 @@
         "territorial_source": {
           "territory_id": "nac52",
           "edition": "2025",
-          "run_id": 41236482346,
-          "artifact_name": "ddd-source-package-congreso_melilla-2025-41236482346",
-          "artifact_sha256": "24dddfcf1da318e310e2128223720a597b4e1e97a50780e64ce0d076a8ab4857",
+          "run_id": 43664144395,
+          "artifact_name": "ddd-source-package-nac52-2025-43664144395",
+          "artifact_sha256": "05a795060740b22bbdc109e827c237a385b42d30620a4abc8df0f4bef83e02bb",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 74,
+    "complete": 73,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12268,7 +12268,6 @@
       "08 Castilla-La Mancha",
       "09 Cataluña",
       "10 Comunidad Valenciana",
-      "11 Extremadura",
       "12 Galicia",
       "13 Comunidad de Madrid",
       "14 Región de Murcia",
@@ -12553,6 +12552,12 @@
   },
   "alerts": [
     {
+      "territory": "11 Extremadura",
+      "territory_id": "aut11",
+      "autonomous_community_code_ine": "11",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Nacional 350 Álava",
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
@@ -12593,13 +12598,14 @@
       "territory_id": "congreso350_barcelona",
       "autonomous_community_code_ine": "R08",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Burgos",
-      "territory_id": "congreso350_burgos",
-      "autonomous_community_code_ine": "R09",
-      "action": "completar puerta de validación territorial"
     }
   ],
-  "next_actions": []
+  "next_actions": [
+    {
+      "territory": "11 Extremadura",
+      "territory_id": "aut11",
+      "autonomous_community_code_ine": "11",
+      "action": "preparar fuentes electorales"
+    }
+  ]
 }
