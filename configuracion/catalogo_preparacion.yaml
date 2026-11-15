@@ -21,24 +21,23 @@ territories:
         run_id: 43204696160
         stage: M08
       preparation_evidence:
-        run_id: 43639991903
-        artifact_name: ddd-source-package-aut01-2025-43639991903
-        artifact_sha256: fa4581388b06f66d1b76ec5eb9aa7ad2ad09277b48f1f8855818e90e5af990e8
-        package_sha256: 2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37
-        receipt_path: territorios/aut01/evidencia/fuentes_territoriales/2025/79b1640f3bccc1a06d680fc03494135e73360f80bdd25714b0a5cd26c21556f2/43639991903/receipt.json
-        territorial_identity_sha256: 79b1640f3bccc1a06d680fc03494135e73360f80bdd25714b0a5cd26c21556f2
-        compatibility_report_sha256: c0550f29f74c7ed1b4bd8894fcbfbdc0b0283964898f527454bc00ca8544a6f4
-        compatibility_identity_sha256: 4d75bcab25a4bba27656fcf6184e510ab61718c222e213befa04fd8ec96cbc02
+        run_id: 43724230051
+        artifact_name: ddd-source-package-aut01-2025-43724230051
+        artifact_sha256: 696c7d4aaf841f3e4453958768892aff47a0dc3e84616abd199c2494bf902402
+        package_sha256: dd360c50e2cc1f9b850fe3b270ffe612e80abbd39dd530eb97f96f3f75e1a5f2
+        receipt_path: territorios/aut01/evidencia/fuentes_territoriales/2025/f12696831d1fe7b40f7635040fa8886d3be44bc3ea90be84fd3fd83a1b1af94b/43724230051/receipt.json
+        territorial_identity_sha256: f12696831d1fe7b40f7635040fa8886d3be44bc3ea90be84fd3fd83a1b1af94b
+        compatibility_report_sha256: 697b310fdfc2dc9b7da04670e5f89281c3c04da6428f55d8b76c2b0e6e035091
+        compatibility_identity_sha256: 23e2a4a7f79b8d6a28255095036b5ca7d54e8e3556c167f43720051015e08435
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2025
         section_year: 2025
-        source_commit: b744c083351e7460e678f672bf397fd753a816ff
+        source_commit: db314ed67063bae3987f77ad566c74ad18ac1dbf
       evidence:
         electoral_source: territorios/aut01/evidencia/fuentes_electorales/2025/995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395/42463442007/receipt.json
         prepared_source_pair: territorios/aut01/evidencia/pares_fuentes/2025/008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc.json
         territorial_product: territorios/aut01/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut01/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut01/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut02
   name: Aragón
