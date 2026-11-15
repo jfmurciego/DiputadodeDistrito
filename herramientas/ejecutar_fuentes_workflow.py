@@ -21,7 +21,7 @@ import yaml
 from herramientas.adquirir_fuentes_oficiales import acquire, load_yaml
 from herramientas.compatibilidad_poblacion_seccionado import assert_materialized_territorial_gate
 from herramientas.gestionar_fuentes_checkpoint import execute_source_policy
-from herramientas.politica_reutilizacion_fuentes import parse_acquisition_date
+from herramientas.politica_reutilizacion_fuentes import paquete_territory_mismatch, parse_acquisition_date
 
 BUNDLE_NAME = "prepared_sources.zip"
 FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
@@ -213,38 +213,11 @@ def _manifest_from_acquisition(
     return manifest
 
 
-EVIDENCE_DOCS = ("declaracion_materializacion.json", "inventario_fuentes.json", "manifiesto_procedencia.json")
-
-
 def checkpoint_territory_mismatch(checkpoint_in: Path | None, territory_id: str) -> list[str]:
-    """T-336: motivos por los que el paquete congelado de un checkpoint NO es del id canónico (igualdad exacta).
-
-    Sin alias ni reescritura: un paquete con id legacy u otro territorio no se restaura; se adquiere de nuevo.
-    """
+    """T-336: un paquete de checkpoint con id distinto del canónico no se restaura; se adquiere de nuevo."""
     if checkpoint_in is None:
         return []
-    package = checkpoint_in / "sources"
-    manifest_path = package / "manifest.json"
-    if not manifest_path.is_file():
-        return []
-    reasons: list[str] = []
-    try:
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        declared = str(manifest.get("territory_id") or "").strip()
-        if declared and declared != territory_id:
-            reasons.append(f"manifiesto: territory_id={declared!r} != {territory_id!r}")
-        with zipfile.ZipFile(package / str(manifest["path"])) as archive:
-            for name in EVIDENCE_DOCS:
-                try:
-                    doc = json.loads(archive.read(name).decode("utf-8"))
-                except KeyError:
-                    continue
-                actual = str((doc or {}).get("territory_id") or "").strip()
-                if actual != territory_id:
-                    reasons.append(f"{name}: territory_id={actual or 'vacío'!r} != {territory_id!r}")
-    except Exception as exc:  # paquete ilegible: no se reutiliza
-        reasons.append(f"paquete congelado ilegible: {exc}")
-    return reasons
+    return paquete_territory_mismatch(checkpoint_in / "sources", territory_id)
 
 
 def _restore_acquisition_evidence(working: Path, evidence: Path) -> None:

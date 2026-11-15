@@ -16,6 +16,8 @@ from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
 
+RC_ID_NO_CANONICO = 3  # T-336
+
 REQUIRED_BUNDLE_FILES = {
     "declaracion_materializacion.json",
     "inventario_fuentes.json",
@@ -266,7 +268,12 @@ def main() -> int:
         section_year=args.section_year,
     )
     print(json.dumps({"valid": valid, "reasons": reasons}, ensure_ascii=False))
-    return 0 if valid else 2
+    if valid:
+        return 0
+    # T-336: rechazo SOLO por id de territorio no canónico = rc propio (la preparación re-adquiere); otro rechazo = 2.
+    if reasons and all(r.startswith(("territorio de manifiesto distinto", "territorio en ", "informe de compatibilidad pertenece a otro territorio")) for r in reasons):
+        return RC_ID_NO_CANONICO
+    return 2
 
 
 if __name__ == "__main__":

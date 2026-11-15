@@ -105,5 +105,77 @@ class WorkflowPermisos(unittest.TestCase):
         self.assertIn("|| {", paso[paso.index("cp .ddd-source-checkpoint"):])
 
 
+class SelectorCLIyP10(unittest.TestCase):
+    """El paso del P10 («Recuperar fuente territorial registrada») ejecutado de verdad bajo `bash -eo pipefail`."""
+
+    PREP = ROOT / ".github/workflows/preparacion-fuentes.yml"
+
+    def _cola_del_paso(self) -> str:
+        import yaml
+        d = yaml.safe_load(self.PREP.read_text(encoding="utf-8"))
+        for job in d["jobs"].values():
+            for st in job.get("steps", []):
+                if st.get("name") == "Recuperar fuente territorial registrada":
+                    run = st["run"]
+                    return run[run.index("rc=0\n"):]
+        raise AssertionError("paso no encontrado")
+
+    def _ejecutar(self, territory: str, **kw):
+        import os
+        import subprocess
+        with tempfile.TemporaryDirectory() as td:
+            cwd = Path(td)
+            build_package(cwd / ".ddd-source-package", territory=territory, **kw)
+            out, summ = cwd / "out.txt", cwd / "summary.md"
+            out.touch(); summ.touch()
+            env = dict(os.environ, PYTHONPATH=str(ROOT), TERRITORY_ID=CANON, EDITION="2025", POPULATION_YEAR="2025",
+                       SECTION_YEAR="2025", REGISTERED_RUN_ID="42720735134",
+                       REGISTERED_ARTIFACT_NAME=f"ddd-source-package-{VIEJO}-2025-42720735134",
+                       GITHUB_OUTPUT=str(out), GITHUB_STEP_SUMMARY=str(summ))
+            r = subprocess.run(["bash", "-eo", "pipefail", "-c", self._cola_del_paso()], cwd=cwd, env=env,
+                               capture_output=True, text=True)
+            return r.returncode, out.read_text(), summ.read_text(), r.stdout + r.stderr
+
+    def test_paquete_id_viejo_adquiere_de_verdad(self):
+        rc, out, summ, _ = self._ejecutar(VIEJO)
+        self.assertEqual(rc, 0)
+        self.assertIn("reused_candidate=false", out)
+        self.assertIn("ADQUIRIRÁ", summ)
+
+    def test_paquete_canonico_se_reutiliza_y_lo_dice(self):
+        rc, out, summ, _ = self._ejecutar(CANON)
+        self.assertEqual(rc, 0)
+        self.assertIn("reused_candidate=true", out)
+        self.assertIn("REUTILIZÓ", summ)
+
+    def test_otro_rechazo_sigue_fallando(self):
+        rc, out, _, _ = self._ejecutar(CANON, edition=2024)
+        self.assertNotEqual(rc, 0)
+        self.assertNotIn("reused_candidate=false", out)
+
+    def test_nac_con_paquete_viejo_adquiere(self):
+        nac = next(t for t in territorio_ids.tabla() if t.startswith("nac"))
+        viejo = territorio_ids.tabla()[nac].id_legacy
+        with tempfile.TemporaryDirectory() as td:
+            pkg = build_package(Path(td) / "p", territory=viejo)
+            self.assertFalse(validate_prepared_package(pkg, territory_id=nac, edition=2025)[0])
+            pkg2 = build_package(Path(td) / "q", territory=nac)
+            self.assertTrue(validate_prepared_package(pkg2, territory_id=nac, edition=2025)[0])
+
+
+class ReanudacionBloquea(unittest.TestCase):
+    def test_checkpoint_de_reanudacion_con_id_viejo_se_bloquea(self):
+        from herramientas.validar_fuentes_reanudacion import validate_resume_sources
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            cfg = root / "territorios" / CANON / "config"
+            cfg.mkdir(parents=True)
+            (cfg / "fuentes_oficiales.yaml").write_text("territory:\n  edition: 2025\n", encoding="utf-8")
+            (root / "params.yaml").write_text(f"meta:\n  territory_id: {CANON}\n", encoding="utf-8")
+            build_package(root / "viejo", territory=VIEJO)
+            with self.assertRaisesRegex(RuntimeError, "no canónico"):
+                validate_resume_sources(params=root / "params.yaml", package=root / "viejo", root_dir=root)
+
+
 if __name__ == "__main__":
     unittest.main()

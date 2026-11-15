@@ -11,6 +11,15 @@ reescritura). (2) `ejecutar_fuentes_workflow.py`: `checkpoint_territory_mismatch
 nuevo (ACQUIRE) con `::warning::`. (3) `_reutilizable-generacion-territorial.yml` 1.5.3: `sudo chown` de la evidencia antes del cp y cp que falla
 con `::error::` y rc 1.
 
+**P10 (preparación).** Los 71 P10 de la r3 reutilizaron un paquete registrado con id antiguo. `preparacion-fuentes.yml` 1.4.13: el selector devuelve rc 3
+si el único rechazo es el id no canónico y el paso «Recuperar fuente territorial registrada» adquiere de nuevo (`::warning::`); otro rechazo sigue
+fallando; cinturón que falla (rc 46) si se reutilizara un id no canónico; el resumen del job dice REUTILIZÓ/ADQUIERE y con qué paquete. La
+reanudación (`validar_fuentes_reanudacion.py`) bloquea un checkpoint con id no canónico (nunca adquiere). Helper común
+`politica_reutilizacion_fuentes.paquete_territory_mismatch`.
+
+**Hallazgos.** `preflight_preparacion_fuente.py` l.158/182 leen recibos electorales del catálogo (no alimentan al evaluador de fuentes); l.110 acepta
+nombres de artefacto con variantes de id (`variantes`): no se toca aquí (el contenido del paquete manda).
+
 **Pruebas.** `tests/test_t336_evidencia_id_canonico.py` (7; los de selector fallan sin el cambio): id legacy → rechazado/ACQUIRE, canónico → REUSE.
 Batería afectada, test_t220, workflow_safety, GovernanceHeaders y guardián en verde.
 
