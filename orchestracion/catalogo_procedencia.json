@@ -63,7 +63,7 @@
   "territorios": 71,
   "productos": 535,
   "errores": 0,
-  "avisos": 176
+  "avisos": 177
  },
  "territorios": {
   "andalucia": {
@@ -9752,6 +9752,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "aut13/43749008571/ddd-minimo-43749008571-M08.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut16",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "aut16/43747089801/ddd-minimo-43747089801-M06.zip"
   },
   {
    "nivel": "AVISO",
