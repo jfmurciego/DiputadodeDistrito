@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T14:17:37.680272+00:00",
+  "generated_at": "2026-11-15T16:02:52.288869+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -65,8 +65,8 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 43639991903,
-            "receipt_path": "territorios/aut01/evidencia/fuentes_territoriales/2025/79b1640f3bccc1a06d680fc03494135e73360f80bdd25714b0a5cd26c21556f2/43639991903/receipt.json"
+            "run_id": 43728682179,
+            "receipt_path": "territorios/aut01/evidencia/fuentes_territoriales/2025/f12696831d1fe7b40f7635040fa8886d3be44bc3ea90be84fd3fd83a1b1af94b/43728682179/receipt.json"
           }
         },
         "electoral": {
@@ -122,8 +122,8 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 43640002217,
-            "receipt_path": "territorios/aut02/evidencia/fuentes_territoriales/2025/91758e3034623e6e2b9c399a4347d0827e8cbbd5c7663a9a28d334ac958f5fc9/43640002217/receipt.json"
+            "run_id": 43728693144,
+            "receipt_path": "territorios/aut02/evidencia/fuentes_territoriales/2025/2fdc39e5b356c1b3464934a47c793b6c00779c068121c791f6e18fde6c433375/43728693144/receipt.json"
           }
         },
         "electoral": {
@@ -179,8 +179,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43640013123,
-            "receipt_path": "territorios/aut03/evidencia/fuentes_territoriales/2025/ea6debdcbd442ab9567cce7ea73e7511b42a0c55d0f30c4c691576d32485684b/43640013123/receipt.json"
+            "run_id": 43728705200,
+            "receipt_path": "territorios/aut03/evidencia/fuentes_territoriales/2025/0d5ae802e3fcc3e1d9759b401ba6eb9dd6cc1ab3d33a4fb2ec67a1888287d127/43728705200/receipt.json"
           }
         },
         "electoral": {
@@ -236,8 +236,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43640023838,
-            "receipt_path": "territorios/aut04/evidencia/fuentes_territoriales/2025/2656685909d4624911a6b30d0c2a25e257b23b50b584e97105a5db4867fcc4be/43640023838/receipt.json"
+            "run_id": 43728716862,
+            "receipt_path": "territorios/aut04/evidencia/fuentes_territoriales/2025/973d194ff2a9ab0c2fb47a8d1b5cc639bc9177163bdc5733af983995d6e8d4e3/43728716862/receipt.json"
           }
         },
         "electoral": {
@@ -293,8 +293,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43640033803,
-            "receipt_path": "territorios/aut05/evidencia/fuentes_territoriales/2025/2a4a3c7162ccd9cacc405065f71cebb737dd9fc643dbb0723b95d28967c16471/43640033803/receipt.json"
+            "run_id": 43728972913,
+            "receipt_path": "territorios/aut05/evidencia/fuentes_territoriales/2025/e55994f20501ba6463607c3c7313f2edfdb998d066846b8035cc8d0aa5eefe9d/43728972913/receipt.json"
           }
         },
         "electoral": {
@@ -350,8 +350,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43640043210,
-            "receipt_path": "territorios/aut06/evidencia/fuentes_territoriales/2025/91b047fb2403365b8558196602ecf8ca0f536baeb279a379fdce72c271e93aa0/43640043210/receipt.json"
+            "run_id": 43724285308,
+            "receipt_path": "territorios/aut06/evidencia/fuentes_territoriales/2025/0bc278cfc61ea05b6c9f644c6584315f3eb00df1a45e1b764a1ba6e8ecbf8467/43724285308/receipt.json"
           }
         },
         "electoral": {
@@ -407,8 +407,8 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 43640052186,
-            "receipt_path": "territorios/aut07/evidencia/fuentes_territoriales/2025/74830da97b9c4fe1c260a90840fc099ad2594f1533c90c63cae4eeb755bf0f30/43640052186/receipt.json"
+            "run_id": 43724296360,
+            "receipt_path": "territorios/aut07/evidencia/fuentes_territoriales/2025/0098617c2feb01a13e8d79e36d6bf86312f85f76da0ca5ce4a4f8d3a13ce24d7/43724296360/receipt.json"
           }
         },
         "electoral": {
@@ -464,8 +464,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43640061481,
-            "receipt_path": "territorios/aut08/evidencia/fuentes_territoriales/2025/d4b258fe493a4d0c0a668040cc3f98889a489133f5c89f2e23f83e86fce0c289/43640061481/receipt.json"
+            "run_id": 43724306883,
+            "receipt_path": "territorios/aut08/evidencia/fuentes_territoriales/2025/00a78f065ede677a44e9f396d9b6ef66c33a62b478e1a6677853a9e04ff0c4ba/43724306883/receipt.json"
           }
         },
         "electoral": {
@@ -521,8 +521,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 43640071031,
-            "receipt_path": "territorios/aut09/evidencia/fuentes_territoriales/2025/699b33dca6a72d49f9f0057e175ba26c44d751ad0543a96af6624bc7fb99790e/43640071031/receipt.json"
+            "run_id": 43724316836,
+            "receipt_path": "territorios/aut09/evidencia/fuentes_territoriales/2025/4467259ac1b7751bfd6be682888faa651d6acb2a422f6f8236a27bdb40548367/43724316836/receipt.json"
           }
         },
         "electoral": {
@@ -578,8 +578,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43640080386,
-            "receipt_path": "territorios/aut10/evidencia/fuentes_territoriales/2025/2a3965a20955227ede94ec4fb961f0e42db1e01a75c8f60debdcfa3c5b9c287e/43640080386/receipt.json"
+            "run_id": 43724326443,
+            "receipt_path": "territorios/aut10/evidencia/fuentes_territoriales/2025/93b23d341ad215dd9e3c7f03c9bf3e60c45759dbf79f08208450b7c9b1a980b1/43724326443/receipt.json"
           }
         },
         "electoral": {
@@ -686,8 +686,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 43645451541,
-            "receipt_path": "territorios/aut12/evidencia/fuentes_territoriales/2025/1651ec81b1367df37949d4418d7decc2339e7d5c327183f60db74b6b4e4c7344/43645451541/receipt.json"
+            "run_id": 43728460706,
+            "receipt_path": "territorios/aut12/evidencia/fuentes_territoriales/2025/60a8bcde237b51246f0979a5593f38c50585a23a911dd6e7b57a07206486c669/43728460706/receipt.json"
           }
         },
         "electoral": {
@@ -743,8 +743,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43645460677,
-            "receipt_path": "territorios/aut13/evidencia/fuentes_territoriales/2025/ae8b62dace85159af12c5bce3a8be15d2ab5c11dc2ed9a82c88ff7679cc21178/43645460677/receipt.json"
+            "run_id": 43728472945,
+            "receipt_path": "territorios/aut13/evidencia/fuentes_territoriales/2025/c6e0a91aa9086a1aa84576d0ce048e8e07556a104a1226d0e1581796ec94556d/43728472945/receipt.json"
           }
         },
         "electoral": {
@@ -800,8 +800,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43645469554,
-            "receipt_path": "territorios/aut14/evidencia/fuentes_territoriales/2025/978680ebfa479e02db3be6101e0f1fb25fc958911b93b9ad8b07a53d88c6b708/43645469554/receipt.json"
+            "run_id": 43728729351,
+            "receipt_path": "territorios/aut14/evidencia/fuentes_territoriales/2025/d4b95774189be423a25f70f32e3ab491dfeae81a96704b393afa1419b109bfe3/43728729351/receipt.json"
           }
         },
         "electoral": {
@@ -857,8 +857,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43645478667,
-            "receipt_path": "territorios/aut15/evidencia/fuentes_territoriales/2025/cc5f8c73bb56301faa02bcb76317f34c1d3e14fe275c63afaee3ff97f72609f5/43645478667/receipt.json"
+            "run_id": 43728740841,
+            "receipt_path": "territorios/aut15/evidencia/fuentes_territoriales/2025/403ba02207370216c69e84eb8ecb1ef8b9599a18562b17d2e4f9dcb38526863e/43728740841/receipt.json"
           }
         },
         "electoral": {
@@ -914,8 +914,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 43645488129,
-            "receipt_path": "territorios/aut16/evidencia/fuentes_territoriales/2025/08961b83ea2904cc47220dfc00f71b0716a49fdcec719e7482c5c33db13273d2/43645488129/receipt.json"
+            "run_id": 43728752331,
+            "receipt_path": "territorios/aut16/evidencia/fuentes_territoriales/2025/02bb7e6fcc210b403cd60eed8eb73dbbcf90e14c051b796bd99fc7872e5aa922/43728752331/receipt.json"
           }
         },
         "electoral": {
@@ -971,8 +971,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43645497921,
-            "receipt_path": "territorios/aut17/evidencia/fuentes_territoriales/2025/0c9c86eb040c1a26bb60a2188d411f2f4ff4484ae3e87b5f415f0adc7e113636/43645497921/receipt.json"
+            "run_id": 43728762834,
+            "receipt_path": "territorios/aut17/evidencia/fuentes_territoriales/2025/1f4fde781f7fb32c2188c4dc94c4637095aee1e59b3374c51069b29c9dd1e1ff/43728762834/receipt.json"
           }
         },
         "electoral": {
@@ -1028,8 +1028,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43645507829,
-            "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/249dd20fc5dbadceec0cf2d4ed0cd3c9bf9fba5a8a03c613ccd4f1eee568498c/43645507829/receipt.json"
+            "run_id": 43728984580,
+            "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/2cdeea2b02fe2bd6d328393f3c9ab25f8f996c90f73d0e583fd5f9c6a02e60ab/43728984580/receipt.json"
           }
         },
         "electoral": {
@@ -7126,9 +7126,9 @@
         "territorial_source": {
           "territory_id": "aut01",
           "edition": "2025",
-          "run_id": 43639991903,
-          "artifact_name": "ddd-source-package-aut01-2025-43639991903",
-          "artifact_sha256": "fa4581388b06f66d1b76ec5eb9aa7ad2ad09277b48f1f8855818e90e5af990e8",
+          "run_id": 43728682179,
+          "artifact_name": "ddd-source-package-aut01-2025-43728682179",
+          "artifact_sha256": "def8a7f43e8a7b2f005c51ca93ce8f95de376015aed789e3c847740830f32af6",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7168,11 +7168,11 @@
       "name": "Aragón",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43016936483,
+      "run_id": 43728693144,
       "last_run": {
         "run_id": 43016936483,
         "status": "SUCCESS",
@@ -7181,30 +7181,30 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "aut02",
           "edition": "2025",
-          "run_id": 43640002217,
-          "artifact_name": "ddd-source-package-aut02-2025-43640002217",
-          "artifact_sha256": "ddaaf8cd5416dd15b9175f1419e6f8325d5cc4e35d7fd6e6a076ca83f056a195",
+          "run_id": 43728693144,
+          "artifact_name": "ddd-source-package-aut02-2025-43728693144",
+          "artifact_sha256": "0b93a615e5d8c0354e1932e23280a63e42dfbae042464316f4c7f9779a057940",
           "decision": "VALIDADO"
         },
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "aragon",
+          "territory_id": "aut02",
           "territory_name": "Aragón",
           "edition": "2025",
-          "run_id": 43011616681,
-          "artifact_name": "ddd-state-43011616681-M06",
-          "artifact_sha256": "2854b87d060ac2acd769686306ce457f6c5aa1d3184dde7150986fa5d744088e",
-          "source_commit": "2d29dc4536e23c35ec9f2eb594fc5b8021b77cd1",
+          "run_id": 43728693144,
+          "artifact_name": "ddd-state-43728693144-M06",
+          "artifact_sha256": "5aa055d8a7a180a02ecdf2c7a8c0fe23c070eb4be5dbfdf1fbe232f245dfaa82",
+          "source_commit": "66208d2bcaf5fdc46407af8ec04286fe885b1d8f",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/43011616681.json"
+          "producer_manifest_path": "territorios/aut02/evidencia/generaciones_m06/43728693144.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7222,18 +7222,18 @@
       },
       "autonomous_community_code_ine": "02",
       "display_name": "02 Aragón",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut03",
       "name": "Principado de Asturias",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43016768497,
+      "run_id": 43728705200,
       "last_run": {
         "run_id": 43016768497,
         "status": "SUCCESS",
@@ -7242,30 +7242,30 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "aut03",
           "edition": "2025",
-          "run_id": 43640013123,
-          "artifact_name": "ddd-source-package-aut03-2025-43640013123",
-          "artifact_sha256": "802ff1512f1a7fe53c34433917a6a8f27210357969104dd762bdcd5ba23aaa85",
+          "run_id": 43728705200,
+          "artifact_name": "ddd-source-package-aut03-2025-43728705200",
+          "artifact_sha256": "ed89058c657fc272520ea378b4c0aafde3c5aa57a8dee9b0c33d8ed39ec0a710",
           "decision": "VALIDADO"
         },
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "principado_de_asturias",
+          "territory_id": "aut03",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 43011625216,
-          "artifact_name": "ddd-state-43011625216-M06",
-          "artifact_sha256": "1183add3081e0679e67a24b344559318cbc314906eb4e23415788434dac87198",
-          "source_commit": "2d29dc4536e23c35ec9f2eb594fc5b8021b77cd1",
+          "run_id": 43728705200,
+          "artifact_name": "ddd-state-43728705200-M06",
+          "artifact_sha256": "e862e9d89bfeacc508742535c271539fb2655c5c2d5905cb8d3e60e78707a600",
+          "source_commit": "2533eeb53eeaa31545ad833c3a97883dcf9613ac",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/principado_de_asturias/evidencia/generaciones_m06/43011625216.json"
+          "producer_manifest_path": "territorios/aut03/evidencia/generaciones_m06/43728705200.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7283,18 +7283,18 @@
       },
       "autonomous_community_code_ine": "03",
       "display_name": "03 Principado de Asturias",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut04",
       "name": "Islas Baleares",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43019811578,
+      "run_id": 43728716862,
       "last_run": {
         "run_id": 43019811578,
         "status": "SUCCESS",
@@ -7303,30 +7303,30 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "aut04",
           "edition": "2025",
-          "run_id": 43640023838,
-          "artifact_name": "ddd-source-package-aut04-2025-43640023838",
-          "artifact_sha256": "f8e2ec1b9a37c2e7cdb964081d727693d3c16445c48fc6bd99be85de758a96fa",
+          "run_id": 43728716862,
+          "artifact_name": "ddd-source-package-aut04-2025-43728716862",
+          "artifact_sha256": "427e2aafe5585003ea9b9e2dbf0e6decf14b72f0cbab0600eb918ded94d15dcf",
           "decision": "VALIDADO"
         },
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "illes_balears",
+          "territory_id": "aut04",
           "territory_name": "Islas Baleares",
           "edition": "2025",
-          "run_id": 43011633844,
-          "artifact_name": "ddd-state-43011633844-M06",
-          "artifact_sha256": "86629e2738b71e06fc020212ebf31c462fda137344073ea034659ecd5635cc44",
-          "source_commit": "766c9ea628bbdd6feba955791cdf915ed187b11c",
+          "run_id": 43728716862,
+          "artifact_name": "ddd-state-43728716862-M06",
+          "artifact_sha256": "f69d1db178f829c3fded22414673d26502157d3fa7711f4644a6860f641d58dd",
+          "source_commit": "6b6616a2dfc00bac5b1a9a4e2e2005873ad3a866",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/illes_balears/evidencia/generaciones_m06/43011633844.json"
+          "producer_manifest_path": "territorios/aut04/evidencia/generaciones_m06/43728716862.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7344,18 +7344,18 @@
       },
       "autonomous_community_code_ine": "04",
       "display_name": "04 Islas Baleares",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut05",
       "name": "Canarias",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43020588641,
+      "run_id": 43728972913,
       "last_run": {
         "run_id": 43020588641,
         "status": "SUCCESS",
@@ -7364,30 +7364,30 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "aut05",
           "edition": "2025",
-          "run_id": 43640033803,
-          "artifact_name": "ddd-source-package-aut05-2025-43640033803",
-          "artifact_sha256": "5c5c8e661854eaaddb73e77abaa03317964f6de3370eaf3fea982ecb72c4000f",
+          "run_id": 43728972913,
+          "artifact_name": "ddd-source-package-aut05-2025-43728972913",
+          "artifact_sha256": "e37f07d9a16a959e874ba5af02275b0341749a80975a7d046ea7ad8a08cead22",
           "decision": "VALIDADO"
         },
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "canarias",
+          "territory_id": "aut05",
           "territory_name": "Canarias",
           "edition": "2025",
-          "run_id": 43011642069,
-          "artifact_name": "ddd-state-43011642069-M06",
-          "artifact_sha256": "54183891c3b7955cc9cef5ad016e20b430138953de90437ee959eb4109ca09d2",
-          "source_commit": "9f8bcf4cc048f66f82ff78df42ef7ec4560f3c76",
+          "run_id": 43728972913,
+          "artifact_name": "ddd-state-43728972913-M06",
+          "artifact_sha256": "a3bfb42e357f03dc4fb033d8af6e935ebda5aead9ec26466bb58ffc6a81c90d1",
+          "source_commit": "a57c6f9d2c4563d7fc4c969e0adece533b9b6e53",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/canarias/evidencia/generaciones_m06/43011642069.json"
+          "producer_manifest_path": "territorios/aut05/evidencia/generaciones_m06/43728972913.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7405,7 +7405,7 @@
       },
       "autonomous_community_code_ine": "05",
       "display_name": "05 Canarias",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut06",
@@ -7431,9 +7431,9 @@
         "territorial_source": {
           "territory_id": "aut06",
           "edition": "2025",
-          "run_id": 43640043210,
-          "artifact_name": "ddd-source-package-aut06-2025-43640043210",
-          "artifact_sha256": "0f3b826ca262c49cf3c0748b564972ef35504e39f7039ee5a2d7c61d514ad11b",
+          "run_id": 43724285308,
+          "artifact_name": "ddd-source-package-aut06-2025-43724285308",
+          "artifact_sha256": "17c01544c2f01d7c6defb7a59d49080cb282b0d852c0a29687c4f8692398e2f1",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7492,9 +7492,9 @@
         "territorial_source": {
           "territory_id": "aut07",
           "edition": "2025",
-          "run_id": 43640052186,
-          "artifact_name": "ddd-source-package-aut07-2025-43640052186",
-          "artifact_sha256": "c20108c5998c59b22c7698ee036dac86436606f961ea5acf35d7ef49a022659c",
+          "run_id": 43724296360,
+          "artifact_name": "ddd-source-package-aut07-2025-43724296360",
+          "artifact_sha256": "63742eeaf28d324b7abb2b193d6235ce2aecb6c19da6f7a1f9503c28a9e2969c",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7553,9 +7553,9 @@
         "territorial_source": {
           "territory_id": "aut08",
           "edition": "2025",
-          "run_id": 43640061481,
-          "artifact_name": "ddd-source-package-aut08-2025-43640061481",
-          "artifact_sha256": "03ac37ba916c1ad6ba6357a638321ac11e5d41920b10923336096e1dd903cdf8",
+          "run_id": 43724306883,
+          "artifact_name": "ddd-source-package-aut08-2025-43724306883",
+          "artifact_sha256": "200273697c4e1b4f6cead075d540c747bceed79b2adf7eb146f78a62271c9894",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7614,9 +7614,9 @@
         "territorial_source": {
           "territory_id": "aut09",
           "edition": "2025",
-          "run_id": 43640071031,
-          "artifact_name": "ddd-source-package-aut09-2025-43640071031",
-          "artifact_sha256": "a8b36f32b65cef0b5416e67e2605cebc4313c0c0e73be444334d5bca04bdd6ff",
+          "run_id": 43724316836,
+          "artifact_name": "ddd-source-package-aut09-2025-43724316836",
+          "artifact_sha256": "366e8e558c365d25f11f4436f6736ccbbb1a62cc0bc2b3fe7c265567cb0ba3dc",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7675,9 +7675,9 @@
         "territorial_source": {
           "territory_id": "aut10",
           "edition": "2025",
-          "run_id": 43640080386,
-          "artifact_name": "ddd-source-package-aut10-2025-43640080386",
-          "artifact_sha256": "ff56ff7a05fe23c825b542a6348ab6ce8c8892ae334b2c3b120473f7c0684949",
+          "run_id": 43724326443,
+          "artifact_name": "ddd-source-package-aut10-2025-43724326443",
+          "artifact_sha256": "45633ae5250f40df640b8dcb04d292e3cf41d1a011036eba78b91dc1f05d2d2c",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7717,20 +7717,20 @@
       "name": "Extremadura",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43720213000,
+      "run_id": 43722563345,
       "last_run": {
-        "run_id": 43720213000,
+        "run_id": 43722563345,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7771,7 +7771,7 @@
       },
       "autonomous_community_code_ine": "11",
       "display_name": "11 Extremadura",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "aut12",
@@ -7797,9 +7797,9 @@
         "territorial_source": {
           "territory_id": "aut12",
           "edition": "2025",
-          "run_id": 43645451541,
-          "artifact_name": "ddd-source-package-aut12-2025-43645451541",
-          "artifact_sha256": "2d422bd76710bc25cf45631e32b9d7e1aede2ceb3f9b7c8dfa74bd02dd6d04ba",
+          "run_id": 43728460706,
+          "artifact_name": "ddd-source-package-aut12-2025-43728460706",
+          "artifact_sha256": "12da3989617b7b7cd085f7e9c3d3ec8e3cadf2896f2adfb85b12f5ac3971afa9",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7858,9 +7858,9 @@
         "territorial_source": {
           "territory_id": "aut13",
           "edition": "2025",
-          "run_id": 43645460677,
-          "artifact_name": "ddd-source-package-aut13-2025-43645460677",
-          "artifact_sha256": "269b9c81b4ebf8b56d7a639948f8e3aedc38a57de39a91ae3cd180f9327e154a",
+          "run_id": 43728472945,
+          "artifact_name": "ddd-source-package-aut13-2025-43728472945",
+          "artifact_sha256": "b9d1b9b656beae14d8872a69ce978ca4f47d2474b480be65f7698bca6ca5eb62",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7919,9 +7919,9 @@
         "territorial_source": {
           "territory_id": "aut14",
           "edition": "2025",
-          "run_id": 43645469554,
-          "artifact_name": "ddd-source-package-aut14-2025-43645469554",
-          "artifact_sha256": "b4981f10d349b2c0c30ab4c4b17a7ae1e32893df526fdfbc777d5785388ea435",
+          "run_id": 43728729351,
+          "artifact_name": "ddd-source-package-aut14-2025-43728729351",
+          "artifact_sha256": "7192a0aff668b7b58f464508d729a3ea8672a78ead6f94e9ce9ea026099f0759",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7980,9 +7980,9 @@
         "territorial_source": {
           "territory_id": "aut15",
           "edition": "2025",
-          "run_id": 43645478667,
-          "artifact_name": "ddd-source-package-aut15-2025-43645478667",
-          "artifact_sha256": "c589f663b158ff4dc48a4667a1bc212188ca5b1a068080465189393e5c85358a",
+          "run_id": 43728740841,
+          "artifact_name": "ddd-source-package-aut15-2025-43728740841",
+          "artifact_sha256": "3cbe3c66bb3d1800f7436e4eb783fe54d5b1a0f9421e883eee7e8d93bbb68dc7",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8041,9 +8041,9 @@
         "territorial_source": {
           "territory_id": "aut16",
           "edition": "2025",
-          "run_id": 43645488129,
-          "artifact_name": "ddd-source-package-aut16-2025-43645488129",
-          "artifact_sha256": "b9125cc9ae158009fc0762fa571af38e9b7ceb37f43456a915c0309a0903b971",
+          "run_id": 43728752331,
+          "artifact_name": "ddd-source-package-aut16-2025-43728752331",
+          "artifact_sha256": "60b41b54b2098f1afbd4d0f3e8e37777a2938a68406a1c32c090b47ecb091921",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8102,9 +8102,9 @@
         "territorial_source": {
           "territory_id": "aut17",
           "edition": "2025",
-          "run_id": 43645497921,
-          "artifact_name": "ddd-source-package-aut17-2025-43645497921",
-          "artifact_sha256": "4c78fa9cc45d71f69c2108ff1726dec8edd5d74c23fe62a366c5c340d0745a46",
+          "run_id": 43728762834,
+          "artifact_name": "ddd-source-package-aut17-2025-43728762834",
+          "artifact_sha256": "e1b2a2d6c67cda9761e4ef0b2678d97121fd95a79b71f15d6cad31029dc9a84f",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8163,9 +8163,9 @@
         "territorial_source": {
           "territory_id": "aut18",
           "edition": "2025",
-          "run_id": 43645507829,
-          "artifact_name": "ddd-source-package-aut18-2025-43645507829",
-          "artifact_sha256": "8652155ecb1c7f7e15e19e0ebef44f1879f05cdae9199a0769b595c56e4167af",
+          "run_id": 43728984580,
+          "artifact_name": "ddd-source-package-aut18-2025-43728984580",
+          "artifact_sha256": "d63bf827283d0b08958a674240c94ba113831a2f7b706267bba05db874be0560",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12676,18 +12676,15 @@
     }
   ],
   "kpis": {
-    "complete": 73,
+    "complete": 70,
     "complete_names": [
       "01 Andalucía",
-      "02 Aragón",
-      "03 Principado de Asturias",
-      "04 Islas Baleares",
-      "05 Canarias",
       "06 Cantabria",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "09 Cataluña",
       "10 Comunidad Valenciana",
+      "11 Extremadura",
       "12 Galicia",
       "13 Comunidad de Madrid",
       "14 Región de Murcia",
@@ -12961,20 +12958,38 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "aut09",
-    "name": "Cataluña",
-    "display_name": "09 Cataluña",
-    "autonomous_community_code_ine": "09",
-    "run_id": 43204706233,
+    "territory_id": "aut11",
+    "name": "Extremadura",
+    "display_name": "11 Extremadura",
+    "autonomous_community_code_ine": "11",
+    "run_id": 43722563345,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
     {
-      "territory": "11 Extremadura",
-      "territory_id": "aut11",
-      "autonomous_community_code_ine": "11",
+      "territory": "02 Aragón",
+      "territory_id": "aut02",
+      "autonomous_community_code_ine": "02",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "03 Principado de Asturias",
+      "territory_id": "aut03",
+      "autonomous_community_code_ine": "03",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "04 Islas Baleares",
+      "territory_id": "aut04",
+      "autonomous_community_code_ine": "04",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "05 Canarias",
+      "territory_id": "aut05",
+      "autonomous_community_code_ine": "05",
       "action": "incorporar resultados electorales"
     },
     {
@@ -13000,31 +13015,31 @@
       "territory_id": "congreso350_almeria",
       "autonomous_community_code_ine": "R04",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Ávila",
-      "territory_id": "congreso350_avila",
-      "autonomous_community_code_ine": "R05",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Badajoz",
-      "territory_id": "congreso350_badajoz",
-      "autonomous_community_code_ine": "R06",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Barcelona",
-      "territory_id": "congreso350_barcelona",
-      "autonomous_community_code_ine": "R08",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
     {
-      "territory": "11 Extremadura",
-      "territory_id": "aut11",
-      "autonomous_community_code_ine": "11",
+      "territory": "02 Aragón",
+      "territory_id": "aut02",
+      "autonomous_community_code_ine": "02",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "03 Principado de Asturias",
+      "territory_id": "aut03",
+      "autonomous_community_code_ine": "03",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "04 Islas Baleares",
+      "territory_id": "aut04",
+      "autonomous_community_code_ine": "04",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "05 Canarias",
+      "territory_id": "aut05",
+      "autonomous_community_code_ine": "05",
       "action": "preparar fuentes electorales"
     }
   ]
