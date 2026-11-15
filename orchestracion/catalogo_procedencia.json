@@ -63,7 +63,7 @@
   "territorios": 71,
   "productos": 535,
   "errores": 0,
-  "avisos": 195
+  "avisos": 196
  },
  "territorios": {
   "andalucia": {
@@ -5126,11 +5126,11 @@
   },
   "congreso_leon": {
    "fuente_territorial": {
-    "run_id": "43761803899",
+    "run_id": "43766201397",
     "package_sha256": "d12772139e06b1282a55e0f0a0a88a9683929ad19315be341d4d28b38d3487b1",
-    "artifact_sha256": "f9816f14793c0bc3b60210d496de664157dcd3855f87d9bacef7e0ea0ba1887d",
+    "artifact_sha256": "7ea9a3f1be456d6335f7def8194e0dfcbe8dec13e518889001e47f2c263139eb",
     "territorial_identity_sha256": "436098e4c0b58ff94759de5eef3d4a56212f90fd9cc7ba174cdb39e18c25a05b",
-    "receipt_path": "territorios/nac24/evidencia/fuentes_territoriales/2025/436098e4c0b58ff94759de5eef3d4a56212f90fd9cc7ba174cdb39e18c25a05b/43761803899/receipt.json",
+    "receipt_path": "territorios/nac24/evidencia/fuentes_territoriales/2025/436098e4c0b58ff94759de5eef3d4a56212f90fd9cc7ba174cdb39e18c25a05b/43766201397/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -9969,6 +9969,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "nac12/43761791985/ddd-minimo-43761791985-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac13",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "nac13/43762018176/ddd-minimo-43762018176-M06.zip"
   },
   {
    "nivel": "AVISO",
