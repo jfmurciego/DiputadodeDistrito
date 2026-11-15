@@ -49,10 +49,34 @@ class EspejoGalicia(unittest.TestCase):
             self.assertEqual(idx[nombre]["origen_url"], s["url"])
         self.assertEqual(d["territory_id"], "aut12")
 
-    def test_entrada_pendiente_no_se_usa(self):
+    def test_huellas_del_propietario_casan_con_los_4_ids_de_la_declaracion(self):
+        # literales independientes: huellas medidas por el propietario (Windows, HTTP 200) el 2026-11-15
+        esperado = {
+            "a_coruna_mesas": (126382, "b763e5648136b80d805378532bd03dfe49025b063c9c17a1b6b1f365148735d1"),
+            "lugo_mesas": (42842, "89afa88e7e9e7c7fee09402e98c4abddbfec635c80ea2dc56d37f63e515931b0"),
+            "ourense_mesas": (45226, "9e7992fc0665cf485aff13f621470b6cfe73ed814dfcd0627622c197fc1a050d"),
+            "pontevedra_mesas": (109012, "aa5be16cb0702ca2315dc0c08c437e296b8dcbf35efe45610818daf01eb8233d"),
+        }
+        d = _decl()
+        self.assertEqual({s["id"] for s in d["sources"]}, set(esperado))
+        for sid, (n, sha) in esperado.items():
+            e = f.ficha(f"{d['election_id']}_{sid}.csv")
+            self.assertEqual((e["bytes"], e["sha256"]), (n, sha))
+            self.assertRegex(e["sha256"], r"^[0-9a-f]{64}$")
+            self.assertEqual(e["clave"], f"arc-e/fuentes/xunta/{d['election_id']}_{sid}_{sha[:12]}.csv")
+
+    def test_traer_es_fail_closed_con_la_huella_del_indice(self):
+        nombre = "galicia_parlamento_2024_lugo_mesas.csv"
         with mock.patch.dict("os.environ", {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
-            self.assertIsNone(f.traer("galicia_parlamento_2024_lugo_mesas.csv", cp=mock.Mock(side_effect=AssertionError)))
-            self.assertEqual(f.bajar("galicia_parlamento_2024_lugo_mesas.csv", Path("x")), 3)
+            self.assertIsNone(f.traer(nombre, cp=lambda o, dst, e=None: Path(dst).write_bytes(b"otra cosa")))
+            self.assertEqual(f.bajar(nombre, Path(tempfile.mkdtemp()) / "x", cp=lambda o, dst, e=None: Path(dst).write_bytes(b"otra cosa")), 53)
+
+    def test_entrada_pendiente_no_se_usa(self):
+        with tempfile.TemporaryDirectory() as td, mock.patch.dict("os.environ", {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
+            idx = Path(td) / "i.json"
+            idx.write_text(json.dumps({"fuentes": {"p.csv": {"clave": None, "sha256": None}}}))
+            self.assertIsNone(f.traer("p.csv", cp=mock.Mock(side_effect=AssertionError), indice=idx))
+            self.assertEqual(f.bajar("p.csv", Path(td) / "x", indice=idx), 3)
 
     def test_la_03_lee_del_espejo_sin_red_y_con_la_misma_huella(self):
         d = _decl()
