@@ -897,7 +897,7 @@ territories:
         prepared_source_pair: territorios/nac04/evidencia/pares_fuentes/2025/a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c.json
         electoral_product: territorios/nac04/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac04/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac05
   name: Congreso Ávila
   editions:
