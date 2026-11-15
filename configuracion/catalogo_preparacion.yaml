@@ -1910,6 +1910,7 @@ territories:
         prepared_source_pair: territorios/nac30/evidencia/pares_fuentes/2025/ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630.json
         territorial_product: territorios/nac30/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/nac30/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac30/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac31
   name: Congreso Navarra
