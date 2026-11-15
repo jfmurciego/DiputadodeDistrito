@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-15T20:55:12.202326+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-15T20:57:30.922587+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -60,7 +60,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Alicante** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43754642510 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Almería** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43754886944 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Ávila** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43755691825 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
-| **Nacional Badajoz** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42949289470 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Badajoz** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43755921825 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Baleares** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953068884 · SUCCESS | — | — | — |
 | **Nacional Barcelona** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42953127263 · SUCCESS | — | — | — |
 | **Nacional Burgos** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42986581831 · SUCCESS | — | — | — |

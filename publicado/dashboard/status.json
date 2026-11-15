@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T20:55:12.202326+00:00",
+  "generated_at": "2026-11-15T20:57:30.922587+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8298,13 +8298,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_alicante",
+          "territory_id": "nac03",
           "territory_name": "Congreso Alicante",
           "edition": "2025",
-          "run_id": 42953235024,
-          "artifact_name": "ddd-state-42953235024-M08",
-          "artifact_sha256": "8301e5de5d94150631e9999832e3878602735f82e86710fd8d485f23b09e62a9",
-          "source_commit": "63eda2eb868bccaf87c017bc20cda01b6a06f3bf",
+          "run_id": 43760040662,
+          "artifact_name": "ddd-state-43760040662-M08",
+          "artifact_sha256": "22acbf17e3b427c9a08612d48b6f60a9f61511d1499455206b7dd88b10f970ba",
+          "source_commit": "7dcc6dde4d29461ee7b5053cab369817b4b8e0a0",
           "stage": "M08"
         }
       },
@@ -8445,11 +8445,11 @@
       "certification": "PASS",
       "run_id": 43755921825,
       "last_run": {
-        "run_id": 42949289470,
+        "run_id": 43755921825,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
