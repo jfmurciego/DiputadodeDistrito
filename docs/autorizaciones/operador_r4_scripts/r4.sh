@@ -30,15 +30,18 @@ if [ ! -f $Q/ok_piloto ]; then
   log "piloto: archivo aut11 OK"
   tanda t11 11; touch $Q/ok_piloto; log "PILOTO OK"; [ -n "$STOP_AFTER_PILOTO" ] && exit 0
 fi
-# 1. P10 de los otros 70
-for rg in "1 10" "12 21" "22 31" "32 41" "42 51" "52 61" "62 71"; do set -- $rg; [ -f $Q/ok_p10_$1 ] && continue; check "P10 $rg"; p10tanda $1 $2; touch $Q/ok_p10_$1; log "P10 filas $rg OK"; [ -n "$STOP_EACH" ] && exit 0; done
-[ "$(grep -c '	success$' $P)" -eq 71 ] && [ "$(wc -l < $Q/verif.txt)" -eq 71 ] || { log "PARADA P10 incompletos"; exit 3; }
-log "paso 1 OK 71/71 verificados"
-# 2. archivado
-if [ ! -f $Q/ok_archivo ]; then check "archivado"; for a in 2 12 22 32 42 52 62; do b=$((a+9)); [ $b -gt 71 ] && b=71; $Q/archivar.sh $a $b >/dev/null; [ "$(cut -f4 $A | grep -vc '^success$')" -eq 0 ] || { log "PARADA archivado"; grep -v "	success$" $A; exit 4; }; done
-  [ "$(wc -l < $A)" -eq 71 ] || { log "PARADA archivado incompleto"; exit 4; }; touch $Q/ok_archivo; fi
-log "paso 2 OK 71/71"
-# 4. primera tanda de 5 y, si sale limpia, tandas de 10 (frase del propietario 15-11)
-set -- $(seq 1 71 | grep -vx 11)
-while [ $# -gt 0 ]; do g=(); sz=10; [ -f $Q/ok_t4primera ] || sz=5; for k in $(seq 1 $sz); do [ $# -gt 0 ] && { g+=($1); shift; }; done; tanda t_$(IFS=_; echo "${g[*]}") "${g[@]}"; touch $Q/ok_t4primera; done
-log "paso 4 OK: 71 regenerados"
+# Por tramos (frase del propietario 15-11): P10 del tramo -> verificación -> archivado del tramo -> P00 del tramo
+# (primera tanda de 5 de la campaña y, si sale limpia, de 10). Con STOP_EACH sale tras cada hito.
+hito(){ log "$*"; [ -n "$STOP_EACH" ] && exit 0; }
+for rg in "1 10" "12 21" "22 31" "32 41" "42 51" "52 61" "62 71"; do set -- $rg; a=$1; b=$2
+  if [ ! -f $Q/ok_p10_$a ]; then check "P10 $rg"; p10tanda $a $b; touch $Q/ok_p10_$a; hito "P10 filas $rg OK"; fi
+  if [ ! -f $Q/ok_arch_$a ]; then check "archivado $rg"; $Q/archivar.sh 1 999 >/dev/null
+    [ "$(cut -f4 $A | grep -vc '^success$')" -eq 0 ] || { log "PARADA archivado $rg"; grep -v "	success$" $A; exit 4; }
+    for k in $(seq $a $b); do t=$(sed -n "${k}p" $L); run=$(grep -F "$t	" $P | cut -f2); id=$(grep -P "\t$run\t" docs/autorizaciones/p10_r4_paquetes.tsv | cut -f1)
+      grep -q "^$id	$run	" $A || { log "PARADA archivado $rg: falta $t"; exit 4; }; done
+    touch $Q/ok_arch_$a; hito "archivado filas $rg OK"; fi
+  set -- $(seq $a $b | grep -vx 11)
+  while [ $# -gt 0 ]; do g=(); sz=10; [ -f $Q/ok_t4primera ] || sz=5; for k in $(seq 1 $sz); do [ $# -gt 0 ] && { g+=($1); shift; }; done
+    kk=t_$(IFS=_; echo "${g[*]}"); [ -f $Q/ok_$kk ] && continue; tanda $kk "${g[@]}"; touch $Q/ok_t4primera; hito "P00 filas ${g[*]} OK"; done
+done
+log "pasos 1, 2 y 4 OK: 71"
