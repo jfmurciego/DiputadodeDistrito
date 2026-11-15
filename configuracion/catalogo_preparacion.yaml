@@ -333,24 +333,23 @@ territories:
         run_id: 43204706233
         stage: M08
       preparation_evidence:
-        run_id: 43640071031
-        artifact_name: ddd-source-package-aut09-2025-43640071031
-        artifact_sha256: a8b36f32b65cef0b5416e67e2605cebc4313c0c0e73be444334d5bca04bdd6ff
-        package_sha256: 045cbc8f075163bc60451b5a49fffe86563baf9d2a48be8aa89c0480cd61abce
-        receipt_path: territorios/aut09/evidencia/fuentes_territoriales/2025/699b33dca6a72d49f9f0057e175ba26c44d751ad0543a96af6624bc7fb99790e/43640071031/receipt.json
-        territorial_identity_sha256: 699b33dca6a72d49f9f0057e175ba26c44d751ad0543a96af6624bc7fb99790e
-        compatibility_report_sha256: 1804eff2352db7be2f1ff38ad1f90e27cae5478ee48bc77ee85a81211a931bf3
-        compatibility_identity_sha256: ea4fe2f8b2f6920df63d6701617ed28b9f1f0bbca1621190d3c9459c6910cdcf
+        run_id: 43724316836
+        artifact_name: ddd-source-package-aut09-2025-43724316836
+        artifact_sha256: 366e8e558c365d25f11f4436f6736ccbbb1a62cc0bc2b3fe7c265567cb0ba3dc
+        package_sha256: 592e7aad90860c38dcea9dd2cecf7a1e3ec05dce7c92bdc8e2245696b4e11f3f
+        receipt_path: territorios/aut09/evidencia/fuentes_territoriales/2025/4467259ac1b7751bfd6be682888faa651d6acb2a422f6f8236a27bdb40548367/43724316836/receipt.json
+        territorial_identity_sha256: 4467259ac1b7751bfd6be682888faa651d6acb2a422f6f8236a27bdb40548367
+        compatibility_report_sha256: f7e143f13b02ee34c75bea30a6c38231fadf47fa46106478ab2b7a61468fdd28
+        compatibility_identity_sha256: 4371dba21869acb7deac9d05a69f48c39bad3b00f48bf9028f17633d57da89fc
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2024
         section_year: 2024
-        source_commit: b744c083351e7460e678f672bf397fd753a816ff
+        source_commit: db314ed67063bae3987f77ad566c74ad18ac1dbf
       evidence:
         electoral_source: territorios/aut09/evidencia/fuentes_electorales/2025/9512fde80f903cbe93eab4be4695612da01cd7a420d7840e4d04834985a46e18/43036592492/receipt.json
         prepared_source_pair: territorios/aut09/evidencia/pares_fuentes/2025/3090588ad0a3e96eb59dbfc5eb7260f1eda08a00b670c1287cebf36c48586087.json
         territorial_product: territorios/aut09/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut09/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut09/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut10
   name: Comunidad Valenciana
