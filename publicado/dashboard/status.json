@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T18:42:34.797200+00:00",
+  "generated_at": "2026-11-15T18:44:42.511620+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7663,20 +7663,20 @@
       "name": "Extremadura",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43743646822,
+      "run_id": 43746572251,
       "last_run": {
-        "run_id": 43743646822,
+        "run_id": 43746572251,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7717,7 +7717,7 @@
       },
       "autonomous_community_code_ine": "11",
       "display_name": "11 Extremadura",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "aut12",
@@ -7785,11 +7785,11 @@
       "name": "Comunidad de Madrid",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43053498550,
+      "run_id": 43743669986,
       "last_run": {
         "run_id": 43053498550,
         "status": "SUCCESS",
@@ -7798,7 +7798,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7812,16 +7812,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "madrid",
+          "territory_id": "aut13",
           "territory_name": "Comunidad de Madrid",
           "edition": "2025",
-          "run_id": 43045415140,
-          "artifact_name": "ddd-state-43045415140-M06",
-          "artifact_sha256": "d2c83e4c06391e977efff7f933f110856a74a454e8ae2c335ee4f09a15697896",
-          "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+          "run_id": 43743669986,
+          "artifact_name": "ddd-state-43743669986-M06",
+          "artifact_sha256": "4c059d21452b98bca7aef04339b8df137b851a49df7e53395b3a366383cd9d6c",
+          "source_commit": "7b90812fa08e2d3fec23e5e5ba16871d985d5891",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/madrid/evidencia/generaciones_m06/43045415140.json"
+          "producer_manifest_path": "territorios/aut13/evidencia/generaciones_m06/43743669986.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7839,7 +7839,7 @@
       },
       "autonomous_community_code_ine": "13",
       "display_name": "13 Comunidad de Madrid",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut14",
@@ -12632,8 +12632,8 @@
       "06 Cantabria",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
+      "11 Extremadura",
       "12 Galicia",
-      "13 Comunidad de Madrid",
       "14 Región de Murcia",
       "15 Comunidad Foral de Navarra",
       "16 País Vasco",
@@ -12905,11 +12905,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "aut06",
-    "name": "Cantabria",
-    "display_name": "06 Cantabria",
-    "autonomous_community_code_ine": "06",
-    "run_id": 43745191560,
+    "territory_id": "aut11",
+    "name": "Extremadura",
+    "display_name": "11 Extremadura",
+    "autonomous_community_code_ine": "11",
+    "run_id": 43746572251,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12928,9 +12928,9 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "11 Extremadura",
-      "territory_id": "aut11",
-      "autonomous_community_code_ine": "11",
+      "territory": "13 Comunidad de Madrid",
+      "territory_id": "aut13",
+      "autonomous_community_code_ine": "13",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12978,9 +12978,9 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "11 Extremadura",
-      "territory_id": "aut11",
-      "autonomous_community_code_ine": "11",
+      "territory": "13 Comunidad de Madrid",
+      "territory_id": "aut13",
+      "autonomous_community_code_ine": "13",
       "action": "preparar fuentes electorales"
     }
   ]
