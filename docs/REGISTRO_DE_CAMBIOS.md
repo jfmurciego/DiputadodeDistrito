@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.428
-Fecha: 2026-11-14
-Alcance: T-330 — CSV oficiales de resultados por circunscripción 2011, 2015, 2016 y 2019-04 (BOE)
+Versión: 1.0.429
+Fecha: 2026-11-15
+Alcance: T-335 — Barrido de tests de estado vivo ante la campaña r3 (fixture congelado)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t330-resultados-oficiales-boe.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.427_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-15_t335-barrido-estado-vivo.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.428_registro_20261115.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.427_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.429 · [2026-11-15 — T-335 — Barrido de tests de estado vivo ante la campaña r3 (fixture congelado)](registro/2026-11-15_t335-barrido-estado-vivo.md)
 - 1.0.428 · [2026-11-14 — T-330 — CSV oficiales de resultados por circunscripción 2011, 2015, 2016 y 2019-04 (BOE)](registro/2026-11-14_t330-resultados-oficiales-boe.md)
 - 1.0.427 · [2026-11-14 — T-326 — test del catálogo de procedencia sin estado vivo en PR](registro/2026-11-14_t326-catalogo-procedencia-congelado.md)
 - 1.0.426 · [2026-11-14 — T-328 — Histórico desde 2011: tablas año→2023, identificadores BOE y ficha del paso A](registro/2026-11-14_t328-historico-2023.md)
