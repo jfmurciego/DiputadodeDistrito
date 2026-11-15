@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.431
+Versión: 1.0.432
 Fecha: 2026-11-15
-Alcance: T-334 — Seguimiento de T-329: manifiesto neutro, puerta con m07/perdidos, tabla verificada y id nuevo
+Alcance: T-336 — Evidencia de fuentes restaurada solo con el id canónico (r3 aut11)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-15_t334-seguimiento-paso-a.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.430_registro_20261115.md
+Cambios/motivo: entrada docs/registro/2026-11-15_t336-evidencia-id-canonico.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.431_registro_20261115.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.430_registro_20261115.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.432 · [2026-11-15 — T-336 — Evidencia de fuentes restaurada solo con el id canónico (r3 aut11)](registro/2026-11-15_t336-evidencia-id-canonico.md)
 - 1.0.431 · [2026-11-15 — T-334 — Seguimiento de T-329: manifiesto neutro, puerta con m07/perdidos, tabla verificada y id nuevo](registro/2026-11-15_t334-seguimiento-paso-a.md)
 - 1.0.430 · [2026-11-14 — T-329 — Paso A del histórico sobre el mapa 2023 (D-105)](registro/2026-11-14_t329-paso-a-mapa-2023.md)
 - 1.0.429 · [2026-11-15 — T-335 — Barrido de tests de estado vivo ante la campaña r3 (fixture congelado)](registro/2026-11-15_t335-barrido-estado-vivo.md)
