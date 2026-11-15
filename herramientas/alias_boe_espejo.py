@@ -3,9 +3,10 @@
 """Mapa espejo→sigla BOE por elección y provincia, SOLO para el contraste de la puerta del histórico (T-343).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-15 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo (revisión de #813: unicidad de la sigla del espejo, columna `fuerza`, regla CONTENIDA_EN_SIGLA_BOE retirada por no generar filas).
+VERSIÓN: 1.1.0 · FECHA: 2026-11-15 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/alias_boe_espejo_v1.0.0_20261115.py
+CAMBIOS: 1.1.0 (T-345, D-120): regla COMPOSICION_BOE (la composición de la coalición se toma del BOE de candidaturas proclamadas, con ficha y sha256 en
+  configuracion/fuentes_coaliciones_boe/) y orden `extraer`. 1.0.0: fichero nuevo (revisión de #813: unicidad de la sigla del espejo, columna `fuerza`).
 MOTIVO: la puerta del histórico (T-342) exige que TODO partido del CSV oficial del BOE de la provincia se compare con el
   espejo (cobertura total). Las siglas del BOE y las del espejo (Observatorio, T-89) no coinciden en coaliciones y federaciones
   («LA IZQUIERDA PLURAL» frente a «IU-LV», «PSOE» frente a «PSE-EE (PSOE)»). Orden del Planificador: el alias sale de ficheros con
@@ -24,6 +25,13 @@ QUÉ HACE: `generar` lee los CSV oficiales del BOE (configuracion/resultados_ofi
   sigla, o la propia sigla tal cual). Una sigla del espejo no puede acreditar dos siglas del BOE de la misma provincia (se contaría
   dos veces): si ocurre, ninguna se acredita (SIGLA_ESPEJO_DUPLICADA). El texto del BOE NO está en el repositorio: solo el id BOE-A-… y el
   sha256 del documento (fichas resultados_oficiales_congreso_<año>.json), así que la prueba de texto es la del espejo, no la del BOE.
+  (3) COMPOSICION_BOE (T-345): el BOE de candidaturas proclamadas (Congreso, por circunscripción; con sus correcciones de errores) rotula cada
+      candidatura «NOMBRE: PARTIDO, PARTIDO… (SIGLAS)». Si la sigla del BOE de resultados (sin «COALICIÓN» ni comillas) está en el rótulo de UNA sola
+      candidatura de la provincia, la sigla del espejo se acredita solo si cada una de sus partes (separadas por «-») es un partido de ese rótulo:
+      sigla entre paréntesis del BOE, nombre del partido igual a la parte, o iniciales del nombre completo de un partido del rótulo (un segmento
+      entero entre separadores, nunca un tramo suelto). El texto del BOE no va entero: `extraer` descarga los documentos (ids localizados barriendo
+      el sumario), verifica y deja el extracto de los rótulos con el sha256 de cada original; `generar` y `comprobar` leen el extracto.
+      Si el espejo integra solo parte de los partidos del rótulo, la fila lo dice en `prueba` (los votos validan, no prueban).
   Lo demás NO se acredita: se escribe en el CSV de no acreditados con su motivo y la provincia falla en la puerta (no se supone).
   La diferencia de votos frente al BOE se anota como validación (no como prueba). La homologación D-20 (T-97) no se usa ni se cambia.
   `comprobar` revalida sin red: cabecera, claves únicas, sha256 de los ficheros del espejo (manifiesto), del CSV del BOE y del
@@ -42,6 +50,7 @@ import json
 import re
 import sys
 import unicodedata
+import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -55,6 +64,18 @@ MANIFIESTO = "orchestracion/fuente_nazioenbehatokia.json"
 CAB = ["eleccion", "provincia", "sigla_boe", "siglas_espejo", "regla", "prueba", "sha256_espejo", "fuente_boe", "sha256_documento_boe",
        "sha256_csv_boe", "validacion_votos", "aviso", "fuerza"]
 CAB_NO = ["eleccion", "provincia", "sigla_boe", "motivo"]
+COMPOS = "configuracion/fuentes_coaliciones_boe"
+# BOE de candidaturas proclamadas (y correcciones) de cada elección, localizados barriendo el sumario (API datosabiertos, fecha de publicación).
+FUENTES_COMPOSICION = {
+    "201111": {"proclamadas": ("BOE-A-2011-16745", "2011-10-25"), "correcciones": [("BOE-A-2011-16922", "2011-10-27"), ("BOE-A-2011-17013", "2011-10-28")]},
+    "201512": {"proclamadas": ("BOE-A-2015-12734", "2015-11-24"),
+               "correcciones": [("BOE-A-2015-13053", "2015-12-01"), ("BOE-A-2015-13247", "2015-12-05"), ("BOE-A-2015-13868", "2015-12-18")]},
+}
+# nombre de la Junta en el BOE → nombre de la provincia en el CSV oficial (castellano); el resto coincide tras normalizar.
+NOMBRE_JUNTA = {"ALICANTE/ALACANT": "Alicante", "ARABA/ÁLAVA": "Álava", "ILLES BALEARS": "Baleares", "BIZKAIA": "Vizcaya",
+                "CASTELLÓN/CASTELLÓ": "Castellón", "CORUÑA (A)": "La Coruña", "GIPUZKOA": "Guipúzcoa", "GIRONA": "Gerona", "LLEIDA": "Lérida",
+                "OURENSE": "Orense", "VALENCIA/VALÈNCIA": "Valencia", "RIOJA (LA)": "La Rioja"}
+CONECTORES = {"EN", "DE", "DEL", "LA", "LAS", "EL", "LOS", "Y", "E", "I", "O"}
 AVISO = "coaliciones: no comparables entre elecciones"
 
 
@@ -111,6 +132,154 @@ def _espejo(espejo: Path, clave: str, cpro: str, manifiesto: dict) -> tuple[dict
     return {s: (n, fam[s]) for s, n in fnb.totales_provincia(doc).items() if n > 0}, real
 
 
+# --- COMPOSICION_BOE (T-345) -------------------------------------------------------------------------------------------------------
+def _descargar(url: str) -> bytes:
+    rq = urllib.request.Request(url, headers={"User-Agent": "ddd-alias-boe/1.1"})
+    with urllib.request.urlopen(rq, timeout=120) as r:
+        return r.read()
+
+
+def _parrafos(xml: str) -> list:
+    """[(clase, texto)] de los párrafos del documento; los rótulos de candidatura son de clase `centro_redonda`."""
+    return [(c, re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", h)).strip()) for c, h in re.findall(r"<p class=\"([^\"]*)\">(.*?)</p>", xml, re.S)]
+
+
+def _cpro_por_junta(raiz: Path, rel: str) -> dict:
+    nombres = {}
+    with (raiz / f"configuracion/resultados_oficiales_congreso_{rel}.csv").open(encoding="utf-8", newline="") as fh:
+        for r in csv.DictReader(fh):
+            nombres[norm(r["provincia"])] = r["codigo"]
+    return nombres
+
+
+def _junta_a_cpro(junta: str, nombres: dict) -> str:
+    alias = NOMBRE_JUNTA.get(junta, junta)
+    m = re.fullmatch(r"(.+) \((LA|LAS|EL|LOS|A)\)", alias)
+    clave = norm(f"{m.group(2)} {m.group(1)}") if m else norm(alias)
+    if clave not in nombres and norm("LAS " + alias) in nombres:
+        clave = norm("LAS " + alias)
+    if clave not in nombres:
+        raise SystemExit(f"JUNTA_SIN_PROVINCIA {junta}")
+    return nombres[clave]
+
+
+def extraer_composicion(k: str, raiz: Path = ROOT, descargar=_descargar, fecha: str = "") -> dict:
+    """Extracto de los rótulos de candidaturas al Congreso por provincia (BOE de proclamadas con sus correcciones aplicadas)."""
+    spec = FUENTES_COMPOSICION[k]
+    nombres = _cpro_por_junta(raiz, ELECCIONES[k])
+    docs = {}
+    for ident, f in [spec["proclamadas"]] + spec["correcciones"]:
+        b = descargar(f"https://www.boe.es/diario_boe/xml.php?id={ident}")
+        docs[ident] = (b, hashlib.sha256(b).hexdigest(), f)
+    junta, sec, prov = None, None, {}
+    for cl, h in _parrafos(docs[spec["proclamadas"][0]][0].decode("utf-8")):
+        if h.startswith("JUNTA ELECTORAL DE "):
+            junta, sec = h[19:], None
+            prov.setdefault(_junta_a_cpro(junta, nombres), {"junta": junta, "congreso": []})
+        elif h.startswith("CONGRESO"):
+            sec = "C"
+        elif h.startswith("SENADO"):
+            sec = "S"
+        elif sec == "C" and junta and cl == "centro_redonda":
+            prov[_junta_a_cpro(junta, nombres)]["congreso"].append(h)
+    aplicadas = []
+    for ident, _ in spec["correcciones"]:
+        junta, sec = None, None
+        for _, h in _parrafos(docs[ident][0].decode("utf-8")):
+            if h.startswith("JUNTA ELECTORAL DE "):
+                junta, sec = h[19:], None
+            elif h.startswith("CONGRESO"):
+                sec = "C"
+            elif h.startswith("SENADO"):
+                sec = "S"
+            for d, e in re.findall(r"Donde dice: «(.+?)»,? ?[Dd]ebe decir: «(.+?)»", h):
+                if sec == "C" and junta and re.match(r"\d+\. [A-ZÁÉÍÓÚÑ]", d):
+                    c = _junta_a_cpro(junta, nombres)
+                    sin = [re.sub(r"\s+", "", x) for x in prov[c]["congreso"]]
+                    if re.sub(r"\s+", "", d) in sin:  # el BOE de correcciones y el de proclamadas difieren a veces en espacios
+                        i = sin.index(re.sub(r"\s+", "", d))
+                        aplicadas.append({"boe": ident, "provincia": c, "dice": prov[c]["congreso"][i], "debe_decir": e})
+                        prov[c]["congreso"][i] = e
+    return {
+        "eleccion": k, "descarga": fecha or "2026-11-15", "metodo": "xml.php?id=<BOE-A-…> de boe.es; ids localizados barriendo datosabiertos/api/boe/sumario/AAAAMMDD",
+        "reproducir": "python herramientas/alias_boe_espejo.py extraer",
+        "documentos": [{"boe": i, "url": f"https://www.boe.es/diario_boe/xml.php?id={i}", "fecha_publicacion": f, "sha256": s,
+                        "papel": "proclamadas" if i == spec["proclamadas"][0] else "correccion"} for i, (_, s, f) in docs.items()],
+        "correcciones_aplicadas": aplicadas, "provincias": dict(sorted(prov.items())),
+    }
+
+
+def _composicion(raiz: Path, k: str) -> dict | None:
+    f = raiz / COMPOS / f"candidaturas_proclamadas_{k}.json"
+    return json.loads(f.read_text(encoding="utf-8")) if f.exists() else None
+
+
+def _partes_sigla(s: str) -> list:
+    return [x for x in (norm(p) for p in s.split("-")) if x]
+
+
+def _rotulo(h: str) -> tuple:
+    """(segmentos de partido normalizados con su texto, siglas entre paréntesis normalizadas) de un rótulo «N. NOMBRE: P, P (SIGLAS)»."""
+    cuerpo = re.sub(r"^\d+\.\s*", "", h)
+    paren = re.findall(r"\(([^()]*)\)", cuerpo)
+    cuerpo = re.sub(r"\([^()]*\)", " ", cuerpo)
+    segs = [s.strip() for s in re.split(r"[:,;/\-–]", cuerpo) if s.strip()]
+    return segs, {norm(x) for p in paren for x in re.split(r"[-,/ ]+", p) if norm(x)}
+
+
+def _iniciales(parte: str, seg: str) -> bool:
+    """`parte` son las iniciales de las palabras del segmento (cada palabra aporta un prefijo ≥ 1 letra; los conectores pueden saltarse)."""
+    pal = [norm(w) for w in re.split(r"\W+", seg) if norm(w)]
+    if len(pal) < 2:
+        return False
+
+    def rec(i: int, pos: int) -> bool:
+        if i == len(pal):
+            return pos == len(parte)
+        w = pal[i]
+        if w in CONECTORES and rec(i + 1, pos):
+            return True
+        return any(parte[pos:pos + n] == w[:n] and rec(i + 1, pos + n) for n in range(1, len(w) + 1) if pos + n <= len(parte))
+    return rec(0, 0)
+
+
+def prueba_composicion(parte: str, segs: list, siglas: set) -> str | None:
+    if parte in siglas:
+        return "SIGLA_EN_ROTULO"
+    if any(norm(s) == parte for s in segs):
+        return "NOMBRE_DE_PARTIDO"
+    if any(_iniciales(parte, s) for s in segs):
+        return "INICIALES_DE_PARTIDO"
+    return None
+
+
+def composicion_boe(comp: dict | None, c: str, b: str, D: dict, ps: dict) -> tuple | None:
+    """(siglas del espejo, prueba, BOE-A-… y sha256 del documento, regla) si el rótulo único del BOE para `b` contiene los partidos de la sigla del espejo."""
+    if not comp or c not in comp["provincias"]:
+        return None
+    rot = [h for h in comp["provincias"][c]["congreso"] if norm(b) and norm(b) in norm(h)]
+    if len(rot) != 1:
+        return f"{len(rot)} rótulos del BOE de proclamadas contienen la sigla (se exige uno)"
+    segs, siglas = _rotulo(rot[0])
+    hallados = []
+    for s in sorted(D[c]):
+        if s in ps:
+            continue
+        partes = _partes_sigla(s)
+        pruebas = [prueba_composicion(p, segs, siglas) for p in partes]
+        if partes and all(pruebas):
+            hallados.append((s, partes, pruebas))
+    if not hallados:
+        return f"ninguna sigla del espejo con todas sus partes en el rótulo del BOE: {rot[0]}"
+    texto = " | ".join(f"{s} = " + "+".join(f"{p} ({r})" for p, r in zip(pp, rr)) for s, pp, rr in hallados)
+    regla = "COMPOSICION_BOE:" + "+".join(sorted({r for _, _, rr in hallados for r in rr}))
+    sin_cubrir = sorted(siglas - {p for _, pp, _ in hallados for p in pp})
+    if sin_cubrir:
+        texto += f"; paréntesis del BOE con partes que el espejo no integra: {','.join(sin_cubrir)}"
+    doc = next(d for d in comp["documentos"] if d["papel"] == "proclamadas")
+    return [s for s, _, _ in hallados], f"{texto}; rótulo BOE: {rot[0]}", doc["boe"], doc["sha256"], regla
+
+
 def generar(espejo: Path, raiz: Path = ROOT, manifiesto: dict | None = None, elecciones: dict | None = None) -> tuple[list, list]:
     manifiesto = manifiesto or json.loads((raiz / MANIFIESTO).read_text(encoding="utf-8"))
     ok, no = [], []
@@ -119,6 +288,7 @@ def generar(espejo: Path, raiz: Path = ROOT, manifiesto: dict | None = None, ele
         ficha = json.loads((raiz / f"configuracion/resultados_oficiales_congreso_{rel}.json").read_text(encoding="utf-8"))
         fuente = {"boe": ficha["boe"], "doc": ficha["sha256_xml"], "csv": sha256(raiz / f"configuracion/resultados_oficiales_congreso_{rel}.csv")}
         boe = _leer_boe(raiz, rel)
+        comp = _composicion(raiz, k)
         D, H = {}, {}
         for c in sorted(boe):
             D[c], H[c] = _espejo(espejo, k, c, manifiesto)
@@ -136,29 +306,37 @@ def generar(espejo: Path, raiz: Path = ROOT, manifiesto: dict | None = None, ele
             for b, v in sorted(ps.items()):
                 if b in D[c]:
                     continue
+                fuente_f = (fuente["boe"], fuente["doc"])
                 directos = [(s, prueba_etiqueta(b, s)) for s in sorted(D[c]) if s not in ps and prueba_etiqueta(b, s)]
                 if directos:
                     ss, regla = [s for s, _ in directos], "ETIQUETA:" + "+".join(sorted({r for _, r in directos}))
                     prueba = " | ".join(f"{s} ({r})" for s, r in directos)
                 else:
                     fs = semillas.get(b, {})
+                    rechazo = None
                     if not fs:
-                        no.append([k, c, b, "SIN_ETIQUETA_NI_FAMILIA: ninguna etiqueta del espejo de esta elección prueba la sigla"])
-                        continue
-                    if len(fs) > 1:
-                        no.append([k, c, b, "FAMILIAS_AMBIGUAS: " + ",".join(sorted(fs))])
-                        continue
-                    fam, sem = next(iter(fs.items()))
-                    ss = sorted(s for s, (n, f) in D[c].items() if f == fam and s not in ps)
-                    if len(ss) != 1:
-                        no.append([k, c, b, f"FAMILIA_NO_1A1: familia {fam}, siglas {ss}"])
-                        continue
-                    regla = "FAMILIA:" + fam
-                    c0, s0, r0 = sorted(sem)[0]
-                    prueba = f"{ss[0]} familia {fam}; semilla {c0} {s0} ({r0})"
+                        rechazo = "SIN_ETIQUETA_NI_FAMILIA: ninguna etiqueta del espejo de esta elección prueba la sigla"
+                    elif len(fs) > 1:
+                        rechazo = "FAMILIAS_AMBIGUAS: " + ",".join(sorted(fs))
+                    else:
+                        fam, sem = next(iter(fs.items()))
+                        ss = sorted(s for s, (n, f) in D[c].items() if f == fam and s not in ps)
+                        if len(ss) != 1:
+                            rechazo = f"FAMILIA_NO_1A1: familia {fam}, siglas {ss}"
+                    if rechazo:
+                        cb = composicion_boe(comp, c, b, D, ps)
+                        if not isinstance(cb, tuple):
+                            no.append([k, c, b, rechazo + (f"; COMPOSICION_BOE: {cb}" if cb else "")])
+                            continue
+                        ss, prueba, doc_boe, doc_sha, regla = cb
+                        fuente_f = (doc_boe, doc_sha)
+                    else:
+                        regla = "FAMILIA:" + fam
+                        c0, s0, r0 = sorted(sem)[0]
+                        prueba = f"{ss[0]} familia {fam}; semilla {c0} {s0} ({r0})"
                 dif = (v - sum(D[c][s][0] for s in ss)) / v
-                pendientes.append([k, c, b, "|".join(ss), regla, prueba, H[c], fuente["boe"], fuente["doc"], fuente["csv"],
-                                   f"defecto {dif:.5f}", AVISO, regla.split(":")[0].lower()])
+                pendientes.append([k, c, b, "|".join(ss), regla, prueba, H[c], fuente_f[0], fuente_f[1], fuente["csv"],
+                                   f"defecto {dif:.5f}", AVISO, _fuerza(regla)])
     uso = collections.Counter((f[0], f[1], x) for f in pendientes for x in f[3].split("|"))
     for f in pendientes:
         dup = [x for x in f[3].split("|") if uso[(f[0], f[1], x)] > 1]
@@ -167,6 +345,11 @@ def generar(espejo: Path, raiz: Path = ROOT, manifiesto: dict | None = None, ele
         else:
             ok.append(f)
     return ok, no
+
+
+def _fuerza(regla: str) -> str:
+    tipo = regla.split(":")[0]
+    return tipo if tipo == "COMPOSICION_BOE" else tipo.lower()
 
 
 def _escribir(ruta: Path, cab: list, filas: list) -> None:
@@ -195,25 +378,47 @@ def comprobar(raiz: Path = ROOT) -> list:
         if d["sha256_espejo"] != man.get(f"data/{d['eleccion']}/sekzioa/{d['provincia']}.json", {}).get("sha256"):
             err.append(f"SHA_ESPEJO {d['eleccion']} {d['provincia']}")
         fi = fichas[d["eleccion"]]
-        if (d["fuente_boe"], d["sha256_documento_boe"]) != (fi["boe"], fi["sha256_xml"]):
+        if d["regla"].startswith("COMPOSICION_BOE:"):
+            cp = _composicion(raiz, d["eleccion"])
+            doc = next((x for x in (cp or {}).get("documentos", []) if x["papel"] == "proclamadas"), None)
+            if not doc or (d["fuente_boe"], d["sha256_documento_boe"]) != (doc["boe"], doc["sha256"]):
+                err.append(f"FUENTE_COMPOSICION {d['eleccion']} {d['provincia']} {d['sigla_boe']}")
+            elif not any(h in d["prueba"] for h in cp["provincias"].get(d["provincia"], {}).get("congreso", [])):
+                err.append(f"ROTULO_FUERA_DEL_EXTRACTO {d['eleccion']} {d['provincia']} {d['sigla_boe']}")
+        elif (d["fuente_boe"], d["sha256_documento_boe"]) != (fi["boe"], fi["sha256_xml"]):
             err.append(f"FUENTE_BOE {d['eleccion']} {d['sigla_boe']}")
         if d["sha256_csv_boe"] != sha256(raiz / f"configuracion/resultados_oficiales_congreso_{ELECCIONES[d['eleccion']]}.csv"):
             err.append(f"SHA_CSV_BOE {d['eleccion']}")
-        if not d["regla"].split(":")[0] in ("ETIQUETA", "FAMILIA") or not d["prueba"] or not d["siglas_espejo"]:
+        if not d["regla"].split(":")[0] in ("ETIQUETA", "FAMILIA", "COMPOSICION_BOE") or not d["prueba"] or not d["siglas_espejo"]:
             err.append(f"SIN_PRUEBA {d['eleccion']} {d['provincia']} {d['sigla_boe']}")
-        if d["fuerza"] != d["regla"].split(":")[0].lower():
+        if d["fuerza"] != _fuerza(d["regla"]):
             err.append(f"FUERZA {d['eleccion']} {d['provincia']} {d['sigla_boe']}")
     uso = collections.Counter((f[0], f[1], x) for f in filas for x in f[3].split("|"))
     err += [f"SIGLA_ESPEJO_DUPLICADA {k}" for k, n in uso.items() if n > 1]
+    for k in FUENTES_COMPOSICION:
+        cp = _composicion(raiz, k)
+        if not cp:
+            err.append(f"FALTA_FUENTE_COMPOSICION {k}")
+        elif not cp["documentos"] or any(not re.fullmatch(r"[0-9a-f]{64}", x["sha256"]) or not x["boe"].startswith("BOE-A-") for x in cp["documentos"]):
+            err.append(f"FICHA_COMPOSICION {k}")
     return err
 
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("orden", choices=["generar", "comprobar"])
+    ap.add_argument("orden", choices=["generar", "comprobar", "extraer"])
     ap.add_argument("--espejo", type=Path, help="DIR con data/<elección>/sekzioa/<cpro>.json (sha256 del manifiesto)")
     ap.add_argument("--salida", type=Path, default=ROOT)
     a = ap.parse_args(argv)
+    if a.orden == "extraer":
+        import datetime
+        for k in FUENTES_COMPOSICION:
+            doc = extraer_composicion(k, fecha=datetime.date.today().isoformat())
+            ruta = a.salida / COMPOS / f"candidaturas_proclamadas_{k}.json"
+            ruta.parent.mkdir(parents=True, exist_ok=True)
+            ruta.write_text(json.dumps(doc, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+            print(k, len(doc["provincias"]), "provincias,", len(doc["correcciones_aplicadas"]), "correcciones aplicadas")
+        return 0
     if a.orden == "comprobar":
         e = comprobar()
         print("\n".join(e) or "OK")
