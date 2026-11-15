@@ -11,8 +11,8 @@
 Fusionadas en `main`: las tablas año→2023 de #796 con su sha256 (T-328), T-329 (#799) y T-334 (#804). El paso A usa el mapa 2023 por
 defecto (D-105: el job «histórico» de `gestor-campanas.yml` llama a `historico_campana.py ejecutar` sin `--mapa`); no hay paso B y
 `PUERTA_<t>_<clave>.json` lleva `m07` (PASS o PASS_WITH_DECLARED_EXCEPTIONS) y `perdidos` (votos sin asignar).
-**Pendiente de código (T-340):** la puerta de abajo exige dos comprobaciones (votos sin asignar ≤ 0,1 % y contraste con el BOE) que
-`historico_campana.py` `puerta_json` aún no hace (hoy solo `ra == 0`); no se lanza hasta que el Planificador lo cierre o lo dé por válido en el aviso.
+**Pendiente de código (T-342):** la puerta de abajo exige dos comprobaciones (votos sin asignar ≤ 0,1 % y contraste con el BOE) que
+`historico_campana.py` `puerta_json` aún no hace (hoy solo `ra == 0`); no se lanza hasta que T-342 (puerta del histórico: ≤ 0,1 % + contraste BOE por provincia) esté fusionada en `main`.
 
 ## Límites
 | Campo | Contenido |
@@ -25,7 +25,7 @@ defecto (D-105: el job «histórico» de `gestor-campanas.yml` llama a `historic
 | Publica | no (`publicar=no`; la 04 del histórico no está adaptada) |
 | Tope de coste | 294 jobs de paso A y, por elección, 1 ejecución del Gestor; estimado 10–25 h de job en total (T-306 §5, no medido: se mide con la prueba de 2019-11 y se corrige aquí antes de seguir). Parada si el acumulado supera 1,5 × la estimación medida o el 70 % del tope semanal |
 | Tope de reintentos | 1 por territorio y elección, solo tras fallo transitorio (red, runner, rate limit); máximo 15 reintentos en toda la campaña |
-| Puerta | por territorio y elección: (1) M07 PASS, o PASS_WITH_DECLARED_EXCEPTIONS solo con votos sin asignar ≤ 0,1 % (2011: los de D-70 se heredan tal cual); (2) contraste con el CSV oficial del BOE (`configuracion/resultados_oficiales_congreso_<año>.csv`, T-330) por provincia dentro de la tolerancia CERA ya usada en 2019-11 y 2023 (`TOLERANCIA = 0.10`, `herramientas/cuadre_historico_espana.py:39`; el espejo nunca supera a la oficial). «Ganador igual que B» es solo informativo. Sin puerta en verde, el territorio falla |
+| Puerta | por territorio y elección: (1) M07 PASS, o PASS_WITH_DECLARED_EXCEPTIONS solo con votos sin asignar ≤ 0,1 % (2011: los de D-70 se heredan tal cual); (2) contraste con el CSV oficial del BOE (`configuracion/resultados_oficiales_congreso_<AAAA>_<MM>.csv`: `_2011_11`, `_2015_12`, `_2016_06`, `_2019_04`, `_2019_11`; y `_2023.csv`; T-330) por provincia dentro de la tolerancia CERA ya usada en 2019-11 y 2023 (`TOLERANCIA = 0.10`, `herramientas/cuadre_historico_espana.py:39`; el espejo nunca supera a la oficial). «Ganador igual que B» es solo informativo. Sin puerta en verde, el territorio falla |
 | FUERA | lo de `README.md`; publicar en el visor; autonómicas (D-113); Álava, Badajoz, Huesca; cambios de motor, contrato, política o workflows; aprobar `produccion`; descargar Infoelectoral; 2011: la pérdida de votos (0,024 %) se hereda tal cual (D-70) |
 | Parada | primer fallo no transitorio (o puerta en rojo) → no relanzar, diagnóstico, informar y esperar nueva frase |
 
