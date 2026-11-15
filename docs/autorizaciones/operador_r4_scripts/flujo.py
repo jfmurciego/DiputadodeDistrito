@@ -10,7 +10,7 @@ D = '/home/user/DiputadodeDistrito/docs/autorizaciones/'
 L, P, PK, A, O, E = (D + f for f in ('regeneracion_71_2026-11-14.txt', 'p10_r4_resultado.tsv', 'p10_r4_paquetes.tsv',
                                      'archivo_p10_r4_resultado.tsv', 'regeneracion_r4_resultado.tsv', 'cadenas_r4.tsv'))
 V = Q + '/verif.txt'
-P10_CUPO, ADELANTO, MAX_SEG = 10, 12, 100 * 60
+P10_CUPO, ADELANTO, MAX_SEG = 10, 18, 100 * 60
 EXCLUIR = {'12 Galicia'}  # frase del propietario 15-11: sin Galicia hasta tener el espejo de la Xunta
 os.chdir('/home/user/DiputadodeDistrito')
 T0 = time.time()
@@ -130,7 +130,7 @@ while True:
     if m:
         if 'congelación' in m: parada(m)
         log('espera:', m); time.sleep(120); continue
-    env = sum(1 for r in cad.values() if r[5] == 'EN_VUELO'); cupo = 13 if okn >= 5 else 5  # modificación 6 (15-11): cupo 13
+    env = sum(1 for r in cad.values() if r[5] == 'EN_VUELO'); cupo = 14 if okn >= 5 else 5  # modificación 7 (15-11): cupo 14 de nuevo
     for t in terr:
         if env >= cupo: break
         i = cid(t)
