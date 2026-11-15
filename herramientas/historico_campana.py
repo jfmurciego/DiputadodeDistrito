@@ -3,7 +3,12 @@
 """Histórico de generales en el Gestor 2.0: plan y ejecución del paso A por provincia y elección (T-113).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.4.0 · FECHA: 2026-11-15 · ESTADO: candidato
+VERSIÓN: 1.5.0 · FECHA: 2026-11-15 · ESTADO: candidato
+CAMBIOS 1.5.0 (T-343): el contraste con el BOE acepta el mapa espejo→sigla BOE acreditado con ficheros
+  (configuracion/alias_siglas_boe_espejo.csv, generado por herramientas/alias_boe_espejo.py con sha256 del espejo, del documento y del CSV
+  del BOE): una sigla del BOE sin sigla igual en el espejo se compara con la SUMA de las siglas del espejo del alias, solo si el sha256 del
+  fichero de espejo usado coincide con el de la fila. Sin alias acreditado, la sigla queda en `sin_homologar` y la provincia FALLA;
+  `contraste_boe.alias`, `no_acreditados` y `aviso` (coaliciones no comparables entre elecciones) van al JSON de la puerta.
 CAMBIOS 1.4.0 (T-342): puerta del histórico por territorio y elección (ficha 2026-11-14_historico-paso-a-49x6): M07 PASS, o
   PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: Alicante, Lugo, León, Orense y Asturias heredan D-70: tope = sus votos perdidos medidos, por provincia),
   Y contraste por provincia y por partido con cobertura total (partido sin homologar → falla) (el CSV solo trae partidos con escaño estatal) con el CSV oficial del BOE (`configuracion/resultados_oficiales_congreso_<año>.csv`) con la TOLERANCIA de
@@ -25,7 +30,7 @@ MOTIVO: D-10, D-12 y D-22 del propietario: la opción «histórico» del «0 Ges
   (reagregacion_historico.py --paquete + historico_m07m08.py) en las 52 provincias, una elección por campaña,
   empezando por 2019-11. Motor repetible: cada ejecución regenera desde fuentes con huella, nada se reutiliza.
 CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/historico_campana_v1.3.0_20261115.py
+ANTERIOR: legacy/herramientas/historico_campana_v1.4.0_20261115.py
 QUÉ HACE: `plan(ids, eleccion)` comprueba por territorio lo que el paso A necesita (elección soportada, M06 publicado en
   datos_abiertos/INDEX.json, composición en datos/composicion/, fichero del espejo T-89 en su manifiesto) y devuelve la
   matriz; lo pedido y no soportado falla con NoDisponible; con «todos» se omite y se informa.
@@ -129,6 +134,19 @@ def _tolerancia() -> float:
     return cu.TOLERANCIA
 
 
+AVISO_COALICIONES = "los resultados por coalición NO son comparables entre elecciones (las siglas de coalición cambian en cada convocatoria)"
+ALIAS_CSV = "configuracion/alias_siglas_boe_espejo.csv"
+
+
+def _alias_acreditados(root: Path) -> dict:
+    """{(elección, provincia, sigla BOE): fila} de la tabla acreditada (T-343); sin fichero, vacío (fallo cerrado)."""
+    ruta = root / ALIAS_CSV
+    if not ruta.is_file():
+        return {}
+    with ruta.open(encoding="utf-8", newline="") as fh:
+        return {(r["eleccion"], r["provincia"], r["sigla_boe"]): r for r in csv.DictReader(fh)}
+
+
 def contraste_boe(clave: str, provincia: str | None, espejo: Path | None, root: Path = ROOT) -> dict:
     """Contraste, por partido, del total provincial del espejo (el fichero data/<elección>/sekzioa/<cpro>.json que usa el paso A)
     con el CSV oficial del BOE, con la regla de fnb.contrastar_provincia y la TOLERANCIA de cuadre_historico_espana. El CSV solo trae
@@ -149,7 +167,28 @@ def contraste_boe(clave: str, provincia: str | None, espejo: Path | None, root: 
         oficial = {x["partido"]: int(x["votos"]) for x in csv.DictReader(fh) if x["codigo"] == provincia}
     if not oficial:
         return {**r, "motivo": "PROVINCIA_SIN_OFICIAL"}
-    c = fnb.contrastar_provincia(fnb.totales_provincia(json.loads(Path(espejo).read_text(encoding="utf-8"))), oficial, tol)
+    tot = fnb.totales_provincia(json.loads(Path(espejo).read_text(encoding="utf-8")))
+    filas = _alias_acreditados(root)
+    sha_espejo = hashlib.sha256(Path(espejo).read_bytes()).hexdigest()
+    alias, no_acr, usadas = {}, {}, set()
+    for b in sorted(oficial):
+        if b in tot:
+            continue
+        f = filas.get((clave, provincia, b))
+        if f is None:
+            no_acr[b] = "SIN_ALIAS_ACREDITADO"
+        elif f["sha256_espejo"] != sha_espejo:
+            no_acr[b] = "SHA256_ESPEJO_DISTINTO"
+        elif not all(x in tot and x not in oficial for x in f["siglas_espejo"].split("|")):
+            no_acr[b] = "SIGLAS_DEL_ALIAS_AUSENTES_EN_EL_ESPEJO"
+        elif usadas & set(f["siglas_espejo"].split("|")):
+            no_acr[b] = "SIGLA_ESPEJO_REUTILIZADA"  # una sigla del espejo no acredita a dos del BOE
+        else:
+            ss = f["siglas_espejo"].split("|")
+            usadas |= set(ss)
+            tot[b] = sum(tot[x] for x in ss)  # suma de las siglas del espejo tal cual vienen en la fuente
+            alias[b] = {"siglas_espejo": ss, "regla": f["regla"], "fuerza": f.get("fuerza"), "fuente_boe": f["fuente_boe"]}
+    c = fnb.contrastar_provincia(tot, oficial, tol)
     if not c["comparaciones"]:
         return {**r, "metodo": METODO_CONTRASTE, "motivo": "SIN_PARTIDOS_COMPARABLES", "sin_homologar": c["sin_homologar"]}
     dif = max(x["defecto"] for x in c["comparaciones"].values())
@@ -157,7 +196,8 @@ def contraste_boe(clave: str, provincia: str | None, espejo: Path | None, root: 
     motivo = ("ESPEJO_SUPERA_BOE" if c["errores"] else "DEFECTO_SOBRE_TOLERANCIA" if c["avisos"]
               else "PARTIDOS_SIN_HOMOLOGAR" if c["sin_homologar"] else None)
     return {**r, "metodo": METODO_CONTRASTE, "diferencia": dif, "ok": motivo is None, "comparados": len(c["comparaciones"]),
-            "sin_homologar": c["sin_homologar"], "errores": c["errores"], "avisos": c["avisos"],
+            "sin_homologar": c["sin_homologar"], "errores": c["errores"], "avisos": c["avisos"], "aviso": AVISO_COALICIONES,
+            **({"alias": alias} if alias else {}), **({"no_acreditados": no_acr} if no_acr else {}),
             **({"motivo": motivo} if motivo else {})}
 
 
@@ -179,7 +219,7 @@ def puerta_json(territorio: str, clave: str, mapa: str, ra: int, rb: int | None,
         # sin pct (falta source_votes) la puerta FALLA, también con M07 PASS
         m07_ok = rec.get("status") in ("PASS", "PASS_WITH_DECLARED_EXCEPTIONS") and pct is not None and (perdidos <= tope if d70 else pct <= tope)
         c = contraste_boe(clave, provincia, espejo, root)
-        out.update({"contraste_boe": c, "excepcion_d70": d70, "tope_perdidos": tope, "informativo_ganador": None})
+        out.update({"aviso": AVISO_COALICIONES, "contraste_boe": c, "excepcion_d70": d70, "tope_perdidos": tope, "informativo_ganador": None})
         ok = ok and m07_ok and c["ok"]
     return {**out, "estado": "PASS" if ok else "FAIL"}
 
