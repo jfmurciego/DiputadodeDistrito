@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T19:39:01.038504+00:00",
+  "generated_at": "2026-11-15T19:49:45.548008+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 18,
-      "action_required": 102,
+      "admissible": 19,
+      "action_required": 101,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 18,
+      "activated": 19,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 102,
+      "electoral_pending": 101,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 18,
-      "durable_pair": 18
+      "electoral_source": 19,
+      "durable_pair": 19
     },
     "territories": [
       {
@@ -892,20 +892,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/aut17/evidencia/pares_fuentes/2025/b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/aut17/evidencia/pares_fuentes/2025/63c4fb5b68e524713da5c8c24c684796102aac88a8edfa3040635a9361c1322c.json",
+            "pair_sha256": "63c4fb5b68e524713da5c8c24c684796102aac88a8edfa3040635a9361c1322c",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -913,13 +913,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "aut18",
@@ -1685,8 +1679,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43651935343,
-            "receipt_path": "territorios/nac12/evidencia/fuentes_territoriales/2025/24201e2622788035e09c02eba2c022353f6fd033f27b99c0e46e85f626832a9e/43651935343/receipt.json"
+            "run_id": 43750088578,
+            "receipt_path": "territorios/nac12/evidencia/fuentes_territoriales/2025/14a8c67a69151edf7a9e9b03d5cdb44d19fc461c010ac0e0d00a0794bfcc8710/43750088578/receipt.json"
           }
         },
         "electoral": {
@@ -7858,13 +7852,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "region_de_murcia",
+          "territory_id": "aut14",
           "territory_name": "Región de Murcia",
           "edition": "2025",
-          "run_id": 43053208175,
-          "artifact_name": "ddd-state-43053208175-M08",
-          "artifact_sha256": "e3ea2f63ebdf197537bd7d995175b953806f28d57297bcd2f0c665d230284f00",
-          "source_commit": "7aea1220986f37926599d0c8cb0f958e6475d2e8",
+          "run_id": 43752744562,
+          "artifact_name": "ddd-state-43752744562-M08",
+          "artifact_sha256": "df0c5d74d5e652ca77cba41bc0e5da63c08274513cc8d5db7a9cf65d234911ac",
+          "source_commit": "9821b0492d7137f8e7d56999c4c955e9e8589bf0",
           "stage": "M08"
         }
       },
@@ -7919,13 +7913,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "comunidad_foral_de_navarra",
+          "territory_id": "aut15",
           "territory_name": "Comunidad Foral de Navarra",
           "edition": "2025",
-          "run_id": 43052874017,
-          "artifact_name": "ddd-state-43052874017-M08",
-          "artifact_sha256": "242662c51c998188d35cb327a5d630a761cacb6e8cc30c62123b2a0c96fd33f3",
-          "source_commit": "fa13e8b40c58db82a5d60944ea5945dee90b558d",
+          "run_id": 43753347645,
+          "artifact_name": "ddd-state-43753347645-M08",
+          "artifact_sha256": "e7f094bc13cf46079f9914ef98d02b34ea46db4638122602554e06e1b438c619",
+          "source_commit": "e026c619cdc38955032900e836e30d679db138f2",
           "stage": "M08"
         }
       },
@@ -7938,20 +7932,20 @@
       "name": "País Vasco",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43747089801,
+      "run_id": 43752121775,
       "last_run": {
-        "run_id": 43747089801,
+        "run_id": 43752121775,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7992,7 +7986,7 @@
       },
       "autonomous_community_code_ine": "16",
       "display_name": "16 País Vasco",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "aut17",
@@ -8060,11 +8054,11 @@
       "name": "Ceuta",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 43052923691,
+      "run_id": 43749637927,
       "last_run": {
         "run_id": 43052923691,
         "status": "SUCCESS",
@@ -8073,7 +8067,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8087,16 +8081,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "ceuta",
+          "territory_id": "aut18",
           "territory_name": "Ceuta",
           "edition": "2025",
-          "run_id": 43045447315,
-          "artifact_name": "ddd-state-43045447315-M06",
-          "artifact_sha256": "2daa66a38c807b1ada088c0230cd56661f6b72a61782c6861c3b301c9d3ef80a",
-          "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+          "run_id": 43749637927,
+          "artifact_name": "ddd-state-43749637927-M06",
+          "artifact_sha256": "8ca902d7825ab5b2b15ec84b2f78dcd765fbc86eadcf0820bceb00deaf165bb7",
+          "source_commit": "d3e081f223bc9af35b02fff21cfb45d1e9170063",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/ceuta/evidencia/generaciones_m06/43045447315.json"
+          "producer_manifest_path": "territorios/aut18/evidencia/generaciones_m06/43749637927.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8114,18 +8108,18 @@
       },
       "autonomous_community_code_ine": "18",
       "display_name": "18 Ceuta",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut19",
       "name": "Melilla",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 43051007542,
+      "run_id": 43750065634,
       "last_run": {
         "run_id": 43051007542,
         "status": "SUCCESS",
@@ -8134,7 +8128,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8148,16 +8142,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "melilla",
+          "territory_id": "aut19",
           "territory_name": "Melilla",
           "edition": "2025",
-          "run_id": 43045458268,
-          "artifact_name": "ddd-state-43045458268-M06",
-          "artifact_sha256": "3dd783f1f0de3570a93f0002b32d0f4a646ef9e44c4d6e16bee0187f37c117e5",
-          "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+          "run_id": 43750065634,
+          "artifact_name": "ddd-state-43750065634-M06",
+          "artifact_sha256": "46c79752e4f569d53704db1f7655307247c5ff3d9c40cb4b4507a1abfaf16047",
+          "source_commit": "e1e60501b80c798d2ffdff61fb8d0c817b7dda5f",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/melilla/evidencia/generaciones_m06/43045458268.json"
+          "producer_manifest_path": "territorios/aut19/evidencia/generaciones_m06/43750065634.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8175,18 +8169,18 @@
       },
       "autonomous_community_code_ine": "19",
       "display_name": "19 Melilla",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac01",
       "name": "Nacional Álava",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42983088643,
+      "run_id": 43750441261,
       "last_run": {
         "run_id": 42983088643,
         "status": "SUCCESS",
@@ -8195,7 +8189,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8209,16 +8203,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_alava",
+          "territory_id": "nac01",
           "territory_name": "Congreso Álava",
           "edition": "2025",
-          "run_id": 42940320710,
-          "artifact_name": "ddd-state-42940320710-M06",
-          "artifact_sha256": "d1a4a72a3e1273c69266915c17ab103e21c90583beb4932137256f516e87de3c",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43750441261,
+          "artifact_name": "ddd-state-43750441261-M06",
+          "artifact_sha256": "035bb705d99bc1c5ee2765ba99a6d5712bb0da3f0e2314598c094a61b95571d9",
+          "source_commit": "36fdbb65da9d892ed2439c267f09f1a6775381b8",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_alava/evidencia/generaciones_m06/42940320710.json"
+          "producer_manifest_path": "territorios/nac01/evidencia/generaciones_m06/43750441261.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8236,7 +8230,7 @@
       },
       "autonomous_community_code_ine": "C01",
       "display_name": "Nacional Álava",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac02",
@@ -8872,9 +8866,9 @@
         "territorial_source": {
           "territory_id": "nac12",
           "edition": "2025",
-          "run_id": 43651935343,
-          "artifact_name": "ddd-source-package-nac12-2025-43651935343",
-          "artifact_sha256": "21c4055d28b1deb32e93ffae088f277800482eb1062f7253ce71736de42ec482",
+          "run_id": 43750088578,
+          "artifact_name": "ddd-source-package-nac12-2025-43750088578",
+          "artifact_sha256": "00b6b5f7f2838c72a39004b474cfd2890d61f25578dddab595ddb3bac58f4136",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12592,7 +12586,7 @@
     }
   ],
   "kpis": {
-    "complete": 69,
+    "complete": 67,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12606,9 +12600,7 @@
       "10 Comunidad Valenciana",
       "11 Extremadura",
       "13 Comunidad de Madrid",
-      "18 Ceuta",
-      "19 Melilla",
-      "Nacional Álava",
+      "16 País Vasco",
       "Nacional Albacete",
       "Nacional Alicante",
       "Nacional Almería",
@@ -12873,11 +12865,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "aut13",
-    "name": "Comunidad de Madrid",
-    "display_name": "13 Comunidad de Madrid",
-    "autonomous_community_code_ine": "13",
-    "run_id": 43749008571,
+    "territory_id": "aut16",
+    "name": "País Vasco",
+    "display_name": "16 País Vasco",
+    "autonomous_community_code_ine": "16",
+    "run_id": 43752121775,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12902,33 +12894,33 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "16 País Vasco",
-      "territory_id": "aut16",
-      "autonomous_community_code_ine": "16",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "17 La Rioja",
       "territory_id": "aut17",
       "autonomous_community_code_ine": "17",
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "18 Ceuta",
+      "territory_id": "aut18",
+      "autonomous_community_code_ine": "18",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "19 Melilla",
+      "territory_id": "aut19",
+      "autonomous_community_code_ine": "19",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Álava",
+      "territory_id": "nac01",
+      "autonomous_community_code_ine": "C01",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Nacional 350 Álava",
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Albacete",
-      "territory_id": "congreso350_albacete",
-      "autonomous_community_code_ine": "R02",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Alicante",
-      "territory_id": "congreso350_alicante",
-      "autonomous_community_code_ine": "R03",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -12952,15 +12944,27 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "16 País Vasco",
-      "territory_id": "aut16",
-      "autonomous_community_code_ine": "16",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "17 La Rioja",
       "territory_id": "aut17",
       "autonomous_community_code_ine": "17",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "18 Ceuta",
+      "territory_id": "aut18",
+      "autonomous_community_code_ine": "18",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "19 Melilla",
+      "territory_id": "aut19",
+      "autonomous_community_code_ine": "19",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Álava",
+      "territory_id": "nac01",
+      "autonomous_community_code_ine": "C01",
       "action": "preparar fuentes electorales"
     }
   ]
