@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T09:57:01.649132+00:00",
+  "generated_at": "2026-11-15T14:03:23.153222+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 74,
-      "action_required": 46,
+      "admissible": 3,
+      "action_required": 117,
       "blocked": 0,
       "unavailable": 0,
       "activated": 3,
-      "activable": 71,
+      "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 46,
+      "electoral_pending": 117,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,7 +38,7 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 74,
+      "electoral_source": 3,
       "durable_pair": 3
     },
     "territories": [
@@ -70,20 +70,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "ACQUISITION_REQUIRED",
+          "action": "ACQUIRE",
+          "reason": "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE",
           "source": "Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)",
           "granularity": "section_party_with_cera_reconciliation"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTION_REQUIRED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut01/evidencia/pares_fuentes/2025/008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc.json",
-            "pair_sha256": "008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -91,7 +91,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE"
+          }
+        ]
       },
       {
         "territory_id": "aut02",
@@ -121,20 +127,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Corporación RTVE — resultados 2026",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut02/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json",
-            "pair_sha256": "b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -142,7 +148,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut03",
@@ -172,20 +184,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "GIPEYOP / Spain Electoral Project mirror verificado",
           "granularity": "polling_station_to_section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut03/evidencia/pares_fuentes/2025/96f6b6b1fa3e548dabea41b1aee41731cc974a4a97c07935aca74f7096e502fb.json",
-            "pair_sha256": "96f6b6b1fa3e548dabea41b1aee41731cc974a4a97c07935aca74f7096e502fb",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -193,7 +205,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut04",
@@ -223,20 +241,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut04/evidencia/pares_fuentes/2025/2a8ec31fdd7b769abc01cfa4cbedaa2a7b743327f173184cd85d2433d89de4eb.json",
-            "pair_sha256": "2a8ec31fdd7b769abc01cfa4cbedaa2a7b743327f173184cd85d2433d89de4eb",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -244,7 +262,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut05",
@@ -274,20 +298,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut05/evidencia/pares_fuentes/2025/9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814.json",
-            "pair_sha256": "9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -295,7 +319,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut06",
@@ -325,20 +355,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut06/evidencia/pares_fuentes/2025/e6f708de40a73a4b2941809203619e18a79b4548b69b08af486739bc44c40311.json",
-            "pair_sha256": "e6f708de40a73a4b2941809203619e18a79b4548b69b08af486739bc44c40311",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -346,7 +376,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut07",
@@ -376,20 +412,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Junta de Castilla y León — Datos Abiertos",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut07/evidencia/pares_fuentes/2025/3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf.json",
-            "pair_sha256": "3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -397,7 +433,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut08",
@@ -427,20 +469,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut08/evidencia/pares_fuentes/2025/c8d8bc1e482267ed15f985168ea0ea537589fa5e2d0ac75fa65f8d2b7489120c.json",
-            "pair_sha256": "c8d8bc1e482267ed15f985168ea0ea537589fa5e2d0ac75fa65f8d2b7489120c",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -448,7 +490,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut09",
@@ -478,20 +526,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Generalitat de Catalunya / mirror auditable verificado",
           "granularity": "polling_station_to_section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut09/evidencia/pares_fuentes/2025/3090588ad0a3e96eb59dbfc5eb7260f1eda08a00b670c1287cebf36c48586087.json",
-            "pair_sha256": "3090588ad0a3e96eb59dbfc5eb7260f1eda08a00b670c1287cebf36c48586087",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -499,7 +547,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut10",
@@ -529,20 +583,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut10/evidencia/pares_fuentes/2025/dabb1f70e89c22e128269f4ef63f8701763a8e9155a46053330ec0ea42ad10f0.json",
-            "pair_sha256": "dabb1f70e89c22e128269f4ef63f8701763a8e9155a46053330ec0ea42ad10f0",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -550,7 +604,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut11",
@@ -580,20 +640,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Minsait / EleccionesDB mirror provisional (excepción del propietario 2026-10-29)",
           "granularity": "section_party_after_polling_station_aggregation"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
-            "receipt_path": "territorios/aut11/evidencia/pares_fuentes/2025/67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3.json",
-            "pair_sha256": "67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3",
-            "reason": "PAIR_NOT_CURRENT"
+            "receipt_path": "territorios/aut11/evidencia/pares_fuentes/2025/a36c706c2ace1048916be9b85201e5605faad6ff98f417f3625bd88b4593f61d.json",
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -601,7 +661,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut12",
@@ -631,20 +697,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Xunta de Galicia — Datos Abiertos",
           "granularity": "polling_station_to_section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut12/evidencia/pares_fuentes/2025/fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914.json",
-            "pair_sha256": "fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -652,7 +718,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut13",
@@ -682,20 +754,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut13/evidencia/pares_fuentes/2025/4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8.json",
-            "pair_sha256": "4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -703,7 +775,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut14",
@@ -733,20 +811,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut14/evidencia/pares_fuentes/2025/317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d.json",
-            "pair_sha256": "317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -754,7 +832,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut15",
@@ -784,20 +868,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut15/evidencia/pares_fuentes/2025/4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc.json",
-            "pair_sha256": "4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -805,7 +889,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut16",
@@ -835,20 +925,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut16/evidencia/pares_fuentes/2025/76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac.json",
-            "pair_sha256": "76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -856,7 +946,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut17",
@@ -886,20 +982,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut17/evidencia/pares_fuentes/2025/b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd.json",
-            "pair_sha256": "b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -907,7 +1003,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut18",
@@ -937,20 +1039,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut18/evidencia/pares_fuentes/2025/43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8.json",
-            "pair_sha256": "43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -958,7 +1060,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "aut19",
@@ -988,20 +1096,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut19/evidencia/pares_fuentes/2025/f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4.json",
-            "pair_sha256": "f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1009,7 +1117,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac01",
@@ -1039,20 +1153,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac01/evidencia/pares_fuentes/2025/29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b.json",
-            "pair_sha256": "29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1060,7 +1174,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac02",
@@ -1090,20 +1210,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac02/evidencia/pares_fuentes/2025/cab052dbdcaf36b292acc9769ee1c419978d21d0fc0252cf73854bc251af7dc8.json",
-            "pair_sha256": "cab052dbdcaf36b292acc9769ee1c419978d21d0fc0252cf73854bc251af7dc8",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1111,7 +1231,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac03",
@@ -1141,20 +1267,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac03/evidencia/pares_fuentes/2025/f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256.json",
-            "pair_sha256": "f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1162,7 +1288,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac04",
@@ -1192,20 +1324,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac04/evidencia/pares_fuentes/2025/a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c.json",
-            "pair_sha256": "a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1213,7 +1345,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac05",
@@ -1243,20 +1381,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac05/evidencia/pares_fuentes/2025/0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b.json",
-            "pair_sha256": "0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1264,7 +1402,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac06",
@@ -1294,20 +1438,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac06/evidencia/pares_fuentes/2025/5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48.json",
-            "pair_sha256": "5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1315,7 +1459,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac07",
@@ -1345,20 +1495,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac07/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json",
-            "pair_sha256": "61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1366,7 +1516,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac08",
@@ -1396,20 +1552,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac08/evidencia/pares_fuentes/2025/b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a.json",
-            "pair_sha256": "b90ce4e74864fa080e919a3efd423cc33226eb298fc20decdb8a3b48293dff3a",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1417,7 +1573,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac09",
@@ -1447,20 +1609,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac09/evidencia/pares_fuentes/2025/5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a.json",
-            "pair_sha256": "5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1468,7 +1630,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac10",
@@ -1498,20 +1666,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac10/evidencia/pares_fuentes/2025/f8f3ff6511a15e7f73e802dfcc54dd45b8e5c296b6c408c88e6fc85504399b79.json",
-            "pair_sha256": "f8f3ff6511a15e7f73e802dfcc54dd45b8e5c296b6c408c88e6fc85504399b79",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1519,7 +1687,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac11",
@@ -1549,20 +1723,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac11/evidencia/pares_fuentes/2025/c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182.json",
-            "pair_sha256": "c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1570,7 +1744,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac12",
@@ -1600,20 +1780,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac12/evidencia/pares_fuentes/2025/8bbe77deb9c92332e6b8b61310217afa1d5be4d24eb252319b98f2943a3406c6.json",
-            "pair_sha256": "8bbe77deb9c92332e6b8b61310217afa1d5be4d24eb252319b98f2943a3406c6",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1621,7 +1801,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac13",
@@ -1651,20 +1837,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac13/evidencia/pares_fuentes/2025/8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015.json",
-            "pair_sha256": "8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1672,7 +1858,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac14",
@@ -1702,20 +1894,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac14/evidencia/pares_fuentes/2025/96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e.json",
-            "pair_sha256": "96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1723,7 +1915,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac15",
@@ -1753,20 +1951,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac15/evidencia/pares_fuentes/2025/0edcee83874afdffefd871bd37738611d53f1a4d8c98d794ace159926d78e2cc.json",
-            "pair_sha256": "0edcee83874afdffefd871bd37738611d53f1a4d8c98d794ace159926d78e2cc",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1774,7 +1972,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac16",
@@ -1804,20 +2008,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac16/evidencia/pares_fuentes/2025/26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0.json",
-            "pair_sha256": "26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1825,7 +2029,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac17",
@@ -1855,20 +2065,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac17/evidencia/pares_fuentes/2025/9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc.json",
-            "pair_sha256": "9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1876,7 +2086,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac18",
@@ -1906,20 +2122,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac18/evidencia/pares_fuentes/2025/94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e.json",
-            "pair_sha256": "94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1927,7 +2143,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac19",
@@ -1957,20 +2179,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac19/evidencia/pares_fuentes/2025/8e2ca58bb58ccfa32fd273ffc148de7417903eb55be4c99f088f26625449b5c1.json",
-            "pair_sha256": "8e2ca58bb58ccfa32fd273ffc148de7417903eb55be4c99f088f26625449b5c1",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -1978,7 +2200,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac20",
@@ -2008,20 +2236,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac20/evidencia/pares_fuentes/2025/9651126a3a22e99dd8d141cdc83ea292db8efd423747fd9739bcc78a505cda5e.json",
-            "pair_sha256": "9651126a3a22e99dd8d141cdc83ea292db8efd423747fd9739bcc78a505cda5e",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2029,7 +2257,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac21",
@@ -2059,20 +2293,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac21/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json",
-            "pair_sha256": "bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2080,7 +2314,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac22",
@@ -2110,20 +2350,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — resultados por mesa, Congreso 2023 (pendiente de declaración)",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac22/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json",
-            "pair_sha256": "e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2131,7 +2371,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac23",
@@ -2161,20 +2407,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac23/evidencia/pares_fuentes/2025/6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21.json",
-            "pair_sha256": "6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2182,7 +2428,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac24",
@@ -2212,20 +2464,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac24/evidencia/pares_fuentes/2025/ec2b27c201a17fceca9b44d38785522c8676e1b0018c7aa2cbb6ce967b5f5f46.json",
-            "pair_sha256": "ec2b27c201a17fceca9b44d38785522c8676e1b0018c7aa2cbb6ce967b5f5f46",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2233,7 +2485,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac25",
@@ -2263,20 +2521,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac25/evidencia/pares_fuentes/2025/ce3113b33666b565750fee12fc6fdc256cb80fde01b3ed4dc5aadd65ae5b2df2.json",
-            "pair_sha256": "ce3113b33666b565750fee12fc6fdc256cb80fde01b3ed4dc5aadd65ae5b2df2",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2284,7 +2542,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac26",
@@ -2314,20 +2578,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac26/evidencia/pares_fuentes/2025/d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc.json",
-            "pair_sha256": "d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2335,7 +2599,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac27",
@@ -2365,20 +2635,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac27/evidencia/pares_fuentes/2025/e4e97c5fbb0e722c00699a9b32d0cf800a90f57be45c5d570a0f4cf87d5b9422.json",
-            "pair_sha256": "e4e97c5fbb0e722c00699a9b32d0cf800a90f57be45c5d570a0f4cf87d5b9422",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2386,7 +2656,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac28",
@@ -2416,20 +2692,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac28/evidencia/pares_fuentes/2025/5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5.json",
-            "pair_sha256": "5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2437,7 +2713,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac29",
@@ -2467,20 +2749,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac29/evidencia/pares_fuentes/2025/118cccdb9a9afa72367051c0cfa4d92b41524e35ec8b8feb0327760bfc1fb1cd.json",
-            "pair_sha256": "118cccdb9a9afa72367051c0cfa4d92b41524e35ec8b8feb0327760bfc1fb1cd",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2488,7 +2770,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac30",
@@ -2518,20 +2806,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac30/evidencia/pares_fuentes/2025/ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630.json",
-            "pair_sha256": "ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2539,7 +2827,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac31",
@@ -2569,20 +2863,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac31/evidencia/pares_fuentes/2025/a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d.json",
-            "pair_sha256": "a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2590,7 +2884,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac32",
@@ -2620,20 +2920,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac32/evidencia/pares_fuentes/2025/69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696.json",
-            "pair_sha256": "69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2641,7 +2941,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac33",
@@ -2671,20 +2977,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac33/evidencia/pares_fuentes/2025/c37c091cfaa3abf417bfc1151a0f74b8eaa924fa5966bac616449d6b18e8901d.json",
-            "pair_sha256": "c37c091cfaa3abf417bfc1151a0f74b8eaa924fa5966bac616449d6b18e8901d",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2692,7 +2998,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac34",
@@ -2722,20 +3034,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac34/evidencia/pares_fuentes/2025/001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18.json",
-            "pair_sha256": "001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2743,7 +3055,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac35",
@@ -2773,20 +3091,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac35/evidencia/pares_fuentes/2025/a3f2cf94231c6215b6cb5eeac73d577d04c5f828533d7db365456f441c6a9035.json",
-            "pair_sha256": "a3f2cf94231c6215b6cb5eeac73d577d04c5f828533d7db365456f441c6a9035",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2794,7 +3112,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac36",
@@ -2824,20 +3148,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac36/evidencia/pares_fuentes/2025/da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388.json",
-            "pair_sha256": "da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2845,7 +3169,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac37",
@@ -2875,20 +3205,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac37/evidencia/pares_fuentes/2025/a3f54f25701ef149d6df622f412ff511fb94a5ab5391bed84ce27db1dc6e4d9f.json",
-            "pair_sha256": "a3f54f25701ef149d6df622f412ff511fb94a5ab5391bed84ce27db1dc6e4d9f",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2896,7 +3226,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac38",
@@ -2926,20 +3262,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac38/evidencia/pares_fuentes/2025/281ded9a6026099c6240c646c234f20705a9aba68220e8a31ac15a039bc12e4b.json",
-            "pair_sha256": "281ded9a6026099c6240c646c234f20705a9aba68220e8a31ac15a039bc12e4b",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2947,7 +3283,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac39",
@@ -2977,20 +3319,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac39/evidencia/pares_fuentes/2025/158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7.json",
-            "pair_sha256": "158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -2998,7 +3340,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac40",
@@ -3028,20 +3376,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac40/evidencia/pares_fuentes/2025/11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c.json",
-            "pair_sha256": "11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3049,7 +3397,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac41",
@@ -3079,20 +3433,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac41/evidencia/pares_fuentes/2025/cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d.json",
-            "pair_sha256": "cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3100,7 +3454,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac42",
@@ -3130,20 +3490,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac42/evidencia/pares_fuentes/2025/b73e7070cb80f9db457a63722fa4bdfc0f6d6a4a369eba0588a25e0357c02ed6.json",
-            "pair_sha256": "b73e7070cb80f9db457a63722fa4bdfc0f6d6a4a369eba0588a25e0357c02ed6",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3151,7 +3511,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac43",
@@ -3181,20 +3547,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac43/evidencia/pares_fuentes/2025/40740f8c1f08ee810e1b3efa102fb98d93a447732332f99f8e356db93322ea7e.json",
-            "pair_sha256": "40740f8c1f08ee810e1b3efa102fb98d93a447732332f99f8e356db93322ea7e",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3202,7 +3568,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac44",
@@ -3232,20 +3604,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac44/evidencia/pares_fuentes/2025/cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5.json",
-            "pair_sha256": "cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3253,7 +3625,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac45",
@@ -3283,20 +3661,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac45/evidencia/pares_fuentes/2025/044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0.json",
-            "pair_sha256": "044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3304,7 +3682,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac46",
@@ -3334,20 +3718,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac46/evidencia/pares_fuentes/2025/1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b.json",
-            "pair_sha256": "1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3355,7 +3739,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac47",
@@ -3385,20 +3775,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac47/evidencia/pares_fuentes/2025/7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837.json",
-            "pair_sha256": "7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3406,7 +3796,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac48",
@@ -3436,20 +3832,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac48/evidencia/pares_fuentes/2025/a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939.json",
-            "pair_sha256": "a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3457,7 +3853,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac49",
@@ -3487,20 +3889,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac49/evidencia/pares_fuentes/2025/9456a3656fd980295e4100f3e8ea2fd0d288d249938586a8cd3e189a089e6595.json",
-            "pair_sha256": "9456a3656fd980295e4100f3e8ea2fd0d288d249938586a8cd3e189a089e6595",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3508,7 +3910,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac50",
@@ -3538,20 +3946,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac50/evidencia/pares_fuentes/2025/1c7a2bca176538bb2bd05dc7c947f2e3beb817bf019718d8962d761ebdc9b631.json",
-            "pair_sha256": "1c7a2bca176538bb2bd05dc7c947f2e3beb817bf019718d8962d761ebdc9b631",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3559,7 +3967,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac51",
@@ -3589,20 +4003,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac51/evidencia/pares_fuentes/2025/5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d.json",
-            "pair_sha256": "5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3610,7 +4024,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "nac52",
@@ -3640,20 +4060,20 @@
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
-          "action": "REUSE",
-          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_ID_NO_CANONICO",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ADMISSIBLE",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/nac52/evidencia/pares_fuentes/2025/c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220.json",
-            "pair_sha256": "c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220",
-            "reason": "PAIR_NOT_CURRENT"
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_ACCREDITED"
           }
         },
         "activity": {
@@ -3661,7 +4081,13 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": []
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_ID_NO_CANONICO"
+          }
+        ]
       },
       {
         "territory_id": "congreso350_alava",
@@ -7301,13 +7727,13 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43698495438,
+      "run_id": 43720213000,
       "last_run": {
-        "run_id": 43694989383,
+        "run_id": 43701871746,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "stopped_at": "03 · Preparación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7327,13 +7753,13 @@
           "territory_id": "aut11",
           "territory_name": "Extremadura",
           "edition": "2025",
-          "run_id": 43698495438,
-          "artifact_name": "ddd-state-43698495438-M06",
-          "artifact_sha256": "ce3a643f1181a9b40b62f7e05734e967b19236dbeefec932f675b634fd60cf7b",
-          "source_commit": "e07a6e0709659d16034098964212b985a695b2bc",
+          "run_id": 43720213000,
+          "artifact_name": "ddd-state-43720213000-M06",
+          "artifact_sha256": "4c4cc3995c69d1578133520f9df49785f222ac47ecdb90987716f0358f5c5b35",
+          "source_commit": "bf9f9ce680bd67de580f96ff9a70f04a78df6e30",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/aut11/evidencia/generaciones_m06/43698495438.json"
+          "producer_manifest_path": "territorios/aut11/evidencia/generaciones_m06/43720213000.json"
         },
         "electoral_source": null,
         "electoral_product": {
