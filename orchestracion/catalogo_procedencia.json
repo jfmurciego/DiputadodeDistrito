@@ -4042,11 +4042,11 @@
   },
   "congreso_guadalajara": {
    "fuente_territorial": {
-    "run_id": "43652010786",
-    "package_sha256": "999307e568f21491c3698c3ab5e29d82a645bec12462879ec2741f692eb0adab",
-    "artifact_sha256": "829024f031869b255f211a15141d9ca1004e46ec3ab89c73a6ab90f7d87e93c3",
-    "territorial_identity_sha256": "42b08a34df58de758a5e613785d720572b618519a804764b5b03844245b86c10",
-    "receipt_path": "territorios/nac19/evidencia/fuentes_territoriales/2025/42b08a34df58de758a5e613785d720572b618519a804764b5b03844245b86c10/43652010786/receipt.json",
+    "run_id": "43758023704",
+    "package_sha256": "208f35fcfb116970b6a9d653a1e1fca09abe064f729ca4f60517235ae80a2502",
+    "artifact_sha256": "f60db6542215386454abd29a5a5d86369b0780254c840f32efceb99c9c87ab1c",
+    "territorial_identity_sha256": "0eafa1c4a0ffe119f7b75272e967154e1ba0072482b6f73f746d29497ffa6312",
+    "receipt_path": "territorios/nac19/evidencia/fuentes_territoriales/2025/0eafa1c4a0ffe119f7b75272e967154e1ba0072482b6f73f746d29497ffa6312/43758023704/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
