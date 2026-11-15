@@ -1403,6 +1403,7 @@ territories:
         territorial_product: territorios/nac17/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac17/evidencia/pares_fuentes/2025/9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc.json
         electoral_product: territorios/nac17/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac17/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac18
   name: Congreso Granada
