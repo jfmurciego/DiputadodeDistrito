@@ -31,7 +31,7 @@ if [ ! -f $Q/ok_piloto ]; then
   tanda t11 11; touch $Q/ok_piloto; log "PILOTO OK"; [ -n "$STOP_AFTER_PILOTO" ] && exit 0
 fi
 # 1. P10 de los otros 70
-for rg in "1 10" "12 21" "22 31" "32 41" "42 51" "52 61" "62 71"; do set -- $rg; [ -f $Q/ok_p10_$1 ] && continue; check "P10 $rg"; p10tanda $1 $2; touch $Q/ok_p10_$1; log "P10 filas $rg OK"; done
+for rg in "1 10" "12 21" "22 31" "32 41" "42 51" "52 61" "62 71"; do set -- $rg; [ -f $Q/ok_p10_$1 ] && continue; check "P10 $rg"; p10tanda $1 $2; touch $Q/ok_p10_$1; log "P10 filas $rg OK"; [ -n "$STOP_EACH" ] && exit 0; done
 [ "$(grep -c '	success$' $P)" -eq 71 ] && [ "$(wc -l < $Q/verif.txt)" -eq 71 ] || { log "PARADA P10 incompletos"; exit 3; }
 log "paso 1 OK 71/71 verificados"
 # 2. archivado
