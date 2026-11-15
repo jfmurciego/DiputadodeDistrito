@@ -88,8 +88,17 @@ class Script(unittest.TestCase):
         self.assertIn("(Sha256Hex $ruta) -eq $m.sha256", PS1)
         self.assertRegex(PS1, r"Cancelado[^\n]*exit 2")
 
+    def test_solo_ascii(self):
+        # PowerShell 5.1 lee un .ps1 sin BOM como ANSI: cualquier byte > 127 sale roto
+        datos = (ROOT / "herramientas/espejo_ine_observatorio_r2.ps1").read_bytes()
+        self.assertEqual([i for i, b in enumerate(datos) if b > 127][:5], [])
+
+    def test_indice_de_la_rama_documentado_y_error_claro(self):
+        self.assertIn("-Indice https://raw.githubusercontent.com/jfmurciego/DiputadodeDistrito/t356-espejo-ine-observatorio-r2/", PS1)
+        self.assertRegex(PS1, r"solo \$\(\$piezas\.Count\)[^\n]*Pasa -Indice")
+
     def test_cabecera_y_sin_ids_viejos(self):
-        self.assertIn("VERSIÓN 1.0.0", PS1.splitlines()[1])
+        self.assertIn("VERSION 1.0.0", PS1.splitlines()[1])
         self.assertIn("ANTERIOR: ninguna (fichero nuevo)", PS1)
         self.assertNotRegex(PS1, r"territorios/(?!aut|nac)[a-z_]+/")
 

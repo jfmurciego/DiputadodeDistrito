@@ -1,23 +1,25 @@
 <#
-PROYECTO: Diputado de Distrito · T-356 · VERSIÓN 1.0.0 · 2026-11-15 · ANTERIOR: ninguna (fichero nuevo)
+PROYECTO: Diputado de Distrito - T-356 - VERSION 1.0.0 - 2026-11-15 - ANTERIOR: ninguna (fichero nuevo)
 Baja los 17 seccionados del INE (2010-2026) y las 625 piezas del Observatorio Electoral de las Naciones, verifica el sha256 del
-índice orchestracion/fuentes_r2.json (donde exista; donde no, lo mide y lo registra), las sube a R2 (ARC-E) en
-arc-e/fuentes/ine/seccionado_<año>_<sha12>.zip y arc-e/fuentes/nazioenbehatokia/<ruta>_<sha12>.json y escribe el JSON de resultado
+indice orchestracion/fuentes_r2.json (donde exista; donde no, lo mide y lo registra), las sube a R2 (ARC-E) en
+arc-e/fuentes/ine/seccionado_<ano>_<sha12>.zip y arc-e/fuentes/nazioenbehatokia/<ruta>_<sha12>.json y escribe el JSON de resultado
 (clave, sha256, bytes, origen_url, descargado_en, subido). Se ejecuta en el Windows del propietario (PowerShell 5.1+); no necesita checkout:
   irm https://raw.githubusercontent.com/jfmurciego/DiputadodeDistrito/main/herramientas/espejo_ine_observatorio_r2.ps1 -OutFile espejo.ps1
-Sin checkout, el índice se baja de raw; con checkout (desde su raíz) se usa orchestracion/fuentes_r2.json local.
+Sin checkout, el indice se baja de raw de main; con checkout (desde su raiz) se usa orchestracion/fuentes_r2.json local.
+MIENTRAS LA PR #829 NO ESTE FUSIONADA hay que pasar -Indice con la raw de la rama, p. ej.
+  -Indice https://raw.githubusercontent.com/jfmurciego/DiputadodeDistrito/t356-espejo-ine-observatorio-r2/orchestracion/fuentes_r2.json
 Credenciales (solo para subir; nunca se imprimen ni se guardan): $env:AWS_ACCESS_KEY_ID, $env:AWS_SECRET_ACCESS_KEY, $env:R2_ACCOUNT_ID,
-$env:R2_BUCKET, y AWS CLI (`aws`). AWS_DEFAULT_REGION=auto se pone aquí.
+$env:R2_BUCKET, y AWS CLI (`aws`). AWS_DEFAULT_REGION=auto se pone aqui.
 Uso:
   .\espejo_ine_observatorio_r2.ps1 -SoloBajar              # baja y mide, NO sube
   .\espejo_ine_observatorio_r2.ps1                         # baja, mide y sube (INE y Observatorio)
   .\espejo_ine_observatorio_r2.ps1 -Grupo ine              # solo los 17 seccionados (o -Grupo observatorio)
 Reanudable: lo ya verificado (fichero + .ok) no se vuelve a bajar y lo ya subido (head-object con el mismo sha256) no se vuelve a subir.
-Carpeta de trabajo corta (límite de ruta de Windows): C:\ddd. Sale con código 1 si falla alguna pieza y con 2 si no se confirma la sobrescritura del JSON. Después, pega el JSON de resultado en el chat del Coordinador.
+Carpeta de trabajo corta (limite de ruta de Windows): C:\ddd. Sale con codigo 1 si falla alguna pieza y con 2 si no se confirma la sobrescritura del JSON. Despues, pega el JSON de resultado en el chat del Coordinador.
 #>
 [CmdletBinding()]
 param(
-    [string]$Indice = '',    # ruta local o URL del índice; vacío = orchestracion/fuentes_r2.json local si existe, si no raw de main
+    [string]$Indice = '',    # ruta local o URL del indice; vacio = orchestracion/fuentes_r2.json local si existe, si no raw de main
     [string]$Trabajo = 'C:\ddd',
     [string]$Salida = 'espejo_ine_observatorio_r2_resultado.json',
     [ValidateSet('todo', 'ine', 'observatorio')][string]$Grupo = 'todo',
@@ -41,11 +43,11 @@ if (-not $SoloBajar) {
     $endpoint = "https://$($env:R2_ACCOUNT_ID).r2.cloudflarestorage.com"
 }
 if ((Test-Path $Salida) -and -not $Forzar) {
-    $r = Read-Host "$Salida ya existe y se sobrescribirá. Escribe SI para continuar"
+    $r = Read-Host "$Salida ya existe y se sobrescribira. Escribe SI para continuar"
     if ($r -cne 'SI') { Write-Host 'Cancelado: no se ha hecho nada.'; exit 2 }
 }
 
-# --- índice -----------------------------------------------------------------------------------------------------------------
+# --- indice -----------------------------------------------------------------------------------------------------------------
 if (-not $Indice) { $Indice = if (Test-Path 'orchestracion/fuentes_r2.json') { 'orchestracion/fuentes_r2.json' } else { $RAW } }
 $txt = if ($Indice -match '^https?://') { (Invoke-WebRequest -Uri $Indice -UseBasicParsing -UserAgent $ua).Content } else { Get-Content $Indice -Raw -Encoding UTF8 }
 if ($txt -is [byte[]]) { $txt = [Text.Encoding]::UTF8.GetString($txt) }
@@ -60,7 +62,8 @@ foreach ($p in $fuentes.PSObject.Properties) {
     }
 }
 $esperadas = @{ todo = 642; ine = 17; observatorio = 625 }[$Grupo]
-if ($piezas.Count -ne $esperadas) { throw "Se esperaban $esperadas piezas y el índice trae $($piezas.Count): no se continúa." }
+if ($piezas.Count -lt $esperadas) { throw "El indice trae solo $($piezas.Count) de $esperadas piezas: es el de main anterior a la PR #829? Pasa -Indice con la raw de la rama (ver cabecera)." }
+if ($piezas.Count -ne $esperadas) { throw "Se esperaban $esperadas piezas y el indice trae $($piezas.Count): no se continua." }
 
 # --- utilidades --------------------------------------------------------------------------------------------------------------
 New-Item -ItemType Directory -Force -Path (Join-Path $Trabajo 'ine'), (Join-Path $Trabajo 'obs') | Out-Null
@@ -73,13 +76,13 @@ function Ruta-Completa($ruta) {
 function Escribir-Sin-Bom($ruta, $texto) { [IO.File]::WriteAllText((Ruta-Completa $ruta), $texto, (New-Object Text.UTF8Encoding($false))) }
 
 function Validar($ruta, $tipo) {
-    # devuelve $null si es válido o el motivo
+    # devuelve $null si es valido o el motivo
     $n = (Get-Item -LiteralPath $ruta).Length
-    if ($n -eq 0) { return 'fichero vacío' }
+    if ($n -eq 0) { return 'fichero vacio' }
     $fs = [IO.File]::OpenRead($ruta)
     try { $buf = New-Object byte[] ([Math]::Min(512, $n)); [void]$fs.Read($buf, 0, $buf.Length) } finally { $fs.Dispose() }
     $ini = [Text.Encoding]::UTF8.GetString($buf).TrimStart([char]0xFEFF, ' ', "`r", "`n", "`t")
-    if ($ini -match '(?i)^<\s*(!doctype|html|head|body)') { return 'es HTML (página de error), no el fichero' }
+    if ($ini -match '(?i)^<\s*(!doctype|html|head|body)') { return 'es HTML (pagina de error), no el fichero' }
     if ($tipo -eq 'ine') {
         if (-not ($buf[0] -eq 0x50 -and $buf[1] -eq 0x4B -and $buf[2] -eq 3 -and $buf[3] -eq 4)) { return 'no es un ZIP (falta la firma PK)' }
         try {
@@ -113,7 +116,7 @@ function Bajar($url, $destino) {
 }
 
 function Subido($clave, $sha) {
-    # ¿ya está en R2 con ese sha256? (head-object; sin imprimir credenciales)
+    # ya esta en R2 con ese sha256? (head-object; sin imprimir credenciales)
     $out = & aws s3api head-object --bucket $env:R2_BUCKET --key $clave --endpoint-url $endpoint 2>$null
     if ($LASTEXITCODE -ne 0 -or -not $out) { return $false }
     try { return (($out -join "`n") | ConvertFrom-Json).Metadata.sha256 -eq $sha } catch { return $false }
@@ -134,7 +137,7 @@ foreach ($p in $piezas) {
         # 1. reanudar: fichero ya verificado (sidecar .ok con sha256/bytes medidos) y que sigue cuadrando
         if ((Test-Path -LiteralPath $ruta) -and (Test-Path -LiteralPath $ok)) {
             $m = Get-Content -LiteralPath $ok -Raw -Encoding UTF8 | ConvertFrom-Json
-            # se recalcula el sha256 del fichero: debe casar con el .ok y, si el índice lo trae, con el índice
+            # se recalcula el sha256 del fichero: debe casar con el .ok y, si el indice lo trae, con el indice
             if ((Get-Item -LiteralPath $ruta).Length -eq $m.bytes -and (Sha256Hex $ruta) -eq $m.sha256 -and (-not $f.sha256 -or $f.sha256 -eq $m.sha256)) { $meta = $m }
         }
         # 2. bajar y validar
@@ -143,11 +146,11 @@ foreach ($p in $piezas) {
             $http = Bajar $f.origen_url $parte
             Start-Sleep -Milliseconds $PausaMs
             $motivo = Validar $parte $p.tipo
-            if ($motivo) { Remove-Item -LiteralPath $parte -Force; throw "contenido no válido: $motivo" }
+            if ($motivo) { Remove-Item -LiteralPath $parte -Force; throw "contenido no valido: $motivo" }
             $sha = Sha256Hex $parte
             $bytes = (Get-Item -LiteralPath $parte).Length
-            if ($f.sha256 -and $sha -ne $f.sha256) { Remove-Item -LiteralPath $parte -Force; throw "sha256 $sha distinto del índice $($f.sha256)" }
-            if ($f.bytes -and $bytes -ne [long]$f.bytes) { Remove-Item -LiteralPath $parte -Force; throw "bytes $bytes distintos del índice $($f.bytes)" }
+            if ($f.sha256 -and $sha -ne $f.sha256) { Remove-Item -LiteralPath $parte -Force; throw "sha256 $sha distinto del indice $($f.sha256)" }
+            if ($f.bytes -and $bytes -ne [long]$f.bytes) { Remove-Item -LiteralPath $parte -Force; throw "bytes $bytes distintos del indice $($f.bytes)" }
             Move-Item -LiteralPath $parte -Destination $ruta -Force
             $meta = [pscustomobject]@{ sha256 = $sha; bytes = $bytes; http = $http; descargado_en = (Get-Date -Format 'yyyy-MM-dd'); verificado = $(if ($f.sha256) { 'indice' } else { 'registrado' }); subido = $false }
             Escribir-Sin-Bom $ok ($meta | ConvertTo-Json)
@@ -158,13 +161,13 @@ foreach ($p in $piezas) {
             if ($p.tipo -eq 'ine') { $clave = "arc-e/fuentes/ine/$($p.nombre -replace '\.zip$', '')_$($meta.sha256.Substring(0, 12)).zip" }
             else { $r0 = $p.nombre -replace '^nazioenbehatokia/', ''; $clave = "arc-e/fuentes/nazioenbehatokia/$($r0 -replace '\.json$', '')_$($meta.sha256.Substring(0, 12)).json" }
         }
-        # 4. subir (si no está ya con el mismo sha256)
+        # 4. subir (si no esta ya con el mismo sha256)
         $subido = [bool]$meta.subido
         if (-not $SoloBajar -and -not $subido) {
             if (Subido $clave $meta.sha256) { $subido = $true }
             else {
                 & aws s3 cp $ruta "s3://$($env:R2_BUCKET)/$clave" --endpoint-url $endpoint --metadata "sha256=$($meta.sha256)" --only-show-errors
-                if ($LASTEXITCODE -ne 0) { throw "la subida a R2 falló (código $LASTEXITCODE)" }
+                if ($LASTEXITCODE -ne 0) { throw "la subida a R2 fallo (codigo $LASTEXITCODE)" }
                 $subido = $true
             }
             $meta.subido = $true
