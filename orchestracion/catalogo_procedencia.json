@@ -8332,11 +8332,11 @@
   },
   "extremadura": {
    "fuente_territorial": {
-    "run_id": "43694989383",
+    "run_id": "43698495438",
     "package_sha256": "8e6e46097ff67e2155c605b3c8d36561ff564293c55824e69dc6fa2645e005e4",
-    "artifact_sha256": "d27537a3ecd93a20c59215804d06b736261e3b59fb84131625c7a29fe3a8896c",
+    "artifact_sha256": "8ec38155757ede187ca2e1c3e9af5da77deadb6c6455d6343f44f1f6939a4236",
     "territorial_identity_sha256": "6148e69fd3c6a1761307a646f8a66a42d5643c98acae14c40332988d3ee820ae",
-    "receipt_path": "territorios/aut11/evidencia/fuentes_territoriales/2025/6148e69fd3c6a1761307a646f8a66a42d5643c98acae14c40332988d3ee820ae/43694989383/receipt.json",
+    "receipt_path": "territorios/aut11/evidencia/fuentes_territoriales/2025/6148e69fd3c6a1761307a646f8a66a42d5643c98acae14c40332988d3ee820ae/43698495438/receipt.json",
     "population_year": 2025,
     "section_year": 2025
    },
