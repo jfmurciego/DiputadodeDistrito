@@ -116,6 +116,31 @@ class Script(unittest.TestCase):
         self.assertIn("System.Exception: HTTP 0 cortado", d)
         self.assertTrue(espejo("System.IO.IOException", "", "9").startswith("System.IO.IOException:"))  # mensaje vacio: queda el tipo
 
+    def test_aws_solo_por_invocar_aws(self):
+        # PS 5.1 + ErrorActionPreference=Stop: el stderr de aws (head-object 404) lanza NativeCommandError aunque se redirija 2>$null
+        m = re.search(r"function Invocar-Aws\(.*?\n\}\n", PS1, re.S)
+        self.assertIsNotNone(m)
+        cuerpo = m.group(0)
+        for frag in ("$ErrorActionPreference = 'Continue'", "finally { $ErrorActionPreference = $previo }", "2>&1", "$LASTEXITCODE", "ForEach-Object"):
+            self.assertIn(frag, cuerpo)
+        resto = PS1.replace(cuerpo, "")
+        self.assertEqual([l for l in resto.splitlines() if re.search(r"&\s*aws\b", l) and not l.lstrip().startswith("#")], [])
+        self.assertNotIn("2>$null", resto)
+        sub = re.search(r"function Subido\(.*?\n\}\n", PS1, re.S).group(0)
+        self.assertRegex(sub, r"404.*not.*NoSuchKey")
+        self.assertIn("throw \"head-object fallo", sub)
+        self.assertRegex(PS1, r"la subida a R2 fallo \(codigo \$\(\$cp\.Codigo\)\): \$\(\$cp\.Salida\)")
+
+    def test_subido_clasifica_errores_funcion_espejo(self):
+        # espejo del criterio de Subido (sin pwsh): 404/NotFound = no existe; 403/credenciales/red = error
+        patron = re.compile(r"(?i)\b404\b|not\s*found|NoSuchKey")
+        for salida in ("An error occurred (404) when calling the HeadObject operation: Not Found",
+                       "An error occurred (NoSuchKey) when calling the HeadObject operation"):
+            self.assertTrue(patron.search(salida))
+        for salida in ("An error occurred (403) when calling the HeadObject operation: Forbidden",
+                       "Unable to locate credentials", "Could not connect to the endpoint URL"):
+            self.assertFalse(patron.search(salida))
+
     def test_cabecera_y_sin_ids_viejos(self):
         self.assertIn("VERSION 1.0.0", PS1.splitlines()[1])
         self.assertIn("ANTERIOR: ninguna (fichero nuevo)", PS1)

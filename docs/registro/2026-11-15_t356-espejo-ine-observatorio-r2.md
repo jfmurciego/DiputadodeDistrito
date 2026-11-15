@@ -8,6 +8,8 @@
 
 **Diagnostico en el PC del propietario.** El catch imprime siempre tipo de excepcion (con internas), mensaje, linea del script, id y pila en una linea, y escribe el error completo en el JSON de resultado (`error` por pieza); `-Limite N` procesa solo las N primeras (prueba: `-Limite 1 -SoloBajar`).
 
+**Subida (PS 5.1).** Con `$ErrorActionPreference='Stop'` el stderr de `aws` (head-object de un objeto aun inexistente) lanzaba NativeCommandError aunque se redirigiera con `2>$null`: toda llamada a `aws` pasa por `Invocar-Aws` (Continue local, captura stdout+stderr, devuelve codigo y salida); `Subido` trata 404/NotFound como "no existe" y propaga con su texto los demas errores; la subida incluye el stderr en el mensaje.
+
 **Pruebas.** `tests.test_t356_espejo_ine_observatorio` (positivas y negativas), t298, t299, t220_renombrado. El script no se ha ejecutado (la nube no ejecuta PowerShell ni llega al INE con credenciales).
 
 **Riesgos.** Solapes en `fuentes_r2.json` con #827 y #797: rebasar la que se fusione después. Tras subir, el propietario pega el JSON de resultado y se actualiza el índice (sha256 y bytes de los 9 sin medir). No cambia huellas M05.

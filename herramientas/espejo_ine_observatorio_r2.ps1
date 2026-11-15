@@ -129,11 +129,26 @@ function Bajar($url, $destino) {
     }
 }
 
+function Invocar-Aws([string[]]$Argumentos) {
+    # unica puerta a aws: en PS 5.1 con ErrorActionPreference=Stop el stderr de un comando nativo es una excepcion
+    # (NativeCommandError) aunque se redirija con 2>$null; aqui se baja a Continue, se captura todo y se devuelve codigo + salida
+    $previo = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try {
+        $salida = & aws @Argumentos 2>&1 | ForEach-Object { "$_" }
+        $codigo = $LASTEXITCODE
+    } finally { $ErrorActionPreference = $previo }
+    [pscustomobject]@{ Codigo = $codigo; Salida = ((@($salida) -join "`n").Trim()) }
+}
+
 function Subido($clave, $sha) {
-    # ya esta en R2 con ese sha256? (head-object; sin imprimir credenciales)
-    $out = & aws s3api head-object --bucket $env:R2_BUCKET --key $clave --endpoint-url $endpoint 2>$null
-    if ($LASTEXITCODE -ne 0 -or -not $out) { return $false }
-    try { return (($out -join "`n") | ConvertFrom-Json).Metadata.sha256 -eq $sha } catch { return $false }
+    # esta ya en R2 con ese sha256? 404/NotFound = no existe; cualquier otro error (403, credenciales, red) se propaga con el texto de aws
+    $r = Invocar-Aws @('s3api', 'head-object', '--bucket', $env:R2_BUCKET, '--key', $clave, '--endpoint-url', $endpoint)
+    if ($r.Codigo -ne 0) {
+        if ($r.Salida -match '(?i)\b404\b|not\s*found|NoSuchKey') { return $false }
+        throw "head-object fallo (codigo $($r.Codigo)): $($r.Salida)"
+    }
+    try { return (($r.Salida | ConvertFrom-Json).Metadata.sha256 -eq $sha) } catch { return $false }
 }
 
 # --- bucle -------------------------------------------------------------------------------------------------------------------
@@ -180,8 +195,8 @@ foreach ($p in $piezas) {
         if (-not $SoloBajar -and -not $subido) {
             if (Subido $clave $meta.sha256) { $subido = $true }
             else {
-                & aws s3 cp $ruta "s3://$($env:R2_BUCKET)/$clave" --endpoint-url $endpoint --metadata "sha256=$($meta.sha256)" --only-show-errors
-                if ($LASTEXITCODE -ne 0) { throw "la subida a R2 fallo (codigo $LASTEXITCODE)" }
+                $cp = Invocar-Aws @('s3', 'cp', $ruta, "s3://$($env:R2_BUCKET)/$clave", '--endpoint-url', $endpoint, '--metadata', "sha256=$($meta.sha256)", '--only-show-errors')
+                if ($cp.Codigo -ne 0) { throw "la subida a R2 fallo (codigo $($cp.Codigo)): $($cp.Salida)" }
                 $subido = $true
             }
             $meta.subido = $true
