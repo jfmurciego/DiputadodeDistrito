@@ -1092,7 +1092,7 @@ territories:
         prepared_source_pair: territorios/nac09/evidencia/pares_fuentes/2025/5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a.json
         electoral_product: territorios/nac09/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac09/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac10
   name: Congreso Cáceres
   editions:
