@@ -573,11 +573,11 @@
   },
   "castilla_la_mancha": {
    "fuente_territorial": {
-    "run_id": "43724306883",
+    "run_id": "43739268213",
     "package_sha256": "e62101619ef64614ab9008271ce67ce85075ca26a1b8608b2ee2e658ac4e3ccc",
-    "artifact_sha256": "200273697c4e1b4f6cead075d540c747bceed79b2adf7eb146f78a62271c9894",
+    "artifact_sha256": "136841157a7e2c79a7492a4dfeb2febe628e86bf95ef84ad3bf9ff791284de25",
     "territorial_identity_sha256": "00a78f065ede677a44e9f396d9b6ef66c33a62b478e1a6677853a9e04ff0c4ba",
-    "receipt_path": "territorios/aut08/evidencia/fuentes_territoriales/2025/00a78f065ede677a44e9f396d9b6ef66c33a62b478e1a6677853a9e04ff0c4ba/43724306883/receipt.json",
+    "receipt_path": "territorios/aut08/evidencia/fuentes_territoriales/2025/00a78f065ede677a44e9f396d9b6ef66c33a62b478e1a6677853a9e04ff0c4ba/43739268213/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
