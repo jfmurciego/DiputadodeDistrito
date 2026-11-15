@@ -8652,11 +8652,11 @@
   },
   "illes_balears": {
    "fuente_territorial": {
-    "run_id": "43640023838",
-    "package_sha256": "02ad2c8ef9f4716f907f8aa9cc9690a9bc721c26c29a4c7fd9fc662bd33de046",
-    "artifact_sha256": "f8e2ec1b9a37c2e7cdb964081d727693d3c16445c48fc6bd99be85de758a96fa",
-    "territorial_identity_sha256": "2656685909d4624911a6b30d0c2a25e257b23b50b584e97105a5db4867fcc4be",
-    "receipt_path": "territorios/aut04/evidencia/fuentes_territoriales/2025/2656685909d4624911a6b30d0c2a25e257b23b50b584e97105a5db4867fcc4be/43640023838/receipt.json",
+    "run_id": "43724264055",
+    "package_sha256": "37fedf19c46fe104bfa8cc2bd5bd09f6814a372572c48f7a09258862396e31e2",
+    "artifact_sha256": "0eddf8ddb84d3b83a5d6076491ca7aa2142958c0dccbf9f85d6d0753fe11cabc",
+    "territorial_identity_sha256": "973d194ff2a9ab0c2fb47a8d1b5cc639bc9177163bdc5733af983995d6e8d4e3",
+    "receipt_path": "territorios/aut04/evidencia/fuentes_territoriales/2025/973d194ff2a9ab0c2fb47a8d1b5cc639bc9177163bdc5733af983995d6e8d4e3/43724264055/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
