@@ -63,7 +63,7 @@
   "territorios": 71,
   "productos": 535,
   "errores": 0,
-  "avisos": 199
+  "avisos": 201
  },
  "territorios": {
   "andalucia": {
@@ -3547,8 +3547,8 @@
     "section_year": 2023
    },
    "fuente_electoral": {
-    "receipt_path": "territorios/nac14/evidencia/fuentes_electorales/2025/2c6b84f7b0ff5317d3c12aa8b7b195332e8b2d282a460a20241fbb4d6a3fa3bd/41239809492/receipt.json",
-    "identity_sha256": "2c6b84f7b0ff5317d3c12aa8b7b195332e8b2d282a460a20241fbb4d6a3fa3bd"
+    "receipt_path": "territorios/nac14/evidencia/fuentes_electorales/2025/0b11c2caeeafc22aae123d708c756018214e0dfdbcf7f2c506c3bf115d5412af/43770603381/receipt.json",
+    "identity_sha256": "0b11c2caeeafc22aae123d708c756018214e0dfdbcf7f2c506c3bf115d5412af"
    },
    "doi": null,
    "productos": [
@@ -6320,11 +6320,11 @@
   },
   "congreso_palencia": {
    "fuente_territorial": {
-    "run_id": "43662699421",
-    "package_sha256": "23bee297123bdc1bc7753f0cea66a6278da9598c0c6b23f21a6854aeff322210",
-    "artifact_sha256": "89276f1837a3cf2494f8c6c4c45fe860dbe3c4fafa7a87d064a2aeed9ec4c74d",
-    "territorial_identity_sha256": "c2023548aa7203d1b6f6f0b2a935948c04efb191645debe95b0359bc09e5c15e",
-    "receipt_path": "territorios/nac34/evidencia/fuentes_territoriales/2025/c2023548aa7203d1b6f6f0b2a935948c04efb191645debe95b0359bc09e5c15e/43662699421/receipt.json",
+    "run_id": "43766225529",
+    "package_sha256": "a28bd29e9b9f34108f1b0b2d538c9162605ce9d54498b809beecee7df1c2e939",
+    "artifact_sha256": "449008ae13cbbe095357a221ed2d5687eaef1197742fd92f137c3fc686c22846",
+    "territorial_identity_sha256": "96575d52a31f400d31bc0c20d5100b0e1968f0372b5affb67998a2f2f52082fc",
+    "receipt_path": "territorios/nac34/evidencia/fuentes_territoriales/2025/96575d52a31f400d31bc0c20d5100b0e1968f0372b5affb67998a2f2f52082fc/43766225529/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -9975,7 +9975,7 @@
    "territorio": "nac13",
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "nac13/43762018176/ddd-minimo-43762018176-M06.zip"
+   "detalle": "nac13/43769610932/ddd-minimo-43769610932-M08.zip"
   },
   {
    "nivel": "AVISO",
@@ -9997,6 +9997,20 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "nac16/43764632170/ddd-minimo-43764632170-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac17",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "nac17/43764643457/ddd-minimo-43764643457-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac18",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "nac18/43764654875/ddd-minimo-43764654875-M06.zip"
   },
   {
    "nivel": "AVISO",
