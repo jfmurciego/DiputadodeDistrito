@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.437
+Versión: 1.0.439
 Fecha: 2026-11-15
-Alcance: T-342 — Puerta del histórico: pérdida ≤ 0,1 % y contraste con el BOE (fallo cerrado)
+Alcance: T-343 — Mapa espejo→sigla BOE acreditado con ficheros para la puerta del histórico
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-15_t342-puerta-historico.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.436_registro_20261115.md
+Cambios/motivo: entrada docs/registro/2026-11-15_t343-alias-boe-espejo.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.438_registro_20261115.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.436_registro_20261115.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.439 · [2026-11-15 — T-343 — Mapa espejo→sigla BOE acreditado con ficheros para la puerta del histórico](registro/2026-11-15_t343-alias-boe-espejo.md)
+- 1.0.438 · [2026-11-15 — T-346 — Transparencia: el sitio lo sirve Cloudflare (informes NEL/Report-To con la IP)](registro/2026-11-15_feat-t346-nota-cloudflare.md)
 - 1.0.437 · [2026-11-15 — T-342 — Puerta del histórico: pérdida ≤ 0,1 % y contraste con el BOE (fallo cerrado)](registro/2026-11-15_t342-puerta-historico.md)
 - 1.0.436 · [2026-11-15 — T-340 — Ficha del histórico paso A adaptada a D-105 (mapa 2023)](registro/2026-11-15_t340-ficha-historico-2023.md)
 - 1.0.435 · [2026-11-15 — T-339 — Smoke de carga de todos los entrypoints y refuerzo del test de T-338](registro/2026-11-15_test-t339-smoke-entrypoints.md)
