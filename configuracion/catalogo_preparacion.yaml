@@ -58,7 +58,7 @@ territories:
         territorial_product: territorios/aut02/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/aut02/evidencia/fuentes_electorales/2025/694cc2dd8d473f26b99cb201e0e567d799e9f56d41af4f40cca675bb1f5b4d71/43733432338/receipt.json
         electoral_product: territorios/aut02/evidencia/catalogo/electoral_product_2025.json
-        prepared_source_pair: territorios/aut02/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json
+        prepared_source_pair: territorios/aut02/evidencia/pares_fuentes/2025/ab5c48154f4f53fa8d74a9d3d01d6884f63e6c028b5f5b5784483df114829bcd.json
         generation_preflight: territorios/aut02/evidencia/catalogo/generation_preflight_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
