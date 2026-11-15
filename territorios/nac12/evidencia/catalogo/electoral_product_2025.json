@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_castellon",
+  "territory_id": "nac12",
   "territory_name": "Congreso Castellón",
   "edition": "2025",
-  "run_id": 42953757677,
-  "artifact_name": "ddd-state-42953757677-M08",
-  "artifact_sha256": "f10c10277318b5c54c0c2b0b0afcea3bb7c7afec44358250e0da2352020c1974",
-  "source_commit": "71fa121ff55a2d9c4d1ec277c7eff80f7ce4b276",
+  "run_id": 43769013184,
+  "artifact_name": "ddd-state-43769013184-M08",
+  "artifact_sha256": "16161daab6208dfabe627f4b48eceef8903ba4e0809d1b777b1a800cbdbf27d1",
+  "source_commit": "29a909ec79edd72c5c1d229eef80221ad66b6b49",
   "stage": "M08"
 }
