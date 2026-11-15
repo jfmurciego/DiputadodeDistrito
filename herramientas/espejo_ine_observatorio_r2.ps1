@@ -1,6 +1,6 @@
 <#
 PROYECTO: Diputado de Distrito - T-356 - VERSION 1.0.0 - 2026-11-15 - ANTERIOR: ninguna (fichero nuevo)
-Baja los 17 seccionados del INE (2010-2026) y las 625 piezas del Observatorio Electoral de las Naciones, verifica el sha256 del
+Baja los 17 seccionados del INE (2010-2026), la tabla INE 30832 y el Censo 2011 por seccion (grupo padron, 2 piezas; D-126) y las 625 piezas del Observatorio Electoral de las Naciones, verifica el sha256 del
 indice orchestracion/fuentes_r2.json (donde exista; donde no, lo mide y lo registra), las sube a R2 (ARC-E) en
 arc-e/fuentes/ine/seccionado_<ano>_<sha12>.zip y arc-e/fuentes/nazioenbehatokia/<ruta>_<sha12>.json y escribe el JSON de resultado
 (clave, sha256, bytes, origen_url, descargado_en, subido). Se ejecuta en el Windows del propietario (PowerShell 5.1+); no necesita checkout:
@@ -23,7 +23,7 @@ param(
     [string]$Indice = '',    # ruta local o URL del indice; vacio = orchestracion/fuentes_r2.json local si existe, si no raw de main
     [string]$Trabajo = 'C:\ddd',
     [string]$Salida = 'espejo_ine_observatorio_r2_resultado.json',
-    [ValidateSet('todo', 'ine', 'observatorio')][string]$Grupo = 'todo',
+    [ValidateSet('todo', 'ine', 'observatorio', 'padron')][string]$Grupo = 'todo',
     [switch]$SoloBajar,
     [switch]$Forzar,         # sobrescribe el JSON de resultado sin preguntar
     [int]$Reintentos = 5,
@@ -59,11 +59,15 @@ foreach ($p in $fuentes.PSObject.Properties) {
     $u = [string]$p.Value.origen_url
     $esIne = $u -match '^https://www\.ine\.es/prodyser/cartografia/seccionado_\d{4}\.zip$'
     $esObs = $u -match '^https://nazioenbehatokia\.eus/(data|geo)/.+\.json$'
-    if (($esIne -and $Grupo -ne 'observatorio') -or ($esObs -and $Grupo -ne 'ine')) {
-        $piezas += [pscustomobject]@{ nombre = $p.Name; ficha = $p.Value; tipo = $(if ($esIne) { 'ine' } else { 'obs' }) }
+    $esCsv = $u -eq 'https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/30832.csv'
+    $esCen = $u -eq 'https://www.ine.es/censos2011_datos/indicadores_seccion_censal_csv.zip'
+    $esPad = $esCsv -or $esCen
+    if (($esIne -and $Grupo -in 'todo', 'ine') -or ($esPad -and $Grupo -in 'todo', 'padron') -or ($esObs -and $Grupo -in 'todo', 'observatorio')) {
+        # tipo = carpeta de trabajo; valida = comprobacion del contenido (zip | csv | json)
+        $piezas += [pscustomobject]@{ nombre = $p.Name; ficha = $p.Value; tipo = $(if ($esObs) { 'obs' } else { 'ine' }); valida = $(if ($esCsv) { 'csv' } elseif ($esObs) { 'json' } else { 'zip' }) }
     }
 }
-$esperadas = @{ todo = 642; ine = 17; observatorio = 625 }[$Grupo]
+$esperadas = @{ todo = 644; ine = 17; observatorio = 625; padron = 2 }[$Grupo]
 if ($piezas.Count -lt $esperadas) { throw "El indice trae solo $($piezas.Count) de $esperadas piezas: es el de main anterior a la PR #829? Pasa -Indice con la raw de la rama (ver cabecera)." }
 if ($piezas.Count -ne $esperadas) { throw "Se esperaban $esperadas piezas y el indice trae $($piezas.Count): no se continua." }
 if ($Limite -gt 0) { $piezas = @($piezas | Select-Object -First $Limite) }
@@ -89,7 +93,7 @@ function Detalle($e) {
     ('{0} | id: {1} | linea {2} | pila: {3}' -f ($msgs -join ' <- '), $id, $lin, $pila)
 }
 
-function Validar($ruta, $tipo) {
+function Validar($ruta, $valida) {
     # devuelve $null si es valido o el motivo
     $n = (Get-Item -LiteralPath $ruta).Length
     if ($n -eq 0) { return 'fichero vacio' }
@@ -97,7 +101,7 @@ function Validar($ruta, $tipo) {
     try { $buf = New-Object byte[] ([Math]::Min(512, $n)); [void]$fs.Read($buf, 0, $buf.Length) } finally { $fs.Dispose() }
     $ini = [Text.Encoding]::UTF8.GetString($buf).TrimStart([char]0xFEFF, ' ', "`r", "`n", "`t")
     if ($ini -match '(?i)^<\s*(!doctype|html|head|body)') { return 'es HTML (pagina de error), no el fichero' }
-    if ($tipo -eq 'ine') {
+    if ($valida -eq 'zip') {
         if (-not ($buf[0] -eq 0x50 -and $buf[1] -eq 0x4B -and $buf[2] -eq 3 -and $buf[3] -eq 4)) { return 'no es un ZIP (falta la firma PK)' }
         try {
             Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -105,6 +109,8 @@ function Validar($ruta, $tipo) {
             $entradas = $z.Entries.Count; $z.Dispose()
             if ($entradas -lt 1) { return 'ZIP sin entradas' }
         } catch { return "ZIP ilegible: $($_.Exception.Message)" }
+    } elseif ($valida -eq 'csv') {
+        if ($ini.Length -eq 0 -or $ini.Contains([string][char]0)) { return 'CSV vacio o binario' }
     } elseif ($ini.Length -eq 0 -or ($ini[0] -ne '{' -and $ini[0] -ne '[')) { return 'no empieza como JSON' }
     return $null
 }
@@ -126,6 +132,39 @@ function Bajar($url, $destino) {
             Write-Warning "HTTP $http en $url; reintento $i de $Reintentos en $espera s"
             Start-Sleep -Seconds $espera
         }
+    }
+}
+
+function Bajar-Reanudable($url, $destino) {
+    # ficheros grandes (CSV de ~445 MB): a disco por bloques, con Range desde el .part si existe; sin cargar nada en memoria.
+    # El .part se conserva entre reintentos y ejecuciones; 416 = el .part ya esta completo.
+    for ($i = 1; $i -le $Reintentos; $i++) {
+        $resp = $null; $fs = $null
+        try {
+            $ya = if (Test-Path -LiteralPath $destino) { (Get-Item -LiteralPath $destino).Length } else { 0 }
+            $req = [Net.HttpWebRequest]::Create($url)
+            $req.UserAgent = $ua; $req.Timeout = 600000; $req.ReadWriteTimeout = 120000; $req.AllowAutoRedirect = $true
+            if ($ya -gt 0) { $req.AddRange([long]$ya) }
+            try { $resp = $req.GetResponse() } catch [Net.WebException] {
+                $rx = $_.Exception.Response
+                if ($rx -and [int]$rx.StatusCode -eq 416 -and $ya -gt 0) { $rx.Close(); return 200 }   # ya completo
+                throw
+            }
+            $http = [int]$resp.StatusCode
+            $modo = if ($http -eq 206 -and $ya -gt 0) { [IO.FileMode]::Append } else { [IO.FileMode]::Create }
+            $fs = New-Object IO.FileStream($destino, $modo, [IO.FileAccess]::Write)
+            $in = $resp.GetResponseStream(); $buf = New-Object byte[] 1048576
+            while (($k = $in.Read($buf, 0, $buf.Length)) -gt 0) { $fs.Write($buf, 0, $k) }
+            return $http
+        } catch {
+            $rx = $_.Exception.Response
+            $http = if ($rx) { [int]$rx.StatusCode } else { 0 }
+            $reintentable = ($http -eq 0 -or $http -eq 429 -or $http -ge 500)
+            if (-not $reintentable -or $i -eq $Reintentos) { throw (New-Object System.Exception(("HTTP {0} (intento {1}) {2}" -f $http, $i, (([string]$_.Exception.Message) -replace '\s+', ' ').Trim()), $_.Exception)) }
+            $espera = 10 * [Math]::Pow(2, $i - 1)
+            Write-Warning "HTTP $http en $url; reintento $i de $Reintentos en $espera s (se reanuda desde el .part)"
+            Start-Sleep -Seconds $espera
+        } finally { if ($fs) { $fs.Dispose() }; if ($resp) { $resp.Close() } }
     }
 }
 
@@ -172,9 +211,9 @@ foreach ($p in $piezas) {
         # 2. bajar y validar
         if (-not $meta) {
             $parte = "$ruta.part"
-            $http = Bajar $f.origen_url $parte
+            $http = $(if ($p.valida -eq 'csv') { Bajar-Reanudable $f.origen_url $parte } else { Bajar $f.origen_url $parte })
             Start-Sleep -Milliseconds $PausaMs
-            $motivo = Validar $parte $p.tipo
+            $motivo = Validar $parte $p.valida
             if ($motivo) { Remove-Item -LiteralPath $parte -Force; throw "contenido no valido: $motivo" }
             $sha = Sha256Hex $parte
             $bytes = (Get-Item -LiteralPath $parte).Length

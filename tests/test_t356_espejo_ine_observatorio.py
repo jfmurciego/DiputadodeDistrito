@@ -43,6 +43,16 @@ class Indice(unittest.TestCase):
             self.assertEqual(e["clave"], f"arc-e/fuentes/nazioenbehatokia/{r[:-5]}_{m['sha256'][:12]}.json")
             self.assertEqual(e["origen_url"], f"https://nazioenbehatokia.eus/{r}")
 
+    def test_d126_tabla_30832_y_censo_2011(self):
+        # literales de T-357 (#831, SHA256SUMS.txt, medidos en otra sesion): el script los verifica al bajar
+        casos = {"30832.csv": ("37716cba8cda50a492f52e2bae91a1c543bafb4263110e5aa5da18107ef68311", 445592835, "https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/30832.csv", "csv"),
+                 "indicadores_seccion_censal_csv.zip": ("305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7", 4575186, "https://www.ine.es/censos2011_datos/indicadores_seccion_censal_csv.zip", "zip")}
+        for k, (sha, n, url, ext) in casos.items():
+            e = IDX[k]
+            self.assertEqual((e["sha256"], e["bytes"], e["origen_url"]), (sha, n, url))
+            self.assertEqual(e["clave"], f"arc-e/fuentes/ine/{k.rsplit('.', 1)[0]}_{sha[:12]}.{ext}")
+        self.assertEqual(sum(1 for k in IDX if k.startswith("nazioenbehatokia/")), 625)
+
     def test_negativo_clave_sin_sha12_no_pasa(self):
         e = IDX["seccionado_2012.zip"]
         self.assertNotEqual(e["clave"], "arc-e/fuentes/ine/seccionado_2012.zip")
@@ -140,6 +150,21 @@ class Script(unittest.TestCase):
         for salida in ("An error occurred (403) when calling the HeadObject operation: Forbidden",
                        "Unable to locate credentials", "Could not connect to the endpoint URL"):
             self.assertFalse(patron.search(salida))
+
+    def test_grupo_padron_644_y_descarga_reanudable(self):
+        self.assertIn("'padron'", PS1)
+        self.assertIn("todo = 644; ine = 17; observatorio = 625; padron = 2", PS1)
+        self.assertNotIn("642", PS1)
+        self.assertIn("function Bajar-Reanudable", PS1)
+        cuerpo = re.search(r"function Bajar-Reanudable.*?\n\}\n", PS1, re.S).group(0)
+        for frag in ("AddRange", "FileMode]::Append", "416", "IO.FileStream", "1048576"):
+            self.assertIn(frag, cuerpo)
+        for malo in ("ReadAllBytes", "Get-Content", "ReadAllText", "DownloadString"):
+            self.assertNotIn(malo, cuerpo)
+        self.assertIn("Bajar-Reanudable $f.origen_url $parte", PS1)
+        self.assertIn("https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/30832.csv", PS1)
+        # el CSV grande no se carga en memoria en el resto del flujo: Validar solo lee 512 bytes
+        self.assertIn("[Math]::Min(512, $n)", PS1)
 
     def test_cabecera_y_sin_ids_viejos(self):
         self.assertIn("VERSION 1.0.0", PS1.splitlines()[1])

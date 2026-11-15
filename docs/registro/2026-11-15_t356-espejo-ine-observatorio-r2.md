@@ -10,6 +10,8 @@
 
 **Subida (PS 5.1).** Con `$ErrorActionPreference='Stop'` el stderr de `aws` (head-object de un objeto aun inexistente) lanzaba NativeCommandError aunque se redirigiera con `2>$null`: toda llamada a `aws` pasa por `Invocar-Aws` (Continue local, captura stdout+stderr, devuelve codigo y salida); `Subido` trata 404/NotFound como "no existe" y propaga con su texto los demas errores; la subida incluye el stderr en el mensaje.
 
+**Ampliacion D-126.** Grupo `padron` (2 piezas): tabla INE 30832 (CSV de 445592835 B, descarga reanudable con Range a disco por bloques, sin memoria) y Censo 2011 por seccion (ZIP de 4575186 B); sha256 y bytes de T-357 (#831) en el indice y verificados por el script al bajar (si difieren, falla). El script pasa de 642 a 644 piezas (`ine` 17, `observatorio` 625, `padron` 2).
+
 **Pruebas.** `tests.test_t356_espejo_ine_observatorio` (positivas y negativas), t298, t299, t220_renombrado. El script no se ha ejecutado (la nube no ejecuta PowerShell ni llega al INE con credenciales).
 
 **Riesgos.** Solapes en `fuentes_r2.json` con #827 y #797: rebasar la que se fusione después. Tras subir, el propietario pega el JSON de resultado y se actualiza el índice (sha256 y bytes de los 9 sin medir). No cambia huellas M05.

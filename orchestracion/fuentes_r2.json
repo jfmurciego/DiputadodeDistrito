@@ -1,6 +1,6 @@
 {
   "schema": "ddd-fuentes-r2/1.0",
-  "nota": "Índice versionado de ARC-E (T-298/T-303). `fuentes`: huellas medidas de las fuentes oficiales que consume P10 (INE y Interior); la batería ya no las usa ni va a ine.es. Los paquetes P10 por territorio van en arc-e/paquetes-p10/<package_sha256>.zip (package_sha256 del contrato; ver docs/GUIA_FUENTES_R2.md); el job archivar_p10 deja su ARCHIVO_PAQUETES_P10.json. La poda no borra nada bajo arc-e/. T-356: `seccionado_<año>.zip` (2010-2026) y `nazioenbehatokia/<ruta>` (625 piezas del Observatorio, huellas de orchestracion/fuente_nazioenbehatokia.json) con `estado` «pendiente de subir» hasta que herramientas/espejo_ine_observatorio_r2.ps1 los suba; sha256 null = aún sin medir (fail-closed: no se usa).",
+  "nota": "Índice versionado de ARC-E (T-298/T-303). `fuentes`: huellas medidas de las fuentes oficiales que consume P10 (INE y Interior); la batería ya no las usa ni va a ine.es. Los paquetes P10 por territorio van en arc-e/paquetes-p10/<package_sha256>.zip (package_sha256 del contrato; ver docs/GUIA_FUENTES_R2.md); el job archivar_p10 deja su ARCHIVO_PAQUETES_P10.json. La poda no borra nada bajo arc-e/. T-356: `seccionado_<año>.zip` (2010-2026) y `nazioenbehatokia/<ruta>` (625 piezas del Observatorio, huellas de orchestracion/fuente_nazioenbehatokia.json) con `estado` «pendiente de subir» hasta que herramientas/espejo_ine_observatorio_r2.ps1 los suba; sha256 null = aún sin medir (fail-closed: no se usa). D-126: tabla INE 30832 y Censo 2011 por seccion (grupo `padron`, 2 piezas; el script pasa de 642 a 644).",
   "fuentes": {
     "seccionado_2010.zip": {
       "clave": null,
@@ -135,6 +135,20 @@
       "origen_url": "https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip",
       "descargado_en": "2026-10-31",
       "respaldo": "release fuente-infoelectoral-02202307 (Interior rechaza a los runners); sha256 y bytes del contrato configuracion/contratos_infoelectoral.yaml"
+    },
+    "30832.csv": {
+      "clave": "arc-e/fuentes/ine/30832_37716cba8cda.csv",
+      "sha256": "37716cba8cda50a492f52e2bae91a1c543bafb4263110e5aa5da18107ef68311",
+      "bytes": 445592835,
+      "origen_url": "https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/30832.csv",
+      "estado": "sha256 y bytes medidos por T-357 (#831, D-126); el script los verifica al bajar; pendiente de subir a R2 (T-356)"
+    },
+    "indicadores_seccion_censal_csv.zip": {
+      "clave": "arc-e/fuentes/ine/indicadores_seccion_censal_csv_305a19f11b87.zip",
+      "sha256": "305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7",
+      "bytes": 4575186,
+      "origen_url": "https://www.ine.es/censos2011_datos/indicadores_seccion_censal_csv.zip",
+      "estado": "sha256 y bytes medidos por T-357 (#831, D-126); el script los verifica al bajar; pendiente de subir a R2 (T-356)"
     },
     "nazioenbehatokia/data/201111/sekzioa/01.json": {
       "clave": "arc-e/fuentes/nazioenbehatokia/data/201111/sekzioa/01_d4cd5dfba24c.json",
