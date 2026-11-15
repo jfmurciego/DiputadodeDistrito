@@ -606,24 +606,23 @@ territories:
         run_id: 43047232024
         stage: M08
       preparation_evidence:
-        run_id: 43645488129
-        artifact_name: ddd-source-package-aut16-2025-43645488129
-        artifact_sha256: b9125cc9ae158009fc0762fa571af38e9b7ceb37f43456a915c0309a0903b971
-        package_sha256: b47721cbd4aa28cae80b185814b0a002f903ce7a7b5e07aab372cafdd6cef874
-        receipt_path: territorios/aut16/evidencia/fuentes_territoriales/2025/08961b83ea2904cc47220dfc00f71b0716a49fdcec719e7482c5c33db13273d2/43645488129/receipt.json
-        territorial_identity_sha256: 08961b83ea2904cc47220dfc00f71b0716a49fdcec719e7482c5c33db13273d2
-        compatibility_report_sha256: aa1097efe890eeff63689357f237e350b54a5d75707ed1bc8982ba243f64090f
-        compatibility_identity_sha256: 90707fb28597d7f75bf8af3d4dfb427cac2f3508bfae26220a4eca00a4c6c001
+        run_id: 43728752331
+        artifact_name: ddd-source-package-aut16-2025-43728752331
+        artifact_sha256: 60b41b54b2098f1afbd4d0f3e8e37777a2938a68406a1c32c090b47ecb091921
+        package_sha256: 8d487ba8cc73c393a03638b3bb908772d1d427692eb674d82e5480642fe8b228
+        receipt_path: territorios/aut16/evidencia/fuentes_territoriales/2025/02bb7e6fcc210b403cd60eed8eb73dbbcf90e14c051b796bd99fc7872e5aa922/43728752331/receipt.json
+        territorial_identity_sha256: 02bb7e6fcc210b403cd60eed8eb73dbbcf90e14c051b796bd99fc7872e5aa922
+        compatibility_report_sha256: 52a66295b4b22a6217b78b06dee8096b6d67384b06a0b8eaa10ed626ea5920d3
+        compatibility_identity_sha256: 66bfd2ad3354a1ae6ddbb6a9da37335a38e680538a1173007c657d2d6315613d
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2024
         section_year: 2024
-        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
+        source_commit: 5ed6f37a5e59623480fcd2de88828a60fb3c8095
       evidence:
         electoral_source: territorios/aut16/evidencia/fuentes_electorales/2025/32e2c695b91acc6bae9c8b0455b7678b814bf66dc374c741f94622693ff703ab/43036604667/receipt.json
         prepared_source_pair: territorios/aut16/evidencia/pares_fuentes/2025/76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac.json
         territorial_product: territorios/aut16/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut16/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut16/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut17
   name: La Rioja
