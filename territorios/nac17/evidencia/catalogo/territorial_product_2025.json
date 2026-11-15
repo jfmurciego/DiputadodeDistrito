@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_gerona",
+  "territory_id": "nac17",
   "territory_name": "Congreso Gerona",
   "edition": "2025",
-  "run_id": 42940402050,
-  "artifact_name": "ddd-state-42940402050-M06",
-  "artifact_sha256": "619741eda68fdd561942087f20e9b41bb7f5802306fe4b17057a2bd0803aa679",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43764643457,
+  "artifact_name": "ddd-state-43764643457-M06",
+  "artifact_sha256": "5effe39eb1fe817d48ee5389ca6800006a2df6a16c88560567e4265cf4ac149e",
+  "source_commit": "05b6ccfcd7eb570565c175d89f30e741232cfe6b",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_gerona/evidencia/generaciones_m06/42940402050.json"
+  "producer_manifest_path": "territorios/nac17/evidencia/generaciones_m06/43764643457.json"
 }
