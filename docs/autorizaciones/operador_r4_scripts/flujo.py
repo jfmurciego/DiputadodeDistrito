@@ -11,6 +11,7 @@ L, P, PK, A, O, E = (D + f for f in ('regeneracion_71_2026-11-14.txt', 'p10_r4_r
                                      'archivo_p10_r4_resultado.tsv', 'regeneracion_r4_resultado.tsv', 'cadenas_r4.tsv'))
 V = Q + '/verif.txt'
 P10_CUPO, ADELANTO, MAX_SEG = 10, 12, 100 * 60
+EXCLUIR = {'12 Galicia'}  # frase del propietario 15-11: sin Galicia hasta tener el espejo de la Xunta
 os.chdir('/home/user/DiputadodeDistrito')
 T0 = time.time()
 
@@ -118,7 +119,7 @@ while True:
                     parada('cadena %s: territorial %s terminó y no hay Activación en 30 min' % (t, r[1]))
         wtsv(E, list(cad.values()))
     okn = sum(1 for r in cad.values() if r[5] == 'OK')
-    if okn == len(terr): log('FIN: %d cadenas OK' % okn); sys.exit(0)
+    if okn == len(terr) - len(EXCLUIR): log('FIN: %d cadenas OK' % okn); sys.exit(0)
     if (okn >= 5 and aviso < 5) or okn // 10 > aviso // 10:
         open(Q + '/aviso_n', 'w').write(str(okn)); log('HITO %d cadenas OK' % okn); sys.exit(0)
     # 5. lanzamientos (tras comprobar main y congelación)
@@ -130,7 +131,7 @@ while True:
     for t in terr:
         if env >= cupo: break
         i = cid(t)
-        if t in cad or t not in p10: continue
+        if t in EXCLUIR or t in cad or t not in p10: continue
         if p10[t][2] == 'success' and i in ver and i in arch and arch[i][3] == 'success':
             n = despacha('ejecucion-completa-proyecto.yml', {'territory_id': t, 'data_edition': '2025',
                          'execution_mode': 'Generar desde fuente territorial acreditada', 'optimization_algorithm': 'Canónico',
