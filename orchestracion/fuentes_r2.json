@@ -37,6 +37,34 @@
       "origen_url": "https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip",
       "descargado_en": "2026-10-31",
       "respaldo": "release fuente-infoelectoral-02202307 (Interior rechaza a los runners); sha256 y bytes del contrato configuracion/contratos_infoelectoral.yaml"
+    },
+    "galicia_parlamento_2024_a_coruna_mesas.csv": {
+      "clave": null,
+      "sha256": null,
+      "bytes": null,
+      "origen_url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/003/descarga-directa-del-fichero.csv",
+      "estado": "PENDIENTE: lo rellena el script herramientas/espejo_galicia_r2.ps1 (T-354); sin sha256 el espejo no se usa"
+    },
+    "galicia_parlamento_2024_lugo_mesas.csv": {
+      "clave": null,
+      "sha256": null,
+      "bytes": null,
+      "origen_url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/007/descarga-directa-del-fichero.csv",
+      "estado": "PENDIENTE: lo rellena el script herramientas/espejo_galicia_r2.ps1 (T-354); sin sha256 el espejo no se usa"
+    },
+    "galicia_parlamento_2024_ourense_mesas.csv": {
+      "clave": null,
+      "sha256": null,
+      "bytes": null,
+      "origen_url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/011/descarga-directa-del-fichero.csv",
+      "estado": "PENDIENTE: lo rellena el script herramientas/espejo_galicia_r2.ps1 (T-354); sin sha256 el espejo no se usa"
+    },
+    "galicia_parlamento_2024_pontevedra_mesas.csv": {
+      "clave": null,
+      "sha256": null,
+      "bytes": null,
+      "origen_url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/015/descarga-directa-del-fichero.csv",
+      "estado": "PENDIENTE: lo rellena el script herramientas/espejo_galicia_r2.ps1 (T-354); sin sha256 el espejo no se usa"
     }
   }
 }

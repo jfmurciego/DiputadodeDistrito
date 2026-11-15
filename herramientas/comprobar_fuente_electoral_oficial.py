@@ -3,11 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: comprobación automática de fuente electoral oficial
-VERSIÓN: 1.3.0
-FECHA: 2026-09-17
+VERSIÓN: 1.4.0
+FECHA: 2026-11-15
+ANTERIOR: legacy/herramientas/comprobar_fuente_electoral_oficial_v1.3.0_20261115.py
 FUNCIÓN: consultar fuentes electorales declaradas y admitir fuentes oficiales o mirrors auditables con referencias oficiales explícitas.
 REGLAS: no admite sustitutos no oficiales; RTVE queda excluida mediante política declarativa y validación de host/editor.
-CAMBIOS: añade selection_mode=all_required para convocatorias publicadas en varios ficheros oficiales.
+CAMBIOS: 1.4.0 (T-354): antes de la URL oficial lee el espejo de R2 `<election_id>_<source id>.csv` (orchestracion/fuentes_r2.json, sha256 del índice); sin entrada,
+  sin huella, sin credenciales o sin objeto sigue con la URL oficial. La huella de los bytes (y expected_sha256) se exige igual. 1.3.0: añade selection_mode=all_required para convocatorias publicadas en varios ficheros oficiales.
 """
 from __future__ import annotations
 
@@ -125,12 +127,19 @@ def _filename(source: dict, content_type: str) -> str:
     return source_id + ext
 
 
+def _espejo_r2(nombre: str) -> bytes | None:
+    from herramientas import fuente_r2
+
+    return fuente_r2.traer(nombre)
+
+
 def check_declaration(
     declaration: dict,
     out_dir: str | Path,
     *,
     opener: Callable = urllib.request.urlopen,
     timeout: int = 20,
+    espejo: Callable[[str], bytes | None] | None = _espejo_r2,
 ) -> dict:
     _validate_source_ids(declaration.get("sources"))
     out = Path(out_dir)
@@ -198,11 +207,18 @@ def check_declaration(
         data = b""
         content_type = ""
         http_status = None
+        mirror = espejo(f"{declaration.get('election_id')}_{sid}.csv") if espejo else None
         try:
-            with opener(request, timeout=timeout) as response:
-                http_status = getattr(response, "status", 200)
-                content_type = _content_type(response)
-                data = _read_limited(response, max_bytes)
+            if mirror is not None:
+                if len(mirror) > max_bytes:
+                    raise ValueError(f"espejo R2 supera max_download_bytes ({len(mirror)} > {max_bytes})")
+                http_status, content_type, data = 200, "text/csv", mirror
+                item["origin"] = "r2_mirror"
+            else:
+                with opener(request, timeout=timeout) as response:
+                    http_status = getattr(response, "status", 200)
+                    content_type = _content_type(response)
+                    data = _read_limited(response, max_bytes)
         except urllib.error.HTTPError as exc:
             http_status = exc.code
             if exc.code in (401, 403):
