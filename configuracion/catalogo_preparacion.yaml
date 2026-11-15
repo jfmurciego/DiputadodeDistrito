@@ -1619,24 +1619,23 @@ territories:
         run_id: 42955644352
         stage: M08
       preparation_evidence:
-        run_id: 43761358605
-        artifact_name: ddd-source-package-nac23-2025-43761358605
-        artifact_sha256: 3a6324cdb460107d765ebcf13053838ff5226e716b0b209a45fefa9ab2187322
+        run_id: 43765782167
+        artifact_name: ddd-source-package-nac23-2025-43765782167
+        artifact_sha256: d1cc01991990fa7b45ae3938167b7f1525243e5dc78c1ff5292564becac43a2b
         package_sha256: c49b3dc860ad0755c8891d68330989652765081f07a9db6bd26febf021651b09
-        receipt_path: territorios/nac23/evidencia/fuentes_territoriales/2025/94c32429a8c5496797828f85c980206e37cfc198490adbe2588c4d722c8987c7/43761358605/receipt.json
+        receipt_path: territorios/nac23/evidencia/fuentes_territoriales/2025/94c32429a8c5496797828f85c980206e37cfc198490adbe2588c4d722c8987c7/43765782167/receipt.json
         territorial_identity_sha256: 94c32429a8c5496797828f85c980206e37cfc198490adbe2588c4d722c8987c7
         compatibility_report_sha256: 64ad9fef2223214ab034bf4fc913e762579c3012eccc3486d839e0599585281a
         compatibility_identity_sha256: 94e2104f53a4687a9601fed32c67f40dcfb1b7aa3f43b63f2d909b8b4e6c2f48
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: f0c73478602c86f2e0da3ded8f04d2c908517f31
+        source_commit: 3f00aeeb0bcf77e9e4970332eea0a2c04f3c3d03
       evidence:
         electoral_source: territorios/nac23/evidencia/fuentes_electorales/2025/0a0920bcd99d4bb67e789d0996f800b0cbade5ff38d912ced9baeb5a8304438c/41239841417/receipt.json
         territorial_product: territorios/nac23/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac23/evidencia/pares_fuentes/2025/6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21.json
         electoral_product: territorios/nac23/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac23/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac24
   name: Congreso León
