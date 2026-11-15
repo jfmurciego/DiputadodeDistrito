@@ -699,7 +699,7 @@ territories:
       evidence:
         territorial_product: territorios/aut18/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/aut18/evidencia/fuentes_electorales/2025/e5f75042af2d0d9e2b2fc187020ad91f0561e4c6c5d864736a09b9b149c06254/43754815487/receipt.json
-        prepared_source_pair: territorios/aut18/evidencia/pares_fuentes/2025/43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8.json
+        prepared_source_pair: territorios/aut18/evidencia/pares_fuentes/2025/bca1eb48d06dae4f24d8c14c0d7923e8dbd861bc6055a3856b92141bfcf2c6ea.json
         electoral_product: territorios/aut18/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/aut18/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: true
