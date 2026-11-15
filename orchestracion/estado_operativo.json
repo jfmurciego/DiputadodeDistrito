@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T16:23:25.563558+00:00",
+  "generated_at": "2026-11-15T16:45:31.405566+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 6,
-      "action_required": 114,
+      "admissible": 7,
+      "action_required": 113,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 6,
+      "activated": 7,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 114,
+      "electoral_pending": 113,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 6,
-      "durable_pair": 6
+      "electoral_source": 7,
+      "durable_pair": 7
     },
     "territories": [
       {
@@ -70,20 +70,20 @@
           }
         },
         "electoral": {
-          "status": "ACQUISITION_REQUIRED",
-          "action": "ACQUIRE",
-          "reason": "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)",
           "granularity": "section_party_with_cera_reconciliation"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTION_REQUIRED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/aut01/evidencia/pares_fuentes/2025/008152d29f59f501fe1cd9fdb4a2f1cf790686b8feab8822432274eede5d1acc.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/aut01/evidencia/pares_fuentes/2025/d357ac25c9756f45592a807846b7e6b1f03d0d05e6779a0624765af5f6d7a0c6.json",
+            "pair_sha256": "d357ac25c9756f45592a807846b7e6b1f03d0d05e6779a0624765af5f6d7a0c6",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -91,13 +91,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "aut02",
@@ -7137,13 +7131,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "andalucia",
+          "territory_id": "aut01",
           "territory_name": "Andalucía",
           "edition": "2025",
-          "run_id": 43204696160,
-          "artifact_name": "ddd-state-43204696160-M08",
-          "artifact_sha256": "b39312c1562c5f58a761fd91375b5b1e227eea1e482a8b9faee53690e7b0a023",
-          "source_commit": "ec10120c07f1a359b3d9944dda92b0f04be649f5",
+          "run_id": 43736363274,
+          "artifact_name": "ddd-state-43736363274-M08",
+          "artifact_sha256": "00c271fcc3afb7dcd98bbb47222f9c5078b6ab8535e42e006eda925ad6887ad9",
+          "source_commit": "4375cb7756aad9c2ba0fedeeae9dfed4a1c73467",
           "stage": "M08"
         }
       },
@@ -7278,20 +7272,20 @@
       "name": "Islas Baleares",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43728716862,
+      "run_id": 43734347063,
       "last_run": {
-        "run_id": 43728716862,
+        "run_id": 43734347063,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7332,7 +7326,7 @@
       },
       "autonomous_community_code_ine": "04",
       "display_name": "04 Islas Baleares",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "aut05",
@@ -12664,8 +12658,9 @@
     }
   ],
   "kpis": {
-    "complete": 70,
+    "complete": 71,
     "complete_names": [
+      "04 Islas Baleares",
       "05 Canarias",
       "06 Cantabria",
       "07 Castilla y León",
@@ -12946,11 +12941,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "aut05",
-    "name": "Canarias",
-    "display_name": "05 Canarias",
-    "autonomous_community_code_ine": "05",
-    "run_id": 43733630946,
+    "territory_id": "aut04",
+    "name": "Islas Baleares",
+    "display_name": "04 Islas Baleares",
+    "autonomous_community_code_ine": "04",
+    "run_id": 43734347063,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12972,12 +12967,6 @@
       "territory": "03 Principado de Asturias",
       "territory_id": "aut03",
       "autonomous_community_code_ine": "03",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "04 Islas Baleares",
-      "territory_id": "aut04",
-      "autonomous_community_code_ine": "04",
       "action": "incorporar resultados electorales"
     },
     {
@@ -13003,6 +12992,12 @@
       "territory_id": "congreso350_almeria",
       "autonomous_community_code_ine": "R04",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Ávila",
+      "territory_id": "congreso350_avila",
+      "autonomous_community_code_ine": "R05",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -13022,12 +13017,6 @@
       "territory": "03 Principado de Asturias",
       "territory_id": "aut03",
       "autonomous_community_code_ine": "03",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "04 Islas Baleares",
-      "territory_id": "aut04",
-      "autonomous_community_code_ine": "04",
       "action": "preparar fuentes electorales"
     }
   ]
