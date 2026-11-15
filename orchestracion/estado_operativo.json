@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T16:10:56.271390+00:00",
+  "generated_at": "2026-11-15T16:14:59.957768+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 5,
-      "action_required": 115,
+      "admissible": 6,
+      "action_required": 114,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 5,
+      "activated": 6,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 115,
+      "electoral_pending": 114,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 5,
-      "durable_pair": 5
+      "electoral_source": 6,
+      "durable_pair": 6
     },
     "territories": [
       {
@@ -184,15 +184,15 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
+          "status": "INCOMPATIBLE",
           "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "reason": "ELECTORAL_PROVENANCE_MISMATCH",
           "source": "GIPEYOP / Spain Electoral Project mirror verificado",
           "granularity": "polling_station_to_section_party"
         },
         "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTION_REQUIRED",
           "pair": {
             "current": false,
             "receipt_path": "territorios/aut03/evidencia/pares_fuentes/2025/96f6b6b1fa3e548dabea41b1aee41731cc974a4a97c07935aca74f7096e502fb.json",
@@ -209,7 +209,7 @@
           {
             "domain": "electoral",
             "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
+            "reason": "ELECTORAL_PROVENANCE_MISMATCH"
           }
         ]
       },
@@ -241,20 +241,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/aut04/evidencia/pares_fuentes/2025/2a8ec31fdd7b769abc01cfa4cbedaa2a7b743327f173184cd85d2433d89de4eb.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/aut04/evidencia/pares_fuentes/2025/966a6fb86b274b3d278369f2ce7f79c1a4769e8b2a940fde73c2a5bb68186ec5.json",
+            "pair_sha256": "966a6fb86b274b3d278369f2ce7f79c1a4769e8b2a940fde73c2a5bb68186ec5",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -262,13 +262,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "aut05",
@@ -7290,11 +7284,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43728716862,
       "last_run": {
-        "run_id": 43019811578,
+        "run_id": 43728716862,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
