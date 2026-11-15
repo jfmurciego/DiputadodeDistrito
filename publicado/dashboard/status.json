@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T19:02:07.325819+00:00",
+  "generated_at": "2026-11-15T19:17:07.278990+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -962,8 +962,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43728984580,
-            "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/2cdeea2b02fe2bd6d328393f3c9ab25f8f996c90f73d0e583fd5f9c6a02e60ab/43728984580/receipt.json"
+            "run_id": 43749637927,
+            "receipt_path": "territorios/aut18/evidencia/fuentes_territoriales/2025/2cdeea2b02fe2bd6d328393f3c9ab25f8f996c90f73d0e583fd5f9c6a02e60ab/43749637927/receipt.json"
           }
         },
         "electoral": {
@@ -1019,8 +1019,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43739281314,
-            "receipt_path": "territorios/aut19/evidencia/fuentes_territoriales/2025/080b9483c3c7dcfb0a5e78d600c1c7e83d3329c1273662274e1d6d1bbe31471b/43739281314/receipt.json"
+            "run_id": 43750065634,
+            "receipt_path": "territorios/aut19/evidencia/fuentes_territoriales/2025/080b9483c3c7dcfb0a5e78d600c1c7e83d3329c1273662274e1d6d1bbe31471b/43750065634/receipt.json"
           }
         },
         "electoral": {
@@ -1076,8 +1076,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43739293882,
-            "receipt_path": "territorios/nac01/evidencia/fuentes_territoriales/2025/c912f35813c1976ee85ad69b46150046dd9a884f6a42eb28327f379b546be133/43739293882/receipt.json"
+            "run_id": 43750441261,
+            "receipt_path": "territorios/nac01/evidencia/fuentes_territoriales/2025/c912f35813c1976ee85ad69b46150046dd9a884f6a42eb28327f379b546be133/43750441261/receipt.json"
           }
         },
         "electoral": {
@@ -1475,8 +1475,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43650150584,
-            "receipt_path": "territorios/nac08/evidencia/fuentes_territoriales/2025/b1f93af9346ad61e9401a916ea5b981b0cb0809cf0287171490f44f0d12aa475/43650150584/receipt.json"
+            "run_id": 43747142135,
+            "receipt_path": "territorios/nac08/evidencia/fuentes_territoriales/2025/e6f65bdefe4bf0a3f86ab3324a63679afc21dad757f4039a507041d0e9464e0d/43747142135/receipt.json"
           }
         },
         "electoral": {
@@ -7773,20 +7773,20 @@
       "name": "Comunidad de Madrid",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43743669986,
+      "run_id": 43749008571,
       "last_run": {
-        "run_id": 43743669986,
+        "run_id": 43749008571,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7827,7 +7827,7 @@
       },
       "autonomous_community_code_ine": "13",
       "display_name": "13 Comunidad de Madrid",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "aut14",
@@ -7956,11 +7956,11 @@
       "name": "País Vasco",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43047232024,
+      "run_id": 43747089801,
       "last_run": {
         "run_id": 43047232024,
         "status": "SUCCESS",
@@ -7969,7 +7969,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7983,16 +7983,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "pais_vasco",
+          "territory_id": "aut16",
           "territory_name": "País Vasco",
           "edition": "2025",
-          "run_id": 43041060549,
-          "artifact_name": "ddd-state-43041060549-M06",
-          "artifact_sha256": "ebeb78f02b76f2fc86e8484f04c599b07808873e02e94d42de70ff509adad40d",
-          "source_commit": "e2b213a508881c5d97fcda032ebe857fb90c211c",
+          "run_id": 43747089801,
+          "artifact_name": "ddd-state-43747089801-M06",
+          "artifact_sha256": "918cb56cbc93f440591d615c456fdf7e77a6b24153119d3cfa3f333a735c05a0",
+          "source_commit": "31075154e0e49ab7e09a52d9da30b028f0d4ee69",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/pais_vasco/evidencia/generaciones_m06/43041060549.json"
+          "producer_manifest_path": "territorios/aut16/evidencia/generaciones_m06/43747089801.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8010,7 +8010,7 @@
       },
       "autonomous_community_code_ine": "16",
       "display_name": "16 País Vasco",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut17",
@@ -8097,9 +8097,9 @@
         "territorial_source": {
           "territory_id": "aut18",
           "edition": "2025",
-          "run_id": 43728984580,
-          "artifact_name": "ddd-source-package-aut18-2025-43728984580",
-          "artifact_sha256": "d63bf827283d0b08958a674240c94ba113831a2f7b706267bba05db874be0560",
+          "run_id": 43749637927,
+          "artifact_name": "ddd-source-package-aut18-2025-43749637927",
+          "artifact_sha256": "1b9b5e475a37227c4a5c9c6df7d892c61bcfb64bf23401089c0cf216bd961822",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8158,9 +8158,9 @@
         "territorial_source": {
           "territory_id": "aut19",
           "edition": "2025",
-          "run_id": 43739281314,
-          "artifact_name": "ddd-source-package-aut19-2025-43739281314",
-          "artifact_sha256": "43dc9dfe1ffa0adb1de41a658c0afb0bc11e122a73e8f7a23608756cb0f7e797",
+          "run_id": 43750065634,
+          "artifact_name": "ddd-source-package-aut19-2025-43750065634",
+          "artifact_sha256": "3d1100768f781af25db7101df9a837cb42b55c96a99471f82e4bc92b0b4d2e66",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8219,9 +8219,9 @@
         "territorial_source": {
           "territory_id": "nac01",
           "edition": "2025",
-          "run_id": 43739293882,
-          "artifact_name": "ddd-source-package-nac01-2025-43739293882",
-          "artifact_sha256": "095d92b612f923a96bfe5234a1a364be500d9880f492556c56910a6d9a9fb553",
+          "run_id": 43750441261,
+          "artifact_name": "ddd-source-package-nac01-2025-43750441261",
+          "artifact_sha256": "ea3fc9ac4ebe954acabec829dd506a1d482d28d85f60c70926812cc6dd4053d8",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8646,9 +8646,9 @@
         "territorial_source": {
           "territory_id": "nac08",
           "edition": "2025",
-          "run_id": 43650150584,
-          "artifact_name": "ddd-source-package-nac08-2025-43650150584",
-          "artifact_sha256": "87882fda3c86603741013f06d458432b28f2d739740ca2380b3a43f4d6fff24c",
+          "run_id": 43747142135,
+          "artifact_name": "ddd-source-package-nac08-2025-43747142135",
+          "artifact_sha256": "ed07707e07567a7606938468c5f2b725931d8b6f67ee7132717790dd758223bd",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12623,9 +12623,9 @@
       "09 Cataluña",
       "10 Comunidad Valenciana",
       "11 Extremadura",
+      "13 Comunidad de Madrid",
       "14 Región de Murcia",
       "15 Comunidad Foral de Navarra",
-      "16 País Vasco",
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
@@ -12894,11 +12894,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "aut10",
-    "name": "Comunidad Valenciana",
-    "display_name": "10 Comunidad Valenciana",
-    "autonomous_community_code_ine": "10",
-    "run_id": 43748866318,
+    "territory_id": "aut13",
+    "name": "Comunidad de Madrid",
+    "display_name": "13 Comunidad de Madrid",
+    "autonomous_community_code_ine": "13",
+    "run_id": 43749008571,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12911,9 +12911,9 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "13 Comunidad de Madrid",
-      "territory_id": "aut13",
-      "autonomous_community_code_ine": "13",
+      "territory": "16 País Vasco",
+      "territory_id": "aut16",
+      "autonomous_community_code_ine": "16",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12961,9 +12961,9 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "13 Comunidad de Madrid",
-      "territory_id": "aut13",
-      "autonomous_community_code_ine": "13",
+      "territory": "16 País Vasco",
+      "territory_id": "aut16",
+      "autonomous_community_code_ine": "16",
       "action": "preparar fuentes electorales"
     }
   ]
