@@ -78,7 +78,7 @@ territories:
         population_year: 2025
         section_year: 2025
         source_commit: 5ed6f37a5e59623480fcd2de88828a60fb3c8095
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: aut03
   name: Principado de Asturias
   editions:
