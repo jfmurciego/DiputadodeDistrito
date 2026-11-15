@@ -38,7 +38,7 @@ log "paso 1 OK 71/71 verificados"
 if [ ! -f $Q/ok_archivo ]; then check "archivado"; for a in 2 12 22 32 42 52 62; do b=$((a+9)); [ $b -gt 71 ] && b=71; $Q/archivar.sh $a $b >/dev/null; [ "$(cut -f4 $A | grep -vc '^success$')" -eq 0 ] || { log "PARADA archivado"; grep -v "	success$" $A; exit 4; }; done
   [ "$(wc -l < $A)" -eq 71 ] || { log "PARADA archivado incompleto"; exit 4; }; touch $Q/ok_archivo; fi
 log "paso 2 OK 71/71"
-# 4. tandas de 5
+# 4. primera tanda de 5 y, si sale limpia, tandas de 10 (frase del propietario 15-11)
 set -- $(seq 1 71 | grep -vx 11)
-while [ $# -gt 0 ]; do g=(); for k in 1 2 3 4 5; do [ $# -gt 0 ] && { g+=($1); shift; }; done; tanda t_$(IFS=_; echo "${g[*]}") "${g[@]}"; done
+while [ $# -gt 0 ]; do g=(); sz=10; [ -f $Q/ok_t4primera ] || sz=5; for k in $(seq 1 $sz); do [ $# -gt 0 ] && { g+=($1); shift; }; done; tanda t_$(IFS=_; echo "${g[*]}") "${g[@]}"; touch $Q/ok_t4primera; done
 log "paso 4 OK: 71 regenerados"
