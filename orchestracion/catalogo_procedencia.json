@@ -757,8 +757,8 @@
     "section_year": 2025
    },
    "fuente_electoral": {
-    "receipt_path": "territorios/aut07/evidencia/fuentes_electorales/2025/988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea/42521090842/receipt.json",
-    "identity_sha256": "988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea"
+    "receipt_path": "territorios/aut07/evidencia/fuentes_electorales/2025/a8d642505527d4a13f7f10833bc049981ac8786f59a2c63ba31f3a57c12b1c5a/43743911302/receipt.json",
+    "identity_sha256": "a8d642505527d4a13f7f10833bc049981ac8786f59a2c63ba31f3a57c12b1c5a"
    },
    "doi": null,
    "productos": [
@@ -1287,11 +1287,11 @@
   },
   "comunidad_valenciana": {
    "fuente_territorial": {
-    "run_id": "43724326443",
+    "run_id": "43743635181",
     "package_sha256": "6f6958ad89d1596ef60b94c82f0e2a0e88200d3a298a07facba93acb91132dcc",
-    "artifact_sha256": "45633ae5250f40df640b8dcb04d292e3cf41d1a011036eba78b91dc1f05d2d2c",
+    "artifact_sha256": "4b9c5b1389159cd4e4f401a796ecb96de6fdc940533af86f0443681c920f5557",
     "territorial_identity_sha256": "93b23d341ad215dd9e3c7f03c9bf3e60c45759dbf79f08208450b7c9b1a980b1",
-    "receipt_path": "territorios/aut10/evidencia/fuentes_territoriales/2025/93b23d341ad215dd9e3c7f03c9bf3e60c45759dbf79f08208450b7c9b1a980b1/43724326443/receipt.json",
+    "receipt_path": "territorios/aut10/evidencia/fuentes_territoriales/2025/93b23d341ad215dd9e3c7f03c9bf3e60c45759dbf79f08208450b7c9b1a980b1/43743635181/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
