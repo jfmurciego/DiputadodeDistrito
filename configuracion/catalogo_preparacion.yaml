@@ -858,7 +858,7 @@ territories:
         prepared_source_pair: territorios/nac03/evidencia/pares_fuentes/2025/f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256.json
         electoral_product: territorios/nac03/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac03/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac04
   name: Congreso Almería
   editions:
