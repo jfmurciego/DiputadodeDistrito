@@ -3,8 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba de la regla COMPOSICION_BOE del mapa espejo→sigla BOE (T-345)
-VERSIÓN: 1.0.0 · FECHA: 2026-11-15 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-15 · ESTADO: candidato
+ANTERIOR: legacy/tests/test_t345_composicion_boe_v1.0.0_20261115.py
+CAMBIOS: 1.1.0 (D-121): casos de la regla DECISION_PROPIETARIO (solo las 13 provincias de la decisión; cualquier otra no acredita por esa vía).
 FUNCIÓN: fixtures congelados (tests/fixtures/t345_composicion, sin estado vivo): la composición del rótulo del BOE de proclamadas acredita la sigla
   del espejo solo si contiene todas sus partes; rótulo ausente, ambiguo o sin las partes → no acreditada con motivo; el extractor aplica las
   correcciones de errores; la tabla versionada lleva fuente y sha256 literales del BOE y los alias nuevos validan por votos (tolerancia 0,10).
@@ -12,7 +13,9 @@ FUNCIÓN: fixtures congelados (tests/fixtures/t345_composicion, sin estado vivo)
 import csv
 import json
 import os
+import shutil
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -44,8 +47,6 @@ class Composicion(unittest.TestCase):
         self.assertIn("2 rótulos del BOE de proclamadas contienen la sigla", motivos[("03", "COALICIÓN «ZZ POPULAR»")])
 
     def test_sin_extracto_de_composicion_no_se_acredita(self):
-        import shutil
-        import tempfile
         with tempfile.TemporaryDirectory() as t:
             raiz = Path(t) / "raiz"
             shutil.copytree(FX / "raiz", raiz)
@@ -77,6 +78,62 @@ class Composicion(unittest.TestCase):
         self.assertEqual(len(r["documentos"][0]["sha256"]), 64)
 
 
+D121 = ["03", "04", "11", "12", "14", "18", "21", "23", "29", "38", "41", "46", "52"]  # literal del texto de D-121 (docs/PLAN.md), no leído del fichero
+
+
+class DecisionPropietario(unittest.TestCase):
+    def raiz(self, t, dec):
+        raiz = Path(t) / "raiz"
+        shutil.copytree(FX / "raiz", raiz)
+        (raiz / ab.DECISION).parent.mkdir(parents=True)
+        (raiz / ab.DECISION).write_text(json.dumps(dec), encoding="utf-8")
+        return raiz
+
+    DEC = {"id": "D-121", "fecha": "2026-11-15", "fuente": "docs/PLAN.md, D-121", "sha256_texto": "c" * 64, "eleccion": "201512",
+           "sigla_boe": "COALICIÓN «ZZ POPULAR»", "sigla_espejo": "AA-BB", "provincias": ["02"]}
+
+    def test_solo_acredita_las_provincias_de_la_decision(self):
+        with tempfile.TemporaryDirectory() as t:
+            ok, no = generado(self.raiz(t, self.DEC))
+        dec = [f for f in ok if f[12] == "DECISION_PROPIETARIO"]
+        self.assertEqual([(f[1], f[3], f[4], f[7], f[8]) for f in dec],
+                         [("02", "AA-BB", "DECISION_PROPIETARIO:D-121", "decisión del propietario D-121, 2026-11-15", "c" * 64)])
+        self.assertEqual([f[1] for f in ok if f[12] == "COMPOSICION_BOE"], ["01"])  # la de BOE sigue aparte y con su propia fuente
+        self.assertEqual([r[1] for r in no], ["03"])  # la 03 no está en la decisión: sigue sin acreditar
+
+    def test_otra_sigla_o_eleccion_no_acredita_por_esta_via(self):
+        for cambio in ({"sigla_boe": "COALICIÓN «OTRA»"}, {"eleccion": "201606"}, {"sigla_espejo": "NO-EXISTE"}, {"provincias": []}):
+            with tempfile.TemporaryDirectory() as t:
+                ok, no = generado(self.raiz(t, {**self.DEC, **cambio}))
+            self.assertEqual([f for f in ok if f[12] == "DECISION_PROPIETARIO"], [], cambio)
+
+    def test_tabla_versionada_tiene_exactamente_las_13_filas_de_d121(self):
+        self.assertEqual(ab.comprobar(), [])
+        with (ROOT / ab.ACREDITADOS).open(encoding="utf-8", newline="") as fh:
+            filas = [r for r in csv.DictReader(fh) if r["fuerza"] == "DECISION_PROPIETARIO"]
+        self.assertEqual(sorted(f["provincia"] for f in filas), D121)
+        self.assertEqual({(f["eleccion"], f["sigla_boe"], f["siglas_espejo"], f["fuente_boe"]) for f in filas},
+                         {("201512", "COALICIÓN «UNIDAD POPULAR»", "IU-UPeC", "decisión del propietario D-121, 2026-11-15")})
+        self.assertEqual(ab._decision(ROOT)["provincias"], D121)
+
+    def test_comprobar_rechaza_filas_de_decision_fuera_de_la_lista(self):
+        with tempfile.TemporaryDirectory() as t:
+            raiz = Path(t)
+            for rel in ("orchestracion/fuente_nazioenbehatokia.json", ab.DECISION, ab.ACREDITADOS):
+                (raiz / rel).parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy(ROOT / rel, raiz / rel)
+            for rel in list((ROOT / "configuracion").glob("resultados_oficiales_congreso_*")) + list((ROOT / ab.COMPOS).glob("*.json")):
+                dest = raiz / rel.relative_to(ROOT)
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy(rel, dest)
+            self.assertEqual(ab.comprobar(raiz), [])
+            dec = json.loads((raiz / ab.DECISION).read_text(encoding="utf-8"))
+            dec["provincias"] = dec["provincias"][:-1]  # una fila queda fuera de la decisión
+            (raiz / ab.DECISION).write_text(json.dumps(dec), encoding="utf-8")
+            err = ab.comprobar(raiz)
+            self.assertTrue(any(e.startswith("DECISION_FUERA_DE_ALCANCE") for e in err) and any(e.startswith("DECISION_FILAS") for e in err), err)
+
+
 class TablaVersionada(unittest.TestCase):
     """La tabla viva solo se revalida con `comprobar` (estado vivo por diseño, como en T-343); los recuentos y la validación por votos
     leen copias congeladas de las filas COMPOSICION_BOE y de los no acreditados (fixtures), no `configuracion/`."""
@@ -100,7 +157,7 @@ class TablaVersionada(unittest.TestCase):
             self.assertEqual([(d["boe"], d["sha256"]) for d in vivo["documentos"]], [(d["boe"], d["sha256"]) for d in ficha["documentos"]])
             self.assertEqual(vivo["provincias"], ficha["provincias"])
 
-    def test_alias_nuevos_y_no_acreditados_congelados(self):
+    def test_alias_nuevos_y_no_acreditados_congelados_sin_decision(self):
         filas = self.leer("tabla_congelada_composicion.csv")
         self.assertEqual(len(filas), 35)
         self.assertEqual({(f["eleccion"], f["sigla_boe"], f["siglas_espejo"]) for f in filas}, {

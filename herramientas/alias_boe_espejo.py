@@ -3,9 +3,9 @@
 """Mapa espejo→sigla BOE por elección y provincia, SOLO para el contraste de la puerta del histórico (T-343).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-15 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/alias_boe_espejo_v1.0.0_20261115.py
-CAMBIOS: 1.1.0 (T-345, D-120): regla COMPOSICION_BOE (la composición de la coalición se toma del BOE de candidaturas proclamadas, con ficha y sha256 en
+VERSIÓN: 1.2.0 · FECHA: 2026-11-15 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/alias_boe_espejo_v1.1.0_20261115.py
+CAMBIOS: 1.2.0 (T-345, D-121): regla DECISION_PROPIETARIO, solo las 13 provincias de configuracion/decisiones_propietario/D-121.json (equivalencia de familia declarada por el propietario, aparte de las filas con BOE). 1.1.0 (T-345, D-120): regla COMPOSICION_BOE (la composición de la coalición se toma del BOE de candidaturas proclamadas, con ficha y sha256 en
   configuracion/fuentes_coaliciones_boe/) y orden `extraer`. 1.0.0: fichero nuevo (revisión de #813: unicidad de la sigla del espejo, columna `fuerza`).
 MOTIVO: la puerta del histórico (T-342) exige que TODO partido del CSV oficial del BOE de la provincia se compare con el
   espejo (cobertura total). Las siglas del BOE y las del espejo (Observatorio, T-89) no coinciden en coaliciones y federaciones
@@ -32,6 +32,10 @@ QUÉ HACE: `generar` lee los CSV oficiales del BOE (configuracion/resultados_ofi
       entero entre separadores, nunca un tramo suelto). El texto del BOE no va entero: `extraer` descarga los documentos (ids localizados barriendo
       el sumario), verifica y deja el extracto de los rótulos con el sha256 de cada original; `generar` y `comprobar` leen el extracto.
       Si el espejo integra solo parte de los partidos del rótulo, la fila lo dice en `prueba` (los votos validan, no prueban).
+  (4) DECISION_PROPIETARIO (D-121, 2026-11-15): equivalencia de FAMILIA POLÍTICA declarada por el propietario (docs/PLAN.md, D-121), no deducida de votos
+      ni acreditada por el BOE, solo para las provincias, sigla del BOE y sigla del espejo del fichero configuracion/decisiones_propietario/D-121.json
+      (13 filas de 2015-12). Va después de las demás pruebas; `fuerza=DECISION_PROPIETARIO` y `fuente_boe` = «decisión del propietario D-121, 2026-11-15»
+      la distinguen a simple vista de las filas con BOE. `comprobar` exige que existan exactamente esas filas.
   Lo demás NO se acredita: se escribe en el CSV de no acreditados con su motivo y la provincia falla en la puerta (no se supone).
   La diferencia de votos frente al BOE se anota como validación (no como prueba). La homologación D-20 (T-97) no se usa ni se cambia.
   `comprobar` revalida sin red: cabecera, claves únicas, sha256 de los ficheros del espejo (manifiesto), del CSV del BOE y del
@@ -65,6 +69,7 @@ CAB = ["eleccion", "provincia", "sigla_boe", "siglas_espejo", "regla", "prueba",
        "sha256_csv_boe", "validacion_votos", "aviso", "fuerza"]
 CAB_NO = ["eleccion", "provincia", "sigla_boe", "motivo"]
 COMPOS = "configuracion/fuentes_coaliciones_boe"
+DECISION = "configuracion/decisiones_propietario/D-121.json"
 # BOE de candidaturas proclamadas (y correcciones) de cada elección, localizados barriendo el sumario (API datosabiertos, fecha de publicación).
 FUENTES_COMPOSICION = {
     "201111": {"proclamadas": ("BOE-A-2011-16745", "2011-10-25"), "correcciones": [("BOE-A-2011-16922", "2011-10-27"), ("BOE-A-2011-17013", "2011-10-28")]},
@@ -209,6 +214,25 @@ def extraer_composicion(k: str, raiz: Path = ROOT, descargar=_descargar, fecha: 
     }
 
 
+def _decision(raiz: Path) -> dict | None:
+    f = raiz / DECISION
+    return json.loads(f.read_text(encoding="utf-8")) if f.exists() else None
+
+
+def _fuente_decision(dec: dict) -> str:
+    return f"decisión del propietario {dec['id']}, {dec['fecha']}"
+
+
+def decision_propietario(dec: dict | None, k: str, c: str, b: str, D: dict, ps: dict) -> tuple | None:
+    """(siglas del espejo, prueba, fuente, sha256 del texto, regla) solo para la elección, provincia y siglas de la decisión del propietario."""
+    if not dec or (dec["eleccion"], b) != (k, dec["sigla_boe"]) or c not in dec["provincias"]:
+        return None
+    s = dec["sigla_espejo"]
+    if s not in D[c] or s in ps:
+        return None
+    return [s], f"{s} familia política declarada por el propietario ({dec['id']}, {dec['fecha']}); {dec['fuente']}", _fuente_decision(dec), dec["sha256_texto"], f"DECISION_PROPIETARIO:{dec['id']}"
+
+
 def _composicion(raiz: Path, k: str) -> dict | None:
     f = raiz / COMPOS / f"candidaturas_proclamadas_{k}.json"
     return json.loads(f.read_text(encoding="utf-8")) if f.exists() else None
@@ -289,6 +313,7 @@ def generar(espejo: Path, raiz: Path = ROOT, manifiesto: dict | None = None, ele
         fuente = {"boe": ficha["boe"], "doc": ficha["sha256_xml"], "csv": sha256(raiz / f"configuracion/resultados_oficiales_congreso_{rel}.csv")}
         boe = _leer_boe(raiz, rel)
         comp = _composicion(raiz, k)
+        decision = _decision(raiz)
         D, H = {}, {}
         for c in sorted(boe):
             D[c], H[c] = _espejo(espejo, k, c, manifiesto)
@@ -326,6 +351,8 @@ def generar(espejo: Path, raiz: Path = ROOT, manifiesto: dict | None = None, ele
                     if rechazo:
                         cb = composicion_boe(comp, c, b, D, ps)
                         if not isinstance(cb, tuple):
+                            cb = decision_propietario(decision, k, c, b, D, ps) or cb
+                        if not isinstance(cb, tuple):
                             no.append([k, c, b, rechazo + (f"; COMPOSICION_BOE: {cb}" if cb else "")])
                             continue
                         ss, prueba, doc_boe, doc_sha, regla = cb
@@ -349,7 +376,7 @@ def generar(espejo: Path, raiz: Path = ROOT, manifiesto: dict | None = None, ele
 
 def _fuerza(regla: str) -> str:
     tipo = regla.split(":")[0]
-    return tipo if tipo == "COMPOSICION_BOE" else tipo.lower()
+    return tipo if tipo in ("COMPOSICION_BOE", "DECISION_PROPIETARIO") else tipo.lower()
 
 
 def _escribir(ruta: Path, cab: list, filas: list) -> None:
@@ -378,7 +405,13 @@ def comprobar(raiz: Path = ROOT) -> list:
         if d["sha256_espejo"] != man.get(f"data/{d['eleccion']}/sekzioa/{d['provincia']}.json", {}).get("sha256"):
             err.append(f"SHA_ESPEJO {d['eleccion']} {d['provincia']}")
         fi = fichas[d["eleccion"]]
-        if d["regla"].startswith("COMPOSICION_BOE:"):
+        if d["regla"].startswith("DECISION_PROPIETARIO:"):
+            dec = _decision(raiz)
+            if not dec or (d["fuente_boe"], d["sha256_documento_boe"]) != (_fuente_decision(dec), dec["sha256_texto"]):
+                err.append(f"FUENTE_DECISION {d['eleccion']} {d['provincia']}")
+            elif (d["eleccion"], d["sigla_boe"], d["siglas_espejo"], d["provincia"] in dec["provincias"]) != (dec["eleccion"], dec["sigla_boe"], dec["sigla_espejo"], True):
+                err.append(f"DECISION_FUERA_DE_ALCANCE {d['eleccion']} {d['provincia']} {d['sigla_boe']}")
+        elif d["regla"].startswith("COMPOSICION_BOE:"):
             cp = _composicion(raiz, d["eleccion"])
             doc = next((x for x in (cp or {}).get("documentos", []) if x["papel"] == "proclamadas"), None)
             if not doc or (d["fuente_boe"], d["sha256_documento_boe"]) != (doc["boe"], doc["sha256"]):
@@ -389,12 +422,19 @@ def comprobar(raiz: Path = ROOT) -> list:
             err.append(f"FUENTE_BOE {d['eleccion']} {d['sigla_boe']}")
         if d["sha256_csv_boe"] != sha256(raiz / f"configuracion/resultados_oficiales_congreso_{ELECCIONES[d['eleccion']]}.csv"):
             err.append(f"SHA_CSV_BOE {d['eleccion']}")
-        if not d["regla"].split(":")[0] in ("ETIQUETA", "FAMILIA", "COMPOSICION_BOE") or not d["prueba"] or not d["siglas_espejo"]:
+        if not d["regla"].split(":")[0] in ("ETIQUETA", "FAMILIA", "COMPOSICION_BOE", "DECISION_PROPIETARIO") or not d["prueba"] or not d["siglas_espejo"]:
             err.append(f"SIN_PRUEBA {d['eleccion']} {d['provincia']} {d['sigla_boe']}")
         if d["fuerza"] != _fuerza(d["regla"]):
             err.append(f"FUERZA {d['eleccion']} {d['provincia']} {d['sigla_boe']}")
     uso = collections.Counter((f[0], f[1], x) for f in filas for x in f[3].split("|"))
     err += [f"SIGLA_ESPEJO_DUPLICADA {k}" for k, n in uso.items() if n > 1]
+    dec = _decision(raiz)
+    if not dec or hashlib.sha256(dec["texto"].encode()).hexdigest() != dec["sha256_texto"]:
+        err.append("FICHA_DECISION")
+    else:
+        usadas = sorted(f[1] for f in filas if f[4].startswith("DECISION_PROPIETARIO:"))
+        if usadas != sorted(dec["provincias"]):
+            err.append(f"DECISION_FILAS {usadas} != {sorted(dec['provincias'])}")
     for k in FUENTES_COMPOSICION:
         cp = _composicion(raiz, k)
         if not cp:
