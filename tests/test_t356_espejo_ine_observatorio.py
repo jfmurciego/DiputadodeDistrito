@@ -61,11 +61,32 @@ class Script(unittest.TestCase):
             self.assertIn(frag, PS1)
 
     def test_no_imprime_ni_guarda_credenciales(self):
-        for var in ("AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"):
-            for linea in PS1.splitlines():
-                if var in linea and not linea.lstrip().startswith(("#", "foreach")):
-                    self.assertNotRegex(linea, r"Write-Host|Set-Content|Out-File|WriteAllText|ConvertTo-Json")
-        self.assertNotRegex(PS1, r"Write-(Host|Warning)[^\n]*\$env:(AWS_|R2_ACCOUNT)")
+        # ninguna línea que lea $env:AWS_*/R2_* (salvo la subida y los comentarios) imprime o escribe
+        for linea in PS1.splitlines():
+            if re.search(r"\$env:(AWS_|R2_)|Env:\$v", linea) and not linea.lstrip().startswith("#"):
+                self.assertNotRegex(linea, r"Write-(Host|Warning|Output|Error|Verbose|Debug)|Set-Content|Out-File|WriteAllText|Escribir-Sin-Bom|ConvertTo-Json|echo")
+        self.assertNotRegex(PS1, r"Write-(Host|Warning)[^\n]*\$env:")
+
+    def test_ruta_completa_absolutas_y_relativas(self):
+        # Sin pwsh en CI no se ejecuta el .ps1: se comprueba que la función usa IsPathRooted y no concatena a ciegas,
+        # y se prueba una función espejo (ntpath = semántica de Windows) con el mismo algoritmo. Limitación: no es el .ps1 real.
+        m = re.search(r"function Ruta-Completa\(\$ruta\) \{(.*?)\n\}", PS1, re.S)
+        self.assertIsNotNone(m)
+        self.assertIn("IsPathRooted", m.group(1))
+        self.assertIn("(Get-Location).ProviderPath", m.group(1))
+        self.assertNotIn("Join-Path (Get-Location) $ruta", PS1)
+        self.assertIn("Ruta-Completa $ruta", PS1.split("function Escribir-Sin-Bom")[1].splitlines()[0])
+        import ntpath
+
+        def espejo(ruta, cwd="C:\\Users\\x"):
+            return ntpath.normpath(ruta if ntpath.isabs(ruta) else ntpath.join(cwd, ruta))
+        self.assertEqual(espejo("C:\\ddd\\ine\\seccionado_2012.zip.ok"), "C:\\ddd\\ine\\seccionado_2012.zip.ok")
+        self.assertEqual(espejo("salida.json"), "C:\\Users\\x\\salida.json")
+        self.assertNotEqual(ntpath.join("C:\\Users\\x", "C:\\ddd\\a"), "C:\\Users\\x\\C:\\ddd\\a")  # el bug de 1.0.0 no se reproduce
+
+    def test_reanudacion_recalcula_sha_y_cancelar_no_es_exito(self):
+        self.assertIn("(Sha256Hex $ruta) -eq $m.sha256", PS1)
+        self.assertRegex(PS1, r"Cancelado[^\n]*exit 2")
 
     def test_cabecera_y_sin_ids_viejos(self):
         self.assertIn("VERSIÓN 1.0.0", PS1.splitlines()[1])

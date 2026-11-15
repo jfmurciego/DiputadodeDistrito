@@ -13,7 +13,7 @@ Uso:
   .\espejo_ine_observatorio_r2.ps1                         # baja, mide y sube (INE y Observatorio)
   .\espejo_ine_observatorio_r2.ps1 -Grupo ine              # solo los 17 seccionados (o -Grupo observatorio)
 Reanudable: lo ya verificado (fichero + .ok) no se vuelve a bajar y lo ya subido (head-object con el mismo sha256) no se vuelve a subir.
-Carpeta de trabajo corta (límite de ruta de Windows): C:\ddd. Sale con código 1 si falla alguna pieza. Después, pega el JSON de resultado en el chat del Coordinador.
+Carpeta de trabajo corta (límite de ruta de Windows): C:\ddd. Sale con código 1 si falla alguna pieza y con 2 si no se confirma la sobrescritura del JSON. Después, pega el JSON de resultado en el chat del Coordinador.
 #>
 [CmdletBinding()]
 param(
@@ -42,7 +42,7 @@ if (-not $SoloBajar) {
 }
 if ((Test-Path $Salida) -and -not $Forzar) {
     $r = Read-Host "$Salida ya existe y se sobrescribirá. Escribe SI para continuar"
-    if ($r -cne 'SI') { Write-Host 'Cancelado.'; return }
+    if ($r -cne 'SI') { Write-Host 'Cancelado: no se ha hecho nada.'; exit 2 }
 }
 
 # --- índice -----------------------------------------------------------------------------------------------------------------
@@ -65,7 +65,12 @@ if ($piezas.Count -ne $esperadas) { throw "Se esperaban $esperadas piezas y el �
 # --- utilidades --------------------------------------------------------------------------------------------------------------
 New-Item -ItemType Directory -Force -Path (Join-Path $Trabajo 'ine'), (Join-Path $Trabajo 'obs') | Out-Null
 function Sha256Hex($ruta) { (Get-FileHash -Algorithm SHA256 -LiteralPath $ruta).Hash.ToLower() }
-function Escribir-Sin-Bom($ruta, $texto) { [IO.File]::WriteAllText((Join-Path (Get-Location) $ruta), $texto, (New-Object Text.UTF8Encoding($false))) }
+function Ruta-Completa($ruta) {
+    # absolutas intactas; relativas contra la carpeta actual de PowerShell (no la del proceso .NET)
+    if ([IO.Path]::IsPathRooted($ruta)) { return [IO.Path]::GetFullPath($ruta) }
+    [IO.Path]::GetFullPath((Join-Path (Get-Location).ProviderPath $ruta))
+}
+function Escribir-Sin-Bom($ruta, $texto) { [IO.File]::WriteAllText((Ruta-Completa $ruta), $texto, (New-Object Text.UTF8Encoding($false))) }
 
 function Validar($ruta, $tipo) {
     # devuelve $null si es válido o el motivo
@@ -129,7 +134,8 @@ foreach ($p in $piezas) {
         # 1. reanudar: fichero ya verificado (sidecar .ok con sha256/bytes medidos) y que sigue cuadrando
         if ((Test-Path -LiteralPath $ruta) -and (Test-Path -LiteralPath $ok)) {
             $m = Get-Content -LiteralPath $ok -Raw -Encoding UTF8 | ConvertFrom-Json
-            if ((Get-Item -LiteralPath $ruta).Length -eq $m.bytes -and (-not $f.sha256 -or $f.sha256 -eq $m.sha256)) { $meta = $m }
+            # se recalcula el sha256 del fichero: debe casar con el .ok y, si el índice lo trae, con el índice
+            if ((Get-Item -LiteralPath $ruta).Length -eq $m.bytes -and (Sha256Hex $ruta) -eq $m.sha256 -and (-not $f.sha256 -or $f.sha256 -eq $m.sha256)) { $meta = $m }
         }
         # 2. bajar y validar
         if (-not $meta) {
