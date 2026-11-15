@@ -14,7 +14,8 @@ Después, pega el contenido de espejo_galicia_r2_resultado.json en el chat del C
 param(
     [string]$Declaracion = 'territorios/aut12/config/elecciones/galicia_parlamento_vigente.yaml',
     [string]$Salida = 'espejo_galicia_r2_resultado.json',
-    [switch]$SoloBajar
+    [switch]$SoloBajar,
+    [switch]$Forzar    # sobrescribe el JSON de resultado sin preguntar
 )
 $ErrorActionPreference = 'Stop'
 if (-not (Test-Path $Declaracion)) { throw "No existe $Declaracion (ejecuta desde la raíz del repositorio)." }
@@ -33,6 +34,10 @@ foreach ($l in Get-Content $Declaracion -Encoding UTF8) {
     elseif ($id -and $l -match '^\s*url:\s*(\S+)\s*$') { $fuentes += [pscustomobject]@{ id = $id; url = $Matches[1] }; $id = $null }
 }
 if ($fuentes.Count -ne 4) { throw "Se esperaban 4 fuentes y hay $($fuentes.Count): no se continúa." }
+if ((Test-Path $Salida) -and -not $Forzar) {
+    $r = Read-Host "$Salida ya existe y se sobrescribirá. Escribe SI para continuar"
+    if ($r -cne 'SI') { Write-Host 'Cancelado.'; return }
+}
 $tmp = Join-Path ([IO.Path]::GetTempPath()) 'espejo_galicia_r2'
 New-Item -ItemType Directory -Force -Path $tmp | Out-Null
 $ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
@@ -52,8 +57,8 @@ foreach ($f in $fuentes) {
     }
     $sha = (Get-FileHash -Algorithm SHA256 $ruta).Hash.ToLower()
     $bytes = (Get-Item $ruta).Length
-    $cabecera = (Get-Content $ruta -TotalCount 1 -Encoding UTF8)
-    if ($bytes -eq 0 -or $cabecera -match '<html|<!DOCTYPE') { Write-Warning "$($f.id): contenido vacío o HTML"; $fallos++; continue }
+    $inicio = (Get-Content $ruta -TotalCount 20 -Encoding UTF8) -join "`n"
+    if ($bytes -eq 0 -or $inicio -match '(?i)<\s*(html|head|body)\b|<!DOCTYPE' -or $inicio -notmatch '(?i)mesa|censo') { Write-Warning "$($f.id): contenido vacío, HTML o sin cabecera mesa/censo"; $fallos++; continue }
     $clave = "arc-e/fuentes/xunta/galicia_parlamento_2024_$($f.id)_$($sha.Substring(0, 12)).csv"
     Write-Host "$($f.id): HTTP $http, $bytes bytes, sha256 $sha"
     if (-not $SoloBajar) {

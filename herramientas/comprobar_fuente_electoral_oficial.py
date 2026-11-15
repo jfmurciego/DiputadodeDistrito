@@ -207,7 +207,10 @@ def check_declaration(
         data = b""
         content_type = ""
         http_status = None
-        mirror = espejo(f"{declaration.get('election_id')}_{sid}.csv") if espejo else None
+        try:
+            mirror = espejo(f"{declaration.get('election_id')}_{sid}.csv") if espejo else None
+        except Exception:  # noqa: BLE001 - un espejo roto nunca tumba la comprobación: se sigue con la URL oficial
+            mirror = None
         try:
             if mirror is not None:
                 if len(mirror) > max_bytes:

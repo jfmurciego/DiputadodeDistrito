@@ -75,6 +75,27 @@ class EspejoGalicia(unittest.TestCase):
             check_declaration(d, td, opener=lambda req, timeout=0: Resp(CSV), espejo=lambda n: pedidos.append(n))
         self.assertEqual(pedidos, [f"{d['election_id']}_{s['id']}.csv" for s in d["sources"]])
 
+    def test_espejo_roto_cae_a_la_oficial(self):
+        def roto(n):
+            raise ImportError("fuente_r2")
+        with tempfile.TemporaryDirectory() as td:
+            r = check_declaration(_decl(), td, opener=lambda req, timeout=0: Resp(CSV), espejo=roto)
+        self.assertEqual(r["decision"], "READY")
+        self.assertTrue(all(x.get("origin") is None for x in r["selected_sources"]))
+
+    def test_integrado_espejo_no_verificado_cae_a_la_oficial(self):
+        # traer() real: huella del índice distinta de los bytes, y entrada con sha256 null: nunca se mezclan bytes sin verificar
+        basura = b"mesa;censo;votos\n99;1;1\n"
+        d = _decl()
+        for sha in ("0" * 64, None):
+            with tempfile.TemporaryDirectory() as td, tempfile.TemporaryDirectory() as td2, mock.patch.dict("os.environ", {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
+                idx = Path(td) / "i.json"
+                idx.write_text(json.dumps({"fuentes": {f"{d['election_id']}_{s['id']}.csv": {"clave": "k", "sha256": sha} for s in d["sources"]}}))
+                espejo = lambda n: f.traer(n, cp=lambda o, dst, e=None: Path(dst).write_bytes(basura), indice=idx)
+                r = check_declaration(d, td2, opener=lambda req, timeout=0: Resp(CSV), espejo=espejo)
+            self.assertEqual(r["decision"], "READY")
+            self.assertTrue(all(x.get("origin") is None and x["sha256"] == hashlib.sha256(CSV).hexdigest() for x in r["selected_sources"]))
+
     def test_espejo_con_huella_distinta_cae_a_la_oficial(self):
         datos = b"otro"
         with tempfile.TemporaryDirectory() as td, mock.patch.dict("os.environ", {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):

@@ -4,6 +4,8 @@
 
 **Cambio.** `comprobar_fuente_electoral_oficial.py` 1.4.0: antes de la URL oficial lee el espejo `<election_id>_<source id>.csv` del índice; sin entrada, sin sha256, sin credenciales o sin objeto sigue con la oficial; la huella (y `expected_sha256`) se exige igual. `fuente_r2.py` 1.1.0: `traer`, y entrada con sha256 null = no disponible. `fuentes_r2.json`: 4 entradas de Galicia 2024 con sha256 null (PENDIENTE). `preparacion-resultados-electorales.yml` 1.0.16: credenciales R2 en el paso «Preparar paquete electoral». `herramientas/espejo_galicia_r2.ps1` 1.0.0 (Windows del propietario: baja, sha256, sube a `arc-e/fuentes/xunta/` y escribe `espejo_galicia_r2_resultado.json`).
 
+**Granularidad.** El espejo se decide fuente a fuente: un paquete puede mezclar fuentes del espejo y de la Xunta, cada una verificada por separado (sha256 del índice, y `expected_sha256` si se declara); un espejo roto o no verificado cae a la URL oficial.
+
 **Segundo paso (tras el script).** Con el JSON del propietario: rellenar clave/sha256/bytes/descargado_en en el índice (PR pequeña). Hasta entonces el espejo no se usa y la 03 va a la Xunta como hoy.
 
 **Pruebas.** `tests.test_t354_espejo_galicia` (aut12; sin red, misma huella espejo/oficial, nombres derivados de la declaración), t299, galicia_electoral_vigente, t349_flujo, t220_renombrado.
