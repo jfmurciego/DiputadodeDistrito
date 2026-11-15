@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.433
+Versión: 1.0.435
 Fecha: 2026-11-15
-Alcance: T-338 — Cargador de territorio_ids registra el módulo en sys.modules
+Alcance: T-339 — Smoke de carga de todos los entrypoints y refuerzo del test de T-338
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-15_fix-t338-cargador-territorio-ids.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.432_registro_20261115.md
+Cambios/motivo: entrada docs/registro/2026-11-15_test-t339-smoke-entrypoints.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.434_registro_20261115.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.432_registro_20261115.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.435 · [2026-11-15 — T-339 — Smoke de carga de todos los entrypoints y refuerzo del test de T-338](registro/2026-11-15_test-t339-smoke-entrypoints.md)
+- 1.0.434 · [2026-11-15 — T-341 — Plan 1.0.49: decisiones del 15-11 y cola T-329 a T-339](registro/2026-11-15_planificador-plan-1-0-49.md)
 - 1.0.433 · [2026-11-15 — T-338 — Cargador de territorio_ids registra el módulo en sys.modules](registro/2026-11-15_fix-t338-cargador-territorio-ids.md)
 - 1.0.432 · [2026-11-15 — T-336 — Evidencia de fuentes restaurada solo con el id canónico (r3 aut11)](registro/2026-11-15_t336-evidencia-id-canonico.md)
 - 1.0.431 · [2026-11-15 — T-334 — Seguimiento de T-329: manifiesto neutro, puerta con m07/perdidos, tabla verificada y id nuevo](registro/2026-11-15_t334-seguimiento-paso-a.md)
