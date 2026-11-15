@@ -1988,6 +1988,13 @@
    "sha256_csv": "deafbe7a6ce59ceed07513a30ece3c5c0a645ce3b02da25c5f82d3bb96f25a19",
    "ruta": "datos/composicion/runs/nac18_43764654875.csv"
   },
+  "nac19/43764666420": {
+   "territorio": "nac19",
+   "run_id": "43764666420",
+   "secciones": 400,
+   "sha256_csv": "60dcf292393fd6907d810beb20db35f593a619db0598cc2a81984a41d8bfda4e",
+   "ruta": "datos/composicion/runs/nac19_43764666420.csv"
+  },
   "nac20/43764679394": {
    "territorio": "nac20",
    "run_id": "43764679394",
