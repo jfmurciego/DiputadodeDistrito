@@ -1932,6 +1932,13 @@
    "sha256_csv": "025a26be2ee007db1f5364a8c693e9bfea109f272709c40e53bbafd7a704fe50",
    "ruta": "datos/composicion/runs/nac10_43761310403.csv"
   },
+  "nac11/43761322715": {
+   "territorio": "nac11",
+   "run_id": "43761322715",
+   "secciones": 926,
+   "sha256_csv": "19679be0e0eadcc4f689dff054c55c927d6ca0e374b442364cbf0ff99fb356d0",
+   "ruta": "datos/composicion/runs/nac11_43761322715.csv"
+  },
   "nac12/43761791985": {
    "territorio": "nac12",
    "run_id": "43761791985",
