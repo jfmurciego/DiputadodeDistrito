@@ -645,24 +645,23 @@ territories:
         run_id: 43007066596
         stage: M08
       preparation_evidence:
-        run_id: 43645497921
-        artifact_name: ddd-source-package-aut17-2025-43645497921
-        artifact_sha256: 4c78fa9cc45d71f69c2108ff1726dec8edd5d74c23fe62a366c5c340d0745a46
-        package_sha256: 18d6198245386da78d425674a0fc2bbd379811c428507602eac96dbfbbb63888
-        receipt_path: territorios/aut17/evidencia/fuentes_territoriales/2025/0c9c86eb040c1a26bb60a2188d411f2f4ff4484ae3e87b5f415f0adc7e113636/43645497921/receipt.json
-        territorial_identity_sha256: 0c9c86eb040c1a26bb60a2188d411f2f4ff4484ae3e87b5f415f0adc7e113636
-        compatibility_report_sha256: 3194a6768260a83b2784458a2dd9309afd6bcb57aaf1e5b00556d33c15cc83ba
-        compatibility_identity_sha256: 3aeba2c82a6868ba8c88075b08fdc1e862da7545dde6296d7216c3aa173d16ed
+        run_id: 43728762834
+        artifact_name: ddd-source-package-aut17-2025-43728762834
+        artifact_sha256: e1b2a2d6c67cda9761e4ef0b2678d97121fd95a79b71f15d6cad31029dc9a84f
+        package_sha256: 5097f01bd80e2af393d36e52cfd60716b4cf7984154e4326be38777c84102f62
+        receipt_path: territorios/aut17/evidencia/fuentes_territoriales/2025/1f4fde781f7fb32c2188c4dc94c4637095aee1e59b3374c51069b29c9dd1e1ff/43728762834/receipt.json
+        territorial_identity_sha256: 1f4fde781f7fb32c2188c4dc94c4637095aee1e59b3374c51069b29c9dd1e1ff
+        compatibility_report_sha256: fb1c7a6b7efbeaf36af54a540105aba3acd880c0490a2d71e15afcef305caf98
+        compatibility_identity_sha256: 368e61e6052d92c47ddc23c358a0be630f5bf10dab5220e646777128ba905a98
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
+        source_commit: 5ed6f37a5e59623480fcd2de88828a60fb3c8095
       evidence:
         electoral_source: territorios/aut17/evidencia/fuentes_electorales/2025/35a5a19b40d7d19c48d53eadfdcc2f045be0cc239ba3266c18389c1b0d09e951/40850322464/receipt.json
         prepared_source_pair: territorios/aut17/evidencia/pares_fuentes/2025/b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd.json
         territorial_product: territorios/aut17/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut17/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut17/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut18
   name: Ceuta
