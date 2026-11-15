@@ -1,0 +1,10 @@
+# T-357 · medido en la sesión cloud el 2026-11-15 (no verificado por terceros). Formato: sha256  bytes  URL
+# Comandos: curl -sS -I <URL> (Content-Length) · curl -sS -o f <URL> · sha256sum f · ls -l f (bytes descargados)
+305a19f11b87d4e13d2ea4267774b9b0e3a69a3b7b1ff8e483aad90867628fe7  4575186  https://www.ine.es/censos2011_datos/indicadores_seccion_censal_csv.zip
+d0151e0cc126695933bc30a922c803ab09af03fdfb622238b22f769c7a883acc  64103930  https://www.ine.es/censos2011_datos/cartografia_censo2011_nacional.zip
+37716cba8cda50a492f52e2bae91a1c543bafb4263110e5aa5da18107ef68311  445592835  https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/30832.csv   (sin Content-Length; bytes = ls -l)
+772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a  63966805  https://www.ine.es/prodyser/cartografia/seccionado_2012.zip
+50dda58ed4afb57c7f1f38e6b6b8150768efaa225bfc3a523b9c210a2a218c03  63901341  https://www.ine.es/prodyser/cartografia/seccionado_2015.zip
+3410af763bfe58d1b0f9c0d0038cbdd6417e0f3f6d0fce6a3e70bef64c84b3e1  64043263  https://www.ine.es/prodyser/cartografia/seccionado_2016.zip
+656119dadadb57ef3fa9d20a8ba33399fe606e553c9fef3fc338786e52fae967  72059641  https://www.ine.es/prodyser/cartografia/seccionado_2019.zip
+07544bb49256e9e9f290b6f459a0a833e69c97900eb840c3f5bbe863914ede6e  65901199  https://www.ine.es/prodyser/cartografia/seccionado_2020.zip

@@ -13,10 +13,12 @@ def dbf(p):
 def num(s):
     s=s.replace('.','')
     return int(s) if s.isdigit() else None
-atlas=collections.defaultdict(dict)
+atlas=collections.defaultdict(dict);raw=collections.defaultdict(collections.Counter);punto=collections.defaultdict(collections.Counter)
 for l in open(W+'/t30832.csv',encoding='utf-8-sig'):
     p=l.rstrip('\n').split(';')
-    if len(p)==6 and p[3]=='Población' and p[2]: atlas[p[4]][p[2][:10]]=num(p[5])
+    if len(p)==6 and p[3]=='Población' and p[2]:
+        atlas[p[4]][p[2][:10]]=num(p[5]); raw[p[4]][p[5] if not p[5].replace('.','').isdigit() else 'valor']+=1
+        if p[5]=='.': punto[p[4]][p[2][:2]]+=1
 c11={}
 for f in glob.glob(W+'/c11/i/C2011_ccaa*_Indicadores.csv'):
     h=None
@@ -45,4 +47,6 @@ for e,(y,gy) in els.items():
     if e=='201111': r['censo2011_vs_seccionado_2012']=cmp(ine,{k for k,v in c11.items() if v is not None}); r['censo2011_vs_votos']=cmp(vot,{k for k,v in c11.items() if v is not None})
     res[e]=r
 out['elecciones']=res
+out['atlas_30832_clasificacion_filas']={k:dict(v) for k,v in sorted(raw.items())}  # 'valor' / '.' (no publicado) / '""' (vacío)
+out['atlas_30832_provincias_con_punto_top8']={k:v.most_common(8) for k,v in sorted(punto.items())}
 json.dump(out,open(sys.argv[2],'w'),ensure_ascii=False,indent=1)

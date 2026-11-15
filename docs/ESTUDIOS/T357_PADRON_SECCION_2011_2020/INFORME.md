@@ -5,8 +5,8 @@ Fecha: 2026-11-15
 Estado: medido (solo lectura; sin ejecuciones ni publicación). Decisión D-125 (opción A).
 
 Todo medido en la sesión cloud el 2026-11-15. Descargas hechas de verdad desde `www.ine.es` (HTTP 200; `servicios.ine.es`
-rechazado por el proxy, no hace falta). No se sube ninguna descarga: solo hashes y `resultados.json` (salida de `medir_casado.py`,
-que reproduce todas las cifras). Observatorio: los 520 ficheros usados coinciden en bytes y sha256 con `orchestracion/fuente_nazioenbehatokia.json`.
+rechazado por el proxy, no hace falta). Bytes, sha256, fecha y comandos de las 8 descargas del INE en `SHA256SUMS.txt` (medidos en esta sesión, sin contraste externo). No se sube ninguna descarga: solo hashes y `resultados.json` (salida de `medir_casado.py`,
+que reproduce todas las cifras). Observatorio: los 520 ficheros usados coinciden en bytes y sha256 con `orchestracion/fuente_nazioenbehatokia.json` (script `contrastar_observatorio.py`, salida en `contraste_observatorio.txt`: 520 contrastados, 0 discrepancias).
 
 ## 1. Qué población por sección existe
 
@@ -18,7 +18,7 @@ que reproduce todas las cifras). Observatorio: los 520 ficheros usados coinciden
 | Padrón continuo por sección anterior a 2015 | — | — | — | **No existe** en las páginas del INE revisadas (ver §4) |
 
 El Atlas usa **una sola lista de 37 229 secciones para todos los años** (el mismo conjunto en los 10 periodos): no es el seccionado
-de cada año, es una lista única. En cada año las 37 229 filas se reparten en: valor, «.» (dato no publicado; causa NO VERIFICADA, probable secreto estadístico) y vacío (sección que no existe ese año). 2019: 1 428 «.» y 920 vacías; sección con «.» en Ávila, Burgos, Zamora, Huesca, Segovia, Soria, Cuenca…, es decir, provincias rurales. Secciones con valor: 2015 = 34 895, 2016 = 34 580, 2019 = 34 881, 2020 = 36 333 (`resultados.json`). La referencia exacta («1 de enero» o 31-dic del año) NO VERIFICADA: las páginas de metodología consultadas no la dicen en el texto obtenido. Suma nacional con valor: 2015 = 45 893 172, 2016 = 45 413 664, 2019 = 46 690 934, 2020 = 46 849 376.
+de cada año, es una lista única. En cada año las 37 229 filas son: valor, «.» o vacío (`atlas_30832_clasificacion_filas` en `resultados.json`). 2019: 34 881 con valor, 1 428 «.» y 920 vacías; 2020: 36 333 con valor y 896 vacías, ninguna «.». Significado de «.» (dato no publicado, probable secreto estadístico) y de vacío (sección inexistente ese año): HIPÓTESIS, no verificadas en metodología. Provincias con más «.» en 2019 (códigos INE): 19 Guadalajara 182, 09 Burgos 171, 42 Soria 118, 05 Ávila 100, 44 Teruel 96, 50 Zaragoza 88, 37 Salamanca 87, 40 Segovia 79. Secciones con valor: 2015 = 34 895, 2016 = 34 580, 2019 = 34 881, 2020 = 36 333. La referencia exacta («1 de enero» o 31-dic del año) NO VERIFICADA. Suma nacional con valor: 2015 = 45 893 172, 2016 = 45 413 664, 2019 = 46 690 934, 2020 = 46 849 376.
 
 ## 2. Seccionado del INE por elección (descargado)
 
@@ -40,7 +40,7 @@ de cada año, es una lista única. En cada año las 37 229 filas se reparten en:
 | 2015-12 | 36 229 | 36 217 | 36 202 / 27 / 15 | Atlas 2015: 34 895 con valor | 34 868 / 1 361 / 27 | 34 883 / 1 334 / 12 |
 | 2016-06 | 36 215 | 36 193 | 36 190 / 25 / 3 | Atlas 2016: 34 580 | 34 546 / 1 669 / 34 | 34 549 / 1 644 / 31 |
 | 2019-04 | 36 317 | 36 317 | 36 317 / 0 / 0 | Atlas 2019: 34 881 | 34 851 / 1 466 / 30 | 34 851 / 1 466 / 30 |
-| 2019-11 | 36 309 | 36 302 | 36 294 / 15 / 8 | Atlas 2020: 36 333 (completo) | 36 281 / 28 / 52 | 36 266 / 36 / 67 |
+| 2019-11 | 36 309 | 36 302 | 36 294 / 15 / 8 | Atlas 2020: 36 333 (sin «.») | 36 281 / 28 / 52 | 36 266 / 36 / 67 |
 
 Geometría del Observatorio (`geo/sekzioak/<año>`) casa al 100 % con el seccionado INE del mismo año en las cinco (columna `ine_vs_geo` de `resultados.json`).
 Otros periodos del Atlas por elección (2017, 2018, 2021) en `resultados.json`. Muestras de códigos que no casan, también.
@@ -53,9 +53,9 @@ Otros periodos del Atlas por elección (2017, 2018, 2021) en `resultados.json`. 
 
 ## Conclusiones
 
-1. 2019-11: opción A viable. Atlas 2020 completo (36 333) y casa 36 281/36 309 con el seccionado y 36 266/36 302 con los votos.
-2. 2019-04: seccionado y votos casan al 100 %, pero la población del Atlas 2019 deja 1 466 secciones vacías (≈4 %, rurales): hace falta Atlas 2020 (completo, casa 36 251/36 317) o rellenar los vacíos; decisión del propietario.
+1. 2019-11: opción A viable con el Atlas 2020: sin «.», pero 28 de las 36 309 secciones del seccionado 2020 y 36 de las 36 302 de votos quedan sin valor (hay que cubrirlas).
+2. 2019-04: seccionado y votos casan al 100 %, pero la población del Atlas 2019 deja 1 466 secciones vacías (≈4 %, rurales): hace falta Atlas 2020 (sin «.»; casa 36 251 de 36 317) o rellenar los vacíos; decisión del propietario.
 3. 2015-12 y 2016-06: seccionado y votos casan (≥99,9 %), pero la población del Atlas 2015/2016 tiene ~1 300-1 700 secciones vacías: opción A solo con relleno o con otra fuente; no se ha encontrado otra.
-4. 2011-11: solo Censo 2011 (nov-2011, 99,7 % con seccionado 2012, 105 secciones sin valor): serviría como población «de la época» pero no es padrón.
+4. 2011-11: solo Censo 2011 (nov-2011; trae valor en las 35 917 secciones, pero 105 secciones del seccionado 2012 no aparecen en él): serviría como población «de la época» pero no es padrón.
 5. Ninguna elección casa al 100 % entre las tres fuentes salvo seccionado-votos de 2019-04; las diferencias (decenas de códigos) requieren una regla de reconciliación antes de generar distritos.
 6. Cualquier uso exige archivar en R2 los cinco seccionados, el CSV 30832 y el ZIP del Censo con estos sha256.
