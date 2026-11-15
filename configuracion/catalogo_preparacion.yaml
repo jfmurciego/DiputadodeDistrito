@@ -177,24 +177,23 @@ territories:
         run_id: 43020588641
         stage: M08
       preparation_evidence:
-        run_id: 43640033803
-        artifact_name: ddd-source-package-aut05-2025-43640033803
-        artifact_sha256: 5c5c8e661854eaaddb73e77abaa03317964f6de3370eaf3fea982ecb72c4000f
-        package_sha256: ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836
-        receipt_path: territorios/aut05/evidencia/fuentes_territoriales/2025/2a4a3c7162ccd9cacc405065f71cebb737dd9fc643dbb0723b95d28967c16471/43640033803/receipt.json
-        territorial_identity_sha256: 2a4a3c7162ccd9cacc405065f71cebb737dd9fc643dbb0723b95d28967c16471
-        compatibility_report_sha256: 86f389eec7d9ad8aefa24f76bcbde7953727a9e5811532b702d0268b92f08dc7
-        compatibility_identity_sha256: af3fcd401ca015593e3867cb6023bd8a352babbbec9e85a7c789777090a60d7c
+        run_id: 43724274587
+        artifact_name: ddd-source-package-aut05-2025-43724274587
+        artifact_sha256: 7a5a3ed45c71425f7ce66edab6b141f550cd5c94efdc0e40e72b984c1422e2c5
+        package_sha256: 72cb7a1d310535b2b2dbcb015ffbd347dd4ea4ebc7f1474a354ae11566ee8c03
+        receipt_path: territorios/aut05/evidencia/fuentes_territoriales/2025/e55994f20501ba6463607c3c7313f2edfdb998d066846b8035cc8d0aa5eefe9d/43724274587/receipt.json
+        territorial_identity_sha256: e55994f20501ba6463607c3c7313f2edfdb998d066846b8035cc8d0aa5eefe9d
+        compatibility_report_sha256: bf48f30a20145bfff7e7c9088928d8a9579b4af8bc2b0ee747e778df06d5d80f
+        compatibility_identity_sha256: dbf7583d0af6dbf0676453929e7476819902c545a083b401f57dcda4379f2b0e
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: b744c083351e7460e678f672bf397fd753a816ff
+        source_commit: db314ed67063bae3987f77ad566c74ad18ac1dbf
       evidence:
         electoral_source: territorios/aut05/evidencia/fuentes_electorales/2025/3d6ea40b409231569f1f6240b06660f73c2cab44984296754f5ca4eda023da34/42521092889/receipt.json
         prepared_source_pair: territorios/aut05/evidencia/pares_fuentes/2025/9de267ffb50cac1f1c6c2c59b8aa4310f17e229fd9eb501e6cf704c31ebda814.json
         territorial_product: territorios/aut05/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut05/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut05/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut06
   name: Cantabria
