@@ -28,8 +28,11 @@ def parada(msg): log('PARADA', msg); sys.exit(2)
 def ahora(): return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
 
 def main_ok():
-    runs = json.loads(gh('repos/%s/actions/workflows/pruebas-plataforma.yml/runs?branch=main&status=completed&per_page=100' % R))['workflow_runs']
-    c = [x['conclusion'] for x in runs if x['conclusion'] != 'cancelled']
+    c = []
+    for pg in range(1, 6):
+        runs = json.loads(gh('repos/%s/actions/workflows/pruebas-plataforma.yml/runs?branch=main&status=completed&per_page=100&page=%d' % (R, pg)))['workflow_runs']
+        c = [x['conclusion'] for x in runs if x['conclusion'] != 'cancelled']
+        if c or len(runs) < 100: break
     if not c or c[0] != 'success': return 'main en rojo'
     subprocess.run(['git', 'fetch', '-q', 'origin', 'main'])
     base = open(Q + '/base').read().strip()
