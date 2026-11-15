@@ -10,7 +10,7 @@ D = '/home/user/DiputadodeDistrito/docs/autorizaciones/'
 L, P, PK, A, O, E = (D + f for f in ('regeneracion_71_2026-11-14.txt', 'p10_r4_resultado.tsv', 'p10_r4_paquetes.tsv',
                                      'archivo_p10_r4_resultado.tsv', 'regeneracion_r4_resultado.tsv', 'cadenas_r4.tsv'))
 V = Q + '/verif.txt'
-P10_CUPO, ADELANTO, MAX_SEG = 10, 18, 100 * 60
+P10_CUPO, ADELANTO, MAX_SEG = 12, 99, 100 * 60
 EXCLUIR = {'12 Galicia'}  # frase del propietario 15-11: sin Galicia hasta tener el espejo de la Xunta
 os.chdir('/home/user/DiputadodeDistrito')
 T0 = time.time()
