@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-15T21:10:34Z",
+  "actualizado_en": "2026-11-15T21:15:22Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -9369,6 +9369,20 @@
       "tamano_estado_original": 97969515,
       "territorio": "nac07",
       "url": "r2://ddd-research-archive/nac07/43757976344/ddd-minimo-43757976344-M06.zip"
+    },
+    "nac09/43758000236/ddd-minimo-43758000236-M06.zip": {
+      "archivado_en": "2026-11-15T21:15:22Z",
+      "artefacto": "ddd-minimo-43758000236-M06",
+      "artefacto_origen": "ddd-state-43758000236-M06",
+      "artifact_id": 14180746580,
+      "caducidad_original": "2026-11-29T21:10:58Z",
+      "run_id": "43758000236",
+      "sha256": "ea8b28af8c23bf88c55fb6fdaf8a88d6506035407d2ef7e5de58bc68f0d5ab53",
+      "sha256_estado_original": "a7b76d92a91e56409675a548c69079eba9b5870de422fe5495a2a21b3b8ab566",
+      "tamano_bytes": 338873,
+      "tamano_estado_original": 81314888,
+      "territorio": "nac09",
+      "url": "r2://ddd-research-archive/nac09/43758000236/ddd-minimo-43758000236-M06.zip"
     },
     "pais_vasco/40951146225/ddd-audit-40951146225.zip": {
       "archivado_en": "2026-11-07T17:10:17Z",
