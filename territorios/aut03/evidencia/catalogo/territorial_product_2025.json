@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "principado_de_asturias",
+  "territory_id": "aut03",
   "territory_name": "Principado de Asturias",
   "edition": "2025",
-  "run_id": 43011625216,
-  "artifact_name": "ddd-state-43011625216-M06",
-  "artifact_sha256": "1183add3081e0679e67a24b344559318cbc314906eb4e23415788434dac87198",
-  "source_commit": "2d29dc4536e23c35ec9f2eb594fc5b8021b77cd1",
+  "run_id": 43728705200,
+  "artifact_name": "ddd-state-43728705200-M06",
+  "artifact_sha256": "e862e9d89bfeacc508742535c271539fb2655c5c2d5905cb8d3e60e78707a600",
+  "source_commit": "2533eeb53eeaa31545ad833c3a97883dcf9613ac",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/principado_de_asturias/evidencia/generaciones_m06/43011625216.json"
+  "producer_manifest_path": "territorios/aut03/evidencia/generaciones_m06/43728705200.json"
 }
