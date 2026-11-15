@@ -273,7 +273,7 @@ territories:
         prepared_source_pair: territorios/aut08/evidencia/pares_fuentes/2025/c8d8bc1e482267ed15f985168ea0ea537589fa5e2d0ac75fa65f8d2b7489120c.json
         electoral_product: territorios/aut08/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/aut08/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: aut07
   name: Castilla y León
   editions:
