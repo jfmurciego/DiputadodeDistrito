@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T19:24:27.882802+00:00",
+  "generated_at": "2026-11-15T19:30:32.318768+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 16,
-      "action_required": 104,
+      "admissible": 17,
+      "action_required": 103,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 16,
+      "activated": 17,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 104,
+      "electoral_pending": 103,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 16,
-      "durable_pair": 16
+      "electoral_source": 17,
+      "durable_pair": 17
     },
     "territories": [
       {
@@ -739,20 +739,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/aut14/evidencia/pares_fuentes/2025/317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/aut14/evidencia/pares_fuentes/2025/5ab3ee5bfdca7541e6c6c7d81551ef193b75b73ce0c755fcd18b99c5a033744b.json",
+            "pair_sha256": "5ab3ee5bfdca7541e6c6c7d81551ef193b75b73ce0c755fcd18b99c5a033744b",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -760,13 +760,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "aut15",
@@ -1583,8 +1577,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43650170423,
-            "receipt_path": "territorios/nac10/evidencia/fuentes_territoriales/2025/2a1a7b35951489b1304bae46171a4a89e31abbab71b103be7967e7b991c8658b/43650170423/receipt.json"
+            "run_id": 43749344447,
+            "receipt_path": "territorios/nac10/evidencia/fuentes_territoriales/2025/fc099d2e8c9e6cfb47e810b09df8ac5938ea77b6f53765fc2d8cbbab33fd24f9/43749344447/receipt.json"
           }
         },
         "electoral": {
@@ -1640,8 +1634,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43650180523,
-            "receipt_path": "territorios/nac11/evidencia/fuentes_territoriales/2025/346b9390b5d2bbf58b69ebc2c87d9347163f57aa0bc6ebcb75d76908b53d2252/43650180523/receipt.json"
+            "run_id": 43749649445,
+            "receipt_path": "territorios/nac11/evidencia/fuentes_territoriales/2025/60ef7e88aa1fdd17f6e4412910549cc707edc13993412a4617506027540e3db8/43749649445/receipt.json"
           }
         },
         "electoral": {
@@ -7834,11 +7828,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43747068843,
       "last_run": {
-        "run_id": 43053208175,
+        "run_id": 43747068843,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7889,11 +7883,11 @@
       "name": "Comunidad Foral de Navarra",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43052874017,
+      "run_id": 43747078883,
       "last_run": {
         "run_id": 43052874017,
         "status": "SUCCESS",
@@ -7902,7 +7896,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7916,16 +7910,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "comunidad_foral_de_navarra",
+          "territory_id": "aut15",
           "territory_name": "Comunidad Foral de Navarra",
           "edition": "2025",
-          "run_id": 43045437345,
-          "artifact_name": "ddd-state-43045437345-M06",
-          "artifact_sha256": "0c821bd7fef79b68486861e689d55d4abf61e8c42f923d217750c606bee93dd2",
-          "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+          "run_id": 43747078883,
+          "artifact_name": "ddd-state-43747078883-M06",
+          "artifact_sha256": "c09b00196e6e7f23767dbc7735171c46895aa9576c3bdf5ec2630e023a68f3c2",
+          "source_commit": "39fc58f2554ece0a7d3f34731a2cc1a85dac43ec",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/comunidad_foral_de_navarra/evidencia/generaciones_m06/43045437345.json"
+          "producer_manifest_path": "territorios/aut15/evidencia/generaciones_m06/43747078883.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7943,7 +7937,7 @@
       },
       "autonomous_community_code_ine": "15",
       "display_name": "15 Comunidad Foral de Navarra",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut16",
@@ -8762,9 +8756,9 @@
         "territorial_source": {
           "territory_id": "nac10",
           "edition": "2025",
-          "run_id": 43650170423,
-          "artifact_name": "ddd-source-package-nac10-2025-43650170423",
-          "artifact_sha256": "91f5e6f5a631cfbc6dce4d4e82b3970fbd02b48546b164584659c179b29517a0",
+          "run_id": 43749344447,
+          "artifact_name": "ddd-source-package-nac10-2025-43749344447",
+          "artifact_sha256": "7be84b6c3d69a62f597368aecaa0e8acf774ad80029b7bf191b1d8292627b0c5",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8823,9 +8817,9 @@
         "territorial_source": {
           "territory_id": "nac11",
           "edition": "2025",
-          "run_id": 43650180523,
-          "artifact_name": "ddd-source-package-nac11-2025-43650180523",
-          "artifact_sha256": "d7ac2f80f19e8a7e28cd713eb0ef1edff7b0b5c07d9f206b8faf3697b1ae56fe",
+          "run_id": 43749649445,
+          "artifact_name": "ddd-source-package-nac11-2025-43749649445",
+          "artifact_sha256": "153732c22ab61306a98cdfd8167bb3f970d469ad01349760411b2d34650e5b77",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12604,7 +12598,7 @@
     }
   ],
   "kpis": {
-    "complete": 71,
+    "complete": 70,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12618,7 +12612,6 @@
       "10 Comunidad Valenciana",
       "11 Extremadura",
       "13 Comunidad de Madrid",
-      "15 Comunidad Foral de Navarra",
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
@@ -12910,6 +12903,12 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "15 Comunidad Foral de Navarra",
+      "territory_id": "aut15",
+      "autonomous_community_code_ine": "15",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "16 País Vasco",
       "territory_id": "aut16",
       "autonomous_community_code_ine": "16",
@@ -12938,12 +12937,6 @@
       "territory_id": "congreso350_almeria",
       "autonomous_community_code_ine": "R04",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Ávila",
-      "territory_id": "congreso350_avila",
-      "autonomous_community_code_ine": "R05",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12957,6 +12950,12 @@
       "territory": "14 Región de Murcia",
       "territory_id": "aut14",
       "autonomous_community_code_ine": "14",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "15 Comunidad Foral de Navarra",
+      "territory_id": "aut15",
+      "autonomous_community_code_ine": "15",
       "action": "preparar fuentes electorales"
     },
     {
