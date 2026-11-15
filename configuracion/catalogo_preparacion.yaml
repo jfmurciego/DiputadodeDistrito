@@ -293,25 +293,24 @@ territories:
         electoral_source: territorios/aut07/evidencia/fuentes_electorales/2025/988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea/42521090842/receipt.json
         prepared_source_pair: territorios/aut07/evidencia/pares_fuentes/2025/3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf.json
         electoral_product: territorios/aut07/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut07/evidencia/catalogo/generation_preflight_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 43030986959
         stage: M08
       preparation_evidence:
-        run_id: 43724296360
-        artifact_name: ddd-source-package-aut07-2025-43724296360
-        artifact_sha256: 63742eeaf28d324b7abb2b193d6235ce2aecb6c19da6f7a1f9503c28a9e2969c
+        run_id: 43739255985
+        artifact_name: ddd-source-package-aut07-2025-43739255985
+        artifact_sha256: b4bf690c260bbc48ae0843f2a42c8b0e60a8fa94bda7dca65986dfa0675947f3
         package_sha256: 4a2cefd277079ff3f8f8f819735d67c1b8b9aed21aa88055744c3e0b793834c6
-        receipt_path: territorios/aut07/evidencia/fuentes_territoriales/2025/0098617c2feb01a13e8d79e36d6bf86312f85f76da0ca5ce4a4f8d3a13ce24d7/43724296360/receipt.json
+        receipt_path: territorios/aut07/evidencia/fuentes_territoriales/2025/0098617c2feb01a13e8d79e36d6bf86312f85f76da0ca5ce4a4f8d3a13ce24d7/43739255985/receipt.json
         territorial_identity_sha256: 0098617c2feb01a13e8d79e36d6bf86312f85f76da0ca5ce4a4f8d3a13ce24d7
         compatibility_report_sha256: b437a98295b7bcdb20ba597656aeff60070e7283f97c65aa0c2e21b55ea7919c
         compatibility_identity_sha256: de2d2880f45c4e1474caf822acd3b0483eecad2b37b3db98ffe790cccb918f61
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2025
         section_year: 2025
-        source_commit: db314ed67063bae3987f77ad566c74ad18ac1dbf
+        source_commit: d4854f740a5bde3835055c2fb7aaf20ed473fbea
       generation_enabled: false
 - territory_id: aut09
   name: Cataluña
