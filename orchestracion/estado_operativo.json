@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T22:43:36.672278+00:00",
+  "generated_at": "2026-11-15T22:45:42.888107+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -9001,11 +9001,11 @@
       "name": "Nacional Cuenca",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42954007732,
+      "run_id": 43764632170,
       "last_run": {
         "run_id": 42954007732,
         "status": "SUCCESS",
@@ -9014,7 +9014,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9028,16 +9028,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_cuenca",
+          "territory_id": "nac16",
           "territory_name": "Congreso Cuenca",
           "edition": "2025",
-          "run_id": 42940397668,
-          "artifact_name": "ddd-state-42940397668-M06",
-          "artifact_sha256": "a61e3f75f8de520d528e20f4bd38e7591e8bedf534f24642e0ac5a517063134c",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43764632170,
+          "artifact_name": "ddd-state-43764632170-M06",
+          "artifact_sha256": "3785d4f434a744251b282646d6634aa824f4a202ba8b765dece9b51679253550",
+          "source_commit": "28a64e412cf09d9b9b0404168fdd02724b83ce97",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_cuenca/evidencia/generaciones_m06/42940397668.json"
+          "producer_manifest_path": "territorios/nac16/evidencia/generaciones_m06/43764632170.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9055,7 +9055,7 @@
       },
       "autonomous_community_code_ine": "C16",
       "display_name": "Nacional Cuenca",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac17",
@@ -12496,7 +12496,7 @@
     }
   ],
   "kpis": {
-    "complete": 67,
+    "complete": 66,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12525,7 +12525,6 @@
       "Nacional Baleares",
       "Nacional Barcelona",
       "Nacional Burgos",
-      "Nacional Cuenca",
       "Nacional Gerona",
       "Nacional Granada",
       "Nacional Guadalajara",
@@ -12828,10 +12827,10 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional 350 Álava",
-      "territory_id": "congreso350_alava",
-      "autonomous_community_code_ine": "R01",
-      "action": "completar puerta de validación territorial"
+      "territory": "Nacional Cuenca",
+      "territory_id": "nac16",
+      "autonomous_community_code_ine": "C16",
+      "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
@@ -12875,6 +12874,12 @@
       "territory": "Nacional La Coruña",
       "territory_id": "nac15",
       "autonomous_community_code_ine": "C15",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Cuenca",
+      "territory_id": "nac16",
+      "autonomous_community_code_ine": "C16",
       "action": "preparar fuentes electorales"
     }
   ]
