@@ -9,7 +9,7 @@ import subprocess
 from pathlib import Path
 
 BASE = "25dd77724e649257a6d2dfdfe65d40c9fd12a5ec"  # commit base de T-349 (estado real de la r3)
-MUESTRA = ("aut11", "nac01", "aut01", "aut02", "aut05", "aut19")  # piloto aut11, un nac y otras autonómicas (docs/diagnostico/inventario_ids_no_canonicos.*)
+MUESTRA = ("aut11", "nac01", "aut01", "aut02", "aut05", "aut19", "aut08", "aut12")  # piloto aut11, un nac y otras autonómicas (docs/diagnostico/inventario_ids_no_canonicos.*)
 ROOT = Path(__file__).resolve().parents[3]
 OUT = Path(__file__).resolve().parent / "raiz"
 

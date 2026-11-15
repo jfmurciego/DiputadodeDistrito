@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
-# VERSIÓN: T-349 (2026-11-15). CAMBIOS (T-349, D-102): par, receipts de lado, fila del catálogo y recibo del M06 del par con id canónico exacto; la huella sellada con el id viejo se reconoce (SOLO_LECTURA_RECONCILIACION) pero no se acepta (PAIR_ID_NO_CANONICO).
-#   MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo. ANTERIOR: legacy/herramientas/registrar_par_fuentes_legislatura_pre_t349_20261115.py
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: id canónico exacto (T-349)
+# FECHA: 2026-11-15
+# CAMBIOS 1.0.1 (T-349, D-102): par, receipts de lado, fila del catálogo y recibo del M06 del par con id canónico exacto; la huella sellada con el id viejo se reconoce (SOLO_LECTURA_RECONCILIACION) pero no se acepta (PAIR_ID_NO_CANONICO).
+# MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo.
+# ANTERIOR: legacy/herramientas/registrar_par_fuentes_legislatura_pre_t349_20261115.py (1.0.0: versión de origin/main, sin cabecera numerada)
 # CAMBIOS (T-230b, 2026-11-11): register_pair es idempotente ante el campo derivado territorial_product_reuse.
 #   MOTIVO: Congreso Álava (activación 42952637226) dio PAIR_BLOCK porque el par guardado se registró antes del
 #   M06 (NO_TERRITORIAL_PRODUCT) y al rederivarlo el campo cambia aunque fuentes y pair_sha256 son los mismos.

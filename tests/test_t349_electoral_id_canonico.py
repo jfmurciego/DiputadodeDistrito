@@ -378,9 +378,9 @@ def _raiz_estado_viejo(canonico: bool = False) -> Path:
     import shutil
     from tests._previo_r3 import raiz_previo_r3
     raiz = raiz_previo_r3(canonico=canonico)
-    # Configuración y fuentes del estado congelado (FLUJO); contratos estáticos de territorios/*/config.
-    origenes = [(FLUJO, o) for o in [*Path(FLUJO / "configuracion").rglob("*"), *Path(FLUJO / "fuentes").rglob("*")]]
-    origenes += [(ROOT, o) for o in ROOT.glob("territorios/*/config/**/*")]
+    # Configuración, fuentes y contratos del estado congelado (FLUJO, git show del commit base); nunca el vivo.
+    origenes = [(FLUJO, o) for o in [*Path(FLUJO / "configuracion").rglob("*"), *Path(FLUJO / "fuentes").rglob("*"),
+                                     *FLUJO.glob("territorios/*/config/**/*")]]
     for base, origen in origenes:
         if origen.is_file():
             destino = raiz / origen.relative_to(base)

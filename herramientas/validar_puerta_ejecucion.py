@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
-# VERSIÓN: T-349 (2026-11-15). CAMBIOS (T-349, D-102): los nombres de artefacto de fuente territorial y electoral se comparan con igualdad exacta con el id canónico (sin alias).
-#   MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo. ANTERIOR: legacy/herramientas/validar_puerta_ejecucion_pre_t349_20261115.py
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: id canónico exacto (T-349)
+# FECHA: 2026-11-15
+# CAMBIOS 1.0.1 (T-349, D-102): los nombres de artefacto de fuente territorial y electoral se comparan con igualdad exacta con el id canónico (sin alias).
+# MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo.
+# ANTERIOR: legacy/herramientas/validar_puerta_ejecucion_pre_t349_20261115.py (1.0.0: versión de origin/main, sin cabecera numerada)
 from __future__ import annotations
 
 import argparse

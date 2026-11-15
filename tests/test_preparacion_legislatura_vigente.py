@@ -594,11 +594,25 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         remote = {
             "schema": "ddd.prepared-source-pair-artifact-verification/1.0",
         }
-        # T-349: estado congelado del commit base: el registro electoral de Canarias lleva el id viejo (no reutilizable).
-        congelado = {"reusable": False, "reason": "ELECTORAL_ID_NO_CANONICO"}
-        with mock.patch("herramientas.resolver_preparacion_legislatura._electoral_candidate", return_value=congelado):
+        # T-349: estado congelado del commit base (sin mocks). (a) Preparación territorial parcial: el par no se materializa.
+        import shutil, tempfile
+        with tempfile.TemporaryDirectory() as td:
+            raiz = Path(td) / "r"
+            shutil.copytree(_raiz_congelada_t349(), raiz, symlinks=True)
+            cat_path = raiz / "configuracion/catalogo_preparacion.yaml"
+            cat = yaml.safe_load(cat_path.read_text(encoding="utf-8"))
+            st = next(r for r in cat["territories"] if r["territory_id"] == "aut05")["editions"]["2025"]
+            st["territorial_sources_prepared"] = False
+            st.pop("preparation_evidence", None)
+            cat_path.write_text(yaml.safe_dump(cat, allow_unicode=True, sort_keys=False), encoding="utf-8")
             with self.assertRaises(PreparedSourcePairBlock) as ctx:
-                build_pair(root_dir=_raiz_congelada_t349(), territory="Canarias", remote_verification=remote)
+                build_pair(root_dir=raiz, territory="Canarias", remote_verification=remote)
+        message = str(ctx.exception)
+        self.assertIn("PAIR_BLOCK", message)
+        self.assertIn("territorial", message.lower())
+        # (b) Estado real: territorial reutilizable, pero el registro electoral lleva el id viejo → ACQUIRE → sin par.
+        with self.assertRaises(PreparedSourcePairBlock) as ctx:
+            build_pair(root_dir=_raiz_congelada_t349(), territory="Canarias", remote_verification=remote)
         self.assertEqual(str(ctx.exception), "PAIR_BLOCK: fuente electoral efectiva no acreditada: ACQUIRE")
 
     def test_territorial_identity_change_blocks_geometric_reuse(self):

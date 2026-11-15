@@ -28,9 +28,15 @@ from herramientas.validar_puerta_ejecucion import _artifact_name_is_consistent
 
 ROOT = Path(__file__).resolve().parents[1]
 FIX = ROOT / "tests/fixtures/t349_flujo/raiz"
-MUESTRA = ("aut11", "nac01", "aut01")
+# Estado registrado real en el commit base, por territorio: ¿qué objeto lleva el id viejo? (lo verifica el primer test).
+# aut11 es el piloto: su M06 y su par ya se regeneraron con id canónico en la r3; su recibo electoral y su M08, no.
+ESTADO_R3 = {
+    "aut11": {"electoral_source": True, "territorial_product": False, "electoral_product": True, "prepared_source_pair": False},
+    **{t: {"electoral_source": True, "territorial_product": True, "electoral_product": True, "prepared_source_pair": True}
+       for t in ("nac01", "aut01", "aut02", "aut05", "aut19", "aut08", "aut12")},
+}
+MUESTRA = tuple(ESTADO_R3)
 MODOS = ("reuse", "catalog_source", "from_start")
-FLAGS_REUSO = ("territorial_product_available", "electoral_source_prepared", "electoral_product_available")
 
 
 def _raiz_temporal() -> Path:
@@ -62,14 +68,14 @@ class FlujoR4SobreEstadoR3(unittest.TestCase):
         shutil.rmtree(cls.raiz.parent, ignore_errors=True)
 
     def test_la_fixture_trae_el_estado_viejo(self):
-        """Precondición: en la muestra hay recibos electorales, M06 y M08 registrados con el id viejo."""
-        viejos = 0
-        for tid in MUESTRA:
+        """Precondición: la fixture (sin tocar) es exactamente el estado de ESTADO_R3."""
+        for tid, esperado in ESTADO_R3.items():
             ev = _fila(self.raiz, tid)["editions"]["2025"]["evidence"]
-            for clave in ("electoral_source", "territorial_product", "electoral_product"):
-                if _json(self.raiz, ev[clave])["territory_id"] != tid:
-                    viejos += 1
-        self.assertGreaterEqual(viejos, 7)
+            for clave, viejo in esperado.items():
+                with self.subTest(tid=tid, objeto=clave):
+                    recibo = _json(self.raiz, ev[clave])["territory_id"]
+                    self.assertEqual(recibo == territorio_ids.tabla()[tid].id_legacy, viejo, recibo)
+                    self.assertEqual(recibo == tid, not viejo, recibo)
 
     def test_activacion_no_reutiliza_nada_con_id_viejo(self):
         planes = {p["territory_id"]: p for p in rpl.resolve(self.raiz, "Todos")["plans"]}
@@ -90,6 +96,7 @@ class FlujoR4SobreEstadoR3(unittest.TestCase):
                 self.assertFalse(pf.preflight(self.raiz, "electoral", tid, "2025")["registered"])
 
     def test_par_registrado_no_se_consume(self):
+        # Con id viejo se rechaza por el id; el de aut11 (canónico) lleva dentro el paquete electoral viejo: también.
         for tid in MUESTRA:
             with self.subTest(tid=tid):
                 with self.assertRaises(consumir.PreparedPairExecutionBlock):
@@ -107,9 +114,13 @@ class FlujoR4SobreEstadoR3(unittest.TestCase):
                                                     current_identity=ident, current_source=fuente)
                 h = registrar._historical_product_reuse(self.raiz, plan={"territory_id": tid, "project_edition": "2025"},
                                                         current_identity=ident)
-                if recibo_m06["territory_id"] != tid:
+                self.assertEqual(recibo_m06["territory_id"] != tid, ESTADO_R3[tid]["territorial_product"])
+                if ESTADO_R3[tid]["territorial_product"]:
                     self.assertFalse(g["compatible"], g)
                     self.assertFalse(h["geometric_reuse_compatible"], h)
+                else:  # M06 canónico: si no se reutiliza, no es por el id
+                    self.assertNotEqual(g.get("reason"), "PRODUCT_ID_NO_CANONICO")
+                    self.assertNotEqual(h.get("reason"), "PRODUCT_ID_NO_CANONICO")
 
     def test_m06_viejo_con_linaje_sellado_que_casa_no_habilita_reuso(self):
         """B2: aunque el linaje producto→fuente (sellado) case con la identidad vigente, el recibo M06 con id viejo no entra."""
@@ -156,21 +167,27 @@ class FlujoR4SobreEstadoR3(unittest.TestCase):
     def test_00_prepara_todo_de_nuevo_en_todos_los_modos(self):
         for tid in MUESTRA:
             nombre = _fila(self.raiz, tid)["name"]
-            ev = _fila(self.raiz, tid)["editions"]["2025"]["evidence"]
-            m06_viejo = _json(self.raiz, ev["territorial_product"])["territory_id"] != tid
+            m06_viejo = ESTADO_R3[tid]["territorial_product"]
             for modo in MODOS:
                 with self.subTest(tid=tid, modo=modo):
                     plan = build_plan(territory=nombre, edition="2025", execution_mode=modo, catalog=self.cat,
                                       root_dir=self.raiz)
                     estado = plan["catalog_state"]
-                    for f in FLAGS_REUSO:
-                        if f == "territorial_product_available" and not m06_viejo:
-                            continue
-                        self.assertFalse(estado[f], f)
+                    self.assertFalse(estado["electoral_source_prepared"])
+                    self.assertFalse(estado["electoral_product_available"])
                     self.assertTrue(plan["run_prepare_electoral"])
                     self.assertTrue(plan["run_incorporate"])
+                    descartados = {d["objeto"] for d in estado["non_canonical_discarded"]}
+                    self.assertTrue({"electoral_source", "electoral_product"} <= descartados, descartados)
                     if m06_viejo:
+                        self.assertFalse(estado["territorial_product_available"])
+                        self.assertIn("territorial_product", descartados)
                         self.assertTrue(plan["run_generate"])
+                    else:  # el M06 canónico de aut11 sí se reutiliza en «Reutilizar» (no hay nada que regenerar)
+                        self.assertNotIn("territorial_product", descartados)
+                        if modo == "reuse":
+                            self.assertTrue(estado["territorial_product_available"])
+                            self.assertFalse(plan["run_generate"])
                     for clave in ("electoral_source", "electoral_product"):
                         self.assertIsNone(plan["existing"][clave]["decision"], clave)
 
@@ -182,6 +199,29 @@ class FlujoR4SobreEstadoR3(unittest.TestCase):
                     "electoral_source", tid, "2025", "1", f"ddd-electoral-package-{viejo}-2025-1"))
                 self.assertTrue(_artifact_name_is_consistent(
                     "electoral_source", tid, "2025", "1", f"ddd-electoral-package-{tid}-2025-1"))
+
+
+class PaquetePrevioDelP12(unittest.TestCase):
+    """Defensa en profundidad: `preparar_fuente_electoral.validate_previous` rechaza por sí misma un paquete previo con alias."""
+
+    def _paquete(self, raiz: Path, territorio: str) -> Path:
+        import hashlib
+        previo = raiz / territorio
+        (previo / "data").mkdir(parents=True)
+        fuente = previo / "data/votes.csv"
+        fuente.write_text("section,votes\n1,10\n", encoding="utf-8")
+        (previo / "manifest.json").write_text(json.dumps({
+            "schema": "ddd-electoral-package/1.0", "decision": "ACQUIRE", "territory_id": territorio, "edition": "2025",
+            "selected_source": {"path": "data/votes.csv", "sha256": hashlib.sha256(fuente.read_bytes()).hexdigest(),
+                                "bytes": fuente.stat().st_size, "records": 1}}), encoding="utf-8")
+        return previo
+
+    def test_manifiesto_previo_con_id_viejo_no_se_reutiliza(self):
+        from herramientas.preparar_fuente_electoral import validate_previous
+        with tempfile.TemporaryDirectory() as td:
+            raiz = Path(td)
+            self.assertIsNone(validate_previous(self._paquete(raiz, territorio_ids.tabla()["aut11"].id_legacy), "aut11", "2025"))
+            self.assertIsNotNone(validate_previous(self._paquete(raiz, "aut11"), "aut11", "2025"))
 
 
 class ReconciliacionReconoceNoHabilita(unittest.TestCase):
