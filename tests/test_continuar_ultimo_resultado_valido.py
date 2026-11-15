@@ -400,7 +400,7 @@ class ContinueFromLastValidTests(unittest.TestCase):
                 )
 
     def test_castilla_la_mancha_m08_reuse_follows_m06_lineage(self):
-        root = raiz_previo_r3()  # T-322: estado congelado previo a r3
+        root = raiz_previo_r3(canonico=True)  # T-322: estado congelado previo a r3
         state = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text())
         state = next(r for r in state["territories"] if r["territory_id"] == "aut08")["editions"]["2025"]
         territorial = json.loads((root / state["evidence"]["territorial_product"]).read_text())

@@ -1,0 +1,50 @@
+{
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "failed_phases": [],
+  "generated_at": "2026-09-20T18:42:01.797994+00:00",
+  "phases": [
+    {
+      "artifact": "ddd-source-package-aut12-2025-35470063566",
+      "executed": false,
+      "name": "01 · Preparación de Datos Territoriales",
+      "result": "skipped",
+      "run_id": 35470063566
+    },
+    {
+      "artifact": "ddd-state-35520753227-M06",
+      "executed": false,
+      "name": "02 · Generación de Distritos Autonómicos",
+      "result": "skipped",
+      "run_id": 35520753227
+    },
+    {
+      "artifact": "ddd-electoral-package-aut12-2025-35506635453",
+      "executed": false,
+      "name": "03 · Preparación de Resultados Electorales",
+      "result": "skipped",
+      "run_id": 35506635453
+    },
+    {
+      "artifact": "ddd-state-35518747305-M08",
+      "executed": false,
+      "name": "04 · Incorporación de Resultados Electorales",
+      "result": "skipped",
+      "run_id": 35518747305
+    },
+    {
+      "artifact": null,
+      "executed": true,
+      "name": "05 · Publicación del Visor",
+      "result": "success",
+      "run_id": 35529830980
+    }
+  ],
+  "publish_requested": true,
+  "schema": "ddd.full-run-manifest/1.0",
+  "source_sha": "ecb2809bf7da8a653ac1bed90cae2d7f4b2c6a14",
+  "status": "SUCCESS",
+  "territory_id": "aut12",
+  "territory_name": "Galicia",
+  "workflow_run_id": 35529830980
+}

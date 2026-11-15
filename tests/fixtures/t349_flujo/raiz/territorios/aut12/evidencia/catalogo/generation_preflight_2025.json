@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "aut12",
+  "territory_name": "Galicia",
+  "edition": "2025",
+  "run_id": 43645451541,
+  "source_commit": "6be820cba60b6b0ce2bd6d275118632d3b580db9",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 43645451541,
+    "artifact_name": "ddd-source-package-aut12-2025-43645451541",
+    "artifact_sha256": "2d422bd76710bc25cf45631e32b9d7e1aede2ceb3f9b7c8dfa74bd02dd6d04ba",
+    "package_sha256": "891470ada7696896661e9987cd5bf47c6a7332886bbb0669d4d6e3a6ae49b04d",
+    "compatibility_identity_sha256": "b1de69fa6f311928d4d4e983561f89591522162c1b41a68b2f7df8dfa179d268",
+    "territorial_identity_sha256": "1651ec81b1367df37949d4418d7decc2339e7d5c327183f60db74b6b4e4c7344",
+    "population_year": 2024,
+    "section_year": 2024
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}

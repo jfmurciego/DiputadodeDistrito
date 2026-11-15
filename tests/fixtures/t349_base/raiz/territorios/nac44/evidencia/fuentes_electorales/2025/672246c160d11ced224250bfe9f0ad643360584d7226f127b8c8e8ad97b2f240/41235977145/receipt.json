@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_teruel",
+  "territory_name": "Congreso Teruel",
+  "edition": "2025",
+  "run_id": 41235977145,
+  "artifact_name": "ddd-electoral-package-congreso_teruel-2025-41235977145",
+  "artifact_sha256": "cdfb536ed4368d379dbf6374a0c92ea7468a87006710a51c69be2416fe8089dc",
+  "source_commit": "0128b3027b80140267b4a4db312cf378a47c6e15",
+  "election_id": "congreso_teruel_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "672246c160d11ced224250bfe9f0ad643360584d7226f127b8c8e8ad97b2f240"
+}

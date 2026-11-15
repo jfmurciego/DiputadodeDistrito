@@ -1,0 +1,14 @@
+{
+  "artifact_name": "ddd-state-43045468808-M06",
+  "artifact_sha256": "5bf779c702b38d67b2410a5c182a86bb1eedf2fc68b1915669b485ce1e8a3de3",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "edition": "2025",
+  "kind": "territorial_product",
+  "producer_manifest_path": "territorios/extremadura/evidencia/generaciones_m06/43045468808.json",
+  "run_id": 43045468808,
+  "schema": "ddd.catalog-evidence/1.0",
+  "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+  "stage": "M06",
+  "territory_id": "aut11",
+  "territory_name": "Extremadura"
+}

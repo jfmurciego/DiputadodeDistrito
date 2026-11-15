@@ -1,0 +1,96 @@
+{
+  "dictionary_id": "galicia-2024",
+  "parties": [
+    {
+      "aliases": [
+        "BNG"
+      ],
+      "canonical_id": "BNG",
+      "classification": "",
+      "display_name": "BNG"
+    },
+    {
+      "aliases": [
+        "ECG"
+      ],
+      "canonical_id": "ECG",
+      "classification": "",
+      "display_name": "ECG"
+    },
+    {
+      "aliases": [
+        "ESCANOS EN BRANCO"
+      ],
+      "canonical_id": "ESCANOS_EN_BLANCO",
+      "classification": "",
+      "display_name": "ESCANOS EN BRANCO"
+    },
+    {
+      "aliases": [
+        "PACMA"
+      ],
+      "canonical_id": "PACMA",
+      "classification": "",
+      "display_name": "PACMA"
+    },
+    {
+      "aliases": [
+        "PODEMOS-ALIANZA VERDE"
+      ],
+      "canonical_id": "PODEMOS_ALIANZA_VERDE",
+      "classification": "",
+      "display_name": "PODEMOS-ALIANZA VERDE"
+    },
+    {
+      "aliases": [
+        "PP"
+      ],
+      "canonical_id": "PP",
+      "classification": "",
+      "display_name": "PP"
+    },
+    {
+      "aliases": [
+        "PSdeG-PSOE"
+      ],
+      "canonical_id": "PSDEG_PSOE",
+      "classification": "",
+      "display_name": "PSdeG-PSOE"
+    },
+    {
+      "aliases": [
+        "PUM+J"
+      ],
+      "canonical_id": "PUM_MAS_J",
+      "classification": "",
+      "display_name": "PUM+J"
+    },
+    {
+      "aliases": [
+        "SUMAR GALICIA"
+      ],
+      "canonical_id": "SUMAR_GALICIA",
+      "classification": "",
+      "display_name": "SUMAR GALICIA"
+    },
+    {
+      "aliases": [
+        "VOX"
+      ],
+      "canonical_id": "VOX",
+      "classification": "",
+      "display_name": "VOX"
+    },
+    {
+      "aliases": [
+        "DO"
+      ],
+      "canonical_id": "DO",
+      "classification": "",
+      "display_name": "DO"
+    }
+  ],
+  "schema_family": "ddd-party-dictionary",
+  "schema_version": "1.0.0",
+  "unknown_party_policy": "reject"
+}

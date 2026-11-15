@@ -1,0 +1,17 @@
+{
+ "fuente": "Candidaturas proclamadas para las elecciones al Congreso de los Diputados y al Senado, RD 806/2026, de 5 de octubre (Juntas Electorales Provinciales)",
+ "boe": "BOE-A-2026-23103",
+ "url": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2026-23103",
+ "fecha_publicacion": "2026-11-03",
+ "sha256_xml": "8513892de37cadae53fac1a61428059c2783dd61d0d3df85c25e8b6ded8f276d",
+ "correccion": {
+  "boe": "BOE-A-2026-23383",
+  "url": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2026-23383",
+  "fecha_publicacion": "2026-11-07",
+  "sha256_xml": "4c9ada8dd9b83b43dbf045ccb28258d8f19e0912e11c6c2c1b09f5b8d77dba85",
+  "aplicada": "Navarra: EH BILDU-ERC → EH BILDU; FRENTE AMPLIO-FRONTE ZABALA (denominación). La Rioja: PCTE 4 candidatos y 1 suplente. Las demás correcciones de Congreso son de nombres de personas."
+ },
+ "sha256_csv": "172ac9e0200abb17be712158983f549c6d06479cc625680f7d06d5e0310e9131",
+ "filas": 551,
+ "provincias": 52
+}

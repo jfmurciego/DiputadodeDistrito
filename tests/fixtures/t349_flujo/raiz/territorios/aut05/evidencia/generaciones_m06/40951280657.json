@@ -1,0 +1,113 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12932157878,
+      "artifact_name": "ddd-audit-40951280657",
+      "artifact_sha256": "16c3d4f252449d7c22f4988d2441285166bc4a43973ce6c80511cbfc3d4d8dfd",
+      "run_id": 40951280657,
+      "size_in_bytes": 10284
+    },
+    "m04": {
+      "artifact_id": 12932231179,
+      "artifact_name": "ddd-state-40951280657-M04",
+      "artifact_sha256": "5156d6e84523f09072e947a44adb8b9201fc428b9ae9a7963945b216373c6111",
+      "run_id": 40951280657,
+      "size_in_bytes": 111925789
+    },
+    "m05": {
+      "artifact_id": 12932461427,
+      "artifact_name": "ddd-state-40951280657-M05",
+      "artifact_sha256": "c467b1bfac65b3891f0f39566a727de7c473f3e3e8f4c94ea2c5f302672e7698",
+      "run_id": 40951280657,
+      "size_in_bytes": 118197053
+    },
+    "m06": {
+      "artifact_id": 12931814115,
+      "artifact_name": "ddd-state-40951280657-M06",
+      "artifact_sha256": "625796d5cf68465b21000944dd358bb4409e0b0852644a3507d7e5ad42868629",
+      "run_id": 40951280657,
+      "size_in_bytes": 127664556
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "04cce723c8b572296055c56c684dd8bba2febc92ecf737638b456f5b06b18157",
+        "size_in_bytes": 458
+      },
+      "canarias_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "cf0e2c887ee8d785f470873497f70b536b20cfc24dba8046b2f196dfeccef7dd",
+        "size_in_bytes": 58275
+      },
+      "optimization_execution.json": {
+        "sha256": "5783000a9688c4ebaf0480abe3a2299daca524499aa337093bd11a4b559acfff",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "339fef181ebab3b8f774eb3ad69cb181734d987482f19f93da85fd94ead2e4c9",
+        "size_in_bytes": 1272
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "339fef181ebab3b8f774eb3ad69cb181734d987482f19f93da85fd94ead2e4c9",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/canarias/config/canarias_2025.yaml",
+    "sha256": "3bd9a3d4a1b0581e6c1384e1c62b5f5f0b859c7661b689ad93730e245980ed6b"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": 40946861866,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M04",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "208fc722debc49a5f658bb8663333e3bdd361e58eb4ef15ab4a609a75dd7704f",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "e8e26fc88b46331f1269c06c37f6cb05f7faee5c",
+    "edition": "2025",
+    "territory_id": "canarias",
+    "territory_name": "Canarias",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40951280657,
+    "workflow_sha": "e8e26fc88b46331f1269c06c37f6cb05f7faee5c"
+  },
+  "inputs": {
+    "checkpoint_artifact": {
+      "artifact_id": 12929913725,
+      "artifact_name": "ddd-state-40946861866-M03U",
+      "artifact_sha256": "342410ae382013a186f4084a7d66e10f573647377fbc045302034a82248866a9",
+      "run_id": 40946861866,
+      "size_in_bytes": 105652740
+    },
+    "checkpoint_run_id": 40946861866,
+    "checkpoint_stage": "M04",
+    "m04_artifact": {
+      "artifact_id": 12932231179,
+      "artifact_name": "ddd-state-40951280657-M04",
+      "artifact_sha256": "5156d6e84523f09072e947a44adb8b9201fc428b9ae9a7963945b216373c6111",
+      "run_id": 40951280657,
+      "size_in_bytes": 111925789
+    },
+    "source_manifest_sha256": "fce43554b0f47b437b5083525278b263e28171fc92fa24051d9598a3be018d16",
+    "source_package_artifact": {
+      "artifact_id": 12930560249,
+      "artifact_name": "ddd-source-package-canarias-2025-40946861866",
+      "artifact_sha256": "0a6f07595e77dc010627f81ed2200f1a626c59196a8670627dfe6a7a0f97c3bb",
+      "run_id": 40946861866,
+      "size_in_bytes": 93158555
+    }
+  },
+  "manifest_sha256": "b3f5a9d8eef736ea6fc4a1876deb15cfb4c9b5d91659144b6088ec02c82cd416",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

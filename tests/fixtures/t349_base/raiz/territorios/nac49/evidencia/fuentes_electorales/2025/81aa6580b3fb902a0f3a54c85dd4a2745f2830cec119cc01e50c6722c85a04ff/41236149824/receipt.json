@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_zamora",
+  "territory_name": "Congreso Zamora",
+  "edition": "2025",
+  "run_id": 41236149824,
+  "artifact_name": "ddd-electoral-package-congreso_zamora-2025-41236149824",
+  "artifact_sha256": "27147f8941e94d9ba4f5a6f2a4efc02a72fe50738e531c10d28e62c4b6e2b183",
+  "source_commit": "8c1d79a84a6425fb32e9332bbacd07adf3042c00",
+  "election_id": "congreso_zamora_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "81aa6580b3fb902a0f3a54c85dd4a2745f2830cec119cc01e50c6722c85a04ff"
+}

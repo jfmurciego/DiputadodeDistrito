@@ -1,0 +1,92 @@
+{
+  "blocked_phases": [],
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": 42991551418
+  },
+  "completion_status": "COMPLETE",
+  "edition": "2025",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "electoral_status": "COMPLETE",
+  "execution_mode": "reuse",
+  "failed_phases": [],
+  "generated_at": "2026-11-11T09:45:04.640719+00:00",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "out_of_scope_phases": [],
+  "phases": [
+    {
+      "artifact": "ddd-source-package-nac22-2025-41057319037",
+      "artifact_digest": "sha256:e22527ea7a1ea54d8af41f3ab5446f35c316c31310e4e8f5a8ef000910b4c211",
+      "executed": false,
+      "name": "01 · Preparación de Datos Territoriales",
+      "phase_decision": "READY",
+      "result": "skipped",
+      "run_id": 41057319037,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-state-42991551418-M06",
+      "artifact_digest": "sha256:3e0ca0620b6e73b343acd4484ac7f147dbf8e86617836621d7161bf9e562c95a",
+      "executed": false,
+      "name": "02 · Generación de Distritos Autonómicos",
+      "phase_decision": "PASS",
+      "result": "skipped",
+      "run_id": 42991551418,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-electoral-package-nac22-2025-41194293941",
+      "artifact_digest": "sha256:fd2a0bd657b2e1265af3cf331e00a8ef63d434426c1302b0103ffc069c6f56c4",
+      "executed": false,
+      "name": "03 · Preparación de Resultados Electorales",
+      "phase_decision": "ACQUIRE",
+      "result": "skipped",
+      "run_id": 41194293941,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-state-42996217596-M08",
+      "artifact_digest": "sha256:a6916bd9aeece67113a6e9c0b57b2af327d2b9575452b4d9ddc43a817e331af9",
+      "executed": true,
+      "name": "04 · Incorporación de Resultados Electorales",
+      "phase_decision": "PASS",
+      "result": "success",
+      "run_id": 42996217596,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "05 · Publicación del Visor",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "scope": "IN_SCOPE",
+      "validation_decision": null
+    }
+  ],
+  "publication_mode_effective": "electoral",
+  "publication_mode_requested": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "resumption": null,
+  "schema": "ddd.full-run-manifest/2.1",
+  "skipped_source_gap_phases": [],
+  "source_sha": "3bc6e81cbffd7fc07c6dcd6fe54523be90f7d67c",
+  "status": "SUCCESS",
+  "territorial_status": "CERTIFIED",
+  "territory_id": "nac22",
+  "territory_name": "Congreso Huesca",
+  "workflow_run_id": 42996217596
+}

@@ -99,7 +99,7 @@ class AndaluciaProvisionalWorkflowIntegrationTests(unittest.TestCase):
                 territory_id="aut01",
                 edition="2025",
                 run_id=1472026,
-                artifact_name="ddd-electoral-package-andalucia-2025-provisional-147",
+                artifact_name="ddd-electoral-package-aut01-2025-provisional-147",
                 artifact_sha256="a" * 64,
                 declaration=None,
                 election_id="andalucia_parlamento_2026",

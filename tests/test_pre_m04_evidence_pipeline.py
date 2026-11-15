@@ -947,7 +947,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         )
 
     def test_00_reuse_reaccredits_valid_source_when_pre_m04_is_missing(self):
-        root = raiz_previo_r3()  # T-322: aut19 previo a r3; un P10 nuevo resetea generation_enabled
+        root = raiz_previo_r3(canonico=True)  # T-322: aut19 previo a r3; T-349: con ids canónicos (la fuente con id viejo ya no se reutiliza)
         source_catalog = root / "configuracion/catalogo_preparacion.yaml"
         data = yaml.safe_load(source_catalog.read_text(encoding="utf-8")) or {}
         row = next(

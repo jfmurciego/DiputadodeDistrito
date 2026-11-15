@@ -43,7 +43,7 @@ def fixture(prepared: bool):
     gate=root/"puerta.json"; manifest=root/"manifest.json"
     gate.write_text(json.dumps({"schema":"ddd.puerta-validacion/1.0","phase":"electoral_source","decision":"VALIDADO",
       "phase_decision":"ACQUIRE","territory_id":"aut08","edition":"2025","run_id":36402139263,
-      "artifact_name":"ddd-electoral-package-castilla_la_mancha-2025-36402139263","artifact_digest":"sha256:"+digest,
+      "artifact_name":"ddd-electoral-package-aut08-2025-36402139263","artifact_digest":"sha256:"+digest,
       "expected_digest":None,"reasons":[]}),encoding="utf-8")
     manifest.write_text(json.dumps({"schema":"ddd-electoral-package/1.0","decision":"ACQUIRE","territory_id":"aut08",
       "edition":"2025","election_id":"castilla_la_mancha_cortes_2023","election_date":"2023-05-28"}),encoding="utf-8")
@@ -54,7 +54,7 @@ class ElectoralIncorporationEligibilityTests(unittest.TestCase):
         td,root,gate,manifest,digest=fixture(False); self.addCleanup(td.cleanup)
         result=resolve_eligibility(root_dir=root,territory="Castilla-La Mancha",edition="2025",
           gate_evidence=gate,package_manifest=manifest,expected_run_id="36402139263",
-          expected_artifact_name="ddd-electoral-package-castilla_la_mancha-2025-36402139263",
+          expected_artifact_name="ddd-electoral-package-aut08-2025-36402139263",
           expected_artifact_digest=digest)
         self.assertEqual(result["route"],"validated_gate_evidence")
         self.assertEqual(result["election_id"],"castilla_la_mancha_cortes_2023")
@@ -68,7 +68,7 @@ class ElectoralIncorporationEligibilityTests(unittest.TestCase):
         td,root,gate,manifest,digest=fixture(False); self.addCleanup(td.cleanup)
         base=dict(root_dir=root,territory="Castilla-La Mancha",edition="2025",gate_evidence=gate,
           package_manifest=manifest,expected_run_id="36402139263",
-          expected_artifact_name="ddd-electoral-package-castilla_la_mancha-2025-36402139263",
+          expected_artifact_name="ddd-electoral-package-aut08-2025-36402139263",
           expected_artifact_digest=digest)
         missing=dict(base); missing["gate_evidence"]=None
         with self.assertRaisesRegex(ValueError,"evidencia explícita incompleta"): resolve_eligibility(**missing)
@@ -95,7 +95,7 @@ class ElectoralIncorporationEligibilityTests(unittest.TestCase):
           "--gate-evidence",str(gate),
           "--package-manifest",str(manifest),
           "--expected-run-id","36402139263",
-          "--expected-artifact-name","ddd-electoral-package-castilla_la_mancha-2025-36402139263",
+          "--expected-artifact-name","ddd-electoral-package-aut08-2025-36402139263",
         ]
 
         valid=subprocess.run(

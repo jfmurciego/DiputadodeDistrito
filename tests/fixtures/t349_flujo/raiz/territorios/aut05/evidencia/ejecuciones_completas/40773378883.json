@@ -1,0 +1,94 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "canarias",
+  "territory_name": "Canarias",
+  "edition": "2025",
+  "execution_mode": "from_start",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 40773378883,
+  "source_sha": "e6778a88325a7c787e4279783fd0e19d7d1d2975",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "FAILED",
+  "completion_status": "INCOMPLETE",
+  "territorial_status": "NOT_CERTIFIED",
+  "electoral_status": "INCOMPLETE",
+  "electoral_activation_status": null,
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "failed_phases": [
+    "Clasificación de rama electoral"
+  ],
+  "blocked_phases": [
+    "02 · Generación de Distritos Autonómicos",
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 40773378883,
+      "artifact": "ddd-source-package-canarias-2025-40773378883",
+      "artifact_digest": "sha256:a3c164ff09ca7e4a2b0531a0138e727638bb9cf2bbfcba922ecd4cea8c9c62b0",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-10-28T22:36:41.753326+00:00"
+}

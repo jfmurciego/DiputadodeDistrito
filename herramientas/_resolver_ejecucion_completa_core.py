@@ -1,10 +1,11 @@
 """PROYECTO: Diputado de Distrito
 HERRAMIENTA: Core del resolver de ejecución completa
-VERSIÓN: 1.0.4
-NOMBRE DE VERSIÓN: Inventario físico por año con CUSEC verificado al materializar
-FECHA: 2026-11-12
+VERSIÓN: 1.0.5
+NOMBRE DE VERSIÓN: Contrato y evidencia de primera generación con id canónico exacto
+FECHA: 2026-11-15
 ESTADO: candidato de integración; pendiente de CI y revisión.
 QUÉ HACE: aplica las puertas de compatibilidad y generación territorial.
+CAMBIOS 1.0.5: T-349 (D-102): el contrato territorial efectivo y la evidencia de primera generación exigen territory_id igual al canónico (sin alias del id viejo).
 CAMBIOS: 1.0.2: sin inventario físico de huella exacta, admite el único del mismo año de secciones y
   población (inventory_binding=SECTION_YEAR_CUSEC_VERIFIED_AT_MATERIALIZATION); sus CUSEC se siguen
   verificando al materializar. 1.0.1: discontinuidades municipales acreditadas por M03.
@@ -14,7 +15,7 @@ CAMBIOS 1.0.3: un contrato de componentes físicos admite los puentes declarados
   territorio (grupo de islas en un distrito del Congreso), sólo si coinciden exactamente y cada puente une
   secciones de la misma componente.
 CAMBIOS 1.0.4 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/_resolver_ejecucion_completa_core_v1.0.3_20261112.py
+ANTERIOR: legacy/herramientas/_resolver_ejecucion_completa_core_v1.0.4_20261115.py
 PREDECESOR: copia exacta del archivo de main antes de la primera versión integrada.
 """
 from __future__ import annotations
@@ -600,7 +601,7 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
         return blocked("kind no reconocido")
     if evidence.get("decision") != FIRST_GENERATION_DECISION or evidence.get("stage") != "M03U":
         return blocked("decisión/etapa no habilitan primera generación")
-    if not mismo_territorio(str(evidence.get("territory_id") or ""), str(territory_id)):
+    if str(evidence.get("territory_id") or "") != str(territory_id):  # T-349: id canónico exacto
         return blocked("territorio no coincide")
     run_id = evidence.get("run_id")
     if not isinstance(run_id, int) or isinstance(run_id, bool) or run_id <= 0:
@@ -778,7 +779,7 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
         contract = yaml.safe_load(path.read_text(encoding="utf-8"))
     except (OSError, yaml.YAMLError):
         return _blocked("CAP_CONTRACT", "contrato territorial efectivo ilegible")
-    if not isinstance(contract, dict) or not mismo_territorio(str((contract.get("meta") or {}).get("territory_id") or ""), str(territory_id)):
+    if not isinstance(contract, dict) or str((contract.get("meta") or {}).get("territory_id") or "") != str(territory_id):  # T-349: id canónico exacto
         return _blocked("CAP_CONTRACT", "identidad del contrato territorial no coincide")
     capability_gate = _generation_capabilities(contract, root_dir=root_dir)
     if not capability_gate["allowed"]:

@@ -1,0 +1,75 @@
+{
+  "blocked_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "failed_phases": [],
+  "generated_at": "2026-09-27T13:31:50.873368+00:00",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_evidence_status": "VALID",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "phases": [
+    {
+      "artifact": "ddd-source-package-aut08-2025-35744494489",
+      "artifact_digest": "sha256:3317a19b68d5fa341b8066d1d5927884912fe981de1b803e67388d573f010e57",
+      "executed": false,
+      "name": "01 · Preparación de Datos Territoriales",
+      "phase_decision": "READY",
+      "result": "skipped",
+      "run_id": 35744494489,
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-state-36321805558-M06",
+      "artifact_digest": "sha256:6a1f200ee04ec75dd8370167cd5740e916de6fd9be27b01ddbf55bab28953624",
+      "executed": true,
+      "name": "02 · Generación de Distritos Autonómicos",
+      "phase_decision": "PASS_WITH_EXCEPTIONS",
+      "result": "success",
+      "run_id": 36321805558,
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "03 · Preparación de Resultados Electorales",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "validation_decision": "BLOQUEADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "04 · Incorporación de Resultados Electorales",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "validation_decision": "BLOQUEADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "05 · Publicación del Visor",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "validation_decision": null
+    }
+  ],
+  "publish_requested": false,
+  "schema": "ddd.full-run-manifest/2.1",
+  "source_sha": "2d4ab0f40e6461f9455155246a3238922179146f",
+  "status": "FAILED",
+  "territory_id": "aut08",
+  "territory_name": "Castilla-La Mancha",
+  "workflow_run_id": 36321805558
+}

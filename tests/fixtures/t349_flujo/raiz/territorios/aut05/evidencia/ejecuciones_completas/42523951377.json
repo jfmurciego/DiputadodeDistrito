@@ -1,0 +1,92 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "canarias",
+  "territory_name": "Canarias",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 42523951377,
+  "source_sha": "038f783212382b5ed5199f2b5faff57e680382d1",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "COMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": null
+  },
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 42504381511,
+      "artifact": "ddd-source-package-canarias-2025-42504381511",
+      "artifact_digest": "sha256:15d1741f9a9a20768a06ce34dbedf2a8988af703646a7931128fc9343c76b57f",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 42504381511,
+      "artifact": "ddd-state-42504381511-M06",
+      "artifact_digest": "sha256:f38c0460a9be1c9022dbb71cd9de1bf8a19b55cf7863d17ce2ec0081d2ad9b9d",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 42521092889,
+      "artifact": "ddd-electoral-package-canarias-2025-42521092889",
+      "artifact_digest": "sha256:8660ab7de65d0cd603501050e03cd7aeadb9d1e48d49cb0320131102a63b3af6",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 42523951377,
+      "artifact": "ddd-state-42523951377-M08",
+      "artifact_digest": "sha256:a8bc17b31163ab7ea1a775bef9551222615d831c1f1e823e44d95faa7fc01c4e",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-08T22:03:55.089591+00:00"
+}

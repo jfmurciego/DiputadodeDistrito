@@ -1,0 +1,16 @@
+{
+  "artifact_name": "ddd-electoral-package-aut11-2025-40892977224",
+  "artifact_sha256": "590059e11579c2ebb6c2c890c0a6375032b6c8bc79baba164778841f6bac531a",
+  "declaration": null,
+  "edition": "2025",
+  "election_date": "2025-12-21",
+  "election_id": "extremadura_asamblea_2025-12-21",
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "electoral_identity_sha256": "a8d06aca4343e13d0e061e435af7735e91d0e5b9c0baf9972b1bf5836f38f06f",
+  "kind": "electoral_source",
+  "run_id": 40892977224,
+  "schema": "ddd.catalog-evidence/1.0",
+  "source_commit": "baf5c2b496403ce2e35b39303a6204acc75dc56b",
+  "territory_id": "aut11",
+  "territory_name": "Extremadura"
+}

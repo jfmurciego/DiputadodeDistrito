@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "aut05",
+  "territory_name": "Canarias",
+  "edition": "2025",
+  "run_id": 43640033803,
+  "source_commit": "938c9e40004c407d7393992085d9dfa98219a8c6",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 43640033803,
+    "artifact_name": "ddd-source-package-aut05-2025-43640033803",
+    "artifact_sha256": "5c5c8e661854eaaddb73e77abaa03317964f6de3370eaf3fea982ecb72c4000f",
+    "package_sha256": "ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836",
+    "compatibility_identity_sha256": "af3fcd401ca015593e3867cb6023bd8a352babbbec9e85a7c789777090a60d7c",
+    "territorial_identity_sha256": "2a4a3c7162ccd9cacc405065f71cebb737dd9fc643dbb0723b95d28967c16471",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
