@@ -139,7 +139,7 @@ def _validate_m06_manifest(
     except (TypeError, ValueError):
         manifest_run = manifest_attempt = 0
     if (
-        str(identity.get("territory_id") or "") != str(territory_id)  # T-349 (D-102): id canónico exacto para reutilizar M06
+        not mismo_territorio(str(identity.get("territory_id") or ""), str(territory_id))  # el id exacto lo exige el recibo (_receipt)
         or str(identity.get("edition") or "") != str(edition)
         or manifest_run != run_id
         or manifest_attempt <= 0

@@ -202,7 +202,7 @@ def _identidades_por_variante(payload: dict) -> set[str]:
     """T-220: huellas de identidad territorial con cada variante del id (nuevo/viejo). Los inventarios físicos y
     receipts ya acreditados se sellaron con el id viejo; los nuevos se sellan con el nuevo."""
     out = set()
-    for variante in (str(payload.get("territory_id") or ""),):  # T-349 (D-102): solo el id canónico, sin variantes
+    for variante in variantes(str(payload.get("territory_id") or "")):
         p = {**payload, "territory_id": variante}
         out.add(hashlib.sha256(
             json.dumps(p, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")

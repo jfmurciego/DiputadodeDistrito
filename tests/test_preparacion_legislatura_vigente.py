@@ -835,7 +835,7 @@ class PreparedPairIntegrationRegressionTests(unittest.TestCase):
         fix_cat = yaml.safe_load((fix / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
         fix_rel = next(r for r in fix_cat["territories"] if r["territory_id"] == "aut19")["editions"]["2025"]["evidence"]["electoral_source"]
         congelado = json.loads((fix / fix_rel).read_text(encoding="utf-8"))
-        self.assertEqual(congelado["territory_id"], "melilla")
+        self.assertEqual(congelado["territory_id"], __import__("ddd_core.territorio_ids", fromlist=["x"]).id_legacy("aut19"))
         c_viejo = rpl._electoral_candidate(ROOT, "aut19", {"electoral_source_prepared": True, "evidence": {"electoral_source": str(fix / fix_rel)}},
                                            congelado["election_id"])
         self.assertEqual(c_viejo["reason"], "ELECTORAL_ID_NO_CANONICO")

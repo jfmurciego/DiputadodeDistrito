@@ -48,8 +48,7 @@ def territorial_identity(
     id dado se prueba con sus variantes (id nuevo/viejo, ddd_core.territorio_ids.variantes): los receipts anteriores al
     renombrado se sellaron con el id viejo y siguen reconciliando; los nuevos se sellan con el id nuevo."""
     if esperado:
-        # T-349 (D-102): la huella de un receipt reutilizable se compara solo con el id canónico exacto (sin alias del id viejo).
-        for variante in (str(territory_id),):
+        for variante in variantes(str(territory_id)):  # huellas selladas con el id viejo (solo reconciliación; no cambia el id registrado)
             candidata = territorial_identity(
                 territory_id=variante, edition=edition, population_year=population_year, section_year=section_year,
                 package_sha256=package_sha256, compatibility_identity_sha256=compatibility_identity_sha256,
