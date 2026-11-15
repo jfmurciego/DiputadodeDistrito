@@ -58,6 +58,20 @@ class Puerta(unittest.TestCase):
         p = puerta("sin_csv", "201512", "nac01", "01")
         self.assertEqual((p["estado"], p["contraste_boe"]["motivo"]), ("FAIL", "SIN_CSV_BOE"))
 
+    def test_cobertura_parcial_falla_y_completa_pasa(self):
+        # el BOE trae AAA, BBB y CCC; el espejo "pass" no trae CCC → sin homologar → falla; "cobertura_completa" sí → pasa
+        cob = FX / "raiz_cobertura"
+        c = hc.contraste_boe("201911", "01", FX / "pass/espejo.json", cob)
+        self.assertEqual((c["ok"], c["motivo"], c["sin_homologar"]), (False, "PARTIDOS_SIN_HOMOLOGAR", ["CCC"]))
+        c = hc.contraste_boe("201911", "01", FX / "cobertura_completa/espejo.json", cob)
+        self.assertEqual((c["ok"], c["comparados"], c["sin_homologar"]), (True, 3, []))
+        self.assertIn("NO equivale al total provincial", c["metodo"])
+        p = hc.puerta_json("nac01", "201911", "2023", 0, None, FX / "pass", None, "01", cob, FX / "pass/espejo.json")
+        self.assertEqual(p["estado"], "FAIL")
+
+    def test_m07_pass_sin_source_votes_falla(self):
+        self.assertEqual(puerta("sin_source", "201911", "nac01", "01")["estado"], "FAIL")
+
     def test_sin_reconciliacion_falla(self):
         self.assertEqual(puerta("no_existe", "201911", "nac01", "01")["estado"], "FAIL")
 

@@ -6,7 +6,7 @@ PROYECTO: Diputado de Distrito
 VERSIÓN: 1.4.0 · FECHA: 2026-11-15 · ESTADO: candidato
 CAMBIOS 1.4.0 (T-342): puerta del histórico por territorio y elección (ficha 2026-11-14_historico-paso-a-49x6): M07 PASS, o
   PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: Alicante, Lugo, León, Orense y Asturias heredan D-70, tope 0,54 %),
-  Y contraste por provincia y por partido (el CSV solo trae partidos con escaño estatal) con el CSV oficial del BOE (`configuracion/resultados_oficiales_congreso_<año>.csv`) con la TOLERANCIA de
+  Y contraste por provincia y por partido con cobertura total (partido sin homologar → falla) (el CSV solo trae partidos con escaño estatal) con el CSV oficial del BOE (`configuracion/resultados_oficiales_congreso_<año>.csv`) con la TOLERANCIA de
   cuadre_historico_espana.py (0,10; el espejo nunca supera a la oficial). Falla cerrado: sin CSV BOE, sin reconciliación o sin el espejo, sin la provincia
   en el CSV, la puerta NO pasa. `PUERTA_*.json` lleva m07, perdidos, perdidos_pct, contraste_boe e informativo_ganador (no bloquea).
 CAMBIOS 1.3.0 (T-334): `_m06` busca el territorio en datos_abiertos/INDEX.json con `en_mapa` (el Gestor pasa ids nacNN y el INDEX conserva los viejos: KeyError antes);
@@ -117,6 +117,10 @@ D70 = {"201111": {"03", "27", "24", "32", "33"}}  # D-70: Alicante, Lugo, León,
 MAX_D70 = 0.0054
 
 
+METODO_CONTRASTE = ("por partido: máximo defecto relativo entre los partidos del CSV BOE de la provincia, como fnb.contrastar_provincia "
+                    "(cuadre_historico_espana.py); NO equivale al total provincial; exige cobertura total (todo partido homologado)")
+
+
 def _tolerancia() -> float:
     sys.path.insert(0, str(ROOT / "herramientas"))
     import cuadre_historico_espana as cu  # noqa: E402
@@ -145,10 +149,12 @@ def contraste_boe(clave: str, provincia: str | None, espejo: Path | None, root: 
         return {**r, "motivo": "PROVINCIA_SIN_OFICIAL"}
     c = fnb.contrastar_provincia(fnb.totales_provincia(json.loads(Path(espejo).read_text(encoding="utf-8"))), oficial, tol)
     if not c["comparaciones"]:
-        return {**r, "motivo": "SIN_PARTIDOS_COMPARABLES", "sin_homologar": c["sin_homologar"]}
+        return {**r, "metodo": METODO_CONTRASTE, "motivo": "SIN_PARTIDOS_COMPARABLES", "sin_homologar": c["sin_homologar"]}
     dif = max(x["defecto"] for x in c["comparaciones"].values())
-    motivo = "ESPEJO_SUPERA_BOE" if c["errores"] else ("DEFECTO_SOBRE_TOLERANCIA" if c["avisos"] else None)
-    return {**r, "diferencia": dif, "ok": motivo is None, "comparados": len(c["comparaciones"]),
+    # cobertura (Coordinador, T-342): TODO partido del CSV BOE de la provincia debe estar homologado y comparado; si no, la puerta falla
+    motivo = ("ESPEJO_SUPERA_BOE" if c["errores"] else "DEFECTO_SOBRE_TOLERANCIA" if c["avisos"]
+              else "PARTIDOS_SIN_HOMOLOGAR" if c["sin_homologar"] else None)
+    return {**r, "metodo": METODO_CONTRASTE, "diferencia": dif, "ok": motivo is None, "comparados": len(c["comparaciones"]),
             "sin_homologar": c["sin_homologar"], "errores": c["errores"], "avisos": c["avisos"],
             **({"motivo": motivo} if motivo else {})}
 
@@ -168,9 +174,8 @@ def puerta_json(territorio: str, clave: str, mapa: str, ra: int, rb: int | None,
     if mapa == "2023":  # D-105: sin paso B; la puerta de la ficha (M07 + pérdida + contraste BOE), fallo cerrado
         d70 = provincia in D70.get(clave, set())
         tope = MAX_D70 if d70 else MAX_PERDIDOS
-        m07_ok = rec.get("status") == "PASS" or (rec.get("status") == "PASS_WITH_DECLARED_EXCEPTIONS" and pct is not None and pct <= tope)
-        if rec.get("status") == "PASS" and pct is not None and pct > tope:
-            m07_ok = False
+        # sin pct (falta source_votes) la puerta FALLA, también con M07 PASS
+        m07_ok = rec.get("status") in ("PASS", "PASS_WITH_DECLARED_EXCEPTIONS") and pct is not None and pct <= tope
         c = contraste_boe(clave, provincia, espejo, root)
         out.update({"contraste_boe": c, "excepcion_d70": d70, "tope_perdidos": tope, "informativo_ganador": None})
         ok = ok and m07_ok and c["ok"]
