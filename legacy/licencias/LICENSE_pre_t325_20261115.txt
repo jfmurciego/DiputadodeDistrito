@@ -1,0 +1,43 @@
+VERSIÓN: 1.0.0 · FECHA: 2026-11-14 · ANTERIOR: legacy/licencias/LICENSE_apache-2.0_hasta_2026-11-14.txt
+
+Diputado de Distrito — Licencia propietaria
+Copyright (c) 2026 Jesus Murciego. Todos los derechos reservados.
+
+1. Qué cubre
+   Salvo las excepciones del apartado 3, este repositorio y todo su contenido son
+   propiedad del titular, en particular:
+   - el código fuente (motor, módulos, herramientas, workflows, tests y scripts);
+   - Deslinde: su código (motor, competición, D8) y su definición formal;
+   - los estudios, mediciones y evaluaciones;
+   - el plan de trabajo y la documentación interna.
+
+2. Qué no se permite sin autorización escrita del titular
+   Copiar, reproducir, distribuir, publicar, modificar, crear obras derivadas,
+   sublicenciar o explotar comercialmente, total o parcialmente, el contenido
+   cubierto. El acceso al repositorio no concede ningún derecho de uso.
+
+3. Excepciones: lo que se publica abiertamente (D-92)
+   Lo siguiente se publica en el repositorio público de publicación con estos términos:
+   - Datos abiertos (`datos_abiertos/`): CC BY 4.0, según `datos_abiertos/README.md`.
+   - Mapas y resultados por distrito publicados: CC BY 4.0.
+   - Visor y sitio web (código): todos los derechos reservados; se publican para
+     su uso en el sitio, sin licencia de reutilización del código.
+   - Reglas y contratos (esquema y validador propios, sin el núcleo): CC BY 4.0.
+   - Plan y arquitectura publicados: CC BY-NC 4.0.
+   Lo no listado en este apartado queda cubierto por el apartado 2. Las fuentes
+   oficiales (INE, Ministerio del Interior, BOE) conservan sus propias condiciones
+   de reutilización.
+
+4. Versiones anteriores bajo Apache-2.0
+   Hasta el 14 de noviembre de 2026 el repositorio se distribuyó bajo la Licencia
+   Apache 2.0 (texto en `legacy/licencias/`). Quien recibió versiones, commits,
+   releases o depósitos publicados antes de esa fecha conserva sobre ellos los
+   derechos de la Apache-2.0, que no pueden retirarse con efecto retroactivo.
+   Esta licencia se aplica al contenido a partir del 14 de noviembre de 2026 y a
+   todo cambio posterior.
+
+5. Sin garantía
+   El contenido se proporciona «tal cual», sin garantías de ningún tipo. Los mapas
+   son un ejercicio de investigación y no tienen valor oficial.
+
+Contacto para autorizaciones: el titular, a través del repositorio.

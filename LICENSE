@@ -1,4 +1,4 @@
-VERSIÓN: 1.0.0 · FECHA: 2026-11-14 · ANTERIOR: legacy/licencias/LICENSE_apache-2.0_hasta_2026-11-14.txt
+VERSIÓN: 1.1.0 · FECHA: 2026-11-15 · ANTERIOR: legacy/licencias/LICENSE_pre_t325_20261115.txt · CAMBIOS: T-325, D-123 (decisión del propietario, 2026-11-15): apartado 3, material de terceros (fotografías de la galería).
 
 Diputado de Distrito — Licencia propietaria
 Copyright (c) 2026 Jesus Murciego. Todos los derechos reservados.
@@ -24,6 +24,10 @@ Copyright (c) 2026 Jesus Murciego. Todos los derechos reservados.
      su uso en el sitio, sin licencia de reutilización del código.
    - Reglas y contratos (esquema y validador propios, sin el núcleo): CC BY 4.0.
    - Plan y arquitectura publicados: CC BY-NC 4.0.
+   - Material de terceros. Las fotografías de la galería territorial del visor
+     (`visor/v2/galeria/`) no son obra del titular. Se rigen por su propia licencia
+     Creative Commons (CC BY, CC BY-SA o CC0), indicada para cada una en
+     `visor/v2/galeria/NOTICE.md`, y no por esta licencia.
    Lo no listado en este apartado queda cubierto por el apartado 2. Las fuentes
    oficiales (INE, Ministerio del Interior, BOE) conservan sus propias condiciones
    de reutilización.
