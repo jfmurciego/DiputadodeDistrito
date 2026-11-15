@@ -411,24 +411,23 @@ territories:
         run_id: 43051488486
         stage: M08
       preparation_evidence:
-        run_id: 43691914540
-        artifact_name: ddd-source-package-aut11-2025-43691914540
-        artifact_sha256: 419c43aee2c7d36f3eb5882f078e830acc9e5b379af936554f9793ab099de139
+        run_id: 43694989383
+        artifact_name: ddd-source-package-aut11-2025-43694989383
+        artifact_sha256: d27537a3ecd93a20c59215804d06b736261e3b59fb84131625c7a29fe3a8896c
         package_sha256: 8e6e46097ff67e2155c605b3c8d36561ff564293c55824e69dc6fa2645e005e4
-        receipt_path: territorios/aut11/evidencia/fuentes_territoriales/2025/6148e69fd3c6a1761307a646f8a66a42d5643c98acae14c40332988d3ee820ae/43691914540/receipt.json
+        receipt_path: territorios/aut11/evidencia/fuentes_territoriales/2025/6148e69fd3c6a1761307a646f8a66a42d5643c98acae14c40332988d3ee820ae/43694989383/receipt.json
         territorial_identity_sha256: 6148e69fd3c6a1761307a646f8a66a42d5643c98acae14c40332988d3ee820ae
         compatibility_report_sha256: 1435dcc91dc00865ad82ab976e6b69304943a40cef6872f91d01367e0e74a111
         compatibility_identity_sha256: 7a20b26ebfeaf5847fedf90889d371a1bea1755ddb8701b1c6893ea954439e7d
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2025
         section_year: 2025
-        source_commit: 91d2e87819b0201076088966c8e4d81a321ca75b
+        source_commit: 8a1d4f510c90e84200ac50dc10a2d254ecc22ba1
       evidence:
         territorial_product: territorios/aut11/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/aut11/evidencia/fuentes_electorales/2025/e3963afbdaaefc34551d19d08eb4819e66266697dc33b6469b5b5aca318e3350/42720735134/receipt.json
         prepared_source_pair: territorios/aut11/evidencia/pares_fuentes/2025/67ae86a16faae8f5aa540c2946d7473db4edcf709bae3a401228c2f2702fbec3.json
         electoral_product: territorios/aut11/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut11/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut12
   name: Galicia
