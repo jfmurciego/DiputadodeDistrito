@@ -75,6 +75,15 @@ def validar(cat, carpeta, provincias, comunidades):
             mal.append(f"{i['id']}: sin fecha de comprobación")
         if not i.get("descripcion", "").strip():
             mal.append(f"{i['id']}: sin descripción para el alt")
+        cambios = i.get("cambios")
+        if not isinstance(cambios, list) or not {"recomprimida (WebP)", "reescalada a 800 px de ancho"} <= set(cambios):
+            mal.append(f"{i['id']}: faltan los cambios (CC BY/BY-SA exigen indicarlos)")
+        else:
+            titulo = i.get("titulo_commons", "")
+            if re.search(r"crop", titulo, re.I) and "recortada" not in cambios:
+                mal.append(f"{i['id']}: el título de Commons dice recortada")
+            if re.search(r"retouch|retoc|edited", titulo, re.I) and "retocada" not in cambios:
+                mal.append(f"{i['id']}: el título de Commons dice retocada")
     if total > MAX_TOTAL:
         mal.append(f"tamaño total {total}")
     terr = cat.get("territorios", {})
@@ -127,6 +136,60 @@ class CatalogoReal(unittest.TestCase):
     def test_ninguna_url_de_imagen_es_externa(self):
         for i in self.cat["imagenes"]:
             self.assertFalse(re.match(r"^(https?:)?//", i["archivo"]), i["id"])
+
+
+class Creditos(unittest.TestCase):
+    """La página de créditos y el NOTICE listan las imágenes del catálogo con sus datos reales."""
+
+    @classmethod
+    def setUpClass(cls):
+        from html.parser import HTMLParser
+
+        class Filas(HTMLParser):
+            def __init__(s):
+                super().__init__()
+                s.filas, s.celda, s.fila, s.hrefs, s.txt = [], None, None, [], ""
+            def handle_starttag(s, tag, attrs):
+                if tag == "tr": s.fila = []
+                if tag in ("td", "th") and s.fila is not None: s.celda = ""
+                if tag == "a": s.hrefs.append(dict(attrs).get("href"))
+            def handle_data(s, d):
+                if s.celda is not None: s.celda += d
+                s.txt += d
+            def handle_endtag(s, tag):
+                if tag in ("td", "th") and s.fila is not None: s.fila.append(s.celda); s.celda = None
+                if tag == "tr" and s.fila: s.filas.append(s.fila); s.fila = None
+
+        cls.cat = json.loads((GAL / "catalogo.json").read_text(encoding="utf-8"))
+        cls.p = Filas()
+        cls.p.feed((GAL / "creditos.html").read_text(encoding="utf-8"))
+
+    def test_lista_las_62_con_titulo_autor_licencia_y_cambios(self):
+        filas = [f for f in self.p.filas if f[0] != "Territorio"]
+        self.assertEqual(len(filas), 62)
+        for i in self.cat["imagenes"]:
+            fila = next(f for f in filas if f[2] == i["titulo_commons"])
+            self.assertEqual((fila[3], fila[4], fila[5]), (i["autor"], i["licencia"], "Modificada: " + ", ".join(i["cambios"])))
+            self.assertIn(i["origen_url"], self.p.hrefs)
+            self.assertIn(i["licencia_url"], self.p.hrefs)
+
+    def test_dice_que_las_fotos_conservan_su_licencia(self):
+        self.assertIn("conserva su propia licencia Creative Commons", self.p.txt)
+        self.assertIn("no se rige por la licencia del visor", self.p.txt)
+        self.assertIn("compartir igual", self.p.txt)
+
+    def test_autor_hostil_no_se_interpreta(self):
+        raw = (GAL / "creditos.html").read_text(encoding="utf-8")
+        self.assertNotRegex(raw, r"<img|<script|onerror")
+
+    def test_notice_lista_todas(self):
+        n = (GAL / "NOTICE.md").read_text(encoding="utf-8")
+        for i in self.cat["imagenes"]:
+            self.assertIn(f"| {i['id']} | {i['titulo_commons']} | {i['autor']} | {i['licencia']} | {i['origen_url']} |", n)
+        self.assertIn("se rige por su propia licencia", n.replace("\n", " "))
+
+    def test_v3_enlaza_los_creditos(self):
+        self.assertIn('href="../v2/galeria/creditos.html"', (ROOT / "visor" / "v3" / "index.html").read_text(encoding="utf-8"))
 
 
 class ValidadorFalla(unittest.TestCase):
@@ -184,6 +247,16 @@ class ValidadorFalla(unittest.TestCase):
     def test_ruta_de_imagen_externa(self):
         def m(c): c["imagenes"][5]["archivo"] = "https://upload.wikimedia.org/x.webp"
         self.assertTrue(any("ruta" in x for x in self._con(m)))
+
+    def test_sin_cambios_declarados(self):
+        def m(c): del c["imagenes"][6]["cambios"]
+        self.assertTrue(any("faltan los cambios" in x for x in self._con(m)))
+
+    def test_retoque_del_titulo_no_declarado(self):
+        def m(c):
+            f = next(i for i in c["imagenes"] if "retouched" in i["titulo_commons"])
+            f["cambios"] = ["recomprimida (WebP)", "reescalada a 800 px de ancho"]
+        self.assertTrue(any("retocada" in x for x in self._con(m)))
 
     def test_provincia_sin_imagen(self):
         def m(c): del c["territorios"]["provincia:28"]

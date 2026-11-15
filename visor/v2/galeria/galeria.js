@@ -3,7 +3,7 @@
  * VERSIÓN: 1.0.0
  * FECHA: 2026-11-15
  * ESTADO: candidato
- * CAMBIOS: una fotografía por provincia y comunidad desde un catálogo estático (catalogo.json) con autor, licencia libre,
+ * CAMBIOS: pie con autor, licencia (compartir igual en BY-SA), cambios («Modificada: …») y ficha de origen; una fotografía por provincia y comunidad desde un catálogo estático (catalogo.json) con autor, licencia libre,
  * ficha de origen y sha256. Las imágenes se sirven desde el propio sitio; el visitante no llama a ningún tercero.
  * Todo texto del catálogo entra en la página con textContent (nunca innerHTML).
  * MOTIVO: rehacer la PR #792 sin XSS, sin llamadas a Wikipedia/Commons al visitar y con licencia comprobada.
@@ -69,7 +69,10 @@
     const cred = el("small", "gallery-credit");
     cred.append(document.createTextNode("Foto: " + img.autor + " · "));
     cred.append(enlace(img.licencia_url, LICENCIA_OK, img.licencia));
-    cred.append(document.createTextNode(" · "));
+    if (/BY-SA/.test(String(img.licencia))) cred.append(document.createTextNode(" · Compartir igual (CC BY-SA)"));
+    // CC BY y CC BY-SA exigen indicar los cambios: el pie los dice siempre (recompresión y reescalado, y los de la ficha de origen).
+    const cambios = Array.isArray(img.cambios) ? img.cambios.map(String).join(", ") : "";
+    cred.append(document.createTextNode(" · Modificada: " + (cambios || "sí, véase la ficha de créditos") + " · "));
     cred.append(enlace(img.origen_url, ORIGEN_OK, "Ficha en Wikimedia Commons"));
     cap.append(cred);
     fig.append(cap);

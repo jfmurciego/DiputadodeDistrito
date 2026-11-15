@@ -72,6 +72,32 @@ const prov = (cod, nombre) => ({ cod, nombre });
     // Solo se pidió el catálogo del sitio: nada de Wikipedia, Commons ni Wikidata.
     assert.deepEqual(e.peticiones, [BASE + "catalogo.json"]);
   }
+  // 1b. Pie de atribución: cambios indicados siempre y «compartir igual» solo en BY-SA (CC BY y CC BY-SA exigen indicar los cambios).
+  {
+    const e = entorno(CAT);
+    const casos = { "prov-28": null, "prov-24": "retocada", "prov-21": "recortada" };
+    for (const [id, extra] of Object.entries(casos)) {
+      const cod = id.split("-")[1];
+      e.G.render("provincia", prov(cod, "T" + cod), null);
+      await esperar();
+      const ficha = CAT.imagenes.find(i => i.id === id);
+      const t = e.cont.textContent;
+      assert.ok(t.includes("Modificada: recomprimida (WebP), reescalada a 800 px de ancho"), id + ": cambios en el pie");
+      if (extra) assert.ok(t.includes(extra), id + ": " + extra);
+      assert.equal(t.includes("Compartir igual (CC BY-SA)"), ficha.licencia.includes("BY-SA"), id + ": compartir igual solo en BY-SA");
+    }
+    const bysa = CAT.imagenes.find(i => i.licencia.startsWith("CC BY-SA")), noSa = CAT.imagenes.find(i => !i.licencia.includes("BY-SA"));
+    for (const f of [bysa, noSa]) {
+      const k = Object.keys(CAT.territorios).find(k => CAT.territorios[k] === f.id).split(":");
+      e.G.render(k[0], prov(k[1], "T"), null);
+      await esperar();
+      assert.equal(e.cont.textContent.includes("Compartir igual (CC BY-SA)"), f.licencia.includes("BY-SA"), f.id);
+    }
+    // Un catálogo sin campo de cambios sigue declarando la modificación.
+    const sinC = JSON.parse(JSON.stringify(CAT)); delete sinC.imagenes[0].cambios;
+    const e2 = entorno(sinC); e2.G.render("provincia", prov("01", "Álava"), null); await esperar();
+    assert.ok(e2.cont.textContent.includes("Modificada:"));
+  }
   // 2. Todas las provincias y comunidades del catálogo se resuelven con su imagen.
   {
     const e = entorno(CAT);
