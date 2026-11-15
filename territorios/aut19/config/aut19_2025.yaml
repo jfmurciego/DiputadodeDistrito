@@ -205,14 +205,14 @@ validation:
     section_year: 2023
     population_total: 85493
     target_section_count: 44
-    package_sha256: 1aa62cb7c0ff47a6037322ace1e2ed5c6f36b11bc34f6f19aa0dcdcd36722aa9
-    compatibility_report_sha256: 226619aacfaea5ed8a72aad0e7230663b4e713259e5527c6e37fa4d1f046f07d
-    compatibility_identity_sha256: 0180db6e15213ff1049309f0a9cad75fcaed8ed9c2b004c19904e20b25028c41
+    package_sha256: 19d4a84f562a9db9fad5d41e68603ab5269609e280f83d1d5a23d231181d1d61
+    compatibility_report_sha256: 3c8b19b0caa23cd82093287971be6de775e54858caa69e37e87c9dc89b072e5e
+    compatibility_identity_sha256: a1c8a6ff857de2b819eadcc388e2c4199e4c6359c6f8824415f3f5de00e391a5
 generation_state:
   source_prepared: true
   generation_enabled: false
-  package_sha256: 1aa62cb7c0ff47a6037322ace1e2ed5c6f36b11bc34f6f19aa0dcdcd36722aa9
-  compatibility_identity_sha256: 0180db6e15213ff1049309f0a9cad75fcaed8ed9c2b004c19904e20b25028c41
+  package_sha256: 19d4a84f562a9db9fad5d41e68603ab5269609e280f83d1d5a23d231181d1d61
+  compatibility_identity_sha256: a1c8a6ff857de2b819eadcc388e2c4199e4c6359c6f8824415f3f5de00e391a5
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 892d722de3ccd76619bf0180e5f0349a5736afd9b0f5a143b7a0e6af79c2e92f
@@ -244,7 +244,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: c93288cce451efb7c6cf96f8f8075017a986b40a9cd8670c92ad02adefcd1cf1
+    sha256: 8798549576e059d209b312dd1b959c1adacb8a0a2311b17c6b1ded42214a346f
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -318,8 +318,8 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: c93288cce451efb7c6cf96f8f8075017a986b40a9cd8670c92ad02adefcd1cf1
-        bytes: 234027
+        sha256: 8798549576e059d209b312dd1b959c1adacb8a0a2311b17c6b1ded42214a346f
+        bytes: 234026
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
@@ -332,5 +332,4 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: eed3cc161a71a8529449e7da2e0ee41e0144aecfa415d230f53bc2a4dc6151a5
-  package_contract_sha256: af864df14346d5fff59fb55b86d49da0de2dc491b26e3399f894534bb40500f7
+  contract_sha256: b2769898fca855755824e0b958bcb81499378fbcbc6d7eb3c7f5a61f9ffc6551
