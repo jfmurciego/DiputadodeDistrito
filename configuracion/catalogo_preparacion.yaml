@@ -1113,24 +1113,23 @@ territories:
         run_id: 42953363103
         stage: M08
       preparation_evidence:
-        run_id: 43749344447
-        artifact_name: ddd-source-package-nac10-2025-43749344447
-        artifact_sha256: 7be84b6c3d69a62f597368aecaa0e8acf774ad80029b7bf191b1d8292627b0c5
+        run_id: 43761310403
+        artifact_name: ddd-source-package-nac10-2025-43761310403
+        artifact_sha256: 5c40ef27c8dade26ceb0c0117304f3ab0cf1668139f869e241a172e27822e709
         package_sha256: f46866b842e5a1f4c7cd8ac414cc3a4f71d27e95bc8c08c4a3dd29d026da637c
-        receipt_path: territorios/nac10/evidencia/fuentes_territoriales/2025/fc099d2e8c9e6cfb47e810b09df8ac5938ea77b6f53765fc2d8cbbab33fd24f9/43749344447/receipt.json
+        receipt_path: territorios/nac10/evidencia/fuentes_territoriales/2025/fc099d2e8c9e6cfb47e810b09df8ac5938ea77b6f53765fc2d8cbbab33fd24f9/43761310403/receipt.json
         territorial_identity_sha256: fc099d2e8c9e6cfb47e810b09df8ac5938ea77b6f53765fc2d8cbbab33fd24f9
         compatibility_report_sha256: 3fa2c769c350240fa2cdbc776fbb09ef165cd63044796fa926e770795c7e7cd7
         compatibility_identity_sha256: 1654ac28faa46bf2dd56ecdb814628783f92525b9117532b7545ced6f4ffa323
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 3386a29b17073cbf9a826436058cee688b24ea4a
+        source_commit: 849a7a28ee6caea7b9b48544ef5e8934b1b8001e
       evidence:
         electoral_source: territorios/nac10/evidencia/fuentes_electorales/2025/fd390f036b51e5bb85fb619ce3b5d2b16827be5e74c8291995d0d41bb1dcbade/41239788468/receipt.json
         territorial_product: territorios/nac10/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac10/evidencia/pares_fuentes/2025/f8f3ff6511a15e7f73e802dfcc54dd45b8e5c296b6c408c88e6fc85504399b79.json
         electoral_product: territorios/nac10/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac10/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac11
   name: Congreso Cádiz
