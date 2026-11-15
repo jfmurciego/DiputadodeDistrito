@@ -2009,6 +2009,13 @@
    "sha256_csv": "391ea555a3c8ede9e745ad188d9d3c34411917a2def0c32898e3e320dc172eb8",
    "ruta": "datos/composicion/runs/nac23_43765782167.csv"
   },
+  "nac24/43766201397": {
+   "territorio": "nac24",
+   "run_id": "43766201397",
+   "secciones": 447,
+   "sha256_csv": "0ca7b8c97f617f99b537b6f8cc502865dabf67a19181a1ff4450f1ab5ecc3bf8",
+   "ruta": "datos/composicion/runs/nac24_43766201397.csv"
+  },
   "pais_vasco/43041060549": {
    "territorio": "pais_vasco",
    "run_id": "43041060549",
