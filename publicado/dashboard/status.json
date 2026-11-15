@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T23:09:18.873004+00:00",
+  "generated_at": "2026-11-15T23:13:23.905841+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8751,20 +8751,20 @@
       "name": "Nacional Castellón",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43761791985,
+      "run_id": 43769013184,
       "last_run": {
-        "run_id": 43761791985,
+        "run_id": 43769013184,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8805,7 +8805,7 @@
       },
       "autonomous_community_code_ine": "C12",
       "display_name": "Nacional Castellón",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac13",
@@ -9178,11 +9178,11 @@
       "name": "Nacional Guadalajara",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42955217289,
+      "run_id": 43764666420,
       "last_run": {
         "run_id": 42955217289,
         "status": "SUCCESS",
@@ -9191,7 +9191,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9205,16 +9205,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_guadalajara",
+          "territory_id": "nac19",
           "territory_name": "Congreso Guadalajara",
           "edition": "2025",
-          "run_id": 42940412378,
-          "artifact_name": "ddd-state-42940412378-M06",
-          "artifact_sha256": "fc58f22c97f6f17fd9fbe8e348d482bc0c06a423bb83906f8fee2cf5a730f779",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43764666420,
+          "artifact_name": "ddd-state-43764666420-M06",
+          "artifact_sha256": "9f4f9c952d3cfe2defbc5a9506497de2d24d7695bc40865147c9e56b28c41ed6",
+          "source_commit": "6e67a1a2131214d061516465a92f0aa2c25211ca",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_guadalajara/evidencia/generaciones_m06/42940412378.json"
+          "producer_manifest_path": "territorios/nac19/evidencia/generaciones_m06/43764666420.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9232,18 +9232,18 @@
       },
       "autonomous_community_code_ine": "C19",
       "display_name": "Nacional Guadalajara",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac20",
       "name": "Nacional Guipúzcoa",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42955375065,
+      "run_id": 43764679394,
       "last_run": {
         "run_id": 42955375065,
         "status": "SUCCESS",
@@ -9252,7 +9252,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9266,16 +9266,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_guipuzcoa",
+          "territory_id": "nac20",
           "territory_name": "Congreso Guipúzcoa",
           "edition": "2025",
-          "run_id": 42940417361,
-          "artifact_name": "ddd-state-42940417361-M06",
-          "artifact_sha256": "cadf9ecf27c3e02e20d1d65d09a14901a9d931f54f3ea3760a235c2b509e6bd8",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43764679394,
+          "artifact_name": "ddd-state-43764679394-M06",
+          "artifact_sha256": "d73f40761eb80f03c265fa707ea967ad564890b07a7c922c03fae7700e2d88dc",
+          "source_commit": "2f801199ff60ec796306ce34326cc8cf86146591",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_guipuzcoa/evidencia/generaciones_m06/42940417361.json"
+          "producer_manifest_path": "territorios/nac20/evidencia/generaciones_m06/43764679394.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9293,7 +9293,7 @@
       },
       "autonomous_community_code_ine": "C20",
       "display_name": "Nacional Guipúzcoa",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac21",
@@ -12490,7 +12490,7 @@
     }
   ],
   "kpis": {
-    "complete": 65,
+    "complete": 64,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12520,8 +12520,7 @@
       "Nacional Barcelona",
       "Nacional Burgos",
       "Nacional Cáceres",
-      "Nacional Guadalajara",
-      "Nacional Guipúzcoa",
+      "Nacional Castellón",
       "Nacional Huelva",
       "Nacional Huesca",
       "Nacional Jaén",
@@ -12767,11 +12766,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac10",
-    "name": "Nacional Cáceres",
-    "display_name": "Nacional Cáceres",
-    "autonomous_community_code_ine": "C10",
-    "run_id": 43768394165,
+    "territory_id": "nac12",
+    "name": "Nacional Castellón",
+    "display_name": "Nacional Castellón",
+    "autonomous_community_code_ine": "C12",
+    "run_id": 43769013184,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12790,12 +12789,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Castellón",
-      "territory_id": "nac12",
-      "autonomous_community_code_ine": "C12",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Ciudad Real",
       "territory_id": "nac13",
       "autonomous_community_code_ine": "C13",
@@ -12823,6 +12816,12 @@
       "territory": "Nacional Gerona",
       "territory_id": "nac17",
       "autonomous_community_code_ine": "C17",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Granada",
+      "territory_id": "nac18",
+      "autonomous_community_code_ine": "C18",
       "action": "incorporar resultados electorales"
     }
   ],
@@ -12840,12 +12839,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Castellón",
-      "territory_id": "nac12",
-      "autonomous_community_code_ine": "C12",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Ciudad Real",
       "territory_id": "nac13",
       "autonomous_community_code_ine": "C13",
@@ -12873,6 +12866,12 @@
       "territory": "Nacional Gerona",
       "territory_id": "nac17",
       "autonomous_community_code_ine": "C17",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Granada",
+      "territory_id": "nac18",
+      "autonomous_community_code_ine": "C18",
       "action": "preparar fuentes electorales"
     }
   ]
