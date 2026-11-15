@@ -970,7 +970,7 @@ territories:
         section_year: 2023
         source_commit: 629743e1550cd44524e952034b54c53d2d3bbda4
       evidence:
-        electoral_source: territorios/nac06/evidencia/fuentes_electorales/2025/cb1dfe01a462d120c8f9f8dd9d3139d2a4a726a1fefae57a5e2ff7dab6915183/41239771818/receipt.json
+        electoral_source: territorios/nac06/evidencia/fuentes_electorales/2025/af599ce33941c80ea1ff825b97bb6b377498b85b11cb42b15310efbe1337cd28/43760905297/receipt.json
         territorial_product: territorios/nac06/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac06/evidencia/pares_fuentes/2025/5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48.json
         electoral_product: territorios/nac06/evidencia/catalogo/electoral_product_2025.json

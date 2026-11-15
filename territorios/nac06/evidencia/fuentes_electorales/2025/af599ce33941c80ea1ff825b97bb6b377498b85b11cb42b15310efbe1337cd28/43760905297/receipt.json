@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac06",
+  "territory_name": "Congreso Badajoz",
+  "edition": "2025",
+  "run_id": 43760905297,
+  "artifact_name": "ddd-electoral-package-nac06-2025-43760905297",
+  "artifact_sha256": "01e624753fce9afb324ef2a6c7b0f4639edcadc8575add806e3011eee6c0f5cc",
+  "source_commit": "25cf92f98d22ddc1a27028c0b0ce301910fc39e3",
+  "election_id": "congreso_badajoz_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "af599ce33941c80ea1ff825b97bb6b377498b85b11cb42b15310efbe1337cd28"
+}
