@@ -20,6 +20,13 @@ from herramientas import evaluar_publicacion_visor as epv  # noqa: E402
 from herramientas import historico_m07m08 as hm  # noqa: E402
 
 T = "nac22"
+FIXTURES = ROOT / "tests/fixtures/t355"
+REFERENCIAS = {  # fixture → (sha256, copia en legacy/ si existe)
+    "reutilizable_publicar_sitio_v3.16.0.yml": ("1820fa8938b59866c5879e75c5edd6488e963a496f3e6d81a0486c7bcbe8c83c",
+                                                 "legacy/workflows/_reutilizable-publicar-sitio_v3.16.0_20261114.yml"),
+    "desplegar_visor_publico_v3.6.0.yml": ("2fc437f9fd91cc1eedff2e12fa4326ef525c638e727cab1d21128704595f9ae7",
+                                           "legacy/workflows/desplegar-visor-publico_v3.6.0_20261114.yml"),
+}
 FECHAS = {"201911": "2019-11-10", "201904": "2019-04-28", "201606": "2016-06-26", "201512": "2015-12-20", "201111": "2011-11-20"}
 
 
@@ -142,12 +149,29 @@ class AcreditacionHistorica(unittest.TestCase):
             self.assertIn("EXECUCION_SOLICITADA_SIN_EVIDENCIA_GENERADA", r["reasons"])
 
 
+class ReferenciasLegacy(unittest.TestCase):
+    def test_fixtures_son_los_workflows_anteriores(self):
+        import hashlib
+        for nombre, (sha, legacy) in REFERENCIAS.items():
+            datos = (FIXTURES / nombre).read_bytes()
+            self.assertEqual(hashlib.sha256(datos).hexdigest(), sha, nombre)
+            if (ROOT / legacy).is_file():  # en la imagen de CI legacy/ no está
+                self.assertEqual((ROOT / legacy).read_bytes(), datos, legacy)
+
+
 class SinEleccionNadaCambia(unittest.TestCase):
     """Sin `election_date` la P50 hace lo mismo que antes: se EJECUTA el bash de las líneas tocadas, con el entorno heredado,
     y se comparan los argumentos con los del workflow legacy (3.16.0). Control negativo: con valor aparecen los nuevos."""
 
-    NUEVO = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text("utf-8")
-    LEGACY = (ROOT / "legacy/workflows/_reutilizable-publicar-sitio_v3.16.0_20261114.yml").read_text("utf-8")
+    # Referencias byte a byte en tests/fixtures/t355 (la imagen de CI excluye legacy/); se leen al usarlas, no al importar.
+    @property
+    def NUEVO(self):
+        return (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text("utf-8")
+
+    @property
+    def LEGACY(self):
+        return (FIXTURES / "reutilizable_publicar_sitio_v3.16.0.yml").read_text("utf-8")
+
     PRELUDIO = ('python() { printf "%s\\n" "$@"; }\n'
                 'raiz_run() { echo "$RAIZ"; }\nevidencia_run() { echo evid.json; }\n'
                 'fallos=(); SCENARIO_ID=""; SCENARIO_STRATEGY=""; PAGE_URL=u; DEPLOYMENT_OUTCOME=ok; run=7\n')
@@ -219,7 +243,7 @@ class SinEleccionNadaCambia(unittest.TestCase):
     def test_p50_solo_anade_el_input_opcional_vacio(self):
         import yaml
         nuevo = yaml.safe_load((ROOT / ".github/workflows/desplegar-visor-publico.yml").read_text("utf-8"))
-        viejo = yaml.safe_load((ROOT / "legacy/workflows/desplegar-visor-publico_v3.6.0_20261114.yml").read_text("utf-8"))
+        viejo = yaml.safe_load((FIXTURES / "desplegar_visor_publico_v3.6.0.yml").read_text("utf-8"))
         for ev in ("workflow_call", "workflow_dispatch"):
             n, v = nuevo[True][ev]["inputs"], viejo[True][ev]["inputs"]
             self.assertEqual(set(n) - set(v), {"election_date"})
