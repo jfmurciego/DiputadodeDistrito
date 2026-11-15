@@ -7828,11 +7828,11 @@
   },
   "congreso_valladolid": {
    "fuente_territorial": {
-    "run_id": "41292964287",
+    "run_id": "43664097182",
     "package_sha256": "0192eb0046a947d131012375e7d0d5585af948102a3b1f07188b4bfdc650d38e",
-    "artifact_sha256": "5339f65d92d46db779652724e1689d5ff51830896eca9295fcd8a3ce30688ff4",
-    "territorial_identity_sha256": "b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47",
-    "receipt_path": "territorios/nac47/evidencia/fuentes_territoriales/2025/b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47/41292964287/receipt.json",
+    "artifact_sha256": "cb17ecd45d3097e860f08300646ce0b5cdda91202541800e0be495739e4a6ef8",
+    "territorial_identity_sha256": "5ceb1ad5ef52e0a57f3c1d846abf27ea2e1e4e50d3f1e971bf6e118cc45298a8",
+    "receipt_path": "territorios/nac47/evidencia/fuentes_territoriales/2025/5ceb1ad5ef52e0a57f3c1d846abf27ea2e1e4e50d3f1e971bf6e118cc45298a8/43664097182/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
