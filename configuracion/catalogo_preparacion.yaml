@@ -1346,24 +1346,23 @@ territories:
         run_id: 42954007732
         stage: M08
       preparation_evidence:
-        run_id: 43754909926
-        artifact_name: ddd-source-package-nac16-2025-43754909926
-        artifact_sha256: 682c0e457a65cb9ddaf528c14726eb10866afdee189a330673c3cb7f112c9400
+        run_id: 43764632170
+        artifact_name: ddd-source-package-nac16-2025-43764632170
+        artifact_sha256: fb349cd0aaab6937c99e6e0b485a68334e2097c00d9b04d8048fa7c4855ebd10
         package_sha256: 1e4ccda4a04efbe772986c755453048de0056d66c8a1ca45e2a5669be14e6255
-        receipt_path: territorios/nac16/evidencia/fuentes_territoriales/2025/2f4dba6c6e09bc89e51caf7e80ed0979ef7f74a9e0c2109998eab50c7f7b8594/43754909926/receipt.json
+        receipt_path: territorios/nac16/evidencia/fuentes_territoriales/2025/2f4dba6c6e09bc89e51caf7e80ed0979ef7f74a9e0c2109998eab50c7f7b8594/43764632170/receipt.json
         territorial_identity_sha256: 2f4dba6c6e09bc89e51caf7e80ed0979ef7f74a9e0c2109998eab50c7f7b8594
         compatibility_report_sha256: a7a4d8620e244c22f9c469622b6b22678d30b227a4a4ffeef92afff66945a78f
         compatibility_identity_sha256: e3c4ba304d246ae5658fdc6780a03925bb59c13c03dd5bb0567043dbd22111f7
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 54fc76e1b47ae0be5679c1d8531f15a6ff179af1
+        source_commit: 1184d12764735cd949d585bb0f4f4e2c843fcdc5
       evidence:
         electoral_source: territorios/nac16/evidencia/fuentes_electorales/2025/b0cbccd6e4ca463e8b42fe602e7b9eace43abd0b022971272ce293fb819c58f7/41236657374/receipt.json
         territorial_product: territorios/nac16/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac16/evidencia/pares_fuentes/2025/26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0.json
         electoral_product: territorios/nac16/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac16/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac17
   name: Congreso Gerona
