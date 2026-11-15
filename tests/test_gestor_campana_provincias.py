@@ -39,12 +39,18 @@ class GestorProvincias(unittest.TestCase):
     def test_huesca_completa_reutiliza_su_producto(self):
         manifest = build_manifest(selected=["nac22"], publication_mode="electoral", source_sha="a" * 40,
                                   strategy="Canónico", campaign_instance="t06",
-                                  root=raiz_previo_r3())  # T-335: raíz congelada previa a r3; el P10 de nac22 reescribe el vivo
+                                  root=raiz_previo_r3(canonico=True))  # T-335: raíz congelada previa a r3; T-349: ids canónicos
         row = manifest["territories"][0]
         self.assertEqual((row["slot"], row["territory_display_name"]), ("C22", "Nacional Huesca"))
         self.assertEqual(row["execution_route"], "PRODUCT_REUSE_READY")
         include = build_matrix(manifest, CONFIRMATION)["include"]
         self.assertEqual([r["territory_name"] for r in include], ["Congreso Huesca"])  # valor que acepta el 00
+
+    def test_huesca_con_registros_de_id_viejo_prepara_de_nuevo(self):
+        # T-349 (D-102): el mismo estado real con el id viejo (previo_r3 sin tocar) no se reutiliza: se prepara de nuevo.
+        manifest = build_manifest(selected=["nac22"], publication_mode="electoral", source_sha="a" * 40,
+                                  strategy="Canónico", campaign_instance="t06", root=raiz_previo_r3())
+        self.assertEqual(manifest["territories"][0]["execution_route"], "SOURCE_PREPARATION_REQUIRED")
 
     def test_workflow_ofrece_la_campana_nacional(self):
         data = yaml.safe_load((ROOT / ".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8"))
