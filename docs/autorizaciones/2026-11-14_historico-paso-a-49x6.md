@@ -34,3 +34,9 @@ del Planificador lo diga, esta ficha NO se activa. Las 5 descargas INE ya están
 ## Cierre
 Estado: `PREPARADA` | `EN_CURSO` | `COMPLETADA` | `PARADA` (causa y run) | `CADUCADA`. Último uso: —.
 Una línea al Coordinador por run y al cierre; el fichero se actualiza en una PR de documentación del Operador (sin código).
+
+## Nota T-334 (informativa; no cambia los límites de la ficha)
+Desde T-329 (#799) el Gestor usa el mapa 2023 por defecto: el job «histórico» de `gestor-campanas.yml` (líneas 286, 326 y 366) llama a
+`historico_campana.py ejecutar` sin `--mapa` y el valor por defecto es `2023`. Con 2023 no hay paso B y `PUERTA_<t>_<clave>.json` lleva
+`m07` (PASS o PASS_WITH_DECLARED_EXCEPTIONS) y `perdidos` (votos sin asignar). La «Condición previa» y la «Puerta» de arriba están
+redactadas para el paso A anterior: el Planificador/propietario deben actualizarlas antes de activar la ficha.

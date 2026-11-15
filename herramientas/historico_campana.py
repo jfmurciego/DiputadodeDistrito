@@ -3,7 +3,11 @@
 """Histórico de generales en el Gestor 2.0: plan y ejecución del paso A por provincia y elección (T-113).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-14 · ESTADO: candidato
+VERSIÓN: 1.3.0 · FECHA: 2026-11-15 · ESTADO: candidato
+CAMBIOS 1.3.0 (T-334): `_m06` busca el territorio en datos_abiertos/INDEX.json con `en_mapa` (el Gestor pasa ids nacNN y el INDEX conserva los viejos: KeyError antes);
+  `registro_tabla` verifica el sha256 de la tabla contra el de configuracion/equivalencia_seccionado_ine_<año>_a_2023.json (T-328)
+  y falla cerrado (TABLA_SHA256_DISTINTO) si no coincide; la PUERTA vuelca `m07` (PASS o PASS_WITH_DECLARED_EXCEPTIONS, sin reducirlo a PASS) y
+  `perdidos` (votos sin asignar) de la reconciliación de M07; pasa `--mapa` a historico_m07m08.py.
 CAMBIOS 1.2.0 (T-329): `--mapa 2023` (por defecto, D-105): el paso A lleva los votos de cada sección histórica al mapa vigente 2023 con la
   tabla configuracion/equivalencia_seccionado_ine_<año>_a_2023.csv (T-328) y la regla de M07 7.4.0 (la sección partida va ENTERA al
   distrito de mayor población, sin repartir votos); el paquete lleva los votos por sección histórica y el contrato declara
@@ -16,7 +20,7 @@ MOTIVO: D-10, D-12 y D-22 del propietario: la opción «histórico» del «0 Ges
   (reagregacion_historico.py --paquete + historico_m07m08.py) en las 52 provincias, una elección por campaña,
   empezando por 2019-11. Motor repetible: cada ejecución regenera desde fuentes con huella, nada se reutiliza.
 CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/historico_campana_v1.1.1_20261112.py
+ANTERIOR: legacy/herramientas/historico_campana_v1.2.0_20261114.py
 QUÉ HACE: `plan(ids, eleccion)` comprueba por territorio lo que el paso A necesita (elección soportada, M06 publicado en
   datos_abiertos/INDEX.json, composición en datos/composicion/, fichero del espejo T-89 en su manifiesto) y devuelve la
   matriz; lo pedido y no soportado falla con NoDisponible; con «todos» se omite y se informa.
@@ -89,11 +93,28 @@ def tabla_2023(clave: str, root: Path = ROOT) -> Path:
 
 
 def registro_tabla(tabla: Path, root: Path = ROOT) -> dict:
-    """Registro `section_reconciliation.equivalence_table` del contrato (ruta relativa al repo, sha256 y columnas)."""
+    """Registro `section_reconciliation.equivalence_table` del contrato (ruta relativa al repo, sha256 y columnas). El sha256 se
+    comprueba contra el que fija el JSON de la tabla (T-328): no se acepta una tabla que solo coincide consigo misma."""
+    real = sha256(tabla)
+    ficha = tabla.with_suffix(".json")
+    esperado = (json.loads(ficha.read_text(encoding="utf-8")).get("csv") or {}).get("sha256") if ficha.is_file() else None
+    if real != esperado:
+        raise SystemExit(f"TABLA_SHA256_DISTINTO {tabla.name}: {real} != {esperado} ({ficha.name})")
     with tabla.open(encoding="utf-8", newline="") as fh:
         cab = next(csv.reader(fh))
-    return {"path": tabla.resolve().relative_to(root.resolve()).as_posix(), "sha256": sha256(tabla),
+    return {"path": tabla.resolve().relative_to(root.resolve()).as_posix(), "sha256": real,
             "source_column": cab[0], "target_column": cab[1], "decision": "D-105"}
+
+
+def puerta_json(territorio: str, clave: str, mapa: str, ra: int, rb: int | None, salida: Path, extra: dict | None = None) -> dict:
+    """PUERTA del paso A. `m07` y `perdidos` salen de la reconciliación que deja historico_m07m08.py: el estado de M07 se
+    vuelca tal cual (PASS_WITH_DECLARED_EXCEPTIONS no se reduce a PASS) y `perdidos` son los votos sin asignar."""
+    ruta = salida / clave / territorio / "reconciliacion.json"
+    rec = json.loads(ruta.read_text(encoding="utf-8")) if ruta.is_file() else {}
+    ok = ra == 0 and (rb is None or rb == 0)
+    return {"territorio": territorio, "clave": clave, "mapa": mapa, "paso_b_cuadre": None if rb is None else rb == 0,
+            "paso_a_m07": ra == 0, "m07": rec.get("status"), "perdidos": rec.get("ddd_unassigned_votes"),
+            **(extra or {}), "estado": "PASS" if ok else "FAIL"}
 
 
 def leer_tabla(tabla: Path) -> dict:
@@ -230,7 +251,9 @@ def _bajar(url: str, destino: Path, esperado: str, headers: dict | None = None) 
 
 
 def _m06(territorio: str, destino: Path) -> Path:
-    e = _json(ROOT, INDEX)["territorios"][territorio]
+    e = en_mapa(_json(ROOT, INDEX)["territorios"], territorio)  # INDEX sigue con ids viejos; el Gestor pasa nacNN
+    if e is None:
+        raise SystemExit(f"SIN_M06_PUBLICADO {territorio}")
     repo = os.environ.get("GITHUB_REPOSITORY", "jfmurciego/diputadodedistrito")
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     h = {"Accept": "application/vnd.github.raw"}
@@ -272,8 +295,7 @@ def ejecutar(territorio: str, provincia: str, clave: str, trabajo: Path, salida:
     ra = _correr(["herramientas/historico_m07m08.py", "--paquete", str(paquete), "--territorio", territorio,
                   "--seccionado", str(seccionado), "--distritos", str(m06), "--padron", str(padron),
                   "--trabajo", str(trabajo / "m07"), "--salida", str(salida)])
-    puerta = {"territorio": territorio, "clave": clave, "paso_b_cuadre": rb == 0, "paso_a_m07": ra == 0}
-    puerta["estado"] = "PASS" if rb == ra == 0 else "FAIL"
+    puerta = puerta_json(territorio, clave, "2025", ra, rb, salida)
     (salida / f"PUERTA_{territorio}_{clave}.json").write_text(json.dumps(puerta, ensure_ascii=False, indent=1) + "\n",
                                                              encoding="utf-8")
     print(json.dumps(puerta, ensure_ascii=False), flush=True)
@@ -293,9 +315,9 @@ def _paso_a_2023(territorio, provincia, clave, trabajo, salida, m06, padron, fic
     paquete_2023(paquete / clave / territorio, territorio, clave, votos, comp, ruta, huella, rh.leer_oficial(clave, provincia))
     ra = _correr(["herramientas/historico_m07m08.py", "--paquete", str(paquete), "--territorio", territorio,
                   "--seccionado", str(s2023), "--distritos", str(m06), "--padron", str(padron),
-                  "--trabajo", str(trabajo / "m07"), "--salida", str(salida)])
-    puerta = {"territorio": territorio, "clave": clave, "mapa": "2023", "paso_b_cuadre": None, "paso_a_m07": ra == 0,
-              "tabla": registro_tabla(tabla_2023(clave))["sha256"], "estado": "PASS" if ra == 0 else "FAIL"}
+                  "--trabajo", str(trabajo / "m07"), "--salida", str(salida),
+                  "--mapa", "2023"])
+    puerta = puerta_json(territorio, clave, "2023", ra, None, salida, {"tabla": registro_tabla(tabla_2023(clave))["sha256"]})
     (salida / f"PUERTA_{territorio}_{clave}.json").write_text(json.dumps(puerta, ensure_ascii=False, indent=1) + "\n",
                                                              encoding="utf-8")
     print(json.dumps(puerta, ensure_ascii=False), flush=True)
