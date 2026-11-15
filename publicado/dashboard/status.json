@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T22:55:27.027746+00:00",
+  "generated_at": "2026-11-15T22:57:44.940562+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -8860,13 +8860,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_ciudad_real",
+          "territory_id": "nac13",
           "territory_name": "Congreso Ciudad Real",
           "edition": "2025",
-          "run_id": 42954776957,
-          "artifact_name": "ddd-state-42954776957-M08",
-          "artifact_sha256": "fec08258857eb907beae0555157844a11d129d845237ffe5a49c35b40e4ba2dc",
-          "source_commit": "973bc539a2660abb7c707ddef7f36a0cffb31f98",
+          "run_id": 43769610932,
+          "artifact_name": "ddd-state-43769610932-M08",
+          "artifact_sha256": "23b710d073c051323c3052e8387b86481ecd7c6dc58f82d4bb5af7cb0a2c5512",
+          "source_commit": "451db073727f70523fe5888e0f8886be5b23dd66",
           "stage": "M08"
         }
       },
