@@ -584,6 +584,7 @@ territories:
         prepared_source_pair: territorios/aut15/evidencia/pares_fuentes/2025/4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc.json
         territorial_product: territorios/aut15/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut15/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/aut15/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut16
   name: País Vasco
