@@ -2361,25 +2361,24 @@ territories:
         run_id: 43029280043
         stage: M08
       preparation_evidence:
-        run_id: 41235794328
-        artifact_name: ddd-source-package-congreso_soria-2025-41235794328
-        artifact_sha256: ae9e6bf66087037801fab843bb193f22f08b11f5e56103ce824d10eb2815b9f8
+        run_id: 43664052017
+        artifact_name: ddd-source-package-nac42-2025-43664052017
+        artifact_sha256: 1531196f3fea8e204a30fc23c536bbcbded900bf095eb877457fc8d4efea2d74
         package_sha256: 69ec473593919d945d5b92d6271319dcad50f2e24c5306cb0813878e4eee2102
-        receipt_path: territorios/nac42/evidencia/fuentes_territoriales/2025/ff1040e1b797d0e726a53f27ccc57fd62a38e19a20aa85a136dc50fe133dd536/41235794328/receipt.json
-        territorial_identity_sha256: ff1040e1b797d0e726a53f27ccc57fd62a38e19a20aa85a136dc50fe133dd536
+        receipt_path: territorios/nac42/evidencia/fuentes_territoriales/2025/4d14ca9cecb11a4c1cd149f8091495c8f88ba5751573753a2a1696a88ebf371a/43664052017/receipt.json
+        territorial_identity_sha256: 4d14ca9cecb11a4c1cd149f8091495c8f88ba5751573753a2a1696a88ebf371a
         compatibility_report_sha256: 30f3a70d267e8b6104274cb4407a4a7272af599142ad3566e7ebb3134daf90f9
         compatibility_identity_sha256: a99190465f7559ecc6cac51c6e0ddcb05ee0bd759495cf5770e8c7082af126df
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: d0c752756c0c38c6e9803603f71d08aff1c8b6fb
+        source_commit: d2ddfc0d38fed952613a57cbbaf468e90d25882c
       evidence:
         electoral_source: territorios/nac42/evidencia/fuentes_electorales/2025/7a4b0bacfa1c54d0992d1947112cb6676d0edb1b48ea152d8fadce98b5cd7b3b/41235804865/receipt.json
-        generation_preflight: territorios/nac42/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac42/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac42/evidencia/pares_fuentes/2025/b73e7070cb80f9db457a63722fa4bdfc0f6d6a4a369eba0588a25e0357c02ed6.json
         electoral_product: territorios/nac42/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac43
   name: Congreso Tarragona
   editions:
