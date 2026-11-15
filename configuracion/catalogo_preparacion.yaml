@@ -2127,24 +2127,23 @@ territories:
         run_id: 43016524347
         stage: M08
       preparation_evidence:
-        run_id: 43662718842
-        artifact_name: ddd-source-package-nac36-2025-43662718842
-        artifact_sha256: c83389e1b3ef0b24f694e002c99569946480e5cdbaa43d7ff489a1fd60b3f7a3
-        package_sha256: 4e13f876c3f05ab4ec56cb108e5584c0e12bf70bcded26d0a1f167a11a41bc20
-        receipt_path: territorios/nac36/evidencia/fuentes_territoriales/2025/85edd2e79d349e8a2328bc599fafdce432ad60e2170cc2cf5da1efdcb71ca385/43662718842/receipt.json
-        territorial_identity_sha256: 85edd2e79d349e8a2328bc599fafdce432ad60e2170cc2cf5da1efdcb71ca385
-        compatibility_report_sha256: af45753069ea0401012a79cd7d7d951fe89c985504950fe627c8f71a471a49fb
-        compatibility_identity_sha256: d04f2c4aa902f8e08be7e83972f4512167721524b4f05bff3493e6906de21c54
+        run_id: 43770627011
+        artifact_name: ddd-source-package-nac36-2025-43770627011
+        artifact_sha256: 847304f78f4c3d3e8893a7c2156e60e5fae9c0e085999ea2d2553410aff26202
+        package_sha256: 992bc86bf9d780b870976663991c860de6bad15f17c57bf8660e3b29ce990e2d
+        receipt_path: territorios/nac36/evidencia/fuentes_territoriales/2025/cc9274d0ea26413dcd0030da349a8a1ac417cc7c59585e8a1337001c0c99e261/43770627011/receipt.json
+        territorial_identity_sha256: cc9274d0ea26413dcd0030da349a8a1ac417cc7c59585e8a1337001c0c99e261
+        compatibility_report_sha256: 7f63e9d3a2c7c7ac4a59a8d69436d76b9e9a80fec2e149fd70f297dcdb4b1abd
+        compatibility_identity_sha256: 5b8f1b93d6f6ff53a367d295fa13f6ba2c922bdccff86026bd84f94289bb910a
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: e9a5d584f58ec802b5a7408295be4cecbb8ec159
+        source_commit: 24fff1f261a713ec2ae41fe3fd3ec830626c5d17
       evidence:
         electoral_source: territorios/nac36/evidencia/fuentes_electorales/2025/308c2da9a4d943a975a9bddfce3ab8c4548386719c447394ae6e827c4cc3f7db/41239903028/receipt.json
         territorial_product: territorios/nac36/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac36/evidencia/pares_fuentes/2025/da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388.json
         electoral_product: territorios/nac36/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac36/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac37
   name: Congreso Salamanca
