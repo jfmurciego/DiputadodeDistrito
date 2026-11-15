@@ -684,24 +684,23 @@ territories:
         run_id: 43052923691
         stage: M08
       preparation_evidence:
-        run_id: 43728984580
-        artifact_name: ddd-source-package-aut18-2025-43728984580
-        artifact_sha256: d63bf827283d0b08958a674240c94ba113831a2f7b706267bba05db874be0560
+        run_id: 43749637927
+        artifact_name: ddd-source-package-aut18-2025-43749637927
+        artifact_sha256: 1b9b5e475a37227c4a5c9c6df7d892c61bcfb64bf23401089c0cf216bd961822
         package_sha256: b6d7e221ee86d4760236bf3a901c8f33372bb2fd9c27883ebba980d01eb9d128
-        receipt_path: territorios/aut18/evidencia/fuentes_territoriales/2025/2cdeea2b02fe2bd6d328393f3c9ab25f8f996c90f73d0e583fd5f9c6a02e60ab/43728984580/receipt.json
+        receipt_path: territorios/aut18/evidencia/fuentes_territoriales/2025/2cdeea2b02fe2bd6d328393f3c9ab25f8f996c90f73d0e583fd5f9c6a02e60ab/43749637927/receipt.json
         territorial_identity_sha256: 2cdeea2b02fe2bd6d328393f3c9ab25f8f996c90f73d0e583fd5f9c6a02e60ab
         compatibility_report_sha256: 996b0fce85ade978249d75d22280c433aa3954ef0d81716078bf242b76e90032
         compatibility_identity_sha256: 560b731ce04f614b1a53a936009eb4bcd0a8025f4f6bdacbdf8a98a0004826f8
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: ce1a3a4f5874cca9ac5f750f620e8f93e8124f1c
+        source_commit: 95b2023de66339e869c60927d3f37d077f4447f4
       evidence:
         territorial_product: territorios/aut18/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/aut18/evidencia/fuentes_electorales/2025/a030a3e1892b4fd6943caef31f04f339ec7f31414e7e9baf51a361c1e068cd5e/40773443591/receipt.json
         prepared_source_pair: territorios/aut18/evidencia/pares_fuentes/2025/43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8.json
         electoral_product: territorios/aut18/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut18/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut19
   name: Melilla
