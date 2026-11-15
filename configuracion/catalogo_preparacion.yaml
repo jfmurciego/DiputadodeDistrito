@@ -720,8 +720,8 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 43750065634
-        stage: M06
+        run_id: 43755885850
+        stage: M08
       preparation_evidence:
         run_id: 43750065634
         artifact_name: ddd-source-package-aut19-2025-43750065634
