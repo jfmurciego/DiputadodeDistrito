@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-15T18:57:39.056879+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-15T18:58:47.721355+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -47,7 +47,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **09 Cataluña** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43748279920 · SUCCESS | — | — | — |
 | **10 Comunidad Valenciana** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43743635181 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **11 Extremadura** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43746572251 · SUCCESS | — | — | — |
-| **12 Galicia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43051951192 · SUCCESS | — | — | preparar fuentes electorales |
+| **12 Galicia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43743658384 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **13 Comunidad de Madrid** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43743669986 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **14 Región de Murcia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43053208175 · SUCCESS | — | — | — |
 | **15 Comunidad Foral de Navarra** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43052874017 · SUCCESS | — | — | — |
