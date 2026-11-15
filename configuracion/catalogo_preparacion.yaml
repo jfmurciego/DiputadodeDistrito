@@ -507,7 +507,7 @@ territories:
         territorial_product: territorios/aut13/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut13/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/aut13/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: aut14
   name: Región de Murcia
   editions:
