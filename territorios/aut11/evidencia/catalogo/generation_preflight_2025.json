@@ -5,10 +5,10 @@
   "territory_name": "Extremadura",
   "edition": "2025",
   "run_id": 43669468142,
-  "source_commit": "f73e04d41d7d1ad8148cf8adbc8b933e6631c399",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "33550bb6fef2a1e462fd87ac3fe8c6b432473b28",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "SOURCE_MATERIALIZATION",
   "source": {
     "run_id": 43669468142,
     "artifact_name": "ddd-source-package-aut11-2025-43669468142",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La fuente ya acreditada no pudo materializarse para la evaluación; requiere diagnóstico técnico."
   }
 }
