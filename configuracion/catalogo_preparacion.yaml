@@ -138,24 +138,23 @@ territories:
         run_id: 43019811578
         stage: M08
       preparation_evidence:
-        run_id: 43640023838
-        artifact_name: ddd-source-package-aut04-2025-43640023838
-        artifact_sha256: f8e2ec1b9a37c2e7cdb964081d727693d3c16445c48fc6bd99be85de758a96fa
-        package_sha256: 02ad2c8ef9f4716f907f8aa9cc9690a9bc721c26c29a4c7fd9fc662bd33de046
-        receipt_path: territorios/aut04/evidencia/fuentes_territoriales/2025/2656685909d4624911a6b30d0c2a25e257b23b50b584e97105a5db4867fcc4be/43640023838/receipt.json
-        territorial_identity_sha256: 2656685909d4624911a6b30d0c2a25e257b23b50b584e97105a5db4867fcc4be
-        compatibility_report_sha256: 3024d4a552405401ce01a8c4be82afefab6a3613df53a44f7066096b566c054a
-        compatibility_identity_sha256: 3a32c1d23d729e16095710a9eaf25912dcc939cfdae763d6fc21996b9e0888aa
+        run_id: 43724264055
+        artifact_name: ddd-source-package-aut04-2025-43724264055
+        artifact_sha256: 0eddf8ddb84d3b83a5d6076491ca7aa2142958c0dccbf9f85d6d0753fe11cabc
+        package_sha256: 37fedf19c46fe104bfa8cc2bd5bd09f6814a372572c48f7a09258862396e31e2
+        receipt_path: territorios/aut04/evidencia/fuentes_territoriales/2025/973d194ff2a9ab0c2fb47a8d1b5cc639bc9177163bdc5733af983995d6e8d4e3/43724264055/receipt.json
+        territorial_identity_sha256: 973d194ff2a9ab0c2fb47a8d1b5cc639bc9177163bdc5733af983995d6e8d4e3
+        compatibility_report_sha256: e4a3f29ba30f0dd652963865de3a4971ef2e45f92ef3a4b5a1dcf8c390450913
+        compatibility_identity_sha256: a9bc3ad35460c7a49e84e6437647cc0a15ff8556c119a4fdbfc2ced7eb196b0e
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: b744c083351e7460e678f672bf397fd753a816ff
+        source_commit: db314ed67063bae3987f77ad566c74ad18ac1dbf
       evidence:
         electoral_source: territorios/aut04/evidencia/fuentes_electorales/2025/b66076b1a479a6ef255f0460de34adf8274e0b307bd9e18c350ef85d24292437/40955056606/receipt.json
         prepared_source_pair: territorios/aut04/evidencia/pares_fuentes/2025/2a8ec31fdd7b769abc01cfa4cbedaa2a7b743327f173184cd85d2433d89de4eb.json
         territorial_product: territorios/aut04/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut04/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut04/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut05
   name: Canarias
