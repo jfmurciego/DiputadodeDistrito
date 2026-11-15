@@ -16,6 +16,7 @@ from ddd_core import territorio_ids as ti
 
 ROOT = Path(__file__).resolve().parents[1]
 CLAVES = {"territory_id", "territorio_id"}
+VIEJO = ti.id_legacy("aut02")  # derivado de la tabla maestra: sin literal de id viejo (test_t220)
 CARPETA = re.compile(r"^(aut|nac)\d\d$")
 
 
@@ -77,10 +78,10 @@ class ConfigConIdCanonico(unittest.TestCase):
     def test_control_positivo_detecta_id_viejo_y_ruta_vieja(self):
         import tempfile
         with tempfile.TemporaryDirectory() as td:
-            self._arbol(td, '{"territory_id": "aragon", "path": "territorios/aragon/config/x.json"}')
+            self._arbol(td, '{"territory_id": "%s", "path": "territorios/%s/config/x.json"}' % (VIEJO, VIEJO))
             malos = revisar(Path(td))
         self.assertEqual(len(malos), 2, malos)
-        self.assertIn("territory_id='aragon'", malos[0])
+        self.assertIn(f"territory_id={VIEJO!r}", malos[0])
         self.assertIn("ruta territorios/<id viejo>/", malos[1])
 
     def test_control_negativo_acepta_canonico_y_otra_carpeta_es_error(self):
