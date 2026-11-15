@@ -213,6 +213,40 @@ def _manifest_from_acquisition(
     return manifest
 
 
+EVIDENCE_DOCS = ("declaracion_materializacion.json", "inventario_fuentes.json", "manifiesto_procedencia.json")
+
+
+def checkpoint_territory_mismatch(checkpoint_in: Path | None, territory_id: str) -> list[str]:
+    """T-336: motivos por los que el paquete congelado de un checkpoint NO es del id canónico (igualdad exacta).
+
+    Sin alias ni reescritura: un paquete con id legacy u otro territorio no se restaura; se adquiere de nuevo.
+    """
+    if checkpoint_in is None:
+        return []
+    package = checkpoint_in / "sources"
+    manifest_path = package / "manifest.json"
+    if not manifest_path.is_file():
+        return []
+    reasons: list[str] = []
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        declared = str(manifest.get("territory_id") or "").strip()
+        if declared and declared != territory_id:
+            reasons.append(f"manifiesto: territory_id={declared!r} != {territory_id!r}")
+        with zipfile.ZipFile(package / str(manifest["path"])) as archive:
+            for name in EVIDENCE_DOCS:
+                try:
+                    doc = json.loads(archive.read(name).decode("utf-8"))
+                except KeyError:
+                    continue
+                actual = str((doc or {}).get("territory_id") or "").strip()
+                if actual != territory_id:
+                    reasons.append(f"{name}: territory_id={actual or 'vacío'!r} != {territory_id!r}")
+    except Exception as exc:  # paquete ilegible: no se reutiliza
+        reasons.append(f"paquete congelado ilegible: {exc}")
+    return reasons
+
+
 def _restore_acquisition_evidence(working: Path, evidence: Path) -> None:
     manifest = json.loads((working / "manifest.json").read_text(encoding="utf-8"))
     bundle = working / str(manifest["path"])
@@ -292,10 +326,17 @@ def main() -> int:
         )
         return manifest
 
+    checkpoint_in = args.checkpoint_in if args.checkpoint_in and args.checkpoint_in.exists() else None
+    stale = checkpoint_territory_mismatch(checkpoint_in, territory_id)
+    if stale:
+        print("::warning::Paquete de fuentes del checkpoint no es del id canónico "
+              f"{territory_id}: se descarta y se adquiere de nuevo (T-336): " + "; ".join(stale))
+        checkpoint_in = None
+
     evidence = execute_source_policy(
         requested_edition=edition,
         working=args.working,
-        checkpoint_in=args.checkpoint_in if args.checkpoint_in and args.checkpoint_in.exists() else None,
+        checkpoint_in=checkpoint_in,
         checkpoint_out=args.checkpoint_out,
         official_available=True,
         downloader=downloader,
