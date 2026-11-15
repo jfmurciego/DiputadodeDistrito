@@ -121,7 +121,7 @@ def preflight(root: Path, kind: str, territory: str, edition: str) -> dict:
                 raise ValueError(f"{tid}/{edition}: declaración territorial inexistente: {declaration_rel}")
             declaration = _load_yaml(declaration_path)
             territory = declaration.get("territory") or {}
-            if not mismo_territorio(str(territory.get("id") or ""), str(tid)):
+            if str(territory.get("id") or "") != str(tid):  # T-349: id canónico exacto
                 raise ValueError(f"{tid}/{edition}: declaración territorial pertenece a otro territorio")
             legacy_year = int(territory.get("source_year", territory.get("edition", edition)))
             population_year = int(territory.get("population_year", legacy_year))

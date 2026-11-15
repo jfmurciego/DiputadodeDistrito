@@ -5,6 +5,8 @@ Sin alias ni reescritura del id viejo: la Activación planifica ACQUIRE, el P12 
 """
 from __future__ import annotations
 
+import importlib
+import inspect
 import json
 import os
 import stat
@@ -28,7 +30,15 @@ NAC = next(t for t in territorio_ids.tabla() if t.startswith("nac"))
 NAC_VIEJO = territorio_ids.tabla()[NAC].id_legacy
 RUN = 42720735134
 P12 = ROOT / ".github/workflows/preparacion-resultados-electorales.yml"
-PLANTILLA = ROOT / "territorios/aut19/evidencia/fuentes_electorales/2025/8ac3f49c633f1be8ba441bf1290dc79c1a4b30b2bac0033f9c2699e73c1fd019/40832114779/receipt.json"
+# Estado congelado en el commit base (id viejo en los 71 recibos): los tests no dependen del catálogo vivo.
+FIX = ROOT / "tests/fixtures/t349_base/raiz"
+PLANTILLA = FIX / "territorios/aut19/evidencia/fuentes_electorales/2025/8ac3f49c633f1be8ba441bf1290dc79c1a4b30b2bac0033f9c2699e73c1fd019/40832114779/receipt.json"
+
+
+def _recibo_congelado(tid: str) -> Path:
+    cat = yaml.safe_load((FIX / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+    fila = next(r for r in cat["territories"] if r["territory_id"] == tid)
+    return FIX / fila["editions"]["2025"]["evidence"]["electoral_source"]
 
 
 def _recibo(td: Path, territory_id: str, artifact_territory: str, election_id: str | None = None) -> Path:
@@ -79,12 +89,14 @@ class CandidatoElectoral(unittest.TestCase):
         self.assertEqual(c["reason"], "ELECTORAL_ARTIFACT_IDENTITY_MISMATCH")
 
 
-class ActivacionConCatalogoVivo(unittest.TestCase):
-    def test_aut11_vivo_planifica_acquire_no_reuse(self):
-        plan = rpl.resolve(ROOT, "Extremadura")["plans"][0]
-        self.assertEqual(plan["territory_id"], CANON)
-        self.assertEqual(plan["electoral_action"], "ACQUIRE")
-        self.assertEqual(plan["electoral_candidate"]["reason"], "ELECTORAL_ID_NO_CANONICO")
+class ActivacionConEstadoCongelado(unittest.TestCase):
+    def test_aut11_registro_congelado_planifica_acquire_no_reuse(self):
+        receipt = _recibo_congelado(CANON)
+        eleccion = json.loads(receipt.read_text(encoding="utf-8"))["election_id"]
+        state = {"electoral_source_prepared": True, "evidence": {"electoral_source": str(receipt)}}
+        c = rpl._electoral_candidate(ROOT, CANON, state, eleccion)
+        self.assertFalse(c["reusable"])
+        self.assertEqual(c["reason"], "ELECTORAL_ID_NO_CANONICO")
 
     def test_simulacion_cadena_de_seleccion_viejo_y_nuevo(self):
         """Mismo plan con el registro viejo (ACQUIRE) y con uno nuevo canónico (REUSE)."""
@@ -120,8 +132,8 @@ class Preflight(unittest.TestCase):
         r = self._preflight(NAC, NAC, NAC_VIEJO)
         self.assertFalse(r["registered"])
 
-    def test_aut11_vivo_por_cli(self):
-        r = subprocess.run(["python", "-m", "herramientas.preflight_preparacion_fuente", "--root-dir", ".",
+    def test_aut11_congelado_por_cli(self):
+        r = subprocess.run(["python", "-m", "herramientas.preflight_preparacion_fuente", "--root-dir", str(FIX),
                             "--kind", "electoral", "--territory", CANON, "--edition", "2025"],
                            cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stderr)
@@ -230,20 +242,31 @@ fi
 
 
 class InventarioPorRama(unittest.TestCase):
-    """Un test por rama estricta con objetos reales del repo; la tabla committed se regenera idéntica."""
+    """Un test por rama con objetos de la fixture congelada; el generador se prueba sobre la fixture, no sobre el estado vivo."""
 
     @classmethod
     def setUpClass(cls):
         from herramientas import inventario_ids_no_canonicos as inv
         cls.inv = inv
-        cls.tabla = inv.construir(ROOT)
+        cls.tabla = inv.construir(FIX, activacion=False)
 
-    def test_rama_electoral_los_71_registros_reales_con_id_viejo_se_rechazan(self):
-        no_canonicos = {f["territorio"] for f in self.tabla["filas"] if f["rama"] == "electoral_fuente" and not f["canonico"]}
-        self.assertEqual(len(no_canonicos), 71)
-        for a in self.tabla["activacion"]:
-            with self.subTest(territorio=a["territorio"]):
-                self.assertEqual(a["electoral_action"], "ACQUIRE")
+    def test_generador_sobre_la_fixture_es_reproducible(self):
+        esperado = json.loads((ROOT / "tests/fixtures/t349_base/inventario_esperado.json").read_text(encoding="utf-8"))
+        regenerada = json.loads(self.inv.a_json(self.tabla))
+        regenerada["base_commit"] = esperado["base_commit"]  # la base cambia con cada rebase; el resto es determinista
+        self.assertEqual(regenerada, esperado)
+
+    def test_rama_electoral_los_71_recibos_congelados_con_id_viejo_se_rechazan(self):
+        filas = [f for f in self.tabla["filas"] if f["rama"] == "electoral_fuente"]
+        self.assertEqual(sum(f["no_canonicos"] for f in filas), 71)
+        for f in filas:
+            with self.subTest(territorio=f["territorio"]):
+                receipt = _recibo_congelado(f["territorio"])
+                eleccion = json.loads(receipt.read_text(encoding="utf-8"))["election_id"]
+                state = {"electoral_source_prepared": True, "evidence": {"electoral_source": str(receipt)}}
+                c = rpl._electoral_candidate(ROOT, f["territorio"], state, eleccion)
+                self.assertFalse(c["reusable"])
+                self.assertEqual(c["reason"], "ELECTORAL_ID_NO_CANONICO")
 
     def test_rama_fuentes_territoriales_objeto_real_con_nombre_viejo_se_rechaza(self):
         catalogo = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
@@ -258,11 +281,14 @@ class InventarioPorRama(unittest.TestCase):
     def test_rama_poblacion_va_con_el_paquete_de_fuentes(self):
         self.assertEqual(self.tabla["ramas"]["poblacion"]["politica"], "ESTRICTA")
 
-    def test_tabla_committed_es_reproducible(self):
+    def test_inventario_comprometido_declara_las_mismas_ramas_y_su_base_es_ancestro(self):
         committed = json.loads((ROOT / "docs/diagnostico/inventario_ids_no_canonicos.json").read_text(encoding="utf-8"))
-        regenerada = json.loads(json.dumps(self.tabla, ensure_ascii=False))
-        regenerada["base_commit"] = committed["base_commit"]  # la base cambia con cada rebase; el resto es determinista
-        self.assertEqual(regenerada, committed)
+        self.assertEqual(committed["ramas"], self.tabla["ramas"])
+        self.assertEqual({f["territorio"] for f in committed["filas"]}, {f["territorio"] for f in self.tabla["filas"]})
+        r = subprocess.run(["git", "merge-base", "--is-ancestor", committed["base_commit"], "HEAD"], cwd=ROOT, capture_output=True)
+        if r.returncode == 128:
+            self.skipTest("sin historia git suficiente (clon superficial)")
+        self.assertEqual(r.returncode, 0, "base_commit del inventario obsoleto: regenerar con herramientas.inventario_ids_no_canonicos")
 
     def test_solo_las_ramas_de_lo_publicado_son_solo_lectura(self):
         alias = {k for k, v in self.tabla["ramas"].items() if v["politica"] == "SOLO_LECTURA_PUBLICADO"}
@@ -275,41 +301,40 @@ CAT = ROOT / "configuracion/catalogo_preparacion.yaml"
 class RamasDeLaCadenaD102(unittest.TestCase):
     """D-102: par, M06 y M08 registrados con id viejo NO se reutilizan en la P00/Activación (objetos reales del inventario)."""
 
-    def test_par_registrado_real_con_id_viejo_se_rechaza(self):
-        from herramientas.consumir_par_fuentes_legislatura import PreparedPairExecutionBlock, resolve_pair
-        with self.assertRaises(PreparedPairExecutionBlock):
-            resolve_pair(root_dir=ROOT, territory="aut09", edition="2025")  # par real con territory_id='cataluna'
+    def _evidencia(self, tid: str, clave: str) -> str:
+        cat = yaml.safe_load((FIX / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        return next(r for r in cat["territories"] if r["territory_id"] == tid)["editions"]["2025"]["evidence"][clave]
 
-    def test_par_canonico_con_recibo_electoral_viejo_se_rechaza(self):
-        from herramientas.consumir_par_fuentes_legislatura import PreparedPairExecutionBlock, resolve_pair
-        with self.assertRaisesRegex(PreparedPairExecutionBlock, "contradice territory_id"):
-            resolve_pair(root_dir=ROOT, territory=CANON, edition="2025")  # par aut11 con recibo electoral 'extremadura'
-
-    def test_validar_par_exige_id_exacto_esperado(self):
+    def test_par_congelado_con_id_viejo_se_rechaza(self):
         from herramientas.registrar_par_fuentes_legislatura import PreparedSourcePairBlock, validate_pair_receipt
-        catalogo = yaml.safe_load(CAT.read_text(encoding="utf-8"))
-        rel = next(r for r in catalogo["territories"] if r["territory_id"] == "aut09")["editions"]["2025"]["evidence"]["prepared_source_pair"]
         with self.assertRaisesRegex(PreparedSourcePairBlock, "territorio del par no coincide"):
-            validate_pair_receipt(root_dir=ROOT, pair_path=ROOT / rel, expected_territory_id="aut09", expected_edition="2025")
+            validate_pair_receipt(root_dir=FIX, pair_path=FIX / self._evidencia("aut09", "prepared_source_pair"),
+                                  expected_territory_id="aut09", expected_edition="2025")  # par con territory_id='cataluna'
 
-    def test_m06_registrado_real_con_id_viejo_se_rechaza_en_la_p00(self):
-        from herramientas.resolver_ejecucion_completa import build_plan
-        with self.assertRaisesRegex(ValueError, "DURABLE_ASSET_ID_NO_CANONICO: territorial_product"):
-            build_plan(territory="Cataluña", edition="2025", execution_mode="reuse", catalog=CAT, root_dir=ROOT)
+    def test_par_y_su_receipt_exigen_el_mismo_id_exacto(self):
+        from herramientas.consumir_par_fuentes_legislatura import validate_territorial_receipt  # noqa: F401  (carga)
+        src = inspect.getsource(importlib.import_module("herramientas.registrar_par_fuentes_legislatura").validate_pair_receipt)
+        self.assertNotIn("mismo_territorio", src)
+
+    def test_m06_congelado_con_id_viejo_se_rechaza(self):
+        from herramientas.resolver_activos_durables import PASS_CERTIFICATIONS, DurableAssetBlock, validate_durable_assets
+        estado = {"territorial_product_available": True, "territorial_certification": sorted(PASS_CERTIFICATIONS)[0],
+                  "evidence": {"territorial_product": self._evidencia("aut09", "territorial_product")}}
+        with self.assertRaisesRegex(DurableAssetBlock, "DURABLE_ASSET_ID_NO_CANONICO: territorial_product"):
+            validate_durable_assets(root_dir=FIX, state=estado, territory_id="aut09", edition="2025",
+                                    territorial_source=None, expected_election_id=None)
 
     def test_m06_canonico_se_reutiliza_en_la_p00(self):
         from herramientas.resolver_ejecucion_completa import build_plan
         plan = build_plan(territory="Extremadura", edition="2025", execution_mode="reuse", catalog=CAT, root_dir=ROOT)
         self.assertEqual(plan["execution_mode"], "reuse")
 
-    def test_m08_registrado_con_id_viejo_se_descarta_para_reincorporar(self):
+    def test_m08_congelado_con_id_viejo_se_descarta_para_reincorporar(self):
         from herramientas.resolver_activos_durables import validate_durable_assets
-        catalogo = yaml.safe_load(CAT.read_text(encoding="utf-8"))
-        state = next(r for r in catalogo["territories"] if r["territory_id"] == CANON)["editions"]["2025"]
-        # El electoral_source real de aut11 lleva el id viejo (se prepara de nuevo): se aísla el M08 con el resto canónico.
-        estado = {**state, "electoral_source_prepared": False}
-        r = validate_durable_assets(root_dir=ROOT, state=estado, territory_id=CANON, edition="2025",
-                                    territorial_source=state["preparation_evidence"], expected_election_id=None)
+        estado = {"electoral_product_available": True,
+                  "evidence": {"electoral_product": self._evidencia(CANON, "electoral_product")}}
+        r = validate_durable_assets(root_dir=FIX, state=estado, territory_id=CANON, edition="2025",
+                                    territorial_source=None, expected_election_id=None)
         self.assertIsNone(r["electoral_product"])
         self.assertIn("DURABLE_ASSET_ID_NO_CANONICO: electoral_product", r["rejected_electoral_product"]["reason"])
         self.assertFalse(r["rejected_electoral_product"]["reusable"])

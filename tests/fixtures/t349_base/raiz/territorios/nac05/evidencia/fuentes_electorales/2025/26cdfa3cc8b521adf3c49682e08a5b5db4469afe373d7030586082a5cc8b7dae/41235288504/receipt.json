@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_avila",
+  "territory_name": "Congreso Ávila",
+  "edition": "2025",
+  "run_id": 41235288504,
+  "artifact_name": "ddd-electoral-package-congreso_avila-2025-41235288504",
+  "artifact_sha256": "466f8b71e13f631cb8d8361ad5ce73bb08a68ceaf58b7055ea1297d77d2b7df3",
+  "source_commit": "f893b44ad3da0966cf862f9da0b1fee88a0e5454",
+  "election_id": "congreso_avila_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "26cdfa3cc8b521adf3c49682e08a5b5db4469afe373d7030586082a5cc8b7dae"
+}

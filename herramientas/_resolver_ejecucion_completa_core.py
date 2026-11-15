@@ -202,7 +202,7 @@ def _identidades_por_variante(payload: dict) -> set[str]:
     """T-220: huellas de identidad territorial con cada variante del id (nuevo/viejo). Los inventarios físicos y
     receipts ya acreditados se sellaron con el id viejo; los nuevos se sellan con el nuevo."""
     out = set()
-    for variante in variantes(str(payload.get("territory_id") or "")):
+    for variante in (str(payload.get("territory_id") or ""),):  # T-349 (D-102): solo el id canónico, sin variantes
         p = {**payload, "territory_id": variante}
         out.add(hashlib.sha256(
             json.dumps(p, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
@@ -600,7 +600,7 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
         return blocked("kind no reconocido")
     if evidence.get("decision") != FIRST_GENERATION_DECISION or evidence.get("stage") != "M03U":
         return blocked("decisión/etapa no habilitan primera generación")
-    if not mismo_territorio(str(evidence.get("territory_id") or ""), str(territory_id)):
+    if str(evidence.get("territory_id") or "") != str(territory_id):  # T-349: id canónico exacto
         return blocked("territorio no coincide")
     run_id = evidence.get("run_id")
     if not isinstance(run_id, int) or isinstance(run_id, bool) or run_id <= 0:
@@ -778,7 +778,7 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
         contract = yaml.safe_load(path.read_text(encoding="utf-8"))
     except (OSError, yaml.YAMLError):
         return _blocked("CAP_CONTRACT", "contrato territorial efectivo ilegible")
-    if not isinstance(contract, dict) or not mismo_territorio(str((contract.get("meta") or {}).get("territory_id") or ""), str(territory_id)):
+    if not isinstance(contract, dict) or str((contract.get("meta") or {}).get("territory_id") or "") != str(territory_id):  # T-349: id canónico exacto
         return _blocked("CAP_CONTRACT", "identidad del contrato territorial no coincide")
     capability_gate = _generation_capabilities(contract, root_dir=root_dir)
     if not capability_gate["allowed"]:

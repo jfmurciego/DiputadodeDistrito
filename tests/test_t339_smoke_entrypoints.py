@@ -120,9 +120,9 @@ class SmokeEntrypoints(unittest.TestCase):
         self.assertNotIn("__dict__", r.stderr)
 
     def test_preflight_electoral_aut11_rechaza_el_id_viejo(self):
-        # T-349: como el P12 (preflight_preparacion_fuente --kind electoral) con el catálogo real: el paquete registrado
-        # de Extremadura lleva el id viejo, no se reutiliza (sin run_id) y el resolutor lo informa.
-        r = subprocess.run([sys.executable, "-m", "herramientas.preflight_preparacion_fuente", "--root-dir", ".",
+        # T-349: como el P12 (preflight_preparacion_fuente --kind electoral) con el estado CONGELADO del commit base: el
+        # paquete registrado de Extremadura lleva el id viejo, no se reutiliza (sin run_id).
+        r = subprocess.run([sys.executable, "-m", "herramientas.preflight_preparacion_fuente", "--root-dir", "tests/fixtures/t349_base/raiz",
                             "--kind", "electoral", "--territory", "aut11", "--edition", "2025"],
                            cwd=ROOT, capture_output=True, text=True, stdin=subprocess.DEVNULL)
         self.assertEqual(r.returncode, 0, r.stderr)

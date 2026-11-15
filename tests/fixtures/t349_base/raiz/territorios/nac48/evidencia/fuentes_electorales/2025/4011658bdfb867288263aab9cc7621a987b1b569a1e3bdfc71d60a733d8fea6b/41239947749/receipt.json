@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_vizcaya",
+  "territory_name": "Congreso Vizcaya",
+  "edition": "2025",
+  "run_id": 41239947749,
+  "artifact_name": "ddd-electoral-package-congreso_vizcaya-2025-41239947749",
+  "artifact_sha256": "b38f79afe0e11cc600eaa9ff9fc1c04d5bab2a2d5fe3a4b4705011567fe95fa0",
+  "source_commit": "39d0b486fe985b786a70fe63e2adafaf183e9f55",
+  "election_id": "congreso_vizcaya_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "4011658bdfb867288263aab9cc7621a987b1b569a1e3bdfc71d60a733d8fea6b"
+}

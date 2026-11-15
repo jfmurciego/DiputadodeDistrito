@@ -86,7 +86,7 @@ def _fila(tid, rama, objeto, ident, run, fecha, canonico, politica):
             "canonico": canonico, "politica": politica, "resultado": resultado}
 
 
-def construir(root: Path = ROOT) -> dict:
+def construir(root: Path = ROOT, activacion: bool = True) -> dict:
     tabla = territorio_ids.tabla()
     catalogo = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
     estados = {r["territory_id"]: (r.get("editions") or {}).get("2025") or {} for r in catalogo["territories"]}
@@ -133,41 +133,69 @@ def construir(root: Path = ROOT) -> dict:
             if viejos:
                 filas.append(_fila(tid, "registro_visor", f"publicaciones_visor/{tipo}", f"{len(viejos)} de {len(xs)} con id viejo",
                                    ",".join(sorted(str(p.get("run_id")) for p in viejos)[:3]) + ("…" if len(viejos) > 3 else ""), "—", False, "SOLO_LECTURA_PUBLICADO"))
-    # Resultado real del resolutor de la Activación (código de esta rama) por territorio.
-    plan = {p["territory_id"]: p for p in rpl.resolve(root, "Todos")["plans"] if p["territory_id"] in tabla}
-    activacion = [{"territorio": t, "territorial_action": plan[t]["territorial_action"], "territorial_reason": plan[t]["territorial_reason"],
-                   "electoral_action": plan[t]["electoral_action"], "electoral_reason": plan[t]["electoral_reason"]} for t in sorted(plan)]
-    return {"base_commit": _base_commit(), "ramas": {k: {"politica": v[0], "motivo": v[1]} for k, v in RAMAS.items()},
-            "no_verificable": NO_VERIFICABLE, "filas": filas, "activacion": activacion}
+    # Una fila por territorio × rama (resumen, no volcado): objetos, no canónicos y el primero como ejemplo.
+    agrupadas: dict[tuple[str, str], list[dict]] = {}
+    for f in filas:
+        agrupadas.setdefault((f["territorio"], f["rama"]), []).append(f)
+    resumen = []
+    for (tid, rama) in sorted(agrupadas):
+        fs = agrupadas[(tid, rama)]
+        malos = [f for f in fs if not f["canonico"]]
+        ejemplo = (malos or fs)[0]
+        resumen.append({"territorio": tid, "rama": rama, "politica": ejemplo["politica"], "objetos": len(fs), "no_canonicos": len(malos),
+                        "objeto": ejemplo["objeto"], "id": ejemplo["id"], "run_o_artefacto": ejemplo["run_o_artefacto"],
+                        "fecha": ejemplo["fecha"], "resultado": ejemplo["resultado"] if malos else _fila(tid, rama, "", "", "", "", True, ejemplo["politica"])["resultado"]})
+    out = {"base_commit": _base_commit(), "ramas": {k: {"politica": v[0], "motivo": v[1]} for k, v in RAMAS.items()},
+           "no_verificable": NO_VERIFICABLE, "filas": resumen}
+    if activacion:
+        # Resultado real del resolutor de la Activación (solo con el repo completo; las fixtures no lo traen).
+        plan = {p["territory_id"]: p for p in rpl.resolve(root, "Todos")["plans"] if p["territory_id"] in tabla}
+        out["activacion"] = [{"territorio": t, "territorial_action": plan[t]["territorial_action"], "territorial_reason": plan[t]["territorial_reason"],
+                              "electoral_action": plan[t]["electoral_action"], "electoral_reason": plan[t]["electoral_reason"]} for t in sorted(plan)]
+    return out
 
 
 def a_markdown(d: dict) -> str:
     out = ["# Inventario de ids de territorio no canónicos por rama de reutilización (T-349)", "",
            f"Base: `{d['base_commit']}`. Generado con `python -m herramientas.inventario_ids_no_canonicos`. Solo lectura, orden determinista.", "",
-           "## Ramas y política del código", "", "| Rama | Política | Motivo |", "|---|---|---|"]
+           "## Ramas y política del código (D-102)", "", "| Rama | Política | Motivo |", "|---|---|---|"]
     out += [f"| {k} | {v['politica']} | {v['motivo']} |" for k, v in d["ramas"].items()]
-    out += ["", "## Resumen por rama (objetos no canónicos)", "", "| Rama | Objetos | No canónicos | Resultado |", "|---|---|---|---|"]
-    for rama in d["ramas"]:
+    out += ["", "## Resumen por rama", "", "| Rama | Política | Objetos | No canónicos |", "|---|---|---|---|"]
+    for rama, v in d["ramas"].items():
         fs = [f for f in d["filas"] if f["rama"] == rama]
-        nc = [f for f in fs if not f["canonico"]]
-        res = "RECHAZA → prepara de nuevo" if d["ramas"][rama]["politica"] == "ESTRICTA" else "solo lectura de lo publicado"
-        out.append(f"| {rama} | {len(fs)} | {len(nc)} | {res if nc else 'sin objetos no canónicos'} |")
-    out += ["", "## Activación (resultado real de `resolver_preparacion_legislatura`)", "", "| Territorio | Territorial | Motivo | Electoral | Motivo |", "|---|---|---|---|---|"]
-    out += [f"| {a['territorio']} | {a['territorial_action']} | {a['territorial_reason']} | {a['electoral_action']} | {a['electoral_reason']} |" for a in d["activacion"]]
-    out += ["", "## Objetos no canónicos (territorio × rama × objeto)", "", "| Territorio | Rama | Objeto | Id | Run/artefacto | Fecha | Resultado esperado |", "|---|---|---|---|---|---|---|"]
-    out += [f"| {f['territorio']} | {f['rama']} | {f['objeto']} | {f['id']} | {f['run_o_artefacto']} | {f['fecha']} | {f['resultado']} |"
-            for f in d["filas"] if not f["canonico"]]
+        out.append(f"| {rama} | {v['politica']} | {sum(f['objetos'] for f in fs)} | {sum(f['no_canonicos'] for f in fs)} |")
+    if d.get("activacion"):
+        out += ["", "## Activación (resultado real de `resolver_preparacion_legislatura`)", "", "| Territorio | Territorial | Motivo | Electoral | Motivo |", "|---|---|---|---|---|"]
+        out += [f"| {a['territorio']} | {a['territorial_action']} | {a['territorial_reason']} | {a['electoral_action']} | {a['electoral_reason']} |" for a in d["activacion"]]
+    out += ["", "## Territorio × rama con objetos no canónicos", "", "| Territorio | Rama | Objeto | Id (ejemplo) | Run/artefacto | Fecha | No canónicos/objetos | Resultado esperado |", "|---|---|---|---|---|---|---|---|"]
+    out += [f"| {f['territorio']} | {f['rama']} | {f['objeto']} | {f['id']} | {f['run_o_artefacto']} | {f['fecha']} | {f['no_canonicos']}/{f['objetos']} | {f['resultado']} |"
+            for f in d["filas"] if f["no_canonicos"]]
     out += ["", "## No verificable desde el repo", "", d["no_verificable"], ""]
     return "\n".join(out)
+
+
+def a_json(d: dict) -> str:
+    """JSON determinista, una línea por fila (legible en diff, sin volcado)."""
+    dump = lambda v: json.dumps(v, ensure_ascii=False, sort_keys=True, separators=(",", ":"))  # noqa: E731
+    partes = []
+    for k in sorted(d):
+        v = d[k]
+        if isinstance(v, list):
+            partes.append(f'"{k}":[\n' + ",\n".join(dump(x) for x in v) + "\n]")
+        else:
+            partes.append(f'"{k}":{dump(v)}')
+    return "{\n" + ",\n".join(partes) + "\n}\n"
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--out", type=Path, required=True, help="prefijo de salida (.md y .json)")
+    ap.add_argument("--root-dir", type=Path, default=ROOT)
+    ap.add_argument("--sin-activacion", action="store_true", help="omite el resolutor de la Activación (raíces de fixtures)")
     a = ap.parse_args()
-    d = construir()
+    d = construir(a.root_dir.resolve(), activacion=not a.sin_activacion)
     a.out.parent.mkdir(parents=True, exist_ok=True)
-    a.out.with_suffix(".json").write_text(json.dumps(d, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    a.out.with_suffix(".json").write_text(a_json(d), encoding="utf-8")
     a.out.with_suffix(".md").write_text(a_markdown(d), encoding="utf-8")
     return 0
 

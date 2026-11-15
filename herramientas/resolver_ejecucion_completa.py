@@ -342,7 +342,7 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
     territory = declaration.get("territory") or {}
     if (
         not str(declaration.get("schema") or "").startswith("ddd-territory-sources/")
-        or not mismo_territorio(str(territory.get("id") or ""), str(territory_id))
+        or str(territory.get("id") or "") != str(territory_id)  # T-349: id canónico exacto
         or str(territory.get("edition") or "") != str(edition)
     ):
         raise ValueError(
