@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T20:42:21.459813+00:00",
+  "generated_at": "2026-11-15T20:48:55.646436+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 23,
-      "action_required": 97,
+      "admissible": 24,
+      "action_required": 96,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 23,
+      "activated": 24,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 97,
+      "electoral_pending": 96,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 23,
-      "durable_pair": 23
+      "electoral_source": 24,
+      "durable_pair": 24
     },
     "territories": [
       {
@@ -1147,20 +1147,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac03/evidencia/pares_fuentes/2025/f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac03/evidencia/pares_fuentes/2025/292c52a9b39b58c1414cb434adaa44cde58b8a33fb80326c181c93104b37f31c.json",
+            "pair_sha256": "292c52a9b39b58c1414cb434adaa44cde58b8a33fb80326c181c93104b37f31c",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1168,13 +1168,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac04",
@@ -8280,11 +8274,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43754642510,
       "last_run": {
-        "run_id": 42953235024,
+        "run_id": 43754642510,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -8396,11 +8390,11 @@
       "name": "Nacional Ávila",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42948760863,
+      "run_id": 43755691825,
       "last_run": {
         "run_id": 42948760863,
         "status": "SUCCESS",
@@ -8409,7 +8403,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8423,16 +8417,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_avila",
+          "territory_id": "nac05",
           "territory_name": "Congreso Ávila",
           "edition": "2025",
-          "run_id": 42940341213,
-          "artifact_name": "ddd-state-42940341213-M06",
-          "artifact_sha256": "bcf1e75b5e3f1fa906bdc9680cb7285990bbd0652b0911a1aaeaa49f947487b9",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43755691825,
+          "artifact_name": "ddd-state-43755691825-M06",
+          "artifact_sha256": "a73df59d72a1eafa34ae2dbd3ad8cdd984a9e4d21a278c1e10117ed26d0c70bf",
+          "source_commit": "efc83d267e9ba3f43f391ae632bb068e6c617db2",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_avila/evidencia/generaciones_m06/42940341213.json"
+          "producer_manifest_path": "territorios/nac05/evidencia/generaciones_m06/43755691825.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8450,18 +8444,18 @@
       },
       "autonomous_community_code_ine": "C05",
       "display_name": "Nacional Ávila",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac06",
       "name": "Nacional Badajoz",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42949289470,
+      "run_id": 43755921825,
       "last_run": {
         "run_id": 42949289470,
         "status": "SUCCESS",
@@ -8470,7 +8464,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8484,16 +8478,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_badajoz",
+          "territory_id": "nac06",
           "territory_name": "Congreso Badajoz",
           "edition": "2025",
-          "run_id": 42940345930,
-          "artifact_name": "ddd-state-42940345930-M06",
-          "artifact_sha256": "c1a72a38a8bc8c4ac54d2023495e6c0a17c681a7b46bcca4288d3672960d1869",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43755921825,
+          "artifact_name": "ddd-state-43755921825-M06",
+          "artifact_sha256": "a5b47d70b387a5e58c283ad98190a8cd4b03afa65ca318ff425cd611b72ada7e",
+          "source_commit": "200ce388adbc357161a606a5d2fc8be54de160c0",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_badajoz/evidencia/generaciones_m06/42940345930.json"
+          "producer_manifest_path": "territorios/nac06/evidencia/generaciones_m06/43755921825.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8511,7 +8505,7 @@
       },
       "autonomous_community_code_ine": "C06",
       "display_name": "Nacional Badajoz",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac07",
@@ -12562,7 +12556,7 @@
     }
   ],
   "kpis": {
-    "complete": 70,
+    "complete": 68,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12583,8 +12577,6 @@
       "18 Ceuta",
       "19 Melilla",
       "Nacional Álava",
-      "Nacional Ávila",
-      "Nacional Badajoz",
       "Nacional Baleares",
       "Nacional Barcelona",
       "Nacional Burgos",
@@ -12879,6 +12871,18 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "Nacional Ávila",
+      "territory_id": "nac05",
+      "autonomous_community_code_ine": "C05",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Badajoz",
+      "territory_id": "nac06",
+      "autonomous_community_code_ine": "C06",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Nacional 350 Álava",
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
@@ -12888,18 +12892,6 @@
       "territory": "Nacional 350 Albacete",
       "territory_id": "congreso350_albacete",
       "autonomous_community_code_ine": "R02",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Alicante",
-      "territory_id": "congreso350_alicante",
-      "autonomous_community_code_ine": "R03",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Almería",
-      "territory_id": "congreso350_almeria",
-      "autonomous_community_code_ine": "R04",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -12926,6 +12918,18 @@
       "territory": "Nacional Almería",
       "territory_id": "nac04",
       "autonomous_community_code_ine": "C04",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Ávila",
+      "territory_id": "nac05",
+      "autonomous_community_code_ine": "C05",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Badajoz",
+      "territory_id": "nac06",
+      "autonomous_community_code_ine": "C06",
       "action": "preparar fuentes electorales"
     }
   ]
