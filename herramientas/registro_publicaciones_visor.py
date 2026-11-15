@@ -10,7 +10,7 @@ CAMBIOS 1.9.0 (T-355, D-124): el histórico (paso A, artefacto `ddd-historico-*`
   (`election_date` por la clave del espejo y `election_id`), sin M06 propio (reutiliza el M06 publicado) y sin pisar 2023.
   `describe-production` reconoce la raíz histórica (hay `PUERTA_*.json` y no `production_status.json`); FALLA CERRADO: toda
   PUERTA con `estado` distinto de «PASS» rechaza el lote entero (`PUERTA_NO_PASS`), igual que sin M08 o sin distritos.
-  Clave 2023 o desconocida: `CLAVE_HISTORICA`. Una raíz de run 00 se describe como siempre (salida idéntica).
+  Clave 2023 o desconocida: `CLAVE_HISTORICA`; dos claves del mismo territorio en un run: `CLAVE_REPETIDA` (una elección por lote). Una raíz de run 00 se describe como siempre (salida idéntica).
 ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.8.1_20261112.py
 CAMBIOS 1.8.0 (T-249): publicar un territorio es registrar el PAR. `candidate` (CLI) rechaza, todo o nada, si en un
   territorio tocado por las entradas canónicas el M08 vigente falta o no es del linaje del M06 vigente
@@ -444,9 +444,13 @@ def historico_descriptors(production_root: Path, run_id: str, election_date: str
     """T-355: un `canonical_m08` por PUERTA del paso A, con la elección de su clave. Todo o nada: una PUERTA que no sea PASS
     (o sin M08 o sin distritos) rechaza el lote entero; el M06 no se describe (es el publicado del territorio)."""
     descriptors: list[dict] = []
+    vistos: dict[str, str] = {}
     for puerta_path in sorted(production_root.rglob("PUERTA_*.json")):
         puerta = read_json(puerta_path)
         territorio, clave = str(puerta.get("territorio") or ""), str(puerta.get("clave") or "")
+        if vistos.setdefault(territorio, clave) != clave:
+            raise ValueError(f"CLAVE_REPETIDA {territorio}: claves {vistos[territorio]} y {clave} en el mismo run; "
+                             "una elección por run y por lote (publica cada elección en su propio lote)")
         if puerta.get("estado") != "PASS":
             raise ValueError(f"PUERTA_NO_PASS {territorio} {clave}: estado={puerta.get('estado')!r}; el histórico no se publica")
         if clave not in ELECCIONES_HISTORICO:

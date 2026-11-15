@@ -143,14 +143,88 @@ class AcreditacionHistorica(unittest.TestCase):
 
 
 class SinEleccionNadaCambia(unittest.TestCase):
-    """Sin input de elección la P50 se comporta como hoy: los argumentos nuevos solo se pasan si hay valor."""
+    """Sin `election_date` la P50 hace lo mismo que antes: se EJECUTA el bash de las líneas tocadas, con el entorno heredado,
+    y se comparan los argumentos con los del workflow legacy (3.16.0). Control negativo: con valor aparecen los nuevos."""
 
-    def test_workflows_solo_pasan_los_argumentos_con_valor(self):
-        txt = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text("utf-8")
-        self.assertIn('${ELECTION_DATE:+--election-date "$ELECTION_DATE"}', txt)
-        self.assertIn('${ELECTION_DATE:+--historico}', txt)
-        P50 = (ROOT / ".github/workflows/desplegar-visor-publico.yml").read_text("utf-8")
-        self.assertEqual(P50.count("election_date:"), 3)  # workflow_call, workflow_dispatch y paso a la reutilizable
+    NUEVO = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text("utf-8")
+    LEGACY = (ROOT / "legacy/workflows/_reutilizable-publicar-sitio_v3.16.0_20261114.yml").read_text("utf-8")
+    PRELUDIO = ('python() { printf "%s\\n" "$@"; }\n'
+                'raiz_run() { echo "$RAIZ"; }\nevidencia_run() { echo evid.json; }\n'
+                'fallos=(); SCENARIO_ID=""; SCENARIO_STRATEGY=""; PAGE_URL=u; DEPLOYMENT_OUTCOME=ok; run=7\n')
+
+    def ejecutar(self, texto_workflow, marca, fin=None, **env):
+        """Líneas del workflow desde la que contiene `marca` hasta la que contiene `fin` (o solo esa), ejecutadas en bash."""
+        import os
+        lineas = texto_workflow.splitlines()
+        a = next(i for i, l in enumerate(lineas) if marca in l and not l.lstrip().startswith("#"))
+        while a > 0 and lineas[a - 1].rstrip().endswith("\\"):  # la orden empieza donde empieza su continuación
+            a -= 1
+        b = a if fin is None else next(i for i in range(a, len(lineas)) if fin in lineas[i])
+        while lineas[b].rstrip().endswith("\\") and b + 1 < len(lineas):
+            b += 1
+        guion = "\n".join(l.strip() for l in lineas[a:b + 1])
+        with tempfile.TemporaryDirectory() as raiz:
+            e = {**os.environ, "RAIZ": raiz, **env}
+            e.pop("ELECTION_DATE", None) if "ELECTION_DATE" not in env else None
+            r = subprocess.run(["bash", "-c", self.PRELUDIO + guion], capture_output=True, text=True, env=e, cwd=raiz)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        return r.stdout.replace(raiz, "<RAIZ>")
+
+    def test_acreditacion_source_igual_sin_fecha_y_con_historico_con_ella(self):
+        marca = "--phase source --output"
+        vacio = self.ejecutar(self.NUEVO, marca, ELECTION_DATE="")
+        self.assertEqual(vacio, self.ejecutar(self.LEGACY, marca))
+        self.assertNotIn("--historico", vacio)
+        self.assertIn("--historico", self.ejecutar(self.NUEVO, marca, ELECTION_DATE="2019-11-10"))
+
+    def test_describe_production_igual_sin_fecha_y_con_fecha_con_ella(self):
+        marca = "registro_publicaciones_visor.py describe-production"
+        vacio = self.ejecutar(self.NUEVO, marca, ELECTION_DATE="")
+        self.assertEqual(vacio, self.ejecutar(self.LEGACY, marca))
+        self.assertNotIn("--election-date", vacio)
+        con = self.ejecutar(self.NUEVO, marca, ELECTION_DATE="2019-11-10").splitlines()
+        self.assertEqual(con[con.index("--election-date") + 1], "2019-11-10")
+
+    def test_fase_prepared_igual_sin_fecha(self):
+        marca = "--phase prepared --output \"$(evidencia_run"
+        vacio = self.ejecutar(self.NUEVO, marca, ELECTION_DATE="")
+        self.assertEqual(vacio, self.ejecutar(self.LEGACY, marca))
+        self.assertIn("--historico", self.ejecutar(self.NUEVO, marca, ELECTION_DATE="2019-11-10"))
+
+    def test_fase_final_igual_sin_fecha(self):
+        marca, fin = "args=(--requested-run-id \"$run\" --registry", "python herramientas/evaluar_publicacion_visor.py"
+        def bloque(texto, **env):
+            return self.ejecutar(texto, marca, fin, **env)
+        # el bloque «final»: args=(…) + production-root + (nuevo) historico, y la llamada a evaluar con "${args[@]}"
+        nuevo_vacio = bloque(self.NUEVO, ELECTION_DATE="")
+        self.assertEqual(nuevo_vacio, bloque(self.LEGACY))
+        self.assertNotIn("--historico", nuevo_vacio)
+        self.assertIn("--historico", bloque(self.NUEVO, ELECTION_DATE="2019-11-10"))
+
+    def test_la_descarga_historica_solo_con_fecha(self):
+        lineas = self.NUEVO.splitlines()
+        a = next(i for i, l in enumerate(lineas) if 'if [[ -n "${ELECTION_DATE:-}" ]]; then' in l)
+        sangria = len(lineas[a]) - len(lineas[a].lstrip())
+        b = next(i for i in range(a + 1, len(lineas)) if lineas[i].strip() == "fi" and len(lineas[i]) - len(lineas[i].lstrip()) == sangria)
+        bloque = "\n".join(l.strip() for l in lineas[a:b + 1])
+        pre = 'gh() { echo "gh $*"; }\nrun=7; mkdir -p .ddd-publication/descargas "$root"\n'
+        import os
+        for fecha, esperado in (("", False), ("2019-11-10", True)):
+            with tempfile.TemporaryDirectory() as raiz:
+                r = subprocess.run(["bash", "-c", pre + bloque + '\necho SIGUE'], capture_output=True, text=True, cwd=raiz,
+                                   env={**os.environ, "root": raiz + "/r", "ELECTION_DATE": fecha})
+            self.assertEqual("ddd-historico-" in r.stdout, esperado, r.stdout + r.stderr)
+            self.assertEqual("SIGUE" in r.stdout, not esperado)  # con fecha sale (éxito o fallo); sin fecha el flujo sigue
+
+    def test_p50_solo_anade_el_input_opcional_vacio(self):
+        import yaml
+        nuevo = yaml.safe_load((ROOT / ".github/workflows/desplegar-visor-publico.yml").read_text("utf-8"))
+        viejo = yaml.safe_load((ROOT / "legacy/workflows/desplegar-visor-publico_v3.6.0_20261114.yml").read_text("utf-8"))
+        for ev in ("workflow_call", "workflow_dispatch"):
+            n, v = nuevo[True][ev]["inputs"], viejo[True][ev]["inputs"]
+            self.assertEqual(set(n) - set(v), {"election_date"})
+            self.assertEqual(n["election_date"]["default"], "")
+            self.assertTrue(all(n[k] == v[k] for k in v))
 
     def test_cli_sin_fecha_no_cambia_en_una_raiz_de_run_00(self):
         # Una raíz sin PUERTA sigue por el camino de producción (falla por falta de manifiesto, como antes).
@@ -160,5 +234,25 @@ class SinEleccionNadaCambia(unittest.TestCase):
             self.assertNotIn("PUERTA", str(c.exception))
 
 
-if __name__ == "__main__":
-    unittest.main()
+class UnaEleccionPorRun(unittest.TestCase):
+    def test_cero_puertas_no_publica_nada(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaisesRegex(ValueError, "ninguna PUERTA"):
+                rpv.historico_descriptors(Path(tmp), "1")
+            with self.assertRaises(Exception) as c:  # raíz sin PUERTA ni production_status: camino de producción, falla
+                rpv.production_descriptors(Path(tmp), "1", None, None, "2019-11-10", None)
+            self.assertNotIn("PUERTA_NO_PASS", str(c.exception))
+
+    def test_dos_claves_del_mismo_territorio_en_un_run_se_rechazan(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = raiz_historica(Path(tmp), "201911")
+            raiz_historica(raiz, "201904")
+            with self.assertRaisesRegex(ValueError, "CLAVE_REPETIDA"):
+                rpv.production_descriptors(raiz, "1")
+
+    def test_dos_runs_de_distinta_eleccion_no_caben_en_un_lote(self):
+        with tempfile.TemporaryDirectory() as a, tempfile.TemporaryDirectory() as b:
+            d1 = rpv.production_descriptors(raiz_historica(Path(a), "201911"), "1")
+            d2 = rpv.production_descriptors(raiz_historica(Path(b), "201904"), "2")
+        with self.assertRaisesRegex(ValueError, "LOTE_TERRITORIO_REPETIDO"):
+            rpv.merge_batch_descriptors([d1, d2])
