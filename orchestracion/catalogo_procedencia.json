@@ -6068,11 +6068,11 @@
   },
   "congreso_navarra": {
    "fuente_territorial": {
-    "run_id": "43654160684",
-    "package_sha256": "6b6e064e3771a6e329fe6f0c184c6d657c04f1e15f89d9c18b55cef6d8a350d8",
-    "artifact_sha256": "636fd02e355d88fb4d3a33ae1f6a46724c5ede408b3b2438f7952c6d0dfd6da6",
-    "territorial_identity_sha256": "2c104d37982141778b52bf2fde6fb5c0303aae79163d65321abc393709ae397e",
-    "receipt_path": "territorios/nac31/evidencia/fuentes_territoriales/2025/2c104d37982141778b52bf2fde6fb5c0303aae79163d65321abc393709ae397e/43654160684/receipt.json",
+    "run_id": "43764735304",
+    "package_sha256": "03b246bda8b565956df1efac154332783f9a5b7402a2b4b23be782ccf5de7910",
+    "artifact_sha256": "8467f00e5660623afd02fe1a331cb962b591fe8141311cee2d273b4814a3c3d3",
+    "territorial_identity_sha256": "51d8252d7e3db17f59afbc306a68339713d7effc4337247a0b5bd5158ebf0823",
+    "receipt_path": "territorios/nac31/evidencia/fuentes_territoriales/2025/51d8252d7e3db17f59afbc306a68339713d7effc4337247a0b5bd5158ebf0823/43764735304/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
