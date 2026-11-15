@@ -5,7 +5,7 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.0.0 · FECHA: 2026-11-15 · ESTADO: candidato
 ANTERIOR: ninguna (fichero nuevo)
-CAMBIOS: 1.0.0: fichero nuevo.
+CAMBIOS: 1.0.0: fichero nuevo (revisión de #813: unicidad de la sigla del espejo, columna `fuerza`, regla CONTENIDA_EN_SIGLA_BOE retirada por no generar filas).
 MOTIVO: la puerta del histórico (T-342) exige que TODO partido del CSV oficial del BOE de la provincia se compare con el
   espejo (cobertura total). Las siglas del BOE y las del espejo (Observatorio, T-89) no coinciden en coaliciones y federaciones
   («LA IZQUIERDA PLURAL» frente a «IU-LV», «PSOE» frente a «PSE-EE (PSOE)»). Orden del Planificador: el alias sale de ficheros con
@@ -19,6 +19,11 @@ QUÉ HACE: `generar` lee los CSV oficiales del BOE (configuracion/resultados_ofi
   (2) FAMILIA: la familia nativa del espejo (campo `f`) de una etiqueta de otra provincia de la MISMA elección que ya prueba la
       misma sigla del BOE por (1) o que la lleva tal cual; sirve solo si la familia es única para esa sigla y la provincia tiene
       UNA sola sigla de esa familia (correspondencia 1:1).
+  FUERZA de la prueba (columna `fuerza`): ETIQUETA = el texto de la etiqueta del espejo en esa provincia prueba la sigla; FAMILIA = prueba
+  más débil: se apoya en el campo `f` del espejo y en una semilla (la etiqueta de otra provincia de la misma elección que ya prueba la
+  sigla, o la propia sigla tal cual). Una sigla del espejo no puede acreditar dos siglas del BOE de la misma provincia (se contaría
+  dos veces): si ocurre, ninguna se acredita (SIGLA_ESPEJO_DUPLICADA). El texto del BOE NO está en el repositorio: solo el id BOE-A-… y el
+  sha256 del documento (fichas resultados_oficiales_congreso_<año>.json), así que la prueba de texto es la del espejo, no la del BOE.
   Lo demás NO se acredita: se escribe en el CSV de no acreditados con su motivo y la provincia falla en la puerta (no se supone).
   La diferencia de votos frente al BOE se anota como validación (no como prueba). La homologación D-20 (T-97) no se usa ni se cambia.
   `comprobar` revalida sin red: cabecera, claves únicas, sha256 de los ficheros del espejo (manifiesto), del CSV del BOE y del
@@ -48,7 +53,7 @@ ACREDITADOS = "configuracion/alias_siglas_boe_espejo.csv"
 NO_ACREDITADOS = "configuracion/alias_siglas_boe_espejo_no_acreditados.csv"
 MANIFIESTO = "orchestracion/fuente_nazioenbehatokia.json"
 CAB = ["eleccion", "provincia", "sigla_boe", "siglas_espejo", "regla", "prueba", "sha256_espejo", "fuente_boe", "sha256_documento_boe",
-       "sha256_csv_boe", "validacion_votos", "aviso"]
+       "sha256_csv_boe", "validacion_votos", "aviso", "fuerza"]
 CAB_NO = ["eleccion", "provincia", "sigla_boe", "motivo"]
 AVISO = "coaliciones: no comparables entre elecciones"
 
@@ -82,8 +87,6 @@ def prueba_etiqueta(b: str, s: str) -> str | None:
         return "CONTIENE_SIGLA_BOE"
     if nb in ts:
         return "SIGLA_BOE_COMO_TOKEN"
-    if len(ns) >= 6 and ns in nb and len(ns) >= 0.6 * len(nb):
-        return "CONTENIDA_EN_SIGLA_BOE"
     return None
 
 
@@ -111,6 +114,7 @@ def _espejo(espejo: Path, clave: str, cpro: str, manifiesto: dict) -> tuple[dict
 def generar(espejo: Path, raiz: Path = ROOT, manifiesto: dict | None = None, elecciones: dict | None = None) -> tuple[list, list]:
     manifiesto = manifiesto or json.loads((raiz / MANIFIESTO).read_text(encoding="utf-8"))
     ok, no = [], []
+    pendientes: list = []
     for k, rel in (elecciones or ELECCIONES).items():
         ficha = json.loads((raiz / f"configuracion/resultados_oficiales_congreso_{rel}.json").read_text(encoding="utf-8"))
         fuente = {"boe": ficha["boe"], "doc": ficha["sha256_xml"], "csv": sha256(raiz / f"configuracion/resultados_oficiales_congreso_{rel}.csv")}
@@ -153,7 +157,15 @@ def generar(espejo: Path, raiz: Path = ROOT, manifiesto: dict | None = None, ele
                     c0, s0, r0 = sorted(sem)[0]
                     prueba = f"{ss[0]} familia {fam}; semilla {c0} {s0} ({r0})"
                 dif = (v - sum(D[c][s][0] for s in ss)) / v
-                ok.append([k, c, b, "|".join(ss), regla, prueba, H[c], fuente["boe"], fuente["doc"], fuente["csv"], f"defecto {dif:.5f}", AVISO])
+                pendientes.append([k, c, b, "|".join(ss), regla, prueba, H[c], fuente["boe"], fuente["doc"], fuente["csv"],
+                                   f"defecto {dif:.5f}", AVISO, regla.split(":")[0].lower()])
+    uso = collections.Counter((f[0], f[1], x) for f in pendientes for x in f[3].split("|"))
+    for f in pendientes:
+        dup = [x for x in f[3].split("|") if uso[(f[0], f[1], x)] > 1]
+        if dup:
+            no.append([f[0], f[1], f[2], f"SIGLA_ESPEJO_DUPLICADA: {dup} acreditaría a más de una sigla del BOE"])
+        else:
+            ok.append(f)
     return ok, no
 
 
@@ -189,6 +201,10 @@ def comprobar(raiz: Path = ROOT) -> list:
             err.append(f"SHA_CSV_BOE {d['eleccion']}")
         if not d["regla"].split(":")[0] in ("ETIQUETA", "FAMILIA") or not d["prueba"] or not d["siglas_espejo"]:
             err.append(f"SIN_PRUEBA {d['eleccion']} {d['provincia']} {d['sigla_boe']}")
+        if d["fuerza"] != d["regla"].split(":")[0].lower():
+            err.append(f"FUERZA {d['eleccion']} {d['provincia']} {d['sigla_boe']}")
+    uso = collections.Counter((f[0], f[1], x) for f in filas for x in f[3].split("|"))
+    err += [f"SIGLA_ESPEJO_DUPLICADA {k}" for k, n in uso.items() if n > 1]
     return err
 
 

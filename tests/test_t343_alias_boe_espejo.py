@@ -40,7 +40,7 @@ class Generador(unittest.TestCase):
             ("01", "ZZZ-COALICION UNICA", "ZZZ-COALICI", "ETIQUETA:PREFIJO_TRUNCADO"),
             ("02", "ZZZ-COALICION UNICA", "OTRA ETIQUETA", "FAMILIA:f3"),
         ])
-        self.assertEqual(ok[0][6], SHA01)
+        self.assertEqual((ok[0][6], ok[0][12], ok[2][12]), (SHA01, "etiqueta", "familia"))  # fuerza visible
         self.assertEqual((ok[0][7], ok[0][8]), ("BOE-A-0000-0", "ab" * 32))
         self.assertIn("familia f3; semilla 01 ZZZ-COALICI", ok[2][5])  # la semilla de la familia es la etiqueta de otra provincia
         self.assertTrue(all(f[11] == "coaliciones: no comparables entre elecciones" for f in ok))
@@ -103,13 +103,64 @@ class PuertaConAlias(unittest.TestCase):
             c = self.contraste(self.raiz(t, editar=editar), "01")
             self.assertEqual((c["ok"], c["no_acreditados"]), (False, {"PSOE": "SHA256_ESPEJO_DISTINTO"}))
 
-    def test_alias_dudoso_con_votos_fuera_de_tolerancia_falla(self):
+    def test_alias_que_apunta_a_una_sigla_ya_comparada_no_vale(self):
         def editar(ok):
-            ok[0][3] = "BBB"  # alias mal escrito: PSOE ← BBB (390000 frente a 600000: 35 %), y BBB ya está en el BOE
+            ok[0][3] = "BBB"  # alias mal escrito: PSOE ← BBB, y BBB ya está en el BOE
         with tempfile.TemporaryDirectory() as t:
             c = self.contraste(self.raiz(t, editar=editar), "01")
             self.assertFalse(c["ok"])
             self.assertEqual(c["no_acreditados"]["PSOE"], "SIGLAS_DEL_ALIAS_AUSENTES_EN_EL_ESPEJO")
+
+    def test_alias_dudoso_con_votos_fuera_de_tolerancia_falla(self):
+        with tempfile.TemporaryDirectory() as t:
+            raiz = self.raiz(t)
+            c = hc.contraste_boe("201911", "02", FX / "espejo/data/201911/sekzioa/02.json", raiz)
+            self.assertTrue(c["ok"])  # control: la 02 pasa con el espejo congelado
+            # votos fuera de tolerancia: se rebaja a mano el espejo de la 02 a 10 % del BOE en una copia con su sha256 recalculado
+            esp = Path(t) / "esp02.json"
+            doc = json.loads((FX / "espejo/data/201911/sekzioa/02.json").read_text(encoding="utf-8"))
+            doc["r"]["0200100001"][3] = [[0, 295000], [1, 195000], [2, 2500]]
+            esp.write_text(json.dumps(doc), encoding="utf-8")
+            import hashlib
+            with (raiz / hc.ALIAS_CSV).open(encoding="utf-8") as fh:
+                fila = next(f for f in csv.reader(fh) if f[1] == "02")
+            texto = (raiz / hc.ALIAS_CSV).read_text(encoding="utf-8").replace(fila[6], hashlib.sha256(esp.read_bytes()).hexdigest())
+            (raiz / hc.ALIAS_CSV).write_text(texto, encoding="utf-8")
+            c = hc.contraste_boe("201911", "02", esp, raiz)
+            self.assertEqual((c["ok"], c["motivo"]), (False, "DEFECTO_SOBRE_TOLERANCIA"))  # ZZZ: 2.500 frente a 25.000 = 90 %
+
+    def test_una_sigla_del_espejo_no_acredita_a_dos_del_boe(self):
+        with tempfile.TemporaryDirectory() as t:
+            raiz = Path(t) / "raiz"
+            shutil.copytree(FX / "raiz", raiz)
+            esp = Path(t) / "espejo"
+            shutil.copytree(FX / "espejo", esp)
+            # el BOE de la provincia 01 pasa a tener dos coaliciones de las que «ZZZ-COALICI» es prefijo de ambas (prefijo ambiguo)
+            csvp = raiz / "configuracion/resultados_oficiales_congreso_2019_11.csv"
+            csvp.write_text(csvp.read_text(encoding="utf-8") + "01,P01,4,ZZZ-COALICION DOS,100,0\n", encoding="utf-8")
+            man = json.loads((FX / "manifiesto.json").read_text(encoding="utf-8"))
+            ok, no = ab.generar(esp, raiz, man, ELEC)
+            self.assertNotIn(("01", "ZZZ-COALICION UNICA"), [(f[1], f[2]) for f in ok])
+            self.assertNotIn(("01", "ZZZ-COALICION DOS"), [(f[1], f[2]) for f in ok])
+            motivos = {(f[1], f[2]): f[3].split(":")[0] for f in no}
+            self.assertEqual(motivos[("01", "ZZZ-COALICION UNICA")], "SIGLA_ESPEJO_DUPLICADA")
+            self.assertEqual(motivos[("01", "ZZZ-COALICION DOS")], "SIGLA_ESPEJO_DUPLICADA")
+
+    def test_comprobar_detecta_sigla_de_espejo_duplicada(self):
+        with tempfile.TemporaryDirectory() as t:
+            raiz = Path(t)
+            (raiz / "orchestracion").mkdir()
+            (raiz / "configuracion").mkdir()
+            shutil.copy(ROOT / ab.MANIFIESTO, raiz / ab.MANIFIESTO)
+            for rel in ab.ELECCIONES.values():
+                for ext in ("csv", "json"):
+                    shutil.copy(ROOT / f"configuracion/resultados_oficiales_congreso_{rel}.{ext}", raiz / "configuracion")
+            with (ROOT / ab.ACREDITADOS).open(encoding="utf-8") as fh:
+                filas = list(csv.reader(fh))
+            filas.append(list(filas[1][:2]) + ["OTRA SIGLA BOE"] + filas[1][3:])  # misma sigla del espejo, otra sigla del BOE
+            with (raiz / ab.ACREDITADOS).open("w", encoding="utf-8", newline="") as fh:
+                csv.writer(fh, lineterminator="\n").writerows(filas)
+            self.assertTrue(any(e.startswith("SIGLA_ESPEJO_DUPLICADA") for e in ab.comprobar(raiz)))
 
     def test_la_puerta_lleva_el_aviso(self):
         with tempfile.TemporaryDirectory() as t:

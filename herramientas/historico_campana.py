@@ -170,8 +170,8 @@ def contraste_boe(clave: str, provincia: str | None, espejo: Path | None, root: 
     tot = fnb.totales_provincia(json.loads(Path(espejo).read_text(encoding="utf-8")))
     filas = _alias_acreditados(root)
     sha_espejo = hashlib.sha256(Path(espejo).read_bytes()).hexdigest()
-    alias, no_acr = {}, {}
-    for b in oficial:
+    alias, no_acr, usadas = {}, {}, set()
+    for b in sorted(oficial):
         if b in tot:
             continue
         f = filas.get((clave, provincia, b))
@@ -181,10 +181,13 @@ def contraste_boe(clave: str, provincia: str | None, espejo: Path | None, root: 
             no_acr[b] = "SHA256_ESPEJO_DISTINTO"
         elif not all(x in tot and x not in oficial for x in f["siglas_espejo"].split("|")):
             no_acr[b] = "SIGLAS_DEL_ALIAS_AUSENTES_EN_EL_ESPEJO"
+        elif usadas & set(f["siglas_espejo"].split("|")):
+            no_acr[b] = "SIGLA_ESPEJO_REUTILIZADA"  # una sigla del espejo no acredita a dos del BOE
         else:
             ss = f["siglas_espejo"].split("|")
+            usadas |= set(ss)
             tot[b] = sum(tot[x] for x in ss)  # suma de las siglas del espejo tal cual vienen en la fuente
-            alias[b] = {"siglas_espejo": ss, "regla": f["regla"], "fuente_boe": f["fuente_boe"]}
+            alias[b] = {"siglas_espejo": ss, "regla": f["regla"], "fuerza": f.get("fuerza"), "fuente_boe": f["fuente_boe"]}
     c = fnb.contrastar_provincia(tot, oficial, tol)
     if not c["comparaciones"]:
         return {**r, "metodo": METODO_CONTRASTE, "motivo": "SIN_PARTIDOS_COMPARABLES", "sin_homologar": c["sin_homologar"]}
