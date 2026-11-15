@@ -118,7 +118,7 @@ while True:
                     parada('cadena %s: territorial %s terminó y no hay Activación en 30 min' % (t, r[1]))
         wtsv(E, list(cad.values()))
     okn = sum(1 for r in cad.values() if r[5] == 'OK')
-    if okn == len(terr) - 1: log('FIN: %d cadenas OK' % okn); sys.exit(0)
+    if okn == len(terr): log('FIN: %d cadenas OK' % okn); sys.exit(0)
     if (okn >= 5 and aviso < 5) or okn // 10 > aviso // 10:
         open(Q + '/aviso_n', 'w').write(str(okn)); log('HITO %d cadenas OK' % okn); sys.exit(0)
     # 5. lanzamientos (tras comprobar main y congelación)
@@ -130,7 +130,7 @@ while True:
     for t in terr:
         if env >= cupo: break
         i = cid(t)
-        if t == '11 Extremadura' or t in cad or t not in p10: continue
+        if t in cad or t not in p10: continue
         if p10[t][2] == 'success' and i in ver and i in arch and arch[i][3] == 'success':
             n = despacha('ejecucion-completa-proyecto.yml', {'territory_id': t, 'data_edition': '2025',
                          'execution_mode': 'Generar desde fuente territorial acreditada', 'optimization_algorithm': 'Canónico',
@@ -142,7 +142,7 @@ while True:
         if t in p10 and p10[t][2] == 'success' and i in ver and i not in arch:
             n = despacha('bateria-motor.yml', {'territorios': i, 'archivar_p10': p10[t][1], 'motor': 'motor2'})
             open(A, 'a').write('%s\t%s\t%s\tEN_VUELO\n' % (i, p10[t][1], n)); arch[i] = [i, p10[t][1], n, 'EN_VUELO']; log('archivo lanzado', t, n)
-    pend = sum(1 for t in terr if t in p10 and t not in cad and t != '11 Extremadura')
+    pend = sum(1 for t in terr if t in p10 and t not in cad)
     vp = sum(1 for r in p10.values() if r[2] == 'EN_VUELO')
     for t in terr:
         if vp >= P10_CUPO or pend >= ADELANTO: break
