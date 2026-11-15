@@ -19,8 +19,8 @@ CLAVES = {"territory_id", "territorio_id"}
 CARPETA = re.compile(r"^(aut|nac)\d\d$")
 
 
-def _ficheros():
-    base = ROOT / "territorios"
+def _ficheros(raiz=ROOT):
+    base = raiz / "territorios"
     for carpeta in sorted(p for p in base.iterdir() if p.is_dir() and CARPETA.match(p.name)):
         for d, _, fs in os.walk(carpeta / "config"):
             for f in sorted(fs):
@@ -39,30 +39,58 @@ def _pares(nodo):
             yield from _pares(v)
 
 
+def revisar(raiz=ROOT) -> list[str]:
+    viejos = {t.id_legacy for t in ti.tabla().values()}
+    ruta_vieja = re.compile(r"territorios/(%s)/" % "|".join(map(re.escape, sorted(viejos, key=len, reverse=True))))
+    malos = []
+    for carpeta, f in _ficheros(raiz):
+        rel = f.relative_to(raiz).as_posix()
+        try:
+            texto = f.read_text(encoding="utf-8")
+        except FileNotFoundError:  # temporal de otro test concurrente
+            continue
+        try:
+            datos = yaml.safe_load(texto)
+        except yaml.YAMLError:
+            datos = None
+        for k, v in _pares(datos):
+            if k in CLAVES and v != carpeta and not v.startswith("congreso350_"):
+                malos.append(f"{rel}: {k}={v!r} (carpeta {carpeta})")
+        if ruta_vieja.search(texto):
+            malos.append(f"{rel}: ruta territorios/<id viejo>/")
+    return malos
+
+
 class ConfigConIdCanonico(unittest.TestCase):
     def test_hay_ficheros(self):
         self.assertGreater(len(list(_ficheros())), 50)
 
-    def test_territory_id_igual_a_la_carpeta_y_sin_ids_viejos(self):
-        viejos = {t.id_legacy for t in ti.tabla().values()}
-        ruta_vieja = re.compile(r"territorios/(%s)/" % "|".join(map(re.escape, sorted(viejos, key=len, reverse=True))))
-        malos = []
-        for carpeta, f in _ficheros():
-            rel = f.relative_to(ROOT).as_posix()
-            try:
-                texto = f.read_text(encoding="utf-8")
-            except FileNotFoundError:  # temporal de otro test concurrente
-                continue
-            try:
-                datos = yaml.safe_load(texto)
-            except yaml.YAMLError:
-                datos = None
-            for k, v in _pares(datos):
-                if k in CLAVES and v != carpeta and not v.startswith("congreso350_"):
-                    malos.append(f"{rel}: {k}={v!r} (carpeta {carpeta})")
-            if ruta_vieja.search(texto):
-                malos.append(f"{rel}: ruta territorios/<id viejo>/")
-        self.assertEqual(malos, [])
+    def test_repositorio_sin_ids_viejos(self):
+        self.assertEqual(revisar(), [])
+
+    def _arbol(self, td, contenido):
+        cfg = Path(td) / "territorios" / "aut02" / "config" / "elecciones"
+        cfg.mkdir(parents=True)
+        (cfg / "c.json").write_text(contenido, encoding="utf-8")
+        (Path(td) / "territorios" / "congreso350_alava" / "config").mkdir(parents=True)  # fuera de alcance
+
+    def test_control_positivo_detecta_id_viejo_y_ruta_vieja(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            self._arbol(td, '{"territory_id": "aragon", "path": "territorios/aragon/config/x.json"}')
+            malos = revisar(Path(td))
+        self.assertEqual(len(malos), 2, malos)
+        self.assertIn("territory_id='aragon'", malos[0])
+        self.assertIn("ruta territorios/<id viejo>/", malos[1])
+
+    def test_control_negativo_acepta_canonico_y_otra_carpeta_es_error(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            self._arbol(td, '{"territory_id": "aut02", "path": "territorios/aut02/config/x.json"}')
+            self.assertEqual(revisar(Path(td)), [])
+        with tempfile.TemporaryDirectory() as td:
+            self._arbol(td, '{"territory_id": "aut12"}')
+            self.assertEqual(len(revisar(Path(td))), 1)
 
 
 if __name__ == "__main__":
