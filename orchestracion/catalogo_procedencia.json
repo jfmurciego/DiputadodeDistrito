@@ -443,11 +443,11 @@
   },
   "cantabria": {
    "fuente_territorial": {
-    "run_id": "43724285308",
+    "run_id": "43739243350",
     "package_sha256": "4ff7e260f1cadbed52ebead13d071e1b7c80f326ae82d9b6d7f75d16957fd469",
-    "artifact_sha256": "17c01544c2f01d7c6defb7a59d49080cb282b0d852c0a29687c4f8692398e2f1",
+    "artifact_sha256": "4fe119c80f7f560ea05313a528c8c66508ce6f8b1ba7dffe458092befcfedfee",
     "territorial_identity_sha256": "0bc278cfc61ea05b6c9f644c6584315f3eb00df1a45e1b764a1ba6e8ecbf8467",
-    "receipt_path": "territorios/aut06/evidencia/fuentes_territoriales/2025/0bc278cfc61ea05b6c9f644c6584315f3eb00df1a45e1b764a1ba6e8ecbf8467/43724285308/receipt.json",
+    "receipt_path": "territorios/aut06/evidencia/fuentes_territoriales/2025/0bc278cfc61ea05b6c9f644c6584315f3eb00df1a45e1b764a1ba6e8ecbf8467/43739243350/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
