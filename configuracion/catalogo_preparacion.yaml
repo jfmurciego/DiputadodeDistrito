@@ -59,25 +59,24 @@ territories:
         electoral_source: territorios/aut02/evidencia/fuentes_electorales/2025/9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af/40896686254/receipt.json
         electoral_product: territorios/aut02/evidencia/catalogo/electoral_product_2025.json
         prepared_source_pair: territorios/aut02/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json
-        generation_preflight: territorios/aut02/evidencia/catalogo/generation_preflight_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 43016936483
         stage: M08
       preparation_evidence:
-        run_id: 43724241077
-        artifact_name: ddd-source-package-aut02-2025-43724241077
-        artifact_sha256: 2ecfae68697bca8ffbb4c18e53e14a351e3a114a4b8c4d4cfb091c659a91aaf9
+        run_id: 43728693144
+        artifact_name: ddd-source-package-aut02-2025-43728693144
+        artifact_sha256: 0b93a615e5d8c0354e1932e23280a63e42dfbae042464316f4c7f9779a057940
         package_sha256: 5ccab3dbdc8fd629312e8c91dca8ae4ebf02c1d9ba32c52324d1c3573c7b2c00
-        receipt_path: territorios/aut02/evidencia/fuentes_territoriales/2025/2fdc39e5b356c1b3464934a47c793b6c00779c068121c791f6e18fde6c433375/43724241077/receipt.json
+        receipt_path: territorios/aut02/evidencia/fuentes_territoriales/2025/2fdc39e5b356c1b3464934a47c793b6c00779c068121c791f6e18fde6c433375/43728693144/receipt.json
         territorial_identity_sha256: 2fdc39e5b356c1b3464934a47c793b6c00779c068121c791f6e18fde6c433375
         compatibility_report_sha256: ee4d1b29aec0c213318da413f225e68b9f9b5544648fb7b88b0861688f53f2da
         compatibility_identity_sha256: f00b80419465e89743733da53f35ef3afa02d7a9c6d54161563276834de3070c
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2025
         section_year: 2025
-        source_commit: db314ed67063bae3987f77ad566c74ad18ac1dbf
+        source_commit: 5ed6f37a5e59623480fcd2de88828a60fb3c8095
       generation_enabled: false
 - territory_id: aut03
   name: Principado de Asturias
