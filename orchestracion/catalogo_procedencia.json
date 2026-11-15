@@ -1714,11 +1714,11 @@
   },
   "congreso_alicante": {
    "fuente_territorial": {
-    "run_id": "43650100325",
-    "package_sha256": "89012683d93b6426a51dbe26181f264e2e4c173bcfe90da44505634a79040eda",
-    "artifact_sha256": "9388c8050b3464d47ffca5fc0b99169d4dfa831af92bc5a5b3eba11eaddbdf89",
-    "territorial_identity_sha256": "52d5eb1cfde9fa98d66c5adade4cde3e501b9aa3c3ec54b8f344a046c32ddca3",
-    "receipt_path": "territorios/nac03/evidencia/fuentes_territoriales/2025/52d5eb1cfde9fa98d66c5adade4cde3e501b9aa3c3ec54b8f344a046c32ddca3/43650100325/receipt.json",
+    "run_id": "43743681124",
+    "package_sha256": "77122046204dfe4fd0ef2126eddbc84459e297a59c4df54430ec36d63ed515f2",
+    "artifact_sha256": "4df673de20951e28eb6c99c5d5d648198d6925231f3a900f4c8ecaeb623de6db",
+    "territorial_identity_sha256": "dee2171d2d5ed4c5c911302884b444683942d106c7b8a6bdbe313a41a2b04eed",
+    "receipt_path": "territorios/nac03/evidencia/fuentes_territoriales/2025/dee2171d2d5ed4c5c911302884b444683942d106c7b8a6bdbe313a41a2b04eed/43743681124/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -2122,11 +2122,11 @@
   },
   "congreso_avila": {
    "fuente_territorial": {
-    "run_id": "43650119878",
-    "package_sha256": "376536b60057625e599290c8b5173c1157eed276f0afed65062f2791c9f8dfef",
-    "artifact_sha256": "727a2d44c2b05b3b76d45a1790f96eb2d001ec267934ed9123ce508294697adc",
-    "territorial_identity_sha256": "70099414314869f03817d5075989c6de17e101aa1278029fe95dfd00e0d26a06",
-    "receipt_path": "territorios/nac05/evidencia/fuentes_territoriales/2025/70099414314869f03817d5075989c6de17e101aa1278029fe95dfd00e0d26a06/43650119878/receipt.json",
+    "run_id": "43743711401",
+    "package_sha256": "e9dbbf8a943ecf8fe31d7bd6b155bc7cd831e2acb6fbc55acfa2ce9d43064640",
+    "artifact_sha256": "baac36d3cd713dcbfc4dfa294318d8d0e97352975c5ff484d162fce1587a2615",
+    "territorial_identity_sha256": "538be1e55e77f8293e080c72e818792e0b2f43e0f0da1407604bc14084978973",
+    "receipt_path": "territorios/nac05/evidencia/fuentes_territoriales/2025/538be1e55e77f8293e080c72e818792e0b2f43e0f0da1407604bc14084978973/43743711401/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
