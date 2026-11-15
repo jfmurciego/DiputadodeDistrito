@@ -2244,24 +2244,23 @@ territories:
         run_id: 42985965354
         stage: M08
       preparation_evidence:
-        run_id: 43662752623
-        artifact_name: ddd-source-package-nac39-2025-43662752623
-        artifact_sha256: f2c0f0446d7f633286d4db6b20e4f6437b980bdecc02b69f7a526ef64c55ed6f
-        package_sha256: 5c407f04024738615754b0ddce90a7607e3bb068916e327ceee1df12f97c4abc
-        receipt_path: territorios/nac39/evidencia/fuentes_territoriales/2025/06e0ca905be23fddebc5cb7973372f66092ef978ad1e55ea45d25d012ceee810/43662752623/receipt.json
-        territorial_identity_sha256: 06e0ca905be23fddebc5cb7973372f66092ef978ad1e55ea45d25d012ceee810
-        compatibility_report_sha256: 930be7a37cbf7bb9dba5ab65bedc960a5d28e8c338982371d2962897f02c67b1
-        compatibility_identity_sha256: 452dea7fbdf82ee9fe48745c7a971db5cfaa908449713c8f669e0444673f52c2
+        run_id: 43770662194
+        artifact_name: ddd-source-package-nac39-2025-43770662194
+        artifact_sha256: f99fe72286066b59fd26ff9cd97cefb079fb7d4205840cb5b1e1cb7aff83b1c6
+        package_sha256: f7c2d59e164e70c11003b2b653b8cb9d9fde6c5d436f5dc3d98be2c391ef2bf3
+        receipt_path: territorios/nac39/evidencia/fuentes_territoriales/2025/5570ec97be2e1d11d8b2e075cf068ab3d07aa025dc11c6d9e320718c449d3838/43770662194/receipt.json
+        territorial_identity_sha256: 5570ec97be2e1d11d8b2e075cf068ab3d07aa025dc11c6d9e320718c449d3838
+        compatibility_report_sha256: d8a991d49879ff202198f33f687fa8a4f97086ae466618a6c8d75251d02a0bcc
+        compatibility_identity_sha256: f428bdec3752ddf7313aadf6f18e81707310ab8dfccfa3e5014d30f01eba1daa
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: e9a5d584f58ec802b5a7408295be4cecbb8ec159
+        source_commit: b00f5979d010eedca3c410ffdf2b8c8354bdc961
       evidence:
         electoral_source: territorios/nac39/evidencia/fuentes_electorales/2025/3f5b23bf3ad78e674bf020c29906afbbabd0706248dc410502069d8bb4acaf1b/41239913823/receipt.json
         territorial_product: territorios/nac39/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac39/evidencia/pares_fuentes/2025/158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7.json
         electoral_product: territorios/nac39/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac39/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac40
   name: Congreso Segovia
