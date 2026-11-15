@@ -896,6 +896,13 @@
    "sha256_csv": "511f82e6b9a8ad4c9f274ee3bac1befc0748e6f88d4e9bfd5e5d4d23599b065f",
    "ruta": "datos/composicion/runs/aut09_43743381120.csv"
   },
+  "aut10/43743635181": {
+   "territorio": "aut10",
+   "run_id": "43743635181",
+   "secciones": 3503,
+   "sha256_csv": "145af5b1a910db96863f1ef7a985744f70ae8c59b65da4f6f1f734df885816a3",
+   "ruta": "datos/composicion/runs/aut10_43743635181.csv"
+  },
   "aut11/43698495438": {
    "territorio": "aut11",
    "run_id": "43698495438",
