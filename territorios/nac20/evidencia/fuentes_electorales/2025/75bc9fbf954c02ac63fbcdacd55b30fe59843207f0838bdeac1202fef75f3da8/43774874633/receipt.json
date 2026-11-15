@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac20",
+  "territory_name": "Congreso Guipúzcoa",
+  "edition": "2025",
+  "run_id": 43774874633,
+  "artifact_name": "ddd-electoral-package-nac20-2025-43774874633",
+  "artifact_sha256": "40d393fc45a1afa5fff4a83765c57a5e68338adfd8f2a7600b395e5c48e8b1a3",
+  "source_commit": "476081ba1fd2c8ee49ad3f3670f53446ef10568a",
+  "election_id": "congreso_guipuzcoa_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "75bc9fbf954c02ac63fbcdacd55b30fe59843207f0838bdeac1202fef75f3da8"
+}
