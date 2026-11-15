@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T19:53:06.992213+00:00",
+  "generated_at": "2026-11-15T19:56:20.241672+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1166,8 +1166,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43743681124,
-            "receipt_path": "territorios/nac03/evidencia/fuentes_territoriales/2025/dee2171d2d5ed4c5c911302884b444683942d106c7b8a6bdbe313a41a2b04eed/43743681124/receipt.json"
+            "run_id": 43754642510,
+            "receipt_path": "territorios/nac03/evidencia/fuentes_territoriales/2025/dee2171d2d5ed4c5c911302884b444683942d106c7b8a6bdbe313a41a2b04eed/43754642510/receipt.json"
           }
         },
         "electoral": {
@@ -8035,13 +8035,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "la_rioja",
+          "territory_id": "aut17",
           "territory_name": "La Rioja",
           "edition": "2025",
-          "run_id": 43007066596,
-          "artifact_name": "ddd-state-43007066596-M08",
-          "artifact_sha256": "6b2a4205365aea53854f0b6821e656a1b5de646788f084f3af5ee9b1231558ee",
-          "source_commit": "260eff86795205b9c9783cbb8457eef07b506a2a",
+          "run_id": 43754082828,
+          "artifact_name": "ddd-state-43754082828-M08",
+          "artifact_sha256": "1e242a8d84246917469632d90b3222abca8204dbd1731cf08eeb5d51845ddbf0",
+          "source_commit": "d5e87db8cef3ab263d469f363a855f5abe39021f",
           "stage": "M08"
         }
       },
@@ -8121,11 +8121,11 @@
       "certification": "PASS",
       "run_id": 43750065634,
       "last_run": {
-        "run_id": 43051007542,
+        "run_id": 43750065634,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -8317,9 +8317,9 @@
         "territorial_source": {
           "territory_id": "nac03",
           "edition": "2025",
-          "run_id": 43743681124,
-          "artifact_name": "ddd-source-package-nac03-2025-43743681124",
-          "artifact_sha256": "4df673de20951e28eb6c99c5d5d648198d6925231f3a900f4c8ecaeb623de6db",
+          "run_id": 43754642510,
+          "artifact_name": "ddd-source-package-nac03-2025-43754642510",
+          "artifact_sha256": "36f465483a4aa7963e885fd8eeb262a060cbaa5eb1de45a04cd427747d787442",
           "decision": "VALIDADO"
         },
         "territorial_product": {
