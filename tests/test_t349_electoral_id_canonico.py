@@ -32,6 +32,7 @@ RUN = 42720735134
 P12 = ROOT / ".github/workflows/preparacion-resultados-electorales.yml"
 # Estado congelado en el commit base (id viejo en los 71 recibos): los tests no dependen del catálogo vivo.
 FIX = ROOT / "tests/fixtures/t349_base/raiz"
+FLUJO = ROOT / "tests/fixtures/t349_flujo/raiz"  # estado registrado congelado (git show del commit base); nunca el vivo
 PLANTILLA = FIX / "territorios/aut19/evidencia/fuentes_electorales/2025/8ac3f49c633f1be8ba441bf1290dc79c1a4b30b2bac0033f9c2699e73c1fd019/40832114779/receipt.json"
 
 
@@ -55,7 +56,7 @@ def _recibo(td: Path, territory_id: str, artifact_territory: str, election_id: s
 def _candidato(td: Path, territory_id: str, receipt_territory: str, artifact_territory: str) -> dict:
     receipt = _recibo(td, receipt_territory, artifact_territory)
     state = {"electoral_source_prepared": True, "evidence": {"electoral_source": str(receipt)}}
-    return rpl._electoral_candidate(ROOT, territory_id, state, "melilla_asamblea_local_2023")
+    return rpl._electoral_candidate(FLUJO, territory_id, state, "melilla_asamblea_local_2023")
 
 
 class CandidatoElectoral(unittest.TestCase):
@@ -94,7 +95,7 @@ class ActivacionConEstadoCongelado(unittest.TestCase):
         receipt = _recibo_congelado(CANON)
         eleccion = json.loads(receipt.read_text(encoding="utf-8"))["election_id"]
         state = {"electoral_source_prepared": True, "evidence": {"electoral_source": str(receipt)}}
-        c = rpl._electoral_candidate(ROOT, CANON, state, eleccion)
+        c = rpl._electoral_candidate(FLUJO, CANON, state, eleccion)
         self.assertFalse(c["reusable"])
         self.assertEqual(c["reason"], "ELECTORAL_ID_NO_CANONICO")
 
@@ -110,12 +111,12 @@ class ActivacionConEstadoCongelado(unittest.TestCase):
 class Preflight(unittest.TestCase):
     def _preflight(self, territory: str, receipt_territory: str, artifact_territory: str) -> dict:
         with tempfile.TemporaryDirectory() as td:
-            registro = yaml.safe_load((ROOT / "configuracion/registro_electoral.yaml").read_text(encoding="utf-8"))
+            registro = yaml.safe_load((FLUJO / "configuracion/registro_electoral.yaml").read_text(encoding="utf-8"))
             eleccion = (registro.get("territories") or {}).get(territory, {}).get("election_id")
             receipt = _recibo(Path(td), receipt_territory, artifact_territory, eleccion)
             state = {"electoral_source_prepared": True, "evidence": {"electoral_source": str(receipt)}}
             with mock.patch.object(pf, "_state", return_value=(territory, "x", state)):
-                return pf.preflight(ROOT, "electoral", territory, "2025")
+                return pf.preflight(FLUJO, "electoral", territory, "2025")
 
     def test_id_viejo_no_queda_registrado(self):
         r = self._preflight("aut19", "aut19", "melilla")
@@ -264,7 +265,7 @@ class InventarioPorRama(unittest.TestCase):
                 receipt = _recibo_congelado(f["territorio"])
                 eleccion = json.loads(receipt.read_text(encoding="utf-8"))["election_id"]
                 state = {"electoral_source_prepared": True, "evidence": {"electoral_source": str(receipt)}}
-                c = rpl._electoral_candidate(ROOT, f["territorio"], state, eleccion)
+                c = rpl._electoral_candidate(FLUJO, f["territorio"], state, eleccion)
                 self.assertFalse(c["reusable"])
                 self.assertEqual(c["reason"], "ELECTORAL_ID_NO_CANONICO")
 
@@ -292,9 +293,6 @@ class InventarioPorRama(unittest.TestCase):
     def test_solo_las_ramas_de_lo_publicado_son_solo_lectura(self):
         alias = {k for k, v in self.tabla["ramas"].items() if v["politica"] == "SOLO_LECTURA_PUBLICADO"}
         self.assertEqual(alias, {"composicion_datos", "registro_visor"})
-
-
-CAT = ROOT / "configuracion/catalogo_preparacion.yaml"
 
 
 class RamasDeLaCadenaD102(unittest.TestCase):
@@ -357,7 +355,7 @@ class RegistroVisorP50(unittest.TestCase):
         self.assertNotEqual(identity_key(vieja), identity_key(nueva))
         registro["products"].append(nueva)  # solo adición: la vieja queda intacta, sin reescritura de id
         self.assertEqual([p["territory_id"] for p in registro["products"]], [VIEJO, CANON])
-        estado = lv.territory_state(ROOT, CANON, registro, None)
+        estado = lv.territory_state(FLUJO, CANON, registro, None)
         self.assertEqual(estado["estado"], "PUBLICADO")
         self.assertEqual(estado["run_id"], "200")
 
@@ -380,9 +378,12 @@ def _raiz_estado_viejo(canonico: bool = False) -> Path:
     import shutil
     from tests._previo_r3 import raiz_previo_r3
     raiz = raiz_previo_r3(canonico=canonico)
-    for origen in [*Path(ROOT / "configuracion").rglob("*"), *Path(ROOT / "fuentes").rglob("*"), *ROOT.glob("territorios/*/config/**/*")]:
+    # Configuración y fuentes del estado congelado (FLUJO); contratos estáticos de territorios/*/config.
+    origenes = [(FLUJO, o) for o in [*Path(FLUJO / "configuracion").rglob("*"), *Path(FLUJO / "fuentes").rglob("*")]]
+    origenes += [(ROOT, o) for o in ROOT.glob("territorios/*/config/**/*")]
+    for base, origen in origenes:
         if origen.is_file():
-            destino = raiz / origen.relative_to(ROOT)
+            destino = raiz / origen.relative_to(base)
             if not destino.exists():
                 destino.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy(origen, destino)
@@ -412,10 +413,21 @@ class FlujoConEstadoViejo(unittest.TestCase):
     def test_p00_reutilizar_y_generar_desde_fuente_no_reutilizan(self):
         from herramientas.resolver_ejecucion_completa import build_plan
         for t in self.TERRITORIOS:
-            for modo, motivo in (("reuse", r"DURABLE_ASSET_(ID_NO_CANONICO|MISSING)"), ("catalog_source", r"CATALOG_SOURCE_BLOCK")):
-                with self.subTest(territorio=t, modo=modo):
-                    with self.assertRaisesRegex(ValueError, motivo):
-                        build_plan(territory=t, edition="2025", execution_mode=modo, catalog=self.catalogo, root_dir=self.raiz)
+            with self.subTest(territorio=t, modo="catalog_source"):
+                with self.assertRaisesRegex(ValueError, r"CATALOG_SOURCE_BLOCK"):
+                    build_plan(territory=t, edition="2025", execution_mode="catalog_source", catalog=self.catalogo, root_dir=self.raiz)
+            with self.subTest(territorio=t, modo="reuse"):
+                # «Reutilizar»: lo registrado con id viejo se descarta (no bloquea) y el plan lo prepara de nuevo.
+                try:
+                    plan = build_plan(territory=t, edition="2025", execution_mode="reuse", catalog=self.catalogo, root_dir=self.raiz)
+                except ValueError as exc:
+                    self.assertNotRegex(str(exc), r"CONTINUE_DURABLE_BLOCK: .*ID_NO_CANONICO")
+                    continue
+                estado = plan["catalog_state"]
+                self.assertTrue(estado["non_canonical_discarded"])
+                for f in ("territorial_product_available", "electoral_source_prepared", "electoral_product_available"):
+                    self.assertFalse(estado[f], f)
+                self.assertTrue(plan["run_prepare_electoral"] and plan["run_incorporate"])
 
     def test_recibos_durables_viejos_se_descartan(self):
         from herramientas.resolver_activos_durables import validate_durable_assets

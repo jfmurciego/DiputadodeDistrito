@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Consumo de fuentes acreditadas de la legislatura.
 
-Versión: 1.2.0; nombre: Linaje M06 desde el manifiesto del productor; fecha: 2026-10-29.
+Versión: 1.3.0; nombre: Registros con id canónico exacto; fecha: 2026-11-15.
+Cambios 1.3.0 (T-349, D-102): receipt territorial, par y recibo del M06 con id canónico exacto; la huella o el linaje
+         sellados con el id viejo se reconocen (SOLO_LECTURA_RECONCILIACION) pero nunca habilitan reuso ni consumo
+         (TERRITORIAL_ID_NO_CANONICO, PRODUCT_ID_NO_CANONICO). Predecesor: legacy/herramientas/consumir_par_fuentes_legislatura_v1.2.0_20261115.py.
+Versión anterior: 1.2.0; nombre: Linaje M06 desde el manifiesto del productor; fecha: 2026-10-29.
 Alcance: consumidor territorial compartido; estado: candidato.
 Cambios: sin linaje producto→fuente versionado, la reutilización geométrica acepta el manifiesto
          del productor M06 cuando su paquete fuente es exactamente el receipt territorial vigente.
@@ -165,6 +169,11 @@ def validate_territorial_receipt(
     if identity["territorial_identity_sha256"] != str(receipt["territorial_identity_sha256"]):
         raise PreparedPairExecutionBlock(
             "PREPARED_TERRITORIAL_BLOCK: territorial_identity_sha256 no reconcilia"
+        )
+    if str(identity["territory_id"]) != str(row["territory_id"]):
+        # T-349 (D-102), SOLO_LECTURA_RECONCILIACION: la huella sellada con el id viejo se reconoce, pero no se consume.
+        raise PreparedPairExecutionBlock(
+            "PREPARED_TERRITORIAL_BLOCK: TERRITORIAL_ID_NO_CANONICO: identidad territorial sellada con id no canónico"
         )
     return row, receipt
 
@@ -450,7 +459,13 @@ def validate_effective_territorial_package(
         package_sha256=str(receipt["package_sha256"]),
         compatibility_identity_sha256=compatibility_identity,
         esperado=str(receipt.get("territorial_identity_sha256") or ""),
-    )["territorial_identity_sha256"]
+    )
+    if str(identity["territory_id"]) != str(territory_id):
+        # T-349 (D-102), SOLO_LECTURA_RECONCILIACION: reconoce la huella vieja; el paquete efectivo exige id exacto.
+        raise PreparedPairExecutionBlock(
+            "PREPARED_TERRITORIAL_BLOCK: TERRITORIAL_ID_NO_CANONICO: identidad territorial sellada con id no canónico"
+        )
+    identity = identity["territorial_identity_sha256"]
     if identity != str(receipt.get("territorial_identity_sha256") or ""):
         raise PreparedPairExecutionBlock(
             "PREPARED_TERRITORIAL_BLOCK: identidad territorial efectiva no coincide"

@@ -1,6 +1,6 @@
 # Inventario de ids de territorio no canónicos por rama de reutilización (T-349)
 
-Base: `8ab93c647747b32860e0f8af21c33fd3f041c68e`. Generado con `python -m herramientas.inventario_ids_no_canonicos`. Solo lectura, orden determinista.
+Base: `25dd77724e649257a6d2dfdfe65d40c9fd12a5ec`. Generado con `python -m herramientas.inventario_ids_no_canonicos`. Solo lectura, orden determinista.
 
 ## Ramas y política del código (D-102)
 
@@ -10,9 +10,10 @@ Base: `8ab93c647747b32860e0f8af21c33fd3f041c68e`. Generado con `python -m herram
 | electoral_fuente | ESTRICTA | Activación, P12, puertas y elegibilidad comparan el id exacto (T-349) |
 | poblacion | ESTRICTA | la población y el seccionado viajan dentro del paquete de fuentes territorial (misma rama) |
 | par_fuentes | ESTRICTA | registrar_par/consumir_par comparan el id exacto (T-349): un par registrado con id viejo se rechaza y se registra el nuevo |
-| producto_M06 | ESTRICTA | resolver_activos_durables: recibo y manifiesto M06 con id exacto; con id viejo la P00 en reutilizar bloquea y se genera de nuevo |
+| producto_M06 | ESTRICTA | resolver_ejecucion_completa.descartar_registros_no_canonicos y resolver_activos_durables: recibo M06 con id exacto; con id viejo la P00 lo descarta en todos los modos y lo genera de nuevo; consumir_par/registrar_par no lo dan como reuso geométrico |
 | producto_M08 | ESTRICTA | resolver_activos_durables: un M08 registrado con id viejo se descarta (rejected_electoral_product) y se reincorpora |
 | composicion_datos | SOLO_LECTURA_PUBLICADO | fichero_por_id lee el id viejo solo si no existe el canónico (D-61); lo que se escribe lleva el id canónico |
+| huellas_selladas | SOLO_LECTURA_RECONCILIACION | territorial_identity con esperado y _identidades_por_variante RECONOCEN una huella sellada con el id viejo; el objeto que la lleva no se reutiliza ni se consume (TERRITORIAL_ID_NO_CANONICO / PAIR_ID_NO_CANONICO); los inventarios físicos del contrato solo seleccionan componentes para generar |
 | registro_visor | SOLO_LECTURA_PUBLICADO | registro de solo adición: las entradas viejas se leen; la P50 añade la entrada canónica con alias_de y el run mayor la sustituye (migración en T-313) |
 
 ## Resumen por rama
@@ -26,6 +27,7 @@ Base: `8ab93c647747b32860e0f8af21c33fd3f041c68e`. Generado con `python -m herram
 | producto_M06 | ESTRICTA | 71 | 70 |
 | producto_M08 | ESTRICTA | 71 | 71 |
 | composicion_datos | SOLO_LECTURA_PUBLICADO | 141 | 141 |
+| huellas_selladas | SOLO_LECTURA_RECONCILIACION | 71 | 0 |
 | registro_visor | SOLO_LECTURA_PUBLICADO | 144 | 144 |
 
 ## Activación (resultado real de `resolver_preparacion_legislatura`)

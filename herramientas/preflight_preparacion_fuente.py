@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# VERSIÓN: T-349 (2026-11-15). CAMBIOS (T-349, D-102): el paquete registrado se acepta solo con el id canónico EXACTO (nombre y territory_id); con alias, registered=false y rejected_reason=ID_NO_CANONICO.
+#   MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo. ANTERIOR: legacy/herramientas/preflight_preparacion_fuente_pre_t349_20261115.py
 from __future__ import annotations
 
 import argparse

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # CAMBIOS 2026-11-15 (T-349): un paquete electoral o territorial registrado con id no canónico (alias del id viejo) ya no es
-#   reutilizable: razones ELECTORAL_ID_NO_CANONICO / TERRITORIAL_ID_NO_CANONICO y acción ACQUIRE; igualdad exacta, sin alias.
+#   reutilizable: razones ELECTORAL_ID_NO_CANONICO / TERRITORIAL_ID_NO_CANONICO y acción ACQUIRE; igualdad exacta, sin alias
+#   (también declaración, recibo territorial, referencias de procedencia y huella sellada con el id viejo, que solo se reconoce).
 # ANTERIOR (c): legacy/herramientas/resolver_preparacion_legislatura_pre_t349_20261115.py
 # CAMBIOS 2026-10-30: territorios piloto (pilot_code, p. ej. Congreso Huesca) en matriz y registro; la
 #   invariante de 19 se aplica a las comunidades y ciudades autónomas.
@@ -295,6 +296,8 @@ def _territorial_candidate(
     territory = declaration.get("territory") or {}
     if not mismo_territorio(str(territory.get("id") or ""), str(territory_id)):
         return {"reusable": False, "reason": "TERRITORIAL_IDENTITY_MISMATCH"}
+    if str(territory.get("id") or "") != str(territory_id):  # T-349: declaración con id canónico exacto
+        return {"reusable": False, "reason": "TERRITORIAL_ID_NO_CANONICO"}
     run_id = prep.get("run_id")
     artifact_name = str(prep.get("artifact_name") or "")
     artifact_sha256 = _digest(prep.get("artifact_sha256"))
@@ -360,6 +363,9 @@ def _territorial_candidate(
         compatibility_identity_sha256=compatibility_identity_sha256,
         esperado=esperado,
     )
+    if str(identity["territory_id"]) != str(territory_id):
+        # T-349 (D-102), SOLO_LECTURA_RECONCILIACION: la huella sellada con el id viejo se reconoce, no se reutiliza.
+        return {"reusable": False, "reason": "TERRITORIAL_ID_NO_CANONICO", "registered_identity_territory_id": identity["territory_id"]}
     if receipt_rel:
         receipt_path = ruta_existente(root, receipt_rel)
         if not receipt_path.is_file():
@@ -368,7 +374,7 @@ def _territorial_candidate(
         if (
             receipt.get("schema") != "ddd.territorial-source-receipt/1.0"
             or receipt.get("kind") != "territorial_source"
-            or not mismo_territorio(str(receipt.get("territory_id") or ""), str(territory_id))
+            or str(receipt.get("territory_id") or "") != str(territory_id)  # T-349: recibo con id canónico exacto
             or str(receipt.get("edition") or "") != edition
             or int(receipt.get("run_id") or 0) != run_id
             or str(receipt.get("artifact_name") or "") != artifact_name
@@ -488,7 +494,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             if not ref_path.is_file():
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_REFERENCE_MISSING"}
             ref = _document(ref_path)
-            if not mismo_territorio(str(ref.get("territory_id") or ""), str(territory_id)) or str(ref.get("election_id") or "") != election_id:
+            if str(ref.get("territory_id") or "") != str(territory_id) or str(ref.get("election_id") or "") != election_id:  # T-349: exacto
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
             provenance_reference = declaration_rel
             provenance_election_date = str(ref.get("election_date") or "")
@@ -506,7 +512,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             if not ref_path.is_file():
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_REFERENCE_MISSING"}
             ref = _document(ref_path)
-            if not mismo_territorio(str(ref.get("territory_id") or ""), str(territory_id)) or str(ref.get("election_id") or "") != election_id:
+            if str(ref.get("territory_id") or "") != str(territory_id) or str(ref.get("election_id") or "") != election_id:  # T-349: exacto
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
             provenance_reference = contract_rel
             provenance_election_date = str(ref.get("election_date") or "")

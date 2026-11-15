@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# VERSIÓN: T-349 (2026-11-15). CAMBIOS (T-349, D-102): solo registra recibos desde manifiestos de run con el territory_id canónico exacto.
+#   MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo. ANTERIOR: legacy/herramientas/detectar_producto_electoral_huerfano_pre_t349_20261115.py
 from __future__ import annotations
 
 import argparse

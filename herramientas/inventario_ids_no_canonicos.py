@@ -34,6 +34,7 @@ if str(ROOT) not in sys.path:
 
 from ddd_core import territorio_ids  # noqa: E402
 from herramientas import resolver_preparacion_legislatura as rpl  # noqa: E402
+from herramientas.identidad_fuentes_legislatura import territorial_identity  # noqa: E402
 
 # Rama de reutilización → política del código de esta rama (D-102). ESTRICTA: lo que la cadena de la r4 prepara, reutiliza o
 # consume exige igualdad exacta con el id canónico (rechaza y vuelve a generar). SOLO_LECTURA_PUBLICADO: se lee lo ya
@@ -43,9 +44,10 @@ RAMAS = {
     "electoral_fuente": ("ESTRICTA", "Activación, P12, puertas y elegibilidad comparan el id exacto (T-349)"),
     "poblacion": ("ESTRICTA", "la población y el seccionado viajan dentro del paquete de fuentes territorial (misma rama)"),
     "par_fuentes": ("ESTRICTA", "registrar_par/consumir_par comparan el id exacto (T-349): un par registrado con id viejo se rechaza y se registra el nuevo"),
-    "producto_M06": ("ESTRICTA", "resolver_activos_durables: recibo y manifiesto M06 con id exacto; con id viejo la P00 en reutilizar bloquea y se genera de nuevo"),
+    "producto_M06": ("ESTRICTA", "resolver_ejecucion_completa.descartar_registros_no_canonicos y resolver_activos_durables: recibo M06 con id exacto; con id viejo la P00 lo descarta en todos los modos y lo genera de nuevo; consumir_par/registrar_par no lo dan como reuso geométrico"),
     "producto_M08": ("ESTRICTA", "resolver_activos_durables: un M08 registrado con id viejo se descarta (rejected_electoral_product) y se reincorpora"),
     "composicion_datos": ("SOLO_LECTURA_PUBLICADO", "fichero_por_id lee el id viejo solo si no existe el canónico (D-61); lo que se escribe lleva el id canónico"),
+    "huellas_selladas": ("SOLO_LECTURA_RECONCILIACION", "territorial_identity con esperado y _identidades_por_variante RECONOCEN una huella sellada con el id viejo; el objeto que la lleva no se reutiliza ni se consume (TERRITORIAL_ID_NO_CANONICO / PAIR_ID_NO_CANONICO); los inventarios físicos del contrato solo seleccionan componentes para generar"),
     "registro_visor": ("SOLO_LECTURA_PUBLICADO", "registro de solo adición: las entradas viejas se leen; la P50 añade la entrada canónica con alias_de y el run mayor la sustituye (migración en T-313)"),
 }
 NO_VERIFICABLE = (
@@ -80,6 +82,8 @@ def _fila(tid, rama, objeto, ident, run, fecha, canonico, politica):
         resultado = "REUSE (id canónico)"
     elif politica == "ESTRICTA":
         resultado = "RECHAZA → ACQUIRE/prepara de nuevo"
+    elif politica == "SOLO_LECTURA_RECONCILIACION":
+        resultado = "RECONOCE (solo lectura); no habilita reuso → ACQUIRE/prepara de nuevo"
     else:
         resultado = "SOLO LECTURA de lo publicado (no se reutiliza en la cadena)"
     return {"territorio": tid, "rama": rama, "objeto": objeto, "id": ident, "run_o_artefacto": run, "fecha": fecha,
@@ -105,6 +109,16 @@ def construir(root: Path = ROOT, activacion: bool = True) -> dict:
             canon = nombre == f"ddd-source-package-{tid}-2025-{prep.get('run_id')}" and rid in (tid, "—")
             for rama in ("fuentes_territoriales", "poblacion"):
                 filas.append(_fila(tid, rama, "preparation_evidence", f"recibo={rid}", nombre, _fecha(rec or {}), canon, RAMAS[rama][0]))
+            # Huella sellada del recibo: ¿con el id canónico o con el viejo? (solo si el recibo trae los campos de identidad).
+            claves = ("population_year", "section_year", "package_sha256", "territorial_identity_sha256")
+            if rec and all(rec.get(k) for k in claves):
+                calc = territorial_identity(territory_id=tid, edition="2025", population_year=rec["population_year"],
+                                            section_year=rec["section_year"], package_sha256=rec["package_sha256"],
+                                            compatibility_identity_sha256=rec.get("compatibility_identity_sha256"))
+                sellada_canon = calc["territorial_identity_sha256"] == rec["territorial_identity_sha256"]
+                filas.append(_fila(tid, "huellas_selladas", "recibo.territorial_identity_sha256",
+                                   f"sellada={'canónico' if sellada_canon else 'otro'}", str(rec["territorial_identity_sha256"])[:12],
+                                   _fecha(rec), sellada_canon, "SOLO_LECTURA_RECONCILIACION"))
         # Fuente electoral.
         if ev.get("electoral_source"):
             rec = _json(root / ev["electoral_source"]) or {}

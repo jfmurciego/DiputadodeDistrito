@@ -1,0 +1,72 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "aragon",
+  "territory_name": "Aragón",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 35710908574,
+  "source_sha": "7a9bcac22d4171e5ca298602935339f6d427d557",
+  "publish_requested": true,
+  "status": "SUCCESS",
+  "failed_phases": [],
+  "blocked_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 35699814855,
+      "artifact": "ddd-source-package-aragon-2025-35699814855",
+      "artifact_digest": "sha256:98214652711299c1476395d978253feaedfae8fac6b74affe96897b5f12ebafc",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "success",
+      "run_id": 35710908574,
+      "artifact": "ddd-state-35710908574-M06",
+      "artifact_digest": "sha256:4cd60e6e64d67a0c2268ca1bab969cfb373b0446feea635d338becb540d3b374",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": true,
+      "result": "success",
+      "run_id": 35710908574,
+      "artifact": "ddd-electoral-package-aragon-2025-35710908574",
+      "artifact_digest": "sha256:f8a6d74c48c844611745a6f01e8452283a65891f015bdf48181cbe7818a5ca9c",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "REUSE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "success",
+      "run_id": 35710908574,
+      "artifact": "ddd-state-35710908574-M08",
+      "artifact_digest": "sha256:1f31bed4df68020542abaf3ed07e71fd83612745dc9ce77b2321fb72602c0ba5",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "success",
+      "run_id": 35710908574,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-22T09:47:00.040475+00:00"
+}

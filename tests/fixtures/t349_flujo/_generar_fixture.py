@@ -9,7 +9,7 @@ import subprocess
 from pathlib import Path
 
 BASE = "25dd77724e649257a6d2dfdfe65d40c9fd12a5ec"  # commit base de T-349 (estado real de la r3)
-MUESTRA = ("aut11", "nac01", "aut01")  # piloto aut11, un nac y otra autonómica (docs/diagnostico/inventario_ids_no_canonicos.*)
+MUESTRA = ("aut11", "nac01", "aut01", "aut02", "aut05", "aut19")  # piloto aut11, un nac y otras autonómicas (docs/diagnostico/inventario_ids_no_canonicos.*)
 ROOT = Path(__file__).resolve().parents[3]
 OUT = Path(__file__).resolve().parent / "raiz"
 
@@ -24,7 +24,8 @@ def main() -> None:
         shutil.rmtree(OUT)
     rutas = [p for p in _ls("configuracion/") if not p.startswith("configuracion/equivalencia_seccionado_")] + _ls("fuentes/")
     for t in MUESTRA:
-        rutas += _ls(f"territorios/{t}/")
+        # Solo lo que leen los planificadores (config y evidencia); sin datos pesados (inputs/, resultados/).
+        rutas += [p for p in _ls(f"territorios/{t}/") if p.split("/")[2] in ("config", "evidencia")]
     for rel in sorted(rutas):
         dst = OUT / rel
         dst.parent.mkdir(parents=True, exist_ok=True)

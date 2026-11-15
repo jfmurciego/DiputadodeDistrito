@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# VERSIÓN: T-349 (2026-11-15). CAMBIOS (T-349, D-102): el paquete electoral se acepta solo con el nombre exacto del id canónico.
+#   MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo. ANTERIOR: legacy/herramientas/validar_elegibilidad_incorporacion_electoral_pre_t349_20261115.py
 from __future__ import annotations
 
 import argparse
