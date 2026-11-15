@@ -1542,24 +1542,23 @@ territories:
         run_id: 42996002594
         stage: M08
       preparation_evidence:
-        run_id: 43652031737
-        artifact_name: ddd-source-package-nac21-2025-43652031737
-        artifact_sha256: af43f3bb57ff20d4d6726f3f51a46c41e28543996374e817cffa7f10111bc620
-        package_sha256: da4daaccb0afc09768c583e23b634cba5affbd7eb039be46bb52e938acbe90d9
-        receipt_path: territorios/nac21/evidencia/fuentes_territoriales/2025/9a689b442eeb3c935c13872bbffd8d419d457e1d1283d460803794c9a394c348/43652031737/receipt.json
-        territorial_identity_sha256: 9a689b442eeb3c935c13872bbffd8d419d457e1d1283d460803794c9a394c348
-        compatibility_report_sha256: ab60b5ba58663b29e1f07461362db19fa8b25d6a9cbecda81f2972b2a9cef111
-        compatibility_identity_sha256: 49c5f6bc7f595886506cd0077a7f06a5399f9a572df547779a3ca144cbb6a357
+        run_id: 43758046771
+        artifact_name: ddd-source-package-nac21-2025-43758046771
+        artifact_sha256: 35479fd153957d4ded8ba28e26018e46baa88ea53fae752ecfa2989230a7a9d9
+        package_sha256: a6ef1344caa231f7dc4a162b97be9dccac80e68e6d9ea73df7dc1e2e9a3545b7
+        receipt_path: territorios/nac21/evidencia/fuentes_territoriales/2025/7fdcb189e4e849d990b1aaf6a57cc5af6e49952bdf1ff7c0e5598d3d4010c137/43758046771/receipt.json
+        territorial_identity_sha256: 7fdcb189e4e849d990b1aaf6a57cc5af6e49952bdf1ff7c0e5598d3d4010c137
+        compatibility_report_sha256: bd12278a731f1ad1fe86118f24dc00af7fc64fd4e89d96ec11475534eb373573
+        compatibility_identity_sha256: f144c5ca49c1b5829709428637c62182e4b6d5ce7f6ded572e32bd1aff325e5f
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
+        source_commit: 200ce388adbc357161a606a5d2fc8be54de160c0
       evidence:
         electoral_source: territorios/nac21/evidencia/fuentes_electorales/2025/deb0fbf1e626ccccc6a1e0f0420f93779e92be4da48d4f6e58e8dd1b9bd9d99a/41239835955/receipt.json
         territorial_product: territorios/nac21/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac21/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json
         electoral_product: territorios/nac21/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac21/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac22
   name: Congreso Huesca
