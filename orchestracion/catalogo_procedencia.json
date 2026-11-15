@@ -7672,11 +7672,11 @@
   },
   "congreso_valencia": {
    "fuente_territorial": {
-    "run_id": "41318119259",
+    "run_id": "43664087770",
     "package_sha256": "f4e8cbac64633ffda5221e09a54723e06e5eba406c550034a46421e1b836ff6f",
-    "artifact_sha256": "5315962cbf6c6db3e683cebf71dd01802d657f561d4277340910cf83412b04c2",
-    "territorial_identity_sha256": "4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f",
-    "receipt_path": "territorios/nac46/evidencia/fuentes_territoriales/2025/4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f/41318119259/receipt.json",
+    "artifact_sha256": "0cdaa5723dea6b1e223b6e139f4f35ba18bd80050e5a5403d91210a4f5e8c313",
+    "territorial_identity_sha256": "2d58ce4e19119e918449a8a4d87be13138e8650dc2db0ff9b14de68a4183a0b3",
+    "receipt_path": "territorios/nac46/evidencia/fuentes_territoriales/2025/2d58ce4e19119e918449a8a4d87be13138e8650dc2db0ff9b14de68a4183a0b3/43664087770/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
