@@ -1,12 +1,13 @@
 /* PROYECTO: Diputado de Distrito
  * CLASE: visor V3 (nueva interfaz)
- * VERSIÓN: 1.2.0
- * FECHA: 2026-11-14
+ * VERSIÓN: 1.3.0
+ * FECHA: 2026-11-15
  * ESTADO: candidato
  * CAMBIOS: explorador mapa, ámbito, proporcional/mayoritario, territorial/electoral,
  * calendario por ámbito, distrito y sección censal reales, paleta de partidos.
  * MOTIVO: una sola experiencia con datos acreditados y fallo cerrado ante fuentes ausentes.
- * ANTERIOR: legacy/visor/v3/v3_v1.1.0_20261114.js
+ * ANTERIOR: legacy/visor/v3/v3_v1.2.0_20261115.js
+ * 1.3.0: T-325, galería fotográfica territorial (visor/v2/galeria/): una llamada a DDDGaleria.render al seleccionar; sin red externa.
  * 1.2.0: T-295, accesibilidad WCAG 2.1 AA: anuncio de la selección (región aria-live), tabla alternativa al mapa operable con teclado, movimiento reducido, controles de MapLibre en español.
  * 1.1.0: T-300, panel «De dónde sale este mapa» (fuentes con enlace, huella, motor actual con su salvedad, elección; sin id de ejecución, D-92) leído de datos/catalogo_procedencia.json; sin él, aviso.
  * 1.0.1: T-206, pie con el texto del padrón 2026 (D-69), visible solo con una elección 2026 general. */
@@ -466,6 +467,7 @@
       kind==="provincia"?(validElection()?"Resultados oficiales generales 2023 / catálogo DDD":"Cartografía DDD · capa electoral histórica no disponible"):
         "Productos del registro durable de DDD";
     $("source-label").textContent=source;
+    if(window.DDDGaleria)window.DDDGaleria.render(kind,obj,selectedProvince()?.properties||null);
     let content="";
     if(S.panel==="territorio")content="<p class='small-note'>Selecciona cualquier territorio en el mapa. El zoom abre distritos y, donde existen, secciones censales con su geometría real.</p>";
     if(S.panel==="resultados"){
