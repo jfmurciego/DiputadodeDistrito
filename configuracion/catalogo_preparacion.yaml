@@ -780,7 +780,7 @@ territories:
         territorial_product: territorios/nac01/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/nac01/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac01/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac02
   name: Congreso Albacete
   editions:
