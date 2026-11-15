@@ -347,7 +347,7 @@ territories:
         source_commit: bb6605a9ad5e3148256f44074ad119324b8ebc99
       evidence:
         electoral_source: territorios/aut09/evidencia/fuentes_electorales/2025/1a2a1f2c19014b68164d716489292a680799b3b6f2144ba5a04269ec8e6caf16/43747840900/receipt.json
-        prepared_source_pair: territorios/aut09/evidencia/pares_fuentes/2025/3090588ad0a3e96eb59dbfc5eb7260f1eda08a00b670c1287cebf36c48586087.json
+        prepared_source_pair: territorios/aut09/evidencia/pares_fuentes/2025/7768927c6694f6dffb092978aea7e88312986ff69fcf534be1dde853ff1cd9bf.json
         territorial_product: territorios/aut09/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut09/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/aut09/evidencia/catalogo/generation_preflight_2025.json
