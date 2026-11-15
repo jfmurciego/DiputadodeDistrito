@@ -130,7 +130,7 @@ while True:
     if m:
         if 'congelación' in m: parada(m)
         log('espera:', m); time.sleep(120); continue
-    env = sum(1 for r in cad.values() if r[5] == 'EN_VUELO'); cupo = 14 if okn >= 5 else 5  # modificación 5 (15-11): cupo 14
+    env = sum(1 for r in cad.values() if r[5] == 'EN_VUELO'); cupo = 13 if okn >= 5 else 5  # modificación 6 (15-11): cupo 13
     for t in terr:
         if env >= cupo: break
         i = cid(t)
