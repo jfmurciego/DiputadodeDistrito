@@ -8080,11 +8080,11 @@
   },
   "congreso_zamora": {
    "fuente_territorial": {
-    "run_id": "41236140669",
+    "run_id": "43664116102",
     "package_sha256": "5dc537854661b06ad33fdcbd2de17913bac942417ea2f2fab7557cf257b23745",
-    "artifact_sha256": "51e3dc4d4ef5befc784a9b30440dda19aa9cac35e93348bda74fb40946622c19",
-    "territorial_identity_sha256": "9a336472a131bfa3b4692ddb391f80f6edcc997221ac9d801677c3fdb7344c01",
-    "receipt_path": "territorios/nac49/evidencia/fuentes_territoriales/2025/9a336472a131bfa3b4692ddb391f80f6edcc997221ac9d801677c3fdb7344c01/41236140669/receipt.json",
+    "artifact_sha256": "e5808854b49939d590f7288d68b1f9fdfc8463be690b39fef52d248d57262454",
+    "territorial_identity_sha256": "8a2ad90a67c869ae226c690dd31b1e72a4a48333ef76e2387bc442501af9ccb8",
+    "receipt_path": "territorios/nac49/evidencia/fuentes_territoriales/2025/8a2ad90a67c869ae226c690dd31b1e72a4a48333ef76e2387bc442501af9ccb8/43664116102/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
