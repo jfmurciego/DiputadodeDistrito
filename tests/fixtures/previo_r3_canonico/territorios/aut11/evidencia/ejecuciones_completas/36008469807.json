@@ -1,0 +1,78 @@
+{
+  "blocked_phases": [
+    "02 · Generación de Distritos Autonómicos",
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "edition": "2025",
+  "execution_mode": "from_start",
+  "failed_phases": [
+    "02 · Generación de Distritos Autonómicos"
+  ],
+  "generated_at": "2026-09-24T14:01:59.202034+00:00",
+  "optimization_algorithm": "GerryChain",
+  "optimization_algorithm_effective": null,
+  "optimization_algorithm_requested": "GerryChain",
+  "optimization_evidence_status": "NOT_AVAILABLE_DUE_TO_GENERATION_FAILURE",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "phases": [
+    {
+      "artifact": "ddd-source-package-aut11-2025-35755043806",
+      "artifact_digest": "sha256:fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347",
+      "executed": false,
+      "name": "01 · Preparación de Datos Territoriales",
+      "phase_decision": "READY",
+      "result": "skipped",
+      "run_id": 35755043806,
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": true,
+      "name": "02 · Generación de Distritos Autonómicos",
+      "phase_decision": null,
+      "result": "failure",
+      "run_id": null,
+      "validation_decision": "BLOQUEADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "03 · Preparación de Resultados Electorales",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "validation_decision": "BLOQUEADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "04 · Incorporación de Resultados Electorales",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "validation_decision": "BLOQUEADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "05 · Publicación del Visor",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "validation_decision": null
+    }
+  ],
+  "publish_requested": false,
+  "schema": "ddd.full-run-manifest/2.1",
+  "source_sha": "105ac4df3c4200a8f29cb4644608f23f8f75c1a7",
+  "status": "FAILED",
+  "territory_id": "aut11",
+  "territory_name": "Extremadura",
+  "workflow_run_id": 36008469807
+}

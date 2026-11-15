@@ -31,7 +31,7 @@ RECEIPT_253F = (
 
 class AndaluciaReceiptVigenteTests(unittest.TestCase):
     def test_resolver_elige_receipt_253f(self):
-        state, receipt = validate_territorial_receipt(root_dir=raiz_previo_r3(), territory="aut01", edition="2025")
+        state, receipt = validate_territorial_receipt(root_dir=raiz_previo_r3(canonico=True), territory="aut01", edition="2025")
         self.assertNotIn("independent_source_evidence", state)
         evidence = _territorial_receipt_evidence(state)
         self.assertEqual(RECEIPT_253F, evidence["receipt_path"])
@@ -40,7 +40,7 @@ class AndaluciaReceiptVigenteTests(unittest.TestCase):
             "253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09",
             receipt["territorial_identity_sha256"],
         )
-        self.assertEqual("ddd-source-package-andalucia-2025-40946875467", receipt["artifact_name"])
+        self.assertEqual("ddd-source-package-aut01-2025-40946875467", receipt["artifact_name"])
 
 
 if __name__ == "__main__":

@@ -1,0 +1,14 @@
+{
+  "artifact_name": "ddd-state-43025652192-M06",
+  "artifact_sha256": "567903c55a99e47cf4d4d93dc72ee29a829989d41fa90dd928557d1ec4c695d6",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "edition": "2025",
+  "kind": "territorial_product",
+  "producer_manifest_path": "territorios/castilla_la_mancha/evidencia/generaciones_m06/43025652192.json",
+  "run_id": 43025652192,
+  "schema": "ddd.catalog-evidence/1.0",
+  "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+  "stage": "M06",
+  "territory_id": "aut08",
+  "territory_name": "Castilla-La Mancha"
+}

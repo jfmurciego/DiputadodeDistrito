@@ -1,0 +1,95 @@
+{
+  "blocked_phases": [
+    "02 · Generación de Distritos Autonómicos"
+  ],
+  "completion_status": "INCOMPLETE",
+  "edition": "2025",
+  "electoral_activation_status": "TERRITORIAL_ONLY",
+  "electoral_skip_reason": "alcance territorial solicitado",
+  "electoral_status": "NOT_REQUESTED",
+  "execution_mode": "reuse",
+  "failed_phases": [
+    "02 · Generación de Distritos Autonómicos"
+  ],
+  "generated_at": "2026-10-27T17:16:20.667067+00:00",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_evidence_status": "NOT_AVAILABLE_DUE_TO_GENERATION_FAILURE",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "out_of_scope_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "artifact": "ddd-source-package-aut08-2025-40241650464",
+      "artifact_digest": "sha256:a8e5085e5050aafbe7ce02564f0337c7fccfb0a57d4e13dd46526959a4a5d5a1",
+      "executed": false,
+      "name": "01 · Preparación de Datos Territoriales",
+      "phase_decision": "READY",
+      "result": "skipped",
+      "run_id": 40241650464,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": true,
+      "name": "02 · Generación de Distritos Autonómicos",
+      "phase_decision": null,
+      "result": "failure",
+      "run_id": null,
+      "scope": "IN_SCOPE",
+      "validation_decision": "BLOQUEADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "03 · Preparación de Resultados Electorales",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "scope": "OUT_OF_SCOPE",
+      "validation_decision": null
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "04 · Incorporación de Resultados Electorales",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "scope": "OUT_OF_SCOPE",
+      "validation_decision": null
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "05 · Publicación del Visor",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "scope": "IN_SCOPE",
+      "validation_decision": null
+    }
+  ],
+  "publication_mode_effective": "territorial_only",
+  "publication_mode_requested": "territorial_only",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "resumption": null,
+  "schema": "ddd.full-run-manifest/2.1",
+  "skipped_source_gap_phases": [],
+  "source_sha": "676420e5cd92fd4d25b5d5a585c357fa399af872",
+  "status": "FAILED",
+  "territorial_status": "NOT_CERTIFIED",
+  "territory_id": "aut08",
+  "territory_name": "Castilla-La Mancha",
+  "workflow_run_id": 40544333932
+}

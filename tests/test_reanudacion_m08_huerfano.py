@@ -730,7 +730,7 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         # manifiesto productor lo liga al M06 vigente; si procede de otro M06
         # se rechaza sin fabricar pareja. Vale para cualquier ejecución futura.
         # T-322: raíz congelada (aut08 previo a r3, sha256 en MANIFEST.json); un P10 nuevo no la toca.
-        root = raiz_previo_r3()
+        root = raiz_previo_r3(canonico=True)
         evidence_root = root / "territorios" / "aut08" / "evidencia"
         territorial = json.loads(
             (evidence_root / "catalogo" / "territorial_product_2025.json").read_text(encoding="utf-8")

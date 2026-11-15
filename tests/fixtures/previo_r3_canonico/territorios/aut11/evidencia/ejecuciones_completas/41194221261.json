@@ -1,0 +1,106 @@
+{
+  "blocked_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "completion_status": "INCOMPLETE",
+  "edition": "2025",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "electoral_status": "INCOMPLETE",
+  "execution_mode": "reuse",
+  "failed_phases": [
+    "05 · Publicación del Visor",
+    "Reanudación de producto electoral durable"
+  ],
+  "generated_at": "2026-10-31T10:51:48.932544+00:00",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "out_of_scope_phases": [],
+  "phases": [
+    {
+      "artifact": "ddd-source-package-aut11-2025-40691774876",
+      "artifact_digest": "sha256:62efb06eafc4302639b1264999ed8afb7bb7ba94f0639f872bae72dfb2b7c619",
+      "executed": false,
+      "name": "01 · Preparación de Datos Territoriales",
+      "phase_decision": "READY",
+      "result": "skipped",
+      "run_id": 40691774876,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-state-41042675119-M06",
+      "artifact_digest": "sha256:927c5d206e006d89975c30a7cc763ad890354f8bc08818f9232ce854356c31ec",
+      "executed": false,
+      "name": "02 · Generación de Distritos Autonómicos",
+      "phase_decision": "PASS_WITH_EXCEPTIONS",
+      "result": "skipped",
+      "run_id": 41042675119,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-electoral-package-aut11-2025-40964574039",
+      "artifact_digest": "sha256:c8ff33c647ab448d8dafc7e07b1a7c260b8949e7c2da32e715d26358bdb2fc43",
+      "executed": false,
+      "name": "03 · Preparación de Resultados Electorales",
+      "phase_decision": "ACQUIRE",
+      "result": "skipped",
+      "run_id": 40964574039,
+      "scope": "IN_SCOPE",
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "04 · Incorporación de Resultados Electorales",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "scope": "IN_SCOPE",
+      "validation_decision": "BLOQUEADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": true,
+      "name": "05 · Publicación del Visor",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": 41194221261,
+      "scope": "IN_SCOPE",
+      "validation_decision": null
+    }
+  ],
+  "publication_mode_effective": "electoral",
+  "publication_mode_requested": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": true,
+  "resumption": {
+    "artifact": "ddd-state-41042675119-M08",
+    "artifact_digest": "35fec26cf60ceeaac3a5dabbaeccab3b434f759d985672816036ac2dd87727a7",
+    "catalog_accredited": false,
+    "kind": "durable_electoral_product",
+    "origin_manifest": "territorios/extremadura/evidencia/ejecuciones_completas/41042675119.json",
+    "origin_run_id": 41042675119,
+    "reason": null,
+    "receipt_accredited": false,
+    "registration_status": null,
+    "result": "failure",
+    "source_commit": "04da88c4a3b0bf3a1fb8c40778090641bf9765a4",
+    "status": "VALID"
+  },
+  "schema": "ddd.full-run-manifest/2.1",
+  "skipped_source_gap_phases": [],
+  "source_sha": "575711ab89bfa68c2cf88433d6ad76584c86a1ee",
+  "status": "FAILED",
+  "territorial_status": "CERTIFIED",
+  "territory_id": "aut11",
+  "territory_name": "Extremadura",
+  "workflow_run_id": 41194221261
+}

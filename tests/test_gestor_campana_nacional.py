@@ -326,7 +326,7 @@ class NationalCampaignTests(unittest.TestCase):
 
  def test_matrix_rejects_unblocked_route_mismatch_and_inconsistent_blockers(self):
   m=build_manifest(selected=["aut12"],publication_mode="electoral",
-                   source_sha="a"*40,strategy="Canónico",campaign_instance="route-negative",root=raiz_previo_r3())
+                   source_sha="a"*40,strategy="Canónico",campaign_instance="route-negative",root=raiz_previo_r3(canonico=True))
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
   drift=copy.deepcopy(m)
@@ -343,7 +343,7 @@ class NationalCampaignTests(unittest.TestCase):
  def test_manifest_freezes_all_lineage_and_rejects_electoral_source_drift(self):
   from herramientas.gestor_campana_nacional import _campaign_lineage_identity
   m=build_manifest(selected=["aut12"],publication_mode="electoral",
-                   source_sha="a"*40,strategy="Canónico",campaign_instance="lineage-check",root=raiz_previo_r3())
+                   source_sha="a"*40,strategy="Canónico",campaign_instance="lineage-check",root=raiz_previo_r3(canonico=True))
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
   self.assertEqual(set(row["execution_lineage"]),{"territorial_source","territorial_product","electoral_source","electoral_product"})
