@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T19:17:07.278990+00:00",
+  "generated_at": "2026-11-15T19:24:27.882802+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 15,
-      "action_required": 105,
+      "admissible": 16,
+      "action_required": 104,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 15,
+      "activated": 16,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 105,
+      "electoral_pending": 104,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 15,
-      "durable_pair": 15
+      "electoral_source": 16,
+      "durable_pair": 16
     },
     "territories": [
       {
@@ -853,20 +853,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/aut16/evidencia/pares_fuentes/2025/76289209d07c2899e8fe0912ce928df512a7e3a1a29efa942c63871a8d7c29ac.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/aut16/evidencia/pares_fuentes/2025/b07dcb41b181aa826b6ef9224e3c9fa6d7e58f4500c2eec0e2e371b440037164.json",
+            "pair_sha256": "b07dcb41b181aa826b6ef9224e3c9fa6d7e58f4500c2eec0e2e371b440037164",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -874,13 +874,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "aut17",
@@ -7834,11 +7828,11 @@
       "name": "Región de Murcia",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43053208175,
+      "run_id": 43747068843,
       "last_run": {
         "run_id": 43053208175,
         "status": "SUCCESS",
@@ -7847,7 +7841,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7861,16 +7855,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "region_de_murcia",
+          "territory_id": "aut14",
           "territory_name": "Región de Murcia",
           "edition": "2025",
-          "run_id": 43045426513,
-          "artifact_name": "ddd-state-43045426513-M06",
-          "artifact_sha256": "4761f5ad30c183dd10f50bdce4b929a2ed179fbd340ccea87a8da846ece3e895",
-          "source_commit": "09ba9a2f38fc81b54348607e40b32d0a146e255b",
+          "run_id": 43747068843,
+          "artifact_name": "ddd-state-43747068843-M06",
+          "artifact_sha256": "7d52f2b58f0fa3ff0fd5435649672670543110b04ae09e29bf0d89e9491478de",
+          "source_commit": "ff469e339d797e2f634795bd870d476d57fd6fba",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/region_de_murcia/evidencia/generaciones_m06/43045426513.json"
+          "producer_manifest_path": "territorios/aut14/evidencia/generaciones_m06/43747068843.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7888,7 +7882,7 @@
       },
       "autonomous_community_code_ine": "14",
       "display_name": "14 Región de Murcia",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut15",
@@ -7962,11 +7956,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43747089801,
       "last_run": {
-        "run_id": 43047232024,
+        "run_id": 43747089801,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -12610,7 +12604,7 @@
     }
   ],
   "kpis": {
-    "complete": 72,
+    "complete": 71,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12624,7 +12618,6 @@
       "10 Comunidad Valenciana",
       "11 Extremadura",
       "13 Comunidad de Madrid",
-      "14 Región de Murcia",
       "15 Comunidad Foral de Navarra",
       "17 La Rioja",
       "18 Ceuta",
@@ -12911,6 +12904,12 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "14 Región de Murcia",
+      "territory_id": "aut14",
+      "autonomous_community_code_ine": "14",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "16 País Vasco",
       "territory_id": "aut16",
       "autonomous_community_code_ine": "16",
@@ -12945,12 +12944,6 @@
       "territory_id": "congreso350_avila",
       "autonomous_community_code_ine": "R05",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Badajoz",
-      "territory_id": "congreso350_badajoz",
-      "autonomous_community_code_ine": "R06",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12958,6 +12951,12 @@
       "territory": "12 Galicia",
       "territory_id": "aut12",
       "autonomous_community_code_ine": "12",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "14 Región de Murcia",
+      "territory_id": "aut14",
+      "autonomous_community_code_ine": "14",
       "action": "preparar fuentes electorales"
     },
     {
