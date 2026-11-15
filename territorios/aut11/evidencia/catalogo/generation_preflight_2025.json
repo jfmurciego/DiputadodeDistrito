@@ -5,10 +5,10 @@
   "territory_name": "Extremadura",
   "edition": "2025",
   "run_id": 43694989383,
-  "source_commit": "323b489cb46e078be5aea1640217586cc64211ce",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "6c6f11cc4a906593b41e65948db64b59938ab94b",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "TERRITORY_ADJACENCY",
   "source": {
     "run_id": 43694989383,
     "artifact_name": "ddd-source-package-aut11-2025-43694989383",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La construcción de adyacencias falló durante la evaluación de generación."
   }
 }
