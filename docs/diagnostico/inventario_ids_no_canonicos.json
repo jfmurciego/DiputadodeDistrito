@@ -72,7 +72,7 @@
 {"electoral_action":"ACQUIRE","electoral_reason":"ELECTORAL_ID_NO_CANONICO","territorial_action":"REUSE","territorial_reason":"TERRITORIAL_DURABLE_CANDIDATE","territorio":"nac51"},
 {"electoral_action":"ACQUIRE","electoral_reason":"ELECTORAL_ID_NO_CANONICO","territorial_action":"REUSE","territorial_reason":"TERRITORIAL_DURABLE_CANDIDATE","territorio":"nac52"}
 ],
-"base_commit":"25dd77724e649257a6d2dfdfe65d40c9fd12a5ec",
+"base_commit":"8ab93c647747b32860e0f8af21c33fd3f041c68e",
 "filas":[
 {"fecha":"—","id":"fichero=andalucia.csv","no_canonicos":2,"objeto":"datos/composicion","objetos":2,"politica":"SOLO_LECTURA_PUBLICADO","rama":"composicion_datos","resultado":"SOLO LECTURA de lo publicado (no se reutiliza en la cadena)","run_o_artefacto":"—","territorio":"aut01"},
 {"fecha":"—","id":"recibo=andalucia","no_canonicos":1,"objeto":"evidence.electoral_source","objetos":1,"politica":"ESTRICTA","rama":"electoral_fuente","resultado":"RECHAZA → ACQUIRE/prepara de nuevo","run_o_artefacto":"ddd-electoral-package-andalucia-2025-42463442007","territorio":"aut01"},

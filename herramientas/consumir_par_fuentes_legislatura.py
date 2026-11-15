@@ -332,7 +332,7 @@ def resolve_geometric_reuse(
     product = _json(ruta_existente(root, product_rel), label="receipt de producto territorial")
     if (
         lineage.get("schema") != "ddd.territorial-product-source-lineage/1.0"
-        or str(lineage.get("territory_id") or "") != str(territory_id)  # T-349: id canónico exacto
+        or not mismo_territorio(str(lineage.get("territory_id") or ""), str(territory_id))  # SOLO_LECTURA_RECONCILIACION: documento de linaje ya sellado (T-349, D-102); el M06 reutilizable exige id exacto en su recibo
         or str(lineage.get("edition") or "") != str(edition)
     ):
         raise PreparedPairExecutionBlock(

@@ -109,7 +109,7 @@ def _historical_product_reuse(root: Path, *, plan: dict, current_identity: str) 
     lineage = _json(ruta_existente(root, lineage_rel))
     if (
         lineage.get("schema") != "ddd.territorial-product-source-lineage/1.0"
-        or str(lineage.get("territory_id") or "") != str(plan["territory_id"])  # T-349: id canónico exacto
+        or not mismo_territorio(str(lineage.get("territory_id") or ""), str(plan["territory_id"]))  # SOLO_LECTURA_RECONCILIACION: linaje ya sellado (T-349, D-102)
     ):
         return {
             "available": True,

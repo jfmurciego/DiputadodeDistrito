@@ -176,6 +176,11 @@ def _copy_case(territory_id: str) -> tuple[Path, tempfile.TemporaryDirectory, st
     manifest_rel = f"territorios/{territory_id}/evidencia/ejecuciones_completas/{run_id}.json"
     if (ROOT / manifest_rel).is_file():
         _copy_file(root, manifest_rel)
+    # T-349 (D-102): la cadena solo reutiliza un M06 registrado con id canónico exacto. Estos tests ejercitan la acreditación
+    # histórica y la fase productora, no el id: la COPIA temporal del recibo lleva el id canónico (estado tras regenerar).
+    copia = json.loads((root / receipt_rel).read_text(encoding="utf-8"))
+    copia["territory_id"] = territory_id
+    (root / receipt_rel).write_text(json.dumps(copia, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return root, td, receipt_rel, json.loads((root / receipt_rel).read_text(encoding="utf-8"))
 
 
