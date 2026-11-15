@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_alicante",
+  "territory_id": "nac03",
   "territory_name": "Congreso Alicante",
   "edition": "2025",
-  "run_id": 42953235024,
-  "artifact_name": "ddd-state-42953235024-M08",
-  "artifact_sha256": "8301e5de5d94150631e9999832e3878602735f82e86710fd8d485f23b09e62a9",
-  "source_commit": "63eda2eb868bccaf87c017bc20cda01b6a06f3bf",
+  "run_id": 43760040662,
+  "artifact_name": "ddd-state-43760040662-M08",
+  "artifact_sha256": "22acbf17e3b427c9a08612d48b6f60a9f61511d1499455206b7dd88b10f970ba",
+  "source_commit": "7dcc6dde4d29461ee7b5053cab369817b4b8e0a0",
   "stage": "M08"
 }
