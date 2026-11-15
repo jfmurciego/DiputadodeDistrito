@@ -68,11 +68,11 @@
  "territorios": {
   "andalucia": {
    "fuente_territorial": {
-    "run_id": "43639991903",
-    "package_sha256": "2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37",
-    "artifact_sha256": "fa4581388b06f66d1b76ec5eb9aa7ad2ad09277b48f1f8855818e90e5af990e8",
-    "territorial_identity_sha256": "79b1640f3bccc1a06d680fc03494135e73360f80bdd25714b0a5cd26c21556f2",
-    "receipt_path": "territorios/aut01/evidencia/fuentes_territoriales/2025/79b1640f3bccc1a06d680fc03494135e73360f80bdd25714b0a5cd26c21556f2/43639991903/receipt.json",
+    "run_id": "43724230051",
+    "package_sha256": "dd360c50e2cc1f9b850fe3b270ffe612e80abbd39dd530eb97f96f3f75e1a5f2",
+    "artifact_sha256": "696c7d4aaf841f3e4453958768892aff47a0dc3e84616abd199c2494bf902402",
+    "territorial_identity_sha256": "f12696831d1fe7b40f7635040fa8886d3be44bc3ea90be84fd3fd83a1b1af94b",
+    "receipt_path": "territorios/aut01/evidencia/fuentes_territoriales/2025/f12696831d1fe7b40f7635040fa8886d3be44bc3ea90be84fd3fd83a1b1af94b/43724230051/receipt.json",
     "population_year": 2025,
     "section_year": 2025
    },
