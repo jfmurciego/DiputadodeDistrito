@@ -1,0 +1,379 @@
+{
+ "atlas_30832_secciones_por_periodo": {
+  "2015": {
+   "filas": 37229,
+   "con_valor": 34895,
+   "suma_poblacion": 45893172
+  },
+  "2016": {
+   "filas": 37229,
+   "con_valor": 34580,
+   "suma_poblacion": 45413664
+  },
+  "2017": {
+   "filas": 37229,
+   "con_valor": 34911,
+   "suma_poblacion": 46019281
+  },
+  "2018": {
+   "filas": 37229,
+   "con_valor": 34935,
+   "suma_poblacion": 46323912
+  },
+  "2019": {
+   "filas": 37229,
+   "con_valor": 34881,
+   "suma_poblacion": 46690934
+  },
+  "2020": {
+   "filas": 37229,
+   "con_valor": 36333,
+   "suma_poblacion": 46849376
+  },
+  "2021": {
+   "filas": 37229,
+   "con_valor": 36373,
+   "suma_poblacion": 46898550
+  },
+  "2022": {
+   "filas": 37229,
+   "con_valor": 36445,
+   "suma_poblacion": 47491436
+  },
+  "2023": {
+   "filas": 37229,
+   "con_valor": 36477,
+   "suma_poblacion": 47972964
+  },
+  "2024": {
+   "filas": 37229,
+   "con_valor": 36553,
+   "suma_poblacion": 48438511
+  }
+ },
+ "censo2011_indicadores": {
+  "secciones": 35917,
+  "con_valor": 35917,
+  "suma_t1_1": 46575200
+ },
+ "elecciones": {
+  "201111": {
+   "seccionado_ine": 35978,
+   "votos_observatorio": 35957,
+   "geo_observatorio": 35978,
+   "ine_vs_votos": {
+    "n": 35978,
+    "casan": 35944,
+    "faltan_en_otro": 34,
+    "faltan_aqui": 13
+   },
+   "ine_vs_geo": {
+    "n": 35978,
+    "casan": 35978,
+    "faltan_en_otro": 0,
+    "faltan_aqui": 0
+   },
+   "solo_votos_muestra": [
+    "0301405021",
+    "0301407021",
+    "0301408020",
+    "0303101016",
+    "0306503022"
+   ],
+   "solo_ine_muestra": [
+    "0820501017",
+    "0820501018",
+    "0820501019",
+    "0820501020",
+    "0820501021"
+   ],
+   "censo2011_vs_seccionado_2012": {
+    "n": 35978,
+    "casan": 35873,
+    "faltan_en_otro": 105,
+    "faltan_aqui": 44
+   },
+   "censo2011_vs_votos": {
+    "n": 35957,
+    "casan": 35885,
+    "faltan_en_otro": 72,
+    "faltan_aqui": 32
+   }
+  },
+  "201512": {
+   "seccionado_ine": 36229,
+   "votos_observatorio": 36217,
+   "geo_observatorio": 36229,
+   "ine_vs_votos": {
+    "n": 36229,
+    "casan": 36202,
+    "faltan_en_otro": 27,
+    "faltan_aqui": 15
+   },
+   "ine_vs_geo": {
+    "n": 36229,
+    "casan": 36229,
+    "faltan_en_otro": 0,
+    "faltan_aqui": 0
+   },
+   "solo_votos_muestra": [
+    "0401307047",
+    "0401307048",
+    "0490401001",
+    "0490401002",
+    "1090501001"
+   ],
+   "solo_ine_muestra": [
+    "0204302001",
+    "0401307046",
+    "0402902003",
+    "0402902005",
+    "0405305003"
+   ],
+   "atlas_2015": {
+    "con_valor": 34895,
+    "vs_seccionado_ine": {
+     "n": 36229,
+     "casan": 34868,
+     "faltan_en_otro": 1361,
+     "faltan_aqui": 27
+    },
+    "vs_votos": {
+     "n": 36217,
+     "casan": 34883,
+     "faltan_en_otro": 1334,
+     "faltan_aqui": 12
+    }
+   },
+   "atlas_2016": {
+    "con_valor": 34580,
+    "vs_seccionado_ine": {
+     "n": 36229,
+     "casan": 34516,
+     "faltan_en_otro": 1713,
+     "faltan_aqui": 64
+    },
+    "vs_votos": {
+     "n": 36217,
+     "casan": 34531,
+     "faltan_en_otro": 1686,
+     "faltan_aqui": 49
+    }
+   }
+  },
+  "201606": {
+   "seccionado_ine": 36215,
+   "votos_observatorio": 36193,
+   "geo_observatorio": 36215,
+   "ine_vs_votos": {
+    "n": 36215,
+    "casan": 36190,
+    "faltan_en_otro": 25,
+    "faltan_aqui": 3
+   },
+   "ine_vs_geo": {
+    "n": 36215,
+    "casan": 36215,
+    "faltan_en_otro": 0,
+    "faltan_aqui": 0
+   },
+   "solo_votos_muestra": [
+    "2705701007",
+    "4802005045",
+    "4802005046"
+   ],
+   "solo_ine_muestra": [
+    "0200307012",
+    "1502002003",
+    "1503601007",
+    "1801201004",
+    "1808707029"
+   ],
+   "atlas_2015": {
+    "con_valor": 34895,
+    "vs_seccionado_ine": {
+     "n": 36215,
+     "casan": 34888,
+     "faltan_en_otro": 1327,
+     "faltan_aqui": 7
+    },
+    "vs_votos": {
+     "n": 36193,
+     "casan": 34869,
+     "faltan_en_otro": 1324,
+     "faltan_aqui": 26
+    }
+   },
+   "atlas_2016": {
+    "con_valor": 34580,
+    "vs_seccionado_ine": {
+     "n": 36215,
+     "casan": 34546,
+     "faltan_en_otro": 1669,
+     "faltan_aqui": 34
+    },
+    "vs_votos": {
+     "n": 36193,
+     "casan": 34549,
+     "faltan_en_otro": 1644,
+     "faltan_aqui": 31
+    }
+   },
+   "atlas_2017": {
+    "con_valor": 34911,
+    "vs_seccionado_ine": {
+     "n": 36215,
+     "casan": 34719,
+     "faltan_en_otro": 1496,
+     "faltan_aqui": 192
+    },
+    "vs_votos": {
+     "n": 36193,
+     "casan": 34721,
+     "faltan_en_otro": 1472,
+     "faltan_aqui": 190
+    }
+   }
+  },
+  "201904": {
+   "seccionado_ine": 36317,
+   "votos_observatorio": 36317,
+   "geo_observatorio": 36317,
+   "ine_vs_votos": {
+    "n": 36317,
+    "casan": 36317,
+    "faltan_en_otro": 0,
+    "faltan_aqui": 0
+   },
+   "ine_vs_geo": {
+    "n": 36317,
+    "casan": 36317,
+    "faltan_en_otro": 0,
+    "faltan_aqui": 0
+   },
+   "solo_votos_muestra": [],
+   "solo_ine_muestra": [],
+   "atlas_2018": {
+    "con_valor": 34935,
+    "vs_seccionado_ine": {
+     "n": 36317,
+     "casan": 34935,
+     "faltan_en_otro": 1382,
+     "faltan_aqui": 0
+    },
+    "vs_votos": {
+     "n": 36317,
+     "casan": 34935,
+     "faltan_en_otro": 1382,
+     "faltan_aqui": 0
+    }
+   },
+   "atlas_2019": {
+    "con_valor": 34881,
+    "vs_seccionado_ine": {
+     "n": 36317,
+     "casan": 34851,
+     "faltan_en_otro": 1466,
+     "faltan_aqui": 30
+    },
+    "vs_votos": {
+     "n": 36317,
+     "casan": 34851,
+     "faltan_en_otro": 1466,
+     "faltan_aqui": 30
+    }
+   },
+   "atlas_2020": {
+    "con_valor": 36333,
+    "vs_seccionado_ine": {
+     "n": 36317,
+     "casan": 36251,
+     "faltan_en_otro": 66,
+     "faltan_aqui": 82
+    },
+    "vs_votos": {
+     "n": 36317,
+     "casan": 36251,
+     "faltan_en_otro": 66,
+     "faltan_aqui": 82
+    }
+   }
+  },
+  "201911": {
+   "seccionado_ine": 36309,
+   "votos_observatorio": 36302,
+   "geo_observatorio": 36309,
+   "ine_vs_votos": {
+    "n": 36309,
+    "casan": 36294,
+    "faltan_en_otro": 15,
+    "faltan_aqui": 8
+   },
+   "ine_vs_geo": {
+    "n": 36309,
+    "casan": 36309,
+    "faltan_en_otro": 0,
+    "faltan_aqui": 0
+   },
+   "solo_votos_muestra": [
+    "1205002001",
+    "1405504002",
+    "2702001002",
+    "3205101002",
+    "4925002001"
+   ],
+   "solo_ine_muestra": [
+    "0805601008",
+    "0805601009",
+    "0805601010",
+    "0805602007",
+    "0805603006"
+   ],
+   "atlas_2019": {
+    "con_valor": 34881,
+    "vs_seccionado_ine": {
+     "n": 36309,
+     "casan": 34881,
+     "faltan_en_otro": 1428,
+     "faltan_aqui": 0
+    },
+    "vs_votos": {
+     "n": 36302,
+     "casan": 34866,
+     "faltan_en_otro": 1436,
+     "faltan_aqui": 15
+    }
+   },
+   "atlas_2020": {
+    "con_valor": 36333,
+    "vs_seccionado_ine": {
+     "n": 36309,
+     "casan": 36281,
+     "faltan_en_otro": 28,
+     "faltan_aqui": 52
+    },
+    "vs_votos": {
+     "n": 36302,
+     "casan": 36266,
+     "faltan_en_otro": 36,
+     "faltan_aqui": 67
+    }
+   },
+   "atlas_2021": {
+    "con_valor": 36373,
+    "vs_seccionado_ine": {
+     "n": 36309,
+     "casan": 36218,
+     "faltan_en_otro": 91,
+     "faltan_aqui": 155
+    },
+    "vs_votos": {
+     "n": 36302,
+     "casan": 36203,
+     "faltan_en_otro": 99,
+     "faltan_aqui": 170
+    }
+   }
+  }
+ }
+}
