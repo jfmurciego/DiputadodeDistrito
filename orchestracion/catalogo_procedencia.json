@@ -63,7 +63,7 @@
   "territorios": 71,
   "productos": 535,
   "errores": 0,
-  "avisos": 197
+  "avisos": 198
  },
  "territorios": {
   "andalucia": {
@@ -9968,7 +9968,7 @@
    "territorio": "nac12",
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "nac12/43761791985/ddd-minimo-43761791985-M06.zip"
+   "detalle": "nac12/43769013184/ddd-minimo-43769013184-M08.zip"
   },
   {
    "nivel": "AVISO",
@@ -9983,6 +9983,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "nac14/43763992154/ddd-minimo-43763992154-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac15",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "nac15/43764621629/ddd-minimo-43764621629-M06.zip"
   },
   {
    "nivel": "AVISO",
