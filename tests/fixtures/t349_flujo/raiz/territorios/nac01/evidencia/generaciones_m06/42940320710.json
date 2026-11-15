@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13822393522,
+      "artifact_name": "ddd-audit-42940320710",
+      "artifact_sha256": "2970db313f69a8dcbb5c0e2e3f21875c669f119239894ef51fd2625f1a93ccea",
+      "run_id": 42940320710,
+      "size_in_bytes": 2749
+    },
+    "m04": {
+      "artifact_id": 13822256410,
+      "artifact_name": "ddd-state-42940320710-M04",
+      "artifact_sha256": "0017db1efb5230bfd5bbe09fd149fbbf0a153a0c742f6d735a5ba27434eafcd7",
+      "run_id": 42940320710,
+      "size_in_bytes": 84411654
+    },
+    "m05": {
+      "artifact_id": 13821354934,
+      "artifact_name": "ddd-state-42940320710-M05",
+      "artifact_sha256": "480ccfd7f3a1484780c0d15c9d902e8e9fd9bdd6b035014320f15a7bffad0710",
+      "run_id": 42940320710,
+      "size_in_bytes": 86334830
+    },
+    "m06": {
+      "artifact_id": 13821618620,
+      "artifact_name": "ddd-state-42940320710-M06",
+      "artifact_sha256": "d1a4a72a3e1273c69266915c17ab103e21c90583beb4932137256f516e87de3c",
+      "run_id": 42940320710,
+      "size_in_bytes": 90525673
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "e336aa9b2cb723dc14e506977079ca9953e530ba061adac9e05e561bffa3da23",
+        "size_in_bytes": 372
+      },
+      "congreso_alava_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "ae7d3d4d05d74421c29b28a915c3e3328f69274c394d4a8406019612022002dc",
+        "size_in_bytes": 3277
+      },
+      "optimization_execution.json": {
+        "sha256": "8f8adabfc877240a92c74e4febab1a22de99883b2f43a408e07fbb8f617c4473",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "58e6b2bf4c9cbe3b627074939325ea4f219814b0f34760ed5e9417fd686466f5",
+        "size_in_bytes": 1427
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "58e6b2bf4c9cbe3b627074939325ea4f219814b0f34760ed5e9417fd686466f5",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_alava/config/congreso_alava_2025.yaml",
+    "sha256": "405379dd3c9af109b00924a8717fe94c5979720ca39b37c4e9625ad1e7305ce0"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "f5c94a1e097586547a05f23f3bb4bc9726aa69953bf79c4691d70f9f611779cd",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_CANONICO",
+      "funcion": "D8",
+      "ganador": "canonico",
+      "generador": "canonico",
+      "huella_resultado": "75fddc5984e99819b3655612e372d60a46cb6710ca81b0bfe8cb9ee90bd037a6",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.14939579195261488,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.14939579195261488,
+          "fuera_tolerancia": 0,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "1acab4de65f8b3a5707e6606949a16c6bc018ea80fd0e544712d118794948f3c",
+      "p30_sha256": "be2c19f2fe740a450f6d990402f49264a8d1900c733330df045445b0f337568e",
+      "rehacer_m06": false
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+    "edition": "2025",
+    "territory_id": "congreso_alava",
+    "territory_name": "Congreso Álava",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42940320710,
+    "workflow_sha": "974e07f044d8ae0e7aa465f095180f3ac695346c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13822256410,
+      "artifact_name": "ddd-state-42940320710-M04",
+      "artifact_sha256": "0017db1efb5230bfd5bbe09fd149fbbf0a153a0c742f6d735a5ba27434eafcd7",
+      "run_id": 42940320710,
+      "size_in_bytes": 84411654
+    },
+    "source_manifest_sha256": "1a73190c5ff2ae86ad8af0c50ea41da8bd307d59215462a42d637bd0ea31f1c6",
+    "source_package_artifact": {
+      "artifact_id": 13058178424,
+      "artifact_name": "ddd-source-package-congreso_alava-2025-41240137880",
+      "artifact_sha256": "7d101c7cd9dee73eeb7b7a09936c7e41456b58c3daab81532f02c5823fbe9448",
+      "run_id": 41240137880,
+      "size_in_bytes": 80559134
+    }
+  },
+  "manifest_sha256": "f186e3fd20bb79fa9f63fd764cbcb2028f77d9ec3fe7cf81878bad60d6f15496",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

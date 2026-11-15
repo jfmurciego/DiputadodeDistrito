@@ -1,0 +1,15 @@
+# PROYECTO: Diputado de Distrito
+# COMPONENTE: excepciones gobernadas de pérdida electoral atribuible a DDD (M07)
+# VERSIÓN: 1.0.0
+# FECHA: 2026-10-28
+# ESTADO: candidato
+# QUÉ HACE: eleva, por elección, el margen de pérdida DDD por encima del 1,5 % y hasta un tope duro
+#   del 2 %. Fuera del contrato electoral, que está sellado por hash en su paquete y su par de fuentes.
+# ANTERIOR: ninguno (fichero nuevo).
+schema: ddd-electoral-loss-exceptions/1.0
+elections:
+  galicia_parlamento_2024:
+    ratio: 0.02
+    decided_at: "2026-10-28"
+    evidence: "run 40706722115, M07: 22504/1488705 = 1,511649 % > 1,5 %"
+    rationale: "Decisión del propietario (28-10-2026): las secciones electorales de 2024 no casan una a una con el seccionado territorial del mapa y la pérdida supera el margen nacional por 0,01 puntos."
