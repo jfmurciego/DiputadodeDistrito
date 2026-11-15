@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T17:47:55.118162+00:00",
+  "generated_at": "2026-11-15T17:51:44.036595+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7138,20 +7138,20 @@
       "name": "Aragón",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43739218361,
+      "run_id": 43742224175,
       "last_run": {
-        "run_id": 43739218361,
+        "run_id": 43742224175,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7192,7 +7192,7 @@
       },
       "autonomous_community_code_ine": "02",
       "display_name": "02 Aragón",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "aut03",
@@ -7241,13 +7241,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "principado_de_asturias",
+          "territory_id": "aut03",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 43016768497,
-          "artifact_name": "ddd-state-43016768497-M08",
-          "artifact_sha256": "a8c508acea6364240e9c3496c7211b65df68b4774dd717f819a095f5e3820067",
-          "source_commit": "69c0ed357bc4f01c52b1d8382aadfb37980ef148",
+          "run_id": 43742340201,
+          "artifact_name": "ddd-state-43742340201-M08",
+          "artifact_sha256": "6f04c7c445daf6f31229b5e16fa5288f7f7000344742e493b157e6b9c23a6ac6",
+          "source_commit": "dbbbb9cb48a3e3449bc6fa3c8c97a65e3ebc24a1",
           "stage": "M08"
         }
       },
@@ -7443,11 +7443,11 @@
       "name": "Castilla y León",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43030986959,
+      "run_id": 43739255985,
       "last_run": {
         "run_id": 43030986959,
         "status": "SUCCESS",
@@ -7456,7 +7456,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7470,16 +7470,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "castilla_y_leon",
+          "territory_id": "aut07",
           "territory_name": "Castilla y León",
           "edition": "2025",
-          "run_id": 43025642604,
-          "artifact_name": "ddd-state-43025642604-M06",
-          "artifact_sha256": "7823a31277d6b6886f3e06fd1a166e6625a0a9bf3e922bd970b5622f4149203f",
-          "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+          "run_id": 43739255985,
+          "artifact_name": "ddd-state-43739255985-M06",
+          "artifact_sha256": "d504dcba513739b2238205f9138749d54225476e16219ca3516cf3263f6c5497",
+          "source_commit": "0907cf1ad13dce98994a5780e716320660d278eb",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/43025642604.json"
+          "producer_manifest_path": "territorios/aut07/evidencia/generaciones_m06/43739255985.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7497,18 +7497,18 @@
       },
       "autonomous_community_code_ine": "07",
       "display_name": "07 Castilla y León",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut08",
       "name": "Castilla-La Mancha",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43031565452,
+      "run_id": 43739268213,
       "last_run": {
         "run_id": 43031565452,
         "status": "SUCCESS",
@@ -7517,7 +7517,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7531,16 +7531,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "castilla_la_mancha",
+          "territory_id": "aut08",
           "territory_name": "Castilla-La Mancha",
           "edition": "2025",
-          "run_id": 43025652192,
-          "artifact_name": "ddd-state-43025652192-M06",
-          "artifact_sha256": "567903c55a99e47cf4d4d93dc72ee29a829989d41fa90dd928557d1ec4c695d6",
-          "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+          "run_id": 43739268213,
+          "artifact_name": "ddd-state-43739268213-M06",
+          "artifact_sha256": "f9635f2e6d5f1c82315c7ad13ea237e767b534b4593775792c7740eb537b0bca",
+          "source_commit": "40e1b95158dbc2af1648edda82e6619b87e19be3",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/castilla_la_mancha/evidencia/generaciones_m06/43025652192.json"
+          "producer_manifest_path": "territorios/aut08/evidencia/generaciones_m06/43739268213.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7558,7 +7558,7 @@
       },
       "autonomous_community_code_ine": "08",
       "display_name": "08 Castilla-La Mancha",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "aut09",
@@ -12646,14 +12646,13 @@
     }
   ],
   "kpis": {
-    "complete": 72,
+    "complete": 71,
     "complete_names": [
       "01 Andalucía",
+      "02 Aragón",
       "04 Islas Baleares",
       "05 Canarias",
       "06 Cantabria",
-      "07 Castilla y León",
-      "08 Castilla-La Mancha",
       "09 Cataluña",
       "10 Comunidad Valenciana",
       "11 Extremadura",
@@ -12930,26 +12929,32 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "aut01",
-    "name": "Andalucía",
-    "display_name": "01 Andalucía",
-    "autonomous_community_code_ine": "01",
-    "run_id": 43736363274,
+    "territory_id": "aut02",
+    "name": "Aragón",
+    "display_name": "02 Aragón",
+    "autonomous_community_code_ine": "02",
+    "run_id": 43742224175,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
     {
-      "territory": "02 Aragón",
-      "territory_id": "aut02",
-      "autonomous_community_code_ine": "02",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "03 Principado de Asturias",
       "territory_id": "aut03",
       "autonomous_community_code_ine": "03",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "07 Castilla y León",
+      "territory_id": "aut07",
+      "autonomous_community_code_ine": "07",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "08 Castilla-La Mancha",
+      "territory_id": "aut08",
+      "autonomous_community_code_ine": "08",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12981,25 +12986,25 @@
       "territory_id": "congreso350_avila",
       "autonomous_community_code_ine": "R05",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Badajoz",
-      "territory_id": "congreso350_badajoz",
-      "autonomous_community_code_ine": "R06",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
     {
-      "territory": "02 Aragón",
-      "territory_id": "aut02",
-      "autonomous_community_code_ine": "02",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "03 Principado de Asturias",
       "territory_id": "aut03",
       "autonomous_community_code_ine": "03",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "07 Castilla y León",
+      "territory_id": "aut07",
+      "autonomous_community_code_ine": "07",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "08 Castilla-La Mancha",
+      "territory_id": "aut08",
+      "autonomous_community_code_ine": "08",
       "action": "preparar fuentes electorales"
     }
   ]
