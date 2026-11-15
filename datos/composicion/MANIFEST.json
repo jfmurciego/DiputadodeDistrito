@@ -980,6 +980,13 @@
    "sha256_csv": "7caceb283fc2a2f61bc4904eb363411459386c40fb80b5df44140871c89c2795",
    "ruta": "datos/composicion/runs/aut18_43749637927.csv"
   },
+  "aut19/43750065634": {
+   "territorio": "aut19",
+   "run_id": "43750065634",
+   "secciones": 44,
+   "sha256_csv": "ff0230560101719270ddf9368eb284d552ee0343f444ddab2751182bcd889560",
+   "ruta": "datos/composicion/runs/aut19_43750065634.csv"
+  },
   "canarias/42504381511": {
    "territorio": "canarias",
    "run_id": "42504381511",
