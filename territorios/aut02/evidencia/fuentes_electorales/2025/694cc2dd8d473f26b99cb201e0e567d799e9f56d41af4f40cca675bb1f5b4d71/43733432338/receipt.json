@@ -11,7 +11,7 @@
   "election_id": "aragon_cortes_2026-02-08",
   "declaration": null,
   "election_contract": "territorios/aut02/config/elecciones/aragon_cortes_2026.json",
-  "election_contract_sha256": "2a9c7bfb9005311989f3e5634d62479a4d7b81a0cabad456e4887a85eeaa406a",
+  "election_contract_sha256": "32b1d51418a025d1ce0aaf5f9be34c5cd9a995a0a305e6cdf0d53ddbfadadab1",
   "election_date": "2026-02-08",
   "electoral_identity_sha256": "694cc2dd8d473f26b99cb201e0e567d799e9f56d41af4f40cca675bb1f5b4d71"
 }
