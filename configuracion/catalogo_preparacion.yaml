@@ -1152,24 +1152,23 @@ territories:
         run_id: 42953019279
         stage: M08
       preparation_evidence:
-        run_id: 43650180523
-        artifact_name: ddd-source-package-nac11-2025-43650180523
-        artifact_sha256: d7ac2f80f19e8a7e28cd713eb0ef1edff7b0b5c07d9f206b8faf3697b1ae56fe
-        package_sha256: 29b9604d8a617e6a0dff74e0a67d738211bd0771a525c954d9fa214eaf6709cb
-        receipt_path: territorios/nac11/evidencia/fuentes_territoriales/2025/346b9390b5d2bbf58b69ebc2c87d9347163f57aa0bc6ebcb75d76908b53d2252/43650180523/receipt.json
-        territorial_identity_sha256: 346b9390b5d2bbf58b69ebc2c87d9347163f57aa0bc6ebcb75d76908b53d2252
-        compatibility_report_sha256: 89343699d9c95543967b588e23f0e5d30cc88511d94a679b08c023eb9edac759
-        compatibility_identity_sha256: bd2bafc2ff00182caa1c02a43f0437f39149c6d7c0066f73a74ba789b58c8c66
+        run_id: 43749649445
+        artifact_name: ddd-source-package-nac11-2025-43749649445
+        artifact_sha256: 153732c22ab61306a98cdfd8167bb3f970d469ad01349760411b2d34650e5b77
+        package_sha256: bc1a62ff52c956213d3b58c49e04066def1ccd021fd1eb350c12c751e11be4ce
+        receipt_path: territorios/nac11/evidencia/fuentes_territoriales/2025/60ef7e88aa1fdd17f6e4412910549cc707edc13993412a4617506027540e3db8/43749649445/receipt.json
+        territorial_identity_sha256: 60ef7e88aa1fdd17f6e4412910549cc707edc13993412a4617506027540e3db8
+        compatibility_report_sha256: 04f1d878fec2ddfce920d43c1dac6dcf3db3d3e992a5231b1094589faa179cd6
+        compatibility_identity_sha256: 4edcdd651a9cf479debec5cf4b965517093aff422d4f2d4d270662691666fc06
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 467837860713137911c2d7eb91d059983452ec0a
+        source_commit: 95b2023de66339e869c60927d3f37d077f4447f4
       evidence:
         electoral_source: territorios/nac11/evidencia/fuentes_electorales/2025/e7bad8cb9552ba46cc1ce96c9b06c0021fb6848a5bf8e946c931b9cf3f4029d9/41465820761/receipt.json
         prepared_source_pair: territorios/nac11/evidencia/pares_fuentes/2025/c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182.json
         territorial_product: territorios/nac11/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/nac11/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac11/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac12
   name: Congreso Castellón
