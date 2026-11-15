@@ -702,7 +702,7 @@ territories:
         prepared_source_pair: territorios/aut18/evidencia/pares_fuentes/2025/43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8.json
         electoral_product: territorios/aut18/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/aut18/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: aut19
   name: Melilla
   editions:
