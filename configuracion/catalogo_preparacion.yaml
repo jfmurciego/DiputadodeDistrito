@@ -1425,24 +1425,23 @@ territories:
         run_id: 42954091088
         stage: M08
       preparation_evidence:
-        run_id: 43652000219
-        artifact_name: ddd-source-package-nac18-2025-43652000219
-        artifact_sha256: d31d5222b94c6793109669a5ebbc78e16251b8c85014d24902e8ea2236236ebb
-        package_sha256: f070e55093e12331f96971fc1cf739d192d36cbeff619f8772f5feb3e2fd8daf
-        receipt_path: territorios/nac18/evidencia/fuentes_territoriales/2025/95e2db3fd6e20fdd0cc062700440e18d6608b95c31f9e21e07e5ac043fe6fd10/43652000219/receipt.json
-        territorial_identity_sha256: 95e2db3fd6e20fdd0cc062700440e18d6608b95c31f9e21e07e5ac043fe6fd10
-        compatibility_report_sha256: 3ed0866b466e84f80a209b1563e62b0032648c99f635b532fea92eeebd35bbd8
-        compatibility_identity_sha256: eeba10b2a057c1a9dcf1c7cc4ff3f5efb42981e210c5254e367e8361e67fd12a
+        run_id: 43755934147
+        artifact_name: ddd-source-package-nac18-2025-43755934147
+        artifact_sha256: cea03e09470aeb4abd58aba527ee27505bea04ab671293ab96452e72d9df6632
+        package_sha256: 2f040a8953f03b71f6bebf69d5bb5e9e3c98b91ba27c8647f4cad972be13d026
+        receipt_path: territorios/nac18/evidencia/fuentes_territoriales/2025/5561a8659df3804f36697904937f7a9ef88c425abbbf8fb32e19aba6754d78fc/43755934147/receipt.json
+        territorial_identity_sha256: 5561a8659df3804f36697904937f7a9ef88c425abbbf8fb32e19aba6754d78fc
+        compatibility_report_sha256: 26d759a6d607a0175f713dc4e9e418abbabfaafa6f2e46baa8406511cc7913df
+        compatibility_identity_sha256: 8c0cfbe86a4eb9e35385a56b87a4760d9b1fa23d330f2c806a3f90cbf2c347ec
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: fcff4a0cec1759f1b522c98e07b9634bfc6a4abe
+        source_commit: 629743e1550cd44524e952034b54c53d2d3bbda4
       evidence:
         electoral_source: territorios/nac18/evidencia/fuentes_electorales/2025/dd0dd9e03aa8c8f9c39bb8dde4b95e3c2822a6e1491b91f3a0e99ee7b62de4d5/41239825488/receipt.json
         territorial_product: territorios/nac18/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac18/evidencia/pares_fuentes/2025/94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e.json
         electoral_product: territorios/nac18/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac18/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac19
   name: Congreso Guadalajara
