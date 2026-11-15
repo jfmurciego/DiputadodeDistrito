@@ -15,11 +15,14 @@ for n in "$@"; do sed -n "${n}p" $L; done | while IFS= read -r t; do
   printf '%s\t%s\tterritorial\n' "$t" "${id:-DESCONOCIDO}" >> $O
 done
 sleep 600
+z=0
 while :; do
-  n=0; for st in in_progress queued waiting pending; do n=$((n+$(gh api "repos/$r/actions/runs?status=$st&created=>=$since&per_page=100" -q '[.workflow_runs[]|select(.event!="pull_request" and (.name|test("P00|Activación";"i")))]|length'))); done
-  [ $n -eq 0 ] && break
-  f=$(gh api "repos/$r/actions/runs?status=completed&created=>=$since&per_page=100" -q '[.workflow_runs[]|select(.event!="pull_request" and (.name|test("P00|Activación";"i")) and .conclusion!="success")]|length')
-  [ "$f" -gt 0 ] && break
+  # cuenta lo no terminado; si la API falla, no cuenta como cero (falsa parada 15-11 14:02)
+  n=$(gh api "repos/$r/actions/runs?created=>=$since&per_page=100" -q '[.workflow_runs[]|select(.event!="pull_request" and (.name|test("P00|Activación";"i")) and .status!="completed")]|length') || { sleep 120; continue; }
+  [[ "$n" =~ ^[0-9]+$ ]] || { sleep 120; continue; }
+  if [ "$n" -eq 0 ]; then z=$((z+1)); [ $z -ge 3 ] && break; sleep 120; continue; fi; z=0
+  f=$(gh api "repos/$r/actions/runs?status=completed&created=>=$since&per_page=100" -q '[.workflow_runs[]|select(.event!="pull_request" and (.name|test("P00|Activación";"i")) and .conclusion!="success")]|length') || f=0
+  [[ "$f" =~ ^[0-9]+$ ]] && [ "$f" -gt 0 ] && break
   sleep 120
 done
 gh api "repos/$r/actions/runs?created=>=$since&per_page=100" -q '.workflow_runs[]|select(.event!="pull_request" and (.name|test("P00|Activación";"i")))|[.id,.name[0:30],.display_title[0:90],.actor.login,.conclusion]|@tsv'
