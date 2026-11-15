@@ -819,6 +819,13 @@
    "sha256_csv": "aafc159d0c84bbab14ab368c0df89428654cce827be665c1dcce9753d35957c5",
    "ruta": "datos/composicion/runs/aragon_43011616681.csv"
   },
+  "aut05/43728972913": {
+   "territorio": "aut05",
+   "run_id": "43728972913",
+   "secciones": 1396,
+   "sha256_csv": "d8d511bba3b49bd3140b65384466d930b19a63f6354d59cb98478a190908295c",
+   "ruta": "datos/composicion/runs/aut05_43728972913.csv"
+  },
   "aut11/43698495438": {
    "territorio": "aut11",
    "run_id": "43698495438",
