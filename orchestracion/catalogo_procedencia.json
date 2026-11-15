@@ -3412,11 +3412,11 @@
   },
   "congreso_ciudad_real": {
    "fuente_territorial": {
-    "run_id": "43750477660",
+    "run_id": "43762018176",
     "package_sha256": "ac16e836871b80664153b1c637aae65ce5a1ac6930c3343cd010039ea9e8e7c9",
-    "artifact_sha256": "03baef5698713d97b6ca4a3a376d6192f58fd7131cd4ea2497c54243098bf403",
+    "artifact_sha256": "60b4810ac1aa3d140b631ec6a657b51e055c27f09ad7e6804569eeec2cb77607",
     "territorial_identity_sha256": "0570860c7dc2949f4dbd41cf1c67fbde3255db649535a2658aae2244ddade62a",
-    "receipt_path": "territorios/nac13/evidencia/fuentes_territoriales/2025/0570860c7dc2949f4dbd41cf1c67fbde3255db649535a2658aae2244ddade62a/43750477660/receipt.json",
+    "receipt_path": "territorios/nac13/evidencia/fuentes_territoriales/2025/0570860c7dc2949f4dbd41cf1c67fbde3255db649535a2658aae2244ddade62a/43762018176/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
