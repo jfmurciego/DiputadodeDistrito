@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T23:25:10.735391+00:00",
+  "generated_at": "2026-11-15T23:46:36.797156+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 36,
-      "action_required": 84,
+      "admissible": 38,
+      "action_required": 82,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 35,
-      "activable": 1,
+      "activated": 38,
+      "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 84,
+      "electoral_pending": 82,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 36,
-      "durable_pair": 35
+      "electoral_source": 38,
+      "durable_pair": 38
     },
     "territories": [
       {
@@ -1767,12 +1767,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac15/evidencia/pares_fuentes/2025/0edcee83874afdffefd871bd37738611d53f1a4d8c98d794ace159926d78e2cc.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac15/evidencia/pares_fuentes/2025/5d5467b7e4bad7651532e44428794cf0ea45b4970f4d9c66340f767317214905.json",
+            "pair_sha256": "5d5467b7e4bad7651532e44428794cf0ea45b4970f4d9c66340f767317214905",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1810,20 +1810,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac16/evidencia/pares_fuentes/2025/26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac16/evidencia/pares_fuentes/2025/7845483fe35f0bf5868818983bbf49a6fdfa4eda8df8afca377e049af8c7bdae.json",
+            "pair_sha256": "7845483fe35f0bf5868818983bbf49a6fdfa4eda8df8afca377e049af8c7bdae",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1831,13 +1831,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac17",
@@ -1924,20 +1918,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/nac18/evidencia/pares_fuentes/2025/94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/nac18/evidencia/pares_fuentes/2025/5cba1d12af26e746e5b6e96419331c11907de891115c48842c4be46299ed0b26.json",
+            "pair_sha256": "5cba1d12af26e746e5b6e96419331c11907de891115c48842c4be46299ed0b26",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1945,13 +1939,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "nac19",
@@ -2318,8 +2306,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43762029950,
-            "receipt_path": "territorios/nac25/evidencia/fuentes_territoriales/2025/4ba6e4d70370002202a3e5d92d91aabddbf98312532d4a64f835019fabbc4dbe/43762029950/receipt.json"
+            "run_id": 43773580960,
+            "receipt_path": "territorios/nac25/evidencia/fuentes_territoriales/2025/4ba6e4d70370002202a3e5d92d91aabddbf98312532d4a64f835019fabbc4dbe/43773580960/receipt.json"
           }
         },
         "electoral": {
@@ -2375,8 +2363,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43764046636,
-            "receipt_path": "territorios/nac26/evidencia/fuentes_territoriales/2025/d30c2f5a5b5f7cd584c46c9e9d29c4fbc2c262f79ff70273aefabd4667b8e219/43764046636/receipt.json"
+            "run_id": 43773865756,
+            "receipt_path": "territorios/nac26/evidencia/fuentes_territoriales/2025/d30c2f5a5b5f7cd584c46c9e9d29c4fbc2c262f79ff70273aefabd4667b8e219/43773865756/receipt.json"
           }
         },
         "electoral": {
@@ -3002,8 +2990,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43662728262,
-            "receipt_path": "territorios/nac37/evidencia/fuentes_territoriales/2025/7df140cd701263761db7516119e57461375fb2178e3313ce5e918d35026e5b1f/43662728262/receipt.json"
+            "run_id": 43770639179,
+            "receipt_path": "territorios/nac37/evidencia/fuentes_territoriales/2025/5f5a3f626e5ac9b6d81ca0e5f10ec789967dfebd300f817997059b8397ea2c1c/43770639179/receipt.json"
           }
         },
         "electoral": {
@@ -3059,8 +3047,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43662742736,
-            "receipt_path": "territorios/nac38/evidencia/fuentes_territoriales/2025/6d1ec162a1dc11f5f2e500b498ed5bf83a55d3b662db231c9ec1528bd4c6af46/43662742736/receipt.json"
+            "run_id": 43770650902,
+            "receipt_path": "territorios/nac38/evidencia/fuentes_territoriales/2025/32c63bee530c987412bf03d66e3001c14a70b5ac1ef1ed4a1d392d3bf6f1e062/43770650902/receipt.json"
           }
         },
         "electoral": {
@@ -3230,8 +3218,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43662772532,
-            "receipt_path": "territorios/nac41/evidencia/fuentes_territoriales/2025/1fe1f38be294a03749eb77068d491f8d5965de52d88394c22ab9185120ca5dec/43662772532/receipt.json"
+            "run_id": 43770683601,
+            "receipt_path": "territorios/nac41/evidencia/fuentes_territoriales/2025/abffc164f67aed6fb2927b585fcf178a5d989638e3b3898f77fc10e6c547709c/43770683601/receipt.json"
           }
         },
         "electoral": {
@@ -3344,8 +3332,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43664060568,
-            "receipt_path": "territorios/nac43/evidencia/fuentes_territoriales/2025/ce03614466cccd2dad941cc562ad07d9b2198f300ee7335cb89ee359534be604/43664060568/receipt.json"
+            "run_id": 43770729279,
+            "receipt_path": "territorios/nac43/evidencia/fuentes_territoriales/2025/d12abc836856bbc046e1f255d710db720329aa8cc465edb0e6983bdd75ca7cae/43770729279/receipt.json"
           }
         },
         "electoral": {
@@ -3458,8 +3446,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43664078379,
-            "receipt_path": "territorios/nac45/evidencia/fuentes_territoriales/2025/e219ae6c98a82271326f621b5adc2fb6e43b56d3e37668e59f6d48a11274586b/43664078379/receipt.json"
+            "run_id": 43770753948,
+            "receipt_path": "territorios/nac45/evidencia/fuentes_territoriales/2025/174c852812832c6353a65274adc6823216da78099385aef765c7051809ebac01/43770753948/receipt.json"
           }
         },
         "electoral": {
@@ -8909,13 +8897,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_cordoba",
+          "territory_id": "nac14",
           "territory_name": "Congreso Córdoba",
           "edition": "2025",
-          "run_id": 42953300723,
-          "artifact_name": "ddd-state-42953300723-M08",
-          "artifact_sha256": "269d54a55cac337b883991b7e144ca6e61cb36f50b2778688a0ea512569b88ef",
-          "source_commit": "23c8de11972392ad796a8dd604050377098791ba",
+          "run_id": 43773176478,
+          "artifact_name": "ddd-state-43773176478-M08",
+          "artifact_sha256": "33ed785842c0a3cfd6fc9b9b2ab7cdbcdc5f4e4665b7fc390f6ae592fbfa9db1",
+          "source_commit": "54f27f5ba0beb258ed62fbafa7bf58327873c62d",
           "stage": "M08"
         }
       },
@@ -9178,11 +9166,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43764666420,
       "last_run": {
-        "run_id": 42955217289,
+        "run_id": 43764666420,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -9239,11 +9227,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43764679394,
       "last_run": {
-        "run_id": 42955375065,
+        "run_id": 43764679394,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -9422,11 +9410,11 @@
       "certification": "PASS",
       "run_id": 43765782167,
       "last_run": {
-        "run_id": 42955644352,
+        "run_id": 43765782167,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -9483,11 +9471,11 @@
       "certification": "PASS",
       "run_id": 43766201397,
       "last_run": {
-        "run_id": 42996717873,
+        "run_id": 43766201397,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -9557,9 +9545,9 @@
         "territorial_source": {
           "territory_id": "nac25",
           "edition": "2025",
-          "run_id": 43762029950,
-          "artifact_name": "ddd-source-package-nac25-2025-43762029950",
-          "artifact_sha256": "a415701648c167d7610befe0ff5bbca9b860596069c99ca9febc8f8f8b8994bc",
+          "run_id": 43773580960,
+          "artifact_name": "ddd-source-package-nac25-2025-43773580960",
+          "artifact_sha256": "a768373b131618ddd32ed3195d0760026f9a68020d769702b6468a7400b0404a",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9618,9 +9606,9 @@
         "territorial_source": {
           "territory_id": "nac26",
           "edition": "2025",
-          "run_id": 43764046636,
-          "artifact_name": "ddd-source-package-nac26-2025-43764046636",
-          "artifact_sha256": "a1009e7fb53a4849f733f9c57550ff49f8601acdb4c1cd5907e71f9b9c32c4af",
+          "run_id": 43773865756,
+          "artifact_name": "ddd-source-package-nac26-2025-43773865756",
+          "artifact_sha256": "fb7b1a4e376140ea804db4293f09b6f77009a07eb1f303d442932ba7129c0a3f",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10289,9 +10277,9 @@
         "territorial_source": {
           "territory_id": "nac37",
           "edition": "2025",
-          "run_id": 43662728262,
-          "artifact_name": "ddd-source-package-nac37-2025-43662728262",
-          "artifact_sha256": "a360be0fc6111be0270d0021e5525b163f159c0166b3e70c1360ddd563b3235c",
+          "run_id": 43770639179,
+          "artifact_name": "ddd-source-package-nac37-2025-43770639179",
+          "artifact_sha256": "2942001fd07497c23f8449a6dd2316da71b93107f1b3ecae79f1efc2bf4ae836",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10350,9 +10338,9 @@
         "territorial_source": {
           "territory_id": "nac38",
           "edition": "2025",
-          "run_id": 43662742736,
-          "artifact_name": "ddd-source-package-nac38-2025-43662742736",
-          "artifact_sha256": "b2fdc77390a81c0e0338ebc5c2571c1b7aeb0134c6af341a3289cbb38546565b",
+          "run_id": 43770650902,
+          "artifact_name": "ddd-source-package-nac38-2025-43770650902",
+          "artifact_sha256": "02f6792efb024da593c49a6a92db18566e8afb766b668ec68e08916171ee2332",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10533,9 +10521,9 @@
         "territorial_source": {
           "territory_id": "nac41",
           "edition": "2025",
-          "run_id": 43662772532,
-          "artifact_name": "ddd-source-package-nac41-2025-43662772532",
-          "artifact_sha256": "7b69acc3fa32457e914f3f6cafcdbc7d149c2b64638e82d93b85705515bd1f66",
+          "run_id": 43770683601,
+          "artifact_name": "ddd-source-package-nac41-2025-43770683601",
+          "artifact_sha256": "42d7c7744ac9ad44ff57dcc982cf9becf7191109d113b6d07ca7f44d387f9b37",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10655,9 +10643,9 @@
         "territorial_source": {
           "territory_id": "nac43",
           "edition": "2025",
-          "run_id": 43664060568,
-          "artifact_name": "ddd-source-package-nac43-2025-43664060568",
-          "artifact_sha256": "db5d23c73a2250e925e4b6babd8c7fa5b84ff13e786d2dd184935d33b249cdce",
+          "run_id": 43770729279,
+          "artifact_name": "ddd-source-package-nac43-2025-43770729279",
+          "artifact_sha256": "ff0684aea48a9ede43d7644f150c63fc8e61f19426917f4b484f3c966d258afd",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -10777,9 +10765,9 @@
         "territorial_source": {
           "territory_id": "nac45",
           "edition": "2025",
-          "run_id": 43664078379,
-          "artifact_name": "ddd-source-package-nac45-2025-43664078379",
-          "artifact_sha256": "bc9d2fff3203fb5e7d84fb83023cfc6570af60484d9d5bc54df59196d824eda3",
+          "run_id": 43770753948,
+          "artifact_name": "ddd-source-package-nac45-2025-43770753948",
+          "artifact_sha256": "85121c138b5d4ba29c6b994dc2161ef86ac7c5f1a069144e6b78a5cd3fe0eac8",
           "decision": "VALIDADO"
         },
         "territorial_product": {

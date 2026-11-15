@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-15T23:25:10.735391+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-15T23:46:36.797156+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -73,12 +73,12 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Cuenca** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43764632170 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Gerona** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43764643457 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Granada** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43764654875 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
-| **Nacional Guadalajara** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42955217289 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional Guipúzcoa** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42955375065 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Guadalajara** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43764666420 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
+| **Nacional Guipúzcoa** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43764679394 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Huelva** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42996002594 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Huesca** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42996217596 · SUCCESS | — | — | — |
-| **Nacional Jaén** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42955644352 · SUCCESS | — | — | preparar fuentes electorales |
-| **Nacional León** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42996717873 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional Jaén** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43765782167 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
+| **Nacional León** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43766201397 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Lérida** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 43064129984 · SUCCESS | — | — | — |
 | **Nacional La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42935762636 · SUCCESS | — | — | — |
 | **Nacional Lugo** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42995722473 · SUCCESS | — | — | — |
