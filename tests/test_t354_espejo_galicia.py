@@ -99,6 +99,43 @@ class EspejoGalicia(unittest.TestCase):
             check_declaration(d, td, opener=lambda req, timeout=0: Resp(CSV), espejo=lambda n: pedidos.append(n))
         self.assertEqual(pedidos, [f"{d['election_id']}_{s['id']}.csv" for s in d["sources"]])
 
+    def test_sin_entrada_en_el_indice_la_03_es_identica_a_la_1_3_0(self):
+        import importlib.util
+
+        spec = importlib.util.spec_from_file_location("comprobar_v130", ROOT / "legacy/herramientas/comprobar_fuente_electoral_oficial_v1.3.0_20261115.py")
+        viejo = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(viejo)
+        d = _decl()
+        opener = lambda req, timeout=0: Resp(CSV)
+        nombres = [f"{d['election_id']}_{s['id']}.csv" for s in d["sources"]]
+
+        def limpio(r):
+            return json.loads(json.dumps(r, default=str).replace(str(tmp_a), "T").replace(str(tmp_b), "T"))
+
+        def con_indice(entradas):
+            idx = Path(tempfile.mkdtemp()) / "i.json"
+            idx.write_text(json.dumps({"fuentes": entradas}))
+            vistos = []
+            def cp(o, dst, e=None):
+                vistos.append(o)
+                Path(dst).write_bytes(CSV)
+            return (lambda n: f.traer(n, cp=cp, indice=idx)), vistos
+
+        with mock.patch.dict("os.environ", {"R2_BUCKET": "b", "R2_ACCOUNT_ID": "a"}):
+            with tempfile.TemporaryDirectory() as tmp_a, tempfile.TemporaryDirectory() as tmp_b, tempfile.TemporaryDirectory() as tmp_c:
+                r_viejo = viejo.check_declaration(d, tmp_a, opener=opener)
+                espejo, vistos = con_indice({})  # sin ninguna entrada de Galicia
+                r_nuevo = check_declaration(d, tmp_b, opener=opener, espejo=espejo)
+                self.assertEqual(vistos, [])  # ni siquiera toca R2
+                self.assertEqual(limpio(r_nuevo), limpio(r_viejo))
+                # control negativo: con las 4 entradas verificadas el resultado SÍ cambia (origen r2_mirror)
+                sha = hashlib.sha256(CSV).hexdigest()
+                espejo2, vistos2 = con_indice({n: {"clave": "k/" + n, "sha256": sha} for n in nombres})
+                r_esp = check_declaration(d, tmp_c, opener=opener, espejo=espejo2)
+                self.assertEqual(len(vistos2), 4)
+                self.assertNotEqual(limpio(r_esp), limpio(r_viejo))
+                self.assertTrue(all(x.get("origin") == "r2_mirror" for x in r_esp["selected_sources"]))
+
     def test_espejo_roto_cae_a_la_oficial(self):
         def roto(n):
             raise ImportError("fuente_r2")
