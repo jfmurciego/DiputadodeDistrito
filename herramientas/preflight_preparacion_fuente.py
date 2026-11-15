@@ -102,7 +102,13 @@ def preflight(root: Path, kind: str, territory: str, edition: str) -> dict:
             raise ValueError(
                 f"{tid}/{edition}: fuente territorial marcada preparada sin preparation_evidence"
             )
-        prefix = tuple(f"ddd-source-package-{v}-{edition}-" for v in variantes(tid))
+        # T-349: solo el id canónico exacto es reutilizable; un registro con id legacy se informa y no se reutiliza.
+        prefix = (f"ddd-source-package-{tid}-{edition}-",)
+        legacy_prefix = tuple(f"ddd-source-package-{v}-{edition}-" for v in variantes(tid))
+        if str(evidence.get("artifact_name") or "").startswith(legacy_prefix) and not str(evidence.get("artifact_name") or "").startswith(prefix):
+            common["rejected_reason"] = "ID_NO_CANONICO"
+            common["rejected_artifact_name"] = str(evidence.get("artifact_name"))
+            return common
         run_id, artifact_name, artifact_sha256 = _artifact_fields(
             evidence, expected_prefix=prefix, label=f"{tid}/{edition} registro territorial"
         )
@@ -193,7 +199,15 @@ def preflight(root: Path, kind: str, territory: str, edition: str) -> dict:
                         f"{tid}/{edition}: registro electoral obsoleto: "
                         f"{receipt_election_id!r} != {expected_election_id!r}"
                     )
-        prefix = tuple(f"ddd-electoral-package-{v}-{edition}-" for v in variantes(tid))
+        # T-349: igualdad exacta con el id canónico; el paquete electoral registrado con id legacy no se reutiliza.
+        prefix = (f"ddd-electoral-package-{tid}-{edition}-",)
+        legacy_prefix = tuple(f"ddd-electoral-package-{v}-{edition}-" for v in variantes(tid))
+        if str(data.get("territory_id") or "") != str(tid) or (
+            str(data.get("artifact_name") or "").startswith(legacy_prefix) and not str(data.get("artifact_name") or "").startswith(prefix)
+        ):
+            common["rejected_reason"] = "ID_NO_CANONICO"
+            common["rejected_artifact_name"] = str(data.get("artifact_name") or "")
+            return common
         run_id, artifact_name, artifact_sha256 = _artifact_fields(
             data, expected_prefix=prefix, label=f"{tid}/{edition} registro electoral"
         )

@@ -132,7 +132,7 @@ def resolve_eligibility(
     if str(gate.get("artifact_name") or "") != str(expected_artifact_name):
         raise ValueError("ELECTORAL_GATE_BLOCK: artefacto electoral de la puerta no coincide")
     canonical_name = f"ddd-electoral-package-{territory_id}-{edition}-{expected_run_id}"
-    if expected_artifact_name not in {f"ddd-electoral-package-{v}-{edition}-{expected_run_id}" for v in variantes(territory_id)}:
+    if expected_artifact_name != canonical_name:  # T-349: igualdad exacta (sin alias)
         raise ValueError("ELECTORAL_GATE_BLOCK: nombre de artefacto electoral no canónico")
 
     expected_digest = _normalise_digest(expected_artifact_digest)

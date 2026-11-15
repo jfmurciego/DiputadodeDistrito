@@ -1,15 +1,16 @@
 """Planificador de ejecución 00 con separación entre M06 y M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.1
-NOMBRE DE VERSIÓN: Reutilización territorial con linaje M06 independiente
-FECHA: 2026-11-12
+VERSIÓN: 1.1.2
+NOMBRE DE VERSIÓN: Paquete territorial registrado con id canónico exacto
+FECHA: 2026-11-15
 ESTADO: candidato
 QUÉ HACE: resuelve continuidad con evidencia durable de productos.
 CAMBIOS: descarta M08 con linaje territorial incompatible y conserva reutilización M06.
 MOTIVO: evitar que un producto electoral histórico bloquee un M06 territorial certificado.
 CAMBIOS 1.1.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/resolver_ejecucion_completa_v1.1.0_20261112.py
+CAMBIOS 1.1.2 (T-349): el artefacto territorial registrado se compara con igualdad exacta con el id canónico (sin alias del id viejo).
+ANTERIOR: legacy/herramientas/resolver_ejecucion_completa_v1.1.1_20261115.py
 """
 from __future__ import annotations
 
@@ -293,7 +294,7 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
         )
     artifact_name = str(prep.get("artifact_name") or "")
     expected_name = f"ddd-source-package-{territory_id}-{edition}-{run_id}"
-    if artifact_name not in {f"ddd-source-package-{v}-{edition}-{run_id}" for v in variantes(territory_id)}:
+    if artifact_name != expected_name:  # T-349: igualdad exacta con el id canónico (sin alias)
         raise ValueError(
             f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
             f"artefacto territorial no coincide con run/territorio/edición: {artifact_name!r}"

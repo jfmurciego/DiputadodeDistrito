@@ -254,8 +254,10 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(candidate["reason"], "TERRITORIAL_DURABLE_CANDIDATE")
         self.assertEqual(plan["territorial_action"], "REUSE_TEMPORAL_SUBSTITUTION")
         self.assertEqual(plan["territorial_admissibility"], "ADMISSIBLE_TEMPORAL_SUBSTITUTION")
-        self.assertEqual(plan["electoral_action"], "REUSE")
-        self.assertEqual(plan["electoral_admissibility"], "ADMISSIBLE")
+        # T-349: el registro electoral vivo de Aragón lleva el id legacy: no es reutilizable, se prepara de nuevo.
+        self.assertEqual(plan["electoral_action"], "ACQUIRE")
+        self.assertEqual(plan["electoral_candidate"]["reason"], "ELECTORAL_ID_NO_CANONICO")
+        self.assertEqual(plan["electoral_admissibility"], "NOT_ACCREDITED")
         state = next(
             r for r in yaml.safe_load(CATALOG.read_text(encoding="utf-8"))["territories"]
             if r["territory_id"] == "aut02"
@@ -319,20 +321,9 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             plan = resolve(ROOT, "Castilla y León")["plans"][0]
 
         candidate = plan["territorial_candidate"]
-        self.assertEqual(candidate["run_id"], 35610439734)
-        self.assertEqual(
-            candidate["artifact_name"],
-            "ddd-source-package-castilla_y_leon-2025-35610439734",
-        )
-        self.assertEqual(
-            candidate["package_sha256"],
-            "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752",
-        )
-        self.assertEqual(
-            candidate["receipt_path"],
-            "territorios/aut07/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json",
-        )
-        self.assertEqual(candidate["reason"], "TERRITORIAL_COMPATIBILITY_REPORT_MISSING")
+        # T-349: el paquete histórico lleva el id legacy en el nombre del artefacto: sin alias no es reutilizable.
+        self.assertEqual(candidate["reason"], "TERRITORIAL_ID_NO_CANONICO")
+        self.assertEqual(candidate["registered_artifact_name"], "ddd-source-package-castilla_y_leon-2025-35610439734")
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
         self.assertEqual(plan["electoral_action"], "ACQUIRE")
         self.assertEqual(plan["electoral_candidate"]["reason"], "ELECTORAL_PACKAGE_MISSING")
@@ -566,7 +557,8 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             build_pair(root_dir=ROOT, territory="Canarias", remote_verification=remote)
         message = str(ctx.exception)
         self.assertIn("PAIR_BLOCK", message)
-        self.assertIn("territorial", message.lower())
+        # T-349: con el electoral legacy no reutilizable, el bloqueo puede citar la fuente electoral o la territorial.
+        self.assertTrue("territorial" in message.lower() or "electoral" in message.lower())
 
     def test_territorial_identity_change_blocks_geometric_reuse(self):
         historical = territorial_identity(
@@ -811,6 +803,31 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
 
 class PreparedPairIntegrationRegressionTests(unittest.TestCase):
     def test_melilla_reusable_candidate_builds_pair_with_compatibility_metadata(self):
+        # T-349: el registro electoral vivo de Melilla lleva el id legacy → se prepara de nuevo; el caso REUSE usa un
+        # registro con el id canónico (aut19) y su artefacto canónico.
+        live = resolve(ROOT, "Melilla")["plans"][0]
+        self.assertEqual(live["electoral_action"], "ACQUIRE")
+        self.assertEqual(live["electoral_candidate"]["reason"], "ELECTORAL_ID_NO_CANONICO")
+        import tempfile
+        from herramientas import resolver_preparacion_legislatura as rpl
+        _orig = rpl._catalog_state
+        _tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(_tmp.cleanup)
+
+        def _state_canonico(root, territory_id, edition):
+            row, st = _orig(root, territory_id, edition)
+            rel = st["evidence"]["electoral_source"]
+            receipt = json.loads((ROOT / rel).read_text(encoding="utf-8"))
+            receipt["territory_id"] = "aut19"
+            receipt["artifact_name"] = f"ddd-electoral-package-aut19-2025-{receipt['run_id']}"
+            out = Path(_tmp.name) / "receipt.json"
+            out.write_text(json.dumps(receipt), encoding="utf-8")
+            st = {**st, "evidence": {**st["evidence"], "electoral_source": str(out)}}
+            return row, st
+
+        patcher = mock.patch.object(rpl, "_catalog_state", _state_canonico)
+        patcher.start()
+        self.addCleanup(patcher.stop)
         plan = resolve(ROOT, "Melilla")["plans"][0]
         self.assertEqual(plan["territorial_action"], "REUSE")
         self.assertEqual(plan["electoral_action"], "REUSE")

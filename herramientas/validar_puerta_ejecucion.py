@@ -73,9 +73,9 @@ def _artifact_name_is_consistent(
     artifact_namespace: str | None = None,
 ) -> bool:
     if phase == "territorial_source":
-        return artifact_name in {f"ddd-source-package-{v}-{edition}-{run_id}" for v in variantes(territory_id)}
+        return artifact_name == f"ddd-source-package-{territory_id}-{edition}-{run_id}"  # T-349: exacto
     if phase == "electoral_source":
-        return artifact_name in {f"ddd-electoral-package-{v}-{edition}-{run_id}" for v in variantes(territory_id)}
+        return artifact_name == f"ddd-electoral-package-{territory_id}-{edition}-{run_id}"  # T-349: exacto
     if phase == "territorial_product":
         canonical = f"ddd-state-{run_id}-M06"
         if artifact_name == canonical:

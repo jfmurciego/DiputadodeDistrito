@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# CAMBIOS 2026-11-15 (T-349): un paquete electoral o territorial registrado con id no canónico (alias del id viejo) ya no es
+#   reutilizable: razones ELECTORAL_ID_NO_CANONICO / TERRITORIAL_ID_NO_CANONICO y acción ACQUIRE; igualdad exacta, sin alias.
+# ANTERIOR (c): legacy/herramientas/resolver_preparacion_legislatura_pre_t349_20261115.py
 # CAMBIOS 2026-10-30: territorios piloto (pilot_code, p. ej. Congreso Huesca) en matriz y registro; la
 #   invariante de 19 se aplica a las comunidades y ciudades autónomas.
 # ANTERIOR (b): legacy/herramientas/resolver_preparacion_legislatura_pre_pilotos_20261030.py
@@ -319,7 +322,10 @@ def _territorial_candidate(
         observed_section_year = int(prep_section)
     if not isinstance(run_id, int) or run_id <= 0:
         return {"reusable": False, "reason": "TERRITORIAL_RUN_INVALID"}
-    if artifact_name not in {f"ddd-source-package-{v}-{edition}-{run_id}" for v in variantes(territory_id)}:
+    if artifact_name != f"ddd-source-package-{territory_id}-{edition}-{run_id}":
+        # T-349: igualdad exacta con el id canónico (sin alias).
+        if artifact_name in {f"ddd-source-package-{v}-{edition}-{run_id}" for v in variantes(territory_id)}:
+            return {"reusable": False, "reason": "TERRITORIAL_ID_NO_CANONICO", "registered_artifact_name": artifact_name}
         return {"reusable": False, "reason": "TERRITORIAL_ARTIFACT_IDENTITY_MISMATCH"}
     if not artifact_sha256 or not package_sha256:
         return {"reusable": False, "reason": "TERRITORIAL_DIGEST_MISSING"}
@@ -447,6 +453,9 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
     schema = data.get("schema")
     if not mismo_territorio(str(data.get("territory_id") or ""), str(territory_id)):
         return {"reusable": False, "reason": "ELECTORAL_IDENTITY_MISMATCH"}
+    if str(data.get("territory_id") or "") != str(territory_id):
+        # T-349: igualdad EXACTA con el id canónico; el registro con id legacy no se reutiliza (sin alias): se prepara de nuevo.
+        return {"reusable": False, "reason": "ELECTORAL_ID_NO_CANONICO", "registered_territory_id": str(data.get("territory_id") or "")}
     if str(data.get("election_id") or "") != election_id:
         return {"reusable": False, "reason": "ELECTORAL_ELECTION_MISMATCH"}
 
@@ -459,7 +468,10 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
         source_commit = str(data.get("source_commit") or "")
         if not isinstance(run_id, int) or run_id <= 0:
             return {"reusable": False, "reason": "ELECTORAL_RUN_INVALID"}
-        if artifact_name not in {f"ddd-electoral-package-{v}-2025-{run_id}" for v in variantes(territory_id)}:
+        if artifact_name != f"ddd-electoral-package-{territory_id}-2025-{run_id}":
+            # T-349: solo el artefacto con el id canónico exacto es reutilizable.
+            if artifact_name in {f"ddd-electoral-package-{v}-2025-{run_id}" for v in variantes(territory_id)}:
+                return {"reusable": False, "reason": "ELECTORAL_ID_NO_CANONICO", "registered_artifact_name": artifact_name}
             return {"reusable": False, "reason": "ELECTORAL_ARTIFACT_IDENTITY_MISMATCH"}
         if not artifact_sha256:
             return {"reusable": False, "reason": "ELECTORAL_DIGEST_MISSING"}
@@ -567,6 +579,7 @@ _TERRITORIAL_ADMISSIBILITY_BY_REASON = {
     "TERRITORIAL_RECEIPT_CONTRADICTORY": "INCOMPATIBLE",
     "TERRITORIAL_POPULATION_YEAR_MISMATCH": "INCOMPATIBLE",
     "TERRITORIAL_SECTION_YEAR_MISMATCH": "INCOMPATIBLE",
+    "TERRITORIAL_ID_NO_CANONICO": "NOT_ACCREDITED",
     "TERRITORIAL_PACKAGE_MISSING": "NOT_ACCREDITED",
     "TERRITORIAL_DECLARATION_MISSING": "NOT_ACCREDITED",
     "TERRITORIAL_TEMPORAL_IDENTITY_MISSING": "NOT_ACCREDITED",
@@ -583,6 +596,7 @@ _ELECTORAL_ADMISSIBILITY_BY_REASON = {
     "ELECTORAL_ELECTION_MISMATCH": "INCOMPATIBLE",
     "ELECTORAL_ARTIFACT_IDENTITY_MISMATCH": "INCOMPATIBLE",
     "ELECTORAL_PROVENANCE_MISMATCH": "INCOMPATIBLE",
+    "ELECTORAL_ID_NO_CANONICO": "NOT_ACCREDITED",
     "ELECTORAL_PACKAGE_MISSING": "NOT_ACCREDITED",
     "ELECTORAL_RECEIPT_MISSING": "NOT_ACCREDITED",
     "ELECTORAL_RECEIPT_KIND": "NOT_ACCREDITED",
