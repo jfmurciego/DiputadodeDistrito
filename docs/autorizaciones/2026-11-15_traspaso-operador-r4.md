@@ -1,6 +1,6 @@
 # Traspaso del Operador (15-11, ~11:45 Europe/Madrid)
 
-- Saliente: session_01KQDtFqw1LBgGn6nCuxP8Yx. Relevo decidido por el Planificador porque el contexto está alto.
+- Autor: session_01KQDtFqw1LBgGn6nCuxP8Yx. Relevo ANULADO (10:41): queda como notas de traspaso por si un día hace falta. Condición extra para el piloto: confirmación del Coordinador de que el inventario de T-349 está en cero sorpresas.
 - No hay nada en vuelo:
   - el vigilante de T-349 está parado;
   - no queda ningún run lanzado por mí en curso.
