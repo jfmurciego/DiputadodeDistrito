@@ -974,6 +974,7 @@ territories:
         territorial_product: territorios/nac06/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac06/evidencia/pares_fuentes/2025/5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48.json
         electoral_product: territorios/nac06/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac06/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac07
   name: Congreso Baleares
