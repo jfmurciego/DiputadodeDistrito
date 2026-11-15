@@ -2917,8 +2917,8 @@
     "section_year": 2023
    },
    "fuente_electoral": {
-    "receipt_path": "territorios/nac11/evidencia/fuentes_electorales/2025/e7bad8cb9552ba46cc1ce96c9b06c0021fb6848a5bf8e946c931b9cf3f4029d9/41465820761/receipt.json",
-    "identity_sha256": "e7bad8cb9552ba46cc1ce96c9b06c0021fb6848a5bf8e946c931b9cf3f4029d9"
+    "receipt_path": "territorios/nac11/evidencia/fuentes_electorales/2025/e3b25e21c4f656681272f211ef0a6a97550fdb153ed304bbcc5990cbc9e27820/43767163695/receipt.json",
+    "identity_sha256": "e3b25e21c4f656681272f211ef0a6a97550fdb153ed304bbcc5990cbc9e27820"
    },
    "doi": null,
    "productos": [
@@ -3169,8 +3169,8 @@
     "section_year": 2023
    },
    "fuente_electoral": {
-    "receipt_path": "territorios/nac12/evidencia/fuentes_electorales/2025/edc1431446e17982e9143687d587d8ab6c7a468907295f7be0f207c812bce6d1/41239799217/receipt.json",
-    "identity_sha256": "edc1431446e17982e9143687d587d8ab6c7a468907295f7be0f207c812bce6d1"
+    "receipt_path": "territorios/nac12/evidencia/fuentes_electorales/2025/632c05e68c8feec8f0debc0e43d3a4ad22964361fc5bf9c53db978638dcefba7/43767386714/receipt.json",
+    "identity_sha256": "632c05e68c8feec8f0debc0e43d3a4ad22964361fc5bf9c53db978638dcefba7"
    },
    "doi": null,
    "productos": [
