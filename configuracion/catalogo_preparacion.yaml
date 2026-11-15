@@ -762,24 +762,23 @@ territories:
         run_id: 42983088643
         stage: M08
       preparation_evidence:
-        run_id: 43645534913
-        artifact_name: ddd-source-package-nac01-2025-43645534913
-        artifact_sha256: 18445a0a53cb8c7da2861ea5399038bbc023bf768ff1e3cb9bba8123450c2756
-        package_sha256: cad80db926a5783f220748226415da98777ed5f4d912e56164961ee8c1d3f7d9
-        receipt_path: territorios/nac01/evidencia/fuentes_territoriales/2025/a48493b744d72550a0648a74f0da4e4068db81c73385c09d3ec06b1d3e5576f2/43645534913/receipt.json
-        territorial_identity_sha256: a48493b744d72550a0648a74f0da4e4068db81c73385c09d3ec06b1d3e5576f2
-        compatibility_report_sha256: b599419e3bc387b6d968406255313cd80c301cbdbaeaca9de6d91674e7e64603
-        compatibility_identity_sha256: 57a0d1cd652493de2c435be0a5f2fbd5a39fdf6ed4425fa503774a95ff52f619
+        run_id: 43739293882
+        artifact_name: ddd-source-package-nac01-2025-43739293882
+        artifact_sha256: 095d92b612f923a96bfe5234a1a364be500d9880f492556c56910a6d9a9fb553
+        package_sha256: 790631ca0fff88f16e05262ff511a9032782a0f18b98b8c036bae1a5e1391ba2
+        receipt_path: territorios/nac01/evidencia/fuentes_territoriales/2025/c912f35813c1976ee85ad69b46150046dd9a884f6a42eb28327f379b546be133/43739293882/receipt.json
+        territorial_identity_sha256: c912f35813c1976ee85ad69b46150046dd9a884f6a42eb28327f379b546be133
+        compatibility_report_sha256: 1072b6c3ebf14f8508cc9e8b84c5514bf6845e4e661f2af09d6fd55c0292d2d7
+        compatibility_identity_sha256: 7b965d965ee3ab9a43ccf675e0f8890801efe789209172744ee5cb4aaa3c5a12
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: ab9676372337fdd63e6c8f9233212bcfa592ddd8
+        source_commit: d4854f740a5bde3835055c2fb7aaf20ed473fbea
       evidence:
         electoral_source: territorios/nac01/evidencia/fuentes_electorales/2025/4f920eb6eba9ea922f3007b741ced4e85036efae35088e17836aadbb5b31e4ae/41239750223/receipt.json
         prepared_source_pair: territorios/nac01/evidencia/pares_fuentes/2025/29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b.json
         territorial_product: territorios/nac01/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/nac01/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac01/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac02
   name: Congreso Albacete
