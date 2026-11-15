@@ -26,7 +26,13 @@ def _territorio_ids_t220():
         return None
     spec = importlib.util.spec_from_file_location("_t220_territorio_ids", ruta)
     modulo = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(modulo)
+    # T-338: el @dataclass de territorio_ids busca sys.modules[cls.__module__]; sin registrarlo antes, exec_module revienta.
+    sys.modules[spec.name] = modulo
+    try:
+        spec.loader.exec_module(modulo)
+    except BaseException:
+        sys.modules.pop(spec.name, None)
+        raise
     return modulo
 
 
