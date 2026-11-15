@@ -2530,11 +2530,11 @@
   },
   "congreso_barcelona": {
    "fuente_territorial": {
-    "run_id": "43747142135",
+    "run_id": "43757988864",
     "package_sha256": "0c67568f43791929e22c85d931e947ecf51feeda11fdd1c597406c78f0b66cab",
-    "artifact_sha256": "ed07707e07567a7606938468c5f2b725931d8b6f67ee7132717790dd758223bd",
+    "artifact_sha256": "ca90b878ad89de420f40ead98cbde4b8a598cd4f9de60ab36329fb9bc5e77625",
     "territorial_identity_sha256": "e6f65bdefe4bf0a3f86ab3324a63679afc21dad757f4039a507041d0e9464e0d",
-    "receipt_path": "territorios/nac08/evidencia/fuentes_territoriales/2025/e6f65bdefe4bf0a3f86ab3324a63679afc21dad757f4039a507041d0e9464e0d/43747142135/receipt.json",
+    "receipt_path": "territorios/nac08/evidencia/fuentes_territoriales/2025/e6f65bdefe4bf0a3f86ab3324a63679afc21dad757f4039a507041d0e9464e0d/43757988864/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -2656,11 +2656,11 @@
   },
   "congreso_burgos": {
    "fuente_territorial": {
-    "run_id": "43747154631",
+    "run_id": "43758000236",
     "package_sha256": "267060a0034170ec89f89eaa6dedf6620e0ee2f9082c5326db5c051e31b0f804",
-    "artifact_sha256": "7039e3f7cf448754a22c021c49fd23a025754a59f1b11918230dc2f7908679cd",
+    "artifact_sha256": "e858eb9be988b0f8ca7ce6a4faad63e0832b7b0765dc5bd3ae2ff4c17e13d860",
     "territorial_identity_sha256": "2b6f377798fb70a1ad76fafff042eb5066244fd0d9eb8a8c6402f8ace5053e08",
-    "receipt_path": "territorios/nac09/evidencia/fuentes_territoriales/2025/2b6f377798fb70a1ad76fafff042eb5066244fd0d9eb8a8c6402f8ace5053e08/43747154631/receipt.json",
+    "receipt_path": "territorios/nac09/evidencia/fuentes_territoriales/2025/2b6f377798fb70a1ad76fafff042eb5066244fd0d9eb8a8c6402f8ace5053e08/43758000236/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
