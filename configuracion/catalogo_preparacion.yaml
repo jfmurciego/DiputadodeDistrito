@@ -390,7 +390,7 @@ territories:
         prepared_source_pair: territorios/aut10/evidencia/pares_fuentes/2025/dabb1f70e89c22e128269f4ef63f8701763a8e9155a46053330ec0ea42ad10f0.json
         electoral_product: territorios/aut10/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/aut10/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: aut11
   name: Extremadura
   editions:
