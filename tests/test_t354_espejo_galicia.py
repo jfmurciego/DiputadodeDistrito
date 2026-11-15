@@ -13,6 +13,9 @@ from herramientas import fuente_r2 as f
 from herramientas.comprobar_fuente_electoral_oficial import check_declaration
 
 ROOT = Path(__file__).resolve().parents[1]
+FIXTURE_130 = ROOT / "tests/fixtures/t354_comprobar_fuente_electoral_oficial_v1.3.0.py"
+SHA_130 = "1066bf86ccea3085299618bd18253a665d6ca0b72e94fb324300c9d35265f1ec"  # la imagen de CI excluye legacy/: el checker 1.3.0 vive como fixture (ver t354_LEEME.md)
+LEGACY_130 = ROOT / "legacy/herramientas/comprobar_fuente_electoral_oficial_v1.3.0_20261115.py"
 DECL = ROOT / "territorios/aut12/config/elecciones/galicia_parlamento_vigente.yaml"
 CSV = b"mesa;censo;votos\n01;100;50\n"
 
@@ -99,10 +102,15 @@ class EspejoGalicia(unittest.TestCase):
             check_declaration(d, td, opener=lambda req, timeout=0: Resp(CSV), espejo=lambda n: pedidos.append(n))
         self.assertEqual(pedidos, [f"{d['election_id']}_{s['id']}.csv" for s in d["sources"]])
 
+    def test_fixture_130_es_el_checker_legacy(self):
+        self.assertEqual(hashlib.sha256(FIXTURE_130.read_bytes()).hexdigest(), SHA_130)
+        if LEGACY_130.exists():
+            self.assertEqual(FIXTURE_130.read_bytes(), LEGACY_130.read_bytes())
+
     def test_sin_entrada_en_el_indice_la_03_es_identica_a_la_1_3_0(self):
         import importlib.util
 
-        spec = importlib.util.spec_from_file_location("comprobar_v130", ROOT / "legacy/herramientas/comprobar_fuente_electoral_oficial_v1.3.0_20261115.py")
+        spec = importlib.util.spec_from_file_location("comprobar_v130", FIXTURE_130)
         viejo = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(viejo)
         d = _decl()
