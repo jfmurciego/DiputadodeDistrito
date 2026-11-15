@@ -3,7 +3,11 @@
 """Histórico de generales 2011-2023 por la cadena M07/M08 sobre los distritos vigentes (T-83, paso A).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-15 · ESTADO: candidato
+VERSIÓN: 1.2.0 · FECHA: 2026-11-15 · ESTADO: candidato
+CAMBIOS 1.2.0 (T-355): copia también el M08 (`m08_distritos_resultados.geojson.zip`) a `<salida>/<elección>/<t>/` con
+  `copiar_m08`; antes solo vivía en la caché del job y el artefacto `ddd-historico-*` no lo llevaba, de modo que la P50
+  no podía publicarlo como M08 vigente de esa elección. Los CSV y el resto de la salida no cambian.
+ANTERIOR: legacy/herramientas/historico_m07m08_v1.1.0_20261115.py
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: D-10 y D-12 del propietario: los resultados históricos pasan por el mismo agregado electoral que 2023
   (M07/M08); la puerta 04 queda solo para publicar.
@@ -163,6 +167,19 @@ def leer_resumen(path: Path) -> dict:
         return {str(int(float(r["district_id"]))): r for r in csv.DictReader(f)}
 
 
+M08_ZIP = "m08_distritos_resultados.geojson.zip"
+
+
+def copiar_m08(trabajo_eleccion: Path, dest: Path) -> Path:
+    """T-355: deja el M08 de la elección junto a sus CSV; sin él el paso A falla (no se publica un M08 que no existe)."""
+    origen = trabajo_eleccion / M08_ZIP
+    if not origen.is_file():
+        raise SystemExit(f"SIN_M08 {origen}")
+    destino = dest / M08_ZIP
+    shutil.copy(origen, destino)
+    return destino
+
+
 def contraste_b(salida: Path, clave: str, territorio: str, resumen: dict) -> dict:
     """Paso B frente a M07: ganador y votos por distrito (el redondeo de B es por distrito y el del paquete por
     sección, así que el total provincial es idéntico y por distrito solo cabe una diferencia de redondeo)."""
@@ -248,6 +265,7 @@ def main(argv=None) -> int:
         dest.mkdir(parents=True, exist_ok=True)
         shutil.copy(tr / "m07_resumen_electoral.csv", dest / "resumen_electoral.csv")
         shutil.copy(tr / "m07_resultados_partido.csv", dest / "resultados_partido.csv")
+        copiar_m08(tr, dest)
         escribir_participacion(dest / "participacion.csv", participacion(paq / "participacion.csv", asign))
         (dest / "reconciliacion.json").write_text(json.dumps(
             {k: rec.get(k) for k in ("status", "source_votes", "incorporated_votes", "ddd_unassigned_votes",

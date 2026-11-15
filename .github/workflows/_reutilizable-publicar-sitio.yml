@@ -1,7 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.16.0
-# FECHA: 2026-11-14
+# VERSIÓN: 3.17.0
+# FECHA: 2026-11-15
+# CAMBIOS 3.17.0: T-355 (D-124), entrada opcional `election_date`: publica el HISTÓRICO (paso A, artefactos `ddd-historico-*` del run
+#   pedido) como M08 canónico de esa elección, con `election_date` en el registro. Con valor: la descarga baja `ddd-historico-*`
+#   (no los de una 00), la acreditación y `evaluar_publicacion_visor` usan `--historico` y `describe-production` recibe
+#   `--election-date`; la PUERTA debe ser PASS (fail-closed, todo o nada). Vacío (por defecto): ni un argumento nuevo, igual que 3.16.0.
+# MOTIVO 3.17.0: el histórico se publica en el visor (D-124) y el registro no llevaba la elección.
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.16.0_20261114.yml
 # CAMBIOS 3.16.0: T-305, si el run ya no tiene en Actions el estado M06/M08 (la poda T-278 lo borró de los runs archivados),
 #   la descarga lo restaura de R2 (`restaurar_estado_r2.py`: paquete ddd-minimo-<run>-M08/M06 de orchestracion/archivo_r2.json, sha256
 #   verificado). Orden: Actions (selectiva, completa; sin cambios) → R2 solo si ninguna da producto → error claro
@@ -83,6 +89,10 @@ on:
       production_run_id:
         required: false
         type: string
+      election_date:
+        required: false
+        type: string
+        default: ''
       scenario_id:
         required: false
         type: string
@@ -126,6 +136,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       PRODUCTION_RUN_ID: ${{ inputs.production_run_id || '' }}
+      ELECTION_DATE: ${{ inputs.election_date || '' }}
       SCENARIO_ID: ${{ inputs.scenario_id || '' }}
       SCENARIO_STRATEGY: ${{ inputs.scenario_strategy || '' }}
       ENSEMBLE_RELEASE_TAG: ${{ inputs.ensemble_release_tag || '' }}
@@ -282,6 +293,15 @@ jobs:
           source .ddd-publication/lote.sh
           run="$1"; root="$(raiz_run "$run")"; inicio="$(date +%s)"; modo=selectiva
           mkdir -p "$root"
+          if [[ -n "${ELECTION_DATE:-}" ]]; then
+            # T-355: histórico (paso A): artefactos ddd-historico-<clave>-<t> del run; sin PUERTA no hay nada que publicar.
+            gh run download "$run" --pattern 'ddd-historico-*' --dir "$root" || { echo "el run $run no se pudo descargar (ddd-historico-*)" > ".ddd-publication/descargas/$run.fallo"; exit 1; }
+            if [[ -z "$(find "$root" -name 'PUERTA_*.json' -print -quit)" ]]; then
+              echo "el run $run no contiene PUERTA_*.json del histórico" > ".ddd-publication/descargas/$run.fallo"; exit 1
+            fi
+            echo "DESCARGA run=$run modo=historico mb=$(du -sm "$root" | cut -f1)"
+            touch ".ddd-publication/descargas/$run.ok"; exit 0
+          fi
           completa() { [[ -n "$(find "$root" -name "$1" -print -quit)" ]]; }
           lista_completa() {
             completa production_status.json && completa decision.json && completa manifest.json && completa '*_contiguedad_geometrica.json' \
@@ -340,7 +360,7 @@ jobs:
           fallos=()
           for run in "${LOTE[@]}"; do
             python herramientas/evaluar_publicacion_visor.py --requested-run-id "$run" --production-root "$(raiz_run "$run")" \
-              --phase source --output "$(evidencia_run "$run")" --strict-request || fallos+=("$run")
+              --phase source --output "$(evidencia_run "$run")" --strict-request ${ELECTION_DATE:+--historico} || fallos+=("$run")
           done
           (( ${#fallos[@]} == 0 )) || {
             echo "::error::LOTE_RECHAZADO: no acreditan ${fallos[*]} (motivo en las líneas anteriores); no se registra ninguno."; exit 1;
@@ -355,7 +375,7 @@ jobs:
           fallos=(); salidas=()
           for run in "${LOTE[@]}"; do
             out="/tmp/product-descriptors-$run.json"
-            python herramientas/registro_publicaciones_visor.py describe-production             --production-root "$(raiz_run "$run")"             --run-id "$run" ${SCENARIO_ID:+--scenario-id "$SCENARIO_ID" --strategy "$SCENARIO_STRATEGY"}             --output "$out" || fallos+=("$run")
+            python herramientas/registro_publicaciones_visor.py describe-production             --production-root "$(raiz_run "$run")"             --run-id "$run" ${ELECTION_DATE:+--election-date "$ELECTION_DATE"} ${SCENARIO_ID:+--scenario-id "$SCENARIO_ID" --strategy "$SCENARIO_STRATEGY"}             --output "$out" || fallos+=("$run")
             salidas+=("$out")
             # T-301: la composición del M06 que se publica queda versionada (vigente del visor); sin ella, el lote se rechaza.
             if [[ -s "$out" ]] && ! python herramientas/composicion_m06.py --descriptores "$out" --origen "$(raiz_run "$run")"; then fallos+=("$run"); fi
@@ -619,7 +639,7 @@ jobs:
             source .ddd-publication/lote.sh
             for run in "${LOTE[@]}"; do
               python herramientas/evaluar_publicacion_visor.py --requested-run-id "$run" --registry /tmp/site-candidate/data/viewer-results.json \
-                --phase prepared --output "$(evidencia_run "$run")" --production-root "$(raiz_run "$run")" --strict-request
+                --phase prepared --output "$(evidencia_run "$run")" --production-root "$(raiz_run "$run")" --strict-request ${ELECTION_DATE:+--historico}
             done
           fi
 
@@ -686,6 +706,7 @@ jobs:
             for run in "${LOTE[@]}"; do
               args=(--requested-run-id "$run" --registry /tmp/site-candidate/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output "$(evidencia_run "$run")")
               [[ -d "$(raiz_run "$run")" ]] && args+=(--production-root "$(raiz_run "$run")")
+              [[ -z "${ELECTION_DATE:-}" ]] || args+=(--historico)
               python herramientas/evaluar_publicacion_visor.py "${args[@]}" || fallos+=("$run")
             done
             (( ${#fallos[@]} == 0 )) || { echo "::error::Evidencia final fallida para ${fallos[*]}"; exit 1; }

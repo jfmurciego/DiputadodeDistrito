@@ -5,7 +5,13 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.8.1 · FECHA: 2026-11-12 · ESTADO: candidato
+VERSIÓN: 1.9.0 · FECHA: 2026-11-15 · ESTADO: candidato
+CAMBIOS 1.9.0 (T-355, D-124): el histórico (paso A, artefacto `ddd-historico-*`) se publica como `canonical_m08` de SU elección
+  (`election_date` por la clave del espejo y `election_id`), sin M06 propio (reutiliza el M06 publicado) y sin pisar 2023.
+  `describe-production` reconoce la raíz histórica (hay `PUERTA_*.json` y no `production_status.json`); FALLA CERRADO: toda
+  PUERTA con `estado` distinto de «PASS» rechaza el lote entero (`PUERTA_NO_PASS`), igual que sin M08 o sin distritos.
+  Clave 2023 o desconocida: `CLAVE_HISTORICA`. Una raíz de run 00 se describe como siempre (salida idéntica).
+ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.8.1_20261112.py
 CAMBIOS 1.8.0 (T-249): publicar un territorio es registrar el PAR. `candidate` (CLI) rechaza, todo o nada, si en un
   territorio tocado por las entradas canónicas el M08 vigente falta o no es del linaje del M06 vigente
   (`linaje_m06_m08.pares_incompletos`: mismo run o manifiesto del run del M08 que acredita la 02 del M06). `make_candidate`
@@ -62,6 +68,7 @@ from herramientas.preparar_visor_ejecucion import (
     certification_status,
     first,
     production_metadata,
+    TERRITORY_LABELS,
     read_json,
 )
 
@@ -422,10 +429,75 @@ def verify_materialized_registry(registry: dict, materialized_root: Path) -> lis
     return verified
 
 
+# T-355: clave del espejo → fecha de las generales (BOE). 2023 NO entra (la cubre el flujo vigente).
+ELECCIONES_HISTORICO = {"201911": "2019-11-10", "201904": "2019-04-28", "201606": "2016-06-26",
+                        "201512": "2015-12-20", "201111": "2011-11-20"}
+M08_HISTORICO = "m08_distritos_resultados.geojson.zip"
+
+
+def es_raiz_historica(production_root: Path) -> bool:
+    return not first(production_root, "production_status.json") and bool(sorted(production_root.rglob("PUERTA_*.json")))
+
+
+def historico_descriptors(production_root: Path, run_id: str, election_date: str | None = None,
+                          election_id: str | None = None) -> list[dict]:
+    """T-355: un `canonical_m08` por PUERTA del paso A, con la elección de su clave. Todo o nada: una PUERTA que no sea PASS
+    (o sin M08 o sin distritos) rechaza el lote entero; el M06 no se describe (es el publicado del territorio)."""
+    descriptors: list[dict] = []
+    for puerta_path in sorted(production_root.rglob("PUERTA_*.json")):
+        puerta = read_json(puerta_path)
+        territorio, clave = str(puerta.get("territorio") or ""), str(puerta.get("clave") or "")
+        if puerta.get("estado") != "PASS":
+            raise ValueError(f"PUERTA_NO_PASS {territorio} {clave}: estado={puerta.get('estado')!r}; el histórico no se publica")
+        if clave not in ELECCIONES_HISTORICO:
+            raise ValueError(f"CLAVE_HISTORICA {territorio}: {clave!r} no es una elección histórica publicable")
+        rechazar_mapa_350(territorio)
+        fecha = ELECCIONES_HISTORICO[clave]
+        if election_date and election_date != fecha:
+            raise ValueError(f"{territorio}: election_date {election_date} no corresponde a la clave {clave} ({fecha})")
+        carpeta = puerta_path.parent / clave / territorio
+        zip_m08 = carpeta / M08_HISTORICO
+        if not zip_m08.is_file():
+            raise ValueError(f"SIN_M08 {territorio} {clave}: falta {M08_HISTORICO}")
+        resumen = carpeta / "resumen_electoral.csv"
+        distritos = max(0, len(resumen.read_text(encoding="utf-8").splitlines()) - 1) if resumen.is_file() else 0
+        if distritos < 1:
+            raise ValueError(f"SIN_DISTRITOS {territorio} {clave}: resumen_electoral.csv vacío o ausente")
+        descriptor = {
+            "id": f"m08-{safe_id(territorio)}-{safe_id(run_id)}",
+            "asset_type": "electoral_product",
+            "kind": "canonical_m08",
+            "stage": "M08",
+            "territory_id": territorio,
+            "territory_label": TERRITORY_LABELS.get(territorio, territorio),
+            "run_id": str(run_id),
+            "expected_districts": distritos,
+            "technical_status": puerta.get("m07") or "PASS",
+            "certification_status": "CERTIFIED",
+            "territorial_certification_status": "CERTIFIED",
+            "publication_status": "PUBLICABLE",
+            "geometric_status": "REUTILIZA_M06_PUBLICADO",
+            "geometric_gate": None,
+            "label": f"M08 electoral · histórico {fecha} · run {run_id}",
+            "local_source": str(zip_m08),
+            "election_date": fecha,
+            "election_id": election_id or f"generales_{territorio}_{fecha}",
+        }
+        if alias_de(territorio):
+            descriptor["alias_de"] = alias_de(territorio)
+        _validate_eleccion(descriptor)
+        descriptors.append(descriptor)
+    if not descriptors:
+        raise ValueError(f"La ejecución {run_id} no contiene ninguna PUERTA histórica")
+    return descriptors
+
+
 def production_descriptors(
     production_root: Path, run_id: str, scenario_id: str | None = None, strategy: str | None = None,
     election_date: str | None = None, election_id: str | None = None,
 ) -> list[dict]:
+    if es_raiz_historica(production_root):
+        return historico_descriptors(production_root, run_id, election_date, election_id)
     metadata = production_metadata(production_root)
     rechazar_mapa_350(metadata["territory_id"])
     audit_path = first(production_root, "*_m06_contiguedad_geometrica.json")

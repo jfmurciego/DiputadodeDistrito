@@ -4,6 +4,10 @@
 
 No usa logs ni catálogo histórico como prueba de una ejecución concreta. La identidad
 sale de production_status.json y del registro estructurado viewer-results.json.
+
+T-355: con `historico=True` (CLI `--historico`) la raíz es la del paso A del histórico (artefactos `ddd-historico-*`): la
+ejecución se acredita si hay al menos una PUERTA y TODAS son «PASS» (la raíz se descargó del run pedido) y se admiten varios
+territorios por run. Sin la opción, nada cambia.
 """
 from __future__ import annotations
 
@@ -51,6 +55,14 @@ def generated_identity(production_root: Path | None) -> tuple[str | None, str | 
     )
 
 
+def historical_identity(production_root: Path | None, requested: str | None) -> tuple[str | None, str | None, str | None]:
+    """T-355: identidad de una raíz histórica: el run pedido si hay PUERTAs y todas en PASS; sin territorio único."""
+    puertas = sorted(production_root.rglob("PUERTA_*.json")) if production_root and production_root.exists() else []
+    if not requested or not puertas or any(_read_json(p).get("estado") != "PASS" for p in puertas):
+        return None, None, None
+    return requested, requested, None
+
+
 def reused_origin_run(production_root: Path | None) -> str | None:
     """Run que generó el producto que reutiliza una 00 «Reutilizar» sin auditoría propia."""
     manifest = _read_json(_first(production_root, "manifest.json"))
@@ -69,9 +81,13 @@ def evaluate_publication(
     viewer_url: str | None = None,
     deployment_outcome: str | None = None,
     phase: str = "prepared",
+    historico: bool = False,
 ) -> dict:
     requested = str(requested_run_id or "").strip() or None
-    generated_run, generated_internal_run, generated_territory = generated_identity(production_root)
+    if historico:
+        generated_run, generated_internal_run, generated_territory = historical_identity(production_root, requested)
+    else:
+        generated_run, generated_internal_run, generated_territory = generated_identity(production_root)
     registry = _read_json(registry_path)
     results = registry.get("results") if isinstance(registry.get("results"), list) else []
     production_results = [row for row in results if isinstance(row, dict) and row.get("kind") in PRODUCTION_KINDS]
@@ -99,7 +115,7 @@ def evaluate_publication(
     territory = territories[0] if len(territories) == 1 else generated_territory
     if requested and len(loaded_ids) > 1:
         reasons.append("VARIAS_EJECUCIONES_CARGADAS_COMO_RESULTADO_SOLICITADO")
-    if requested and len(territories) > 1:
+    if requested and len(territories) > 1 and not historico:
         reasons.append("VARIOS_TERRITORIOS_CARGADOS_PARA_LA_MISMA_EJECUCION")
     if requested and generated_territory and territories and generated_territory not in territories:
         reasons.append("TERRITORIO_PUBLICADO_NO_COINCIDE_CON_GENERADO")
@@ -109,7 +125,7 @@ def evaluate_publication(
         requested
         and generated_run == requested
         and loaded_run == requested
-        and len(territories) == 1
+        and (len(territories) == 1 or (historico and len(territories) > 1))
         and (not generated_territory or generated_territory == territories[0])
     )
 
@@ -169,6 +185,7 @@ def main() -> None:
     parser.add_argument("--phase", choices=("source", "prepared", "final"), default="prepared")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--strict-request", action="store_true")
+    parser.add_argument("--historico", action="store_true", help="T-355: raíz del paso A del histórico (PUERTA_*.json)")
     args = parser.parse_args()
 
     payload = evaluate_publication(
@@ -178,6 +195,7 @@ def main() -> None:
         viewer_url=args.viewer_url or None,
         deployment_outcome=args.deployment_outcome or None,
         phase=args.phase,
+        historico=args.historico,
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

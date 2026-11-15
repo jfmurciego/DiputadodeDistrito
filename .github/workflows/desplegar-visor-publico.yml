@@ -1,6 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 3.6.0
+# VERSIÓN: 3.7.0
+# CAMBIOS 3.7.0: T-355 (D-124), entrada opcional `election_date` (AAAA-MM-DD): con `production_run_id` = run del Gestor del histórico, publica
+#   sus `ddd-historico-*` como M08 canónico de esa elección (PUERTA PASS obligatoria). Vacía (por defecto): comportamiento de 3.6.0 sin cambios.
+#   La puerta `produccion` no cambia.
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.6.0_20261114.yml
 # CAMBIOS 3.6.0: T-237, `production_run_id` admite una LISTA de runs 00 (espacios o comas): una sola aprobación de `produccion`,
 #   un solo despliegue y un solo commit del registro; todo o nada (el publicador valida todos antes de escribir). La puerta
 #   `produccion` no cambia. Con un id, igual que 3.5.0.
@@ -30,6 +34,7 @@ on:
     inputs:
       pagina_publicar: {required: false, type: string, default: Sitio completo}
       production_run_id: {required: false, type: string, default: ''}
+      election_date: {required: false, type: string, default: ''}
       scenario_id: {required: false, type: string, default: ''}
       scenario_strategy: {required: false, type: string, default: ''}
       source_sha: {required: false, type: string, default: ''}
@@ -46,6 +51,11 @@ on:
           - Sitio completo
       production_run_id:
         description: Run territorial certificado a promover sin recalcular (o varios runs 00 separados por espacios o comas, todo o nada)
+        required: false
+        default: ''
+        type: string
+      election_date:
+        description: Opcional (AAAA-MM-DD). Con production_run_id = run del Gestor del histórico, publica ese histórico como M08 de esa elección (PUERTA PASS)
         required: false
         default: ''
         type: string
@@ -138,6 +148,7 @@ jobs:
     with:
       source_ref: ${{ needs.preparar_publicacion.outputs.source_ref }}
       production_run_id: ${{ needs.preparar_publicacion.outputs.production_run_id }}
+      election_date: ${{ inputs.election_date }}
       scenario_id: ${{ inputs.scenario_id }}
       scenario_strategy: ${{ inputs.scenario_strategy }}
       ensemble_release_tag: ''
