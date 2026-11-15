@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-15T18:56:51Z",
+  "actualizado_en": "2026-11-15T19:00:14Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -527,19 +527,20 @@
       "territorio": "aut12",
       "url": "r2://ddd-research-archive/aut12/43743658384/ddd-minimo-43743658384-M06.zip"
     },
-    "aut13/43743669986/ddd-minimo-43743669986-M06.zip": {
-      "archivado_en": "2026-11-15T18:43:20Z",
-      "artefacto": "ddd-minimo-43743669986-M06",
-      "artefacto_origen": "ddd-state-43743669986-M06",
-      "artifact_id": 14175460933,
-      "caducidad_original": "2026-11-29T18:41:07Z",
-      "run_id": "43743669986",
-      "sha256": "0074f4d17483b14d150e25b4e2f0ffb1d43ac1f82001967ec6891c28face4450",
-      "sha256_estado_original": "4c059d21452b98bca7aef04339b8df137b851a49df7e53395b3a366383cd9d6c",
-      "tamano_bytes": 1892821,
-      "tamano_estado_original": 101691695,
+    "aut13/43749008571/ddd-minimo-43749008571-M08.zip": {
+      "archivado_en": "2026-11-15T19:00:14Z",
+      "artefacto": "ddd-minimo-43749008571-M08",
+      "artefacto_origen": "ddd-state-43749008571-M08",
+      "artifact_id": 14175542283,
+      "caducidad_original": "2026-11-29T18:58:35Z",
+      "incluye_m06_run": "43743669986",
+      "run_id": "43749008571",
+      "sha256": "31eb926b0ea2964eca98b2c76c228524b479ef8ddd8f1199f910957d776c1249",
+      "sha256_estado_original": "3c98f3d1e8083e8d5f5592bd0115a8050bb2b3fcbab470deaeef8900d5b361e0",
+      "tamano_bytes": 3193113,
+      "tamano_estado_original": 106081430,
       "territorio": "aut13",
-      "url": "r2://ddd-research-archive/aut13/43743669986/ddd-minimo-43743669986-M06.zip"
+      "url": "r2://ddd-research-archive/aut13/43749008571/ddd-minimo-43749008571-M08.zip"
     },
     "canarias/40951280657/ddd-audit-40951280657.zip": {
       "archivado_en": "2026-11-07T17:10:14Z",
