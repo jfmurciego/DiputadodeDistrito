@@ -40,11 +40,37 @@ class Puerta(unittest.TestCase):
     def test_excepcion_sobre_una_milesima_falla(self):
         self.assertEqual(puerta("exc_alta", "201911", "nac01", "01")["estado"], "FAIL")
 
-    def test_2011_hereda_d70_solo_en_sus_provincias(self):
-        self.assertEqual(puerta("d70", "201111", "nac27", "27")["estado"], "PASS")
-        self.assertTrue(puerta("d70", "201111", "nac27", "27")["excepcion_d70"])
-        self.assertEqual(puerta("d70", "201111", "nac27", "01")["estado"], "FAIL")  # otra provincia: tope 0,1 %
-        self.assertEqual(puerta("d70_alta", "201111", "nac27", "27")["estado"], "FAIL")  # por encima de lo documentado
+    def test_2011_d70_tope_por_provincia(self):
+        # valores medidos en MANIFEST.json (votos perdidos de 2011): 03 Alicante, 24 León, 27 Lugo, 32 Orense, 33 Asturias; suma 5.752
+        topes = {"03": 1877, "24": 807, "27": 1128, "32": 399, "33": 1541}
+        self.assertEqual(sum(topes.values()), 5752)
+        self.assertEqual(hc.D70["201111"], topes)
+        for prov, tope in topes.items():
+            with self.subTest(prov=prov):
+                for perdidos, esperado in ((tope, "PASS"), (tope + 1, "FAIL")):
+                    self.assertEqual(self._d70(prov, perdidos)["estado"], esperado)
+                self.assertTrue(self._d70(prov, tope)["excepcion_d70"])
+        # una provincia fuera de D-70 con las mismas pérdidas sigue con el tope del 0,1 %
+        self.assertEqual(self._d70("01", 1128)["estado"], "FAIL")
+        self.assertEqual(self._d70("01", 900)["estado"], "PASS")
+
+    def _d70(self, prov, perdidos):
+        import json
+        import tempfile
+        with tempfile.TemporaryDirectory() as t:
+            raiz, salida = Path(t) / "raiz", Path(t) / "salida"
+            (raiz / "configuracion").mkdir(parents=True)
+            (raiz / "configuracion/resultados_oficiales_congreso_2011_11.csv").write_text(
+                "codigo,provincia,escanos_circunscripcion,partido,votos,escanos\n"
+                f"{prov},X,4,AAA,600000,2\n{prov},X,4,BBB,400000,2\n", encoding="utf-8")
+            (salida / "201111/nac99").mkdir(parents=True)
+            fuente = 980000
+            (salida / "201111/nac99/reconciliacion.json").write_text(json.dumps(
+                {"status": "PASS_WITH_DECLARED_EXCEPTIONS", "source_votes": fuente, "ddd_unassigned_votes": perdidos}), encoding="utf-8")
+            esp = Path(t) / "espejo.json"
+            esp.write_text(json.dumps({"s": ["AAA", "BBB"], "r": {"0100100001": [1500000, 1000000, fuente, [[0, 590000], [1, 390000]]]}}),
+                           encoding="utf-8")
+            return hc.puerta_json("nac99", "201111", "2023", 0, None, salida, None, prov, raiz, esp)
 
     def test_contraste_fuera_de_tolerancia_falla(self):
         p = puerta("fuera_tol", "201911", "nac01", "01")
@@ -68,26 +94,6 @@ class Puerta(unittest.TestCase):
         self.assertIn("NO equivale al total provincial", c["metodo"])
         p = hc.puerta_json("nac01", "201911", "2023", 0, None, FX / "pass", None, "01", cob, FX / "pass/espejo.json")
         self.assertEqual(p["estado"], "FAIL")
-
-    def test_alias_aplicado_ausente_y_dudoso(self):
-        a = FX / "raiz_alias"
-        c = hc.contraste_boe("201911", "01", a / "espejo.json", a)  # BOE «PSOE» = espejo «PSE-EE (PSOE)» por T-97
-        self.assertEqual((c["ok"], c["alias"], c["sin_homologar"]), (True, {"PSOE": ["PSE-EE (PSOE)"]}, []))
-        self.assertEqual(c["diferencia"], 0.025)  # mayor defecto: BBB (400000 → 390000)
-        c = hc.contraste_boe("201911", "01", a.with_name("raiz_alias_ausente") / "espejo.json", a.with_name("raiz_alias_ausente"))
-        self.assertEqual((c["ok"], c["motivo"], c["sin_homologar"]), (False, "PARTIDOS_SIN_HOMOLOGAR", ["PSOE"]))
-        d = a.with_name("raiz_alias_dudoso")  # alias hacia una sigla que no cuadra en votos: no se acepta
-        c = hc.contraste_boe("201911", "01", d / "espejo.json", d)
-        self.assertEqual((c["ok"], c["motivo"]), (False, "DEFECTO_SOBRE_TOLERANCIA"))
-
-    def test_tabla_de_alias_versionada_es_coherente(self):
-        import csv
-        with (ROOT / hc.ALIAS_BOE).open(encoding="utf-8", newline="") as fh:
-            filas = list(csv.DictReader(fh))
-        self.assertEqual(list(filas[0]), ["eleccion", "sigla_boe", "partido_homologado", "fuente", "nota"])
-        self.assertEqual(len({(f["eleccion"], f["sigla_boe"], f["partido_homologado"]) for f in filas}), len(filas))
-        self.assertTrue(all(f["fuente"].startswith("BOE-A-") and "PENDIENTE" not in f["nota"] for f in filas))
-        self.assertTrue(set(f["eleccion"] for f in filas) <= set(hc.OFICIAL_BOE))
 
     def test_m07_pass_sin_source_votes_falla(self):
         self.assertEqual(puerta("sin_source", "201911", "nac01", "01")["estado"], "FAIL")

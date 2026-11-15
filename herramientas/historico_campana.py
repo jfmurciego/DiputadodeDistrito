@@ -4,8 +4,8 @@
 
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.4.0 · FECHA: 2026-11-15 · ESTADO: candidato
-CAMBIOS 1.4.0 (T-342): alias BOE→T-97 (configuracion/homologacion_siglas_boe_espejo.csv) para la cobertura total; puerta del histórico por territorio y elección (ficha 2026-11-14_historico-paso-a-49x6): M07 PASS, o
-  PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: Alicante, Lugo, León, Orense y Asturias heredan D-70, tope 0,54 %),
+CAMBIOS 1.4.0 (T-342): puerta del histórico por territorio y elección (ficha 2026-11-14_historico-paso-a-49x6): M07 PASS, o
+  PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: Alicante, Lugo, León, Orense y Asturias heredan D-70: tope = sus votos perdidos medidos, por provincia),
   Y contraste por provincia y por partido con cobertura total (partido sin homologar → falla) (el CSV solo trae partidos con escaño estatal) con el CSV oficial del BOE (`configuracion/resultados_oficiales_congreso_<año>.csv`) con la TOLERANCIA de
   cuadre_historico_espana.py (0,10; el espejo nunca supera a la oficial). Falla cerrado: sin CSV BOE, sin reconciliación o sin el espejo, sin la provincia
   en el CSV, la puerta NO pasa. `PUERTA_*.json` lleva m07, perdidos, perdidos_pct, contraste_boe e informativo_ganador (no bloquea).
@@ -113,8 +113,10 @@ def registro_tabla(tabla: Path, root: Path = ROOT) -> dict:
 
 OFICIAL_BOE = {"201111": "2011_11", "201512": "2015_12", "201606": "2016_06", "201904": "2019_04", "201911": "2019_11", "202307": "2023"}
 MAX_PERDIDOS = 0.001  # ficha 2026-11-14: votos sin asignar ≤ 0,1 %
-D70 = {"201111": {"03", "27", "24", "32", "33"}}  # D-70: Alicante, Lugo, León, Orense y Asturias; pérdida aceptada 0,2-0,54 %
-MAX_D70 = 0.0054
+# D-70 (PLAN.md:107): pérdida de 2011 aceptada en Alicante, Lugo, León, Orense y Asturias. Tope de cada una = sus votos perdidos medidos
+# en datos/resultados/historico/MANIFEST.json (cuadre de 2011, campo votos_perdidos de cada una de las cinco; sha256 del fichero
+# 978109f7a559ea113c90f757ff2c62e0fd6129758b9c7b8d0ad1fd3351171ea7); total 5.752 de 23.942.870.
+D70 = {"201111": {"03": 1877, "24": 807, "27": 1128, "32": 399, "33": 1541}}
 
 
 METODO_CONTRASTE = ("por partido: máximo defecto relativo entre los partidos del CSV BOE de la provincia, como fnb.contrastar_provincia "
@@ -125,34 +127,6 @@ def _tolerancia() -> float:
     sys.path.insert(0, str(ROOT / "herramientas"))
     import cuadre_historico_espana as cu  # noqa: E402
     return cu.TOLERANCIA
-
-
-ALIAS_BOE = "configuracion/homologacion_siglas_boe_espejo.csv"
-T97 = "datos/homologacion_siglas/homologacion_siglas_generales.csv"
-
-
-def _alias(clave: str, root: Path) -> dict:
-    """{sigla BOE: {partido homologado T-97, …}} de la elección (T-342). Es un puente BOE→T-97: el espejo se resuelve con la tabla T-97
-    (sigla_fuente→partido_homologado, decidida en D-20), sin cambiar su semántica."""
-    ruta = root / ALIAS_BOE
-    out: dict = {}
-    if ruta.is_file():
-        with ruta.open(encoding="utf-8", newline="") as fh:
-            for r in csv.DictReader(fh):
-                if r["eleccion"] == clave:
-                    out.setdefault(r["sigla_boe"], set()).add(r["partido_homologado"])
-    return out
-
-
-def _hom(clave: str, provincia: str, root: Path) -> dict:
-    ruta = root / T97
-    out: dict = {}
-    if ruta.is_file():
-        with ruta.open(encoding="utf-8", newline="") as fh:
-            for r in csv.DictReader(fh):
-                if r["eleccion"] == clave and r["provincia"] == provincia:
-                    out[r["sigla_fuente"]] = r["partido_homologado"]
-    return out
 
 
 def contraste_boe(clave: str, provincia: str | None, espejo: Path | None, root: Path = ROOT) -> dict:
@@ -175,17 +149,7 @@ def contraste_boe(clave: str, provincia: str | None, espejo: Path | None, root: 
         oficial = {x["partido"]: int(x["votos"]) for x in csv.DictReader(fh) if x["codigo"] == provincia}
     if not oficial:
         return {**r, "motivo": "PROVINCIA_SIN_OFICIAL"}
-    tot = fnb.totales_provincia(json.loads(Path(espejo).read_text(encoding="utf-8")))
-    alias, hom, usados = _alias(clave, root), _hom(clave, provincia, root), {}
-    directas = set(tot) & set(oficial)
-    for b, v in oficial.items():  # sigla BOE sin sigla igual en el espejo: alias BOE→T-97, suma de las siglas del espejo con ese partido
-        if b in tot or b not in alias:
-            continue
-        ss = sorted(x for x in tot if x not in directas and hom.get(x) in alias[b])
-        if ss:
-            tot[b] = sum(tot[x] for x in ss)
-            usados[b] = ss
-    c = fnb.contrastar_provincia(tot, oficial, tol)
+    c = fnb.contrastar_provincia(fnb.totales_provincia(json.loads(Path(espejo).read_text(encoding="utf-8"))), oficial, tol)
     if not c["comparaciones"]:
         return {**r, "metodo": METODO_CONTRASTE, "motivo": "SIN_PARTIDOS_COMPARABLES", "sin_homologar": c["sin_homologar"]}
     dif = max(x["defecto"] for x in c["comparaciones"].values())
@@ -194,7 +158,7 @@ def contraste_boe(clave: str, provincia: str | None, espejo: Path | None, root: 
               else "PARTIDOS_SIN_HOMOLOGAR" if c["sin_homologar"] else None)
     return {**r, "metodo": METODO_CONTRASTE, "diferencia": dif, "ok": motivo is None, "comparados": len(c["comparaciones"]),
             "sin_homologar": c["sin_homologar"], "errores": c["errores"], "avisos": c["avisos"],
-            **({"alias": usados} if usados else {}), **({"motivo": motivo} if motivo else {})}
+            **({"motivo": motivo} if motivo else {})}
 
 
 def puerta_json(territorio: str, clave: str, mapa: str, ra: int, rb: int | None, salida: Path, extra: dict | None = None,
@@ -210,10 +174,10 @@ def puerta_json(territorio: str, clave: str, mapa: str, ra: int, rb: int | None,
            "paso_a_m07": ra == 0, "m07": rec.get("status"), "perdidos": perdidos, "perdidos_pct": pct,
            **(extra or {})}
     if mapa == "2023":  # D-105: sin paso B; la puerta de la ficha (M07 + pérdida + contraste BOE), fallo cerrado
-        d70 = provincia in D70.get(clave, set())
-        tope = MAX_D70 if d70 else MAX_PERDIDOS
+        d70 = provincia in D70.get(clave, {})
+        tope = D70[clave][provincia] if d70 else MAX_PERDIDOS  # votos (D-70) o fracción (0,1 %)
         # sin pct (falta source_votes) la puerta FALLA, también con M07 PASS
-        m07_ok = rec.get("status") in ("PASS", "PASS_WITH_DECLARED_EXCEPTIONS") and pct is not None and pct <= tope
+        m07_ok = rec.get("status") in ("PASS", "PASS_WITH_DECLARED_EXCEPTIONS") and pct is not None and (perdidos <= tope if d70 else pct <= tope)
         c = contraste_boe(clave, provincia, espejo, root)
         out.update({"contraste_boe": c, "excepcion_d70": d70, "tope_perdidos": tope, "informativo_ganador": None})
         ok = ok and m07_ok and c["ok"]

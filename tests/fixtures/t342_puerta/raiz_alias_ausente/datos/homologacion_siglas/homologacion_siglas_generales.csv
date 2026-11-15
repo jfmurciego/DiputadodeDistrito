@@ -1,4 +1,0 @@
-eleccion,provincia,sigla_fuente,votos_fuente,familia_fuente,partido_homologado,nivel_certeza,regla,interior,ruta_fuente,sha256_fuente
-201911,01,PSE-EE (PSOE),590000,a4,PSOE,ALTA,FAMILIA:a4,X,r,h
-201911,01,BBB,390000,b,BBB,ALTA,IDENTIDAD,X,r,h
-201911,01,RARA,1000,c,OTRO,ALTA,IDENTIDAD,X,r,h
