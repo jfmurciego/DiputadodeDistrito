@@ -63,7 +63,7 @@
   "territorios": 71,
   "productos": 535,
   "errores": 0,
-  "avisos": 182
+  "avisos": 183
  },
  "territorios": {
   "andalucia": {
@@ -8776,8 +8776,8 @@
     "section_year": 2023
    },
    "fuente_electoral": {
-    "receipt_path": "territorios/aut17/evidencia/fuentes_electorales/2025/35a5a19b40d7d19c48d53eadfdcc2f045be0cc239ba3266c18389c1b0d09e951/40850322464/receipt.json",
-    "identity_sha256": "35a5a19b40d7d19c48d53eadfdcc2f045be0cc239ba3266c18389c1b0d09e951"
+    "receipt_path": "territorios/aut17/evidencia/fuentes_electorales/2025/14215b63a2735c725d740a4cb5c6afc13e7caafd83f1b2076a1489bdbe86cb63/43753555684/receipt.json",
+    "identity_sha256": "14215b63a2735c725d740a4cb5c6afc13e7caafd83f1b2076a1489bdbe86cb63"
    },
    "doi": null,
    "productos": [
@@ -9794,6 +9794,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "aut18/43749637927/ddd-minimo-43749637927-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aut19",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "aut19/43750065634/ddd-minimo-43750065634-M06.zip"
   },
   {
    "nivel": "AVISO",
