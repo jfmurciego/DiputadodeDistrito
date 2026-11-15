@@ -2413,8 +2413,8 @@
     "section_year": 2023
    },
    "fuente_electoral": {
-    "receipt_path": "territorios/nac07/evidencia/fuentes_electorales/2025/595c78426252663b1a5358beea463781185a82f3f3433630d9882e73a88c2867/41465837048/receipt.json",
-    "identity_sha256": "595c78426252663b1a5358beea463781185a82f3f3433630d9882e73a88c2867"
+    "receipt_path": "territorios/nac07/evidencia/fuentes_electorales/2025/dd01db5e7936cb92ee13ab263cff8121d5b00dea1e2571db00c72dc4586e7fbf/43762915906/receipt.json",
+    "identity_sha256": "dd01db5e7936cb92ee13ab263cff8121d5b00dea1e2571db00c72dc4586e7fbf"
    },
    "doi": null,
    "productos": [
