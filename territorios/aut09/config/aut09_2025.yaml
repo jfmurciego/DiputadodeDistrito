@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 0.3.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -56,7 +56,7 @@ territory_contract:
   - '17'
   - '25'
   - '43'
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   notes:
   - CAT-02 run 34688104014 certificó 1709401001, Llívia, como único aislado.
   - La sección española más próxima es 1714101003, Puigcerdà, a 1.636,011 m en EPSG:3035.
@@ -338,7 +338,7 @@ resolved_source_contract:
   contract_sha256: f97aef35896587a76eefe63ac3c1c7192bf341c7c07f45a98de3c54e5cf1ee94
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: 592e7aad90860c38dcea9dd2cecf7a1e3ec05dce7c92bdc8e2245696b4e11f3f
   compatibility_identity_sha256: 4371dba21869acb7deac9d05a69f48c39bad3b00f48bf9028f17633d57da89fc
   source_inputs:
@@ -390,3 +390,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 43743381120
+  pre_m04_source_commit: 89ae1382bd025eb882d2b4d96cc370cc46946245
+  pre_m04_artifact_sha256: fbe94024b3f0e48bd32deac647eeb171befd2589a1dda19c07a25ef8578bed23
