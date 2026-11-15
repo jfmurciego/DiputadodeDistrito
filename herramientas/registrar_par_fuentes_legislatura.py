@@ -109,7 +109,7 @@ def _historical_product_reuse(root: Path, *, plan: dict, current_identity: str) 
     lineage = _json(ruta_existente(root, lineage_rel))
     if (
         lineage.get("schema") != "ddd.territorial-product-source-lineage/1.0"
-        or not mismo_territorio(str(lineage.get("territory_id") or ""), str(str(plan["territory_id"])))
+        or str(lineage.get("territory_id") or "") != str(plan["territory_id"])  # T-349: id canónico exacto
     ):
         return {
             "available": True,
@@ -333,7 +333,7 @@ def validate_pair_receipt(
     edition = str(pair.get("edition") or "")
     if not territory_id or not edition:
         raise PreparedSourcePairBlock("PAIR_BLOCK: identidad territorial/edición incompleta")
-    if expected_territory_id is not None and not mismo_territorio(territory_id, str(expected_territory_id)):
+    if expected_territory_id is not None and territory_id != str(expected_territory_id):  # T-349: id canónico exacto
         raise PreparedSourcePairBlock("PAIR_BLOCK: territorio del par no coincide")
     if expected_edition is not None and edition != str(expected_edition):
         raise PreparedSourcePairBlock("PAIR_BLOCK: edición del par no coincide")
@@ -387,7 +387,7 @@ def validate_pair_receipt(
             raise PreparedSourcePairBlock(f"PAIR_BLOCK: falta receipt durable de {label}")
         side_path = ruta_existente(root, rel)
         receipt = _json(side_path)
-        if not mismo_territorio(str(receipt.get("territory_id") or ""), str(territory_id)):
+        if str(receipt.get("territory_id") or "") != str(territory_id):  # T-349: id canónico exacto
             raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice territory_id")
         if str(receipt.get("edition") or "") != edition:
             raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice edition")

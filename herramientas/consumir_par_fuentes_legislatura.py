@@ -117,7 +117,7 @@ def validate_territorial_receipt(
             "PREPARED_TERRITORIAL_BLOCK: kind de receipt territorial no reconocido"
         )
     if (
-        not mismo_territorio(str(receipt.get("territory_id") or ""), str(row["territory_id"]))
+        str(receipt.get("territory_id") or "") != str(row["territory_id"])  # T-349: id canónico exacto
         or str(receipt.get("edition") or "") != str(edition)
     ):
         raise PreparedPairExecutionBlock(
@@ -332,7 +332,7 @@ def resolve_geometric_reuse(
     product = _json(ruta_existente(root, product_rel), label="receipt de producto territorial")
     if (
         lineage.get("schema") != "ddd.territorial-product-source-lineage/1.0"
-        or not mismo_territorio(str(lineage.get("territory_id") or ""), str(territory_id))
+        or str(lineage.get("territory_id") or "") != str(territory_id)  # T-349: id canónico exacto
         or str(lineage.get("edition") or "") != str(edition)
     ):
         raise PreparedPairExecutionBlock(

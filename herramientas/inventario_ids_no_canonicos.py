@@ -35,17 +35,18 @@ if str(ROOT) not in sys.path:
 from ddd_core import territorio_ids  # noqa: E402
 from herramientas import resolver_preparacion_legislatura as rpl  # noqa: E402
 
-# Rama de reutilización → política del código de esta rama. ESTRICTA: igualdad exacta con el id canónico (rechaza y prepara
-# de nuevo). ALIAS: compara con `mismo_territorio` (acepta el id viejo): objeto aceptado tal cual (sorpresa a decidir).
+# Rama de reutilización → política del código de esta rama (D-102). ESTRICTA: lo que la cadena de la r4 prepara, reutiliza o
+# consume exige igualdad exacta con el id canónico (rechaza y vuelve a generar). SOLO_LECTURA_PUBLICADO: se lee lo ya
+# publicado/histórico con alias (mismo_territorio / fichero_por_id), pero la cadena no lo reutiliza ni lo escribe así.
 RAMAS = {
     "fuentes_territoriales": ("ESTRICTA", "Activación, P10, P00, puertas y preflight comparan el id exacto (T-336, T-349)"),
     "electoral_fuente": ("ESTRICTA", "Activación, P12, puertas y elegibilidad comparan el id exacto (T-349)"),
     "poblacion": ("ESTRICTA", "la población y el seccionado viajan dentro del paquete de fuentes territorial (misma rama)"),
-    "par_fuentes": ("ALIAS", "consumir_par/registrar_par usan mismo_territorio; el par se reescribe al registrar el par nuevo"),
-    "producto_M06": ("ALIAS", "resolver_ejecucion_completa/_core y catálogo usan mismo_territorio sobre el territory_id del recibo"),
-    "producto_M08": ("ALIAS", "resolver_ejecucion_completa/_core, detectar M08 y catálogo usan mismo_territorio"),
-    "composicion_datos": ("ALIAS", "ddd_core.territorio_ids.fichero_por_id: el fichero con el id viejo es válido (D-61)"),
-    "registro_visor": ("ALIAS", "publicaciones_visor.json: legislatura_vigente/linaje usan mismo_territorio"),
+    "par_fuentes": ("ESTRICTA", "registrar_par/consumir_par comparan el id exacto (T-349): un par registrado con id viejo se rechaza y se registra el nuevo"),
+    "producto_M06": ("ESTRICTA", "resolver_activos_durables: recibo y manifiesto M06 con id exacto; con id viejo la P00 en reutilizar bloquea y se genera de nuevo"),
+    "producto_M08": ("ESTRICTA", "resolver_activos_durables: un M08 registrado con id viejo se descarta (rejected_electoral_product) y se reincorpora"),
+    "composicion_datos": ("SOLO_LECTURA_PUBLICADO", "fichero_por_id lee el id viejo solo si no existe el canónico (D-61); lo que se escribe lleva el id canónico"),
+    "registro_visor": ("SOLO_LECTURA_PUBLICADO", "registro de solo adición: las entradas viejas se leen; la P50 añade la entrada canónica con alias_de y el run mayor la sustituye (migración en T-313)"),
 }
 NO_VERIFICABLE = (
     "Artefactos de Actions (ddd-source-package-*, ddd-electoral-package-*, ddd-state-<run>-M0x): solo el nombre y el digest están "
@@ -80,7 +81,7 @@ def _fila(tid, rama, objeto, ident, run, fecha, canonico, politica):
     elif politica == "ESTRICTA":
         resultado = "RECHAZA → ACQUIRE/prepara de nuevo"
     else:
-        resultado = "ACEPTA con alias (sorpresa)"
+        resultado = "SOLO LECTURA de lo publicado (no se reutiliza en la cadena)"
     return {"territorio": tid, "rama": rama, "objeto": objeto, "id": ident, "run_o_artefacto": run, "fecha": fecha,
             "canonico": canonico, "politica": politica, "resultado": resultado}
 
@@ -113,17 +114,17 @@ def construir(root: Path = ROOT) -> dict:
         # Par.
         if ev.get("prepared_source_pair"):
             rec = _json(root / ev["prepared_source_pair"]) or {}
-            filas.append(_fila(tid, "par_fuentes", "evidence.prepared_source_pair", f"par={rec.get('territory_id')}", Path(ev["prepared_source_pair"]).name[:12], _fecha(rec), rec.get("territory_id") == tid, "ALIAS"))
+            filas.append(_fila(tid, "par_fuentes", "evidence.prepared_source_pair", f"par={rec.get('territory_id')}", Path(ev["prepared_source_pair"]).name[:12], _fecha(rec), rec.get("territory_id") == tid, "ESTRICTA"))
         # Productos M06 / M08.
         for clave, rama in (("territorial_product", "producto_M06"), ("electoral_product", "producto_M08")):
             if ev.get(clave):
                 rec = _json(root / ev[clave]) or {}
-                filas.append(_fila(tid, rama, f"evidence.{clave}", f"recibo={rec.get('territory_id')}", str(rec.get("artifact_name") or "—"), _fecha(rec), rec.get("territory_id") == tid, "ALIAS"))
+                filas.append(_fila(tid, rama, f"evidence.{clave}", f"recibo={rec.get('territory_id')}", str(rec.get("artifact_name") or "—"), _fecha(rec), rec.get("territory_id") == tid, "ESTRICTA"))
         # Datos derivados con nombre por id.
         for carpeta in ("composicion", "resultados"):
             viejo, nuevo = root / "datos" / carpeta / f"{legacy}.csv", root / "datos" / carpeta / f"{tid}.csv"
             if viejo.is_file() or nuevo.is_file():
-                filas.append(_fila(tid, "composicion_datos", f"datos/{carpeta}", f"fichero={(nuevo if nuevo.is_file() else viejo).name}", "—", "—", nuevo.is_file(), "ALIAS"))
+                filas.append(_fila(tid, "composicion_datos", f"datos/{carpeta}", f"fichero={(nuevo if nuevo.is_file() else viejo).name}", "—", "—", nuevo.is_file(), "SOLO_LECTURA_PUBLICADO"))
         # Registro del visor: productos con id viejo.
         propios = [p for p in visor.get("products", []) if territorio_ids.mismo_territorio(str(p.get("territory_id") or ""), tid)]
         for tipo in sorted({p.get("kind") for p in propios}):
@@ -131,7 +132,7 @@ def construir(root: Path = ROOT) -> dict:
             viejos = [p for p in xs if p.get("territory_id") != tid]
             if viejos:
                 filas.append(_fila(tid, "registro_visor", f"publicaciones_visor/{tipo}", f"{len(viejos)} de {len(xs)} con id viejo",
-                                   ",".join(sorted(str(p.get("run_id")) for p in viejos)[:3]) + ("…" if len(viejos) > 3 else ""), "—", False, "ALIAS"))
+                                   ",".join(sorted(str(p.get("run_id")) for p in viejos)[:3]) + ("…" if len(viejos) > 3 else ""), "—", False, "SOLO_LECTURA_PUBLICADO"))
     # Resultado real del resolutor de la Activación (código de esta rama) por territorio.
     plan = {p["territory_id"]: p for p in rpl.resolve(root, "Todos")["plans"] if p["territory_id"] in tabla}
     activacion = [{"territorio": t, "territorial_action": plan[t]["territorial_action"], "territorial_reason": plan[t]["territorial_reason"],
@@ -149,7 +150,7 @@ def a_markdown(d: dict) -> str:
     for rama in d["ramas"]:
         fs = [f for f in d["filas"] if f["rama"] == rama]
         nc = [f for f in fs if not f["canonico"]]
-        res = "RECHAZA → prepara de nuevo" if d["ramas"][rama]["politica"] == "ESTRICTA" else "ACEPTA con alias"
+        res = "RECHAZA → prepara de nuevo" if d["ramas"][rama]["politica"] == "ESTRICTA" else "solo lectura de lo publicado"
         out.append(f"| {rama} | {len(fs)} | {len(nc)} | {res if nc else 'sin objetos no canónicos'} |")
     out += ["", "## Activación (resultado real de `resolver_preparacion_legislatura`)", "", "| Territorio | Territorial | Motivo | Electoral | Motivo |", "|---|---|---|---|---|"]
     out += [f"| {a['territorio']} | {a['territorial_action']} | {a['territorial_reason']} | {a['electoral_action']} | {a['electoral_reason']} |" for a in d["activacion"]]

@@ -86,12 +86,16 @@ def _receipt(
     edition: str,
     stage: str | None = None,
     require_decision: bool = False,
+    exact_id: bool = False,
 ) -> dict:
     payload = _load_json(root, rel, label=kind)
     if payload.get("schema") != "ddd.catalog-evidence/1.0" or payload.get("kind") != kind:
         _block("DURABLE_ASSET_IDENTITY_INVALID", f"{kind}: schema/kind no coincide")
     if not mismo_territorio(str(payload.get("territory_id") or ""), str(territory_id)) or str(payload.get("edition") or "") != str(edition):
         _block("DURABLE_ASSET_IDENTITY_INVALID", f"{kind}: territorio/edición no coincide")
+    if exact_id and str(payload.get("territory_id") or "") != str(territory_id):
+        # T-349 (D-102): lo que la cadena reutiliza exige el id canónico exacto; el id viejo solo vale para leer lo publicado.
+        _block("DURABLE_ASSET_ID_NO_CANONICO", f"{kind}: territory_id={payload.get('territory_id')!r} != {territory_id!r}")
     run_id = _run_id(payload.get("run_id"), label=kind)
     artifact = str(payload.get("artifact_name") or "")
     if not artifact:
@@ -135,7 +139,7 @@ def _validate_m06_manifest(
     except (TypeError, ValueError):
         manifest_run = manifest_attempt = 0
     if (
-        not mismo_territorio(str(identity.get("territory_id") or ""), str(territory_id))
+        str(identity.get("territory_id") or "") != str(territory_id)  # T-349 (D-102): id canónico exacto para reutilizar M06
         or str(identity.get("edition") or "") != str(edition)
         or manifest_run != run_id
         or manifest_attempt <= 0
@@ -426,6 +430,7 @@ def validate_durable_assets(
             edition=edition,
             stage="M06",
             require_decision=True,
+            exact_id=True,
         )
         manifest = None
         historical_accreditation = None
@@ -529,21 +534,30 @@ def validate_durable_assets(
         # M06 territorial vigente. Permiten descartarlo para una reincorporación nueva: (a) esa discrepancia de
         # linaje (fuente o M06) y (b) T-166, que su run no llegara a producirlo (fase 04 en failure o sin digest);
         # cualquier otro defecto bloquea.
-        electoral_product = _receipt(
-            root,
-            evidence.get("electoral_product"),
-            kind="electoral_product",
-            territory_id=territory_id,
-            edition=edition,
-            stage="M08",
-        )
-        manifest = _manifest(
+        try:
+            electoral_product = _receipt(
+                root,
+                evidence.get("electoral_product"),
+                kind="electoral_product",
+                territory_id=territory_id,
+                edition=edition,
+                stage="M08",
+                exact_id=True,
+            )
+        except DurableAssetBlock as exc:
+            if not str(exc).startswith("DURABLE_ASSET_ID_NO_CANONICO:"):
+                raise
+            # T-349 (D-102): un M08 registrado con id no canónico no se reutiliza: se descarta y se reincorpora de nuevo.
+            electoral_product = None
+            rejected_electoral_product = {"asset": None, "reason": str(exc), "reusable": False}
+        manifest = None if electoral_product is None else _manifest(
             root, territory_id, edition, electoral_product["run_id"],
             receipt=electoral_product, contract_path=state.get("contract_path"),
         )
-        phase_04 = _phase(manifest, "04 ·")
+        phase_04 = _phase(manifest, "04 ·") if electoral_product is not None else {}
         try:
-            _producer_phase_asset(phase_04, electoral_product, label="electoral_product")
+            if electoral_product is not None:
+                _producer_phase_asset(phase_04, electoral_product, label="electoral_product")
         except DurableAssetBlock as exc:
             # T-166: solo se descarta el M08 cuyo run NO llegó a producirlo: fase 04 en failure o sin digest de
             # artefacto (receipt registrado a partir de una 04 fallida). Cualquier otro defecto de la fase

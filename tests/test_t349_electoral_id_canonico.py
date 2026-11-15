@@ -264,9 +264,88 @@ class InventarioPorRama(unittest.TestCase):
         regenerada["base_commit"] = committed["base_commit"]  # la base cambia con cada rebase; el resto es determinista
         self.assertEqual(regenerada, committed)
 
-    def test_ramas_con_alias_quedan_listadas(self):
-        alias = {k for k, v in self.tabla["ramas"].items() if v["politica"] == "ALIAS"}
-        self.assertEqual(alias, {"par_fuentes", "producto_M06", "producto_M08", "composicion_datos", "registro_visor"})
+    def test_solo_las_ramas_de_lo_publicado_son_solo_lectura(self):
+        alias = {k for k, v in self.tabla["ramas"].items() if v["politica"] == "SOLO_LECTURA_PUBLICADO"}
+        self.assertEqual(alias, {"composicion_datos", "registro_visor"})
+
+
+CAT = ROOT / "configuracion/catalogo_preparacion.yaml"
+
+
+class RamasDeLaCadenaD102(unittest.TestCase):
+    """D-102: par, M06 y M08 registrados con id viejo NO se reutilizan en la P00/Activación (objetos reales del inventario)."""
+
+    def test_par_registrado_real_con_id_viejo_se_rechaza(self):
+        from herramientas.consumir_par_fuentes_legislatura import PreparedPairExecutionBlock, resolve_pair
+        with self.assertRaises(PreparedPairExecutionBlock):
+            resolve_pair(root_dir=ROOT, territory="aut09", edition="2025")  # par real con territory_id='cataluna'
+
+    def test_par_canonico_con_recibo_electoral_viejo_se_rechaza(self):
+        from herramientas.consumir_par_fuentes_legislatura import PreparedPairExecutionBlock, resolve_pair
+        with self.assertRaisesRegex(PreparedPairExecutionBlock, "contradice territory_id"):
+            resolve_pair(root_dir=ROOT, territory=CANON, edition="2025")  # par aut11 con recibo electoral 'extremadura'
+
+    def test_validar_par_exige_id_exacto_esperado(self):
+        from herramientas.registrar_par_fuentes_legislatura import PreparedSourcePairBlock, validate_pair_receipt
+        catalogo = yaml.safe_load(CAT.read_text(encoding="utf-8"))
+        rel = next(r for r in catalogo["territories"] if r["territory_id"] == "aut09")["editions"]["2025"]["evidence"]["prepared_source_pair"]
+        with self.assertRaisesRegex(PreparedSourcePairBlock, "territorio del par no coincide"):
+            validate_pair_receipt(root_dir=ROOT, pair_path=ROOT / rel, expected_territory_id="aut09", expected_edition="2025")
+
+    def test_m06_registrado_real_con_id_viejo_se_rechaza_en_la_p00(self):
+        from herramientas.resolver_ejecucion_completa import build_plan
+        with self.assertRaisesRegex(ValueError, "DURABLE_ASSET_ID_NO_CANONICO: territorial_product"):
+            build_plan(territory="Cataluña", edition="2025", execution_mode="reuse", catalog=CAT, root_dir=ROOT)
+
+    def test_m06_canonico_se_reutiliza_en_la_p00(self):
+        from herramientas.resolver_ejecucion_completa import build_plan
+        plan = build_plan(territory="Extremadura", edition="2025", execution_mode="reuse", catalog=CAT, root_dir=ROOT)
+        self.assertEqual(plan["execution_mode"], "reuse")
+
+    def test_m08_registrado_con_id_viejo_se_descarta_para_reincorporar(self):
+        from herramientas.resolver_activos_durables import validate_durable_assets
+        catalogo = yaml.safe_load(CAT.read_text(encoding="utf-8"))
+        state = next(r for r in catalogo["territories"] if r["territory_id"] == CANON)["editions"]["2025"]
+        # El electoral_source real de aut11 lleva el id viejo (se prepara de nuevo): se aísla el M08 con el resto canónico.
+        estado = {**state, "electoral_source_prepared": False}
+        r = validate_durable_assets(root_dir=ROOT, state=estado, territory_id=CANON, edition="2025",
+                                    territorial_source=state["preparation_evidence"], expected_election_id=None)
+        self.assertIsNone(r["electoral_product"])
+        self.assertIn("DURABLE_ASSET_ID_NO_CANONICO: electoral_product", r["rejected_electoral_product"]["reason"])
+        self.assertFalse(r["rejected_electoral_product"]["reusable"])
+
+
+class RegistroVisorP50(unittest.TestCase):
+    """La P50 añade la entrada CANÓNICA (territory_id nuevo + alias_de) y el run mayor sustituye a la vieja del territorio."""
+
+    def test_entrada_nueva_es_canonica_con_alias_y_sustituye_a_la_vieja(self):
+        from herramientas import legislatura_vigente as lv
+        from herramientas.registro_publicaciones_visor import alias_de, identity_key, upsert_entry
+        self.assertEqual(alias_de(CANON), VIEJO)
+        base = {"asset_type": "territorial_product", "kind": "canonical_m08", "expected_districts": 65,
+                "publication_status": "PUBLICABLE"}
+        vieja = {**base, "id": f"m08-{VIEJO}-100", "territory_id": VIEJO, "territory_label": "Extremadura", "run_id": "100"}
+        nueva = {**base, "id": f"m08-{CANON}-200", "territory_id": CANON, "territory_label": "Extremadura", "run_id": "200",
+                 "alias_de": VIEJO}
+        registro = {"products": [dict(vieja)], "ensembles": []}
+        self.assertNotEqual(identity_key(vieja), identity_key(nueva))
+        registro["products"].append(nueva)  # solo adición: la vieja queda intacta, sin reescritura de id
+        self.assertEqual([p["territory_id"] for p in registro["products"]], [VIEJO, CANON])
+        estado = lv.territory_state(ROOT, CANON, registro, None)
+        self.assertEqual(estado["estado"], "PUBLICADO")
+        self.assertEqual(estado["run_id"], "200")
+
+    def test_metadatos_de_la_p50_llevan_el_id_canonico_del_run(self):
+        from herramientas.preparar_visor_ejecucion import production_metadata
+        with tempfile.TemporaryDirectory() as td:
+            d = Path(td)
+            params = d / "params.yaml"
+            params.write_text(yaml.safe_dump({"meta": {"territory": "Extremadura"},
+                                              "modulos": {"modulo_06_consolidar_distritos": {"expected_districts": 65}}}), encoding="utf-8")
+            (d / "production_status.json").write_text(json.dumps({"territory_id": CANON, "params": str(params)}), encoding="utf-8")
+            (d / "decision.json").write_text(json.dumps({"territory_id": CANON}), encoding="utf-8")
+            meta = production_metadata(d)
+        self.assertEqual(meta["territory_id"], CANON)  # el descriptor de la P50 usa este id tal cual y añade alias_de
 
 
 if __name__ == "__main__":
