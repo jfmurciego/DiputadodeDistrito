@@ -204,7 +204,8 @@ def entrada_manifiesto(indice: dict, comp_path: Path, seccionado: Path, mapa: st
     return {"distritos_m06": {"sha256": indice["sha256_origen"], "run_id": indice["run_id"]},
             "composicion": {"path": str(comp_path.relative_to(ROOT)), "sha256": sha256(comp_path)},
             "seccionado": sha256(seccionado), "mapa": mapa,
-            "tabla": {k: v.pop("tabla") for k, v in informe.items()}, "secciones": inf_secc, "elecciones": informe}
+            "tabla": {k: v["tabla"] for k, v in informe.items()}, "secciones": inf_secc,
+            "elecciones": {k: {c: x for c, x in v.items() if c != "tabla"} for k, v in informe.items()}}
 
 
 def main(argv=None) -> int:

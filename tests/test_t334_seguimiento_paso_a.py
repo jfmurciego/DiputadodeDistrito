@@ -46,6 +46,7 @@ class Seguimiento(unittest.TestCase):
         self.assertEqual((e["mapa"], e["tabla"]), ("2023", {"201111": "b" * 64, "201512": None}))
         self.assertEqual(e["seccionado"], "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881")  # sha256 de b"x"
         self.assertTrue(all("tabla" not in v for v in e["elecciones"].values()))
+        self.assertEqual(informe["201111"]["tabla"], "b" * 64)  # el informe de entrada no se muta
 
     def test_puerta_vuelca_m07_y_perdidos(self):
         with tempfile.TemporaryDirectory() as t:
