@@ -1269,24 +1269,23 @@ territories:
         run_id: 42953300723
         stage: M08
       preparation_evidence:
-        run_id: 43754667654
-        artifact_name: ddd-source-package-nac14-2025-43754667654
-        artifact_sha256: b32358d4eb7ec897bbadd7dee326d6de9c67e47ebf94822e638e590ac7f4bb35
+        run_id: 43763992154
+        artifact_name: ddd-source-package-nac14-2025-43763992154
+        artifact_sha256: 05831e9199b12750c4272a86790643e8d6ee73d7d4084877b25ff6ccd4a3467a
         package_sha256: e14f8a9a06027da65de6f1d4551c7bd201803f36a72e94fce5fd8d87abb5a9c8
-        receipt_path: territorios/nac14/evidencia/fuentes_territoriales/2025/2193143d9be593e434cc09c9954b4775e101163c6996d46cddb5d478df1c9843/43754667654/receipt.json
+        receipt_path: territorios/nac14/evidencia/fuentes_territoriales/2025/2193143d9be593e434cc09c9954b4775e101163c6996d46cddb5d478df1c9843/43763992154/receipt.json
         territorial_identity_sha256: 2193143d9be593e434cc09c9954b4775e101163c6996d46cddb5d478df1c9843
         compatibility_report_sha256: 2cc343112c2affcbfb4a8aa70d76d6cae5cb2a6e8defe9271d1af7d562d4be49
         compatibility_identity_sha256: 6da5665a4a82d9905ddeb3e58432245bc20eab7e9dc4dff45faff59b6d0b02ea
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 7316e60682d97ddd6136a6010a40d817ed815750
+        source_commit: 2fd9a7f13d1e7c1e3a4c2106817fc5dec6f3ddaa
       evidence:
         electoral_source: territorios/nac14/evidencia/fuentes_electorales/2025/2c6b84f7b0ff5317d3c12aa8b7b195332e8b2d282a460a20241fbb4d6a3fa3bd/41239809492/receipt.json
         territorial_product: territorios/nac14/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac14/evidencia/pares_fuentes/2025/96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e.json
         electoral_product: territorios/nac14/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac14/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac15
   name: Congreso La Coruña
