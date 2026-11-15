@@ -11,6 +11,7 @@ FUNCIÓN: fixtures congelados (tests/fixtures/t345_composicion, sin estado vivo)
 """
 import csv
 import json
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -22,8 +23,7 @@ import alias_boe_espejo as ab  # noqa: E402
 
 FX = ROOT / "tests/fixtures/t345_composicion"
 ELEC = {"201512": "2015_12"}
-# sha256 literales de los documentos del BOE (descargados de boe.es el 2026-11-15; ids localizados en el sumario del día de publicación)
-SHA_PROCLAMADAS = {"201111": ("BOE-A-2011-16745", "fd70f6da7b0f"), "201512": ("BOE-A-2015-12734", "7180548f1d93")}
+PROCLAMADAS = {"201111": "BOE-A-2011-16745", "201512": "BOE-A-2015-12734"}  # ids localizados en el sumario del día de publicación
 
 
 def generado(raiz=FX / "raiz"):
@@ -51,7 +51,7 @@ class Composicion(unittest.TestCase):
             shutil.copytree(FX / "raiz", raiz)
             shutil.rmtree(raiz / ab.COMPOS)
             ok, no = generado(raiz)
-            self.assertEqual([f[2] for f in ok], ["PSOE"] * 0 + [f[2] for f in ok if f[2] == "PSOE"])
+            self.assertEqual([f for f in ok if f[12] == "COMPOSICION_BOE"], [])  # sin extracto no hay acreditación por composición
             self.assertEqual(len([r for r in no if r[2].startswith("COALICIÓN")]), 3)
 
     def test_partes_de_la_sigla(self):
@@ -78,31 +78,42 @@ class Composicion(unittest.TestCase):
 
 
 class TablaVersionada(unittest.TestCase):
-    def filas(self):
-        with (ROOT / ab.ACREDITADOS).open(encoding="utf-8", newline="") as fh:
-            return [r for r in csv.DictReader(fh) if r["fuerza"] == "COMPOSICION_BOE"]
+    """La tabla viva solo se revalida con `comprobar` (estado vivo por diseño, como en T-343); los recuentos y la validación por votos
+    leen copias congeladas de las filas COMPOSICION_BOE y de los no acreditados (fixtures), no `configuracion/`."""
 
-    def test_comprobar_ok_y_fuentes_literales(self):
-        self.assertEqual(ab.comprobar(), [])
-        for k, (ident, sha12) in SHA_PROCLAMADAS.items():
+    def leer(self, nombre):
+        with (FX / nombre).open(encoding="utf-8", newline="") as fh:
+            return list(csv.DictReader(fh))
+
+    def test_comprobar_valida_fuente_y_sha256_de_la_ficha(self):
+        self.assertEqual(ab.comprobar(), [])  # revalida cada fila COMPOSICION_BOE contra el sha256 de la ficha del extracto
+        for k, ident in PROCLAMADAS.items():
             doc = next(d for d in ab._composicion(ROOT, k)["documentos"] if d["papel"] == "proclamadas")
-            self.assertEqual((doc["boe"], doc["sha256"][:12]), (ident, sha12))
+            self.assertEqual(doc["boe"], ident)
+            self.assertRegex(doc["sha256"], r"^[0-9a-f]{64}$")
 
-    def test_alias_nuevos_y_no_acreditados(self):
-        filas = self.filas()
+    @unittest.skipUnless(os.environ.get("DDD_BOE_DESCARGA") == "1", "descarga de boe.es solo con DDD_BOE_DESCARGA=1")
+    def test_extracto_se_reproduce_desde_boe_es(self):
+        for k in ab.FUENTES_COMPOSICION:
+            vivo = ab.extraer_composicion(k)
+            ficha = ab._composicion(ROOT, k)
+            self.assertEqual([(d["boe"], d["sha256"]) for d in vivo["documentos"]], [(d["boe"], d["sha256"]) for d in ficha["documentos"]])
+            self.assertEqual(vivo["provincias"], ficha["provincias"])
+
+    def test_alias_nuevos_y_no_acreditados_congelados(self):
+        filas = self.leer("tabla_congelada_composicion.csv")
         self.assertEqual(len(filas), 35)
         self.assertEqual({(f["eleccion"], f["sigla_boe"], f["siglas_espejo"]) for f in filas}, {
             ("201111", "LA IZQUIERDA PLURAL", "CHA-IU"),
             ("201512", "COALICIÓN «PODEMOS - AHORA ALTO ARAGÓN EN COMÚN»", "PODEMOS"),
             ("201512", "COALICIÓN «UNIDAD POPULAR»", "IU-UPeC")})
-        self.assertTrue(all(f["fuente_boe"] == SHA_PROCLAMADAS[f["eleccion"]][0] for f in filas))
-        with (ROOT / ab.NO_ACREDITADOS).open(encoding="utf-8", newline="") as fh:
-            no = list(csv.DictReader(fh))
+        self.assertTrue(all(f["fuente_boe"] == PROCLAMADAS[f["eleccion"]] for f in filas))
+        no = self.leer("no_acreditados_congelados.csv")
         self.assertEqual(len(no), 13)
         self.assertTrue(all("COMPOSICION_BOE:" in r["motivo"] for r in no))
 
     def test_validacion_independiente_por_votos(self):
-        for f in self.filas():  # los votos validan, no prueban: defecto del espejo frente al BOE dentro de 0,10
+        for f in self.leer("tabla_congelada_composicion.csv"):  # los votos validan, no prueban: defecto frente al BOE dentro de 0,10
             self.assertLessEqual(abs(float(f["validacion_votos"].split()[1])), 0.10, f)
 
 
