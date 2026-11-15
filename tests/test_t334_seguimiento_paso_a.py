@@ -50,13 +50,21 @@ class Seguimiento(unittest.TestCase):
 
     def test_puerta_vuelca_m07_y_perdidos(self):
         with tempfile.TemporaryDirectory() as t:
-            salida = Path(t)
+            salida, raiz = Path(t) / "salida", Path(t) / "raiz"
             (salida / "201111" / "nac01").mkdir(parents=True)
+            (raiz / "configuracion").mkdir(parents=True)
+            (raiz / "configuracion/resultados_oficiales_congreso_2011_11.csv").write_text(
+                "codigo,provincia,escanos_circunscripcion,partido,votos,escanos\n01,X,4,AAA,600000,2\n01,X,4,BBB,400000,2\n", encoding="utf-8")
+            esp = Path(t) / "espejo.json"
+            esp.write_text(json.dumps({"s": ["AAA", "BBB"], "r": {"0100100001": [1500000, 1000000, 980000, [[0, 590000], [1, 390000]]]}}),
+                           encoding="utf-8")
             (salida / "201111" / "nac01" / "reconciliacion.json").write_text(
-                json.dumps({"status": "PASS_WITH_DECLARED_EXCEPTIONS", "ddd_unassigned_votes": 37}), encoding="utf-8")
-            p = hc.puerta_json("nac01", "201111", "2023", 0, None, salida)
+                json.dumps({"status": "PASS_WITH_DECLARED_EXCEPTIONS", "ddd_unassigned_votes": 37, "source_votes": 980000}), encoding="utf-8")
+            p = hc.puerta_json("nac01", "201111", "2023", 0, None, salida, None, "01", raiz, esp)  # 37/980000 = 0,004 % ≤ 0,1 % y BOE dentro de tolerancia
             self.assertEqual((p["m07"], p["perdidos"], p["estado"]), ("PASS_WITH_DECLARED_EXCEPTIONS", 37, "PASS"))
-            self.assertEqual(hc.puerta_json("nac01", "201111", "2023", 1, None, salida)["estado"], "FAIL")
+            self.assertEqual(hc.puerta_json("nac01", "201111", "2023", 1, None, salida, None, "01", raiz, esp)["estado"], "FAIL")
+            # sin la comprobación de la ficha (provincia y espejo) la puerta ya no pasa en silencio
+            self.assertEqual(hc.puerta_json("nac01", "201111", "2023", 0, None, salida)["estado"], "FAIL")
 
     def test_registro_tabla_falla_cerrado(self):
         origen = hc.tabla_2023("201111")
