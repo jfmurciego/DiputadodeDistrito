@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T16:16:33.723936+00:00",
+  "generated_at": "2026-11-15T16:23:25.563558+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7320,13 +7320,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "illes_balears",
+          "territory_id": "aut04",
           "territory_name": "Islas Baleares",
           "edition": "2025",
-          "run_id": 43019811578,
-          "artifact_name": "ddd-state-43019811578-M08",
-          "artifact_sha256": "a2154bc1f51ea2445fe61b91ecc2a65d0943a77da538c1b30c6b85b9eb9fa57c",
-          "source_commit": "bc7f18e6ca8ccf10a1190478b05ae5949f6719b8",
+          "run_id": 43734347063,
+          "artifact_name": "ddd-state-43734347063-M08",
+          "artifact_sha256": "6a76b9b77c069e62d816ec5642d17c82ee419c470ebc1337bf33e5ef6861f5a7",
+          "source_commit": "f19e70255803088ef42e3bcfad0fb6e5d40cd262",
           "stage": "M08"
         }
       },
@@ -7339,20 +7339,20 @@
       "name": "Canarias",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43728972913,
+      "run_id": 43733630946,
       "last_run": {
-        "run_id": 43728972913,
+        "run_id": 43733630946,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7393,7 +7393,7 @@
       },
       "autonomous_community_code_ine": "05",
       "display_name": "05 Canarias",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "aut06",
@@ -12664,8 +12664,9 @@
     }
   ],
   "kpis": {
-    "complete": 69,
+    "complete": 70,
     "complete_names": [
+      "05 Canarias",
       "06 Cantabria",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
@@ -12945,11 +12946,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "aut11",
-    "name": "Extremadura",
-    "display_name": "11 Extremadura",
-    "autonomous_community_code_ine": "11",
-    "run_id": 43722563345,
+    "territory_id": "aut05",
+    "name": "Canarias",
+    "display_name": "05 Canarias",
+    "autonomous_community_code_ine": "05",
+    "run_id": 43733630946,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12980,12 +12981,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "05 Canarias",
-      "territory_id": "aut05",
-      "autonomous_community_code_ine": "05",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional 350 Álava",
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
@@ -13001,6 +12996,12 @@
       "territory": "Nacional 350 Alicante",
       "territory_id": "congreso350_alicante",
       "autonomous_community_code_ine": "R03",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Almería",
+      "territory_id": "congreso350_almeria",
+      "autonomous_community_code_ine": "R04",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -13027,12 +13028,6 @@
       "territory": "04 Islas Baleares",
       "territory_id": "aut04",
       "autonomous_community_code_ine": "04",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "05 Canarias",
-      "territory_id": "aut05",
-      "autonomous_community_code_ine": "05",
       "action": "preparar fuentes electorales"
     }
   ]
