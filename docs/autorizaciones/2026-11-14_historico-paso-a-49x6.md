@@ -4,11 +4,8 @@
 - Frase literal del propietario (copiada del chat): «…» — la frase debe nombrar esta ficha y mostrar el gasto semanal (D-46).
 - Fecha y hora de la frase (Europe/Madrid): AAAA-MM-DD HH:MM
 - Estado de la ficha: PREPARADA, sin frase. Nada se ha lanzado.
-- Caducidad: 7 días desde la frase y, como máximo, hasta el cierre de la campaña de 6 elecciones. No caduca mientras espera a la r4, porque no cuenta hasta que se lanza: si la frase llega antes de que cierre la P50 de la r4, los 7 días cuentan desde ese cierre.
-- Gasto semanal al autorizar (D-46): se mide al pedir la frase (`herramientas/metricas_proceso.py --dias 7`) y se anota aquí junto a la frase. Tope: 15.000 min/semana, con aviso al 70 % (10.500 min).
-  - Referencia a 15-11: la r3 consumió 262 min de jobs.
-  - La r4 está en curso: tiene un tope propio de 14.000 min y su consumo se suma a esta semana.
-  - Si al pedir la frase el gasto semanal más la estimación de esta campaña pasa del 70 %, se pospone a la semana siguiente.
+- Caducidad: 7 días desde la frase y, como máximo, hasta el cierre de la campaña de 6 elecciones. La frase se pide SOLO tras el «cierre de r4» (definido en la condición previa 3); una frase anterior a ese cierre no vale y se repite.
+- Gasto semanal al autorizar (D-46): se mide al pedir la frase (`herramientas/metricas_proceso.py --dias 7`, con fecha y hora) y se anota aquí junto a la frase; tope 15.000 min/semana, aviso al 70 % (10.500 min). Si el gasto medido más la estimación de esta campaña pasa del 70 %, se pospone a la semana siguiente.
 
 ## Condición previa (el Operador no lanza sin ella)
 1. Código en `main` (todo fusionado a 15-11):
@@ -27,11 +24,10 @@
    - D-122: avisos al momento.
 
    Con D-120 y D-121, la puerta parte de 312/312 provincias-elecciones acreditadas.
-3. **Una sola campaña a la vez.** El lanzamiento va DESPUÉS de cerrar la P50 de `2026-11-15_deslinde11-r4`, por dos motivos:
+3. **Una sola campaña a la vez.** «Cierre de r4»: la campaña `2026-11-15_deslinde11-r4` en estado COMPLETADA, con su publicación P50 de los 71 territorios regenerados terminada. Esta campaña se lanza solo después de ese cierre, por dos motivos:
    - los commits de robot de dos campañas se cruzan en `main`;
-   - el paso A debe ir sobre los mapas ya publicados (M06 vigente de la r4).
+   - el paso A debe ir sobre los mapas ya publicados.
 
-   Si la r4 no ha cerrado su paso 5, esta ficha espera aunque tenga frase.
 4. «main en verde» sobre el commit del lanzamiento, según `.claude/rules/workflows.md`:
    - guardián en success;
    - el último pruebas-plataforma completado y no cancelado en success, mirando 100 runs.

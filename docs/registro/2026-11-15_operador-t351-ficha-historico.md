@@ -5,9 +5,9 @@ Causa: la ficha `2026-11-14_historico-paso-a-49x6` (#811) tenía «Pendiente de 
 Cambio: solo documentación, en `docs/autorizaciones/2026-11-14_historico-paso-a-49x6.md`.
 - Condición previa: las PR #796, #799, #804, #812, #813 y #816, todas en main, y las decisiones D-119 a D-122, con D-121 en `configuracion/decisiones_propietario/D-121.json`. La puerta parte de 312/312 acreditadas.
 - Se quita el pendiente de T-342.
-- El lanzamiento va DESPUÉS de la P50 de r4: una sola campaña a la vez, sobre los mapas publicados.
+- El lanzamiento va DESPUÉS del cierre de r4 (COMPLETADA con su P50): una sola campaña a la vez, sobre los mapas publicados.
 - Gasto semanal (D-46) medido al pedir la frase; tope de 15.000 min/semana con aviso al 70 %.
-- La caducidad cuenta desde el cierre de r4.
+- La frase se pide solo tras el cierre de r4 (definido una vez) y caduca a los 7 días.
 - Una puerta en rojo nunca se reintenta.
 - La parada incluye los cambios del histórico en `main`.
 - Avisos al Planificador por run (D-122).
