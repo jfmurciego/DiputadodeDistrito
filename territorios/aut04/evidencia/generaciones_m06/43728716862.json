@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 14169217802,
+      "artifact_name": "ddd-audit-43728716862",
+      "artifact_sha256": "b4ab27c75ed4c0bf58d90a3f5f3e985cbe0b3bd7070a5f993bdb84889285c01d",
+      "run_id": 43728716862,
+      "size_in_bytes": 30175
+    },
+    "m04": {
+      "artifact_id": 14168263318,
+      "artifact_name": "ddd-state-43728716862-M04",
+      "artifact_sha256": "5b82bc00960537d9cdca308e6a3094da5a6367e8d01d6d8ce79ec9b835a6616b",
+      "run_id": 43728716862,
+      "size_in_bytes": 89079159
+    },
+    "m05": {
+      "artifact_id": 14167949688,
+      "artifact_name": "ddd-state-43728716862-M05",
+      "artifact_sha256": "c56a0c7ed01fb59f29835247330bab39139753542408b5ee6b3087f515266046",
+      "run_id": 43728716862,
+      "size_in_bytes": 91503765
+    },
+    "m06": {
+      "artifact_id": 14168908391,
+      "artifact_name": "ddd-state-43728716862-M06",
+      "artifact_sha256": "f69d1db178f829c3fded22414673d26502157d3fa7711f4644a6860f641d58dd",
+      "run_id": 43728716862,
+      "size_in_bytes": 98261637
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "aut04_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "94f99a628f335a101f881eb1fd9b08e75f7cc3de1f2c128f757331a4952d0cb0",
+        "size_in_bytes": 425525
+      },
+      "block_causes.json": {
+        "sha256": "9807bb94cfd65e390c175083bb2a818031110dea27dbcd287c6f8ed91dfb9c31",
+        "size_in_bytes": 408
+      },
+      "optimization_execution.json": {
+        "sha256": "acabe47f62411f23bef2e55a21e774b5b0a4e3f491c4b934cdf08c5119be804d",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "4e234684b1359481dfd5617fbb052ebd5900c47ee4566a18e895136bb45ac68b",
+        "size_in_bytes": 1467
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "4e234684b1359481dfd5617fbb052ebd5900c47ee4566a18e895136bb45ac68b",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/aut04/config/aut04_2025.yaml",
+    "sha256": "f91c7157fa2f11ad451dba5f5a25053189b9b8cd29ceb2fd45b3a7047e7289ea"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "60dba7e5a4adeb743cb4c0d39ae3208bf26a92e45c6c671830b35e935324df51",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s1328023466",
+      "generador": "ponderado",
+      "huella_resultado": "016e0b597b2ffdb7dacd42b54925ba1eaba11f07e472ec4cde7926e15eed3e11",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.6803627719839392,
+          "fuera_tolerancia": 15,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.6803627719839392,
+          "fuera_tolerancia": 14,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "cea89d6d9f597bba222549d8c06a9f6914baf87de66fd71c0502c2bd33ceebbe",
+      "p30_sha256": "957ff7c0a38e3b6db1371d2b3cf6f3a8bfdb6b85973ff304a59b2389b70a123d",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "6b6616a2dfc00bac5b1a9a4e2e2005873ad3a866",
+    "edition": "2025",
+    "territory_id": "aut04",
+    "territory_name": "Islas Baleares",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43728716862,
+    "workflow_sha": "5ed6f37a5e59623480fcd2de88828a60fb3c8095"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 14168263318,
+      "artifact_name": "ddd-state-43728716862-M04",
+      "artifact_sha256": "5b82bc00960537d9cdca308e6a3094da5a6367e8d01d6d8ce79ec9b835a6616b",
+      "run_id": 43728716862,
+      "size_in_bytes": 89079159
+    },
+    "source_manifest_sha256": "d83572c25cf9cc6eab1f5e0da90380c95bf551ce42513a7c9d296879e9a02836",
+    "source_package_artifact": {
+      "artifact_id": 14167596755,
+      "artifact_name": "ddd-source-package-aut04-2025-43728716862",
+      "artifact_sha256": "427e2aafe5585003ea9b9e2dbf0e6decf14b72f0cbab0600eb918ded94d15dcf",
+      "run_id": 43728716862,
+      "size_in_bytes": 81801801
+    }
+  },
+  "manifest_sha256": "6b8aa0894b7585f0de5bdb480e6fcd1fca257b9e6c04bbae9e73a9d6409d9e41",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
