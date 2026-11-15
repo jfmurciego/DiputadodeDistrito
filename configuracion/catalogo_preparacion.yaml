@@ -879,24 +879,23 @@ territories:
         run_id: 42952468083
         stage: M08
       preparation_evidence:
-        run_id: 43743700600
-        artifact_name: ddd-source-package-nac04-2025-43743700600
-        artifact_sha256: 02e0942ae10ef6c47544992ad27ffdb26ade4d44c03b8e51bf3e87cd48d60c91
+        run_id: 43754886944
+        artifact_name: ddd-source-package-nac04-2025-43754886944
+        artifact_sha256: f36eafcae946cd328e89035d845b75a0322c533ad7c7a52ac9539921da902b4d
         package_sha256: 2ad06714e3b1beff2ad31043e5ac5271d209341470ff0e74a757fbcd98bb7236
-        receipt_path: territorios/nac04/evidencia/fuentes_territoriales/2025/be99cdd3abf3cbfe1d2dace2917e03907684fb096d5faf6810d6dcb6a1b6794e/43743700600/receipt.json
+        receipt_path: territorios/nac04/evidencia/fuentes_territoriales/2025/be99cdd3abf3cbfe1d2dace2917e03907684fb096d5faf6810d6dcb6a1b6794e/43754886944/receipt.json
         territorial_identity_sha256: be99cdd3abf3cbfe1d2dace2917e03907684fb096d5faf6810d6dcb6a1b6794e
         compatibility_report_sha256: 1085e279cd1cb8d0f4a8646dad4512b236a5922e39772142fb96120ac019d2f4
         compatibility_identity_sha256: 7ce5768fb3157fabd1e9b97e6fe5bd65bc9a07d3c16b982c650bad6ab5b61e3b
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 0ab5fa0149431ce6cf31ca50b124e9508674ad83
+        source_commit: 307d96cf928e328ea9f449c65f630d39ea3ba266
       evidence:
         electoral_source: territorios/nac04/evidencia/fuentes_electorales/2025/4ec8ae00ed211a167735c2d8a9a21b56d8c4710c51c599b8fb2f5a9df35e680c/41239766467/receipt.json
         territorial_product: territorios/nac04/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac04/evidencia/pares_fuentes/2025/a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c.json
         electoral_product: territorios/nac04/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac04/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac05
   name: Congreso Ávila
