@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "ceuta",
+  "territory_id": "aut18",
   "territory_name": "Ceuta",
   "edition": "2025",
-  "run_id": 43052923691,
-  "artifact_name": "ddd-state-43052923691-M08",
-  "artifact_sha256": "9e5e1617835ed7dfbb7b61836ef4ecffe61ea3eac4bae37f1f38c78904433bf8",
-  "source_commit": "28906adab3c5d4d8fc8531228c6988ff817c2526",
+  "run_id": 43755466122,
+  "artifact_name": "ddd-state-43755466122-M08",
+  "artifact_sha256": "561a4322659bfc90a321928b6e1a8df65d665f8c3292a6ae01c083ccf75cac3a",
+  "source_commit": "f713c62e372fe05e68007c88e5721c1e70ec8486",
   "stage": "M08"
 }
