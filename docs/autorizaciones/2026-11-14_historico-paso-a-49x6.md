@@ -8,9 +8,11 @@
 - Gasto semanal al autorizar: se mide en el lanzamiento (`herramientas/metricas_proceso.py`) y se anota aquí; tope 15.000 min/semana, aviso al 70 %.
 
 ## Condición previa (el Operador no lanza sin ella)
-El paso A actual (`herramientas/historico_campana.py` `ejecutar`) reconstruye el seccionado 2025 y reagrega a él. D-105 fija el mapa
-destino 2023: hasta que el paso A consuma las tablas `configuracion/equivalencia_seccionado_ine_<año>_a_2023.csv` (T-328) y el aviso
-del Planificador lo diga, esta ficha NO se activa. Las 5 descargas INE ya están verificadas por sha256 en esas tablas.
+Fusionadas en `main`: las tablas año→2023 de #796 con su sha256 (T-328), T-329 (#799) y T-334 (#804). El paso A usa el mapa 2023 por
+defecto (D-105: el job «histórico» de `gestor-campanas.yml` llama a `historico_campana.py ejecutar` sin `--mapa`); no hay paso B y
+`PUERTA_<t>_<clave>.json` lleva `m07` (PASS o PASS_WITH_DECLARED_EXCEPTIONS) y `perdidos` (votos sin asignar).
+**Pendiente de código (T-340):** la puerta de abajo exige dos comprobaciones (votos sin asignar ≤ 0,1 % y contraste con el BOE) que
+`historico_campana.py` `puerta_json` aún no hace (hoy solo `ra == 0`); no se lanza hasta que el Planificador lo cierre o lo dé por válido en el aviso.
 
 ## Límites
 | Campo | Contenido |
@@ -18,12 +20,12 @@ del Planificador lo diga, esta ficha NO se activa. Las 5 descargas INE ya están
 | Qué se lanza | `gestor-campanas.yml` («P00 Campaña — Gestor»), modo `gestor`, tipo `nacional`; una campaña por elección, en este orden: `histórico: generales 2019-11`, `2019-04`, `2016`, `2015`, `2011`, y la 6.ª, 2023, si el Planificador la incluye en el aviso |
 | Elección y territorios | 6 elecciones × 49 circunscripciones (las 52 menos Álava, Badajoz y Huesca, ya hechas) = 294 pares; `territorios=todos` (el plan omite lo no disponible e informa) |
 | Orden dentro de cada elección | primero el lote de prueba del plan (primer territorio); el resto solo si la puerta de la prueba pasa |
-| Mapa / ensemble | mapas vigentes con M06 publicado; destino 2023 (D-105); ensemble `ninguno` |
+| Mapa / ensemble | mapas vigentes con M06 publicado; destino 2023 (D-105, valor por defecto del Gestor); ensemble `ninguno` |
 | Inicio | `desde el principio` (el histórico no reutiliza: motor repetible) |
 | Publica | no (`publicar=no`; la 04 del histórico no está adaptada) |
 | Tope de coste | 294 jobs de paso A y, por elección, 1 ejecución del Gestor; estimado 10–25 h de job en total (T-306 §5, no medido: se mide con la prueba de 2019-11 y se corrige aquí antes de seguir). Parada si el acumulado supera 1,5 × la estimación medida o el 70 % del tope semanal |
 | Tope de reintentos | 1 por territorio y elección, solo tras fallo transitorio (red, runner, rate limit); máximo 15 reintentos en toda la campaña |
-| Puerta | cuadre del paso B exacto, M07 PASS y ganador igual que B en cada distrito (`historico_campana.py`); sin ella, el territorio falla |
+| Puerta | por territorio y elección: (1) M07 PASS, o PASS_WITH_DECLARED_EXCEPTIONS solo con votos sin asignar ≤ 0,1 % (2011: los de D-70 se heredan tal cual); (2) contraste con el CSV oficial del BOE (`configuracion/resultados_oficiales_congreso_<año>.csv`, T-330) por provincia dentro de la tolerancia CERA ya usada en 2019-11 y 2023 (`TOLERANCIA = 0.10`, `herramientas/cuadre_historico_espana.py:39`; el espejo nunca supera a la oficial). «Ganador igual que B» es solo informativo. Sin puerta en verde, el territorio falla |
 | FUERA | lo de `README.md`; publicar en el visor; autonómicas (D-113); Álava, Badajoz, Huesca; cambios de motor, contrato, política o workflows; aprobar `produccion`; descargar Infoelectoral; 2011: la pérdida de votos (0,024 %) se hereda tal cual (D-70) |
 | Parada | primer fallo no transitorio (o puerta en rojo) → no relanzar, diagnóstico, informar y esperar nueva frase |
 
@@ -34,9 +36,3 @@ del Planificador lo diga, esta ficha NO se activa. Las 5 descargas INE ya están
 ## Cierre
 Estado: `PREPARADA` | `EN_CURSO` | `COMPLETADA` | `PARADA` (causa y run) | `CADUCADA`. Último uso: —.
 Una línea al Coordinador por run y al cierre; el fichero se actualiza en una PR de documentación del Operador (sin código).
-
-## Nota T-334 (informativa; no cambia los límites de la ficha)
-Desde T-329 (#799) el Gestor usa el mapa 2023 por defecto: el job «histórico» de `gestor-campanas.yml` (líneas 286, 326 y 366) llama a
-`historico_campana.py ejecutar` sin `--mapa` y el valor por defecto es `2023`. Con 2023 no hay paso B y `PUERTA_<t>_<clave>.json` lleva
-`m07` (PASS o PASS_WITH_DECLARED_EXCEPTIONS) y `perdidos` (votos sin asignar). La «Condición previa» y la «Puerta» de arriba están
-redactadas para el paso A anterior: el Planificador/propietario deben actualizarlas antes de activar la ficha.
