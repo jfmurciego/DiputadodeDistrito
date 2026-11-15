@@ -819,6 +819,13 @@
    "sha256_csv": "aafc159d0c84bbab14ab368c0df89428654cce827be665c1dcce9753d35957c5",
    "ruta": "datos/composicion/runs/aragon_43011616681.csv"
   },
+  "aut11/43698495438": {
+   "territorio": "aut11",
+   "run_id": "43698495438",
+   "secciones": 964,
+   "sha256_csv": "86d45f5c9d0988f4211f92fc65a50c1493d6044eba5656e5dc7ad4c5c7ea2c11",
+   "ruta": "datos/composicion/runs/aut11_43698495438.csv"
+  },
   "canarias/42504381511": {
    "territorio": "canarias",
    "run_id": "42504381511",
