@@ -1365,7 +1365,7 @@ territories:
         prepared_source_pair: territorios/nac16/evidencia/pares_fuentes/2025/26ab70d72f02dc1a422bb42c49fe54bd7945bafe70fb98d3280fb2ffa9fff6f0.json
         electoral_product: territorios/nac16/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac16/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac17
   name: Congreso Gerona
   editions:
