@@ -528,24 +528,23 @@ territories:
         run_id: 43053208175
         stage: M08
       preparation_evidence:
-        run_id: 43728729351
-        artifact_name: ddd-source-package-aut14-2025-43728729351
-        artifact_sha256: 7192a0aff668b7b58f464508d729a3ea8672a78ead6f94e9ce9ea026099f0759
+        run_id: 43747068843
+        artifact_name: ddd-source-package-aut14-2025-43747068843
+        artifact_sha256: 9a90eb1b8ce385c736dba65d07cd17263885a00cbaa6434015352c18b170a433
         package_sha256: d2b63491275a270210ee326443d3ce9d7223ab3a6155a2d58e58ffc7b67e3046
-        receipt_path: territorios/aut14/evidencia/fuentes_territoriales/2025/d4b95774189be423a25f70f32e3ab491dfeae81a96704b393afa1419b109bfe3/43728729351/receipt.json
+        receipt_path: territorios/aut14/evidencia/fuentes_territoriales/2025/d4b95774189be423a25f70f32e3ab491dfeae81a96704b393afa1419b109bfe3/43747068843/receipt.json
         territorial_identity_sha256: d4b95774189be423a25f70f32e3ab491dfeae81a96704b393afa1419b109bfe3
         compatibility_report_sha256: b7466c524a98b6a9c9c558df4fcb9e35ce024680c08831efdae3775fee4e78dd
         compatibility_identity_sha256: cd7b42fbf1abd21607d7c7383b2e686dd35c220c3953c837b7e3e1c4a507f17f
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 5ed6f37a5e59623480fcd2de88828a60fb3c8095
+        source_commit: 23aeea46e7844e71f429dd94ba5ab21c2b3a828b
       evidence:
         electoral_source: territorios/aut14/evidencia/fuentes_electorales/2025/bb4afc30bfd7530f7ea02f4a879b3eb7f029ed851899b925935a80c98e3add6a/40954443883/receipt.json
         prepared_source_pair: territorios/aut14/evidencia/pares_fuentes/2025/317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d.json
         territorial_product: territorios/aut14/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/aut14/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/aut14/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aut15
   name: Comunidad Foral de Navarra
