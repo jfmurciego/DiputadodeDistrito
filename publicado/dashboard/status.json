@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T19:50:59.995895+00:00",
+  "generated_at": "2026-11-15T19:53:06.992213+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1109,8 +1109,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43743393518,
-            "receipt_path": "territorios/nac02/evidencia/fuentes_territoriales/2025/0abc7370b821ed38e11cf7c26c8f425aedf1e4c625a00cbf4c50ba2f41f54b42/43743393518/receipt.json"
+            "run_id": 43754629627,
+            "receipt_path": "territorios/nac02/evidencia/fuentes_territoriales/2025/0abc7370b821ed38e11cf7c26c8f425aedf1e4c625a00cbf4c50ba2f41f54b42/43754629627/receipt.json"
           }
         },
         "electoral": {
@@ -1736,8 +1736,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43651946304,
-            "receipt_path": "territorios/nac13/evidencia/fuentes_territoriales/2025/4658a851a87ad9a8374072444b63f3c2ebb3410f2969a5161c30eda19295c417/43651946304/receipt.json"
+            "run_id": 43750477660,
+            "receipt_path": "territorios/nac13/evidencia/fuentes_territoriales/2025/0570860c7dc2949f4dbd41cf1c67fbde3255db649535a2658aae2244ddade62a/43750477660/receipt.json"
           }
         },
         "electoral": {
@@ -8060,11 +8060,11 @@
       "certification": "PASS",
       "run_id": 43749637927,
       "last_run": {
-        "run_id": 43052923691,
+        "run_id": 43749637927,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -8256,9 +8256,9 @@
         "territorial_source": {
           "territory_id": "nac02",
           "edition": "2025",
-          "run_id": 43743393518,
-          "artifact_name": "ddd-source-package-nac02-2025-43743393518",
-          "artifact_sha256": "15db1f13d88bbdbe23dad60859d906ab7eaaa19efe5be532dd7704686f01d127",
+          "run_id": 43754629627,
+          "artifact_name": "ddd-source-package-nac02-2025-43754629627",
+          "artifact_sha256": "28b6c2d003ca64ee8bc0f3557110a3c6446c068b7fbfe5c9c5e6dce9d67e69f3",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8927,9 +8927,9 @@
         "territorial_source": {
           "territory_id": "nac13",
           "edition": "2025",
-          "run_id": 43651946304,
-          "artifact_name": "ddd-source-package-nac13-2025-43651946304",
-          "artifact_sha256": "a03901637464bdaf2060c0136842f22809454fd0beb32a14c8b3d463ce14f1c5",
+          "run_id": 43750477660,
+          "artifact_name": "ddd-source-package-nac13-2025-43750477660",
+          "artifact_sha256": "03baef5698713d97b6ca4a3a376d6192f58fd7131cd4ea2497c54243098bf403",
           "decision": "VALIDADO"
         },
         "territorial_product": {
