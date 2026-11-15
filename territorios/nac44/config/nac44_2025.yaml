@@ -194,9 +194,9 @@ validation:
     section_year: 2023
     population_total: 135046
     target_section_count: 284
-    package_sha256: 4591f4d0469002e5a529466dbb69270e8cd1e3ebcd8595f2f3f8063e8c874243
-    compatibility_report_sha256: cd606c6a63d092a3d20125c0f5c0b83cf2a80f8578754640e1debdb866238c1a
-    compatibility_identity_sha256: 123b6939aff888648d4f6ea2a72304255736e6cd79430415a6c21316a07ea228
+    package_sha256: ec558137a91ea7dd58db7c9f7012373bb76215c9d3e12ee7d63b6d2d3248e86c
+    compatibility_report_sha256: fa048f371c93c1a931fef22548ff56b59f2806289ad5286ca1523293bc9c567a
+    compatibility_identity_sha256: a98789eea901574ae97d0d079d7a41c0e89ec150776d3c2a7cc8e0262d84e1f8
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -253,8 +253,8 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: fdab6331ffb50254bf57b4861c2c3bde4fd9a619102e09a14a28ba547a4d26fc
-        bytes: 812987
+        sha256: a9a9e755a03af22bc5fa504fa292d6716db2ebcc0e1190f078c9395c9827b02a
+        bytes: 812986
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
@@ -267,13 +267,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 777ad4ff6a0871f8146d98e666b1c1b59555ab1ea01175973fea8d6706a387ec
-  package_contract_sha256: a0c19bc8ee4836cfbb64f959a3fd68bacb97755a7dda506a8679a6dd630a4386
+  contract_sha256: b6aa6bb514484f2ccd08abfd3adbae33cde425fadc6a0dfa3d7758dad60b9a30
 generation_state:
   source_prepared: true
   generation_enabled: false
-  package_sha256: 4591f4d0469002e5a529466dbb69270e8cd1e3ebcd8595f2f3f8063e8c874243
-  compatibility_identity_sha256: 123b6939aff888648d4f6ea2a72304255736e6cd79430415a6c21316a07ea228
+  package_sha256: ec558137a91ea7dd58db7c9f7012373bb76215c9d3e12ee7d63b6d2d3248e86c
+  compatibility_identity_sha256: a98789eea901574ae97d0d079d7a41c0e89ec150776d3c2a7cc8e0262d84e1f8
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: cdeff786e045e270fc0944f70ad4cfc2fbcd354612d432bed7468c8169f91afb
@@ -305,7 +304,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: fdab6331ffb50254bf57b4861c2c3bde4fd9a619102e09a14a28ba547a4d26fc
+    sha256: a9a9e755a03af22bc5fa504fa292d6716db2ebcc0e1190f078c9395c9827b02a
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:

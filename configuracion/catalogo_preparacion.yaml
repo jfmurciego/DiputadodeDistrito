@@ -2438,24 +2438,23 @@ territories:
         run_id: 43029189395
         stage: M08
       preparation_evidence:
-        run_id: 43664069293
-        artifact_name: ddd-source-package-nac44-2025-43664069293
-        artifact_sha256: 038c5cc7aca985c4b7e4b0a7cf2147c582f8778276b80e3af436b0654f626202
-        package_sha256: 4591f4d0469002e5a529466dbb69270e8cd1e3ebcd8595f2f3f8063e8c874243
-        receipt_path: territorios/nac44/evidencia/fuentes_territoriales/2025/9a1c7e63bb5c2e0df8f924111df7e4e0caabe0568defad520d74aabaaf76576e/43664069293/receipt.json
-        territorial_identity_sha256: 9a1c7e63bb5c2e0df8f924111df7e4e0caabe0568defad520d74aabaaf76576e
-        compatibility_report_sha256: cd606c6a63d092a3d20125c0f5c0b83cf2a80f8578754640e1debdb866238c1a
-        compatibility_identity_sha256: 123b6939aff888648d4f6ea2a72304255736e6cd79430415a6c21316a07ea228
+        run_id: 43770741763
+        artifact_name: ddd-source-package-nac44-2025-43770741763
+        artifact_sha256: 908e9e7b79bdd85aaf13d588eacd4f4d63b5f2202be8507b9bc55015a4237c96
+        package_sha256: ec558137a91ea7dd58db7c9f7012373bb76215c9d3e12ee7d63b6d2d3248e86c
+        receipt_path: territorios/nac44/evidencia/fuentes_territoriales/2025/c8a8b8b3ab6d2573863e29801f38e91b2434e290194e21c774979ac38b67ee46/43770741763/receipt.json
+        territorial_identity_sha256: c8a8b8b3ab6d2573863e29801f38e91b2434e290194e21c774979ac38b67ee46
+        compatibility_report_sha256: fa048f371c93c1a931fef22548ff56b59f2806289ad5286ca1523293bc9c567a
+        compatibility_identity_sha256: a98789eea901574ae97d0d079d7a41c0e89ec150776d3c2a7cc8e0262d84e1f8
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: d2ddfc0d38fed952613a57cbbaf468e90d25882c
+        source_commit: b00f5979d010eedca3c410ffdf2b8c8354bdc961
       evidence:
         electoral_source: territorios/nac44/evidencia/fuentes_electorales/2025/672246c160d11ced224250bfe9f0ad643360584d7226f127b8c8e8ad97b2f240/41235977145/receipt.json
         territorial_product: territorios/nac44/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac44/evidencia/pares_fuentes/2025/cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5.json
         electoral_product: territorios/nac44/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/nac44/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac45
   name: Congreso Toledo
