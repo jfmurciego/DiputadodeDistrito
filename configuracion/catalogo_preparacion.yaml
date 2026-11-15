@@ -2556,25 +2556,24 @@ territories:
         run_id: 43040794081
         stage: M08
       preparation_evidence:
-        run_id: 41292964287
-        artifact_name: ddd-source-package-congreso_valladolid-2025-41292964287
-        artifact_sha256: 5339f65d92d46db779652724e1689d5ff51830896eca9295fcd8a3ce30688ff4
+        run_id: 43664097182
+        artifact_name: ddd-source-package-nac47-2025-43664097182
+        artifact_sha256: cb17ecd45d3097e860f08300646ce0b5cdda91202541800e0be495739e4a6ef8
         package_sha256: 0192eb0046a947d131012375e7d0d5585af948102a3b1f07188b4bfdc650d38e
-        receipt_path: territorios/nac47/evidencia/fuentes_territoriales/2025/b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47/41292964287/receipt.json
-        territorial_identity_sha256: b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47
+        receipt_path: territorios/nac47/evidencia/fuentes_territoriales/2025/5ceb1ad5ef52e0a57f3c1d846abf27ea2e1e4e50d3f1e971bf6e118cc45298a8/43664097182/receipt.json
+        territorial_identity_sha256: 5ceb1ad5ef52e0a57f3c1d846abf27ea2e1e4e50d3f1e971bf6e118cc45298a8
         compatibility_report_sha256: f058e27bc50d694c93b370637c9d33a5f7d1347e345e4fbcf376bc73537eab1a
         compatibility_identity_sha256: 99cc6da37feb11c9672c9d0326f6458fafe5e45646a240d090c599a7283dfb04
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
+        source_commit: d2ddfc0d38fed952613a57cbbaf468e90d25882c
       evidence:
         electoral_source: territorios/nac47/evidencia/fuentes_electorales/2025/bf1518a803f3c17f7a49bde54c860ef9818e66d31788de2135100b351bbbcefc/41239942087/receipt.json
-        generation_preflight: territorios/nac47/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac47/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac47/evidencia/pares_fuentes/2025/7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837.json
         electoral_product: territorios/nac47/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac48
   name: Congreso Vizcaya
   editions:
