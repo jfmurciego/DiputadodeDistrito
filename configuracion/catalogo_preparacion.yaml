@@ -1012,6 +1012,7 @@ territories:
         prepared_source_pair: territorios/nac07/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json
         territorial_product: territorios/nac07/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/nac07/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac07/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac08
   name: Congreso Barcelona
