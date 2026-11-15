@@ -1676,6 +1676,7 @@ territories:
         territorial_product: territorios/nac24/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac24/evidencia/pares_fuentes/2025/ec2b27c201a17fceca9b44d38785522c8676e1b0018c7aa2cbb6ce967b5f5f46.json
         electoral_product: territorios/nac24/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac24/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac25
   name: Congreso Lérida
