@@ -97,6 +97,25 @@ class Script(unittest.TestCase):
         self.assertIn("-Indice https://raw.githubusercontent.com/jfmurciego/DiputadodeDistrito/t356-espejo-ine-observatorio-r2/", PS1)
         self.assertRegex(PS1, r"solo \$\(\$piezas\.Count\)[^\n]*Pasa -Indice")
 
+    def test_limite_y_error_completo_por_pieza(self):
+        # Sin pwsh no se ejecuta el .ps1: se comprueba el texto y una funcion espejo del formato de error en una linea.
+        self.assertIn("[int]$Limite = 0", PS1)
+        self.assertIn("Select-Object -First $Limite", PS1)
+        self.assertIn("-Limite 1 -SoloBajar", PS1)
+        self.assertIn("function Detalle($e)", PS1)
+        for frag in ("GetType().FullName", "InnerException", "ScriptLineNumber", "ScriptStackTrace", "FullyQualifiedErrorId"):
+            self.assertIn(frag, PS1)
+        self.assertIn("$resultado[$p.nombre] = [ordered]@{ origen_url = $f.origen_url; subido = $false; error = $detalle }", PS1)
+        self.assertNotIn("$($_.Exception.Message)\"\n        $fallos", PS1)  # el catch ya no imprime solo el mensaje
+        import re as _re
+
+        def espejo(tipo, msg, linea):
+            return f"{tipo}: {_re.sub(chr(92) + 's+', ' ', msg).strip()} | linea {linea}"
+        d = espejo("System.Exception", "\r\n  HTTP 0 \n  cortado", "146: $http = Bajar")
+        self.assertNotIn("\n", d)
+        self.assertIn("System.Exception: HTTP 0 cortado", d)
+        self.assertTrue(espejo("System.IO.IOException", "", "9").startswith("System.IO.IOException:"))  # mensaje vacio: queda el tipo
+
     def test_cabecera_y_sin_ids_viejos(self):
         self.assertIn("VERSION 1.0.0", PS1.splitlines()[1])
         self.assertIn("ANTERIOR: ninguna (fichero nuevo)", PS1)

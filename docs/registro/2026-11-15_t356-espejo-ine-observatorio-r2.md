@@ -6,6 +6,8 @@
 
 **Revisión (misma 1.0.0, aún no en main).** Corregido: rutas absolutas en `Escribir-Sin-Bom` (`Ruta-Completa`: absolutas intactas, relativas contra `Get-Location`; 1.0.0 las concatenaba y cada pieza fallaba tras bajarla); la reanudación recalcula el sha256 del fichero; cancelar la sobrescritura sale con 2; .ps1 solo ASCII (PS 5.1 lo lee como ANSI sin BOM); mientras la PR no se fusione hay que pasar `-Indice` con la raw de la rama (error claro si el índice trae menos de 642 piezas).
 
+**Diagnostico en el PC del propietario.** El catch imprime siempre tipo de excepcion (con internas), mensaje, linea del script, id y pila en una linea, y escribe el error completo en el JSON de resultado (`error` por pieza); `-Limite N` procesa solo las N primeras (prueba: `-Limite 1 -SoloBajar`).
+
 **Pruebas.** `tests.test_t356_espejo_ine_observatorio` (positivas y negativas), t298, t299, t220_renombrado. El script no se ha ejecutado (la nube no ejecuta PowerShell ni llega al INE con credenciales).
 
 **Riesgos.** Solapes en `fuentes_r2.json` con #827 y #797: rebasar la que se fusione después. Tras subir, el propietario pega el JSON de resultado y se actualiza el índice (sha256 y bytes de los 9 sin medir). No cambia huellas M05.

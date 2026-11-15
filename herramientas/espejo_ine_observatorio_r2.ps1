@@ -13,6 +13,7 @@ $env:R2_BUCKET, y AWS CLI (`aws`). AWS_DEFAULT_REGION=auto se pone aqui.
 Uso:
   .\espejo_ine_observatorio_r2.ps1 -SoloBajar              # baja y mide, NO sube
   .\espejo_ine_observatorio_r2.ps1                         # baja, mide y sube (INE y Observatorio)
+  .\espejo_ine_observatorio_r2.ps1 -Limite 1 -SoloBajar   # prueba con la primera pieza antes del lote
   .\espejo_ine_observatorio_r2.ps1 -Grupo ine              # solo los 17 seccionados (o -Grupo observatorio)
 Reanudable: lo ya verificado (fichero + .ok) no se vuelve a bajar y lo ya subido (head-object con el mismo sha256) no se vuelve a subir.
 Carpeta de trabajo corta (limite de ruta de Windows): C:\ddd. Sale con codigo 1 si falla alguna pieza y con 2 si no se confirma la sobrescritura del JSON. Despues, pega el JSON de resultado en el chat del Coordinador.
@@ -26,7 +27,8 @@ param(
     [switch]$SoloBajar,
     [switch]$Forzar,         # sobrescribe el JSON de resultado sin preguntar
     [int]$Reintentos = 5,
-    [int]$PausaMs = 200      # pausa entre peticiones al mismo servidor
+    [int]$PausaMs = 200,     # pausa entre peticiones al mismo servidor
+    [int]$Limite = 0         # procesa solo las N primeras piezas (0 = todas); prueba: -Limite 1 -SoloBajar
 )
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'   # sin barra: acelera mucho Invoke-WebRequest en PS 5.1
@@ -64,6 +66,7 @@ foreach ($p in $fuentes.PSObject.Properties) {
 $esperadas = @{ todo = 642; ine = 17; observatorio = 625 }[$Grupo]
 if ($piezas.Count -lt $esperadas) { throw "El indice trae solo $($piezas.Count) de $esperadas piezas: es el de main anterior a la PR #829? Pasa -Indice con la raw de la rama (ver cabecera)." }
 if ($piezas.Count -ne $esperadas) { throw "Se esperaban $esperadas piezas y el indice trae $($piezas.Count): no se continua." }
+if ($Limite -gt 0) { $piezas = @($piezas | Select-Object -First $Limite) }
 
 # --- utilidades --------------------------------------------------------------------------------------------------------------
 New-Item -ItemType Directory -Force -Path (Join-Path $Trabajo 'ine'), (Join-Path $Trabajo 'obs') | Out-Null
@@ -74,6 +77,17 @@ function Ruta-Completa($ruta) {
     [IO.Path]::GetFullPath((Join-Path (Get-Location).ProviderPath $ruta))
 }
 function Escribir-Sin-Bom($ruta, $texto) { [IO.File]::WriteAllText((Ruta-Completa $ruta), $texto, (New-Object Text.UTF8Encoding($false))) }
+
+function Detalle($e) {
+    # error en UNA linea: tipo, mensaje (con internas), linea del script y pila (nunca vacio)
+    $ex = $e.Exception
+    $msgs = @()
+    for ($x = $ex; $x; $x = $x.InnerException) { $msgs += ('{0}: {1}' -f $x.GetType().FullName, (([string]$x.Message) -replace '\s+', ' ').Trim()) }
+    $lin = if ($e.InvocationInfo) { (('{0}: {1}' -f $e.InvocationInfo.ScriptLineNumber, ([string]$e.InvocationInfo.Line)) -replace '\s+', ' ').Trim() } else { '?' }
+    $pila = (([string]$e.ScriptStackTrace) -replace '\s+', ' ').Trim()
+    $id = [string]$e.FullyQualifiedErrorId
+    ('{0} | id: {1} | linea {2} | pila: {3}' -f ($msgs -join ' <- '), $id, $lin, $pila)
+}
 
 function Validar($ruta, $tipo) {
     # devuelve $null si es valido o el motivo
@@ -106,7 +120,7 @@ function Bajar($url, $destino) {
             $http = if ($resp) { [int]$resp.StatusCode } else { 0 }
             Remove-Item -LiteralPath $destino -Force -ErrorAction SilentlyContinue
             $reintentable = ($http -eq 0 -or $http -eq 429 -or $http -ge 500)
-            if (-not $reintentable -or $i -eq $Reintentos) { throw "HTTP $http $($_.Exception.Message)" }
+            if (-not $reintentable -or $i -eq $Reintentos) { throw (New-Object System.Exception(("HTTP {0} (intento {1}) {2}" -f $http, $i, (([string]$_.Exception.Message) -replace '\s+', ' ').Trim()), $_.Exception)) }
             $espera = 10 * [Math]::Pow(2, $i - 1)
             if ($http -eq 429 -and $resp.Headers['Retry-After']) { $ra = 0; if ([int]::TryParse($resp.Headers['Retry-After'], [ref]$ra)) { $espera = [Math]::Max($espera, $ra) } }
             Write-Warning "HTTP $http en $url; reintento $i de $Reintentos en $espera s"
@@ -179,10 +193,12 @@ foreach ($p in $piezas) {
         }
         Write-Host ("[{0}/{1}] {2}: {3} bytes, sha256 {4}{5}" -f $n, $piezas.Count, $p.nombre, $meta.bytes, $meta.sha256, $(if ($subido) { ' (en R2)' } else { '' }))
     } catch {
-        Write-Warning "[$n/$($piezas.Count)] $($p.nombre): $($_.Exception.Message)"
+        $detalle = Detalle $_
+        Write-Warning "[$n/$($piezas.Count)] $($p.nombre): $detalle"
+        $resultado[$p.nombre] = [ordered]@{ origen_url = $f.origen_url; subido = $false; error = $detalle }
         $fallos++
     }
 }
 Escribir-Sin-Bom $Salida ($resultado | ConvertTo-Json -Depth 4)
-Write-Host "Resultado en $Salida ($($resultado.Count) de $($piezas.Count); fallos: $fallos)."
+Write-Host "Resultado en $Salida ($($piezas.Count - $fallos) de $($piezas.Count) bien; fallos: $fallos)."
 if ($fallos -gt 0) { exit 1 }
