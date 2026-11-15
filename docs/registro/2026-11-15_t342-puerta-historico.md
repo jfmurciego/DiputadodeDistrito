@@ -5,3 +5,4 @@
 - Riesgos: no toca motor ni workflows; efectos en huellas: ninguno. Ojo: 2011 nac01 deja `PSOE` y `LA IZQUIERDA PLURAL` sin homologar con el espejo (se informan en `sin_homologar`).
 - Con M07 PASS y `perdidos_pct` None (falta `source_votes`) la puerta FALLA.
 - Hallazgo: con cobertura total nac01/2011 FALLA: en el espejo «PSOE» es `PSE-EE (PSOE)` y «LA IZQUIERDA PLURAL» es `IU-LV`; faltan alias de siglas espejo→BOE (la tabla T-97 homologa a otro nombre, p. ej. `IU`, `EH Bildu`). No se ha relajado.
+- Lista completa de partidos del BOE sin sigla coincidente en el espejo (6 elecciones × 52 provincias): docs/diagnostico/T-342_sin_homologar_boe_espejo.json. Sin tabla de alias BOE→espejo la puerta falla en casi todas (2011: 51/52; 2015-12: 48; 2016: 48; 2019-04: 52; 2019-11: 30; 2023: 18); el alias exige decisión sobre coaliciones (D-20), no se ha inventado.

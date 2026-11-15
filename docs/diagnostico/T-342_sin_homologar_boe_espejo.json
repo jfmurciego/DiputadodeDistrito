@@ -1,0 +1,828 @@
+{
+ "nota": "T-342: partidos del CSV BOE (configuracion/resultados_oficiales_congreso_<año>.csv) cuya sigla no está entre las siglas del espejo (sigla_fuente de datos/homologacion_siglas/homologacion_siglas_generales.csv) en esa elección y provincia. Con cobertura total la puerta falla en cada una. Cálculo offline, sin red.",
+ "por_eleccion": {
+  "201111": {
+   "02": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "03": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "04": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "01": [
+    "LA IZQUIERDA PLURAL",
+    "PSOE"
+   ],
+   "33": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "05": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "06": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "07": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "08": [
+    "ERC/ESQUERRA",
+    "LA IZQUIERDA PLURAL"
+   ],
+   "48": [
+    "LA IZQUIERDA PLURAL",
+    "PSOE"
+   ],
+   "09": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "10": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "11": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "39": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "12": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "13": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "14": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "15": [
+    "LA IZQUIERDA PLURAL",
+    "PSOE"
+   ],
+   "16": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "20": [
+    "LA IZQUIERDA PLURAL",
+    "PSOE"
+   ],
+   "17": [
+    "ERC/ESQUERRA",
+    "LA IZQUIERDA PLURAL"
+   ],
+   "18": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "19": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "21": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "22": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "23": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "24": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "25": [
+    "ERC/ESQUERRA",
+    "LA IZQUIERDA PLURAL"
+   ],
+   "27": [
+    "LA IZQUIERDA PLURAL",
+    "PSOE"
+   ],
+   "28": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "29": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "30": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "31": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "32": [
+    "LA IZQUIERDA PLURAL",
+    "PSOE"
+   ],
+   "34": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "35": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "36": [
+    "LA IZQUIERDA PLURAL",
+    "PSOE"
+   ],
+   "26": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "37": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "38": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "40": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "41": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "42": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "43": [
+    "ERC/ESQUERRA",
+    "LA IZQUIERDA PLURAL"
+   ],
+   "44": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "45": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "46": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "47": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "49": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "50": [
+    "LA IZQUIERDA PLURAL"
+   ],
+   "51": [
+    "LA IZQUIERDA PLURAL"
+   ]
+  },
+  "201512": {
+   "02": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "03": [
+    "COALICIÓN «UNIDAD POPULAR»",
+    "PODEMOS-COMPROMÍS"
+   ],
+   "04": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "01": [
+    "COALICIÓN «UNIDAD POPULAR»",
+    "PSOE"
+   ],
+   "33": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "05": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "06": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "07": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "48": [
+    "COALICIÓN «UNIDAD POPULAR»",
+    "PSOE"
+   ],
+   "09": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "10": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "11": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "39": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "12": [
+    "COALICIÓN «UNIDAD POPULAR»",
+    "PODEMOS-COMPROMÍS"
+   ],
+   "13": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "14": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "15": [
+    "PODEMOS-En Marea-ANOVA-EU",
+    "PSOE"
+   ],
+   "16": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "20": [
+    "COALICIÓN «UNIDAD POPULAR»",
+    "PSOE"
+   ],
+   "18": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "19": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "21": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "22": [
+    "COALICIÓN «PODEMOS - AHORA ALTO ARAGÓN EN COMÚN»",
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "23": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "24": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "27": [
+    "PODEMOS-En Marea-ANOVA-EU",
+    "PSOE"
+   ],
+   "28": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "29": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "30": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "31": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "32": [
+    "PODEMOS-En Marea-ANOVA-EU",
+    "PSOE"
+   ],
+   "34": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "35": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "36": [
+    "PODEMOS-En Marea-ANOVA-EU",
+    "PSOE"
+   ],
+   "26": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "37": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "38": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "40": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "41": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "42": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "44": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "45": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "46": [
+    "COALICIÓN «UNIDAD POPULAR»",
+    "PODEMOS-COMPROMÍS"
+   ],
+   "47": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "49": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "50": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "51": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ],
+   "52": [
+    "COALICIÓN «UNIDAD POPULAR»"
+   ]
+  },
+  "201606": {
+   "02": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "03": [
+    "PODEMOS-COMPROMÍS-EUPV"
+   ],
+   "04": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "01": [
+    "PODEMOS-IU-EQUO-CLIAS",
+    "PSOE"
+   ],
+   "33": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "05": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "06": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "07": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "48": [
+    "PODEMOS-IU-EQUO-CLIAS",
+    "PSOE"
+   ],
+   "09": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "10": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "11": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "39": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "12": [
+    "PODEMOS-COMPROMÍS-EUPV"
+   ],
+   "13": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "14": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "15": [
+    "PSOE"
+   ],
+   "16": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "20": [
+    "PODEMOS-IU-EQUO-CLIAS",
+    "PSOE"
+   ],
+   "18": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "19": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "21": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "22": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "23": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "24": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "27": [
+    "PSOE"
+   ],
+   "28": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "29": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "30": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "31": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "32": [
+    "PSOE"
+   ],
+   "34": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "35": [
+    "CCa",
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "36": [
+    "PSOE"
+   ],
+   "26": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "37": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "38": [
+    "CCa",
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "40": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "41": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "42": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "44": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "45": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "46": [
+    "PODEMOS-COMPROMÍS-EUPV"
+   ],
+   "47": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "49": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "50": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "51": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ],
+   "52": [
+    "PODEMOS-IU-EQUO-CLIAS"
+   ]
+  },
+  "201904": {
+   "02": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "03": [
+    "COMPROMÍS 2019",
+    "PODEMOS-IU-EQUO"
+   ],
+   "04": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "01": [
+    "PODEMOS-IU-EQUO",
+    "PSOE"
+   ],
+   "33": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "05": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "06": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "07": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "08": [
+    "ECP-GUANYEM EL CANVI",
+    "ERC-SOBIRANISTES"
+   ],
+   "48": [
+    "PODEMOS-IU-EQUO",
+    "PSOE"
+   ],
+   "09": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "10": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "11": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "39": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "12": [
+    "COMPROMÍS 2019",
+    "PODEMOS-IU-EQUO"
+   ],
+   "13": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "14": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "15": [
+    "PODEMOS-EU-MAREAS EN COMÚN-EQUO",
+    "PSOE"
+   ],
+   "16": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "20": [
+    "PODEMOS-IU-EQUO",
+    "PSOE"
+   ],
+   "17": [
+    "ECP-GUANYEM EL CANVI",
+    "ERC-SOBIRANISTES"
+   ],
+   "18": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "19": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "21": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "22": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "23": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "24": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "25": [
+    "ECP-GUANYEM EL CANVI",
+    "ERC-SOBIRANISTES"
+   ],
+   "27": [
+    "PODEMOS-EU-MAREAS EN COMÚN-EQUO",
+    "PSOE"
+   ],
+   "28": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "29": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "30": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "31": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "32": [
+    "PODEMOS-EU-MAREAS EN COMÚN-EQUO",
+    "PSOE"
+   ],
+   "34": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "35": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "36": [
+    "PODEMOS-EU-MAREAS EN COMÚN-EQUO",
+    "PSOE"
+   ],
+   "26": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "37": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "38": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "40": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "41": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "42": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "43": [
+    "ECP-GUANYEM EL CANVI",
+    "ERC-SOBIRANISTES"
+   ],
+   "44": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "45": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "46": [
+    "COMPROMÍS 2019",
+    "PODEMOS-IU-EQUO"
+   ],
+   "47": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "49": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "50": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "51": [
+    "PODEMOS-IU-EQUO"
+   ],
+   "52": [
+    "PODEMOS-IU-EQUO"
+   ]
+  },
+  "201911": {
+   "03": [
+    "MÉS COMPROMÍS",
+    "PODEMOS-IU"
+   ],
+   "04": [
+    "PODEMOS-IU"
+   ],
+   "01": [
+    "PSOE"
+   ],
+   "33": [
+    "MÁS PAÍS-EQUO",
+    "PODEMOS-IU"
+   ],
+   "07": [
+    "PODEMOS-IU"
+   ],
+   "08": [
+    "ECP-GUANYEM EL CANVI",
+    "PSC"
+   ],
+   "48": [
+    "MÁS PAÍS-EQUO",
+    "PSOE"
+   ],
+   "11": [
+    "MÁS PAÍS-EQUO",
+    "PODEMOS-IU"
+   ],
+   "12": [
+    "MÉS COMPROMÍS",
+    "PODEMOS-IU"
+   ],
+   "14": [
+    "PODEMOS-IU"
+   ],
+   "15": [
+    "MÁS PAÍS-EQUO",
+    "PSOE"
+   ],
+   "20": [
+    "PSOE"
+   ],
+   "17": [
+    "ECP-GUANYEM EL CANVI",
+    "PSC"
+   ],
+   "18": [
+    "MÁS PAÍS-EQUO",
+    "PODEMOS-IU"
+   ],
+   "21": [
+    "PODEMOS-IU"
+   ],
+   "23": [
+    "PODEMOS-IU"
+   ],
+   "25": [
+    "ECP-GUANYEM EL CANVI",
+    "PSC"
+   ],
+   "27": [
+    "PSOE"
+   ],
+   "28": [
+    "MÁS PAÍS-EQUO"
+   ],
+   "29": [
+    "MÁS PAÍS-EQUO",
+    "PODEMOS-IU"
+   ],
+   "30": [
+    "MÁS PAÍS-EQUO"
+   ],
+   "31": [
+    "PODEMOS-IU"
+   ],
+   "32": [
+    "PSOE"
+   ],
+   "35": [
+    "MÁS PAÍS-EQUO"
+   ],
+   "36": [
+    "MÁS PAÍS-EQUO",
+    "PSOE"
+   ],
+   "38": [
+    "MÁS PAÍS-EQUO"
+   ],
+   "41": [
+    "MÁS PAÍS-EQUO",
+    "PODEMOS-IU"
+   ],
+   "43": [
+    "ECP-GUANYEM EL CANVI",
+    "PSC"
+   ],
+   "44": [
+    "¡TERUEL EXISTE!"
+   ],
+   "46": [
+    "MÉS COMPROMÍS",
+    "PODEMOS-IU"
+   ]
+  },
+  "202307": {
+   "03": [
+    "SUMAR"
+   ],
+   "01": [
+    "PSOE"
+   ],
+   "07": [
+    "PSOE",
+    "SUMAR"
+   ],
+   "08": [
+    "JUNTS",
+    "PSOE",
+    "SUMAR"
+   ],
+   "48": [
+    "PSOE"
+   ],
+   "12": [
+    "SUMAR"
+   ],
+   "15": [
+    "BNG",
+    "PSOE"
+   ],
+   "20": [
+    "PSOE"
+   ],
+   "17": [
+    "JUNTS",
+    "PSOE",
+    "SUMAR"
+   ],
+   "22": [
+    "SUMAR"
+   ],
+   "25": [
+    "JUNTS",
+    "PSOE",
+    "SUMAR"
+   ],
+   "27": [
+    "BNG",
+    "PSOE"
+   ],
+   "31": [
+    "PSOE",
+    "UPN"
+   ],
+   "32": [
+    "BNG",
+    "PSOE"
+   ],
+   "36": [
+    "BNG",
+    "PSOE"
+   ],
+   "43": [
+    "JUNTS",
+    "PSOE",
+    "SUMAR"
+   ],
+   "46": [
+    "SUMAR"
+   ],
+   "50": [
+    "SUMAR"
+   ]
+  }
+ }
+}
