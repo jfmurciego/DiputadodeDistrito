@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac02",
+  "territory_name": "Congreso Albacete",
+  "edition": "2025",
+  "run_id": 43758786834,
+  "artifact_name": "ddd-electoral-package-nac02-2025-43758786834",
+  "artifact_sha256": "6d5cb66da1473a743f9ceef3ca6656499003562684f4eed451d3238d2dc95e8f",
+  "source_commit": "fa1649bc4d2b5bcc39971a8cf11a9990cac3c33f",
+  "election_id": "congreso_albacete_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "c73c24052e0e1149af295de2094e74c2fdb5df9bb8616f66ca05fc0e23dfd919"
+}
