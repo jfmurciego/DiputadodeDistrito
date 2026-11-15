@@ -542,7 +542,8 @@ def descartar_registros_no_canonicos(state: dict, *, root_dir: Path, territory_i
 
     Devuelve una copia del estado con esas banderas en False y sin su evidencia, y la lista de lo descartado. El recibo
     territorial (fuente), el M06, la fuente electoral y el M08 exigen `territory_id` exacto y nombre de artefacto con el id
-    canónico; si se descarta el M06 o la fuente electoral, cae también el M08 que derivó de ellos. Sin alias ni reescritura.
+    canónico (se descarta lo que lleva un alias conocido del id, `variantes()`; un id ausente o de otro territorio lo
+    rechazan los validadores durables); si se descarta el M06 o la fuente electoral, cae también el M08 que derivó de ellos. Sin alias ni reescritura.
     """
     tid = str(territory_id)
     out = dict(state)
@@ -555,6 +556,14 @@ def descartar_registros_no_canonicos(state: dict, *, root_dir: Path, territory_i
         out[bandera] = False
         evidence.pop(clave, None)
 
+    alias = [v for v in variantes(tid) if v != tid]
+
+    def _alias(valor: object) -> bool:
+        return bool(valor) and str(valor) != tid and str(valor) in alias
+
+    def _nombre_alias(nombre: object, prefijo: str) -> bool:
+        return any(str(nombre or "").startswith(f"{prefijo}-{v}-") for v in alias)
+
     def _id(clave: str) -> str | None:
         data = _core._load_json(evidence.get(clave), root_dir)
         return str(data.get("territory_id") or "") if data else None
@@ -562,24 +571,23 @@ def descartar_registros_no_canonicos(state: dict, *, root_dir: Path, territory_i
     prep = state.get("preparation_evidence") or {}
     if state.get("territorial_sources_prepared") and prep:
         recibo = _core._load_json(prep.get("receipt_path"), root_dir) if prep.get("receipt_path") else {}
-        nombre_ok = str(prep.get("artifact_name") or "").startswith(f"ddd-source-package-{tid}-")
-        if not nombre_ok or (recibo and str(recibo.get("territory_id") or "") != tid):
+        if _nombre_alias(prep.get("artifact_name"), "ddd-source-package") or _alias((recibo or {}).get("territory_id")):
             descartados.append({"objeto": "territorial_source", "motivo": "ID_NO_CANONICO",
                                 "evidencia": prep.get("receipt_path")})
             out["territorial_sources_prepared"] = False
             out["preparation_evidence"] = {}
-    if state.get("territorial_product_available") and _id("territorial_product") not in (None, tid):
+    if state.get("territorial_product_available") and _alias(_id("territorial_product")):
         _descartar("territorial_product", "territorial_product_available", "ID_NO_CANONICO")
         if out.get("electoral_product_available"):
             _descartar("electoral_product", "electoral_product_available", "M06_NO_REUTILIZABLE")
     if state.get("electoral_source_prepared") and evidence.get("electoral_source"):
         data = _core._load_json(evidence.get("electoral_source"), root_dir)
         nombre = str(data.get("artifact_name") or "")
-        if data and (str(data.get("territory_id") or "") != tid or not nombre.startswith(f"ddd-electoral-package-{tid}-")):
+        if data and (_alias(data.get("territory_id")) or _nombre_alias(nombre, "ddd-electoral-package")):
             _descartar("electoral_source", "electoral_source_prepared", "ID_NO_CANONICO")
             if out.get("electoral_product_available"):
                 _descartar("electoral_product", "electoral_product_available", "FUENTE_ELECTORAL_NO_REUTILIZABLE")
-    if out.get("electoral_product_available") and _id("electoral_product") not in (None, tid):
+    if out.get("electoral_product_available") and _alias(_id("electoral_product")):
         _descartar("electoral_product", "electoral_product_available", "ID_NO_CANONICO")
     if descartados and out.get("last_valid_checkpoint"):
         # El checkpoint apunta al run que produjo lo descartado: no da run_id de respaldo a nada de lo anterior.

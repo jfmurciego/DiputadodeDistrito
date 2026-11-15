@@ -198,6 +198,17 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
             )
             electoral_source_path = ROOT / state["evidence"]["electoral_source"]
             electoral_source = json.loads(electoral_source_path.read_text(encoding="utf-8"))
+            # T-349 (D-102): el recibo electoral registrado con id viejo ya no entra en la 00; el caso de reuso se prueba
+            # con su copia canónica (mismo run y digest; territory_id y nombre de artefacto canónicos).
+            electoral_source = dict(electoral_source, territory_id="aut12",
+                                    artifact_name=f"ddd-electoral-package-aut12-2025-{electoral_source['run_id']}")
+            canonico = tmp / "electoral_source_receipt.json"
+            _write_json(canonico, electoral_source)
+            state["evidence"]["electoral_source"] = str(canonico)
+            isolated_catalog.write_text(
+                yaml.safe_dump(catalog, allow_unicode=True, sort_keys=False),
+                encoding="utf-8",
+            )
             durable = {
                 "territorial_source": state.get("preparation_evidence") or None,
                 "territorial_product": (
