@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T14:03:23.153222+00:00",
+  "generated_at": "2026-11-15T14:17:37.680272+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 3,
-      "action_required": 117,
+      "admissible": 4,
+      "action_required": 116,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 3,
+      "activated": 4,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 117,
+      "electoral_pending": 116,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 3,
-      "durable_pair": 3
+      "electoral_source": 4,
+      "durable_pair": 4
     },
     "territories": [
       {
@@ -640,20 +640,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Minsait / EleccionesDB mirror provisional (excepción del propietario 2026-10-29)",
           "granularity": "section_party_after_polling_station_aggregation"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/aut11/evidencia/pares_fuentes/2025/a36c706c2ace1048916be9b85201e5605faad6ff98f417f3625bd88b4593f61d.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/aut11/evidencia/pares_fuentes/2025/43ef065fb2acae0b9b942454a30ae94b25b670aba8f2c6e68c9c17b560934c6b.json",
+            "pair_sha256": "43ef065fb2acae0b9b942454a30ae94b25b670aba8f2c6e68c9c17b560934c6b",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -661,13 +661,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "aut12",
@@ -7729,11 +7723,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43720213000,
       "last_run": {
-        "run_id": 43701871746,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "03 · Preparación de Resultados Electorales",
-        "reason": "ver log del run",
+        "run_id": 43720213000,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7765,13 +7759,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "extremadura",
+          "territory_id": "aut11",
           "territory_name": "Extremadura",
           "edition": "2025",
-          "run_id": 43051488486,
-          "artifact_name": "ddd-state-43051488486-M08",
-          "artifact_sha256": "4e4ea2e1ab72afdba4ef67bb634992c78c5db7a2d18d0c12a08516f92149c4d4",
-          "source_commit": "267bdc2490d644740eb783563f7bcd6bcf13f895",
+          "run_id": 43722563345,
+          "artifact_name": "ddd-state-43722563345-M08",
+          "artifact_sha256": "f4eb6d908ad74cb6a789bad22d518d3244d8b2ff82ed1c9098f2dee5cd3a5ce1",
+          "source_commit": "7a4c0c0e255a4f6f84c7b6b57c5cd305e26bf029",
           "stage": "M08"
         }
       },
