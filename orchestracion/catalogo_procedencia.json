@@ -5408,11 +5408,11 @@
   },
   "congreso_lugo": {
    "fuente_territorial": {
-    "run_id": "43764690651",
+    "run_id": "43774262901",
     "package_sha256": "1d46447adda72c80a4506121d4ef281c490bee08115b10694741258d2419da8d",
-    "artifact_sha256": "4b13fe03528c50e4c926b84bbb762f5d7b40caf93dd4c60b6758dee59bf2c441",
+    "artifact_sha256": "0d766c865b739197ab76660bce64d1f53e3c938c8dcfd87555e1f7b9413745b4",
     "territorial_identity_sha256": "43b8b85a44a5d44ae5f0238ffcf4c36770765ba870048a6f977a6360ee7fa83c",
-    "receipt_path": "territorios/nac27/evidencia/fuentes_territoriales/2025/43b8b85a44a5d44ae5f0238ffcf4c36770765ba870048a6f977a6360ee7fa83c/43764690651/receipt.json",
+    "receipt_path": "territorios/nac27/evidencia/fuentes_territoriales/2025/43b8b85a44a5d44ae5f0238ffcf4c36770765ba870048a6f977a6360ee7fa83c/43774262901/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
