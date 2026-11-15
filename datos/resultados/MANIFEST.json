@@ -1394,6 +1394,22 @@
     "ruta": "datos/resultados/runs/nac04_43760565695_desajustes.json",
     "sha256": "64a42a73637ad0ba16fc7a0b3815e37b8494c5e2f9a4c595b225bb7d2a528f12"
    }
+  },
+  "nac05/43760758129": {
+   "territorio": "nac05",
+   "run_id": "43760758129",
+   "run_territorial": "43755691825",
+   "sha256_composicion": "7635b7d07db46817242f602c92069657205bf1df4c865a91b9911ba40fea8b71",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ddf53853be330cac8c961f495ed8372cc979d7cc6116cd3c477078c08c1340c9",
+   "ruta": "datos/resultados/runs/nac05_43760758129_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/nac05_43760758129_desajustes.json",
+    "sha256": "40585119ba30e4aecef4c4d33b18cacd75d28e91aa49faa4b875f5ab9f5ffdbe"
+   }
   }
  }
 }
