@@ -183,7 +183,7 @@ def _candidate_state(
     for path in sorted(manifest_dir.glob("*.json")):
         manifest = _json(path)
         if (
-            not mismo_territorio(str(manifest.get("territory_id") or ""), str(territory_id))
+            str(manifest.get("territory_id") or "") != str(territory_id)  # T-349 (D-102): el recibo que se persiste exige manifiesto con id canónico exacto
             or str(manifest.get("edition") or "") != str(edition)
         ):
             continue
