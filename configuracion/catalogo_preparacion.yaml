@@ -2066,6 +2066,7 @@ territories:
         territorial_product: territorios/nac34/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac34/evidencia/pares_fuentes/2025/001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18.json
         electoral_product: territorios/nac34/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac34/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac35
   name: Congreso Las Palmas
