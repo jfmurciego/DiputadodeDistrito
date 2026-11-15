@@ -63,7 +63,7 @@
   "territorios": 71,
   "productos": 535,
   "errores": 0,
-  "avisos": 183
+  "avisos": 184
  },
  "territorios": {
   "andalucia": {
@@ -9885,6 +9885,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "congreso350_valladolid/42613899978/ddd-minimo-42613899978-M08.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nac01",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "nac01/43750441261/ddd-minimo-43750441261-M06.zip"
   },
   {
    "nivel": "AVISO",
