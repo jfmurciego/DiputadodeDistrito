@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_jaen",
+  "territory_id": "nac23",
   "territory_name": "Congreso Jaén",
   "edition": "2025",
-  "run_id": 42940432935,
-  "artifact_name": "ddd-state-42940432935-M06",
-  "artifact_sha256": "0f60519e07769f5c7aac0cef5b9edb46e9066ec000c0a71b2f38646fd85c48e1",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
-  "decision": "PASS_WITH_EXCEPTIONS",
+  "run_id": 43765782167,
+  "artifact_name": "ddd-state-43765782167-M06",
+  "artifact_sha256": "69ccebcd9b5b930994ffad656cb9984b617a5fd502cdb8ca65d47015df6d95b0",
+  "source_commit": "451db073727f70523fe5888e0f8886be5b23dd66",
+  "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_jaen/evidencia/generaciones_m06/42940432935.json"
+  "producer_manifest_path": "territorios/nac23/evidencia/generaciones_m06/43765782167.json"
 }
