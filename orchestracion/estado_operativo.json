@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T20:18:11.241662+00:00",
+  "generated_at": "2026-11-15T20:32:24.404566+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1376,8 +1376,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43747128619,
-            "receipt_path": "territorios/nac07/evidencia/fuentes_territoriales/2025/af035100aa2a52191379f07421f57e77e9d00785b3781bcaeb53795a2f8b4b82/43747128619/receipt.json"
+            "run_id": 43757976344,
+            "receipt_path": "territorios/nac07/evidencia/fuentes_territoriales/2025/af035100aa2a52191379f07421f57e77e9d00785b3781bcaeb53795a2f8b4b82/43757976344/receipt.json"
           }
         },
         "electoral": {
@@ -1433,8 +1433,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43747142135,
-            "receipt_path": "territorios/nac08/evidencia/fuentes_territoriales/2025/e6f65bdefe4bf0a3f86ab3324a63679afc21dad757f4039a507041d0e9464e0d/43747142135/receipt.json"
+            "run_id": 43757988864,
+            "receipt_path": "territorios/nac08/evidencia/fuentes_territoriales/2025/e6f65bdefe4bf0a3f86ab3324a63679afc21dad757f4039a507041d0e9464e0d/43757988864/receipt.json"
           }
         },
         "electoral": {
@@ -1490,8 +1490,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43747154631,
-            "receipt_path": "territorios/nac09/evidencia/fuentes_territoriales/2025/2b6f377798fb70a1ad76fafff042eb5066244fd0d9eb8a8c6402f8ace5053e08/43747154631/receipt.json"
+            "run_id": 43758000236,
+            "receipt_path": "territorios/nac09/evidencia/fuentes_territoriales/2025/2b6f377798fb70a1ad76fafff042eb5066244fd0d9eb8a8c6402f8ace5053e08/43758000236/receipt.json"
           }
         },
         "electoral": {
@@ -1775,8 +1775,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43651957259,
-            "receipt_path": "territorios/nac14/evidencia/fuentes_territoriales/2025/c634da1344225bb2f8670858948bc371708f707f01f76c14eaa51ff57c7b04b3/43651957259/receipt.json"
+            "run_id": 43754667654,
+            "receipt_path": "territorios/nac14/evidencia/fuentes_territoriales/2025/2193143d9be593e434cc09c9954b4775e101163c6996d46cddb5d478df1c9843/43754667654/receipt.json"
           }
         },
         "electoral": {
@@ -1889,8 +1889,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43651979100,
-            "receipt_path": "territorios/nac16/evidencia/fuentes_territoriales/2025/05638cd93d053839a67c5145b97be8833dd44c83b0c234947529cd3148e3c336/43651979100/receipt.json"
+            "run_id": 43754909926,
+            "receipt_path": "territorios/nac16/evidencia/fuentes_territoriales/2025/2f4dba6c6e09bc89e51caf7e80ed0979ef7f74a9e0c2109998eab50c7f7b8594/43754909926/receipt.json"
           }
         },
         "electoral": {
@@ -8158,20 +8158,20 @@
       "name": "Nacional Álava",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 43750441261,
+      "run_id": 43756171657,
       "last_run": {
-        "run_id": 43750441261,
+        "run_id": 43756171657,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8212,18 +8212,18 @@
       },
       "autonomous_community_code_ine": "C01",
       "display_name": "Nacional Álava",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac02",
       "name": "Nacional Albacete",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42952791883,
+      "run_id": 43754629627,
       "last_run": {
         "run_id": 42952791883,
         "status": "SUCCESS",
@@ -8232,7 +8232,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8246,16 +8246,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_albacete",
+          "territory_id": "nac02",
           "territory_name": "Congreso Albacete",
           "edition": "2025",
-          "run_id": 42940326013,
-          "artifact_name": "ddd-state-42940326013-M06",
-          "artifact_sha256": "f371866945ab7057dcafdaf4ec9214d8ed6e7c5756971dbe3e1cf16ea53fe661",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43754629627,
+          "artifact_name": "ddd-state-43754629627-M06",
+          "artifact_sha256": "d6e509d393e0d5341ac2c4f6f43dcb4732c799c413084fce957a9801cd07440e",
+          "source_commit": "e05ed56a435e64b464d7b6fcdc354e3741fa9ed7",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_albacete/evidencia/generaciones_m06/42940326013.json"
+          "producer_manifest_path": "territorios/nac02/evidencia/generaciones_m06/43754629627.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8273,7 +8273,7 @@
       },
       "autonomous_community_code_ine": "C02",
       "display_name": "Nacional Albacete",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac03",
@@ -8543,9 +8543,9 @@
         "territorial_source": {
           "territory_id": "nac07",
           "edition": "2025",
-          "run_id": 43747128619,
-          "artifact_name": "ddd-source-package-nac07-2025-43747128619",
-          "artifact_sha256": "626cce23266a7928afcd14e82c08948185935098317afcd766f51fc426a04a30",
+          "run_id": 43757976344,
+          "artifact_name": "ddd-source-package-nac07-2025-43757976344",
+          "artifact_sha256": "a79ed0dd1e75688cde28bd1c94590128a4c3a1c1bf87f5316be3a7846c9bba7e",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8604,9 +8604,9 @@
         "territorial_source": {
           "territory_id": "nac08",
           "edition": "2025",
-          "run_id": 43747142135,
-          "artifact_name": "ddd-source-package-nac08-2025-43747142135",
-          "artifact_sha256": "ed07707e07567a7606938468c5f2b725931d8b6f67ee7132717790dd758223bd",
+          "run_id": 43757988864,
+          "artifact_name": "ddd-source-package-nac08-2025-43757988864",
+          "artifact_sha256": "ca90b878ad89de420f40ead98cbde4b8a598cd4f9de60ab36329fb9bc5e77625",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8665,9 +8665,9 @@
         "territorial_source": {
           "territory_id": "nac09",
           "edition": "2025",
-          "run_id": 43747154631,
-          "artifact_name": "ddd-source-package-nac09-2025-43747154631",
-          "artifact_sha256": "7039e3f7cf448754a22c021c49fd23a025754a59f1b11918230dc2f7908679cd",
+          "run_id": 43758000236,
+          "artifact_name": "ddd-source-package-nac09-2025-43758000236",
+          "artifact_sha256": "e858eb9be988b0f8ca7ce6a4faad63e0832b7b0765dc5bd3ae2ff4c17e13d860",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8970,9 +8970,9 @@
         "territorial_source": {
           "territory_id": "nac14",
           "edition": "2025",
-          "run_id": 43651957259,
-          "artifact_name": "ddd-source-package-nac14-2025-43651957259",
-          "artifact_sha256": "46a7d576cab7ac79b09b4bd522d807ce7796d609881f177c09748d46c2fab082",
+          "run_id": 43754667654,
+          "artifact_name": "ddd-source-package-nac14-2025-43754667654",
+          "artifact_sha256": "b32358d4eb7ec897bbadd7dee326d6de9c67e47ebf94822e638e590ac7f4bb35",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9092,9 +9092,9 @@
         "territorial_source": {
           "territory_id": "nac16",
           "edition": "2025",
-          "run_id": 43651979100,
-          "artifact_name": "ddd-source-package-nac16-2025-43651979100",
-          "artifact_sha256": "7e319865a2601226c129a6466d2ef94690de19fb28c824be5b3294893d2503d5",
+          "run_id": 43754909926,
+          "artifact_name": "ddd-source-package-nac16-2025-43754909926",
+          "artifact_sha256": "682c0e457a65cb9ddaf528c14726eb10866afdee189a330673c3cb7f112c9400",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12588,7 +12588,7 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
-      "Nacional Albacete",
+      "Nacional Álava",
       "Nacional Alicante",
       "Nacional Almería",
       "Nacional Ávila",
@@ -12852,11 +12852,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "aut19",
-    "name": "Melilla",
-    "display_name": "19 Melilla",
-    "autonomous_community_code_ine": "19",
-    "run_id": 43755885850,
+    "territory_id": "nac01",
+    "name": "Nacional Álava",
+    "display_name": "Nacional Álava",
+    "autonomous_community_code_ine": "C01",
+    "run_id": 43756171657,
     "stage": "M08",
     "certification": "PASS",
     "edition": "2025"
@@ -12869,9 +12869,9 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Álava",
-      "territory_id": "nac01",
-      "autonomous_community_code_ine": "C01",
+      "territory": "Nacional Albacete",
+      "territory_id": "nac02",
+      "autonomous_community_code_ine": "C02",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12919,9 +12919,9 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Álava",
-      "territory_id": "nac01",
-      "autonomous_community_code_ine": "C01",
+      "territory": "Nacional Albacete",
+      "territory_id": "nac02",
+      "autonomous_community_code_ine": "C02",
       "action": "preparar fuentes electorales"
     }
   ]
