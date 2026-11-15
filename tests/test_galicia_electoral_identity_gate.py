@@ -15,15 +15,24 @@ from herramientas.detectar_producto_electoral_huerfano import (
 )
 from herramientas.resolver_ejecucion_completa import build_plan
 from herramientas.validar_puerta_ejecucion import validate_gate
+from tests._previo_r3 import raiz_previo_r3
 from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220)
 
 
-ROOT = Path(__file__).resolve().parents[1]
-PARAMS = ROOT / "territorios/aut12/config/aut12_2025.yaml"
-CONTRACT = ROOT / "territorios/aut12/config/elecciones/galicia_parlamento_2024.json"
-CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
-REGISTRY = ROOT / "configuracion/registro_electoral.yaml"
-ORCHESTRATION = ROOT / ".github/workflows/ejecucion-completa-proyecto.yml"
+ROOT_VIVO = Path(__file__).resolve().parents[1]
+ORCHESTRATION = ROOT_VIVO / ".github/workflows/ejecucion-completa-proyecto.yml"
+# T-335: el estado de aut12 (catálogo, recibos, checkpoint) se lee de la raíz congelada previa a r3; un P10/P00 nuevo
+# reescribe el vivo (run id, paquete, recibos) y rompía estas pruebas. Se monta en setUpModule.
+ROOT = PARAMS = CONTRACT = CATALOG = REGISTRY = None
+
+
+def setUpModule():
+    global ROOT, PARAMS, CONTRACT, CATALOG, REGISTRY
+    ROOT = raiz_previo_r3()
+    PARAMS = ROOT / "territorios/aut12/config/aut12_2025.yaml"
+    CONTRACT = ROOT / "territorios/aut12/config/elecciones/galicia_parlamento_2024.json"
+    CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
+    REGISTRY = ROOT / "configuracion/registro_electoral.yaml"
 PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
 
 

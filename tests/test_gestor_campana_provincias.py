@@ -8,6 +8,7 @@ from herramientas.gestor_campana_nacional import (
     CONFIRMATION, build_manifest, build_matrix, canonical_selection, parse_selection,
 )
 from ddd_core.territorio_ids import es_nacional, ids_nuevos, id_legacy  # noqa: E402  (T-220)
+from tests._previo_r3 import raiz_previo_r3
 
 ROOT = Path(__file__).resolve().parents[1]
 NAC = "Nacional 2023"
@@ -37,7 +38,8 @@ class GestorProvincias(unittest.TestCase):
 
     def test_huesca_completa_reutiliza_su_producto(self):
         manifest = build_manifest(selected=["nac22"], publication_mode="electoral", source_sha="a" * 40,
-                                  strategy="Canónico", campaign_instance="t06")
+                                  strategy="Canónico", campaign_instance="t06",
+                                  root=raiz_previo_r3())  # T-335: raíz congelada previa a r3; el P10 de nac22 reescribe el vivo
         row = manifest["territories"][0]
         self.assertEqual((row["slot"], row["territory_display_name"]), ("C22", "Nacional Huesca"))
         self.assertEqual(row["execution_route"], "PRODUCT_REUSE_READY")
