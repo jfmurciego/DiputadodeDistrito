@@ -6870,11 +6870,11 @@
   },
   "congreso_segovia": {
    "fuente_territorial": {
-    "run_id": "43662762669",
-    "package_sha256": "eca15937f80c9222c45599aaf9cc52862f0246c259c558c025185f02a3911361",
-    "artifact_sha256": "88c74ec28239d35119567b3df177c0f2a88c6ec81f491b77808492f2eef1cd11",
-    "territorial_identity_sha256": "ed08ff50c0a47cbf8edd8138310e89c8c2306849e6d358478b92f080e9f0a710",
-    "receipt_path": "territorios/nac40/evidencia/fuentes_territoriales/2025/ed08ff50c0a47cbf8edd8138310e89c8c2306849e6d358478b92f080e9f0a710/43662762669/receipt.json",
+    "run_id": "43770672578",
+    "package_sha256": "509be15780ec29ff4bcd819d4e2ef08076e2b6fde8765d60aab9edaee58cf16e",
+    "artifact_sha256": "7ed8430df493e38d432761dec22829a6d73f6d2d1bccc3032419eb3fa9b4a957",
+    "territorial_identity_sha256": "d40a84ce839a8f79d4ba0b47db407ae91dde413efb411b0d8801251a6bd4c279",
+    "receipt_path": "territorios/nac40/evidencia/fuentes_territoriales/2025/d40a84ce839a8f79d4ba0b47db407ae91dde413efb411b0d8801251a6bd4c279/43770672578/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
