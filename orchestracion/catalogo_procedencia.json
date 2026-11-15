@@ -8507,11 +8507,11 @@
   },
   "galicia": {
    "fuente_territorial": {
-    "run_id": "43728460706",
+    "run_id": "43743658384",
     "package_sha256": "d6fe74cfdb898b5596c2495240f2b6044a99f1733be01e8ab23c2a32d913c0c5",
-    "artifact_sha256": "12da3989617b7b7cd085f7e9c3d3ec8e3cadf2896f2adfb85b12f5ac3971afa9",
+    "artifact_sha256": "fa26ef18de2ad760a3630dd029bdef88bdee10b111997822dd2aa938da7fcc76",
     "territorial_identity_sha256": "60a8bcde237b51246f0979a5593f38c50585a23a911dd6e7b57a07206486c669",
-    "receipt_path": "territorios/aut12/evidencia/fuentes_territoriales/2025/60a8bcde237b51246f0979a5593f38c50585a23a911dd6e7b57a07206486c669/43728460706/receipt.json",
+    "receipt_path": "territorios/aut12/evidencia/fuentes_territoriales/2025/60a8bcde237b51246f0979a5593f38c50585a23a911dd6e7b57a07206486c669/43743658384/receipt.json",
     "population_year": 2024,
     "section_year": 2024
    },
