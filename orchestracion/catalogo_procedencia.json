@@ -4828,11 +4828,11 @@
   },
   "congreso_la_rioja": {
    "fuente_territorial": {
-    "run_id": "43764046636",
+    "run_id": "43773865756",
     "package_sha256": "b7314d58411ef10ca8b972b32d34e87d98fd4e15b6b7f788f8e103764941fe28",
-    "artifact_sha256": "a1009e7fb53a4849f733f9c57550ff49f8601acdb4c1cd5907e71f9b9c32c4af",
+    "artifact_sha256": "fb7b1a4e376140ea804db4293f09b6f77009a07eb1f303d442932ba7129c0a3f",
     "territorial_identity_sha256": "d30c2f5a5b5f7cd584c46c9e9d29c4fbc2c262f79ff70273aefabd4667b8e219",
-    "receipt_path": "territorios/nac26/evidencia/fuentes_territoriales/2025/d30c2f5a5b5f7cd584c46c9e9d29c4fbc2c262f79ff70273aefabd4667b8e219/43764046636/receipt.json",
+    "receipt_path": "territorios/nac26/evidencia/fuentes_territoriales/2025/d30c2f5a5b5f7cd584c46c9e9d29c4fbc2c262f79ff70273aefabd4667b8e219/43773865756/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
