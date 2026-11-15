@@ -4,7 +4,7 @@ Versión: 1.0.49
 Fecha: 2026-11-15
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-114 a D-118 (decisiones del 15-11), cola T-326 a T-339, r3 cerrada y r4 en curso
+Cambios/motivo: D-114 a D-119 (decisiones del 15-11), cola T-326 a T-339, r3 cerrada y r4 en curso
 Anterior: legacy/docs/PLAN_v1.0.48_20261115.md
 -->
 
@@ -267,8 +267,9 @@ Fase 4 — producto (en el privado):
 - D-116 (15-11, propietario). Galería del visor V3: se permiten commons.wikimedia.org, upload.wikimedia.org y es.wikipedia.org en la red del entorno de la sesión que la construye (solo para preparar el catálogo; los visitantes no llaman a terceros).
 - D-117 (15-11, propietario). Padrón 65034 (endpoint dinámico): el P10 lo descarga siempre, compara su sha256 con la copia de R2 y para si cambia; los ficheros con fecha fiable siguen con consulta sin descarga (matiza D-112).
 - D-118 (15-11, propietario). Noche del 29-11: se ensaya con el formato Minsait supuesto (sin documento oficial); si esa noche el provisional no encaja, se publica solo con `infoelectoral_mesas` definitivo (matiza D-99).
+- D-119 (15-11, propietario). La parada del padrón 65034 se aplica al sha256 del extracto filtrado que entra al motor (Periodo, Sexo y Edad del contrato), no al fichero nacional crudo, que crece con periodos que no se usan; el crudo se registra solo como información (matiza D-117). Hallazgo previo: el crudo cambió el 27-10 (+843 KB) y el extracto 2025 de aut11 es idéntico.
 
-### Cola T-291 a T-341 (14 y 15-11)
+### Cola T-291 a T-344 (14 y 15-11)
 | Id | Qué | Estado |
 |---|---|---|
 | T-291 | Equivalencia de seccionados 2026→2023 en M07 7.4.0, adaptador, 03 y votos por partido de 2026 (D-65, D-99) | HECHA (#749 #750 #752 #754) |
@@ -318,6 +319,9 @@ Fase 4 — producto (en el privado):
 | T-337 | `preflight_preparacion_fuente` (l.110) acepta variantes de id en nombres de artefacto: estricto, sin alias | PENDIENTE (tras la P50) |
 | T-338 | Cargador de `ddd_core/territorio_ids.py` sin `sys.modules` (rompía M02 en la P00) y barrido de arranque de 96 entrypoints | REVISIÓN (#808) |
 | T-339 | Test de CI: `--help` de todos los entrypoints por ruta en subproceso limpio | LISTA (Coordinador) |
+| T-342 | Puerta del histórico en código (≤0,1 %, 2011 con los valores de D-70 por provincia, contraste BOE por partido con tolerancia 0,10, cobertura total) | HECHA (#812) |
+| T-343 | Mapa espejo→sigla BOE por elección y provincia para el contraste, con fuente y sha256 (no toca D-20) | LISTA (Coordinador) |
+| T-344 | Solo lectura: por qué cambió el seccionado 2025 de aut11 en r4 y si cambia M06 | EN CURSO; bloquea los 70 de r4 |
 | T-340 | Ficha del paso A del histórico con Condición previa, Puerta y Mapa según D-115 (si el código no implementa la puerta, abre tarea) | EN CURSO (Coordinador) |
 | T-341 | Actualización del plan 1.0.49 | REVISIÓN (#810) |
 
@@ -336,7 +340,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327 y T-341. El planificador ha dado T-194 a T-341 (10 a 15-11; T-277 y T-292 sin usar; T-331 a T-340 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-342.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327 y T-341. El planificador ha dado T-194 a T-344 (10 a 15-11; T-277 y T-292 sin usar; T-331 a T-340 y T-342 a T-344 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-345.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
