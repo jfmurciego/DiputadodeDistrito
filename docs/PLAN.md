@@ -268,7 +268,7 @@ Fase 4 — producto (en el privado):
 - D-117 (15-11, propietario). Padrón 65034 (endpoint dinámico): el P10 lo descarga siempre, compara su sha256 con la copia de R2 y para si cambia; los ficheros con fecha fiable siguen con consulta sin descarga (matiza D-112).
 - D-118 (15-11, propietario). Noche del 29-11: se ensaya con el formato Minsait supuesto (sin documento oficial); si esa noche el provisional no encaja, se publica solo con `infoelectoral_mesas` definitivo (matiza D-99).
 
-### Cola T-291 a T-339 (14 y 15-11)
+### Cola T-291 a T-340 (14 y 15-11)
 | Id | Qué | Estado |
 |---|---|---|
 | T-291 | Equivalencia de seccionados 2026→2023 en M07 7.4.0, adaptador, 03 y votos por partido de 2026 (D-65, D-99) | HECHA (#749 #750 #752 #754) |
@@ -318,6 +318,7 @@ Fase 4 — producto (en el privado):
 | T-337 | `preflight_preparacion_fuente` (l.110) acepta variantes de id en nombres de artefacto: estricto, sin alias | PENDIENTE (tras la P50) |
 | T-338 | Cargador de `ddd_core/territorio_ids.py` sin `sys.modules` (rompía M02 en la P00) y barrido de arranque de 96 entrypoints | REVISIÓN (#808) |
 | T-339 | Test de CI: `--help` de todos los entrypoints por ruta en subproceso limpio | LISTA (Coordinador) |
+| T-340 | Actualización del plan 1.0.49 | REVISIÓN (esta PR) |
 
 ### Frentes y camino crítico (14-11)
 1. Regeneración Deslinde 1.1: r3 CERRADA (PARADA: sus P10 reutilizaron paquetes con id antiguo). r4 (`docs/autorizaciones/2026-11-15_deslinde11-r4.md`, frase del propietario 15-11 08:52): piloto aut11 con P10 real; su P00 falló por T-338; tras #808 y main verde, frase de reanudación y segundo intento de aut11 (D-114) → P10 de los 71 → archivado → P00 de prueba de aut11 → tandas de 5 → P50 en lotes ≤ 12 (sube V3, padrón, ficha de procedencia y composiciones).
@@ -334,7 +335,7 @@ Frase de reanudación de r3: DADA en el chat del Operador, condicionada a #786 y
 ### Identificadores
 T-116 a T-127 los dio el planificador (despliegue de `/v2/`, registro, visor v2, Barcelona, histórico autonómico, fixture,
 Gestor histórico, reintentos, mapa 350 fuera del registro, Zenodo). T-128 a T-170 están delegados al Coordinador, que los
-asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327 y 1.0.49 (sin id). El planificador ha dado T-194 a T-339 (10 a 15-11; T-277 y T-292 sin usar; T-331 a T-339 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-340.
+asigna y los anota en `docs/ESTADO.md` (ampliado hasta T-190). Las actualizaciones del plan son T-171, T-191, T-192, T-193, T-204, T-209, T-219, T-236, T-266, T-290, T-317, T-321, T-324, T-327 y T-340. El planificador ha dado T-194 a T-340 (10 a 15-11; T-277 y T-292 sin usar; T-331 a T-339 los dio el Coordinador con acuerdo del Planificador). Siguiente libre: T-341.
 
 ## 0. Estado al cierre del 07-11 (17:15)
 - En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
