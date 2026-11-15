@@ -97,6 +97,13 @@ class CheckpointReanudacion(unittest.TestCase):
 
 
 class WorkflowPermisos(unittest.TestCase):
+    def test_puerta_falla_si_la_adquisicion_fallo(self):
+        txt = WORKFLOW.read_text(encoding="utf-8")
+        i = txt.index("name: Aplicar puerta de preparación")
+        paso = txt[i:txt.index("  m01:", i)]
+        self.assertIn("ACQUIRE_OUTCOME: ${{ steps.acquire.outcome }}", paso)
+        self.assertIn('[[ "$ACQUIRE_OUTCOME" != failure ]]', paso)
+
     def test_chown_antes_del_cp_y_cp_no_silencioso(self):
         txt = WORKFLOW.read_text(encoding="utf-8")
         i = txt.index("name: Resolver y materializar fuentes declaradas")
@@ -141,6 +148,35 @@ class SelectorCLIyP10(unittest.TestCase):
         self.assertEqual(rc, 0)
         self.assertIn("reused_candidate=false", out)
         self.assertIn("ADQUIRIRÁ", summ)
+
+    def test_cadena_completa_id_viejo_rc3_y_adquisicion_real(self):
+        """rc 3 → el directorio de trabajo queda limpio → execute_source_policy adquiere (no lee el paquete viejo)."""
+        import os
+        import subprocess
+        with tempfile.TemporaryDirectory() as td:
+            cwd = Path(td)
+            build_package(cwd / ".ddd-source-package", territory=VIEJO)
+            out, summ = cwd / "out.txt", cwd / "summary.md"
+            out.touch(); summ.touch()
+            env = dict(os.environ, PYTHONPATH=str(ROOT), TERRITORY_ID=CANON, EDITION="2025", POPULATION_YEAR="2025",
+                       SECTION_YEAR="2025", REGISTERED_RUN_ID="1", REGISTERED_ARTIFACT_NAME="x",
+                       GITHUB_OUTPUT=str(out), GITHUB_STEP_SUMMARY=str(summ))
+            r = subprocess.run(["bash", "-eo", "pipefail", "-c", self._cola_del_paso()], cwd=cwd, env=env,
+                               capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertIn("reused_candidate=false", out.read_text())
+            self.assertFalse((cwd / ".ddd-source-package").exists())
+            llamadas = []
+
+            def downloader(working: Path) -> dict:
+                llamadas.append(1)
+                raise RuntimeError("ACQUIRE_REAL")
+
+            with self.assertRaisesRegex(RuntimeError, "ACQUIRE_REAL"):
+                execute_source_policy(requested_edition=2025, working=cwd / ".ddd-source-package",
+                                      checkpoint_in=None, checkpoint_out=cwd / "ck", official_available=True,
+                                      downloader=downloader, expected_records=None)
+            self.assertEqual(len(llamadas), 1)
 
     def test_paquete_canonico_se_reutiliza_y_lo_dice(self):
         rc, out, summ, _ = self._ejecutar(CANON)

@@ -2,7 +2,7 @@
 # CLASE: reutilizable interno — generación territorial
 # VERSIÓN: 1.5.3
 # CAMBIOS 1.5.3 (T-336): «Resolver y materializar fuentes declaradas» devuelve al usuario del runner la evidencia que escribe docker
-#   (root) ANTES del cp, y un cp fallido ya no pasa en silencio (dejaba source_execution.json viejo); un paquete de fuentes
+#   (root) ANTES del cp, y un cp fallido ya no pasa en silencio (dejaba source_execution.json viejo); «Aplicar puerta de preparación» falla si steps.acquire falló (tras publicar la evidencia); un paquete de fuentes
 #   cuyo territory_id no es EXACTAMENTE el canónico se rechaza/re-adquiere en las herramientas (sin alias ni reescritura).
 # CAMBIOS 1.5.2 (T-297, Deslinde 1.1): el P30 instala además ortools y sus dependencias (requirements-exacto.lock,
 #   versión exacta con hashes) SIN dependencias, para el candidato exacto; el entorno base no cambia.
@@ -370,8 +370,12 @@ jobs:
       - name: Aplicar puerta de preparación
         if: always()
         shell: bash
+        env:
+          ACQUIRE_OUTCOME: ${{ steps.acquire.outcome }}
         run: |
           set -euo pipefail
+          # T-336: la evidencia ya se publicó; si la adquisición/materialización falló, el job falla aunque el evaluador lea algo.
+          [[ "$ACQUIRE_OUTCOME" != failure ]] || { echo '::error::La adquisición o materialización de fuentes falló (steps.acquire); no se continúa con la evidencia que haya quedado.'; exit 42; }
           test -f .ddd-sources/decision_preparacion.json || { echo '::error::No existe decisión de preparación.'; exit 41; }
           python - <<'PY'
           import json

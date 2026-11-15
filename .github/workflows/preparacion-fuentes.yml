@@ -369,6 +369,8 @@ jobs:
               echo "- Paquete registrado: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID)"
               echo "- Motivo: territory_id del paquete distinto del canónico $TERRITORY_ID"
             } >> "$GITHUB_STEP_SUMMARY"
+            # El paquete viejo NO debe quedar en el directorio de trabajo: la política lo leería y devolvería REUSE.
+            rm -rf .ddd-source-package
             echo "reused_candidate=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi

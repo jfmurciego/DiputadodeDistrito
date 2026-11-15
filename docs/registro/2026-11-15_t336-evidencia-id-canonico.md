@@ -17,6 +17,10 @@ fallando; cinturón que falla (rc 46) si se reutilizara un id no canónico; el r
 reanudación (`validar_fuentes_reanudacion.py`) bloquea un checkpoint con id no canónico (nunca adquiere). Helper común
 `politica_reutilizacion_fuentes.paquete_territory_mismatch`.
 
+El paquete rechazado (rc 3) se borra del directorio de trabajo antes de adquirir (si no, `execute_source_policy` lo leería y devolvería REUSE).
+Un paquete con id legacy y otro defecto sale con rc 2 y el P10 falla (coherente con «otro rechazo sigue fallando»). El reutilizable 1.5.3 falla en
+«Aplicar puerta de preparación» (tras publicar la evidencia) si `steps.acquire` falló; el `continue-on-error` del acquire se conserva para publicar el diagnóstico.
+
 **Hallazgos.** `preflight_preparacion_fuente.py` l.158/182 leen recibos electorales del catálogo (no alimentan al evaluador de fuentes); l.110 acepta
 nombres de artefacto con variantes de id (`variantes`): no se toca aquí (el contenido del paquete manda).
 
