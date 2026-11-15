@@ -6,7 +6,7 @@
 
 **Granularidad.** El espejo se decide fuente a fuente: un paquete puede mezclar fuentes del espejo y de la Xunta, cada una verificada por separado (sha256 del índice, y `expected_sha256` si se declara); un espejo roto o no verificado cae a la URL oficial.
 
-**Huellas.** El propietario bajó las 4 fuentes desde Windows (HTTP 200); sha256 y bytes ya están en el índice (la nube sigue sin llegar a la Xunta: conexión reseteada). Falta subir los objetos a R2 con el script; al pegar su JSON se contrastan sus sha256 con los del índice. Hasta entonces el espejo no se usa y la 03 va a la Xunta como hoy.
+**Huellas.** El propietario bajó las 4 fuentes desde Windows (HTTP 200); sha256 y bytes ya están en el índice (la nube sigue sin llegar a la Xunta: conexión reseteada). El propietario subió los 4 objetos a R2 (2026-11-15, HTTP 200) y su JSON coincide con el índice (sha256, bytes, clave). **Comprobación de la lectura real (la lanza el Operador, no esta PR):** una 03 de aut12 con credenciales R2; en el manifiesto del paquete, `checker_decision.selected_sources[*].origin` debe ser `r2_mirror` en las 4, con los sha256 del índice. La CI sin secretos solo cubre el fail-closed.
 
 **Pruebas.** `tests.test_t354_espejo_galicia` (aut12; sin red, misma huella espejo/oficial, nombres derivados de la declaración), t299, galicia_electoral_vigente, t349_flujo, t220_renombrado.
 
