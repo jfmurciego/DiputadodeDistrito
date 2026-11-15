@@ -122,7 +122,8 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                     territory_id="aut12",
                     edition="2025",
                     run_id=str(electoral_source["run_id"]),
-                    artifact_name=electoral_source["artifact_name"],
+                    # T-349: la puerta exige el nombre canónico exacto; el recibo vivo lleva el id viejo (se prepara de nuevo).
+                    artifact_name=f"ddd-electoral-package-aut12-2025-{electoral_source['run_id']}",
                     artifact_digest=electoral_source["artifact_sha256"],
                     expected_digest=electoral_source["artifact_sha256"],
                     params=PARAMS,
@@ -421,7 +422,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                     "territory_id": "aut12",
                     "edition": "2025",
                     "run_id": electoral_source_run,
-                    "artifact_name": f"ddd-electoral-package-galicia-2025-{electoral_source_run}",
+                    "artifact_name": f"ddd-electoral-package-aut12-2025-{electoral_source_run}",
                     "artifact_sha256": "2" * 64,
                     "election_id": "galicia_parlamento_2024",
                 },

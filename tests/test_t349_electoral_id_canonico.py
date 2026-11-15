@@ -229,5 +229,45 @@ fi
         self.assertNotEqual(rc, 0)
 
 
+class InventarioPorRama(unittest.TestCase):
+    """Un test por rama estricta con objetos reales del repo; la tabla committed se regenera idéntica."""
+
+    @classmethod
+    def setUpClass(cls):
+        from herramientas import inventario_ids_no_canonicos as inv
+        cls.inv = inv
+        cls.tabla = inv.construir(ROOT)
+
+    def test_rama_electoral_los_71_registros_reales_con_id_viejo_se_rechazan(self):
+        no_canonicos = {f["territorio"] for f in self.tabla["filas"] if f["rama"] == "electoral_fuente" and not f["canonico"]}
+        self.assertEqual(len(no_canonicos), 71)
+        for a in self.tabla["activacion"]:
+            with self.subTest(territorio=a["territorio"]):
+                self.assertEqual(a["electoral_action"], "ACQUIRE")
+
+    def test_rama_fuentes_territoriales_objeto_real_con_nombre_viejo_se_rechaza(self):
+        catalogo = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        st = next(r for r in catalogo["territories"] if r["territory_id"] == CANON)["editions"]["2025"]
+        prep = st["preparation_evidence"]
+        viejo = dict(st, preparation_evidence=dict(prep, artifact_name=f"ddd-source-package-{VIEJO}-2025-{prep['run_id']}"))
+        c = rpl._territorial_candidate(ROOT, CANON, "2025", viejo, 2025, 2025)
+        self.assertFalse(c["reusable"])
+        self.assertIn(c["reason"], {"TERRITORIAL_ID_NO_CANONICO", "TERRITORIAL_RECEIPT_CONTRADICTORY"})
+        self.assertEqual(rpl._territorial_admissibility("ACQUIRE", c) in {"NOT_ACCREDITED", "INCOMPATIBLE"}, True)
+
+    def test_rama_poblacion_va_con_el_paquete_de_fuentes(self):
+        self.assertEqual(self.tabla["ramas"]["poblacion"]["politica"], "ESTRICTA")
+
+    def test_tabla_committed_es_reproducible(self):
+        committed = json.loads((ROOT / "docs/diagnostico/inventario_ids_no_canonicos.json").read_text(encoding="utf-8"))
+        regenerada = json.loads(json.dumps(self.tabla, ensure_ascii=False))
+        regenerada["base_commit"] = committed["base_commit"]  # la base cambia con cada rebase; el resto es determinista
+        self.assertEqual(regenerada, committed)
+
+    def test_ramas_con_alias_quedan_listadas(self):
+        alias = {k for k, v in self.tabla["ramas"].items() if v["politica"] == "ALIAS"}
+        self.assertEqual(alias, {"par_fuentes", "producto_M06", "producto_M08", "composicion_datos", "registro_visor"})
+
+
 if __name__ == "__main__":
     unittest.main()
