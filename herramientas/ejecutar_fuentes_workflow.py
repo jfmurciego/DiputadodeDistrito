@@ -21,7 +21,7 @@ import yaml
 from herramientas.adquirir_fuentes_oficiales import acquire, load_yaml
 from herramientas.compatibilidad_poblacion_seccionado import assert_materialized_territorial_gate
 from herramientas.gestionar_fuentes_checkpoint import execute_source_policy
-from herramientas.politica_reutilizacion_fuentes import parse_acquisition_date
+from herramientas.politica_reutilizacion_fuentes import paquete_territory_mismatch, parse_acquisition_date
 
 BUNDLE_NAME = "prepared_sources.zip"
 FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
@@ -213,6 +213,13 @@ def _manifest_from_acquisition(
     return manifest
 
 
+def checkpoint_territory_mismatch(checkpoint_in: Path | None, territory_id: str) -> list[str]:
+    """T-336: un paquete de checkpoint con id distinto del canónico no se restaura; se adquiere de nuevo."""
+    if checkpoint_in is None:
+        return []
+    return paquete_territory_mismatch(checkpoint_in / "sources", territory_id)
+
+
 def _restore_acquisition_evidence(working: Path, evidence: Path) -> None:
     manifest = json.loads((working / "manifest.json").read_text(encoding="utf-8"))
     bundle = working / str(manifest["path"])
@@ -292,10 +299,17 @@ def main() -> int:
         )
         return manifest
 
+    checkpoint_in = args.checkpoint_in if args.checkpoint_in and args.checkpoint_in.exists() else None
+    stale = checkpoint_territory_mismatch(checkpoint_in, territory_id)
+    if stale:
+        print("::warning::Paquete de fuentes del checkpoint no es del id canónico "
+              f"{territory_id}: se descarta y se adquiere de nuevo (T-336): " + "; ".join(stale))
+        checkpoint_in = None
+
     evidence = execute_source_policy(
         requested_edition=edition,
         working=args.working,
-        checkpoint_in=args.checkpoint_in if args.checkpoint_in and args.checkpoint_in.exists() else None,
+        checkpoint_in=checkpoint_in,
         checkpoint_out=args.checkpoint_out,
         official_available=True,
         downloader=downloader,

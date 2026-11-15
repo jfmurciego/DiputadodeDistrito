@@ -9,6 +9,8 @@ factual. La adquisición queda en manos del adaptador de fuente correspondiente.
 from __future__ import annotations
 
 import hashlib
+import json
+import zipfile
 from datetime import datetime
 from pathlib import Path
 
@@ -88,3 +90,38 @@ def resolve_source_action(*, prepared_manifest: dict | None, root: str | Path,
     if official_available:
         return {"decision": "ACQUIRE", "reason": "no existe copia preparada para la edición solicitada"}
     return {"decision": "BLOCK", "reason": "no existe copia preparada y la fuente oficial no está disponible"}
+
+
+EVIDENCE_DOCS = ("declaracion_materializacion.json", "inventario_fuentes.json", "manifiesto_procedencia.json")
+
+
+def paquete_territory_mismatch(package: Path, territory_id: str) -> list[str]:
+    """T-336: motivos por los que el paquete congelado `package` (dir con manifest.json) no es del id canónico.
+
+    Igualdad EXACTA (sin alias ni reescritura) en el manifiesto y en los tres documentos de evidencia del ZIP.
+    Sin manifiesto no hay nada que comparar (lista vacía).
+    """
+    manifest_path = Path(package) / "manifest.json"
+    if not manifest_path.is_file():
+        return []
+    reasons: list[str] = []
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        declared = str(manifest.get("territory_id") or "").strip()
+        if declared and declared != territory_id:
+            reasons.append(f"manifiesto: territory_id={declared!r} != {territory_id!r}")
+        frozen = Path(package) / str(manifest["path"])
+        if not frozen.is_file() or not zipfile.is_zipfile(frozen):
+            return reasons  # no es un bundle ZIP: sin documentos de evidencia que comparar (la integridad la valida la política)
+        with zipfile.ZipFile(frozen) as archive:
+            for name in EVIDENCE_DOCS:
+                try:
+                    doc = json.loads(archive.read(name).decode("utf-8"))
+                except KeyError:
+                    continue
+                actual = str((doc or {}).get("territory_id") or "").strip()
+                if actual != territory_id:
+                    reasons.append(f"{name}: territory_id={actual or 'vacío'!r} != {territory_id!r}")
+    except Exception as exc:  # paquete ilegible: no se reutiliza
+        reasons.append(f"paquete congelado ilegible: {exc}")
+    return reasons
