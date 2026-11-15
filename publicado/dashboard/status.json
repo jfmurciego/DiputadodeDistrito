@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T18:45:57.348401+00:00",
+  "generated_at": "2026-11-15T18:54:03.255242+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 13,
-      "action_required": 107,
+      "admissible": 15,
+      "action_required": 105,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 13,
+      "activated": 15,
       "activable": 0,
       "territorial_pending": 46,
-      "electoral_pending": 107,
+      "electoral_pending": 105,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 13,
-      "durable_pair": 13
+      "electoral_source": 15,
+      "durable_pair": 15
     },
     "territories": [
       {
@@ -529,20 +529,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/aut10/evidencia/pares_fuentes/2025/dabb1f70e89c22e128269f4ef63f8701763a8e9155a46053330ec0ea42ad10f0.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/aut10/evidencia/pares_fuentes/2025/805e3ce3471495a65eb897b83de722e6d067837ff155c189844eceba0c23687f.json",
+            "pair_sha256": "805e3ce3471495a65eb897b83de722e6d067837ff155c189844eceba0c23687f",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -550,13 +550,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "aut11",
@@ -694,20 +688,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_ID_NO_CANONICO",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/aut13/evidencia/pares_fuentes/2025/4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8.json",
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_ACCREDITED"
+            "current": true,
+            "receipt_path": "territorios/aut13/evidencia/pares_fuentes/2025/51ddba47c9ee9019238dbaa08ef0d18b470e702afb7874b12bdbac901e993d12.json",
+            "pair_sha256": "51ddba47c9ee9019238dbaa08ef0d18b470e702afb7874b12bdbac901e993d12",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -715,13 +709,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_ID_NO_CANONICO"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "aut14",
@@ -7583,13 +7571,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "cataluna",
+          "territory_id": "aut09",
           "territory_name": "Cataluña",
           "edition": "2025",
-          "run_id": 43204706233,
-          "artifact_name": "ddd-state-43204706233-M08",
-          "artifact_sha256": "ad1c430e81079e87ecb970c840b09833514033d01b62a1763f5688f2c635143d",
-          "source_commit": "ec10120c07f1a359b3d9944dda92b0f04be649f5",
+          "run_id": 43748279920,
+          "artifact_name": "ddd-state-43748279920-M08",
+          "artifact_sha256": "c42a094a1e6523f078566e3c052f314751f3c899e8b905d3ca0f2ce6f0789712",
+          "source_commit": "ab1411c4fcfdd242fcd3f90b0497d7bd6f9adb0c",
           "stage": "M08"
         }
       },
@@ -7791,11 +7779,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 43743669986,
       "last_run": {
-        "run_id": 43053498550,
+        "run_id": 43743669986,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
