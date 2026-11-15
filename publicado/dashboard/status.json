@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T18:58:47.721355+00:00",
+  "generated_at": "2026-11-15T19:02:07.325819+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1418,8 +1418,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43650139990,
-            "receipt_path": "territorios/nac07/evidencia/fuentes_territoriales/2025/ea7b07c222103fdec77b72b89fdedd4a3c25426f1a6cc632d8bc191d998adb32/43650139990/receipt.json"
+            "run_id": 43747128619,
+            "receipt_path": "territorios/nac07/evidencia/fuentes_territoriales/2025/af035100aa2a52191379f07421f57e77e9d00785b3781bcaeb53795a2f8b4b82/43747128619/receipt.json"
           }
         },
         "electoral": {
@@ -1532,8 +1532,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43650160733,
-            "receipt_path": "territorios/nac09/evidencia/fuentes_territoriales/2025/c9942ecc2735678c52065cee5bdc6eba2e752a87818c740b382f820cc178ef6e/43650160733/receipt.json"
+            "run_id": 43747154631,
+            "receipt_path": "territorios/nac09/evidencia/fuentes_territoriales/2025/2b6f377798fb70a1ad76fafff042eb5066244fd0d9eb8a8c6402f8ace5053e08/43747154631/receipt.json"
           }
         },
         "electoral": {
@@ -7590,20 +7590,20 @@
       "name": "Comunidad Valenciana",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43743635181,
+      "run_id": 43748866318,
       "last_run": {
-        "run_id": 43743635181,
+        "run_id": 43748866318,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7644,7 +7644,7 @@
       },
       "autonomous_community_code_ine": "10",
       "display_name": "10 Comunidad Valenciana",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "aut11",
@@ -7815,13 +7815,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "madrid",
+          "territory_id": "aut13",
           "territory_name": "Comunidad de Madrid",
           "edition": "2025",
-          "run_id": 43053498550,
-          "artifact_name": "ddd-state-43053498550-M08",
-          "artifact_sha256": "0572aae6f11797a09e2c9cb9a40cd17c94c793d0369ecf9b3e70f9d03986e7dc",
-          "source_commit": "aa9a78955d4f91013be40efdd1fe25e1fba80e0c",
+          "run_id": 43749008571,
+          "artifact_name": "ddd-state-43749008571-M08",
+          "artifact_sha256": "3c98f3d1e8083e8d5f5592bd0115a8050bb2b3fcbab470deaeef8900d5b361e0",
+          "source_commit": "ff469e339d797e2f634795bd870d476d57fd6fba",
           "stage": "M08"
         }
       },
@@ -8585,9 +8585,9 @@
         "territorial_source": {
           "territory_id": "nac07",
           "edition": "2025",
-          "run_id": 43650139990,
-          "artifact_name": "ddd-source-package-nac07-2025-43650139990",
-          "artifact_sha256": "89f50355f86efc4d519aec9fb574f5660f64cdb77b62c70ab64b3661652543a1",
+          "run_id": 43747128619,
+          "artifact_name": "ddd-source-package-nac07-2025-43747128619",
+          "artifact_sha256": "626cce23266a7928afcd14e82c08948185935098317afcd766f51fc426a04a30",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8707,9 +8707,9 @@
         "territorial_source": {
           "territory_id": "nac09",
           "edition": "2025",
-          "run_id": 43650160733,
-          "artifact_name": "ddd-source-package-nac09-2025-43650160733",
-          "artifact_sha256": "b959b7e72e5fed54115a4baccaf29c9b79e04ec5e7c30bd893d0807067755e61",
+          "run_id": 43747154631,
+          "artifact_name": "ddd-source-package-nac09-2025-43747154631",
+          "artifact_sha256": "7039e3f7cf448754a22c021c49fd23a025754a59f1b11918230dc2f7908679cd",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12610,7 +12610,7 @@
     }
   ],
   "kpis": {
-    "complete": 71,
+    "complete": 72,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12621,6 +12621,7 @@
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "09 Cataluña",
+      "10 Comunidad Valenciana",
       "11 Extremadura",
       "14 Región de Murcia",
       "15 Comunidad Foral de Navarra",
@@ -12893,22 +12894,16 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "aut09",
-    "name": "Cataluña",
-    "display_name": "09 Cataluña",
-    "autonomous_community_code_ine": "09",
-    "run_id": 43748279920,
+    "territory_id": "aut10",
+    "name": "Comunidad Valenciana",
+    "display_name": "10 Comunidad Valenciana",
+    "autonomous_community_code_ine": "10",
+    "run_id": 43748866318,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
-    {
-      "territory": "10 Comunidad Valenciana",
-      "territory_id": "aut10",
-      "autonomous_community_code_ine": "10",
-      "action": "incorporar resultados electorales"
-    },
     {
       "territory": "12 Galicia",
       "territory_id": "aut12",
@@ -12950,15 +12945,15 @@
       "territory_id": "congreso350_avila",
       "autonomous_community_code_ine": "R05",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Badajoz",
+      "territory_id": "congreso350_badajoz",
+      "autonomous_community_code_ine": "R06",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
-    {
-      "territory": "10 Comunidad Valenciana",
-      "territory_id": "aut10",
-      "autonomous_community_code_ine": "10",
-      "action": "preparar fuentes electorales"
-    },
     {
       "territory": "12 Galicia",
       "territory_id": "aut12",
