@@ -2,6 +2,7 @@
 # CAMBIOS 2026-11-14 (T-332): contratos `rehearsal: true` (ensayo de las generales 2026-11-29): exigen PROVISIONAL, sin
 #   owner_production_exception, production_eligible y promotion_allowed en false, y el sha256 de un fichero de ensayo
 #   (64 hex, o la marca explícita «PENDIENTE_T333» hasta que el Operador suba el fichero; la 03 falla cerrado). Devuelven `rehearsal`.
+#   Formato del feed Minsait del 29-11: supuesto, sin documento; si no encaja → publicar SOLO con infoelectoral_mesas definitivo (propietario).
 # ANTERIOR (b): legacy/herramientas/resolver_contrato_minsait_provisional_pre_ensayo_20261114.py
 # CAMBIOS 2026-10-29: owner_production_exception (decided_at, rationale, evidence, max_delta_ratio)
 #   hace production_eligible=true si la diferencia con el definitivo no supera el máximo.

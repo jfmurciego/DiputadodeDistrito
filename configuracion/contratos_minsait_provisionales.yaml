@@ -6,6 +6,8 @@
 #   codigo_ccaa, codigo_provincia, codigo_municipio, codigo_distrito, codigo_seccion, codigo_mesa, partido, votos) está SUPUESTO a partir
 #   de los dos CSV Minsait/EleccionesDB ya usados: 01-andalucia.csv (sha256 13ffb00b…ac21) y 11-extremadura.csv (sha256 d09a4ad4…003d),
 #   contratos de este fichero. Si el feed real difiere, el adaptador falla cerrado (columnas, totales o sha256) y hay que revisarlo esa noche.
+#   DECISIÓN DEL PROPIETARIO (ensayo 29-11): se ensaya con el formato SUPUESTO; si el feed provisional de esa noche no encaja con él,
+#   se publica SOLO con infoelectoral_mesas definitivo (no se adapta el formato esa noche).
 # ANTERIOR (b): legacy/configuracion/contratos_minsait_provisionales_pre_ensayo_20261114.yaml
 # CAMBIOS 2026-10-29: owner_production_exception permite usar en producción un contrato provisional
 #   cuando el propietario lo decide y la diferencia con el definitivo no supera max_delta_ratio.
