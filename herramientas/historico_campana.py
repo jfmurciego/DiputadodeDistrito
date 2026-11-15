@@ -4,7 +4,7 @@
 
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.4.0 · FECHA: 2026-11-15 · ESTADO: candidato
-CAMBIOS 1.4.0 (T-342): puerta del histórico por territorio y elección (ficha 2026-11-14_historico-paso-a-49x6): M07 PASS, o
+CAMBIOS 1.4.0 (T-342): alias BOE→T-97 (configuracion/homologacion_siglas_boe_espejo.csv) para la cobertura total; puerta del histórico por territorio y elección (ficha 2026-11-14_historico-paso-a-49x6): M07 PASS, o
   PASS_WITH_DECLARED_EXCEPTIONS con votos sin asignar ≤ 0,1 % (2011: Alicante, Lugo, León, Orense y Asturias heredan D-70, tope 0,54 %),
   Y contraste por provincia y por partido con cobertura total (partido sin homologar → falla) (el CSV solo trae partidos con escaño estatal) con el CSV oficial del BOE (`configuracion/resultados_oficiales_congreso_<año>.csv`) con la TOLERANCIA de
   cuadre_historico_espana.py (0,10; el espejo nunca supera a la oficial). Falla cerrado: sin CSV BOE, sin reconciliación o sin el espejo, sin la provincia
@@ -127,6 +127,34 @@ def _tolerancia() -> float:
     return cu.TOLERANCIA
 
 
+ALIAS_BOE = "configuracion/homologacion_siglas_boe_espejo.csv"
+T97 = "datos/homologacion_siglas/homologacion_siglas_generales.csv"
+
+
+def _alias(clave: str, root: Path) -> dict:
+    """{sigla BOE: {partido homologado T-97, …}} de la elección (T-342). Es un puente BOE→T-97: el espejo se resuelve con la tabla T-97
+    (sigla_fuente→partido_homologado, decidida en D-20), sin cambiar su semántica."""
+    ruta = root / ALIAS_BOE
+    out: dict = {}
+    if ruta.is_file():
+        with ruta.open(encoding="utf-8", newline="") as fh:
+            for r in csv.DictReader(fh):
+                if r["eleccion"] == clave:
+                    out.setdefault(r["sigla_boe"], set()).add(r["partido_homologado"])
+    return out
+
+
+def _hom(clave: str, provincia: str, root: Path) -> dict:
+    ruta = root / T97
+    out: dict = {}
+    if ruta.is_file():
+        with ruta.open(encoding="utf-8", newline="") as fh:
+            for r in csv.DictReader(fh):
+                if r["eleccion"] == clave and r["provincia"] == provincia:
+                    out[r["sigla_fuente"]] = r["partido_homologado"]
+    return out
+
+
 def contraste_boe(clave: str, provincia: str | None, espejo: Path | None, root: Path = ROOT) -> dict:
     """Contraste, por partido, del total provincial del espejo (el fichero data/<elección>/sekzioa/<cpro>.json que usa el paso A)
     con el CSV oficial del BOE, con la regla de fnb.contrastar_provincia y la TOLERANCIA de cuadre_historico_espana. El CSV solo trae
@@ -147,7 +175,17 @@ def contraste_boe(clave: str, provincia: str | None, espejo: Path | None, root: 
         oficial = {x["partido"]: int(x["votos"]) for x in csv.DictReader(fh) if x["codigo"] == provincia}
     if not oficial:
         return {**r, "motivo": "PROVINCIA_SIN_OFICIAL"}
-    c = fnb.contrastar_provincia(fnb.totales_provincia(json.loads(Path(espejo).read_text(encoding="utf-8"))), oficial, tol)
+    tot = fnb.totales_provincia(json.loads(Path(espejo).read_text(encoding="utf-8")))
+    alias, hom, usados = _alias(clave, root), _hom(clave, provincia, root), {}
+    directas = set(tot) & set(oficial)
+    for b, v in oficial.items():  # sigla BOE sin sigla igual en el espejo: alias BOE→T-97, suma de las siglas del espejo con ese partido
+        if b in tot or b not in alias:
+            continue
+        ss = sorted(x for x in tot if x not in directas and hom.get(x) in alias[b])
+        if ss:
+            tot[b] = sum(tot[x] for x in ss)
+            usados[b] = ss
+    c = fnb.contrastar_provincia(tot, oficial, tol)
     if not c["comparaciones"]:
         return {**r, "metodo": METODO_CONTRASTE, "motivo": "SIN_PARTIDOS_COMPARABLES", "sin_homologar": c["sin_homologar"]}
     dif = max(x["defecto"] for x in c["comparaciones"].values())
@@ -156,7 +194,7 @@ def contraste_boe(clave: str, provincia: str | None, espejo: Path | None, root: 
               else "PARTIDOS_SIN_HOMOLOGAR" if c["sin_homologar"] else None)
     return {**r, "metodo": METODO_CONTRASTE, "diferencia": dif, "ok": motivo is None, "comparados": len(c["comparaciones"]),
             "sin_homologar": c["sin_homologar"], "errores": c["errores"], "avisos": c["avisos"],
-            **({"motivo": motivo} if motivo else {})}
+            **({"alias": usados} if usados else {}), **({"motivo": motivo} if motivo else {})}
 
 
 def puerta_json(territorio: str, clave: str, mapa: str, ra: int, rb: int | None, salida: Path, extra: dict | None = None,

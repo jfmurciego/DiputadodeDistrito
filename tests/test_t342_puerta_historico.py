@@ -69,6 +69,26 @@ class Puerta(unittest.TestCase):
         p = hc.puerta_json("nac01", "201911", "2023", 0, None, FX / "pass", None, "01", cob, FX / "pass/espejo.json")
         self.assertEqual(p["estado"], "FAIL")
 
+    def test_alias_aplicado_ausente_y_dudoso(self):
+        a = FX / "raiz_alias"
+        c = hc.contraste_boe("201911", "01", a / "espejo.json", a)  # BOE «PSOE» = espejo «PSE-EE (PSOE)» por T-97
+        self.assertEqual((c["ok"], c["alias"], c["sin_homologar"]), (True, {"PSOE": ["PSE-EE (PSOE)"]}, []))
+        self.assertEqual(c["diferencia"], 0.025)  # mayor defecto: BBB (400000 → 390000)
+        c = hc.contraste_boe("201911", "01", a.with_name("raiz_alias_ausente") / "espejo.json", a.with_name("raiz_alias_ausente"))
+        self.assertEqual((c["ok"], c["motivo"], c["sin_homologar"]), (False, "PARTIDOS_SIN_HOMOLOGAR", ["PSOE"]))
+        d = a.with_name("raiz_alias_dudoso")  # alias hacia una sigla que no cuadra en votos: no se acepta
+        c = hc.contraste_boe("201911", "01", d / "espejo.json", d)
+        self.assertEqual((c["ok"], c["motivo"]), (False, "DEFECTO_SOBRE_TOLERANCIA"))
+
+    def test_tabla_de_alias_versionada_es_coherente(self):
+        import csv
+        with (ROOT / hc.ALIAS_BOE).open(encoding="utf-8", newline="") as fh:
+            filas = list(csv.DictReader(fh))
+        self.assertEqual(list(filas[0]), ["eleccion", "sigla_boe", "partido_homologado", "fuente", "nota"])
+        self.assertEqual(len({(f["eleccion"], f["sigla_boe"], f["partido_homologado"]) for f in filas}), len(filas))
+        self.assertTrue(all(f["fuente"].startswith("BOE-A-") and "PENDIENTE" not in f["nota"] for f in filas))
+        self.assertTrue(set(f["eleccion"] for f in filas) <= set(hc.OFICIAL_BOE))
+
     def test_m07_pass_sin_source_votes_falla(self):
         self.assertEqual(puerta("sin_source", "201911", "nac01", "01")["estado"], "FAIL")
 
