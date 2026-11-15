@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "andalucia",
+  "territory_id": "aut01",
   "territory_name": "Andalucía",
   "edition": "2025",
-  "run_id": 43107035084,
-  "artifact_name": "ddd-state-43107035084-M06",
-  "artifact_sha256": "c5ffbc5fbfbd2809223617f295a7f05eaacdd60141673a216bfbde721d76cfc7",
-  "source_commit": "8e4e268e0dfb5e353a381456bfdee5c8133fc509",
+  "run_id": 43728682179,
+  "artifact_name": "ddd-state-43728682179-M06",
+  "artifact_sha256": "43137bb9b90954950fa73a73727b3d833dbd15e8746594c555295a3d2caab995",
+  "source_commit": "392c5bcf00332652a58e45f3526b2e9c37876272",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/andalucia/evidencia/generaciones_m06/43107035084.json"
+  "producer_manifest_path": "territorios/aut01/evidencia/generaciones_m06/43728682179.json"
 }
