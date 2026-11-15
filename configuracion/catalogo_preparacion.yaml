@@ -1130,6 +1130,7 @@ territories:
         territorial_product: territorios/nac10/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac10/evidencia/pares_fuentes/2025/f8f3ff6511a15e7f73e802dfcc54dd45b8e5c296b6c408c88e6fc85504399b79.json
         electoral_product: territorios/nac10/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac10/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: nac11
   name: Congreso Cádiz
