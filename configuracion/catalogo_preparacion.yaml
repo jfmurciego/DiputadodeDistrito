@@ -1971,25 +1971,24 @@ territories:
         run_id: 43016113065
         stage: M08
       preparation_evidence:
-        run_id: 41240887712
-        artifact_name: ddd-source-package-congreso_orense-2025-41240887712
-        artifact_sha256: 6649836bde1fa498f0f10663bbf1cb723449810f009a272e7851bf47a42cd541
+        run_id: 43662680429
+        artifact_name: ddd-source-package-nac32-2025-43662680429
+        artifact_sha256: a4ee99065570142896238aa00498dfc27f32ac3d6b58d40948e146ae7f3b1ac5
         package_sha256: 29f140b521f9a4b66d6602b58d886e767192ea51135309eac1c25dca33ffb716
-        receipt_path: territorios/nac32/evidencia/fuentes_territoriales/2025/b576d91998274f9664dd3f48f3c270031efe5ccff3f2eb2c958904baec001c31/41240887712/receipt.json
-        territorial_identity_sha256: b576d91998274f9664dd3f48f3c270031efe5ccff3f2eb2c958904baec001c31
+        receipt_path: territorios/nac32/evidencia/fuentes_territoriales/2025/eb237b8a2cdceb0b828a0838cc0c7818c6c4067e47130d0fccb10d20821ba539/43662680429/receipt.json
+        territorial_identity_sha256: eb237b8a2cdceb0b828a0838cc0c7818c6c4067e47130d0fccb10d20821ba539
         compatibility_report_sha256: 6fc44a9340070e6986e04cd5dc12db84de691968e4db599d609d0f80f031f4e7
         compatibility_identity_sha256: 4aaaeaa30514e76a30e805918e5c4f0a6d0bb384e244411b0819eea619e6bbbd
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 1ab4f4f74dc0f561a94b2b39223b12a0e30c0392
+        source_commit: e9a5d584f58ec802b5a7408295be4cecbb8ec159
       evidence:
         electoral_source: territorios/nac32/evidencia/fuentes_electorales/2025/e6d0f9c9083e2b30b604145d2f2e05adf93b1fff3c51244f45d136c9440ae829/41239892753/receipt.json
-        generation_preflight: territorios/nac32/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac32/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac32/evidencia/pares_fuentes/2025/69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696.json
         electoral_product: territorios/nac32/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac33
   name: Congreso Asturias
   editions:
