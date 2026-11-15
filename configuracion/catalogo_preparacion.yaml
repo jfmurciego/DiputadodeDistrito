@@ -2594,25 +2594,24 @@ territories:
         run_id: 43040430397
         stage: M08
       preparation_evidence:
-        run_id: 41293083498
-        artifact_name: ddd-source-package-congreso_vizcaya-2025-41293083498
-        artifact_sha256: d62c95ac6b4adf8e15b569cfb0a4d779c08bd94e3c2474c04d4a31f9b5c1878f
+        run_id: 43664106564
+        artifact_name: ddd-source-package-nac48-2025-43664106564
+        artifact_sha256: c54b9fa265f81b1148cf1d5f9f55ac7a9ebbf61a9f23de33d7f5705fcbde2696
         package_sha256: f2735556ec3e819fcf833dd36f5111d4f8f1a4a3ef39ce3119f702a526f170da
-        receipt_path: territorios/nac48/evidencia/fuentes_territoriales/2025/19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68/41293083498/receipt.json
-        territorial_identity_sha256: 19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68
+        receipt_path: territorios/nac48/evidencia/fuentes_territoriales/2025/ae559a0881725fe62f44fe19130de7c6922944ec3b29056a433a6c089a487351/43664106564/receipt.json
+        territorial_identity_sha256: ae559a0881725fe62f44fe19130de7c6922944ec3b29056a433a6c089a487351
         compatibility_report_sha256: 988612974772ea0e9600b78024eae5328d931059b889b90c9a90709df80ac53b
         compatibility_identity_sha256: a1826fb60e8ed52a908fc0f210e4409e6dbde8878f5ff33ba79e8a686ba6bf55
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
+        source_commit: d2ddfc0d38fed952613a57cbbaf468e90d25882c
       evidence:
         electoral_source: territorios/nac48/evidencia/fuentes_electorales/2025/4011658bdfb867288263aab9cc7621a987b1b569a1e3bdfc71d60a733d8fea6b/41239947749/receipt.json
-        generation_preflight: territorios/nac48/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/nac48/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac48/evidencia/pares_fuentes/2025/a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939.json
         electoral_product: territorios/nac48/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: nac49
   name: Congreso Zamora
   editions:
