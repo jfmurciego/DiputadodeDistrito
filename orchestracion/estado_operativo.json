@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-15T21:04:54.857074+00:00",
+  "generated_at": "2026-11-15T21:13:10.237157+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1574,8 +1574,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43749649445,
-            "receipt_path": "territorios/nac11/evidencia/fuentes_territoriales/2025/60ef7e88aa1fdd17f6e4412910549cc707edc13993412a4617506027540e3db8/43749649445/receipt.json"
+            "run_id": 43761322715,
+            "receipt_path": "territorios/nac11/evidencia/fuentes_territoriales/2025/60ef7e88aa1fdd17f6e4412910549cc707edc13993412a4617506027540e3db8/43761322715/receipt.json"
           }
         },
         "electoral": {
@@ -1631,8 +1631,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43750088578,
-            "receipt_path": "territorios/nac12/evidencia/fuentes_territoriales/2025/14a8c67a69151edf7a9e9b03d5cdb44d19fc461c010ac0e0d00a0794bfcc8710/43750088578/receipt.json"
+            "run_id": 43761791985,
+            "receipt_path": "territorios/nac12/evidencia/fuentes_territoriales/2025/14a8c67a69151edf7a9e9b03d5cdb44d19fc461c010ac0e0d00a0794bfcc8710/43761791985/receipt.json"
           }
         },
         "electoral": {
@@ -2030,8 +2030,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43652010786,
-            "receipt_path": "territorios/nac19/evidencia/fuentes_territoriales/2025/42b08a34df58de758a5e613785d720572b618519a804764b5b03844245b86c10/43652010786/receipt.json"
+            "run_id": 43758023704,
+            "receipt_path": "territorios/nac19/evidencia/fuentes_territoriales/2025/0eafa1c4a0ffe119f7b75272e967154e1ba0072482b6f73f746d29497ffa6312/43758023704/receipt.json"
           }
         },
         "electoral": {
@@ -2087,8 +2087,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43652021243,
-            "receipt_path": "territorios/nac20/evidencia/fuentes_territoriales/2025/9b632e37e5042735600c2cd0fc2dcccb16120655fb7dd33f81a4de02d571a5a0/43652021243/receipt.json"
+            "run_id": 43758034789,
+            "receipt_path": "territorios/nac20/evidencia/fuentes_territoriales/2025/0f786547908ffcf76f5cc2f2e92736680e9701ccb9587b974acd17b4cd75b315/43758034789/receipt.json"
           }
         },
         "electoral": {
@@ -8311,20 +8311,20 @@
       "name": "Nacional Almería",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43754886944,
+      "run_id": 43760565695,
       "last_run": {
-        "run_id": 43754886944,
+        "run_id": 43760565695,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8365,27 +8365,27 @@
       },
       "autonomous_community_code_ine": "C04",
       "display_name": "Nacional Almería",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac05",
       "name": "Nacional Ávila",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 43755691825,
+      "run_id": 43760758129,
       "last_run": {
-        "run_id": 43755691825,
+        "run_id": 43760758129,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8426,7 +8426,7 @@
       },
       "autonomous_community_code_ine": "C05",
       "display_name": "Nacional Ávila",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac06",
@@ -8475,13 +8475,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_badajoz",
+          "territory_id": "nac06",
           "territory_name": "Congreso Badajoz",
           "edition": "2025",
-          "run_id": 42949289470,
-          "artifact_name": "ddd-state-42949289470-M08",
-          "artifact_sha256": "2c4e02319d54c3a99a0754808a4a7156bfeb483379f9e54719266eb11e3172c9",
-          "source_commit": "2b315a6950733795d24f4a9274556a3ee7a8050e",
+          "run_id": 43761252898,
+          "artifact_name": "ddd-state-43761252898-M08",
+          "artifact_sha256": "baa7b71367a58eb7b7c58222b37eecb1ea8313ba8e70b2f7f99195bdc0427b67",
+          "source_commit": "849a7a28ee6caea7b9b48544ef5e8934b1b8001e",
           "stage": "M08"
         }
       },
@@ -8494,11 +8494,11 @@
       "name": "Nacional Baleares",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42953068884,
+      "run_id": 43757976344,
       "last_run": {
         "run_id": 42953068884,
         "status": "SUCCESS",
@@ -8507,7 +8507,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8521,16 +8521,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_baleares",
+          "territory_id": "nac07",
           "territory_name": "Congreso Baleares",
           "edition": "2025",
-          "run_id": 42940350970,
-          "artifact_name": "ddd-state-42940350970-M06",
-          "artifact_sha256": "a2c096d3602c3cc5f8b886ffb4354590f76a94ee4f0bc2f4af63b392bf46b882",
-          "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+          "run_id": 43757976344,
+          "artifact_name": "ddd-state-43757976344-M06",
+          "artifact_sha256": "328819d105772e87626b4c905f48161ed53326dc7f5596b5b16959b2d4ec7a99",
+          "source_commit": "aee7456f969a1e3d9f0381f03a76b784f68fee64",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_baleares/evidencia/generaciones_m06/42940350970.json"
+          "producer_manifest_path": "territorios/nac07/evidencia/generaciones_m06/43757976344.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8548,7 +8548,7 @@
       },
       "autonomous_community_code_ine": "C07",
       "display_name": "Nacional Baleares",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac08",
@@ -8757,9 +8757,9 @@
         "territorial_source": {
           "territory_id": "nac11",
           "edition": "2025",
-          "run_id": 43749649445,
-          "artifact_name": "ddd-source-package-nac11-2025-43749649445",
-          "artifact_sha256": "153732c22ab61306a98cdfd8167bb3f970d469ad01349760411b2d34650e5b77",
+          "run_id": 43761322715,
+          "artifact_name": "ddd-source-package-nac11-2025-43761322715",
+          "artifact_sha256": "b97f487a3ce270eb63e459a39e72c79ae752ea2795c4e5ecaf50fb6ea8c89c5b",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8818,9 +8818,9 @@
         "territorial_source": {
           "territory_id": "nac12",
           "edition": "2025",
-          "run_id": 43750088578,
-          "artifact_name": "ddd-source-package-nac12-2025-43750088578",
-          "artifact_sha256": "00b6b5f7f2838c72a39004b474cfd2890d61f25578dddab595ddb3bac58f4136",
+          "run_id": 43761791985,
+          "artifact_name": "ddd-source-package-nac12-2025-43761791985",
+          "artifact_sha256": "39d312c2f03cec7859f8b6b934212d8f3b091a0e886491c3643d3c8d81f7ed3e",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9245,9 +9245,9 @@
         "territorial_source": {
           "territory_id": "nac19",
           "edition": "2025",
-          "run_id": 43652010786,
-          "artifact_name": "ddd-source-package-nac19-2025-43652010786",
-          "artifact_sha256": "829024f031869b255f211a15141d9ca1004e46ec3ab89c73a6ab90f7d87e93c3",
+          "run_id": 43758023704,
+          "artifact_name": "ddd-source-package-nac19-2025-43758023704",
+          "artifact_sha256": "f60db6542215386454abd29a5a5d86369b0780254c840f32efceb99c9c87ab1c",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -9306,9 +9306,9 @@
         "territorial_source": {
           "territory_id": "nac20",
           "edition": "2025",
-          "run_id": 43652021243,
-          "artifact_name": "ddd-source-package-nac20-2025-43652021243",
-          "artifact_sha256": "3240a660562f06523c1df9d3aeea10ebc4acb6fef12efdef195c3c54d21d5726",
+          "run_id": 43758034789,
+          "artifact_name": "ddd-source-package-nac20-2025-43758034789",
+          "artifact_sha256": "67bb62c0ac64b103ddbc77fdc837fdc703ee50c9f094d11372aaa490d3d0cdfb",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12538,7 +12538,7 @@
     }
   ],
   "kpis": {
-    "complete": 70,
+    "complete": 71,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12561,7 +12561,8 @@
       "Nacional Álava",
       "Nacional Albacete",
       "Nacional Alicante",
-      "Nacional Baleares",
+      "Nacional Almería",
+      "Nacional Ávila",
       "Nacional Barcelona",
       "Nacional Burgos",
       "Nacional Cáceres",
@@ -12820,13 +12821,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac03",
-    "name": "Nacional Alicante",
-    "display_name": "Nacional Alicante",
-    "autonomous_community_code_ine": "C03",
-    "run_id": 43760040662,
+    "territory_id": "nac05",
+    "name": "Nacional Ávila",
+    "display_name": "Nacional Ávila",
+    "autonomous_community_code_ine": "C05",
+    "run_id": 43760758129,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
@@ -12837,21 +12838,15 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Almería",
-      "territory_id": "nac04",
-      "autonomous_community_code_ine": "C04",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Ávila",
-      "territory_id": "nac05",
-      "autonomous_community_code_ine": "C05",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Badajoz",
       "territory_id": "nac06",
       "autonomous_community_code_ine": "C06",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Baleares",
+      "territory_id": "nac07",
+      "autonomous_community_code_ine": "C07",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12877,6 +12872,12 @@
       "territory_id": "congreso350_almeria",
       "autonomous_community_code_ine": "R04",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Ávila",
+      "territory_id": "congreso350_avila",
+      "autonomous_community_code_ine": "R05",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12887,21 +12888,15 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Almería",
-      "territory_id": "nac04",
-      "autonomous_community_code_ine": "C04",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Ávila",
-      "territory_id": "nac05",
-      "autonomous_community_code_ine": "C05",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Badajoz",
       "territory_id": "nac06",
       "autonomous_community_code_ine": "C06",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Baleares",
+      "territory_id": "nac07",
+      "autonomous_community_code_ine": "C07",
       "action": "preparar fuentes electorales"
     }
   ]
