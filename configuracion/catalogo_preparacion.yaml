@@ -297,8 +297,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 43739255985
-        stage: M06
+        run_id: 43744356991
+        stage: M08
       preparation_evidence:
         run_id: 43739255985
         artifact_name: ddd-source-package-aut07-2025-43739255985
