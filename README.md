@@ -18,7 +18,7 @@ El estado operativo por territorio no está en este documento: lo genera el sist
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-15T23:08:00.828927+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-15T23:09:18.873004+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -69,7 +69,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Castellón** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43761791985 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Ciudad Real** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43762018176 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Córdoba** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43763992154 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
-| **Nacional La Coruña** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42953518518 · SUCCESS | — | — | preparar fuentes electorales |
+| **Nacional La Coruña** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 43764621629 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Nacional Cuenca** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42954007732 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Gerona** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42954957703 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Granada** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42954091088 · SUCCESS | — | — | preparar fuentes electorales |
