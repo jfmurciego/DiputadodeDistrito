@@ -41,7 +41,7 @@ Fecha: 2026-11-16 (madrugada) · Actualizar en cada PR de lecciones o de estado.
 | T-180, T-196 | en curso | Curva de cadenas y batería local de los 71 (ficha r5 y relevo condicionados a la aceptación de las 19) |
 
 ## Reglas vigentes
-- Lanzar y publicar solo con la frase del propietario en el chat del Operador; el «sí» en otro chat no cuenta.
+- Lanzar y publicar solo con la frase del propietario en el chat del Operador; el «sí» en otro chat no cuenta. El entorno `produccion` ya no exige revisor (D-127, desde el 15-11 21:49 UTC, decisión del propietario): la frase D-52 es el único control, no la aprobación en GitHub.
 - Fusionar toda PR en cuanto esté verde (`pruebas` en success sobre el HEAD exacto y `main` en verde), actualizar las siguientes y cerrar los chats obsoletos guardando su aprendizaje (norma habitual, 10-11). Excepciones con frase del propietario: autoridad del Operador, fusión automática y forense, check `veredicto`.
 - El ruleset `proteger-main` exige el check `veredicto` (Revisor), no `pruebas`.
 - Revisión independiente (revisor) antes de fusionar PR de workflows, motor, resolutor de la 00 o muchos tests.
