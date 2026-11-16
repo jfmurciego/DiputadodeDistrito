@@ -1628,8 +1628,10 @@ jobs:
           mkdir -p "$(dirname "$target")"
           cp .ddd-full-run/manifest.json "$target"
           python -m pip install --disable-pip-version-check --quiet PyYAML==6.0.2
+          rc=0
           python -m herramientas.registrar_en_main --rama main --ruta "$target" \
-            --mensaje "chore: registrar ejecución completa de $TERRITORY_ID"
+            --mensaje "chore: registrar ejecución completa de $TERRITORY_ID" || rc=$?
+          [[ "$rc" == 0 ]] || { echo "::error::No se pudo conservar el manifiesto durable (rc=$rc)."; exit 50; }
 
   encadenar_par_y_04:
     # La 04 exige un prepared_source_pair que sólo registra "Activación de Legislatura Vigente".

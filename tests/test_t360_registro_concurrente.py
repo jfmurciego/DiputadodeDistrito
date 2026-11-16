@@ -45,15 +45,21 @@ def _repo(td: Path, catalogo: bool = False) -> Path:
     git(td, "clone", "--quiet", str(remoto), str(semilla))
     git(semilla, "config", "user.name", "t"); git(semilla, "config", "user.email", "t@t")
     (semilla / "orchestracion").mkdir()
-    (semilla / "orchestracion/archivo_r2.json").write_text(
-        json.dumps({"schema": "x", "artefactos": {"base/1": {"sha256": "0" * 64}}}, indent=1) + "\n", encoding="utf-8")
+    _r2(semilla, {"schema": "x", "artefactos": {"base/1": {"sha256": "0" * 64}}})
     (semilla / "configuracion").mkdir()
     (semilla / "configuracion/catalogo.yaml").write_text("territorios: {}\n", encoding="utf-8")
-    if catalogo:
-        (semilla / rm.CATALOGO_PROCEDENCIA).write_text("{}\n", encoding="utf-8")
+    if catalogo:  # catálogo real, regenerado con la herramienta sobre la semilla
+        from herramientas import catalogo_procedencia as cp
+        (semilla / rm.CATALOGO_PROCEDENCIA).write_text(cp.serializar(cp.generar(semilla)), encoding="utf-8")
     git(semilla, "add", "-A"); git(semilla, "commit", "--quiet", "-m", "base")
     git(semilla, "push", "--quiet", "origin", "HEAD:main")
     return remoto
+
+
+def _r2(raiz: Path, doc: dict) -> None:
+    """Mismo formato que el archivista real (indent=2, sort_keys=True)."""
+    (raiz / "orchestracion/archivo_r2.json").write_text(
+        json.dumps(doc, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def _clon(td: Path, remoto: Path, i: int) -> Path:
@@ -67,7 +73,7 @@ def _promover(i: int):
     def aplicar(root: Path) -> None:
         p = root / "configuracion/catalogo.yaml"
         doc = yaml.safe_load(p.read_text(encoding="utf-8")) or {}
-        doc.setdefault("territorios", {})[f"aut{i:02d}"] = {"run_id": 1000 + i}
+        doc.setdefault("territorios", {})[f"aut{i + 1:02d}"] = {"run_id": 1000 + i}
         p.write_text(yaml.safe_dump(doc, sort_keys=True), encoding="utf-8")
     return aplicar
 
@@ -77,11 +83,11 @@ def _cadenas(td: Path, remoto: Path, max_intentos: int, catalogo: bool = True):
     for i, c in enumerate(clones):  # el paso del job deja su cambio en el árbol (como archivo_origen.py)
         p = c / "orchestracion/archivo_r2.json"
         doc = json.loads(p.read_text(encoding="utf-8"))
-        doc["artefactos"][f"aut{i:02d}/{1000 + i}"] = {"sha256": f"{i:064x}"}
+        doc["artefactos"][f"aut{i + 1:02d}/{1000 + i}"] = {"sha256": f"{i:064x}"}
         doc["actualizado_en"] = f"t{i}"
-        p.write_text(json.dumps(doc, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        _r2(c, doc)
         (c / "datos/runs").mkdir(parents=True)
-        (c / f"datos/runs/aut{i:02d}_{1000 + i}.csv").write_text(f"seccion,distrito\n{i},1\n", encoding="utf-8")
+        (c / f"datos/runs/aut{i + 1:02d}_{1000 + i}.csv").write_text(f"seccion,distrito\n{i},1\n", encoding="utf-8")
     barrera = threading.Barrier(CADENAS)
     resultados: dict[int, object] = {}
 
@@ -119,7 +125,7 @@ class RegistroConcurrente(unittest.TestCase):
         self.addCleanup(shutil.rmtree, self.td, ignore_errors=True)
 
     def test_14_cadenas_sin_push_rechazado_ni_perdida(self):
-        remoto = _repo(self.td)
+        remoto = _repo(self.td, catalogo=True)
         res = _cadenas(self.td, remoto, max_intentos=rm.MAX_INTENTOS)
         fallos = {i: r for i, r in res.items() if isinstance(r, Exception)}
         self.assertEqual(fallos, {})
@@ -128,13 +134,17 @@ class RegistroConcurrente(unittest.TestCase):
         self.assertTrue(any(r.intento > 1 for r in res.values()), "sin colisión el test sería vacuo")
         final = _estado_final(self.td, remoto)
         r2 = json.loads((final / "orchestracion/archivo_r2.json").read_text(encoding="utf-8"))
-        esperado = {"base/1"} | {f"aut{i:02d}/{1000 + i}" for i in range(CADENAS)}
+        esperado = {"base/1"} | {f"aut{i + 1:02d}/{1000 + i}" for i in range(CADENAS)}
         self.assertEqual(set(r2["artefactos"]), esperado)
         self.assertEqual(r2["schema"], "x")
         cat = yaml.safe_load((final / "configuracion/catalogo.yaml").read_text(encoding="utf-8"))
-        self.assertEqual(cat["territorios"], {f"aut{i:02d}": {"run_id": 1000 + i} for i in range(CADENAS)})
+        self.assertEqual(cat["territorios"], {f"aut{i + 1:02d}": {"run_id": 1000 + i} for i in range(CADENAS)})
         self.assertEqual(len(list((final / "datos/runs").glob("*.csv"))), CADENAS)
         self.assertEqual(int(git(final, "rev-list", "--count", "HEAD")), CADENAS + 1)
+        texto = (final / "orchestracion/archivo_r2.json").read_text(encoding="utf-8")  # formato del archivista intacto
+        self.assertEqual(texto, json.dumps(r2, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
+        from herramientas import catalogo_procedencia as cp  # el versionado no va por detrás del registro
+        self.assertEqual((final / rm.CATALOGO_PROCEDENCIA).read_text(encoding="utf-8"), cp.serializar(cp.generar(final)))
 
     def test_control_negativo_sin_reintento_hay_push_rechazado(self):
         remoto = _repo(self.td)
@@ -155,6 +165,11 @@ class RegistroConcurrente(unittest.TestCase):
     def test_catalogo_de_procedencia_en_el_mismo_commit(self):
         remoto = _repo(self.td, catalogo=True)
         c = _clon(self.td, remoto, 0)
+        # catálogo por detrás de los registros (lo que dejaba el robot aparte): el registro lo repone en su commit
+        (c / "configuracion/catalogo.yaml").write_text("territorios: {aut01: {run_id: 1}}\n", encoding="utf-8")
+        (c / rm.CATALOGO_PROCEDENCIA).write_text("{}\n", encoding="utf-8")
+        git(c, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-am", "registro ajeno sin catálogo")
+        git(c, "push", "-q", "origin", "HEAD:main")
         (c / "datos/runs").mkdir(parents=True)
         (c / "datos/runs/a.csv").write_text("x\n", encoding="utf-8")
         r = rm.registrar(root_dir=c, rama="main", mensaje="x", rutas=["datos/runs"], backoff=None)
@@ -164,6 +179,86 @@ class RegistroConcurrente(unittest.TestCase):
         self.assertEqual(cambiados, {"datos/runs/a.csv", rm.CATALOGO_PROCEDENCIA})
         from herramientas import catalogo_procedencia as cp
         self.assertEqual((final / rm.CATALOGO_PROCEDENCIA).read_text(encoding="utf-8"), cp.serializar(cp.generar(final)))
+
+    def _dos(self, cambiar):
+        remoto = _repo(self.td)
+        a, b = _clon(self.td, remoto, 0), _clon(self.td, remoto, 1)
+        for c, v in ((a, "A"), (b, "B")):
+            doc = json.loads((c / "orchestracion/archivo_r2.json").read_text(encoding="utf-8"))
+            cambiar(doc, v)
+            _r2(c, doc)
+        for c in (a, b):  # b derivó del mismo HEAD que a: su primer push se rechaza y re-aplica su delta
+            rm.registrar(root_dir=c, rama="main", mensaje="x", rutas=["orchestracion/archivo_r2.json"],
+                         backoff=None, catalogo=False)
+        return json.loads((_estado_final(self.td, remoto) / "orchestracion/archivo_r2.json").read_text(encoding="utf-8"))
+
+    def test_misma_clave_gana_el_ultimo_en_registrar(self):
+        r2 = self._dos(lambda d, v: d["artefactos"].__setitem__("aut01/1", {"sha256": v}))
+        self.assertEqual(r2["artefactos"]["aut01/1"], {"sha256": "B"})
+        self.assertIn("base/1", r2["artefactos"])
+
+    def test_borrado_de_clave_se_reaplica_sin_tocar_lo_ajeno(self):
+        def cambiar(d, v):
+            if v == "A":
+                d["artefactos"]["aut02/2"] = {"sha256": "A"}
+            else:
+                d["artefactos"].pop("base/1")
+        r2 = self._dos(cambiar)
+        self.assertEqual(r2["artefactos"], {"aut02/2": {"sha256": "A"}})
+
+    def test_fetch_fallido_se_reintenta(self):
+        remoto = _repo(self.td)
+        c = _clon(self.td, remoto, 0)
+        (c / "datos/runs").mkdir(parents=True)
+        (c / "datos/runs/a.csv").write_text("x\n", encoding="utf-8")
+        real = rm._git
+        fallos = {"n": 0}
+
+        def git_con_corte(root, *args, check=True):
+            if args[0] == "fetch" and fallos["n"] < 2:
+                fallos["n"] += 1
+                return subprocess.CompletedProcess(args, 128, "", "fatal: unable to access: Connection reset")
+            return real(root, *args, check=check)
+        from unittest import mock
+        with mock.patch.object(rm, "_git", git_con_corte):
+            r = rm.registrar(root_dir=c, rama="main", mensaje="x", rutas=["datos/runs"], backoff=None)
+        self.assertEqual((r.estado, r.intento), ("REGISTRADO", 3))
+        with mock.patch.object(rm, "_git", lambda root, *a, check=True: subprocess.CompletedProcess(a, 128, "", "red")
+                               if a[0] == "fetch" else real(root, *a, check=check)):
+            with self.assertRaisesRegex(rm.PushRechazado, "^PUSH_RECHAZADO_TRAS_2: .*fetch: red"):
+                rm.registrar(root_dir=c, rama="main", mensaje="x", rutas=["datos/runs"], backoff=None, max_intentos=2)
+
+    def test_rutas_no_fusionables_se_rechazan_antes_de_empujar(self):
+        remoto = _repo(self.td)
+        c = _clon(self.td, remoto, 0)
+        (c / "configuracion/catalogo.yaml").write_text("territorios: {aut01: 1}\n", encoding="utf-8")
+        with self.assertRaisesRegex(rm.RutaNoFusionable, "RUTA_NO_FUSIONABLE: configuracion/catalogo.yaml"):
+            rm.registrar(root_dir=c, rama="main", mensaje="x", rutas=["configuracion/catalogo.yaml"], backoff=None)
+        git(c, "checkout", "--", "configuracion/catalogo.yaml")
+        (c / "orchestracion/archivo_r2.json").write_text("[1, 2]\n", encoding="utf-8")
+        with self.assertRaisesRegex(rm.RutaNoFusionable, "objeto JSON en la raíz"):
+            rm.registrar(root_dir=c, rama="main", mensaje="x", rutas=["orchestracion/archivo_r2.json"], backoff=None)
+        self.assertEqual(int(git(_estado_final(self.td, remoto), "rev-list", "--count", "HEAD")), 1)
+
+    def test_catalogo_que_no_se_regenera_falla_cerrado(self):
+        remoto = _repo(self.td, catalogo=True)
+        c = _clon(self.td, remoto, 0)
+        (c / "datos/runs").mkdir(parents=True)
+        (c / "datos/runs/a.csv").write_text("x\n", encoding="utf-8")
+        from unittest import mock
+        from herramientas import catalogo_procedencia as cp
+        with mock.patch.object(cp, "generar", side_effect=ValueError("roto")):
+            with self.assertRaisesRegex(rm.CatalogoNoRegenerado, "CATALOGO_PROCEDENCIA_NO_REGENERADO: ValueError: roto"):
+                rm.registrar(root_dir=c, rama="main", mensaje="x", rutas=["datos/runs"], backoff=None)
+        self.assertEqual(int(git(_estado_final(self.td, remoto), "rev-list", "--count", "HEAD")), 1)
+
+    def test_formato_json_del_remoto(self):
+        doc = {"b": 1, "a": {"d": 2, "c": 3}}
+        for indent in (1, 2):
+            for sort_keys in (True, False):
+                texto = json.dumps(doc, ensure_ascii=False, indent=indent, sort_keys=sort_keys) + "\n"
+                if not sort_keys or indent == 2:
+                    self.assertEqual(rm._volcar_json(doc, texto), texto)
 
     def test_delta_json_conserva_lo_ajeno_y_quita_lo_propio(self):
         base = {"a": {"x": 1, "y": 2}, "b": 1}
@@ -248,6 +343,15 @@ class PasosBash(unittest.TestCase):
             ko = self._correr(frag, 75, env)
             self.assertEqual(ko.returncode, rc_fallo, paso)
             self.assertIn("ARCHIVO_ORIGEN_FAILED", ko.stdout)
+
+    def test_manifiesto_conserva_su_salida_50(self):
+        frag = self._fragmento("ejecucion-completa-proyecto.yml", "Conservar manifiesto durable en producción", "rc=0")
+        env = {"TERRITORY_ID": "aut07", "target": "territorios/aut07/evidencia/ejecuciones_completas/1.json"}
+        frag = f"target='{env['target']}'\n" + frag
+        self.assertEqual(self._correr(frag, 0, env).returncode, 0)
+        ko = self._correr(frag, 75, env)
+        self.assertEqual(ko.returncode, 50)
+        self.assertIn("rc=75", ko.stdout)
 
 
 if __name__ == "__main__":
