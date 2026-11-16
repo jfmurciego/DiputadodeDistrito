@@ -1,12 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.10.3
+# VERSIÓN: 1.10.4
 # NOMBRE DE VERSIÓN: Diseño A — suite en paralelo con check agregado `pruebas`
 # FECHA: 2026-11-14
 # ESTADO: vigente
-# ANTERIOR: legacy/workflows/pruebas-plataforma_v1.10.2_20261114.yml
+# ANTERIOR: legacy/workflows/pruebas-plataforma_v1.10.3_20261114.yml
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
-# CAMBIOS: 1.10.3 (T-294): paso Node en el guardián que ejecuta `node --test herramientas/contador_worker/prueba.mjs` (el Docker de
+# CAMBIOS: 1.10.4 (T-326): el contenedor de la suite recibe `DDD_EN_PR=1` solo en pull_request; `test_catalogo_procedencia` compara entonces contra una raíz congelada y el fichero vivo se compara en main, nocturna y «Estado vivo». No cambia qué exige `pruebas` en main.
+#   1.10.3 (T-294): paso Node en el guardián que ejecuta `node --test herramientas/contador_worker/prueba.mjs` (el Docker de
 #   unittest no tiene Node y esa prueba se saltaba). No toca producción ni cambia qué exige `pruebas` salvo esa prueba.
 #   1.10.2 (T-292): paso Node en el runner host del guardián que comprueba el controlador del visor V3
 #   (`node --check` y `tests/test_visor_v3_ui.js`); el Docker de unittest no cambia y no necesita Node.
@@ -147,7 +148,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 --entrypoint python \
+          docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 -e DDD_EN_PR=${{ github.event_name == 'pull_request' && '1' || '' }} --entrypoint python \
             ddd-tests:${GITHUB_SHA} herramientas/repartir_tests.py --grupos "$GRUPOS" --grupo ${{ matrix.grupo }} \
             2>&1 | tee ci-unittest.log
       - name: Probar runtime GerryChain aislado

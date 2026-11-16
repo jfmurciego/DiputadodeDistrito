@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "aut15",
+  "territory_name": "Comunidad Foral de Navarra",
+  "edition": "2025",
+  "run_id": 43752986224,
+  "artifact_name": "ddd-electoral-package-aut15-2025-43752986224",
+  "artifact_sha256": "bdecf835d75c7f2342c278d86bb9fe55b8a3cfefd87e0778906f8855fdef2457",
+  "source_commit": "3dbfa29ade257a464635ef7f47119efb0e5b228b",
+  "election_id": "navarra_parlamento_2023",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-05-28",
+  "electoral_identity_sha256": "b0ded67fd94bf85cdef3d976532bb0d5bf568f87d74037b993dd4546a27fa610"
+}

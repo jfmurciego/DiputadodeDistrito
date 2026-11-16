@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac04",
+  "territory_name": "Congreso Almería",
+  "edition": "2025",
+  "run_id": 43760261427,
+  "artifact_name": "ddd-electoral-package-nac04-2025-43760261427",
+  "artifact_sha256": "fd3efe813b6cb94ae9bca153ac17e23776b3ae970d3a7552d65cd46dc32fd9d1",
+  "source_commit": "c7a6e0c48cdf39a73b0f62ae1f1da16685eb9e6b",
+  "election_id": "congreso_almeria_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "c5ca65c956df41d3a99bdd1f83e3e28c6b53b747ba08e8942b18af4613e78618"
+}

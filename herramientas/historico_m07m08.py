@@ -3,12 +3,16 @@
 """Histórico de generales 2011-2023 por la cadena M07/M08 sobre los distritos vigentes (T-83, paso A).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1 · FECHA: 2026-11-12 · ESTADO: candidato
+VERSIÓN: 1.1.0 · FECHA: 2026-11-15 · ESTADO: candidato
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: D-10 y D-12 del propietario: los resultados históricos pasan por el mismo agregado electoral que 2023
   (M07/M08); la puerta 04 queda solo para publicar.
+CAMBIOS 1.1.0 (T-334): busca el M06 en datos_abiertos/INDEX.json con `en_mapa` (id nuevo o viejo; con nacNN daba KeyError);
+  `MANIFEST_M07.json` guarda la huella del seccionado con la clave neutra `seccionado` (con 2023 ya no es el 2025) y
+  añade `mapa` (`--mapa`, por defecto 2025 como hasta ahora) y `tabla` (sha256 de la tabla de equivalencia declarada en el contrato de cada
+  elección, o null); `huella_seccionado()` lee también `seccionado_2025` de las entradas ya escritas, que no se reescriben.
 CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/historico_m07m08_v1.0.0_20261112.py
+ANTERIOR: legacy/herramientas/historico_m07m08_v1.0.1_20261112.py
 QUÉ HACE: fuera de línea (no lanza ni publica; no toca M01-M06). Por territorio y elección: (1) secciones M06 desde la
   composición publicada (`datos/composicion/<t>.csv`, sección→distrito exacto del M06) y la geometría del seccionado
   INE 2025 (las secciones 2025 recodificadas frente al M06, p. ej. 6 en Badajoz, van al distrito de mayor solape); (2) params temporal con el contrato del paquete de `reagregacion_historico.py --paquete`; (3) ejecuta
@@ -35,7 +39,7 @@ import sys as _sys_t220  # noqa: E402
 from pathlib import Path as _Path_t220  # noqa: E402
 if str(_Path_t220(__file__).resolve().parents[1]) not in _sys_t220.path:
     _sys_t220.path.insert(0, str(_Path_t220(__file__).resolve().parents[1]))
-from ddd_core.territorio_ids import fichero_por_id  # noqa: E402  (T-220: id viejo o nuevo)
+from ddd_core.territorio_ids import fichero_por_id, en_mapa  # noqa: E402  (T-220: id viejo o nuevo)
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = "ddd.historico-m07m08/1.0"
@@ -185,11 +189,31 @@ def escribir_rotacion(path: Path, ganadores: dict) -> None:
             w.writerow([d, *serie, sum(1 for a, b in zip(serie, serie[1:]) if a and b and a != b)])
 
 
+def huella_seccionado(entrada: dict) -> str | None:
+    """Huella del seccionado de una entrada de MANIFEST_M07: `seccionado` (desde 1.1.0) o `seccionado_2025` (entradas anteriores)."""
+    return entrada.get("seccionado") or entrada.get("seccionado_2025")
+
+
+def huella_tabla(contrato: Path) -> str | None:
+    """sha256 de la tabla de equivalencia declarada en el contrato electoral (None si no declara ninguna)."""
+    reg = (json.loads(contrato.read_text(encoding="utf-8")).get("section_reconciliation") or {}).get("equivalence_table")
+    return (reg or {}).get("sha256")
+
+
+def entrada_manifiesto(indice: dict, comp_path: Path, seccionado: Path, mapa: str, inf_secc: dict, informe: dict) -> dict:
+    return {"distritos_m06": {"sha256": indice["sha256_origen"], "run_id": indice["run_id"]},
+            "composicion": {"path": str(comp_path.relative_to(ROOT)), "sha256": sha256(comp_path)},
+            "seccionado": sha256(seccionado), "mapa": mapa,
+            "tabla": {k: v["tabla"] for k, v in informe.items()}, "secciones": inf_secc,
+            "elecciones": {k: {c: x for c, x in v.items() if c != "tabla"} for k, v in informe.items()}}
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--paquete", type=Path, required=True, help="raíz de `reagregacion_historico.py --paquete`")
     ap.add_argument("--territorio", required=True)
-    ap.add_argument("--seccionado", type=Path, required=True, help="seccionado INE 2025 (zip)")
+    ap.add_argument("--seccionado", type=Path, required=True, help="seccionado INE del mapa destino (zip)")
+    ap.add_argument("--mapa", choices=("2023", "2025"), default="2025", help="mapa destino que declara el manifiesto")
     ap.add_argument("--distritos", type=Path, required=True, help="M06 de distritos publicado (zip del blob)")
     ap.add_argument("--composicion", type=Path)
     ap.add_argument("--padron", type=Path, help="INE 65034 (zip): población de las secciones asignadas por solape")
@@ -197,7 +221,9 @@ def main(argv=None) -> int:
     ap.add_argument("--salida", type=Path, default=ROOT / "datos/resultados/historico")
     a = ap.parse_args(argv)
     t = a.territorio
-    indice = json.loads((ROOT / "datos_abiertos/INDEX.json").read_text(encoding="utf-8"))["territorios"][t]
+    indice = en_mapa(json.loads((ROOT / "datos_abiertos/INDEX.json").read_text(encoding="utf-8"))["territorios"], t)
+    if indice is None:
+        raise SystemExit(f"SIN_M06_PUBLICADO {t}")
     if sha256(a.distritos) != indice["sha256_origen"]:
         raise SystemExit(f"HUELLA_M06_DISTINTA {a.distritos}")
     comp_path = a.composicion or fichero_por_id(ROOT / "datos/composicion", "{}.csv", t)
@@ -234,6 +260,7 @@ def main(argv=None) -> int:
                           "votos": rec.get("incorporated_votes"), "perdidos": rec.get("ddd_unassigned_votes"),
                           "hueco_oficial": rec.get("source_gap_to_definitive_ratio"),
                           "paso_b": contraste_b(a.salida, clave, t, resumen),
+                          "tabla": huella_tabla(paq / "contrato.json"),
                           "huellas": {"contrato": sha256(paq / "contrato.json"),
                                       "secciones": sha256(paq / "secciones.csv")}}
         print(t, clave, informe[clave]["m07"], informe[clave]["paso_b"], flush=True)
@@ -242,10 +269,7 @@ def main(argv=None) -> int:
     escribir_rotacion(a.salida / "rotacion" / f"{t}.csv", ganadores)
     mp = a.salida / "MANIFEST_M07.json"
     man = json.loads(mp.read_text(encoding="utf-8")) if mp.exists() else {"schema": SCHEMA, "territorios": {}}
-    man["territorios"][t] = {"distritos_m06": {"sha256": indice["sha256_origen"], "run_id": indice["run_id"]},
-                             "composicion": {"path": str(comp_path.relative_to(ROOT)), "sha256": sha256(comp_path)},
-                             "seccionado_2025": sha256(a.seccionado), "secciones": inf_secc,
-                             "elecciones": informe}
+    man["territorios"][t] = entrada_manifiesto(indice, comp_path, a.seccionado, a.mapa, inf_secc, informe)
     mp.write_text(json.dumps(man, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     ok = all(x["m07"] in {"PASS", "PASS_WITH_DECLARED_EXCEPTIONS"} and not x["paso_b"].get("ganador_distinto")
              for x in informe.values())

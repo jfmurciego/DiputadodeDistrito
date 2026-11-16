@@ -21,7 +21,7 @@ generar`; la CI comprueba que coincide). Si cambia una elección, se regenera; n
    ficha de campaña (ámbito, territorios, mapa, ensemble, publica sí/no, topes, caducidad, FUERA) y pide una sola frase:
    registrada en `docs/autorizaciones/`, cubre el `lanzar` y los `continuar`/reintentos del Gestor solo tras un fallo transitorio y dentro de los topes.
 3. Lanzar: los mismos inputs con `modo=lanzar` (opcional `forzar=true` rehace también los publicados;
-   `max_paralelo`, por defecto 3; `estrategia`). Queda esperando el clic del propietario en `produccion`: uno por campaña.
+   `max_paralelo`, por defecto 3; `estrategia`). Arranca al hacer el dispatch (D-127: `produccion` ya no pide clic; el control es la frase D-52 de la campaña).
    Después, el Gestor (como bot, sin más clics): territorio de prueba si el lote es > 1 (si falla, para); el resto con
    `max_paralelo`; por territorio 00 `publish_result=true` + `lanzado_por_eleccion` (la 00 encadena par → 00 electoral si
    falta) y la 05 del run final si la cadena no publicó. Cerca de las 5 h 20 min se releva con `modo=continuar`.

@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "comunidad_valenciana",
+  "territory_id": "aut10",
   "territory_name": "Comunidad Valenciana",
   "edition": "2025",
-  "run_id": 43025671156,
-  "artifact_name": "ddd-state-43025671156-M06",
-  "artifact_sha256": "fadd4fd51471e88dd62a31a53aacef7e735d2ab0dc74f5a8aad4ca73fc365c88",
-  "source_commit": "6ad5b525a72328c916f98ca06ee6c6035293e440",
+  "run_id": 43743635181,
+  "artifact_name": "ddd-state-43743635181-M06",
+  "artifact_sha256": "632a7dcf23992571faef498d1d79761753d6d2e390a8c86d7a45bac8fe94a98e",
+  "source_commit": "8748d9943141c295abe49eaa4f29e27c653f2674",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/43025671156.json"
+  "producer_manifest_path": "territorios/aut10/evidencia/generaciones_m06/43743635181.json"
 }

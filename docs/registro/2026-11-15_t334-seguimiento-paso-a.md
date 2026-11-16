@@ -1,0 +1,12 @@
+## 2026-11-15 — T-334 — Seguimiento de T-329: manifiesto neutro, puerta con m07/perdidos, tabla verificada y id nuevo
+
+**Causa.** La revisión de T-329 (#799) dejó cuatro excepciones: `MANIFEST_M07.json` rotulaba `seccionado_2025` la huella del seccionado usado (con 2023, falso); la PUERTA no decía si M07 era PASS o PASS_WITH_DECLARED_EXCEPTIONS ni cuántos votos quedaban sin asignar; `registro_tabla` se verificaba contra sí mismo; y la ficha del paso A no avisaba de que el Gestor pasa a 2023 por defecto. Además, al probar con el id que pasa el Gestor (`nac01`) apareció un fallo que ya existía: `_m06` y `historico_m07m08.py` indexaban `datos_abiertos/INDEX.json` (que conserva ids viejos) con el id dado → `KeyError` con cualquier `nacNN`.
+
+**Cambio (solo `herramientas/` y docs; sin motor, sin workflows, sin lanzar).**
+- `historico_m07m08.py` 1.1.0: `MANIFEST_M07.json` guarda `seccionado` (clave neutra), `mapa` (`--mapa`, por defecto 2025) y `tabla` (sha256 de la tabla declarada en el contrato de cada elección); `huella_seccionado()` lee también `seccionado_2025`; las entradas ya escritas no se tocan. M06 del INDEX con `en_mapa`.
+- `historico_campana.py` 1.3.0: `registro_tabla` verifica el sha256 contra `configuracion/equivalencia_seccionado_ine_<año>_a_2023.json` (T-328) y falla cerrado (`TABLA_SHA256_DISTINTO`), también sin ficha; `PUERTA_<t>_<clave>.json` vuelca `m07` (estado tal cual) y `perdidos` (votos sin asignar) vía `puerta_json`; pasa `--mapa` a M07; `_m06` con `en_mapa`.
+- Ficha del paso A: solo una nota informativa al final (el Gestor usa 2023 por defecto; sus límites no cambian y el Planificador/propietario deben actualizar «Condición previa» y «Puerta» antes de activarla).
+
+**Pruebas.** `tests/test_t334_seguimiento_paso_a.py` (rojo antes: no existían `huella_seccionado`, `entrada_manifiesto`, `puerta_json` ni la verificación; el id nuevo daba KeyError). Ejecución local real con `nac01` / 201111: PUERTA `m07=PASS_WITH_DECLARED_EXCEPTIONS`, `perdidos=0`; manifiesto con `seccionado` (sha256 del INE 2023), `mapa=2023` y `tabla`. `test_t220_renombrado`, GovernanceHeaders, `test_t329`, `test_t83a` y `test_t113` en verde.
+
+**Riesgos.** Cambia el nombre de la clave del manifiesto en las entradas nuevas (lectura retrocompatible; nadie más lo lee hoy). Con ids nuevos, una entrada nueva de `MANIFEST_M07.json` se escribe bajo `nacNN` y puede convivir con la antigua `congreso_<x>` de la misma provincia. Sin efecto en huellas ni en la 00. PR `no-automerge`.

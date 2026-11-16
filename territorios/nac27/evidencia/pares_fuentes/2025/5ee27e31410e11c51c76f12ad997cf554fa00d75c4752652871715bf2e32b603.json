@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac27",
+  "territory_name": "Congreso Lugo",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_lugo_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43774262901,
+    "artifact_name": "ddd-source-package-nac27-2025-43774262901",
+    "artifact_sha256": "0d766c865b739197ab76660bce64d1f53e3c938c8dcfd87555e1f7b9413745b4",
+    "package_sha256": "1d46447adda72c80a4506121d4ef281c490bee08115b10694741258d2419da8d",
+    "source_commit": "784638d2e68957a5b56a992253b75140725eb35e",
+    "source_declaration": "territorios/nac27/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac27/evidencia/fuentes_territoriales/2025/43b8b85a44a5d44ae5f0238ffcf4c36770765ba870048a6f977a6360ee7fa83c/43774262901/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "43b8b85a44a5d44ae5f0238ffcf4c36770765ba870048a6f977a6360ee7fa83c",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "31a7ea5e90431ea00cf0951d13de9814d268498ef29c1fb8447cd656c0862da2",
+    "compatibility_identity_sha256": "49d247cdc4d61167a2873bad3b8773fd002bf617c86801460f77fca84de8af22",
+    "remote_verification": {
+      "run_id": 43774262901,
+      "artifact_id": 14185875745,
+      "artifact_name": "ddd-source-package-nac27-2025-43774262901",
+      "artifact_sha256": "0d766c865b739197ab76660bce64d1f53e3c938c8dcfd87555e1f7b9413745b4",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43783695976,
+    "artifact_name": "ddd-electoral-package-nac27-2025-43783695976",
+    "artifact_sha256": "9e509e608fde1c84552dbdbbbadf3f7aa01e98613d9eb70c4588011953e7f9a8",
+    "source_commit": "fbc64d3bde8db99a4dc9c0fe68a8c44733054afe",
+    "receipt_path": "territorios/nac27/evidencia/fuentes_electorales/2025/a5a9ad41f83ad012a1bf135eb551eeaefb1bcf34340c3b8e310655b73a9aed05/43783695976/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_lugo_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "a5a9ad41f83ad012a1bf135eb551eeaefb1bcf34340c3b8e310655b73a9aed05",
+    "remote_verification": {
+      "run_id": 43783695976,
+      "artifact_id": 14189830953,
+      "artifact_name": "ddd-electoral-package-nac27-2025-43783695976",
+      "artifact_sha256": "9e509e608fde1c84552dbdbbbadf3f7aa01e98613d9eb70c4588011953e7f9a8",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "43b8b85a44a5d44ae5f0238ffcf4c36770765ba870048a6f977a6360ee7fa83c",
+  "electoral_compatibility_key": "a5a9ad41f83ad012a1bf135eb551eeaefb1bcf34340c3b8e310655b73a9aed05",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac27/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "5ee27e31410e11c51c76f12ad997cf554fa00d75c4752652871715bf2e32b603"
+}

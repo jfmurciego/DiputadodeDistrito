@@ -1,0 +1,41 @@
+# PROYECTO: Diputado de Distrito
+# COMPONENTE: catálogo de fuentes oficiales
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Seccionado actual estable e histórico anual
+# FECHA: 2026-09-17
+# ESTADO: candidato
+# FUNCIÓN: declarar fuentes oficiales reutilizables sin lógica territorial.
+# CAMBIOS: conserva id estable y distingue la colección INE vigente de las colecciones históricas anuales.
+# MOTIVO: evitar tratar el seccionado del año en curso como histórico y resolver correctamente el endpoint OGC.
+# ANTERIOR: legacy/fuentes/catalogo_oficial_v1.0.0.yaml
+schema: ddd-official-source-catalog/1.1
+sources:
+  poblacion_por_sexo_y_edad:
+    id: poblacion_por_sexo_y_edad
+    business_name: Población por sexo y edad
+    provider: Instituto Nacional de Estadística
+    provider_abbreviation: INE
+    kind: static_csv
+    edition_policy: annual
+    format: csv
+    url: https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv
+    output_name: 65034.csv
+    provenance_required: true
+  secciones_censales:
+    id: secciones_censales
+    business_name: Secciones censales
+    provider: Instituto Nacional de Estadística
+    provider_abbreviation: INE
+    kind: ogc_features
+    edition_policy: annual
+    format: geojson
+    crs: EPSG:4326
+    current_collection: WMS_INE_SECCIONES_G01:SU.VectorStatisticalUnit
+    current_endpoint: https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items
+    collection_template: WMS_INE_SECCIONES_G01:Secciones_{edition}
+    endpoint_template: https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_{edition}/items
+    territorial_filter_field: CPRO
+    feature_filter: "TIPO='SECCION'"
+    section_id_field: CUSEC
+    output_name: secciones_censales_{edition}.geojson
+    provenance_required: true

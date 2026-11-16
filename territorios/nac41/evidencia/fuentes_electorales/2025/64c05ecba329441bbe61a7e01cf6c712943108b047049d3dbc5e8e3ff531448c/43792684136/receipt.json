@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac41",
+  "territory_name": "Congreso Sevilla",
+  "edition": "2025",
+  "run_id": 43792684136,
+  "artifact_name": "ddd-electoral-package-nac41-2025-43792684136",
+  "artifact_sha256": "ff05fceb20684613328bcddebb925318e4f65a1391136d3593f6a4238d67d24a",
+  "source_commit": "4c148d5d1842bf617a3411b43282077ebc38cc8d",
+  "election_id": "congreso_sevilla_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "64c05ecba329441bbe61a7e01cf6c712943108b047049d3dbc5e8e3ff531448c"
+}

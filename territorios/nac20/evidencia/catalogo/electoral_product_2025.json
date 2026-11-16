@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_guipuzcoa",
+  "territory_id": "nac20",
   "territory_name": "Congreso Guipúzcoa",
   "edition": "2025",
-  "run_id": 42955375065,
-  "artifact_name": "ddd-state-42955375065-M08",
-  "artifact_sha256": "270c6fe0515d3bedf929343cdbe93f7b73cb16bc8d23296a619f4688c7a249d3",
-  "source_commit": "8eacf7a707caade026d5db97af02e198d0a90820",
+  "run_id": 43778046777,
+  "artifact_name": "ddd-state-43778046777-M08",
+  "artifact_sha256": "29726ddd1f8b5f9328182a5184ee282a58e78b277289cf93803ba6b5a69876bb",
+  "source_commit": "bf3960e993276ab6f0116bd0ee6a30d6d3501605",
   "stage": "M08"
 }

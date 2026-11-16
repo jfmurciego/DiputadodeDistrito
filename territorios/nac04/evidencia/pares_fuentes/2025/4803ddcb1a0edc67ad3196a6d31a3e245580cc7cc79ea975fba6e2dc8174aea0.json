@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac04",
+  "territory_name": "Congreso Almería",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_almeria_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43754886944,
+    "artifact_name": "ddd-source-package-nac04-2025-43754886944",
+    "artifact_sha256": "f36eafcae946cd328e89035d845b75a0322c533ad7c7a52ac9539921da902b4d",
+    "package_sha256": "2ad06714e3b1beff2ad31043e5ac5271d209341470ff0e74a757fbcd98bb7236",
+    "source_commit": "307d96cf928e328ea9f449c65f630d39ea3ba266",
+    "source_declaration": "territorios/nac04/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac04/evidencia/fuentes_territoriales/2025/be99cdd3abf3cbfe1d2dace2917e03907684fb096d5faf6810d6dcb6a1b6794e/43754886944/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "be99cdd3abf3cbfe1d2dace2917e03907684fb096d5faf6810d6dcb6a1b6794e",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "1085e279cd1cb8d0f4a8646dad4512b236a5922e39772142fb96120ac019d2f4",
+    "compatibility_identity_sha256": "7ce5768fb3157fabd1e9b97e6fe5bd65bc9a07d3c16b982c650bad6ab5b61e3b",
+    "remote_verification": {
+      "run_id": 43754886944,
+      "artifact_id": 14177492685,
+      "artifact_name": "ddd-source-package-nac04-2025-43754886944",
+      "artifact_sha256": "f36eafcae946cd328e89035d845b75a0322c533ad7c7a52ac9539921da902b4d",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43760261427,
+    "artifact_name": "ddd-electoral-package-nac04-2025-43760261427",
+    "artifact_sha256": "fd3efe813b6cb94ae9bca153ac17e23776b3ae970d3a7552d65cd46dc32fd9d1",
+    "source_commit": "c7a6e0c48cdf39a73b0f62ae1f1da16685eb9e6b",
+    "receipt_path": "territorios/nac04/evidencia/fuentes_electorales/2025/c5ca65c956df41d3a99bdd1f83e3e28c6b53b747ba08e8942b18af4613e78618/43760261427/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_almeria_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "c5ca65c956df41d3a99bdd1f83e3e28c6b53b747ba08e8942b18af4613e78618",
+    "remote_verification": {
+      "run_id": 43760261427,
+      "artifact_id": 14179559411,
+      "artifact_name": "ddd-electoral-package-nac04-2025-43760261427",
+      "artifact_sha256": "fd3efe813b6cb94ae9bca153ac17e23776b3ae970d3a7552d65cd46dc32fd9d1",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "be99cdd3abf3cbfe1d2dace2917e03907684fb096d5faf6810d6dcb6a1b6794e",
+  "electoral_compatibility_key": "c5ca65c956df41d3a99bdd1f83e3e28c6b53b747ba08e8942b18af4613e78618",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac04/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "4803ddcb1a0edc67ad3196a6d31a3e245580cc7cc79ea975fba6e2dc8174aea0"
+}

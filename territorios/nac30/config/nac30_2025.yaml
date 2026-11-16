@@ -207,10 +207,9 @@ validation:
       municipality: Águilas
       decided_at: '2026-11-02'
       decided_by: propietario
-      reason: Contradicción probada con las reglas actuales (Lorca indivisible
-        + Águilas + Puerto Lumbreras = 152.095 > techo 137.265); se exime del suelo
-        el distrito de Águilas (0,31 de la media) y Lorca + Puerto Lumbreras suman
-        115.411.
+      reason: Contradicción probada con las reglas actuales (Lorca indivisible + Águilas
+        + Puerto Lumbreras = 152.095 > techo 137.265); se exime del suelo el distrito
+        de Águilas (0,31 de la media) y Lorca + Puerto Lumbreras suman 115.411.
       evidence: docs/PLAN.md T-23 y mensaje del planificador del 02-11-2026 (decisión
         del propietario)
   partition_apportionment_audit: {}
@@ -221,9 +220,9 @@ validation:
     section_year: 2023
     population_total: 1551692
     target_section_count: 1223
-    package_sha256: 55f457c9486913ac56078a2ffe99d2bc1010e81e2683d4b76095b6b2b5768224
-    compatibility_report_sha256: 1d7b89e091f4863c02133729c056506a5c1c96edd2e1d71508770027c83361d2
-    compatibility_identity_sha256: 160a2fd62b660bb8b914cfde2d5f483b8d06b00d924b4ff2674862c308ffb27a
+    package_sha256: 28260ec130572450f6f293048bdd50c3a65931358adbcd07cfa0e0660831ba7e
+    compatibility_report_sha256: 083520bf331f4b99db7460d27ff6160707aca844f1abb2aa64621559a98cb479
+    compatibility_identity_sha256: 907098dedb3fc870fd13fcf3872fa6d3ce6b67d1387bb3c653e853beb37c6f37
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -280,8 +279,8 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: 9430d09d5c21d9d64006660dac09136f5e93a14c3a2681c68201d8721204244b
-        bytes: 1716909
+        sha256: 856b5f037e27e7a75bc850fe2a66bc7d15df952bcbce414afb738aa757352269
+        bytes: 1716910
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
@@ -294,12 +293,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: ef4b0e3a02a9a1b603cd0d97443fb6e187119f4a6a87b2430d9b92c3f4bef2b1
+  contract_sha256: f48fd573f5e878a261748c90ac782fd8daa7f3ebd6d8475790170fdd065ebae9
 generation_state:
   source_prepared: true
   generation_enabled: true
-  package_sha256: 55f457c9486913ac56078a2ffe99d2bc1010e81e2683d4b76095b6b2b5768224
-  compatibility_identity_sha256: 160a2fd62b660bb8b914cfde2d5f483b8d06b00d924b4ff2674862c308ffb27a
+  package_sha256: 28260ec130572450f6f293048bdd50c3a65931358adbcd07cfa0e0660831ba7e
+  compatibility_identity_sha256: 907098dedb3fc870fd13fcf3872fa6d3ce6b67d1387bb3c653e853beb37c6f37
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 975e8557b92ff1875f4f3ff6a5d50afc5c52dc5314df8f7dd03a9dd35c1f8a04
@@ -331,7 +330,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: 9430d09d5c21d9d64006660dac09136f5e93a14c3a2681c68201d8721204244b
+    sha256: 856b5f037e27e7a75bc850fe2a66bc7d15df952bcbce414afb738aa757352269
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -349,6 +348,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41613691816
-  pre_m04_source_commit: db2c91de7e07c90bc35861575a96d7b01e2a9e8a
-  pre_m04_artifact_sha256: e0a7bf3f050d37f7e3098c73420478e86a5c7fcde2cceba14b4df6c0fc4c38bb
+  pre_m04_run_id: 43779852945
+  pre_m04_source_commit: 4a3e479ee90c0a6af8c571906cf8deec49401ed4
+  pre_m04_artifact_sha256: 9525cd4cd422effaa77d17538429cdc21cbd4534690d6fd475a989c49ff71687

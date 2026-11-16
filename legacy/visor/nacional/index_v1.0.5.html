@@ -1,0 +1,39 @@
+<!doctype html>
+<!--
+Proyecto: Diputado de Distrito
+Versión: 1.0.5 | Nombre: visor Nacional (T-84, D-16)
+Fecha: 2026-11-14 | Alcance: vista Nacional, elecciones generales; Autonómica pendiente
+Estado: candidato
+Cambios/motivo: T-294, nota de OpenStreetMap (D-104) y retirado el hueco inactivo de Cloudflare Web Analytics (T-174); /nacional/ no lleva contador (fuera de la lista blanca del Worker). Antes: T-310, maplibre-gl 5.7.0 local con SRI (sin unpkg). Antes: T-206, nota solo para la elección 2026 (D-69), oculta mientras no se muestre 2026. Antes: T-174, hueco opcional de analítica sin cookies (Cloudflare Web Analytics); inactivo sin token.
+Anterior: legacy/visor/nacional/index_v1.0.4.html
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diputado de Distrito · visor Nacional</title>
+<link rel="stylesheet" href="../v2/vendor/maplibre-gl/5.7.0/maplibre-gl.css" integrity="sha384-gNYNsUmuZqDYiT3gbirWTV5K7rt71RoveS/yXAaU09d4ZUmeDVTD3XoqB6uJAIFR">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+ <div><p class="eyebrow">Diputado de Distrito</p><h1>Visor Nacional</h1></div>
+ <nav class="views" aria-label="Vista"><button type="button" aria-pressed="true">Nacional</button><button type="button" disabled title="Pendiente: datos autonómicos con geometría">Autonómica</button></nav>
+ <div class="views" role="group" aria-label="Zona"><button type="button" data-zona="peninsula">Península</button><button type="button" data-zona="canarias">Canarias</button></div>
+ <div class="layers" id="layers" role="group" aria-label="Capa"></div>
+</header>
+<main>
+ <section id="map" aria-label="Mapa de distritos"></section>
+ <aside class="panel">
+  <p id="status" class="status">Cargando…</p>
+  <section id="legend" class="card"></section>
+  <section class="card"><h2>Distrito</h2><div id="detail">Pulsa un distrito para ver su ficha.</div></section>
+  <section class="card"><p id="nota-eleccion" class="note" hidden></p><p class="note">Datos: elecciones generales de 2023 sobre los distritos propuestos (CC-BY-4.0). Solo consta el ganador por distrito. El visor muestra únicamente lo publicado.</p></section>
+ </aside>
+</main>
+<nav class="timebar" id="timebar" aria-label="Elección"></nav>
+<script src="../v2/vendor/maplibre-gl/5.7.0/maplibre-gl.js" integrity="sha384-Blts4zGbI8Hh/NvhcxTYsF2uLBbYIwHXEhPMxN3XpadJCDgstyLfJA3opgmkfBOc"></script>
+<script src="nacional.js"></script>
+<p class="aviso-osm" style="font-size:12px;margin:8px 16px;opacity:.85">El mapa de fondo lo sirve OpenStreetMap, que ve la dirección IP de quien lo consulta.</p>
+</body>
+</html>

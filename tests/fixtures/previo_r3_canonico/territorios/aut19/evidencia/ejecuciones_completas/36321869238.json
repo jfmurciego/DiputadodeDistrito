@@ -1,0 +1,78 @@
+{
+  "blocked_phases": [
+    "02 · Generación de Distritos Autonómicos",
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "failed_phases": [
+    "02 · Generación de Distritos Autonómicos"
+  ],
+  "generated_at": "2026-09-27T13:21:14.631200+00:00",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_evidence_status": "NOT_AVAILABLE_DUE_TO_GENERATION_FAILURE",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "phases": [
+    {
+      "artifact": "ddd-source-package-aut19-2025-36274033519",
+      "artifact_digest": "sha256:3cb9d2377555ed54fc7e93d13887faa18986b3ccf0565444400cdbcc9a66bda5",
+      "executed": false,
+      "name": "01 · Preparación de Datos Territoriales",
+      "phase_decision": "READY",
+      "result": "skipped",
+      "run_id": 36274033519,
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": true,
+      "name": "02 · Generación de Distritos Autonómicos",
+      "phase_decision": null,
+      "result": "failure",
+      "run_id": null,
+      "validation_decision": "BLOQUEADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "03 · Preparación de Resultados Electorales",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "validation_decision": "BLOQUEADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "04 · Incorporación de Resultados Electorales",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "validation_decision": "BLOQUEADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": false,
+      "name": "05 · Publicación del Visor",
+      "phase_decision": null,
+      "result": "skipped",
+      "run_id": null,
+      "validation_decision": null
+    }
+  ],
+  "publish_requested": false,
+  "schema": "ddd.full-run-manifest/2.1",
+  "source_sha": "2d4ab0f40e6461f9455155246a3238922179146f",
+  "status": "FAILED",
+  "territory_id": "aut19",
+  "territory_name": "Melilla",
+  "workflow_run_id": 36321869238
+}

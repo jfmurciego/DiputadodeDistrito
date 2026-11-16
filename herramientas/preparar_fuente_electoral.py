@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: id canónico exacto (T-349)
+# FECHA: 2026-11-15
+# CAMBIOS 1.0.1 (T-349, D-102): validate_previous solo reutiliza un paquete previo cuyo manifiesto lleva el territory_id canónico exacto.
+# MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo.
+# ANTERIOR: legacy/herramientas/preparar_fuente_electoral_pre_t349_20261115.py (1.0.0: versión de origin/main, sin cabecera numerada)
 from __future__ import annotations
 import argparse,csv,hashlib,io,json,re,shutil,unicodedata
 from datetime import datetime,timezone
@@ -783,7 +789,7 @@ def validate_previous(package:Path,territory_id:str,edition:str,expected_electio
     try:
         m=json.loads((package/"manifest.json").read_text(encoding="utf-8"))
         if m.get("schema")!="ddd-electoral-package/1.0" or m.get("decision") not in {"REUSE","ACQUIRE"}: return None
-        if not mismo_territorio(str(m.get("territory_id") or ""), str(territory_id)) or str(m.get("edition"))!=str(edition): return None
+        if str(m.get("territory_id") or "")!=str(territory_id) or str(m.get("edition"))!=str(edition): return None  # T-349: id canónico exacto
         if expected_election_id is not None and str(m.get("election_id") or "")!=str(expected_election_id): return None
         if expected_election_date is not None and str(m.get("election_date") or "")!=str(expected_election_date): return None
         s=m.get("selected_source") or {}; p=package/str(s.get("path") or "")

@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac39",
+  "territory_name": "Congreso Cantabria",
+  "edition": "2025",
+  "run_id": 43792257015,
+  "artifact_name": "ddd-electoral-package-nac39-2025-43792257015",
+  "artifact_sha256": "7da3d2ce957aa3317abcf061141b8f5eee61a7e2f4369ae9e9a141bb105435dd",
+  "source_commit": "ad337b582811a51765f29e154141a6d6a82f8aef",
+  "election_id": "congreso_cantabria_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "1220d0dd61600eee1ea5b62e00e6857f540c67ee25a3b87b1a84fe3e980b89c3"
+}

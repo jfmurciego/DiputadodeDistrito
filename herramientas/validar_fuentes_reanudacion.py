@@ -26,7 +26,13 @@ def _territorio_ids_t220():
         return None
     spec = importlib.util.spec_from_file_location("_t220_territorio_ids", ruta)
     modulo = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(modulo)
+    # T-338: el @dataclass de territorio_ids busca sys.modules[cls.__module__]; sin registrarlo antes, exec_module revienta.
+    sys.modules[spec.name] = modulo
+    try:
+        spec.loader.exec_module(modulo)
+    except BaseException:
+        sys.modules.pop(spec.name, None)
+        raise
     return modulo
 
 
@@ -40,11 +46,11 @@ def carpeta_de(root, x):  # noqa: E302
     return str(x) if ti is None else ti.carpeta_de(root, x)
 
 try:
-    from herramientas.politica_reutilizacion_fuentes import resolve_source_action
+    from herramientas.politica_reutilizacion_fuentes import paquete_territory_mismatch, resolve_source_action
 except ModuleNotFoundError:
     # Permite ejecutar este fichero directamente desde herramientas/ en fixtures
     # y lanzadores locales sin relajar la política ni añadir rutas de adquisición.
-    from politica_reutilizacion_fuentes import resolve_source_action
+    from politica_reutilizacion_fuentes import paquete_territory_mismatch, resolve_source_action
 
 
 def _read_yaml(path: Path) -> dict:
@@ -82,6 +88,11 @@ def validate_resume_sources(*, params: Path, package: Path, root_dir: Path = Pat
         raise RuntimeError(f"Fuentes BLOQUEADAS: manifest.json ilegible: {exc}") from exc
     if not isinstance(manifest, dict):
         raise RuntimeError("Fuentes BLOQUEADAS: manifest.json no contiene un objeto")
+
+    # T-336: la reanudación nunca adquiere; un paquete con id no canónico se BLOQUEA con motivo claro.
+    stale = paquete_territory_mismatch(package_path, territory_id)
+    if stale:
+        raise RuntimeError("Fuentes BLOQUEADAS: paquete de otro id de territorio (no canónico): " + "; ".join(stale))
 
     decision = resolve_source_action(
         prepared_manifest=manifest,

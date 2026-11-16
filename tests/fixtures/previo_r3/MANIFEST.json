@@ -1,5 +1,5 @@
 {
- "origen": "git cc34b0c (main tras #786): aut08 (M06 43025652192 + M08), aut01 (receipt territorial) y aut11 (M06 40656175842) , aut12 y aut19 previos a la campa\u00f1a r3",
+ "origen": "git cc34b0c (main tras #786): aut08 (M06 43025652192 + M08), aut01 (receipt territorial) y aut11 (M06 40656175842) , aut12 y aut19 previos a la campaña r3 ; T-335: nac22 (Huesca) previo a su P10 (git 320f64b^)",
  "files": {
   "configuracion/catalogo_preparacion.yaml": "4ecac4452ddf1d0e7b67e83316a6a0295379927c0e5c0b76c7b2b94574d1c3e1",
   "configuracion/catalogo_territorios_espana_2025.yaml": "94afde1aed54c4edf9f20f76a143bf5cd29aaddf959acb1fd1db67ca647e73dd",
@@ -211,6 +211,30 @@
   "territorios/aut19/evidencia/pares_fuentes/2025/3333ec3b98bcd3c8e58cb29c9d2b9b76deca3a4057572180b12ac88cf8dea373.json": "bf1c5d20b73e18b0030e6d257d525de0a40d8344bb16aa6adbb10762a887f7fe",
   "territorios/aut19/evidencia/pares_fuentes/2025/62be901557a75175db0e7a446e68cfc16d5cb340fc98f600d310ff9b27049d33.json": "75844cadc3940d07f3b40afdc2bb9dd960c53abc24b6489a734e9e3a989c2fea",
   "territorios/aut19/evidencia/pares_fuentes/2025/de4be281b20e40e65b1d674243aff69f91b9eeae3f4a947c002ce3f700c6dde4.json": "898041627f41bc2dd6ffe46dda4330868ddba8db5a3f54c5bb3d8f3440dc52c5",
-  "territorios/aut19/evidencia/pares_fuentes/2025/f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4.json": "1fbfc0db97b2a412f61c627832d426ca9f6f2568974b92e78d0ba4d4e3c77597"
+  "territorios/aut19/evidencia/pares_fuentes/2025/f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4.json": "1fbfc0db97b2a412f61c627832d426ca9f6f2568974b92e78d0ba4d4e3c77597",
+  "territorios/nac22/config/fuentes_oficiales.yaml": "d12559586af8a0134579f6da9e328cad07099613a1a3c74b9dc0b3ea62862d9d",
+  "territorios/nac22/config/nac22_2025.yaml": "36c70062468bef975088cce4469cc2541819092f292187de98916f12ee16a7d2",
+  "territorios/nac22/config/nac22_2026.yaml": "b3a88e8192b2aaf67e2b36afd20646f5216ef32539ea750505b0e5853764cabb",
+  "territorios/nac22/evidencia/catalogo/electoral_product_2025.json": "a0287150bbec7a0b26e9b6cee0c5e02f79e4dd6fb789f7cbb34589ecb2b8ffb6",
+  "territorios/nac22/evidencia/catalogo/generation_preflight_2025.json": "507504e088f20127f45175cca59a7dc33bae533b26f99d8a7dba80f859bcded6",
+  "territorios/nac22/evidencia/catalogo/territorial_product_2025.json": "5ce81eeaabe740323c25c1e667d0aabeb2af46a05f24d2ed15a9a3a078bf1d3c",
+  "territorios/nac22/evidencia/ejecuciones_completas/41043769621.json": "67676de404cd6d506125b96e474e3cdbf68fbbdf9f1c853675eb0314b38eba9f",
+  "territorios/nac22/evidencia/ejecuciones_completas/41057319037.json": "804b4fc6ee685c6fd63fda8e854a2c0fcf1e4ded96d1782e68c41a4327383173",
+  "territorios/nac22/evidencia/ejecuciones_completas/41192326130.json": "195f01bd63d656de3095e0febc7e6460a08b64c5b78516a7a0b603786cdaf41d",
+  "territorios/nac22/evidencia/ejecuciones_completas/41194447427.json": "123f77a87d5a67300859a28c977d46533afca227097663b40146c33ccc8532db",
+  "territorios/nac22/evidencia/ejecuciones_completas/42421655965.json": "d92ea2798983747143c657a0b9a0a9f963832cd0220bbfbce6b68b801080c0aa",
+  "territorios/nac22/evidencia/ejecuciones_completas/42519383275.json": "d94bd631cb92555bc815dfb9bd4153dad29bdabdddb1c81f99e1632a1320ff7c",
+  "territorios/nac22/evidencia/ejecuciones_completas/42991551418.json": "0342f818ff875654931ca64d9bebf20c105b5c1f7b89f1d28fdeeef605b647b1",
+  "territorios/nac22/evidencia/ejecuciones_completas/42996217596.json": "d91956f9236348ac422d685228caf3fc3e35b154d88f45c1cf79f9f29f429172",
+  "territorios/nac22/evidencia/fuentes_electorales/2025/155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422/41194293941/receipt.json": "01b10f81655a9cecc688d861bc24c603914b4195e51e785abb74bc3605213f37",
+  "territorios/nac22/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41043769621/fuentes_oficiales.yaml": "4a3858ab613928030ebde18d1e852c819f079780473b5dd5cd882a163a00c112",
+  "territorios/nac22/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41043769621/receipt.json": "534fbb0554c4c11485ef8448c543394cc838683d3e1df57991f06c0ee4c7cc07",
+  "territorios/nac22/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41057319037/fuentes_oficiales.yaml": "4a3858ab613928030ebde18d1e852c819f079780473b5dd5cd882a163a00c112",
+  "territorios/nac22/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41057319037/receipt.json": "88238d85dede3817e79c3d6048d21420f474c77f4b14d589edf62ff2a81bd260",
+  "territorios/nac22/evidencia/generaciones_m06/41057319037.json": "a328ad9920d36cd9fbb422c49a9078e9f716364f529f8d6029fe7dbcfe181ff7",
+  "territorios/nac22/evidencia/generaciones_m06/42519383275.json": "39cb04153012003971a3833a6560d6cb795f1896fefde60003d8ad8ab0b69b6a",
+  "territorios/nac22/evidencia/generaciones_m06/42940427352.json": "e073ca002eeb00f1795fbab1efeb92c40bde9ae6325605a934f765d8da37a14b",
+  "territorios/nac22/evidencia/generaciones_m06/42991551418.json": "a55b1cfe18a660ffd20b391b25adff1571a14495a530e30b885149323495a734",
+  "territorios/nac22/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json": "04844d68f3c7411c5bab168b2bda6e1a601f69b33d8d8958efd6b452b952771b"
  }
 }

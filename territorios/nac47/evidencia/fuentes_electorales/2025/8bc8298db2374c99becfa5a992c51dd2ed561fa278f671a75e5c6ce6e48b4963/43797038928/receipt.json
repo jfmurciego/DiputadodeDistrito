@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac47",
+  "territory_name": "Congreso Valladolid",
+  "edition": "2025",
+  "run_id": 43797038928,
+  "artifact_name": "ddd-electoral-package-nac47-2025-43797038928",
+  "artifact_sha256": "14294fc3d887dfeacb5136b56068ae3c01d01008e6e0f776e8f76f72cc43a0d3",
+  "source_commit": "b9da837139a2d68cb4f688df5ab409b0c9f48f56",
+  "election_id": "congreso_valladolid_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "8bc8298db2374c99becfa5a992c51dd2ed561fa278f671a75e5c6ce6e48b4963"
+}

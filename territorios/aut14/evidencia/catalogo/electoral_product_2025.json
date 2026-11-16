@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "region_de_murcia",
+  "territory_id": "aut14",
   "territory_name": "Región de Murcia",
   "edition": "2025",
-  "run_id": 43053208175,
-  "artifact_name": "ddd-state-43053208175-M08",
-  "artifact_sha256": "e3ea2f63ebdf197537bd7d995175b953806f28d57297bcd2f0c665d230284f00",
-  "source_commit": "7aea1220986f37926599d0c8cb0f958e6475d2e8",
+  "run_id": 43752744562,
+  "artifact_name": "ddd-state-43752744562-M08",
+  "artifact_sha256": "df0c5d74d5e652ca77cba41bc0e5da63c08274513cc8d5db7a9cf65d234911ac",
+  "source_commit": "9821b0492d7137f8e7d56999c4c955e9e8589bf0",
   "stage": "M08"
 }

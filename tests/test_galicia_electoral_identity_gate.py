@@ -15,15 +15,24 @@ from herramientas.detectar_producto_electoral_huerfano import (
 )
 from herramientas.resolver_ejecucion_completa import build_plan
 from herramientas.validar_puerta_ejecucion import validate_gate
+from tests._previo_r3 import raiz_previo_r3
 from ddd_core.territorio_ids import mismo_territorio, ruta_existente  # noqa: E402  (T-220)
 
 
-ROOT = Path(__file__).resolve().parents[1]
-PARAMS = ROOT / "territorios/aut12/config/aut12_2025.yaml"
-CONTRACT = ROOT / "territorios/aut12/config/elecciones/galicia_parlamento_2024.json"
-CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
-REGISTRY = ROOT / "configuracion/registro_electoral.yaml"
-ORCHESTRATION = ROOT / ".github/workflows/ejecucion-completa-proyecto.yml"
+ROOT_VIVO = Path(__file__).resolve().parents[1]
+ORCHESTRATION = ROOT_VIVO / ".github/workflows/ejecucion-completa-proyecto.yml"
+# T-335: el estado de aut12 (catálogo, recibos, checkpoint) se lee de la raíz congelada previa a r3; un P10/P00 nuevo
+# reescribe el vivo (run id, paquete, recibos) y rompía estas pruebas. Se monta en setUpModule.
+ROOT = PARAMS = CONTRACT = CATALOG = REGISTRY = None
+
+
+def setUpModule():
+    global ROOT, PARAMS, CONTRACT, CATALOG, REGISTRY
+    ROOT = raiz_previo_r3()
+    PARAMS = ROOT / "territorios/aut12/config/aut12_2025.yaml"
+    CONTRACT = ROOT / "territorios/aut12/config/elecciones/galicia_parlamento_2024.json"
+    CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
+    REGISTRY = ROOT / "configuracion/registro_electoral.yaml"
 PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
 
 
@@ -113,7 +122,8 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                     territory_id="aut12",
                     edition="2025",
                     run_id=str(electoral_source["run_id"]),
-                    artifact_name=electoral_source["artifact_name"],
+                    # T-349: la puerta exige el nombre canónico exacto; el recibo vivo lleva el id viejo (se prepara de nuevo).
+                    artifact_name=f"ddd-electoral-package-aut12-2025-{electoral_source['run_id']}",
                     artifact_digest=electoral_source["artifact_sha256"],
                     expected_digest=electoral_source["artifact_sha256"],
                     params=PARAMS,
@@ -188,6 +198,17 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
             )
             electoral_source_path = ROOT / state["evidence"]["electoral_source"]
             electoral_source = json.loads(electoral_source_path.read_text(encoding="utf-8"))
+            # T-349 (D-102): el recibo electoral registrado con id viejo ya no entra en la 00; el caso de reuso se prueba
+            # con su copia canónica (mismo run y digest; territory_id y nombre de artefacto canónicos).
+            electoral_source = dict(electoral_source, territory_id="aut12",
+                                    artifact_name=f"ddd-electoral-package-aut12-2025-{electoral_source['run_id']}")
+            canonico = tmp / "electoral_source_receipt.json"
+            _write_json(canonico, electoral_source)
+            state["evidence"]["electoral_source"] = str(canonico)
+            isolated_catalog.write_text(
+                yaml.safe_dump(catalog, allow_unicode=True, sort_keys=False),
+                encoding="utf-8",
+            )
             durable = {
                 "territorial_source": state.get("preparation_evidence") or None,
                 "territorial_product": (
@@ -412,7 +433,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                     "territory_id": "aut12",
                     "edition": "2025",
                     "run_id": electoral_source_run,
-                    "artifact_name": f"ddd-electoral-package-galicia-2025-{electoral_source_run}",
+                    "artifact_name": f"ddd-electoral-package-aut12-2025-{electoral_source_run}",
                     "artifact_sha256": "2" * 64,
                     "election_id": "galicia_parlamento_2024",
                 },

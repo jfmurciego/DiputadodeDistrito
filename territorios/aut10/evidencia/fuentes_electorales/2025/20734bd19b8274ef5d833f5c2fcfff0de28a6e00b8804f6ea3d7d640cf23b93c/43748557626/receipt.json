@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "aut10",
+  "territory_name": "Comunidad Valenciana",
+  "edition": "2025",
+  "run_id": 43748557626,
+  "artifact_name": "ddd-electoral-package-aut10-2025-43748557626",
+  "artifact_sha256": "2872c92de7b02fbb55ca85a341f3e9b35797e04afb5515b97c1629131d467d58",
+  "source_commit": "c302b5b8941dc4bf222399d756413d40b372fcba",
+  "election_id": "comunidad_valenciana_corts_2023",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-05-28",
+  "electoral_identity_sha256": "20734bd19b8274ef5d833f5c2fcfff0de28a6e00b8804f6ea3d7d640cf23b93c"
+}

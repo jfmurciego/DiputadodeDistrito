@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_granada",
+  "territory_id": "nac18",
   "territory_name": "Congreso Granada",
   "edition": "2025",
-  "run_id": 42954091088,
-  "artifact_name": "ddd-state-42954091088-M08",
-  "artifact_sha256": "28da5cb18b8019504fed44b54af6bff2e6c35fad631c95a09e95107c687667c4",
-  "source_commit": "5e61b38fbbab860327a47274d04288048cdf4bec",
+  "run_id": 43775697971,
+  "artifact_name": "ddd-state-43775697971-M08",
+  "artifact_sha256": "72f4a7a0ae15c16f237527fd5ad402bffaceca27e154257a803112252459bba3",
+  "source_commit": "ecaf5395e3a47c2bf2eae3bc5314713cd17e118b",
   "stage": "M08"
 }

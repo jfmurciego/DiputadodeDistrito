@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: id canónico exacto (T-349)
+# FECHA: 2026-11-15
+# CAMBIOS 1.0.1 (T-349, D-102): los nombres de artefacto de fuente territorial y electoral se comparan con igualdad exacta con el id canónico (sin alias).
+# MOTIVO: la r4 se paró en aut11 al reutilizar un registro con id viejo.
+# ANTERIOR: legacy/herramientas/validar_puerta_ejecucion_pre_t349_20261115.py (1.0.0: versión de origin/main, sin cabecera numerada)
 from __future__ import annotations
 
 import argparse
@@ -73,9 +79,9 @@ def _artifact_name_is_consistent(
     artifact_namespace: str | None = None,
 ) -> bool:
     if phase == "territorial_source":
-        return artifact_name in {f"ddd-source-package-{v}-{edition}-{run_id}" for v in variantes(territory_id)}
+        return artifact_name == f"ddd-source-package-{territory_id}-{edition}-{run_id}"  # T-349: exacto
     if phase == "electoral_source":
-        return artifact_name in {f"ddd-electoral-package-{v}-{edition}-{run_id}" for v in variantes(territory_id)}
+        return artifact_name == f"ddd-electoral-package-{territory_id}-{edition}-{run_id}"  # T-349: exacto
     if phase == "territorial_product":
         canonical = f"ddd-state-{run_id}-M06"
         if artifact_name == canonical:

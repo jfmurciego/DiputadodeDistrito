@@ -83,6 +83,12 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
                 self.assertIn("CONTINUE_DURABLE_BLOCK", message)
                 self.assertIn("DURABLE_", message)
             else:
+                descartados = {d["objeto"] for d in plan["catalog_state"].get("non_canonical_discarded") or []}
+                if "territorial_product" in descartados:
+                    # T-349 (D-102): el M06 registrado con id viejo no se reutiliza: se genera de nuevo con el id canónico.
+                    self.assertTrue(plan["run_generate"])
+                    self.assertFalse(plan["catalog_state"]["territorial_product_available"])
+                    continue
                 self.assertFalse(plan["run_prepare_territorial"])
                 self.assertFalse(plan["run_generate"])
                 self.assertEqual(

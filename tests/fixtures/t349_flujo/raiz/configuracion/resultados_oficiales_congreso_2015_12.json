@@ -1,0 +1,88 @@
+{
+ "fuente": "Resolución de 26 de enero de 2016, de la Presidencia de la Junta Electoral Central, por la que se publica el resumen de los resultados de las elecciones al Congreso de los Diputados y al Senado convocadas por Real Decreto 977/2015, de 26 de octubre, y celebradas el 20 de diciembre de 2015, conforme a las actas de escrutinio general y de proclamación de electos remitidas por las correspondientes Juntas Electorales Provinciales y por las Juntas Electorales de Ceuta y de Melilla.",
+ "boe": "BOE-A-2016-867",
+ "url": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2016-867",
+ "fecha_publicacion": "2016-01-29",
+ "sha256_xml": "aa983182898f3b0e787175c1b1ed69641107a45186fa4fdef8e8b65dcfa41d23",
+ "sha256_csv": "6dc9c7e7196e431864919980e02eee3fd1145448be405dc5675bba6b8a664bac",
+ "cuadro": "II (candidaturas con escaño en el total estatal)",
+ "total_escanos": 350,
+ "totales_oficiales": {
+  "PP": {
+   "votos": 6717462,
+   "escanos": 112
+  },
+  "PSOE": {
+   "votos": 4736628,
+   "escanos": 78
+  },
+  "C's": {
+   "votos": 3514528,
+   "escanos": 40
+  },
+  "PODEMOS": {
+   "votos": 3176641,
+   "escanos": 41
+  },
+  "EN COMÚ": {
+   "votos": 929880,
+   "escanos": 12
+  },
+  "COALICIÓN «UNIDAD POPULAR»": {
+   "votos": 926783,
+   "escanos": 2
+  },
+  "PODEMOS-COMPROMÍS": {
+   "votos": 673549,
+   "escanos": 9
+  },
+  "ERC-CATSI": {
+   "votos": 601782,
+   "escanos": 9
+  },
+  "PSC": {
+   "votos": 590274,
+   "escanos": 8
+  },
+  "DL": {
+   "votos": 567253,
+   "escanos": 8
+  },
+  "PODEMOS-En Marea-ANOVA-EU": {
+   "votos": 410698,
+   "escanos": 6
+  },
+  "EAJ-PNV": {
+   "votos": 302316,
+   "escanos": 6
+  },
+  "PP-PAR": {
+   "votos": 229691,
+   "escanos": 6
+  },
+  "EH Bildu": {
+   "votos": 219125,
+   "escanos": 2
+  },
+  "PSOE-NCa": {
+   "votos": 218413,
+   "escanos": 4
+  },
+  "PP-FORO": {
+   "votos": 187568,
+   "escanos": 3
+  },
+  "UPN-PP": {
+   "votos": 102244,
+   "escanos": 2
+  },
+  "CCa-PNC": {
+   "votos": 81917,
+   "escanos": 1
+  },
+  "COALICIÓN «PODEMOS - AHORA ALTO ARAGÓN EN COMÚN»": {
+   "votos": 21943,
+   "escanos": 1
+  }
+ }
+}

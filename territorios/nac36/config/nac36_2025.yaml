@@ -67,12 +67,6 @@ territory_contract:
   population_floor_ratio: 0.85
   population_cap_ratio: 1.15
   target_tolerance_ratio: 0.15
-  limits_profile: exception
-  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
-    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
-    se divide.'
-  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits
-  limits_exception_decided_at: '2026-10-31'
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
@@ -80,6 +74,12 @@ territory_contract:
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
   status: generation_ready
+  limits_profile: exception
+  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
+    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
+    se divide.'
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.nac22.population_limits
+  limits_exception_decided_at: '2026-10-31'
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -207,16 +207,16 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
-  # Run 00 41327494461 (reparación profunda sin mejora): distrito 7 con 88.197 hab. (5 municipios) bajo el suelo (100.588).
-  # Exención municipal acordada si la reparación no bastaba.
   population_floor_exempt_municipalities:
   - '36008'
   population_floor_exempt_decisions:
     '36008':
       decided_at: '2026-11-01'
       decided_by: propietario
-      reason: 'Tras la reparación más profunda sin mejora, exención municipal del suelo para el distrito del municipio 36008 (T-02b).'
-      evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-11-01 — T-02b»; docs/PLAN.md T-02b (Pontevedra resuelta por decisión del propietario)'
+      reason: Tras la reparación más profunda sin mejora, exención municipal del suelo
+        para el distrito del municipio 36008 (T-02b).
+      evidence: docs/REGISTRO_DE_CAMBIOS.md «2026-11-01 — T-02b»; docs/PLAN.md T-02b
+        (Pontevedra resuelta por decisión del propietario)
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0
@@ -225,9 +225,9 @@ validation:
     section_year: 2023
     population_total: 946710
     target_section_count: 727
-    package_sha256: 4e13f876c3f05ab4ec56cb108e5584c0e12bf70bcded26d0a1f167a11a41bc20
-    compatibility_report_sha256: af45753069ea0401012a79cd7d7d951fe89c985504950fe627c8f71a471a49fb
-    compatibility_identity_sha256: d04f2c4aa902f8e08be7e83972f4512167721524b4f05bff3493e6906de21c54
+    package_sha256: 992bc86bf9d780b870976663991c860de6bad15f17c57bf8660e3b29ce990e2d
+    compatibility_report_sha256: 7f63e9d3a2c7c7ac4a59a8d69436d76b9e9a80fec2e149fd70f297dcdb4b1abd
+    compatibility_identity_sha256: 5b8f1b93d6f6ff53a367d295fa13f6ba2c922bdccff86026bd84f94289bb910a
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -284,7 +284,7 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: f69bdd26690345b0e1ed7476015ccb67749d0dd4c5abbe978ecf4d6dfe57bb1f
+        sha256: b6aa151d7a4ea78803d53f364c2a89e95464839e77d573876e6925f4de6fcea0
         bytes: 988361
   runtime:
     section_id_field: CUSEC_KEY
@@ -298,12 +298,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: d3a9ccb85c0029d64ed827673dab97a1b3f48de48726e15b62cbfd048a6c4913
+  contract_sha256: 44c1f61fe1297aa8437e43dffcf934c5a1d8df78fd5987a54ae528edc6ddd8cf
 generation_state:
   source_prepared: true
   generation_enabled: true
-  package_sha256: 4e13f876c3f05ab4ec56cb108e5584c0e12bf70bcded26d0a1f167a11a41bc20
-  compatibility_identity_sha256: d04f2c4aa902f8e08be7e83972f4512167721524b4f05bff3493e6906de21c54
+  package_sha256: 992bc86bf9d780b870976663991c860de6bad15f17c57bf8660e3b29ce990e2d
+  compatibility_identity_sha256: 5b8f1b93d6f6ff53a367d295fa13f6ba2c922bdccff86026bd84f94289bb910a
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: c44f1f9233fa77f7ecbe9f2fa4aa39831f89ba4c13118019c7db880805a90bcf
@@ -335,7 +335,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: f69bdd26690345b0e1ed7476015ccb67749d0dd4c5abbe978ecf4d6dfe57bb1f
+    sha256: b6aa151d7a4ea78803d53f364c2a89e95464839e77d573876e6925f4de6fcea0
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -353,6 +353,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41293311168
-  pre_m04_source_commit: 51a7d9dda837c38a0b8bbda36ca1809674e71c0b
-  pre_m04_artifact_sha256: b05076f78c0fb23be5ff2120a760c98503b3d46d567785e94830dff9b00cbcc5
+  pre_m04_run_id: 43782609578
+  pre_m04_source_commit: 1c6880532c8dba21f11a8bd0c96f73a1e47f370f
+  pre_m04_artifact_sha256: 1cb5b8c0abc8b133684efedb72b9d63297bfda2ff0f161a57feff53070bff2d6

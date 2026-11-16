@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "cataluna",
+  "territory_id": "aut09",
   "territory_name": "Cataluña",
   "edition": "2025",
-  "run_id": 43204706233,
-  "artifact_name": "ddd-state-43204706233-M08",
-  "artifact_sha256": "ad1c430e81079e87ecb970c840b09833514033d01b62a1763f5688f2c635143d",
-  "source_commit": "ec10120c07f1a359b3d9944dda92b0f04be649f5",
+  "run_id": 43748279920,
+  "artifact_name": "ddd-state-43748279920-M08",
+  "artifact_sha256": "c42a094a1e6523f078566e3c052f314751f3c899e8b905d3ca0f2ce6f0789712",
+  "source_commit": "ab1411c4fcfdd242fcd3f90b0497d7bd6f9adb0c",
   "stage": "M08"
 }

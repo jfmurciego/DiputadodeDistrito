@@ -1,0 +1,67 @@
+{
+  "blocked_phases": [],
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "failed_phases": [],
+  "generated_at": "2026-09-21T16:13:01.381087+00:00",
+  "optimization_algorithm": "Canónico",
+  "phases": [
+    {
+      "artifact": "ddd-source-package-aut12-2025-35586097396",
+      "artifact_digest": "sha256:40d3aa68480ada5717c42089de956f572efdf55f128b7b3e07e1dbac702259a7",
+      "executed": false,
+      "name": "01 · Preparación de Datos Territoriales",
+      "phase_decision": "READY",
+      "result": "skipped",
+      "run_id": 35586097396,
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-state-35622073641-M06",
+      "artifact_digest": "sha256:fdb7e6aed796b660390a432105cfc67b61af5ea6a21ecbeaa44218acad221622",
+      "executed": true,
+      "name": "02 · Generación de Distritos Autonómicos",
+      "phase_decision": "PASS_WITH_EXCEPTIONS",
+      "result": "success",
+      "run_id": 35622073641,
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-electoral-package-aut12-2025-35533666934",
+      "artifact_digest": "sha256:dc23a91d1b391a75226ad71a0fea6ef886b68c630e59ab3bcff9263188bd6b4e",
+      "executed": false,
+      "name": "03 · Preparación de Resultados Electorales",
+      "phase_decision": "REUSE",
+      "result": "skipped",
+      "run_id": 35533666934,
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": "ddd-state-35622073641-M08",
+      "artifact_digest": "sha256:ea3397ace18017ccd5eef3e6106dbec37cafda76ab3fefe1fde99867456c9e9b",
+      "executed": true,
+      "name": "04 · Incorporación de Resultados Electorales",
+      "phase_decision": "PASS_WITH_EXCEPTIONS",
+      "result": "success",
+      "run_id": 35622073641,
+      "validation_decision": "VALIDADO"
+    },
+    {
+      "artifact": null,
+      "artifact_digest": null,
+      "executed": true,
+      "name": "05 · Publicación del Visor",
+      "phase_decision": null,
+      "result": "success",
+      "run_id": 35622073641,
+      "validation_decision": null
+    }
+  ],
+  "publish_requested": true,
+  "schema": "ddd.full-run-manifest/2.0",
+  "source_sha": "611b09050318d21d36203a047554473b0a4aad3f",
+  "status": "SUCCESS",
+  "territory_id": "aut12",
+  "territory_name": "Galicia",
+  "workflow_run_id": 35622073641
+}

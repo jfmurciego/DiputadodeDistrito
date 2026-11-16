@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "aragon",
+  "territory_name": "Aragón",
+  "edition": "2025",
+  "execution_mode": "from_start",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 35728613828,
+  "source_sha": "7a37a00834d7614a21f02bb6d0f181d475aad5e2",
+  "publish_requested": true,
+  "status": "FAILED",
+  "failed_phases": [
+    "04 · Incorporación de Resultados Electorales",
+    "05 · Publicación del Visor"
+  ],
+  "blocked_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": true,
+      "result": "success",
+      "run_id": 35728613828,
+      "artifact": "ddd-source-package-aragon-2025-35728613828",
+      "artifact_digest": "sha256:df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "success",
+      "run_id": 35728613828,
+      "artifact": "ddd-state-35728613828-M06",
+      "artifact_digest": "sha256:ba84c593a702beb63bf54c55bb47f6d130ad3deea51e7d2e667013be2fb62932",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": true,
+      "result": "success",
+      "run_id": 35728613828,
+      "artifact": "ddd-electoral-package-aragon-2025-35728613828",
+      "artifact_digest": "sha256:8b6217a69aa326992a9efc3acdd1eef1c6b9b57c12c33b0a422f4d9a96539dec",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "REUSE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "failure",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "skipped",
+      "run_id": 35728613828,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-22T13:27:30.499864+00:00"
+}

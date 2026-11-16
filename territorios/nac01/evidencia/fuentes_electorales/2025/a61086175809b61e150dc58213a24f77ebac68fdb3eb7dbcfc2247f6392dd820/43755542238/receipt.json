@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac01",
+  "territory_name": "Congreso Álava",
+  "edition": "2025",
+  "run_id": 43755542238,
+  "artifact_name": "ddd-electoral-package-nac01-2025-43755542238",
+  "artifact_sha256": "0dfbcd003b8755213791b8696fdef7ea6d5d854db0448abe93cdeeab16206230",
+  "source_commit": "cd1676ee1090c878b5b6f0bf1ab951bc5e15686a",
+  "election_id": "congreso_alava_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "a61086175809b61e150dc58213a24f77ebac68fdb3eb7dbcfc2247f6392dd820"
+}

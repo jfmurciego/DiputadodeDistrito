@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "algorithm_version": "1.0.0",
+  "dominant_municipality_threshold": 0.5,
+  "partisan_fields_allowed": false,
+  "territories": {
+    "aut02": "territorios/aut02/resultados/ejecuciones/gh-34599224954-1/M06/composicion_distritos.csv",
+    "aut07": "territorios/aut07/resultados/ejecuciones/gh-34701897922-1/M06/composicion_distritos.csv",
+    "aut11": "territorios/aut11/resultados/ejecuciones/gh-34703213474-1/M06/composicion_distritos.csv"
+  },
+  "output_csv": "resultados/fase1/NOMBRES_DISTRITO.csv",
+  "output_report": "resultados/fase1/NOMBRES_DISTRITO_INFORME.json"
+}

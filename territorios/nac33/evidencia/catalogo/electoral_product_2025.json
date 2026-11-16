@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_asturias",
+  "territory_id": "nac33",
   "territory_name": "Congreso Asturias",
   "edition": "2025",
-  "run_id": 42985447971,
-  "artifact_name": "ddd-state-42985447971-M08",
-  "artifact_sha256": "a621973a52bdafade8fcdcc6d46a14d256a453a6c839bcf4fd19df09dec305af",
-  "source_commit": "71cccb0e816de5e97de3d2d50dd88c6b2cf4cf17",
+  "run_id": 43795147177,
+  "artifact_name": "ddd-state-43795147177-M08",
+  "artifact_sha256": "6d1b8beb5cf50e5b7e9a1e52085c231bbaa0ba39e4c7a681ad1288995e21ce3a",
+  "source_commit": "75dbe0f51c9114901ac05de17ccc1265eff3b197",
   "stage": "M08"
 }

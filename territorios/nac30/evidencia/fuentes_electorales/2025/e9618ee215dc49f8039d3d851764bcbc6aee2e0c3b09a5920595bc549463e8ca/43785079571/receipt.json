@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "nac30",
+  "territory_name": "Congreso Murcia",
+  "edition": "2025",
+  "run_id": 43785079571,
+  "artifact_name": "ddd-electoral-package-nac30-2025-43785079571",
+  "artifact_sha256": "85aa90e9b5d0806bc48dcd7ee9d6248219a3073fbe656128883826b4d926e582",
+  "source_commit": "4cf909666f7202a51a22eba855bdb3d97a3dcc24",
+  "election_id": "congreso_murcia_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "e9618ee215dc49f8039d3d851764bcbc6aee2e0c3b09a5920595bc549463e8ca"
+}

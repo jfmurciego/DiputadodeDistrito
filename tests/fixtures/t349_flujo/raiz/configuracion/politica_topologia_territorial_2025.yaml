@@ -1,0 +1,39 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: Puerta topológica nacional R037
+# FECHA: 2026-11-12
+# ESTADO: vigente — R037
+# QUÉ HACE: clasifica anomalías continentales y define el contrato de componentes insulares antes de M04.
+# CAMBIOS: primera versión.
+# MOTIVO: impedir reparaciones silenciosas, puentes automáticos y falsa contigüidad marítima.
+# CAMBIOS 1.0.1 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
+# ANTERIOR: legacy/configuracion/politica_topologia_territorial_2025_v1.0.0_20261112.yaml
+schema_version: 1.0.0
+evidence:
+  r023: resultados/diagnosticos/gh-34688393979/RESUMEN_R023.json
+policies:
+  land_connected:
+    required_global_components: 1
+    anomaly_default_decision: BLOCKED_PENDING_REVIEW
+    admitted_repairs: [administrative_enclave, administrative_exclave, cartographic_gap, same_municipality_exclave]
+    repair_required_fields: [u, v, edge_type, reason, source]
+    automatic_nearest_bridge: forbidden
+  archipelago_components:
+    inter_component_edges: forbidden
+    require_contiguity_within_component: true
+    district_cross_component: false
+    component_apportionment: required_before_m04
+    small_component_exception: one_contiguous_district_floor_exception
+    component_partition_registry: configuracion/particiones_insulares_2025.json
+    component_generation_policy: configuracion/politica_generacion_territorial_2025.yaml
+    default_decision: ADMITTED_COMPONENT_PARTITIONS
+territories:
+  - {territory_id: aut06, mode: land_connected, evidence: r023, isolated: 1, admin_level_1_disconnected: 1, admin_level_2_disconnected: 0, decision: BLOCKED_PENDING_REVIEW}
+  - {territory_id: aut08, mode: land_connected, evidence: r023, isolated: 0, admin_level_1_disconnected: 1, admin_level_2_disconnected: 0, decision: BLOCKED_PENDING_REVIEW}
+  - {territory_id: aut15, mode: land_connected, evidence: r023, isolated: 1, admin_level_1_disconnected: 1, admin_level_2_disconnected: 1, decision: BLOCKED_PENDING_REVIEW}
+  - {territory_id: aut10, mode: land_connected, evidence: r023, isolated: 0, admin_level_1_disconnected: 1, admin_level_2_disconnected: 1, decision: BLOCKED_PENDING_REVIEW}
+  - {territory_id: aut12, mode: land_connected, evidence: r023, isolated: 0, admin_level_1_disconnected: 1, admin_level_2_disconnected: 1, decision: BLOCKED_PENDING_REVIEW}
+  - {territory_id: aut16, mode: land_connected, evidence: r023, isolated: 0, admin_level_1_disconnected: 1, admin_level_2_disconnected: 1, decision: BLOCKED_PENDING_REVIEW}
+  - {territory_id: aut14, mode: land_connected, evidence: r023, isolated: 0, admin_level_1_disconnected: 0, admin_level_2_disconnected: 2, decision: BLOCKED_PENDING_REVIEW}
+  - {territory_id: aut04, mode: archipelago_components, decision: ADMITTED_COMPONENT_PARTITIONS}
+  - {territory_id: aut05, mode: archipelago_components, decision: ADMITTED_COMPONENT_PARTITIONS}

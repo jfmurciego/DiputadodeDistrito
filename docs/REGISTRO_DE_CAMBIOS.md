@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.426
-Fecha: 2026-11-14
-Alcance: T-328 — Histórico desde 2011: tablas año→2023, identificadores BOE y ficha del paso A
+Versión: 1.0.456
+Fecha: 2026-11-16
+Alcance: Coordinador — Skills del Operador con D-127 (`produccion` sin revisor)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-14_t328-historico-2023.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.425_registro_20261114.md
+Cambios/motivo: entrada docs/registro/2026-11-16_coordinador-skills-operador-d127.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.455_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,36 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.425_registro_20261114.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.456 · [2026-11-16 — Coordinador — Skills del Operador con D-127 (`produccion` sin revisor)](registro/2026-11-16_coordinador-skills-operador-d127.md)
+- 1.0.455 · [2026-11-16 — Coordinador — D-127: el entorno `produccion` ya no exige aprobación](registro/2026-11-16_coordinador-d127-produccion.md)
+- 1.0.454 · [2026-11-15 — T-356 — Script de espejo en R2 de los seccionados INE 2010-2026 y el Observatorio](registro/2026-11-15_t356-espejo-ine-observatorio-r2.md)
+- 1.0.453 · [2026-11-16 — Hotfix T-334 — test del M06 independiente del INDEX vivo](registro/2026-11-16_hotfix-t334-test-indice-congelado.md)
+- 1.0.452 · [2026-11-14 — T-323 — P10 desde R2 con aviso de cambios del INE (D-112, D-117, D-119)](registro/2026-11-14_t323-p10-desde-r2.md)
+- 1.0.451 · [2026-11-14 — T-300 — La P50 copia el catálogo de procedencia al sitio](registro/2026-11-14_t300-p50-copia-catalogo-procedencia.md)
+- 1.0.450 · [2026-11-15 — T-358 — Población por sección con relleno para el histórico de las generales (D-126)](registro/2026-11-15_t358-poblacion-seccion-relleno.md)
+- 1.0.449 · [2026-11-15 — T-357 — Población por sección censal 2011-2020 y casado con seccionado y votos](registro/2026-11-15_t357-padron-seccion.md)
+- 1.0.448 · [2026-11-15 — T-354 — Espejo en R2 (ARC-E) de las 4 fuentes de mesas de Galicia](registro/2026-11-15_t354-espejo-galicia-r2.md)
+- 1.0.447 · [2026-11-15 — T-352 — Traspaso del Coordinador (relevo ordenado por el propietario)](registro/2026-11-15_coordinador-traspaso.md)
+- 1.0.446 · [2026-11-15 — Coordinador — Lecciones del relevo 15-11 y tablero](registro/2026-11-15_coordinador-lecciones-relevo.md)
+- 1.0.445 · [2026-11-15 — T-353 — Id canónico en los contratos electorales de config y test de CI](registro/2026-11-15_t353-config-id-canonico.md)
+- 1.0.444 · [2026-11-15 — T-349 — El paquete electoral registrado con id no canónico no se reutiliza (Activación, P12, puertas)](registro/2026-11-15_t349-electoral-id-canonico.md)
+- 1.0.443 · [2026-11-15 — T-351 — Ficha del paso A del histórico al día (condición previa, orden tras r4, topes y avisos)](registro/2026-11-15_operador-t351-ficha-historico.md)
+- 1.0.442 · [2026-11-15 — T-345 — Alias de coaliciones acreditados con la composición del BOE de candidaturas proclamadas (D-120)](registro/2026-11-15_t345-composicion-boe.md)
+- 1.0.441 · [2026-11-15 — T-350 — Plan 1.0.50: D-119 a D-122 y cola T-342 a T-349](registro/2026-11-15_planificador-plan-1-0-50.md)
+- 1.0.440 · [2026-11-15 — T-348 — Transparencia: la frase de Cloudflare/NEL también en nacional y Congreso](registro/2026-11-15_t348-transparencia-visores.md)
+- 1.0.439 · [2026-11-15 — T-343 — Mapa espejo→sigla BOE acreditado con ficheros para la puerta del histórico](registro/2026-11-15_t343-alias-boe-espejo.md)
+- 1.0.438 · [2026-11-15 — T-346 — Transparencia: el sitio lo sirve Cloudflare (informes NEL/Report-To con la IP)](registro/2026-11-15_feat-t346-nota-cloudflare.md)
+- 1.0.437 · [2026-11-15 — T-342 — Puerta del histórico: pérdida ≤ 0,1 % y contraste con el BOE (fallo cerrado)](registro/2026-11-15_t342-puerta-historico.md)
+- 1.0.436 · [2026-11-15 — T-340 — Ficha del histórico paso A adaptada a D-105 (mapa 2023)](registro/2026-11-15_t340-ficha-historico-2023.md)
+- 1.0.435 · [2026-11-15 — T-339 — Smoke de carga de todos los entrypoints y refuerzo del test de T-338](registro/2026-11-15_test-t339-smoke-entrypoints.md)
+- 1.0.434 · [2026-11-15 — T-341 — Plan 1.0.49: decisiones del 15-11 y cola T-329 a T-339](registro/2026-11-15_planificador-plan-1-0-49.md)
+- 1.0.433 · [2026-11-15 — T-338 — Cargador de territorio_ids registra el módulo en sys.modules](registro/2026-11-15_fix-t338-cargador-territorio-ids.md)
+- 1.0.432 · [2026-11-15 — T-336 — Evidencia de fuentes restaurada solo con el id canónico (r3 aut11)](registro/2026-11-15_t336-evidencia-id-canonico.md)
+- 1.0.431 · [2026-11-15 — T-334 — Seguimiento de T-329: manifiesto neutro, puerta con m07/perdidos, tabla verificada y id nuevo](registro/2026-11-15_t334-seguimiento-paso-a.md)
+- 1.0.430 · [2026-11-14 — T-329 — Paso A del histórico sobre el mapa 2023 (D-105)](registro/2026-11-14_t329-paso-a-mapa-2023.md)
+- 1.0.429 · [2026-11-15 — T-335 — Barrido de tests de estado vivo ante la campaña r3 (fixture congelado)](registro/2026-11-15_t335-barrido-estado-vivo.md)
+- 1.0.428 · [2026-11-14 — T-330 — CSV oficiales de resultados por circunscripción 2011, 2015, 2016 y 2019-04 (BOE)](registro/2026-11-14_t330-resultados-oficiales-boe.md)
+- 1.0.427 · [2026-11-14 — T-326 — test del catálogo de procedencia sin estado vivo en PR](registro/2026-11-14_t326-catalogo-procedencia-congelado.md)
 - 1.0.426 · [2026-11-14 — T-328 — Histórico desde 2011: tablas año→2023, identificadores BOE y ficha del paso A](registro/2026-11-14_t328-historico-2023.md)
 - 1.0.425 · [2026-11-14 — T-327 — Plan 1.0.48: huecos autonómicos del histórico (D-113) y test de procedencia (T-326)](registro/2026-11-14_planificador-plan-1-0-48.md)
 - 1.0.424 · [2026-11-14 — T-322 — aut11 y aut12 a la raíz congelada y linaje fijado (continuación de #793)](registro/2026-11-14_t322b-fixtures-aut11-aut12.md)

@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac08",
+  "territory_name": "Congreso Barcelona",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_barcelona_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43757988864,
+    "artifact_name": "ddd-source-package-nac08-2025-43757988864",
+    "artifact_sha256": "ca90b878ad89de420f40ead98cbde4b8a598cd4f9de60ab36329fb9bc5e77625",
+    "package_sha256": "0c67568f43791929e22c85d931e947ecf51feeda11fdd1c597406c78f0b66cab",
+    "source_commit": "200ce388adbc357161a606a5d2fc8be54de160c0",
+    "source_declaration": "territorios/nac08/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac08/evidencia/fuentes_territoriales/2025/e6f65bdefe4bf0a3f86ab3324a63679afc21dad757f4039a507041d0e9464e0d/43757988864/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "e6f65bdefe4bf0a3f86ab3324a63679afc21dad757f4039a507041d0e9464e0d",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "4cb4a6526bf26dde9cd386bf1fe6119d29207f3423568d62943cfcbabb098085",
+    "compatibility_identity_sha256": "767f3c965521584694aac7c56c48aaee4a57de167f35c094ac6e8ed69d2bc309",
+    "remote_verification": {
+      "run_id": 43757988864,
+      "artifact_id": 14179590018,
+      "artifact_name": "ddd-source-package-nac08-2025-43757988864",
+      "artifact_sha256": "ca90b878ad89de420f40ead98cbde4b8a598cd4f9de60ab36329fb9bc5e77625",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43763288591,
+    "artifact_name": "ddd-electoral-package-nac08-2025-43763288591",
+    "artifact_sha256": "90a56bc02d687a5fc972356057e605a4f624f52af538b2d3333575e5d9f52679",
+    "source_commit": "44b9d89ea1c279a9442e85b214e193aa46429240",
+    "receipt_path": "territorios/nac08/evidencia/fuentes_electorales/2025/c7a6d16a79157e465f13c90dec568f48cd993675c3332811dca89e38caed1951/43763288591/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_barcelona_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "c7a6d16a79157e465f13c90dec568f48cd993675c3332811dca89e38caed1951",
+    "remote_verification": {
+      "run_id": 43763288591,
+      "artifact_id": 14180179981,
+      "artifact_name": "ddd-electoral-package-nac08-2025-43763288591",
+      "artifact_sha256": "90a56bc02d687a5fc972356057e605a4f624f52af538b2d3333575e5d9f52679",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "e6f65bdefe4bf0a3f86ab3324a63679afc21dad757f4039a507041d0e9464e0d",
+  "electoral_compatibility_key": "c7a6d16a79157e465f13c90dec568f48cd993675c3332811dca89e38caed1951",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac08/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "f76cd4bba58493a740c59382496954fb6e09e1d3482567f369d3b33b4f7b4a93"
+}

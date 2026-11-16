@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_baleares",
+  "territory_id": "nac07",
   "territory_name": "Congreso Baleares",
   "edition": "2025",
-  "run_id": 42953068884,
-  "artifact_name": "ddd-state-42953068884-M08",
-  "artifact_sha256": "8c26683f3cc565c9e9d26f88aaf52f7e476d4d607b7233bf67710edf8dd6e8bf",
-  "source_commit": "5841c5e374f931f1008a616b6a0f033bae70ee4f",
+  "run_id": 43763327156,
+  "artifact_name": "ddd-state-43763327156-M08",
+  "artifact_sha256": "6383d276fc272592e08ffdef2fee3b8e386836939aae19f873de655d49614b29",
+  "source_commit": "d5865160a614074c9b86c2631d5e8b01e76f00a6",
   "stage": "M08"
 }

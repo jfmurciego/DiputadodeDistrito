@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 14168813531,
+      "artifact_name": "ddd-audit-43728972913",
+      "artifact_sha256": "6ca85c0b3c7be8d45f90f92e95ccf83a440132f2995de6f6f8f9ce1f7734cba3",
+      "run_id": 43728972913,
+      "size_in_bytes": 10354
+    },
+    "m04": {
+      "artifact_id": 14169330317,
+      "artifact_name": "ddd-state-43728972913-M04",
+      "artifact_sha256": "25952849d346de58e1bc1d571fc37b4a1e8a7ef6db05bcd27f0e3f3cb99a5f08",
+      "run_id": 43728972913,
+      "size_in_bytes": 111966869
+    },
+    "m05": {
+      "artifact_id": 14168976254,
+      "artifact_name": "ddd-state-43728972913-M05",
+      "artifact_sha256": "aef649e12340815ff8e8bf694a87ab691d384ab4b36f7d5c42cccc90684b1d3a",
+      "run_id": 43728972913,
+      "size_in_bytes": 118238226
+    },
+    "m06": {
+      "artifact_id": 14168472943,
+      "artifact_name": "ddd-state-43728972913-M06",
+      "artifact_sha256": "a3bfb42e357f03dc4fb033d8af6e935ebda5aead9ec26466bb58ffc6a81c90d1",
+      "run_id": 43728972913,
+      "size_in_bytes": 134275916
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "aut05_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "adb97318dfb7ac16e68ccdd1f5f3f3d5d88d3172d8b0d3ef617a098c2245bfb2",
+        "size_in_bytes": 58259
+      },
+      "block_causes.json": {
+        "sha256": "e049847db06cdd7a6d5c9ee23f6998e2e12d299e7c66332bbc196d0e2ad1f259",
+        "size_in_bytes": 399
+      },
+      "optimization_execution.json": {
+        "sha256": "a468d3a63496cd0047000d38b89cd57f0f13932bbb990cbbe304a9a52564c69f",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "9336b133176856203271752cb4869f3502ba0da60aae1cc157dedee95bb18cc2",
+        "size_in_bytes": 1457
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "9336b133176856203271752cb4869f3502ba0da60aae1cc157dedee95bb18cc2",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/aut05/config/aut05_2025.yaml",
+    "sha256": "1abcd808d3457c115e63e13e9a55c8cd0439625119de7719fb63fc86009a93e9"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "140935be401852a2119f582f7147d3dd48341a40ca6b499cc9fe6a7e43350e7a",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s161966371",
+      "generador": "ponderado",
+      "huella_resultado": "d8eaf3e5ad2d41e4481e6da0625fe98d7b9ef68a38b0c09c6068b3807482a598",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.9768144468905783,
+          "fuera_tolerancia": 20,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.9768144468905783,
+          "fuera_tolerancia": 20,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "7a9753feaf28ed7aba011e4485be2fe946aee8bda36c413378440c0e2c81deaf",
+      "p30_sha256": "6418fc61e0f59c2ede0cb5b239fde31a1b71c25d907078def20e229b7f29dcd2",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "a57c6f9d2c4563d7fc4c969e0adece533b9b6e53",
+    "edition": "2025",
+    "territory_id": "aut05",
+    "territory_name": "Canarias",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43728972913,
+    "workflow_sha": "f61adbc4a23e024149ca34748512a53e605aa348"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 14169330317,
+      "artifact_name": "ddd-state-43728972913-M04",
+      "artifact_sha256": "25952849d346de58e1bc1d571fc37b4a1e8a7ef6db05bcd27f0e3f3cb99a5f08",
+      "run_id": 43728972913,
+      "size_in_bytes": 111966869
+    },
+    "source_manifest_sha256": "2b539d918aaa4fe2ca5c3110369b284d3ae98dda4c1da9a4cfb99ab2e93ea96b",
+    "source_package_artifact": {
+      "artifact_id": 14167327988,
+      "artifact_name": "ddd-source-package-aut05-2025-43728972913",
+      "artifact_sha256": "e37f07d9a16a959e874ba5af02275b0341749a80975a7d046ea7ad8a08cead22",
+      "run_id": 43728972913,
+      "size_in_bytes": 93158602
+    }
+  },
+  "manifest_sha256": "8f38f5d022705e3d257cdf9da3847a9723deab790e5a2b1a039f2dc69e9f79b8",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

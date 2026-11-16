@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_barcelona",
+  "territory_id": "nac08",
   "territory_name": "Congreso Barcelona",
   "edition": "2025",
-  "run_id": 42953127263,
-  "artifact_name": "ddd-state-42953127263-M08",
-  "artifact_sha256": "a9ffd2ef295af448e18c909b32a2b3a3a3dd3c5fcebcfc0d306ba3e0adf1afcb",
-  "source_commit": "6a9d860eee7224d7fcff7d030ec7a501a3cbd45d",
+  "run_id": 43763728403,
+  "artifact_name": "ddd-state-43763728403-M08",
+  "artifact_sha256": "1e01b57e7bfbb2588aa40b0e90abb8bfac5c04fca211ce53a920855e765ab9ad",
+  "source_commit": "5ad2ae531baa8e6bba10083b81f891456e1f3020",
   "stage": "M08"
 }

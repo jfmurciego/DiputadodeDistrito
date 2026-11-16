@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "nac19",
+  "territory_name": "Congreso Guadalajara",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_guadalajara_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 43764666420,
+    "artifact_name": "ddd-source-package-nac19-2025-43764666420",
+    "artifact_sha256": "de11a80261ff5d899f9326489165ff099e94cb873dd67bf647bc8d91121adaae",
+    "package_sha256": "208f35fcfb116970b6a9d653a1e1fca09abe064f729ca4f60517235ae80a2502",
+    "source_commit": "75c151eaca9b0dda7aeae077b08aa8a16dcbdda3",
+    "source_declaration": "territorios/nac19/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/nac19/evidencia/fuentes_territoriales/2025/0eafa1c4a0ffe119f7b75272e967154e1ba0072482b6f73f746d29497ffa6312/43764666420/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "0eafa1c4a0ffe119f7b75272e967154e1ba0072482b6f73f746d29497ffa6312",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "53d8a0b4ce8c98ca2d50eee4c90e6eaf582d989ce098963bc865fba6ddd0f8c7",
+    "compatibility_identity_sha256": "d722d8cd824403313f84b882e0a032ec6c5cef7496938cc610ddde70575fe599",
+    "remote_verification": {
+      "run_id": 43764666420,
+      "artifact_id": 14182100977,
+      "artifact_name": "ddd-source-package-nac19-2025-43764666420",
+      "artifact_sha256": "de11a80261ff5d899f9326489165ff099e94cb873dd67bf647bc8d91121adaae",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 43775071856,
+    "artifact_name": "ddd-electoral-package-nac19-2025-43775071856",
+    "artifact_sha256": "d8dd9870dfee361758d8e844411fec1feafb411ae3895f574c5e8e1dddf69d22",
+    "source_commit": "ea71bb9073e033b959940102119ab5f5b4654c60",
+    "receipt_path": "territorios/nac19/evidencia/fuentes_electorales/2025/bddab13162c79867f009012dfa5563810903fbb2b579f7cfc0cf826933697011/43775071856/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_guadalajara_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "bddab13162c79867f009012dfa5563810903fbb2b579f7cfc0cf826933697011",
+    "remote_verification": {
+      "run_id": 43775071856,
+      "artifact_id": 14186276528,
+      "artifact_name": "ddd-electoral-package-nac19-2025-43775071856",
+      "artifact_sha256": "d8dd9870dfee361758d8e844411fec1feafb411ae3895f574c5e8e1dddf69d22",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "0eafa1c4a0ffe119f7b75272e967154e1ba0072482b6f73f746d29497ffa6312",
+  "electoral_compatibility_key": "bddab13162c79867f009012dfa5563810903fbb2b579f7cfc0cf826933697011",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/nac19/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "23e6a7ae9879ca4733a5a685a9ee1961a9330ec48fd6e07d3d59745aeab311e0"
+}

@@ -1,12 +1,12 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "electoral_product",
-  "territory_id": "congreso_ciudad_real",
+  "territory_id": "nac13",
   "territory_name": "Congreso Ciudad Real",
   "edition": "2025",
-  "run_id": 42954776957,
-  "artifact_name": "ddd-state-42954776957-M08",
-  "artifact_sha256": "fec08258857eb907beae0555157844a11d129d845237ffe5a49c35b40e4ba2dc",
-  "source_commit": "973bc539a2660abb7c707ddef7f36a0cffb31f98",
+  "run_id": 43769610932,
+  "artifact_name": "ddd-state-43769610932-M08",
+  "artifact_sha256": "23b710d073c051323c3052e8387b86481ecd7c6dc58f82d4bb5af7cb0a2c5512",
+  "source_commit": "451db073727f70523fe5888e0f8886be5b23dd66",
   "stage": "M08"
 }

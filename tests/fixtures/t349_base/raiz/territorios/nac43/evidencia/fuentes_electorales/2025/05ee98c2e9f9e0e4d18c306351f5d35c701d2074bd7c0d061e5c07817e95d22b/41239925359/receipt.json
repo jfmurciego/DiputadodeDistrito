@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_tarragona",
+  "territory_name": "Congreso Tarragona",
+  "edition": "2025",
+  "run_id": 41239925359,
+  "artifact_name": "ddd-electoral-package-congreso_tarragona-2025-41239925359",
+  "artifact_sha256": "2b1d4dbd0877f1fec39100d97c14e38eb781b6126cd92eebbb15ebfa6e0a80d6",
+  "source_commit": "39d0b486fe985b786a70fe63e2adafaf183e9f55",
+  "election_id": "congreso_tarragona_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "05ee98c2e9f9e0e4d18c306351f5d35c701d2074bd7c0d061e5c07817e95d22b"
+}

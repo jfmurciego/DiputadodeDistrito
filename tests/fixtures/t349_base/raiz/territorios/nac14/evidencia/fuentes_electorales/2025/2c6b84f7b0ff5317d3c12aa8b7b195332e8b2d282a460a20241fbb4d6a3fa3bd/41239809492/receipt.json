@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_cordoba",
+  "territory_name": "Congreso Córdoba",
+  "edition": "2025",
+  "run_id": 41239809492,
+  "artifact_name": "ddd-electoral-package-congreso_cordoba-2025-41239809492",
+  "artifact_sha256": "7261ca91d85d4a3b849cd2abedaf54dc72c68bd9e2374a8a0bebd5c5dd21960e",
+  "source_commit": "5218c0e9d47db27ed3ea8c937f8606c967225833",
+  "election_id": "congreso_cordoba_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "2c6b84f7b0ff5317d3c12aa8b7b195332e8b2d282a460a20241fbb4d6a3fa3bd"
+}

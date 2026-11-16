@@ -1,14 +1,14 @@
 {
   "schema": "ddd.catalog-evidence/1.0",
   "kind": "territorial_product",
-  "territory_id": "congreso_cuenca",
+  "territory_id": "nac16",
   "territory_name": "Congreso Cuenca",
   "edition": "2025",
-  "run_id": 42940397668,
-  "artifact_name": "ddd-state-42940397668-M06",
-  "artifact_sha256": "a61e3f75f8de520d528e20f4bd38e7591e8bedf534f24642e0ac5a517063134c",
-  "source_commit": "974e07f044d8ae0e7aa465f095180f3ac695346c",
+  "run_id": 43764632170,
+  "artifact_name": "ddd-state-43764632170-M06",
+  "artifact_sha256": "3785d4f434a744251b282646d6634aa824f4a202ba8b765dece9b51679253550",
+  "source_commit": "28a64e412cf09d9b9b0404168fdd02724b83ce97",
   "decision": "PASS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_cuenca/evidencia/generaciones_m06/42940397668.json"
+  "producer_manifest_path": "territorios/nac16/evidencia/generaciones_m06/43764632170.json"
 }

@@ -1,0 +1,130 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13897346021,
+      "artifact_name": "ddd-audit-43107035084",
+      "artifact_sha256": "ab4fb85dc2e8abb59cec955c612ca95f0d20ec9332e711f0dd2fa611a064a049",
+      "run_id": 43107035084,
+      "size_in_bytes": 21510
+    },
+    "m04": {
+      "artifact_id": 13896665017,
+      "artifact_name": "ddd-state-43107035084-M04",
+      "artifact_sha256": "c5770305b83724bfcb3264fdaed47e77aa9de1ae000a95df74a928f66b2b874c",
+      "run_id": 43107035084,
+      "size_in_bytes": 117456068
+    },
+    "m05": {
+      "artifact_id": 13895668481,
+      "artifact_name": "ddd-state-43107035084-M05",
+      "artifact_sha256": "37830d85d9b23e7a2cb7608a8834a737403e927f58873b3ca189f0731aa1ddcd",
+      "run_id": 43107035084,
+      "size_in_bytes": 125858519
+    },
+    "m06": {
+      "artifact_id": 13896048363,
+      "artifact_name": "ddd-state-43107035084-M06",
+      "artifact_sha256": "c5ffbc5fbfbd2809223617f295a7f05eaacdd60141673a216bfbde721d76cfc7",
+      "run_id": 43107035084,
+      "size_in_bytes": 146482360
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "andalucia_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "5fdf968dad84a4ca7ab5791a22ef74671d907baf70407dfedf4dd03acdc26f1e",
+        "size_in_bytes": 132358
+      },
+      "block_causes.json": {
+        "sha256": "6dd5533c60a5688d17c56bdd59dda9dd6682125c282a98b29581f10a5f13f6e8",
+        "size_in_bytes": 403
+      },
+      "optimization_execution.json": {
+        "sha256": "acc38d32ddd73004b85883bd7bf4a13b7d6f5f6047cb21872baf158acaac71c4",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "25f7257a4024631b5df3e14e011c4bc71885a5f3cfcc15ce58e91fe1aa035603",
+        "size_in_bytes": 1472
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "25f7257a4024631b5df3e14e011c4bc71885a5f3cfcc15ce58e91fe1aa035603",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/andalucia/config/andalucia_2025.yaml",
+    "sha256": "05fba2bc06205b447cfd92be246ca84616da42c7a8744c38fdbe48d1760324b6"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "dbc5abf83ef1e83ef89b25681011bc747d8465a741202db0581546b4ddb2c871",
+    "p30": {
+      "cadenas": 10,
+      "estado": "P30_GANA_OTRO_PLAN",
+      "funcion": "D8",
+      "ganador": "ponderado-s507766189",
+      "generador": "ponderado",
+      "huella_resultado": "a3dd985c30a24b6623157a3bca2ef35c30538f6719d369c4a5d6664687e7ae91",
+      "metricas": {
+        "canonico": {
+          "desvio_max": 0.7454740061126834,
+          "fuera_tolerancia": 20,
+          "violaciones_duras": 0
+        },
+        "ganador": {
+          "desvio_max": 0.7454740061126834,
+          "fuera_tolerancia": 20,
+          "violaciones_duras": 0
+        }
+      },
+      "motor": "motor2",
+      "motor2_fingerprint": "d32a2f78ff5a4a85c32a207b1140db4ea8df82271cbbe564c044086ec352ae29",
+      "p30_sha256": "bc4fe3020a91d418b18b333dc2b4211cf942b4175e117e7099ceca8ac3aa69ad",
+      "rehacer_m06": true
+    },
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "8e4e268e0dfb5e353a381456bfdee5c8133fc509",
+    "edition": "2025",
+    "territory_id": "andalucia",
+    "territory_name": "Andalucía",
+    "workflow_name": "P00 Campaña",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 43107035084,
+    "workflow_sha": "8e4e268e0dfb5e353a381456bfdee5c8133fc509"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13896665017,
+      "artifact_name": "ddd-state-43107035084-M04",
+      "artifact_sha256": "c5770305b83724bfcb3264fdaed47e77aa9de1ae000a95df74a928f66b2b874c",
+      "run_id": 43107035084,
+      "size_in_bytes": 117456068
+    },
+    "source_manifest_sha256": "834e8405e6edad805f0f9e9d12ed5f6a5a7de48ed32fecf694430cca88678761",
+    "source_package_artifact": {
+      "artifact_id": 12930076590,
+      "artifact_name": "ddd-source-package-andalucia-2025-40946875467",
+      "artifact_sha256": "f2694b451830d4a699a4aaa959834edab2e1a7dc5fd83eaa4589ba9d5d196c52",
+      "run_id": 40946875467,
+      "size_in_bytes": 100536983
+    }
+  },
+  "manifest_sha256": "9173216c1c87dd443c45d6098f4727b50303c38dcc7594f5a23d657e4558e871",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

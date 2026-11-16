@@ -2,15 +2,16 @@
 """Promueve evidencia operacional sin perder el enlace productor M06.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.3
-NOMBRE DE VERSIÓN: Linaje histórico retirado al registrar un M06 nuevo
-FECHA: 2026-11-12
+VERSIÓN: 1.1.4
+NOMBRE DE VERSIÓN: Cargador de ids de territorio con módulo registrado
+FECHA: 2026-11-15
 ESTADO: candidato
 QUÉ HACE: registra recibos operativos y rederiva su persistencia desde el HEAD destino.
 CAMBIOS: al registrar territorial_product retira territorial_product_source_lineage si pertenece a otro run.
 MOTIVO: Aragón registró el M06 40656036271 conservando el linaje del producto 36321736287, y la reutilización geométrica atribuía el producto nuevo a la fuente antigua.
 CAMBIOS 1.1.3 (T-220): ids de territorio nuevos de la tabla maestra (aut01…nac52, D-61); el id viejo se lee vía ddd_core.territorio_ids.
-ANTERIOR: legacy/herramientas/promover_catalogo_operacional_v1.1.2_20261112.py
+CAMBIOS 1.1.4 (T-338): _territorio_ids_t220 registra el módulo en sys.modules antes de exec_module (el dataclass fallaba con AttributeError en proceso limpio).
+ANTERIOR: legacy/herramientas/promover_catalogo_operacional_v1.1.3_20261115.py
 """
 from __future__ import annotations
 
@@ -32,7 +33,13 @@ def _territorio_ids_t220():
         return None
     spec = importlib.util.spec_from_file_location("_t220_territorio_ids", ruta)
     modulo = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(modulo)
+    # T-338: el @dataclass de territorio_ids busca sys.modules[cls.__module__]; sin registrarlo antes, exec_module revienta.
+    sys.modules[spec.name] = modulo
+    try:
+        spec.loader.exec_module(modulo)
+    except BaseException:
+        sys.modules.pop(spec.name, None)
+        raise
     return modulo
 
 
