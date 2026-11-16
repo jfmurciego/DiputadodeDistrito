@@ -1,0 +1,90 @@
+{
+  "derived_from": {
+    "sha256": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+    "source": "Ministerio del Interior — Infoelectoral 02202307_MESA.zip"
+  },
+  "election_date_label": "2026-11-29",
+  "equivalence_table": {
+    "path": "configuracion/equivalencia_seccionado_ine_2026_a_2023.csv",
+    "sha256": "d57d5fcfd80372b4842edc914bd43f89a655c91f996d4bd8bbceb5fd6fbfb35e"
+  },
+  "feed_format": "sin documento: formato minsait_provisional supuesto (el que acepta adaptador_minsait_csv, más la columna ensayo)",
+  "files": {
+    "nac22": {
+      "bytes": 301620,
+      "candidate_votes": 117735,
+      "ccaa": "02",
+      "derived_from_election_id": "congreso_huesca_2023-07-23",
+      "election_id_ensayo": "congreso_huesca_2026-11-29",
+      "file": "ensayo_congreso_huesca_2026-11-29.csv",
+      "partida_sections": [
+        "2221301002"
+      ],
+      "polling_stations": 401,
+      "polling_stations_2023": 403,
+      "province": "22",
+      "rows": 5213,
+      "sections": 285,
+      "sections_2023": 286,
+      "sections_by_type": {
+        "1:1": 0,
+        "contenida": 1,
+        "partida": 1
+      },
+      "sha256": "3b595dc83b24fee1e19d8e76758a197412418e7f72fc391677d78592990e288c"
+    },
+    "nac42": {
+      "bytes": 148135,
+      "candidate_votes": 49823,
+      "ccaa": "08",
+      "derived_from_election_id": "congreso_soria_2023-07-23",
+      "election_id_ensayo": "congreso_soria_2026-11-29",
+      "file": "ensayo_congreso_soria_2026-11-29.csv",
+      "partida_sections": [],
+      "polling_stations": 265,
+      "polling_stations_2023": 256,
+      "province": "42",
+      "rows": 2650,
+      "sections": 219,
+      "sections_2023": 216,
+      "sections_by_type": {
+        "1:1": 1,
+        "contenida": 5,
+        "partida": 0
+      },
+      "sha256": "a85dbd68d99389c1746399477aa8049cd487945dcde6ed247f91e95053b08caf"
+    },
+    "nac52": {
+      "bytes": 40868,
+      "candidate_votes": 26925,
+      "ccaa": "19",
+      "derived_from_election_id": "congreso_melilla_2023-07-23",
+      "election_id_ensayo": "congreso_melilla_2026-11-29",
+      "file": "ensayo_congreso_melilla_2026-11-29.csv",
+      "partida_sections": [
+        "5200108002"
+      ],
+      "polling_stations": 90,
+      "polling_stations_2023": 87,
+      "province": "52",
+      "rows": 720,
+      "sections": 44,
+      "sections_2023": 44,
+      "sections_by_type": {
+        "1:1": 0,
+        "contenida": 1,
+        "partida": 1
+      },
+      "sha256": "72c87b85ec4d1d852248d14fe4edf87f78bb24ed5c3cab1e6e30fdd3c95037da"
+    }
+  },
+  "mark": "ENSAYO_2026-11-29_NO_OFICIAL",
+  "official": false,
+  "operator_check": "los sha256 de este MANIFEST solo se confrontan al regenerar: el Operador ejecuta el generador con el ZIP oficial y compara antes de subir los CSV (tests.test_datos_ensayo_congreso_t333 con DDD_ZIP_INFOELECTORAL_2023)",
+  "rehearsal": true,
+  "release_tag": "fuente-ensayo-congreso-2026-11-29",
+  "schema": "ddd-ensayo-datos-manifest/1.1",
+  "section_keys": "claves de sección 2026: cada fila 2023 se reparte entre las secciones 2026 de la tabla por peso_poblacion (cociente exacto, resto al mayor peso, empate por clave); solo para construir el fixture; total provincial conservado",
+  "status": "PROVISIONAL",
+  "warning": "Datos de ENSAYO derivados del ZIP Infoelectoral 2023 por mesa; no son resultados de 2026 ni datos oficiales."
+}
