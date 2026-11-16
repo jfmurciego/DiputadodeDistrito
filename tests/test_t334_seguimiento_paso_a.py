@@ -31,8 +31,7 @@ except ImportError:  # pragma: no cover
 @unittest.skipIf(hc is None, "dependencias no instaladas")
 class Seguimiento(unittest.TestCase):
     def test_manifiesto_clave_neutra_y_lectura_retrocompatible(self):
-        antiguo = json.loads((ROOT / "datos/resultados/historico/MANIFEST_M07.json").read_text("utf-8"))["territorios"]
-        entrada = next(iter(antiguo.values()))
+        entrada = {"seccionado_2025": "d" * 64}  # entrada histórica sintética (no el MANIFEST_M07 vivo, que se regenera)
         self.assertIn("seccionado_2025", entrada)  # lo histórico no se reescribe
         self.assertEqual(hm.huella_seccionado(entrada), entrada["seccionado_2025"])
         self.assertEqual(hm.huella_seccionado({"seccionado": "a" * 64}), "a" * 64)
@@ -85,10 +84,11 @@ class Seguimiento(unittest.TestCase):
                 hc.registro_tabla(tabla, raiz)
 
     def test_el_m06_se_busca_con_id_nuevo_aunque_el_indice_tenga_el_viejo(self):
-        from ddd_core.territorio_ids import en_mapa
-        idx = json.loads((ROOT / "datos_abiertos/INDEX.json").read_text("utf-8"))["territorios"]
-        self.assertNotIn("nac01", idx)  # el INDEX conserva el id viejo
-        self.assertIsNotNone(en_mapa(idx, "nac01"))
+        from ddd_core.territorio_ids import en_mapa, id_legacy
+        # Índice sintético (no el INDEX vivo, que cambia al registrar ids nuevos): solo con la clave del id viejo.
+        idx = {id_legacy("nac01"): {"m06": "x"}}
+        self.assertNotIn("nac01", idx)  # el índice conserva el id viejo
+        self.assertEqual(en_mapa(idx, "nac01"), {"m06": "x"})
         with self.assertRaises(SystemExit):
             hc._m06("nac999", Path("/nonexistent/x.zip"))
 
