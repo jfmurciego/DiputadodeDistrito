@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T03:28:42.908203+00:00",
+  "generated_at": "2026-11-16T03:35:04.606095+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -10669,13 +10669,13 @@
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
-          "territory_id": "congreso_valencia",
+          "territory_id": "nac46",
           "territory_name": "Congreso Valencia",
           "edition": "2025",
-          "run_id": 43041144007,
-          "artifact_name": "ddd-state-43041144007-M08",
-          "artifact_sha256": "e6f094f090d5851fefb4879cc0d897502a19b84a0ae782c012d1a1ed6dd543c7",
-          "source_commit": "96e5e41379b7a4d4520314ce551335bf6137c52a",
+          "run_id": 43798079539,
+          "artifact_name": "ddd-state-43798079539-M08",
+          "artifact_sha256": "2b6de69069c8849c6884c401339aef110b68ba162961bea659c1747d2ec5578d",
+          "source_commit": "b73ea0fddfcbbec764d73e443b698a1e77089d30",
           "stage": "M08"
         }
       },
@@ -10688,20 +10688,20 @@
       "name": "Nacional Valladolid",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43792330350,
+      "run_id": 43797487792,
       "last_run": {
-        "run_id": 43792330350,
+        "run_id": 43797487792,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10742,7 +10742,7 @@
       },
       "autonomous_community_code_ine": "C47",
       "display_name": "Nacional Valladolid",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac48",
@@ -12292,7 +12292,7 @@
     }
   ],
   "kpis": {
-    "complete": 71,
+    "complete": 72,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12357,6 +12357,7 @@
       "Nacional Tarragona",
       "Nacional Teruel",
       "Nacional Toledo",
+      "Nacional Valladolid",
       "Nacional Vizcaya",
       "Nacional Zamora",
       "Nacional Zaragoza",
@@ -12575,13 +12576,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac45",
-    "name": "Nacional Toledo",
-    "display_name": "Nacional Toledo",
-    "autonomous_community_code_ine": "C45",
-    "run_id": 43796175523,
+    "territory_id": "nac47",
+    "name": "Nacional Valladolid",
+    "display_name": "Nacional Valladolid",
+    "autonomous_community_code_ine": "C47",
+    "run_id": 43797487792,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
@@ -12595,12 +12596,6 @@
       "territory": "Nacional Valencia",
       "territory_id": "nac46",
       "autonomous_community_code_ine": "C46",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Valladolid",
-      "territory_id": "nac47",
-      "autonomous_community_code_ine": "C47",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12632,6 +12627,12 @@
       "territory_id": "congreso350_avila",
       "autonomous_community_code_ine": "R05",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Badajoz",
+      "territory_id": "congreso350_badajoz",
+      "autonomous_community_code_ine": "R06",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12645,12 +12646,6 @@
       "territory": "Nacional Valencia",
       "territory_id": "nac46",
       "autonomous_community_code_ine": "C46",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Valladolid",
-      "territory_id": "nac47",
-      "autonomous_community_code_ine": "C47",
       "action": "preparar fuentes electorales"
     }
   ]
