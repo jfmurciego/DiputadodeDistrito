@@ -233,7 +233,7 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         publication = dispatch_inputs(WORKFLOWS / "p50-publicacion-academica.yml")
         self.assertEqual(publication["territorios"]["type"], "string")
         self.assertNotIn("options", publication["territorios"])
-        self.assertEqual(set(publication), {"territorios"})
+        self.assertEqual(set(publication), {"territorios", "destino"})
 
 
 if __name__ == "__main__":

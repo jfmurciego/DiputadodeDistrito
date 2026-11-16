@@ -1,59 +1,53 @@
-# VERSIÓN: 1.2.0
-# FECHA: 2026-11-10
-# CAMBIOS: T-210 (D-74): plan B para el corte 5.0.0 y aclaración de qué guarda el depósito. Antes: DOI de concepto y de versión confirmados por el propietario (T-159)
-# ANTERIOR: legacy/docs/PUBLICACION_ZENODO_v1.1.0.md
-# Guía para el propietario: publicar un mapa con DOI en Zenodo (sin pasos de comandos)
+# VERSIÓN: 2.0.0
+# FECHA: 2026-11-16
+# CAMBIOS: T-388 (D-146): flujo por la API de Zenodo, solo mapas, CC BY 4.0; se retira la integración GitHub–Zenodo. Antes: plan A/B de D-74 (1.2.0)
+# ANTERIOR: legacy/docs/PUBLICACION_ZENODO_v1.2.0.md
+# Guía: publicar los mapas de Deslinde con DOI en Zenodo
 
 ## Qué es
-Zenodo es un archivo científico gratuito. Cada vez que el proyecto publica una «versión de mapa», Zenodo guarda una
-copia permanente y le da un DOI: un enlace que no caduca y que tu compañero puede citar.
+Zenodo guarda una copia permanente de cada versión de los mapas y le da un DOI citable. Desde D-146 el depósito lo hace
+el workflow **P50 Publicación académica** (job `zenodo`) por la API de Zenodo; ya no se usa la integración GitHub–Zenodo.
 
-## Lo que haces tú (una sola vez)
-1. Entra en zenodo.org con tu cuenta de GitHub → tu nombre → **GitHub** → activa el interruptor del repositorio
-   `DiputadodeDistrito`.
-2. En GitHub: repositorio → **Settings → Environments → New environment**, nómbralo `publicacion` y marca
-   **Required reviewers** con tu usuario. Así ninguna versión sale sin que tú la apruebes.
+## Qué se sube y qué no
+- **Sí:** los paquetes firmados `ddd-<territorio>-v<versión>.tar.gz`, `SHA256SUMS`, `LINAJE.json` (uno, con el linaje de todos),
+  `LICENCIA_CC-BY-4.0.txt` y `NOTA_FUENTES.md` (INE e Interior; `docs/zenodo/`).
+- **No:** motor, código del proyecto ni ZIP del repositorio (la herramienta rechaza cualquier otro nombre de fichero).
+- Licencia de los mapas: **CC BY 4.0**. Metadatos: tipo dataset, creador «Murciego, Jesus» (ORCID 0009-0002-4434-959X,
+  «Independent researcher»), enlaces a la Release de GitHub y al visor, y la nota «sin valor oficial».
+- Metadatos definidos en `herramientas/zenodo_deposito.py` (la copia del antiguo `.zenodo.json` está en `legacy/`).
 
-## Lo que haces cada vez
-1. Dices al Operador, en su chat, qué territorio publicar y con qué número de versión (p. ej. «Huesca, 1.0.0»).
-2. GitHub te pide aprobación (revisor del entorno `publicacion`). Apruebas.
-3. En unos minutos aparece la página del depósito en Zenodo con su DOI.
+## El botón (P50 Publicación académica)
+- `territorios`: códigos o `todos`. `destino`: **prueba** (sandbox.zenodo.org, por defecto) o **Zenodo** (el real).
+- Orden: resolver versión → crear la Release `mapas-v<versión>` (firmada) → depositar. La Release se crea siempre, también con
+  destino prueba: una prueba gasta esa versión (P50 se niega si los mapas no cambian), así que pruébalo antes con los mapas que
+  vayan a salir de verdad o acepta subir la versión.
+- Si falla el depósito, la Release ya existe: relanza solo el job `zenodo` («Re-run failed jobs»), no el botón entero.
 
-## Qué obtienes
-- Una página en Zenodo con título, autor, licencia (Apache-2.0), descripción, enlace al visor y al repositorio.
-- Un DOI **de esa versión** y otro DOI «de concepto» que apunta siempre a la última.
-- Aviso visible de que los mapas son un ejercicio de investigación sin valor oficial.
+## Series y DOI
+Intenta una nueva versión del concepto `10.5281/zenodo.24093967` (la serie de Huesca). Si Zenodo no permite pasar de software a
+dataset, borra ese borrador y crea un **concepto nuevo**; el informe del job lo declara (`concepto_nuevo`) y hay que actualizar
+el DOI de concepto en `CITATION.cff` y el README. En el destino prueba siempre hay concepto nuevo (otro servidor).
+
+## Garantías de la herramienta
+No crea dos depósitos de la misma versión (borrador o publicado: falla cerrado con `ZENODO_YA_EXISTE`); no publica si los
+ficheros del borrador no coinciden por md5 con los locales; las escrituras no se reintentan; un fallo tras crear el borrador
+imprime su id y URL (sin publicar) y no deja nada a medias en silencio.
+
+## Secretos (entorno `publicacion`)
+`ZENODO_TOKEN` (zenodo.org) y `ZENODO_SANDBOX_TOKEN` (sandbox.zenodo.org) los crea el propietario en cada sitio (permisos
+`deposit:write` y `deposit:actions`) y los guarda en el entorno `publicacion`. Nunca en el chat ni en ficheros. El paso de
+depósito recibe solo el del destino elegido; no se imprime ni se sube como artefacto.
+
+## Cómo se corrige un depósito
+- Borrador o sandbox: bórralo en Zenodo y relanza el job `zenodo`.
+- Publicado: un depósito publicado no se borra; los metadatos se editan en Zenodo y los ficheros solo cambian con una versión
+  nueva (nuevo P50 con el mapa corregido).
+
+## Una sola vez (propietario)
+Desactivar la integración GitHub–Zenodo del repositorio; borrar el ZIP de código del registro 24093968 (conserva publicación y DOI);
+crear los dos secretos en el entorno `publicacion`.
 
 ## Cómo citarlo
-Usa el DOI de la versión concreta; el botón «Cite this repository» de GitHub ya ofrece la cita (sale de `CITATION.cff`).
-Cuando exista el primer DOI real se añadirá la insignia al README y a `CITATION.cff`.
-
-## Qué verá tu compañero (limitación conocida)
-La integración automática de Zenodo guarda el **código del repositorio en esa versión** (unos 850 MB, muy por debajo del
-límite de 50 GB), pero **no los ficheros adjuntos a la Release** (el paquete del mapa y su manifiesto SHA-256). Lo
-adjunto sigue en la Release de GitHub, con su firma verificable. Decisión del propietario (09-11): no se cambia el flujo.
-
-## Datos de autor que constan
-Nombre «Jesus Murciego», ORCID 0009-0002-4434-959X, afiliación «Independent researcher» (decisión del propietario, 09-11).
-Versión del proyecto: 4.9.0.
-
-## Primer depósito
-Mapa Congreso Huesca 1.0.0 (versión «mapa-congreso_huesca-v1.0.0», 9-11-2026): https://zenodo.org/records/24093968
-
-- **DOI de versión:** 10.5281/zenodo.24093968 (solo ese mapa).
-- **DOI de concepto** (todas las versiones; resuelve a la última): 10.5281/zenodo.24093967.
-
-Ambos DOI los copió el propietario de la página del depósito. El fichero del depósito es el ZIP de código fuente de GitHub, **no** el paquete firmado `.tar.gz` (su sha256 está en la Release). El depósito es un mapa (Huesca), no el proyecto entero: el README cita el DOI de concepto como archivo de las versiones de mapa publicadas, no como cita de todo el motor.
-
-## Verificado
-- El propietario comprobó el 10-11-2026 que ambos DOI (24093967 y 24093968) resuelven a la página de Huesca en Zenodo, con el fichero `jfmurciego/DiputadodeDistrito-mapa-congreso_huesca-v1.0.0.zip` (el ZIP de código, no el paquete firmado).
-
-## Plan A (ahora) y plan B (corte 5.0.0) — D-74
-- **Plan A, hasta el corte:** se mantiene la integración GitHub–Zenodo descrita arriba. Cada depósito de mapa guarda el ZIP de
-  código del repositorio; el paquete firmado y su manifiesto SHA-256 están solo en la Release de GitHub. El DOI de concepto
-  24093967 es la serie de versiones de mapa (hoy solo Huesca 1.0.0), no la cita del proyecto.
-- **Plan B, desde el corte 5.0.0:**
-  1. DOI de **software** por edición del motor (una versión del motor = un DOI, desde la 5.0.0).
-  2. Depósito de **datos** por mapa, con el paquete firmado y su manifiesto, subido por la API de Zenodo con un token de
-     Zenodo que crea el propietario y guarda como secreto del repositorio (nunca en el chat ni en ficheros).
-  3. Hasta que el propietario cree ese secreto y apruebe el cambio de flujo, no se modifica la publicación.
+DOI de concepto (serie de mapas) o DOI de la versión concreta; `CITATION.cff` ya los lleva. Registro inicial: Mapa Congreso
+Huesca 1.0.0, https://zenodo.org/records/24093968 (DOI de versión 10.5281/zenodo.24093968; DOI de concepto 10.5281/zenodo.24093967).
+Versión del proyecto: 4.9.0. Los mapas no tienen valor oficial.

@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: >-
+  Si usas este software o los mapas que produce, cítalo con los metadatos de
+  abajo. Para un mapa concreto, cita el DOI de su versión en Zenodo; el DOI de concepto es la serie de versiones de mapa, no la cita del proyecto entero.
+title: "Diputado de Distrito: motor reproducible de distritos uninominales"
+type: software
+authors:
+  - family-names: "Murciego"
+    given-names: "Jesus"
+    affiliation: "Independent researcher"
+    orcid: "https://orcid.org/0009-0002-4434-959X"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24093967"
+    description: "DOI de CONCEPTO en Zenodo: la serie de versiones de MAPA publicadas (resuelve a la última); hoy solo Congreso Huesca 1.0.0. No es la cita del proyecto entero ni del motor."
+  - type: doi
+    value: "10.5281/zenodo.24093968"
+    description: "DOI de VERSIÓN en Zenodo: mapa Congreso Huesca 1.0.0 (mapa-congreso_huesca-v1.0.0, 9-11-2026). El depósito contiene el código fuente del repositorio, no el paquete firmado .tar.gz."
+repository-code: "https://github.com/jfmurciego/DiputadodeDistrito"
+url: "https://jfmurciego.github.io/DiputadodeDistrito/"
+license-url: "https://github.com/jfmurciego/DiputadodeDistrito/blob/main/LICENSE"
+version: "4.9.0"
+date-released: "2026-11-10"
+keywords:
+  - redistricting
+  - distritos uninominales
+  - GerryChain
+  - ReCom
+  - secciones censales
+  - España
+abstract: >-
+  Motor modular (M01–M08) que construye, optimiza, valida y audita distritos
+  uninominales a partir de secciones censales oficiales del INE. Los mapas
+  producidos son un ejercicio de investigación y no tienen valor oficial.

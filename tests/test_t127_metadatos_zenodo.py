@@ -9,13 +9,16 @@ ORCID = "0009-0002-4434-959X"
 
 
 class MetadatosZenodo(unittest.TestCase):
-    def test_zenodo_json(self):
-        z = json.loads((R / ".zenodo.json").read_text(encoding="utf-8"))
-        c = z["creators"][0]
-        self.assertEqual(c["name"], "Murciego, Jesus")
-        self.assertEqual(c["affiliation"], "Independent researcher")
-        self.assertEqual(c["orcid"], ORCID)
-        self.assertEqual(z["license"], "other-closed")  # T-280 (D-95): licencia propietaria
+    def test_metadatos_de_la_herramienta_y_zenodo_json_archivado(self):
+        # T-388 (D-146): los metadatos viven en la herramienta; `.zenodo.json` ya no está en la raíz (copia en legacy/)
+        self.assertFalse((R / ".zenodo.json").exists())
+        import sys
+        sys.path.insert(0, str(R / "herramientas"))
+        import zenodo_deposito as zd
+        m = zd.metadatos("1.0.0", "mapas-v1.0.0", "o/r")
+        c = m["creators"][0]
+        self.assertEqual((c["name"], c["affiliation"], c["orcid"]), ("Murciego, Jesus", "Independent researcher", ORCID))
+        self.assertEqual((m["license"], m["upload_type"]), ("cc-by-4.0", "dataset"))
 
     def test_citation_cff(self):
         t = (R / "CITATION.cff").read_text(encoding="utf-8")
@@ -33,13 +36,11 @@ class MetadatosZenodo(unittest.TestCase):
         cff = (R / "CITATION.cff").read_text(encoding="utf-8")
         readme = (R / "README.md").read_text(encoding="utf-8")
         guia = (R / "docs/PUBLICACION_ZENODO.md").read_text(encoding="utf-8")
-        z = json.loads((R / ".zenodo.json").read_text(encoding="utf-8"))
         for doi in (concepto, version):
             self.assertIn(f'value: "{doi}"', cff)
             self.assertIn(doi, readme)
             self.assertIn(doi, guia)
         self.assertIn(f"zenodo.org/badge/DOI/{concepto}.svg", readme)
-        self.assertIn(concepto, [r["identifier"] for r in z["related_identifiers"]])
 
     def test_version_readme_y_paper(self):
         readme = (R / "README.md").read_text(encoding="utf-8")
