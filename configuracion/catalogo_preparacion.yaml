@@ -2768,6 +2768,7 @@ territories:
         territorial_product: territorios/nac52/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/nac52/evidencia/pares_fuentes/2025/c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220.json
         electoral_product: territorios/nac52/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/nac52/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso350_alava
   name: Congreso 350 Álava
