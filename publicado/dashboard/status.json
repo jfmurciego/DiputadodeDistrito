@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-16T00:33:50.422844+00:00",
+  "generated_at": "2026-11-16T00:38:07.706326+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -3809,8 +3809,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 43664144395,
-            "receipt_path": "territorios/nac52/evidencia/fuentes_territoriales/2025/a9762edb7d6fa640133ad69d22c252a07cdab63f6fc53d2992e3db0e8ac1f732/43664144395/receipt.json"
+            "run_id": 43776324475,
+            "receipt_path": "territorios/nac52/evidencia/fuentes_territoriales/2025/47fc6b9524871b03018701d78fa42212d49d713cdc0a56af5c2781642175e70e/43776324475/receipt.json"
           }
         },
         "electoral": {
@@ -9185,20 +9185,20 @@
       "name": "Nacional Guipúzcoa",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43764679394,
+      "run_id": 43778046777,
       "last_run": {
-        "run_id": 43764679394,
+        "run_id": 43778046777,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9239,7 +9239,7 @@
       },
       "autonomous_community_code_ine": "C20",
       "display_name": "Nacional Guipúzcoa",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "nac21",
@@ -9490,11 +9490,11 @@
       "name": "Nacional Lérida",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 43064129984,
+      "run_id": 43773580960,
       "last_run": {
         "run_id": 43064129984,
         "status": "SUCCESS",
@@ -9503,7 +9503,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9517,16 +9517,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_lerida",
+          "territory_id": "nac25",
           "territory_name": "Congreso Lérida",
           "edition": "2025",
-          "run_id": 43059014993,
-          "artifact_name": "ddd-state-43059014993-M06",
-          "artifact_sha256": "05f4757962c9b78401dbda0db4c52f324e8c18553bbda15e8e5036cf0a6c4f24",
-          "source_commit": "ee8e776705048cb676b7e9df644d10d9ed4915d7",
+          "run_id": 43773580960,
+          "artifact_name": "ddd-state-43773580960-M06",
+          "artifact_sha256": "3460df99461a18e3f46870124361a36be24b447e7eb251d2fa13a9f624505755",
+          "source_commit": "bedcd7a1f90fb98426494f1de4c0c9bbc99d04cc",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_lerida/evidencia/generaciones_m06/43059014993.json"
+          "producer_manifest_path": "territorios/nac25/evidencia/generaciones_m06/43773580960.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9544,18 +9544,18 @@
       },
       "autonomous_community_code_ine": "C25",
       "display_name": "Nacional Lérida",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac26",
       "name": "Nacional La Rioja",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 42935762636,
+      "run_id": 43773865756,
       "last_run": {
         "run_id": 42935762636,
         "status": "SUCCESS",
@@ -9564,7 +9564,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9578,16 +9578,16 @@
         "territorial_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "territorial_product",
-          "territory_id": "congreso_la_rioja",
+          "territory_id": "nac26",
           "territory_name": "Congreso La Rioja",
           "edition": "2025",
-          "run_id": 42932144515,
-          "artifact_name": "ddd-state-42932144515-M06",
-          "artifact_sha256": "acc516ebc5867ddcbdbfb4c96acbef53252222a248f86e7d8ad28d70d9748d3b",
-          "source_commit": "83c4969db49f7d187ac136257c2b7ba9ac84893c",
+          "run_id": 43773865756,
+          "artifact_name": "ddd-state-43773865756-M06",
+          "artifact_sha256": "da8bfce8306636f7bed28e15ce79897f549afe50b99a8a60f2f5c779ebadc7f0",
+          "source_commit": "583dc6710fb63632f3e3d1a2825fc2fb80eedd28",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_la_rioja/evidencia/generaciones_m06/42932144515.json"
+          "producer_manifest_path": "territorios/nac26/evidencia/generaciones_m06/43773865756.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9605,7 +9605,7 @@
       },
       "autonomous_community_code_ine": "C26",
       "display_name": "Nacional La Rioja",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "nac27",
@@ -11156,9 +11156,9 @@
         "territorial_source": {
           "territory_id": "nac52",
           "edition": "2025",
-          "run_id": 43664144395,
-          "artifact_name": "ddd-source-package-nac52-2025-43664144395",
-          "artifact_sha256": "05a795060740b22bbdc109e827c237a385b42d30620a4abc8df0f4bef83e02bb",
+          "run_id": 43776324475,
+          "artifact_name": "ddd-source-package-nac52-2025-43776324475",
+          "artifact_sha256": "720c59f796aea29b856006cd8a882d12ad38556cd04e16aefa280c1a0d8adc4e",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -12436,7 +12436,7 @@
     }
   ],
   "kpis": {
-    "complete": 67,
+    "complete": 66,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12474,8 +12474,7 @@
       "Nacional Cuenca",
       "Nacional Gerona",
       "Nacional Granada",
-      "Nacional Lérida",
-      "Nacional La Rioja",
+      "Nacional Guipúzcoa",
       "Nacional Lugo",
       "Nacional Madrid",
       "Nacional Málaga",
@@ -12715,11 +12714,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "nac17",
-    "name": "Nacional Gerona",
-    "display_name": "Nacional Gerona",
-    "autonomous_community_code_ine": "C17",
-    "run_id": 43777503207,
+    "territory_id": "nac20",
+    "name": "Nacional Guipúzcoa",
+    "display_name": "Nacional Guipúzcoa",
+    "autonomous_community_code_ine": "C20",
+    "run_id": 43778046777,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12738,12 +12737,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional Guipúzcoa",
-      "territory_id": "nac20",
-      "autonomous_community_code_ine": "C20",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Huelva",
       "territory_id": "nac21",
       "autonomous_community_code_ine": "C21",
@@ -12768,10 +12761,16 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Nacional 350 Álava",
-      "territory_id": "congreso350_alava",
-      "autonomous_community_code_ine": "R01",
-      "action": "completar puerta de validación territorial"
+      "territory": "Nacional Lérida",
+      "territory_id": "nac25",
+      "autonomous_community_code_ine": "C25",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional La Rioja",
+      "territory_id": "nac26",
+      "autonomous_community_code_ine": "C26",
+      "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
@@ -12788,12 +12787,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Nacional Guipúzcoa",
-      "territory_id": "nac20",
-      "autonomous_community_code_ine": "C20",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Huelva",
       "territory_id": "nac21",
       "autonomous_community_code_ine": "C21",
@@ -12815,6 +12808,18 @@
       "territory": "Nacional León",
       "territory_id": "nac24",
       "autonomous_community_code_ine": "C24",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Lérida",
+      "territory_id": "nac25",
+      "autonomous_community_code_ine": "C25",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional La Rioja",
+      "territory_id": "nac26",
+      "autonomous_community_code_ine": "C26",
       "action": "preparar fuentes electorales"
     }
   ]
