@@ -126,6 +126,9 @@ while True:
     if (okn >= 5 and aviso < 5) or okn // 10 > aviso // 10:
         open(Q + '/aviso_n', 'w').write(str(okn)); log('HITO %d cadenas OK' % okn); sys.exit(0)
     # 5. lanzamientos (tras comprobar main y congelación)
+    if os.environ.get('SOLO_SEGUIR'):
+        if not any(r[5] == 'EN_VUELO' for r in cad.values()): log('SEGUIMIENTO: no quedan cadenas en vuelo'); sys.exit(0)
+        time.sleep(300); continue
     m = main_ok()
     if m:
         if 'congelación' in m: parada(m)
