@@ -28,7 +28,15 @@ Sustituye la regla de relleno de D-126 (año más cercano). Entrada de T-365 (di
    mayor peso de población según `herramientas/equivalencia_seccionados.equivalencia` (a(h∩v)/a(v)·pob(v), no el área) con la geometría de la sección
    tomada del seccionado MÁS CERCANO en años que la tenga (empate: el anterior) y las del seccionado del año; peso de población = la población de la
    propia tabla. **Sin sucesora única** (empate de pesos, sin geometría en ningún seccionado, sin sección vigente o sucesora fuera del seccionado) →
-   provincia APARTADA. La sección original desaparece de la tabla. Limitación: si una sección vieja se fusiona con otras, solo la de mayor peso recibe la
+   provincia APARTADA. La sección original desaparece de la tabla. **Condiciones y contabilidad declaradas:**
+   - La sucesora debe ser de la MISMA provincia (si no, provincia APARTADA). Si es de otro MUNICIPIO (segregaciones: el seccionado del año es anterior
+     al municipio nuevo; en la ejecución actual 7 secciones de 2015-12 y 6 de 2016-06, de las que solo 1 cae en una provincia no apartada: la 10 de 2015-12) se acepta y se cuenta en `reasignadas_otro_municipio`: la suma
+     de la provincia se conserva y la del municipio no (el municipio receptor suma de más; si su residuo sale ≤ 0 es el aviso `sin_ajuste_municipal`).
+   - **Conservación**: con sucesora de dato propio se conserva la suma por municipio y provincia; con sucesora ESTIMADA (o `sin_dato`) la
+     estimación se DESCARTA y entra el dato real de la sección desaparecida, así que la suma cambia en (dato real − estimación). Si ese municipio acaba con
+     residuo ≤ 0 (`sin_ajuste_municipal`) su suma puede no cuadrar con la oficial: queda registrado en `informe_municipios.csv`.
+   - **Criterio conservador del 1 %**: una sucesora con dato propio pasa a `reasignada` y cuenta ENTERA como estimada (no se prorratea la parte de dato real).
+   Limitación: si una sección vieja se fusiona con otras, solo la de mayor peso recibe la
    población y las demás siguen con su estimación (el ajuste municipal acota la suma).
 5. **Provincias APARTADAS (b y c)**: provincia-elección con alguna sección `sin_dato` (sin valor en NINGÚN año del Atlas; no se inventa) o con una sección
    sin sucesora única. Sus filas NO van en `poblacion_seccion_<AAAA-MM>.csv` (el consumidor las ve como provincia sin filas → `BLOQUEADA_SIN_DATO`)
@@ -72,7 +80,7 @@ los códigos del seccionado 2021: 36 333 secciones).
 
 Filas escritas en las tablas: 35 917 · 27 196 · 34 544 · 36 317 · 36 309. 2019-11 y 2019-04 quedan sin provincias apartadas y con exactamente las secciones de
 su seccionado (36 309 y 36 317). La tabla de 2019-11 trae 36 234 `dato`, 47 `reasignada` (52 secciones del Atlas → 47 sucesoras) y 28 `no_listada`;
-`ajustada`: 25 `sí`, 3 `sin_ssjuste_municipal`.
+`ajustada`: 25 `sí`, 3 `sin_ajuste_municipal`.
 **Apartadas (15)**: 2015-12 en 13 provincias (02, 04, 18, 20, 23, 24, 25, 27, 29, 33, 36, 46, 48) y 2016-06 en 2 (36, 48) por secciones `sin_dato` (43 en 2015, 7 en
 2016: existen en el seccionado y el Atlas no trae NINGÚN valor en ningún año) y, en 2016-06 provincia 36, la sección 3690201004 sin geometría en ningún seccionado
 (2012-2022). Motivo exacto en `informe_provincias.csv` (`estado`, `motivo`).
@@ -81,7 +89,7 @@ La columna «Prov. MARCA» cuenta solo provincias no apartadas; la población re
 Tablas completas (fuera del repo, reproducibles con el comando de arriba; el propietario decide R2): sha256
 2011-11 `45aa3552592a8819beab26b2a885551fbe1e8ccba0ec68ac3ccbb7621f0496a3` · 2015-12 `7d8a67dccaca7dd87fbde6bec8b4a13abed808dd8c028a6a429e00324c7909b3` ·
 2016-06 `6941ae4af6b8b58ef31dfd7e1aca56d10632b864d59b8b92c55e3838100cd9a5` · 2019-04 `55048fe207e6ddc97653aa237f700bfa42800846848682aa59d17119f60677e7` ·
-2019-11 `aef26748a31f9500efa8d9c30f9cf7b2e3a7312c41d214906a96141454acf56d` · informe_provincias `64febd26ad95d5282184bb51a22a03a6f517bc1cf460283ff82d7e3b3017d4c9` ·
+2019-11 `aef26748a31f9500efa8d9c30f9cf7b2e3a7312c41d214906a96141454acf56d` · informe_provincias `bba3fdd357233f526354cf5585cd6d224d86b706352fcb137662dbf2e579f0e0` ·
 informe_municipios `61b32855d37b9771caa32a66ae74a5985d706ad9e5a6cdea4c552f697f3ea6b8`.
 
 Nota: `docs/ESTUDIOS/T358_POBLACION_SECCION_RELLENO/causa_relleno.py` es histórico: solo corre con la herramienta 1.0.0 (en `legacy/`); con la 1.2.0 aborta con un aviso.

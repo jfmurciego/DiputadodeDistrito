@@ -297,9 +297,13 @@ def reasignar(filas, seccionado: set[str], sucesor_de):
 
     `sucesor_de(código) → (sucesora|None, motivo)`. La sucesora pasa a origen «reasignada»: si tenía dato propio, suma; si era
     una estimación o sin_dato, la sustituye (la población real de la zona manda). Las secciones sin sucesora única quedan y su
-    provincia se devuelve en `apartadas` {provincia: [motivos]}. Devuelve (filas, apartadas)."""
+    provincia se devuelve en `apartadas` {provincia: [motivos]}. La sucesora debe ser de la MISMA provincia (si no, apartada: la
+    provincia es la unidad de la tabla y del contrato). Si es de otro MUNICIPIO (segregaciones: el seccionado del año es anterior al
+    municipio nuevo) se acepta y se cuenta en `cruces` {provincia: n}: la suma provincial se conserva y la municipal no (el ajuste
+    municipal la trata como aviso). Devuelve (filas, apartadas, cruces)."""
     faltan = [f for f in filas if f[0] not in seccionado]
     apartadas: dict[str, list[str]] = {}
+    cruces: dict[str, int] = {}
     suma: dict[str, int] = {}
     anios: dict[str, set[str]] = {}
     quitar = set()
@@ -308,6 +312,11 @@ def reasignar(filas, seccionado: set[str], sucesor_de):
         if suc is None or suc not in seccionado:
             apartadas.setdefault(sec[:2], []).append(f"{sec}: sin sucesora única ({motivo if suc is None else 'fuera del seccionado'})")
             continue
+        if suc[:2] != sec[:2]:
+            apartadas.setdefault(sec[:2], []).append(f"{sec}: la sucesora {suc} es de otra provincia")
+            continue
+        if suc[:5] != sec[:5]:
+            cruces[sec[:2]] = cruces.get(sec[:2], 0) + 1
         suma[suc] = suma.get(suc, 0) + pob
         anios.setdefault(suc, set()).update(y.split("+"))
         quitar.add(sec)
@@ -325,7 +334,7 @@ def reasignar(filas, seccionado: set[str], sucesor_de):
             out.append(f)
     if set(suma) - vistas:  # la sucesora está en el seccionado pero sin fila (no puede ocurrir: las no listadas se añaden)
         raise ErrorFuente(f"sucesoras sin fila: {sorted(set(suma) - vistas)[:3]}")
-    return out, apartadas
+    return out, apartadas, cruces
 
 
 def ajustar(eleccion: str, filas, oficial: dict[str, int] | None):
@@ -386,7 +395,7 @@ def pct(parte: int, total: int) -> str:
     return f"{n // 10000}.{n % 10000:04d}"
 
 
-def informe_provincias(eleccion: str, filas, municipios=(), seccionado=None, apartadas=None) -> list[dict]:
+def informe_provincias(eleccion: str, filas, municipios=(), seccionado=None, apartadas=None, cruces=None) -> list[dict]:
     acc: dict[str, dict] = {}
     for sec, pob, origen, ajustada, _ in filas:
         d = acc.setdefault(sec[:2], dict(secciones=0, interpolada=0, mas_cercana=0, no_listada=0, reasignada=0, ajustadas=0, sin_dato=0,
@@ -419,7 +428,7 @@ def informe_provincias(eleccion: str, filas, municipios=(), seccionado=None, apa
             "elección": eleccion, "provincia": prov, "secciones": d["secciones"],
             "secciones_interpoladas": d["interpolada"], "secciones_mas_cercanas": d["mas_cercana"],
             "secciones_no_listadas": d["no_listada"],
-            "secciones_reasignadas": d["reasignada"],
+            "secciones_reasignadas": d["reasignada"], "reasignadas_otro_municipio": (cruces or {}).get(prov, 0),
             "secciones_sin_seccionado": d["sin_secc"] if seccionado is not None else "", "secciones_ajustadas": d["ajustadas"], "secciones_sin_dato": d["sin_dato"],
             "población": d["poblacion"], "población_estimada": d["pob_est"],
             "pct_estimada": pct(d["pob_est"], d["poblacion"]),
@@ -448,10 +457,11 @@ def calcular(atlas, censo, oficial=None, seccionados=None, sucesores=None):
         sec = None if sa is None else seccionados[sa]
         filas = poblacion_eleccion(fuente, anio, atlas, sec)
         apartadas: dict[str, list[str]] = {}
+        cruces: dict[str, int] = {}
         if sec is not None:
             pob = {f[0]: f[1] or 0 for f in filas if f[0] in sec}
             suc = sucesores(sa, pob) if sucesores else (lambda _c: (None, "sin_geometria"))
-            filas, apartadas = reasignar(filas, sec, suc)
+            filas, apartadas, cruces = reasignar(filas, sec, suc)
         for f in filas:
             if f[2] == "sin_dato":  # (b) sin dato en ningún año del Atlas: no se inventa; la provincia sale apartada
                 apartadas.setdefault(f[0][:2], []).append(f"{f[0]}: sin dato en ningún año del Atlas")
@@ -464,7 +474,7 @@ def calcular(atlas, censo, oficial=None, seccionados=None, sucesores=None):
         apartadas = {p: sorted(m) for p, m in apartadas.items()}
         tablas[el] = [f for f in filas if f[0][:2] not in apartadas]
         municipios += mun
-        informe += informe_provincias(el, filas, mun, sec, apartadas)
+        informe += informe_provincias(el, filas, mun, sec, apartadas, cruces)
     return tablas, informe, municipios
 
 
@@ -527,7 +537,7 @@ def escribir_tabla(ruta, filas) -> str:
 
 
 COLS_INFORME = ["elección", "provincia", "secciones", "secciones_interpoladas", "secciones_mas_cercanas",
-                "secciones_no_listadas", "secciones_reasignadas", "secciones_sin_seccionado", "secciones_ajustadas",
+                "secciones_no_listadas", "secciones_reasignadas", "reasignadas_otro_municipio", "secciones_sin_seccionado", "secciones_ajustadas",
                 "secciones_sin_dato", "población", "población_estimada", "pct_estimada", "municipios_ajustados",
                 "desajuste_medio_pct", "municipios_aviso", "marca", "estado", "motivo"]
 COLS_MUNICIPIOS = ["elección", "municipio", "oficial", "publicada", "estimada_antes", "estimada_despues",

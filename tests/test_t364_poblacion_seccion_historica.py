@@ -327,17 +327,42 @@ class Reasignacion(Base):
         filas = [("0100100001", 500, "dato", "no", "2016"), ("0100100002", 80, "no_listada", "no", "2015-2018"),
                  ("0100100003", 70, "dato", "no", "2016"), ("0100100004", 30, "dato", "no", "2016")]
         sec = {"0100100001", "0100100002", "0100100003"}
-        nuevas, ap = ph.reasignar(filas, sec, lambda c: ("0100100002", "ok"))  # 0100100004 no está en el seccionado
+        nuevas, ap, _ = ph.reasignar(filas, sec, lambda c: ("0100100002", "ok"))  # 0100100004 no está en el seccionado
         self.assertEqual(ap, {})
         # la estimación 80 se sustituye por el dato real 30 (no se suma a ella)
         self.assertEqual(nuevas, [filas[0], ("0100100002", 30, "reasignada", "no", "2016"), filas[2]])
-        nuevas, _ = ph.reasignar(filas, sec, lambda c: ("0100100003", "ok"))  # sucesora con dato propio 70 → 70 + 30
+        nuevas, _, _ = ph.reasignar(filas, sec, lambda c: ("0100100003", "ok"))  # sucesora con dato propio 70 → 70 + 30
         self.assertEqual(buscar(nuevas, "0100100003")[1:], (100, "reasignada", "no", "2016"))
 
     def test_seccion_sin_dato_a_reasignar_aparta(self):
         filas = [("0100100001", 500, "dato", "no", "2016"), ("0100100009", None, "sin_dato", "no", "")]
-        _, ap = ph.reasignar(filas, {"0100100001"}, lambda c: ("0100100001", "ok"))
+        _, ap, _ = ph.reasignar(filas, {"0100100001"}, lambda c: ("0100100001", "ok"))
         self.assertEqual(list(ap), ["01"])
+
+    def test_conservacion_de_la_poblacion_por_municipio_y_provincia(self):
+        def sumas(filas, k):
+            out = {}
+            for f in filas:
+                out[f[0][:k]] = out.get(f[0][:k], 0) + (f[1] or 0)
+            return out
+        # sucesora con dato propio: se conserva la suma de provincia y de municipio (mismo municipio)
+        filas = [("0100100001", 500, "dato", "no", "2016"), ("0100100002", 70, "dato", "no", "2016"), ("0100100009", 30, "dato", "no", "2016")]
+        sec = {"0100100001", "0100100002"}
+        nuevas, _, cruces = ph.reasignar(filas, sec, lambda c: ("0100100002", "ok"))
+        self.assertEqual((sumas(nuevas, 2), sumas(nuevas, 5), cruces), (sumas(filas, 2), sumas(filas, 5), {}))
+        # sucesora ESTIMADA: se sustituye su estimación por el dato real (README): la suma cambia exactamente en (dato real − estimación)
+        filas = [("0100100001", 500, "dato", "no", "2016"), ("0100100002", 80, "no_listada", "no", "2015-2018"), ("0100100009", 30, "dato", "no", "2016")]
+        nuevas, _, _ = ph.reasignar(filas, sec, lambda c: ("0100100002", "ok"))
+        self.assertEqual(sumas(nuevas, 5)["01001"], sumas(filas, 5)["01001"] - 80)  # 610 → 530: la estimación 80 desaparece, el dato 30 entra
+
+    def test_sucesora_de_otro_municipio_se_cuenta_y_de_otra_provincia_aparta(self):
+        filas = [("0100100001", 500, "dato", "no", "2016"), ("0100200009", 30, "dato", "no", "2016")]
+        nuevas, ap, cruces = ph.reasignar(filas, {"0100100001"}, lambda c: ("0100100001", "ok"))
+        # otro municipio, misma provincia: la suma provincial se conserva (530) y se cuenta; la municipal no (declarado)
+        self.assertEqual((ap, cruces, nuevas[0][1]), ({}, {"01": 1}, 530))
+        _, ap, cruces = ph.reasignar(filas, {"0100100001", "0200100001"}, lambda c: ("0200100001", "ok"))
+        self.assertEqual((list(ap), cruces), (["01"], {}))  # sucesora de otra provincia: apartada
+        self.assertIn("otra provincia", ap["01"][0])
 
     def test_la_reasignada_es_fija_en_el_ajuste_municipal(self):
         filas = [("0100100001", 400, "reasignada", "no", "2016"), ("0100100002", 100, "interpolada", "no", "2015-2017")]
