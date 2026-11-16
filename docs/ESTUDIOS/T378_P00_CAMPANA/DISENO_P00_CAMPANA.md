@@ -1,6 +1,6 @@
 # T-378 · Diseño al detalle de P00 Campaña y de la nueva forma de trabajar
 
-VERSIÓN: 1.1.1 · FECHA: 2026-11-16 · ANTERIOR: `legacy/docs/ESTUDIOS/T378_P00_CAMPANA/DISENO_P00_CAMPANA_v1.1.0.md` ·
+VERSIÓN: 1.1.2 · FECHA: 2026-11-16 · ANTERIOR: `legacy/docs/ESTUDIOS/T378_P00_CAMPANA/DISENO_P00_CAMPANA_v1.1.1.md` ·
 ESTADO: propuesta para el revisor independiente y el propietario (T-387, D-145)
 CAMBIOS 1.1.0: decisiones A, B y C de D-145 (la validación desde la rama no escribe en `main`; 15 territorios a la vez
 con un solo job por cadena; la noche del 29-11 con la 00 actual) y todos los arreglos del revisor del diseño 1.0:
@@ -13,7 +13,11 @@ reutilizable propio, porque un reutilizable no puede pedir más permisos que su 
 si los secretos de la app de registro pasan a un entorno limitado a `main`; (m1) apartado = job en éxito con causa en R2
 y jobs en serie con `!cancelled()`; (m2) cierre con `!cancelled()`, campaña cancelada entera e idempotencia en la rama
 de destino; (m3) anexo: `queue: max` marcado como no verificado para esta cuenta.
-MOTIVO: D-145 (corrige D-143 tras el revisor del diseño 1.0) y revisión de la 1.1.0.
+CAMBIOS 1.1.2: revisión de la 1.1.1 (M2 condicionado): inventario verificado de los usos de la app de registro con su job
+y entorno, partición de los 3 jobs que ya tienen otro entorno, `registro` sin revisores, cierre en dos jobs excluyentes
+por rama, efecto en los robots que corren con otra ref, secretos de entorno en reutilizables marcados no verificados,
+recuento de `queue: max` con criterio, campaña cancelada sin forense.
+MOTIVO: D-145 (corrige D-143 tras el revisor del diseño 1.0) y revisiones de la 1.1.0 y la 1.1.1.
 
 Solo documento: no cambia código, workflows ni datos, y no lanza nada. Base: `origin/main` 8221ab9. Límites de GitHub
 con cita, fuente y fila en `ANEXO_A_LIMITES_GITHUB.md` 1.1.0 (las referencias «fila n» son de ese anexo). Cada arreglo
@@ -258,7 +262,9 @@ campaña **abortada**. No hay commit; lo hecho queda en R2 y el issue se queda c
 re-ejecutar los jobs cancelados en la misma ejecución (el recuento de §4 evita duplicar y no repite pasos «ok» porque
 cada paso empieza leyendo su objeto en R2) o dejarla abortada; la siguiente campaña lo vuelve a comprobar todo. Se usa
 `!cancelled()` y no `always()` para no depender de si GitHub arranca o no jobs `always()` tras una cancelación; la
-prueba de humo cancela una vez a propósito y comprueba que no se escribe nada.
+prueba de humo cancela una vez a propósito y comprueba que no se escribe nada. Una ejecución cancelada termina en
+`cancelled`, no en `failure`: **no se abre la IA de cierre** (P90 solo se dispara con `failure`, §7). Es lo buscado: la
+cancelación la decide una persona, que ya sabe por qué.
 
 **El commit de cierre cuenta como robot.** P90 trata un push como robot (`needs.cambios.outputs.robot`, l. 53-95) si
 el autor es `[bot]` y **todas** las rutas están en `RUTAS_ROBOT`; un robot no cancela la CI de `main` (los grupos
@@ -340,16 +346,51 @@ una vez (fila 14). Por eso la PR 3 lleva una prueba de humo por el evento de la 
   1. los secretos de la app pasan a un **entorno** `registro` con ramas de despliegue limitadas a `main` (anexo A,
      fila 23: «Secrets stored in an environment are only available to workflow jobs that reference the environment», y
      la regla de ramas se compara con el `GITHUB_REF` de la ejecución); se borran los del repositorio;
-  2. todo job que hoy usa la app (25 usos) declara `environment: registro`. Choque conocido: un job solo admite un
-     entorno, y P40 ya usa `github-pages`/`produccion`; esos jobs separan el registro en un job previo o posterior;
-  3. en una validación, el cierre escribe con `GITHUB_TOKEN` (`contents: write`) en `p00-cierre/<run_id>`. Ese token
-     no se puede limitar a una rama; lo que impide que escriba en `main` es el ruleset `proteger-main` (exige el check
-     `veredicto` y el token del workflow no está entre las excepciones; se comprueba en la validación con un push de
-     prueba que debe ser rechazado, `GH013`).
+  2. todo job que usa la app declara `environment: registro` (inventario abajo). El entorno `registro` **no lleva
+     revisores obligatorios ni temporizador**: solo la regla de ramas; si no, cada registro de robot esperaría
+     aprobación;
+  3. el **cierre de P00 son dos jobs excluyentes**: `cierre_main` con `if: github.ref == 'refs/heads/main'`,
+     `environment: registro` y la app; y `cierre_rama` con `if: github.ref != 'refs/heads/main'`, sin entorno, con
+     `GITHUB_TOKEN` (`contents: write`) hacia `p00-cierre/<run_id>`. Hace falta separarlos porque un job con
+     `environment: registro` lanzado desde otra rama **no se salta**: GitHub rechaza el despliegue y el job falla. El
+     token del workflow no se puede limitar a una rama; lo que impide que escriba en `main` es el ruleset
+     `proteger-main` (exige `veredicto` y ese token no está entre las excepciones); se comprueba en la validación con
+     un push de prueba que debe ser rechazado (`GH013`).
   Sin el punto 1, la decisión A queda como **norma del código revisado**, no como garantía (§15).
+
+**Inventario de usos de la app** (verificado en `main` 8221ab9; criterio: líneas con `secrets.DDD_REGISTRO_APP_ID`,
+cada una con su `KEY` al lado = un uso; otros 8 ficheros solo la citan en comentarios). **25 usos en 11 ficheros**:
+
+| Fichero (lo hereda) | Jobs con la app (línea del secreto) | Entorno hoy |
+|---|---|---|
+| `_reutilizable-generacion-territorial.yml` (→ P20, T-377) | `pre_m04_evidence` (900), `pre_m04_diagnostic` (1034), `registrar` (1436) | — |
+| `_reutilizable-incorporacion-electoral.yml` (→ P30) | `registrar` (376) | — |
+| `_reutilizable-publicar-sitio.yml` (→ P40, T-372) | `publicar` (149) | **`github-pages`** (l. 126) |
+| `desplegar-visor-publico.yml` (→ P40, T-372) | `preparar_publicacion` (89) | **`produccion`** para personas (l. 72) |
+| `ejecucion-completa-proyecto.yml` (la 00; se retira tras el 29-11) | `detectar_recuperacion_electoral` (948), `actualizar_estado` (1340), `manifestar` (1572) | — |
+| `p70-archivo.yml` (P70, ya en `main`) | `archivar_r2` (116), `resolver_producto` (238), `acreditar` (409), `registrar` (628), `acreditar_registro` (701), `extraer_m06` (795), `podar` (913) | `podar`: **`produccion`** si no es simulación (l. 898, puerta humana del borrado irreversible) |
+| `p90-automatico.yml` (P90) | `catalogo` (398), `resultados` (462), `numeracion` (528), `metricas` (770) | — |
+| `auto-merge.yml` | `fusionar` (53) | — |
+| `preparacion-fuentes.yml` (→ P10) | `registrar` (496), `generation_pending` (562) | — |
+| `preparacion-legislatura-vigente.yml` (se retira) | `registrar_par` (320) | — |
+| `preparacion-resultados-electorales.yml` (→ P10) | `registrar` (613) | — |
+
+- **Los 3 jobs que ya tienen entorno** se parten: el trabajo con su entorno (`github-pages` o `produccion`) y el
+  registro en `main` en un job **posterior** con `environment: registro` (sin `produccion`), que solo recibe salidas
+  del anterior. En `podar` la puerta humana sigue delante del borrado y el registro va después. Lo hace la PR 2a sobre
+  P70; en P40 lo hereda T-372 (si T-372 se fusiona antes, la PR 2a lo aplica sobre `p40-publicacion.yml`).
+- **Efecto buscado en los robots:** con el entorno, ningún job con la app puede registrar si la ejecución no es de
+  `main`: P10-P30, P70 y P80 lanzados desde una rama, o cualquier `pull_request`, dejan de poder escribir en `main`.
+  Los de P90 (`catalogo`, `resultados`, `numeracion` en push a `main`; `metricas` por calendario/`workflow_run`) y
+  `auto-merge` (`workflow_run`, que corre con la rama por defecto, anexo fila 15) siguen funcionando. La PR 2a lo
+  comprueba job por job contra este inventario.
+- **No verificado:** que un job de un **reutilizable llamado** que declara `environment: registro` reciba los secretos
+  del entorno (la documentación no lo dice expresamente). La PR 2a lo prueba con una ejecución real de humo antes de
+  borrar los secretos del repositorio.
 - La rama de cierre no dispara la CI de `main` (P90 corre en push a `main` y en PR).
 - Prueba: (1) test de que ningún workflow usa `secrets.DDD_REGISTRO_APP_*` en un job sin `environment: registro`;
-  (2) en la validación de aut11, el log del cierre muestra el destino `p00-cierre/<run_id>` y `main` no recibe commit.
+  (2) en la validación de aut11, el log del cierre muestra el destino `p00-cierre/<run_id>` y `main` no recibe commit;
+  (3) test de que `cierre_main` y `cierre_rama` tienen condiciones de rama opuestas y solo `cierre_main` usa la app.
 - Prueba: test del cierre que, con `github.ref` distinto de `refs/heads/main`, elige la rama `p00-cierre/<run_id>` y
   nunca `main`.
 
@@ -414,7 +455,7 @@ no consta aún en el repositorio.
 |---|---|---|---|
 | 1 | Estado de campaña | Herramientas de comprobación previa, semáforo, recuento (clave §4, `sin_resultado`, parada), `resultado`, cierre (huella, idempotencia) e informe; lectura/escritura en R2; sin workflows | tests de §2, §4 y §6 |
 | 2 | Puerta como acción compuesta | Sustituye `_reutilizable-puerta-validacion.yml` | test de equivalencia |
-| **2a** | Entorno `registro` (si se aprueba, §15) | Secretos de la app en el entorno limitado a `main`; `environment: registro` en los 25 usos; borra los del repositorio (el traslado de secretos lo hace el propietario) | test de secretos con entorno |
+| **2a** | Entorno `registro` (si se aprueba, §15) | Entorno sin revisores y limitado a `main`; `environment: registro` en los 25 usos del inventario (§10); parte `podar`, `preparar_publicacion` y `publicar`; humo real con un reutilizable; después el propietario traslada los secretos y borra los del repositorio | test de secretos con entorno; humo |
 | **2b** | Entrada «campaña» en P10-P30 | Entrada oculta `campana`; P10-P30 con `contents: read`; registro suelto a un reutilizable propio; ruta de campaña solo R2, sin grupos globales, jobs en serie con `!cancelled()`. **Sin cambiar su comportamiento suelto** | tests de §3 (serie) y §5 (sin push, permisos, equivalencia, grupos) |
 | 3 | P00 Campaña | `p00-campana.yml` + cadena + cierre + `resultado` + issue; skills; **no borra la 00** ni el Gestor | tests de §3 (concurrencia), §6 y §10; prueba de humo |
 | 4 | IA de cierre | Forense por campaña en P90 (§7) | test de §7 |
