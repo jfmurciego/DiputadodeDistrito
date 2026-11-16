@@ -2652,7 +2652,7 @@ territories:
         prepared_source_pair: territorios/nac49/evidencia/pares_fuentes/2025/9456a3656fd980295e4100f3e8ea2fd0d288d249938586a8cd3e189a089e6595.json
         electoral_product: territorios/nac49/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/nac49/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: nac50
   name: Congreso Zaragoza
   editions:
