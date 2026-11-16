@@ -1,6 +1,8 @@
 # T-378 · Anexo A · Límites de GitHub Actions verificados
 
-VERSIÓN: 1.1.0 · FECHA: 2026-11-16 · ANTERIOR: `legacy/docs/ESTUDIOS/T378_P00_CAMPANA/ANEXO_A_LIMITES_GITHUB_v1.0.0.md`
+VERSIÓN: 1.1.1 · FECHA: 2026-11-16 · ANTERIOR: `legacy/docs/ESTUDIOS/T378_P00_CAMPANA/ANEXO_A_LIMITES_GITHUB_v1.1.0.md`
+CAMBIOS 1.1.1: fila 6 marcada NO VERIFICADA para esta cuenta; filas 22 (permisos en reutilizables) y 23 (secretos de
+entorno y ramas de despliegue). MOTIVO: revisión de la 1.1.0.
 CAMBIOS 1.1.0: cada fila re-verificada el 16-11 contra la fuente oficial con su ruta exacta; filas 1-17 con la misma
 numeración (el diseño 1.1 cita 11 y 9 para matriz → reutilizable y 10 niveles, 12 para salidas de matriz, 13 para el
 mismo commit, 14 para lanzar desde otra rama); añadidas 18 (`fail-fast`), 19 (cola por defecto de un grupo), 20
@@ -23,7 +25,7 @@ Rutas abreviadas: **L** = `content/actions/reference/limits.md` (publicada en do
 | 3 | Duración de un job (runners de GitHub) | 6 h | «Each job in a workflow can run for up to 6 hours of execution time.» | L, ídem |
 | 4 | Jobs a la vez, runner estándar | Free 20 (macOS 5); Pro 40; Team 60 | tabla «Job concurrency limits for GitHub-hosted runners»: «Standard … runner \| Free \| 20 \| 5» | L |
 | 5 | Re-ejecuciones | 50 por ejecución | «A workflow run can be re-run a maximum of 50 times. This limit includes both full re-runs and re-runs of a subset of jobs.» | L, «Existing system limits» |
-| 6 | Cola con `queue: max` | 100 por grupo | «When using `queue: max` in the `concurrency` section, up to 100 jobs or workflow runs can be queued per concurrency group.» (fila dentro de `{% ifversion actions-nga %}`) | L, ídem; y C |
+| 6 | Cola con `queue: max` | 100 por grupo — **NO VERIFICADA** para esta cuenta | «When using `queue: max` in the `concurrency` section, up to 100 jobs or workflow runs can be queued per concurrency group.» Leída en L y en C, pero las dos frases están dentro de `{% ifversion actions-nga %}`: la documentación no dice qué cuentas ven esa versión. Lo que sí consta: el repositorio ya usa `queue: max` en 35 grupos de `.github/workflows/` (16-11) y GitHub los acepta. P00 no depende de esta cifra (§3 del diseño no usa `queue: max`) | L, «Concurrency group queue»; C |
 | 7 | Espera de aprobación de un entorno | 30 días | «A workflow may wait for up to 30 days on environment approvals.» | L, ídem (P00 no usa entorno con aprobación; solo P40 si lo pide) |
 | 8 | Tamaño del fichero de workflow | 500 KB | «A workflow file larger than 500 KB will not start runs.» (la 00 actual: 113 KB) | L, ídem |
 | 9 | Anidamiento de reutilizables | 10 niveles | «You can connect up to ten levels of workflows.» | `content/actions/reference/workflows-and-actions/reusing-workflow-configurations.md` |
@@ -39,8 +41,10 @@ Rutas abreviadas: **L** = `content/actions/reference/limits.md` (publicada en do
 | 19 | Cola por defecto de un grupo de concurrencia | 1 en espera; la nueva sustituye a la anterior | «`single` (default): At most one job or workflow run can be `pending` in the concurrency group. When a new job or workflow run is queued, any existing `pending` job or workflow run in the same group is canceled and replaced.» | C |
 | 20 | `max-parallel` | Limita los jobs de la matriz a la vez | «To set the maximum number of jobs that can run simultaneously when using a `matrix` job strategy, use `jobs.<job_id>.strategy.max-parallel`.» | `content/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations.md` |
 | 21 | `workflow_run` encadenado | Máximo 3 niveles | «You can't use `workflow_run` to chain together more than three levels of workflows.» | fuente de la fila 14, `## workflow_run` (P00 → P90 es 1 nivel) |
+| 22 | Permisos en reutilizables | Solo se mantienen o se reducen | «The `GITHUB_TOKEN` permissions passed from the caller workflow can be only downgraded (not elevated) by the called workflow.» y «`GITHUB_TOKEN` permissions can only be the same or more restrictive in nested workflows.» | `content/actions/reference/workflows-and-actions/reusing-workflow-configurations.md` (y nota en `content/actions/how-tos/reuse-automations/reuse-workflows.md`) |
+| 23 | Secretos de entorno y ramas de despliegue | Solo para jobs que declaran el entorno; ramas limitables | «Secrets stored in an environment are only available to workflow jobs that reference the environment.» · «Selected branches and tags: Only branches and tags that match your specified name patterns can deploy to the environment.» · «The deployment branch or tag rule is matched against the `GITHUB_REF` of the workflow run.» (disponible en repositorios públicos) | `content/actions/reference/workflows-and-actions/deployments-and-environments.md` |
 
-**No figura en la documentación** (no se da valor): un tope de jobs por ejecución aparte del de la matriz; si los jobs
+**No figura en la documentación** (no se da valor): si un reutilizable que declara más permisos que su llamador falla al arrancar o solo al ejecutar el job (la fila 22 dice que no puede subirlos; el diseño evita el caso y la prueba de humo lo comprueba); un tope de jobs por ejecución aparte del de la matriz; si los jobs
 internos de un reutilizable llamado desde una matriz cuentan para los 256; si `max-parallel` sobre una matriz de
 reutilizables limita filas o jobs internos (el diseño no depende de ello: cada cadena tiene un solo job a la vez); el
 tiempo máximo en cola de un job en runners de GitHub (el de 24 h es solo para runners propios). Se comprueban en la

@@ -1,6 +1,6 @@
 # T-378 · Diseño al detalle de P00 Campaña y de la nueva forma de trabajar
 
-VERSIÓN: 1.1.0 · FECHA: 2026-11-16 · ANTERIOR: `legacy/docs/ESTUDIOS/T378_P00_CAMPANA/DISENO_P00_CAMPANA_v1.0.0.md` ·
+VERSIÓN: 1.1.1 · FECHA: 2026-11-16 · ANTERIOR: `legacy/docs/ESTUDIOS/T378_P00_CAMPANA/DISENO_P00_CAMPANA_v1.1.0.md` ·
 ESTADO: propuesta para el revisor independiente y el propietario (T-387, D-145)
 CAMBIOS 1.1.0: decisiones A, B y C de D-145 (la validación desde la rama no escribe en `main`; 15 territorios a la vez
 con un solo job por cadena; la noche del 29-11 con la 00 actual) y todos los arreglos del revisor del diseño 1.0:
@@ -8,7 +8,12 @@ qué es un apartado y cómo falla el job `resultado`, re-ejecuciones, recuento s
 permisos por job, cierre atómico, grupos globales fuera de la ruta de campaña, commit de cierre como robot, IA de cierre
 con permisos mínimos y logs como entrada no confiable, plan de PR con la 2b, traducción del ensayo, listas de códigos
 mixtas, citas del anexo renumeradas, reloj y coste reproducibles.
-MOTIVO: D-145 (corrige D-143 tras el revisor del diseño 1.0).
+CAMBIOS 1.1.1: revisor independiente sobre 1.1.0 (PASS_WITH_EXCEPTIONS): (M1) el registro de P10-P30 sueltos sale a un
+reutilizable propio, porque un reutilizable no puede pedir más permisos que su llamador; (M2) la decisión A solo es firme
+si los secretos de la app de registro pasan a un entorno limitado a `main`; (m1) apartado = job en éxito con causa en R2
+y jobs en serie con `!cancelled()`; (m2) cierre con `!cancelled()`, campaña cancelada entera e idempotencia en la rama
+de destino; (m3) anexo: `queue: max` marcado como no verificado para esta cuenta.
+MOTIVO: D-145 (corrige D-143 tras el revisor del diseño 1.0) y revisión de la 1.1.0.
 
 Solo documento: no cambia código, workflows ni datos, y no lanza nada. Base: `origin/main` 8221ab9. Límites de GitHub
 con cita, fuente y fila en `ANEXO_A_LIMITES_GITHUB.md` 1.1.0 (las referencias «fila n» son de ese anexo). Cada arreglo
@@ -79,7 +84,7 @@ P00 Campaña (una ejecución; un solo commit del código para todo)
 │        P10 ─► P20 ─► P30, todos los jobs EN SERIE (un solo job ocupado por territorio)
 │        (antes de cada paso: ¿hay parada sistémica? si la hay, no empieza el siguiente)
 │
-├─ 3. Cierre (if: always()): lee R2 ─► informe en el issue ─► un commit en main ─► objeto «cierre» en R2
+├─ 3. Cierre (if: !cancelled()): lee R2 ─► informe en el issue ─► un commit en main ─► objeto «cierre» en R2
 │
 ├─ 4. P40 Publicación (solo si «publicar = sí», sin parada, con los que pasaron; nunca en ensayo)
 │
@@ -129,14 +134,22 @@ apartado (no se lanzó) y sale en el informe aparte.
 
 ## 4. Políticas: reintentos, apartado y parada sistémica
 
-**Qué es un apartado (arreglo B1).** Un territorio está **sano** en un paso solo si el job terminó en éxito **y** su
-salida está escrita en R2 (objeto `pasos/<territorio>/<paso>/<intento>.json` con estado «ok» y huellas). Todo lo demás
-es **apartado**: fallo no transitorio, transitorio que agotó sus reintentos, o «sin_resultado». Un job verde sin su
-salida en R2 también es apartado (causa `SALIDA_R2_AUSENTE`): nunca cuenta como verde.
+**Qué es un apartado (arreglo B1, fijado en 1.1.1).** Cada paso de la cadena **termina siempre en éxito** cuando ha
+podido decidir: escribe en R2 `pasos/<territorio>/<paso>/<intento>.json` con estado «ok» (y huellas) o con estado
+«apartado» y su **causa** (fallo no transitorio o transitorio con los reintentos agotados), y pasa la salida
+`sano=true|false`. Así un territorio apartado **no** pone la matriz en rojo ni toca a los demás, y la fuente de verdad
+es R2, no el color del job. Un job en **rojo** es un fallo que la herramienta no pudo atrapar: se cuenta como
+apartado con causa `FALLO_NO_CONTROLADO`. Un job en éxito **sin** objeto en R2 se cuenta como apartado con causa
+`SALIDA_R2_AUSENTE`. Nunca cuenta como verde nada que no tenga «ok» en R2.
+
+**Serie dentro de la cadena.** Cada job posterior lleva
+`if: ${{ !cancelled() && needs.<previo>.result == 'success' && needs.<previo>.outputs.sano == 'true' }}`: si el paso
+anterior apartó el territorio (o falló), el resto se **salta** sin cancelar la matriz; si la campaña se cancela, no
+arranca nada nuevo. Prueba: test del YAML de la cadena que exige esa condición en todo job con predecesor.
 
 **«sin_resultado».** Cancelación, tiempo agotado y runner perdido no dejan que el job escriba su salida. Por eso, al
 **empezar** cada paso, el territorio escribe en R2 una marca `sin_resultado` (paso, intento, hora) que el mismo job
-sustituye por «ok» o por la causa al terminar. El cierre corre con `if: always()` y cuenta toda marca `sin_resultado`
+sustituye por «ok» o por la causa al terminar. El cierre (§6) cuenta toda marca `sin_resultado`
 que siga ahí como apartado con causa `SIN_RESULTADO` (cancelado, tiempo agotado o runner perdido, según la conclusión
 del job que da la API). Prueba: test de la herramienta de recuento con un estado sintético en el que un paso quedó en
 `sin_resultado` (debe salir apartado, nunca verde).
@@ -163,13 +176,13 @@ un intento 1 apartado + intento 2 «ok» (cuenta 0).
   `TERRITORIAL_READY_PAIR_INCOMPATIBLE`, `CANDIDATE_FAILED`, `SIN_RESULTADO`…); sin código, «causa desconocida».
 - Sin vigilante: cada territorio consulta el recuento **antes** de empezar P10, P20 y P30, y el cierre antes de P40.
 
-**Job `resultado` (arreglo B1).** Último job de P00, `if: always()`. Lee el recuento final y **falla** (salida ≠0) si
+**Job `resultado` (arreglo B1).** Último job de P00, `if: ${{ !cancelled() }}`. Lee el recuento final y **falla** (salida ≠0) si
 hay ≥1 apartado o parada, o si el cierre no terminó. Así la ejecución entera queda en `failure` y se dispara la IA de
 cierre de P90, que hoy solo se abre con `workflow_run.name == 'P00 Campaña' && conclusion == 'failure'`
 (`p90-automatico.yml`, l. 662). Sin ese job, una campaña con apartados podría terminar en verde (fail-fast falso y
 jobs en éxito con apartados en R2) y la IA no se abriría. Con todo verde, `resultado` pasa y no se abre nada. Prueba:
 test de la herramienta de `resultado` (0 apartados → 0; 1 apartado → ≠0; cierre pendiente → ≠0) y test del YAML que
-comprueba que `resultado` existe con `if: always()` y depende del cierre y de P40.
+comprueba que `resultado` existe con `!cancelled()` y depende del cierre y de P40.
 
 ## 5. Versión fija, estado fuera de `main` y permisos
 
@@ -188,16 +201,26 @@ l. 170-171) y escriben en `main` dentro de sus jobs. Diseño:
 | Pieza | Permisos | Qué escribe |
 |---|---|---|
 | Comprobación previa | `contents: read`, `actions: read`, `issues: write` | crea el issue |
-| Cadena de un territorio (P10, P20, P30 dentro) | `contents: read` (la llamada desde P00 pasa ese techo, y un reutilizable no puede subirlo) | solo R2 (secretos R2) |
-| Job de registro de cada P10-P30 suelto | `contents: write` en un **job aparte** con `if: inputs.campana == ''` | `main`, como hoy |
+| Cadena de un territorio (P10, P20, P30 dentro) | `contents: read`; P10-P30 declaran también `contents: read` a nivel de workflow | solo R2 (secretos R2) |
+| Registro de P10-P30 sueltos | `contents: write`, en un **reutilizable de registro propio** (p. ej. `_p-registro.yml`, sin botón) que solo llama el botón suelto de cada P10-P30 | `main`, como hoy |
 | Cierre | `contents: write`, `issues: write` y la app de registro (`DDD_REGISTRO_APP_ID`/`KEY`) | el commit en `main` y el informe |
 | P40 Publicación | lo de hoy | lo de hoy |
 | IA de cierre (en P90) | `contents: read`, `actions: read`, `issues: write` | comentario en el issue |
 
+**Por qué un reutilizable aparte (M1, 1.1.1).** GitHub no deja que un workflow llamado suba los permisos de su
+llamador: «The `GITHUB_TOKEN` permissions passed from the caller workflow can be only downgraded (not elevated) by the
+called workflow» (anexo A, fila 22). Si P10-P30 siguieran declarando `contents: write` y P00 los llamara con `read`, la
+ejecución no arrancaría (error de arranque), aunque el job que escribe tuviera un `if` falso. Por eso P10-P30 pasan a
+`contents: read` en todo el fichero, y lo que hoy escriben en `main` se mueve a un reutilizable de registro con
+`contents: write` que **solo** llama la ruta suelta (el botón de cada P10-P30, que tiene `workflow_dispatch` y sus
+propios permisos). P00 nunca llama a ese reutilizable.
+
 La entrada «campaña» (oculta, solo `workflow_call`) es la que activa la ruta de campaña. Pruebas: (1) test que falla si
-en la ruta de campaña de P10-P30 (jobs sin `if: inputs.campana == ''`) aparece `git push`, una herramienta de registro
-en `main` o `contents: write`; (2) test que fija `contents: read` en la llamada de P00 a la cadena; (3) test de
-equivalencia: con «campaña» vacía, P10-P30 sueltos se comportan como hoy (mismos jobs, mismas salidas).
+P10-P30 o la cadena declaran `contents: write` o contienen `git push` o una herramienta de registro en `main` fuera del
+reutilizable de registro; (2) test que fija `contents: read` en la llamada de P00 a la cadena y que P00 no llama al
+reutilizable de registro; (3) test de equivalencia: con «campaña» vacía, P10-P30 sueltos hacen lo mismo que hoy
+(mismos jobs y salidas, el registro dentro del reutilizable); (4) la **prueba de humo** de la PR 3 comprueba que P00
+arranca con `contents: read` (sin error de arranque).
 
 **Grupos globales fuera de la ruta de campaña.** Comprobado en `main` 8221ab9 (T-360/#839 ya quitó
 `ddd-catalog-promotion` y `ddd-shared-operational-state` de la 00 y del reutilizable electoral):
@@ -214,7 +237,7 @@ grupo de concurrencia sin el territorio en su nombre (salvo P40).
 
 ## 6. El cierre, paso a paso (atomicidad)
 
-El cierre (`if: always()`, después de la matriz) hace, en este orden:
+El cierre (`if: ${{ !cancelled() }}`, después de la matriz) hace, en este orden:
 
 1. **Lee R2** y calcula el recuento final (§4). Calcula la **huella del estado**: sha256 de la lista ordenada de
    claves y huellas de los productos de la campaña.
@@ -222,12 +245,20 @@ El cierre (`if: always()`, después de la matriz) hace, en este orden:
    informe ya dice «cierre pendiente». Si la API del issue falla, el cierre sigue con el commit pero termina en rojo
    (salida ≠0) sin tocar la campaña (los territorios ya terminaron).
 3. **Commit en `main`** con la app de registro. Mensaje con el id de campaña y la huella del estado. **Idempotente**:
-   si ya hay en `main` un commit con ese id y esa huella, no hace nada (re-ejecutar el cierre no duplica). En ensayo
+   si ya hay **en la rama de destino** (`main`, o `p00-cierre/<run_id>` en una validación, §10) un commit con ese id y
+   esa huella, no hace nada (re-ejecutar el cierre no duplica). En ensayo
    la lista de ficheros es vacía y no hay commit (§2).
 4. **Push rechazado** (otro robot escribió antes): rebase y reintento, **tope 2**. Si falla, no fuerza nada: informe
    «cierre pendiente» en el issue, cierre en rojo, y el Operador re-ejecuta solo el cierre.
 5. **Objeto `cierre` en R2** (id de campaña, sha del commit, huella), escrito **solo después** de que el push se
    confirme. Una re-ejecución que lo encuentra con la misma huella termina en verde sin hacer nada.
+
+**Campaña cancelada entera.** Si alguien cancela la ejecución, el cierre (`!cancelled()`) no arranca: es una
+campaña **abortada**. No hay commit; lo hecho queda en R2 y el issue se queda con el último estado. El Operador puede
+re-ejecutar los jobs cancelados en la misma ejecución (el recuento de §4 evita duplicar y no repite pasos «ok» porque
+cada paso empieza leyendo su objeto en R2) o dejarla abortada; la siguiente campaña lo vuelve a comprobar todo. Se usa
+`!cancelled()` y no `always()` para no depender de si GitHub arranca o no jobs `always()` tras una cancelación; la
+prueba de humo cancela una vez a propósito y comprueba que no se escribe nada.
 
 **El commit de cierre cuenta como robot.** P90 trata un push como robot (`needs.cambios.outputs.robot`, l. 53-95) si
 el autor es `[bot]` y **todas** las rutas están en `RUTAS_ROBOT`; un robot no cancela la CI de `main` (los grupos
@@ -303,7 +334,22 @@ una vez (fila 14). Por eso la PR 3 lleva una prueba de humo por el evento de la 
 - **El cierre de una validación no escribe en `main`.** Si la ejecución no viene de `main`, el cierre hace su commit
   en una **rama de cierre** `p00-cierre/<run_id>` creada desde `main` y, si el propietario lo quiere, abre una PR en
   borrador con `no-automerge` para ver la diferencia. Nada se fusiona. El objeto `cierre` en R2 guarda esa rama.
+- **Quién lo garantiza (M2, 1.1.1).** Esa regla vive en el código de la propia rama: una rama modificada y lanzada por
+  la API podría saltársela y escribir en `main` con la app de registro, porque hoy sus secretos
+  (`DDD_REGISTRO_APP_ID`/`KEY`) son del repositorio y cualquier rama los lee. Para que sea firme:
+  1. los secretos de la app pasan a un **entorno** `registro` con ramas de despliegue limitadas a `main` (anexo A,
+     fila 23: «Secrets stored in an environment are only available to workflow jobs that reference the environment», y
+     la regla de ramas se compara con el `GITHUB_REF` de la ejecución); se borran los del repositorio;
+  2. todo job que hoy usa la app (25 usos) declara `environment: registro`. Choque conocido: un job solo admite un
+     entorno, y P40 ya usa `github-pages`/`produccion`; esos jobs separan el registro en un job previo o posterior;
+  3. en una validación, el cierre escribe con `GITHUB_TOKEN` (`contents: write`) en `p00-cierre/<run_id>`. Ese token
+     no se puede limitar a una rama; lo que impide que escriba en `main` es el ruleset `proteger-main` (exige el check
+     `veredicto` y el token del workflow no está entre las excepciones; se comprueba en la validación con un push de
+     prueba que debe ser rechazado, `GH013`).
+  Sin el punto 1, la decisión A queda como **norma del código revisado**, no como garantía (§15).
 - La rama de cierre no dispara la CI de `main` (P90 corre en push a `main` y en PR).
+- Prueba: (1) test de que ningún workflow usa `secrets.DDD_REGISTRO_APP_*` en un job sin `environment: registro`;
+  (2) en la validación de aut11, el log del cierre muestra el destino `p00-cierre/<run_id>` y `main` no recibe commit.
 - Prueba: test del cierre que, con `github.ref` distinto de `refs/heads/main`, elige la rama `p00-cierre/<run_id>` y
   nunca `main`.
 
@@ -368,23 +414,26 @@ no consta aún en el repositorio.
 |---|---|---|---|
 | 1 | Estado de campaña | Herramientas de comprobación previa, semáforo, recuento (clave §4, `sin_resultado`, parada), `resultado`, cierre (huella, idempotencia) e informe; lectura/escritura en R2; sin workflows | tests de §2, §4 y §6 |
 | 2 | Puerta como acción compuesta | Sustituye `_reutilizable-puerta-validacion.yml` | test de equivalencia |
-| **2b** | Entrada «campaña» en P10-P30 | Entrada oculta `campana` en su `workflow_call`; ruta de campaña con `contents: read`, solo R2, sin grupos globales, jobs en serie; job de registro aparte con `if: inputs.campana == ''`. **Sin cambiar su comportamiento suelto** | tests de §3 (serie) y §5 (sin push, permisos, equivalencia, grupos) |
+| **2a** | Entorno `registro` (si se aprueba, §15) | Secretos de la app en el entorno limitado a `main`; `environment: registro` en los 25 usos; borra los del repositorio (el traslado de secretos lo hace el propietario) | test de secretos con entorno |
+| **2b** | Entrada «campaña» en P10-P30 | Entrada oculta `campana`; P10-P30 con `contents: read`; registro suelto a un reutilizable propio; ruta de campaña solo R2, sin grupos globales, jobs en serie con `!cancelled()`. **Sin cambiar su comportamiento suelto** | tests de §3 (serie) y §5 (sin push, permisos, equivalencia, grupos) |
 | 3 | P00 Campaña | `p00-campana.yml` + cadena + cierre + `resultado` + issue; skills; **no borra la 00** ni el Gestor | tests de §3 (concurrencia), §6 y §10; prueba de humo |
 | 4 | IA de cierre | Forense por campaña en P90 (§7) | test de §7 |
 | 5 | Retirada (tras el 29-11) | Borra la 00, Gestor, Legislatura y Elección; listas de los tests de catálogo | tests de catálogo |
 
-PR 1 puede empezar ya; 2, 2b y 3 tras T-377 y tras fusionarse P10-P30; 3 se fusiona después del 29-11.
+PR 1 puede empezar ya; 2a cuando se decida §15.4; 2, 2b y 3 tras T-377 y tras fusionarse P10-P30; 3 se fusiona después del 29-11.
 
 ## 14. Arreglos del revisor: sección y prueba
 
 | Arreglo | Sección | Prueba prevista |
 |---|---|---|
 | Apartado = job en éxito con salida en R2 | §4 | recuento con job verde sin salida → apartado |
-| Job `resultado` en rojo con ≥1 apartado o parada (dispara la IA) | §4 | herramienta 0/1/pendiente + YAML `if: always()` |
+| Job `resultado` en rojo con ≥1 apartado o parada (dispara la IA) | §4 | herramienta 0/1/pendiente + YAML `!cancelled()` |
 | Re-ejecución solo del cierre y de transitorios | §4 | `run_attempt=2` admitido/rechazado |
 | Recuento idempotente por (campaña, territorio, paso, run_attempt) | §4 | doble escritura y reintento que sana |
 | Marca `sin_resultado` (cancelación, tiempo agotado, runner perdido) | §4 | estado sintético → apartado |
-| Cadena con `contents: read`; push en job aparte; solo el cierre escribe | §5 | sin `git push` en la ruta de campaña; permisos; equivalencia |
+| Cadena con `contents: read`; registro suelto en reutilizable propio (M1); solo el cierre escribe | §5 | sin `contents: write` ni push en P10-P30; humo: P00 arranca con `read` |
+| Decisión A garantizada por entorno, no por el código de la rama (M2) | §10 | secretos con entorno; push de prueba rechazado |
+| Serie con `!cancelled()`; cierre y `resultado` con `!cancelled()`; campaña cancelada (m1, m2) | §4, §6 | YAML; humo con una cancelación |
 | IA de cierre: permisos mínimos, secreto, entrada no confiable | §7 | YAML y cláusula |
 | Concurrencia de P00 (encolar una) | §3 | YAML |
 | Cierre atómico (huella, idempotencia, R2 después del push, tope 2, issue antes) | §6 | tres tests del cierre |
@@ -404,3 +453,6 @@ PR 1 puede empezar ya; 2, 2b y 3 tras T-377 y tras fusionarse P10-P30; 3 se fusi
    de la lista), (a) añadir esa ruta exacta a `RUTAS_ROBOT` (la cubre la batería nocturna) — recomendado — o (b) aceptar
    que ese cierre lance la suite completa en `main`.
 3. **Rama de cierre de la validación:** solo la rama (recomendado) o rama + PR en borrador con `no-automerge`.
+4. **Garantía de la decisión A (M2):** (a) entorno `registro` limitado a `main` con los secretos de la app (PR 2a antes
+   de la PR 3; el traslado de secretos lo haces tú en Ajustes) — recomendado — o (b) aceptar que la regla dependa del
+   código revisado de la rama.
