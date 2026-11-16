@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.465
+Versión: 1.0.466
 Fecha: 2026-11-16
-Alcance: T-367 — Experiencia de sesión del Planificador (14 a 16-11)
+Alcance: T-371 — Plan 1.0.53: D-131 a D-133 y cola T-368 a T-371
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-16_docs-experiencia-2026-11-16.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.464_registro_20261116.md
+Cambios/motivo: entrada docs/registro/2026-11-16_planificador-plan-1-0-53.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.465_registro_20261116.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.464_registro_20261116.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.466 · [2026-11-16 — T-371 — Plan 1.0.53: D-131 a D-133 y cola T-368 a T-371](registro/2026-11-16_planificador-plan-1-0-53.md)
 - 1.0.465 · [2026-11-16 — T-367 — Experiencia de sesión del Planificador (14 a 16-11)](registro/2026-11-16_docs-experiencia-2026-11-16.md)
 - 1.0.464 · [2026-11-16 — T-367 — Plan 1.0.52: D-128 a D-130, cola T-364 a T-367 y traspaso del Planificador](registro/2026-11-16_planificador-plan-1-0-52.md)
 - 1.0.463 · [2026-11-15 — T-325 — Galería fotográfica territorial del visor V3 (rehecha desde cero, sustituye a la PR #792)](registro/2026-11-15_t325-galeria-v3.md)
